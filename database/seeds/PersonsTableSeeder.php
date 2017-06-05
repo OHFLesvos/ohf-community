@@ -99,7 +99,7 @@ class PersonsTableSeeder extends Seeder
             null,
             'Syria',
             'Lebanon',
-            'Joran',
+            'Jordan',
             'Iraq',
             'Iran',
             'Afghanistan',
@@ -110,13 +110,12 @@ class PersonsTableSeeder extends Seeder
         
         $items = [];
         for ($i = 0; $i < 900; $i++) {
-            $items[] = [
+            \App\Person::create([
                 'name' => $names[array_rand($names)],
                 'family_name' => $family_namnes[array_rand($family_namnes)],
                 'case_no' => rand(0,10) > 4 ? rand(10000,99999) : null,
                 'nationality' => $nationality[array_rand($nationality)],
-            ];
+            ]);
         }
-        DB::table('persons')->insert($items);
     }
 }

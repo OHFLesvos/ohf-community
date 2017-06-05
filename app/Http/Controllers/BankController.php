@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Person;
+use App\Transaction;
 use App\Http\Requests\StorePerson;
+use App\Http\Requests\StoreTransaction;
 
 class BankController extends Controller
 {
@@ -33,16 +35,54 @@ class BankController extends Controller
 
 	public function filter(Request $request) {
         $filter = $request->filter;
+        $condition = [];
+        foreach (preg_split('/\s+/', $filter) as $q) {
+            $condition[] = ['search', 'LIKE', '%' . $q . '%'];
+        }
         $persons = Person
-            ::where('name', 'LIKE', '%' . $filter . '%')
-             ->orWhere('family_name', 'LIKE', '%' . $filter . '%')
-             ->orWhere('case_no', 'LIKE', '%' . $filter . '%')
-            ->select('name', 'family_name', 'case_no', 'nationality', 'remarks')
+            ::where($condition)
+            ->select('id', 'name', 'family_name', 'case_no', 'nationality', 'remarks')
             ->orderBy('name', 'asc')
+            //->limit(500)
             ->get();
-        return response()->json($persons);
+        
+        return response()->json(collect($persons)
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'family_name' => $item->family_name, 
+                    'case_no' => $item->case_no, 
+                    'nationality' => $item->nationality, 
+                    'remarks' => $item->remarks,
+                    'today' => $item->todaysTransaction(),
+                    'yesterday' => $item->yesterdaysTransaction()
+                ];
+            })
+        );
 	}
 
+	public function person(Person $person) {
+        return response()->json([
+                    'id' => $person->id,
+                    'name' => $person->name,
+                    'family_name' => $person->family_name, 
+                    'case_no' => $person->case_no, 
+                    'nationality' => $person->nationality, 
+                    'remarks' => $person->remarks,
+                    'today' => $person->todaysTransaction(),
+                    'yesterday' => $person->yesterdaysTransaction()
+        ]);
+	}
+    
+    public function storeTransaction(StoreTransaction $request) {
+        $transaction = new Transaction();
+        $transaction->person_id = $request->person_id;
+        $transaction->value = $request->value;
+        $transaction->save();
+        return response()->json(["OK"]);
+    }
+    
 	public function export() {
         \Excel::create('Laravel Excel', function($excel) {
             $excel->sheet('Excel sheet', function($sheet) {

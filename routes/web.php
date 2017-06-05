@@ -16,7 +16,12 @@ Route::get('/', function () {
 });
 
 Route::get('/bank', 'BankController@index')->name('bank.index');
-Route::post('/bank', 'BankController@store')->name('bank.store');
+Route::post('/bank/person', 'BankController@store')->name('bank.store');
 Route::get('/bank/export', 'BankController@export')->name('bank.export');
+Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person');
 Route::post('/bank/filter', 'BankController@filter')->name('bank.filter');
+Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
+
+// temporary
+Route::get('/bank/filter', 'BankController@filter');
 

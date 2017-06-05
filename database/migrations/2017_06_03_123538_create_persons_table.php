@@ -23,6 +23,7 @@ class CreatePersonsTable extends Migration
             $table->string('nationality')->nullable();
             $table->string('languages')->nullable();
             $table->string('skills')->nullable();
+            $table->text('search')->nullable();
             $table->timestamps();
         });
     }
