@@ -142,7 +142,7 @@
                                 .attr('type', 'number')
                                 .attr('min', 0)
                                 .attr('value', person.today)
-                                .addClass('form-control')
+                                .addClass('form-control input-sm')
                                 .on('focus', function(){
                                     $(this).select();
                                 })
@@ -161,7 +161,7 @@
                     .attr('type', 'number')
                     .attr('min', 0)
                     .attr('value', 0)
-                    .addClass('form-control')
+                    .addClass('form-control input-sm')
                     .on('focus', function(){
                         $(this).select();
                     })
