@@ -27,6 +27,8 @@ class StorePerson extends FormRequest
             'name' => 'required|max:255',
             'family_name' => 'required|max:255',
             'nationality' => 'max:255',
+            'languages' => 'max:255',
+            'skills' => 'max:255',
             'remarks' => 'max:255',
         ];
     }

@@ -13,19 +13,68 @@ class PeopleController extends Controller
 {
     function index() {
 		return view('people.index', [
-            'persons' => Person::orderBy('name', 'asc')->get()
 		]);
     }
-    
+
+    public function create() {
+		return view('people.create', [
+		]);
+    }
+
+	public function store(StorePerson $request) {
+        $person = new Person();
+		$person->name = $request->name;
+		$person->family_name = $request->family_name;
+		$person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
+		$person->remarks = !empty($request->remarks) ? $request->remarks : null;
+		$person->nationality = !empty($request->nationality) ? $request->nationality : null;
+		$person->languages = !empty($request->languages) ? $request->languages : null;
+		$person->skills = !empty($request->skills) ? $request->skills : null;
+		$person->save();
+
+		return redirect()->route('people.index')
+				->with('success', 'Person has been added!');		
+	}
+
+	public function edit(Person $person) {
+		return view('people.edit', [
+            'person' => $person
+		]);
+	}
+
+	public function update(StorePerson $request, Person $person) {
+        if (isset($request->delete)) {
+            $person->delete();
+            return redirect()->route('people.index')
+                    ->with('success', 'Person has been deleted!');		
+        } else {
+            $person->name = $request->name;
+            $person->family_name = $request->family_name;
+            $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+            $person->case_no = !empty($request->case_no) ? $request->case_no : null;
+            $person->remarks = !empty($request->remarks) ? $request->remarks : null;
+            $person->nationality = !empty($request->nationality) ? $request->nationality : null;
+            $person->languages = !empty($request->languages) ? $request->languages : null;
+            $person->skills = !empty($request->skills) ? $request->skills : null;
+            $person->save();
+            
+            return redirect()->route('people.index')
+                    ->with('success', 'Person has been updated!');		
+        }
+	}
+
 	public function filter(Request $request) {
-        $filter = $request->filter;
         $condition = [];
-        foreach (preg_split('/\s+/', $filter) as $q) {
-            $condition[] = ['search', 'LIKE', '%' . $q . '%'];
+        foreach (['name', 'family_name', 'case_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'] as $k) {
+            if (!empty($request->$k)) {
+                $condition[] = [$k, 'LIKE', '%' . $request->$k . '%'];
+            }
         }
         $persons = Person
             ::where($condition)
             ->orderBy('name', 'asc')
+            ->orderBy('family_name', 'asc')
             ->paginate(500);
         
         return response()->json([
@@ -48,4 +97,45 @@ class PeopleController extends Controller
             });
         })->export('xls');
     }
+
+    function import() {
+		return view('people.import', [
+		]);
+    }
+
+    function doImport(Request $request) {
+        $this->validate($request, [
+            'file' => 'required|file',
+        ]);
+        $file = $request->file('file');
+        
+        \Excel::selectSheets()->load($file, function($reader) {
+            
+            \DB::table('transactions')->delete();
+            \DB::table('persons')->delete();
+
+            $reader->each(function($sheet) {
+            
+                // Loop through all rows
+                $sheet->each(function($row) {
+                    
+                    if (!empty($row->name)) {
+                        $person = Person::create([
+                            'name' => $row->name,
+                            'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
+                            'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
+                            'nationality' => $row->nationality,
+                            'languages' => $row->languages,
+                            'skills' => $row->skills,
+                            'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
+                        ]);
+                    }
+                });
+
+            });
+        });
+		return redirect()->route('people.index')
+				->with('success', 'Import successful!');		
+    }
+
 }

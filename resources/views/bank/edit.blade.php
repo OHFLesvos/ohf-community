@@ -42,7 +42,7 @@
     </div>
     <p>
         {{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
-        {{ Form::submit('Delete', [ 'name' => 'delete', 'class' => 'btn btn-danger' ]) }} &nbsp;
+        {{ Form::submit('Delete', [ 'name' => 'delete', 'class' => 'btn btn-danger', 'id' => 'delete' ]) }} &nbsp;
         <a href="{{ route('bank.index') }}" class="btn btn-default">Cancel</a>
     </p>
     {!! Form::close() !!}
@@ -52,5 +52,8 @@
 @section('script')
     $(function(){
        $('#name').focus();
+       $('#delete').on('click', function(){
+          return confirm('Really delete this person?'); 
+       });
     });
 @endsection

@@ -30,7 +30,7 @@
         </div>
     </div>
     <br>
-    <p id="result-stats"></p>
+    <p id="result-stats">Loading...</p>
     <table class="table table-striped table-consended table-bordered" id="results-table">
         <thead>
             <tr>
@@ -119,7 +119,7 @@
                 );
             }
             $('#result-stats')
-                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, please refine your search' : 'Found <strong>' + data.results.length + '</strong> persons');
+                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, please refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons');
         })
         .fail(function(jqXHR, textStatus) {
             tbody.empty();

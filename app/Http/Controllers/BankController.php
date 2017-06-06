@@ -13,7 +13,6 @@ class BankController extends Controller
 {
     function index() {
 		return view('bank.index', [
-            'persons' => Person::orderBy('name', 'asc')->get()
 		]);
     }
 
@@ -116,6 +115,7 @@ class BankController extends Controller
             ::where($condition)
             ->select('id', 'name', 'family_name', 'case_no', 'nationality', 'remarks')
             ->orderBy('name', 'asc')
+            ->orderBy('family_name', 'asc')
             ->paginate(100);
         
         return response()->json([
@@ -149,6 +149,7 @@ class BankController extends Controller
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
 	}
+
 	public function editPerson(Person $person) {
 		return view('bank.edit', [
             'person' => $person

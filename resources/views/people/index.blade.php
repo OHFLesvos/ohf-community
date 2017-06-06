@@ -27,7 +27,7 @@
         </span>
     </div>
     <br>
-    <p id="result-stats"></p>
+    <p id="result-stats">Loading...</p>
     <table class="table table-striped table-consended table-bordered" id="results-table">
         <thead>
             <tr>
@@ -38,7 +38,15 @@
                 <th>Languages</th>
                 <th>Skills</th>
                 <th>Remarks</th>
-                <th>&nbsp;</th>
+            </tr>
+            <tr id="filter">
+                <th>{{ Form::text('name', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('family_name', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('case_no', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('nationality', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('languages', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('skills', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('remarks', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
             </tr>
         </thead>
         <tbody>
@@ -51,21 +59,41 @@
 @endsection
 
 @section('script')
+    var delayTimer;
+
     $(function(){
-       filterTable();
+        $('#filter input').on('change keyup', function(e){
+            var keyCode = e.keyCode;
+            var elem = $(this);
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function(){
+                if (keyCode == 27) {  // ESC
+                    elem.val('').focus();
+                }
+                filterTable();
+            }, 1000);
+        });
+
+        filterTable();
     });
     
-    function filterTable(filter) {
+    function filterTable() {
         var tbody = $('#results-table tbody');
         tbody.empty();
         tbody.append($('<tr>')
             .append($('<td>')
                 .text('Searching...')
-                .attr('colspan', 8))
+                .attr('colspan', 7))
         );
         $.post( "{{ route('people.filter') }}", {
             "_token": "{{ csrf_token() }}",
-            "filter": filter
+            "name": $('#filter input[name="name"]').val(),
+            "family_name": $('#filter input[name="family_name"]').val(),
+            "case_no": $('#filter input[name="case_no"]').val(),
+            "nationality": $('#filter input[name="nationality"]').val(),
+            "languages": $('#filter input[name="languages"]').val(),
+            "skills": $('#filter input[name="skills"]').val(),
+            "remarks": $('#filter input[name="remarks"]').val(),
         }, function(data) {
             tbody.empty();
             if (data.results.length > 0) {
@@ -77,11 +105,11 @@
                     .addClass('warning')
                     .append($('<td>')
                         .text('No results')
-                        .attr('colspan', 8))
+                        .attr('colspan', 7))
                 );
             }
             $('#result-stats')
-                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, please refine your search' : 'Found <strong>' + data.results.length + '</strong> persons');
+                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, please refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons');
         })
         .fail(function(jqXHR, textStatus) {
             tbody.empty();
@@ -89,7 +117,7 @@
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 8))
+                    .attr('colspan', 7))
             );
         });
     }
@@ -99,13 +127,13 @@
             .attr('id', 'person-' + person.id)
             .append($('<td>')
                 .append($('<a>')
-                    .attr('href', 'people/edit/' + person.id)
+                    .attr('href', 'people/' + person.id + '/edit')
                     .text(person.name)
                 )            
             )
             .append($('<td>')
                 .append($('<a>')
-                    .attr('href', 'people/edit/' + person.id)
+                    .attr('href', 'people/' + person.id + '/edit')
                     .text(person.family_name)
                 )
             )
@@ -113,10 +141,6 @@
             .append($('<td>').text(person.nationality))
             .append($('<td>').text(person.languages))
             .append($('<td>').text(person.skills))
-            .append($('<td>').text(person.remarks))
-            .append($('<td>').append(
-                $('<a>').text()
-            
-            ));
+            .append($('<td>').text(person.remarks));
     }
 @endsection
