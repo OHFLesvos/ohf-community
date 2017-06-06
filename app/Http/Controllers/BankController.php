@@ -194,7 +194,7 @@ class BankController extends Controller
     }
     
 	public function export() {
-        \Excel::create('OHF Bank', function($excel) {
+        \Excel::create('OHF_Bank_' . Carbon::now()->toDateString(), function($excel) {
             $dm = Carbon::create();
             $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
                 $persons = Person::orderBy('name', 'asc')->get();
