@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Person;
 use App\Transaction;
 use App\Http\Requests\StorePerson;
@@ -43,23 +44,25 @@ class BankController extends Controller
             ::where($condition)
             ->select('id', 'name', 'family_name', 'case_no', 'nationality', 'remarks')
             ->orderBy('name', 'asc')
-            //->limit(500)
-            ->get();
+            ->paginate(100);
         
-        return response()->json(collect($persons)
-            ->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'family_name' => $item->family_name, 
-                    'case_no' => $item->case_no, 
-                    'nationality' => $item->nationality, 
-                    'remarks' => $item->remarks,
-                    'today' => $item->todaysTransaction(),
-                    'yesterday' => $item->yesterdaysTransaction()
-                ];
-            })
-        );
+        return response()->json([
+            'count' => $persons->count(),
+            'total' => $persons->total(),
+            'results' => collect($persons->all())
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'name' => $item->name,
+                        'family_name' => $item->family_name, 
+                        'case_no' => $item->case_no, 
+                        'nationality' => $item->nationality, 
+                        'remarks' => $item->remarks,
+                        'today' => $item->todaysTransaction(),
+                        'yesterday' => $item->yesterdaysTransaction()
+                    ];
+                })
+        ]);
 	}
 
 	public function person(Person $person) {
@@ -74,7 +77,14 @@ class BankController extends Controller
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
 	}
-    
+
+	public function transactions(Person $person) {
+        return response()->json($person->transactions()
+            ->select('created_at', 'value')
+            ->orderBy('created_at', 'desc')
+            ->get());
+	}
+
     public function storeTransaction(StoreTransaction $request) {
         $transaction = new Transaction();
         $transaction->person_id = $request->person_id;
@@ -84,11 +94,16 @@ class BankController extends Controller
     }
     
 	public function export() {
-        \Excel::create('Laravel Excel', function($excel) {
-            $excel->sheet('Excel sheet', function($sheet) {
+        \Excel::create('OHF Bank', function($excel) {
+            $dm = Carbon::create();
+            $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
+                $persons = Person::orderBy('name', 'asc')->get();
                 $sheet->setOrientation('landscape');
                 $sheet->loadView('bank.table',[
-                    'persons' => Person::orderBy('name', 'family_name')->get()
+                    'persons' => $persons,
+                    'year' => $dm->year,
+                    'month' => $dm->month,
+                    'day' => $dm->day,
                 ]);
             });
         })->export('xls');

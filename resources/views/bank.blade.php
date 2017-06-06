@@ -51,12 +51,25 @@
                 <td>{{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}</td>
                 <td>{{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}</td>
                 <td>{{ Form::text('remarks', null, [ 'class' => 'form-control' ]) }}</td>
-                <td colspan="2">{{ Form::submit('Add', [ 'name' => 'add', 'class' => 'btn btn-primary' ]) }}</td>
+                <td colspan="2">{{ Form::number('value', null, [ 'class' => 'form-control', 'style' => 'width:80px' ]) }} {{ Form::submit('Add', [ 'name' => 'add', 'class' => 'btn btn-primary' ]) }}</td>
             </tr>
         </tfoot>
        {!! Form::close() !!}
     </table>    
 
+    <div class="modal" tabindex="-1" role="dialog" id="myModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Transactions</h4>
+          </div>
+          <div class="modal-body">
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
 @endsection
 
 @section('script')
@@ -95,8 +108,8 @@
             "filter": filter
         }, function(data) {
             tbody.empty();
-            if (data.length > 0) {
-                $.each(data, function(k, v){
+            if (data.results.length > 0) {
+                $.each(data.results, function(k, v){
                     tbody.append(writeRow(v));
                 });
             } else {
@@ -108,8 +121,7 @@
                 );
             }
             $('#result-stats')
-                .text(data.length + ' found');
-            // $('[data-toggle="tooltip"]').tooltip();
+                .text('showing ' + data.results.length + ' of ' + data.total + '');
         })
         .fail(function(jqXHR, textStatus) {
             tbody.empty();
@@ -174,7 +186,43 @@
             .append($('<td>').text(person.case_no))
             .append($('<td>').text(person.nationality))
             .append($('<td>').text(person.remarks))
-            .append($('<td>').text(person.yesterday))
+            .append(
+                $('<td>')
+                    .append(person.yesterday)
+                    .append(' &nbsp; ')
+                    .append($('<a>')
+                        .attr('href', 'javascript:;')
+                        .append($('<i>')
+                            .addClass('fa fa-search')
+                        )
+                        .on('click', function(){
+                            $.get( 'bank/transactions/' + person.id, function(data) {
+                                $('#myModal .modal-title').text('Transactions of ' + person.name + ' ' + person.family_name);
+                                $('#myModal .modal-body').empty();
+                                var tbody = $('<tbody>');
+                                $.each(data, function(k, v){
+                                    tbody.append($('<tr>')
+                                        .append($('<td>')
+                                            .text(v.created_at)
+                                        )                   
+                                        .append($('<td>')
+                                            .text(v.value)
+                                        )                   
+                                    );
+                                })
+                                $('#myModal .modal-body').append(
+                                    $('<table>')
+                                            .addClass('table table-striped table-consended')
+                                            .append(tbody)
+                                );
+                                $('#myModal').modal();
+                            })
+                            .fail(function(jqXHR, textStatus) {
+                                alert(textStatus);
+                            });
+                        })
+                    )
+            )
             .append(today);
     }
     

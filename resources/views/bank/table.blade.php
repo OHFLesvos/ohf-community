@@ -6,6 +6,9 @@
                 <th>Case No.</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
+                @for ($i = 1; $i <= $day; $i++)
+                    <th>{{ $i }}</th>
+                @endfor
             </tr>
         </thead>
         <tbody>
@@ -16,6 +19,9 @@
                     <td>{{ $person->case_no }}</td>
                     <td>{{ $person->nationality }}</td>
                     <td>{{ $person->remarks }}</td>
+                    @for ($i = 1; $i <= $day; $i++)
+                        <td>{{ $person->dayTransactions($year, $month, $i) }}</td>
+                    @endfor
                 </tr>
             @endforeach
         </tbody>

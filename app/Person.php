@@ -54,4 +54,19 @@ class Person extends Model
             })
             ->sum();
     }
+    
+    public function dayTransactions($year, $month, $day) {
+        $date = Carbon::createFromDate($year, $month, $day);
+        $transactions = $this->transactions()
+            ->whereDate('created_at', '>=', $date->toDateString())
+            ->whereDate('created_at', '<', $date->addDay()->toDateString())
+            ->select('value')
+            ->get();
+        $sum = collect($transactions)
+            ->map(function($item){
+                return $item->value;
+            })
+            ->sum();
+        return $sum != 0 ? $sum : null;
+    }
 }

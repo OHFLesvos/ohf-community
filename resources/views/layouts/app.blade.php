@@ -31,13 +31,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href=".">{{ Config::get('app.name') }}</a>
+              <a class="navbar-brand" href="{{ route('welcome') }}">{{ Config::get('app.name') }}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li class="{{ Request::is('bank*') ? 'active' : '' }}"><a href="{{ route('bank.index') }}">Bank</a></li>
+                <li class="{{ Request::is('bank*') ? 'active' : '' }}"><a href="{{ route('bank.index') }}"><i class="fa fa-bank"></i> Bank</a></li>
               </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->

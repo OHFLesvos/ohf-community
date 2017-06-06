@@ -4,6 +4,8 @@
 
 @section('content')
 
-    <p><a href="{{ route('bank.index') }}" class="btn btn-primary"><i class="fa fa-bank"></i> Bank</a></p>
+    <p>
+        <a href="{{ route('bank.index') }}" class="btn btn-default btn-lg"><i class="fa fa-bank"></i> <br>Bank</a>
+    </p>
 
 @endsection
