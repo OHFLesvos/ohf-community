@@ -152,7 +152,7 @@
                                     $(this).select();
                                 })
                                 .on('keypress', function(e){
-                                    if (e.keyCode == 13 && $(this).val() > 0) { // Enter
+                                    if (e.keyCode == 13) { // Enter
                                         storeTransaction(person.id, $(this).val() - person.today);
                                     } 
                                 });
