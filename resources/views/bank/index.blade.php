@@ -20,10 +20,10 @@
     @endif
 
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
             {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}
         </div>
-        <div class="col-md-2 text-right">
+        <div class="col-md-3 text-right">
             <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
             <a href="{{ route('bank.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a> &nbsp;
             <a href="{{ route('bank.import') }}" class="btn btn-default"><i class="fa fa-upload"></i> Import</a>

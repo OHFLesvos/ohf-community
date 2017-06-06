@@ -28,8 +28,13 @@ Route::post('/bank/updatePerson/{person}', 'BankController@updatePerson')->name(
 Route::get('/bank/transactions/{person}', 'BankController@transactions')->name('bank.transactions');
 Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
 
+Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');
 Route::post('/bank/doImport', 'BankController@doImport')->name('bank.doImport');
 
-Route::get('/bank/export', 'BankController@export')->name('bank.export');
+Route::resource('/people', 'PeopleController');
+Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
 
+Route::get('/people/export', 'PeopleController@export')->name('people.export');
+Route::get('/people/import', 'PeopleController@import')->name('people.import');
+Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
