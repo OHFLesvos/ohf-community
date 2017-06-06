@@ -110,6 +110,11 @@
                     .addClass('warning')
                     .append($('<td>')
                         .text('No results')
+                        .append(' &nbsp; ')
+                        .append($('<a>')
+                            .attr('href', '{{ route('bank.register') }}?name=' + filter)
+                            .text('Register new')
+                        )
                         .attr('colspan', 7))
                 );
             }
@@ -174,6 +179,7 @@
         }
         return $('<tr>')
             .attr('id', 'person-' + person.id)
+            .addClass(person.today > 0 ? 'success' : null)
             .append($('<td>')
                 .text(person.name)
                 .append(' &nbsp; ')
@@ -190,7 +196,7 @@
             .append($('<td>').text(person.remarks))
             .append(
                 $('<td>')
-                    .html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : '')
+                    .html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
                     .append(' &nbsp; ')
                     .append($('<a>')
                         .attr('href', 'javascript:;')
