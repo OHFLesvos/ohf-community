@@ -4,11 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'persons';
 
+    protected $dates = ['deleted_at'];
+    
     public static function boot()
     {
         static::creating(function ($model) {

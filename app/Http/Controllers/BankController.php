@@ -17,8 +17,12 @@ class BankController extends Controller
 		]);
     }
 
-	public function store(StorePerson $request) {
+    function register() {
+		return view('bank.register', [
+		]);
+    }
 
+	public function store(StorePerson $request) {
         $person = new Person();
 		$person->family_name = $request->family_name;
 		$person->name = $request->name;
@@ -30,6 +34,15 @@ class BankController extends Controller
 		$person->skills = !empty($request->skills) ? $request->skills : null;
 		$person->save();
 
+        if (!empty($request->value)) {
+            $transaction = new Transaction();
+            $transaction->person_id = $person->id;
+            $transaction->value = $request->value;
+            $transaction->save();
+        }
+        
+        $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
+        
 		return redirect()->route('bank.index')
 				->with('success', 'Person has been added!');		
 	}
@@ -76,6 +89,34 @@ class BankController extends Controller
                     'today' => $person->todaysTransaction(),
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
+	}
+	public function editPerson(Person $person) {
+		return view('bank.edit', [
+            'person' => $person
+		]);
+	}
+    
+	public function updatePerson(StorePerson $request, Person $person) {
+        if (isset($request->delete)) {
+            $person->delete();
+            return redirect()->route('bank.index')
+                    ->with('success', 'Person has been deleted!');		
+        } else {
+            $person->family_name = $request->family_name;
+            $person->name = $request->name;
+            $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+            $person->case_no = !empty($request->case_no) ? $request->case_no : null;
+            $person->remarks = !empty($request->remarks) ? $request->remarks : null;
+            $person->nationality = !empty($request->nationality) ? $request->nationality : null;
+            $person->languages = !empty($request->languages) ? $request->languages : null;
+            $person->skills = !empty($request->skills) ? $request->skills : null;
+            $person->save();
+            
+            $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
+            
+            return redirect()->route('bank.index')
+                    ->with('success', 'Person has been updated!');		
+        }
 	}
 
 	public function transactions(Person $person) {

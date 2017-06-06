@@ -25,6 +25,7 @@ class CreatePersonsTable extends Migration
             $table->string('skills')->nullable();
             $table->text('search')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

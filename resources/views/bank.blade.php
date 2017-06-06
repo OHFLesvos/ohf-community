@@ -15,14 +15,15 @@
     @endif
 
     <div class="row">
-        <div class="col-md-10">
-            {{ Form::text('filter', null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}
+        <div class="col-md-9">
+            {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}
         </div>
         <div class="col-md-1">
             <span id="result-stats"></span>
         </div>
-        <div class="col-md-1 text-right">
-            <a href="{{ route('bank.export') }}" class="btn btn-primary"><i class="fa fa-download"></i> Export</a>
+        <div class="col-md-2 text-right">
+            <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
+            <a href="{{ route('bank.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a>
         </div>
     </div>
     <br>
@@ -43,20 +44,8 @@
                 <td colspan="7">Loading, please wait...</td>
             </tr>
         </tbody>
-        {!! Form::open(['route' => 'bank.store']) !!}
-        <tfoot>
-            <tr>
-                <td>{{ Form::text('family_name', null, [ 'class' => 'form-control']) }}</td>
-                <td>{{ Form::text('name', null, [ 'class' => 'form-control' ]) }}</td>
-                <td>{{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}</td>
-                <td>{{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}</td>
-                <td>{{ Form::text('remarks', null, [ 'class' => 'form-control' ]) }}</td>
-                <td colspan="2">{{ Form::number('value', null, [ 'class' => 'form-control', 'style' => 'width:80px' ]) }} {{ Form::submit('Add', [ 'name' => 'add', 'class' => 'btn btn-primary' ]) }}</td>
-            </tr>
-        </tfoot>
-       {!! Form::close() !!}
     </table>    
-
+    
     <div class="modal" tabindex="-1" role="dialog" id="myModal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -92,7 +81,7 @@
        });
 
        $('#filter').focus();
-       filterTable('');
+       filterTable($('#filter').val());
     });
     
     function filterTable(filter) {
@@ -181,7 +170,16 @@
         }
         return $('<tr>')
             .attr('id', 'person-' + person.id)
-            .append($('<td>').text(person.name))
+            .append($('<td>')
+                .text(person.name)
+                .append(' &nbsp; ')
+                .append($('<a>')
+                    .attr('href', 'bank/editPerson/' + person.id)
+                    .append($('<i>')
+                        .addClass('fa fa-pencil')
+                    )
+                )            
+            )
             .append($('<td>').text(person.family_name))
             .append($('<td>').text(person.case_no))
             .append($('<td>').text(person.nationality))

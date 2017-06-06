@@ -26,7 +26,6 @@ class StorePerson extends FormRequest
         return [
             'name' => 'required|max:255',
             'family_name' => 'required|max:255',
-            'case_no' => 'numeric|min:1',
             'nationality' => 'max:255',
             'remarks' => 'max:255',
         ];
