@@ -32,7 +32,7 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Family name</th>
+                <th>Family Name</th>
                 <th>Case No.</th>
                 <th>Nationality</th>
                 <th>Languages</th>
@@ -103,7 +103,12 @@
                     .text(person.name)
                 )            
             )
-            .append($('<td>').text(person.family_name))
+            .append($('<td>')
+                .append($('<a>')
+                    .attr('href', 'people/edit/' + person.id)
+                    .text(person.family_name)
+                )
+            )
             .append($('<td>').text(person.case_no))
             .append($('<td>').text(person.nationality))
             .append($('<td>').text(person.languages))

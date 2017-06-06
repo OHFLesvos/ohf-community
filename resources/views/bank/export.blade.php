@@ -1,8 +1,8 @@
-    <table class="table table-striped table-consended table-bordered">
+    <table>
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Family name</th>
+                <th>Family Name</th>
                 <th>Case No</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
