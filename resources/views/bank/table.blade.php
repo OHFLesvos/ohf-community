@@ -3,7 +3,7 @@
             <tr>
                 <th>Name</th>
                 <th>Family name</th>
-                <th>Case No.</th>
+                <th>Case No</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
                 @for ($i = 1; $i <= $day; $i++)

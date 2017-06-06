@@ -14,6 +14,8 @@ class Person extends Model
 
     protected $dates = ['deleted_at'];
     
+    protected $fillable = ['name', 'family_name', 'case_no', 'nationality', 'remarks'];
+    
     public static function boot()
     {
         static::creating(function ($model) {

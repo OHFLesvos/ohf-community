@@ -22,6 +22,65 @@ class BankController extends Controller
 		]);
     }
 
+    function import() {
+		return view('bank.import', [
+		]);
+    }
+    function doImport(Request $request) {
+        $this->validate($request, [
+            'file' => 'required|file',
+        ]);
+        $file = $request->file('file');
+        
+        \Excel::selectSheets()->load($file, function($reader) {
+            
+            \DB::table('transactions')->delete();
+            \DB::table('persons')->delete();
+
+            $reader->each(function($sheet) {
+
+                //print_r($sheet->getTitle());
+            
+                // Loop through all rows
+                $sheet->each(function($row) {
+                    if (!empty($row->name)) {
+                        $person = Person::create([
+                            'name' => $row->name,
+                            'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
+                            'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
+                            'nationality' => $row->nationality,
+                            'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
+                        ]);
+                        foreach ($row as $k => $v) {
+                            if (!empty($v)) {
+                                $month = null;
+                                if (is_numeric($k) && $k > 0) {
+                                    $day = $k;
+                                } else if (preg_match('/([0-9])+.([0-9])+./', $k, $m)) {
+                                    $day = $m[1];
+                                    $month = $m[2];
+                                }
+                                if (isset($day) && $day > 0) {
+                                    $d = Carbon::createFromDate(null, $month, $day)->toDateTimeString();
+                                    $transaction = new Transaction();
+                                    $transaction->person_id = $person->id;
+                                    $transaction->value = intval($v);
+                                    $transaction->created_at = $d;
+                                    $transaction->updated_at = $d;
+                                    $transaction->save(['timestamps' => false]);
+                                }
+                            }
+                        }
+                    }
+                });
+
+            });
+        });
+
+		return redirect()->route('bank.index')
+				->with('success', 'Import successful!');		
+    }
+    
 	public function store(StorePerson $request) {
         $person = new Person();
 		$person->family_name = $request->family_name;
@@ -42,7 +101,7 @@ class BankController extends Controller
         }
         
         $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
-        
+
 		return redirect()->route('bank.index')
 				->with('success', 'Person has been added!');		
 	}

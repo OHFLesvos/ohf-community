@@ -13,20 +13,24 @@
             </ul>
         </div>
     @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-10">
             {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}
-        </div>
-        <div class="col-md-1">
-            <span id="result-stats"></span>
         </div>
         <div class="col-md-2 text-right">
             <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
-            <a href="{{ route('bank.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a>
+            <a href="{{ route('bank.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a> &nbsp;
+            <a href="{{ route('bank.import') }}" class="btn btn-default"><i class="fa fa-upload"></i> Import</a>
         </div>
     </div>
     <br>
+    <p id="result-stats"></p>
     <table class="table table-striped table-consended table-bordered" id="results-table">
         <thead>
             <tr>
@@ -110,7 +114,7 @@
                 );
             }
             $('#result-stats')
-                .text('showing ' + data.results.length + ' of ' + data.total + '');
+                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, please refine your search' : 'Found <strong>' + data.results.length + '</strong> persons');
         })
         .fail(function(jqXHR, textStatus) {
             tbody.empty();
@@ -186,7 +190,7 @@
             .append($('<td>').text(person.remarks))
             .append(
                 $('<td>')
-                    .append(person.yesterday)
+                    .html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : '')
                     .append(' &nbsp; ')
                     .append($('<a>')
                         .attr('href', 'javascript:;')
@@ -198,21 +202,25 @@
                                 $('#myModal .modal-title').text('Transactions of ' + person.name + ' ' + person.family_name);
                                 $('#myModal .modal-body').empty();
                                 var tbody = $('<tbody>');
-                                $.each(data, function(k, v){
-                                    tbody.append($('<tr>')
-                                        .append($('<td>')
-                                            .text(v.created_at)
-                                        )                   
-                                        .append($('<td>')
-                                            .text(v.value)
-                                        )                   
+                                if (data.length > 0) {
+                                    $.each(data, function(k, v){
+                                        tbody.append($('<tr>')
+                                            .append($('<td>')
+                                                .text(v.created_at)
+                                            )                   
+                                            .append($('<td>')
+                                                .text(v.value)
+                                            )                   
+                                        );
+                                    })
+                                    $('#myModal .modal-body').append(
+                                        $('<table>')
+                                                .addClass('table table-striped table-consended')
+                                                .append(tbody)
                                     );
-                                })
-                                $('#myModal .modal-body').append(
-                                    $('<table>')
-                                            .addClass('table table-striped table-consended')
-                                            .append(tbody)
-                                );
+                                } else {
+                                    $('#myModal .modal-body').append('No transactions found.');
+                                }
                                 $('#myModal').modal();
                             })
                             .fail(function(jqXHR, textStatus) {
