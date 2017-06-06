@@ -12,7 +12,7 @@ use App\Http\Requests\StoreTransaction;
 class BankController extends Controller
 {
     function index() {
-		return view('bank', [
+		return view('bank.index', [
             'persons' => Person::orderBy('name', 'asc')->get()
 		]);
     }
@@ -43,6 +43,7 @@ class BankController extends Controller
             
                 // Loop through all rows
                 $sheet->each(function($row) {
+                    
                     if (!empty($row->name)) {
                         $person = Person::create([
                             'name' => $row->name,
@@ -76,7 +77,6 @@ class BankController extends Controller
 
             });
         });
-
 		return redirect()->route('bank.index')
 				->with('success', 'Import successful!');		
     }
@@ -199,7 +199,8 @@ class BankController extends Controller
             $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
                 $persons = Person::orderBy('name', 'asc')->get();
                 $sheet->setOrientation('landscape');
-                $sheet->loadView('bank.table',[
+                $sheet->freezeFirstRow();
+                $sheet->loadView('bank.export',[
                     'persons' => $persons,
                     'year' => $dm->year,
                     'month' => $dm->month,
