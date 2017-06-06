@@ -34,5 +34,18 @@ class PeopleController extends Controller
             'results' => $persons->all()
         ]);
 	}
-
+    
+    public function export() {
+        \Excel::create('OHF_Community_' . Carbon::now()->toDateString(), function($excel) {
+            $dm = Carbon::create();
+            $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
+                $persons = Person::orderBy('name', 'asc')->get();
+                $sheet->setOrientation('landscape');
+                $sheet->freezeFirstRow();
+                $sheet->loadView('people.export',[
+                    'persons' => $persons
+                ]);
+            });
+        })->export('xls');
+    }
 }

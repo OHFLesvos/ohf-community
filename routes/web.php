@@ -32,9 +32,8 @@ Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');
 Route::post('/bank/doImport', 'BankController@doImport')->name('bank.doImport');
 
-Route::resource('/people', 'PeopleController');
 Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
-
 Route::get('/people/export', 'PeopleController@export')->name('people.export');
 Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
+Route::resource('/people', 'PeopleController');
