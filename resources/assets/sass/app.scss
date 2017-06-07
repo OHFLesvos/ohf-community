@@ -11,3 +11,10 @@
 // Font Awesome
 @import "node_modules/font-awesome/scss/font-awesome";
 
+.filter-container {
+    line-height: 0.4em;
+}
+
+.filter-container label {
+    font-weight: normal;
+}
