@@ -76,4 +76,10 @@ class Person extends Model
             ->sum();
         return $sum != 0 ? $sum : null;
     }
+    
+    public function scopeHasTransactionsToday($query) {
+        return $query
+            ->join('transactions', 'persons.id', '=', 'transactions.person_id')
+            ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
+    }
 }

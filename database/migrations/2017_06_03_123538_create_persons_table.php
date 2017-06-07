@@ -17,12 +17,14 @@ class CreatePersonsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('family_name')->nullable();
-            $table->string('date_of_birth')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->enum('gender', ['m', 'f'])->nullable();
             $table->bigInteger('case_no')->nullable();
             $table->string('remarks')->nullable();
             $table->string('nationality')->nullable();
             $table->string('languages')->nullable();
             $table->string('skills')->nullable();
+            $table->boolean('worker')->default(false);
             $table->text('search')->nullable();
             $table->timestamps();
             $table->softDeletes();

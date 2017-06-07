@@ -12,6 +12,9 @@ class PersonsTableSeeder extends Seeder
     public function run()
     {
         $names = [
+            'Mohammed',
+            'Ahmed',
+            'Ali',
             'Talha',
             'Farajallah',
             'Kamaal',
@@ -51,7 +54,9 @@ class PersonsTableSeeder extends Seeder
             'Noori',
             'Muaaid',
             'Abdul Kader',
-            'Faatih'
+            'Faatih',
+            'Fatma',
+            'Nergiz'
         ];
         $family_namnes = ['al-Nazar',
             'al-Farah',
@@ -107,7 +112,32 @@ class PersonsTableSeeder extends Seeder
             'Egypt',
             'Lybia'
         ];
-        
+        $languages = [
+            null,
+            'English',
+            'Arabic',
+            'Farsi',
+            'Urdu',
+            'Pashto',
+            'Kurdish',
+            'Turkish',
+            'French',
+            'German',
+            'Tigrinya',
+            'Italian'
+        ];
+        $skills = [
+            null,
+            'Driver',
+            'Tailor',
+            'Barber',
+            'Electrician',
+            'Builder',
+            'Business',
+            'Cook',
+            'Farmer',
+        ];
+
         $items = [];
         for ($i = 0; $i < 900; $i++) {
             \App\Person::create([
@@ -115,6 +145,8 @@ class PersonsTableSeeder extends Seeder
                 'family_name' => $family_namnes[array_rand($family_namnes)],
                 'case_no' => rand(0,10) > 4 ? rand(10000,99999) : null,
                 'nationality' => $nationality[array_rand($nationality)],
+                'languages' => $languages[array_rand($languages)],
+                'skills' => $skills[array_rand($skills)],
             ]);
         }
     }

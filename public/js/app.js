@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 34);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -471,7 +471,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
 /* 2 */
@@ -749,6 +749,7 @@ module.exports = function bind(fn, thisArg) {
  */
 
 __webpack_require__(27);
+__webpack_require__(29);
 
 //window.Vue = require('vue');
 
@@ -1617,7 +1618,7 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(30);
+window._ = __webpack_require__(31);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -1626,7 +1627,7 @@ window._ = __webpack_require__(30);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(29);
+  window.$ = window.jQuery = __webpack_require__(30);
 
   __webpack_require__(28);
 } catch (e) {}
@@ -4055,6 +4056,143 @@ if (typeof jQuery === 'undefined') {
 
 /***/ }),
 /* 29 */
+/***/ (function(module, exports) {
+
+(function($){
+
+    $.session = {
+
+        _id: null,
+
+        _cookieCache: undefined,
+
+        _init: function()
+        {
+            if (!window.name) {
+                window.name = Math.random();
+            }
+            this._id = window.name;
+            this._initCache();
+
+            // See if we've changed protcols
+
+            var matches = (new RegExp(this._generatePrefix() + "=([^;]+);")).exec(document.cookie);
+            if (matches && document.location.protocol !== matches[1]) {
+               this._clearSession();
+               for (var key in this._cookieCache) {
+                   try {
+                   window.sessionStorage.setItem(key, this._cookieCache[key]);
+                   } catch (e) {};
+               }
+            }
+
+            document.cookie = this._generatePrefix() + "=" + document.location.protocol + ';path=/;expires=' + (new Date((new Date).getTime() + 120000)).toUTCString();
+
+        },
+
+        _generatePrefix: function()
+        {
+            return '__session:' + this._id + ':';
+        },
+
+        _initCache: function()
+        {
+            var cookies = document.cookie.split(';');
+            this._cookieCache = {};
+            for (var i in cookies) {
+                var kv = cookies[i].split('=');
+                if ((new RegExp(this._generatePrefix() + '.+')).test(kv[0]) && kv[1]) {
+                    this._cookieCache[kv[0].split(':', 3)[2]] = kv[1];
+                }
+            }
+        },
+
+        _setFallback: function(key, value, onceOnly)
+        {
+            var cookie = this._generatePrefix() + key + "=" + value + "; path=/";
+            if (onceOnly) {
+                cookie += "; expires=" + (new Date(Date.now() + 120000)).toUTCString();
+            }
+            document.cookie = cookie;
+            this._cookieCache[key] = value;
+            return this;
+        },
+
+        _getFallback: function(key)
+        {
+            if (!this._cookieCache) {
+                this._initCache();
+            }
+            return this._cookieCache[key];
+        },
+
+        _clearFallback: function()
+        {
+            for (var i in this._cookieCache) {
+                document.cookie = this._generatePrefix() + i + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            }
+            this._cookieCache = {};
+        },
+
+        _deleteFallback: function(key)
+        {
+            document.cookie = this._generatePrefix() + key + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            delete this._cookieCache[key];
+        },
+
+        get: function(key)
+        {
+            return window.sessionStorage.getItem(key) || this._getFallback(key);
+        },
+
+        set: function(key, value, onceOnly)
+        {
+            try {
+                window.sessionStorage.setItem(key, value);
+            } catch (e) {}
+            this._setFallback(key, value, onceOnly || false);
+            return this;
+        },
+        
+        'delete': function(key){
+            return this.remove(key);
+        },
+
+        remove: function(key)
+        {
+            try {
+            window.sessionStorage.removeItem(key);
+            } catch (e) {};
+            this._deleteFallback(key);
+            return this;
+        },
+
+        _clearSession: function()
+        {
+          try {
+                window.sessionStorage.clear();
+            } catch (e) {
+                for (var i in window.sessionStorage) {
+                    window.sessionStorage.removeItem(i);
+                }
+            }
+        },
+
+        clear: function()
+        {
+            this._clearSession();
+            this._clearFallback();
+            return this;
+        }
+
+    };
+
+    $.session._init();
+
+})(jQuery);
+
+/***/ }),
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -14314,7 +14452,7 @@ return jQuery;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -31403,10 +31541,10 @@ return jQuery;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32), __webpack_require__(33)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33), __webpack_require__(34)(module)))
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -31596,7 +31734,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 var g;
@@ -31623,7 +31761,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -31651,7 +31789,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(7);

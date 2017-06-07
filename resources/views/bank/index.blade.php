@@ -21,7 +21,9 @@
 
     <div class="row">
         <div class="col-md-9">
-            {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}
+            {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}<br>
+            {{ Form::checkbox('filter-today', 1, false, [ 'id' => 'filter-today' ] ) }}
+            {{ Form::label('filter-today', 'Only show changed today') }}
         </div>
         <div class="col-md-3 text-right">
             <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
@@ -79,6 +81,19 @@
                 filterTable(elem.val());
             }, 1000);
        });
+       
+       if ($.session.get('bank.filter-today')) {
+            $('#filter-today').attr('checked', 'checked');
+       }
+       
+       $('#filter-today').change(function(){
+           if ($('#filter-today').is(':checked')) {
+               $.session.set('bank.filter-today', 1);
+           } else {
+               $.session.remove('bank.filter-today');
+           }
+           filterTable($('#filter').val());
+       });
 
        $('#filter').on('focus', function(e){
            $(this).select();
@@ -98,7 +113,8 @@
         );
         $.post( "{{ route('bank.filter') }}", {
             "_token": "{{ csrf_token() }}",
-            "filter": filter
+            "filter": filter,
+            "today": $('#filter-today').is(':checked') ? 1 : 0
         }, function(data) {
             tbody.empty();
             if (data.results.length > 0) {

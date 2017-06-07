@@ -111,9 +111,16 @@ class BankController extends Controller
         foreach (preg_split('/\s+/', $filter) as $q) {
             $condition[] = ['search', 'LIKE', '%' . $q . '%'];
         }
-        $persons = Person
-            ::where($condition)
-            ->select('id', 'name', 'family_name', 'case_no', 'nationality', 'remarks')
+        if (!empty($request->today)) {
+            $p = Person
+                ::hasTransactionsToday()
+                ->where($condition);
+        } else {
+            $p = Person
+                ::where($condition);
+        }
+        $persons = $p
+            ->select('persons.id', 'name', 'family_name', 'case_no', 'nationality', 'remarks')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(100);
