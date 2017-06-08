@@ -78,7 +78,9 @@
                 if (keyCode == 27) {  // ESC
                     elem.val('').focus();
                 }
-                filterTable(elem.val());
+                if (keyCode == 0 || keyCode == 8 || keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
+                    filterTable(elem.val());
+                }
             }, 1000);
        });
        
@@ -261,6 +263,7 @@
             "value": value
         }, function(data) {
             updatePerson(personId);
+            $('#filter').select();
         })
         .fail(function(jqXHR, textStatus) {
             alert(extStatus);
