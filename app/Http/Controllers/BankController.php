@@ -124,7 +124,7 @@ class BankController extends Controller
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(100);
-        
+         
         return response()->json([
             'count' => $persons->count(),
             'total' => $persons->total(),
@@ -140,9 +140,34 @@ class BankController extends Controller
                         'today' => $item->todaysTransaction(),
                         'yesterday' => $item->yesterdaysTransaction()
                     ];
-                })
+                }),
+            'register' => self::createRegisterStringFromFilter($filter),
         ]);
 	}
+
+    private static function createRegisterStringFromFilter($filter) {
+        $register = [];
+        $names = [];
+        foreach (preg_split('/\s+/', $filter) as $q) {
+            if (is_numeric($q)) {
+                $register['case_no'] = $q;
+            } else {
+                $names[] = $q;
+            }
+        }
+        if (sizeof($register) > 0 || sizeof($names) > 0) {
+            if (sizeof($names) == 1) {
+                $register['name'] = $names[0];
+            } else {
+                $register['family_name'] = array_pop($names);
+                $register['name'] = implode(' ', $names);
+            }
+
+            array_walk($register, function(&$a, $b) { $a = "$b=$a"; });
+            return implode('&', $register);
+        }
+        return null;
+    }
 
 	public function person(Person $person) {
         return response()->json([

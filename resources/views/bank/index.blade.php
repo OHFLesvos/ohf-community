@@ -130,7 +130,7 @@
                         .text('No results')
                         .append(' &nbsp; ')
                         .append($('<a>')
-                            .attr('href', '{{ route('bank.register') }}?name=' + filter)
+                            .attr('href', '{{ route('bank.register') }}' + (data.register ? '?' + data.register : ''))
                             .text('Register new')
                         )
                         .attr('colspan', 7))
