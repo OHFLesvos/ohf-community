@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 require( 'jquery.session/jquery.session' );
+require( 'chart.js' );
 
 //window.Vue = require('vue');
 

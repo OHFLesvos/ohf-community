@@ -20,13 +20,14 @@
     @endif
 
     <div class="row">
-        <div class="col-md-9 filter-container ">
+        <div class="col-md-8 filter-container ">
             {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}<br>
             {{ Form::checkbox('filter-today', 1, false, [ 'id' => 'filter-today' ] ) }}
             {{ Form::label('filter-today', 'has transactions today') }}
         </div>
-        <div class="col-md-3 text-right">
+        <div class="col-md-4 text-right">
             <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
+            <a href="{{ route('bank.charts') }}" class="btn btn-default"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
             <a href="{{ route('bank.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a> &nbsp;
             <a href="{{ route('bank.import') }}" class="btn btn-default"><i class="fa fa-upload"></i> Import</a>
         </div>

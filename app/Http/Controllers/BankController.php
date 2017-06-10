@@ -16,6 +16,27 @@ class BankController extends Controller
 		]);
     }
 
+    function charts() {
+        $data = [];
+        for ($i = 7; $i >= 0; $i--) {
+            $day = Carbon::today()->subDays($i);
+            $q = Transaction
+                ::whereDate('created_at', '=', $day->toDateString())
+                ->select('value')
+                ->get();
+            $key = $day->toDateString();
+            $data['count'][$key] = collect($q)
+                ->count();
+            $data['sum'][$key] = collect($q)
+                ->map(function($item){
+                    return $item->value;
+                })->sum();
+        }
+		return view('bank.charts', [
+            'data' => $data
+		]);
+    }
+
     function register() {
 		return view('bank.register', [
 		]);
@@ -25,6 +46,7 @@ class BankController extends Controller
 		return view('bank.import', [
 		]);
     }
+
     function doImport(Request $request) {
         $this->validate($request, [
             'file' => 'required|file',
