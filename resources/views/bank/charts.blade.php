@@ -35,10 +35,10 @@
     var chartTransactionsPerDay = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ["{!! implode('", "', array_keys($data['sum'])) !!}"],
+        labels: ["{!! implode('", "', array_keys($data['count'])) !!}"],
         datasets: [{
             label: 'Transactions',
-            data: [{!! implode(', ', $data['sum']) !!}],
+            data: [{!! implode(', ', $data['count']) !!}],
             backgroundColor: "rgba(0,74,127,0.4)"
         }]
       }
@@ -47,10 +47,10 @@
     var chartTransactionValuePerDay = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ["{!! implode('", "', array_keys($data['count'])) !!}"],
+        labels: ["{!! implode('", "', array_keys($data['sum'])) !!}"],
         datasets: [{
             label: 'SwissCross Drachma',
-            data: [{!! implode(', ', $data['count']) !!}],
+            data: [{!! implode(', ', $data['sum']) !!}],
             backgroundColor: "rgba(207,100,0,0.4)"
         }]
       }
