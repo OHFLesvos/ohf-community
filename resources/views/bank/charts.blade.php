@@ -49,7 +49,7 @@
       data: {
         labels: ["{!! implode('", "', array_keys($data['sum'])) !!}"],
         datasets: [{
-            label: 'SwissCross Drachma',
+            label: 'Value',
             data: [{!! implode(', ', $data['sum']) !!}],
             backgroundColor: "rgba(207,100,0,0.4)"
         }]

@@ -24,7 +24,7 @@ class BankController extends Controller
                 ::whereDate('created_at', '=', $day->toDateString())
                 ->select('value')
                 ->get();
-            $key = $day->toDateString();
+            $key = $day->format('Y-m-j (D)');
             $data['count'][$key] = collect($q)
                 ->count();
             $data['sum'][$key] = collect($q)
