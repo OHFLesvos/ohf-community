@@ -140,7 +140,7 @@ class PeopleController extends Controller
 
     function charts() {
         $data = [];
-        $data['nationalities'] = collect(
+        $nationalities = collect(
             Person
                     ::select('nationality', \DB::raw('count(*) as total'))
                     ->groupBy('nationality')
@@ -149,7 +149,11 @@ class PeopleController extends Controller
                     ->get()
             )->mapWithKeys(function($i){
                 return [$i['nationality'] => $i['total']];
-            })->toArray();
+            });
+        $data['nationalities'] = $nationalities->slice(0,6)->toArray();
+        $data['nationalities']['Other'] = $nationalities->slice(6)->reduce(function ($carry, $item) {
+            return $carry + $item;
+        });
 
         return view('people.charts', [
             'data' => $data,
@@ -160,9 +164,7 @@ class PeopleController extends Controller
                 "green",
                 "cyan",
                 "blue",
-                "magenta",
-                "brown",
-                "gray",
+                "purple"
             ]
 		]);
     }
