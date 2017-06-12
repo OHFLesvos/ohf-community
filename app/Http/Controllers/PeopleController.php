@@ -138,4 +138,31 @@ class PeopleController extends Controller
 				->with('success', 'Import successful!');		
     }
 
+    function charts() {
+        $data = [];
+        $data['nationalities'] = collect(
+            Person
+                    ::select('nationality', \DB::raw('count(*) as total'))
+                    ->groupBy('nationality')
+                    ->whereNotNull('nationality')
+                    ->get()
+            )->mapWithKeys(function($i){
+                return [$i['nationality'] => $i['total']];
+            })->toArray();
+
+        return view('people.charts', [
+            'data' => $data,
+            'colors' => [
+                "red",
+                "orange",
+                "yellow",
+                "green",
+                "cyan",
+                "blue",
+                "magenta",
+                "brown",
+                "gray",
+            ]
+		]);
+    }
 }

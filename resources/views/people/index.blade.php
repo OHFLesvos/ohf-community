@@ -22,6 +22,7 @@
     <div>
         <span class="pull-right">
             <a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
+            <a href="{{ route('people.charts') }}" class="btn btn-default"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
             <a href="{{ route('people.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a> &nbsp;
             <a href="{{ route('people.import') }}" class="btn btn-default"><i class="fa fa-upload"></i> Import</a>
         </span>

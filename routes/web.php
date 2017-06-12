@@ -33,6 +33,7 @@ Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');
 Route::post('/bank/doImport', 'BankController@doImport')->name('bank.doImport');
 
+Route::get('/people/charts', 'PeopleController@charts')->name('people.charts');
 Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
 Route::get('/people/export', 'PeopleController@export')->name('people.export');
 Route::get('/people/import', 'PeopleController@import')->name('people.import');
