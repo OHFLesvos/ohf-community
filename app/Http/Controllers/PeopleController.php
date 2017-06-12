@@ -145,6 +145,7 @@ class PeopleController extends Controller
                     ::select('nationality', \DB::raw('count(*) as total'))
                     ->groupBy('nationality')
                     ->whereNotNull('nationality')
+                    ->orderBy('total', 'DESC')
                     ->get()
             )->mapWithKeys(function($i){
                 return [$i['nationality'] => $i['total']];
