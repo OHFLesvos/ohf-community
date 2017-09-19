@@ -11,6 +11,8 @@ use App\Http\Requests\StoreTransaction;
 
 class BankController extends Controller
 {
+	const BOUTIQUE_DAYS_THRESHOLD_DAYS = 7;
+	
     function index() {
 		return view('bank.index', [
 		]);
@@ -142,16 +144,17 @@ class BankController extends Controller
                 ::where($condition);
         }
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'case_no', 'nationality', 'remarks')
+            ->select('persons.id', 'name', 'family_name', 'case_no', 'nationality', 'remarks', 'boutique_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(50);
          
+		$boutique_date_threshold = Carbon::now()->subDays(self::BOUTIQUE_DAYS_THRESHOLD_DAYS);
         return response()->json([
             'count' => $persons->count(),
             'total' => $persons->total(),
             'results' => collect($persons->all())
-                ->map(function ($item) {
+                ->map(function ($item) use ($boutique_date_threshold) {
                     return [
                         'id' => $item->id,
                         'name' => $item->name,
@@ -159,6 +162,7 @@ class BankController extends Controller
                         'case_no' => $item->case_no, 
                         'nationality' => $item->nationality, 
                         'remarks' => $item->remarks,
+						'boutique_coupon' => self::getBoutiqueCouponForJson($item, $boutique_date_threshold),
                         'today' => $item->todaysTransaction(),
                         'yesterday' => $item->yesterdaysTransaction()
                     ];
@@ -167,6 +171,16 @@ class BankController extends Controller
         ]);
 	}
 
+	private static function getBoutiqueCouponForJson($person, $boutique_date_threshold) {
+		if ($person->boutique_coupon != null) {
+			$coupon_date = new Carbon($person->boutique_coupon);
+			if ($coupon_date->gt($boutique_date_threshold)) {
+				return $coupon_date->addDays(self::BOUTIQUE_DAYS_THRESHOLD_DAYS)->diffForHumans();
+			}
+		}
+		return null;
+	}
+	
     private static function createRegisterStringFromFilter($filter) {
         $register = [];
         $names = [];
@@ -192,6 +206,7 @@ class BankController extends Controller
     }
 
 	public function person(Person $person) {
+		$boutique_date_threshold = Carbon::now()->subDays(self::BOUTIQUE_DAYS_THRESHOLD_DAYS);
         return response()->json([
                     'id' => $person->id,
                     'name' => $person->name,
@@ -199,6 +214,7 @@ class BankController extends Controller
                     'case_no' => $person->case_no, 
                     'nationality' => $person->nationality, 
                     'remarks' => $person->remarks,
+					'boutique_coupon' => self::getBoutiqueCouponForJson($person, $boutique_date_threshold),
                     'today' => $person->todaysTransaction(),
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
@@ -264,4 +280,15 @@ class BankController extends Controller
             });
         })->export('xls');
     }
+	
+	public function giveBoutiqueCoupon(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+				$person->boutique_coupon = Carbon::now();
+				$person->save();
+				return 'OK';
+			}
+		}
+	}
 }

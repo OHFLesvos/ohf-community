@@ -28,6 +28,7 @@ Route::post('/bank/updatePerson/{person}', 'BankController@updatePerson')->name(
 
 Route::get('/bank/transactions/{person}', 'BankController@transactions')->name('bank.transactions');
 Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
+Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
 
 Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');

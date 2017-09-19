@@ -42,6 +42,7 @@
                 <th>Case No.</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
+				<th style="width: 150px">Boutique</th>
                 <th style="width: 100px;">Yesterday</th>
                 <th style="width: 100px;">Today</th>
             </tr>
@@ -213,6 +214,29 @@
             .append($('<td>').text(person.case_no))
             .append($('<td>').text(person.nationality))
             .append($('<td>').text(person.remarks))
+			// Boutique coupon
+			.append($('<td>').html(function(){ 
+				if (person.boutique_coupon) {
+					return person.boutique_coupon;
+				}
+				return $('<a>')
+					.attr('href', 'javascript:;')
+					.text('Give coupon')
+					.on('click', function(){
+						if (confirm('Give coupon to ' + person.name + ' ' + person.family_name + '?')) {
+							$.post( "{{ route('bank.giveBoutiqueCoupon') }}", {
+								"_token": "{{ csrf_token() }}",
+								"person_id": person.id
+							}, function(data) {
+								updatePerson(person.id);
+								$('#filter').select();
+							})
+							.fail(function(jqXHR, textStatus) {
+								alert(extStatus);
+							});
+						}
+					});
+			}))
             .append(
                 $('<td>')
                     .html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
