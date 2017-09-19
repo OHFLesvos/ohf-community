@@ -31,7 +31,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="{{ route('welcome') }}">{{ Config::get('app.name') }}</a>
+              <a class="navbar-brand" href="{{ route('welcome') }}"><img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->

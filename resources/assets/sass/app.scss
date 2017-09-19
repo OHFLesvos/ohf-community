@@ -18,3 +18,15 @@
 .filter-container label {
     font-weight: normal;
 }
+
+.navbar-brand {
+  padding: 0px;
+  padding-right: 15px;
+}
+
+.navbar-brand>img {
+	display: inline;
+	height: 100%;
+	padding: 10px;
+	width: auto;
+}
