@@ -145,7 +145,7 @@ class BankController extends Controller
             ->select('persons.id', 'name', 'family_name', 'case_no', 'nationality', 'remarks')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
-            ->paginate(100);
+            ->paginate(50);
          
         return response()->json([
             'count' => $persons->count(),
