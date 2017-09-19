@@ -12,6 +12,10 @@
 		
         <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
 		
+		<link rel="icon" href="{{URL::asset('/img/favicon-32x32.png')}}" sizes="32x32" />
+		<link rel="icon" href="{{URL::asset('/img/favicon-192x192.png')}}" sizes="192x192" />
+		<link rel="apple-touch-icon-precomposed" href="{{URL::asset('/img/favicon-180x180.png')}}" />
+		
 		<!-- Scripts -->
 		<script>
 			window.Laravel = <?php echo json_encode([
