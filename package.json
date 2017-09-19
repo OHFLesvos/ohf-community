@@ -17,7 +17,6 @@
     "jquery.session": "^1.0.0",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
-    "vue": "^2.1.10",
     "chart.js": "^2.6.0",
     "font-awesome": "^4.7.0"
   }
