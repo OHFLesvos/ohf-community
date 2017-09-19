@@ -11,7 +11,11 @@ use App\Http\Requests\StoreTransaction;
 
 class BankController extends Controller
 {
-	const BOUTIQUE_DAYS_THRESHOLD_DAYS = 7;
+	const BOUTIQUE_THRESHOLD_DAYS = 7;
+	
+	private static function getBoutiqueThresholdDays() {
+		return \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS);
+	}
 	
     function index() {
 		return view('bank.index', [
@@ -149,7 +153,7 @@ class BankController extends Controller
             ->orderBy('family_name', 'asc')
             ->paginate(50);
          
-		$boutique_date_threshold = Carbon::now()->subDays(self::BOUTIQUE_DAYS_THRESHOLD_DAYS);
+		$boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
         return response()->json([
             'count' => $persons->count(),
             'total' => $persons->total(),
@@ -175,7 +179,7 @@ class BankController extends Controller
 		if ($person->boutique_coupon != null) {
 			$coupon_date = new Carbon($person->boutique_coupon);
 			if ($coupon_date->gt($boutique_date_threshold)) {
-				return $coupon_date->addDays(self::BOUTIQUE_DAYS_THRESHOLD_DAYS)->diffForHumans();
+				return $coupon_date->addDays(self::getBoutiqueThresholdDays())->diffForHumans();
 			}
 		}
 		return null;
@@ -206,7 +210,7 @@ class BankController extends Controller
     }
 
 	public function person(Person $person) {
-		$boutique_date_threshold = Carbon::now()->subDays(self::BOUTIQUE_DAYS_THRESHOLD_DAYS);
+		$boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
         return response()->json([
                     'id' => $person->id,
                     'name' => $person->name,
