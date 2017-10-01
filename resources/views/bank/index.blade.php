@@ -28,6 +28,7 @@
         <div class="col-md-4 text-right">
             <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
             <a href="{{ route('bank.charts') }}" class="btn btn-default"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
+            <a href="{{ route('bank.settings') }}" class="btn btn-default"><i class="fa fa-cogs"></i> Settings</a> &nbsp;
             <a href="{{ route('bank.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a> &nbsp;
             <a href="{{ route('bank.import') }}" class="btn btn-default"><i class="fa fa-upload"></i> Import</a>
         </div>
@@ -49,7 +50,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="7">Loading, please wait...</td>
+                <td colspan="8">Loading, please wait...</td>
             </tr>
         </tbody>
     </table>    
@@ -113,7 +114,7 @@
         tbody.append($('<tr>')
             .append($('<td>')
                 .text('Searching...')
-                .attr('colspan', 7))
+                .attr('colspan', 8))
         );
         $.post( "{{ route('bank.filter') }}", {
             "_token": "{{ csrf_token() }}",
@@ -166,6 +167,7 @@
                         var transactionInput = $('<input>')
                                 .attr('type', 'number')
                                 .attr('min', 0)
+								.attr('max', {{ $single_transaction_max_amount }})
                                 .attr('value', person.today)
                                 .addClass('form-control input-sm')
                                 .on('focus', function(){
@@ -185,6 +187,7 @@
             today.append($('<input>')
                     .attr('type', 'number')
                     .attr('min', 0)
+					.attr('max', {{ $single_transaction_max_amount }})
                     .attr('value', 0)
                     .addClass('form-control input-sm')
                     .on('focus', function(){
@@ -291,7 +294,7 @@
             $('#filter').select();
         })
         .fail(function(jqXHR, textStatus) {
-            alert(extStatus);
+            alert(textStatus + ': ' + jqXHR.responseJSON);
         });
     }
     

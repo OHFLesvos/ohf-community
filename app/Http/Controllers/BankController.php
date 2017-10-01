@@ -11,7 +11,12 @@ use App\Http\Requests\StoreTransaction;
 
 class BankController extends Controller
 {
+	const SINGLE_TRANSACTION_MAX_AMOUNT = 2;
 	const BOUTIQUE_THRESHOLD_DAYS = 7;
+	
+	private static function getSingleTransactionMaxAmount() {
+		return \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT);
+	}
 	
 	private static function getBoutiqueThresholdDays() {
 		return \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS);
@@ -19,9 +24,30 @@ class BankController extends Controller
 	
     function index() {
 		return view('bank.index', [
+			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', \App\Http\Controllers\BankController::SINGLE_TRANSACTION_MAX_AMOUNT)
 		]);
     }
 
+    function settings() {
+		return view('bank.settings', [
+			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
+			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS)
+		]);
+    }
+
+	function updateSettings(Request $request) {
+		$request->validate([
+			'single_transaction_max_amount' => 'required|numeric',
+			'boutique_threshold_days' => 'required|numeric',
+		]);
+		\Setting::set('bank.single_transaction_max_amount', $request->single_transaction_max_amount);
+		\Setting::set('bank.boutique_threshold_days', $request->boutique_threshold_days);
+		\Setting::save();
+		return redirect()->route('bank.index')
+                    ->with('success', 'Settings have been updated!');
+
+	}
+	
     function charts() {
         $data = [];
         for ($i = 30; $i >= 0; $i--) {
@@ -261,7 +287,11 @@ class BankController extends Controller
 	}
 
     public function storeTransaction(StoreTransaction $request) {
-        $transaction = new Transaction();
+		$person = Person::find($request->person_id);
+		if ($person ->todaysTransaction() + $request->value > self::getSingleTransactionMaxAmount()) {
+			return response()->json(["Invalid amount, must be not greater than " . self::getSingleTransactionMaxAmount()], 400);
+		}
+		$transaction = new Transaction();
         $transaction->person_id = $request->person_id;
         $transaction->value = $request->value;
         $transaction->save();

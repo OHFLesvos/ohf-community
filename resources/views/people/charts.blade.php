@@ -21,7 +21,7 @@
 		
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading">Registrations</div>
+                <div class="panel-heading">New registrations per day</div>
                 <div class="panel-body">
                     <canvas id="registrationsPerDay"></canvas>
                 </div>
