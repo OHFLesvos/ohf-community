@@ -80,6 +80,7 @@ class Person extends Model
     public function scopeHasTransactionsToday($query) {
         return $query
             ->join('transactions', 'persons.id', '=', 'transactions.person_id')
+			->groupBy('persons.id')
             ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
     }
 }
