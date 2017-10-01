@@ -29,7 +29,7 @@
     </div>
     <br>
     <p id="result-stats">Loading...</p>
-    <table class="table table-striped table-consended table-bordered" id="results-table">
+    <table class="table table-striped table-condensed table-bordered" id="results-table">
         <thead>
             <tr>
                 <th>Name</th>
