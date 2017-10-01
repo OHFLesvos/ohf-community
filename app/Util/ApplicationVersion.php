@@ -5,7 +5,7 @@ namespace App\Util;
 class ApplicationVersion
 {
 	const MAJOR = 1;
-	const MINOR = 0;
+	const MINOR = 1;
 	const PATCH = 0;
 
 	private static function isEnabled($func) {
