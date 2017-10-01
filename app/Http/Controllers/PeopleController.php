@@ -154,6 +154,19 @@ class PeopleController extends Controller
         $data['nationalities']['Other'] = $nationalities->slice(6)->reduce(function ($carry, $item) {
             return $carry + $item;
         });
+		
+		$data['registrations'] = Person::where('created_at', '>=', Carbon::now()->subMonth(3))
+			->groupBy('date')
+			->orderBy('date', 'DESC')
+			->get(array(
+				\DB::raw('Date(created_at) as date'),
+				\DB::raw('COUNT(*) as "count"')
+			))
+			->mapWithKeys(function ($item) {
+				return [$item['date'] => $item['count']];
+			})
+			->reverse()
+			->all();
 
         return view('people.charts', [
             'data' => $data,

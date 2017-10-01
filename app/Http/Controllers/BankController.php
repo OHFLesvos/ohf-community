@@ -24,7 +24,7 @@ class BankController extends Controller
 
     function charts() {
         $data = [];
-        for ($i = 7; $i >= 0; $i--) {
+        for ($i = 30; $i >= 0; $i--) {
             $day = Carbon::today()->subDays($i);
             $q = Transaction
                 ::whereDate('created_at', '=', $day->toDateString())

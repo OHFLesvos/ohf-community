@@ -135,7 +135,7 @@
                             .attr('href', '{{ route('bank.register') }}' + (data.register ? '?' + data.register : ''))
                             .text('Register new')
                         )
-                        .attr('colspan', 7))
+                        .attr('colspan', 8))
                 );
             }
             $('#result-stats')

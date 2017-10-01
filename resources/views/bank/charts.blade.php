@@ -33,7 +33,7 @@
 @section('script')
     var ctx = document.getElementById("chartTransactionsPerDay").getContext('2d');
     var chartTransactionsPerDay = new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: ["{!! implode('", "', array_keys($data['count'])) !!}"],
         datasets: [{
@@ -43,9 +43,10 @@
         }]
       }
     });
+	
     var ctx = document.getElementById("chartTransactionValuePerDay").getContext('2d');
     var chartTransactionValuePerDay = new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: ["{!! implode('", "', array_keys($data['sum'])) !!}"],
         datasets: [{
