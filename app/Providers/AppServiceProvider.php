@@ -24,14 +24,6 @@ class AppServiceProvider extends ServiceProvider
 		Blade::directive('environment', function ($expression) {
             return app()->environment();
         });
-		Blade::directive('app_version', function ($expression) {
-            return \App\Util\ApplicationVersion::get();
-        });
-		
-		// Register custom IF statement for environent
-		Blade::if('env', function ($environment) {
-			return app()->environment($environment);
-		});
     }
 
     /**

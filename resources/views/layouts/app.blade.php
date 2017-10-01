@@ -56,7 +56,7 @@
 		<footer class="footer">
 			<div class="container-fluid">
 				<p class="text-muted">
-					{{ Config::get('app.product_name') }}<span class="hidden-xs"> | <a href="{{ Config::get('app.product_url') }}" target="_blank">@app_version</a> | @environment</span>
+					{{ Config::get('app.product_name') }}<span class="hidden-xs"> | <a href="{{ Config::get('app.product_url') }}" target="_blank">{{ \App\Util\ApplicationVersion::get() }}</a> | @environment</span>
 					<span class="pull-right">&copy; Nicolas Perrenoud</span>
 				</p>
 			</div>
