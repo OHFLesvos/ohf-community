@@ -4,24 +4,26 @@
 
 @section('content')
 
-    <div class="text-right">
-        <a href="{{ route('bank.index') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
-    </div>
-    <br>
+    <span class="pull-right">
+        <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
+    </span>
+
+	<h1 class="display-4">Charts</h1>
+	<br>
     
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Transactions per day</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header">Transactions per day</div>
+                <div class="card-body">
                     <canvas id="chartTransactionsPerDay"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Transaction value per day</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header">Transaction value per day</div>
+                <div class="card-body">
                     <canvas id="chartTransactionValuePerDay"></canvas>
                 </div>
             </div>

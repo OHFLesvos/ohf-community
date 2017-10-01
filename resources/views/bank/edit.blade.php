@@ -4,6 +4,9 @@
 
 @section('content')
 
+	<h1 class="display-4">Edit person</h1>
+	<br>
+
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -15,35 +18,41 @@
     @endif
 
     {!! Form::model($person, ['route' => ['bank.updatePerson', $person]]) !!}
-    <div class="panel panel-primary">
-        <div class="panel-heading">Edit person</div>
-        <div class="panel-body">
-                <div class="form-group">
-                    {{ Form::label('name') }}
-                    {{ Form::text('name', null, [ 'class' => 'form-control', 'id' => 'name'  ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('family_name') }}
-                    {{ Form::text('family_name', null, [ 'class' => 'form-control' ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('case_no') }}
-                    {{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('nationality') }}
-                    {{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('remarks') }}
-                    {{ Form::text('remarks', null, [ 'class' => 'form-control' ]) }}
-                </div>
+    <div class="card">
+        <div class="card-body">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('name') }}
+						{{ Form::text('name', null, [ 'class' => 'form-control', 'id' => 'name'  ]) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('family_name') }}
+						{{ Form::text('family_name', null, [ 'class' => 'form-control' ]) }}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				{{ Form::label('case_no') }}
+				{{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}
+			</div>
+			<div class="form-group">
+				{{ Form::label('nationality') }}
+				{{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}
+			</div>
+			<div class="form-group">
+				{{ Form::label('remarks') }}
+				{{ Form::text('remarks', null, [ 'class' => 'form-control' ]) }}
+			</div>
         </div>
     </div>
+	<br>
     <p>
         {{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
         {{ Form::submit('Delete', [ 'name' => 'delete', 'class' => 'btn btn-danger', 'id' => 'delete' ]) }} &nbsp;
-        <a href="{{ route('bank.index') }}" class="btn btn-default">Cancel</a>
+        <a href="{{ route('bank.index') }}" class="btn btn-secondary">Cancel</a>
     </p>
     {!! Form::close() !!}
     

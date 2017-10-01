@@ -4,34 +4,32 @@
 
 @section('content')
 
-    <div class="text-right">
-        <a href="{{ route('people.index') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
-    </div>
-    <br>
+    <span class="pull-right">
+        <a href="{{ route('people.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
+    </span>
+
+	<h1 class="display-4">Charts</h1>
+	<br>
     
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Nationalities</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header">Nationalities</div>
+                <div class="card-body">
                     <canvas id="chartNationalities"></canvas>
                 </div>
             </div>
         </div>
 		
         <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">New registrations per day</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header">New registrations per day</div>
+                <div class="card-body">
                     <canvas id="registrationsPerDay"></canvas>
                 </div>
             </div>
         </div>
     </div>
-    
-				@foreach ($data['registrations'] as $registration)
-				{{ $registration }}<br>
-			@endforeach
 	
 @endsection
 

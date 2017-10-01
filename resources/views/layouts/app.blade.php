@@ -26,37 +26,31 @@
     </head>
     <body>
 
-		<nav class="navbar navbar-default navbar-static-top">
-          <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="{{ route('welcome') }}"><img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li class="{{ Request::is('people*') ? 'active' : '' }}"><a href="{{ route('people.index') }}"><i class="fa fa-group"></i> People</a></li>
-                <li class="{{ Request::is('bank*') ? 'active' : '' }}"><a href="{{ route('bank.index') }}"><i class="fa fa-bank"></i> Bank</a></li>
-              </ul>
-            </div><!-- /.navbar-collapse -->
-          </div><!-- /.container-fluid -->
-        </nav>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark header-nav">
+			<a class="navbar-brand" href="{{ route('welcome') }}"><img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item {{ Request::is('people*') ? 'active' : '' }}">
+					<a class="nav-link" href="{{ route('people.index') }}"><i class="fa fa-group"></i> People</a>
+				</li>
+				<li class="nav-item {{ Request::is('bank*') ? 'active' : '' }}">
+					<a class="nav-link" href="{{ route('bank.index') }}"><i class="fa fa-bank"></i> Bank</a>
+				</li>
+			</ul>
+			</div>
+		</nav>
 
 		<div class="container-fluid">
             @yield('content')
         </div>
 		
-		<footer class="footer">
+		<footer class="footer bg-light text-dark">
 			<div class="container-fluid">
-				<p class="text-muted">
-					{{ Config::get('app.product_name') }}<span class="hidden-xs"> | <a href="{{ Config::get('app.product_url') }}" target="_blank">{{ \App\Util\ApplicationVersion::get() }}</a> | @environment</span>
+				<p>
+					{{ Config::get('app.product_name') }}<span class="hidden-xs"> | <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ \App\Util\ApplicationVersion::get() }}</a> | @environment</span>
 					<span class="pull-right">&copy; Nicolas Perrenoud</span>
 				</p>
 			</div>

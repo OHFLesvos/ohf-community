@@ -4,6 +4,17 @@
 
 @section('content')
 
+	<span class="pull-right">
+		<a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
+		<a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
+		<a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i> Settings</a> &nbsp;
+		<a href="{{ route('bank.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a> &nbsp;
+		<a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
+	</span>
+	
+	<h1 class="display-4">Bank</h1>
+	<br>
+
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -19,23 +30,18 @@
         </div>
     @endif
 
-    <div class="row">
-        <div class="col-md-8 filter-container ">
-            {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}<br>
-            {{ Form::checkbox('filter-today', 1, false, [ 'id' => 'filter-today' ] ) }}
-            {{ Form::label('filter-today', 'has transactions today') }}
-        </div>
-        <div class="col-md-4 text-right">
-            <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
-            <a href="{{ route('bank.charts') }}" class="btn btn-default"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
-            <a href="{{ route('bank.settings') }}" class="btn btn-default"><i class="fa fa-cogs"></i> Settings</a> &nbsp;
-            <a href="{{ route('bank.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a> &nbsp;
-            <a href="{{ route('bank.import') }}" class="btn btn-default"><i class="fa fa-upload"></i> Import</a>
-        </div>
-    </div>
-    <br>
+	<div class="row">
+		<div class="col">
+			{{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}<br>
+		</div>
+		<div class="col-md-auto">
+			{{ Form::checkbox('filter-today', 1, false, [ 'id' => 'filter-today' ] ) }}
+			{{ Form::label('filter-today', 'has transactions today') }}
+		</div>
+	</div>
+
     <p id="result-stats">Loading...</p>
-    <table class="table table-striped table-condensed table-bordered" id="results-table">
+    <table class="table table-sm table-striped table-bordered table-hover" id="results-table">
         <thead>
             <tr>
                 <th>Name</th>
@@ -169,7 +175,7 @@
                                 .attr('min', 0)
 								.attr('max', {{ $single_transaction_max_amount }})
                                 .attr('value', person.today)
-                                .addClass('form-control input-sm')
+                                .addClass('form-control form-control-sm')
                                 .on('focus', function(){
                                     $(this).select();
                                 })
@@ -189,7 +195,7 @@
                     .attr('min', 0)
 					.attr('max', {{ $single_transaction_max_amount }})
                     .attr('value', 0)
-                    .addClass('form-control input-sm')
+                    .addClass('form-control form-control-sm')
                     .on('focus', function(){
                         $(this).select();
                     })
@@ -202,7 +208,7 @@
         }
         return $('<tr>')
             .attr('id', 'person-' + person.id)
-            .addClass(person.today > 0 ? 'success' : null)
+            .addClass(person.today > 0 ? 'table-success' : null)
             .append($('<td>')
                 .text(person.name)
                 .append(' &nbsp; ')
