@@ -10,7 +10,8 @@ window._ = require('lodash');
 try {
     window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap-sass');
+    window.Tether = require('tether');
+    require('bootstrap');
 } catch (e) {}
 
 /**
