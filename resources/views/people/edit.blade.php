@@ -4,6 +4,9 @@
 
 @section('content')
 
+	<h1 class="display-4">Edit person</h1>
+	<br>
+
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -15,9 +18,8 @@
     @endif
 
     {!! Form::model($person, ['route' => ['people.update', $person], 'method' => 'put']) !!}
-    <div class="panel panel-primary">
-        <div class="panel-heading">Edit person</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
             <div class="form-group">
                 {{ Form::label('name') }}
                 {{ Form::text('name', null, [ 'class' => 'form-control', 'id' => 'name'  ]) }}
@@ -48,10 +50,11 @@
             </div>
         </div>
     </div>
+	<br>
     <p>
         {{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
         {{ Form::submit('Delete', [ 'name' => 'delete', 'class' => 'btn btn-danger', 'id' => 'delete' ]) }} &nbsp;
-        <a href="{{ route('people.index') }}" class="btn btn-default">Cancel</a>
+        <a href="{{ route('people.index') }}" class="btn btn-secondary">Cancel</a>
     </p>
     {!! Form::close() !!}
     

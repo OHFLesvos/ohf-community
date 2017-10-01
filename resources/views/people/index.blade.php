@@ -4,6 +4,16 @@
 
 @section('content')
 
+	<span class="pull-right">
+		<a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
+		<a href="{{ route('people.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
+		<a href="{{ route('people.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a> &nbsp;
+		<a href="{{ route('people.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
+	</span>
+
+	<h1 class="display-4">People</h1>
+	<br>
+	
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -19,17 +29,8 @@
         </div>
     @endif
 
-    <div>
-        <span class="pull-right">
-            <a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
-            <a href="{{ route('people.charts') }}" class="btn btn-default"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
-            <a href="{{ route('people.export') }}" class="btn btn-default"><i class="fa fa-download"></i> Export</a> &nbsp;
-            <a href="{{ route('people.import') }}" class="btn btn-default"><i class="fa fa-upload"></i> Import</a>
-        </span>
-    </div>
-    <br>
     <p id="result-stats">Loading...</p>
-    <table class="table table-striped table-condensed table-bordered" id="results-table">
+    <table class="table table-sm table-striped table-bordered table-hover" id="results-table">
         <thead>
             <tr>
                 <th>Name</th>
@@ -41,13 +42,13 @@
                 <th>Remarks</th>
             </tr>
             <tr id="filter">
-                <th>{{ Form::text('name', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                <th>{{ Form::text('family_name', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                <th>{{ Form::text('case_no', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                <th>{{ Form::text('nationality', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                <th>{{ Form::text('languages', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                <th>{{ Form::text('skills', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                <th>{{ Form::text('remarks', null, [ 'class' => 'form-control input-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('name', null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('family_name', null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('case_no', null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('nationality', null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('languages', null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('skills', null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                <th>{{ Form::text('remarks', null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
             </tr>
         </thead>
         <tbody>

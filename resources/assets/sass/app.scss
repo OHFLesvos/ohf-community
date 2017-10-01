@@ -1,15 +1,23 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+// @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
 // Variables
 @import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
 
 // Font Awesome
 @import "node_modules/font-awesome/scss/font-awesome";
+
+/* Header */
+
+.header-nav {
+	margin-bottom: 20px;
+}
+
+/* Filter */
 
 .filter-container {
     line-height: 0.4em;
@@ -17,18 +25,6 @@
 
 .filter-container label {
     font-weight: normal;
-}
-
-.navbar-brand {
-  padding: 0px;
-  padding-right: 15px;
-}
-
-.navbar-brand>img {
-	display: inline;
-	height: 100%;
-	padding: 10px;
-	width: auto;
 }
 
 /* Sticky footer styles
@@ -49,13 +45,12 @@ body {
 	width: 100%;
 	/* Set the fixed height of the footer here */
 	height: 30px;
-	background: $navbar-default-bg;
-	border-top: 1px solid $navbar-default-border;
+	border-top: 1px solid $gray-300;
 }
 
 .footer p {
 	font-size: 12px;
 	line-height: 12px;
-	margin-top: 8px;
+	margin-top: 9px;
 	margin-bottom: 0;
 }

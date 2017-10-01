@@ -4,6 +4,9 @@
 
 @section('content')
 
+	<h1 class="display-4">Upload data</h1>
+	<br>
+
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -15,18 +18,18 @@
     @endif
 
     {!! Form::open(['route' => 'people.doImport', 'files' => true]) !!}
-    <div class="panel panel-primary">
-        <div class="panel-heading">Upload data</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
                 <div class="form-group">
                     {{ Form::label('file') }}
-                    {{ Form::file('file', null, [ 'class' => 'form-control'  ]) }}
+                    {{ Form::file('file', null, [ 'class' => 'form-control-file'  ]) }}
                 </div>
         </div>
     </div>
+	<br>
     <p>
         {{ Form::submit('Import', [ 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
-        <a href="{{ route('people.index') }}" class="btn btn-default">Cancel</a>
+        <a href="{{ route('people.index') }}" class="btn btn-secondary">Cancel</a>
     </p>
     {!! Form::close() !!}
     

@@ -4,6 +4,9 @@
 
 @section('content')
 
+	<h1 class="display-4">Register person</h1>
+	<br>
+
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -15,17 +18,22 @@
     @endif
 
     {!! Form::open(['route' => 'bank.store']) !!}
-    <div class="panel panel-primary">
-        <div class="panel-heading">Register person</div>
-        <div class="panel-body">
-                <div class="form-group">
-                    {{ Form::label('name') }}
-                    {{ Form::text('name', null, [ 'class' => 'form-control', 'id' => 'name'  ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('family_name') }}
-                    {{ Form::text('family_name', null, [ 'class' => 'form-control' ]) }}
-                </div>
+    <div class="card">
+        <div class="card-body">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('name') }}
+						{{ Form::text('name', null, [ 'class' => 'form-control', 'id' => 'name'  ]) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('family_name') }}
+						{{ Form::text('family_name', null, [ 'class' => 'form-control' ]) }}
+					</div>
+				</div>
+			</div>
                 <div class="form-group">
                     {{ Form::label('case_no') }}
                     {{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}
@@ -44,9 +52,10 @@
                 </div>
         </div>
     </div>
+	<br>
     <p>
         {{ Form::submit('Add', [ 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
-        <a href="{{ route('bank.index') }}" class="btn btn-default">Cancel</a>
+        <a href="{{ route('bank.index') }}" class="btn btn-secondary">Cancel</a>
     </p>
     {!! Form::close() !!}
     
