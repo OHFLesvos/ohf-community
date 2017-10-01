@@ -30,3 +30,32 @@
 	padding: 10px;
 	width: auto;
 }
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 30px;
+	background: $navbar-default-bg;
+	border-top: 1px solid $navbar-default-border;
+}
+
+.footer p {
+	font-size: 12px;
+	line-height: 12px;
+	margin-top: 8px;
+	margin-bottom: 0;
+}

@@ -12,7 +12,11 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Community Center'),
+
+    'product_name' => 'Community Center Manager',
+
+	'product_url' => 'https://github.com/mrcage/ohf-community',
 
     /*
     |--------------------------------------------------------------------------

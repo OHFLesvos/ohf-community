@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,19 @@ class AppServiceProvider extends ServiceProvider
 		if (env('APP_ENV') === 'production') {
 			\URL::forceScheme('https');
 		}
+		
+		// Register directive to output environment name
+		Blade::directive('environment', function ($expression) {
+            return app()->environment();
+        });
+		Blade::directive('app_version', function ($expression) {
+            return \App\Util\ApplicationVersion::get();
+        });
+		
+		// Register custom IF statement for environent
+		Blade::if('env', function ($environment) {
+			return app()->environment($environment);
+		});
     }
 
     /**

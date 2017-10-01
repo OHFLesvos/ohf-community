@@ -8,7 +8,7 @@
 		<!-- CSRF Token -->
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title') - {{ Config::get('app.name') }}</title>
+        <title>@yield('title') - {{ Config::get('app.name') }} - {{ Config::get('app.product_name') }}</title>
 		
         <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
 		
@@ -25,7 +25,8 @@
 
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-static-top">
+
+		<nav class="navbar navbar-default navbar-static-top">
           <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -47,9 +48,20 @@
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
         </nav>
+
 		<div class="container-fluid">
             @yield('content')
         </div>
+		
+		<footer class="footer">
+			<div class="container-fluid">
+				<p class="text-muted">
+					{{ Config::get('app.product_name') }}<span class="hidden-xs"> | <a href="{{ Config::get('app.product_url') }}" target="_blank">@app_version</a> | @environment</span>
+					<span class="pull-right">&copy; Nicolas Perrenoud</span>
+				</p>
+			</div>
+		</footer>
+		
         <script src="{{asset('js/app.js')}}"></script>
 		<script>
 			@yield('script')
