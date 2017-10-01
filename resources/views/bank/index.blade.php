@@ -290,7 +290,7 @@
             "person_id": personId,
             "value": value
         }, function(data) {
-            updatePerson(personId);
+			$('tr#person-' + personId).replaceWith(writeRow(data));
             $('#filter').select();
         })
         .fail(function(jqXHR, textStatus) {

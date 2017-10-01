@@ -295,7 +295,7 @@ class BankController extends Controller
         $transaction->person_id = $request->person_id;
         $transaction->value = $request->value;
         $transaction->save();
-        return response()->json(["OK"]);
+        return $this->person($person);
     }
     
 	public function export() {
