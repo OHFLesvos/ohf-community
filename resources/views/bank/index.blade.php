@@ -43,7 +43,7 @@
                 <th>Case No.</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
-				<th style="width: 150px">Boutique</th>
+				<th style="width: 170px">Boutique</th>
                 <th style="width: 100px;">Yesterday</th>
                 <th style="width: 100px;">Today</th>
             </tr>
@@ -84,7 +84,7 @@
                 if (keyCode == 0 || keyCode == 8 || keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
                     filterTable(elem.val());
                 }
-            }, 1000);
+            }, 500);
        });
        
        if ($.session.get('bank.filter-today')) {
