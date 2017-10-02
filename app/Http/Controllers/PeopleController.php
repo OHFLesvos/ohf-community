@@ -155,18 +155,7 @@ class PeopleController extends Controller
             return $carry + $item;
         });
 		
-		$data['registrations'] = Person::where('created_at', '>=', Carbon::now()->subMonth(3))
-			->groupBy('date')
-			->orderBy('date', 'DESC')
-			->get(array(
-				\DB::raw('Date(created_at) as date'),
-				\DB::raw('COUNT(*) as "count"')
-			))
-			->mapWithKeys(function ($item) {
-				return [$item['date'] => $item['count']];
-			})
-			->reverse()
-			->all();
+		$data['registrations'] = $this->getRegistrationsPerDay(90);
 
         return view('people.charts', [
             'data' => $data,
@@ -181,4 +170,27 @@ class PeopleController extends Controller
             ]
 		]);
     }
+	
+	function getRegistrationsPerDay($numDays) {
+		$registrations = Person::where('created_at', '>=', Carbon::now()->subDays($numDays))
+			->groupBy('date')
+			->orderBy('date', 'DESC')
+			->get(array(
+				\DB::raw('Date(created_at) as date'),
+				\DB::raw('COUNT(*) as "count"')
+			))
+			->mapWithKeys(function ($item) {
+				return [$item['date'] => $item['count']];
+			})
+			->reverse()
+			->all();
+		for ($i=1; $i < $numDays; $i++) {
+			$dateKey = Carbon::now()->subDays($i)->toDateString();
+			if (!isset($registrations[$dateKey])) {
+				$registrations[$dateKey] = 0;
+			}
+		}
+		ksort($registrations);
+		return $registrations;
+	}
 }
