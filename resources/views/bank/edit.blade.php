@@ -34,13 +34,19 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				{{ Form::label('case_no') }}
-				{{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}
-			</div>
-			<div class="form-group">
-				{{ Form::label('nationality') }}
-				{{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('case_no') }}
+						{{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('nationality') }}
+						{{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}
+					</div>
+				</div>
 			</div>
 			<div class="form-group">
 				{{ Form::label('remarks') }}
@@ -50,6 +56,9 @@
     </div>
 	<br>
     <p>
+		<small class="pull-right text-sm text-right">
+			Registered: {{ $person->created_at }}<br>Updated: {{ $person->updated_at }}
+		</small>
         {{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
         {{ Form::submit('Delete', [ 'name' => 'delete', 'class' => 'btn btn-danger', 'id' => 'delete' ]) }} &nbsp;
         <a href="{{ route('bank.index') }}" class="btn btn-secondary">Cancel</a>

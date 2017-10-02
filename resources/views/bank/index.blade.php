@@ -60,20 +60,7 @@
             </tr>
         </tbody>
     </table>    
-    
-    <div class="modal" tabindex="-1" role="dialog" id="myModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Transactions</h4>
-          </div>
-          <div class="modal-body">
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
+
 @endsection
 
 @section('script')
@@ -251,40 +238,10 @@
                     .html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
                     .append(' &nbsp; ')
                     .append($('<a>')
-                        .attr('href', 'javascript:;')
+                        .attr('href', 'bank/transactions/' + person.id)
                         .append($('<i>')
                             .addClass('fa fa-search')
                         )
-                        .on('click', function(){
-                            $.get( 'bank/transactions/' + person.id, function(data) {
-                                $('#myModal .modal-title').text('Transactions of ' + person.name + ' ' + person.family_name);
-                                $('#myModal .modal-body').empty();
-                                var tbody = $('<tbody>');
-                                if (data.length > 0) {
-                                    $.each(data, function(k, v){
-                                        tbody.append($('<tr>')
-                                            .append($('<td>')
-                                                .text(v.created_at)
-                                            )                   
-                                            .append($('<td>')
-                                                .text(v.value)
-                                            )                   
-                                        );
-                                    })
-                                    $('#myModal .modal-body').append(
-                                        $('<table>')
-                                                .addClass('table table-striped table-consended')
-                                                .append(tbody)
-                                    );
-                                } else {
-                                    $('#myModal .modal-body').append('No transactions found.');
-                                }
-                                $('#myModal').modal();
-                            })
-                            .fail(function(jqXHR, textStatus) {
-                                alert(textStatus);
-                            });
-                        })
                     )
             )
             .append(today);

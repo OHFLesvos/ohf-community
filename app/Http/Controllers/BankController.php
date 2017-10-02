@@ -280,10 +280,13 @@ class BankController extends Controller
 	}
 
 	public function transactions(Person $person) {
-        return response()->json($person->transactions()
-            ->select('created_at', 'value')
-            ->orderBy('created_at', 'desc')
-            ->get());
+		return view('bank.transactions', [
+			'person' => $person,
+			'transactions' => $person->transactions()
+				->select('created_at', 'value')
+				->orderBy('created_at', 'desc')
+				->get()
+		]);
 	}
 
     public function storeTransaction(StoreTransaction $request) {

@@ -34,22 +34,28 @@
 					</div>
 				</div>
 			</div>
-                <div class="form-group">
-                    {{ Form::label('case_no') }}
-                    {{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('nationality') }}
-                    {{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('remarks') }}
-                    {{ Form::text('remarks', null, [ 'class' => 'form-control' ]) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('value', 'Transaction') }}
-                    {{ Form::number('value', null, [ 'class' => 'form-control', 'style' => 'width:80px' ]) }}
-                </div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('case_no') }}
+						{{ Form::number('case_no', null, [ 'class' => 'form-control' ]) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ Form::label('nationality') }}
+						{{ Form::text('nationality', null, [ 'class' => 'form-control' ]) }}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				{{ Form::label('remarks') }}
+				{{ Form::text('remarks', null, [ 'class' => 'form-control' ]) }}
+			</div>
+			<div class="form-group">
+				{{ Form::label('value', 'Transaction') }}
+				{{ Form::number('value', null, [ 'class' => 'form-control', 'style' => 'width:80px' ]) }}
+			</div>
         </div>
     </div>
 	<br>
