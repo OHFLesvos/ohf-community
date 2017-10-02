@@ -6,7 +6,7 @@ class ApplicationVersion
 {
 	const MAJOR = 1;
 	const MINOR = 2;
-	const PATCH = 0;
+	const PATCH = 1;
 
 	private static function isEnabled($func) {
 		return is_callable($func) && false === stripos(ini_get('disable_functions'), $func);
