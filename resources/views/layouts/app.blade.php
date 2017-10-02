@@ -10,7 +10,7 @@
 
         <title>@yield('title') - {{ Config::get('app.name') }} - {{ Config::get('app.product_name') }}</title>
 		
-        <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/app.css')}}?v={{ $app_version }}" rel="stylesheet" type="text/css">
 		
 		<link rel="icon" href="{{URL::asset('/img/favicon-32x32.png')}}" sizes="32x32" />
 		<link rel="icon" href="{{URL::asset('/img/favicon-192x192.png')}}" sizes="192x192" />
@@ -50,13 +50,13 @@
 		<footer class="footer bg-light text-dark">
 			<div class="container-fluid">
 				<p>
-					{{ Config::get('app.product_name') }}<span class="hidden-xs"> | <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ \App\Util\ApplicationVersion::get() }}</a> | @environment</span>
+					{{ Config::get('app.product_name') }}<span class="hidden-xs"> | <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ $app_version }}</a> | @environment</span>
 					<span class="pull-right">&copy; Nicolas Perrenoud</span>
 				</p>
 			</div>
 		</footer>
 		
-        <script src="{{asset('js/app.js')}}"></script>
+        <script src="{{asset('js/app.js')}}?v={{ $app_version }}"></script>
 		<script>
 			@yield('script')
 		</script>
