@@ -39,6 +39,9 @@
 				<li class="nav-item {{ Request::is('bank*') ? 'active' : '' }}">
 					<a class="nav-link" href="{{ route('bank.index') }}"><i class="fa fa-bank"></i> Bank</a>
 				</li>
+				<li class="nav-item {{ Request::is('tasks*') ? 'active' : '' }}">
+					<a class="nav-link" href="{{ route('tasks.index') }}"><i class="fa fa-tasks"></i> Tasks @if ($num_open_tasks > 0)<span class="badge badge-secondary">{{ $num_open_tasks }}</span>@endif</a>
+				</li>
 			</ul>
 			</div>
 		</nav>

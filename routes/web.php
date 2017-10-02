@@ -43,3 +43,11 @@ Route::get('/people/export', 'PeopleController@export')->name('people.export');
 Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
 Route::resource('/people', 'PeopleController', ['except' => 'show']);
+
+Route::get('/tasks', 'TasksController@index')->name('tasks.index');
+Route::post('/tasks', 'TasksController@store')->name('tasks.store');
+Route::get('/tasks/setDone/{task}', 'TasksController@setDone')->name('tasks.setDone');
+Route::get('/tasks/setUndone/{task}', 'TasksController@setUndone')->name('tasks.setUndone');
+Route::post('/tasks/{task}/update', 'TasksController@update')->name('tasks.update');
+Route::get('/tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
+Route::get('/tasks/{task}/delete', 'TasksController@delete')->name('tasks.delete');

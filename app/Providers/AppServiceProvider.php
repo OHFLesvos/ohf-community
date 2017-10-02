@@ -27,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         });
 		
 		View::share( 'app_version', \App\Util\ApplicationVersion::get() );
+		
+		View::share( 'num_open_tasks', \App\Task::open()->count() );
     }
 
     /**
