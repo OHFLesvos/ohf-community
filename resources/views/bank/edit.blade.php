@@ -56,7 +56,7 @@
     </div>
 	<br>
     <p>
-		<small class="pull-right text-sm text-right">
+		<small class="pull-right text-sm text-right text-muted">
 			Registered: {{ $person->created_at }}<br>Updated: {{ $person->updated_at }}
 		</small>
         {{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;

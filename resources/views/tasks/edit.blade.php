@@ -34,10 +34,17 @@
 						</div>
 					</div>
 				</div>
+				@if ($task->done_date != null)
+					<p>Marked as done: {{ $task->done_date }}</p>
+				@endif
 			</div>
 		</div>
 		<br>
 		<p>
+			<small class="pull-right text-sm text-right text-muted">
+				Created: {{ $task->created_at }}<br>
+				Last updated: {{ $task->updated_at }}
+			</small>
 			{{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
 			<a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger">Delete</a> &nbsp;
 			<a href="{{ route('tasks.index') }}" class="btn btn-secondary">Cancel</a>

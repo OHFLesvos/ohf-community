@@ -16,15 +16,11 @@
             </ul>
         </div>
     @endif
-	<!--
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-	-->
 
-	<div class="card">
+	@if (count($errors) == 0)
+	<p><button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus"></i> Add new task</button></p>
+	@endif
+	<div class="card" id="create-task-container" @if (count($errors) == 0) style="display: none;" @endif>
 		<div class="card-header">
 			New Task
 		</div>
@@ -91,6 +87,11 @@
 
 @section('script')
     $(function(){
-       $('#description').focus();
+		$('#description').focus();
+		$('#create-task-button').on('click', function(){
+			$(this).parent().hide();
+			$('#create-task-container').show();
+			$('#description').focus();
+	   });
     });
 @endsection
