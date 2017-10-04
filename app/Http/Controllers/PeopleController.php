@@ -80,7 +80,8 @@ class PeopleController extends Controller
         return response()->json([
             'count' => $persons->count(),
             'total' => $persons->total(),
-            'results' => $persons->all()
+            'results' => $persons->all(),
+			'rendertime' => round((microtime(true) - LARAVEL_START)*1000)
         ]);
 	}
     

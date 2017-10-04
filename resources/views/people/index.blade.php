@@ -56,7 +56,8 @@
                 <td colspan="7">Loading, please wait...</td>
             </tr>
         </tbody>
-    </table>    
+    </table>   
+	<small class="pull-rit text-sm text-right text-muted" id="filter-status"></small>
     
 @endsection
 
@@ -80,6 +81,7 @@
     });
     
     function filterTable() {
+		$('#filter-status').html('');
         var tbody = $('#results-table tbody');
         tbody.empty();
         tbody.append($('<tr>')
@@ -112,6 +114,8 @@
             }
             $('#result-stats')
                 .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, please refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons');
+
+			$('#filter-status').html('Results fetched in ' + data.rendertime + ' ms');
         })
         .fail(function(jqXHR, textStatus) {
             tbody.empty();

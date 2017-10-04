@@ -198,6 +198,7 @@ class BankController extends Controller
                     ];
                 }),
             'register' => self::createRegisterStringFromFilter($filter),
+			'rendertime' => round((microtime(true) - LARAVEL_START)*1000)
         ]);
 	}
 
