@@ -21,13 +21,13 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
-					<div class="col">
+					<div class="col-md">
 						<div class="form-group">
 							{{ Form::label('description') }}
 							{{ Form::text('description', null, [ 'class' => 'form-control', 'id' => 'description' ]) }}
 						</div>
 					</div>
-					<div class="col">
+					<div class="col-md">
 						<div class="form-group">
 							{{ Form::label('responsible') }}
 							{{ Form::text('responsible', null, [ 'class' => 'form-control' ]) }}
@@ -39,6 +39,7 @@
 		<br>
 		<p>
 			{{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
+			<a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger">Delete</a> &nbsp;
 			<a href="{{ route('tasks.index') }}" class="btn btn-secondary">Cancel</a>
 		</p>
 	{!! Form::close() !!}
@@ -48,5 +49,8 @@
 @section('script')
     $(function(){
        $('#description').select();
+	   $('.delete-conformation').on('click', function(){
+          return confirm('Really delete this task?'); 
+       });
     });
 @endsection
