@@ -8,7 +8,17 @@ use App\Task;
 use App\Http\Requests\StoreTask;
 
 class TasksController extends Controller {
-	
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     function index() {
 		return view('tasks.index', [
 			'tasks' => Task::orderBy('created_at', 'desc')

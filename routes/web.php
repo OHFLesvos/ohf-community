@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
+Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
 
 Route::get('/bank', 'BankController@index')->name('bank.index');
 Route::get('/bank/charts', 'BankController@charts')->name('bank.charts');
@@ -51,3 +51,5 @@ Route::get('/tasks/setUndone/{task}', 'TasksController@setUndone')->name('tasks.
 Route::post('/tasks/{task}/update', 'TasksController@update')->name('tasks.update');
 Route::get('/tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
 Route::get('/tasks/{task}/delete', 'TasksController@delete')->name('tasks.delete');
+
+Auth::routes();

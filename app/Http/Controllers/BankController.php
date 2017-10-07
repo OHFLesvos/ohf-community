@@ -11,6 +11,16 @@ use App\Http\Requests\StoreTransaction;
 
 class BankController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
 	const SINGLE_TRANSACTION_MAX_AMOUNT = 2;
 	const BOUTIQUE_THRESHOLD_DAYS = 7;
 	
