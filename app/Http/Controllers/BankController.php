@@ -8,6 +8,7 @@ use App\Person;
 use App\Transaction;
 use App\Http\Requests\StorePerson;
 use App\Http\Requests\StoreTransaction;
+use App\Http\Requests\StoreTransactionSettings;
 
 class BankController extends Controller
 {
@@ -21,6 +22,7 @@ class BankController extends Controller
         $this->middleware('auth');
     }
 
+	const TRANSACTION_DEFAULT_VALUE = 2;
 	const SINGLE_TRANSACTION_MAX_AMOUNT = 2;
 	const BOUTIQUE_THRESHOLD_DAYS = 7;
 	
@@ -40,16 +42,14 @@ class BankController extends Controller
 
     function settings() {
 		return view('bank.settings', [
+			'transaction_default_value' => \Setting::get('bank.transaction_default_value', self::TRANSACTION_DEFAULT_VALUE),
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
 			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS)
 		]);
     }
 
-	function updateSettings(Request $request) {
-		$request->validate([
-			'single_transaction_max_amount' => 'required|numeric',
-			'boutique_threshold_days' => 'required|numeric',
-		]);
+	function updateSettings(StoreTransactionSettings $request) {
+		\Setting::set('bank.transaction_default_value', $request->transaction_default_value);
 		\Setting::set('bank.single_transaction_max_amount', $request->single_transaction_max_amount);
 		\Setting::set('bank.boutique_threshold_days', $request->boutique_threshold_days);
 		\Setting::save();
@@ -81,7 +81,7 @@ class BankController extends Controller
 
     function register() {
 		return view('bank.register', [
-			'transaction_value' => self::getSingleTransactionMaxAmount(),
+			'transaction_value' => \Setting::get('bank.transaction_default_value', self::TRANSACTION_DEFAULT_VALUE),
 		]);
     }
 
