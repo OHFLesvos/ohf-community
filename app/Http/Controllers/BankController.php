@@ -34,7 +34,7 @@ class BankController extends Controller
 	
     function index() {
 		return view('bank.index', [
-			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', \App\Http\Controllers\BankController::SINGLE_TRANSACTION_MAX_AMOUNT)
+			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT)
 		]);
     }
 
@@ -81,6 +81,7 @@ class BankController extends Controller
 
     function register() {
 		return view('bank.register', [
+			'transaction_value' => self::getSingleTransactionMaxAmount(),
 		]);
     }
 

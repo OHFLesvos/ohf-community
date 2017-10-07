@@ -20,11 +20,11 @@
     {!! Form::model($person, ['route' => ['bank.updatePerson', $person]]) !!}
     <div class="card">
         <div class="card-body">
-			<div class="row">
+			<div class="form-row">
 				<div class="col">
 					<div class="form-group">
 						{{ Form::label('name') }}
-						{{ Form::text('name', null, [ 'class' => 'form-control', 'id' => 'name'  ]) }}
+						{{ Form::text('name', null, [ 'class' => 'form-control', 'autofocus' ]) }}
 					</div>
 				</div>
 				<div class="col">
@@ -34,7 +34,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="form-row">
 				<div class="col">
 					<div class="form-group">
 						{{ Form::label('case_no') }}
@@ -69,7 +69,6 @@
 
 @section('script')
     $(function(){
-       $('#name').focus();
        $('#delete').on('click', function(){
           return confirm('Really delete this person?'); 
        });
