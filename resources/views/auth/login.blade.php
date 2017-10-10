@@ -10,33 +10,33 @@
 					<div class="card-body">
 						{{ Form::open(['route' => 'login']) }}
 
-							<div class="form-row align-items-end">
-								<div class="form-group col">
-									{{ Form::label('email', 'E-Mail Address') }}
+							<div class="form-group">
+								{{ Form::label('email', 'E-Mail Address') }}
+								<div class="input-group">
 									{{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
 									@if ($errors->has('email'))
 										<span class="invalid-feedback">{{ $errors->first('email') }}</span>
 									@endif
-								</div>
-								<div class="form-group col-md-auto">
-									<a class="btn btn-link" href="{{ route('register') }}">
-										Register
-									</a>
+									<span class="input-group-btn">
+										<a class="btn btn-secondary" href="{{ route('register') }}">
+											Register
+										</a>
+									</span>
 								</div>
 							</div>
 
-							<div class="form-row align-items-end">
-								<div class="form-group col">
-									{{ Form::label('password', 'Password') }}
+							<div class="form-group">
+								{{ Form::label('password', 'Password') }}
+								<div class="input-group">
 									{{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
 									@if ($errors->has('password'))
 										<span class="invalid-feedback">{{ $errors->first('password') }}</span>
 									@endif
-								</div>
-								<div class="form-group col-md-auto">
-									<a class="btn btn-link" href="{{ route('password.request') }}">
-										Forgot Your Password?
-									</a>
+									<span class="input-group-btn">
+										<a class="btn btn-secondary" href="{{ route('password.request') }}">
+											Forgot?
+										</a>
+									</span>
 								</div>
 							</div>
 
