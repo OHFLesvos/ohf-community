@@ -25,17 +25,29 @@ class UserProfileController extends Controller
     public function index()
     {
         return view('userprofile', [
-			'user' => Auth::user()
-		]);
+            'user' => Auth::user()
+        ]);
     }
-	
-	public function update(StoreUserProfile $request) {
-		$user = Auth::user();
-		$user->name = $request->name;
-		$user->email = $request->email;
-		$user->save();
-		return redirect()->route('userprofile')
-                    ->with('success', 'User profile has been updated!');
 
+    public function update(StoreUserProfile $request) {
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($user->isDirty()) {
+            $user->save();
+            return redirect()->route('userprofile')
+                             ->with('success', 'User profile has been updated!');
+        }
+        return redirect()->route('userprofile')
+                         ->with('info', 'No changed have been made.');
 	}
+
+    public function delete() {
+        $user = Auth::user();
+        Auth::logout();
+        $user->delete();
+        return redirect()->route('home')
+                    ->with('success', 'User profile has been deleted!');
+    }
+
 }
