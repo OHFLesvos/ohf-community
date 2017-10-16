@@ -7,21 +7,11 @@ use App\Http\Requests\StoreUserProfile;
 
 class UserProfileController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('userprofile', [
@@ -46,8 +36,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
         Auth::logout();
         $user->delete();
-        return redirect()->route('home')
-                    ->with('success', 'User profile has been deleted!');
+        return view('userprofile.deleted');
     }
 
 }
