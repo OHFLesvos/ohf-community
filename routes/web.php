@@ -12,8 +12,10 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
 Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
+Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile.delete');
 
 Route::get('/bank', 'BankController@index')->name('bank.index');
 Route::get('/bank/charts', 'BankController@charts')->name('bank.charts');
