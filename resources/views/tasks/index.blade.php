@@ -47,36 +47,36 @@
 	<br>
 	
 	@if( ! $tasks->isEmpty() )
-    <table class="table table-sm table-responsive table-bordered" id="results-table">
-        <thead>
-            <tr>
-				<th style="width:20px"></th>
-                <th>Description</th>
-                <th>Responsible</th>
-                <th class="d-none d-md-table-cell">Created</th>
-                <!--<th style="width:180px">Due</th>-->
-                <th class="d-none d-md-table-cell">Done</th>
-            </tr>
-        </thead>
-        <tbody>
-			@foreach ($tasks as $task)
-				<tr @if ($task->done_date != null) class="table-success" @endif>
-					<td class="align-middle">
-						@if ($task->done_date != null)
-							<a href="{{ route('tasks.setUndone', $task) }}" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
-						@else
-							<a href="{{ route('tasks.setDone', $task) }}" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></a>
-						@endif
-					</td>
-					<td class="align-middle"><a href="{{ route('tasks.edit', $task) }}" title="Edit">{{ $task->description }}</a></td>
-					<td class="align-middle">{{ $task->responsible }}</td>
-					<td class="align-middle d-none d-md-table-cell">{{ $task->created_at }}</td>
-					<!-- <td class="align-middle">{{ $task->due_date }}</td> -->
-					<td class="align-middle d-none d-md-table-cell">{{ $task->done_date }}</td>
-				</tr>
-			@endforeach
-        </tbody>
-    </table>
+        <table class="table table-sm table-bordered" id="results-table">
+            <thead>
+                <tr>
+                    <th style="width:20px"></th>
+                    <th>Description</th>
+                    <th>Responsible</th>
+                    <th class="d-none d-md-table-cell">Created</th>
+                    <!--<th style="width:180px">Due</th>-->
+                    <th class="d-none d-md-table-cell">Done</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($tasks as $task)
+                    <tr @if ($task->done_date != null) class="table-success" @endif>
+                        <td class="align-middle">
+                            @if ($task->done_date != null)
+                                <a href="{{ route('tasks.setUndone', $task) }}" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
+                            @else
+                                <a href="{{ route('tasks.setDone', $task) }}" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></a>
+                            @endif
+                        </td>
+                        <td class="align-middle"><a href="{{ route('tasks.edit', $task) }}" title="Edit">{{ $task->description }}</a></td>
+                        <td class="align-middle">{{ $task->responsible }}</td>
+                        <td class="align-middle d-none d-md-table-cell">{{ $task->created_at }}</td>
+                        <!-- <td class="align-middle">{{ $task->due_date }}</td> -->
+                        <td class="align-middle d-none d-md-table-cell">{{ $task->done_date }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 	@else
 		<div class="alert alert-info">
             No tasks found.
