@@ -5,7 +5,9 @@
 @section('content')
 
     <span class="pull-right">
-        <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> New user</a> &nbsp;
+        @can('create', App\User::class)
+            <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> New user</a> &nbsp;
+        @endcan
     </span>
 
 	<h1 class="display-4">Users</h1>

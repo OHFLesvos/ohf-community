@@ -5,14 +5,16 @@
 @section('content')
 
     <span class="pull-right">
-        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit user</a> &nbsp;
-        @if ( $user != Auth::user() )
+        @can('update', $user)
+            <a href="{{ route('users.edit', $user) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit user</a> &nbsp;
+        @endcan
+        @can('delete', $user)
             <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
                 {{ csrf_field() }}
                 {{ method_field('DELETE') }}
                 {{ Form::button('<i class="fa fa-trash"></i> Delete user', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }} &nbsp;
             </form>
-        @endif
+        @endcan
         <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
     </span>
 

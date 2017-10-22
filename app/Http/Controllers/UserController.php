@@ -21,6 +21,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('list', User::class);
+
         return view('users.index', [
             'users' => User::orderBy('name')
                 ->paginate()
@@ -34,6 +36,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
+
         return view('users.create');
     }
 
@@ -45,6 +49,8 @@ class UserController extends Controller
      */
     public function store(StoreUser $request)
     {
+        $this->authorize('create', User::class);
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -63,6 +69,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
+
         return view('users.show', [
             'user' => $user
         ]);
@@ -76,6 +84,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
+
         return view('users.edit', [
             'user' => $user
         ]);
@@ -90,9 +100,11 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
+        $this->authorize('update', $user);
+
         $user->name = $request->name;
         $user->email = $request->email;
-        if (isset($request->password)) {
+        if (!empty($request->password)) {
             $user->password = Hash::make($request->password);
         }
         $user->is_super_admin = !empty($request->is_super_admin);
@@ -113,6 +125,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
         $user->delete();
         return redirect()->route('users.index')
             ->with('success', 'User has been deleted.');

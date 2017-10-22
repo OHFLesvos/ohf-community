@@ -43,9 +43,11 @@
 					<li class="nav-item {{ Request::is('tasks*') ? 'active' : '' }}">
 						<a class="nav-link" href="{{ route('tasks.index') }}"><i class="fa fa-tasks"></i> Tasks @if ($num_open_tasks > 0)<span class="badge badge-secondary">{{ $num_open_tasks }}</span>@endif</a>
 					</li>
-					<li class="nav-item {{ Request::is('users*') ? 'active' : '' }}">
-						<a class="nav-link" href="{{ route('users.index') }}"><i class="fa fa-users"></i> Users</a>
-					</li>
+                    @can('create', App\User::class)
+                        <li class="nav-item {{ Request::is('users*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('users.index') }}"><i class="fa fa-users"></i> Users</a>
+                        </li>
+                    @endcan
 				@endauth
 			</ul>
 			<ul class="navbar-nav ml-auto">

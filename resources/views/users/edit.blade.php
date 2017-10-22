@@ -5,7 +5,7 @@
 @section('content')
 
     <span class="pull-right">
-        <a href="{{ route('users.show', $user) }}" class="btn btn-secondary"><i class="fa fa-search"></i> Show user</a> &nbsp;
+        <a href="{{ route('users.show', $user) }}" class="btn btn-secondary"><i class="fa fa-search"></i> View user</a> &nbsp;
         <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
     </span>
 
