@@ -71,7 +71,8 @@
 		<footer class="footer bg-light text-dark">
 			<div class="container-fluid">
 				<p>
-					<a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }} {{ $app_version }}</a> &copy; Nicolas Perrenoud
+					<a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }} {{ $app_version }}</a>
+					<span class="d-none d-sm-inline">&copy; Nicolas Perrenoud</span>
 					<span class="pull-right d-none d-sm-inline">Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms</span>
 				</p>
 			</div>
