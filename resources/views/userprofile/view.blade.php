@@ -57,26 +57,26 @@
                     {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
 
                         <div class="form-group">
-                            {{ Form::label('password_old', 'Old Password') }}
-                            {{ Form::password('password_old', [ 'class' => 'form-control'.($errors->has('password_old') ? ' is-invalid' : ''), 'required' ]) }}
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback">{{ $errors->first('password_old') }}</span>
+                            {{ Form::label('old_password', 'Old Password') }}
+                            {{ Form::password('old_password', [ 'class' => 'form-control'.($errors->has('old_password') ? ' is-invalid' : ''), 'required' ]) }}
+                            @if ($errors->has('old_password'))
+                                <span class="invalid-feedback">{{ $errors->first('old_password') }}</span>
                             @endif
                         </div>
 
                         <div class="form-group">
                             {{ Form::label('password', 'New Password') }}
                             {{ Form::password('password', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
-                            @if ($errors->has('email'))
+                            @if ($errors->has('password'))
                                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
                             @endif
                         </div>
 
                         <div class="form-group">
                             {{ Form::label('password_confirmation', 'Confirm new Password') }}
-                            {{ Form::password('password_confirmation', [ 'class' => 'form-control'.($errors->has('password_confirmation') ? ' is-invalid' : ''), 'required' ]) }}
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback">{{ $errors->first('password_confirmation') }}</span>
+                            {{ Form::password('password_confirmation', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
                             @endif
                         </div>
 

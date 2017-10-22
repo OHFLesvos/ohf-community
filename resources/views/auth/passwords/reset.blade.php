@@ -19,16 +19,16 @@
         <div class="form-group">
             {{ Form::label('password', 'New Password') }}
             {{ Form::password('password', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
-            @if ($errors->has('email'))
+            @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
             @endif
         </div>
 
         <div class="form-group">
             {{ Form::label('password_confirmation', 'Confirm new Password') }}
-            {{ Form::password('password_confirmation', [ 'class' => 'form-control'.($errors->has('password_confirmation') ? ' is-invalid' : ''), 'required' ]) }}
-            @if ($errors->has('email'))
-                <span class="invalid-feedback">{{ $errors->first('password_confirmation') }}</span>
+            {{ Form::password('password_confirmation', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
+            @if ($errors->has('password'))
+                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
             @endif
         </div>
 

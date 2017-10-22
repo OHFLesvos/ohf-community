@@ -33,9 +33,9 @@
 
         <div class="form-group">
             {{ Form::label('password_confirmation', 'Confirm Password') }}
-            {{ Form::password('password_confirmation', ['class' => 'form-control'.($errors->has('password_confirmation') ? ' is-invalid' : ''), 'required' ]) }}
-            @if ($errors->has('password_confirmation'))
-                <span class="invalid-feedback">{{ $errors->first('password_confirmation') }}</span>
+            {{ Form::password('password_confirmation', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
+            @if ($errors->has('password'))
+                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
             @endif
         </div>
 

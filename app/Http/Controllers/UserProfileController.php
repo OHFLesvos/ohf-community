@@ -31,7 +31,7 @@ class UserProfileController extends Controller
                              ->with('success', 'User profile has been updated!');
         }
         return redirect()->route('userprofile')
-                         ->with('info', 'No changed have been made.');
+                         ->with('info', 'No changes have been made.');
     }
 
     public function updatePassword(StoreNewUserPassword $request) {
@@ -43,7 +43,7 @@ class UserProfileController extends Controller
                              ->with('success', 'Password has been updated!');
         }
         return redirect()->route('userprofile')
-                         ->with('info', 'No changed have been made.');
+                         ->with('info', 'No changes have been made.');
     }
 
     public function delete() {
