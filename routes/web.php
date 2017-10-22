@@ -13,6 +13,8 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::resource('users', 'UserController');
+
 Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
 Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
 Route::post('/userprofile/updatePassword', 'UserProfileController@updatePassword')->name('userprofile.updatePassword');
