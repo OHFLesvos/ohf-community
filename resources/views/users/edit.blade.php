@@ -58,6 +58,13 @@
                     </div>
                 </div>
 
+                <div class="form-check">
+                    <label class="form-check-label">
+                        {{ Form::checkbox('is_super_admin', null, null, [ 'class' => 'form-check-input' ]) }}
+                        This user is an administrator
+                    </label>
+                </div>
+
             </div>
         </div>
         <br>

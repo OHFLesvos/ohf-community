@@ -49,6 +49,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
+        $user->is_super_admin = !empty($request->is_super_admin);
         $user->save();
         return redirect()->route('users.index')
             ->with('success', 'User has been added.');
@@ -94,6 +95,7 @@ class UserController extends Controller
         if (isset($request->password)) {
             $user->password = Hash::make($request->password);
         }
+        $user->is_super_admin = !empty($request->is_super_admin);
         if ($user->isDirty()) {
             $user->save();
             return redirect()->route('users.index')

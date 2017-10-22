@@ -28,6 +28,7 @@
                 <tr>
                     <th>Name</th>
                     <th>E-Mail</th>
+                    <th>Administrator</th>
                     <th>Registered</th>
                 </tr>
             </thead>
@@ -36,6 +37,11 @@
                     <tr>
                         <td><a href="{{ route('users.show', $user) }}" title="Edit">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
+                        <td>
+                            @if ( $user->isSuperAdmin() )
+                                <i class="fa fa-check text-success"></i>
+                            @endif
+                        </td>
                         <td>{{ $user->created_at }}</td>
                     </tr>
                 @endforeach

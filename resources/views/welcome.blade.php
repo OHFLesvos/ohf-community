@@ -11,7 +11,7 @@
 			{{ session('status') }}
 		</div>
 	@endif
-	
+
 	<p>Please select a module:</p>
 	<p>
 		<a href="{{ route('people.index') }}" class="btn btn-outline-primary btn-lg"><i class="fa fa-group"></i> <br>People</a> &nbsp;

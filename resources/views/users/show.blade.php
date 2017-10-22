@@ -29,6 +29,7 @@
         <tbody>
             <tr><th>Name</th><td>{{ $user->name }}</td></tr>
             <tr><th>E-Mail</th><td>{{ $user->email }}</td></tr>
+            <tr><th>Administrator</th><td>@if ( $user->isSuperAdmin() )<i class="fa fa-check text-success"></i>@else <i class="fa fa-times"></i>@endif</td></tr>
             <tr><th>Registered</th><td>{{ $user->created_at }}</td></tr>
             <tr><th>Last updated</th><td>{{ $user->updated_at }}</td></tr>
         </tbody>
