@@ -23,8 +23,8 @@
             @endif
             <small><a href="{{ route('password.request') }}">Forgot your password?</a></small>
         </div>
+ 
         <br>
-
         <button type="submit" class="btn btn-primary btn-block">
             Login
         </button>

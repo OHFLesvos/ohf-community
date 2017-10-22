@@ -40,15 +40,12 @@
         </div>
 
         <br>
-        <div>
-            <button type="submit" class="btn btn-primary btn-block">
-                Register
-            </button>
+        <button type="submit" class="btn btn-primary btn-block">
+            Register
+        </button>
 
-            <div class="text-center mt-4">
-                <a href="{{ route('login') }}">Return to login</a>
-            </div>
-
+        <div class="text-center mt-4">
+            <a href="{{ route('login') }}">Return to login</a>
         </div>
 
     {{ Form::close() }}

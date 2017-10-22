@@ -2,17 +2,18 @@
 
 @section('content')
 
-	<h1 class="display-4 text-center">Reset password</h1>
-	<br>
+    <h1 class="display-4 text-center">Reset password</h1>
+    <br>
 
     @if (session('status'))
         <div class="alert alert-success">
-            {{ session('status') }}
+            <i class="fa fa-check"></i> {{ session('status') }}
         </div>
     @endif
+    
+    <p>Please enter your e-mail address. We will send you a link which allows you to reset your password.</p>
 
-    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-        {{ csrf_field() }}
+    {{ Form::open(['route' => 'password.email']) }}
 
         <div class="form-group">
             {{ Form::label('email', 'E-Mail Address') }}
@@ -22,14 +23,15 @@
             @endif
         </div>
 
-        <div>
-            <button type="submit" class="btn btn-primary">
-                Send Password Reset Link
-            </button>
-            <a class="btn btn-link" href="{{ route('login') }}">
-                Cancel
-            </a>
+        <br>
+        <button type="submit" class="btn btn-primary btn-block">
+            Send Password Reset Link
+        </button>
+
+        <div class="text-center mt-4">
+            <a href="{{ route('login') }}">Return to login</a>
         </div>
-    </form>
+
+    {{ Form::close() }}
 
 @endsection
