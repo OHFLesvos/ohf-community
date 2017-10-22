@@ -30,6 +30,7 @@
                 <tr>
                     <th>Name</th>
                     <th>E-Mail</th>
+                    <th>Roles</th>
                     <th>Administrator</th>
                     <th>Registered</th>
                 </tr>
@@ -37,8 +38,13 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td><a href="{{ route('users.show', $user) }}" title="Edit">{{ $user->name }}</a></td>
-                        <td>{{ $user->email }}</td>
+                        <td><a href="{{ route('users.show', $user) }}" title="View user">{{ $user->name }}</a></td>
+                        <td><a href="mailto:{{ $user->email }}" title="Send e-mail">{{ $user->email }}</a></td>
+                        <td>
+                            @foreach ($user->roles->sortBy('name') as $role)
+                                {{ $role->name }}@if (! $loop->last), @endif
+                            @endforeach
+                        </td>
                         <td>
                             @if ( $user->isSuperAdmin() )
                                 <i class="fa fa-check text-success"></i>

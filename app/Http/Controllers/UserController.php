@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Role;
 
 class UserController extends Controller
 {
@@ -38,7 +39,9 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
 
-        return view('users.create');
+        return view('users.create', [
+            'roles' => Role::orderBy('name')->get()
+        ]);
     }
 
     /**
@@ -57,6 +60,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->is_super_admin = !empty($request->is_super_admin);
         $user->save();
+        $user->roles()->sync($request->roles);
         return redirect()->route('users.index')
             ->with('success', 'User has been added.');
     }
@@ -87,7 +91,8 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         return view('users.edit', [
-            'user' => $user
+            'user' => $user,
+            'roles' => Role::orderBy('name')->get()
         ]);
     }
 
@@ -108,6 +113,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->is_super_admin = !empty($request->is_super_admin);
+        $user->roles()->sync($request->roles);
         if ($user->isDirty()) {
             $user->save();
             return redirect()->route('users.index')

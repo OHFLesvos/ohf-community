@@ -30,4 +30,12 @@ class User extends Authenticatable
     public function isSuperAdmin() {
         return $this->is_super_admin;
     }
+
+    /**
+     * The roles that belong to the user.
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role')->withTimestamps();
+    }
 }

@@ -34,6 +34,7 @@ class StoreUser extends FormRequest
                 Rule::unique('users'),
             ],
             'password' => 'required|string|min:6',
+            'roles' => 'array',
         ];
     }
 }
