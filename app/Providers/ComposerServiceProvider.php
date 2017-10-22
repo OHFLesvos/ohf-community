@@ -14,6 +14,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', 'App\Http\ViewComposers\TaskStatusComposer');
+        view()->composer('*', 'App\Http\ViewComposers\AppVersionComposer');
     }
 
     /**

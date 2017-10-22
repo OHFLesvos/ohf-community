@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ config('app.locale') }}">
+<html lang="{{ config('app.locale') }}" class="h-100">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,10 +24,10 @@
 		</script>
 
     </head>
-    <body style="background: #F2F2F2">
+    <body class="h-100 p-0 m-0 bg-light">
 
-		<div class="container">
-			<div class="row justify-content-center">
+		<div class="container h-75">
+			<div class="row justify-content-center align-items-center h-100">
 				<div class="col-md-8 col-lg-6">
 
 					<img src="{{URL::asset('/img/logo_login.png')}}" class="img-fluid text-center my-2 p-4" />
@@ -39,6 +39,8 @@
 
 						</div>
 					</div>
+
+                    <p class="text-center mt-2 text-muted"><small>{{ Config::get('app.product_name') }} &copy; Nicolas Perrenoud</small></p>
 
 				</div>
 			</div>

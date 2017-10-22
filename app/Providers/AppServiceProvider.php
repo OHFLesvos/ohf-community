@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,17 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Database string length
         Schema::defaultStringLength(191);
+
+        // Enforce SSL if running in production
 		if (env('APP_ENV') === 'production') {
 			\URL::forceScheme('https');
 		}
-		
-		// Register directive to output environment name
-		Blade::directive('environment', function ($expression) {
-            return app()->environment();
-        });
-		
-		View::share( 'app_version', \App\Util\ApplicationVersion::get() );
 
 		// Validator to check an password
         Validator::extend('old_password', function ($attribute, $value, $parameters, $validator) {
