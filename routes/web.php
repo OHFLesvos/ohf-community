@@ -15,6 +15,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
 Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
+Route::post('/userprofile/updatePassword', 'UserProfileController@updatePassword')->name('userprofile.updatePassword');
 Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile.delete');
 
 Route::get('/bank', 'BankController@index')->name('bank.index');

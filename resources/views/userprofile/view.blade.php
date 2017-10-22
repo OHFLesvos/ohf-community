@@ -25,6 +25,7 @@
 
     <div class="row">
         <div class="col-md-6">
+
             <div class="card">
                 <div class="card-header">Profile</div>
                 <div class="card-body">
@@ -48,18 +49,64 @@
                     {!! Form::close() !!}
                 </div>
             </div>
+
+            <br>
+            <div class="card">
+                <div class="card-header">Change Password</div>
+                <div class="card-body">
+                    {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
+
+                        <div class="form-group">
+                            {{ Form::label('password_old', 'Old Password') }}
+                            {{ Form::password('password_old', [ 'class' => 'form-control'.($errors->has('password_old') ? ' is-invalid' : ''), 'required' ]) }}
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback">{{ $errors->first('password_old') }}</span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            {{ Form::label('password', 'New Password') }}
+                            {{ Form::password('password', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            {{ Form::label('password_confirmation', 'Confirm new Password') }}
+                            {{ Form::password('password_confirmation', [ 'class' => 'form-control'.($errors->has('password_confirmation') ? ' is-invalid' : ''), 'required' ]) }}
+                            @if ($errors->has('email'))
+                                <span class="invalid-feedback">{{ $errors->first('password_confirmation') }}</span>
+                            @endif
+                        </div>
+
+                        {{ Form::button('<i class="fa fa-save"></i> Update password', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+                    {!! Form::close() !!}
+                </div>
+            </div>
+
         </div>
         <div class="col-md-6">
+
             <div class="card">
-                <div class="card-header">Account information</div>
+                <div class="card-header">Account Information</div>
                 <div class="card-body">
                     <p>Your account has been created on <strong>{{ $user->created_at }}</strong> 
                         and last updated on <strong>{{ $user->updated_at }}</strong>.</p>
+                </div>
+            </div>
+
+            <br>
+            <div class="card">
+                <div class="card-header">Account Removal</div>
+                <div class="card-body">
+                    <p>If you no longer plan to use this service, you can remove your account and delete all associated data.</p>
                     {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
                         {{ Form::button('<i class="fa fa-user-times"></i> Delete account', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_account_button' ]) }}
                     {!! Form::close() !!}
                 </div>
             </div>
+
         </div>
     </div>
 

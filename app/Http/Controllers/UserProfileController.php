@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserProfile;
+use App\Http\Requests\StoreNewUserPassword;
+use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
@@ -14,7 +16,7 @@ class UserProfileController extends Controller
 
     public function index()
     {
-        return view('userprofile', [
+        return view('userprofile.view', [
             'user' => Auth::user()
         ]);
     }
@@ -30,7 +32,19 @@ class UserProfileController extends Controller
         }
         return redirect()->route('userprofile')
                          ->with('info', 'No changed have been made.');
-	}
+    }
+
+    public function updatePassword(StoreNewUserPassword $request) {
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        if ($user->isDirty()) {
+            $user->save();
+            return redirect()->route('userprofile')
+                             ->with('success', 'Password has been updated!');
+        }
+        return redirect()->route('userprofile')
+                         ->with('info', 'No changed have been made.');
+    }
 
     public function delete() {
         $user = Auth::user();
