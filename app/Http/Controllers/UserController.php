@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 
 class UserController extends Controller
@@ -47,6 +48,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->password = Hash::make($request->password);
         $user->save();
         return redirect()->route('users.index')
             ->with('success', 'User has been added.');
@@ -89,6 +91,9 @@ class UserController extends Controller
     {
         $user->name = $request->name;
         $user->email = $request->email;
+        if (isset($request->password)) {
+            $user->password = Hash::make($request->password);
+        }
         if ($user->isDirty()) {
             $user->save();
             return redirect()->route('users.index')
