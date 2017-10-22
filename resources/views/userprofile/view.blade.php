@@ -23,8 +23,7 @@
         </div>
     @endif
 
-    <div class="row">
-        <div class="col-md-6">
+    <div class="card-columns">
 
             <div class="card">
                 <div class="card-header">Profile</div>
@@ -50,7 +49,6 @@
                 </div>
             </div>
 
-            <br>
             <div class="card">
                 <div class="card-header">Change Password</div>
                 <div class="card-body">
@@ -85,9 +83,6 @@
                 </div>
             </div>
 
-        </div>
-        <div class="col-md-6">
-
             <div class="card">
                 <div class="card-header">Account Information</div>
                 <div class="card-body">
@@ -96,7 +91,6 @@
                 </div>
             </div>
 
-            <br>
             <div class="card">
                 <div class="card-header">Account Removal</div>
                 <div class="card-body">
@@ -108,7 +102,6 @@
             </div>
 
         </div>
-    </div>
 
 @endsection
 
