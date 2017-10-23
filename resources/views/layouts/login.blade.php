@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ config('app.locale') }}" class="h-100">
+<html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,11 +24,11 @@
 		</script>
 
     </head>
-    <body class="h-100 p-0 m-0 bg-light">
+    <body class="p-0 m-0 bg-light">
 
-		<div class="container h-75">
-			<div class="row justify-content-center align-items-center h-100">
-				<div class="col-md-8 col-lg-6">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-8 col-lg-6 mt-md-4">
 
 					<img src="{{URL::asset('/img/logo_login.png')}}" class="img-fluid text-center my-2 p-4" />
 
