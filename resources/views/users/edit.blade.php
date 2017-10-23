@@ -1,22 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
+@section('title', 'Edit User')
+
+@section('buttons')
+    <a href="{{ route('users.show', $user) }}" class="btn btn-secondary"><i class="fa fa-search"></i> View user</a>
+    <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
+@endsection
 
 @section('content')
-
-    <span class="pull-right">
-        <a href="{{ route('users.show', $user) }}" class="btn btn-secondary"><i class="fa fa-search"></i> View user</a> &nbsp;
-        <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
-    </span>
-
-    <h1 class="display-4">Edit User</h1>
-	<br>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <i class="fa fa-warning"></i> Validation failed, you have entered invalid values!
-        </div>
-    @endif
 
     {!! Form::model($user, ['route' => ['users.update', $user], 'method' => 'put']) !!}
 

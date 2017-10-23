@@ -116,10 +116,10 @@ class UserController extends Controller
         $user->roles()->sync($request->roles);
         if ($user->isDirty()) {
             $user->save();
-            return redirect()->route('users.index')
+            return redirect()->route('users.show', $user)
                 ->with('success', 'User has been updated.');
         }
-        return redirect()->route('users.index')
+        return redirect()->route('users.show', $user)
             ->with('info', 'No changes have been made.');
     }
 

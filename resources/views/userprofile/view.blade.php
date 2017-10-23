@@ -4,25 +4,6 @@
 
 @section('content')
 
-    <h1 class="display-4">User Profile</h1>
-    <br>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <i class="fa fa-warning"></i> Validation failed, you have entered invalid values!
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success">
-            <i class="fa fa-check"></i> {{ session('success') }}
-        </div>
-    @endif
-    @if (session('info'))
-        <div class="alert alert-info">
-            <i class="fa fa-info-circle"></i> {{ session('info') }}
-        </div>
-    @endif
-
     <div class="card-columns">
 
             <div class="card">

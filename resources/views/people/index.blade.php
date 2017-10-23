@@ -2,32 +2,14 @@
 
 @section('title', 'People')
 
+@section('buttons')
+    <a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a>
+    <a href="{{ route('people.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a>
+    <a href="{{ route('people.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a>
+    <a href="{{ route('people.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
+@endsection
+
 @section('content')
-
-	<span class="pull-right">
-		<a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
-		<a href="{{ route('people.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
-		<a href="{{ route('people.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a> &nbsp;
-		<a href="{{ route('people.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
-	</span>
-
-	<h1 class="display-4">People</h1>
-	<br>
-	
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <p id="result-stats">Loading...</p>
     <table class="table table-sm table-striped table-bordered table-hover" id="results-table">
@@ -58,7 +40,7 @@
         </tbody>
     </table>   
 	<small class="pull-rit text-sm text-right text-muted" id="filter-status"></small>
-    
+
 @endsection
 
 @section('script')

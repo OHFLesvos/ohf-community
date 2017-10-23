@@ -26,7 +26,7 @@
     </head>
     <body>
 
-		<nav class="navbar navbar-expand-lg navbar-dark bg-primary header-nav">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
 			<a class="navbar-brand" href="{{ route('home') }}"><img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -67,6 +67,41 @@
 		</nav>
 
 		<div class="container-fluid">
+
+            @if(View::hasSection('title'))
+                <div class="row mb-4">
+                    <h1 class="display-4 col-md mb-3">@yield('title')</h1>
+                    @if(View::hasSection('buttons'))
+                        <div class="col-md-auto">
+                            @yield('buttons')
+                        </div>
+                    @endif
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    <i class="fa fa-check"></i> {{ session('success') }}
+                </div>
+            @endif
+            @if (session('info'))
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i> {{ session('info') }}
+                </div>
+            @endif
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <i class="fa fa-warning"></i> Validation failed, you have entered invalid values!
+                    {{--
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    --}}
+                </div>
+            @endif
+
             @yield('content')
         </div>
 		

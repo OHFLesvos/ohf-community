@@ -1,36 +1,29 @@
 @extends('layouts.app')
 
-@section('title', 'Tasks')
+@section('title', 'Edit Task')
 
 @section('content')
-
-	<h1 class="display-4">Edit Task</h1>
-	<br>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
 	{!! Form::model($task, ['route' => ['tasks.update', $task]]) !!}
 		<div class="card">
 			<div class="card-body">
-				<div class="row">
+				<div class="form-row">
 					<div class="col-md">
 						<div class="form-group">
 							{{ Form::label('description') }}
-							{{ Form::text('description', null, [ 'class' => 'form-control', 'id' => 'description' ]) }}
+							{{ Form::text('description', null, [ 'class' => 'form-control'.($errors->has('description') ? ' is-invalid' : ''), 'autofocus' ]) }}
+                            @if ($errors->has('description'))
+                                <span class="invalid-feedback">{{ $errors->first('description') }}</span>
+                            @endif                            
 						</div>
 					</div>
 					<div class="col-md">
 						<div class="form-group">
 							{{ Form::label('responsible') }}
-							{{ Form::text('responsible', null, [ 'class' => 'form-control' ]) }}
+							{{ Form::text('responsible', null, [ 'class' => 'form-control'.($errors->has('responsible') ? ' is-invalid' : '') ]) }}
+                            @if ($errors->has('responsible'))
+                                <span class="invalid-feedback">{{ $errors->first('responsible') }}</span>
+                            @endif
 						</div>
 					</div>
 				</div>
@@ -45,9 +38,9 @@
 				Created: {{ $task->created_at }}<br>
 				Last updated: {{ $task->updated_at }}
 			</small>
-			{{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
-			<a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger">Delete</a> &nbsp;
-			<a href="{{ route('tasks.index') }}" class="btn btn-secondary">Cancel</a>
+			{{ Form::button('<i class="fa fa-save"></i> Update', [ 'type' => 'submit', 'name' => 'update', 'class' => 'btn btn-primary' ]) }}
+            <a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+			<a href="{{ route('tasks.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
 		</p>
 	{!! Form::close() !!}
 	
@@ -55,7 +48,6 @@
 
 @section('script')
     $(function(){
-       $('#description').select();
 	   $('.delete-conformation').on('click', function(){
           return confirm('Really delete this task?'); 
        });
