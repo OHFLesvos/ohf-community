@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRole;
+use App\Permission;
 use App\Role;
 
 class RoleController extends Controller
@@ -37,7 +38,7 @@ class RoleController extends Controller
         $this->authorize('create', Role::class);
 
         return view('roles.create', [
-            'roles' => Role::orderBy('name')->get()
+            'permissions' => Permission::orderBy('name')->get()
         ]);
     }
 
@@ -54,6 +55,7 @@ class RoleController extends Controller
         $role = new Role();
         $role->name = $request->name;
         $role->save();
+        $role->permissions()->sync($request->permissions);
         return redirect()->route('roles.index')
             ->with('success', 'Role has been added.');
     }
@@ -84,7 +86,8 @@ class RoleController extends Controller
         $this->authorize('update', $role);
 
         return view('roles.edit', [
-            'role' => $role
+            'role' => $role,
+            'permissions' => Permission::orderBy('name')->get()
         ]);
     }
 
@@ -100,6 +103,7 @@ class RoleController extends Controller
         $this->authorize('update', $role);
 
         $role->name = $request->name;
+        $role->permissions()->sync($request->permissions);
         if ($role->isDirty()) {
             $role->save();
             return redirect()->route('roles.show', $role)

@@ -50,7 +50,7 @@
                     @endcan
                     @can('list', App\Role::class)
                         <li class="nav-item {{ Request::is('roles*') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('roles.index') }}"><i class="fa fa-users"></i> Roles</a>
+                            <a class="nav-link" href="{{ route('roles.index') }}"><i class="fa fa-tags"></i> Roles</a>
                         </li>
                     @endcan
 				@endauth

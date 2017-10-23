@@ -5,24 +5,16 @@ namespace App;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Permission extends Model
 {
     use Sluggable;
 
     /**
-     * The users that belong to the role.
+     * The roles that belong to the permission.
      */
-    public function users()
+    public function roles()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
-    }
-
-    /**
-     * The users that belong to the role.
-     */
-    public function permissions()
-    {
-        return $this->belongsToMany('App\Permission')->withTimestamps();
+        return $this->belongsToMany('App\Role')->withTimestamps();
     }
 
     /**

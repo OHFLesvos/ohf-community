@@ -10,22 +10,44 @@
 
     {!! Form::open(['route' => ['roles.store']]) !!}
 
-        <div class="card mb-4">
-            <div class="card-body">
+        <div class="row">
 
-                <div class="form-row">
-                    <div class="col-md">
-                        <div class="form-group">
-                            {{ Form::label('name') }}
-                            {{ Form::text('name', null, [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
-                            @if ($errors->has('name'))
-                                <span class="invalid-feedback">{{ $errors->first('name') }}</span>
-                            @endif
+            <div class="col-md-8 mb-4">
+                <div class="card">
+                    <div class="card-header">Role</div>
+                    <div class="card-body">
+
+                        <div class="form-row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    {{ Form::label('name') }}
+                                    {{ Form::text('name', null, [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
+                                    @if ($errors->has('name'))
+                                        <span class="invalid-feedback">{{ $errors->first('name') }}</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
-
             </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">Permissions</div>
+                    <div class="card-body">
+                        @forelse ($permissions as $permission)
+                            <label>
+                                {{ Form::checkbox('permissions[]', $permission->id) }} {{ $permission->name }}
+                            </label><br>
+                        @empty
+                            <em>No permissions</em>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         {{ Form::button('<i class="fa fa-save"></i> Create', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;

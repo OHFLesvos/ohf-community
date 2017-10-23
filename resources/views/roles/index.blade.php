@@ -16,6 +16,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Users</th>
+                    <th>Permissions</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                     <tr>
                         <td><a href="{{ route('roles.show', $role) }}" title="View Role">{{ $role->name }}</a></td>
                         <td>{{ $role->users->count()  }}</td>
+                        <td>{{ $role->permissions->count()  }}</td>
                     </tr>
                 @endforeach
             </tbody>
