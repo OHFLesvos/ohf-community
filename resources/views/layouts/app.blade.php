@@ -26,7 +26,7 @@
     </head>
     <body>
 
-		<nav class="navbar navbar-expand-lg navbar-dark bg-primary header-nav">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
 			<a class="navbar-brand" href="{{ route('home') }}"><img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
