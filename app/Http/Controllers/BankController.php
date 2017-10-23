@@ -268,28 +268,28 @@ class BankController extends Controller
 		]);
 	}
     
-	public function updatePerson(StorePerson $request, Person $person) {
-        if (isset($request->delete)) {
-            $person->delete();
-            return redirect()->route('bank.index')
-                    ->with('success', 'Person has been deleted!');		
-        } else {
-            $person->family_name = $request->family_name;
-            $person->name = $request->name;
-            $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
-            $person->case_no = !empty($request->case_no) ? $request->case_no : null;
-            $person->remarks = !empty($request->remarks) ? $request->remarks : null;
-            $person->nationality = !empty($request->nationality) ? $request->nationality : null;
-            $person->languages = !empty($request->languages) ? $request->languages : null;
-            $person->skills = !empty($request->skills) ? $request->skills : null;
-            $person->save();
-            
-            $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
-            
-            return redirect()->route('bank.index')
-                    ->with('success', 'Person has been updated!');		
-        }
-	}
+    public function updatePerson(StorePerson $request, Person $person) {
+        $person->family_name = $request->family_name;
+        $person->name = $request->name;
+        $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+        $person->case_no = !empty($request->case_no) ? $request->case_no : null;
+        $person->remarks = !empty($request->remarks) ? $request->remarks : null;
+        $person->nationality = !empty($request->nationality) ? $request->nationality : null;
+        $person->languages = !empty($request->languages) ? $request->languages : null;
+        $person->skills = !empty($request->skills) ? $request->skills : null;
+        $person->save();
+
+        $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
+
+        return redirect()->route('bank.index')
+            ->with('success', 'Person has been updated!');
+    }
+
+    public function destroyPerson(Person $person) {
+        $person->delete();
+        return redirect()->route('bank.index')
+            ->with('success', 'Person has been deleted!');
+    }
 
 	public function transactions(Person $person) {
 		return view('bank.transactions', [

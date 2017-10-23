@@ -1,16 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'People')
+@section('title', 'People Charts')
+
+@section('buttons')
+    <a href="{{ route('people.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
+@endsection
 
 @section('content')
 
-    <span class="pull-right">
-        <a href="{{ route('people.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
-    </span>
-
-	<h1 class="display-4">Charts</h1>
-	<br>
-    
     <div class="row">
         <div class="col-md-6">
             <div class="card">

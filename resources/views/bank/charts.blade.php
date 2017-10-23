@@ -1,16 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Bank')
+@section('title', 'Bank Charts')
+
+@section('buttons')
+    <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
+@endsection
 
 @section('content')
 
-    <span class="pull-right">
-        <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
-    </span>
-
-	<h1 class="display-4">Charts</h1>
-	<br>
-    
     <div class="row">
         <div class="col-md-6">
             <div class="card">
@@ -20,6 +17,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">Transaction value per day</div>

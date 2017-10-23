@@ -54,25 +54,24 @@ class PeopleController extends Controller
 	}
 
 	public function update(StorePerson $request, Person $person) {
-        if (isset($request->delete)) {
-            $person->delete();
-            return redirect()->route('people.index')
-                    ->with('success', 'Person has been deleted!');		
-        } else {
-            $person->name = $request->name;
-            $person->family_name = $request->family_name;
-            $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
-            $person->case_no = !empty($request->case_no) ? $request->case_no : null;
-            $person->remarks = !empty($request->remarks) ? $request->remarks : null;
-            $person->nationality = !empty($request->nationality) ? $request->nationality : null;
-            $person->languages = !empty($request->languages) ? $request->languages : null;
-            $person->skills = !empty($request->skills) ? $request->skills : null;
-            $person->save();
-            
-            return redirect()->route('people.index')
-                    ->with('success', 'Person has been updated!');		
-        }
+        $person->name = $request->name;
+        $person->family_name = $request->family_name;
+        $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+        $person->case_no = !empty($request->case_no) ? $request->case_no : null;
+        $person->remarks = !empty($request->remarks) ? $request->remarks : null;
+        $person->nationality = !empty($request->nationality) ? $request->nationality : null;
+        $person->languages = !empty($request->languages) ? $request->languages : null;
+        $person->skills = !empty($request->skills) ? $request->skills : null;
+        $person->save();
+        return redirect()->route('people.index')
+                ->with('success', 'Person has been updated!');
 	}
+
+    public function destroy(Person $person) {
+        $person->delete();
+        return redirect()->route('people.index')
+            ->with('success', 'Person has been deleted!');
+    }
 
 	public function filter(Request $request) {
         $condition = [];

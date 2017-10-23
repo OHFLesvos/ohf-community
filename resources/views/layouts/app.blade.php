@@ -72,7 +72,7 @@
                 <div class="row mb-4">
                     <h1 class="display-4 col-md mb-3">@yield('title')</h1>
                     @if(View::hasSection('buttons'))
-                        <div class="col-md-auto">
+                        <div class="col-md-auto text-right">
                             @yield('buttons')
                         </div>
                     @endif
@@ -80,17 +80,23 @@
             @endif
 
             @if (session('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success alert-dismissible fade show">
                     <i class="fa fa-check"></i> {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             @endif
             @if (session('info'))
-                <div class="alert alert-info">
+                <div class="alert alert-info alert-dismissible fade show">
                     <i class="fa fa-info-circle"></i> {{ session('info') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             @endif
             @if (count($errors) > 0)
-                <div class="alert alert-danger">
+                <div class="alert alert-danger alert-dismissible fade show">
                     <i class="fa fa-warning"></i> Validation failed, you have entered invalid values!
                     {{--
                     <ul>
@@ -99,6 +105,9 @@
                         @endforeach
                     </ul>
                     --}}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
                 </div>
             @endif
 

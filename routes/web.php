@@ -33,6 +33,7 @@ Route::post('/bank/person', 'BankController@store')->name('bank.store');
 
 Route::get('/bank/editPerson/{person}', 'BankController@editPerson')->name('bank.editPerson');
 Route::post('/bank/updatePerson/{person}', 'BankController@updatePerson')->name('bank.updatePerson');
+Route::delete('/bank/destroyPerson/{person}', 'BankController@destroyPerson')->name('bank.destroyPerson');
 
 Route::get('/bank/transactions/{person}', 'BankController@transactions')->name('bank.transactions');
 Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');

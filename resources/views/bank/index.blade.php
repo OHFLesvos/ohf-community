@@ -2,33 +2,15 @@
 
 @section('title', 'Bank')
 
+@section('buttons')
+    <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Register</a>
+    <a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a>
+    <a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i> Settings</a>
+    <a href="{{ route('bank.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a>
+    <a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
+@endsection
+
 @section('content')
-
-	<span class="pull-right">
-		<a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Register</a> &nbsp;
-		<a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a> &nbsp;
-		<a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i> Settings</a> &nbsp;
-		<a href="{{ route('bank.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a> &nbsp;
-		<a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
-	</span>
-	
-	<h1 class="display-4">Bank</h1>
-	<br>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
 	<div class="row">
 		<div class="col">

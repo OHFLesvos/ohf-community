@@ -1,31 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Bank')
+@section('title', 'Bank Settings')
+
+@section('buttons')
+    <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
+@endsection
 
 @section('content')
 
-    <span class="pull-right">
-        <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
-    </span>
-
-	<h1 class="display-4">Settings</h1>
-	<br>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-	
     {!! Form::open(['route' => ['bank.updateSettings']]) !!}
 		<div class="card">
 			<div class="card-header">Transactions</div>
@@ -61,9 +43,7 @@
 			</div>
 		</div>
 		<br>
-		<p>
-			{{ Form::submit('Update', [ 'name' => 'update', 'class' => 'btn btn-primary' ]) }} &nbsp;
-		</p>
+        {{ Form::button('<i class="fa fa-save"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
     {!! Form::close() !!}
     
 @endsection
