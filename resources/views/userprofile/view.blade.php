@@ -69,6 +69,13 @@
                 <div class="card-body">
                     <p>Your account has been created on <strong>{{ $user->created_at }}</strong> 
                         and last updated on <strong>{{ $user->updated_at }}</strong>.</p>
+                    @if ( ! $user->roles->isEmpty() )
+                        <p>Your roles:
+                            @foreach ($user->roles->sortBy('name') as $role)
+                                {{ $role->name }}@if (! $loop->last), @endif
+                            @endforeach
+                        </p>
+                    @endif
                 </div>
             </div>
 
