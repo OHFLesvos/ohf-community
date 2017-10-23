@@ -1,25 +1,22 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
+@section('title', 'View User')
+
+@section('buttons')
+    @can('update', $user)
+        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit user</a>
+    @endcan
+    @can('delete', $user)
+        <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+            {{ Form::button('<i class="fa fa-trash"></i> Delete user', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
+        </form>
+    @endcan
+    <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
+@endsection
 
 @section('content')
-
-    <span class="pull-right">
-        @can('update', $user)
-            <a href="{{ route('users.edit', $user) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit user</a> &nbsp;
-        @endcan
-        @can('delete', $user)
-            <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
-                {{ csrf_field() }}
-                {{ method_field('DELETE') }}
-                {{ Form::button('<i class="fa fa-trash"></i> Delete user', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }} &nbsp;
-            </form>
-        @endcan
-        <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
-    </span>
-
-    <h1 class="display-4">View User</h1>
-	<br>
 
     @if ( $user == Auth::user() )
         <div class="alert alert-info">

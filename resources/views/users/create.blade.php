@@ -1,21 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
+@section('title', 'Create User')
+
+@section('buttons')
+    <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
+@endsection
 
 @section('content')
-
-    <span class="pull-right">
-        <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
-    </span>
-
-    <h1 class="display-4">Create User</h1>
-	<br>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <i class="fa fa-warning"></i> Validation failed, you have entered invalid values!
-        </div>
-    @endif
 
     {!! Form::open(['route' => ['users.store']]) !!}
 

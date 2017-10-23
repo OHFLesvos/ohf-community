@@ -2,50 +2,45 @@
 
 @section('title', 'Tasks')
 
+@section('buttons')
+    @if (count($errors) == 0)
+        <p><button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add new task</button></p>
+    @endif
+@endsection
+
 @section('content')
 
-	<h1 class="display-4">Tasks</h1>
-	<br>
-
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-	@if (count($errors) == 0)
-	<p><button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus"></i> Add new task</button></p>
-	@endif
-	<div class="card" id="create-task-container" @if (count($errors) == 0) style="display: none;" @endif>
+	<div class="card mb-4" id="create-task-container" @if (count($errors) == 0) style="display: none;" @endif>
 		<div class="card-header">
 			New Task
 		</div>
 		<div class="card-body">
 			{!! Form::open(['route' => 'tasks.store']) !!}
-			<div class="row">
+			<div class="form-row">
 				<div class="col-md">
 					<div class="form-group">
-						{{ Form::text('description', null, [ 'class' => 'form-control', 'id' => 'description', 'placeholder' => 'Description'  ]) }}
+						{{ Form::text('description', null, [ 'class' => 'form-control'.($errors->has('description') ? ' is-invalid' : ''), 'placeholder' => 'Description', 'autofocus'  ]) }}
+                        @if ($errors->has('description'))
+                            <span class="invalid-feedback">{{ $errors->first('description') }}</span>
+                        @endif
 					</div>
 				</div>
 				<div class="col-md">
 					<div class="form-group">
-						{{ Form::text('responsible', null, [ 'class' => 'form-control', 'placeholder' => 'Responsible' ]) }}
+						{{ Form::text('responsible', Auth::user()->name, [ 'class' => 'form-control'.($errors->has('responsible') ? ' is-invalid' : ''), 'placeholder' => 'Responsible' ]) }}
+                        @if ($errors->has('responsible'))
+                            <span class="invalid-feedback">{{ $errors->first('responsible') }}</span>
+                        @endif
 					</div>
 				</div>
 				<div class="col-md-auto">
-					{{ Form::submit('Add', [ 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
+					{{ Form::button('<i class="fa fa-plus-circle"></i> Add', [ 'type' => 'submit', 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
 				</div>
 			</div>
 			{!! Form::close() !!}
 		</div>
 	</div>
-	<br>
-	
+
 	@if( ! $tasks->isEmpty() )
         <table class="table table-sm table-bordered" id="results-table">
             <thead>
@@ -77,9 +72,10 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $tasks->links('vendor.pagination.bootstrap-4') }}
 	@else
 		<div class="alert alert-info">
-            No tasks found.
+            <i class="fa fa-info-circle"></i> No tasks found.
         </div>
 	@endif
 	
@@ -87,7 +83,6 @@
 
 @section('script')
     $(function(){
-		$('#description').focus();
 		$('#create-task-button').on('click', function(){
 			$(this).parent().hide();
 			$('#create-task-container').show();
