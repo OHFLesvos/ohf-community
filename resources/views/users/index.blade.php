@@ -55,7 +55,9 @@
                 @endforeach
             </tbody>
         </table>
-	@else
+		{{ $users->links('vendor.pagination.bootstrap-4') }}
+ 
+    @else
 		<div class="alert alert-info">
             No users found.
         </div>
