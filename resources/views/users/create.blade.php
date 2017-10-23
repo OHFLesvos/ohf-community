@@ -14,7 +14,7 @@
 
             <div class="col-md-8 mb-4">
                 <div class="card">
-                    <div class="card-header">User profile</div>
+                    <div class="card-header">User Profile</div>
                     <div class="card-body">
 
                         <div class="form-row">

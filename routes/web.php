@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('users', 'UserController');
+Route::resource('roles', 'RoleController');
 
 Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
 Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
