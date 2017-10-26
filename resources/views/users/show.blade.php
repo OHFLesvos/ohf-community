@@ -13,7 +13,7 @@
             {{ Form::button('<i class="fa fa-trash"></i> Delete User', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
         </form>
     @endcan
-    <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
+    <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>
 @endsection
 
 @section('content')

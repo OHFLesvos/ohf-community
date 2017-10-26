@@ -2,6 +2,11 @@
 
 @section('title', 'Edit Task')
 
+@section('buttons')
+    <a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+    <a href="{{ route('tasks.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+@endsection
+
 @section('content')
 
 	{!! Form::model($task, ['route' => ['tasks.update', $task]]) !!}
@@ -39,8 +44,6 @@
 				Last updated: {{ $task->updated_at }}
 			</small>
 			{{ Form::button('<i class="fa fa-save"></i> Update', [ 'type' => 'submit', 'name' => 'update', 'class' => 'btn btn-primary' ]) }}
-            <a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
-			<a href="{{ route('tasks.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
 		</p>
 	{!! Form::close() !!}
 	

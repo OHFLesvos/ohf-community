@@ -3,7 +3,7 @@
 @section('title', 'Create Role')
 
 @section('buttons')
-    <a href="{{ route('roles.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
+    <a href="{{ route('roles.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
 @endsection
 
 @section('content')

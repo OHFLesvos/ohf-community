@@ -11,40 +11,67 @@
 // Font Awesome
 @import "node_modules/font-awesome/scss/font-awesome";
 
+/* Layout */
+
+.site-header {
+  flex: 0 0 auto;
+}
+
+.navbar .btn {
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.navbar .btn + .btn,
+.navbar form + .btn,
+.navbar .btn + form {
+  margin-left: 0.5em;
+}
+
+.main-wrapper {
+  flex: 1;
+  overflow: auto;
+}
+
+.main {
+  flex: 1;
+}
+
+.sidebar {
+  overflow-y: auto;
+  flex: 0 0 auto;
+}
+
+.sidebar .nav {
+  flex: 1;
+}
+
+.sidebar .nav-item i + span {
+  margin-left: 0.5em;
+}
+
+.sidebar .footer {
+  flex: 0 0 auto;
+}
+
+.sidebar .footer .copyright {
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.main-content {
+  overflow: auto;
+  flex: 1;
+}
+
 /* Filter */
 
 .filter-container {
-    line-height: 0.4em;
+  line-height: 0.4em;
 }
 
 .filter-container label {
-    font-weight: normal;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-
-.footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	/* Set the fixed height of the footer here */
-	height: 30px;
-	border-top: 1px solid $gray-300;
-}
-
-.footer p {
-	font-size: 12px;
-	line-height: 12px;
-	margin-top: 9px;
-	margin-bottom: 0;
+  font-weight: normal;
 }

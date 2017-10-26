@@ -3,8 +3,7 @@
 @section('title', 'Edit User')
 
 @section('buttons')
-    <a href="{{ route('users.show', $user) }}" class="btn btn-secondary"><i class="fa fa-search"></i> View User</a>
-    <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a>
+    <a href="{{ route('users.show', $user) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
 @endsection
 
 @section('content')

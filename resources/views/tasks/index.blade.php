@@ -4,7 +4,7 @@
 
 @section('buttons')
     @if (count($errors) == 0)
-        <p><button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add new task</button></p>
+        <button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add new task</button>
     @endif
 @endsection
 
