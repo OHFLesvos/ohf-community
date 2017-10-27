@@ -3,11 +3,11 @@
 @section('title', 'Bank')
 
 @section('buttons')
-    <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Register</a>
-    <a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a>
-    <a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i> Settings</a>
-    <a href="{{ route('bank.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a>
-    <a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
+    <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i><span class=" d-none d-md-inline"> Register</span></a>
+    <a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i><span class=" d-none d-md-inline">  Charts</span></a>
+    <a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i><span class=" d-none d-md-inline">  Settings</span></a>
+    <a href="{{ route('bank.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i><span class=" d-none d-md-inline">  Export</span></a>
+    <a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i><span class=" d-none d-md-inline">  Import</span></a>
 @endsection
 
 @section('content')
