@@ -4,7 +4,7 @@
 
 @section('buttons')
     @can('create', App\User::class)
-        <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add User</a>
+        <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add</a>
     @endcan
 @endsection
 

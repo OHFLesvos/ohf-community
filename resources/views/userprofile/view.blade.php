@@ -25,7 +25,7 @@
                                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
                             @endif
                         </div>
-                        {{ Form::button('<i class="fa fa-save"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+                        {{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -59,7 +59,7 @@
                             @endif
                         </div>
 
-                        {{ Form::button('<i class="fa fa-save"></i> Update password', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+                        {{ Form::button('<i class="fa fa-check"></i> Update password', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
                     {!! Form::close() !!}
                 </div>
             </div>

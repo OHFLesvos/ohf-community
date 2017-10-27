@@ -4,13 +4,13 @@
 
 @section('buttons')
     @can('update', $user)
-        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit User</a>
+        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
     @endcan
     @can('delete', $user)
         <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
             {{ csrf_field() }}
             {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i> Delete User', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
+            {{ Form::button('<i class="fa fa-trash"></i> Delete', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
         </form>
     @endcan
     <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>

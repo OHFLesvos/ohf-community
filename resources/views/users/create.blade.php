@@ -78,7 +78,7 @@
 
         </div>
 
-        {{ Form::button('<i class="fa fa-save"></i> Create', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;
+        {{ Form::button('<i class="fa fa-check"></i> Create', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;
     {!! Form::close() !!}
 
 @endsection

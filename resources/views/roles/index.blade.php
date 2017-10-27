@@ -4,7 +4,7 @@
 
 @section('buttons')
     @can('create', App\Role::class)
-        <a href="{{ route('roles.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add Role</a>
+        <a href="{{ route('roles.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add</a>
     @endcan
 @endsection
 

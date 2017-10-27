@@ -88,7 +88,7 @@
 
 		<div class="row">
             <div class="col-md mb-2">
-                {{ Form::button('<i class="fa fa-save"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+                {{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
             </div>
             <div class="col-md-auto text-right">
                 <small class="text-muted">

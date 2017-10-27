@@ -34,7 +34,7 @@
                         <img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}
                     </a>
                     @if(View::hasSection('title'))
-                        <span class="text-light ml-3">@yield('title')</span>
+                        <span class="text-light ml-4">@yield('title')</span>
                     @endif
                 </span>
                 @if(View::hasSection('buttons'))

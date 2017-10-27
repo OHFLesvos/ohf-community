@@ -4,7 +4,7 @@
 
 @section('buttons')
     @if (count($errors) == 0)
-        <button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add new task</button>
+        <button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add</button>
     @endif
 @endsection
 
@@ -19,7 +19,7 @@
 			<div class="form-row">
 				<div class="col-md">
 					<div class="form-group">
-						{{ Form::text('description', null, [ 'class' => 'form-control'.($errors->has('description') ? ' is-invalid' : ''), 'placeholder' => 'Description', 'autofocus'  ]) }}
+						{{ Form::text('description', null, [ 'class' => 'form-control'.($errors->has('description') ? ' is-invalid' : ''), 'id' => 'description', 'placeholder' => 'Description', 'autofocus'  ]) }}
                         @if ($errors->has('description'))
                             <span class="invalid-feedback">{{ $errors->first('description') }}</span>
                         @endif
@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div class="col-md-auto">
-					{{ Form::button('<i class="fa fa-plus-circle"></i> Add', [ 'type' => 'submit', 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
+					{{ Form::button('<i class="fa fa-check"></i> Save', [ 'type' => 'submit', 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
 				</div>
 			</div>
 			{!! Form::close() !!}

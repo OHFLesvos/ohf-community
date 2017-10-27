@@ -81,7 +81,7 @@
 			</div>
 		</div>
 
-		{{ Form::button('<i class="fa fa-plus-circle"></i> Register', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+		{{ Form::button('<i class="fa fa-check"></i> Register', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
     {!! Form::close() !!}
     
 @endsection

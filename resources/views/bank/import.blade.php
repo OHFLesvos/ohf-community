@@ -2,6 +2,10 @@
 
 @section('title', 'Upload Bank Data')
 
+@section('buttons')
+    <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+@endsection
+
 @section('content')
 
     {!! Form::open(['route' => 'bank.doImport', 'files' => true]) !!}
@@ -13,8 +17,7 @@
             </div>
         </div>
 
-        {{ Form::submit('Import', [ 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
-        <a href="{{ route('bank.index') }}" class="btn btn-secondary">Cancel</a>
+        {{ Form::button('<i class="fa fa-upload"></i> Import', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;
     {!! Form::close() !!}
     
 @endsection

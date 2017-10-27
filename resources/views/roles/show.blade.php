@@ -4,13 +4,13 @@
 
 @section('buttons')
     @can('update', $role)
-        <a href="{{ route('roles.edit', $role) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit Role</a>
+        <a href="{{ route('roles.edit', $role) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
     @endcan
     @can('delete', $role)
         <form method="POST" action="{{ route('roles.destroy', $role) }}" class="d-inline">
             {{ csrf_field() }}
             {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i> Delete Role', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
+            {{ Form::button('<i class="fa fa-trash"></i> Delete', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
         </form>
     @endcan
     <a href="{{ route('roles.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>

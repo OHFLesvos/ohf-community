@@ -43,7 +43,7 @@
 				Created: {{ $task->created_at }}<br>
 				Last updated: {{ $task->updated_at }}
 			</small>
-			{{ Form::button('<i class="fa fa-save"></i> Update', [ 'type' => 'submit', 'name' => 'update', 'class' => 'btn btn-primary' ]) }}
+			{{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'name' => 'update', 'class' => 'btn btn-primary' ]) }}
 		</p>
 	{!! Form::close() !!}
 	
