@@ -22,16 +22,22 @@ class PeopleController extends Controller
     }
 
     function index() {
+        $this->authorize('list', Person::class);
+
 		return view('people.index', [
 		]);
     }
 
     public function create() {
-		return view('people.create', [
+        $this->authorize('create', Person::class);
+
+        return view('people.create', [
 		]);
     }
 
 	public function store(StorePerson $request) {
+        $this->authorize('create', Person::class);
+
         $person = new Person();
 		$person->name = $request->name;
 		$person->family_name = $request->family_name;
@@ -48,12 +54,16 @@ class PeopleController extends Controller
 	}
 
 	public function edit(Person $person) {
-		return view('people.edit', [
+        $this->authorize('update', Person::class);
+
+        return view('people.edit', [
             'person' => $person
 		]);
 	}
 
 	public function update(StorePerson $request, Person $person) {
+        $this->authorize('update', Person::class);
+
         $person->name = $request->name;
         $person->family_name = $request->family_name;
         $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
@@ -68,12 +78,16 @@ class PeopleController extends Controller
 	}
 
     public function destroy(Person $person) {
+        $this->authorize('delete', Person::class);
+
         $person->delete();
         return redirect()->route('people.index')
             ->with('success', 'Person has been deleted!');
     }
 
 	public function filter(Request $request) {
+        $this->authorize('list', Person::class);
+
         $condition = [];
         foreach (['name', 'family_name', 'case_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'] as $k) {
             if (!empty($request->$k)) {
@@ -95,6 +109,8 @@ class PeopleController extends Controller
 	}
     
     public function export() {
+        $this->authorize('list', Person::class);
+
         \Excel::create('OHF_Community_' . Carbon::now()->toDateString(), function($excel) {
             $dm = Carbon::create();
             $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
@@ -109,11 +125,15 @@ class PeopleController extends Controller
     }
 
     function import() {
-		return view('people.import', [
+        $this->authorize('create', Person::class);
+
+        return view('people.import', [
 		]);
     }
 
     function doImport(Request $request) {
+        $this->authorize('create', Person::class);
+
         $this->validate($request, [
             'file' => 'required|file',
         ]);

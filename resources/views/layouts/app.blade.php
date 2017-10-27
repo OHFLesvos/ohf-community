@@ -34,9 +34,11 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				@auth
+                    @can('list', App\Person::class)
 					<li class="nav-item {{ Request::is('people*') ? 'active' : '' }}">
 						<a class="nav-link" href="{{ route('people.index') }}"><i class="fa fa-group"></i> People</a>
 					</li>
+                    @endcan
 					<li class="nav-item {{ Request::is('bank*') ? 'active' : '' }}">
 						<a class="nav-link" href="{{ route('bank.index') }}"><i class="fa fa-bank"></i> Bank</a>
 					</li>

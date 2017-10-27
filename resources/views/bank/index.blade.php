@@ -3,11 +3,15 @@
 @section('title', 'Bank')
 
 @section('buttons')
-    <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Register</a>
+    @can('create', App\Person::class)
+        <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Register</a>
+    @endcan
     <a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i> Charts</a>
     <a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i> Settings</a>
     <a href="{{ route('bank.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i> Export</a>
-    <a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
+    @can('create', App\Person::class)
+        <a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i> Import</a>
+    @endcan
 @endsection
 
 @section('content')

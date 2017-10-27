@@ -104,13 +104,9 @@ class RoleController extends Controller
 
         $role->name = $request->name;
         $role->permissions()->sync($request->permissions);
-        if ($role->isDirty()) {
-            $role->save();
-            return redirect()->route('roles.show', $role)
-                ->with('success', 'Role has been updated.');
-        }
+        $role->save();
         return redirect()->route('roles.show', $role)
-            ->with('info', 'No changes have been made.');
+            ->with('success', 'Role has been updated.');
     }
 
     /**
