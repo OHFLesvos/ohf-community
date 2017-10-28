@@ -58,9 +58,11 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}"><i class="fa fa-home"></i><span class=" d-none d-sm-inline">  Dashboard</span></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ Request::is('people*') ? 'active' : '' }}" href="{{ route('people.index') }}"><i class="fa fa-group"></i><span class=" d-none d-sm-inline">  People</span></a>
-                            </li>
+                            @can('list', App\Person::class)
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::is('people*') ? 'active' : '' }}" href="{{ route('people.index') }}"><i class="fa fa-group"></i><span class=" d-none d-sm-inline">  People</span></a>
+                                </li>
+                            @endcan
                             <li class="nav-item">
                                 <a class="nav-link {{ Request::is('bank*') ? 'active' : '' }}" href="{{ route('bank.index') }}"><i class="fa fa-bank"></i><span class=" d-none d-sm-inline">  Bank</span></a>
                             </li>

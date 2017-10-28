@@ -22,5 +22,14 @@ class RolesSeeder extends Seeder
                 'name' => $name,
             ]);
         }
+
+        foreach ([
+                    'Manage People',
+                    'Manage Bank Transactions',
+                 ] as $name) {
+            \App\Permission::create([
+                'name' => $name,
+            ]);
+        }
     }
 }
