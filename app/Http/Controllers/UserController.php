@@ -112,7 +112,7 @@ class UserController extends Controller
         if (!empty($request->password)) {
             $user->password = Hash::make($request->password);
         }
-        $user->is_super_admin = !empty($request->is_super_admin);
+        $user->is_super_admin = !empty($request->is_super_admin) || User::count() == 1;
         $user->roles()->sync($request->roles);
         if ($user->isDirty()) {
             $user->save();
