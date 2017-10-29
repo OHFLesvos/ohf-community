@@ -15,6 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     {
         view()->composer('*', 'App\Http\ViewComposers\TaskStatusComposer');
         view()->composer('*', 'App\Http\ViewComposers\AppVersionComposer');
+        view()->composer('*', 'App\Http\ViewComposers\NavigationComposer');
     }
 
     /**

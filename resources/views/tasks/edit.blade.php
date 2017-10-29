@@ -3,7 +3,9 @@
 @section('title', 'Edit Task')
 
 @section('buttons')
-    <a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+	@can('delete', $task)
+        <a href="{{ route('tasks.delete', $task) }}" class="delete-conformation btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+    @endcan
     <a href="{{ route('tasks.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
 @endsection
 

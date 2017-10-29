@@ -3,9 +3,11 @@
 @section('title', 'Tasks')
 
 @section('buttons')
-    @if (count($errors) == 0)
-        <button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add</button>
-    @endif
+    @can('create', App\Task::class)
+        @if (count($errors) == 0)
+            <button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add</button>
+        @endif
+    @endcan
 @endsection
 
 @section('content')
@@ -58,12 +60,32 @@
                     <tr @if ($task->done_date != null) class="table-success" @endif>
                         <td class="align-middle">
                             @if ($task->done_date != null)
-                                <a href="{{ route('tasks.setUndone', $task) }}" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>
+                                @can('update', $task)
+                                    <a href="{{ route('tasks.setUndone', $task) }}" class="btn btn-success btn-sm">
+                                @endcan
+                                    <i class="fa fa-check"></i>
+                                @can('update', $task)
+                                    </a>
+                                @endcan
                             @else
-                                <a href="{{ route('tasks.setDone', $task) }}" class="btn btn-outline-success btn-sm"><i class="fa fa-check"></i></a>
+                                @can('update', $task)
+                                    <a href="{{ route('tasks.setDone', $task) }}" class="btn btn-outline-success btn-sm">
+                                @endcan
+                                    <i class="fa fa-check"></i>
+                                @can('update', $task)
+                                    </a>
+                                @endcan
                             @endif
                         </td>
-                        <td class="align-middle"><a href="{{ route('tasks.edit', $task) }}" title="Edit">{{ $task->description }}</a></td>
+                        <td class="align-middle">
+                            @can('update', $task)
+                                <a href="{{ route('tasks.edit', $task) }}" title="Edit">
+                            @endcan
+                                {{ $task->description }}
+                            @can('update', $task)
+                                </a>
+                            @endcan
+                        </td>
                         <td class="align-middle">{{ $task->responsible }}</td>
                         <td class="align-middle d-none d-md-table-cell">{{ $task->created_at }}</td>
                         <!-- <td class="align-middle">{{ $task->due_date }}</td> -->

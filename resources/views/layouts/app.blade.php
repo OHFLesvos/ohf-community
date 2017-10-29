@@ -54,32 +54,19 @@
 
                     {{-- Navigation --}}
                     <ul class="nav flex-column nav-pills my-3">
-                        @auth
-                            <li class="nav-item">
-                                <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}"><i class="fa fa-home"></i><span class=" d-none d-sm-inline">  Dashboard</span></a>
-                            </li>
-                            @can('list', App\Person::class)
+                        @foreach ($nav as $n)
+                            @if ($n['authorized'])
                                 <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('people*') ? 'active' : '' }}" href="{{ route('people.index') }}"><i class="fa fa-group"></i><span class=" d-none d-sm-inline">  People</span></a>
+                                    <a class="nav-link {{ Request::is($n['active']) ? 'active' : '' }}" href="{{ route($n['route']) }}">
+                                        <i class="fa fa-{{ $n['icon'] }}" title="{{ $n['caption'] }}"></i>
+                                        <span class=" d-none d-sm-inline">  {{ $n['caption'] }}</span>
+                                        @if ($n['route'] == 'tasks.index' and $num_open_tasks > 0)
+                                            <span class="badge badge-secondary">{{ $num_open_tasks }}</span>
+                                        @endif
+                                    </a>
                                 </li>
-                            @endcan
-                            <li class="nav-item">
-                                <a class="nav-link {{ Request::is('bank*') ? 'active' : '' }}" href="{{ route('bank.index') }}"><i class="fa fa-bank"></i><span class=" d-none d-sm-inline">  Bank</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ Request::is('tasks*') ? 'active' : '' }}" href="{{ route('tasks.index') }}"><i class="fa fa-tasks"></i><span class=" d-none d-sm-inline">  Tasks @if ($num_open_tasks > 0)<span class="badge badge-secondary">{{ $num_open_tasks }}</span>@endif</span></a>
-                            </li>
-                            @can('list', App\User::class)
-                                <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}"><i class="fa fa-users"></i><span class=" d-none d-sm-inline">  Users</span></a>
-                                </li>
-                            @endcan
-                            @can('list', App\Role::class)
-                                <li class="nav-item">
-                                    <a class="nav-link {{ Request::is('roles*') ? 'active' : '' }}" href="{{ route('roles.index') }}"><i class="fa fa-tags"></i><span class=" d-none d-sm-inline"> Roles</span></a>
-                                </li>
-                            @endcan
-                        @endauth
+                            @endif
+                        @endforeach
                     </ul>
 
                     {{-- Footer --}}

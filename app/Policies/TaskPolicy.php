@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
+use App\Task;
 use App\User;
-use App\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+class TaskPolicy
 {
     use HandlesAuthorization;
 
@@ -18,7 +18,7 @@ class RolePolicy
     }
 
     /**
-     * Determine whether the user can list models.
+     * Determine whether the user can list tasks.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -29,19 +29,19 @@ class RolePolicy
     }
 
     /**
-     * Determine whether the user can view the role.
+     * Determine whether the user can view the task.
      *
      * @param  \App\User  $user
-     * @param  \App\Role  $role
+     * @param  \App\Task  $task
      * @return mixed
      */
-    public function view(User $user, Role $role)
+    public function view(User $user, Task $task)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can create roles.
+     * Determine whether the user can create tasks.
      *
      * @param  \App\User  $user
      * @return mixed
@@ -52,25 +52,25 @@ class RolePolicy
     }
 
     /**
-     * Determine whether the user can update the role.
+     * Determine whether the user can update the task.
      *
      * @param  \App\User  $user
-     * @param  \App\Role  $role
+     * @param  \App\Task  $task
      * @return mixed
      */
-    public function update(User $user, Role $role)
+    public function update(User $user, Task $task)
     {
         return false;
     }
 
     /**
-     * Determine whether the user can delete the role.
+     * Determine whether the user can delete the task.
      *
      * @param  \App\User  $user
-     * @param  \App\Role  $role
+     * @param  \App\Task  $task
      * @return mixed
      */
-    public function delete(User $user, Role $role)
+    public function delete(User $user, Task $task)
     {
         return false;
     }

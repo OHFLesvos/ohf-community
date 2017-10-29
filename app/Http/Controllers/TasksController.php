@@ -19,13 +19,21 @@ class TasksController extends Controller {
     }
 
     function index() {
+        $this->authorize('list', Task::class);
+
 		return view('tasks.index', [
 			'tasks' => Task::orderBy('created_at', 'desc')
-				->paginate()
+                ->get()
+                ->filter(function ($value, $key) {
+                    return $this->authorize('view', $value);
+                })
+                ->paginate()
 		]);
     }
 
 	public function store(StoreTask $request) {
+        $this->authorize('create', Task::class);
+
         $task = new Task();
 		$task->description = $request->description;
 		$task->responsible = $request->responsible;
@@ -36,12 +44,16 @@ class TasksController extends Controller {
 	}
 	
 	public function edit(Task $task) {
+        $this->authorize('update', $task);
+
 		return view('tasks.edit', [
 			'task' => $task
 		]);
 	}
 
 	public function update(Task $task, StoreTask $request) {
+        $this->authorize('update', $task);
+
 		$task->description = $request->description;
 		$task->responsible = $request->responsible;
 		$task->save();
@@ -51,6 +63,8 @@ class TasksController extends Controller {
 	}
 
 	public function delete(Task $task) {
+        $this->authorize('delete', $task);
+
 		$task->delete();
 
 		return redirect()->route('tasks.index')
@@ -58,6 +72,8 @@ class TasksController extends Controller {
 	}
 
 	public function setDone(Task $task) {
+        $this->authorize('update', $task);
+
 		$task->done_date = Carbon::now();
 		$task->save();
 
@@ -66,6 +82,8 @@ class TasksController extends Controller {
 	}
 
 	public function setUndone(Task $task) {
+        $this->authorize('update', $task);
+
 		$task->done_date = null;
 		$task->save();
 
