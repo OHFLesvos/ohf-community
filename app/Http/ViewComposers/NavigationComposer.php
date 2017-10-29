@@ -7,6 +7,7 @@ use App\Role;
 use App\Task;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class NavigationComposer {
@@ -49,7 +50,7 @@ class NavigationComposer {
                     'caption' => 'Bank',
                     'icon' => 'bank',
                     'active' => 'bank*',
-                    'authorized' => Auth::user()->can('list', Person::class)
+                    'authorized' => Gate::allows('use-bank')
                 ],
                 [
                     'route' => 'tasks.index',
