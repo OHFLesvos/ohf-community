@@ -25,7 +25,7 @@ class PersonPolicy
      */
     public function list(User $user)
     {
-        return $user->roles->where('slug', 'banker')->count() > 0;
+        return $user->hasPermission('people.manage');
     }
 
     /**
@@ -37,7 +37,7 @@ class PersonPolicy
      */
     public function view(User $user, Person $person)
     {
-        return false;
+        return $user->hasPermission('people.manage');
     }
 
     /**
@@ -48,7 +48,7 @@ class PersonPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->hasPermission('people.manage');
     }
 
     /**
@@ -60,7 +60,7 @@ class PersonPolicy
      */
     public function update(User $user, Person $person)
     {
-        return false;
+        return $user->hasPermission('people.manage');
     }
 
     /**
@@ -72,6 +72,6 @@ class PersonPolicy
      */
     public function delete(User $user, Person $person)
     {
-        return false;
+        return $user->hasPermission('people.manage');
     }
 }

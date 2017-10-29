@@ -99,4 +99,10 @@ return [
         ],
     ],
 
+
+    'permissions' => [
+        'bank.use' => 'Use bank',
+        'people.manage' => 'Manage people',
+        'tasks.use' => 'Use tasks'
+    ]
 ];

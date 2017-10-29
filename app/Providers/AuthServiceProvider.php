@@ -29,8 +29,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('use-bank', function ($user) {
-            // TODO $user->can('list', Person::class)
-            return $user->isSuperAdmin();
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
+            return $user->hasPermission('bank.use');
         });
+
     }
 }

@@ -38,4 +38,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Role')->withTimestamps();
     }
+
+    public function hasPermission($permissionKey) {
+        return $this->roles->contains(function($role) use($permissionKey) { return $role->permissions->contains(function($value) use($permissionKey) { return $value->key == $permissionKey; }); });
+    }
 }

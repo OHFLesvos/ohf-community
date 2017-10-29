@@ -54,7 +54,7 @@ class PeopleController extends Controller
 	}
 
 	public function edit(Person $person) {
-        $this->authorize('update', Person::class);
+        $this->authorize('update', $person);
 
         return view('people.edit', [
             'person' => $person
@@ -62,7 +62,7 @@ class PeopleController extends Controller
 	}
 
 	public function update(StorePerson $request, Person $person) {
-        $this->authorize('update', Person::class);
+        $this->authorize('update', $person);
 
         $person->name = $request->name;
         $person->family_name = $request->family_name;
@@ -78,7 +78,7 @@ class PeopleController extends Controller
 	}
 
     public function destroy(Person $person) {
-        $this->authorize('delete', Person::class);
+        $this->authorize('delete', $person);
 
         $person->delete();
         return redirect()->route('people.index')

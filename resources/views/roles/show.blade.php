@@ -21,13 +21,14 @@
     <table class="table">
         <tbody>
             <tr><th>Name</th><td>{{ $role->name }}</td></tr>
-            <tr><th>Slug</th><td>{{ $role->slug }}</td></tr>
             <tr><th>Users</th><td>{{ $role->users->count() }}</td></tr>
             <tr>
                 <th>Permissions</th>
                 <td>
-                    @forelse ($role->permissions->sortBy('name') as $permission)
-                        {{ $permission->name }}<br>
+                   @forelse ($role->permissions->sortBy('key') as $permission)
+                        @if ( isset( $permissions[$permission->key] ) )
+                            {{ $permissions[$permission->key] }}<br>
+                        @endif
                     @empty
                         <em>No permissions</em>
                     @endforelse

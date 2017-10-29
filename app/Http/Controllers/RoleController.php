@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRole;
-use App\Permission;
 use App\Role;
+use App\RolePermission;
+use Illuminate\Support\Facades\Config;
 
 class RoleController extends Controller
 {
@@ -38,7 +39,7 @@ class RoleController extends Controller
         $this->authorize('create', Role::class);
 
         return view('roles.create', [
-            'permissions' => Permission::orderBy('name')->get()
+            'permissions' => Config::get('auth.permissions')
         ]);
     }
 
@@ -55,7 +56,14 @@ class RoleController extends Controller
         $role = new Role();
         $role->name = $request->name;
         $role->save();
-        $role->permissions()->sync($request->permissions);
+
+        foreach ($request->permissions as $k) {
+            $p = new RolePermission();
+            $p->key = $k;
+            $p->role_id = $role->id;
+            $p->save();
+        }
+
         return redirect()->route('roles.index')
             ->with('success', 'Role has been added.');
     }
@@ -71,7 +79,8 @@ class RoleController extends Controller
         $this->authorize('view', $role);
 
         return view('roles.show', [
-            'role' => $role
+            'role' => $role,
+            'permissions' => Config::get('auth.permissions')
         ]);
     }
 
@@ -87,7 +96,7 @@ class RoleController extends Controller
 
         return view('roles.edit', [
             'role' => $role,
-            'permissions' => Permission::orderBy('name')->get()
+            'permissions' => Config::get('auth.permissions')
         ]);
     }
 
@@ -103,8 +112,24 @@ class RoleController extends Controller
         $this->authorize('update', $role);
 
         $role->name = $request->name;
-        $role->permissions()->sync($request->permissions);
         $role->save();
+
+        if (isset($request->permissions)) {
+            foreach ($request->permissions as $k) {
+                if (!$role->permissions->contains(function ($value, $key) use ($k) { return $value->key == $k; })) {
+                    $p = new RolePermission();
+                    $p->key = $k;
+                    $p->role_id = $role->id;
+                    $p->save();
+                }
+            }
+        }
+        foreach (Config::get('auth.permissions') as $k => $v) {
+            if (!in_array($k, isset($request->permissions) ? $request->permissions : [])) {
+                RolePermission::where('key', $k)->where('role_id', $role->id)->delete();
+            }
+        }
+
         return redirect()->route('roles.show', $role)
             ->with('success', 'Role has been updated.');
     }

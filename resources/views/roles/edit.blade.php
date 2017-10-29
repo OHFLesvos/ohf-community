@@ -36,9 +36,9 @@
                 <div class="card">
                     <div class="card-header">Permissions</div>
                     <div class="card-body">
-                        @forelse ($permissions as $permission)
+                        @forelse ($permissions as $k => $v)
                             <label>
-                                {{ Form::checkbox('permissions[]', $permission->id) }} {{ $permission->name }}
+                                {{ Form::checkbox('permissions[]', $k, $role->permissions->contains(function ($value, $key) use ($k) { return $value->key == $k; })) }} {{ $v }}
                             </label><br>
                         @empty
                             <em>No permissions</em>

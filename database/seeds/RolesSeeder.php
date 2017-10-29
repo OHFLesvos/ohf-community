@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Config;
 
 class RolesSeeder extends Seeder
 {
@@ -23,13 +24,5 @@ class RolesSeeder extends Seeder
             ]);
         }
 
-        foreach ([
-                    'Manage People',
-                    'Manage Bank Transactions',
-                 ] as $name) {
-            \App\Permission::create([
-                'name' => $name,
-            ]);
-        }
     }
 }
