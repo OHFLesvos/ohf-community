@@ -47,7 +47,8 @@ class BankController extends Controller
 		return view('bank.settings', [
 			'transaction_default_value' => \Setting::get('bank.transaction_default_value', self::TRANSACTION_DEFAULT_VALUE),
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
-			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS)
+			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS),
+            'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE)
 		]);
     }
 
@@ -55,6 +56,7 @@ class BankController extends Controller
 		\Setting::set('bank.transaction_default_value', $request->transaction_default_value);
 		\Setting::set('bank.single_transaction_max_amount', $request->single_transaction_max_amount);
 		\Setting::set('bank.boutique_threshold_days', $request->boutique_threshold_days);
+        \Setting::set('people.results_per_page', $request->people_results_per_page);
 		\Setting::save();
 		return redirect()->route('bank.index')
                     ->with('success', 'Settings have been updated!');
@@ -163,7 +165,7 @@ class BankController extends Controller
             ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'nationality', 'remarks', 'boutique_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
-            ->paginate(15);
+            ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
          
 		$boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
         return response()->json([

@@ -95,7 +95,8 @@
            $(this).select();
        });
 
-       $('#filter').focus();
+        $('#filter').focus();
+        filterTable($('#filter').val(), false);
     });
 
     function resetTable() {

@@ -9,7 +9,22 @@
 @section('content')
 
     {!! Form::open(['route' => ['bank.updateSettings']]) !!}
-		<div class="card">
+
+        <div class="card mb-4">
+            <div class="card-header">Display Settings</div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            {{ Form::label('people_results_per_page', 'Number of results per page') }}
+                            {{ Form::number('people_results_per_page', $people_results_per_page, [ 'class' => 'form-control input-normal', 'min' => 1 ]) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<div class="card mb-4">
 			<div class="card-header">Transactions</div>
 			<div class="card-body">
 				<div class="form-row">
@@ -28,8 +43,8 @@
 				</div>
 			</div>
 		</div>
-		<br>
-		<div class="card">
+
+		<div class="card mb-4">
 			<div class="card-header">Boutique</div>
 			<div class="card-body">
 				<div class="form-row">
@@ -42,8 +57,8 @@
 				</div>
 			</div>
 		</div>
-		<br>
-        {{ Form::button('<i class="fa fa-save"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+
+        {{ Form::button('<i class="fa fa-check"></i> Save', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
     {!! Form::close() !!}
     
 @endsection

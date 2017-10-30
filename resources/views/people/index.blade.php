@@ -46,7 +46,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="7">Loading, please wait...</td>
+                <td colspan="10">Loading, please wait...</td>
             </tr>
         </tbody>
     </table>
@@ -74,7 +74,7 @@
                 tbody.append($('<tr>')
                     .append($('<td>')
                         .text('Searching...')
-                        .attr('colspan', 7))
+                        .attr('colspan', 10))
                     );
 
                 clearTimeout(delayTimer);
@@ -97,7 +97,7 @@
         tbody.append($('<tr>')
             .append($('<td>')
                 .text('Searching...')
-                .attr('colspan', 7))
+                .attr('colspan', 10))
         );
 
         var pagination = $('#paginator');
@@ -132,7 +132,7 @@
                     .addClass('warning')
                     .append($('<td>')
                         .text('No results')
-                        .attr('colspan', 7))
+                        .attr('colspan', 10))
                 );
             }
         })
@@ -142,7 +142,7 @@
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 7))
+                    .attr('colspan', 10))
             );
         });
     }

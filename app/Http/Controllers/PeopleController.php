@@ -11,6 +11,8 @@ use App\Http\Requests\StoreTransaction;
 
 class PeopleController extends Controller
 {
+    const DEFAULT_RESULTS_PER_PAGE = 15;
+
     /**
      * Create a new controller instance.
      *
@@ -133,7 +135,7 @@ class PeopleController extends Controller
             ::where($condition)
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
-            ->paginate(15);
+            ->paginate(\Setting::get('people.results_per_page', self::DEFAULT_RESULTS_PER_PAGE));
 	}
     
     public function export() {

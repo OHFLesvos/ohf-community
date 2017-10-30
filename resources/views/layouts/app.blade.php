@@ -30,7 +30,7 @@
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
                 <span>
-                    <a class="navbar-brand d-none d-md-inline" href="{{ route('home') }}">
+                    <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">
                         <img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}
                     </a>
                     @if(View::hasSection('title'))
