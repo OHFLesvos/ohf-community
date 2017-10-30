@@ -58,16 +58,17 @@
     $(function(){
         $('#filter').on('change keyup', function(e){
             var keyCode = e.keyCode;
-            var elem = $(this);
-            clearTimeout(delayTimer);
-            delayTimer = setTimeout(function(){
+            if (keyCode == 0 || keyCode == 8 || keyCode == 13 ||  keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
+                var elem = $(this);
                 if (keyCode == 27) {  // ESC
                     elem.val('').focus();
                 }
-                if (keyCode == 0 || keyCode == 8 || keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
+                resetTable();
+                clearTimeout(delayTimer);
+                delayTimer = setTimeout(function(){
                     filterTable(elem.val());
-                }
-            }, 500);
+                }, 300);
+            }
        });
        
        if ($.session.get('bank.filter-today')) {
@@ -90,16 +91,21 @@
        $('#filter').focus();
        filterTable($('#filter').val());
     });
-    
-    function filterTable(filter) {
-		$('#filter-status').html('');
+
+    function resetTable() {
+        $('#filter-status').html('');
         var tbody = $('#results-table tbody');
         tbody.empty();
         tbody.append($('<tr>')
             .append($('<td>')
                 .text('Searching...')
                 .attr('colspan', 11))
-        );
+            );
+    }
+
+    function filterTable(filter) {
+        resetTable();
+        var tbody = $('#results-table tbody');
         $.post( "{{ route('bank.filter') }}", {
             "_token": "{{ csrf_token() }}",
             "filter": filter,

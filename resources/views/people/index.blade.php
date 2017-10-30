@@ -83,7 +83,7 @@
                         elem.val('').focus();
                     }
                     filterTable(elem.val());
-                }, 500);
+                }, 300);
             }
         });
 
