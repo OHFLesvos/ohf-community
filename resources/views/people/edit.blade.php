@@ -3,14 +3,7 @@
 @section('title', 'Edit Person')
 
 @section('buttons')
-    @can('delete', $person)
-        <form method="POST" action="{{ route('people.destroy', $person) }}" class="d-inline">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i> Delete', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
-        </form>
-    @endcan
-    <a href="{{ route('people.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+    <a href="{{ route('people.show', $person) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
 @endsection
 
 @section('content')
@@ -102,10 +95,3 @@
     
 @endsection
 
-@section('script')
-    $(function(){
-       $('#delete_button').on('click', function(){
-          return confirm('Really delete this person?'); 
-       });
-    });
-@endsection

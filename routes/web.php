@@ -49,7 +49,7 @@ Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
 Route::get('/people/export', 'PeopleController@export')->name('people.export');
 Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
-Route::resource('/people', 'PeopleController', ['except' => 'show']);
+Route::resource('/people', 'PeopleController');
 
 Route::get('/tasks', 'TasksController@index')->name('tasks.index');
 Route::post('/tasks', 'TasksController@store')->name('tasks.store');

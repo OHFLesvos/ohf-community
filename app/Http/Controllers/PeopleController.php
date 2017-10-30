@@ -24,14 +24,22 @@ class PeopleController extends Controller
     function index() {
         $this->authorize('list', Person::class);
 
+        session(['peopleOverviewRouteName' => 'people.index']);
+
 		return view('people.index', [
 		]);
+    }
+
+    private function getPeopleOverviewRouteName() {
+        return session('peopleOverviewRouteName', 'people.index');
     }
 
     public function create() {
         $this->authorize('create', Person::class);
 
         return view('people.create', [
+            'closeRoute' => $this->getPeopleOverviewRouteName(),
+            'transaction_value' => \Setting::get('bank.transaction_default_value', BankController::TRANSACTION_DEFAULT_VALUE),
 		]);
     }
 
@@ -49,11 +57,32 @@ class PeopleController extends Controller
 		$person->skills = !empty($request->skills) ? $request->skills : null;
 		$person->save();
 
-		return redirect()->route('people.index')
+		if ( $this->getPeopleOverviewRouteName() == 'bank.index' ) {
+            if (!empty($request->value)) {
+                $transaction = new Transaction();
+                $transaction->person_id = $person->id;
+                $transaction->value = $request->value;
+                $transaction->save();
+            }
+            $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
+        }
+
+		return redirect()->route($this->getPeopleOverviewRouteName())
 				->with('success', 'Person has been added!');		
 	}
 
-	public function edit(Person $person) {
+    public function show(Person $person) {
+        return view('people.show', [
+            'person' => $person,
+            'closeRoute' => $this->getPeopleOverviewRouteName(),
+            'transactions' => $person->transactions()
+                ->select('created_at', 'value')
+                ->orderBy('created_at', 'desc')
+                ->get(),
+        ]);
+    }
+
+    public function edit(Person $person) {
         $this->authorize('update', $person);
 
         return view('people.edit', [
@@ -73,7 +102,7 @@ class PeopleController extends Controller
         $person->languages = !empty($request->languages) ? $request->languages : null;
         $person->skills = !empty($request->skills) ? $request->skills : null;
         $person->save();
-        return redirect()->route('people.index')
+        return redirect()->route('people.show', $person)
                 ->with('success', 'Person has been updated!');
 	}
 
@@ -81,7 +110,7 @@ class PeopleController extends Controller
         $this->authorize('delete', $person);
 
         $person->delete();
-        return redirect()->route('people.index')
+        return redirect()->route($this->getPeopleOverviewRouteName())
             ->with('success', 'Person has been deleted!');
     }
 

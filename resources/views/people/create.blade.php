@@ -3,7 +3,7 @@
 @section('title', 'Register Person')
 
 @section('buttons')
-    <a href="{{ route('people.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
 @endsection
 
 @section('content')
@@ -78,6 +78,15 @@
                         <span class="invalid-feedback">{{ $errors->first('remarks') }}</span>
                     @endif
 				</div>
+                @if ( $closeRoute == 'bank.index' )
+                    <div class="form-group">
+                        {{ Form::label('value', 'Transaction') }}
+                        {{ Form::number('value', $transaction_value, [ 'class' => 'form-control'.($errors->has('value') ? ' is-invalid' : ''), 'style' => 'width:80px', 'min' => 0, 'max' => $transaction_value ]) }}
+                        @if ($errors->has('value'))
+                            <span class="invalid-feedback">{{ $errors->first('value') }}</span>
+                        @endif
+                    </div>
+                @endif
 			</div>
 		</div>
 

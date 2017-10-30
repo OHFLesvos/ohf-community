@@ -35,6 +35,9 @@ class BankController extends Controller
 	}
 	
     function index() {
+
+        session(['peopleOverviewRouteName' => 'bank.index']);
+
 		return view('bank.index', [
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT)
 		]);
@@ -76,12 +79,6 @@ class BankController extends Controller
         }
 		return view('bank.charts', [
             'data' => $data
-		]);
-    }
-
-    function register() {
-		return view('bank.register', [
-			'transaction_value' => \Setting::get('bank.transaction_default_value', self::TRANSACTION_DEFAULT_VALUE),
 		]);
     }
 
@@ -261,29 +258,6 @@ class BankController extends Controller
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
 	}
-
-	public function editPerson(Person $person) {
-		return view('bank.edit', [
-            'person' => $person
-		]);
-	}
-    
-    public function updatePerson(StorePerson $request, Person $person) {
-        $person->family_name = $request->family_name;
-        $person->name = $request->name;
-        $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
-        $person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->remarks = !empty($request->remarks) ? $request->remarks : null;
-        $person->nationality = !empty($request->nationality) ? $request->nationality : null;
-        $person->languages = !empty($request->languages) ? $request->languages : null;
-        $person->skills = !empty($request->skills) ? $request->skills : null;
-        $person->save();
-
-        $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
-
-        return redirect()->route('bank.index')
-            ->with('success', 'Person has been updated!');
-    }
 
     public function destroyPerson(Person $person) {
         $person->delete();

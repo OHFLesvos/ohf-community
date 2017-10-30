@@ -4,7 +4,7 @@
 
 @section('buttons')
     @can('create', App\Person::class)
-        <a href="{{ route('bank.register') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i><span class=" d-none d-md-inline"> Register</span></a>
+        <a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i><span class=" d-none d-md-inline"> Register</span></a>
     @endcan
     <a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i><span class=" d-none d-md-inline">  Charts</span></a>
     <a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i><span class=" d-none d-md-inline">  Settings</span></a>
@@ -187,16 +187,17 @@
             .attr('id', 'person-' + person.id)
             .addClass(person.today > 0 ? 'table-success' : null)
             .append($('<td>')
-                .text(person.name)
-                .append(' &nbsp; ')
                 .append($('<a>')
-                    .attr('href', 'bank/editPerson/' + person.id)
-                    .append($('<i>')
-                        .addClass('fa fa-pencil')
-                    )
-                )            
+                    .attr('href', 'people/' + person.id)
+                    .text(person.name)
+                )
             )
-            .append($('<td>').text(person.family_name))
+            .append($('<td>')
+                .append($('<a>')
+                    .attr('href', 'people/' + person.id)
+                    .text(person.family_name)
+                )
+            )
             .append($('<td>').text(person.case_no))
             .append($('<td>').text(person.nationality))
             .append($('<td>').text(person.remarks))
@@ -226,13 +227,6 @@
             .append(
                 $('<td>')
                     .html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
-                    .append(' &nbsp; ')
-                    .append($('<a>')
-                        .attr('href', 'bank/transactions/' + person.id)
-                        .append($('<i>')
-                            .addClass('fa fa-search')
-                        )
-                    )
             )
             .append(today);
     }
