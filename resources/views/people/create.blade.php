@@ -121,7 +121,10 @@
             </div>
         @endif
 
-		{{ Form::button('<i class="fa fa-check"></i> Register', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+		<p>
+            {{ Form::button('<i class="fa fa-check"></i> Register', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+        </p>
+    
     {!! Form::close() !!}
     
 @endsection

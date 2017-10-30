@@ -108,16 +108,9 @@
 			</div>
 		</div>
 
-		<div class="row">
-            <div class="col-md mb-2">
-                {{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
-            </div>
-            <div class="col-md-auto text-right">
-                <small class="text-muted">
-                    Registered: {{ $person->created_at }}<br>Updated: {{ $person->updated_at }}
-                </small>
-            </div>
-        </div>
+		<p>
+			{{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+		</p>
     {!! Form::close() !!}
     
 @endsection

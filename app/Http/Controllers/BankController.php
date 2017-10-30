@@ -110,6 +110,9 @@ class BankController extends Controller
                             'name' => $row->name,
                             'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
                             'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
+                            'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
+                            'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
+                            'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
                             'nationality' => $row->nationality,
                             'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
                         ]);
@@ -272,7 +275,9 @@ class BankController extends Controller
         \Excel::create('OHF_Bank_' . Carbon::now()->toDateString(), function($excel) {
             $dm = Carbon::create();
             $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
-                $persons = Person::orderBy('name', 'asc')->get();
+                $persons = Person::orderBy('name', 'asc')
+                    ->orderBy('family_name', 'asc')
+                    ->get();
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
                 $sheet->loadView('bank.export',[

@@ -124,23 +124,16 @@ class PeopleController extends Controller
         $this->authorize('list', Person::class);
 
         $condition = [];
-        foreach (['name', 'family_name', 'case_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'] as $k) {
+        foreach (['name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'] as $k) {
             if (!empty($request->$k)) {
                 $condition[] = [$k, 'LIKE', '%' . $request->$k . '%'];
             }
         }
-        $persons = Person
+        return $persons = Person
             ::where($condition)
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
-            ->paginate(500);
-        
-        return response()->json([
-            'count' => $persons->count(),
-            'total' => $persons->total(),
-            'results' => $persons->all(),
-			'rendertime' => round((microtime(true) - LARAVEL_START)*1000)
-        ]);
+            ->paginate(15);
 	}
     
     public function export() {
@@ -149,7 +142,9 @@ class PeopleController extends Controller
         \Excel::create('OHF_Community_' . Carbon::now()->toDateString(), function($excel) {
             $dm = Carbon::create();
             $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
-                $persons = Person::orderBy('name', 'asc')->get();
+                $persons = Person::orderBy('name', 'asc')
+                    ->orderBy('family_name', 'asc')
+                    ->get();
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
                 $sheet->loadView('people.export',[
@@ -189,6 +184,9 @@ class PeopleController extends Controller
                             'name' => $row->name,
                             'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
                             'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
+                            'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
+                            'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
+                            'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
                             'nationality' => $row->nationality,
                             'languages' => $row->languages,
                             'skills' => $row->skills,

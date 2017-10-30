@@ -30,11 +30,11 @@
 
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
                 <span>
-                    <a class="navbar-brand" href="{{ route('home') }}">
+                    <a class="navbar-brand d-none d-md-inline" href="{{ route('home') }}">
                         <img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}
                     </a>
                     @if(View::hasSection('title'))
-                        <span class="text-light ml-4">@yield('title')</span>
+                        <span class="text-light ml-xs-4">@yield('title')</span>
                     @endif
                 </span>
                 @if(View::hasSection('buttons'))
@@ -59,7 +59,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is($n['active']) ? 'active' : '' }}" href="{{ route($n['route']) }}">
                                         <i class="fa fa-{{ $n['icon'] }}" title="{{ $n['caption'] }}"></i>
-                                        <span class=" d-none d-sm-inline">  {{ $n['caption'] }}</span>
+                                        <span class=" d-none d-md-inline">  {{ $n['caption'] }}</span>
                                         @if ($n['route'] == 'tasks.index' and $num_open_tasks > 0)
                                             <span class="badge badge-secondary">{{ $num_open_tasks }}</span>
                                         @endif
@@ -72,23 +72,23 @@
                     {{-- Footer --}}
                     <footer class="footer">
 
-                        <hr class="d-none d-sm-block">
-                        <div class="text-center d-none d-sm-block">
+                        <hr class="d-none d-md-block">
+                        <div class="text-center d-none d-md-block">
                             <a href="{{ route('userprofile') }}"><h1 class="display-4"><i class="fa fa-user"></i></h1></a>
                             {{ Auth::user()->name }}
                         </div>
-                        <a href="{{ route('userprofile') }}" class="d-block d-sm-none btn btn-block {{ Request::is('userprofile') ? 'btn-primary' : '' }}"><i class="fa fa-user"></i></a>
+                        <a href="{{ route('userprofile') }}" class="d-block d-md-none btn btn-block {{ Request::is('userprofile') ? 'btn-primary' : '' }}"><i class="fa fa-user"></i></a>
 
                         {{-- Logout --}}
-                        <div class="px-sm-3 mt-sm-3">
+                        <div class="px-md-3 mt-md-3">
                             <form class="form-inline" action="{{ route('logout') }}" method="POST">
                                 {{ csrf_field() }}
-                                <button type="submit" class="btn btn-secondary btn-block"><i class="fa fa-sign-out"></i><span class=" d-none d-sm-inline">  Logout</span></button>
+                                <button type="submit" class="btn btn-secondary btn-block"><i class="fa fa-sign-out"></i><span class=" d-none d-md-inline">  Logout</span></button>
                             </form>
                         </div>
 
-                        <hr class="d-none d-sm-block">
-                        <p class="copyright text-muted px-3 d-none d-sm-block">
+                        <hr class="d-none d-md-block">
+                        <p class="copyright text-muted px-3 d-none d-md-block">
                             <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }}</a><br>
                             Version: {{ $app_version }}<br>
                             &copy; Nicolas Perrenoud<br>
@@ -131,9 +131,7 @@
                         </div>
                     @endif
 
-                    <div class="pb-4">
-                        @yield('content')
-                    </div>
+                    @yield('content')
 
                 </article>
 
