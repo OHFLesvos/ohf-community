@@ -18,16 +18,20 @@
 
 	<div class="row">
 		<div class="col">
-			{{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}<br>
+            <div class="input-group">
+			    {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}<br>
+                <span class="input-group-btn">
+                    <button class="btn btn-dark" type="button" id="reset"><i class="fa fa-eraser"></i></button>
+                </span>
+            </div>
 		</div>
-		<div class="col-md-auto">
+		<div class="col-md-auto pt-1">
 			{{ Form::checkbox('filter-today', 1, false, [ 'id' => 'filter-today' ] ) }}
 			{{ Form::label('filter-today', 'has transactions today') }}
 		</div>
 	</div>
-
-    <p id="result-stats">&nbsp;</p>
-    <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table">
+    <p><small id="result-stats">Please search for a person in the field above.</small></p>
+    <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table" style="display: none;">
         <thead>
             <tr>
                 <th>Name</th>
@@ -44,9 +48,6 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td colspan="11">&nbsp;</td>
-            </tr>
         </tbody>
     </table>
 	<p><small class="pull-rit text-sm text-right text-muted" id="filter-status"></small></p>
@@ -56,6 +57,11 @@
 @section('script')
     var delayTimer;
     $(function(){
+        $('#reset').on('click', function(e){
+            $('#filter').val('').focus();
+            filterTable($('#filter').val(), false);
+        });
+
         $('#filter').on('change keyup', function(e){
             var keyCode = e.keyCode;
             if (keyCode == 0 || keyCode == 8 || keyCode == 13 ||  keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
@@ -67,7 +73,7 @@
                 clearTimeout(delayTimer);
                 delayTimer = setTimeout(function(){
                     filterTable(elem.val(), false);
-                }, 300);
+                }, 500);
             }
        });
        
@@ -90,10 +96,10 @@
        });
 
        $('#filter').focus();
-       filterTable($('#filter').val(), false);
     });
 
     function resetTable() {
+        $('#results-table').hide();
         $('#filter-status').html('');
         var tbody = $('#results-table tbody');
         tbody.empty();
@@ -105,20 +111,16 @@
     }
 
     function filterTable(filter, force) {
-        var tbody = $('#results-table tbody');
-
         if ( filter == '' && ! force ) {
-            tbody.empty();
-            tbody.append($('<tr>')
-                .append($('<td>')
-                .text('Please search for something in the search field above.')
-                .attr('colspan', 11))
-            );
-            $('#result-stats').html('&nbsp;');
+            $('#results-table').hide();
+            $('#result-stats').html('Please search for a person in the field above.');
+            $('#filter-status').html('');
             return;
         }
 
         resetTable();
+        $('#results-table').show();
+        var tbody = $('#results-table tbody');
 
         $.post( "{{ route('bank.filter') }}", {
             "_token": "{{ csrf_token() }}",
