@@ -57,11 +57,13 @@ class RoleController extends Controller
         $role->name = $request->name;
         $role->save();
 
-        foreach ($request->permissions as $k) {
-            $p = new RolePermission();
-            $p->key = $k;
-            $p->role_id = $role->id;
-            $p->save();
+        if (isset($request->permissions)) {
+            foreach ($request->permissions as $k) {
+                $p = new RolePermission();
+                $p->key = $k;
+                $p->role_id = $role->id;
+                $p->save();
+            }
         }
 
         return redirect()->route('roles.index')
