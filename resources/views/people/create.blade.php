@@ -3,7 +3,7 @@
 @section('title', 'Register Person')
 
 @section('buttons')
-    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i><span class="d-none d-md-inline">  Cancel</span></a>
 @endsection
 
 @section('content')
@@ -124,7 +124,7 @@
 		<p>
             {{ Form::button('<i class="fa fa-check"></i> Register', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
         </p>
-    
+
     {!! Form::close() !!}
     
 @endsection

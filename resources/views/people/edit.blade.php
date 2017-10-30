@@ -3,7 +3,7 @@
 @section('title', 'Edit Person')
 
 @section('buttons')
-    <a href="{{ route('people.show', $person) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+	<a href="{{ route('people.show', $person) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i><span class="d-none d-md-inline"> Cancel</span></a>
 @endsection
 
 @section('content')

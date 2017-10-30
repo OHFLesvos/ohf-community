@@ -96,7 +96,7 @@
        });
 
         $('#filter').focus();
-        filterTable($('#filter').val(), false);
+        filterTable($('#filter').val(), $.session.get('bank.filter-today'));
     });
 
     function resetTable() {

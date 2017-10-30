@@ -3,15 +3,15 @@
 @section('title', 'View Person')
 
 @section('buttons')
-    <a href="{{ route('people.edit', $person) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+    <a href="{{ route('people.edit', $person) }}" class="btn btn-primary"><i class="fa fa-pencil"></i><span class="d-none d-md-inline"> Edit</span></a>
     @can('delete', $person)
         <form method="POST" action="{{ route('people.destroy', $person) }}" class="d-inline">
             {{ csrf_field() }}
             {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i> Delete', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
+            {{ Form::button('<i class="fa fa-trash"></i><span class="d-none d-md-inline"> Delete</span>', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
         </form>
     @endcan
-    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>
+    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i><span class="d-none d-md-inline">  Close</span></a>
 @endsection
 
 @section('content')
