@@ -18,7 +18,7 @@
 @section('content')
 
     <p id="result-stats">Loading...</p>
-    <table class="table table-sm table-striped table-bordered table-hover" id="results-table">
+    <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table">
         <thead>
             <tr>
                 <th>Name</th>

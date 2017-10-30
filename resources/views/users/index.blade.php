@@ -11,7 +11,7 @@
 @section('content')
 
     @if( ! $users->isEmpty() )
-        <table class="table table-sm table-bordered table-striped table-hover">
+        <table class="table table-sm table-bordered table-striped table-hover table-responsive-md">
             <thead>
                 <tr>
                     <th>Name</th>

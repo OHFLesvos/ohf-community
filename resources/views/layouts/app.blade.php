@@ -98,7 +98,7 @@
 
                 </aside>
 
-                <article class="main-content p-4">
+                <article class="main-content p-3 p-md-4">
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show">
                             <i class="fa fa-check"></i> {{ session('success') }}
@@ -131,7 +131,10 @@
                         </div>
                     @endif
 
-                    @yield('content')
+                    <div class="pb-4">
+                        @yield('content')
+                    </div>
+
                 </article>
 
             </main>
