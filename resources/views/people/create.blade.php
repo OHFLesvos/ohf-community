@@ -34,24 +34,51 @@
 				<div class="form-row">
 					<div class="col-md">
 						<div class="form-group">
-							{{ Form::label('case_no') }}
+							{{ Form::label('case_no', 'Case Number') }}
 							{{ Form::number('case_no', null, [ 'class' => 'form-control'.($errors->has('case_no') ? ' is-invalid' : '') ]) }}
                             @if ($errors->has('case_no'))
                                 <span class="invalid-feedback">{{ $errors->first('case_no') }}</span>
                             @endif
 						</div>
 					</div>
-					<div class="col-md">
-						<div class="form-group">
-							{{ Form::label('nationality') }}
-							{{ Form::text('nationality', null, [ 'class' => 'form-control'.($errors->has('nationality') ? ' is-invalid' : '') ]) }}
+                    <div class="col-md">
+                        <div class="form-group">
+                            {{ Form::label('medical_no', 'Medical Number') }}
+                            {{ Form::text('medical_no', null, [ 'class' => 'form-control'.($errors->has('medical_no') ? ' is-invalid' : '') ]) }}
+                            @if ($errors->has('medical_no'))
+                                <span class="invalid-feedback">{{ $errors->first('medical_no') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-group">
+                            {{ Form::label('registration_no', 'Registration Number') }}
+                            {{ Form::text('registration_no', null, [ 'class' => 'form-control'.($errors->has('registration_no') ? ' is-invalid' : '') ]) }}
+                            @if ($errors->has('registration_no'))
+                                <span class="invalid-feedback">{{ $errors->first('registration_no') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-group">
+                            {{ Form::label('section_card_no', 'Section Card Number') }}
+                            {{ Form::text('section_card_no', null, [ 'class' => 'form-control'.($errors->has('section_card_no') ? ' is-invalid' : '') ]) }}
+                            @if ($errors->has('section_card_no'))
+                                <span class="invalid-feedback">{{ $errors->first('section_card_no') }}</span>
+                            @endif
+                        </div>
+                    </div>
+				</div>
+				<div class="form-row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            {{ Form::label('nationality') }}
+                            {{ Form::text('nationality', null, [ 'class' => 'form-control'.($errors->has('nationality') ? ' is-invalid' : '') ]) }}
                             @if ($errors->has('nationality'))
                                 <span class="invalid-feedback">{{ $errors->first('nationality') }}</span>
                             @endif
-						</div>
-					</div>
-				</div>
-				<div class="form-row">
+                        </div>
+                    </div>
 					<div class="col-md">
 						<div class="form-group">
 							{{ Form::label('languages') }}
@@ -78,7 +105,11 @@
                         <span class="invalid-feedback">{{ $errors->first('remarks') }}</span>
                     @endif
 				</div>
-                @if ( $closeRoute == 'bank.index' )
+			</div>
+		</div>
+        @if ( $closeRoute == 'bank.index' )
+            <div class="card mb-4">
+                <div class="card-body">
                     <div class="form-group">
                         {{ Form::label('value', 'Transaction') }}
                         {{ Form::number('value', $transaction_value, [ 'class' => 'form-control'.($errors->has('value') ? ' is-invalid' : ''), 'style' => 'width:80px', 'min' => 0, 'max' => $transaction_value ]) }}
@@ -86,9 +117,9 @@
                             <span class="invalid-feedback">{{ $errors->first('value') }}</span>
                         @endif
                     </div>
-                @endif
-			</div>
-		</div>
+                </div>
+            </div>
+        @endif
 
 		{{ Form::button('<i class="fa fa-check"></i> Register', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
     {!! Form::close() !!}

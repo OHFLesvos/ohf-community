@@ -18,7 +18,7 @@
 
 	<div class="row">
 		<div class="col">
-			{{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name or case number.' ]) }}<br>
+			{{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}<br>
 		</div>
 		<div class="col-md-auto">
 			{{ Form::checkbox('filter-today', 1, false, [ 'id' => 'filter-today' ] ) }}
@@ -33,6 +33,9 @@
                 <th>Name</th>
                 <th>Family Name</th>
                 <th>Case No.</th>
+                <th>Med No.</th>
+                <th>Reg No.</th>
+                <th>Sec Card No.</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
 				<th style="width: 170px">Boutique</th>
@@ -42,7 +45,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="8">Loading, please wait...</td>
+                <td colspan="11">Loading, please wait...</td>
             </tr>
         </tbody>
     </table>
@@ -95,7 +98,7 @@
         tbody.append($('<tr>')
             .append($('<td>')
                 .text('Searching...')
-                .attr('colspan', 8))
+                .attr('colspan', 11))
         );
         $.post( "{{ route('bank.filter') }}", {
             "_token": "{{ csrf_token() }}",
@@ -117,7 +120,7 @@
                             .attr('href', '{{ route('bank.register') }}' + (data.register ? '?' + data.register : ''))
                             .text('Register new')
                         )
-                        .attr('colspan', 8))
+                        .attr('colspan', 11))
                 );
             }
             $('#result-stats')
@@ -131,7 +134,7 @@
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 7))
+                    .attr('colspan', 11))
             );
         });
     }
@@ -199,6 +202,9 @@
                 )
             )
             .append($('<td>').text(person.case_no))
+            .append($('<td>').text(person.medical_no))
+            .append($('<td>').text(person.registration_no))
+            .append($('<td>').text(person.section_card_no))
             .append($('<td>').text(person.nationality))
             .append($('<td>').text(person.remarks))
 			// Boutique coupon

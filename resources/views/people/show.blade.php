@@ -34,8 +34,20 @@
                                 <td>{{ $person->family_name }}</td>
                             </tr>
                             <tr>
-                                <th>Case No:</th>
+                                <th>Case Number:</th>
                                 <td>{{ $person->case_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Medical Number:</th>
+                                <td>{{ $person->medical_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Registration Number:</th>
+                                <td>{{ $person->registration_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Section Card Number:</th>
+                                <td>{{ $person->section_card_no }}</td>
                             </tr>
                             <tr>
                                 <th>Nationality:</th>

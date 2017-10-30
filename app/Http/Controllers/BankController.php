@@ -141,31 +141,6 @@ class BankController extends Controller
 		return redirect()->route('bank.index')
 				->with('success', 'Import successful!');		
     }
-    
-	public function store(StorePerson $request) {
-        $person = new Person();
-		$person->family_name = $request->family_name;
-		$person->name = $request->name;
-		$person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
-		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
-		$person->remarks = !empty($request->remarks) ? $request->remarks : null;
-		$person->nationality = !empty($request->nationality) ? $request->nationality : null;
-		$person->languages = !empty($request->languages) ? $request->languages : null;
-		$person->skills = !empty($request->skills) ? $request->skills : null;
-		$person->save();
-
-        if (!empty($request->value)) {
-            $transaction = new Transaction();
-            $transaction->person_id = $person->id;
-            $transaction->value = $request->value;
-            $transaction->save();
-        }
-        
-        $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
-
-		return redirect()->route('bank.index')
-				->with('success', 'Person has been added!');		
-	}
 
 	public function filter(Request $request) {
         $filter = $request->filter;
@@ -182,7 +157,7 @@ class BankController extends Controller
                 ::where($condition);
         }
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'case_no', 'nationality', 'remarks', 'boutique_coupon')
+            ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'nationality', 'remarks', 'boutique_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(50);
@@ -197,7 +172,10 @@ class BankController extends Controller
                         'id' => $item->id,
                         'name' => $item->name,
                         'family_name' => $item->family_name, 
-                        'case_no' => $item->case_no, 
+                        'case_no' => $item->case_no,
+                        'medical_no' => $item->medical_no,
+                        'registration_no' => $item->registration_no,
+                        'section_card_no' => $item->section_card_no,
                         'nationality' => $item->nationality, 
                         'remarks' => $item->remarks,
 						'boutique_coupon' => self::getBoutiqueCouponForJson($item, $boutique_date_threshold),
@@ -250,7 +228,10 @@ class BankController extends Controller
                     'id' => $person->id,
                     'name' => $person->name,
                     'family_name' => $person->family_name, 
-                    'case_no' => $person->case_no, 
+                    'case_no' => $person->case_no,
+                    'medical_no' => $person->medical_no,
+                    'registration_no' => $person->registration_no,
+                    'section_card_no' => $person->section_card_no,
                     'nationality' => $person->nationality, 
                     'remarks' => $person->remarks,
 					'boutique_coupon' => self::getBoutiqueCouponForJson($person, $boutique_date_threshold),

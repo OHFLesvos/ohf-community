@@ -51,7 +51,10 @@ class PeopleController extends Controller
 		$person->family_name = $request->family_name;
 		$person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
 		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
-		$person->remarks = !empty($request->remarks) ? $request->remarks : null;
+        $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
+        $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
+        $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
+        $person->remarks = !empty($request->remarks) ? $request->remarks : null;
 		$person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? $request->languages : null;
 		$person->skills = !empty($request->skills) ? $request->skills : null;
@@ -97,6 +100,9 @@ class PeopleController extends Controller
         $person->family_name = $request->family_name;
         $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
         $person->case_no = !empty($request->case_no) ? $request->case_no : null;
+        $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
+        $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
+        $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
         $person->languages = !empty($request->languages) ? $request->languages : null;
