@@ -163,7 +163,7 @@ class BankController extends Controller
             ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'nationality', 'remarks', 'boutique_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
-            ->paginate(50);
+            ->paginate(15);
          
 		$boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
         return response()->json([

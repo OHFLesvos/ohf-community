@@ -26,7 +26,7 @@
 		</div>
 	</div>
 
-    <p id="result-stats">Loading...</p>
+    <p id="result-stats">&nbsp;</p>
     <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table">
         <thead>
             <tr>
@@ -45,11 +45,11 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="11">Loading, please wait...</td>
+                <td colspan="11">&nbsp;</td>
             </tr>
         </tbody>
     </table>
-	<small class="pull-rit text-sm text-right text-muted" id="filter-status"></small>
+	<p><small class="pull-rit text-sm text-right text-muted" id="filter-status"></small></p>
 
 @endsection
 
@@ -66,7 +66,7 @@
                 resetTable();
                 clearTimeout(delayTimer);
                 delayTimer = setTimeout(function(){
-                    filterTable(elem.val());
+                    filterTable(elem.val(), false);
                 }, 300);
             }
        });
@@ -77,11 +77,12 @@
        
        $('#filter-today').change(function(){
            if ($('#filter-today').is(':checked')) {
-               $.session.set('bank.filter-today', 1);
+                $.session.set('bank.filter-today', 1);
+                filterTable($('#filter').val(), true);
            } else {
-               $.session.remove('bank.filter-today');
+                $.session.remove('bank.filter-today');
+                filterTable($('#filter').val(), false);
            }
-           filterTable($('#filter').val());
        });
 
        $('#filter').on('focus', function(e){
@@ -89,7 +90,7 @@
        });
 
        $('#filter').focus();
-       filterTable($('#filter').val());
+       filterTable($('#filter').val(), false);
     });
 
     function resetTable() {
@@ -103,9 +104,22 @@
             );
     }
 
-    function filterTable(filter) {
-        resetTable();
+    function filterTable(filter, force) {
         var tbody = $('#results-table tbody');
+
+        if ( filter == '' && ! force ) {
+            tbody.empty();
+            tbody.append($('<tr>')
+                .append($('<td>')
+                .text('Please search for something in the search field above.')
+                .attr('colspan', 11))
+            );
+            $('#result-stats').html('&nbsp;');
+            return;
+        }
+
+        resetTable();
+
         $.post( "{{ route('bank.filter') }}", {
             "_token": "{{ csrf_token() }}",
             "filter": filter,
