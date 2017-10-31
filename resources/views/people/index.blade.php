@@ -21,11 +21,11 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Family Name</th>
-                <th>Case No.</th>
-                <th>Med No.</th>
-                <th>Reg No.</th>
-                <th>Sec Card No.</th>
+                <th class="text-nowrap">Family Name</th>
+                <th class="text-nowrap">Case No.</th>
+                <th class="text-nowrap">Med No.</th>
+                <th class="text-nowrap">Reg No.</th>
+                <th class="text-nowrap">Sec Card No.</th>
                 <th>Nationality</th>
                 <th>Languages</th>
                 <th>Skills</th>
@@ -65,7 +65,7 @@
     $(function(){
         $('#filter input').on('change keyup', function(e){
             var keyCode = e.keyCode;
-            if (keyCode == 0 || keyCode == 8 || keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
+            if (keyCode == 0 || keyCode == 8 || keyCode == 13 || keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
                 var elem = $(this);
 
                 $('#filter-status').html('');
@@ -82,7 +82,10 @@
                     if (keyCode == 27) {  // ESC
                         elem.val('').focus();
                     }
-                    filterTable(elem.val());
+                    if (keyCode == 13) {  // Enter
+                        elem.blur();
+                    }
+                    filterTable(1);
                 }, 300);
             }
         });
@@ -105,7 +108,6 @@
 
         var paginationInfo = $( '#paginator-info' );
         paginationInfo.empty();
-
         $.post( "{{ route('people.filter') }}", {
             "_token": "{{ csrf_token() }}",
             "name": $('#filter input[name="name"]').val(),

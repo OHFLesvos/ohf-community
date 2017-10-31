@@ -35,11 +35,11 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Family Name</th>
-                <th>Case No.</th>
-                <th>Med No.</th>
-                <th>Reg No.</th>
-                <th>Sec Card No.</th>
+                <th class="text-nowrap">Family Name</th>
+                <th class="text-nowrap">Case No.</th>
+                <th class="text-nowrap">Med No.</th>
+                <th class="text-nowrap">Reg No.</th>
+                <th class="text-nowrap">Sec Card No.</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
 				<th style="width: 170px">Boutique</th>
@@ -64,10 +64,14 @@
 
         $('#filter').on('change keyup', function(e){
             var keyCode = e.keyCode;
+            $('#result-stats').html('&nbsp;');
             if (keyCode == 0 || keyCode == 8 || keyCode == 13 ||  keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
                 var elem = $(this);
                 if (keyCode == 27) {  // ESC
                     elem.val('').focus();
+                }
+                if (keyCode == 13) {  // Enter
+                    elem.blur();
                 }
                 resetTable();
                 clearTimeout(delayTimer);
@@ -147,7 +151,7 @@
                 );
             }
             $('#result-stats')
-                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, please refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons');
+                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons');
 				
 			$('#filter-status').html('Results fetched in ' + data.rendertime + ' ms');
         })
