@@ -19,8 +19,6 @@
 						</div>
 					</div>
 
-                    <p class="text-center mt-2 text-muted"><small>{{ Config::get('app.product_name') }} &copy; Nicolas Perrenoud</small></p>
-
 				</div>
 			</div>
 		</div>
