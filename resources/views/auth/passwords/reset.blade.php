@@ -1,9 +1,8 @@
 @extends('layouts.login')
 
-@section('content')
+@section('title', 'Reset password')
 
-    <h1 class="display-4 text-center">Reset password</h1>
-    <br>
+@section('content')
 
     {{ Form::open(['route' => 'password.request']) }}
         <input type="hidden" name="token" value="{{ $token }}">

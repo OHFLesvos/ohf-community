@@ -1,9 +1,8 @@
 @extends('layouts.login')
 
-@section('content')
+@section('title', 'Login')
 
-    <h1 class="display-4 text-center">Login</h1>
-    <br>
+@section('content')
 
     {{ Form::open(['route' => 'login']) }}
 

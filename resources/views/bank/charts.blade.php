@@ -9,7 +9,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-xl-6 mb-4">
             <div class="card">
                 <div class="card-header">Transactions per day</div>
                 <div class="card-body">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-xl-6 mb-4">
             <div class="card">
                 <div class="card-header">Transaction value per day</div>
                 <div class="card-body">
