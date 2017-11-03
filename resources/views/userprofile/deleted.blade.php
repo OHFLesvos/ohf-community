@@ -1,13 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.login')
 
-@section('title', 'User Profile')
+@section('title', 'Account Deletion')
 
 @section('content')
 
-    <div class="alert alert-info">
-        <i class="fa fa-info-circle"></i> Your account has been deleted.
-    </div>
+    @component('components.alert.info')
+        Your account has been deleted.
+    @endcomponent
 
-    <p><a href="{{ route('login') }}" class="btn btn-info">Go to Login</a></p>
+    <p>
+        {{ Form::bsButtonLink(route('login'), 'Go to Login', 'sign-in', 'info') }}
+    </p>
 
 @endsection

@@ -62,7 +62,7 @@ class TasksController extends Controller {
 				->with('success', 'Task has been updated!');		
 	}
 
-	public function delete(Task $task) {
+	public function destroy(Task $task) {
         $this->authorize('delete', $task);
 
 		$task->delete();

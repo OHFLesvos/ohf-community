@@ -3,7 +3,7 @@
 @section('title', 'Edit Role')
 
 @section('buttons')
-    <a href="{{ route('roles.show', $role) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+    {{ Form::bsButtonLink(route('roles.show', $role), 'Cancel', 'times-circle') }}
 @endsection
 
 @section('content')
@@ -16,15 +16,10 @@
                 <div class="card">
                     <div class="card-header">Role</div>
                     <div class="card-body">
+
                         <div class="form-row">
                             <div class="col-md">
-                                <div class="form-group">
-                                    {{ Form::label('name') }}
-                                    {{ Form::text('name', null, [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback">{{ $errors->first('name') }}</span>
-                                    @endif
-                                </div>
+                                {{ Form::bsText('name', null, [ 'required', 'autofocus' ]) }}
                             </div>
                         </div>
 
@@ -36,6 +31,7 @@
                 <div class="card">
                     <div class="card-header">Permissions</div>
                     <div class="card-body">
+
                         @forelse ($permissions as $k => $v)
                             <label>
                                 {{ Form::checkbox('permissions[]', $k, $role->permissions->contains(function ($value, $key) use ($k) { return $value->key == $k; })) }} {{ $v }}
@@ -43,13 +39,17 @@
                         @empty
                             <em>No permissions</em>
                         @endforelse
+
                     </div>
                 </div>
             </div>
 
         </div>
 
-        {{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;
+        <p>
+            {{ Form::bsSubmitButton('Update') }}
+        </p>
+
     {!! Form::close() !!}
 
 @endsection

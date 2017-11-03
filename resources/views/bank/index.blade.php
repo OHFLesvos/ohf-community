@@ -4,13 +4,13 @@
 
 @section('buttons')
     @can('create', App\Person::class)
-        <a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i><span class="d-none d-md-inline"> Register</span></a>
+        <a href="{{ route('people.create') }}" class="btn btn-primary">@icon(plus-circle)<span class="d-none d-md-inline"> Register</span></a>
     @endcan
-    <a href="{{ route('bank.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i><span class="d-none d-md-inline">  Charts</span></a>
-    <a href="{{ route('bank.settings') }}" class="btn btn-secondary"><i class="fa fa-cogs"></i><span class="d-none d-md-inline">  Settings</span></a>
-    <a href="{{ route('bank.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i><span class="d-none d-md-inline">  Export</span></a>
+    <a href="{{ route('bank.charts') }}" class="btn btn-secondary">@icon(line-chart)<span class="d-none d-md-inline">  Charts</span></a>
+    <a href="{{ route('bank.settings') }}" class="btn btn-secondary">@icon(cogs)<span class="d-none d-md-inline">  Settings</span></a>
+    <a href="{{ route('bank.export') }}" class="btn btn-secondary">@icon(download)<span class="d-none d-md-inline">  Export</span></a>
     @can('create', App\Person::class)
-        <a href="{{ route('bank.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i><span class="d-none d-md-inline">  Import</span></a>
+        <a href="{{ route('bank.import') }}" class="btn btn-secondary">@icon(upload)<span class="d-none d-md-inline">  Import</span></a>
     @endcan
 @endsection
 
@@ -21,7 +21,7 @@
             <div class="input-group">
 			    {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}<br>
                 <span class="input-group-btn">
-                    <button class="btn btn-dark" type="button" id="reset"><i class="fa fa-eraser"></i></button>
+                    <button class="btn btn-dark" type="button" id="reset">@icon(eraser)</button>
                 </span>
             </div>
 		</div>

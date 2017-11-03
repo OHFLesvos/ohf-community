@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +43,12 @@ class AppServiceProvider extends ServiceProvider
                         ->withPath('');
                 });
         }
+
+        // Blade directive for showing a Font Awesome icon
+        Blade::directive('icon', function ($name) {
+            return '<i class="fa fa-' . $name . '"></i>';
+        });
+
     }
 
     /**

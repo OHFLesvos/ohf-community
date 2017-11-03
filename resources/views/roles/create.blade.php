@@ -3,7 +3,7 @@
 @section('title', 'Create Role')
 
 @section('buttons')
-    <a href="{{ route('roles.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+    {{ Form::bsButtonLink(route('roles.index'), 'Cancel', 'times-circle') }}
 @endsection
 
 @section('content')
@@ -19,13 +19,7 @@
 
                         <div class="form-row">
                             <div class="col-md">
-                                <div class="form-group">
-                                    {{ Form::label('name') }}
-                                    {{ Form::text('name', null, [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback">{{ $errors->first('name') }}</span>
-                                    @endif
-                                </div>
+                                {{ Form::bsText('name', null, [ 'required', 'autofocus' ]) }}
                             </div>
                         </div>
 
@@ -37,6 +31,7 @@
                 <div class="card">
                     <div class="card-header">Permissions</div>
                     <div class="card-body">
+
                         @forelse ($permissions as $k => $v)
                             <label>
                                 {{ Form::checkbox('permissions[]', $k) }} {{ $v }}
@@ -44,13 +39,17 @@
                         @empty
                             <em>No permissions</em>
                         @endforelse
+
                     </div>
                 </div>
             </div>
 
         </div>
 
-        {{ Form::button('<i class="fa fa-check"></i> Create', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;
+        <p>
+            {{ Form::bsSubmitButton('Create') }}
+        </p>
+
     {!! Form::close() !!}
 
 @endsection

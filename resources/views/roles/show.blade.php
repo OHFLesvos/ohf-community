@@ -4,16 +4,12 @@
 
 @section('buttons')
     @can('update', $role)
-        <a href="{{ route('roles.edit', $role) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+        {{ Form::bsButtonLink(route('roles.edit', $role), 'Edit', 'pencil', 'primary') }}
     @endcan
     @can('delete', $role)
-        <form method="POST" action="{{ route('roles.destroy', $role) }}" class="d-inline">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i> Delete', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
-        </form>
+        {{ Form::bsDeleteForm(route('roles.destroy', $role)) }}
     @endcan
-    <a href="{{ route('roles.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>
+    {{ Form::bsButtonLink(route('roles.index'), 'Close', 'times-circle') }}
 @endsection
 
 @section('content')
@@ -39,10 +35,4 @@
         </tbody>
     </table>
 
-@endsection
-
-@section('script')
-    $( '#delete_button' ).on('click', function(){
-        return confirm('Do you really want to delete this role?');
-    });
 @endsection

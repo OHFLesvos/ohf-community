@@ -3,7 +3,7 @@
 @section('title', 'People Charts')
 
 @section('buttons')
-    <a href="{{ route('people.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>
+	{{ Form::bsButtonLink(route('people.index'), 'Close', 'times-circle') }}
 @endsection
 
 @section('content')

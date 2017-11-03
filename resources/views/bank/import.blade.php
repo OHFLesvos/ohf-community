@@ -3,7 +3,7 @@
 @section('title', 'Upload Bank Data')
 
 @section('buttons')
-    <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+    {{ Form::bsButtonLink(route('people.index'), 'Cancel', 'times-circle') }}
 @endsection
 
 @section('content')
@@ -11,13 +11,16 @@
     {!! Form::open(['route' => 'bank.doImport', 'files' => true]) !!}
         <div class="card mb-4">
             <div class="card-body">
-                    <div class="form-group">
-                        {{ Form::file('file', null, [ 'class' => 'form-control-file'  ]) }}
-                    </div>
+                <div class="form-group">
+                    {{ Form::file('file', null, [ 'class' => 'form-control-file'  ]) }}
+                </div>
             </div>
         </div>
 
-        {{ Form::button('<i class="fa fa-upload"></i> Import', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;
+        <p>
+            {{ Form::bsSubmitButton('Import', 'upload') }}
+        </p>
+
     {!! Form::close() !!}
     
 @endsection

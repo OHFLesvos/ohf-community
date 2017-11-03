@@ -74,16 +74,16 @@
 
                         <hr class="d-none d-md-block">
                         <div class="text-center d-none d-md-block">
-                            <a href="{{ route('userprofile') }}"><h1 class="display-4"><i class="fa fa-user"></i></h1></a>
+                            <a href="{{ route('userprofile') }}"><h1 class="display-4">@icon(user)</h1></a>
                             {{ Auth::user()->name }}
                         </div>
-                        <a href="{{ route('userprofile') }}" class="d-block d-md-none btn btn-block {{ Request::is('userprofile') ? 'btn-primary' : '' }}"><i class="fa fa-user"></i></a>
+                        <a href="{{ route('userprofile') }}" class="d-block d-md-none btn btn-block {{ Request::is('userprofile') ? 'btn-primary' : '' }}">@icon(user)</a>
 
                         {{-- Logout --}}
                         <div class="px-md-3 mt-md-3">
                             <form class="form-inline" action="{{ route('logout') }}" method="POST">
                                 {{ csrf_field() }}
-                                <button type="submit" class="btn btn-secondary btn-block"><i class="fa fa-sign-out"></i><span class=" d-none d-md-inline">  Logout</span></button>
+                                <button type="submit" class="btn btn-secondary btn-block">@icon(sign-out)<span class=" d-none d-md-inline">  Logout</span></button>
                             </form>
                         </div>
 
@@ -101,7 +101,7 @@
                 <article class="main-content p-3 p-md-4">
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show">
-                            <i class="fa fa-check"></i> {{ session('success') }}
+                            @icon(check) {{ session('success') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -109,7 +109,7 @@
                     @endif
                     @if (session('info'))
                         <div class="alert alert-info alert-dismissible fade show">
-                            <i class="fa fa-info-circle"></i> {{ session('info') }}
+                            @icon(info-circle) {{ session('info') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -117,7 +117,7 @@
                     @endif
                     @if (count($errors) > 0)
                         <div class="alert alert-danger alert-dismissible fade show">
-                            <i class="fa fa-warning"></i> Validation failed, you have entered invalid values!
+                            @icon(warning) Validation failed, you have entered invalid values!
                             {{--
                             <ul>
                                 @foreach ($errors->all() as $error)

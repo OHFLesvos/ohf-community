@@ -4,14 +4,14 @@
 
 @section('buttons')
     @can('create', App\Person::class)
-        <a href="{{ route('people.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i><span class="d-none d-md-inline">  Register</span></a>
+        <a href="{{ route('people.create') }}" class="btn btn-primary">@icon(plus-circle)<span class="d-none d-md-inline">  Register</span></a>
     @endcan
-    <a href="{{ route('people.charts') }}" class="btn btn-secondary"><i class="fa fa-line-chart"></i><span class="d-none d-md-inline">  Charts</span></a>
+    <a href="{{ route('people.charts') }}" class="btn btn-secondary">@icon(line-chart)<span class="d-none d-md-inline">  Charts</span></a>
     @can('list', App\Person::class)
-        <a href="{{ route('people.export') }}" class="btn btn-secondary"><i class="fa fa-download"></i><span class="d-none d-md-inline">  Export</span></a>
+        <a href="{{ route('people.export') }}" class="btn btn-secondary">@icon(download)<span class="d-none d-md-inline">  Export</span></a>
     @endcan
     @can('create', App\Person::class)
-        <a href="{{ route('people.import') }}" class="btn btn-secondary"><i class="fa fa-upload"></i><span class="d-none d-md-inline">  Import</span></a>
+        <a href="{{ route('people.import') }}" class="btn btn-secondary">@icon(upload)<span class="d-none d-md-inline">  Import</span></a>
     @endcan
 @endsection
 

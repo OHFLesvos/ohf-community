@@ -4,7 +4,7 @@
 
 @section('buttons')
     @can('create', App\Role::class)
-        <a href="{{ route('roles.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add</a>
+        {{ Form::bsButtonLink(route('roles.create'), 'Add', 'plus-circle', 'primary') }}
     @endcan
 @endsection
 
@@ -30,11 +30,10 @@
             </tbody>
         </table>
         {{ $roles->links('vendor.pagination.bootstrap-4') }}
- 
     @else
-		<div class="alert alert-info">
-            <i class="fa fa-info-circle"></i> No roles found.
-        </div>
+        @component('components.alert.info')
+            No roles found.
+        @endcomponent
 	@endif
 	
 @endsection

@@ -25,7 +25,9 @@
                                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
                             @endif
                         </div>
-                        {{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+
+                        {{ Form::bsSubmitButton('Update') }}
+
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -59,7 +61,8 @@
                             @endif
                         </div>
 
-                        {{ Form::button('<i class="fa fa-check"></i> Update password', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+                        {{ Form::bsSubmitButton('Update password') }}
+
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -84,17 +87,11 @@
                 <div class="card-body">
                     <p>If you no longer plan to use this service, you can remove your account and delete all associated data.</p>
                     {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
-                        {{ Form::button('<i class="fa fa-user-times"></i> Delete account', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_account_button' ]) }}
+                        {{ Form::bsDeleteButton('Delete account', 'user-times', 'Do you really want to delete your account and lose access to all data?') }}
                     {!! Form::close() !!}
                 </div>
             </div>
 
         </div>
 
-@endsection
-
-@section('script')
-    $( '#delete_account_button' ).on('click', function(){
-        return confirm('Do you really want to delete your account and lose access to all data?');
-    });
 @endsection

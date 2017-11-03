@@ -4,7 +4,7 @@
 
 @section('buttons')
     @can('create', App\User::class)
-        <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add</a>
+        {{ Form::bsButtonLink(route('users.create'), 'Add', 'plus-circle', 'primary') }}
     @endcan
 @endsection
 
@@ -33,7 +33,7 @@
                         </td>
                         <td>
                             @if ( $user->isSuperAdmin() )
-                                <i class="fa fa-check text-success"></i>
+                                @icon(check text-success)
                             @endif
                         </td>
                         <td>{{ $user->created_at }}</td>
@@ -42,11 +42,10 @@
             </tbody>
         </table>
         {{ $users->links('vendor.pagination.bootstrap-4') }}
- 
     @else
-		<div class="alert alert-info">
-            <i class="fa fa-info-circle"></i> No users found.
-        </div>
+        @component('components.alert.info')
+            No users found.
+        @endcomponent
 	@endif
 	
 @endsection

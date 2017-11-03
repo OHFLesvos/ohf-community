@@ -57,6 +57,6 @@ Route::get('/tasks/setDone/{task}', 'TasksController@setDone')->name('tasks.setD
 Route::get('/tasks/setUndone/{task}', 'TasksController@setUndone')->name('tasks.setUndone');
 Route::post('/tasks/{task}/update', 'TasksController@update')->name('tasks.update');
 Route::get('/tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
-Route::get('/tasks/{task}/delete', 'TasksController@delete')->name('tasks.delete');
+Route::delete('/tasks/{task}/destroy', 'TasksController@destroy')->name('tasks.destroy');
 
 Auth::routes();

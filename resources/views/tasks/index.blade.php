@@ -5,7 +5,7 @@
 @section('buttons')
     @can('create', App\Task::class)
         @if (count($errors) == 0)
-            <button class="btn btn-primary" id="create-task-button"><i class="fa fa-plus-circle"></i> Add</button>
+            <button class="btn btn-primary" id="create-task-button">@icon(plus-circle) Add</button>
         @endif
     @endcan
 @endsection
@@ -20,23 +20,13 @@
 			{!! Form::open(['route' => 'tasks.store']) !!}
 			<div class="form-row">
 				<div class="col-md">
-					<div class="form-group">
-						{{ Form::text('description', null, [ 'class' => 'form-control'.($errors->has('description') ? ' is-invalid' : ''), 'id' => 'description', 'placeholder' => 'Description', 'autofocus'  ]) }}
-                        @if ($errors->has('description'))
-                            <span class="invalid-feedback">{{ $errors->first('description') }}</span>
-                        @endif
-					</div>
+                    {{ Form::bsText('description', null, [ 'required', 'autofocus', 'id' => 'description', 'placeholder' => 'Description' ], '') }}
 				</div>
 				<div class="col-md">
-					<div class="form-group">
-						{{ Form::text('responsible', Auth::user()->name, [ 'class' => 'form-control'.($errors->has('responsible') ? ' is-invalid' : ''), 'placeholder' => 'Responsible' ]) }}
-                        @if ($errors->has('responsible'))
-                            <span class="invalid-feedback">{{ $errors->first('responsible') }}</span>
-                        @endif
-					</div>
+                    {{ Form::bsText('responsible', Auth::user()->name, [ 'required', 'placeholder' => 'Responsible' ], '') }}
 				</div>
 				<div class="col-md-auto">
-					{{ Form::button('<i class="fa fa-check"></i> Save', [ 'type' => 'submit', 'name' => 'add', 'class' => 'btn btn-primary' ]) }} &nbsp;
+                    {{ Form::bsSubmitButton('Create') }}
 				</div>
 			</div>
 			{!! Form::close() !!}
@@ -63,7 +53,7 @@
                                 @can('update', $task)
                                     <a href="{{ route('tasks.setUndone', $task) }}" class="btn btn-success btn-sm">
                                 @endcan
-                                    <i class="fa fa-check"></i>
+                                @icon(check)
                                 @can('update', $task)
                                     </a>
                                 @endcan
@@ -71,7 +61,7 @@
                                 @can('update', $task)
                                     <a href="{{ route('tasks.setDone', $task) }}" class="btn btn-outline-success btn-sm">
                                 @endcan
-                                    <i class="fa fa-check"></i>
+                                @icon(check)
                                 @can('update', $task)
                                     </a>
                                 @endcan
@@ -96,9 +86,9 @@
         </table>
         {{ $tasks->links('vendor.pagination.bootstrap-4') }}
 	@else
-		<div class="alert alert-info">
-            <i class="fa fa-info-circle"></i> No tasks found.
-        </div>
+        @component('components.alert.info')
+            No tasks found.
+        @endcomponent
 	@endif
 	
 @endsection

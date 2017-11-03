@@ -3,7 +3,7 @@
 @section('title', 'Bank Charts')
 
 @section('buttons')
-    <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>
+    {{ Form::bsButtonLink(route('bank.index'), 'Close', 'times-circle') }}
 @endsection
 
 @section('content')

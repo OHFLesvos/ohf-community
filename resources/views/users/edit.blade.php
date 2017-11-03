@@ -3,7 +3,7 @@
 @section('title', 'Edit User')
 
 @section('buttons')
-    <a href="{{ route('users.show', $user) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Cancel</a>
+    {{ Form::bsButtonLink(route('users.show', $user), 'Cancel', 'times-circle') }}
 @endsection
 
 @section('content')
@@ -19,47 +19,21 @@
 
                         <div class="form-row">
                             <div class="col-md">
-                                <div class="form-group">
-                                    {{ Form::label('name') }}
-                                    {{ Form::text('name', null, [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
-                                    @if ($errors->has('name'))
-                                        <span class="invalid-feedback">{{ $errors->first('name') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-md">
-                                <div class="form-group">
-                                    {{ Form::label('email', 'E-Mail') }}
-                                    {{ Form::text('email', null, [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required' ]) }}
-                                    @if ($errors->has('email'))
-                                        <span class="invalid-feedback">{{ $errors->first('email') }}</span>
-                                    @endif
-                                </div>
+                                {{ Form::bsText('name', null, [ 'required', 'autofocus' ]) }}
                             </div>
                         </div>
 
                         <div class="form-row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    {{ Form::label('password', 'Password') }}
-                                    {{ Form::password('password', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'autocomplete' => 'new-password', 'aria-describedby' => 'passwordHelpBlock' ]) }}
-                                    @if ($errors->has('password'))
-                                        <span class="invalid-feedback">{{ $errors->first('password') }}</span>
-                                    @endif
-                                    <small id="passwordHelpBlock" class="form-text text-muted">
-                                        Leave empty to keep current password.
-                                    </small>
-                                </div>
+                            <div class="col-md">
+                                {{ Form::bsText('email', null, [ 'required' ], 'E-Mail') }}
+                            </div>
+                            <div class="col-md">
+                                {{ Form::bsPassword('password', [ ], null, 'Leave empty to keep current password.') }}
                             </div>
                         </div>
 
                         @if ( App\User::count() > 1 )
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    {{ Form::checkbox('is_super_admin', null, null, [ 'class' => 'form-check-input' ]) }}
-                                    This user is an administrator
-                                </label>
-                            </div>
+                            {{ Form::bsCheckbox('is_super_admin', null, null, 'This user is an administrator') }}
                         @endif
 
                     </div>
@@ -83,7 +57,10 @@
 
         </div>
 
-        {{ Form::button('<i class="fa fa-check"></i> Update', [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }} &nbsp;
+        <p>
+            {{ Form::bsSubmitButton('Update') }}
+        </p>
+
     {!! Form::close() !!}
 
 @endsection

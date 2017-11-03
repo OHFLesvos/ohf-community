@@ -4,24 +4,20 @@
 
 @section('buttons')
     @can('update', $user)
-        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+        {{ Form::bsButtonLink(route('users.edit', $user), 'Edit', 'pencil', 'primary') }}
     @endcan
     @can('delete', $user)
-        <form method="POST" action="{{ route('users.destroy', $user) }}" class="d-inline">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i> Delete', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
-        </form>
+        {{ Form::bsDeleteForm(route('users.destroy', $user)) }}
     @endcan
-    <a href="{{ route('users.index') }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i> Close</a>
+    {{ Form::bsButtonLink(route('users.index'), 'Close', 'times-circle') }}
 @endsection
 
 @section('content')
 
     @if ( $user == Auth::user() )
-        <div class="alert alert-info">
-            <i class="fa fa-info-circle"></i> This is your own user account.
-        </div>
+        @component('components.alert.info')
+            This is your own user account.
+        @endcomponent
     @endif
 
     <table class="table">
@@ -47,9 +43,9 @@
                 <th>Administrator</th>
                 <td>
                     @if ( $user->isSuperAdmin() )
-                        <i class="fa fa-check text-success"></i>
+                        @icon(check text-success)
                     @else
-                        <i class="fa fa-times"></i>
+                        @icon(times)
                     @endif
                 </td>
             </tr>
@@ -58,10 +54,4 @@
         </tbody>
     </table>
 
-@endsection
-
-@section('script')
-    $( '#delete_button' ).on('click', function(){
-        return confirm('Do you really want to delete this user?');
-    });
 @endsection

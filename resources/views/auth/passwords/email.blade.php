@@ -5,9 +5,9 @@
 @section('content')
 
     @if (session('status'))
-        <div class="alert alert-success">
-            <i class="fa fa-check"></i> {{ session('status') }}
-        </div>
+        @component('components.alert.success')
+            {{ session('status') }}
+        @endcomponent
     @endif
     
     <p>Please enter your e-mail address. We will send you a link which allows you to reset your password.</p>

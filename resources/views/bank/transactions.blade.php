@@ -8,8 +8,8 @@
 @endsection
 
 @section('buttons')
-    <a href="{{ route('bank.editPerson', $person) }}" class="btn btn-secondary"><i class="fa fa-pencil"></i> Edit Person</a> &nbsp;
-    <a href="{{ route('bank.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Overview</a> &nbsp;
+    <a href="{{ route('bank.editPerson', $person) }}" class="btn btn-secondary">@icon(pencil) Edit Person</a> &nbsp;
+    <a href="{{ route('bank.index') }}" class="btn btn-secondary">@icon(arrow-left) Back to Overview</a> &nbsp;
 @endsection
 
 @section('content')
