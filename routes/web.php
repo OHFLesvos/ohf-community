@@ -29,14 +29,6 @@ Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person'
 Route::get('/bank/settings', 'BankController@settings')->name('bank.settings');
 Route::post('/bank/settings', 'BankController@updateSettings')->name('bank.updateSettings');
 
-Route::get('/bank/register', 'BankController@register')->name('bank.register');
-Route::post('/bank/person', 'BankController@store')->name('bank.store');
-
-Route::get('/bank/editPerson/{person}', 'BankController@editPerson')->name('bank.editPerson');
-Route::post('/bank/updatePerson/{person}', 'BankController@updatePerson')->name('bank.updatePerson');
-Route::delete('/bank/destroyPerson/{person}', 'BankController@destroyPerson')->name('bank.destroyPerson');
-
-Route::get('/bank/transactions/{person}', 'BankController@transactions')->name('bank.transactions');
 Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
 Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
 

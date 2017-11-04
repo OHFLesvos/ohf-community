@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
 use App\Transaction;
-use App\Http\Requests\StorePerson;
 use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\StoreTransactionSettings;
 
@@ -35,7 +34,6 @@ class BankController extends Controller
 	}
 	
     function index() {
-
         session(['peopleOverviewRouteName' => 'bank.index']);
 
 		return view('bank.index', [
@@ -60,7 +58,6 @@ class BankController extends Controller
 		\Setting::save();
 		return redirect()->route('bank.index')
                     ->with('success', 'Settings have been updated!');
-
 	}
 	
     function charts() {
@@ -243,22 +240,6 @@ class BankController extends Controller
                     'today' => $person->todaysTransaction(),
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
-	}
-
-    public function destroyPerson(Person $person) {
-        $person->delete();
-        return redirect()->route('bank.index')
-            ->with('success', 'Person has been deleted!');
-    }
-
-	public function transactions(Person $person) {
-		return view('bank.transactions', [
-			'person' => $person,
-			'transactions' => $person->transactions()
-				->select('created_at', 'value')
-				->orderBy('created_at', 'desc')
-				->get()
-		]);
 	}
 
     public function storeTransaction(StoreTransaction $request) {
