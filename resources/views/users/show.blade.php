@@ -2,16 +2,6 @@
 
 @section('title', 'View User')
 
-@section('buttons')
-    @can('update', $user)
-        {{ Form::bsButtonLink(route('users.edit', $user), 'Edit', 'pencil', 'primary') }}
-    @endcan
-    @can('delete', $user)
-        {{ Form::bsDeleteForm(route('users.destroy', $user)) }}
-    @endcan
-    {{ Form::bsButtonLink(route('users.index'), 'Close', 'times-circle') }}
-@endsection
-
 @section('content')
 
     @if ( $user == Auth::user() )

@@ -2,10 +2,6 @@
 
 @section('title', 'Create User')
 
-@section('buttons')
-    {{ Form::bsButtonLink(route('users.index'), 'Cancel', 'times-circle') }}
-@endsection
-
 @section('content')
 
     {!! Form::open(['route' => ['users.store']]) !!}

@@ -2,16 +2,10 @@
 
 @section('title', 'Roles')
 
-@section('buttons')
-    @can('create', App\Role::class)
-        {{ Form::bsButtonLink(route('roles.create'), 'Add', 'plus-circle', 'primary') }}
-    @endcan
-@endsection
-
 @section('content')
 
     @if( ! $roles->isEmpty() )
-        <table class="table table-sm table-bordered table-striped table-hover table-responsive-md">
+        <table class="table table-sm table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     <th>Name</th>

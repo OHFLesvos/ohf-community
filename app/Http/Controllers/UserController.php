@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Role;
@@ -26,7 +27,16 @@ class UserController extends Controller
 
         return view('users.index', [
             'users' => User::orderBy('name')
-                ->paginate()
+                ->paginate(),
+            'buttons' => [
+                'action' => [
+                    'url' => route('users.create'),
+                    'caption' => 'Add',
+                    'icon' => 'plus-circle',
+                    'icon_floating' => 'plus',
+                    'authorized' => Auth::user()->can('create', User::class)
+                ]
+            ]
         ]);
     }
 
@@ -40,7 +50,15 @@ class UserController extends Controller
         $this->authorize('create', User::class);
 
         return view('users.create', [
-            'roles' => Role::orderBy('name')->get()
+            'roles' => Role::orderBy('name')->get(),
+            'buttons' => [
+                'back' => [
+                    'url' => route('users.index'),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', User::class)
+                ]
+            ]
         ]);
     }
 
@@ -76,7 +94,29 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return view('users.show', [
-            'user' => $user
+            'user' => $user,
+            'buttons' => [
+                'action' => [
+                    'url' => route('users.edit', $user),
+                    'caption' => 'Edit',
+                    'icon' => 'pencil',
+                    'icon_floating' => 'pencil',
+                    'authorized' => Auth::user()->can('update', $user)
+                ],
+                'delete' => [
+                    'url' => route('users.destroy', $user),
+                    'caption' => 'Delete',
+                    'icon' => 'trash',
+                    'authorized' => Auth::user()->can('delete', $user),
+                    'confirmation' => 'Really delete this user?'
+                ],
+                'back' => [
+                    'url' => route('users.index'),
+                    'caption' => 'Close',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', User::class)
+                ]
+            ]
         ]);
     }
 
@@ -92,7 +132,15 @@ class UserController extends Controller
 
         return view('users.edit', [
             'user' => $user,
-            'roles' => Role::orderBy('name')->get()
+            'roles' => Role::orderBy('name')->get(),
+            'buttons' => [
+                'back' => [
+                    'url' => route('users.show', $user),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('view', $user)
+                ]
+            ]
         ]);
     }
 

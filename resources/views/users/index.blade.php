@@ -2,12 +2,6 @@
 
 @section('title', 'Users')
 
-@section('buttons')
-    @can('create', App\User::class)
-        {{ Form::bsButtonLink(route('users.create'), 'Add', 'plus-circle', 'primary') }}
-    @endcan
-@endsection
-
 @section('content')
 
     @if( ! $users->isEmpty() )

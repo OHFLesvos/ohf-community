@@ -2,10 +2,6 @@
 
 @section('title', 'Create Role')
 
-@section('buttons')
-    {{ Form::bsButtonLink(route('roles.index'), 'Cancel', 'times-circle') }}
-@endsection
-
 @section('content')
 
     {!! Form::open(['route' => ['roles.store']]) !!}

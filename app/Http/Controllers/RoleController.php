@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRole;
 use App\Role;
 use App\RolePermission;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 class RoleController extends Controller
@@ -25,7 +26,16 @@ class RoleController extends Controller
 
         return view('roles.index', [
             'roles' => Role::orderBy('name')
-                ->paginate()
+                ->paginate(),
+            'buttons' => [
+                'action' => [
+                    'url' => route('roles.create'),
+                    'caption' => 'Add',
+                    'icon' => 'plus-circle',
+                    'icon_floating' => 'plus',
+                    'authorized' => Auth::user()->can('create', Role::class)
+                ]
+            ]
         ]);
     }
 
@@ -39,7 +49,15 @@ class RoleController extends Controller
         $this->authorize('create', Role::class);
 
         return view('roles.create', [
-            'permissions' => Config::get('auth.permissions')
+            'permissions' => Config::get('auth.permissions'),
+            'buttons' => [
+                'back' => [
+                    'url' => route('roles.index'),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', Role::class)
+                ]
+            ]
         ]);
     }
 
@@ -82,7 +100,29 @@ class RoleController extends Controller
 
         return view('roles.show', [
             'role' => $role,
-            'permissions' => Config::get('auth.permissions')
+            'permissions' => Config::get('auth.permissions'),
+            'buttons' => [
+                'action' => [
+                    'url' => route('roles.edit', $role),
+                    'caption' => 'Edit',
+                    'icon' => 'pencil',
+                    'icon_floating' => 'pencil',
+                    'authorized' => Auth::user()->can('update', $role)
+                ],
+                'delete' => [
+                    'url' => route('roles.destroy', $role),
+                    'caption' => 'Delete',
+                    'icon' => 'trash',
+                    'authorized' => Auth::user()->can('delete', $role),
+                    'confirmation' => 'Really delete this role?'
+                ],
+                'back' => [
+                    'url' => route('roles.index'),
+                    'caption' => 'Close',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', Role::class)
+                ]
+            ]
         ]);
     }
 
@@ -98,7 +138,15 @@ class RoleController extends Controller
 
         return view('roles.edit', [
             'role' => $role,
-            'permissions' => Config::get('auth.permissions')
+            'permissions' => Config::get('auth.permissions'),
+            'buttons' => [
+                'back' => [
+                    'url' => route('roles.show', $role),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('view', $role)
+                ]
+            ]
         ]);
     }
 

@@ -2,10 +2,6 @@
 
 @section('title', 'Edit User')
 
-@section('buttons')
-    {{ Form::bsButtonLink(route('users.show', $user), 'Cancel', 'times-circle') }}
-@endsection
-
 @section('content')
 
     {!! Form::model($user, ['route' => ['users.update', $user], 'method' => 'put']) !!}

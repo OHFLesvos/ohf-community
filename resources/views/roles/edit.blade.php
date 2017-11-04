@@ -2,10 +2,6 @@
 
 @section('title', 'Edit Role')
 
-@section('buttons')
-    {{ Form::bsButtonLink(route('roles.show', $role), 'Cancel', 'times-circle') }}
-@endsection
-
 @section('content')
 
     {!! Form::model($role, ['route' => ['roles.update', $role], 'method' => 'put']) !!}

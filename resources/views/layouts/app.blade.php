@@ -76,10 +76,6 @@
                         @endcomponent
                     @endif
 
-                    @if(View::hasSection('buttons'))
-                        @yield('buttons')
-                    @endif
-
                 </div>
             </nav>
         </header>

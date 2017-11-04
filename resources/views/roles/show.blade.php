@@ -2,16 +2,6 @@
 
 @section('title', 'View Role')
 
-@section('buttons')
-    @can('update', $role)
-        {{ Form::bsButtonLink(route('roles.edit', $role), 'Edit', 'pencil', 'primary') }}
-    @endcan
-    @can('delete', $role)
-        {{ Form::bsDeleteForm(route('roles.destroy', $role)) }}
-    @endcan
-    {{ Form::bsButtonLink(route('roles.index'), 'Close', 'times-circle') }}
-@endsection
-
 @section('content')
 
     <table class="table">
