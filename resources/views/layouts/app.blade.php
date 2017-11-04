@@ -4,30 +4,31 @@
     <body class="h-100 d-flex flex-column">
 
         <header class="site-header">
-
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
-                <span>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between row m-0 px-0">
+                <div class="col-auto ">
+                    <button class="btn btn-link text-light" id="sidebar-toggle">@icon(navicon)</button>
+                </div>
+                <div class="col-auto">
                     <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">
                         <img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}
                     </a>
                     @if(View::hasSection('title'))
                         <span class="text-light ml-xs-4">@yield('title')</span>
                     @endif
-                </span>
-                @if(View::hasSection('buttons'))
-                    <span>
+                </div>
+                <div class="col text-right">
+                    @if(View::hasSection('buttons'))
                         @yield('buttons')
-                    </span>
-                @endif
+                    @endif
+                </div>
             </nav>
-
         </header>
 
         <div class="main-wrapper h-100 d-flex">
 
             <main class="main d-flex">
 
-                <aside class="sidebar d-flex flex-column bg-light text-dark">
+                <aside class="sidebar flex-column bg-light text-dark d-none" id="sidebar">
 
                     {{-- Navigation --}}
                     <ul class="nav flex-column nav-pills my-3">
@@ -35,8 +36,7 @@
                             @if ($n['authorized'])
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is($n['active']) ? 'active' : '' }}" href="{{ route($n['route']) }}">
-                                        <i class="fa fa-{{ $n['icon'] }}" title="{{ $n['caption'] }}"></i>
-                                        <span class=" d-none d-md-inline">  {{ $n['caption'] }}</span>
+                                        <i class="fa fa-{{ $n['icon'] }}" title="{{ $n['caption'] }}"></i> {{ $n['caption'] }}
                                         @if ($n['route'] == 'tasks.index' and $num_open_tasks > 0)
                                             <span class="badge badge-secondary">{{ $num_open_tasks }}</span>
                                         @endif
@@ -49,23 +49,22 @@
                     {{-- Footer --}}
                     <footer class="footer">
 
-                        <hr class="d-none d-md-block">
-                        <div class="text-center d-none d-md-block">
+                        <hr>
+                        <div class="text-center">
                             <a href="{{ route('userprofile') }}"><h1 class="display-4">@icon(user)</h1></a>
                             {{ Auth::user()->name }}
                         </div>
-                        <a href="{{ route('userprofile') }}" class="d-block d-md-none btn btn-block {{ Request::is('userprofile') ? 'btn-primary' : '' }}">@icon(user)</a>
 
                         {{-- Logout --}}
-                        <div class="px-md-3 mt-md-3">
+                        <div class="px-3 mt-3">
                             <form class="form-inline" action="{{ route('logout') }}" method="POST">
                                 {{ csrf_field() }}
-                                <button type="submit" class="btn btn-secondary btn-block">@icon(sign-out)<span class=" d-none d-md-inline">  Logout</span></button>
+                                <button type="submit" class="btn btn-block btn-secondary">@icon(sign-out) Logout</button>
                             </form>
                         </div>
 
-                        <hr class="d-none d-md-block">
-                        <p class="copyright text-muted px-3 d-none d-md-block">
+                        <hr>
+                        <p class="copyright text-muted px-3">
                             <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }}</a><br>
                             Version: {{ $app_version }}<br>
                             &copy; Nicolas Perrenoud<br>
@@ -75,7 +74,7 @@
 
                 </aside>
 
-                <article class="main-content p-3 p-md-4">
+                <article class="main-content p-4">
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show">
                             @icon(check) {{ session('success') }}
