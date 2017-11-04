@@ -28,11 +28,6 @@ class AppServiceProvider extends ServiceProvider
 			\URL::forceScheme('https');
 		}
 
-		// Validator to check an password
-        Validator::extend('old_password', function ($attribute, $value, $parameters, $validator) {
-            return Hash::check($value, current($parameters));
-        });
-
 		// Pagination method for collections
         if (!Collection::hasMacro('paginate')) {
             Collection::macro('paginate',

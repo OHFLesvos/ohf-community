@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\OldPassword;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ class StoreNewUserPassword extends FormRequest
     public function rules()
     {
         return [
-            'old_password' => 'required|old_password:' . Auth::user()->password,
+            'old_password' => ['required', new OldPassword(Auth::user()->password)],
             'password' => 'required|string|min:6|confirmed',
         ];
     }
