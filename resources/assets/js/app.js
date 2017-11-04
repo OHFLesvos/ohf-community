@@ -2,25 +2,26 @@ require('./bootstrap');
 require( 'jquery.session/jquery.session' );
 require( 'chart.js' );
 
-var container = $('#sidebar');
-if ($.session.get('sidebar') == 1) {
-    container.removeClass('d-none').addClass('d-flex');
-} else {
-    container.removeClass('d-flex').addClass('d-none');
+/* Set the width of the side navigation to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
 }
 
 $(function(){
-
     // Sidebar toggle
     $('#sidebar-toggle').on('click', function(){
-        var container = $('#sidebar');
-        if (container.hasClass('d-none')) {
-            container.removeClass('d-none').addClass('d-flex');
-            $.session.set('sidebar', 1);
-        } else {
-            container.removeClass('d-flex').addClass('d-none');
-            $.session.set('sidebar', 0);
-        }
+        var overlay = $('#overlay_dark');
+        openNav();
+        overlay.fadeIn('fast');
+        overlay.on('click', function(){
+            closeNav();
+            overlay.fadeOut('fast');
+        });
     });
 
     // Delete confirmation method
@@ -41,7 +42,7 @@ $(function(){
             overlay.on('click', function(){
                 if ($('.context-nav').is(":visible")) {
                     nav.fadeOut('fast');
-                    $('#overlay').fadeOut('fast');
+                    overlay.fadeOut('fast');
                 }
             });
         }

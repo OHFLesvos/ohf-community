@@ -47,19 +47,23 @@
   flex: 0 0 auto;
 }
 
-.sidebar .nav {
+.sidebar .nav,
+.sidenav .nav {
   flex: 1;
 }
 
-.sidebar .nav-item i + span {
+.sidebar .nav-item i + span,
+.sidenav .nav-item i + span {
   margin-left: 0.5em;
 }
 
-.sidebar .footer {
+.sidebar .footer,
+.sidenav .footer {
   flex: 0 0 auto;
 }
 
-.sidebar .footer .copyright {
+.sidebar .footer .copyright,
+.sidenav .footer .copyright {
   font-size: 11px;
   line-height: 12px;
 }
@@ -72,10 +76,37 @@
 /*
 * Overlay
 */
-#overlay {
+#overlay,
+#overlay_dark {
   display: none;
   z-index: 100;
-  /*background: rgba(0, 0, 0, 0.5);*/
+}
+
+#overlay_dark {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/*
+* Side nav
+ */
+
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 200; /* Stay on top */
+  top: 0;
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.3s; /* 1.5 second transition effect to slide in the sidenav */
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.4);
+}
+
+.sidenav p,
+.sidenav div,
+.sidenav li {
+  white-space: nowrap;
 }
 
 /*
