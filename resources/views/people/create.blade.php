@@ -3,8 +3,10 @@
 @section('title', 'Register Person')
 
 @section('buttons')
-    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary">@icon(times-circle)<span class="d-none d-md-inline">  Cancel</span></a>
+    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary d-none d-md-inline-block">@icon(times-circle) Cancel</a>
 @endsection
+
+@section('backLink', route( $closeRoute ))
 
 @section('content')
 

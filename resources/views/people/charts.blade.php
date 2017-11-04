@@ -6,6 +6,8 @@
 	{{ Form::bsButtonLink(route('people.index'), 'Close', 'times-circle') }}
 @endsection
 
+@section('backLink', route('people.index'))
+
 @section('content')
 
     <div class="row">

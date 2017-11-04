@@ -4,12 +4,12 @@
 
 @section('buttons')
     @can('create', App\Person::class)
-        <a href="{{ route('people.create') }}" class="btn btn-primary">@icon(plus-circle)<span class="d-none d-sm-inline"> Register</span></a>
+        <a href="{{ route('people.create') }}" class="btn btn-primary d-none d-md-inline-block">@icon(plus-circle) Register</a>
     @endcan
     @component('components.context-nav')
         <li><a href="{{ route('people.charts') }}" class="btn btn-light btn-block">@icon(line-chart) Charts</a></li>
         @can('list', App\Person::class)
-                <li><a href="{{ route('people.export') }}" class="btn btn-light btn-block">@icon(download) Export</a></li>
+            <li><a href="{{ route('people.export') }}" class="btn btn-light btn-block">@icon(download) Export</a></li>
         @endcan
         @can('create', App\Person::class)
             <li><a href="{{ route('people.import') }}" class="btn btn-light btn-block">@icon(upload) Import</a></li>
@@ -59,7 +59,9 @@
         <div class="col align-items-center"><small id="paginator-info"></small></div>
     </div>
 
-    <a href="{{ route('people.create') }}" class="btn btn-primary btn-lg floating-action-button">@icon(plus)</a>
+    @can('create', App\Person::class)
+        @include('components.action-button', [ 'route' => route('people.create'), 'icon' => 'plus' ])
+    @endcan
 
 @endsection
 

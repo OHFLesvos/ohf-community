@@ -6,6 +6,8 @@
     {{ Form::bsButtonLink(route('people.index'), 'Cancel', 'times-circle') }}
 @endsection
 
+@section('backLink', route('people.index'))
+
 @section('content')
 
     {!! Form::open(['route' => 'people.doImport', 'files' => true]) !!}

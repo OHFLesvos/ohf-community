@@ -19,14 +19,18 @@
         <header class="site-header">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between row m-0 px-0">
                 <div class="col-auto d-block d-md-none">
-                    <a href="javascript:;" class="btn btn-link text-light" id="sidebar-toggle">@icon(navicon)</a>
+                    @if(View::hasSection('backLink'))
+                        <a href="@yield('backLink')" class="btn btn-link text-light">@icon(arrow-left)</a>
+                    @else
+                        <a href="javascript:;" class="btn btn-link text-light" id="sidebar-toggle">@icon(navicon)</a>
+                    @endif
                 </div>
                 <div class="col-auto">
                     <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">
                         <img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}
                     </a>
                     @if(View::hasSection('title'))
-                        <span class="text-light ml-xs-4">@yield('title')</span>
+                        <span class="text-light ml-md-4">@yield('title')</span>
                     @endif
                 </div>
                 <div class="col text-right">

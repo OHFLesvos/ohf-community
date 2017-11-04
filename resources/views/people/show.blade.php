@@ -3,16 +3,21 @@
 @section('title', 'View Person')
 
 @section('buttons')
-    <a href="{{ route('people.edit', $person) }}" class="btn btn-primary"><i class="fa fa-pencil"></i><span class="d-none d-md-inline"> Edit</span></a>
+    @can('update', $person)
+        <a href="{{ route('people.edit', $person) }}" class="btn btn-primary d-none d-md-inline-block"><i class="fa fa-pencil"></i><span class="d-none d-md-inline-block"> Edit</span></a>
+    @endcan
     @can('delete', $person)
         <form method="POST" action="{{ route('people.destroy', $person) }}" class="d-inline">
             {{ csrf_field() }}
             {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i><span class="d-none d-md-inline"> Delete</span>', [ 'type' => 'submit', 'class' => 'btn btn-danger', 'id' => 'delete_button' ]) }}
+            {{ Form::button('<i class="fa fa-trash"></i> Delete</span>', [ 'type' => 'submit', 'class' => 'btn btn-danger d-none d-md-inline-block delete-confirmation', 'data-confirmation' => 'Really delete this person?' ]) }}
+            {{ Form::button('<i class="fa fa-trash"></i>', [ 'type' => 'submit', 'class' => 'btn btn-link text-light d-md-none delete-confirmation', 'data-confirmation' => 'Really delete this person?' ]) }}
         </form>
     @endcan
-    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary"><i class="fa fa-times-circle"></i><span class="d-none d-md-inline">  Close</span></a>
+    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary d-none d-md-inline-block">@icon(times-circle) Close</a>
 @endsection
+
+@section('backLink', route( $closeRoute ))
 
 @section('content')
 
@@ -120,12 +125,8 @@
         </div>
     </div>
 
-@endsection
+    @can('update', $person)
+        @include('components.action-button', [ 'route' => route('people.edit', $person), 'icon' => 'pencil' ])
+    @endcan
 
-@section('script')
-    $(function(){
-        $('#delete_button').on('click', function(){
-            return confirm('Really delete this person?');
-        });
-    });
 @endsection
