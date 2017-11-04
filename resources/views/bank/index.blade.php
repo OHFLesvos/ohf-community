@@ -6,12 +6,14 @@
     @can('create', App\Person::class)
         <a href="{{ route('people.create') }}" class="btn btn-primary">@icon(plus-circle)<span class="d-none d-md-inline"> Register</span></a>
     @endcan
-    <a href="{{ route('bank.charts') }}" class="btn btn-secondary">@icon(line-chart)<span class="d-none d-md-inline">  Charts</span></a>
-    <a href="{{ route('bank.settings') }}" class="btn btn-secondary">@icon(cogs)<span class="d-none d-md-inline">  Settings</span></a>
-    <a href="{{ route('bank.export') }}" class="btn btn-secondary">@icon(download)<span class="d-none d-md-inline">  Export</span></a>
-    @can('create', App\Person::class)
-        <a href="{{ route('bank.import') }}" class="btn btn-secondary">@icon(upload)<span class="d-none d-md-inline">  Import</span></a>
-    @endcan
+    @component('components.context-nav')
+        <li><a href="{{ route('bank.charts') }}" class="btn btn-light btn-block">@icon(line-chart) Charts</a></li>
+        <li><a href="{{ route('bank.export') }}" class="btn btn-light btn-block">@icon(download) Export</a></li>
+        @can('create', App\Person::class)
+            <li><a href="{{ route('bank.import') }}" class="btn btn-light btn-block">@icon(upload) Import</a></li>
+        @endcan
+        <li><a href="{{ route('bank.settings') }}" class="btn btn-light btn-block">@icon(cogs) Settings</a></li>
+    @endcomponent
 @endsection
 
 @section('content')

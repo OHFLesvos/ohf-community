@@ -11,6 +11,7 @@ if ($.session.get('sidebar') == 1) {
 
 $(function(){
 
+    // Sidebar toggle
     $('#sidebar-toggle').on('click', function(){
         var container = $('#sidebar');
         if (container.hasClass('d-none')) {
@@ -25,6 +26,25 @@ $(function(){
     // Delete confirmation method
     $( '.delete-confirmation' ).on('click', function(){
         return confirm( $(this).attr( 'data-confirmation' ) );
+    });
+
+    //  Context navigation
+    $('.context-nav-toggle').on('click', function(){
+        var nav = $('.context-nav');
+        var overlay = $('#overlay');
+        if (nav.is(":visible")) {
+            nav.fadeOut('fast');
+            overlay.fadeOut('fast');
+        } else {
+            nav.fadeIn('fast');
+            overlay.fadeIn('fast');
+            overlay.on('click', function(){
+                if ($('.context-nav').is(":visible")) {
+                    nav.fadeOut('fast');
+                    $('#overlay').fadeOut('fast');
+                }
+            });
+        }
     });
 
 });

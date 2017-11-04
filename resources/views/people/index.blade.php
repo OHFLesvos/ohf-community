@@ -4,15 +4,17 @@
 
 @section('buttons')
     @can('create', App\Person::class)
-        <a href="{{ route('people.create') }}" class="btn btn-primary">@icon(plus-circle)<span class="d-none d-md-inline">  Register</span></a>
+        <a href="{{ route('people.create') }}" class="btn btn-primary">@icon(plus-circle)<span class="d-none d-sm-inline"> Register</span></a>
     @endcan
-    <a href="{{ route('people.charts') }}" class="btn btn-secondary">@icon(line-chart)<span class="d-none d-md-inline">  Charts</span></a>
-    @can('list', App\Person::class)
-        <a href="{{ route('people.export') }}" class="btn btn-secondary">@icon(download)<span class="d-none d-md-inline">  Export</span></a>
-    @endcan
-    @can('create', App\Person::class)
-        <a href="{{ route('people.import') }}" class="btn btn-secondary">@icon(upload)<span class="d-none d-md-inline">  Import</span></a>
-    @endcan
+    @component('components.context-nav')
+        <li><a href="{{ route('people.charts') }}" class="btn btn-light btn-block">@icon(line-chart) Charts</a></li>
+        @can('list', App\Person::class)
+                <li><a href="{{ route('people.export') }}" class="btn btn-light btn-block">@icon(download) Export</a></li>
+        @endcan
+        @can('create', App\Person::class)
+            <li><a href="{{ route('people.import') }}" class="btn btn-light btn-block">@icon(upload) Import</a></li>
+        @endcan
+    @endcomponent
 @endsection
 
 @section('content')
@@ -56,6 +58,8 @@
         </div>
         <div class="col align-items-center"><small id="paginator-info"></small></div>
     </div>
+
+    <a href="{{ route('people.create') }}" class="btn btn-primary btn-lg floating-action-button">@icon(plus)</a>
 
 @endsection
 

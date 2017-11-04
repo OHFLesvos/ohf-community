@@ -3,35 +3,32 @@
 @section('title', 'Tasks')
 
 @section('buttons')
-    @can('create', App\Task::class)
-        @if (count($errors) == 0)
-            <button class="btn btn-primary" id="create-task-button">@icon(plus-circle) Add</button>
-        @endif
-    @endcan
 @endsection
 
 @section('content')
 
-	<div class="card mb-4" id="create-task-container" @if (count($errors) == 0) style="display: none;" @endif>
-		<div class="card-header">
-			New Task
-		</div>
-		<div class="card-body">
-			{!! Form::open(['route' => 'tasks.store']) !!}
-			<div class="form-row">
-				<div class="col-md">
-                    {{ Form::bsText('description', null, [ 'required', 'autofocus', 'id' => 'description', 'placeholder' => 'Description' ], '') }}
-				</div>
-				<div class="col-md">
-                    {{ Form::bsText('responsible', Auth::user()->name, [ 'required', 'placeholder' => 'Responsible' ], '') }}
-				</div>
-				<div class="col-md-auto">
-                    {{ Form::bsSubmitButton('Create') }}
-				</div>
-			</div>
-			{!! Form::close() !!}
-		</div>
-	</div>
+    @can('create', App\Task::class)
+        <div class="card mb-4" id="create-task-container">
+            <div class="card-header">
+                New Task
+            </div>
+            <div class="card-body">
+                {!! Form::open(['route' => 'tasks.store']) !!}
+                <div class="form-row">
+                    <div class="col-md-8">
+                        {{ Form::bsText('description', null, [ 'required', 'placeholder' => 'Description' ], '') }}
+                    </div>
+                    <div class="col-md">
+                        {{ Form::bsText('responsible', Auth::user()->name, [ 'required', 'placeholder' => 'Responsible' ], '') }}
+                    </div>
+                    <div class="col-md-auto">
+                        {{ Form::bsSubmitButton('Create') }}
+                    </div>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    @endcan
 
 	@if( ! $tasks->isEmpty() )
         <table class="table table-sm table-bordered" id="results-table">
@@ -91,14 +88,4 @@
         @endcomponent
 	@endif
 	
-@endsection
-
-@section('script')
-    $(function(){
-		$('#create-task-button').on('click', function(){
-			$(this).parent().hide();
-			$('#create-task-container').show();
-			$('#description').focus();
-	   });
-    });
 @endsection

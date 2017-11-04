@@ -3,10 +3,12 @@
     @include('layouts.include.head')
     <body class="h-100 d-flex flex-column">
 
+        <div id="overlay" class="position-absolute h-100 w-100"></div>
+
         <header class="site-header">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between row m-0 px-0">
-                <div class="col-auto ">
-                    <button class="btn btn-link text-light" id="sidebar-toggle">@icon(navicon)</button>
+                <div class="col-auto">
+                    <button class="btn btn-link text-light pr-0" id="sidebar-toggle">@icon(navicon)</button>
                 </div>
                 <div class="col-auto">
                     <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">
@@ -30,8 +32,14 @@
 
                 <aside class="sidebar flex-column bg-light text-dark d-none" id="sidebar">
 
+                    <div class="mt-4 d-block d-md-none">
+                        <span class="p-4">
+                            <img src="{{URL::asset('/img/logo.png')}}" class=" mr-1"/> <small>{{ Config::get('app.name') }}</small>
+                        </span>
+                    </div>
+
                     {{-- Navigation --}}
-                    <ul class="nav flex-column nav-pills my-3">
+                    <ul class="nav flex-column nav-pills my-3 mt-0">
                         @foreach ($nav as $n)
                             @if ($n['authorized'])
                                 <li class="nav-item">
