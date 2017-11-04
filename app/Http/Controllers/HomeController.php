@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Person;
+use App\Transaction;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class HomeController extends Controller
 {
@@ -23,6 +29,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $args = [];
+        if (Auth::user()->can('list', Person::class)) {
+            $args['num_people'] = Person::count();
+        }
+        if (Gate::allows('use-bank')) {
+            $args['num_transactions_today'] = Transaction::whereDate('created_at', '=', Carbon::today())->count();
+        }
+        if (Auth::user()->can('list', User::class)) {
+            $args['num_users'] = User::count();
+        }
+        return view('welcome', $args);
     }
 }

@@ -16,6 +16,7 @@
             @include('layouts.include.side-nav')
         </div>
 
+        {{-- Site header --}}
         <header class="site-header">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between row m-0 px-0">
                 <div class="col-auto d-block d-md-none">

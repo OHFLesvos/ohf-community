@@ -4,7 +4,7 @@
 
 @section('buttons')
     @can('create', App\Person::class)
-        <a href="{{ route('people.create') }}" class="btn btn-primary">@icon(plus-circle)<span class="d-none d-md-inline"> Register</span></a>
+        <a href="{{ route('people.create') }}" class="btn btn-primary d-none d-md-inline-block">@icon(plus-circle) Register</a>
     @endcan
     @component('components.context-nav')
         <li><a href="{{ route('bank.charts') }}" class="btn btn-light btn-block">@icon(line-chart) Charts</a></li>
@@ -53,6 +53,10 @@
         </tbody>
     </table>
 	<p><small class="pull-rit text-sm text-right text-muted" id="filter-status"></small></p>
+
+    @can('create', App\Person::class)
+        @include('components.action-button', [ 'route' => route('people.create'), 'icon' => 'plus' ])
+    @endcan
 
 @endsection
 
