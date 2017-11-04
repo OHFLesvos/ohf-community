@@ -99,6 +99,7 @@
   top: 0;
   left: 0;
   overflow-x: hidden; /* Disable horizontal scroll */
+  overflow-y: auto;
   transition: 0.3s; /* 1.5 second transition effect to slide in the sidenav */
   box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.4);
 }
@@ -131,7 +132,7 @@
 
 @media only screen and (max-width: map-get($grid-breakpoints, md)){
   .context-nav li a {
-    padding: 1em 4em 1em 1.5em;
+    padding: 0.8em 4em 0.8em 1.5em;
   }
 }
 
