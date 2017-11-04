@@ -83,7 +83,7 @@ class PeopleController extends Controller
             'transactions' => $person->transactions()
                 ->select('created_at', 'value')
                 ->orderBy('created_at', 'desc')
-                ->get(),
+                ->paginate()
         ]);
     }
 
