@@ -2,20 +2,6 @@
 
 @section('title', 'Bank')
 
-@section('buttons')
-    @can('create', App\Person::class)
-        <a href="{{ route('people.create') }}" class="btn btn-primary d-none d-md-inline-block">@icon(plus-circle) Register</a>
-    @endcan
-    @component('components.context-nav')
-        <li><a href="{{ route('bank.charts') }}" class="btn btn-light btn-block">@icon(line-chart) Charts</a></li>
-        <li><a href="{{ route('bank.export') }}" class="btn btn-light btn-block">@icon(download) Export</a></li>
-        @can('create', App\Person::class)
-            <li><a href="{{ route('bank.import') }}" class="btn btn-light btn-block">@icon(upload) Import</a></li>
-        @endcan
-        <li><a href="{{ route('bank.settings') }}" class="btn btn-light btn-block">@icon(cogs) Settings</a></li>
-    @endcomponent
-@endsection
-
 @section('content')
 
 	<div class="row">

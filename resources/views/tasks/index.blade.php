@@ -2,9 +2,6 @@
 
 @section('title', 'Tasks')
 
-@section('buttons')
-@endsection
-
 @section('content')
 
     @can('create', App\Task::class)

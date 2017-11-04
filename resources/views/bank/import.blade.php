@@ -2,10 +2,6 @@
 
 @section('title', 'Upload Bank Data')
 
-@section('buttons')
-    {{ Form::bsButtonLink(route('people.index'), 'Cancel', 'times-circle') }}
-@endsection
-
 @section('content')
 
     {!! Form::open(['route' => 'bank.doImport', 'files' => true]) !!}

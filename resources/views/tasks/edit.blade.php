@@ -2,13 +2,6 @@
 
 @section('title', 'Edit Task')
 
-@section('buttons')
-	@can('delete', $task)
-        {{ Form::bsDeleteForm(route('tasks.destroy', $task), 'Delete', 'trash', 'Really delete this task?') }}
-    @endcan
-    {{ Form::bsButtonLink(route('tasks.index'), 'Cancel', 'times-circle') }}
-@endsection
-
 @section('content')
 
 	{!! Form::model($task, ['route' => ['tasks.update', $task]]) !!}
@@ -34,7 +27,7 @@
 		<p>
 			<small class="pull-right text-sm text-right text-muted">
 				Created: {{ $task->created_at }}<br>
-				Last updated: {{ $task->updated_at }}
+				Updated: {{ $task->updated_at }}
 			</small>
             {{ Form::bsSubmitButton('Update') }}
 		</p>

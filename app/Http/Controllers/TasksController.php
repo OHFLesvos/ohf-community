@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Task;
 use App\Http\Requests\StoreTask;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller {
 
@@ -47,7 +48,22 @@ class TasksController extends Controller {
         $this->authorize('update', $task);
 
 		return view('tasks.edit', [
-			'task' => $task
+			'task' => $task,
+            'buttons' => [
+                'delete' => [
+                    'url' => route('tasks.destroy', $task),
+                    'caption' => 'Delete',
+                    'icon' => 'trash',
+                    'authorized' => Auth::user()->can('delete', $task),
+                    'confirmation' => 'Really delete this task?'
+                ],
+                'back' => [
+                    'url' => route('tasks.index'),
+                    'caption' => 'Close',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', Task::class)
+                ]
+            ]
 		]);
 	}
 

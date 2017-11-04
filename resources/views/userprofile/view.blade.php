@@ -6,7 +6,7 @@
 
     <div class="card-columns">
 
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">Profile</div>
                 <div class="card-body">
                     {!! Form::open(['route' => ['userprofile.update']]) !!}
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">Change Password</div>
                 <div class="card-body">
                     {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">Account Information</div>
                 <div class="card-body">
                     <p>Your account has been created on <strong>{{ $user->created_at }}</strong> 
@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">Account Removal</div>
                 <div class="card-body">
                     <p>If you no longer plan to use this service, you can remove your account and delete all associated data.</p>

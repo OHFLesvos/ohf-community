@@ -2,15 +2,10 @@
 
 @section('title', 'Register Person')
 
-@section('buttons')
-    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary d-none d-md-inline-block">@icon(times-circle) Cancel</a>
-@endsection
-
-@section('backLink', route( $closeRoute ))
-
 @section('content')
 
     {!! Form::open(['route' => 'people.store']) !!}
+
 		<div class="card mb-4">
 			<div class="card-body">
 				<div class="form-row">
@@ -49,7 +44,7 @@
                 {{ Form::bsText('remarks') }}
 			</div>
 		</div>
-        @if ( $closeRoute == 'bank.index' )
+        @if ( $allow_transaction )
             <div class="card mb-4">
                 <div class="card-body">
                     {{ Form::bsNumber('value', $transaction_value, [ 'style' => 'width:80px', 'min' => 0, 'max' => $transaction_value ], 'Transaction') }}

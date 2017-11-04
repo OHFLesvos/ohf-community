@@ -2,10 +2,6 @@
 
 @section('title', 'Bank Settings')
 
-@section('buttons')
-    {{ Form::bsButtonLink(route('bank.index'), 'Close', 'times-circle') }}
-@endsection
-
 @section('content')
 
     {!! Form::open(['route' => ['bank.updateSettings']]) !!}

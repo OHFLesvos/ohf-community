@@ -2,23 +2,6 @@
 
 @section('title', 'View Person')
 
-@section('buttons')
-    @can('update', $person)
-        <a href="{{ route('people.edit', $person) }}" class="btn btn-primary d-none d-md-inline-block"><i class="fa fa-pencil"></i><span class="d-none d-md-inline-block"> Edit</span></a>
-    @endcan
-    @can('delete', $person)
-        <form method="POST" action="{{ route('people.destroy', $person) }}" class="d-inline">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            {{ Form::button('<i class="fa fa-trash"></i> Delete</span>', [ 'type' => 'submit', 'class' => 'btn btn-danger d-none d-md-inline-block delete-confirmation', 'data-confirmation' => 'Really delete this person?' ]) }}
-            {{ Form::button('<i class="fa fa-trash"></i>', [ 'type' => 'submit', 'class' => 'btn btn-link text-light d-md-none delete-confirmation', 'data-confirmation' => 'Really delete this person?' ]) }}
-        </form>
-    @endcan
-    <a href="{{ route( $closeRoute ) }}" class="btn btn-secondary d-none d-md-inline-block">@icon(times-circle) Close</a>
-@endsection
-
-@section('backLink', route( $closeRoute ))
-
 @section('content')
 
     <div class="row">
@@ -124,9 +107,5 @@
 
         </div>
     </div>
-
-    @can('update', $person)
-        @include('components.action-button', [ 'route' => route('people.edit', $person), 'icon' => 'pencil' ])
-    @endcan
 
 @endsection

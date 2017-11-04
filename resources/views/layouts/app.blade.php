@@ -20,10 +20,14 @@
         <header class="site-header">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between row m-0 px-0">
                 <div class="col-auto d-block d-md-none">
-                    @if(View::hasSection('backLink'))
-                        <a href="@yield('backLink')" class="btn btn-link text-light">@icon(arrow-left)</a>
+                    @if( isset($buttons['back']) && $buttons['back']['authorized'] )
+                        <a href="{{ $buttons['back']['url'] }}" class="btn btn-link text-light">
+                            @icon(arrow-left)
+                        </a>
                     @else
-                        <a href="javascript:;" class="btn btn-link text-light" id="sidebar-toggle">@icon(navicon)</a>
+                        <a href="javascript:;" class="btn btn-link text-light" id="sidebar-toggle">
+                            @icon(navicon)
+                        </a>
                     @endif
                 </div>
                 <div class="col-auto">
@@ -34,10 +38,48 @@
                         <span class="text-light ml-md-4">@yield('title')</span>
                     @endif
                 </div>
+
                 <div class="col text-right">
+
+                    {{-- Buttons --}}
+                    @if ( isset( $buttons ) )
+                        @foreach( $buttons as $key => $button )
+                            @if ( $button['authorized'] )
+                                @if( $key == 'delete' )
+                                    <form method="POST" action="{{ $button['url'] }}" class="d-inline">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i> ' . $button['caption'] .'</span>', [ 'type' => 'submit', 'class' => 'btn btn-danger d-none d-md-inline-block delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
+                                        {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i>', [ 'type' => 'submit', 'class' => 'btn btn-link text-light d-md-none delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
+                                    </form>
+                                @else
+                                <a href="{{ $button['url'] }}" class="btn @if( $key == 'action' )btn-primary @else btn-secondary @endif d-none d-md-inline-block">
+                                    @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                                </a>
+                                @endif
+                            @endif
+                        @endforeach
+                    @endif
+
+                    {{-- Menu --}}
+                    @if ( isset( $menu ) )
+                        @component('components.context-nav')
+                            @foreach( $menu as $item )
+                                @if ( $item['authorized'] )
+                                    <li>
+                                        <a href="{{ $item['url'] }}" class="btn btn-light btn-block">
+                                            @icon({{ $item['icon'] }}) {{ $item['caption'] }}
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        @endcomponent
+                    @endif
+
                     @if(View::hasSection('buttons'))
                         @yield('buttons')
                     @endif
+
                 </div>
             </nav>
         </header>
@@ -84,7 +126,12 @@
                         </div>
                     @endif
 
+                    {{-- Content --}}
                     @yield('content')
+
+                    @if( isset($buttons['action']) && $buttons['action']['authorized'] )
+                        @include('components.action-button', [ 'route' => $buttons['action']['url'], 'icon' => $buttons['action']['icon_floating'] ])
+                    @endif
 
                 </article>
 

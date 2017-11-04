@@ -8,6 +8,7 @@ use App\Person;
 use App\Transaction;
 use App\Http\Requests\StorePerson;
 use App\Http\Requests\StoreTransaction;
+use Illuminate\Support\Facades\Auth;
 
 class PeopleController extends Controller
 {
@@ -29,6 +30,35 @@ class PeopleController extends Controller
         session(['peopleOverviewRouteName' => 'people.index']);
 
 		return view('people.index', [
+		    'buttons' => [
+                'action' => [
+                    'url' => route('people.create'),
+                    'caption' => 'Register',
+                    'icon' => 'plus-circle',
+                    'icon_floating' => 'plus',
+                    'authorized' => Auth::user()->can('create', Person::class)
+                ]
+            ],
+		    'menu' => [
+                [
+                    'url' => route('people.charts'),
+                    'caption' => 'Charts',
+                    'icon' => 'line-chart',
+                    'authorized' => true
+                ],
+                [
+                    'url' => route('people.export'),
+                    'caption' => 'Export',
+                    'icon' => 'download',
+                    'authorized' => Auth::user()->can('list', Person::class)
+                ],
+                [
+                    'url' => route('people.import'),
+                    'caption' => 'Import',
+                    'icon' => 'upload',
+                    'authorized' => Auth::user()->can('create', Person::class)
+                ],
+            ]
 		]);
     }
 
@@ -40,8 +70,16 @@ class PeopleController extends Controller
         $this->authorize('create', Person::class);
 
         return view('people.create', [
-            'closeRoute' => $this->getPeopleOverviewRouteName(),
+            'allow_transaction' => $this->getPeopleOverviewRouteName() == 'bank.index',
             'transaction_value' => \Setting::get('bank.transaction_default_value', BankController::TRANSACTION_DEFAULT_VALUE),
+            'buttons' => [
+                'back' => [
+                    'url' => route($this->getPeopleOverviewRouteName()),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', Person::class)
+                ]
+            ]
 		]);
     }
 
@@ -79,11 +117,32 @@ class PeopleController extends Controller
     public function show(Person $person) {
         return view('people.show', [
             'person' => $person,
-            'closeRoute' => $this->getPeopleOverviewRouteName(),
             'transactions' => $person->transactions()
                 ->select('created_at', 'value')
                 ->orderBy('created_at', 'desc')
-                ->paginate()
+                ->paginate(),
+            'buttons' => [
+                'action' => [
+                    'url' => route('people.edit', $person),
+                    'caption' => 'Edit',
+                    'icon' => 'pencil',
+                    'icon_floating' => 'pencil',
+                    'authorized' => Auth::user()->can('update', $person)
+                ],
+                'delete' => [
+                    'url' => route('people.destroy', $person),
+                    'caption' => 'Delete',
+                    'icon' => 'trash',
+                    'authorized' => Auth::user()->can('delete', $person),
+                    'confirmation' => 'Really delete this person?'
+                ],
+                'back' => [
+                    'url' => route($this->getPeopleOverviewRouteName()),
+                    'caption' => 'Close',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', Person::class)
+                ]
+            ]
         ]);
     }
 
@@ -91,7 +150,15 @@ class PeopleController extends Controller
         $this->authorize('update', $person);
 
         return view('people.edit', [
-            'person' => $person
+            'person' => $person,
+            'buttons' => [
+                'back' => [
+                    'url' => route('people.show', $person),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('view', $person)
+                ]
+            ]
 		]);
 	}
 
@@ -160,6 +227,14 @@ class PeopleController extends Controller
         $this->authorize('create', Person::class);
 
         return view('people.import', [
+            'buttons' => [
+                'back' => [
+                    'url' => route('people.index'),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', Person::class)
+                ]
+            ]
 		]);
     }
 
@@ -232,6 +307,14 @@ class PeopleController extends Controller
                 "cyan",
                 "blue",
                 "purple"
+            ],
+            'buttons' => [
+                'back' => [
+                    'url' => route('people.index'),
+                    'caption' => 'Close',
+                    'icon' => 'times-circle',
+                    'authorized' => Auth::user()->can('list', Person::class)
+                ]
             ]
 		]);
     }

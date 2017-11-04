@@ -2,15 +2,10 @@
 
 @section('title', 'Edit Person')
 
-@section('buttons')
-	<a href="{{ route('people.show', $person) }}" class="btn btn-secondary d-none d-md-inline-block">@icon(times-circle) Cancel</a>
-@endsection
-
-@section('backLink', route('people.show', $person))
-
 @section('content')
 
     {!! Form::model($person, ['route' => ['people.update', $person], 'method' => 'put']) !!}
+
 		<div class="card mb-4">
 			<div class="card-body">
 				<div class="form-row">

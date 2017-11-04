@@ -8,6 +8,8 @@ use App\Person;
 use App\Transaction;
 use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\StoreTransactionSettings;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class BankController extends Controller
 {
@@ -37,7 +39,42 @@ class BankController extends Controller
         session(['peopleOverviewRouteName' => 'bank.index']);
 
 		return view('bank.index', [
-			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT)
+			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
+            'buttons' => [
+                'action' => [
+                    'url' => route('people.create'),
+                    'caption' => 'Register',
+                    'icon' => 'plus-circle',
+                    'icon_floating' => 'plus',
+                    'authorized' => Auth::user()->can('create', Person::class)
+                ]
+            ],
+            'menu' => [
+                [
+                    'url' => route('bank.charts'),
+                    'caption' => 'Charts',
+                    'icon' => 'line-chart',
+                    'authorized' => true
+                ],
+                [
+                    'url' => route('bank.export'),
+                    'caption' => 'Export',
+                    'icon' => 'download',
+                    'authorized' => Auth::user()->can('list', Person::class)
+                ],
+                [
+                    'url' => route('bank.import'),
+                    'caption' => 'Import',
+                    'icon' => 'upload',
+                    'authorized' => Auth::user()->can('create', Person::class)
+                ],
+                [
+                    'url' => route('bank.settings'),
+                    'caption' => 'Settings',
+                    'icon' => 'cogs',
+                    'authorized' => Gate::allows('use-bank')
+                ],
+            ]
 		]);
     }
 
@@ -46,7 +83,15 @@ class BankController extends Controller
 			'transaction_default_value' => \Setting::get('bank.transaction_default_value', self::TRANSACTION_DEFAULT_VALUE),
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
 			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS),
-            'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE)
+            'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE),
+            'buttons' => [
+                'back' => [
+                    'url' => route('bank.index'),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Gate::allows('use-bank')
+                ]
+            ]
 		]);
     }
 
@@ -77,12 +122,28 @@ class BankController extends Controller
                 })->sum();
         }
 		return view('bank.charts', [
-            'data' => $data
+            'data' => $data,
+            'buttons' => [
+                'back' => [
+                    'url' => route('bank.index'),
+                    'caption' => 'Close',
+                    'icon' => 'times-circle',
+                    'authorized' => Gate::allows('use-bank')
+                ]
+            ]
 		]);
     }
 
     function import() {
 		return view('bank.import', [
+            'buttons' => [
+                'back' => [
+                    'url' => route('bank.index'),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Gate::allows('use-bank')
+                ]
+            ]
 		]);
     }
 

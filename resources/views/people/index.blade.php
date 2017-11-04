@@ -2,21 +2,6 @@
 
 @section('title', 'People')
 
-@section('buttons')
-    @can('create', App\Person::class)
-        <a href="{{ route('people.create') }}" class="btn btn-primary d-none d-md-inline-block">@icon(plus-circle) Register</a>
-    @endcan
-    @component('components.context-nav')
-        <li><a href="{{ route('people.charts') }}" class="btn btn-light btn-block">@icon(line-chart) Charts</a></li>
-        @can('list', App\Person::class)
-            <li><a href="{{ route('people.export') }}" class="btn btn-light btn-block">@icon(download) Export</a></li>
-        @endcan
-        @can('create', App\Person::class)
-            <li><a href="{{ route('people.import') }}" class="btn btn-light btn-block">@icon(upload) Import</a></li>
-        @endcan
-    @endcomponent
-@endsection
-
 @section('content')
 
     <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table">
@@ -58,10 +43,6 @@
         </div>
         <div class="col align-items-center"><small id="paginator-info"></small></div>
     </div>
-
-    @can('create', App\Person::class)
-        @include('components.action-button', [ 'route' => route('people.create'), 'icon' => 'plus' ])
-    @endcan
 
 @endsection
 
