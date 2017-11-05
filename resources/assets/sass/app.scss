@@ -19,6 +19,100 @@
   flex: 0 0 auto;
 }
 
+.site-content {
+  flex: 1;
+  overflow: auto;
+}
+
+/*
+* Side navigation
+*/
+
+.side-nav-header {
+  flex: 1;
+}
+
+.side-nav-footer {
+  flex: 0 0 auto;
+}
+
+.side-nav-footer .copyright {
+  font-size: 11px;
+  line-height: 12px;
+}
+
+/*
+* Slideout
+*/
+
+.slideout-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 256px;
+  min-height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 0;
+  display: none;
+}
+
+.slideout-menu-left {
+  left: 0;
+}
+
+.slideout-menu-right {
+  right: 0;
+}
+
+.slideout-panel {
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+  background-color: #FFF; /* A background-color is required */
+  min-height: 100vh;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
+}
+
+.panel:before {
+  content: '';
+  display: block;
+  background-color: rgba(0,0,0,0);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.panel-open:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0,0,0,.3);
+  z-index: 99;
+  box-shadow: inset 1px 4px 9px -6px;
+}
+
+/*
+* Overlay
+*/
+
+#overlay {
+  display: none;
+  z-index: 100;
+}
+
+/*
+* Side header
+ */
+
 .navbar .btn {
   border: none;
   -webkit-box-shadow: none;
@@ -30,84 +124,6 @@
 .navbar form + .btn,
 .navbar .btn + form {
   margin-left: 0.5em;
-}
-
-.main-wrapper {
-  flex: 1;
-  overflow: auto;
-}
-
-.main {
-  flex: 1;
-  overflow-x: auto;
-}
-
-.sidebar {
-  overflow-y: auto;
-  flex: 0 0 auto;
-}
-
-.sidebar .nav,
-.sidenav .nav {
-  flex: 1;
-}
-
-.sidebar .nav-item i + span,
-.sidenav .nav-item i + span {
-  margin-left: 0.5em;
-}
-
-.sidebar .footer,
-.sidenav .footer {
-  flex: 0 0 auto;
-}
-
-.sidebar .footer .copyright,
-.sidenav .footer .copyright {
-  font-size: 11px;
-  line-height: 12px;
-}
-
-.main-content {
-  overflow: auto;
-  flex: 1;
-}
-
-/*
-* Overlay
-*/
-#overlay,
-#overlay_dark {
-  display: none;
-  z-index: 100;
-}
-
-#overlay_dark {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-/*
-* Side nav
- */
-
-/* The side navigation menu */
-.sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 200; /* Stay on top */
-  top: 0;
-  left: 0;
-  overflow-x: hidden; /* Disable horizontal scroll */
-  overflow-y: auto;
-  transition: 0.3s; /* 1.5 second transition effect to slide in the sidenav */
-  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.4);
-}
-
-.sidenav p,
-.sidenav div,
-.sidenav li {
-  white-space: nowrap;
 }
 
 /*

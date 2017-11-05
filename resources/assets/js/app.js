@@ -2,27 +2,39 @@ require('./bootstrap');
 require( 'jquery.session/jquery.session' );
 require( 'chart.js' );
 
-/* Set the width of the side navigation to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
+/*
+* Slideout
+ */
+var slideout = new Slideout({
+    'panel': document.getElementById('panel'),
+    'menu': document.getElementById('menu'),
+    'padding': 256,
+    'tolerance': 70
+});
+
+// Toggle button
+$('.toggle-button').on('click', function() {
+    slideout.toggle();
+});
+
+function close(eve) {
+    eve.preventDefault();
+    slideout.close();
 }
 
-/* Set the width of the side navigation to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
+slideout
+    .on('beforeopen', function() {
+        this.panel.classList.add('panel-open');
+    })
+    .on('open', function() {
+        this.panel.addEventListener('click', close);
+    })
+    .on('beforeclose', function() {
+        this.panel.classList.remove('panel-open');
+        this.panel.removeEventListener('click', close);
+    });
 
 $(function(){
-    // Sidebar toggle
-    $('#sidebar-toggle').on('click', function(){
-        var overlay = $('#overlay_dark');
-        openNav();
-        overlay.fadeIn('fast');
-        overlay.on('click', function(){
-            closeNav();
-            overlay.fadeOut('fast');
-        });
-    });
 
     // Delete confirmation method
     $( '.delete-confirmation' ).on('click', function(){
