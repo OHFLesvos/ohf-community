@@ -58,12 +58,12 @@
                 {{-- Content --}}
                 @yield('content')
 
-                {{-- Floating action button --}}
-                @if( isset($buttons['action']) && $buttons['action']['authorized'] )
-                    @include('components.action-button', [ 'route' => $buttons['action']['url'], 'icon' => $buttons['action']['icon_floating'] ])
-                @endif
-
             </article>
+
+            {{-- Floating action button --}}
+            @if( isset($buttons['action']) && $buttons['action']['authorized'] )
+                @include('components.action-button', [ 'route' => $buttons['action']['url'], 'icon' => $buttons['action']['icon_floating'] ])
+            @endif
 
             <div id="overlay" class="position-absolute h-100 w-100"></div>
 
