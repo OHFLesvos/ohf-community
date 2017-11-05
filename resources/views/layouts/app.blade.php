@@ -4,7 +4,7 @@
     <body class="h-100 d-flex flex-column">
 
         {{-- Side navigation --}}
-        <nav id="menu" class="bg-light d-flex flex-column">
+        <nav id="menu" class="bg-light">
             @include('layouts.include.side-nav')
         </nav>
 
