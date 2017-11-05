@@ -23,7 +23,9 @@
             </div>
         </div>
     </div>
-	
+
+	<script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
+
 @endsection
 
 @section('script')

@@ -1,6 +1,5 @@
 require('./bootstrap');
 require( 'jquery.session/jquery.session' );
-require( 'chart.js' );
 
 /*
 * Slideout
