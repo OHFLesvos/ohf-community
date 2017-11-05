@@ -1,38 +1,45 @@
 require('./bootstrap');
 require( 'jquery.session/jquery.session' );
 
-/*
-* Slideout
- */
-var slideout = new Slideout({
-    'panel': document.getElementById('panel'),
-    'menu': document.getElementById('menu'),
-    'padding': 256,
-    'tolerance': 70,
-    'touch': false
+
+/*====================================
+=            ON DOM READY            =
+====================================*/
+$(function() {
+    $('.toggle-nav').click(function() {
+        toggleNav();
+    });
 });
 
-// Toggle button
-$('.toggle-button').on('click', function() {
-    slideout.toggle();
-});
+/*========================================
+=            CUSTOM FUNCTIONS            =
+========================================*/
 
-function close(eve) {
-    eve.preventDefault();
-    slideout.close();
+function showNavigation() {
+    $('.site-wrapper').addClass('show-nav');
+    var overlay = $('#overlay_dark');
+    overlay.fadeIn('fast');
+    overlay.on('click', function(){
+        hideNavigation();
+    });
 }
 
-slideout
-    .on('beforeopen', function() {
-        this.panel.classList.add('panel-open');
-    })
-    .on('open', function() {
-        this.panel.addEventListener('click', close);
-    })
-    .on('beforeclose', function() {
-        this.panel.classList.remove('panel-open');
-        this.panel.removeEventListener('click', close);
-    });
+function hideNavigation() {
+    $('.site-wrapper').removeClass('show-nav');
+    var overlay = $('#overlay_dark');
+    overlay.fadeOut('fast');
+    overlay.off('click');
+}
+
+function toggleNav() {
+    if ($('.site-wrapper').hasClass('show-nav')) {
+        // Do things on Nav Close
+        hideNavigation();
+    } else {
+        // Do things on Nav Open
+        showNavigation();
+    }
+}
 
 $(function(){
 

@@ -8,13 +8,13 @@
             </a>
         @else
             {{-- Sidebar navigation toggle --}}
-            <a href="javascript:;" class="btn btn-link text-light toggle-button" id="sidebar-toggle">
+            <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button">
                 @icon(navicon)
             </a>
         @endif
     </div>
 
-    <a href="javascript:;" class="btn btn-link text-light toggle-button d-none d-md-inline-block ml-3" id="sidebar-toggle">
+    <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button d-none d-md-inline-block ml-3">
         @icon(navicon)
     </a>
 

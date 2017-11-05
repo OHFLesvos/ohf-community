@@ -15,6 +15,5 @@ mix.options({ processCssUrls: false })
 	.js('resources/assets/js/app.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.copy('node_modules/font-awesome/fonts', 'public/fonts')
-	.copy('node_modules/slideout/dist/slideout.min.js', 'public/js/slideout.min.js')
 	.copy('node_modules/chart.js/dist/Chart.min.js', 'public/js/Chart.min.js');
 

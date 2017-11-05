@@ -3,73 +3,83 @@
     @include('layouts.include.head')
     <body class="h-100 d-flex flex-column">
 
-        {{-- Side navigation --}}
-        <nav id="menu" class="bg-light">
-            @include('layouts.include.side-nav')
-        </nav>
+        <div class="site-wrapper h-100">
 
-        <main id="panel" class="panel d-flex flex-column h-100">
+            <div class="site-canvas h-100">
 
-            {{-- Site header --}}
-            <header class="site-header">
-                @include('layouts.include.site-header')
-            </header>
+                {{-- Side navigation --}}
+                <nav class="site-navigation bg-light">
+                    @include('layouts.include.side-nav')
+                </nav>
 
-            {{-- Content --}}
-            <article class="site-content container-fluid pt-3">
+                {{-- Main --}}
+                <main class="d-flex flex-column h-100">
 
-                {{-- Success message --}}
-                @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show">
-                        @icon(check) {{ session('success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
+                    {{-- Site header --}}
+                    <header class="site-header">
+                        @include('layouts.include.site-header')
+                    </header>
 
-                {{-- Info message --}}
-                @if (session('info'))
-                    <div class="alert alert-info alert-dismissible fade show">
-                        @icon(info-circle) {{ session('info') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
+                    {{-- Content --}}
+                    <article class="site-content container-fluid pt-3">
 
-                {{-- Validation error --}}
-                @if (count($errors) > 0)
-                    <div class="alert alert-danger alert-dismissible fade show">
-                        @icon(warning) Validation failed, you have entered invalid values!
-                        {{--
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        --}}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
+                        {{-- Success message --}}
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show">
+                                @icon(check) {{ session('success') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
 
-                {{-- Content --}}
-                @yield('content')
+                        {{-- Info message --}}
+                        @if (session('info'))
+                            <div class="alert alert-info alert-dismissible fade show">
+                                @icon(info-circle) {{ session('info') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
 
-                {{-- Floating action button --}}
-                @if( isset($buttons['action']) && $buttons['action']['authorized'] )
-                    @include('components.action-button', [ 'route' => $buttons['action']['url'], 'icon' => $buttons['action']['icon_floating'] ])
-                @endif
+                        {{-- Validation error --}}
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                @icon(warning) Validation failed, you have entered invalid values!
+                                {{--
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                --}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
 
-            </article>
+                        {{-- Content --}}
+                        @yield('content')
 
-            <div id="overlay" class="position-absolute h-100 w-100"></div>
+                        {{-- Floating action button --}}
+                        @if( isset($buttons['action']) && $buttons['action']['authorized'] )
+                            @include('components.action-button', [ 'route' => $buttons['action']['url'], 'icon' => $buttons['action']['icon_floating'] ])
+                        @endif
 
-        </main>
+                    </article>
 
-        <script src="{{asset('js/slideout.min.js')}}?v={{ $app_version }}"></script>
+                    <div id="overlay" class="position-absolute h-100 w-100"></div>
+
+                    <div id="overlay_dark" class="position-absolute h-100 w-100"></div>
+
+                </main>
+
+            </div>
+
+        </div>
+
         <script src="{{asset('js/app.js')}}?v={{ $app_version }}"></script>
         <script>
             @yield('script')
