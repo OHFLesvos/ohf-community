@@ -115,6 +115,8 @@ class PeopleController extends Controller
 	}
 
     public function show(Person $person) {
+        $this->authorize('view', $person);
+
         return view('people.show', [
             'person' => $person,
             'transactions' => $person->transactions()
