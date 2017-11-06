@@ -255,7 +255,11 @@ class BankController extends Controller
 		if ($person->boutique_coupon != null) {
 			$coupon_date = new Carbon($person->boutique_coupon);
 			if ($coupon_date->gt($boutique_date_threshold)) {
-				return $coupon_date->addDays(self::getBoutiqueThresholdDays())->diffInDays() . ' days from now';
+				$date = $coupon_date->addDays(self::getBoutiqueThresholdDays());
+				if ($date->diffInDays() > 5) {
+					return $date->diffInDays() . ' days from now';
+				}
+				return $coupon_date->addDays(self::getBoutiqueThresholdDays())->diffForHumans();
 			}
 		}
 		return null;
