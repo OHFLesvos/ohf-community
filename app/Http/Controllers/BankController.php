@@ -259,7 +259,7 @@ class BankController extends Controller
 				if ($date->diffInDays() > 5) {
 					return $date->diffInDays() . ' days from now';
 				}
-				return $coupon_date->addDays(self::getBoutiqueThresholdDays())->diffForHumans();
+				return $date->diffForHumans();
 			}
 		}
 		return null;
