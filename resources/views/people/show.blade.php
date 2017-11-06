@@ -105,6 +105,23 @@
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <div class="card-header">
+                    Boutique
+                </div>
+                <div class="card-body">
+
+                    @if( $person->boutique_coupon != null )
+                        Last coupon handed out on {{ $person->boutique_coupon }} ({{ (new Carbon\Carbon($person->boutique_coupon))->diffForHumans() }}).
+                    @else
+                        <div class="alert alert-info m-0">
+                            No boutique coupon handed out so far.
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+
         </div>
     </div>
 
