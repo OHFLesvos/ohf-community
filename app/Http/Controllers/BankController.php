@@ -207,11 +207,21 @@ class BankController extends Controller
 
 	public function filter(Request $request) {
         $filter = $request->filter;
+		$request->session()->put('filter', $filter);
+
+		$terms = preg_split('/\s+/', $filter);
+		
+		$today = false;
+		if (($key = array_search('today:', $terms)) !== false) {
+			unset($terms[$key]);
+			$today = true;
+		}
+		
         $condition = [];
-        foreach (preg_split('/\s+/', $filter) as $q) {
+        foreach ($terms as $q) {
             $condition[] = ['search', 'LIKE', '%' . $q . '%'];
         }
-        if (!empty($request->today)) {
+        if ($today) {
             $p = Person
                 ::hasTransactionsToday()
                 ->where($condition);
@@ -249,6 +259,10 @@ class BankController extends Controller
             'register' => self::createRegisterStringFromFilter($filter),
 			'rendertime' => round((microtime(true) - LARAVEL_START)*1000)
         ]);
+	}
+
+	public function resetFilter(Request $request) {
+		$request->session()->forget('filter');
 	}
 
 	private static function getBoutiqueCouponForJson($person, $boutique_date_threshold) {

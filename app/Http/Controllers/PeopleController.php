@@ -107,7 +107,7 @@ class PeopleController extends Controller
                 $transaction->value = $request->value;
                 $transaction->save();
             }
-            $request->session()->flash('filter', $person->name . ' ' . $person->family_name);
+            $request->session()->put('filter', $person->name . ' ' . $person->family_name);
         }
 
 		return redirect()->route($this->getPeopleOverviewRouteName())

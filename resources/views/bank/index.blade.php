@@ -4,21 +4,20 @@
 
 @section('content')
 
-	<div class="row">
-		<div class="col">
-            <div class="input-group">
-			    {{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}<br>
-                <span class="input-group-btn">
-                    <button class="btn btn-dark" type="button" id="reset">@icon(eraser)</button>
-                </span>
-            </div>
-		</div>
-		<div class="col-md-auto pt-1">
-			{{ Form::checkbox('filter-today', 1, false, [ 'id' => 'filter-today' ] ) }}
-			{{ Form::label('filter-today', 'has transactions today') }}
-		</div>
+	<div class="input-group">
+		{{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
+		<span class="input-group-addon" id="filter-reset">
+			@icon(eraser)
+		</span>
 	</div>
-    <p><small id="result-stats">Please search for a person in the field above.</small></p>
+
+    <p><small id="filter-status"></small></p>
+	
+	<p id="hints">
+		Filter: 
+		<a href="javascript:;" class="add-filter" data-filter="today: ">Show people having transactions today</a>
+	</p>
+
     <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table" style="display: none;">
         <thead>
             <tr>
@@ -38,123 +37,146 @@
         <tbody>
         </tbody>
     </table>
-	<p><small class="pull-rit text-sm text-right text-muted" id="filter-status"></small></p>
 
-    @can('create', App\Person::class)
-        @include('components.action-button', [ 'route' => route('people.create'), 'icon' => 'plus' ])
-    @endcan
-
+	<div id="result-alert" style="display: none;"></div>
+	
 @endsection
 
 @section('script')
-    var delayTimer;
+	var delayTimer;
+	var filterField = $( '#filter' );
+	var statusContainer =  $( '#filter-status' );
+	var table = $('#results-table');
+	var alert = $('#result-alert');
+	var filterReset = $('#filter-reset');
+	var lastFilterValue = "";
+
     $(function(){
-        $('#reset').on('click', function(e){
-            $('#filter').val('').focus();
-            filterTable($('#filter').val(), false);
-        });
+		
+		filterField.on('change paste propertychange input', function(evt){
+			//console.log( 'EVENT '  + evt.type );
+			
+			if (evt.type == 'input' || evt.type == 'propertychange') {
+				clearTimeout(delayTimer);
+				delayTimer = setTimeout(function(){
+					//console.log('DELAY');
+					applyFilter(filterField.val());
+				}, 250);
+			} else {
+				applyFilter(filterField.val());
+			}
+		});
 
-        $('#filter').on('change keyup', function(e){
-            var keyCode = e.keyCode;
-            $('#result-stats').html('&nbsp;');
-            if (keyCode == 0 || keyCode == 8 || keyCode == 13 ||  keyCode == 27 || keyCode == 46 || (keyCode >= 48 && keyCode <= 90) || (keyCode >= 96 && keyCode <= 111)) {
-                var elem = $(this);
-                if (keyCode == 27) {  // ESC
-                    elem.val('').focus();
-                }
-                if (keyCode == 13) {  // Enter
-                    elem.blur();
-                }
-                resetTable();
-                clearTimeout(delayTimer);
-                delayTimer = setTimeout(function(){
-                    filterTable(elem.val(), false);
-                }, 500);
-            }
-       });
-       
-       if ($.session.get('bank.filter-today')) {
-            $('#filter-today').attr('checked', 'checked');
-       }
-       
-       $('#filter-today').change(function(){
-           if ($('#filter-today').is(':checked')) {
-                $.session.set('bank.filter-today', 1);
-                filterTable($('#filter').val(), true);
-           } else {
-                $.session.remove('bank.filter-today');
-                filterTable($('#filter').val(), false);
-           }
-       });
-
-       $('#filter').on('focus', function(e){
-           $(this).select();
-       });
-
-        $('#filter').focus();
-        filterTable($('#filter').val(), $.session.get('bank.filter-today'));
+		filterField.on('keydown', function(evt){
+			var isEscape = false;
+			if ("key" in evt) {
+				isEscape = (evt.key == "Escape" || evt.key == "Esc");
+			} else {
+				isEscape = (evt.keyCode == 27);
+			}
+			if (isEscape) {
+				//console.log( 'ESCAPE '  + evt.type );
+				resetFilter();
+			}
+		});
+		
+		filterReset.on('click', function(){
+			resetFilter();
+		});
+		
+		$('.add-filter').on('click', function(){
+			var filterVal = $(this).attr('data-filter');
+			filterField.focus().val( filterVal + filterField.val() ).change();
+		});
+		
+		filterField.select().change();
     });
+	
+	function resetFilter() {
+		// console.log( 'RESET filter' );
+		filterField.val('').change().focus();
+		resetAlert();
+		resetStatus();
+		$.post( "{{ route('bank.resetFilter') }}", {
+			"_token": "{{ csrf_token() }}"
+		});
+	}
+	
+	function applyFilter(value) {
+		if (lastFilterValue == value) {
+			return;
+		}
+		// console.log('APPLY "' + value + '"');
+		
+		if (value != '') {
+			filterReset.addClass('bg-primary text-light');
+		} else {
+			filterReset.removeClass('bg-primary text-light');
+		}
+		
+		var searchValue = value.trim();
+		if (searchValue != '') {
+			filterTable(searchValue);
+		} else {
+			table.hide();
+			resetAlert();
+			resetStatus();
+		}
+		lastFilterValue = value;
+	}
+	
+	function showStatus(msg) {
+		statusContainer.html(msg);
+	}
 
-    function resetTable() {
-        $('#results-table').hide();
-        $('#filter-status').html('');
-        var tbody = $('#results-table tbody');
-        tbody.empty();
-        tbody.append($('<tr>')
-            .append($('<td>')
-                .text('Searching...')
-                .attr('colspan', 11))
-            );
-    }
+	function resetStatus() {
+		statusContainer.html('');
+	}
 
-    function filterTable(filter, force) {
-        if ( filter == '' && ! force ) {
-            $('#results-table').hide();
-            $('#result-stats').html('Please search for a person in the field above.');
-            $('#filter-status').html('');
-            return;
-        }
+	function showAlert(msg, type) {
+		var alert = $('#result-alert');
+		alert.html(msg);
+		alert.addClass('alert alert-' + type);
+		var icon = type == 'danger' ? 'warning' : 'info-circle';
+		alert.prepend($('<i>').addClass('fa fa-' + icon).append('&nbsp;'));
+		alert.show();
+	}
 
-        resetTable();
-        $('#results-table').show();
-        var tbody = $('#results-table tbody');
+	function resetAlert() {
+		alert.hide();
+		alert.removeClass();
+	}
 
+    function filterTable(filter) {
+		showStatus('Searching...'); //  for \'' + filter + '\'
         $.post( "{{ route('bank.filter') }}", {
             "_token": "{{ csrf_token() }}",
-            "filter": filter,
-            "today": $('#filter-today').is(':checked') ? 1 : 0
+            "filter": filter
         }, function(data) {
-            tbody.empty();
+			var tbody = table.children('tbody');
             if (data.results.length > 0) {
+				tbody.empty();
                 $.each(data.results, function(k, v){
                     tbody.append(writeRow(v));
                 });
+				table.show();
+				resetAlert();
+				showStatus(data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons.');
             } else {
-                tbody.append($('<tr>')
-                    .addClass('warning')
-                    .append($('<td>')
-                        .text('No results')
-                        .append(' &nbsp; ')
-                        .append($('<a>')
-                            .attr('href', '{{ route('people.create') }}' + (data.register ? '?' + data.register : ''))
-                            .text('Register new')
-                        )
-                        .attr('colspan', 11))
-                );
+				table.hide();
+				resetStatus();
+				var msg = $('<span>').text('No results. ')
+					.append($('<a>')
+						.attr('href', '{{ route('people.create') }}' + (data.register ? '?' + data.register : ''))
+						.append('Register new person'));
+				showAlert(msg, 'info');
             }
-            $('#result-stats')
-                .html( data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons');
-				
-			$('#filter-status').html('Results fetched in ' + data.rendertime + ' ms');
-        })
-        .fail(function(jqXHR, textStatus) {
-            tbody.empty();
-            tbody.append($('<tr>')
-                .addClass('danger')
-                .append($('<td>')
-                    .text(textStatus)
-                    .attr('colspan', 11))
-            );
+		})
+        .fail(function(jqXHR, textStatus, error) {
+			table.hide();
+			resetStatus();
+			showAlert(textStatus + ": " + error, 'danger');
+			console.log("Error: " + textStatus + " " + jqXHR.responseText);
         });
     }
     
