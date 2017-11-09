@@ -16,7 +16,7 @@
                     <a class="pull-right" href="{{ route('people.index')  }}">Manage</a>
                 </div>
                 <div class="card-body">
-                    <p>There are <strong>{{ $num_people }}</strong> people registered in our database.</p>
+                    <p>There are <strong>{{ $num_people }}</strong> people registered in our database. @if($num_people_added_today > 0)(<strong>{{ $num_people_added_today }}</strong> new today)@endif</p>
                 </div>
             </div>
         @endcan
@@ -28,7 +28,7 @@
                     <a class="pull-right" href="{{ route('bank.index')  }}">Show bank</a>
                 </div>
                 <div class="card-body">
-                    <p>There have been <strong>{{ $num_transactions_today }}</strong> transactions today.</p>
+                    <p>There have been <a href="{{ route('bank.index') }}?q=today:"><strong>{{ $num_transactions_today }}</strong></a> transactions today.</p>
                 </div>
             </div>
         @endallowed
@@ -40,7 +40,7 @@
                     <a class="pull-right" href="{{ route('users.index')  }}">Manage</a>
                 </div>
                 <div class="card-body">
-                    <p>There are <strong>{{ $num_users }}</strong> users in our database.</p>
+                    <p>There are <strong>{{ $num_users }}</strong> users in our database. The newest user is <a href="{{ route('users.show', $latest_user) }}">{{ $latest_user->name }}</a>.</p>
                 </div>
             </div>
         @endcan

@@ -35,9 +35,13 @@ class BankController extends Controller
 		return \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS);
 	}
 	
-    function index() {
+    function index(Request $request) {
         session(['peopleOverviewRouteName' => 'bank.index']);
 
+		if (!empty($request->q)) {
+			$request->session()->put('filter', $request->q);
+		}
+		
 		return view('bank.index', [
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
             'buttons' => [
@@ -216,6 +220,7 @@ class BankController extends Controller
 			unset($terms[$key]);
 			$today = true;
 		}
+		$filter = implode(' ', $terms);
 		
         $condition = [];
         foreach ($terms as $q) {

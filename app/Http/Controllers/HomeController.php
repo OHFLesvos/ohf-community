@@ -32,12 +32,14 @@ class HomeController extends Controller
         $args = [];
         if (Auth::user()->can('list', Person::class)) {
             $args['num_people'] = Person::count();
+			$args['num_people_added_today'] = Person::whereDate('created_at', '=', Carbon::today())->count();
         }
         if (Gate::allows('use-bank')) {
             $args['num_transactions_today'] = Transaction::whereDate('created_at', '=', Carbon::today())->count();
         }
         if (Auth::user()->can('list', User::class)) {
             $args['num_users'] = User::count();
+			$args['latest_user'] = User::orderBy('created_at', 'desc')->first();
         }
         return view('welcome', $args);
     }
