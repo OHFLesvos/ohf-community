@@ -92,7 +92,12 @@
 		
 		$('.add-filter').on('click', function(){
 			var filterVal = $(this).attr('data-filter');
-			filterField.focus().val( filterVal + filterField.val() ).change();
+			var prevVal = filterField.val();
+			if (!prevVal.trim().split(" ").includes(filterVal.trim())) {
+				filterField.focus().val( filterVal + prevVal ).change();
+			} else {
+				filterField.focus().val( prevVal );
+			}
 		});
 		
 		filterField.select().change();
