@@ -5,7 +5,7 @@
 @section('content')
 
 	<div class="input-group">
-		{{ Form::text('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
+		{{ Form::search('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
 		<span class="input-group-addon" id="filter-reset">
 			@icon(eraser)
 		</span>
@@ -69,14 +69,20 @@
 
 		filterField.on('keydown', function(evt){
 			var isEscape = false;
+			var isEnter = false;
 			if ("key" in evt) {
 				isEscape = (evt.key == "Escape" || evt.key == "Esc");
+				isEnter = (evt.key == "Enter");
 			} else {
 				isEscape = (evt.keyCode == 27);
+				isEnter = (evt.keyCode == 13);
 			}
 			if (isEscape) {
 				//console.log( 'ESCAPE '  + evt.type );
 				resetFilter();
+			} else if (isEnter) {
+				applyFilter(filterField.val());
+				filterField.blur();
 			}
 		});
 		
@@ -106,7 +112,7 @@
 		if (lastFilterValue == value) {
 			return;
 		}
-		// console.log('APPLY "' + value + '"');
+		console.log('APPLY "' + value + '"');
 		
 		if (value != '') {
 			filterReset.addClass('bg-primary text-light');
