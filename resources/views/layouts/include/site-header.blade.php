@@ -55,14 +55,14 @@
             @endforeach
         @endif
 
-        {{-- Menu --}}
+        {{-- Context menu --}}
         @if ( isset( $menu ) )
             @component('components.context-nav')
                 @foreach( $menu as $item )
                     @if ( $item['authorized'] )
                         <li>
                             <a href="{{ $item['url'] }}" class="btn btn-light btn-block">
-                                @icon({{ $item['icon'] }}) {{ $item['caption'] }}
+                                @icon({{ $item['icon'] }} mr-1) {{ $item['caption'] }}
                             </a>
                         </li>
                     @endif
