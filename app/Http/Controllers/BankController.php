@@ -26,8 +26,10 @@ class BankController extends Controller
 	const TRANSACTION_DEFAULT_VALUE = 2;
 	const SINGLE_TRANSACTION_MAX_AMOUNT = 2;
 	const BOUTIQUE_THRESHOLD_DAYS = 7;
-	
-	private static function getSingleTransactionMaxAmount() {
+
+    const MONTHS_NO_TRANSACTIONS_SINCE = 2;
+
+    private static function getSingleTransactionMaxAmount() {
 		return \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT);
 	}
 	
@@ -78,6 +80,12 @@ class BankController extends Controller
                     'icon' => 'cogs',
                     'authorized' => Gate::allows('use-bank')
                 ],
+                [
+                    'url' => route('bank.maintenance'),
+                    'caption' => 'Maintenance',
+                    'icon' => 'eraser',
+                    'authorized' => Gate::allows('use-bank')
+                ],
             ]
 		]);
     }
@@ -108,7 +116,56 @@ class BankController extends Controller
 		return redirect()->route('bank.index')
                     ->with('success', 'Settings have been updated!');
 	}
-	
+
+    function maintenance() {
+        return view('bank.maintenance', [
+            'months_no_transactions_since' => self::MONTHS_NO_TRANSACTIONS_SINCE,
+            'people_without_transactions_since' => Transaction::whereDate('transactions.created_at', '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
+                ->groupBy('person_id')
+                ->join('persons', function ($join) {
+                    $join->on('persons.id', '=', 'transactions.person_id')->where('deleted_at', null);
+                })
+                ->get()
+                ->count(),
+            'people_without_number' => Person::where('case_no', null)
+                ->where('medical_no', null)
+                ->where('registration_no', null)
+                ->where('section_card_no', null)
+                ->count(),
+            'buttons' => [
+                'back' => [
+                    'url' => route('bank.index'),
+                    'caption' => 'Cancel',
+                    'icon' => 'times-circle',
+                    'authorized' => Gate::allows('use-bank')
+                ]
+            ]
+        ]);
+    }
+
+    function updateMaintenance(Request $request) {
+	    $cnt = 0;
+        if (isset($request->cleanup_no_transactions_since)) {
+            $cnt += Person::destroy(Transaction::whereDate('created_at', '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
+                ->groupBy('person_id')
+                ->get()
+                ->map(function($item){
+                    return $item->person_id;
+                })
+                ->toArray()
+            );
+        }
+        if (isset($request->cleanup_no_number)) {
+            $cnt +=  Person::where('case_no', null)
+                ->where('medical_no', null)
+                ->where('registration_no', null)
+                ->where('section_card_no', null)
+                ->delete();
+        }
+        return redirect()->route('bank.index')
+            ->with('info', 'Removed ' . $cnt . ' records.');
+    }
+
     function charts() {
         $data = [];
         for ($i = 30; $i >= 0; $i--) {

@@ -143,7 +143,10 @@ class PersonsTableSeeder extends Seeder
             \App\Person::create([
                 'name' => $names[array_rand($names)],
                 'family_name' => $family_namnes[array_rand($family_namnes)],
-                'case_no' => rand(0,10) > 4 ? rand(10000,99999) : null,
+                'case_no' => rand(0,10) > 5 ? rand(10000,99999) : null,
+                'medical_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
+                'registration_no' => rand(0,100) < 15 ? rand(10000,99999) : null,
+                'section_card_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
                 'nationality' => $nationality[array_rand($nationality)],
                 'languages' => $languages[array_rand($languages)],
                 'skills' => $skills[array_rand($skills)],

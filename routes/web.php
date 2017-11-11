@@ -26,6 +26,8 @@ Route::get('/bank/charts', 'BankController@charts')->name('bank.charts');
 Route::post('/bank/filter', 'BankController@filter')->name('bank.filter');
 Route::post('/bank/resetFilter', 'BankController@resetFilter')->name('bank.resetFilter');
 Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person');
+Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
+Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank.updateMaintenance');
 
 Route::get('/bank/settings', 'BankController@settings')->name('bank.settings');
 Route::post('/bank/settings', 'BankController@updateSettings')->name('bank.updateSettings');
