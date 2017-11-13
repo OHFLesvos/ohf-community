@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="col-sm mb-2 mb-md-0">
-                    {{ Form::bsNumber('value', null, [ 'placeholder' => 'Amount', 'min' => 0 ], '') }}
+                    {{ Form::bsNumber('value', null, [ 'placeholder' => 'Amount' ], '') }}
                 </div>
                 <div class="col-sm-auto">
                     {{ Form::bsSubmitButton('Add', 'plus-circle') }}
