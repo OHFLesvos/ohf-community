@@ -13,7 +13,7 @@ const { mix } = require('laravel-mix');
 
 mix.options({ processCssUrls: false })
 	.js('resources/assets/js/app.js', 'public/js')
+	.js('resources/assets/js/bank.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.copy('node_modules/font-awesome/fonts', 'public/fonts')
 	.copy('node_modules/chart.js/dist/Chart.min.js', 'public/js/Chart.min.js');
-
