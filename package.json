@@ -19,7 +19,6 @@
     "jquery.session": "^1.0.0",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
-    "popper.js": "^1.11.0",
-    "tether": "^1.4.0"
+    "popper.js": "^1.11.0"
   }
 }
