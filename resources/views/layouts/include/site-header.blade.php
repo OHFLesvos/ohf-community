@@ -43,11 +43,22 @@
                         <form method="POST" action="{{ $button['url'] }}" class="d-inline">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
-                            {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i> ' . $button['caption'] .'</span>', [ 'type' => 'submit', 'class' => 'btn btn-danger d-none d-md-inline-block delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
+                            {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i> ' . $button['caption'], [ 'type' => 'submit', 'class' => 'btn btn-danger d-none d-md-inline-block delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
                             {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i>', [ 'type' => 'submit', 'class' => 'btn btn-link text-light d-md-none delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
                         </form>
+                    @elseif( $key == 'action' )
+                        <a href="{{ $button['url'] }}" class="btn btn-primary d-none d-md-inline-block">
+                            @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                        </a>
+                    @elseif( $key == 'back' )
+                        <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
+                            @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                        </a>
                     @else
-                        <a href="{{ $button['url'] }}" class="btn @if( $key == 'action' )btn-primary @else btn-secondary @endif d-none d-md-inline-block">
+                        <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
+                            @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                        </a>
+                        <a href="{{ $button['url'] }}" class="btn text-light d-md-none">
                             @icon({{ $button['icon'] }}) {{ $button['caption'] }}
                         </a>
                     @endif
