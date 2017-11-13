@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-    public function person()
+    /**
+     * Get all of the owning transactionable models.
+     */
+    public function transactionable()
     {
-        return $this->belongsTo('App\Person');
+        return $this->morphTo();
     }
 }

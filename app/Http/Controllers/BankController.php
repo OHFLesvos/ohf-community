@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDeposit;
+use App\Project;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
@@ -9,6 +11,7 @@ use App\Transaction;
 use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\StoreTransactionSettings;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class BankController extends Controller
@@ -53,6 +56,12 @@ class BankController extends Controller
                     'icon' => 'plus-circle',
                     'icon_floating' => 'plus',
                     'authorized' => Auth::user()->can('create', Person::class)
+                ],
+                'deposit' => [
+                    'url' => route('bank.deposit'),
+                    'caption' => 'Deposit',
+                    'icon' => 'money',
+                    'authorized' => true,
                 ]
             ],
             'menu' => [
@@ -118,19 +127,30 @@ class BankController extends Controller
 	}
 
     function maintenance() {
+
         return view('bank.maintenance', [
             'months_no_transactions_since' => self::MONTHS_NO_TRANSACTIONS_SINCE,
-            'people_without_transactions_since' => Transaction::whereDate('transactions.created_at', '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
-                ->groupBy('person_id')
+            'people_without_transactions_since' => Transaction::groupBy('transactionable_id')
+                ->having(DB::raw('max(transactions.created_at)'), '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
                 ->join('persons', function ($join) {
-                    $join->on('persons.id', '=', 'transactions.person_id')->where('deleted_at', null);
+                    $join->on('persons.id', '=', 'transactions.transactionable_id')
+                        ->where('transactionable_type', 'App\Person')
+                        ->whereNull('deleted_at');
                 })
                 ->get()
                 ->count(),
-            'people_without_number' => Person::where('case_no', null)
-                ->where('medical_no', null)
-                ->where('registration_no', null)
-                ->where('section_card_no', null)
+            'people_without_transactions_ever' => Person::leftJoin('transactions', function($join){
+                $join->on('persons.id', '=', 'transactions.transactionable_id')
+                    ->where('transactionable_type', 'App\Person')
+                    ->whereNull('deleted_at');
+                })
+                ->whereNull('transactions.id')
+                ->get()
+                ->count(),
+            'people_without_number' => Person::whereNull('case_no')
+                ->whereNull('medical_no')
+                ->whereNull('registration_no')
+                ->whereNull('section_card_no')
                 ->count(),
             'buttons' => [
                 'back' => [
@@ -146,20 +166,36 @@ class BankController extends Controller
     function updateMaintenance(Request $request) {
 	    $cnt = 0;
         if (isset($request->cleanup_no_transactions_since)) {
-            $cnt += Person::destroy(Transaction::whereDate('created_at', '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
-                ->groupBy('person_id')
+            $cnt += Person::destroy(Transaction::groupBy('transactionable_id')
+                ->having(DB::raw('max(transactions.created_at)'), '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
+                ->having('transactionable_type', 'App\Person')
                 ->get()
                 ->map(function($item){
-                    return $item->person_id;
+                    return $item->transactionable_id;
+                })
+                ->toArray()
+            );
+        }
+        if (isset($request->cleanup_no_transactions_ever)) {
+            $cnt += Person::destroy(Person::leftJoin('transactions', function($join){
+                $join->on('persons.id', '=', 'transactions.transactionable_id')
+                    ->where('transactionable_type', 'App\Person')
+                    ->whereNull('deleted_at');
+                })
+                ->whereNull('transactions.id')
+                ->select('persons.id')
+                ->get()
+                ->map(function($item){
+                    return $item->id;
                 })
                 ->toArray()
             );
         }
         if (isset($request->cleanup_no_number)) {
-            $cnt +=  Person::where('case_no', null)
-                ->where('medical_no', null)
-                ->where('registration_no', null)
-                ->where('section_card_no', null)
+            $cnt +=  Person::whereNull('case_no')
+                ->whereNull('medical_no')
+                ->whereNull('registration_no')
+                ->whereNull('section_card_no')
                 ->delete();
         }
         return redirect()->route('bank.index')
@@ -221,8 +257,6 @@ class BankController extends Controller
 
             $reader->each(function($sheet) {
 
-                //print_r($sheet->getTitle());
-            
                 // Loop through all rows
                 $sheet->each(function($row) {
                     
@@ -249,11 +283,10 @@ class BankController extends Controller
                                 if (isset($day) && $day > 0) {
                                     $d = Carbon::createFromDate(null, $month, $day)->toDateTimeString();
                                     $transaction = new Transaction();
-                                    $transaction->person_id = $person->id;
                                     $transaction->value = intval($v);
                                     $transaction->created_at = $d;
                                     $transaction->updated_at = $d;
-                                    $transaction->save(['timestamps' => false]);
+                                    $person->transactions()->save($transaction, ['timestamps' => false]);
                                 }
                             }
                         }
@@ -389,9 +422,8 @@ class BankController extends Controller
 			return response()->json(["Invalid amount, must be not greater than " . self::getSingleTransactionMaxAmount()], 400);
 		}
 		$transaction = new Transaction();
-        $transaction->person_id = $request->person_id;
         $transaction->value = $request->value;
-        $transaction->save();
+        $person->transactions()->save($transaction);
         return $this->person($person);
     }
     
@@ -424,4 +456,48 @@ class BankController extends Controller
 			}
 		}
 	}
+
+    function deposit() {
+        $projects = Project::orderBy('name')
+            ->where('enable_in_bank', true)
+            ->get();
+
+        $date_start = Carbon::today()->startOfMonth();
+        while ($date_start->dayOfWeek != Carbon::MONDAY) {
+            $date_start->subDay();
+        }
+
+        $date_end = Carbon::today()->endOfMonth();
+        while ($date_end->dayOfWeek != Carbon::SUNDAY) {
+            $date_end->addDay();
+        }
+
+        return view('bank.deposit', [
+            'buttons' => [
+                'deposit' => [
+                    'url' => route('bank.index'),
+                    'caption' => 'Withdrawal',
+                    'icon' => 'id-card',
+                    'authorized' => true,
+                ]
+            ],
+            'projectList' =>
+                $projects ->mapWithKeys(function($project){
+                    return [$project->id => $project->name];
+                }),
+            'projects' => $projects,
+            'date_start' => $date_start,
+            'date_end' => $date_end,
+        ]);
+    }
+
+    function storeDeposit(StoreDeposit $request) {
+        $project = Project::find($request->project);
+        $transaction = new Transaction();
+        $transaction->value = $request->value;
+        $project->transactions()->save($transaction);
+
+        return redirect()->route('bank.deposit')
+            ->with('info', 'Added ' . $transaction->value . ' drachma to project \'' . $project->name . '\'.');
+    }
 }

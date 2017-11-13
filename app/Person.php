@@ -35,9 +35,9 @@ class Person extends Model
     
     public function transactions()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->morphMany('App\Transaction', 'transactionable');
     }
-    
+
     public function todaysTransaction() {
         $transactions = $this->transactions()
             ->whereDate('created_at', '=', Carbon::today()->toDateString())
@@ -79,7 +79,10 @@ class Person extends Model
     
     public function scopeHasTransactionsToday($query) {
         return $query
-            ->join('transactions', 'persons.id', '=', 'transactions.person_id')
+            ->join('transactions', function($join){
+                $join->on('persons.id', '=', 'transactions.transactionable_id')
+                    ->where('transactionable_type', 'App\Person');
+            })
 			->groupBy('persons.id')
             ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
     }

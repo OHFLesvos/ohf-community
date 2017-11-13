@@ -12,6 +12,7 @@
                 <div class="form-row">
                     <div class="col-md">
                         {{ Form::bsCheckbox('cleanup_no_transactions_since', null, null, 'Remove records not having any transactions since ' . $months_no_transactions_since . ' months (' . $people_without_transactions_since . ' persons)') }}
+                        {{ Form::bsCheckbox('cleanup_no_transactions_ever', null, null, 'Remove records not having any transactions ever (' . $people_without_transactions_ever . ' persons)') }}
                         {{ Form::bsCheckbox('cleanup_no_number', null, null, 'Remove records not having any number registered (' . $people_without_number . ' persons)') }}
                         <br>
                         {{ Form::bsSubmitButton('Cleanup') }}
