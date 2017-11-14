@@ -208,6 +208,7 @@ class BankController extends Controller
             $day = Carbon::today()->subDays($i);
             $q = Transaction
                 ::whereDate('created_at', '=', $day->toDateString())
+				->where('transactionable_type', 'App\Person')
                 ->select('value')
                 ->get();
             $key = $day->format('Y-m-j (D)');
