@@ -103,9 +103,8 @@ class PeopleController extends Controller
 		if ( $this->getPeopleOverviewRouteName() == 'bank.index' ) {
             if (!empty($request->value)) {
                 $transaction = new Transaction();
-                $transaction->person_id = $person->id;
                 $transaction->value = $request->value;
-                $transaction->save();
+                $person->transactions()->save($transaction);
             }
             $request->session()->put('filter', $person->name . ' ' . $person->family_name);
         }
