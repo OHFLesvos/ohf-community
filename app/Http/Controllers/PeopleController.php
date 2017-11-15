@@ -335,6 +335,7 @@ class PeopleController extends Controller
 	
 	function getRegistrationsPerDay($numDays) {
 		$registrations = Person::where('created_at', '>=', Carbon::now()->subDays($numDays))
+            ->withTrashed()
 			->groupBy('date')
 			->orderBy('date', 'DESC')
 			->get(array(
