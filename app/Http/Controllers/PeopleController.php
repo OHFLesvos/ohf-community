@@ -281,6 +281,8 @@ class PeopleController extends Controller
 
     function charts() {
         $data = [];
+
+        // Nationalities
         $nationalities = collect(
             Person
                     ::select('nationality', \DB::raw('count(*) as total'))
@@ -295,20 +297,31 @@ class PeopleController extends Controller
         $data['nationalities']['Other'] = $nationalities->slice(6)->reduce(function ($carry, $item) {
             return $carry + $item;
         });
-		
-		$data['registrations'] = $this->getRegistrationsPerDay(90);
+
+        // Registrations
+		$data['registrations'] = $this->getRegistrationsPerDay(91);
+
+		// Visits per week
+        $visits_per_week = [];
+		$date = Carbon::now()->endOfWeek();
+		for ($i = 0; $i < 12; $i++) {
+            $weekNum = $date->weekOfYear;
+		    $val = 0;
+            for ($d = 0; $d < 7; $d++) {
+                $endDate = clone $date;
+                $date->subDay(1);
+                $val += Transaction::where('transactionable_type', 'App\Person')
+                    ->whereBetween('created_at', [$date, $endDate])
+                    ->groupBy('transactionable_id')
+                    ->get()
+                    ->count();
+            }
+            $visits_per_week[$weekNum] = $val;
+        }
+        $data['visits_per_week'] = array_reverse($visits_per_week, true);
 
         return view('people.charts', [
             'data' => $data,
-            'colors' => [
-                "red",
-                "orange",
-                "yellow",
-                "green",
-                "cyan",
-                "blue",
-                "purple"
-            ],
             'buttons' => [
                 'back' => [
                     'url' => route('people.index'),
