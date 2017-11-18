@@ -30,6 +30,7 @@ class NavigationComposer {
     public function compose(View $view)
     {
         if (Auth::check()) {
+            $num_open_tasks = Task::open()->count();
             $nav = [
                 [
                     'route' => 'home',
@@ -57,7 +58,9 @@ class NavigationComposer {
                     'caption' => 'Tasks',
                     'icon' => 'tasks',
                     'active' => 'tasks*',
-                    'authorized' => Auth::user()->can('list', Task::class)
+                    'authorized' => Auth::user()->can('list', Task::class),
+                    'badge' => $num_open_tasks > 0 ? $num_open_tasks : null
+
                 ],
                 [
                     'route' => 'users.index',

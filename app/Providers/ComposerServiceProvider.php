@@ -13,9 +13,8 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', 'App\Http\ViewComposers\TaskStatusComposer');
         view()->composer('*', 'App\Http\ViewComposers\AppVersionComposer');
-        view()->composer('*', 'App\Http\ViewComposers\NavigationComposer');
+        view()->composer('layouts.include.side-nav', 'App\Http\ViewComposers\NavigationComposer');
     }
 
     /**

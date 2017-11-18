@@ -15,8 +15,8 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is($n['active']) ? 'active' : '' }}" href="{{ route($n['route']) }}">
                             <i class="fa fa-{{ $n['icon'] }}" title="{{ $n['caption'] }}"></i> {{ $n['caption'] }}
-                            @if ($n['route'] == 'tasks.index' and $num_open_tasks > 0)
-                                <span class="badge badge-secondary ml-2">{{ $num_open_tasks }}</span>
+                            @if (isset($n['badge']))
+                                <span class="badge badge-secondary ml-2">{{ $n['badge'] }}</span>
                             @endif
                         </a>
                     </li>
