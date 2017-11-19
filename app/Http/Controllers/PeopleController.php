@@ -10,7 +10,7 @@ use App\Http\Requests\StorePerson;
 use App\Http\Requests\StoreTransaction;
 use Illuminate\Support\Facades\Auth;
 
-class PeopleController extends Controller
+class PeopleController extends ParentController
 {
     const DEFAULT_RESULTS_PER_PAGE = 15;
 
@@ -22,11 +22,11 @@ class PeopleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Person::class);
+
     }
 
     function index() {
-        $this->authorize('list', Person::class);
-
         // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'people.index']);
 
@@ -34,8 +34,6 @@ class PeopleController extends Controller
     }
 
     public function create() {
-        $this->authorize('create', Person::class);
-
         return view('people.create', [
             'allow_transaction' => session('peopleOverviewRouteName', 'people.index') == 'bank.index',
             'transaction_value' => \Setting::get('bank.transaction_default_value', BankController::TRANSACTION_DEFAULT_VALUE),
@@ -43,8 +41,6 @@ class PeopleController extends Controller
     }
 
 	public function store(StorePerson $request) {
-        $this->authorize('create', Person::class);
-
         $person = new Person();
 		$person->name = $request->name;
 		$person->family_name = $request->family_name;
@@ -73,8 +69,6 @@ class PeopleController extends Controller
 	}
 
     public function show(Person $person) {
-        $this->authorize('view', $person);
-
         return view('people.show', [
             'person' => $person,
             'transactions' => $person->transactions()
@@ -85,16 +79,12 @@ class PeopleController extends Controller
     }
 
     public function edit(Person $person) {
-        $this->authorize('update', $person);
-
         return view('people.edit', [
             'person' => $person,
 		]);
 	}
 
 	public function update(StorePerson $request, Person $person) {
-        $this->authorize('update', $person);
-
         $person->name = $request->name;
         $person->family_name = $request->family_name;
         $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
@@ -112,8 +102,6 @@ class PeopleController extends Controller
 	}
 
     public function destroy(Person $person) {
-        $this->authorize('delete', $person);
-
         $person->delete();
         return redirect()->route(session('peopleOverviewRouteName', 'people.index'))
             ->with('success', 'Person has been deleted!');

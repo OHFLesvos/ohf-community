@@ -7,7 +7,7 @@ use App\Task;
 use App\Http\Requests\StoreTask;
 use Illuminate\Support\Facades\Auth;
 
-class TasksController extends Controller {
+class TasksController extends ParentController {
 
     /**
      * Create a new controller instance.
@@ -17,11 +17,10 @@ class TasksController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Task::class);
     }
 
     function index() {
-        $this->authorize('list', Task::class);
-
 		return view('tasks.index', [
 			'tasks' => Task::orderBy('created_at', 'desc')
                 ->get()
@@ -33,8 +32,6 @@ class TasksController extends Controller {
     }
 
 	public function store(StoreTask $request) {
-        $this->authorize('create', Task::class);
-
         $task = new Task();
 		$task->description = $request->description;
 		$task->responsible = $request->responsible;
@@ -45,16 +42,12 @@ class TasksController extends Controller {
 	}
 	
 	public function edit(Task $task) {
-        $this->authorize('update', $task);
-
 		return view('tasks.edit', [
 			'task' => $task
 		]);
 	}
 
 	public function update(Task $task, StoreTask $request) {
-        $this->authorize('update', $task);
-
 		$task->description = $request->description;
 		$task->responsible = $request->responsible;
 		$task->save();
@@ -64,8 +57,6 @@ class TasksController extends Controller {
 	}
 
 	public function destroy(Task $task) {
-        $this->authorize('delete', $task);
-
 		$task->delete();
 
 		return redirect()->route('tasks.index')
