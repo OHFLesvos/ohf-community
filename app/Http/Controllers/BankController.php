@@ -41,61 +41,16 @@ class BankController extends Controller
 	}
 	
     function index(Request $request) {
+        // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'bank.index']);
 
+        // Filter from request
 		if (!empty($request->q)) {
 			$request->session()->put('filter', $request->q);
 		}
 		
 		return view('bank.index', [
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
-            'buttons' => [
-                'action' => [
-                    'url' => route('people.create'),
-                    'caption' => 'Register',
-                    'icon' => 'plus-circle',
-                    'icon_floating' => 'plus',
-                    'authorized' => Auth::user()->can('create', Person::class)
-                ],
-                'deposit' => [
-                    'url' => route('bank.deposit'),
-                    'caption' => 'Deposit',
-                    'icon' => 'money',
-                    'authorized' => true,
-                ]
-            ],
-            'menu' => [
-                [
-                    'url' => route('bank.charts'),
-                    'caption' => 'Charts',
-                    'icon' => 'line-chart',
-                    'authorized' => true
-                ],
-                [
-                    'url' => route('bank.export'),
-                    'caption' => 'Export',
-                    'icon' => 'download',
-                    'authorized' => Auth::user()->can('list', Person::class)
-                ],
-                [
-                    'url' => route('bank.import'),
-                    'caption' => 'Import',
-                    'icon' => 'upload',
-                    'authorized' => Auth::user()->can('create', Person::class)
-                ],
-                [
-                    'url' => route('bank.settings'),
-                    'caption' => 'Settings',
-                    'icon' => 'cogs',
-                    'authorized' => Gate::allows('use-bank')
-                ],
-                [
-                    'url' => route('bank.maintenance'),
-                    'caption' => 'Maintenance',
-                    'icon' => 'eraser',
-                    'authorized' => Gate::allows('use-bank')
-                ],
-            ]
 		]);
     }
 
@@ -105,14 +60,6 @@ class BankController extends Controller
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
 			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS),
             'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE),
-            'buttons' => [
-                'back' => [
-                    'url' => route('bank.index'),
-                    'caption' => 'Cancel',
-                    'icon' => 'times-circle',
-                    'authorized' => Gate::allows('use-bank')
-                ]
-            ]
 		]);
     }
 
@@ -127,40 +74,56 @@ class BankController extends Controller
 	}
 
     function maintenance() {
-
         return view('bank.maintenance', [
             'months_no_transactions_since' => self::MONTHS_NO_TRANSACTIONS_SINCE,
-            'people_without_transactions_since' => Transaction::groupBy('transactionable_id')
-                ->having(DB::raw('max(transactions.created_at)'), '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
-                ->join('persons', function ($join) {
-                    $join->on('persons.id', '=', 'transactions.transactionable_id')
-                        ->where('transactionable_type', 'App\Person')
-                        ->whereNull('deleted_at');
-                })
-                ->get()
-                ->count(),
-            'people_without_transactions_ever' => Person::leftJoin('transactions', function($join){
+            'people_without_transactions_since' => $this->getPeopleWithoutTransactionsSince(self::MONTHS_NO_TRANSACTIONS_SINCE),
+            'people_without_transactions_ever' => $this->getPeopleWithoutTransactionsEver(),
+            'people_without_number' => $this->getPeopleWithoutNumber(),
+        ]);
+    }
+
+    /**
+     * @param int $months number of months
+     * @return int
+     */
+    private function getPeopleWithoutTransactionsSince($months): int
+    {
+        return Transaction::groupBy('transactionable_id')
+            ->having(DB::raw('max(transactions.created_at)'), '<=', Carbon::today()->subMonth($months))
+            ->join('persons', function ($join) {
                 $join->on('persons.id', '=', 'transactions.transactionable_id')
                     ->where('transactionable_type', 'App\Person')
                     ->whereNull('deleted_at');
-                })
-                ->whereNull('transactions.id')
-                ->get()
-                ->count(),
-            'people_without_number' => Person::whereNull('case_no')
-                ->whereNull('medical_no')
-                ->whereNull('registration_no')
-                ->whereNull('section_card_no')
-                ->count(),
-            'buttons' => [
-                'back' => [
-                    'url' => route('bank.index'),
-                    'caption' => 'Cancel',
-                    'icon' => 'times-circle',
-                    'authorized' => Gate::allows('use-bank')
-                ]
-            ]
-        ]);
+            })
+            ->get()
+            ->count();
+    }
+
+    /**
+     * @return int
+     */
+    private function getPeopleWithoutTransactionsEver(): int
+    {
+        return Person::leftJoin('transactions', function ($join) {
+            $join->on('persons.id', '=', 'transactions.transactionable_id')
+                ->where('transactionable_type', 'App\Person')
+                ->whereNull('deleted_at');
+            })
+            ->whereNull('transactions.id')
+            ->get()
+            ->count();
+    }
+
+    /**
+     * @return int
+     */
+    private function getPeopleWithoutNumber(): int
+    {
+        return Person::whereNull('case_no')
+            ->whereNull('medical_no')
+            ->whereNull('registration_no')
+            ->whereNull('section_card_no')
+            ->count();
     }
 
     function updateMaintenance(Request $request) {
@@ -221,28 +184,11 @@ class BankController extends Controller
         }
 		return view('bank.charts', [
             'data' => $data,
-            'buttons' => [
-                'back' => [
-                    'url' => route('bank.index'),
-                    'caption' => 'Close',
-                    'icon' => 'times-circle',
-                    'authorized' => Gate::allows('use-bank')
-                ]
-            ]
 		]);
     }
 
     function import() {
-		return view('bank.import', [
-            'buttons' => [
-                'back' => [
-                    'url' => route('bank.index'),
-                    'caption' => 'Cancel',
-                    'icon' => 'times-circle',
-                    'authorized' => Gate::allows('use-bank')
-                ]
-            ]
-		]);
+		return view('bank.import');
     }
 
     function doImport(Request $request) {
@@ -474,14 +420,6 @@ class BankController extends Controller
         }
 
         return view('bank.deposit', [
-            'buttons' => [
-                'deposit' => [
-                    'url' => route('bank.index'),
-                    'caption' => 'Withdrawal',
-                    'icon' => 'id-card',
-                    'authorized' => true,
-                ]
-            ],
             'projectList' =>
                 $projects ->mapWithKeys(function($project){
                     return [$project->id => $project->name];
@@ -501,4 +439,5 @@ class BankController extends Controller
         return redirect()->route('bank.deposit')
             ->with('info', 'Added ' . $transaction->value . ' drachma to project \'' . $project->name . '\'.');
     }
+
 }

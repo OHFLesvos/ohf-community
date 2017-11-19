@@ -36,7 +36,7 @@
     <div class="col text-right">
 
         {{-- Buttons --}}
-        @if ( isset( $buttons ) )
+        @if ( isset( $buttons ) && sizeof($buttons) > 0 )
             @foreach( $buttons as $key => $button )
                 @if ( $button['authorized'] )
                     @if( $key == 'delete' )
@@ -67,7 +67,7 @@
         @endif
 
         {{-- Context menu --}}
-        @if ( isset( $menu ) )
+        @if ( isset( $menu ) && sizeof($menu) > 0 )
             @component('components.context-nav')
                 @foreach( $menu as $item )
                     @if ( $item['authorized'] )

@@ -15,6 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     {
         view()->composer('*', 'App\Http\ViewComposers\AppVersionComposer');
         view()->composer('layouts.include.side-nav', 'App\Http\ViewComposers\NavigationComposer');
+        view()->composer(['layouts.app', 'layouts.include.site-header'], 'App\Http\ViewComposers\ContextMenuComposer');
     }
 
     /**
