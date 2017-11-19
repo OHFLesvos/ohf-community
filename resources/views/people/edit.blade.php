@@ -32,7 +32,7 @@
 				</div>
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('nationality') }}
+                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off']) }}
 					</div>
 					<div class="col-md">
                         {{ Form::bsText('languages') }}
@@ -50,6 +50,13 @@
 		</p>
 
     {!! Form::close() !!}
-    
+
 @endsection
 
+@section('script')
+	$(function(){
+		$('#nationality').typeahead({
+			source: [ @foreach($countries as $country) '{!! $country !!}', @endforeach ]
+		});
+	});
+@endsection

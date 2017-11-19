@@ -1,6 +1,7 @@
 require('./bootstrap');
-require( 'jquery.session/jquery.session' );
 
+require('jquery.session/jquery.session');
+require('bootstrap-3-typeahead');
 
 /*====================================
 =            ON DOM READY            =

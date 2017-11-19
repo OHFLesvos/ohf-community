@@ -9,7 +9,7 @@
 namespace App\Util;
 
 
-class ExtendedCountries extends \Countries
+class CountriesExtended extends \Countries
 {
     public static function getList($locale) {
         $countries = parent::getList($locale);

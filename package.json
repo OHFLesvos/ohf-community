@@ -12,6 +12,7 @@
   "devDependencies": {
     "axios": "^0.15.3",
     "bootstrap": "^4.0.0-beta.2",
+    "bootstrap-3-typeahead": "^4.0.2",
     "chart.js": "^2.7.1",
     "cross-env": "^3.2.3",
     "font-awesome": "^4.7.0",

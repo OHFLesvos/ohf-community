@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Util\ExtendedCountries;
+use App\Util\CountriesExtended;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
@@ -36,7 +36,7 @@ class PeopleController extends ParentController
         return view('people.create', [
             'allow_transaction' => session('peopleOverviewRouteName', 'people.index') == 'bank.index',
             'transaction_value' => \Setting::get('bank.transaction_default_value', BankController::TRANSACTION_DEFAULT_VALUE),
-            'countries' => ExtendedCountries::getList('en'),
+            'countries' => CountriesExtended::getList('en')
 		]);
     }
 
@@ -50,8 +50,7 @@ class PeopleController extends ParentController
         $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
         $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
-        $countries = ExtendedCountries::getList('en');
-        $person->nationality = !empty($request->nationality) ? $countries[$request->nationality] : null;
+        $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? $request->languages : null;
 		$person->skills = !empty($request->skills) ? $request->skills : null;
 		$person->save();
@@ -82,6 +81,7 @@ class PeopleController extends ParentController
     public function edit(Person $person) {
         return view('people.edit', [
             'person' => $person,
+            'countries' => CountriesExtended::getList('en')
 		]);
 	}
 
