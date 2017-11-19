@@ -11,11 +11,9 @@
 		</span>
 	</div>
 
-    <p><small id="filter-status"></small></p>
-	
-	<p id="hints">
+	<p class="mt-2">
 		Filter: 
-		<a href="javascript:;" class="add-filter" data-filter="today: ">Show people having transactions today</a>
+		<a href="javascript:;" class="add-filter" data-filter="today: ">has transactions today</a>
 	</p>
 
     <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table" style="display: none;">
@@ -38,6 +36,15 @@
         </tbody>
     </table>
 
+    <p><small id="filter-status"></small></p>
+
+    <div class="row">
+        <div class="col-auto align-items-center">
+            <ul class="pagination pagination-sm" id="paginator"></ul>
+        </div>
+        <div class="col align-items-center"><small id="paginator-info"></small></div>
+    </div>
+
 	<div id="result-alert" style="display: none;"></div>
 	
 @endsection
@@ -49,8 +56,10 @@
 	var alertContainer = $('#result-alert');
 	var filterReset = $('#filter-reset');
 	var addFilterElem = $('.add-filter');
-	
-	var csrfToken = '{{ csrf_token() }}';
+    var paginator = $('#paginator');
+    var paginationInfo = $( '#paginator-info' );
+
+    var csrfToken = '{{ csrf_token() }}';
 	var filterUrl = '{{ route('bank.filter') }}';
 	var resetFilterUrl = '{{ route('bank.resetFilter') }}';
 	var createNewRecordUrl = '{{ route('people.create') }}';

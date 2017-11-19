@@ -1,3 +1,5 @@
+pagination = require('./pagination.js');
+
 var delayTimer;
 var lastFilterValue = "";
 
@@ -77,7 +79,7 @@ function applyFilter(value) {
 	
 	var searchValue = value.trim();
 	if (searchValue != '') {
-		filterTable(searchValue);
+		filterTable(searchValue, 1);
 	} else {
 		table.hide();
 		resetAlert();
@@ -92,6 +94,8 @@ function showStatus(msg) {
 
 function resetStatus() {
 	statusContainer.html('');
+    paginator.empty();
+    paginationInfo.empty();
 }
 
 function showAlert(msg, type) {
@@ -107,11 +111,18 @@ function resetAlert() {
 	alertContainer.removeClass();
 }
 
-function filterTable(filter) {
+function loadPage(page) {
+    filterTable(filterField.val().trim(), page);
+}
+
+function filterTable(filter, page) {
+    paginator.empty();
+    paginationInfo.empty();
 	showStatus('Searching...'); //  for \'' + filter + '\'
 	$.post( filterUrl, {
 		"_token": csrfToken,
-		"filter": filter
+		"filter": filter,
+        "page": page
 	}, function(data) {
 		var tbody = table.children('tbody');
 		if (data.results.length > 0) {
@@ -121,7 +132,10 @@ function filterTable(filter) {
 			});
 			table.show();
 			resetAlert();
-			showStatus(data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons.');
+            resetStatus();
+			//showStatus(data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons.');
+            pagination.updatePagination(paginator, data, loadPage);
+            paginationInfo.html( data.from + ' - ' + data.to + ' of ' + data.total );
 		} else {
 			table.hide();
 			resetStatus();

@@ -281,6 +281,10 @@ class BankController extends Controller
         return response()->json([
             'count' => $persons->count(),
             'total' => $persons->total(),
+            'from' => $persons->firstItem(),
+            'to' => $persons->lastItem(),
+            'current_page' => $persons->currentPage(),
+            'last_page' => $persons->lastPage(),
             'results' => collect($persons->all())
                 ->map(function ($item) use ($boutique_date_threshold) {
                     return [

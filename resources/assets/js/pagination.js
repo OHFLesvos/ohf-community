@@ -3,6 +3,8 @@ module.exports = {
 };
 
 function updatePagination( container, result, callback ) {
+    container.empty();
+
     // First page
     if (result.current_page > 1) {
         container.append( createPaginationItem( '&laquo;', 1, null, callback ) );
