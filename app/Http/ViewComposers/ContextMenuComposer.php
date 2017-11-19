@@ -120,6 +120,12 @@ class ContextMenuComposer {
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', User::class)
+                    ],
+                    'roles' => [
+                        'url' => route('roles.index'),
+                        'caption' => 'Manage Roles',
+                        'icon' => 'tags',
+                        'authorized' => Auth::user()->can('list', Role::class)
                     ]
                 ];
             case 'users.create':
@@ -176,6 +182,12 @@ class ContextMenuComposer {
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Role::class)
+                    ],
+                    'users' => [
+                        'url' => route('users.index'),
+                        'caption' => 'Manage Users',
+                        'icon' => 'users',
+                        'authorized' => Auth::user()->can('list', User::class)
                     ]
                 ];
             case 'roles.create':
