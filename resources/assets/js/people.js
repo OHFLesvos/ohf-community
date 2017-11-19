@@ -30,6 +30,20 @@ $(function(){
         }
     });
 
+    $('#reset-filter').on('click', function(){
+        $('#filter input[name="name"]').val('');
+        $('#filter input[name="family_name"]').val('');
+        $('#filter input[name="case_no"]').val('');
+        $('#filter input[name="medical_no"]').val('');
+        $('#filter input[name="registration_no"]').val('');
+        $('#filter input[name="section_card_no"]').val('');
+        $('#filter input[name="nationality"]').val('');
+        $('#filter input[name="languages"]').val('');
+        $('#filter input[name="skills"]').val('');
+        $('#filter input[name="remarks"]').val('');
+        filterTable(1);
+    });
+
     filterTable(1);
 });
 

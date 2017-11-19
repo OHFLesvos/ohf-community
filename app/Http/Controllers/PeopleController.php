@@ -12,6 +12,7 @@ use App\Http\Requests\StorePerson;
 class PeopleController extends ParentController
 {
     const DEFAULT_RESULTS_PER_PAGE = 15;
+    const filter_fields = ['name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'];
 
     /**
      * Create a new controller instance.
@@ -25,11 +26,13 @@ class PeopleController extends ParentController
 
     }
 
-    function index() {
+    function index(Request $request) {
         // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'people.index']);
 
-		return view('people.index');
+		return view('people.index', [
+            'filter' => session('people.filter', [])
+        ]);
     }
 
     public function create() {
@@ -112,18 +115,22 @@ class PeopleController extends ParentController
         $this->authorize('list', Person::class);
 
         $condition = [];
-        foreach (['name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'] as $k) {
+        $filter = [];
+        foreach (self::filter_fields as $k) {
             if (!empty($request->$k)) {
                 $condition[] = [$k, 'LIKE', '%' . $request->$k . '%'];
+                $filter[$k] = $request->$k;
             }
         }
+        $request->session()->put('people.filter', $filter);
+
         return $persons = Person
             ::where($condition)
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', self::DEFAULT_RESULTS_PER_PAGE));
 	}
-    
+
     public function export() {
         $this->authorize('list', Person::class);
 
