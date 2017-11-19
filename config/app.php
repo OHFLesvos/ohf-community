@@ -189,6 +189,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 		
 		anlutro\LaravelSettings\ServiceProvider::class,
+
+        Monarobase\CountryList\CountryListServiceProvider::class,
     ],
 
     /*
@@ -243,6 +245,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 		
 		'Setting' => anlutro\LaravelSettings\Facade::class,
+
+        'Countries' => Monarobase\CountryList\CountryListFacade::class,
     ],
 
 ];

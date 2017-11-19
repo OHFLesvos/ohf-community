@@ -32,7 +32,7 @@
 				</div>
 				<div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsText('nationality') }}
+                        {{ Form::bsSelect('nationality', $countries, null, ['placeholder' => 'Select country...']) }}
                     </div>
 					<div class="col-md">
                         {{ Form::bsText('languages') }}
