@@ -8,11 +8,12 @@ use App\RolePermission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
-class RoleController extends Controller
+class RoleController extends ParentController
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(Role::class);
     }
 
     /**
@@ -22,8 +23,6 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', Role::class);
-
         return view('roles.index', [
             'roles' => Role::orderBy('name')->paginate()
         ]);
@@ -36,8 +35,6 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Role::class);
-
         return view('roles.create', [
             'permissions' => Config::get('auth.permissions')
         ]);
@@ -51,18 +48,15 @@ class RoleController extends Controller
      */
     public function store(StoreRole $request)
     {
-        $this->authorize('create', Role::class);
-
         $role = new Role();
         $role->name = $request->name;
         $role->save();
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
-                $p = new RolePermission();
-                $p->key = $k;
-                $p->role_id = $role->id;
-                $p->save();
+                $permission = new RolePermission();
+                $permission->key = $k;
+                $role->permissions()->save($permission);
             }
         }
 
@@ -78,8 +72,6 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        $this->authorize('view', $role);
-
         return view('roles.show', [
             'role' => $role,
             'permissions' => Config::get('auth.permissions')
@@ -94,8 +86,6 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $this->authorize('update', $role);
-
         return view('roles.edit', [
             'role' => $role,
             'permissions' => Config::get('auth.permissions')
@@ -111,18 +101,15 @@ class RoleController extends Controller
      */
     public function update(StoreRole $request, Role $role)
     {
-        $this->authorize('update', $role);
-
         $role->name = $request->name;
         $role->save();
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
                 if (!$role->permissions->contains(function ($value, $key) use ($k) { return $value->key == $k; })) {
-                    $p = new RolePermission();
-                    $p->key = $k;
-                    $p->role_id = $role->id;
-                    $p->save();
+                    $permission = new RolePermission();
+                    $permission->key = $k;
+                    $role->permissions()->save($permission);
                 }
             }
         }
@@ -144,8 +131,6 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $this->authorize('delete', $role);
-
         $role->delete();
         return redirect()->route('roles.index')
             ->with('success', 'Role has been deleted.');

@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Role;
 
-class UserController extends Controller
+class UserController extends ParentController
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->authorizeResource(User::class);
     }
 
     /**
@@ -23,8 +24,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', User::class);
-
         return view('users.index', [
             'users' => User::orderBy('name')->paginate()
         ]);
@@ -37,8 +36,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', User::class);
-
         return view('users.create', [
             'roles' => Role::orderBy('name')->get()
         ]);
@@ -52,8 +49,6 @@ class UserController extends Controller
      */
     public function store(StoreUser $request)
     {
-        $this->authorize('create', User::class);
-
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -73,8 +68,6 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $this->authorize('view', $user);
-
         return view('users.show', [
             'user' => $user
         ]);
@@ -88,8 +81,6 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $this->authorize('update', $user);
-
         return view('users.edit', [
             'user' => $user,
             'roles' => Role::orderBy('name')->get()
@@ -105,8 +96,6 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
-        $this->authorize('update', $user);
-
         $user->name = $request->name;
         $user->email = $request->email;
         if (!empty($request->password)) {
@@ -131,8 +120,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->authorize('delete', $user);
-
         $user->delete();
         return redirect()->route('users.index')
             ->with('success', 'User has been deleted.');
