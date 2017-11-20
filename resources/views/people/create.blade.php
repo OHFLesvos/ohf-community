@@ -4,6 +4,11 @@
 
 @section('content')
 
+	@component('components.alert.info')
+		Please ensure to use currect <strong>english language</strong> country names for nationalities, e.g. 'Syria', 'Afghanistan', 'Iraq', 'Iraqi Kurdistan', .... as proposed by the auto-completion feature.
+		This helps us to have accurate <a href="{{ route('people.charts') }}">statistics</a>.
+	@endcomponent
+
     {!! Form::open(['route' => 'people.store']) !!}
 
 		<div class="card mb-4">
