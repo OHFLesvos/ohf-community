@@ -6,7 +6,8 @@
 
     <div class="row">
         <div class="col-xl-6 mb-4">
-            <div class="card">
+		
+            <div class="card mb-4">
                 <div class="card-header">Nationalities</div>
                 <div class="card-body">
                     <div>
@@ -23,7 +24,25 @@
                         @endforeach
                     </table>
                 </div>
-            </div>
+			</div>
+
+			<div class="card">
+				<div class="card-header">Visitors per week</div>
+				<div class="card-body">
+					<div>
+						<canvas id="visitsPerWeek" style="height: 350px"></canvas>
+					</div>
+					<table class="table table-sm mb-0 mt-4">
+						@foreach ($data['visits_per_week'] as $k => $v)
+							<tr>
+								<td>{{ $k }}</td>
+								<td class="text-right">{{ $v }}</td>
+							</tr>
+						@endforeach
+					</table>
+				</div>
+			</div>
+			
         </div>
 
         <div class="col-xl-6 mb-4">
@@ -31,22 +50,20 @@
                 <div class="card-header">New registrations per day</div>
                 <div class="card-body">
                     <div>
-                        <canvas id="registrationsPerDay" style="height: 486px"></canvas>
+                        <canvas id="registrationsPerDay" style="height: 350px"></canvas>
                     </div>
+					<table class="table table-sm mb-0 mt-4">
+                        @foreach ($data['registrations'] as $k => $v)
+                            <tr>
+                                <td>{{ $k }}</td>
+                                <td class="text-right">{{ $v }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-6 mb-4">
-            <div class="card">
-                <div class="card-header">Visitors per week</div>
-                <div class="card-body">
-                    <div>
-                        <canvas id="visitsPerWeek" style="height: 486px"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 	<script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
