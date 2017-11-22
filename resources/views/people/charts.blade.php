@@ -17,7 +17,8 @@
                             <tr>
                                 <td data-nationality="{{ $k }}">&nbsp;</td>
                                 <td>{{ $k }}</td>
-                                <td>{{ $v }}</td>
+                                <td class="text-right">{{ $v }}</td>
+								<td class="text-right">{{ round($v / array_sum(array_values($data['nationalities'])) * 100) }} %</td>
                             </tr>
                         @endforeach
                     </table>
