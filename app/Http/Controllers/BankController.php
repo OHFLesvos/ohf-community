@@ -349,7 +349,7 @@ class BankController extends Controller
         return null;
     }
 
-	public function person(Person $person) {
+    public function person(Person $person) {
 		$boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
         return response()->json([
                     'id' => $person->id,
@@ -408,33 +408,21 @@ class BankController extends Controller
 		}
 	}
 
-    function deposit() {
+    public function deposit() {
         $projects = Project::orderBy('name')
             ->where('enable_in_bank', true)
             ->get();
-
-        $date_start = Carbon::today()->startOfMonth();
-        while ($date_start->dayOfWeek != Carbon::MONDAY) {
-            $date_start->subDay();
-        }
-
-        $date_end = Carbon::today()->endOfMonth();
-        while ($date_end->dayOfWeek != Carbon::SUNDAY) {
-            $date_end->addDay();
-        }
 
         return view('bank.deposit', [
             'projectList' =>
                 $projects ->mapWithKeys(function($project){
                     return [$project->id => $project->name];
                 }),
-            'projects' => $projects,
-            'date_start' => $date_start,
-            'date_end' => $date_end,
+            'projects' => $projects
         ]);
     }
 
-    function storeDeposit(StoreDeposit $request) {
+    public function storeDeposit(StoreDeposit $request) {
         $project = Project::find($request->project);
         $transaction = new Transaction();
         $transaction->value = $request->value;
@@ -448,4 +436,22 @@ class BankController extends Controller
             ->with('info', 'Added ' . $transaction->value . ' drachma to project \'' . $project->name . '\'.');
     }
 
+    public function project(Project $project) {
+
+        $date_start = Carbon::today()->startOfMonth();
+        while ($date_start->dayOfWeek != Carbon::MONDAY) {
+            $date_start->subDay();
+        }
+
+        $date_end = Carbon::today()->endOfMonth();
+        while ($date_end->dayOfWeek != Carbon::SUNDAY) {
+            $date_end->addDay();
+        }
+
+        return view('bank.project', [ 
+            'project' => $project,
+            'date_start' => $date_start,
+            'date_end' => $date_end,
+        ]);
+    }
 }

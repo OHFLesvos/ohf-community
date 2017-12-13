@@ -335,6 +335,15 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('use-bank'),
                     ]
                 ];
+            case 'bank.project':
+                return [
+                    'back' => [
+                        'url' => route('bank.deposit'),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('use-bank'),
+                    ]
+                ];
             case 'bank.settings':
                 return [
                     'back' => [
