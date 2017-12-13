@@ -15,10 +15,10 @@
 			<div class="card-body">
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('family_name', null, [ 'required' ]) }}
+                        {{ Form::bsText('family_name', null, [ 'required', 'autofocus' ]) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('name', null, [ 'required', 'autofocus' ]) }}
+                        {{ Form::bsText('name', null, [ 'required' ]) }}
 					</div>
 				</div>
 				<div class="form-row">
