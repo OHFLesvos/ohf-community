@@ -33,27 +33,10 @@
 
     {{-- List of projects, with cumulated deposits --}}
     @if( ! $projects->isEmpty() )
-        <h2 class="display-4 mb-3">Project Overview</h2>
-        <table class="table table-sm table-bordered table-striped table-hover table-responsive-md">
-            <thead>
-                <tr>
-                    <th>Project</th>
-                    @for ($i = 7; $i >= 0; $i--)
-                        <th>{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}</th>
-                    @endfor
-                </tr>
-            </thead>
-            <tbody>
-            @foreach ($projects as $project)
-                <tr>
-                    <td>{{ $project->name }}</td>
-                    @for ($i = 7; $i >= 0; $i--)
-                        <td>{{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}</td>
-                    @endfor
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+
+        <div>
+            <canvas id="chart" style="height: 400px"></canvas>
+        </div>
 
         <h2 class="display-4 mb-3">Project Details</h2>
         <div class="row mt-4">
@@ -94,4 +77,36 @@
         @endcomponent
     @endif
 
+    <script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
+
+@endsection
+
+@section('script')
+    var ctx = document.getElementById("chart").getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [@for ($i = 7; $i >= 0; $i--) "{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}", @endfor],
+            datasets: [@foreach($projects as $project){
+                label: "{{ $project->name }}",
+                backgroundColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
+                borderColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
+                fill: false,
+                data: [ @for ($i = 7; $i >= 0; $i--) {{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}, @endfor ]
+            }, @endforeach
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Projects'
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        }  
+    });
 @endsection
