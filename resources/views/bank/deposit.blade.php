@@ -53,6 +53,10 @@
             </tbody>
         </table>
 
+        <div id="app">
+            <example-component></example-component>
+        </div>
+
         <div class="mt-4 mb-2">
             <canvas id="chart" style="height: 400px"></canvas>
         </div>
