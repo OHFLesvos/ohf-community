@@ -26,6 +26,7 @@ class StoreDeposit extends FormRequest
         return [
             'project' => 'required|numeric|exists:projects,id',
             'value' => 'required|numeric|not_in:0',
+            'date' => 'required|date',
         ];
     }
 }

@@ -438,6 +438,10 @@ class BankController extends Controller
         $project = Project::find($request->project);
         $transaction = new Transaction();
         $transaction->value = $request->value;
+		$date = new Carbon($request->date);
+		if (!$date->isToday()) {
+			$transaction->created_at = $date->endOfDay();
+		}
         $project->transactions()->save($transaction);
 
         return redirect()->route('bank.deposit')

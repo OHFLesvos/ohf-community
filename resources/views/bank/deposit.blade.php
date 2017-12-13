@@ -11,14 +11,17 @@
             <div class="form-row">
                 <div class="col-sm mb-2 mb-md-0">
                     <div class="form-group">
-                        {{ Form::select('project', $projectList, null, [ 'placeholder' => 'Select project...', 'class' => 'form-control'.($errors->has('project') ? ' is-invalid' : ''), 'autofocus' ]) }}
+                        {{ Form::select('project', $projectList, null, [ 'placeholder' => 'Select project...', 'class' => 'form-control'.($errors->has('project') ? ' is-invalid' : ''), 'autofocus', 'required' ]) }}
                         @if ($errors->has('project'))
                             <span class="invalid-feedback">{{ $errors->first('project') }}</span>
                         @endif
                     </div>
                 </div>
                 <div class="col-sm mb-2 mb-md-0">
-                    {{ Form::bsNumber('value', null, [ 'placeholder' => 'Amount' ], '') }}
+                    {{ Form::bsNumber('value', null, [ 'placeholder' => 'Amount', 'required' ], '') }}
+                </div>
+                <div class="col-sm mb-2 mb-md-0">
+                    {{ Form::bsDate('date', \Carbon\Carbon::now()->toDateString(), [ 'required', 'max' => \Carbon\Carbon::now()->toDateString() ], '') }}
                 </div>
                 <div class="col-sm-auto">
                     {{ Form::bsSubmitButton('Add', 'plus-circle') }}
