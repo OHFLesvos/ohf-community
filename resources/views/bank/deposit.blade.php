@@ -33,65 +33,71 @@
 
     {{-- List of projects, with cumulated deposits --}}
     @if( ! $projects->isEmpty() )
-        <h2 class="display-4 mb-3">Project Overview</h2>
-        <table class="table table-sm table-bordered table-striped table-hover table-responsive-md">
+
+        <table class="table table-sm table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     <th>Project</th>
-                    @for ($i = 7; $i >= 0; $i--)
-                        <th>{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}</th>
-                    @endfor
+                    <th>Yesterday</th>
+                    <th>Today</th>
                 </tr>
             </thead>
             <tbody>
             @foreach ($projects as $project)
                 <tr>
-                    <td>{{ $project->name }}</td>
-                    @for ($i = 7; $i >= 0; $i--)
-                        <td>{{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}</td>
-                    @endfor
+                    <td><a href="{{ route('bank.project', $project) }}">{{ $project->name }}</a></td>
+                    <td>{{ $project->dayTransactions(Carbon\Carbon::today()->subDays(1)) }}</td>
+                    <td>{{ $project->dayTransactions(Carbon\Carbon::today()) }}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
 
-        <h2 class="display-4 mb-3">Project Details</h2>
-        <div class="row mt-4">
-            @foreach ($projects as $project)
-                <div class="col-md">
-                    <div class="card mb-4">
-                        <div class="card-header">{{ $project->name }}</div>
-                        <div class="card-body p-0 m-0">
-                            <table class="table table-bordered md m-0">
-                                <thead>
-                                    <tr>
-                                        @for ($date = clone $date_start; $date->lt( (clone $date_start)->addDays(7) ); $date->addDay())
-                                           <th class="px-0 text-center" style="width: 14.25%">{{ $date->format('D') }}</th>
-                                        @endfor
-                                    </tr>
-                                </thead>
-                                <tr>
-                                    @for ($date = clone $date_start; $date->lte($date_end); $date->addDay())
-                                        <td class="text-center" style="height: 4.5em; position: relative; vertical-align: middle">
-                                            <span class="text-muted position-absolute p-0 m-0" style="right: 5px; top: 0; line-height: 1em;"><small>{{ $date->day }}</small></span>
-                                            <span class="lead">{{ $project->dayTransactions($date) }}</span>
-                                        </td>
-                                        @if ( $date->dayOfWeek == Carbon\Carbon::SUNDAY ) </tr><tr> @endif
-                                    @endfor
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                @if( $loop->index % 2 == 1)
-                    <div class="w-100 d-none d-md-block"></div>
-                @endif
-            @endforeach
+        <div class="mt-4 mb-2">
+            <canvas id="chart" style="height: 400px"></canvas>
         </div>
+
     @else
         @component('components.alert.info')
             No projects found.
         @endcomponent
     @endif
 
+    <script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
+
+@endsection
+
+@section('script')
+    var ctx = document.getElementById("chart").getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [@for ($i = 30; $i >= 0; $i--) "{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}", @endfor],
+            datasets: [@foreach($projects as $project){
+                label: "{{ $project->name }}",
+                backgroundColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
+                borderColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
+                fill: false,
+                data: [ @for ($i = 30; $i >= 0; $i--) {{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}, @endfor ]
+            }, @endforeach
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Deposits per project'
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            elements: {
+                line: {
+                    tension: 0
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        }  
+    });
 @endsection

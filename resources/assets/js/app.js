@@ -2,6 +2,11 @@ require('./bootstrap');
 
 require('jquery.session/jquery.session');
 require('bootstrap-3-typeahead');
+var palette = require('google-palette');
+
+// Define color palette (for charts)
+// http://google.github.io/palette.js/
+window.coloePalette = palette('tol', 8);
 
 /*====================================
 =            ON DOM READY            =
