@@ -207,13 +207,13 @@ function writeRow(person) {
 		.append($('<td>')
 			.append($('<a>')
 				.attr('href', 'people/' + person.id)
-				.text(person.name)
+				.text(person.family_name)
 			)
 		)
 		.append($('<td>')
 			.append($('<a>')
 				.attr('href', 'people/' + person.id)
-				.text(person.family_name)
+				.text(person.name)
 			)
 		)
 		.append($('<td>').text(person.case_no))
@@ -231,7 +231,7 @@ function writeRow(person) {
 				.attr('href', 'javascript:;')
 				.text('Give coupon')
 				.on('click', function(){
-					if (confirm('Give coupon to ' + person.name + ' ' + person.family_name + '?')) {
+					if (confirm('Give coupon to ' + person.family_name + ' ' + person.name + '?')) {
 						$.post( giveBouqiqueCouponUrl, {
 							"_token": csrfToken,
 							"person_id": person.id

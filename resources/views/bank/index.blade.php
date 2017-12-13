@@ -19,8 +19,8 @@
     <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table" style="display: none;">
         <thead>
             <tr>
-                <th>Name</th>
                 <th class="text-nowrap">Family Name</th>
+                <th>Name</th>
                 <th class="text-nowrap">Case No.</th>
                 <th class="text-nowrap">Med No.</th>
                 <th class="text-nowrap">Reg No.</th>

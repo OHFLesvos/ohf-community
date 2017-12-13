@@ -14,12 +14,12 @@
                     <table class="table m-0">
                         <tbody>
                             <tr>
-                                <th>Name:</th>
-                                <td>{{ $person->name }}</td>
-                            </tr>
-                            <tr>
                                 <th>Family Name:</th>
                                 <td>{{ $person->family_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Name:</th>
+                                <td>{{ $person->name }}</td>
                             </tr>
                             <tr>
                                 <th>Case Number:</th>

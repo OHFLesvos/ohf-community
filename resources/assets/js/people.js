@@ -31,8 +31,8 @@ $(function(){
     });
 
     $('#reset-filter').on('click', function(){
-        $('#filter input[name="name"]').val('');
         $('#filter input[name="family_name"]').val('');
+        $('#filter input[name="name"]').val('');
         $('#filter input[name="case_no"]').val('');
         $('#filter input[name="medical_no"]').val('');
         $('#filter input[name="registration_no"]').val('');
@@ -64,8 +64,8 @@ function filterTable(page) {
     paginationInfo.empty();
     $.post( filterUrl, {
         "_token": csrfToken,
-        "name": $('#filter input[name="name"]').val(),
         "family_name": $('#filter input[name="family_name"]').val(),
+        "name": $('#filter input[name="name"]').val(),
         "case_no": $('#filter input[name="case_no"]').val(),
         "medical_no": $('#filter input[name="medical_no"]').val(),
         "registration_no": $('#filter input[name="registration_no"]').val(),
@@ -109,13 +109,13 @@ function writeRow(person) {
         .append($('<td>')
             .append($('<a>')
                 .attr('href', 'people/' + person.id)
-                .text(person.name)
+                .text(person.family_name)
             )
         )
         .append($('<td>')
             .append($('<a>')
                 .attr('href', 'people/' + person.id)
-                .text(person.family_name)
+                .text(person.name)
             )
         )
         .append($('<td>').text(person.case_no))

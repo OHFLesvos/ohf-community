@@ -1,8 +1,8 @@
     <table>
         <thead>
             <tr>
-                <th>Name</th>
                 <th>Family Name</th>
+                <th>Name</th>
                 <th>Case No</th>
                 <th>Medical No</th>
                 <th>Registration No</th>
@@ -16,8 +16,8 @@
         <tbody>
             @foreach ($persons as $person)
                 <tr>
-                    <td>{{ $person->name }}</td>
                     <td>{{ $person->family_name }}</td>
+                    <td>{{ $person->name }}</td>
                     <td>{{ $person->case_no }}</td>
                     <td>{{ $person->medical_no }}</td>
                     <td>{{ $person->registration_no }}</td>
