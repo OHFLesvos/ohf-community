@@ -8,12 +8,6 @@ var palette = require('google-palette');
 // http://google.github.io/palette.js/
 window.coloePalette = palette('tol', 8);
 
-window.Vue = require('vue');
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-const app = new Vue({
-    el: '#app'
-});
-
 /*====================================
 =            ON DOM READY            =
 ====================================*/

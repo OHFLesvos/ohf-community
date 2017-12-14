@@ -53,12 +53,8 @@
             </tbody>
         </table>
 
-        <div id="app">
-            <example-component></example-component>
-        </div>
-
-        <div class="mt-4 mb-2">
-            <canvas id="chart" style="height: 400px"></canvas>
+        <div id="app" class="my-3">
+            <deposit-chart></deposit-chart>
         </div>
 
     @else
@@ -67,41 +63,4 @@
         @endcomponent
     @endif
 
-    <script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
-
-@endsection
-
-@section('script')
-    var ctx = document.getElementById("chart").getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [@for ($i = 30; $i >= 0; $i--) "{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}", @endfor],
-            datasets: [@foreach($projects as $project){
-                label: "{{ $project->name }}",
-                backgroundColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
-                borderColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
-                fill: false,
-                data: [ @for ($i = 30; $i >= 0; $i--) {{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}, @endfor ]
-            }, @endforeach
-            ]
-        },
-        options: {
-            title: {
-                display: true,
-                text: 'Deposits per project'
-            },
-            legend: {
-                display: true,
-                position: 'bottom'
-            },
-            elements: {
-                line: {
-                    tension: 0
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-        }  
-    });
 @endsection
