@@ -55,13 +55,14 @@
 
         <div id="app" class="my-3">
             <deposit-chart :height=200 :data="{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                datasets: [
-                    {
-                        label: 'GitHub Commits',
-                        backgroundColor: '#f87979',
-                        data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-                    }
+                labels: [@for ($i = 30; $i >= 0; $i--) '{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}', @endfor],
+                datasets: [@foreach($projects as $project){
+                    label: '{{ $project->name }}',
+                    //backgroundColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
+                    //borderColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
+                    fill: false,
+                    data: [ @for ($i = 30; $i >= 0; $i--) {{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}, @endfor ]
+                }, @endforeach
                 ]}"
             ></deposit-chart>
         </div>
