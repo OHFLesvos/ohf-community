@@ -54,6 +54,13 @@ class NavigationComposer {
                     'authorized' => Gate::allows('use-bank')
                 ],
                 [
+                    'route' => 'kitchen.index',
+                    'caption' => 'Kitchen',
+                    'icon' => 'spoon',
+                    'active' => 'kitchen*',
+                    'authorized' => Gate::allows('use-kitchen')
+                ],
+                [
                     'route' => 'tasks.index',
                     'caption' => 'Tasks',
                     'icon' => 'tasks',

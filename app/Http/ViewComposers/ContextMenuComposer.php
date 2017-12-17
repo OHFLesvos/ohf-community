@@ -381,6 +381,18 @@ class ContextMenuComposer {
                     ]
                 ];
             //
+            // Kitchen
+            //
+            case 'kitchen.showArticle':
+                return [
+                    'back' => [
+                        'url' => route('kitchen.index'),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('use-kitchen')
+                    ]
+                ];
+            //
             // Tasks
             //
             case 'tasks.edit':
