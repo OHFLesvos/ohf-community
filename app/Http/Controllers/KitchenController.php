@@ -68,11 +68,12 @@ class KitchenController extends Controller
             }
         }
 
-        if (!empty($request->new_name) && !empty($request->new_value)) {
+        if (!empty($request->new_name) && !empty($request->new_value) && !empty($request->new_unit)) {
             $article = Article::where('name', $request->new_name)->where('type', $request->type)->first();
             if ($article == null) {
                 $article = new Article();
                 $article->name = $request->new_name;
+                $article->unit = $request->new_unit;
                 $article->type = $request->type;
                 $article->save();
             }

@@ -5,6 +5,7 @@
             <thead>
                 <tr>
                     <th>Article</th>
+                    <th style="width: 4em">Unit</th>
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
                             <th style="width: 7em" class="d-none d-sm-table-cell">
@@ -22,6 +23,7 @@
             @foreach ($articles as $article)
                 <tr>
                     <td>{{ $article->name }}</td>
+                    <td>{{ $article->unit }}</td>
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
                             <td class="d-none d-sm-table-cell">
@@ -38,6 +40,9 @@
             <tr>
                 <td>
                     <input type="text" name="new_name" class="form-control form-control-sm" placeholder="New article">
+                </td>
+                <td>
+                    <input type="text" name="new_unit" class="form-control form-control-sm" placeholder="Unit" value="KG">
                 </td>
                 @foreach(range(6, 0) as $i)
                     @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
