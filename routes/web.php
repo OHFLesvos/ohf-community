@@ -49,6 +49,9 @@ Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
 Route::resource('/people', 'PeopleController');
 
+Route::get('/kitchen', 'KitchenController@index')->name('kitchen.index');
+Route::post('/kitchen', 'KitchenController@storeIncomming')->name('kitchen.storeIncomming');
+
 Route::get('/tasks', 'TasksController@index')->name('tasks.index');
 Route::post('/tasks', 'TasksController@store')->name('tasks.store');
 Route::get('/tasks/setDone/{task}', 'TasksController@setDone')->name('tasks.setDone');
