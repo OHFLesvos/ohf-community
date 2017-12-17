@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Validator;
 
 class KitchenController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request) {
         Validator::make($request->all(), [
             'date' => 'date',
@@ -32,7 +42,7 @@ class KitchenController extends Controller
         ]);
     }
 
-    public function storeIncomming(Request $request) {
+    public function store(Request $request) {
         Validator::make($request->all(), [
             'date' => 'date',
             'type' => 'in:incomming,outgoing',
@@ -89,5 +99,23 @@ class KitchenController extends Controller
         return redirect()->route('kitchen.index')
             ->with('info', $updated ? 'Values have been updated.' : 'No changes.');
 
+    }
+
+    public function showArticle(Article $article) {
+        $date_start = Carbon::today()->startOfMonth();
+        while ($date_start->dayOfWeek != Carbon::MONDAY) {
+            $date_start->subDay();
+        }
+
+        $date_end = Carbon::today()->endOfMonth();
+        while ($date_end->dayOfWeek != Carbon::SUNDAY) {
+            $date_end->addDay();
+        }
+
+        return view('kitchen.article', [
+            'article' => $article,
+            'date_start' => $date_start,
+            'date_end' => $date_end,
+        ]);
     }
 }

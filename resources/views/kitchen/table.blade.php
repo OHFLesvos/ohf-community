@@ -1,4 +1,4 @@
-    {!! Form::open(['route' => ['kitchen.storeIncomming']]) !!}
+    {!! Form::open(['route' => ['kitchen.store']]) !!}
         {{ Form::hidden('date', $date) }}
         {{ Form::hidden('type', $type) }}
         <table class="table table-sm table-bordered table-striped table-hover" id="articlesTable">
@@ -22,7 +22,7 @@
             <tbody>
             @foreach ($articles as $article)
                 <tr>
-                    <td>{{ $article->name }}</td>
+                    <td><a href="{{ route('kitchen.showArticle', $article) }}">{{ $article->name }}</a></td>
                     <td>{{ $article->unit }}</td>
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
