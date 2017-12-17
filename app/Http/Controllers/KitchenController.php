@@ -13,6 +13,7 @@ class KitchenController extends Controller
     public function index(Request $request) {
         Validator::make($request->all(), [
             'date' => 'date',
+            'type' => 'in:incomming,outgoing',
         ])->validate();
 
         if (isset($request->date)) {
@@ -20,21 +21,21 @@ class KitchenController extends Controller
         } else {
             $date = Carbon::today();
         }
-        $articles = Article::orderBy('name')
-            ->get()
-            ->map(function($a){
-                return $a->name;
-            });
+
         return view('kitchen.index', [
             'date' => $date,
-            'articles' => Article::orderBy('name')->get(),
-            'articleNames' => $articles,
+            'data' => [
+                'incomming' => Article::where('type', 'incomming')->orderBy('name')->get(),
+                'outgoing' => Article::where('type', 'outgoing')->orderBy('name')->get(),
+            ],
+            'activeType' => isset($request->type) ? $request->type : session('kitchenArticleType', 'incomming'),
         ]);
     }
 
     public function storeIncomming(Request $request) {
         Validator::make($request->all(), [
             'date' => 'date',
+            'type' => 'in:incomming,outgoing',
         ])->validate();
 
         if (isset($request->date)) {
@@ -42,6 +43,9 @@ class KitchenController extends Controller
         } else {
             $date = Carbon::today();
         }
+
+        $request->session()->flash('kitchenArticleType', $request->type);
+
         $updated = false;
 
         if (isset($request->value)) {
@@ -65,10 +69,11 @@ class KitchenController extends Controller
         }
 
         if (!empty($request->new_name) && !empty($request->new_value)) {
-            $article = Article::where('name', $request->new_name)->first();
+            $article = Article::where('name', $request->new_name)->where('type', $request->type)->first();
             if ($article == null) {
                 $article = new Article();
                 $article->name = $request->new_name;
+                $article->type = $request->type;
                 $article->save();
             }
             $transaction = new Transaction();
