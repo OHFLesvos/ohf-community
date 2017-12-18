@@ -98,7 +98,6 @@ class KitchenController extends Controller
 
         return redirect()->route('kitchen.index')
             ->with('info', $updated ? 'Values have been updated.' : 'No changes.');
-
     }
 
     public function showArticle(Article $article) {
@@ -116,6 +115,37 @@ class KitchenController extends Controller
             'article' => $article,
             'date_start' => $date_start,
             'date_end' => $date_end,
+            'chart_date_start' => Carbon::today()->subDays(30),
+            'chart_date_end' => Carbon::today(),
+        ]);
+    }
+
+    /**
+     * Returns articke transaction value per day as JSON, limited by from and to date
+     */
+    public function transactions(Article $article, Request $request) {
+        // Validate request data
+        Validator::make($request->all(), [
+            'from' => 'date',
+            'to' => 'date',
+        ])->validate();
+
+        // Parse dates from request
+        $from = isset($request->from) ? new Carbon($request->from) : Carbon::today()->subDays(30);
+        $to = isset($request->to) ? new Carbon($request->to) : Carbon::today();
+
+        // Collect values
+        $date = $from;
+        $data = [];
+        do {
+            $data[$date->format('D j. M')] = $article->dayTransactions($date);
+        } while($from->addDays(1) <= $to);
+
+        // Return JSON
+        return response()->json([
+            'name' => $article->name,
+            'unit' => $article->unit,
+            'data' => $data,
         ]);
     }
 }

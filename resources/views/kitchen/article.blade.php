@@ -4,7 +4,17 @@
 
 @section('content')
 
-    <div class="mt-4 mb-2">
+    <div class="form-row justify-content-end">
+        <div class="col col-auto">
+            <input id="chart_date_start" type="date" class="form-control form-control-sm" value="{{ $chart_date_start->toDateString() }}" max="{{ Carbon\Carbon::yesterday()->toDateString() }}">
+        </div>
+        <div class="col col-auto">
+            <input id="chart_date_end" type="date" class="form-control form-control-sm" value="{{ $chart_date_end->toDateString() }}" max="{{ Carbon\Carbon::today()->endOfMonth()->toDateString() }}">
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="mx-2">
         <canvas id="chart" style="height: 300px"></canvas>
     </div>
 
@@ -32,51 +42,90 @@
 @endsection
 
 @section('script')
-    var ctx = document.getElementById("chart").getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [@for ($i = 30; $i >= 0; $i--) "{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}", @endfor],
-            datasets: [{
-                label: "{{ $article->name }}",
-                backgroundColor: '#' + window.coloePalette[0],
-                borderColor: '#' + window.coloePalette[0],
-                fill: false,
-                data: [ @for ($i = 30; $i >= 0; $i--) {{ $article->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}, @endfor ]
-            }]
-        },
-        options: {
-            title: {
-                display: false,
-                text: 'Deposits per project'
+    var url = '{{ route('kitchen.transactions', $article) }}';
+    var title = '{{ $article->name }} ({{ $article->type }}) per day';
+
+    $(function(){
+        drawChart();
+        $('#chart_date_start').on('change', drawChart);
+        $('#chart_date_end').on('change', drawChart);
+    })
+
+    function drawChart(){
+        var parent = $('#chart').parent();
+        parent.empty();
+        $(parent).append('<canvas id="chart" style="height: 300px"><canvas>');
+
+        var elem = document.getElementById("chart");
+        var from = $('#chart_date_start').val();
+        var to = $('#chart_date_end').val();
+        var ajaxUrl = url + "?t";
+        if (from) {
+            ajaxUrl += '&from=' + from;
+        }
+        if (to) {
+            ajaxUrl += '&to=' + to;
+        }
+        $.get(ajaxUrl)
+            .done(function(result){
+                var labels = Object.keys(result.data);
+                var label = result.name;
+                var data = Object.values(result.data);
+                var unit = result.unit;
+                simpleBarChart(elem, title, labels, label, data, unit);
+        });
+    }
+
+    function simpleBarChart(elem, title, labels, label, data, unit) {
+        var ctx = elem.getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    backgroundColor: '#' + window.coloePalette[0],
+                    borderColor: '#' + window.coloePalette[0],
+                    fill: false,
+                    data: data
+                }]
             },
-            legend: {
-                display: false,
-                position: 'bottom'
-            },
-            elements: {
-                line: {
-                    tension: 0
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                    xAxes: [{
-                        display: true,
-                        scaleLabel: {
-                            display: false,
-                            labelString: 'Day'
-                        }
-                    }],
-                    yAxes: [{
-                        display: true,
-                        scaleLabel: {
+            options: {
+                title: {
+                    display: true,
+                    text: title
+                },
+                legend: {
+                    display: false,
+                    position: 'bottom'
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                        xAxes: [{
                             display: true,
-                            labelString: '{{ $article->unit }}'
-                        }
-                    }]
-                }
-        }  
-    });
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Day'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: unit
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+            }  
+        });
+    }
 @endsection
