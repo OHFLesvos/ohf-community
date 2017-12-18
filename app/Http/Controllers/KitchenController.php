@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class KitchenController extends Controller
 {
+    private static $types = [ 'incomming', 'outgoing' ];
+
     /**
      * Create a new controller instance.
      *
@@ -33,17 +35,17 @@ class KitchenController extends Controller
 
         return view('kitchen.index', [
             'date' => $date,
-            'data' => [
-                'incomming' => Article::where('type', 'incomming')->orderBy('name')->get(),
-                'outgoing' => Article::where('type', 'outgoing')->orderBy('name')->get(),
-            ],
+            'types' => self::$types,
+            'data' => collect(self::$types)->mapWithKeys(function($e){
+                return [$e => Article::where('type', $e)->orderBy('name')->get()];
+            })
         ]);
     }
 
     public function store(Request $request) {
         Validator::make($request->all(), [
             'date' => 'date',
-            'type' => 'in:incomming,outgoing',
+            'type' => 'in:' . implode(',', self::$types),
         ])->validate();
 
         if (isset($request->date)) {

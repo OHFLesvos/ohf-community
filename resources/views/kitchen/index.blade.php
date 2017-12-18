@@ -5,16 +5,16 @@
 @section('content')
 
     <ul class="nav nav-tabs tab-remember" id="kitchenArticlesTab" role="tablist">
-        @foreach(['incomming' => 'Incomming', 'outgoing' => 'Outgoing'] as $k => $v)
+        @foreach($types as $type)
         <li class="nav-item">
-            <a class="nav-link" id="{{ $k }}-tab" data-toggle="tab" href="#{{ $k }}" role="tab" aria-controls="{{ $k }}" aria-selected="true">{{ $v }}</a>
+            <a class="nav-link" id="{{ $type }}-tab" data-toggle="tab" href="#{{ $type }}" role="tab" aria-controls="{{ $type }}" aria-selected="true">{{ ucfirst($type) }}</a>
         </li>
         @endforeach
     </ul>
     <div class="tab-content" id="myTabContent">
-        @foreach(['incomming' => 'Incomming', 'outgoing' => 'Outgoing'] as $k => $v)
-        <div class="tab-pane fade" id="{{ $k }}" role="tabpanel" aria-labelledby="{{ $k }}-tab">
-            @include('kitchen.table', [ 'type' => $k, 'articles' => $data[$k] ])
+        @foreach($types as $type)
+        <div class="tab-pane fade" id="{{ $type }}" role="tabpanel" aria-labelledby="{{ $type }}-tab">
+            @include('kitchen.table', [ 'type' => $type, 'articles' => $data[$type] ])
         </div>
         @endforeach
     </div>
