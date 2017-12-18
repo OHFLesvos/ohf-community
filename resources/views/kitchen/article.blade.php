@@ -5,60 +5,72 @@
 @section('content')
 
     <div class="form-row justify-content-end">
-        <div class="col col-auto">
-            <input id="chart_date_start" type="date" class="form-control form-control-sm" value="{{ $chart_date_start->toDateString() }}" max="{{ Carbon\Carbon::yesterday()->toDateString() }}">
+        <div class="col col-lg-auto mb-2">
+            <input id="date_from" type="date" class="form-control form-control-sm" value="{{ $date_from->toDateString() }}" max="{{ Carbon\Carbon::yesterday()->toDateString() }}">
         </div>
-        <div class="col col-auto">
-            <input id="chart_date_end" type="date" class="form-control form-control-sm" value="{{ $chart_date_end->toDateString() }}" max="{{ Carbon\Carbon::today()->endOfMonth()->toDateString() }}">
+        <div class="col col-lg-auto">
+            <input id="date_to" type="date" class="form-control form-control-sm" value="{{ $date_to->toDateString() }}" max="{{ Carbon\Carbon::today()->endOfMonth()->toDateString() }}">
         </div>
     </div>
-    <div class="clearfix"></div>
 
-    <div class="mx-2">
-        <canvas id="chart" style="height: 300px"></canvas>
-    </div>
-
-    <table class="table table-bordered md my-4">
-        <thead>
-            <tr>
-                @for ($date = clone $date_start; $date->lt( (clone $date_start)->addDays(7) ); $date->addDay())
-                    <th class="px-0 text-center" style="width: 14.25%">{{ $date->format('D') }}</th>
-                @endfor
-            </tr>
-        </thead>
-        <tr>
-            @for ($date = clone $date_start; $date->lte($date_end); $date->addDay())
-                <td class="text-center" style="height: 4.5em; position: relative; vertical-align: middle">
-                    <span class="text-muted position-absolute p-0 m-0" style="right: 5px; top: 0; line-height: 1em;"><small>{{ $date->day }}</small></span>
-                    <span class="lead">{{ $article->dayTransactions($date) }}</span>
-                </td>
-                @if ( $date->dayOfWeek == Carbon\Carbon::SUNDAY ) </tr><tr> @endif
-            @endfor
-        </tr>
-    </table>
-
+    <div class="mx-2" id="dayChart"></div>
+    <div class="mx-2" id="weekDayChart"></div>
+    
     <script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
-
 @endsection
 
 @section('script')
-    var url = '{{ route('kitchen.transactions', $article) }}';
-    var title = '{{ $article->name }} ({{ $article->type }}) per day';
 
     $(function(){
-        drawChart();
-        $('#chart_date_start').on('change', drawChart);
-        $('#chart_date_end').on('change', drawChart);
+        drawCharts();
+        $('#date_from').on('change', drawCharts);
+        $('#date_to').on('change', drawCharts);
     })
 
-    function drawChart(){
-        var parent = $('#chart').parent();
-        parent.empty();
-        $(parent).append('<canvas id="chart" style="height: 300px"><canvas>');
+    function drawCharts() {
+        drawDayChart();
+        drawWeekDayAverageChart();
+    }
 
-        var elem = document.getElementById("chart");
-        var from = $('#chart_date_start').val();
-        var to = $('#chart_date_end').val();
+    function drawDayChart(){
+        var url = '{{ route('kitchen.transactions', $article) }}';
+        var title = '{{ $article->name }} ({{ $article->type }}) per day';
+
+        var parent = $('#dayChart');
+        parent.empty();
+        $(parent).append('<canvas style="height: 300px"><canvas>');
+
+        var elem = parent.children().get(0);
+        var from = $('#date_from').val();
+        var to = $('#date_to').val();
+        var ajaxUrl = url + "?t";
+        if (from) {
+            ajaxUrl += '&from=' + from;
+        }
+        if (to) {
+            ajaxUrl += '&to=' + to;
+        }
+        $.get(ajaxUrl)
+            .done(function(result){
+                var labels = Object.keys(result.data);
+                var label = result.name;
+                var data = Object.values(result.data);
+                var unit = result.unit;
+                simpleBarChart(elem, title, labels, label, data, unit);
+        });
+    }
+
+    function drawWeekDayAverageChart(){
+        var url = '{{ route('kitchen.transactionsPerWeekDay', $article) }}';
+        var title = 'Average {{ $article->name }} ({{ $article->type }}) per weekday';
+
+        var parent = $('#weekDayChart');
+        parent.empty();
+        $(parent).append('<canvas style="height: 300px"><canvas>');
+
+        var elem = parent.children().get(0);
+        var from = $('#date_from').val();
+        var to = $('#date_to').val();
         var ajaxUrl = url + "?t";
         if (from) {
             ajaxUrl += '&from=' + from;

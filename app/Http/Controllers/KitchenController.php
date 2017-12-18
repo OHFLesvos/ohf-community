@@ -101,22 +101,10 @@ class KitchenController extends Controller
     }
 
     public function showArticle(Article $article) {
-        $date_start = Carbon::today()->startOfMonth();
-        while ($date_start->dayOfWeek != Carbon::MONDAY) {
-            $date_start->subDay();
-        }
-
-        $date_end = Carbon::today()->endOfMonth();
-        while ($date_end->dayOfWeek != Carbon::SUNDAY) {
-            $date_end->addDay();
-        }
-
         return view('kitchen.article', [
             'article' => $article,
-            'date_start' => $date_start,
-            'date_end' => $date_end,
-            'chart_date_start' => Carbon::today()->subDays(30),
-            'chart_date_end' => Carbon::today(),
+            'date_from' =>Carbon::today()->subDays(30),
+            'date_to' => Carbon::today(),
         ]);
     }
 
@@ -140,6 +128,43 @@ class KitchenController extends Controller
         do {
             $data[$date->format('D j. M')] = $article->dayTransactions($date);
         } while($from->addDays(1) <= $to);
+
+        // Return JSON
+        return response()->json([
+            'name' => $article->name,
+            'unit' => $article->unit,
+            'data' => $data,
+        ]);
+    }
+
+    public function transactionsPerWeekDay(Article $article, Request $request) {
+        // Validate request data
+        Validator::make($request->all(), [
+            'from' => 'date',
+            'to' => 'date',
+        ])->validate();
+
+        // Parse dates from request
+        $from = isset($request->from) ? new Carbon($request->from) : Carbon::today()->subDays(30);
+        $to = isset($request->to) ? new Carbon($request->to) : Carbon::today();
+
+        // Collect values
+        $date = $from;
+        $weekdays = [];
+        do {
+            $val = $article->dayTransactions($date);
+            $weekdays[$date->format('l')][] = $val;
+        } while($from->addDays(1) <= $to);
+
+        $data = [];
+        $wdate = Carbon::today()->startOfWeek();
+        do { 
+            $k = $wdate->format('l');
+            $v = $weekdays[$k];
+            $filtered = array_filter($v);
+            $count = count($filtered);
+            $data[$k] = $count > 0 ? (array_sum($filtered) / $count) : null;
+        } while ($wdate->addDays(1) <= Carbon::today()->endOfWeek());
 
         // Return JSON
         return response()->json([
