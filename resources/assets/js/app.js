@@ -88,3 +88,25 @@ String.prototype.hashCode = function() {
     }
     return hash;
 };
+
+/**
+ * Remember open tab position of bootstrap 4 nav tabs 
+ * having the class "tab-remember". The container needs to have an id.
+ */
+$(function(){
+    $('.tab-remember').each(function(){
+        var id = $(this).attr('id');
+        var key = id + "Clicked";
+        $(this).find('.nav-link').click(function(){
+            sessionStorage.setItem(key, $(this).attr('id').replace(/-tab$/, ''));
+        });
+        var activeTabId;
+        if (sessionStorage.getItem(key) != null) {
+            activeTabId = sessionStorage.getItem(key);
+        } else {
+            activeTabId = $(this).siblings('.tab-content').children('.tab-pane').attr('id');
+        }
+        $('#'+ activeTabId + '-tab').addClass('active');
+        $('#'+ activeTabId).addClass('active').addClass('show');
+    });
+});

@@ -4,16 +4,16 @@
 
 @section('content')
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs tab-remember" id="kitchenArticlesTab" role="tablist">
         @foreach(['incomming' => 'Incomming', 'outgoing' => 'Outgoing'] as $k => $v)
         <li class="nav-item">
-            <a class="nav-link @if($k == $activeType) active @endif" id="{{ $k }}-tab" data-toggle="tab" href="#{{ $k }}" role="tab" aria-controls="{{ $k }}" aria-selected="true">{{ $v }}</a>
+            <a class="nav-link" id="{{ $k }}-tab" data-toggle="tab" href="#{{ $k }}" role="tab" aria-controls="{{ $k }}" aria-selected="true">{{ $v }}</a>
         </li>
         @endforeach
     </ul>
     <div class="tab-content" id="myTabContent">
         @foreach(['incomming' => 'Incomming', 'outgoing' => 'Outgoing'] as $k => $v)
-        <div class="tab-pane fade @if($k == $activeType) show active @endif" id="{{ $k }}" role="tabpanel" aria-labelledby="{{ $k }}-tab">
+        <div class="tab-pane fade" id="{{ $k }}" role="tabpanel" aria-labelledby="{{ $k }}-tab">
             @include('kitchen.table', [ 'type' => $k, 'articles' => $data[$k] ])
         </div>
         @endforeach

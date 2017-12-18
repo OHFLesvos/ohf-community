@@ -9,7 +9,7 @@
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
                             <th style="width: 7em" class="d-none d-sm-table-cell">
-                                <a href="{{ route('kitchen.index') }}?date={{  Carbon\Carbon::today()->subDays($i)->toDateString() }}&type={{ $type }}">{{ Carbon\Carbon::today()->subDays($i)->toDateString() }}</a>
+                                <a href="{{ route('kitchen.index') }}?date={{  Carbon\Carbon::today()->subDays($i)->toDateString() }}">{{ Carbon\Carbon::today()->subDays($i)->toDateString() }}</a>
                             </th>
                         @else
                             <th style="width: 7em">
@@ -26,7 +26,7 @@
                     <td>{{ $article->unit }}</td>
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
-                            <td class="d-none d-sm-table-cell">
+                            <td class="d-none d-sm-table-cell text-center">
                                 {{ $article->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}
                             </td>
                         @else

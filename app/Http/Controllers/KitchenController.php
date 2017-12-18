@@ -22,8 +22,7 @@ class KitchenController extends Controller
 
     public function index(Request $request) {
         Validator::make($request->all(), [
-            'date' => 'date',
-            'type' => 'in:incomming,outgoing',
+            'date' => 'date'
         ])->validate();
 
         if (isset($request->date)) {
@@ -38,7 +37,6 @@ class KitchenController extends Controller
                 'incomming' => Article::where('type', 'incomming')->orderBy('name')->get(),
                 'outgoing' => Article::where('type', 'outgoing')->orderBy('name')->get(),
             ],
-            'activeType' => isset($request->type) ? $request->type : session('kitchenArticleType', 'incomming'),
         ]);
     }
 
@@ -53,8 +51,6 @@ class KitchenController extends Controller
         } else {
             $date = Carbon::today();
         }
-
-        $request->session()->flash('kitchenArticleType', $request->type);
 
         $updated = false;
 
@@ -100,6 +96,9 @@ class KitchenController extends Controller
             ->with('info', $updated ? 'Values have been updated.' : 'No changes.');
     }
 
+    /**
+     * Shows an article and statistics about it
+     */
     public function showArticle(Article $article) {
         return view('kitchen.article', [
             'article' => $article,
@@ -109,9 +108,9 @@ class KitchenController extends Controller
     }
 
     /**
-     * Returns articke transaction value per day as JSON, limited by from and to date
+     * Parses optional date boundaries from a request
      */
-    public function transactions(Article $article, Request $request) {
+    private function getDatesFromRequest(Request $request) {
         // Validate request data
         Validator::make($request->all(), [
             'from' => 'date',
@@ -121,6 +120,16 @@ class KitchenController extends Controller
         // Parse dates from request
         $from = isset($request->from) ? new Carbon($request->from) : Carbon::today()->subDays(30);
         $to = isset($request->to) ? new Carbon($request->to) : Carbon::today();
+
+        // Return as array
+        return [$from, $to];
+    }
+
+    /**
+     * Returns article transaction value per day as JSON, limited by from and to date
+     */
+    public function transactionsPerDay(Article $article, Request $request) {
+        list($from, $to) = $this->getDatesFromRequest($request);
 
         // Collect values
         $date = $from;
@@ -137,16 +146,11 @@ class KitchenController extends Controller
         ]);
     }
 
-    public function transactionsPerWeekDay(Article $article, Request $request) {
-        // Validate request data
-        Validator::make($request->all(), [
-            'from' => 'date',
-            'to' => 'date',
-        ])->validate();
-
-        // Parse dates from request
-        $from = isset($request->from) ? new Carbon($request->from) : Carbon::today()->subDays(30);
-        $to = isset($request->to) ? new Carbon($request->to) : Carbon::today();
+    /**
+     * Returns average article transaction value per week day as JSON, limited by from and to date
+     */
+    public function avgTransactionsPerWeekDay(Article $article, Request $request) {
+        list($from, $to) = $this->getDatesFromRequest($request);
 
         // Collect values
         $date = $from;
@@ -156,6 +160,7 @@ class KitchenController extends Controller
             $weekdays[$date->format('l')][] = $val;
         } while($from->addDays(1) <= $to);
 
+        // Calculate average over weekdays
         $data = [];
         $wdate = Carbon::today()->startOfWeek();
         do { 

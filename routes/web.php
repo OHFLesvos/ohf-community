@@ -52,8 +52,8 @@ Route::resource('/people', 'PeopleController');
 Route::get('/kitchen', 'KitchenController@index')->name('kitchen.index');
 Route::post('/kitchen', 'KitchenController@store')->name('kitchen.store');
 Route::get('/kitchen/article/{article}', 'KitchenController@showArticle')->name('kitchen.showArticle');
-Route::get('/kitchen/article/{article}/transactions', 'KitchenController@transactions')->name('kitchen.transactions');
-Route::get('/kitchen/article/{article}/transactionsPerWeekDay', 'KitchenController@transactionsPerWeekDay')->name('kitchen.transactionsPerWeekDay');
+Route::get('/kitchen/article/{article}/transactionsPerDay', 'KitchenController@transactionsPerDay')->name('kitchen.transactionsPerDay');
+Route::get('/kitchen/article/{article}/avgTransactionsPerWeekDay', 'KitchenController@avgTransactionsPerWeekDay')->name('kitchen.avgTransactionsPerWeekDay');
 
 
 Route::get('/tasks', 'TasksController@index')->name('tasks.index');
