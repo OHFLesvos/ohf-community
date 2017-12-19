@@ -53,6 +53,8 @@ Route::group(['middleware' => 'can:use-kitchen'], function () {
     Route::get('/kitchen', 'KitchenController@index')->name('kitchen.index');
     Route::post('/kitchen', 'KitchenController@store')->name('kitchen.store');
     Route::get('/kitchen/article/{article}', 'KitchenController@showArticle')->name('kitchen.showArticle');
+    Route::get('/kitchen/article/{article}/edit', 'KitchenController@editArticle')->name('kitchen.editArticle');
+    Route::put('/kitchen/article/{article}/edit', 'KitchenController@updateArticle')->name('kitchen.updateArticle');
     Route::get('/kitchen/article/{article}/transactionsPerDay', 'KitchenController@transactionsPerDay')->name('kitchen.transactionsPerDay');
     Route::get('/kitchen/article/{article}/avgTransactionsPerWeekDay', 'KitchenController@avgTransactionsPerWeekDay')->name('kitchen.avgTransactionsPerWeekDay');
 });

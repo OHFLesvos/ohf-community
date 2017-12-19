@@ -384,10 +384,28 @@ class ContextMenuComposer {
             // Kitchen
             //
             case 'kitchen.showArticle':
+                $article = $view->getData()['article'];
                 return [
+                    'action' => [
+                        'url' => route('kitchen.editArticle', $article),
+                        'caption' => 'Edit',
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
+                        'authorized' => Gate::allows('use-kitchen')
+                    ],
                     'back' => [
                         'url' => route('kitchen.index'),
                         'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('use-kitchen')
+                    ]
+                ];
+            case 'kitchen.editArticle':
+                $article = $view->getData()['article'];
+                return [
+                    'back' => [
+                        'url' => route('kitchen.showArticle', $article),
+                        'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-kitchen')
                     ]

@@ -180,4 +180,29 @@ class KitchenController extends Controller
             'data' => $data,
         ]);
     }
+
+    /**
+     * Edits an article
+     */
+    public function editArticle(Article $article) {
+        return view('kitchen.edit', [
+            'article' => $article,
+            'types' => collect(self::$types)->mapWithKeys(function($t){
+                return [ $t => ucfirst($t) ];
+            }),
+        ]);
+    }
+
+    /**
+     * Updates an article
+     */
+    public function updateArticle(Article $article, Request $request) {
+        $article->name = $request->name;
+        $article->type = $request->type;
+        $article->unit = $request->unit;
+        $updated = $article->isDirty();
+        $article->save();
+        return redirect()->route('kitchen.showArticle', $article)
+            ->with('info', $updated ? 'Article has been updated.' : 'No changes.');
+    }
 }
