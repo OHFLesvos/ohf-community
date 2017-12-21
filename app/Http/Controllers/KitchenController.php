@@ -109,7 +109,7 @@ class KitchenController extends Controller
         }
 
         return redirect()->route('kitchen.index')
-            ->with('info', $updated ? 'Values have been updated.' : 'No changes.');
+            ->with($updated ? 'success' : 'info', $updated ? 'Values have been updated.' : 'No changes.');
     }
 
     /**

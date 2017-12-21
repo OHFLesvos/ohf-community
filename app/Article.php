@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use ShiftOneLabs\LaravelCascadeDeletes\CascadesDeletes;
 
-class Article extends Model
-{
-    public function transactions()
-    {
+class Article extends Model {
+    use CascadesDeletes;
+
+    protected $cascadeDeletes = ['transactions'];
+
+    public function transactions() {
         return $this->morphMany('App\Transaction', 'transactionable');
     }
 
