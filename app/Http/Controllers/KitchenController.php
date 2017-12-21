@@ -56,6 +56,7 @@ class KitchenController extends Controller
 
         $updated = false;
 
+        // Update existing articles
         if (isset($request->value)) {
             foreach ($request->value as $k => $v) {
                 if (isset($v) && is_numeric($v)) {
@@ -76,22 +77,35 @@ class KitchenController extends Controller
             }
         }
 
+        // Create new article
         if (!empty($request->new_name) && !empty($request->new_value) && !empty($request->new_unit)) {
-            $article = Article::where('name', $request->new_name)->where('type', $request->type)->first();
-            if ($article == null) {
-                $article = new Article();
-                $article->name = $request->new_name;
-                $article->unit = $request->new_unit;
-                $article->type = $request->type;
-                $article->save();
+            foreach ($request->new_name as $k => $v) {
+                if (!empty($v) && !empty($request->new_unit[$k])) {
+
+                    $article = Article::where('name', $v)
+                        ->where('type', $k)
+                        ->first();
+                    if ($article == null) {
+                        $article = new Article();
+                        $article->name = $v;
+                        $article->unit = $request->new_unit[$k];
+                        $article->type = $k;
+                        $article->save();
+                    }
+
+                    $value = $request->new_value[$k];
+                    if (!empty($value)) {
+                        $transaction = new Transaction();
+                        $transaction->value = $value;
+                        if (!$date->isToday()) {
+                            $transaction->created_at = $date->endOfDay();
+                        }
+                        $article->transactions()->save($transaction);
+                    }
+
+                    $updated = true;
+                }
             }
-            $transaction = new Transaction();
-            $transaction->value = $request->new_value;
-            if (!$date->isToday()) {
-                $transaction->created_at = $date->endOfDay();
-            }
-            $article->transactions()->save($transaction);
-            $updated = true;
         }
 
         return redirect()->route('kitchen.index')
@@ -204,5 +218,15 @@ class KitchenController extends Controller
         $article->save();
         return redirect()->route('kitchen.showArticle', $article)
             ->with('info', $updated ? 'Article has been updated.' : 'No changes.');
+    }
+
+    /**
+     * Deletes an article
+     */
+    public function destroyArticle(Article $article) {
+        $article->delete();
+        // TODO delete transactions
+        return redirect()->route('kitchen.index')
+            ->with('info', 'Article has been deleted.');
     }
 }

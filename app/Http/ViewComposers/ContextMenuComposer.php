@@ -393,6 +393,13 @@ class ContextMenuComposer {
                         'icon_floating' => 'pencil',
                         'authorized' => Gate::allows('use-kitchen')
                     ],
+                    'delete' => [
+                        'url' => route('kitchen.destroyArticle', $article),
+                        'caption' => 'Delete',
+                        'icon' => 'trash',
+                        'authorized' => Gate::allows('use-kitchen'),
+                        'confirmation' => 'Really delete this article?'
+                    ],
                     'back' => [
                         'url' => route('kitchen.index'),
                         'caption' => 'Close',

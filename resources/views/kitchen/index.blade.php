@@ -4,26 +4,31 @@
 
 @section('content')
 
-    <ul class="nav nav-tabs tab-remember" id="kitchenArticlesTab" role="tablist">
-        @foreach($types as $type)
-        <li class="nav-item">
-            <a class="nav-link" id="{{ $type }}-tab" data-toggle="tab" href="#{{ $type }}" role="tab" aria-controls="{{ $type }}" aria-selected="true">{{ ucfirst($type) }}</a>
-        </li>
-        @endforeach
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        @foreach($types as $type)
-        <div class="tab-pane fade" id="{{ $type }}" role="tabpanel" aria-labelledby="{{ $type }}-tab">
-            @include('kitchen.table', [ 'type' => $type, 'articles' => $data[$type] ])
-        </div>
-        @endforeach
-    </div>
-
     <div id="enterAlert" style="display: none;">
         @component('components.alert.info')
             Press ENTER to save your changes.
         @endcomponent
     </div>
+
+    {!! Form::open(['route' => ['kitchen.store']]) !!}
+        {{ Form::hidden('date', $date) }}
+
+        <ul class="nav nav-tabs tab-remember" id="kitchenArticlesTabNav" role="tablist">
+            @foreach($types as $type)
+            <li class="nav-item">
+                <a class="nav-link" id="{{ $type }}-tab" data-toggle="tab" href="#{{ $type }}" role="tab" aria-controls="{{ $type }}" aria-selected="true">{{ ucfirst($type) }}</a>
+            </li>
+            @endforeach
+        </ul>
+        <div class="tab-content" id="kitchenArticlesTabContent">
+            @foreach($types as $type)
+            <div class="tab-pane fade" id="{{ $type }}" role="tabpanel" aria-labelledby="{{ $type }}-tab">
+                @include('kitchen.table', [ 'type' => $type, 'articles' => $data[$type] ])
+            </div>
+            @endforeach
+        </div>
+
+    {!! Form::close() !!}
 
 @endsection
 

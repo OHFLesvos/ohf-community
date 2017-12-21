@@ -1,6 +1,3 @@
-    {!! Form::open(['route' => ['kitchen.store']]) !!}
-        {{ Form::hidden('date', $date) }}
-        {{ Form::hidden('type', $type) }}
         <table class="table table-sm table-bordered table-striped table-hover" id="articlesTable">
             <thead>
                 <tr>
@@ -39,21 +36,20 @@
             @endforeach
             <tr>
                 <td>
-                    <input type="text" name="new_name" class="form-control form-control-sm" placeholder="New article">
+                    <input type="text" name="new_name[{{ $type }}]" class="form-control form-control-sm" placeholder="New article">
                 </td>
                 <td>
-                    <input type="text" name="new_unit" class="form-control form-control-sm" placeholder="Unit" value="KG">
+                    <input type="text" name="new_unit[{{ $type }}]" class="form-control form-control-sm" placeholder="Unit" value="KG">
                 </td>
                 @foreach(range(6, 0) as $i)
                     @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
                         <td class="d-none d-sm-table-cell"></td>
                     @else
                         <td>
-                            <input type="number" name="new_value" class="form-control form-control-sm" placeholder="Amount" min="0">
+                            <input type="number" name="new_value[{{ $type }}]" class="form-control form-control-sm" placeholder="Amount" min="0">
                         </td>
                     @endif
                 @endforeach
             </tr>
             </tbody>
         </table>
-    {!! Form::close() !!}
