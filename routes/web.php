@@ -50,6 +50,8 @@ Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImp
 Route::resource('/people', 'PeopleController');
 
 Route::group(['middleware' => 'can:use-logistics'], function () {
+    Route::get('/logistics', 'LogisticsController@index')->name('logistics.index');
+
     Route::get('/logistics/articles', 'ArticleController@index')->name('logistics.articles.index');
     Route::post('/logistics/articles', 'ArticleController@store')->name('logistics.articles.store');
     Route::get('/logistics/articles/{article}', 'ArticleController@show')->name('logistics.articles.show');
