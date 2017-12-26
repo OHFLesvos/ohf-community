@@ -6,7 +6,7 @@
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())
                             <th style="width: 7em" class="d-none d-sm-table-cell">
-                                <a href="{{ route('kitchen.index') }}?date={{  Carbon\Carbon::today()->subDays($i)->toDateString() }}">{{ Carbon\Carbon::today()->subDays($i)->toDateString() }}</a>
+                                <a href="{{ route('logistics.articles.index') }}?date={{  Carbon\Carbon::today()->subDays($i)->toDateString() }}">{{ Carbon\Carbon::today()->subDays($i)->toDateString() }}</a>
                             </th>
                         @else
                             <th style="width: 7em">
@@ -19,7 +19,7 @@
             <tbody>
             @foreach ($articles as $article)
                 <tr>
-                    <td><a href="{{ route('kitchen.showArticle', $article) }}">{{ $article->name }}</a></td>
+                    <td><a href="{{ route('logistics.articles.show', $article) }}">{{ $article->name }}</a></td>
                     <td>{{ $article->unit }}</td>
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())

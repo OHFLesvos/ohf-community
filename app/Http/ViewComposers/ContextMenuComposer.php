@@ -381,40 +381,40 @@ class ContextMenuComposer {
                     ]
                 ];
             //
-            // Kitchen
+            // Logistics
             //
-            case 'kitchen.showArticle':
+            case 'logistics.articles.show':
                 $article = $view->getData()['article'];
                 return [
                     'action' => [
-                        'url' => route('kitchen.editArticle', $article),
+                        'url' => route('logistics.articles.edit', $article),
                         'caption' => 'Edit',
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
-                        'authorized' => Gate::allows('use-kitchen')
+                        'authorized' => Gate::allows('use-logistics')
                     ],
                     'delete' => [
-                        'url' => route('kitchen.destroyArticle', $article),
+                        'url' => route('logistics.articles.destroyArticle', $article),
                         'caption' => 'Delete',
                         'icon' => 'trash',
-                        'authorized' => Gate::allows('use-kitchen'),
+                        'authorized' => Gate::allows('use-logistics'),
                         'confirmation' => 'Really delete this article?'
                     ],
                     'back' => [
-                        'url' => route('kitchen.index'),
+                        'url' => route('logistics.articles.index'),
                         'caption' => 'Close',
                         'icon' => 'times-circle',
-                        'authorized' => Gate::allows('use-kitchen')
+                        'authorized' => Gate::allows('use-logistics')
                     ]
                 ];
-            case 'kitchen.editArticle':
+            case 'logistics.articles.edit':
                 $article = $view->getData()['article'];
                 return [
                     'back' => [
-                        'url' => route('kitchen.showArticle', $article),
+                        'url' => route('logistics.articles.show', $article),
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
-                        'authorized' => Gate::allows('use-kitchen')
+                        'authorized' => Gate::allows('use-logistics')
                     ]
                 ];
             //

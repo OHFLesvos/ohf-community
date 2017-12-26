@@ -8,7 +8,7 @@ use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
-class KitchenController extends Controller
+class ArticleController extends Controller
 {
     private static $types = [ 'incomming', 'outgoing' ];
 
@@ -33,7 +33,7 @@ class KitchenController extends Controller
             $date = Carbon::today();
         }
 
-        return view('kitchen.index', [
+        return view('logistics.articles.index', [
             'date' => $date,
             'types' => self::$types,
             'data' => collect(self::$types)->mapWithKeys(function($e){
@@ -108,15 +108,15 @@ class KitchenController extends Controller
             }
         }
 
-        return redirect()->route('kitchen.index')
+        return redirect()->route('logistics.articles.index')
             ->with($updated ? 'success' : 'info', $updated ? 'Values have been updated.' : 'No changes.');
     }
 
     /**
      * Shows an article and statistics about it
      */
-    public function showArticle(Article $article) {
-        return view('kitchen.article', [
+    public function show(Article $article) {
+        return view('logistics.articles.article', [
             'article' => $article,
             'date_from' =>Carbon::today()->subDays(30),
             'date_to' => Carbon::today(),
@@ -198,8 +198,8 @@ class KitchenController extends Controller
     /**
      * Edits an article
      */
-    public function editArticle(Article $article) {
-        return view('kitchen.edit', [
+    public function edit(Article $article) {
+        return view('logistics.articles.edit', [
             'article' => $article,
             'types' => collect(self::$types)->mapWithKeys(function($t){
                 return [ $t => ucfirst($t) ];
@@ -210,13 +210,13 @@ class KitchenController extends Controller
     /**
      * Updates an article
      */
-    public function updateArticle(Article $article, Request $request) {
+    public function update(Article $article, Request $request) {
         $article->name = $request->name;
         $article->type = $request->type;
         $article->unit = $request->unit;
         $updated = $article->isDirty();
         $article->save();
-        return redirect()->route('kitchen.showArticle', $article)
+        return redirect()->route('logistics.articles.show', $article)
             ->with('info', $updated ? 'Article has been updated.' : 'No changes.');
     }
 
@@ -226,7 +226,7 @@ class KitchenController extends Controller
     public function destroyArticle(Article $article) {
         $article->delete();
         // TODO delete transactions
-        return redirect()->route('kitchen.index')
+        return redirect()->route('logistics.articles.index')
             ->with('info', 'Article has been deleted.');
     }
 }

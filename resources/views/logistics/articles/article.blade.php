@@ -33,7 +33,7 @@
     }
 
     function drawDayChart(){
-        var url = '{{ route('kitchen.transactionsPerDay', $article) }}';
+        var url = '{{ route('logistics.articles.transactionsPerDay', $article) }}';
         var title = '{{ $article->name }} ({{ $article->type }}) per day';
 
         var parent = $('#dayChart');
@@ -61,7 +61,7 @@
     }
 
     function drawWeekDayAverageChart(){
-        var url = '{{ route('kitchen.avgTransactionsPerWeekDay', $article) }}';
+        var url = '{{ route('logistics.articles.avgTransactionsPerWeekDay', $article) }}';
         var title = 'Average {{ $article->name }} ({{ $article->type }}) per weekday';
 
         var parent = $('#weekDayChart');

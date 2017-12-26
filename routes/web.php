@@ -49,15 +49,15 @@ Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
 Route::resource('/people', 'PeopleController');
 
-Route::group(['middleware' => 'can:use-kitchen'], function () {
-    Route::get('/kitchen', 'KitchenController@index')->name('kitchen.index');
-    Route::post('/kitchen', 'KitchenController@store')->name('kitchen.store');
-    Route::get('/kitchen/article/{article}', 'KitchenController@showArticle')->name('kitchen.showArticle');
-    Route::get('/kitchen/article/{article}/edit', 'KitchenController@editArticle')->name('kitchen.editArticle');
-    Route::put('/kitchen/article/{article}/edit', 'KitchenController@updateArticle')->name('kitchen.updateArticle');
-    Route::delete('/kitchen/article/{article}/destroy', 'KitchenController@destroyArticle')->name('kitchen.destroyArticle');
-    Route::get('/kitchen/article/{article}/transactionsPerDay', 'KitchenController@transactionsPerDay')->name('kitchen.transactionsPerDay');
-    Route::get('/kitchen/article/{article}/avgTransactionsPerWeekDay', 'KitchenController@avgTransactionsPerWeekDay')->name('kitchen.avgTransactionsPerWeekDay');
+Route::group(['middleware' => 'can:use-logistics'], function () {
+    Route::get('/logistics/articles', 'ArticleController@index')->name('logistics.articles.index');
+    Route::post('/logistics/articles', 'ArticleController@store')->name('logistics.articles.store');
+    Route::get('/logistics/articles/{article}', 'ArticleController@show')->name('logistics.articles.show');
+    Route::get('/logistics/articles/{article}/edit', 'ArticleController@edit')->name('logistics.articles.edit');
+    Route::put('/logistics/articles/{article}', 'ArticleController@update')->name('logistics.articles.update');
+    Route::delete('/logistics/articles/{article}', 'ArticleController@destroyArticle')->name('logistics.articles.destroyArticle');
+    Route::get('/logistics/articles/{article}/transactionsPerDay', 'ArticleController@transactionsPerDay')->name('logistics.articles.transactionsPerDay');
+    Route::get('/logistics/articles/{article}/avgTransactionsPerWeekDay', 'ArticleController@avgTransactionsPerWeekDay')->name('logistics.articles.avgTransactionsPerWeekDay');
 });
 
 Route::get('/tasks', 'TasksController@index')->name('tasks.index');

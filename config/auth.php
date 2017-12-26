@@ -102,7 +102,7 @@ return [
 
     'permissions' => [
         'bank.use' => 'Use bank',
-        'kitchen.use' => 'Use kitchen',
+        'logistics.use' => 'Use logistics',
         'people.manage' => 'Manage people',
         'tasks.use' => 'Use tasks'
     ]

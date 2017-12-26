@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kitchen')
+@section('title', 'Articles')
 
 @section('content')
 
@@ -10,20 +10,20 @@
         @endcomponent
     </div>
 
-    {!! Form::open(['route' => ['kitchen.store']]) !!}
+    {!! Form::open(['route' => ['logistics.articles.store']]) !!}
         {{ Form::hidden('date', $date) }}
 
-        <ul class="nav nav-tabs tab-remember" id="kitchenArticlesTabNav" role="tablist">
+        <ul class="nav nav-tabs tab-remember" id="articlesTabNav" role="tablist">
             @foreach($types as $type)
             <li class="nav-item">
                 <a class="nav-link" id="{{ $type }}-tab" data-toggle="tab" href="#{{ $type }}" role="tab" aria-controls="{{ $type }}" aria-selected="true">{{ ucfirst($type) }}</a>
             </li>
             @endforeach
         </ul>
-        <div class="tab-content" id="kitchenArticlesTabContent">
+        <div class="tab-content" id="articlesTabContent">
             @foreach($types as $type)
             <div class="tab-pane fade" id="{{ $type }}" role="tabpanel" aria-labelledby="{{ $type }}-tab">
-                @include('kitchen.table', [ 'type' => $type, 'articles' => $data[$type] ])
+                @include('logistics.articles.table', [ 'type' => $type, 'articles' => $data[$type] ])
             </div>
             @endforeach
         </div>

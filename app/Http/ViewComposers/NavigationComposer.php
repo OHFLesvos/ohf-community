@@ -54,11 +54,11 @@ class NavigationComposer {
                     'authorized' => Gate::allows('use-bank')
                 ],
                 [
-                    'route' => 'kitchen.index',
-                    'caption' => 'Kitchen',
+                    'route' => 'logistics.articles.index',
+                    'caption' => 'Articles',
                     'icon' => 'spoon',
-                    'active' => 'kitchen*',
-                    'authorized' => Gate::allows('use-kitchen')
+                    'active' => 'logistics/articles*',
+                    'authorized' => Gate::allows('use-logistics')
                 ],
                 [
                     'route' => 'tasks.index',
