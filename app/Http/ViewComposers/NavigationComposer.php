@@ -54,13 +54,19 @@ class NavigationComposer {
                     'authorized' => Gate::allows('use-bank')
                 ],
                 [
+                    'route' => 'logistics.index',
+                    'caption' => 'Logistics',
+                    'icon' => 'spoon',
+                    'active' => 'logistics*',
+                    'authorized' => Gate::allows('use-logistics')
+                ],
+                [
                     'route' => 'tasks.index',
                     'caption' => 'Tasks',
                     'icon' => 'tasks',
                     'active' => 'tasks*',
                     'authorized' => Auth::user()->can('list', Task::class),
                     'badge' => $num_open_tasks > 0 ? $num_open_tasks : null
-
                 ],
                 [
                     'route' => 'users.index',

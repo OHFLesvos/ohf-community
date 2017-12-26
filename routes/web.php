@@ -49,6 +49,20 @@ Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
 Route::resource('/people', 'PeopleController');
 
+Route::group(['middleware' => 'can:use-logistics'], function () {
+    Route::get('/logistics', 'LogisticsController@index')->name('logistics.index');
+
+    Route::get('/logistics/projects/{project}/articles', 'ArticleController@index')->name('logistics.articles.index');
+    Route::post('/logistics/projects/{project}/articles', 'ArticleController@store')->name('logistics.articles.store');
+
+    Route::get('/logistics/articles/{article}', 'ArticleController@show')->name('logistics.articles.show');
+    Route::get('/logistics/articles/{article}/edit', 'ArticleController@edit')->name('logistics.articles.edit');
+    Route::put('/logistics/articles/{article}', 'ArticleController@update')->name('logistics.articles.update');
+    Route::delete('/logistics/articles/{article}', 'ArticleController@destroyArticle')->name('logistics.articles.destroyArticle');
+    Route::get('/logistics/articles/{article}/transactionsPerDay', 'ArticleController@transactionsPerDay')->name('logistics.articles.transactionsPerDay');
+    Route::get('/logistics/articles/{article}/avgTransactionsPerWeekDay', 'ArticleController@avgTransactionsPerWeekDay')->name('logistics.articles.avgTransactionsPerWeekDay');
+});
+
 Route::get('/tasks', 'TasksController@index')->name('tasks.index');
 Route::post('/tasks', 'TasksController@store')->name('tasks.store');
 Route::get('/tasks/setDone/{task}', 'TasksController@setDone')->name('tasks.setDone');

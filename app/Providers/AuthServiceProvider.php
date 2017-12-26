@@ -35,5 +35,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasPermission('bank.use');
         });
 
+        Gate::define('use-logistics', function ($user) {
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
+            return $user->hasPermission('logistics.use');
+        });
+
     }
 }

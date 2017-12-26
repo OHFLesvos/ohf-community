@@ -381,6 +381,52 @@ class ContextMenuComposer {
                     ]
                 ];
             //
+            // Logistics
+            //
+            case 'logistics.articles.index':
+                return [
+                    'back' => [
+                        'url' => route('logistics.index'),
+                        'caption' => 'Project Overview',
+                        'icon' => 'list',
+                        'authorized' => Gate::allows('use-logistics')
+                    ]
+                ];
+            case 'logistics.articles.show':
+                $article = $view->getData()['article'];
+                return [
+                    'action' => [
+                        'url' => route('logistics.articles.edit', $article),
+                        'caption' => 'Edit',
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
+                        'authorized' => Gate::allows('use-logistics')
+                    ],
+                    'delete' => [
+                        'url' => route('logistics.articles.destroyArticle', $article),
+                        'caption' => 'Delete',
+                        'icon' => 'trash',
+                        'authorized' => Gate::allows('use-logistics'),
+                        'confirmation' => 'Really delete this article?'
+                    ],
+                    'back' => [
+                        'url' => route('logistics.articles.index', $article->project),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('use-logistics')
+                    ]
+                ];
+            case 'logistics.articles.edit':
+                $article = $view->getData()['article'];
+                return [
+                    'back' => [
+                        'url' => route('logistics.articles.show', $article),
+                        'caption' => 'Cancel',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('use-logistics')
+                    ]
+                ];
+            //
             // Tasks
             //
             case 'tasks.edit':
