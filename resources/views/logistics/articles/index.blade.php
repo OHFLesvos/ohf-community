@@ -6,7 +6,7 @@
 
     <div id="enterAlert" style="display: none;">
         @component('components.alert.info')
-            Press ENTER to save your changes.
+            Press ENTER to save <u>all</u> your changes.
         @endcomponent
     </div>
 
