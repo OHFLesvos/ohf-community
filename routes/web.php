@@ -52,8 +52,9 @@ Route::resource('/people', 'PeopleController');
 Route::group(['middleware' => 'can:use-logistics'], function () {
     Route::get('/logistics', 'LogisticsController@index')->name('logistics.index');
 
-    Route::get('/logistics/articles', 'ArticleController@index')->name('logistics.articles.index');
-    Route::post('/logistics/articles', 'ArticleController@store')->name('logistics.articles.store');
+    Route::get('/logistics/projects/{project}/articles', 'ArticleController@index')->name('logistics.articles.index');
+    Route::post('/logistics/projects/{project}/articles', 'ArticleController@store')->name('logistics.articles.store');
+
     Route::get('/logistics/articles/{article}', 'ArticleController@show')->name('logistics.articles.show');
     Route::get('/logistics/articles/{article}/edit', 'ArticleController@edit')->name('logistics.articles.edit');
     Route::put('/logistics/articles/{article}', 'ArticleController@update')->name('logistics.articles.update');

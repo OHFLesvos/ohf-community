@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Article;
 use App\Transaction;
+use App\Project;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,7 +23,7 @@ class ArticleController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request) {
+    public function index(Project $project, Request $request) {
         Validator::make($request->all(), [
             'date' => 'date'
         ])->validate();
@@ -34,15 +35,19 @@ class ArticleController extends Controller
         }
 
         return view('logistics.articles.index', [
+            'project' => $project,
             'date' => $date,
             'types' => self::$types,
-            'data' => collect(self::$types)->mapWithKeys(function($e){
-                return [$e => Article::where('type', $e)->orderBy('name')->get()];
+            'data' => collect(self::$types)->mapWithKeys(function($e) use($project) {
+                return [$e => $project->articles()
+                    ->where('type', $e)
+                    ->orderBy('name')
+                    ->get()];
             })
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Project $project, Request $request) {
         Validator::make($request->all(), [
             'date' => 'date',
             'type' => 'in:' . implode(',', self::$types),
@@ -90,7 +95,7 @@ class ArticleController extends Controller
                         $article->name = $v;
                         $article->unit = $request->new_unit[$k];
                         $article->type = $k;
-                        $article->save();
+                        $project->articles()->save($article);
                     }
 
                     $value = $request->new_value[$k];
@@ -108,7 +113,7 @@ class ArticleController extends Controller
             }
         }
 
-        return redirect()->route('logistics.articles.index')
+        return redirect()->route('logistics.articles.index', $project)
             ->with($updated ? 'success' : 'info', $updated ? 'Values have been updated.' : 'No changes.');
     }
 
@@ -226,7 +231,7 @@ class ArticleController extends Controller
     public function destroyArticle(Article $article) {
         $article->delete();
         // TODO delete transactions
-        return redirect()->route('logistics.articles.index')
+        return redirect()->route('logistics.articles.index', $article->project)
             ->with('info', 'Article has been deleted.');
     }
 }

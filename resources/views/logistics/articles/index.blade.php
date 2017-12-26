@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Articles')
+@section('title', $project->name . ' Articles')
 
 @section('content')
 
@@ -10,7 +10,7 @@
         @endcomponent
     </div>
 
-    {!! Form::open(['route' => ['logistics.articles.store']]) !!}
+    {!! Form::open(['route' => ['logistics.articles.store', $project]]) !!}
         {{ Form::hidden('date', $date) }}
 
         <ul class="nav nav-tabs tab-remember" id="articlesTabNav" role="tablist">

@@ -383,6 +383,15 @@ class ContextMenuComposer {
             //
             // Logistics
             //
+            case 'logistics.articles.index':
+                return [
+                    'back' => [
+                        'url' => route('logistics.index'),
+                        'caption' => 'Project Overview',
+                        'icon' => 'list',
+                        'authorized' => Gate::allows('use-logistics')
+                    ]
+                ];
             case 'logistics.articles.show':
                 $article = $view->getData()['article'];
                 return [
@@ -401,7 +410,7 @@ class ContextMenuComposer {
                         'confirmation' => 'Really delete this article?'
                     ],
                     'back' => [
-                        'url' => route('logistics.articles.index'),
+                        'url' => route('logistics.articles.index', $article->project),
                         'caption' => 'Close',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-logistics')

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    public function articles() {
+        return $this->hasMany('App\Article');
+    }
+
     public function transactions()
     {
         return $this->morphMany('App\Transaction', 'transactionable');

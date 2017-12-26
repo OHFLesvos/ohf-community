@@ -14,7 +14,11 @@ class AddArticleMgmtToProjects extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->boolean('has_article_mgmt')->default(false);
+            $table->boolean('has_article_mgmt')->default(false)->after('enable_in_bank');
+        });
+        Schema::table('articles', function (Blueprint $table) {
+            $table->integer('project_id')->after('name')->unsigned();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -25,6 +29,10 @@ class AddArticleMgmtToProjects extends Migration
      */
     public function down()
     {
+        Schema::table('articles', function (Blueprint $table) {
+            $table->dropForeign(['project_id']);
+            $table->dropColumn('project_id');
+        });
         Schema::table('projects', function (Blueprint $table) {
             $table->dropColumn('has_article_mgmt');
         });

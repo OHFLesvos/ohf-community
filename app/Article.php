@@ -10,6 +10,10 @@ class Article extends Model {
 
     protected $cascadeDeletes = ['transactions'];
 
+    public function project() {
+        return $this->belongsTo('App\Project');
+    }
+
     public function transactions() {
         return $this->morphMany('App\Transaction', 'transactionable');
     }
