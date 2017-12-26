@@ -20,13 +20,10 @@
         </tr>
     </thead>
     <tbody>
-    @foreach ($projects as $project)
+    @foreach (($projects)->filter(function($p){ return $p->has_article_mgmt; }) as $project)
         <tr>
-            <td>{{ $project->name }}</td>
             <td>
-                @if ($project->has_article_mgmt)
-                    <a href="{{ route('logistics.articles.index', $project) }}">Manage articles</a>
-                @endif
+                <a href="{{ route('logistics.articles.index', $project) }}">{{ $project->name }}</a>
             </td>
         </tr>
     @endforeach
