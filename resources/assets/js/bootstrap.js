@@ -51,9 +51,3 @@ if (token) {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
-
-window.Vue = require('vue');
-Vue.component('deposit-chart', require('./components/bank/DepositChart.vue'));
-const app = new Vue({
-    el: '#app'
-});

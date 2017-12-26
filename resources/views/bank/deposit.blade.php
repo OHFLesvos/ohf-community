@@ -54,17 +54,14 @@
         </table>
 
         <div id="app" class="my-3">
-            <deposit-chart :height=200 :data="{
+            <bank-deposit-chart :height=300 :data="{
                 labels: [@for ($i = 30; $i >= 0; $i--) '{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}', @endfor],
                 datasets: [@foreach($projects as $project){
                     label: '{{ $project->name }}',
-                    //backgroundColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
-                    //borderColor: '#' + window.coloePalette[{{ $loop->index }} % window.coloePalette.length],
-                    fill: false,
                     data: [ @for ($i = 30; $i >= 0; $i--) {{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}, @endfor ]
                 }, @endforeach
                 ]}"
-            ></deposit-chart>
+            ></bank-deposit-chart>
         </div>
 
     @else

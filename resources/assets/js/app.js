@@ -110,3 +110,11 @@ $(function(){
         $('#'+ activeTabId).addClass('active').addClass('show');
     });
 });
+
+window.Vue = require('vue');
+
+Vue.component('bank-deposit-chart', require('./components/bank/DepositChart.vue'));
+
+const app = new Vue({
+    el: '#app'
+});
