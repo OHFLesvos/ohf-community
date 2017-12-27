@@ -25,7 +25,6 @@ class StoreTask extends FormRequest
     {
         return [
             'description' => 'required|max:255',
-            'responsible' => 'required|max:255',
         ];
     }
 }

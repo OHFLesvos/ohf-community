@@ -63,12 +63,7 @@ Route::group(['middleware' => 'can:use-logistics'], function () {
     Route::get('/logistics/articles/{article}/avgTransactionsPerWeekDay', 'ArticleController@avgTransactionsPerWeekDay')->name('logistics.articles.avgTransactionsPerWeekDay');
 });
 
-Route::get('/tasks', 'TasksController@index')->name('tasks.index');
-Route::post('/tasks', 'TasksController@store')->name('tasks.store');
-Route::get('/tasks/setDone/{task}', 'TasksController@setDone')->name('tasks.setDone');
-Route::get('/tasks/setUndone/{task}', 'TasksController@setUndone')->name('tasks.setUndone');
-Route::post('/tasks/{task}/update', 'TasksController@update')->name('tasks.update');
-Route::get('/tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
-Route::delete('/tasks/{task}/destroy', 'TasksController@destroy')->name('tasks.destroy');
+// Tasks
+Route::view('/tasks', 'tasks.tasklist')->name('tasks')->middleware('auth');
 
 Auth::routes();

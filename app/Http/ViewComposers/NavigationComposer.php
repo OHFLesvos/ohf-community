@@ -61,7 +61,7 @@ class NavigationComposer {
                     'authorized' => Gate::allows('use-logistics')
                 ],
                 [
-                    'route' => 'tasks.index',
+                    'route' => 'tasks',
                     'caption' => 'Tasks',
                     'icon' => 'tasks',
                     'active' => 'tasks*',
