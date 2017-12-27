@@ -37,7 +37,7 @@
             </li>
         </ul>
         <div class="text-right mb-3 pr-1">
-            <a href="#" @click.prevent="refresh()"><i class="fa fa-refresh"></i></a>
+            <a href="#" @click.prevent="refresh()"><i class="fa fa-refresh" v-bind:class="{ 'fa-spin': fetchRunning}"></i></a>
         </div>
     </div>
 </template>
@@ -60,6 +60,7 @@
                 editTask: null,
                 hoveredCircle: null,
                 emptyList: false,
+                fetchRunning: false,
             };
         },
         
@@ -69,15 +70,19 @@
         
         methods: {
             refresh() {
-                this.list = [];
+                this.addNewTask = false,
+                this.editTask =null,
                 this.fetchTaskList();
             },
 
             fetchTaskList() {
-                axios.get('api/tasks').then((res) => {
-                    this.list = res.data;
-                    this.emptyList = this.list.length === 0
-                });
+                this.fetchRunning = true;
+                axios.get('api/tasks')
+                    .then((res) => {
+                        this.fetchRunning = false;
+                        this.list = res.data;
+                        this.emptyList = this.list.length === 0
+                    });
             },
  
             createTask() {
