@@ -29,7 +29,7 @@ class TasksController extends ParentController {
 	
 	public function show(Task $task)
     {
-		return $task;
+		return new TaskResource($task);
     }
 
     public function store(StoreTask $request)
