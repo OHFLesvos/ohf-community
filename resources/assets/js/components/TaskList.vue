@@ -86,7 +86,7 @@
                 axios.get('api/tasks')
                     .then((res) => {
                         this.fetchRunning = false;
-                        this.list = res.data;
+                        this.list = res.data.data;
                         this.emptyList = this.list.length === 0
                     });
             },

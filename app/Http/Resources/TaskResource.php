@@ -14,6 +14,10 @@ class TaskResource extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'description' => $this->description,
+            'date' => $this->created_at->toDateString(),
+        ];
     }
 }
