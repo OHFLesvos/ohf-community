@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-if='errorMessage' class="alert alert-danger">{{ errorMessage }}</div>
         <div v-if='emptyList' class="alert alert-info">There are no tasks yet.</div>
         <ul class="list-group mb-2">
             <!-- List existing tasks -->
@@ -32,7 +33,15 @@
             <li class="list-group-item">
                 <form v-if="addNewTask" action="#" @submit.prevent="createTask()">
                     <div class="form-group">
-                        <input v-model="task.description" type="text" name="description" class="form-control" autocomplete="off" v-focus>
+                        <input v-model="task.description" 
+                            type="text" 
+                            name="description" 
+                            class="form-control" 
+                            v-bind:class="{ 'is-invalid': newTaskInvalidDescription }"
+                            autocomplete="off" 
+                            ref="description"
+                            v-focus>
+                        <span v-if="newTaskInvalidDescription" class="invalid-feedback">{{ newTaskInvalidDescription }}</span>
                     </div>
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary">Add task</button> &nbsp; 
@@ -67,6 +76,8 @@
                 hoveredCircle: null,
                 emptyList: false,
                 fetchRunning: false,
+                errorMessage: null,
+                newTaskInvalidDescription: null,
             };
         },
         
@@ -92,12 +103,17 @@
             },
  
             createTask() {
+                this.errorMessage = null;
                 axios.post('api/tasks', this.task)
                     .then((res) => {
                         this.task.description = '';
                         this.fetchTaskList();
                     })
-                    .catch((err) => console.error(err));
+                    .catch((err) => {
+                        this.errorMessage = err.response.data.message;
+                        this.newTaskInvalidDescription = err.response.data.errors.description.join(' ');
+                        this.$nextTick(() => this.$refs.description.focus());
+                    });
             },
  
             updateTask(id) {
