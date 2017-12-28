@@ -11,4 +11,10 @@ class Task extends Model
     public function scopeOpen($query) {
         return $query->where('done_date', null);
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

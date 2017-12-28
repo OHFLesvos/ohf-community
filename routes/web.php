@@ -64,6 +64,9 @@ Route::group(['middleware' => 'can:use-logistics'], function () {
 });
 
 // Tasks
-Route::view('/tasks', 'tasks.tasklist')->name('tasks')->middleware('auth');
+Route::group(['middleware' => ['auth']], function () {
+    // TODO Add authorization: Auth::user()->can('list', Task::class)
+    Route::view('/tasks', 'tasks.tasklist')->name('tasks');
+});
 
 Auth::routes();

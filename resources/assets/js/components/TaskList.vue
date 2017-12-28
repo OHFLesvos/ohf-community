@@ -15,11 +15,17 @@
                 </form>
                 <div v-else>
                     <a class="mr-2" href="#">
-                        <i v-if="hoveredCircle == task.id" v-on:mouseout="hoveredCircle = 0" @click.prevent="doneTask(task.id)" class="fa fa-check-circle-o"></i>
-                        <i v-else v-on:mouseover="hoveredCircle = task.id" class="fa fa-circle-thin"></i>
+                        <i class="fa" 
+                            v-on:mouseover="hoveredCircle = task.id" 
+                            v-on:mouseout="hoveredCircle = 0"
+                            v-bind:class="[hoveredCircle == task.id ? 'fa-check-circle-o' : 'fa-circle-thin' ]"
+                            @click.prevent="doneTask(task.id)"></i>
                     </a>
                     <span @click.prevent="editTask = task; addNewTask = false">{{ task.description }}</span>
-                    <a href="#" @click.prevent="deleteTask(task.id); addNewTask = null" class="pull-right"><i class="fa fa-trash"></i></a>
+                    <!-- <small class="text-muted ml-3">{{ task.created_at }}</small> -->
+                    <span class="pull-right">
+                        <a href="#" @click.prevent="deleteTask(task.id); addNewTask = null"><i class="fa fa-trash"></i></a>
+                    </span>
                 </div>
             </li>
             <!-- Add new task -->

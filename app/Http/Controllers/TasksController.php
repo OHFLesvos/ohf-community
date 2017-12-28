@@ -18,17 +18,25 @@ class TasksController extends ParentController {
 
     public function index()
     {
-		return Task::latest()
+		return Task::where('user_id', Auth::id())
 				->where('done_date', null)
+				//->latest()
 				->get()
 				->filter(function ($value, $key) {
-                     return $this->authorize('view', $value);
-                 });
+					return $this->authorize('view', $value);
+				});
+	}
+	
+	public function show(Task $task)
+    {
+		return $task;
     }
 
     public function store(StoreTask $request)
     {
-		$task = Task::create([ 'description' => request('description') ]);
+		$task = new Task();
+		$task->description = request('description');
+		Auth::user()->tasks()->save($task);
 		return response()->json($task, 201);
 	}
 	

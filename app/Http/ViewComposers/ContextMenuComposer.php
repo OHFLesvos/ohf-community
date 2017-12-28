@@ -426,26 +426,6 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('use-logistics')
                     ]
                 ];
-            //
-            // Tasks
-            //
-            case 'tasks.edit':
-                $task = $view->getData()['task'];
-                return [
-                    'delete' => [
-                        'url' => route('tasks.destroy', $task),
-                        'caption' => 'Delete',
-                        'icon' => 'trash',
-                        'authorized' => Auth::user()->can('delete', $task),
-                        'confirmation' => 'Really delete this task?'
-                    ],
-                    'back' => [
-                        'url' => route('tasks.index'),
-                        'caption' => 'Close',
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', Task::class)
-                    ]
-                ];
         }
         return [];
     }
