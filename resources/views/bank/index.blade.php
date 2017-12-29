@@ -29,8 +29,8 @@
                 <th>Nationality</th>
                 <th>Remarks</th>
 				<th style="width: 170px">Boutique</th>
-                <th style="width: 100px;">Yesterday</th>
-                <th style="width: 100px;">Today</th>
+                {{--  <th style="width: 100px;">Yesterday</th>  --}}
+                <th style="width: 100px;">Drachma</th>
             </tr>
         </thead>
         <tbody>

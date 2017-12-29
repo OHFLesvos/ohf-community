@@ -185,19 +185,25 @@ function writeRow(person) {
 				})
 			);                
 	} else {
-		today.append($('<input>')
-				.attr('type', 'number')
-				.attr('min', 0)
-				.attr('max', transactionMaxAmount)
-				.attr('value', 0)
-				.addClass('form-control form-control-sm')
-				.on('focus', function(){
-					$(this).select();
+		today.append($('<a>')
+				.attr('href', '#')
+				.addClass('btn btn-secondary btn-sm')
+				.text('2')
+				.on('click', function(e){
+					$(this).parent().html('<i class="fa fa-spinner fa-spin">');
+					storeTransaction(person.id, 2);
+					e.preventDefault();
 				})
-				.on('keypress', function(e){
-					if (e.keyCode == 13 && $(this).val() > 0) { // Enter
-						storeTransaction(person.id, $(this).val());
-					} 
+			);
+		today.append(' &nbsp; ');
+		today.append($('<a>')
+				.attr('href', '#')
+				.addClass('btn btn-secondary btn-sm')
+				.text('1')
+				.on('click', function(e){
+					$(this).parent().html('<i class="fa fa-spinner fa-spin">');
+					storeTransaction(person.id, 1);
+					e.preventDefault();
 				})
 			);
 	}
@@ -246,10 +252,10 @@ function writeRow(person) {
 					}
 				});
 		}))
-		.append(
-			$('<td>')
-				.html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
-		)
+		// .append(
+		// 	$('<td>')
+		// 		.html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
+		// )
 		.append(today);
 }
 
