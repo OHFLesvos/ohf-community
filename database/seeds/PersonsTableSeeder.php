@@ -147,6 +147,7 @@ class PersonsTableSeeder extends Seeder
                 'medical_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
                 'registration_no' => rand(0,100) < 15 ? rand(10000,99999) : null,
                 'section_card_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
+                'temp_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
                 'nationality' => $nationality[array_rand($nationality)],
                 'languages' => $languages[array_rand($languages)],
                 'skills' => $skills[array_rand($skills)],

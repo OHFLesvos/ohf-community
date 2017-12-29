@@ -123,6 +123,7 @@ class BankController extends Controller
             ->whereNull('medical_no')
             ->whereNull('registration_no')
             ->whereNull('section_card_no')
+            ->whereNull('temp_no')
             ->count();
     }
 
@@ -159,6 +160,7 @@ class BankController extends Controller
                 ->whereNull('medical_no')
                 ->whereNull('registration_no')
                 ->whereNull('section_card_no')
+                ->whereNull('temp_no')
                 ->delete();
         }
         return redirect()->route('bank.index')
@@ -215,6 +217,7 @@ class BankController extends Controller
                             'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
                             'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
                             'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
+                            'temp_no' => isset($row->temp_no) ? $row->temp_no : null,
                             'nationality' => $row->nationality,
                             'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
                         ]);
@@ -272,7 +275,7 @@ class BankController extends Controller
                 ::where($condition);
         }
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'nationality', 'remarks', 'boutique_coupon')
+            ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
@@ -295,6 +298,7 @@ class BankController extends Controller
                         'medical_no' => $item->medical_no,
                         'registration_no' => $item->registration_no,
                         'section_card_no' => $item->section_card_no,
+                        'temp_no' => $item->temp_no,
                         'nationality' => $item->nationality, 
                         'remarks' => $item->remarks,
 						'boutique_coupon' => self::getBoutiqueCouponForJson($item, $boutique_date_threshold),
@@ -359,6 +363,7 @@ class BankController extends Controller
                     'medical_no' => $person->medical_no,
                     'registration_no' => $person->registration_no,
                     'section_card_no' => $person->section_card_no,
+                    'temp_no' => $person->temp_no,
                     'nationality' => $person->nationality, 
                     'remarks' => $person->remarks,
 					'boutique_coupon' => self::getBoutiqueCouponForJson($person, $boutique_date_threshold),

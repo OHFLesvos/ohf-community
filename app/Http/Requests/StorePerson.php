@@ -36,6 +36,7 @@ class StorePerson extends FormRequest
             'medical_no' => 'max:255',
             'registration_no' => 'max:255',
             'section_card_no' => 'max:255',
+            'temp_no' => 'max:255',
             'languages' => 'max:255',
             'skills' => 'max:255',
             'remarks' => 'max:255',

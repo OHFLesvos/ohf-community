@@ -12,7 +12,7 @@ use App\Http\Requests\StorePerson;
 class PeopleController extends ParentController
 {
     const DEFAULT_RESULTS_PER_PAGE = 15;
-    const filter_fields = ['name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'];
+    const filter_fields = ['name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'];
 
     /**
      * Create a new controller instance.
@@ -52,6 +52,7 @@ class PeopleController extends ParentController
         $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
         $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
         $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
+        $person->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? $request->languages : null;
@@ -96,6 +97,7 @@ class PeopleController extends ParentController
         $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
         $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
         $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
+        $person->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
         $person->languages = !empty($request->languages) ? $request->languages : null;
@@ -181,6 +183,7 @@ class PeopleController extends ParentController
                             'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
                             'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
                             'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
+                            'temp_no' => isset($row->temp_no) ? $row->temp_no : null,
                             'nationality' => $row->nationality,
                             'languages' => $row->languages,
                             'skills' => $row->skills,

@@ -30,7 +30,7 @@ class Person extends Model
     }
     
     private static function createSearchString($model) {
-        return trim($model->name . ' ' . $model->family_name . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no);
+        return trim($model->name . ' ' . $model->family_name . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no);
     }
     
     public function transactions()

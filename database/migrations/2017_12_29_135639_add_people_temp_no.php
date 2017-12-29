@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMedRegSecCarNumberFields extends Migration
+class AddPeopleTempNo extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,7 @@ class AddMedRegSecCarNumberFields extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->string('medical_no')->nullable();
-            $table->string('registration_no')->nullable();
-            $table->string('section_card_no')->nullable();
+            $table->string('temp_no')->nullable();
         });
     }
 
@@ -28,9 +26,7 @@ class AddMedRegSecCarNumberFields extends Migration
     public function down()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn('section_card_no');
-            $table->dropColumn('registration_no');
-            $table->dropColumn('medical_no');
+            $table->dropColumn('temp_no');
         });
     }
 }

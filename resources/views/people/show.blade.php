@@ -38,6 +38,10 @@
                                 <td>{{ $person->section_card_no }}</td>
                             </tr>
                             <tr>
+                                <th>Temporary Number:</th>
+                                <td>{{ $person->temp_no }}</td>
+                            </tr>
+                            <tr>
                                 <th>Nationality:</th>
                                 <td>{{ $person->nationality }}</td>
                             </tr>

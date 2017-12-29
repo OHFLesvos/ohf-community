@@ -25,6 +25,7 @@
                 <th class="text-nowrap">Med No.</th>
                 <th class="text-nowrap">Reg No.</th>
                 <th class="text-nowrap">Sec Card No.</th>
+                <th class="text-nowrap">Temp No.</th>
                 <th>Nationality</th>
                 <th>Remarks</th>
 				<th style="width: 170px">Boutique</th>

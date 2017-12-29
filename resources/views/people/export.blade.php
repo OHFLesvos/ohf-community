@@ -7,6 +7,7 @@
                 <th>Medical No</th>
                 <th>Registration No</th>
                 <th>Section Card No</th>
+                <th>Temp No</th>
                 <th>Nationality</th>
                 <th>Languages</th>
                 <th>Skills</th>
@@ -22,6 +23,7 @@
                     <td>{{ $person->medical_no }}</td>
                     <td>{{ $person->registration_no }}</td>
                     <td>{{ $person->section_card_no }}</td>
+                    <td>{{ $person->temp_no }}</td>
                     <td>{{ $person->nationality }}</td>
                     <td>{{ $person->languages }}</td>
                     <td>{{ $person->skills }}</td>

@@ -29,6 +29,9 @@
 					<div class="col-md">
                         {{ Form::bsText('section_card_no', null, [], 'Section Card Number') }}
 					</div>
+					<div class="col-md">
+                        {{ Form::bsText('temp_no', null, [], 'Temp Number') }}
+					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md">

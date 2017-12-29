@@ -220,6 +220,7 @@ function writeRow(person) {
 		.append($('<td>').text(person.medical_no))
 		.append($('<td>').text(person.registration_no))
 		.append($('<td>').text(person.section_card_no))
+		.append($('<td>').text(person.temp_no))
 		.append($('<td>').text(person.nationality))
 		.append($('<td>').text(person.remarks))
 		// Boutique coupon
