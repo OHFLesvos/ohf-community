@@ -64,12 +64,13 @@ class BankController extends Controller
     }
 
     public static function getTransactionValueToday() {
-        return Transaction::whereDate('created_at', '=', Carbon::today())
+        $val = Transaction::whereDate('created_at', '=', Carbon::today())
                 ->where('transactionable_type', 'App\Person')
                 ->select(DB::raw('sum(value) as total'))
                 ->get()
                 ->first()
                 ->total;
+        return $val != null ? $val : 0;
     }
 
     function settings() {
