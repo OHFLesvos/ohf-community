@@ -126,6 +126,23 @@
                 </div>
             </div>
 
+            <div class="card mb-4">
+                <div class="card-header">
+                    Diapers
+                </div>
+                <div class="card-body">
+
+                    @if( $person->diapers_coupon != null )
+                        Last coupon handed out on {{ $person->diapers_coupon }} ({{ (new Carbon\Carbon($person->diapers_coupon))->diffForHumans() }}).
+                    @else
+                        <div class="alert alert-info m-0">
+                            No diapers coupon handed out so far.
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+            
         </div>
     </div>
 

@@ -29,6 +29,7 @@
                 <th>Nationality</th>
                 <th>Remarks</th>
 				<th style="width: 170px">Boutique</th>
+				<th style="width: 170px">Diapers</th>
                 {{--  <th style="width: 100px;">Yesterday</th>  --}}
                 <th style="width: 100px;">Drachma</th>
             </tr>
@@ -69,6 +70,7 @@
 	var resetFilterUrl = '{{ route('bank.resetFilter') }}';
 	var createNewRecordUrl = '{{ route('people.create') }}';
 	var giveBouqiqueCouponUrl = '{{ route('bank.giveBoutiqueCoupon') }}';
+	var giveDiapersCouponUrl = '{{ route('bank.giveDiapersCoupon') }}';
 	var storeTransactionUrl = '{{ route('bank.storeTransaction') }}';
 
 	var transactionMaxAmount = {{ $single_transaction_max_amount }};

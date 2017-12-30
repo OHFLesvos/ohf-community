@@ -294,7 +294,7 @@ class BankController extends Controller
                 ::where($condition);
         }
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon')
+            ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
@@ -321,6 +321,7 @@ class BankController extends Controller
                         'nationality' => $item->nationality, 
                         'remarks' => $item->remarks,
 						'boutique_coupon' => self::getBoutiqueCouponForJson($item, $boutique_date_threshold),
+						'diapers_coupon' => $item->diapers_coupon ? (new Carbon($item->diapers_coupon))->toDateString() : null,
                         'today' => $item->todaysTransaction(),
                         'yesterday' => $item->yesterdaysTransaction()
                     ];
@@ -386,6 +387,7 @@ class BankController extends Controller
                     'nationality' => $person->nationality, 
                     'remarks' => $person->remarks,
 					'boutique_coupon' => self::getBoutiqueCouponForJson($person, $boutique_date_threshold),
+					'diapers_coupon' => $person->diapers_coupon ? (new Carbon($person->diapers_coupon))->toDateString() : null,
                     'today' => $person->todaysTransaction(),
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
@@ -430,8 +432,19 @@ class BankController extends Controller
 				return 'OK';
 			}
 		}
-	}
-
+    }
+    
+	public function giveDiapersCoupon(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+				$person->diapers_coupon = Carbon::now();
+				$person->save();
+				return 'OK';
+			}
+		}
+    }
+    
     public function deposit() {
         $projects = Project::orderBy('name')
             ->where('enable_in_bank', true)
