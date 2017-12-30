@@ -36,6 +36,8 @@ class HomeController extends Controller
         }
         if (Gate::allows('use-bank')) {
             $args['num_transactions_today'] = Transaction::whereDate('created_at', '=', Carbon::today())->where('transactionable_type', 'App\Person')->count();
+            $args['num_people_served_today'] = BankController::getNumberOfPersonsServedToday();
+            $args['transaction_value_today'] = BankController::getTransactionValueToday();
         }
         if (Auth::user()->can('list', User::class)) {
             $args['num_users'] = User::count();

@@ -47,7 +47,11 @@
     </div>
 
 	<div id="result-alert" style="display: none;"></div>
-	
+
+    <div id="stats" class="text-center lead my-5">
+        Today, we served <strong id="numberOfPersonsServedToday">-</strong> persons, handing out <strong id="transactionValueToday">-</strong> drachmas.
+    </div>
+
 @endsection
 
 @section('script')

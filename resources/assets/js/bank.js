@@ -53,7 +53,19 @@ $(function(){
 	});
 	
 	filterField.select().change();
+
+	showStats();
 });
+
+function showStats() {
+	$('#stats').show();
+	$.get('bank/stats/numberOfPersonsServedToday', function(data){
+		$('#numberOfPersonsServedToday').text(data);
+	});
+	$.get('bank/stats/transactionValueToday', function(data){
+		$('#transactionValueToday').text(data);
+	});
+}
 
 function resetFilter() {
 	// console.log( 'RESET filter' );
@@ -69,6 +81,7 @@ function applyFilter(value) {
 	if (lastFilterValue == value) {
 		return;
 	}
+	$('#stats').hide();
 	//console.log('APPLY "' + value + '"');
 	
 	if (value != '') {
@@ -82,6 +95,7 @@ function applyFilter(value) {
 		filterTable(searchValue, 1);
 	} else {
 		table.hide();
+		showStats();
 		resetAlert();
 		resetStatus();
 	}
@@ -138,6 +152,7 @@ function filterTable(filter, page) {
             paginationInfo.html( data.from + ' - ' + data.to + ' of ' + data.total );
 		} else {
 			table.hide();
+			showStats();
 			resetStatus();
 			var msg = $('<span>').text('No results. ')
 				.append($('<a>')
@@ -148,6 +163,7 @@ function filterTable(filter, page) {
 	})
 	.fail(function(jqXHR, textStatus, error) {
 		table.hide();
+		showStats();
 		resetStatus();
 		showAlert(textStatus + ": " + error, 'danger');
 		console.log("Error: " + textStatus + " " + jqXHR.responseText);

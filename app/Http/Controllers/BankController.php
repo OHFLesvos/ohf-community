@@ -48,10 +48,28 @@ class BankController extends Controller
 		if (!empty($request->q)) {
 			$request->session()->put('filter', $request->q);
 		}
-		
+
 		return view('bank.index', [
-			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
+            'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
 		]);
+    }
+
+    public static function getNumberOfPersonsServedToday() {
+        return Transaction::whereDate('created_at', '=', Carbon::today())
+                ->where('transactionable_type', 'App\Person')
+                ->select(DB::raw('count(distinct(transactionable_id)) as total'))
+                ->get()
+                ->first()
+                ->total;
+    }
+
+    public static function getTransactionValueToday() {
+        return Transaction::whereDate('created_at', '=', Carbon::today())
+                ->where('transactionable_type', 'App\Person')
+                ->select(DB::raw('sum(value) as total'))
+                ->get()
+                ->first()
+                ->total;
     }
 
     function settings() {
