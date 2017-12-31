@@ -50,6 +50,7 @@ Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
 Route::get('/people/export', 'PeopleController@export')->name('people.export');
 Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
+Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')->name('people.qrCode');
 Route::resource('/people', 'PeopleController');
 
 Route::group(['middleware' => 'can:use-logistics'], function () {

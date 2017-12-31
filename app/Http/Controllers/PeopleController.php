@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\Person;
 use App\Transaction;
 use App\Http\Requests\StorePerson;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\LabelAlignment;
 
 class PeopleController extends ParentController
 {
@@ -80,6 +82,13 @@ class PeopleController extends ParentController
                 ->orderBy('created_at', 'desc')
                 ->paginate(),
         ]);
+    }
+
+    public function qrCode(Person $person) {
+        $qrCode = new QrCode($person->public_id);
+        $qrCode->setLabel($person->family_name . ' ' . $person->name, 16, null, LabelAlignment::CENTER);   
+        header('Content-Type: '.$qrCode->getContentType());
+        echo $qrCode->writeString();
     }
 
     public function edit(Person $person) {
