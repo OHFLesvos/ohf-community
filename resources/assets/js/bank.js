@@ -58,12 +58,13 @@ $(function(){
 });
 
 function showStats() {
-	$('#stats').show();
-	$.get('bank/stats/numberOfPersonsServedToday', function(data){
-		$('#numberOfPersonsServedToday').text(data);
-	});
-	$.get('bank/stats/transactionValueToday', function(data){
-		$('#transactionValueToday').text(data);
+	$.get('bank/todayStats', function(data){
+		if (data.numberOfPersonsServed) {
+			$('#stats').html('Today, we served <strong>' + data.numberOfPersonsServed + '</strong> persons, handing out <strong> ' + data.transactionValue + '</strong> drachmas.');
+		} else {
+			$('#stats').html('We did not yet serve any persons today.');
+		}
+		$('#stats').fadeIn('fast');
 	});
 }
 

@@ -54,23 +54,35 @@ class BankController extends Controller
 		]);
     }
 
+    public function todayStats() {
+        return response()->json([
+            'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
+            'transactionValue' => self::getTransactionValueToday(),
+        ]);
+    }
+
     public static function getNumberOfPersonsServedToday() {
-        return Transaction::whereDate('created_at', '=', Carbon::today())
-                ->where('transactionable_type', 'App\Person')
-                ->select(DB::raw('count(distinct(transactionable_id)) as total'))
+        return Transaction::whereDate('transactions.created_at', '=', Carbon::today())
+                //->where('transactionable_type', 'App\Person')
+                ->join('persons', function ($join) {
+                    $join->on('persons.id', '=', 'transactions.transactionable_id')
+                        ->where('transactionable_type', 'App\Person')
+                        ->whereNull('deleted_at');
+                })
+                ->groupBy('transactionable_id')
+                ->havingRaw('sum(value) > 0')
+                ->select('transactionable_id')
                 ->get()
-                ->first()
-                ->total;
+                ->count();
     }
 
     public static function getTransactionValueToday() {
-        $val = Transaction::whereDate('created_at', '=', Carbon::today())
+        return (int)Transaction::whereDate('created_at', '=', Carbon::today())
                 ->where('transactionable_type', 'App\Person')
                 ->select(DB::raw('sum(value) as total'))
                 ->get()
                 ->first()
                 ->total;
-        return $val != null ? $val : 0;
     }
 
     function settings() {
