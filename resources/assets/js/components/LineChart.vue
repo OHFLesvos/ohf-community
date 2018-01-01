@@ -5,7 +5,7 @@
     import { Line } from 'vue-chartjs'
     export default {
         extends: Line,
-        props: [ 'data' ],
+        props: [ 'data', 'title' ],
         mounted () {
             // Assign colors to datasets
             for (var i = 0; i < this.data.datasets.length; i++) {
@@ -17,7 +17,7 @@
             this.renderChart(this.data, {
                 title: {
                     display: true,
-                    text: 'Deposits per project'
+                    text: this.title,
                 },
                 legend: {
                     display: true,

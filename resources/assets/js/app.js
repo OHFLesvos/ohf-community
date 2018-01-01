@@ -113,7 +113,7 @@ $(function(){
 
 window.Vue = require('vue');
 
-Vue.component('bank-deposit-chart', require('./components/bank/DepositChart.vue'));
+Vue.component('line-chart', require('./components/LineChart.vue'));
 Vue.component('task-list', require('./components/TaskList.vue'));
 
 const app = new Vue({
