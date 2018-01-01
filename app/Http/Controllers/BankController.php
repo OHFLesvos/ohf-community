@@ -220,6 +220,40 @@ class BankController extends Controller
 		]);
     }
 
+    function numTransactions() {
+        $data = [];
+        for ($i = 30; $i >= 0; $i--) {
+            $day = Carbon::today()->subDays($i);
+            $q = Transaction
+                ::whereDate('created_at', '=', $day->toDateString())
+				->where('transactionable_type', 'App\Person')
+                ->select('value')
+                ->get();
+            $data['labels'][] = $day->toDateString();
+            $data['datasets']['Transactions'][] = collect($q)
+                ->count();
+        }
+		return response()->json($data);
+    }
+
+    function sumTransactions() {
+        $data = [];
+        for ($i = 30; $i >= 0; $i--) {
+            $day = Carbon::today()->subDays($i);
+            $q = Transaction
+                ::whereDate('created_at', '=', $day->toDateString())
+				->where('transactionable_type', 'App\Person')
+                ->select('value')
+                ->get();
+            $data['labels'][] = $day->toDateString();
+            $data['datasets']['Value'][] = collect($q)
+                ->map(function($item){
+                    return $item->value;
+                })->sum();
+        }
+		return response()->json($data);
+    }
+
     function import() {
 		return view('bank.import');
     }

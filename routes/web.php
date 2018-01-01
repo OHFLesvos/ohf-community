@@ -23,6 +23,9 @@ Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile
 
 Route::get('/bank', 'BankController@index')->name('bank.index');
 Route::get('/bank/charts', 'BankController@charts')->name('bank.charts');
+Route::get('/bank/charts/numTransactions', 'BankController@numTransactions')->name('bank.numTransactions');
+Route::get('/bank/charts/sumTransactions', 'BankController@sumTransactions')->name('bank.sumTransactions');
+
 Route::post('/bank/filter', 'BankController@filter')->name('bank.filter');
 Route::post('/bank/resetFilter', 'BankController@resetFilter')->name('bank.resetFilter');
 Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person');
