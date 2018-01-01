@@ -32,6 +32,7 @@ class Project extends Model
     }
 
     public function avgNumTransactions() {
+        // TODO: Date from/to selection
         $avg = $this->transactions()
             ->select(DB::raw('AVG(value) as value'))
             ->get()
@@ -41,6 +42,7 @@ class Project extends Model
     }
 
     public function maxNumTransactions() {
+        // TODO Date from/to selection
         return $this->transactions()
             ->select(DB::raw('MAX(value) as value'))
             ->get()

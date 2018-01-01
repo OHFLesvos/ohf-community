@@ -571,21 +571,8 @@ class BankController extends Controller
     }
 
     public function project(Project $project) {
-
-        $date_start = Carbon::today()->startOfMonth();
-        while ($date_start->dayOfWeek != Carbon::MONDAY) {
-            $date_start->subDay();
-        }
-
-        $date_end = Carbon::today()->endOfMonth();
-        while ($date_end->dayOfWeek != Carbon::SUNDAY) {
-            $date_end->addDay();
-        }
-
         return view('bank.project', [ 
             'project' => $project,
-            'date_start' => $date_start,
-            'date_end' => $date_end,
         ]);
     }
 }
