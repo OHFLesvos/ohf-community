@@ -31069,6 +31069,11 @@ var colorPalette = palette('tol', 8);
         ylabel: {
             type: String,
             required: false
+        },
+        legend: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     mounted: function mounted() {
@@ -31101,7 +31106,7 @@ var colorPalette = palette('tol', 8);
                     text: _this.title
                 },
                 legend: {
-                    display: true,
+                    display: _this.legend,
                     position: 'bottom'
                 },
                 elements: {
@@ -65803,6 +65808,11 @@ var colorPalette = palette('tol', 8);
         ylabel: {
             type: String,
             required: false
+        },
+        legend: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     mounted: function mounted() {
@@ -65835,7 +65845,7 @@ var colorPalette = palette('tol', 8);
                     text: _this.title
                 },
                 legend: {
-                    display: true,
+                    display: _this.legend,
                     position: 'bottom'
                 },
                 elements: {

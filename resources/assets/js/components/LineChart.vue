@@ -18,6 +18,11 @@
                 type: String,
                 required: false
             },
+            legend: {
+                type: Boolean,
+                required: false,
+                default: true
+            },
         },
         mounted () {
             axios.get(this.url)
@@ -48,7 +53,7 @@
                             text: this.title,
                         },
                         legend: {
-                            display: true,
+                            display: this.legend,
                             position: 'bottom'
                         },
                         elements: {

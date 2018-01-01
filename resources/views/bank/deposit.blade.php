@@ -38,23 +38,25 @@
             <thead>
                 <tr>
                     <th>Project</th>
-                    <th>Yesterday</th>
-                    <th>Today</th>
+                    <th class="text-right">Average</th>
+                    <th class="text-right">Highest</th>
+                    <th class="text-right">Today</th>
                 </tr>
             </thead>
             <tbody>
             @foreach ($projects as $project)
                 <tr>
                     <td><a href="{{ route('bank.project', $project) }}">{{ $project->name }}</a></td>
-                    <td>{{ $project->dayTransactions(Carbon\Carbon::today()->subDays(1)) }}</td>
-                    <td>{{ $project->dayTransactions(Carbon\Carbon::today()) }}</td>
+                    <td class="text-right">{{ $project->avgNumTransactions() }}</td>
+                    <td class="text-right">{{ $project->maxNumTransactions() }}</td>
+                    <td class="text-right">{{ $project->dayTransactions(Carbon\Carbon::today()) }}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
 
         <div id="app" class="my-3">
-            <line-chart title="Drachma returned per day" ylabel="Drachma" url="{{ route('bank.depositStats') }}" :height=300></line-chart>
+            <line-chart title="Drachma deposited per day" ylabel="Drachma" url="{{ route('bank.depositStats') }}" :height=300></line-chart>
         </div>
 
     @else
