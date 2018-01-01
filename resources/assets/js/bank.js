@@ -86,8 +86,10 @@ function applyFilter(value) {
 	//console.log('APPLY "' + value + '"');
 	
 	if (value != '') {
+		filterReset.removeAttr('disabled');
 		filterReset.addClass('bg-primary text-light');
 	} else {
+		filterReset.attr('disabled', 'disabled');
 		filterReset.removeClass('bg-primary text-light');
 	}
 	

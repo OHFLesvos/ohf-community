@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "axios": "^0.15.3",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.0.0-beta.3",
     "bootstrap-3-typeahead": "^4.0.2",
     "chart.js": "^2.7.1",
     "cross-env": "^3.2.3",
@@ -21,8 +21,9 @@
     "jquery.session": "^1.0.0",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
-    "popper.js": "^1.12.9",
-    "vue": "^2.1.10",
-    "vue-chartjs": "^3.0.2"
+    "popper.js": "^1.13.0",
+    "vue": "^2.5.13",
+    "vue-chartjs": "^3.0.2",
+    "vue-template-compiler": "^2.5.13"
   }
 }

@@ -5,10 +5,10 @@
 @section('content')
 
 	<div class="input-group">
-		{{ Form::search('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
-		<span class="input-group-addon" id="filter-reset">
-			@icon(eraser)
-		</span>
+        {{ Form::search('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
+        <div class="input-group-append">
+            <button class="btn btn-secondary" disabled type="button" id="filter-reset">@icon(eraser)</button> 
+        </div>
 	</div>
 
 	<p class="mt-2">
@@ -16,27 +16,29 @@
 		<a href="javascript:;" class="add-filter" data-filter="today: ">has transactions today</a>
 	</p>
 
-    <table class="table table-sm table-striped table-bordered table-hover table-responsive-md" id="results-table" style="display: none;">
-        <thead>
-            <tr>
-                <th class="text-nowrap">Family Name</th>
-                <th>Name</th>
-                <th class="text-nowrap">Case No.</th>
-                <th class="text-nowrap">Med No.</th>
-                <th class="text-nowrap">Reg No.</th>
-                <th class="text-nowrap">Sec Card No.</th>
-                <th class="text-nowrap">Temp No.</th>
-                <th>Nationality</th>
-                <th>Remarks</th>
-				<th style="width: 170px">Boutique</th>
-				<th style="width: 170px">Diapers</th>
-                {{--  <th style="width: 100px;">Yesterday</th>  --}}
-                <th style="width: 100px;">Drachma</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped table-bordered table-hover" id="results-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">Family Name</th>
+                    <th>Name</th>
+                    <th class="text-nowrap">Case No.</th>
+                    <th class="text-nowrap">Med No.</th>
+                    <th class="text-nowrap">Reg No.</th>
+                    <th class="text-nowrap">Sec Card No.</th>
+                    <th class="text-nowrap">Temp No.</th>
+                    <th>Nationality</th>
+                    <th>Remarks</th>
+                    <th style="width: 170px">Boutique</th>
+                    <th style="width: 170px">Diapers</th>
+                    {{--  <th style="width: 100px;">Yesterday</th>  --}}
+                    <th style="width: 100px;">Drachma</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
     <p><small id="filter-status"></small></p>
 
