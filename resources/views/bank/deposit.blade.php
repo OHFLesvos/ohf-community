@@ -54,7 +54,7 @@
         </table>
 
         <div id="app" class="my-3">
-            <line-chart title="Deposits per project" url="{{ route('bank.depositStats') }}" :height=300></line-chart>
+            <line-chart title="Drachma returned per day" ylabel="Drachma" url="{{ route('bank.depositStats') }}" :height=300></line-chart>
         </div>
 
     @else

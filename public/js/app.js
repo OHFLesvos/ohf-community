@@ -31064,6 +31064,10 @@ var colorPalette = palette('tol', 8);
         url: {
             type: String,
             required: true
+        },
+        ylabel: {
+            type: String,
+            required: false
         }
     },
     mounted: function mounted() {
@@ -31089,8 +31093,8 @@ var colorPalette = palette('tol', 8);
                 data.datasets[i].fill = false;
             }
 
-            // Render chart
-            _this.renderChart(data, {
+            // Options
+            var options = {
                 title: {
                     display: true,
                     text: _this.title
@@ -31104,9 +31108,37 @@ var colorPalette = palette('tol', 8);
                         tension: 0
                     }
                 },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: true
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: true
+                        },
+                        ticks: {
+                            suggestedMin: 0
+                        }
+                    }]
+                },
                 responsive: true,
                 maintainAspectRatio: false
-            });
+            };
+
+            // Add y-axis label
+            if (_this.ylabel) {
+                options.scales.yAxes[0].scaleLabel = {
+                    display: true,
+                    labelString: _this.ylabel
+                };
+            }
+
+            // Render chart
+            _this.renderChart(data, options);
         });
     }
 });

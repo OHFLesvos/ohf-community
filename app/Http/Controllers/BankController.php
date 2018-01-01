@@ -472,14 +472,16 @@ class BankController extends Controller
     }
 
     public function depositStats() {
-        $days = 15;
+        $days = 30;
 
+        // Labels
         $lables = [];
         for ($i = $days; $i >= 0; $i--) {
             $lables[] = Carbon::today()->subDays($i)->format('D j. M');
         }
         $datasets = [];
 
+        // Projects
         $projects = Project::orderBy('name')
             ->where('enable_in_bank', true)
             ->get();

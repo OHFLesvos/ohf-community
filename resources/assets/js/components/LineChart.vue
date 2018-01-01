@@ -14,6 +14,10 @@
                 type: String,
                 required: true
             },
+            ylabel: {
+                type: String,
+                required: false
+            },
         },
         mounted () {
             axios.get(this.url)
@@ -37,8 +41,8 @@
                         data.datasets[i].fill = false;
                     }
 
-                    // Render chart
-                    this.renderChart(data, {
+                    // Options
+                    var options = {
                         title: {
                             display: true,
                             text: this.title,
@@ -52,9 +56,37 @@
                                 tension: 0
                             }
                         },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                gridLines: {
+                                    display: true,
+                                },
+                            }],
+                            yAxes: [{
+                                display: true,
+                                gridLines: {
+                                    display: true,
+                                },
+                                ticks: {
+                                    suggestedMin: 0,
+                                }
+                            }]
+                        },
                         responsive: true,
                         maintainAspectRatio: false,
-                    });
+                    };
+
+                    // Add y-axis label
+                    if (this.ylabel) {
+                        options.scales.yAxes[0].scaleLabel= {
+                            display: true,
+                            labelString: this.ylabel,
+                        };
+                    }
+
+                    // Render chart
+                    this.renderChart(data, options);
             });
         }
     }
