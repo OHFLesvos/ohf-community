@@ -37,7 +37,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task)
     {
-        return $user->hasPermission('tasks.use');
+        return $user->hasPermission('tasks.use') && $task->user->id == $user->id;
     }
 
     /**
@@ -60,7 +60,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        return $user->hasPermission('tasks.use');
+        return $user->hasPermission('tasks.use') && $task->user->id == $user->id;
     }
 
     /**
@@ -72,6 +72,6 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-        return $user->hasPermission('tasks.use');
+        return $user->hasPermission('tasks.use') && $task->user->id == $user->id;
     }
 }

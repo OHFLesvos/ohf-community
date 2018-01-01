@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
@@ -28,4 +29,22 @@ class Project extends Model
             ->sum();
         return $sum != 0 ? $sum : null;
     }
+
+    public function avgNumTransactions() {
+        $avg = $this->transactions()
+            ->select(DB::raw('AVG(value) as value'))
+            ->get()
+            ->first()
+            ->value;
+        return $avg != null ? round($avg, 1) : null;
+    }
+
+    public function maxNumTransactions() {
+        return $this->transactions()
+            ->select(DB::raw('MAX(value) as value'))
+            ->get()
+            ->first()
+            ->value;
+    }
+
 }

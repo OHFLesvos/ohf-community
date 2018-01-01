@@ -23,12 +23,18 @@ Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile
 
 Route::get('/bank', 'BankController@index')->name('bank.index');
 Route::get('/bank/charts', 'BankController@charts')->name('bank.charts');
+Route::get('/bank/charts/numTransactions', 'BankController@numTransactions')->name('bank.numTransactions');
+Route::get('/bank/charts/sumTransactions', 'BankController@sumTransactions')->name('bank.sumTransactions');
+
 Route::post('/bank/filter', 'BankController@filter')->name('bank.filter');
 Route::post('/bank/resetFilter', 'BankController@resetFilter')->name('bank.resetFilter');
 Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person');
 Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
 Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank.updateMaintenance');
 Route::get('/bank/deposit', 'BankController@deposit')->name('bank.deposit');
+Route::get('/bank/deposit/stats', 'BankController@depositStats')->name('bank.depositStats');
+Route::get('/bank/deposit/stats/{project}', 'BankController@projectDepositStats')->name('bank.projectDepositStats');
+
 Route::post('/bank/deposit', 'BankController@storeDeposit')->name('bank.storeDeposit');
 Route::get('/bank/project/{project}', 'BankController@project')->name('bank.project');
 
@@ -67,12 +73,10 @@ Route::group(['middleware' => 'can:use-logistics'], function () {
     Route::get('/logistics/articles/{article}/avgTransactionsPerWeekDay', 'ArticleController@avgTransactionsPerWeekDay')->name('logistics.articles.avgTransactionsPerWeekDay');
 });
 
-Route::get('/tasks', 'TasksController@index')->name('tasks.index');
-Route::post('/tasks', 'TasksController@store')->name('tasks.store');
-Route::get('/tasks/setDone/{task}', 'TasksController@setDone')->name('tasks.setDone');
-Route::get('/tasks/setUndone/{task}', 'TasksController@setUndone')->name('tasks.setUndone');
-Route::post('/tasks/{task}/update', 'TasksController@update')->name('tasks.update');
-Route::get('/tasks/{task}/edit', 'TasksController@edit')->name('tasks.edit');
-Route::delete('/tasks/{task}/destroy', 'TasksController@destroy')->name('tasks.destroy');
+// Tasks
+Route::group(['middleware' => ['auth']], function () {
+    // TODO Add authorization: Auth::user()->can('list', Task::class)
+    Route::view('/tasks', 'tasks.tasklist')->name('tasks');
+});
 
 Auth::routes();

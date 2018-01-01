@@ -30,7 +30,7 @@ class NavigationComposer {
     public function compose(View $view)
     {
         if (Auth::check()) {
-            $num_open_tasks = Task::open()->count();
+            $num_open_tasks = Auth::user()->tasks()->open()->count();
             $nav = [
                 [
                     'route' => 'home',
@@ -61,7 +61,7 @@ class NavigationComposer {
                     'authorized' => Gate::allows('use-logistics')
                 ],
                 [
-                    'route' => 'tasks.index',
+                    'route' => 'tasks',
                     'caption' => 'Tasks',
                     'icon' => 'tasks',
                     'active' => 'tasks*',
