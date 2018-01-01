@@ -471,6 +471,32 @@ class BankController extends Controller
         ]);
     }
 
+    public function depositStats() {
+        $days = 15;
+
+        $lables = [];
+        for ($i = $days; $i >= 0; $i--) {
+            $lables[] = Carbon::today()->subDays($i)->format('D j. M');
+        }
+        $datasets = [];
+
+        $projects = Project::orderBy('name')
+            ->where('enable_in_bank', true)
+            ->get();
+        foreach ($projects as $project) {
+            $transactions = [];
+            for ($i = $days; $i >= 0; $i--) { 
+                $transactions[] = $project->dayTransactions(Carbon::today()->subDays($i));
+            }
+            $datasets[$project->name] = $transactions;
+        }
+
+        return response()->json([
+            'labels' => $lables,
+            'datasets' => $datasets,
+        ]);
+    }
+
     public function storeDeposit(StoreDeposit $request) {
         $project = Project::find($request->project);
         $transaction = new Transaction();

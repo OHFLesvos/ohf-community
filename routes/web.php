@@ -29,6 +29,7 @@ Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person'
 Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
 Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank.updateMaintenance');
 Route::get('/bank/deposit', 'BankController@deposit')->name('bank.deposit');
+Route::get('/bank/deposit/stats', 'BankController@depositStats')->name('bank.depositStats');
 Route::post('/bank/deposit', 'BankController@storeDeposit')->name('bank.storeDeposit');
 Route::get('/bank/project/{project}', 'BankController@project')->name('bank.project');
 

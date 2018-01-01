@@ -54,14 +54,7 @@
         </table>
 
         <div id="app" class="my-3">
-            <line-chart title="Deposits per project"  :height=300 :data="{
-                labels: [@for ($i = 30; $i >= 0; $i--) '{{ Carbon\Carbon::today()->subDays($i)->format('D j. M') }}', @endfor],
-                datasets: [@foreach($projects as $project){
-                    label: '{{ $project->name }}',
-                    data: [ @for ($i = 30; $i >= 0; $i--) {{ $project->dayTransactions(Carbon\Carbon::today()->subDays($i)) }}, @endfor ]
-                }, @endforeach
-                ]}"
-            ></line-chart>
+            <line-chart title="Deposits per project" url="{{ route('bank.depositStats') }}" :height=300></line-chart>
         </div>
 
     @else
