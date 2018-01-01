@@ -19,7 +19,7 @@ class AddPublicIdToPersons extends Migration
             $table->string('public_id', 32)->after('id');
         });
 
-        foreach (Person::all() as $person) {
+        foreach (Person::withTrashed()->get() as $person) {
             $person->public_id = Person::createUUID();
             $person->save();
         }
