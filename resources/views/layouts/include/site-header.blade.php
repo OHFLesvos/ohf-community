@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between row m-0 px-0">
 
-    <div class="col-auto d-block d-md-none">
+    <div class="col-auto d-block d-md-none pr-1 pr-sm-3">
         @if( isset($buttons['back']) && $buttons['back']['authorized'] )
             {{-- Back button --}}
             <a href="{{ $buttons['back']['url'] }}" class="btn btn-link text-light">
@@ -19,7 +19,7 @@
     </a>
 
     {{-- Brand --}}
-    <div class="col-auto">
+    <div class="col-auto px-0 px-sm-3">
 
         {{-- Logo, Name --}}
         <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">

@@ -319,6 +319,12 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
+                    'charts' => [
+                        'url' => route('bank.charts'),
+                        'caption' => 'Charts',
+                        'icon' => 'line-chart',
+                        'authorized' => true
+                    ],
                     'deposit' => [
                         'url' => route('bank.deposit'),
                         'caption' => 'Deposit',
