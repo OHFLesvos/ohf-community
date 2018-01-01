@@ -58,8 +58,8 @@
                         <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
                             @icon({{ $button['icon'] }}) {{ $button['caption'] }}
                         </a>
-                        <a href="{{ $button['url'] }}" class="btn text-light d-md-none">
-                            @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                        <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}">
+                            @icon({{ $button['icon'] }})
                         </a>
                     @endif
                 @endif
