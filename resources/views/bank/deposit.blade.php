@@ -40,6 +40,10 @@
                     <th>Project</th>
                     <th class="text-right">Average</th>
                     <th class="text-right">Highest</th>
+                    <th class="text-right">Last month</th>
+                    <th class="text-right">This month</th>
+                    <th class="text-right">Last week</th>
+                    <th class="text-right">This week</th>
                     <th class="text-right">Today</th>
                 </tr>
             </thead>
@@ -49,6 +53,10 @@
                     <td><a href="{{ route('bank.project', $project) }}">{{ $project->name }}</a></td>
                     <td class="text-right">{{ $project->avgNumTransactions() }}</td>
                     <td class="text-right">{{ $project->maxNumTransactions() }}</td>
+                    <td class="text-right">{{ $project->monthTransactions(Carbon\Carbon::today()->startOfMonth()->subMonth()) }}</td>
+                    <td class="text-right">{{ $project->monthTransactions(Carbon\Carbon::today()) }}</td>
+                    <td class="text-right">{{ $project->weekTransactions(Carbon\Carbon::today()->startOfWeek()->subWeek()) }}</td>
+                    <td class="text-right">{{ $project->weekTransactions(Carbon\Carbon::today()) }}</td>
                     <td class="text-right">{{ $project->dayTransactions(Carbon\Carbon::today()) }}</td>
                 </tr>
             @endforeach

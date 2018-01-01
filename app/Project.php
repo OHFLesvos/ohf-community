@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class Project extends Model
 {
@@ -45,6 +46,34 @@ class Project extends Model
             ->get()
             ->first()
             ->value;
+    }
+
+    public function weekTransactions($date) {
+        $transactions = $this->transactions()
+            ->whereDate('created_at', '>=', (clone $date)->startOfWeek()->toDateString())
+            ->whereDate('created_at', '<', (clone $date)->endOfWeek()->toDateString())
+            ->select('value')
+            ->get();
+        $sum = collect($transactions)
+            ->map(function($item){
+                return $item->value;
+            })
+            ->sum();
+        return $sum != 0 ? $sum : null;
+    }
+
+    public function monthTransactions($date) {
+        $transactions = $this->transactions()
+            ->whereDate('created_at', '>=', (clone $date)->startOfMonth()->toDateString())
+            ->whereDate('created_at', '<', (clone $date)->endOfMonth()->toDateString())
+            ->select('value')
+            ->get();
+        $sum = collect($transactions)
+            ->map(function($item){
+                return $item->value;
+            })
+            ->sum();
+        return $sum != 0 ? $sum : null;
     }
 
 }
