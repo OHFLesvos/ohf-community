@@ -62,6 +62,7 @@
                                 gridLines: {
                                     display: true,
                                 },
+                                barPercentage: 1,
                             }],
                             yAxes: [{
                                 display: true,

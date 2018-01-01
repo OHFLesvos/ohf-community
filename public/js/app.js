@@ -65848,7 +65848,8 @@ var colorPalette = palette('tol', 8);
                         display: true,
                         gridLines: {
                             display: true
-                        }
+                        },
+                        barPercentage: 1
                     }],
                     yAxes: [{
                         display: true,

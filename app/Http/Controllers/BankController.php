@@ -499,6 +499,29 @@ class BankController extends Controller
         ]);
     }
 
+    public function projectDepositStats(Project $project) {
+        $days = 30;
+
+        // Labels
+        $lables = [];
+        for ($i = $days; $i >= 0; $i--) {
+            $lables[] = Carbon::today()->subDays($i)->format('D j. M');
+        }
+
+        // Projects
+        $datasets = [];
+        $transactions = [];
+        for ($i = $days; $i >= 0; $i--) { 
+            $transactions[] = $project->dayTransactions(Carbon::today()->subDays($i));
+        }
+        $datasets[$project->name] = $transactions;
+
+        return response()->json([
+            'labels' => $lables,
+            'datasets' => $datasets,
+        ]);
+    }
+
     public function storeDeposit(StoreDeposit $request) {
         $project = Project::find($request->project);
         $transaction = new Transaction();
