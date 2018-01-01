@@ -250,6 +250,8 @@ class PeopleController extends ParentController
 
         return view('people.charts', [
             'data' => $data,
+            'visits_last_week' => count($data['visits_per_week']) > 1 ? array_slice($data['visits_per_week'], -2, 1)[0] : null,
+            'visits_this_week' => count($data['visits_per_week']) > 0 ? array_slice($data['visits_per_week'], -1, 1)[0] : null,
 		]);
     }
 	

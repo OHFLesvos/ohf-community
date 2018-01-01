@@ -46,12 +46,6 @@ class ContextMenuComposer {
             case 'people.index':
                 return [
                     [
-                        'url' => route('people.charts'),
-                        'caption' => 'Charts',
-                        'icon' => 'line-chart',
-                        'authorized' => true
-                    ],
-                    [
                         'url' => route('people.export'),
                         'caption' => 'Export',
                         'icon' => 'download',
@@ -66,12 +60,6 @@ class ContextMenuComposer {
                 ];
             case 'bank.index':
                 return [
-                    [
-                        'url' => route('bank.charts'),
-                        'caption' => 'Charts',
-                        'icon' => 'line-chart',
-                        'authorized' => true
-                    ],
                     [
                         'url' => route('bank.export'),
                         'caption' => 'Export',
@@ -238,6 +226,12 @@ class ContextMenuComposer {
             //
             case 'people.index':
                 return [
+                    'charts'=> [
+                        'url' => route('people.charts'),
+                        'caption' => 'Charts',
+                        'icon' => 'line-chart',
+                        'authorized' => true
+                    ],
                     'action' => [
                         'url' => route('people.create'),
                         'caption' => 'Register',
