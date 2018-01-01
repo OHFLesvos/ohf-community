@@ -20,6 +20,7 @@ class Person extends Model
     {
         static::creating(function ($model) {
             $model->search = self::createSearchString($model);
+            $model->public_id = self::createUUID();
         });
 
         static::updating(function ($model) {
@@ -28,11 +29,25 @@ class Person extends Model
         
         parent::boot();
     }
-    
-    private static function createSearchString($model) {
-        return trim($model->name . ' ' . $model->family_name . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no);
+
+    public static function createUUID() {
+        return bin2hex(random_bytes(16));
     }
     
+    private static function createSearchString($model) {
+        return trim($model->name . ' ' . $model->family_name . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no);
+    }
+    
+    // /**
+    //  * Get the route key for the model.
+    //  *
+    //  * @return string
+    //  */
+    // public function getRouteKeyName()
+    // {
+    //     return 'public_id';
+    // }
+
     public function transactions()
     {
         return $this->morphMany('App\Transaction', 'transactionable');

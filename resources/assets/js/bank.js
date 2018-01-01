@@ -53,7 +53,20 @@ $(function(){
 	});
 	
 	filterField.select().change();
+
+	showStats();
 });
+
+function showStats() {
+	$.get('bank/todayStats', function(data){
+		if (data.numberOfPersonsServed) {
+			$('#stats').html('Today, we served <strong>' + data.numberOfPersonsServed + '</strong> persons, handing out <strong> ' + data.transactionValue + '</strong> drachmas.');
+		} else {
+			$('#stats').html('We did not yet serve any persons today.');
+		}
+		$('#stats').fadeIn('fast');
+	});
+}
 
 function resetFilter() {
 	// console.log( 'RESET filter' );
@@ -69,6 +82,7 @@ function applyFilter(value) {
 	if (lastFilterValue == value) {
 		return;
 	}
+	$('#stats').hide();
 	//console.log('APPLY "' + value + '"');
 	
 	if (value != '') {
@@ -82,6 +96,7 @@ function applyFilter(value) {
 		filterTable(searchValue, 1);
 	} else {
 		table.hide();
+		showStats();
 		resetAlert();
 		resetStatus();
 	}
@@ -138,6 +153,7 @@ function filterTable(filter, page) {
             paginationInfo.html( data.from + ' - ' + data.to + ' of ' + data.total );
 		} else {
 			table.hide();
+			showStats();
 			resetStatus();
 			var msg = $('<span>').text('No results. ')
 				.append($('<a>')
@@ -148,6 +164,7 @@ function filterTable(filter, page) {
 	})
 	.fail(function(jqXHR, textStatus, error) {
 		table.hide();
+		showStats();
 		resetStatus();
 		showAlert(textStatus + ": " + error, 'danger');
 		console.log("Error: " + textStatus + " " + jqXHR.responseText);
@@ -185,19 +202,25 @@ function writeRow(person) {
 				})
 			);                
 	} else {
-		today.append($('<input>')
-				.attr('type', 'number')
-				.attr('min', 0)
-				.attr('max', transactionMaxAmount)
-				.attr('value', 0)
-				.addClass('form-control form-control-sm')
-				.on('focus', function(){
-					$(this).select();
+		today.append($('<a>')
+				.attr('href', '#')
+				.addClass('btn btn-secondary btn-sm')
+				.text('2')
+				.on('click', function(e){
+					$(this).parent().html('<i class="fa fa-spinner fa-spin">');
+					storeTransaction(person.id, 2);
+					e.preventDefault();
 				})
-				.on('keypress', function(e){
-					if (e.keyCode == 13 && $(this).val() > 0) { // Enter
-						storeTransaction(person.id, $(this).val());
-					} 
+			);
+		today.append(' &nbsp; ');
+		today.append($('<a>')
+				.attr('href', '#')
+				.addClass('btn btn-secondary btn-sm')
+				.text('1')
+				.on('click', function(e){
+					$(this).parent().html('<i class="fa fa-spinner fa-spin">');
+					storeTransaction(person.id, 1);
+					e.preventDefault();
 				})
 			);
 	}
@@ -220,6 +243,7 @@ function writeRow(person) {
 		.append($('<td>').text(person.medical_no))
 		.append($('<td>').text(person.registration_no))
 		.append($('<td>').text(person.section_card_no))
+		.append($('<td>').text(person.temp_no))
 		.append($('<td>').text(person.nationality))
 		.append($('<td>').text(person.remarks))
 		// Boutique coupon
@@ -245,10 +269,33 @@ function writeRow(person) {
 					}
 				});
 		}))
-		.append(
-			$('<td>')
-				.html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
-		)
+		// Diapers coupon
+		.append($('<td>').html(function(){ 
+			if (person.diapers_coupon) {
+				return person.diapers_coupon;
+			}
+			return $('<a>')
+				.attr('href', 'javascript:;')
+				.text('Give coupon')
+				.on('click', function(){
+					if (confirm('Give coupon to ' + person.family_name + ' ' + person.name + '?')) {
+						$.post( giveDiapersCouponUrl, {
+							"_token": csrfToken,
+							"person_id": person.id
+						}, function(data) {
+							updatePerson(person.id);
+							filterField.select();
+						})
+						.fail(function(jqXHR, textStatus) {
+							alert(extStatus);
+						});
+					}
+				});
+		}))
+		// .append(
+		// 	$('<td>')
+		// 		.html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
+		// )
 		.append(today);
 }
 

@@ -28,7 +28,7 @@
                     <a class="pull-right" href="{{ route('bank.index')  }}">Show bank</a>
                 </div>
                 <div class="card-body">
-                    <p>There have been <a href="{{ route('bank.index') }}?q=today:"><strong>{{ $num_transactions_today }}</strong></a> transactions today.</p>
+                    <p>Served <a href="{{ route('bank.index') }}?q=today:"><strong>{{ $num_people_served_today }}</strong></a> persons and handed out <strong>{{ $transaction_value_today }}</strong> drachma today.</p>
                 </div>
             </div>
         @endallowed

@@ -37,6 +37,7 @@ $(function(){
         $('#filter input[name="medical_no"]').val('');
         $('#filter input[name="registration_no"]').val('');
         $('#filter input[name="section_card_no"]').val('');
+        $('#filter input[name="temp_no"]').val('');
         $('#filter input[name="nationality"]').val('');
         $('#filter input[name="languages"]').val('');
         $('#filter input[name="skills"]').val('');
@@ -70,6 +71,7 @@ function filterTable(page) {
         "medical_no": $('#filter input[name="medical_no"]').val(),
         "registration_no": $('#filter input[name="registration_no"]').val(),
         "section_card_no": $('#filter input[name="section_card_no"]').val(),
+        "temp_no": $('#filter input[name="temp_no"]').val(),
         "nationality": $('#filter input[name="nationality"]').val(),
         "languages": $('#filter input[name="languages"]').val(),
         "skills": $('#filter input[name="skills"]').val(),
@@ -122,6 +124,7 @@ function writeRow(person) {
         .append($('<td>').text(person.medical_no))
         .append($('<td>').text(person.registration_no))
         .append($('<td>').text(person.section_card_no))
+        .append($('<td>').text(person.temp_no))
         .append($('<td>').text(person.nationality))
         .append($('<td>').text(person.languages))
         .append($('<td>').text(person.skills))

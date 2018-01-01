@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMedRegSecCarNumberFields extends Migration
+use App\Person;
+
+class AddPublicIdToPersons extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +16,18 @@ class AddMedRegSecCarNumberFields extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->string('medical_no')->nullable();
-            $table->string('registration_no')->nullable();
-            $table->string('section_card_no')->nullable();
+            $table->string('public_id', 32)->after('id');
         });
-    }
+
+        foreach (Person::all() as $person) {
+            $person->public_id = Person::createUUID();
+            $person->save();
+        }
+
+        Schema::table('persons', function (Blueprint $table) {
+            $table->unique('public_id');
+        });
+}
 
     /**
      * Reverse the migrations.
@@ -28,9 +37,7 @@ class AddMedRegSecCarNumberFields extends Migration
     public function down()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn('section_card_no');
-            $table->dropColumn('registration_no');
-            $table->dropColumn('medical_no');
+            $table->dropColumn('public_id');
         });
     }
 }
