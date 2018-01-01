@@ -30187,6 +30187,7 @@ $(function () {
 window.Vue = __webpack_require__(237);
 
 Vue.component('line-chart', __webpack_require__(234));
+Vue.component('bar-chart', __webpack_require__(245));
 Vue.component('task-list', __webpack_require__(235));
 
 var app = new Vue({
@@ -31055,7 +31056,7 @@ var colorPalette = palette('tol', 8);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    extends: __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["a" /* Line */],
+    extends: __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["b" /* Line */],
     props: {
         title: {
             type: String,
@@ -54544,10 +54545,10 @@ exports.clearImmediate = clearImmediate;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__mixins_index_js__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__package_json__ = __webpack_require__(233);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__package_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__package_json__);
-/* unused harmony reexport Bar */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__BaseCharts_Bar__["a"]; });
 /* unused harmony reexport HorizontalBar */
 /* unused harmony reexport Doughnut */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__BaseCharts_Line__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__BaseCharts_Line__["a"]; });
 /* unused harmony reexport Pie */
 /* unused harmony reexport PolarArea */
 /* unused harmony reexport Radar */
@@ -65769,6 +65770,145 @@ module.exports = Vue$3;
 
 __webpack_require__(141);
 module.exports = __webpack_require__(144);
+
+
+/***/ }),
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__ = __webpack_require__(229);
+
+var palette = __webpack_require__(22);
+var colorPalette = palette('tol', 8);
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    extends: __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["a" /* Bar */],
+    props: {
+        title: {
+            type: String,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        },
+        ylabel: {
+            type: String,
+            required: false
+        }
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get(this.url).then(function (res) {
+            // Assign lables and data
+            var data = {
+                'labels': res.data.labels,
+                'datasets': []
+            };
+            Object.keys(res.data.datasets).forEach(function (key) {
+                data.datasets.push({
+                    label: key,
+                    data: res.data.datasets[key]
+                });
+            });
+
+            // Assign colors to datasets
+            for (var i = 0; i < data.datasets.length; i++) {
+                data.datasets[i].backgroundColor = '#' + colorPalette[i % colorPalette.length];
+                data.datasets[i].borderColor = '#' + colorPalette[i % colorPalette.length];
+                data.datasets[i].fill = false;
+            }
+
+            // Options
+            var options = {
+                title: {
+                    display: true,
+                    text: _this.title
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: true
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: true
+                        },
+                        ticks: {
+                            suggestedMin: 0
+                        }
+                    }]
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            };
+
+            // Add y-axis label
+            if (_this.ylabel) {
+                options.scales.yAxes[0].scaleLabel = {
+                    display: true,
+                    labelString: _this.ylabel
+                };
+            }
+
+            // Render chart
+            _this.renderChart(data, options);
+        });
+    }
+});
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(139)(
+  /* script */
+  __webpack_require__(244),
+  /* template */
+  null,
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\Users\\Nicolas\\devel\\web\\ohf-community\\resources\\assets\\js\\components\\BarChart.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01126708", Component.options)
+  } else {
+    hotAPI.reload("data-v-01126708", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
 
 
 /***/ })
