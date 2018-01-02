@@ -345,7 +345,8 @@ class BankController extends Controller
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
          
-		$boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
+        $boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
+        $diapers_date_threshold = Carbon::now()->subDays(1);
         return response()->json([
             'count' => $persons->count(),
             'total' => $persons->total(),
@@ -354,7 +355,7 @@ class BankController extends Controller
             'current_page' => $persons->currentPage(),
             'last_page' => $persons->lastPage(),
             'results' => collect($persons->all())
-                ->map(function ($item) use ($boutique_date_threshold) {
+                ->map(function ($item) use ($boutique_date_threshold, $diapers_date_threshold) {
                     return [
                         'id' => $item->id,
                         'name' => $item->name,
@@ -367,7 +368,7 @@ class BankController extends Controller
                         'nationality' => $item->nationality, 
                         'remarks' => $item->remarks,
 						'boutique_coupon' => self::getBoutiqueCouponForJson($item, $boutique_date_threshold),
-						'diapers_coupon' => $item->diapers_coupon ? (new Carbon($item->diapers_coupon))->toDateString() : null,
+						'diapers_coupon' => self::getDiapersCouponForJson($item, $diapers_date_threshold),
                         'today' => $item->todaysTransaction(),
                         'yesterday' => $item->yesterdaysTransaction()
                     ];
@@ -394,7 +395,21 @@ class BankController extends Controller
 		}
 		return null;
 	}
-	
+
+    private static function getDiapersCouponForJson($person, $diapers_date_threshold) {
+		if ($person->diapers_coupon != null) {
+			$coupon_date = new Carbon($person->diapers_coupon);
+			if ($coupon_date->gt($diapers_date_threshold)) {
+				$date = $coupon_date->addDays(1);
+				if ($date->diffInDays() > 5) {
+					return $date->diffInDays() . ' days from now';
+				}
+				return $date->diffForHumans();
+			}
+		}
+		return null;
+	}
+
     private static function createRegisterStringFromFilter($filter) {
         $register = [];
         $names = [];
@@ -420,7 +435,8 @@ class BankController extends Controller
     }
 
     public function person(Person $person) {
-		$boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
+        $boutique_date_threshold = Carbon::now()->subDays(self::getBoutiqueThresholdDays());
+        $diapers_date_threshold = Carbon::now()->subDays(1);
         return response()->json([
                     'id' => $person->id,
                     'name' => $person->name,
@@ -432,8 +448,8 @@ class BankController extends Controller
                     'temp_no' => $person->temp_no,
                     'nationality' => $person->nationality, 
                     'remarks' => $person->remarks,
-					'boutique_coupon' => self::getBoutiqueCouponForJson($person, $boutique_date_threshold),
-					'diapers_coupon' => $person->diapers_coupon ? (new Carbon($person->diapers_coupon))->toDateString() : null,
+                    'boutique_coupon' => self::getBoutiqueCouponForJson($person, $boutique_date_threshold),
+                    'diapers_coupon' => self::getDiapersCouponForJson($person, $diapers_date_threshold),
                     'today' => $person->todaysTransaction(),
                     'yesterday' => $person->yesterdaysTransaction()
         ]);
