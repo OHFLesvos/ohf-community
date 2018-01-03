@@ -14,7 +14,7 @@ class Person extends Model
 
     protected $dates = ['deleted_at'];
     
-    protected $fillable = ['name', 'family_name', 'case_no', 'nationality', 'remarks'];
+    protected $fillable = ['name', 'family_name', 'police_no', 'case_no', 'nationality', 'remarks'];
     
     public static function boot()
     {
@@ -35,7 +35,7 @@ class Person extends Model
     }
     
     private static function createSearchString($model) {
-        return trim($model->name . ' ' . $model->family_name . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no);
+        return trim($model->name . ' ' . $model->family_name . ' ' . $model->police_no . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no);
     }
     
     // /**

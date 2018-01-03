@@ -3,6 +3,7 @@
             <tr>
                 <th>Family Name</th>
                 <th>Name</th>
+                <th>Police No</th>
                 <th>Case No</th>
                 <th>Medical No</th>
                 <th>Registration No</th>
@@ -19,6 +20,7 @@
                 <tr>
                     <td>{{ $person->family_name }}</td>
                     <td>{{ $person->name }}</td>
+                    <td>{{ $person->police_no }}</td>
                     <td>{{ $person->case_no }}</td>
                     <td>{{ $person->medical_no }}</td>
                     <td>{{ $person->registration_no }}</td>

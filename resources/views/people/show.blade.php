@@ -22,6 +22,10 @@
                                 <td>{{ $person->name }}</td>
                             </tr>
                             <tr>
+                                <th>Police Number:</th>
+                                <td>{{ $person->police_no }}</td>
+                            </tr>
+                            <tr>
                                 <th>Case Number:</th>
                                 <td>{{ $person->case_no }}</td>
                             </tr>

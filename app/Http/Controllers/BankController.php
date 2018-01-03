@@ -150,7 +150,8 @@ class BankController extends Controller
      */
     private function getPeopleWithoutNumber(): int
     {
-        return Person::whereNull('case_no')
+        return Person::whereNull('police_no')
+            ->whereNull('case_no')
             ->whereNull('medical_no')
             ->whereNull('registration_no')
             ->whereNull('section_card_no')
@@ -187,7 +188,8 @@ class BankController extends Controller
             );
         }
         if (isset($request->cleanup_no_number)) {
-            $cnt +=  Person::whereNull('case_no')
+            $cnt +=  Person::whereNull('police_no')
+                ->whereNull('case_no')
                 ->whereNull('medical_no')
                 ->whereNull('registration_no')
                 ->whereNull('section_card_no')
@@ -278,6 +280,7 @@ class BankController extends Controller
                         $person = Person::create([
                             'name' => $row->name,
                             'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
+                            'police_no' => is_numeric($row->police_no) ? $row->police_no : null,
                             'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
                             'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
                             'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
@@ -340,7 +343,7 @@ class BankController extends Controller
                 ::where($condition);
         }
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
+            ->select('persons.id', 'name', 'family_name', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
@@ -360,6 +363,7 @@ class BankController extends Controller
                         'id' => $item->id,
                         'name' => $item->name,
                         'family_name' => $item->family_name, 
+                        'police_no' => $item->police_no,
                         'case_no' => $item->case_no,
                         'medical_no' => $item->medical_no,
                         'registration_no' => $item->registration_no,
@@ -441,6 +445,7 @@ class BankController extends Controller
                     'id' => $person->id,
                     'name' => $person->name,
                     'family_name' => $person->family_name, 
+                    'police_no' => $person->police_no,
                     'case_no' => $person->case_no,
                     'medical_no' => $person->medical_no,
                     'registration_no' => $person->registration_no,

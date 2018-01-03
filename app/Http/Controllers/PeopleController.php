@@ -14,7 +14,7 @@ use Endroid\QrCode\LabelAlignment;
 class PeopleController extends ParentController
 {
     const DEFAULT_RESULTS_PER_PAGE = 15;
-    const filter_fields = ['name', 'family_name', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'];
+    const filter_fields = ['name', 'family_name', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'];
 
     /**
      * Create a new controller instance.
@@ -50,6 +50,7 @@ class PeopleController extends ParentController
 		$person->name = $request->name;
 		$person->family_name = $request->family_name;
 		$person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+		$person->police_no = !empty($request->police_no) ? $request->police_no : null;
 		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
         $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
         $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
@@ -102,6 +103,7 @@ class PeopleController extends ParentController
         $person->name = $request->name;
         $person->family_name = $request->family_name;
         $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+        $person->police_no = !empty($request->police_no) ? $request->police_no : null;
         $person->case_no = !empty($request->case_no) ? $request->case_no : null;
         $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
         $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
@@ -188,6 +190,7 @@ class PeopleController extends ParentController
                         $person = Person::create([
                             'name' => $row->name,
                             'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
+                            'police_no' => is_numeric($row->police_no) ? $row->police_no : null,
                             'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
                             'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
                             'registration_no' => isset($row->registration_no) ? $row->registration_no : null,

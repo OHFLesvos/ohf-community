@@ -33,6 +33,7 @@ $(function(){
     $('#reset-filter').on('click', function(){
         $('#filter input[name="family_name"]').val('');
         $('#filter input[name="name"]').val('');
+        $('#filter input[name="police_no"]').val('');
         $('#filter input[name="case_no"]').val('');
         $('#filter input[name="medical_no"]').val('');
         $('#filter input[name="registration_no"]').val('');
@@ -55,7 +56,7 @@ function filterTable(page) {
     tbody.append($('<tr>')
         .append($('<td>')
             .text('Searching...')
-            .attr('colspan', 10))
+            .attr('colspan', 12))
     );
 
     var paginator = $('#paginator');
@@ -67,6 +68,7 @@ function filterTable(page) {
         "_token": csrfToken,
         "family_name": $('#filter input[name="family_name"]').val(),
         "name": $('#filter input[name="name"]').val(),
+        "police_no": $('#filter input[name="police_no"]').val(),
         "case_no": $('#filter input[name="case_no"]').val(),
         "medical_no": $('#filter input[name="medical_no"]').val(),
         "registration_no": $('#filter input[name="registration_no"]').val(),
@@ -120,6 +122,7 @@ function writeRow(person) {
                 .text(person.name)
             )
         )
+        .append($('<td>').text(person.police_no))
         .append($('<td>').text(person.case_no))
         .append($('<td>').text(person.medical_no))
         .append($('<td>').text(person.registration_no))
