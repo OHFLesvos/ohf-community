@@ -58,7 +58,19 @@
 		</div>
         <div class="card mb-4">
             <div class="card-body">
-                {{ Form::bsNumber('value', $transaction_value, [ 'style' => 'width:80px', 'min' => 0, 'max' => $transaction_value ], 'Transaction') }}
+                <div class="row">
+                    <div class="col-md-auto">
+                        {{ Form::bsNumber('value', $transaction_value, [ 'style' => 'width:80px', 'min' => 0, 'max' => $transaction_value ], 'Drachma') }}
+                    </div>
+                    <div class="col-md-auto">
+                        <p>Boutique coupon</p>
+                        {{ Form::bsCheckbox('boutique_coupon', '1', null, 'Give coupon') }}
+                    </div>
+                    <div class="col-md-auto">
+                        <p>Diaper coupon</p>
+                        {{ Form::bsCheckbox('diapers_coupon', '1', null, 'Give coupon') }}
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -52,6 +52,8 @@ class PeopleController extends ParentController
     }
 
 	public function store(StorePerson $request) {
+        $isBank = session('peopleOverviewRouteName', 'people.index') == 'bank.index';
+
         $person = new Person();
 		$person->name = $request->name;
         $person->family_name = $request->family_name;
@@ -66,10 +68,18 @@ class PeopleController extends ParentController
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? $request->languages : null;
-		$person->skills = !empty($request->skills) ? $request->skills : null;
+        $person->skills = !empty($request->skills) ? $request->skills : null;
+        if ($isBank) {
+            if (!empty($request->boutique_coupon)) {
+                $person->boutique_coupon = Carbon::now();
+            }
+            if (!empty($request->diapers_coupon)) {
+                $person->diapers_coupon = Carbon::now();
+            }
+        }
 		$person->save();
 
-		if ( session('peopleOverviewRouteName', 'people.index') == 'bank.index' ) {
+		if ( $isBank ) {
             if (!empty($request->value)) {
                 $transaction = new Transaction();
                 $transaction->value = $request->value;
