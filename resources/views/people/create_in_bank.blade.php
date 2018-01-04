@@ -41,15 +41,16 @@
                         {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off']) }}
                     </div>
 					<div class="col-md">
-                        {{ Form::bsText('languages') }}
-					</div>
-					<div class="col-md">
-                        {{ Form::bsText('skills') }}
-					</div>
+                        {{ Form::bsText('remarks') }}
+                    </div>
 				</div>
-                {{ Form::bsText('remarks') }}
 			</div>
 		</div>
+        <div class="card mb-4">
+            <div class="card-body">
+                {{ Form::bsNumber('value', $transaction_value, [ 'style' => 'width:80px', 'min' => 0, 'max' => $transaction_value ], 'Transaction') }}
+            </div>
+        </div>
 
 		<p>
             {{ Form::bsSubmitButton('Register') }}

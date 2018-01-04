@@ -38,11 +38,17 @@ class PeopleController extends ParentController
     }
 
     public function create() {
+        $usedInBank = session('peopleOverviewRouteName', 'people.index') == 'bank.index';
+        $countries = CountriesExtended::getList('en');
+        if ($usedInBank) {
+            return view('people.create_in_bank', [
+                'transaction_value' => \Setting::get('bank.transaction_default_value', BankController::TRANSACTION_DEFAULT_VALUE),
+                'countries' => $countries,
+            ]);
+        }
         return view('people.create', [
-            'allow_transaction' => session('peopleOverviewRouteName', 'people.index') == 'bank.index',
-            'transaction_value' => \Setting::get('bank.transaction_default_value', BankController::TRANSACTION_DEFAULT_VALUE),
-            'countries' => CountriesExtended::getList('en')
-		]);
+            'countries' => $countries,
+        ]);
     }
 
 	public function store(StorePerson $request) {
@@ -68,7 +74,7 @@ class PeopleController extends ParentController
                 $transaction->value = $request->value;
                 $person->transactions()->save($transaction);
             }
-            $request->session()->put('filter', $person->name . ' ' . $person->family_name);
+            $request->session()->put('filter', $person->family_name . ' ' . $person->name);
         }
 
 		return redirect()->route(session('peopleOverviewRouteName', 'people.index'))
