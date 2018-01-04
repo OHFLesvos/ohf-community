@@ -343,7 +343,7 @@ class BankController extends Controller
                 ::where($condition);
         }
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'gender', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
+            ->select('persons.id', 'name', 'family_name', 'gender', 'date_of_birth', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
@@ -364,6 +364,7 @@ class BankController extends Controller
                         'name' => $item->name,
                         'family_name' => $item->family_name, 
                         'gender' => $item->gender,
+                        'age' => $item->age,
                         'police_no' => $item->police_no,
                         'case_no' => $item->case_no,
                         'medical_no' => $item->medical_no,

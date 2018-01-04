@@ -249,6 +249,7 @@ function writeRow(person) {
 				.text(person.name)
 			)
 		)
+		.append($('<td>').text(person.age))
 		.append($('<td>').text(person.police_no))
 		.append($('<td>').text(person.case_no))
 		.append($('<td>').text(person.medical_no))

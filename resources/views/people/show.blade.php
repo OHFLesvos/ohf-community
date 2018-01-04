@@ -22,14 +22,24 @@
                                 <td>{{ $person->name }}</td>
                             </tr>
                             @if(isset($person->gender))
-                            <tr>
-                                <th>Gender:</th>
-                                <td>
-                                    @if($person->gender == 'f')@icon(female) Female 
-                                    @elseif($person->gender == 'm')@icon(male) Male 
-                                    @endif
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th>Gender:</th>
+                                    <td>
+                                        @if($person->gender == 'f')@icon(female) Female 
+                                        @elseif($person->gender == 'm')@icon(male) Male 
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
+                            @if(isset($person->date_of_birth))
+                                <tr>
+                                    <th>Date of Birth:</th>
+                                    <td>{{ $person->date_of_birth }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Age:</th>
+                                    <td>{{ $person->age }}</td>
+                                </tr>
                             @endif
                             @if(isset($person->police_no))
                                 <tr>

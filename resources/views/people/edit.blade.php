@@ -18,6 +18,9 @@
 					<div class="col-md-auto">
 						{{ Form::genderSelect('gender') }}
 					</div>
+					<div class="col-md-auto">
+						{{ Form::bsDate('date_of_birth', null, [ ], 'Date of Birth') }}
+					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md">

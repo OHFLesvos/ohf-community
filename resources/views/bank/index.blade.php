@@ -23,6 +23,7 @@
                     <th></th>
                     <th class="text-nowrap">Family Name</th>
                     <th>Name</th>
+                    <th>Age</th>
                     <th class="text-nowrap">Police No.</th>
                     <th class="text-nowrap">Case No.</th>
                     <th class="text-nowrap">Med No.</th>

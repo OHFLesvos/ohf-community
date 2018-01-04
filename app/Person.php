@@ -48,6 +48,10 @@ class Person extends Model
     //     return 'public_id';
     // }
 
+    public function getAgeAttribute() {
+        return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
+    }
+
     public function transactions()
     {
         return $this->morphMany('App\Transaction', 'transactionable');
