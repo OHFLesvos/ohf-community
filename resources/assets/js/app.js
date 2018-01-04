@@ -111,6 +111,40 @@ $(function(){
     });
 });
 
+/**
+* Returns age from date of birth
+*
+* @param {String} dateString
+* @returns {Number}
+*/
+function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+
+function updateAge(elem) {
+    var ageElem = $('#' + elem.attr('data-age-element'));
+    if (elem.val()) {
+        var age = getAge(elem.val());
+        ageElem.text(age >= 0 ? age : '?');
+    } else {
+        ageElem.text('?');
+    }
+}
+
+$(function(){
+    updateAge($('input[rel="birthdate"]'));
+    $('input[rel="birthdate"]').on('change paste propertychange input', function(evt){
+        updateAge($(this));
+	});
+});
+
 window.Vue = require('vue');
 
 Vue.component('line-chart', require('./components/LineChart.vue'));
