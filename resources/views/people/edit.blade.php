@@ -18,7 +18,7 @@
 				</div>
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsNumber('police_no', null, [ ], 'Police Number') }}
+                        {{ Form::bsNumber('police_no', null, [ 'prepend' => '05/' ], 'Police Number') }}
 					</div>
 					<div class="col-md">
                         {{ Form::bsNumber('case_no', null, [ ], 'Case Number') }}
