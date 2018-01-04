@@ -28,6 +28,7 @@ class StorePerson extends FormRequest
         return [
             'name' => 'required|max:255',
             'family_name' => 'required|max:255',
+            'gender' => 'required', 'in:m,f',
             'nationality' => [
 				'nullable',
 				'max:255',

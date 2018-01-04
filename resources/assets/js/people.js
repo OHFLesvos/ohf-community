@@ -14,7 +14,7 @@ $(function(){
             tbody.append($('<tr>')
                 .append($('<td>')
                     .text('Searching...')
-                    .attr('colspan', 10))
+                    .attr('colspan', 13))
             );
 
             clearTimeout(delayTimer);
@@ -56,7 +56,7 @@ function filterTable(page) {
     tbody.append($('<tr>')
         .append($('<td>')
             .text('Searching...')
-            .attr('colspan', 12))
+            .attr('colspan', 13))
     );
 
     var paginator = $('#paginator');
@@ -92,7 +92,7 @@ function filterTable(page) {
                 .addClass('warning')
                 .append($('<td>')
                     .text('No results')
-                    .attr('colspan', 10))
+                    .attr('colspan', 13))
             );
         }
     })
@@ -102,14 +102,22 @@ function filterTable(page) {
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 10))
+                    .attr('colspan', 13))
             );
         });
 }
 
 function writeRow(person) {
+    var icon = '';
+    if (person.gender == 'f') {
+        icon = 'female';
+    }
+    if (person.gender == 'm') {
+        icon = 'male';
+    }
     return $('<tr>')
         .attr('id', 'person-' + person.id)
+        .append($('<td>').html(icon != '' ? '<i class="fa fa-' + icon + '"></i>' : ''))
         .append($('<td>')
             .append($('<a>')
                 .attr('href', 'people/' + person.id)

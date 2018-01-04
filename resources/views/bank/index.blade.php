@@ -20,6 +20,7 @@
         <table class="table table-sm table-striped table-bordered table-hover" id="results-table" style="display: none;">
             <thead>
                 <tr>
+                    <th></th>
                     <th class="text-nowrap">Family Name</th>
                     <th>Name</th>
                     <th class="text-nowrap">Police No.</th>

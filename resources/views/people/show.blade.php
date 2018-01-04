@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'View Person')
+@section('title', 'View Person')  {{-- $person->family_name . ' ' . $person->name --}}
 
 @section('content')
 
@@ -21,46 +21,76 @@
                                 <th>Name:</th>
                                 <td>{{ $person->name }}</td>
                             </tr>
+                            @if(isset($person->gender))
                             <tr>
-                                <th>Police Number:</th>
-                                <td>{{ $person->police_no }}</td>
+                                <th>Gender:</th>
+                                <td>
+                                    @if($person->gender == 'f')@icon(female) Female 
+                                    @elseif($person->gender == 'm')@icon(male) Male 
+                                    @endif
+                                </td>
                             </tr>
-                            <tr>
-                                <th>Case Number:</th>
-                                <td>{{ $person->case_no }}</td>
-                            </tr>
-                            <tr>
-                                <th>Medical Number:</th>
-                                <td>{{ $person->medical_no }}</td>
-                            </tr>
-                            <tr>
-                                <th>Registration Number:</th>
-                                <td>{{ $person->registration_no }}</td>
-                            </tr>
-                            <tr>
-                                <th>Section Card Number:</th>
-                                <td>{{ $person->section_card_no }}</td>
-                            </tr>
-                            <tr>
-                                <th>Temporary Number:</th>
-                                <td>{{ $person->temp_no }}</td>
-                            </tr>
+                            @endif
+                            @if(isset($person->police_no))
+                                <tr>
+                                    <th>Police Number:</th>
+                                    <td>{{ $person->police_no }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->case_no))
+                                <tr>
+                                    <th>Case Number:</th>
+                                    <td>{{ $person->case_no }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->medical_no))
+                                <tr>
+                                    <th>Medical Number:</th>
+                                    <td>{{ $person->medical_no }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->registration_no))
+                                <tr>
+                                    <th>Registration Number:</th>
+                                    <td>{{ $person->registration_no }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->section_card_no))
+                                <tr>
+                                    <th>Section Card Number:</th>
+                                    <td>{{ $person->section_card_no }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->temp_no))
+                                <tr>
+                                    <th>Temporary Number:</th>
+                                    <td>{{ $person->temp_no }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->nationality))
                             <tr>
                                 <th>Nationality:</th>
                                 <td>{{ $person->nationality }}</td>
                             </tr>
-                            <tr>
-                                <th>Languages:</th>
-                                <td>{{ $person->languages }}</td>
-                            </tr>
-                            <tr>
-                                <th>Skills:</th>
-                                <td>{{ $person->skills }}</td>
-                            </tr>
-                            <tr>
-                                <th>Remarks:</th>
-                                <td>{{ $person->remarks }}</td>
-                            </tr>
+                            @endif
+                            @if(isset($person->languages))
+                                <tr>
+                                    <th>Languages:</th>
+                                    <td>{{ $person->languages }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->skills))
+                                <tr>
+                                    <th>Skills:</th>
+                                    <td>{{ $person->skills }}</td>
+                                </tr>
+                            @endif
+                            @if(isset($person->remarks))
+                                <tr>
+                                    <th>Remarks:</th>
+                                    <td>{{ $person->remarks }}</td>
+                                </tr>
+                            @endif
                             <tr>
                                 <th>Registered:</th>
                                 <td>{{ $person->created_at }}</td>

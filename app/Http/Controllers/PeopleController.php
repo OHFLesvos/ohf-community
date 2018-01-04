@@ -54,7 +54,8 @@ class PeopleController extends ParentController
 	public function store(StorePerson $request) {
         $person = new Person();
 		$person->name = $request->name;
-		$person->family_name = $request->family_name;
+        $person->family_name = $request->family_name;
+        $person->gender = $request->gender;
 		$person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
 		$person->police_no = !empty($request->police_no) ? $request->police_no : null;
 		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
@@ -108,6 +109,7 @@ class PeopleController extends ParentController
 	public function update(StorePerson $request, Person $person) {
         $person->name = $request->name;
         $person->family_name = $request->family_name;
+        $person->gender = $request->gender;
         $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
         $person->police_no = !empty($request->police_no) ? $request->police_no : null;
         $person->case_no = !empty($request->case_no) ? $request->case_no : null;
@@ -145,8 +147,8 @@ class PeopleController extends ParentController
 
         return $persons = Person
             ::where($condition)
-            ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
+            ->orderBy('name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', self::DEFAULT_RESULTS_PER_PAGE));
 	}
 

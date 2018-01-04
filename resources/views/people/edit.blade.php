@@ -15,6 +15,9 @@
 					<div class="col-md">
                         {{ Form::bsText('name', null, [ 'required' ]) }}
 					</div>
+					<div class="col-md-auto">
+						{{ Form::genderSelect('gender') }}
+					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md">

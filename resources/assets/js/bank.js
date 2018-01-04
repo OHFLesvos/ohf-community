@@ -226,9 +226,17 @@ function writeRow(person) {
 				})
 			);
 	}
+    var icon = '';
+    if (person.gender == 'f') {
+        icon = 'female';
+    }
+    if (person.gender == 'm') {
+        icon = 'male';
+	}
 	return $('<tr>')
 		.attr('id', 'person-' + person.id)
 		.addClass(person.today > 0 ? 'table-success' : null)
+		.append($('<td>').html(icon != '' ? '<i class="fa fa-' + icon + '"></i>' : ''))
 		.append($('<td>')
 			.append($('<a>')
 				.attr('href', 'people/' + person.id)

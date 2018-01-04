@@ -8,6 +8,7 @@
         <table class="table table-sm table-striped table-bordered table-hover" id="results-table">
             <thead>
                 <tr>
+                    <th></th>
                     <th class="text-nowrap">Family Name</th>
                     <th>Name</th>
                     <th class="text-nowrap">Police No.</th>
@@ -22,6 +23,7 @@
                     <th>Remarks</th>
                 </tr>
                 <tr id="filter">
+                    <th></th>
                     <th>{{ Form::text('family_name', !empty($filter['family_name']) ? $filter['family_name'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     <th>{{ Form::text('name', !empty($filter['name']) ? $filter['name'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     <th>{{ Form::text('police_no', !empty($filter['police_no']) ? $filter['police_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
@@ -38,7 +40,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="10">Loading, please wait...</td>
+                    <td colspan="13">Loading, please wait...</td>
                 </tr>
             </tbody>
         </table>
