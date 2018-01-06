@@ -362,25 +362,7 @@ class BankController extends Controller
             'last_page' => $persons->lastPage(),
             'results' => collect($persons->all())
                 ->map(function ($item) {
-                    return [
-                        'id' => $item->id,
-                        'name' => $item->name,
-                        'family_name' => $item->family_name, 
-                        'gender' => $item->gender,
-                        'age' => $item->age,
-                        'police_no' => $item->police_no,
-                        'case_no' => $item->case_no,
-                        'medical_no' => $item->medical_no,
-                        'registration_no' => $item->registration_no,
-                        'section_card_no' => $item->section_card_no,
-                        'temp_no' => $item->temp_no,
-                        'nationality' => $item->nationality, 
-                        'remarks' => $item->remarks,
-						'boutique_coupon' => self::getBoutiqueCouponForJson($item),
-						'diapers_coupon' => self::getDiapersCouponForJson($item),
-                        'today' => $item->todaysTransaction(),
-                        'yesterday' => $item->yesterdaysTransaction()
-                    ];
+                    return self::getPersonArray($item);
                 }),
             'register' => self::createRegisterStringFromFilter($filter),
 			'rendertime' => round((microtime(true) - LARAVEL_START)*1000)
@@ -443,24 +425,28 @@ class BankController extends Controller
     }
 
     public function person(Person $person) {
-        return response()->json([
-                    'id' => $person->id,
-                    'name' => $person->name,
-                    'family_name' => $person->family_name, 
-                    'police_no' => $person->police_no,
-                    'case_no' => $person->case_no,
-                    'medical_no' => $person->medical_no,
-                    'registration_no' => $person->registration_no,
-                    'section_card_no' => $person->section_card_no,
-                    'temp_no' => $person->temp_no,
-                    'nationality' => $person->nationality, 
-                    'remarks' => $person->remarks,
-                    'boutique_coupon' => self::getBoutiqueCouponForJson($person),
-                    'diapers_coupon' => self::getDiapersCouponForJson($person),
-                    'today' => $person->todaysTransaction(),
-                    'yesterday' => $person->yesterdaysTransaction()
-        ]);
+        return response()->json(self::getPersonArray($person));
 	}
+
+    private static function getPersonArray(Person $person) {
+        return [
+            'id' => $person->id,
+            'name' => $person->name,
+            'family_name' => $person->family_name, 
+            'police_no' => $person->police_no,
+            'case_no' => $person->case_no,
+            'medical_no' => $person->medical_no,
+            'registration_no' => $person->registration_no,
+            'section_card_no' => $person->section_card_no,
+            'temp_no' => $person->temp_no,
+            'nationality' => $person->nationality, 
+            'remarks' => $person->remarks,
+            'boutique_coupon' => self::getBoutiqueCouponForJson($person),
+            'diapers_coupon' => self::getDiapersCouponForJson($person),
+            'today' => $person->todaysTransaction(),
+            'yesterday' => $person->yesterdaysTransaction()
+        ];
+    }
 
     public function storeTransaction(StoreTransaction $request) {
 		$person = Person::find($request->person_id);
@@ -498,7 +484,7 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->boutique_coupon = Carbon::now();
 				$person->save();
-				return 'OK';
+				return $this->person($person);
 			}
 		}
     }
@@ -509,7 +495,7 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->diapers_coupon = Carbon::now();
 				$person->save();
-				return 'OK';
+				return $this->person($person);
 			}
 		}
     }

@@ -272,7 +272,7 @@ function writeRow(person) {
 							"_token": csrfToken,
 							"person_id": person.id
 						}, function(data) {
-							updatePerson(person.id);
+							$('tr#person-' + person.id).replaceWith(writeRow(data));
 							filterField.select();
 						})
 						.fail(function(jqXHR, textStatus) {
@@ -295,7 +295,7 @@ function writeRow(person) {
 							"_token": csrfToken,
 							"person_id": person.id
 						}, function(data) {
-							updatePerson(person.id);
+							$('tr#person-' + person.id).replaceWith(writeRow(data));
 							filterField.select();
 						})
 						.fail(function(jqXHR, textStatus) {
@@ -323,14 +323,5 @@ function storeTransaction(personId, value) {
 	})
 	.fail(function(jqXHR, textStatus) {
 		alert(textStatus + ': ' + jqXHR.responseJSON);
-	});
-}
-
-function updatePerson(personId) {
-	$.get( 'bank/person/' + personId, function(data) {
-		$('tr#person-' + personId).replaceWith(writeRow(data));
-	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus);
 	});
 }
