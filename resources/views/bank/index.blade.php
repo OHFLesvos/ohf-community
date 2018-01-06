@@ -75,6 +75,7 @@
 	var giveBouqiqueCouponUrl = '{{ route('bank.giveBoutiqueCoupon') }}';
 	var giveDiapersCouponUrl = '{{ route('bank.giveDiapersCoupon') }}';
 	var storeTransactionUrl = '{{ route('bank.storeTransaction') }}';
+	var updateGenderUrl = '{{ route('bank.updateGender') }}';
 
 	var transactionMaxAmount = {{ $single_transaction_max_amount }};
 @endsection

@@ -432,7 +432,9 @@ class BankController extends Controller
         return [
             'id' => $person->id,
             'name' => $person->name,
-            'family_name' => $person->family_name, 
+            'family_name' => $person->family_name,
+            'gender' => $person->gender,
+            'age'=> $person->age,
             'police_no' => $person->police_no,
             'case_no' => $person->case_no,
             'medical_no' => $person->medical_no,
@@ -477,7 +479,18 @@ class BankController extends Controller
             });
         })->export('xls');
     }
-	
+    
+	public function updateGender(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+				$person->gender = $request->gender;
+				$person->save();
+				return $this->person($person);
+			}
+		}
+    }
+    
 	public function giveBoutiqueCoupon(Request $request) {
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);

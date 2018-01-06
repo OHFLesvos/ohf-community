@@ -226,17 +226,31 @@ function writeRow(person) {
 				})
 			);
 	}
-    var icon = '';
+
+	// Gender icon
+	var genderIcon;
     if (person.gender == 'f') {
-        icon = 'female';
-    }
-    if (person.gender == 'm') {
-        icon = 'male';
+		genderIcon = createIcon('female');
+    } else if (person.gender == 'm') {
+		genderIcon = createIcon('male');
+	} else {
+		genderIcon = $('<a>').attr('href', '#')
+			.append(createIcon('question-circle-o'))
+			.on('click', function(){
+				$(this).parent()
+					.empty()
+					.append(createChooseGenderIcon(person, 'male', 'm'))
+					.append(' &nbsp; ')
+					.append(createChooseGenderIcon(person, 'female', 'f'));
+			});
 	}
+
 	return $('<tr>')
 		.attr('id', 'person-' + person.id)
 		.addClass(person.today > 0 ? 'table-success' : null)
-		.append($('<td>').html(icon != '' ? '<i class="fa fa-' + icon + '"></i>' : ''))
+		.append($('<td>')
+			.addClass('text-center')
+			.append(genderIcon))
 		.append($('<td>')
 			.append($('<a>')
 				.attr('href', 'people/' + person.id)
@@ -276,7 +290,7 @@ function writeRow(person) {
 							filterField.select();
 						})
 						.fail(function(jqXHR, textStatus) {
-							alert(extStatus);
+							alert(textStatus);
 						});
 					}
 				});
@@ -299,16 +313,36 @@ function writeRow(person) {
 							filterField.select();
 						})
 						.fail(function(jqXHR, textStatus) {
-							alert(extStatus);
+							alert(textStatus);
 						});
 					}
 				});
 		}))
-		// .append(
-		// 	$('<td>')
-		// 		.html(person.yesterday > 0 ? '<strong>' + person.yesterday + '</strong>' : 0)
-		// )
 		.append(today);
+}
+
+function createIcon(icon) {
+	return $('<i>')
+		.addClass('fa')
+		.addClass('fa-' + icon);
+}
+
+function createChooseGenderIcon(person, icon, value) {
+	return $('<a>').attr('href', '#')
+		.append(createIcon(icon))
+		.on('click', function(){
+			$.post( updateGenderUrl, {
+				"_token": csrfToken,
+				"person_id": person.id,
+				'gender': value
+			}, function(data) {
+				$('tr#person-' + person.id).replaceWith(writeRow(data));
+				filterField.select();
+			})
+			.fail(function(jqXHR, textStatus) {
+				alert(textStatus);
+			});
+		});
 }
 
 function storeTransaction(personId, value) {
