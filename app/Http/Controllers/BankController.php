@@ -44,17 +44,21 @@ class BankController extends Controller
     private static function getDiapersThresholdDays() {
 		return \Setting::get('bank.diapers_threshold_days', self::DIAPERS_THRESHOLD_DAYS);
 	}
-	
-    function index(Request $request) {
+    
+    function index() {
+        return view('bank.index');
+    }
+
+    function withdrawal(Request $request) {
         // Remember this screen for back button on person details screen
-        session(['peopleOverviewRouteName' => 'bank.index']);
+        session(['peopleOverviewRouteName' => 'bank.withdrawal']);
 
         // Filter from request
 		if (!empty($request->q)) {
 			$request->session()->put('filter', $request->q);
 		}
 
-		return view('bank.index', [
+		return view('bank.withdrawal', [
             'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
 		]);
     }

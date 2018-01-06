@@ -58,7 +58,7 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
                 ];
-            case 'bank.index':
+            case 'bank.withdrawal':
                 return [
                     [
                         'url' => route('bank.export'),
@@ -304,7 +304,7 @@ class ContextMenuComposer {
             //
             // Bank
             //
-            case 'bank.index':
+            case 'bank.withdrawal':
                 return [
                     'action' => [
                         'url' => route('people.create'),
@@ -324,15 +324,27 @@ class ContextMenuComposer {
                         'caption' => 'Deposit',
                         'icon' => 'money',
                         'authorized' => Gate::allows('use-bank'),
+                    ],
+                    'back' => [
+                        'url' => route('bank.index'),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('use-bank')
                     ]
                 ];
             case 'bank.deposit':
                 return [
                     'deposit' => [
-                        'url' => route('bank.index'),
+                        'url' => route('bank.withdrawal'),
                         'caption' => 'Withdrawal',
                         'icon' => 'id-card',
                         'authorized' => Gate::allows('use-bank'),
+                    ],
+                    'back' => [
+                        'url' => route('bank.index'),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('use-bank')
                     ]
                 ];
             case 'bank.project':
@@ -347,7 +359,7 @@ class ContextMenuComposer {
             case 'bank.settings':
                 return [
                     'back' => [
-                        'url' => route('bank.index'),
+                        'url' => route('bank.withdrawal'),
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-bank')
@@ -356,7 +368,7 @@ class ContextMenuComposer {
             case 'bank.maintenance':
                 return [
                     'back' => [
-                        'url' => route('bank.index'),
+                        'url' => route('bank.withdrawal'),
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-bank')
@@ -374,7 +386,7 @@ class ContextMenuComposer {
             case 'bank.import':
                 return [
                     'back' => [
-                        'url' => route('bank.index'),
+                        'url' => route('bank.withdrawal'),
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-bank')

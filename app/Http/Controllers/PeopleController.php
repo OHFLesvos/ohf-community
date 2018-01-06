@@ -38,7 +38,7 @@ class PeopleController extends ParentController
     }
 
     public function create() {
-        $usedInBank = session('peopleOverviewRouteName', 'people.index') == 'bank.index';
+        $usedInBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
         $countries = CountriesExtended::getList('en');
         if ($usedInBank) {
             return view('people.create_in_bank', [
@@ -52,7 +52,7 @@ class PeopleController extends ParentController
     }
 
 	public function store(StorePerson $request) {
-        $isBank = session('peopleOverviewRouteName', 'people.index') == 'bank.index';
+        $isBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
 
         $person = new Person();
 		$person->name = $request->name;

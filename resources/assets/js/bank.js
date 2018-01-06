@@ -58,7 +58,7 @@ $(function(){
 });
 
 function showStats() {
-	$.get('bank/todayStats', function(data){
+	$.get(todayStatsUrl, function(data){
 		if (data.numberOfPersonsServed) {
 			$('#stats').html('Today, we served <strong>' + data.numberOfPersonsServed + '</strong> persons, handing out <strong> ' + data.transactionValue + '</strong> drachmas.');
 		} else {
@@ -254,13 +254,13 @@ function writeRow(person) {
 			.append(genderIcon))
 		.append($('<td>')
 			.append($('<a>')
-				.attr('href', 'people/' + person.id)
+				.attr('href', '../people/' + person.id)
 				.text(person.family_name)
 			)
 		)
 		.append($('<td>')
 			.append($('<a>')
-				.attr('href', 'people/' + person.id)
+				.attr('href', '../people/' + person.id)
 				.text(person.name)
 			)
 		)
