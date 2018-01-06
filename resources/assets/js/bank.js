@@ -239,8 +239,9 @@ function writeRow(person) {
 			.on('click', function(){
 				$(this).parent()
 					.empty()
+					.addClass('text-nowrap')
 					.append(createChooseGenderIcon(person, 'male', 'm'))
-					.append(' &nbsp; ')
+					.append('&nbsp; ')
 					.append(createChooseGenderIcon(person, 'female', 'f'));
 			});
 	}
