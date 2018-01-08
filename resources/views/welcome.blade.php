@@ -21,11 +21,11 @@
             </div>
         @endcan
 
-        @allowed('use-bank')
+        @allowed(['do-bank-withdrawals', 'view-bank-statistics'])
             <div class="card mb-4">
                 <div class="card-header">
                     Bank
-                    <a class="pull-right" href="{{ route('bank.index')  }}">Show bank</a>
+                    <a class="pull-right" href="{{ route('bank.index')  }}">Go to bank</a>
                 </div>
                 <div class="card-body">
                     <p>Served <a href="{{ route('bank.index') }}?q=today:"><strong>{{ $num_people_served_today }}</strong></a> persons and handed out <strong>{{ $transaction_value_today }}</strong> drachma today.</p>

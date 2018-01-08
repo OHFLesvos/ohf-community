@@ -28,19 +28,29 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('use-bank', function ($user) {
-            if ($user->isSuperAdmin()) {
-                return true;
-            }
-            return $user->hasPermission('bank.use');
-        });
-
-        Gate::define('use-logistics', function ($user) {
-            if ($user->isSuperAdmin()) {
-                return true;
-            }
-            return $user->hasPermission('logistics.use');
-        });
+        $simple_permission_gate_mappings = [
+            'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.statistics.view', 'bank.configure'],
+            'do-bank-withdrawals' => 'bank.withdrawals.do',
+            'do-bank-deposits' => 'bank.deposits.do',
+            'view-bank-statistics' => 'bank.statistics.view',
+            'configure-bank' => 'bank.configure',
+            'use-logistics' => 'logistics.use',
+        ];
+        foreach ($simple_permission_gate_mappings as $gate => $permission) {
+            Gate::define($gate, function ($user) {
+                if ($user->isSuperAdmin()) {
+                    return true;
+                }
+                if (is_array($permission)) {
+                    $hasPermission = false;
+                    foreach ($permission as $pe) {
+                        $hasPermission |= $user->hasPermission($pe);
+                    }
+                    return $hasPermission;
+                }
+                return $user->hasPermission($permission);
+            });
+        }
 
     }
 }

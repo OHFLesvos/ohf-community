@@ -51,7 +51,7 @@ class NavigationComposer {
                     'caption' => 'Bank',
                     'icon' => 'bank',
                     'active' => 'bank*',
-                    'authorized' => Gate::allows('use-bank')
+                    'authorized' => Gate::allows('view-bank-index')
                 ],
                 [
                     'route' => 'logistics.index',

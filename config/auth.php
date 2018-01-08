@@ -101,7 +101,10 @@ return [
 
 
     'permissions' => [
-        'bank.use' => 'Use bank',
+        'bank.withdrawals.do' => 'Bank: Handout drachma',
+        'bank.deposits.do' => 'Bank: Deposit drachma',
+        'bank.statistics.view' => 'Bank: View statistics',
+        'bank.configure' => 'Bank: Configure settings',
         'logistics.use' => 'Use logistics',
         'people.manage' => 'Manage people',
         'tasks.use' => 'Use tasks'

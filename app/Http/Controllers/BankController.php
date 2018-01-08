@@ -205,7 +205,7 @@ class BankController extends Controller
                 ->whereNull('temp_no')
                 ->delete();
         }
-        return redirect()->route('bank.index')
+        return redirect()->route('bank.withdrawal')
             ->with('info', 'Removed ' . $cnt . ' records.');
     }
 
@@ -322,7 +322,7 @@ class BankController extends Controller
 
             });
         });
-		return redirect()->route('bank.index')
+		return redirect()->route('bank.withdrawal')
 				->with('success', 'Import successful!');		
     }
 

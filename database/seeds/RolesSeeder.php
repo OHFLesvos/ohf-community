@@ -16,8 +16,7 @@ class RolesSeeder extends Seeder
                      'Coordinator',
                      'Volunteer',
                      'Helper',
-                     'Banker',
-                     'Donor',
+                     'Partner',
                  ] as $name) {
             \App\Role::create([
                 'name' => $name,
