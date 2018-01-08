@@ -80,6 +80,9 @@
                         },
                         responsive: true,
                         maintainAspectRatio: false,
+                        animation: {
+                            duration: 0
+                        },
                     };
 
                     // Add y-axis label

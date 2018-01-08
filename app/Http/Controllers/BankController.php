@@ -210,25 +210,11 @@ class BankController extends Controller
     }
 
     function charts() {
-        $data = [];
-        for ($i = 30; $i >= 0; $i--) {
-            $day = Carbon::today()->subDays($i);
-            $q = Transaction
-                ::whereDate('created_at', '=', $day->toDateString())
-				->where('transactionable_type', 'App\Person')
-                ->select('value')
-                ->get();
-            $key = $day->format('Y-m-j (D)');
-            $data['count'][$key] = collect($q)
-                ->count();
-            $data['sum'][$key] = collect($q)
-                ->map(function($item){
-                    return $item->value;
-                })->sum();
-        }
-		return view('bank.charts', [
-            'data' => $data,
-		]);
+        return view('bank.charts', [
+            'projects' => Project::orderBy('name')
+                ->where('enable_in_bank', true)
+                ->get()
+        ]);
     }
 
     function numTransactions() {
@@ -518,16 +504,24 @@ class BankController extends Controller
     }
     
     public function deposit() {
-        $projects = Project::orderBy('name')
-            ->where('enable_in_bank', true)
-            ->get();
-
+        $transactions = Transaction
+                ::join('projects', function ($join) {
+                    $join->on('projects.id', '=', 'transactions.transactionable_id')
+                        ->where('transactionable_type', 'App\Project');
+                })
+                ->select('projects.name', 'value', 'transactions.created_at')
+                ->orderBy('transactions.created_at', 'DESC')
+                ->limit(10)
+                ->get();
+        
         return view('bank.deposit', [
-            'projectList' =>
-                $projects ->mapWithKeys(function($project){
+            'projectList' => Project::orderBy('name')
+                ->where('enable_in_bank', true)
+                ->get()
+                ->mapWithKeys(function($project){
                     return [$project->id => $project->name];
                 }),
-            'projects' => $projects
+            'transactions' => $transactions,
         ]);
     }
 
@@ -594,11 +588,5 @@ class BankController extends Controller
 
         return redirect()->route('bank.deposit')
             ->with('info', 'Added ' . $transaction->value . ' drachma to project \'' . $project->name . '\'.');
-    }
-
-    public function project(Project $project) {
-        return view('bank.project', [ 
-            'project' => $project,
-        ]);
     }
 }

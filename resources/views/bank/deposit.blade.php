@@ -31,46 +31,26 @@
     </div>
     {!! Form::close() !!}
 
-    {{-- List of projects, with cumulated deposits --}}
-    @if( ! $projects->isEmpty() )
-
-        <table class="table table-sm table-bordered table-striped table-hover">
+    @if( ! $transactions->isEmpty() )
+        <table class="table table-sm table-bordered table-striped table-hover my-5">
             <thead>
                 <tr>
+                    <th>Date</th>
                     <th>Project</th>
-                    <th class="text-right">Average</th>
-                    <th class="text-right">Highest</th>
-                    <th class="text-right">Last month</th>
-                    <th class="text-right">This month</th>
-                    <th class="text-right">Last week</th>
-                    <th class="text-right">This week</th>
-                    <th class="text-right">Today</th>
+                    <th class="text-right">Value</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach ($projects as $project)
+            @foreach ($transactions as $transaction)
                 <tr>
-                    <td><a href="{{ route('bank.project', $project) }}">{{ $project->name }}</a></td>
-                    <td class="text-right">{{ $project->avgNumTransactions() }}</td>
-                    <td class="text-right">{{ $project->maxNumTransactions() }}</td>
-                    <td class="text-right">{{ $project->monthTransactions(Carbon\Carbon::today()->startOfMonth()->subMonth()) }}</td>
-                    <td class="text-right">{{ $project->monthTransactions(Carbon\Carbon::today()) }}</td>
-                    <td class="text-right">{{ $project->weekTransactions(Carbon\Carbon::today()->startOfWeek()->subWeek()) }}</td>
-                    <td class="text-right">{{ $project->weekTransactions(Carbon\Carbon::today()) }}</td>
-                    <td class="text-right">{{ $project->dayTransactions(Carbon\Carbon::today()) }}</td>
+                    <td>{{ $transaction->created_at }}</td>
+                    <td>{{ $transaction->name }}</td>
+                    <td class="text-right">{{ $transaction->value }}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-
-        <div id="app" class="my-3">
-            <line-chart title="Drachma deposited per day" ylabel="Drachma" url="{{ route('bank.depositStats') }}" :height=300></line-chart>
-        </div>
-
-    @else
-        @component('components.alert.info')
-            No projects found.
-        @endcomponent
     @endif
+
 
 @endsection
