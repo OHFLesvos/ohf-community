@@ -213,8 +213,45 @@ class BankController extends Controller
         return view('bank.charts', [
             'projects' => Project::orderBy('name')
                 ->where('enable_in_bank', true)
-                ->get()
+                ->get(),
+            'avg_sum' => self::getAvgTransactionSumPerDay(),
+            'highest_sum' => Transaction::
+                select(DB::raw('sum(value) as sum, date(created_at) as date'))
+                ->where('transactionable_type', 'App\\Person')
+                ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+                ->orderBy('sum', 'DESC')
+                ->limit(1)
+                ->first(),
+            'last_month_sum' => self::sumOfTransactions(Carbon::today()->subMonth()->startOfMonth(), Carbon::today()->subMonth()->endOfMonth()),
+            'this_month_sum' => self::sumOfTransactions(Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth()),
+            'last_week_sum' => self::sumOfTransactions(Carbon::today()->subWeek()->startOfWeek(), Carbon::today()->subWeek()->endOfWeek()),
+            'this_week_sum' => self::sumOfTransactions(Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()),
+            'today_sum' => self::sumOfTransactions(Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
         ]);
+    }
+
+    private static function getAvgTransactionSumPerDay() {
+        $sub = Transaction::select(DB::raw('sum(value) as sum'))
+            ->where('transactionable_type', 'App\\Person')
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'));
+        return DB::table( DB::raw("({$sub->toSql()}) as sub") )
+            ->select(DB::raw('round(avg(sum), 1) as avg'))
+            ->mergeBindings($sub->getQuery())
+            ->first()
+            ->avg;
+    }
+
+    private static function sumOfTransactions($from, $to) {
+        $transactions = Transaction::where('transactionable_type', 'App\Person')
+            ->whereDate('created_at', '>=', $from->toDateString())
+            ->whereDate('created_at', '<=', $to->toDateString())
+            ->select('value')
+            ->get();
+        return (int)collect($transactions)
+            ->map(function($item){
+                return $item->value;
+            })
+            ->sum();
     }
 
     function numTransactions() {
