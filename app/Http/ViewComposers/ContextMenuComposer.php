@@ -316,21 +316,33 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
+                    'deposits' => [
+                        'url' => route('bank.deposit'),
+                        'caption' => 'Deposit',
+                        'icon' => 'money',
+                        'authorized' => Gate::allows('do-bank-deposits')
+                    ],
                     'back' => [
                         'url' => route('bank.index'),
                         'caption' => 'Close',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
-                    ]
+                    ],
                 ];
             case 'bank.deposit':
                 return [
+                    'deposits' => [
+                        'url' => route('bank.withdrawal'),
+                        'caption' => 'Withdrawal',
+                        'icon' => 'id-card',
+                        'authorized' => Gate::allows('do-bank-withdrawals')
+                    ],
                     'back' => [
                         'url' => route('bank.index'),
                         'caption' => 'Close',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
-                    ]
+                    ],
                 ];
             case 'bank.project':
                 return [

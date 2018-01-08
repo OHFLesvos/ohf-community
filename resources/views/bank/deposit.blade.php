@@ -32,7 +32,7 @@
     {!! Form::close() !!}
 
     @if( ! $transactions->isEmpty() )
-        <table class="table table-sm table-bordered table-striped table-hover my-5">
+        <table class="table table-sm table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     <th>Date</th>
