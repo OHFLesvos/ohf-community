@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
             'use-logistics' => 'logistics.use',
         ];
         foreach ($simple_permission_gate_mappings as $gate => $permission) {
-            Gate::define($gate, function ($user) {
+            Gate::define($gate, function ($user) use($permission) {
                 if ($user->isSuperAdmin()) {
                     return true;
                 }
