@@ -234,24 +234,20 @@ class BankController extends Controller
         $sub = Transaction::select(DB::raw('sum(value) as sum'))
             ->where('transactionable_type', 'App\\Person')
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'));
-        return DB::table( DB::raw("({$sub->toSql()}) as sub") )
+        $result = DB::table( DB::raw("({$sub->toSql()}) as sub") )
             ->select(DB::raw('round(avg(sum), 1) as avg'))
             ->mergeBindings($sub->getQuery())
-            ->first()
-            ->avg;
+            ->first();
+        return $result != null ? $result->avg : null;
     }
 
     private static function sumOfTransactions($from, $to) {
-        $transactions = Transaction::where('transactionable_type', 'App\Person')
+        $result = Transaction::where('transactionable_type', 'App\Person')
             ->whereDate('created_at', '>=', $from->toDateString())
             ->whereDate('created_at', '<=', $to->toDateString())
-            ->select('value')
-            ->get();
-        return (int)collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
+            ->select(DB::raw('sum(value) as sum'))
+            ->first();
+        return $result != null ? $result->sum : null;
     }
 
     function numTransactions() {
