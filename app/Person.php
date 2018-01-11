@@ -105,4 +105,8 @@ class Person extends Model
 			->groupBy('persons.id')
             ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
     }
+
+    function revokedCards() {
+        return $this->hasMany('App\RevokedCard');
+    }
 }

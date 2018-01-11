@@ -246,6 +246,15 @@ function writeRow(person) {
 			});
 	}
 
+	// Card
+	var card;
+	if (person.card_no) {
+		card = person.card_no;
+		card += "Append";
+	} else {
+		card = 'Give';
+	}
+
 	return $('<tr>')
 		.attr('id', 'person-' + person.id)
 		.addClass(person.today > 0 ? 'table-success' : null)
@@ -265,6 +274,7 @@ function writeRow(person) {
 			)
 		)
 		.append($('<td>').text(person.age))
+		.append($('<td>').text(card))
 		.append($('<td>').text(person.police_no))
 		.append($('<td>').text(person.case_no))
 		.append($('<td>').text(person.medical_no))

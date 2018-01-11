@@ -13,6 +13,9 @@ use App\Http\Requests\StoreTransactionSettings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\LabelAlignment;
+use Dompdf\Dompdf;
 
 class BankController extends Controller
 {
@@ -92,6 +95,41 @@ class BankController extends Controller
                 ->get()
                 ->first()
                 ->total;
+    }
+
+    public function codeCard() {
+        $codes = [];
+        for ($i = 0; $i < 10 * 5; $i++) {
+            $code = bin2hex(random_bytes(16));
+            $codes[] = base64_encode(self::createQrCode($code, substr($code, 0, 7), 500));
+        }
+        $logo = base64_encode(file_get_contents(public_path() . '/img/logo_card.png'));
+        $view = view('bank.codeCard', [
+            'codes' => $codes,
+            'logo' => $logo,
+        ])->render();
+
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($view);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->set_option('dpi', 300);
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        return $dompdf->stream();
+    }
+
+    public static function createQrCode($value, $label, $size) {
+        $qrCode = new QrCode($value);
+        $qrCode->setSize($size);
+        $qrCode->setLabel($label, 20, null, LabelAlignment::CENTER);   
+        return $qrCode->writeString();
     }
 
     function settings() {
@@ -371,7 +409,7 @@ class BankController extends Controller
                 ::where($condition);
         }
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'gender', 'date_of_birth', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
+            ->select('persons.id', 'name', 'family_name', 'gender', 'date_of_birth', 'card_no', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
@@ -458,6 +496,7 @@ class BankController extends Controller
             'family_name' => $person->family_name,
             'gender' => $person->gender,
             'age'=> $person->age,
+            'card_no' => $person->card_no,
             'police_no' => $person->police_no,
             'case_no' => $person->case_no,
             'medical_no' => $person->medical_no,
