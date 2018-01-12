@@ -4,12 +4,19 @@
 
 @section('content')
 
-	<div class="input-group">
-        {{ Form::search('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
-        <div class="input-group-append">
-            <button class="btn btn-secondary" disabled type="button" id="filter-reset">@icon(eraser)</button> 
+    <div class="form-row">
+        <div class="col">
+            <div class="input-group">
+                {{ Form::search('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" disabled type="button" id="filter-reset">@icon(eraser)</button> 
+                </div>
+            </div>
         </div>
-	</div>
+        <div class="col-auto">
+            <button class="btn btn-primary" type="button" id="scan-id-button">@icon(camera) Scan QR</button> 
+        </div>
+    </div>
 
 	<p class="mt-2">
 		Filter: 

@@ -4,7 +4,7 @@
         <style type="text/css">
             @page {
                 margin-top: 0;
-                margin-left: 1em;
+                margin-left: 1.5em;
                 font-family: sans-serif;
                 margin-bottom: 0;
             }
@@ -30,7 +30,7 @@
                     <img src="data:image/png;base64,{{ $code }}">
                 </td>
                 <td style="padding-right: 2em; padding-left: 0.2em;text-align:center;">
-                    <img src="data:image/png;base64,{{ $logo }}" style="width: 320px">
+                    <img src="data:image/png;base64,{{ $logo }}" style="width: 300px">
                     <br><span style="font-size: 0.6em; color: #333;">www.ohf-lesvos.org</span>
                 </td>
                 @if($loop->index % 2 == 1)

@@ -1,6 +1,7 @@
 pagination = require('./pagination.js');
 
-const QRScanner = require('qr-code-scanner');
+//const QRScanner = require('qr-code-scanner');
+const Instascan = require('instascan');
 
 var delayTimer;
 var lastFilterValue = "";
@@ -55,6 +56,34 @@ $(function(){
 	});
 	
 	filterField.select().change();
+
+	// Do scan QR code card and search for the number
+	$('#scan-id-button').on('click', function(){
+		let scanner = new Instascan.Scanner({ 
+			video: document.getElementById('preview'),
+			mirror: false,
+			continuous: true,
+		});
+		Instascan.Camera.getCameras().then(function (cameras) {
+		  if (cameras.length > 0) {
+			scanner.addListener('scan', function (content) {
+				scanner.stop();
+				$('#videoPreviewModal').modal('hide');
+				filterField.val(content).change();
+			});
+			scanner.start(cameras[0]).then(function(){
+				$('#videoPreviewModal').modal('show');
+				$('#videoPreviewModal').on('hide.bs.modal', function (e) {
+					scanner.stop();
+				})
+			});
+		  } else {
+			alert('No cameras found.');
+		  }
+		}).catch(function (e) {
+		  console.error(e);
+		});
+	});
 
 	showStats();
 });
@@ -258,18 +287,7 @@ function writeRow(person) {
 			.attr('href', 'javascript:;')
 			.text('Give card')
 			.on('click', function(){
-				QRScanner.initiate({
-					onResult: function (result) { 
-						console.info('DONE: ', result); 
-						alert(result);
-					},
-					onError: function (err) { 
-						console.error('ERR :::: ', err); 
-					},
-					onTimeout: function () { 
-						console.warn('TIMEDOUT'); 
-					}
-				})
+				// TODO
 			});
 	}
 
