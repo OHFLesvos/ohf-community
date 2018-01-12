@@ -59,6 +59,7 @@ class ContextMenuComposer {
                     ],
                 ];
             case 'bank.withdrawal':
+            case 'bank.withdrawalSearch':
                 return [
                     [
                         'url' => route('bank.export'),
@@ -308,6 +309,7 @@ class ContextMenuComposer {
                     ],
                 ];
             case 'bank.withdrawal':
+            case 'bank.withdrawalSearch':
                 return [
                     'action' => [
                         'url' => route('people.create'),

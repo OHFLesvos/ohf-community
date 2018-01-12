@@ -27,6 +27,7 @@ Route::get('/bank/charts/numTransactions', 'BankController@numTransactions')->na
 Route::get('/bank/charts/sumTransactions', 'BankController@sumTransactions')->name('bank.sumTransactions');
 
 Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
+Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');
 Route::post('/bank/filter', 'BankController@filter')->name('bank.filter');
 Route::post('/bank/resetFilter', 'BankController@resetFilter')->name('bank.resetFilter');
 Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person');

@@ -56,16 +56,47 @@ class BankController extends Controller
     function withdrawal(Request $request) {
         // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'bank.withdrawal']);
-
-        // Filter from request
-		if (!empty($request->q)) {
-			$request->session()->put('filter', $request->q);
-		}
+        $request->session()->forget('filter');
 
 		return view('bank.withdrawal', [
-            'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
+            'stats' => [
+                'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
+                'transactionValue' => self::getTransactionValueToday(),
+            ],
 		]);
     }
+
+    function withdrawalSearch(Request $request) {
+        $filter = $request->filter;
+        if (!isset($filter) || trim($filter) == '') {
+            $sessionFilter = session('filter');
+            if (isset($sessionFilter) && trim($sessionFilter) != '') {
+                return redirect()->route('bank.withdrawalSearch', ['filter' => $sessionFilter]);
+            }
+            return redirect()->route('bank.withdrawal');
+        }
+        $request->session()->put('filter', $request->filter);
+
+        // Remember this screen for back button on person details screen
+        session(['peopleOverviewRouteName' => 'bank.withdrawalSearch']);
+    
+        $terms = preg_split('/\s+/', $filter);
+        $condition = [];
+        foreach ($terms as $q) {
+            $condition[] = ['search', 'LIKE', '%' . $q . '%'];
+        }
+        $results = Person::where($condition)
+            ->orderBy('name', 'asc')
+            ->orderBy('family_name', 'asc')
+            ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
+
+		return view('bank.withdrawal-results', [
+            'filter' => $request->filter,
+            'results' => $results,
+		]);
+    }
+
+    
 
     public function todayStats() {
         return response()->json([
