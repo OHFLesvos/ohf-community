@@ -85,6 +85,7 @@
 	var storeTransactionUrl = '{{ route('bank.storeTransaction') }}';
 	var updateGenderUrl = '{{ route('bank.updateGender') }}';
     var todayStatsUrl = '{{ route('bank.todayStats') }}';
+    var registerCardUrl = '{{ route('bank.registerCard') }}';
 
 	var transactionMaxAmount = {{ $single_transaction_max_amount }};
 @endsection

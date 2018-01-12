@@ -118,6 +118,15 @@
         </div>
         <div class="col-md">
 
+            @if(isset($person->card_no))
+                <div class="card mb-4">
+                    <div class="card-header">Card</div>
+                    <div class="card-body">
+                        <strong>{{ substr($person->card_no, 0, 7) }}</strong>{{ substr($person->card_no, 7) }} issued on <strong>{{ $person->card_issued }}</strong>
+                    </div>
+                </div>
+            @endif
+
             <div class="card mb-4">
                 <div class="card-header">
                     Transactions

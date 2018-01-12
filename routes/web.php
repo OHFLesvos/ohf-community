@@ -50,6 +50,7 @@ Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('
 Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
 Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');
 Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
+Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
 
 Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');
