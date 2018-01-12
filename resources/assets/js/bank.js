@@ -59,34 +59,40 @@ $(function(){
 
 	// Do scan QR code card and search for the number
 	$('#scan-id-button').on('click', function(){
-		let scanner = new Instascan.Scanner({ 
-			video: document.getElementById('preview'),
-			mirror: false,
-			continuous: true,
-		});
-		Instascan.Camera.getCameras().then(function (cameras) {
-		  if (cameras.length > 0) {
-			scanner.addListener('scan', function (content) {
-				scanner.stop();
-				$('#videoPreviewModal').modal('hide');
-				filterField.val(content).change();
-			});
-			scanner.start(cameras[0]).then(function(){
-				$('#videoPreviewModal').modal('show');
-				$('#videoPreviewModal').on('hide.bs.modal', function (e) {
-					scanner.stop();
-				})
-			});
-		  } else {
-			alert('No cameras found.');
-		  }
-		}).catch(function (e) {
-		  console.error(e);
+		scanQR(function(content){
+			filterField.val(content).change();
 		});
 	});
 
 	showStats();
 });
+
+function scanQR(callback) {
+	let scanner = new Instascan.Scanner({ 
+		video: document.getElementById('preview'),
+		mirror: false,
+		continuous: true,
+	});
+	Instascan.Camera.getCameras().then(function (cameras) {
+	  if (cameras.length > 0) {
+		scanner.addListener('scan', function (content) {
+			scanner.stop();
+			$('#videoPreviewModal').modal('hide');
+			callback(content);
+		});
+		scanner.start(cameras[0]).then(function(){
+			$('#videoPreviewModal').modal('show');
+			$('#videoPreviewModal').on('hide.bs.modal', function (e) {
+				scanner.stop();
+			})
+		});
+	  } else {
+		alert('No cameras found.');
+	  }
+	}).catch(function (e) {
+	  console.error(e);
+	});
+}
 
 function showStats() {
 	$.get(todayStatsUrl, function(data){
