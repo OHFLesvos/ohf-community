@@ -289,9 +289,10 @@ function writeRow(person) {
 		var refresh = $('<i>')
 			.addClass('fa')
 			.addClass('fa-refresh');
+		var msg = 'Really revoke the card ' + person.card_no.substr(0, 7) + ' and issue a new one?';
 		card = $('<span>')
 			.text(person.card_no.substr(0, 7) + ' ')
-			.append(createCardLink(person.id, refresh));
+			.append(createCardLink(person.id, refresh, msg));
 	} else {
 		card = createCardLink(person.id, 'Give card');
 	}
@@ -373,24 +374,27 @@ function writeRow(person) {
 		.append(today);
 }
 
-function createCardLink(person_id, caption) {
+function createCardLink(person_id, caption, confirmMessage) {
 	return $('<a>')
 			.attr('href', 'javascript:;')
 			.html(caption)
 			.on('click', function(){
-				scanQR(function(content){
-					$.post( registerCardUrl, {
-						"_token": csrfToken,
-						"person_id": person_id,
-						"card_no": content,
-					}, function(data) {
-						$('tr#person-' + person_id).replaceWith(writeRow(data));
-						filterField.select();
-					})
-					.fail(function(jqXHR, textStatus) {
-						alert(textStatus);
+				if (!confirmMessage || confirm(confirmMessage)) {
+					scanQR(function(content){
+						$.post( registerCardUrl, {
+							"_token": csrfToken,
+							"person_id": person_id,
+							"card_no": content,
+						}, function(data) {
+							$('tr#person-' + person_id).replaceWith(writeRow(data));
+							filterField.select();
+						})
+						.fail(function(jqXHR, textStatus) {
+							var msg = jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText;
+							alert('Error: ' + msg);
+						});
 					});
-				});
+				}
 			});
 }
 

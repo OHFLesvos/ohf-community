@@ -556,7 +556,17 @@ class BankController extends Controller
 	public function registerCard(Request $request) {
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
-			if ($person != null) {
+			if ($person != null && isset($request->card_no)) {
+                if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
+                    return response()->json([
+                        'message' => 'Card number has been revoked',
+                    ], 400);
+                }
+                if (Person::where('card_no', $request->card_no)->count() > 0) {
+                    return response()->json([
+                        'message' => 'Card number already in use',
+                    ], 400);
+                }
                 if ($person->card_no != null) {
                     $revoked = new RevokedCard();
                     $revoked->card_no = $person->card_no;
