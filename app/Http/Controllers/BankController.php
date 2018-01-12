@@ -575,21 +575,29 @@ class BankController extends Controller
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
 			if ($person != null && isset($request->card_no)) {
+
+                // Check for revoked card number
                 if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
                     return response()->json([
                         'message' => 'Card number has been revoked',
                     ], 400);
                 }
+
+                // Check for used card number
                 if (Person::where('card_no', $request->card_no)->count() > 0) {
                     return response()->json([
                         'message' => 'Card number already in use',
                     ], 400);
                 }
+
+                // If person already has a card number, revoke it
                 if ($person->card_no != null) {
                     $revoked = new RevokedCard();
                     $revoked->card_no = $person->card_no;
                     $person->revokedCards()->save($revoked);
                 }
+
+                // Issue new card
                 $person->card_no = $request->card_no;
                 $person->card_issued = Carbon::now();
 				$person->save();
