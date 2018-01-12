@@ -19,9 +19,10 @@
     "google-palette": "^1.0.0",
     "jquery": "^3.2.1",
     "jquery.session": "^1.0.0",
-    "laravel-mix": "0.*",
+    "laravel-mix": "^1.7.2",
     "lodash": "^4.17.4",
     "popper.js": "^1.13.0",
+    "qr-code-scanner": "^1.0.5",
     "vue": "^2.5.13",
     "vue-chartjs": "^3.0.2",
     "vue-template-compiler": "^2.5.13"

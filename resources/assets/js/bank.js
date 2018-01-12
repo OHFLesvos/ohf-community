@@ -1,5 +1,7 @@
 pagination = require('./pagination.js');
 
+const QRScanner = require('qr-code-scanner');
+
 var delayTimer;
 var lastFilterValue = "";
 
@@ -252,7 +254,23 @@ function writeRow(person) {
 		card = person.card_no;
 		card += "Append";
 	} else {
-		card = 'Give';
+		card = $('<a>')
+			.attr('href', 'javascript:;')
+			.text('Give card')
+			.on('click', function(){
+				QRScanner.initiate({
+					onResult: function (result) { 
+						console.info('DONE: ', result); 
+						alert(result);
+					},
+					onError: function (err) { 
+						console.error('ERR :::: ', err); 
+					},
+					onTimeout: function () { 
+						console.warn('TIMEDOUT'); 
+					}
+				})
+			});
 	}
 
 	return $('<tr>')
@@ -274,7 +292,7 @@ function writeRow(person) {
 			)
 		)
 		.append($('<td>').text(person.age))
-		.append($('<td>').text(card))
+		.append($('<td>').append(card))
 		.append($('<td>').text(person.police_no))
 		.append($('<td>').text(person.case_no))
 		.append($('<td>').text(person.medical_no))

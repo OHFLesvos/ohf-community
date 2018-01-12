@@ -29,8 +29,8 @@
                 <td>
                     <img src="data:image/png;base64,{{ $code }}">
                 </td>
-                <td style="padding-right: 2em; padding-left: 0.3em;text-align:center;">
-                    <img src="data:image/png;base64,{{ $logo }}" style="width: 340px">
+                <td style="padding-right: 2em; padding-left: 0.2em;text-align:center;">
+                    <img src="data:image/png;base64,{{ $logo }}" style="width: 320px">
                     <br><span style="font-size: 0.6em; color: #333;">www.ohf-lesvos.org</span>
                 </td>
                 @if($loop->index % 2 == 1)
