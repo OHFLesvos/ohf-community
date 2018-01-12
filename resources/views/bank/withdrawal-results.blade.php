@@ -20,3 +20,13 @@
 
 @endsection
 
+@section('script')
+    var csrfToken = '{{ csrf_token() }}';
+    var storeTransactionUrl = '{{ route('bank.storeTransaction') }}';
+    var giveBouqiqueCouponUrl = '{{ route('bank.giveBoutiqueCoupon') }}';
+    var giveDiapersCouponUrl = '{{ route('bank.giveDiapersCoupon') }}';
+@endsection
+
+@section('footer')
+    <script src="{{asset('js/bank.js')}}?v={{ $app_version }}"></script>
+@endsection

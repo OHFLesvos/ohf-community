@@ -1,72 +1,8 @@
-pagination = require('./pagination.js');
-
-//const QRScanner = require('qr-code-scanner');
+/*
+ * Instascan QR code camera 
+ */
+/*
 const Instascan = require('instascan');
-
-var delayTimer;
-var lastFilterValue = "";
-
-$(function(){
-	
-	filterField.on('change paste propertychange input', function(evt){
-		//console.log( 'EVENT '  + evt.type );
-		
-		if (evt.type == 'input' || evt.type == 'propertychange') {
-			clearTimeout(delayTimer);
-			delayTimer = setTimeout(function(){
-				//console.log('DELAY');
-				applyFilter(filterField.val());
-			}, 250);
-		} else {
-			applyFilter(filterField.val());
-		}
-	});
-
-	filterField.on('keydown', function(evt){
-		var isEscape = false;
-		var isEnter = false;
-		if ("key" in evt) {
-			isEscape = (evt.key == "Escape" || evt.key == "Esc");
-			isEnter = (evt.key == "Enter");
-		} else {
-			isEscape = (evt.keyCode == 27);
-			isEnter = (evt.keyCode == 13);
-		}
-		if (isEscape) {
-			//console.log( 'ESCAPE '  + evt.type );
-			resetFilter();
-		} else if (isEnter) {
-			applyFilter(filterField.val());
-			filterField.blur();
-		}
-	});
-	
-	filterReset.on('click', function(){
-		resetFilter();
-	});
-	
-	addFilterElem.on('click', function(){
-		var filterVal = $(this).attr('data-filter');
-		var prevVal = filterField.val();
-		if (!prevVal.trim().split(" ").includes(filterVal.trim())) {
-			filterField.focus().val( filterVal + prevVal ).change();
-		} else {
-			filterField.focus().val( prevVal );
-		}
-	});
-	
-	filterField.select().change();
-
-	// Do scan QR code card and search for the number
-	$('#scan-id-button').on('click', function(){
-		scanQR(function(content){
-			filterField.val(content).change();
-		});
-	});
-
-	showStats();
-});
-
 function scanQR(callback) {
 	let scanner = new Instascan.Scanner({ 
 		video: document.getElementById('preview'),
@@ -93,80 +29,82 @@ function scanQR(callback) {
 	  console.error(e);
 	});
 }
+*/
 
-function showStats() {
-	$.get(todayStatsUrl, function(data){
-		if (data.numberOfPersonsServed) {
-			$('#stats').html('Today, we served <strong>' + data.numberOfPersonsServed + '</strong> persons, handing out <strong> ' + data.transactionValue + '</strong> drachmas.');
-		} else {
-			$('#stats').html('We did not yet serve any persons today.');
+var delayTimer;
+var lastFilterValue = "";
+
+$(function(){
+	
+	// Do scan QR code card and search for the number
+	$('#scan-id-button').on('click', function(){
+		scanQR(function(content){
+			filterField.val(content).change();
+		});
+	});
+
+	$('.give-cash').on('click', function(){
+		var person = $(this).attr('data-person');
+		var value = $(this).attr('data-value');
+		var resultElem = $(this).parent();
+		storeTransaction(person, value, resultElem);
+	});
+
+	$('.give-boutique-coupon').on('click', function(){
+		var person = $(this).attr('data-person');
+		var resultElem = $(this).parent();
+		var name = resultElem.parents('.card').find('.card-header strong').text();
+		if (confirm('Give coupon to ' + name + '?')) {
+			resultElem.html('<i class="fa fa-spinner fa-spin">');
+			$.post( giveBouqiqueCouponUrl, {
+				"_token": csrfToken,
+				"person_id": person
+			}, function(data) {
+				resultElem.html(data.countdown);
+			})
+			.fail(function(jqXHR, textStatus) {
+				alert(textStatus);
+			});
 		}
-		$('#stats').fadeIn('fast');
 	});
-}
 
-function resetFilter() {
-	// console.log( 'RESET filter' );
-	filterField.val('').change().focus();
-	resetAlert();
-	resetStatus();
-	$.post( resetFilterUrl, {
-		"_token": csrfToken
+	$('.give-diapers-coupon').on('click', function(){
+		var person = $(this).attr('data-person');
+		var resultElem = $(this).parent();
+		var name = resultElem.parents('.card').find('.card-header strong').text();
+		if (confirm('Give coupon to ' + name + '?')) {
+			resultElem.html('<i class="fa fa-spinner fa-spin">');
+			$.post( giveDiapersCouponUrl, {
+				"_token": csrfToken,
+				"person_id": person
+			}, function(data) {
+				resultElem.html(data.countdown);
+			})
+			.fail(function(jqXHR, textStatus) {
+				alert(textStatus);
+			});
+		}
 	});
-}
 
-function applyFilter(value) {
-	if (lastFilterValue == value) {
-		return;
-	}
-	$('#stats').hide();
-	//console.log('APPLY "' + value + '"');
-	
-	if (value != '') {
-		filterReset.removeAttr('disabled');
-		filterReset.addClass('bg-primary text-light');
-	} else {
-		filterReset.attr('disabled', 'disabled');
-		filterReset.removeClass('bg-primary text-light');
-	}
-	
-	var searchValue = value.trim();
-	if (searchValue != '') {
-		filterTable(searchValue, 1);
-	} else {
-		table.hide();
-		showStats();
-		resetAlert();
-		resetStatus();
-	}
-	lastFilterValue = value;
-}
 
-function showStatus(msg) {
-	statusContainer.html(msg);
-}
+});
 
-function resetStatus() {
-	statusContainer.html('');
-    paginator.empty();
-    paginationInfo.empty();
-}
-
-function showAlert(msg, type) {
-	alertContainer.html(msg);
-	alertContainer.addClass('alert alert-' + type);
-	var icon = type == 'danger' ? 'warning' : 'info-circle';
-	alertContainer.prepend($('<i>').addClass('fa fa-' + icon).append('&nbsp;'));
-	alertContainer.show();
-}
-
-function resetAlert() {
-	alertContainer.hide();
-	alertContainer.removeClass();
-}
-
-function loadPage(page) {
-    filterTable(filterField.val().trim(), page);
+function storeTransaction(personId, value, resultElem) {
+	resultElem.html('<i class="fa fa-spinner fa-spin">');
+	$.post( storeTransactionUrl, {
+		"_token": csrfToken,
+		"person_id": personId,
+		"value": value
+	}, function(data) {
+		resultElem
+			.html(data.today + ' drachma ')
+			.append($('<small>')
+				.addClass('text-muted')
+				.text('on ' + data.date));
+	})
+	.fail(function(jqXHR, textStatus) {
+		alert(textStatus + ': ' + jqXHR.responseJSON);
+	});
 }
 
 function filterTable(filter, page) {
@@ -213,57 +151,6 @@ function filterTable(filter, page) {
 
 function writeRow(person) {
 	var today = $('<td>');
-	if (person.today > 0) {
-		today.text(person.today)
-			.append(' &nbsp; ')
-			.append($('<a>')
-				.attr('href', 'javascript:;')
-				.append($('<i>')
-					.addClass('fa fa-pencil')
-				)
-				.on('click', function(){
-					var transactionInput = $('<input>')
-							.attr('type', 'number')
-							.attr('min', 0)
-							.attr('max', transactionMaxAmount)
-							.attr('value', person.today)
-							.addClass('form-control form-control-sm')
-							.on('focus', function(){
-								$(this).select();
-							})
-							.on('keypress', function(e){
-								if (e.keyCode == 13) { // Enter
-									storeTransaction(person.id, $(this).val() - person.today);
-								} 
-							});
-					today.empty();
-					today.append(transactionInput);
-					transactionInput.focus();
-				})
-			);                
-	} else {
-		today.append($('<a>')
-				.attr('href', '#')
-				.addClass('btn btn-secondary btn-sm')
-				.text('2')
-				.on('click', function(e){
-					$(this).parent().html('<i class="fa fa-spinner fa-spin">');
-					storeTransaction(person.id, 2);
-					e.preventDefault();
-				})
-			);
-		today.append(' &nbsp; ');
-		today.append($('<a>')
-				.attr('href', '#')
-				.addClass('btn btn-secondary btn-sm')
-				.text('1')
-				.on('click', function(e){
-					$(this).parent().html('<i class="fa fa-spinner fa-spin">');
-					storeTransaction(person.id, 1);
-					e.preventDefault();
-				})
-			);
-	}
 
 	// Gender icon
 	var genderIcon;
@@ -421,19 +308,4 @@ function createChooseGenderIcon(person, icon, value) {
 				alert(textStatus);
 			});
 		});
-}
-
-function storeTransaction(personId, value) {
-	$.post( storeTransactionUrl, {
-		"_token": csrfToken,
-		"person_id": personId,
-		"value": value
-	}, function(data) {
-		//alert(1);
-		$('tr#person-' + personId).replaceWith(writeRow(data));
-		filterField.select();
-	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus + ': ' + jqXHR.responseJSON);
-	});
 }

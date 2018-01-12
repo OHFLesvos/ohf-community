@@ -66,7 +66,7 @@ class BankController extends Controller
 		]);
     }
 
-    private static function getNumberOfPersonsServedToday() {
+    public static function getNumberOfPersonsServedToday() {
         return Transaction::whereDate('transactions.created_at', '=', Carbon::today())
                 //->where('transactionable_type', 'App\Person')
                 ->join('persons', function ($join) {
@@ -81,7 +81,7 @@ class BankController extends Controller
                 ->count();
     }
 
-    private static function getTransactionValueToday() {
+    public static function getTransactionValueToday() {
         return (int)Transaction::whereDate('created_at', '=', Carbon::today())
                 ->where('transactionable_type', 'App\Person')
                 ->select(DB::raw('sum(value) as total'))
@@ -120,6 +120,8 @@ class BankController extends Controller
             'filter' => $request->filter,
             'results' => $results,
             'register' => self::createRegisterStringFromFilter($filter),
+            'boutiqueThresholdDays' => self::getBoutiqueThresholdDays(),
+            'diapersThresholdDays' => self::getDiapersThresholdDays(),
 		]);
     }
 
@@ -433,60 +435,6 @@ class BankController extends Controller
 				->with('success', 'Import successful!');		
     }
 
-	private static function getBoutiqueCouponForJson($person) {
-		if ($person->boutique_coupon != null) {
-            return static::calcCouponHandoutDate(self::getBoutiqueThresholdDays(), $person->boutique_coupon);
-		}
-		return null;
-	}
-
-    private static function getDiapersCouponForJson($person) {
-		if ($person->diapers_coupon != null) {
-            return static::calcCouponHandoutDate(self::getDiapersThresholdDays(), $person->diapers_coupon);
-		}
-		return null;
-    }
-    
-    private static function calcCouponHandoutDate($day_treshold, $compare_date) {
-        $coupon_date = (new Carbon($compare_date))->startOfDay();
-        $threshold_date = Carbon::now()->subDays($day_treshold)->startOfDay();
-        if ($coupon_date->gt($threshold_date)) {
-            $days = $coupon_date->diffInDays($threshold_date);
-            if ($days == 1) {
-                return "tomorrow";
-            }
-            return $days . ' days from now';
-        }
-        return null;
-    }
-
-    public function person(Person $person) {
-        return response()->json(self::getPersonArray($person));
-	}
-
-    private static function getPersonArray(Person $person) {
-        return [
-            'id' => $person->id,
-            'name' => $person->name,
-            'family_name' => $person->family_name,
-            'gender' => $person->gender,
-            'age'=> $person->age,
-            'card_no' => $person->card_no,
-            'police_no' => $person->police_no,
-            'case_no' => $person->case_no,
-            'medical_no' => $person->medical_no,
-            'registration_no' => $person->registration_no,
-            'section_card_no' => $person->section_card_no,
-            'temp_no' => $person->temp_no,
-            'nationality' => $person->nationality, 
-            'remarks' => $person->remarks,
-            'boutique_coupon' => self::getBoutiqueCouponForJson($person),
-            'diapers_coupon' => self::getDiapersCouponForJson($person),
-            'today' => $person->todaysTransaction(),
-            'yesterday' => $person->yesterdaysTransaction()
-        ];
-    }
-
     public function storeTransaction(StoreTransaction $request) {
 		$person = Person::find($request->person_id);
 		if ($person ->todaysTransaction() + $request->value > self::getSingleTransactionMaxAmount()) {
@@ -495,7 +443,10 @@ class BankController extends Controller
 		$transaction = new Transaction();
         $transaction->value = $request->value;
         $person->transactions()->save($transaction);
-        return $this->person($person);
+        return response()->json([
+            'today' => $person->todaysTransaction(),
+            'date' => $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at->toDateTimeString(),
+        ]);
     }
     
 	public function export() {
@@ -568,7 +519,9 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->boutique_coupon = Carbon::now();
 				$person->save();
-				return $this->person($person);
+				return response()->json([
+                    'countdown' => $person->getBoutiqueCouponForJson(self::getBoutiqueThresholdDays()),
+                ]);
 			}
 		}
     }
@@ -579,7 +532,9 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->diapers_coupon = Carbon::now();
 				$person->save();
-				return $this->person($person);
+				return response()->json([
+                    'countdown' => $person->getDiapersCouponForJson(self::getDiapersThresholdDays()),
+                ]);
 			}
 		}
     }
