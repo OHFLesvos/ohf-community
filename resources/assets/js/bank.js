@@ -286,26 +286,14 @@ function writeRow(person) {
 	// Card
 	var card;
 	if (person.card_no) {
-		card = person.card_no.substr(0, 7);
+		var refresh = $('<i>')
+			.addClass('fa')
+			.addClass('fa-refresh');
+		card = $('<span>')
+			.text(person.card_no.substr(0, 7) + ' ')
+			.append(createCardLink(person.id, refresh));
 	} else {
-		card = $('<a>')
-			.attr('href', 'javascript:;')
-			.text('Give card')
-			.on('click', function(){
-				scanQR(function(content){
-					$.post( registerCardUrl, {
-						"_token": csrfToken,
-						"person_id": person.id,
-						"card_no": content,
-					}, function(data) {
-						$('tr#person-' + person.id).replaceWith(writeRow(data));
-						filterField.select();
-					})
-					.fail(function(jqXHR, textStatus) {
-						alert(textStatus);
-					});
-				});
-			});
+		card = createCardLink(person.id, 'Give card');
 	}
 
 	return $('<tr>')
@@ -383,6 +371,27 @@ function writeRow(person) {
 				});
 		}))
 		.append(today);
+}
+
+function createCardLink(person_id, caption) {
+	return $('<a>')
+			.attr('href', 'javascript:;')
+			.html(caption)
+			.on('click', function(){
+				scanQR(function(content){
+					$.post( registerCardUrl, {
+						"_token": csrfToken,
+						"person_id": person_id,
+						"card_no": content,
+					}, function(data) {
+						$('tr#person-' + person_id).replaceWith(writeRow(data));
+						filterField.select();
+					})
+					.fail(function(jqXHR, textStatus) {
+						alert(textStatus);
+					});
+				});
+			});
 }
 
 function createIcon(icon) {

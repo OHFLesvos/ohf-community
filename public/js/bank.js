@@ -17809,22 +17809,10 @@ function writeRow(person) {
 	// Card
 	var card;
 	if (person.card_no) {
-		card = person.card_no.substr(0, 7);
+		var refresh = $('<i>').addClass('fa').addClass('fa-refresh');
+		card = $('<span>').text(person.card_no.substr(0, 7) + ' ').append(createCardLink(person.id, refresh));
 	} else {
-		card = $('<a>').attr('href', 'javascript:;').text('Give card').on('click', function () {
-			scanQR(function (content) {
-				$.post(registerCardUrl, {
-					"_token": csrfToken,
-					"person_id": person.id,
-					"card_no": content
-				}, function (data) {
-					$('tr#person-' + person.id).replaceWith(writeRow(data));
-					filterField.select();
-				}).fail(function (jqXHR, textStatus) {
-					alert(textStatus);
-				});
-			});
-		});
+		card = createCardLink(person.id, 'Give card');
 	}
 
 	return $('<tr>').attr('id', 'person-' + person.id).addClass(person.today > 0 ? 'table-success' : null).append($('<td>').addClass('text-center').append(genderIcon)).append($('<td>').append($('<a>').attr('href', '../people/' + person.id).text(person.family_name))).append($('<td>').append($('<a>').attr('href', '../people/' + person.id).text(person.name))).append($('<td>').text(person.age)).append($('<td>').append(card)).append($('<td>').text(person.police_no)).append($('<td>').text(person.case_no)).append($('<td>').text(person.medical_no)).append($('<td>').text(person.registration_no)).append($('<td>').text(person.section_card_no)).append($('<td>').text(person.temp_no)).append($('<td>').text(person.nationality)).append($('<td>').text(person.remarks))
@@ -17866,6 +17854,23 @@ function writeRow(person) {
 			}
 		});
 	})).append(today);
+}
+
+function createCardLink(person_id, caption) {
+	return $('<a>').attr('href', 'javascript:;').html(caption).on('click', function () {
+		scanQR(function (content) {
+			$.post(registerCardUrl, {
+				"_token": csrfToken,
+				"person_id": person_id,
+				"card_no": content
+			}, function (data) {
+				$('tr#person-' + person_id).replaceWith(writeRow(data));
+				filterField.select();
+			}).fail(function (jqXHR, textStatus) {
+				alert(textStatus);
+			});
+		});
+	});
 }
 
 function createIcon(icon) {

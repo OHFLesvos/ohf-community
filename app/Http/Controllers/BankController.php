@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
 use App\Transaction;
+use App\RevokedCard;
 use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\StoreTransactionSettings;
 use Illuminate\Support\Facades\Auth;
@@ -556,6 +557,11 @@ class BankController extends Controller
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
 			if ($person != null) {
+                if ($person->card_no != null) {
+                    $revoked = new RevokedCard();
+                    $revoked->card_no = $person->card_no;
+                    $person->revokedCards()->save($revoked);
+                }
                 $person->card_no = $request->card_no;
                 $person->card_issued = Carbon::now();
 				$person->save();
