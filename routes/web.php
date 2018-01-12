@@ -31,7 +31,6 @@ Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('
 Route::post('/bank/filter', 'BankController@filter')->name('bank.filter');
 Route::post('/bank/resetFilter', 'BankController@resetFilter')->name('bank.resetFilter');
 Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person');
-Route::get('/bank/todayStats', 'BankController@todayStats')->name('bank.todayStats');
 Route::get('/bank/codeCard', 'BankController@codeCard')->name('bank.codeCard');
 
 Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');

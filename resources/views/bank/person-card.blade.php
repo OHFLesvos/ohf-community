@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body p-2">
+    <div class="card-body p-2 d">
         @if(isset($person->police_no))
             <small class="text-muted">Police Number:</small> 
             {{ $person->police_no }}
@@ -45,6 +45,9 @@
         @if(isset($person->temp_no))
             <small class="text-muted">Temporary Number:</small>
             {{ $person->temp_no }}
+        @endif
+        @if (!isset($person->police_no) && !isset($person->case_no) && !isset($person->medical_no) && !isset($person->registration_no) && !isset($person->section_card_no) && !isset($person->temp_no))
+            <small class="text-muted">No number registered!</small>
         @endif
         @if(isset($person->remarks))
             <div>

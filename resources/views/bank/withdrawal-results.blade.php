@@ -13,7 +13,8 @@
         {{ $results->appends(['filter' => $filter])->links('vendor.pagination.bootstrap-4') }}
     @else
         @component('components.alert.info')
-            Nothing found
+            Not found.
+            <a href="{{ route('people.create') }}?{{ $register }}">Register a new person</a>
         @endcomponent
     @endif
 
