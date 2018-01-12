@@ -114,13 +114,14 @@ var lastFilterValue = "";
 
 $(function () {
 
-	// Do scan QR code card and search for the number
-	$('#scan-id-button').on('click', function () {
-		scanQR(function (content) {
-			filterField.val(content).change();
-		});
-	});
+	// // Do scan QR code card and search for the number
+	// $('#scan-id-button').on('click', function(){
+	// 	scanQR(function(content){
+	// 		filterField.val(content).change();
+	// 	});
+	// });
 
+	// Drachma
 	$('.give-cash').on('click', function () {
 		var person = $(this).attr('data-person');
 		var value = $(this).attr('data-value');
@@ -128,6 +129,7 @@ $(function () {
 		storeTransaction(person, value, resultElem);
 	});
 
+	// Boutique
 	$('.give-boutique-coupon').on('click', function () {
 		var person = $(this).attr('data-person');
 		var resultElem = $(this).parent();
@@ -145,6 +147,7 @@ $(function () {
 		}
 	});
 
+	// Diapers
 	$('.give-diapers-coupon').on('click', function () {
 		var person = $(this).attr('data-person');
 		var resultElem = $(this).parent();
@@ -176,44 +179,6 @@ function storeTransaction(personId, value, resultElem) {
 	});
 }
 
-function filterTable(filter, page) {
-	paginator.empty();
-	paginationInfo.empty();
-	showStatus('Searching...'); //  for \'' + filter + '\'
-	$.post(filterUrl, {
-		"_token": csrfToken,
-		"filter": filter,
-		"page": page
-	}, function (data) {
-		var tbody = table.children('tbody');
-		if (data.results.length > 0) {
-			tbody.empty();
-			$.each(data.results, function (k, v) {
-				tbody.append(writeRow(v));
-			});
-			table.show();
-			resetAlert();
-			resetStatus();
-			//showStatus(data.results.length < data.total ? 'Showing <strong>' + data.results.length + '</strong> of <strong>' + data.total + '</strong> persons, refine your search.' : 'Found <strong>' + data.results.length + '</strong> persons.');
-			pagination.updatePagination(paginator, data, loadPage);
-			paginationInfo.html(data.from + ' - ' + data.to + ' of ' + data.total);
-		} else {
-			table.hide();
-			showStats();
-			resetStatus();
-			var msg = $('<span>').text('No results. ').append($('<a>').attr('href', createNewRecordUrl + (data.register ? '?' + data.register : '')).append('Register new person'));
-			showAlert(msg, 'info');
-		}
-	}).fail(function (jqXHR, textStatus, error) {
-		var msg = jqXHR.responseJSON.message ? jqXHR.responseJSON.message : textStatus + ": " + error;
-		table.hide();
-		showStats();
-		resetStatus();
-		showAlert(msg, 'danger');
-		console.log("Error: " + textStatus + " " + jqXHR.responseText);
-	});
-}
-
 function writeRow(person) {
 	var today = $('<td>');
 
@@ -238,46 +203,6 @@ function writeRow(person) {
 	} else {
 		card = createCardLink(person.id, 'Give card');
 	}
-
-	return $('<tr>').attr('id', 'person-' + person.id).addClass(person.today > 0 ? 'table-success' : null).append($('<td>').addClass('text-center').append(genderIcon)).append($('<td>').append($('<a>').attr('href', '../people/' + person.id).text(person.family_name))).append($('<td>').append($('<a>').attr('href', '../people/' + person.id).text(person.name))).append($('<td>').text(person.age)).append($('<td>').append(card)).append($('<td>').text(person.police_no)).append($('<td>').text(person.case_no)).append($('<td>').text(person.medical_no)).append($('<td>').text(person.registration_no)).append($('<td>').text(person.section_card_no)).append($('<td>').text(person.temp_no)).append($('<td>').text(person.nationality)).append($('<td>').text(person.remarks))
-	// Boutique coupon
-	.append($('<td>').html(function () {
-		if (person.boutique_coupon) {
-			return person.boutique_coupon;
-		}
-		return $('<a>').attr('href', 'javascript:;').text('Give coupon').on('click', function () {
-			if (confirm('Give coupon to ' + person.family_name + ' ' + person.name + '?')) {
-				$.post(giveBouqiqueCouponUrl, {
-					"_token": csrfToken,
-					"person_id": person.id
-				}, function (data) {
-					$('tr#person-' + person.id).replaceWith(writeRow(data));
-					filterField.select();
-				}).fail(function (jqXHR, textStatus) {
-					alert(textStatus);
-				});
-			}
-		});
-	}))
-	// Diapers coupon
-	.append($('<td>').html(function () {
-		if (person.diapers_coupon) {
-			return person.diapers_coupon;
-		}
-		return $('<a>').attr('href', 'javascript:;').text('Give coupon').on('click', function () {
-			if (confirm('Give coupon to ' + person.family_name + ' ' + person.name + '?')) {
-				$.post(giveDiapersCouponUrl, {
-					"_token": csrfToken,
-					"person_id": person.id
-				}, function (data) {
-					$('tr#person-' + person.id).replaceWith(writeRow(data));
-					filterField.select();
-				}).fail(function (jqXHR, textStatus) {
-					alert(textStatus);
-				});
-			}
-		});
-	})).append(today);
 }
 
 function createCardLink(person_id, caption, confirmMessage) {
