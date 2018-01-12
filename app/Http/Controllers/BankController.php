@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
 use App\Transaction;
+use App\RevokedCard;
 use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\StoreTransactionSettings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\LabelAlignment;
+use Dompdf\Dompdf;
 
 class BankController extends Controller
 {
@@ -92,6 +96,41 @@ class BankController extends Controller
                 ->get()
                 ->first()
                 ->total;
+    }
+
+    public function codeCard() {
+        $codes = [];
+        for ($i = 0; $i < 10 * 5; $i++) {
+            $code = bin2hex(random_bytes(16));
+            $codes[] = base64_encode(self::createQrCode($code, substr($code, 0, 7), 500));
+        }
+        $logo = base64_encode(file_get_contents(public_path() . '/img/logo_card.png'));
+        $view = view('bank.codeCard', [
+            'codes' => $codes,
+            'logo' => $logo,
+        ])->render();
+
+        // instantiate and use the dompdf class
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($view);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->set_option('dpi', 300);
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        return $dompdf->stream();
+    }
+
+    public static function createQrCode($value, $label, $size) {
+        $qrCode = new QrCode($value);
+        $qrCode->setSize($size);
+        $qrCode->setLabel($label, 20, null, LabelAlignment::CENTER);   
+        return $qrCode->writeString();
     }
 
     function settings() {
@@ -349,6 +388,22 @@ class BankController extends Controller
         $filter = $request->filter;
 		$request->session()->put('filter', $filter);
 
+        // Check for QRcode
+        if (preg_match('/^[0-9a-f]{32}$/', $filter)) {
+            $p = Person::where('card_no', $filter);
+            $response = self::createPersonFilterResponse($p, $filter);
+            if ($response['count'] > 0) {
+                return response()->json($response);
+            }
+            $revoked = RevokedCard::where('card_no', $filter)->first();
+            if ($revoked != null) {
+                return response()->json([
+                    'message' => 'Card number has been revoked on ' . $revoked->created_at,
+                ], 400);
+            }
+            return response()->json($response);
+        }
+
 		$terms = preg_split('/\s+/', $filter);
 		
 		$today = false;
@@ -370,13 +425,16 @@ class BankController extends Controller
             $p = Person
                 ::where($condition);
         }
+        return response()->json(self::createPersonFilterResponse($p, $filter));
+	}
+
+    private static function createPersonFilterResponse($p, $filter) {
         $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'gender', 'date_of_birth', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
+            ->select('persons.id', 'name', 'family_name', 'gender', 'date_of_birth', 'card_no', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
-         
-        return response()->json([
+        return [
             'count' => $persons->count(),
             'total' => $persons->total(),
             'from' => $persons->firstItem(),
@@ -388,9 +446,8 @@ class BankController extends Controller
                     return self::getPersonArray($item);
                 }),
             'register' => self::createRegisterStringFromFilter($filter),
-			'rendertime' => round((microtime(true) - LARAVEL_START)*1000)
-        ]);
-	}
+        ];
+    }
 
 	public function resetFilter(Request $request) {
 		$request->session()->forget('filter');
@@ -458,6 +515,7 @@ class BankController extends Controller
             'family_name' => $person->family_name,
             'gender' => $person->gender,
             'age'=> $person->age,
+            'card_no' => $person->card_no,
             'police_no' => $person->police_no,
             'case_no' => $person->case_no,
             'medical_no' => $person->medical_no,
@@ -508,6 +566,32 @@ class BankController extends Controller
 			$person = Person::find($request->person_id);
 			if ($person != null) {
 				$person->gender = $request->gender;
+				$person->save();
+				return $this->person($person);
+			}
+		}
+    }
+	public function registerCard(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null && isset($request->card_no)) {
+                if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
+                    return response()->json([
+                        'message' => 'Card number has been revoked',
+                    ], 400);
+                }
+                if (Person::where('card_no', $request->card_no)->count() > 0) {
+                    return response()->json([
+                        'message' => 'Card number already in use',
+                    ], 400);
+                }
+                if ($person->card_no != null) {
+                    $revoked = new RevokedCard();
+                    $revoked->card_no = $person->card_no;
+                    $person->revokedCards()->save($revoked);
+                }
+                $person->card_no = $request->card_no;
+                $person->card_issued = Carbon::now();
 				$person->save();
 				return $this->person($person);
 			}

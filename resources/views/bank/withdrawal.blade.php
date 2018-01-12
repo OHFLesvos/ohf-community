@@ -4,12 +4,19 @@
 
 @section('content')
 
-	<div class="input-group">
-        {{ Form::search('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
-        <div class="input-group-append">
-            <button class="btn btn-secondary" disabled type="button" id="filter-reset">@icon(eraser)</button> 
+    <div class="form-row">
+        <div class="col">
+            <div class="input-group">
+                {{ Form::search('filter', Session::has('filter') ? session('filter') : null, [ 'id' => 'filter', 'class' => 'form-control', 'autofocus', 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" disabled type="button" id="filter-reset">@icon(eraser)</button> 
+                </div>
+            </div>
         </div>
-	</div>
+        <div class="col-auto">
+            <button class="btn btn-primary" type="button" id="scan-id-button">@icon(qrcode)<span class="d-none d-sm-inline"> Scan</span></button> 
+        </div>
+    </div>
 
 	<p class="mt-2">
 		Filter: 
@@ -24,6 +31,7 @@
                     <th class="text-nowrap">Family Name</th>
                     <th>Name</th>
                     <th>Age</th>
+                    <th class="text-nowrap">Card</th>
                     <th class="text-nowrap">Police No.</th>
                     <th class="text-nowrap">Case No.</th>
                     <th class="text-nowrap">Med No.</th>
@@ -77,6 +85,7 @@
 	var storeTransactionUrl = '{{ route('bank.storeTransaction') }}';
 	var updateGenderUrl = '{{ route('bank.updateGender') }}';
     var todayStatsUrl = '{{ route('bank.todayStats') }}';
+    var registerCardUrl = '{{ route('bank.registerCard') }}';
 
 	var transactionMaxAmount = {{ $single_transaction_max_amount }};
 @endsection

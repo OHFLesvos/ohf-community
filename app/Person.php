@@ -35,7 +35,7 @@ class Person extends Model
     }
     
     private static function createSearchString($model) {
-        return trim($model->name . ' ' . $model->family_name . ' ' . $model->police_no . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no);
+        return trim($model->name . ' ' . $model->family_name . ' ' . $model->police_no . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no . ' ' . $model->card_no);
     }
     
     // /**
@@ -104,5 +104,9 @@ class Person extends Model
             })
 			->groupBy('persons.id')
             ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
+    }
+
+    function revokedCards() {
+        return $this->hasMany('App\RevokedCard');
     }
 }
