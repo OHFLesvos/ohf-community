@@ -388,6 +388,22 @@ class BankController extends Controller
         $filter = $request->filter;
 		$request->session()->put('filter', $filter);
 
+        // Check for QRcode
+        if (preg_match('/^[0-9a-f]{32}$/', $filter)) {
+            $p = Person::where('card_no', $filter);
+            $response = self::createPersonFilterResponse($p, $filter);
+            if ($response['count'] > 0) {
+                return response()->json($response);
+            }
+            $revoked = RevokedCard::where('card_no', $filter)->first();
+            if ($revoked != null) {
+                return response()->json([
+                    'message' => 'Card number has been revoked on ' . $revoked->created_at,
+                ], 400);
+            }
+            return response()->json($response);
+        }
+
 		$terms = preg_split('/\s+/', $filter);
 		
 		$today = false;
@@ -409,13 +425,16 @@ class BankController extends Controller
             $p = Person
                 ::where($condition);
         }
+        return response()->json(self::createPersonFilterResponse($p, $filter));
+	}
+
+    private static function createPersonFilterResponse($p, $filter) {
         $persons = $p
             ->select('persons.id', 'name', 'family_name', 'gender', 'date_of_birth', 'card_no', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
-         
-        return response()->json([
+        return [
             'count' => $persons->count(),
             'total' => $persons->total(),
             'from' => $persons->firstItem(),
@@ -427,9 +446,8 @@ class BankController extends Controller
                     return self::getPersonArray($item);
                 }),
             'register' => self::createRegisterStringFromFilter($filter),
-			'rendertime' => round((microtime(true) - LARAVEL_START)*1000)
-        ]);
-	}
+        ];
+    }
 
 	public function resetFilter(Request $request) {
 		$request->session()->forget('filter');

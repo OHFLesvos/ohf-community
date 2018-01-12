@@ -202,10 +202,11 @@ function filterTable(filter, page) {
 		}
 	})
 	.fail(function(jqXHR, textStatus, error) {
+		var msg = jqXHR.responseJSON.message ? jqXHR.responseJSON.message : textStatus + ": " + error;
 		table.hide();
 		showStats();
 		resetStatus();
-		showAlert(textStatus + ": " + error, 'danger');
+		showAlert(msg, 'danger');
 		console.log("Error: " + textStatus + " " + jqXHR.responseText);
 	});
 }
