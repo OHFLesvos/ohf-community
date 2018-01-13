@@ -4,7 +4,7 @@
         <style type="text/css">
             @page {
                 margin-top: 0;
-                margin-left: 1.5em;
+                margin-left: 0;
                 font-family: sans-serif;
                 margin-bottom: 0;
             }
@@ -27,6 +27,14 @@
                 padding-bottom: 0;
                 border-bottom: none;
             }
+            tr td.code-cell {
+                padding-left: 1.5em;
+            }
+            tr td.logo-cell {
+                padding-right: 0.5em;
+                padding-left: 0.2em;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -35,10 +43,10 @@
                 @if($loop->index % 2 == 0)
                 <tr>
                 @endif
-                <td>
+                <td class="code-cell">
                     <img src="data:image/png;base64,{{ $code }}">
                 </td>
-                <td style="padding-right: 2em; padding-left: 0.2em;text-align:center;">
+                <td class="logo-cell">
                     <img src="data:image/png;base64,{{ $logo }}" style="width: 300px">
                     <br><span style="font-size: 0.6em; color: #333;">www.ohf-lesvos.org</span>
                 </td>

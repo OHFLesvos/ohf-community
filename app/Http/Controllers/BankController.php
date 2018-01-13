@@ -167,7 +167,7 @@ class BankController extends Controller
 
     public function codeCard() {
         $codes = [];
-        for ($i = 0; $i < 10 * 1; $i++) {
+        for ($i = 0; $i < 10 * 5; $i++) {
             $code = bin2hex(random_bytes(16));
             $codes[] = base64_encode(self::createQrCode($code, substr($code, 0, 7), 500));
         }
