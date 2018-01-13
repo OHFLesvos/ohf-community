@@ -164,6 +164,27 @@ $(function () {
 			});
 		}
 	});
+
+	// Gender
+	$('.choose-gender').on('click', function () {
+		var person = $(this).attr('data-person');
+		var value = $(this).attr('data-value');
+		var resultElem = $(this).parent();
+		resultElem.html('<i class="fa fa-spinner fa-spin">');
+		$.post(updateGenderUrl, {
+			"_token": csrfToken,
+			"person_id": person,
+			'gender': value
+		}, function (data) {
+			if (value == 'm') {
+				resultElem.html('<i class="fa fa-male">');
+			} else if (value == 'f') {
+				resultElem.html('<i class="fa fa-female">');
+			}
+		}).fail(function (jqXHR, textStatus) {
+			alert(textStatus);
+		});
+	});
 });
 
 function storeTransaction(personId, value, resultElem) {
@@ -180,20 +201,6 @@ function storeTransaction(personId, value, resultElem) {
 }
 
 function writeRow(person) {
-	var today = $('<td>');
-
-	// Gender icon
-	var genderIcon;
-	if (person.gender == 'f') {
-		genderIcon = createIcon('female');
-	} else if (person.gender == 'm') {
-		genderIcon = createIcon('male');
-	} else {
-		genderIcon = $('<a>').attr('href', '#').append(createIcon('question-circle-o')).on('click', function () {
-			$(this).parent().empty().addClass('text-nowrap').append(createChooseGenderIcon(person, 'male', 'm')).append('&nbsp; ').append(createChooseGenderIcon(person, 'female', 'f'));
-		});
-	}
-
 	// Card
 	var card;
 	if (person.card_no) {
@@ -222,25 +229,6 @@ function createCardLink(person_id, caption, confirmMessage) {
 				});
 			});
 		}
-	});
-}
-
-function createIcon(icon) {
-	return $('<i>').addClass('fa').addClass('fa-' + icon);
-}
-
-function createChooseGenderIcon(person, icon, value) {
-	return $('<a>').attr('href', '#').append(createIcon(icon)).on('click', function () {
-		$.post(updateGenderUrl, {
-			"_token": csrfToken,
-			"person_id": person.id,
-			'gender': value
-		}, function (data) {
-			$('tr#person-' + person.id).replaceWith(writeRow(data));
-			filterField.select();
-		}).fail(function (jqXHR, textStatus) {
-			alert(textStatus);
-		});
 	});
 }
 

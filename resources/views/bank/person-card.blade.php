@@ -1,13 +1,19 @@
-<div class="card mb-4">
+<div class="card mb-4 bg-light">
     <div class="card-header p-2">
         <div class="form-row">
             <div class="col">
                 <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ $person->family_name }} {{ $person->name }}</strong></a>
-                @if(isset($person->gender))
-                    @if($person->gender == 'f')@icon(female) 
-                    @elseif($person->gender == 'm')@icon(male) 
+                <span>
+                    @if(isset($person->gender))
+                        @if($person->gender == 'f')@icon(female) 
+                        @elseif($person->gender == 'm')@icon(male) 
+                        @endif
+                    @else
+                        {{--  @icon(question-circle-o)   --}}
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-person="{{ $person->id }}">@icon(male)</button>
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-person="{{ $person->id }}">@icon(female)</button>
                     @endif
-                @endif
+                </span>
                 @if(isset($person->date_of_birth))
                     {{ $person->date_of_birth }} (age {{ $person->age }})
                 @endif

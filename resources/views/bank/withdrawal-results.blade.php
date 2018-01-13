@@ -25,6 +25,7 @@
     var storeTransactionUrl = '{{ route('bank.storeTransaction') }}';
     var giveBouqiqueCouponUrl = '{{ route('bank.giveBoutiqueCoupon') }}';
     var giveDiapersCouponUrl = '{{ route('bank.giveDiapersCoupon') }}';
+    var updateGenderUrl = '{{ route('bank.updateGender') }}';
 @endsection
 
 @section('footer')

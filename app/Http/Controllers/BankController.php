@@ -474,7 +474,9 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->gender = $request->gender;
 				$person->save();
-				return $this->person($person);
+				return response()->json([
+                    
+                ]);
 			}
 		}
     }
