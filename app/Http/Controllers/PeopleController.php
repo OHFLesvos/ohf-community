@@ -72,8 +72,8 @@ class PeopleController extends ParentController
             for ($i = 0; $i < count($request->child_family_name); $i++) {
                 if (!empty($request->child_family_name[$i]) && !empty($request->child_name[$i]) && !empty($request->child_gender[$i])) {
                     $child = new Person();
-                    $child->name = $request->child_family_name[$i];
-                    $child->family_name = $request->child_name[$i];
+                    $child->name = $request->child_name[$i];
+                    $child->family_name = $request->child_family_name[$i];
                     $child->gender = $request->child_gender[$i];
                     $child->date_of_birth = !empty($request->child_date_of_birth[$i]) ? $request->child_date_of_birth[$i] : null;
 
@@ -84,7 +84,11 @@ class PeopleController extends ParentController
                     $child->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
                     $child->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
                     $child->nationality = !empty($request->nationality) ? $request->nationality : null;
-
+                    if ($person->gender == 'f') {
+                        $child->mother()->associate($person);
+                    } else if ($person->gender == 'm') {
+                        $child->father()->associate($person);
+                    }
                     $child->save();
                 }
             }

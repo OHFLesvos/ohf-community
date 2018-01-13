@@ -106,6 +106,18 @@ class Person extends Model
             ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
     }
 
+    function children() {
+        return $this->hasMany('App\Person', 'id');
+    }
+
+    function mother() {
+        return $this->belongsTo('App\Person');
+    }
+
+    function father() {
+        return $this->belongsTo('App\Person');
+    }
+
     function revokedCards() {
         return $this->hasMany('App\RevokedCard');
     }

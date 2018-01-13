@@ -99,5 +99,8 @@
             $(this).hide();
             $('#children-card').removeClass('d-none');
         });
+        $('input[name="family_name"]').on('change keyup', function(e){
+            $('input[name^="child_family_name"]').val($(this).val());
+        });
     });
 @endsection
