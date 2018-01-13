@@ -111,6 +111,7 @@ class BankController extends Controller
         } else {
             $terms = preg_split('/\s+/', $filter);
             foreach ($terms as $q) {
+                $q = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $q);
                 $condition[] = ['search', 'LIKE', '%' . $q . '%'];
             }
             $where = Person::where($condition);
