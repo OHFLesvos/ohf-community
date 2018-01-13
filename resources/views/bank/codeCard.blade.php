@@ -8,16 +8,24 @@
                 font-family: sans-serif;
                 margin-bottom: 0;
             }
+            
             table {
                 border-collapse: collapse;
             }
+
             tr td {
                 padding-top: 1.4em;
                 padding-bottom: 0.8em;
-                border-bottom: 1px solid black;
+                border-bottom: 1px solid gray;
             }
+
+            tr td:nth-child(even) {
+                border-right: 1px solid gray;
+            }
+
             tr:last-child td {
                 padding-bottom: 0;
+                border-bottom: none;
             }
         </style>
     </head>
