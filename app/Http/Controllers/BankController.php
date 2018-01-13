@@ -59,10 +59,8 @@ class BankController extends Controller
         $request->session()->forget('filter');
 
 		return view('bank.withdrawal', [
-            'stats' => [
-                'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
-                'transactionValue' => self::getTransactionValueToday(),
-            ],
+            'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
+            'transactionValue' => self::getTransactionValueToday(),
 		]);
     }
 
