@@ -270,9 +270,13 @@ class ContextMenuComposer {
                 ];
             case 'people.edit':
                 $person = $view->getData()['person'];
+                $url = route('people.show', $person);
+                if (preg_match('/bank\\/withdrawal\\/search/', url()->previous())) {
+                    $url = route('bank.withdrawalSearch');
+                }
                 return [
                     'back' => [
-                        'url' => route('people.show', $person),
+                        'url' => $url,
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $person)
