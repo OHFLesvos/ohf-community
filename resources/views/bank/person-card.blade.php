@@ -37,7 +37,7 @@
         @if(isset($person->police_no))
             <span class="d-block d-sm-inline">
                 <small class="text-muted">Police Number:</small> 
-                {{ $person->police_no }}
+                05/{{ $person->police_no }}
             </span>
         @endif
         @if(isset($person->case_no))
