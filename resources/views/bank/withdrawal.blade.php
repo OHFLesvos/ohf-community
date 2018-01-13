@@ -17,3 +17,10 @@
 
 @endsection
 
+@section('script')
+    var csrfToken = '{{ csrf_token() }}';
+@endsection
+
+@section('footer')
+    <script src="{{asset('js/bank.js')}}?v={{ $app_version }}"></script>
+@endsection

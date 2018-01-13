@@ -1,7 +1,6 @@
 /*
  * Instascan QR code camera 
  */
-/*
 const Instascan = require('instascan');
 function scanQR(callback) {
 	let scanner = new Instascan.Scanner({ 
@@ -29,19 +28,15 @@ function scanQR(callback) {
 	  console.error(e);
 	});
 }
-*/
-
-var delayTimer;
-var lastFilterValue = "";
 
 $(function(){
 	
 	// // Do scan QR code card and search for the number
-	// $('#scan-id-button').on('click', function(){
-	// 	scanQR(function(content){
-	// 		filterField.val(content).change();
-	// 	});
-	// });
+	$('#scan-id-button').on('click', function(){
+		scanQR(function(content){
+			$('#filter').val(content).parents('form').submit();
+		});
+	});
 
 	// Drachma
 	$('.give-cash').on('click', function(){
