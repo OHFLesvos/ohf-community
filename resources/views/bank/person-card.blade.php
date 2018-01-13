@@ -91,10 +91,10 @@
                         {{ $today }}
                         <small class="text-muted">on {{ $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at }}</small>
                     @else
-                        @if ($person->age == null || $person->age >= 12)
+                        @if ($person->age === null || $person->age >= 12)
                             <button type="button" class="btn btn-primary btn-sm give-cash" data-value="2" data-person="{{ $person->id }}">2</button>
                         @endif
-                        @if ($person->age == null || $person->age < 12)
+                        @if ($person->age === null || $person->age < 12)
                             <button type="button" class="btn btn-primary btn-sm give-cash" data-value="1" data-person="{{ $person->id }}">1</button>
                         @endif
                     @endif

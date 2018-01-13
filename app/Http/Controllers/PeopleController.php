@@ -85,7 +85,7 @@ class PeopleController extends ParentController
                 $transaction->value = $request->value;
                 $person->transactions()->save($transaction);
             }
-            $request->session()->put('filter', $person->family_name . ' ' . $person->name);
+            $request->session()->put('filter', $person->search);
         }
 
 		return redirect()->route(session('peopleOverviewRouteName', 'people.index'))
