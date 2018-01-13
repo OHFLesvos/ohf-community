@@ -31,6 +31,10 @@ function scanQR(callback) {
 
 $(function(){
 	
+	$('#filter').on('click', function(){
+		$(this).select();
+	});
+
 	// Scan QR code card and search for the number
 	$('#scan-id-button').on('click', function(){
 		scanQR(function(content){
