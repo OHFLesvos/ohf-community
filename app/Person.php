@@ -109,4 +109,32 @@ class Person extends Model
     function revokedCards() {
         return $this->hasMany('App\RevokedCard');
     }
+
+	function getBoutiqueCouponForJson($thresholdDays) {
+		if ($this->boutique_coupon != null) {
+            return static::calcCouponHandoutDate($thresholdDays, $this->boutique_coupon);
+		}
+		return null;
+	}
+
+    function getDiapersCouponForJson($thresholdDays) {
+		if ($this->diapers_coupon != null) {
+            return static::calcCouponHandoutDate($thresholdDays, $this->diapers_coupon);
+		}
+		return null;
+    }
+    
+    private static function calcCouponHandoutDate($day_treshold, $compare_date) {
+        $coupon_date = (new Carbon($compare_date))->startOfDay();
+        $threshold_date = Carbon::now()->subDays($day_treshold)->startOfDay();
+        if ($coupon_date->gt($threshold_date)) {
+            $days = $coupon_date->diffInDays($threshold_date);
+            if ($days == 1) {
+                return "tomorrow";
+            }
+            return $days . ' days from now';
+        }
+        return null;
+    }
+
 }

@@ -42,7 +42,6 @@ class PeopleController extends ParentController
         $countries = CountriesExtended::getList('en');
         if ($usedInBank) {
             return view('people.create_in_bank', [
-                'transaction_value' => \Setting::get('bank.transaction_default_value', BankController::TRANSACTION_DEFAULT_VALUE),
                 'countries' => $countries,
             ]);
         }
@@ -52,8 +51,6 @@ class PeopleController extends ParentController
     }
 
 	public function store(StorePerson $request) {
-        $isBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
-
         $person = new Person();
 		$person->name = $request->name;
         $person->family_name = $request->family_name;
@@ -69,23 +66,13 @@ class PeopleController extends ParentController
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? $request->languages : null;
         $person->skills = !empty($request->skills) ? $request->skills : null;
-        if ($isBank) {
-            if (!empty($request->boutique_coupon)) {
-                $person->boutique_coupon = Carbon::now();
-            }
-            if (!empty($request->diapers_coupon)) {
-                $person->diapers_coupon = Carbon::now();
-            }
-        }
 		$person->save();
 
+        $isBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
 		if ( $isBank ) {
-            if (!empty($request->value)) {
-                $transaction = new Transaction();
-                $transaction->value = $request->value;
-                $person->transactions()->save($transaction);
-            }
-            $request->session()->put('filter', $person->family_name . ' ' . $person->name);
+            $request->session()->put('filter', $person->search);
+            return redirect()->route('bank.withdrawalSearch')
+                ->with('success', 'Person has been added!');
         }
 
 		return redirect()->route(session('peopleOverviewRouteName', 'people.index'))

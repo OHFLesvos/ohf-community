@@ -27,10 +27,13 @@ Route::get('/bank/charts/numTransactions', 'BankController@numTransactions')->na
 Route::get('/bank/charts/sumTransactions', 'BankController@sumTransactions')->name('bank.sumTransactions');
 
 Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
-Route::post('/bank/filter', 'BankController@filter')->name('bank.filter');
-Route::post('/bank/resetFilter', 'BankController@resetFilter')->name('bank.resetFilter');
-Route::get('/bank/person/{person}', 'BankController@person')->name('bank.person');
-Route::get('/bank/todayStats', 'BankController@todayStats')->name('bank.todayStats');
+Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');
+Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
+Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
+Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');
+Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
+Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
+
 Route::get('/bank/codeCard', 'BankController@codeCard')->name('bank.codeCard');
 
 Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
@@ -42,15 +45,8 @@ Route::post('/bank/deposit', 'BankController@storeDeposit')->name('bank.storeDep
 Route::get('/bank/deposit/stats', 'BankController@depositStats')->name('bank.depositStats');
 Route::get('/bank/deposit/stats/{project}', 'BankController@projectDepositStats')->name('bank.projectDepositStats');
 
-
 Route::get('/bank/settings', 'BankController@settings')->name('bank.settings');
 Route::post('/bank/settings', 'BankController@updateSettings')->name('bank.updateSettings');
-
-Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
-Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
-Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');
-Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
-Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
 
 Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');

@@ -19,7 +19,7 @@
                         {{ Form::genderSelect('gender') }}
                     </div>
                     <div class="col-md-auto">
-                        {{ Form::bsDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth') }}
+                        {{ Form::bsDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth', 'Greek: ημερομηνία γέννησης ') }}
                     </div>
 					<div class="col-md-auto">
                         <p>Age</p>
@@ -31,7 +31,7 @@
                         {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], 'Police Number', 'Greek: Δ.Κ.Α.') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsNumber('case_no', null, [ ], 'Case Number') }}
+                        {{ Form::bsNumber('case_no', null, [ ], 'Case Number', 'Greek: Aριθ. Υπ.') }}
 					</div>
                     <div class="col-md">
                         {{ Form::bsText('medical_no', null, [], 'Medical Number') }}
@@ -56,23 +56,6 @@
 				</div>
 			</div>
 		</div>
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-auto">
-                        {{ Form::bsNumber('value', $transaction_value, [ 'style' => 'width:80px', 'min' => 0, 'max' => $transaction_value ], 'Drachma') }}
-                    </div>
-                    <div class="col-md-auto">
-                        <p>Boutique coupon</p>
-                        {{ Form::bsCheckbox('boutique_coupon', '1', null, 'Give coupon') }}
-                    </div>
-                    <div class="col-md-auto">
-                        <p>Diaper coupon</p>
-                        {{ Form::bsCheckbox('diapers_coupon', '1', null, 'Give coupon') }}
-                    </div>
-                </div>
-            </div>
-        </div>
 
 		<p>
             {{ Form::bsSubmitButton('Register') }}

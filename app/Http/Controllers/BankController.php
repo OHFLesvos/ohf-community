@@ -56,22 +56,12 @@ class BankController extends Controller
     function withdrawal(Request $request) {
         // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'bank.withdrawal']);
-
-        // Filter from request
-		if (!empty($request->q)) {
-			$request->session()->put('filter', $request->q);
-		}
+        $request->session()->forget('filter');
 
 		return view('bank.withdrawal', [
-            'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
-		]);
-    }
-
-    public function todayStats() {
-        return response()->json([
             'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
             'transactionValue' => self::getTransactionValueToday(),
-        ]);
+		]);
     }
 
     public static function getNumberOfPersonsServedToday() {
@@ -96,6 +86,84 @@ class BankController extends Controller
                 ->get()
                 ->first()
                 ->total;
+    }
+    
+    function withdrawalSearch(Request $request) {
+        // Get filter or redirect to search start
+        $filter = $request->filter;
+        if (!isset($filter) || trim($filter) == '') {
+            $sessionFilter = session('filter');
+            if (isset($sessionFilter) && trim($sessionFilter) != '') {
+                return redirect()->route('bank.withdrawalSearch', ['filter' => $sessionFilter]);
+            }
+            return redirect()->route('bank.withdrawal');
+        }
+        $request->session()->put('filter', $request->filter);
+
+        // Remember this screen for back button on person details screen
+        session(['peopleOverviewRouteName' => 'bank.withdrawalSearch']);
+    
+        // Create query
+        $condition = [];
+        $isCodeCard = preg_match('/[a-f0-9]{32}/', $filter);
+        if ($isCodeCard) { // QR code card number
+            $where = Person::where('card_no', $filter);
+        } else {
+            $terms = preg_split('/\s+/', $filter);
+            foreach ($terms as $q) {
+                $q = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $q);
+                $condition[] = ['search', 'LIKE', '%' . $q . '%'];
+            }
+            $where = Person::where($condition);
+        }
+
+        $results = $where
+            ->orderBy('name', 'asc')
+            ->orderBy('family_name', 'asc')
+            ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
+
+        $message = null;
+
+        // Check for revoked card number
+        if ($isCodeCard && count($results) == 0) {
+            $revoked = RevokedCard::where('card_no', $filter)->first();
+            if ($revoked !=null) {
+                $message = 'Card number ' . substr($filter, 0, 7) . ' has been revoked on ' . $revoked->created_at . '.';
+            }
+        }
+
+		return view('bank.withdrawal-results', [
+            'filter' => $request->filter,
+            'results' => $results,
+            'register' => self::createRegisterStringFromFilter($filter),
+            'boutiqueThresholdDays' => self::getBoutiqueThresholdDays(),
+            'diapersThresholdDays' => self::getDiapersThresholdDays(),
+            'message' => $message,
+		]);
+    }
+
+    private static function createRegisterStringFromFilter($filter) {
+        $register = [];
+        $names = [];
+        foreach (preg_split('/\s+/', $filter) as $q) {
+            if (is_numeric($q)) {
+                $register['case_no'] = $q;
+            } else {
+                $names[] = $q;
+            }
+        }
+        if (sizeof($register) > 0 || sizeof($names) > 0) {
+            if (sizeof($names) == 1) {
+                $register['name'] = $names[0];
+            } else {
+                $register['family_name'] = array_shift($names);
+                $register['name'] = implode(' ', $names);
+            }
+
+            array_walk($register, function(&$a, $b) { $a = "$b=$a"; });
+            return implode('&', $register);
+        }
+        return null;
     }
 
     public function codeCard() {
@@ -384,153 +452,6 @@ class BankController extends Controller
 				->with('success', 'Import successful!');		
     }
 
-	public function filter(Request $request) {
-        $filter = $request->filter;
-		$request->session()->put('filter', $filter);
-
-        // Check for QRcode
-        if (preg_match('/^[0-9a-f]{32}$/', $filter)) {
-            $p = Person::where('card_no', $filter);
-            $response = self::createPersonFilterResponse($p, $filter);
-            if ($response['count'] > 0) {
-                return response()->json($response);
-            }
-            $revoked = RevokedCard::where('card_no', $filter)->first();
-            if ($revoked != null) {
-                return response()->json([
-                    'message' => 'Card number has been revoked on ' . $revoked->created_at,
-                ], 400);
-            }
-            return response()->json($response);
-        }
-
-		$terms = preg_split('/\s+/', $filter);
-		
-		$today = false;
-		if (($key = array_search('today:', $terms)) !== false) {
-			unset($terms[$key]);
-			$today = true;
-		}
-		$filter = implode(' ', $terms);
-		
-        $condition = [];
-        foreach ($terms as $q) {
-            $condition[] = ['search', 'LIKE', '%' . $q . '%'];
-        }
-        if ($today) {
-            $p = Person
-                ::hasTransactionsToday()
-                ->where($condition);
-        } else {
-            $p = Person
-                ::where($condition);
-        }
-        return response()->json(self::createPersonFilterResponse($p, $filter));
-	}
-
-    private static function createPersonFilterResponse($p, $filter) {
-        $persons = $p
-            ->select('persons.id', 'name', 'family_name', 'gender', 'date_of_birth', 'card_no', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'nationality', 'remarks', 'boutique_coupon', 'diapers_coupon')
-            ->orderBy('name', 'asc')
-            ->orderBy('family_name', 'asc')
-            ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
-        return [
-            'count' => $persons->count(),
-            'total' => $persons->total(),
-            'from' => $persons->firstItem(),
-            'to' => $persons->lastItem(),
-            'current_page' => $persons->currentPage(),
-            'last_page' => $persons->lastPage(),
-            'results' => collect($persons->all())
-                ->map(function ($item) {
-                    return self::getPersonArray($item);
-                }),
-            'register' => self::createRegisterStringFromFilter($filter),
-        ];
-    }
-
-	public function resetFilter(Request $request) {
-		$request->session()->forget('filter');
-	}
-
-	private static function getBoutiqueCouponForJson($person) {
-		if ($person->boutique_coupon != null) {
-            return static::calcCouponHandoutDate(self::getBoutiqueThresholdDays(), $person->boutique_coupon);
-		}
-		return null;
-	}
-
-    private static function getDiapersCouponForJson($person) {
-		if ($person->diapers_coupon != null) {
-            return static::calcCouponHandoutDate(self::getDiapersThresholdDays(), $person->diapers_coupon);
-		}
-		return null;
-    }
-    
-    private static function calcCouponHandoutDate($day_treshold, $compare_date) {
-        $coupon_date = (new Carbon($compare_date))->startOfDay();
-        $threshold_date = Carbon::now()->subDays($day_treshold)->startOfDay();
-        if ($coupon_date->gt($threshold_date)) {
-            $days = $coupon_date->diffInDays($threshold_date);
-            if ($days == 1) {
-                return "tomorrow";
-            }
-            return $days . ' days from now';
-        }
-        return null;
-    }
-
-    private static function createRegisterStringFromFilter($filter) {
-        $register = [];
-        $names = [];
-        foreach (preg_split('/\s+/', $filter) as $q) {
-            if (is_numeric($q)) {
-                $register['case_no'] = $q;
-            } else {
-                $names[] = $q;
-            }
-        }
-        if (sizeof($register) > 0 || sizeof($names) > 0) {
-            if (sizeof($names) == 1) {
-                $register['name'] = $names[0];
-            } else {
-                $register['family_name'] = array_pop($names);
-                $register['name'] = implode(' ', $names);
-            }
-
-            array_walk($register, function(&$a, $b) { $a = "$b=$a"; });
-            return implode('&', $register);
-        }
-        return null;
-    }
-
-    public function person(Person $person) {
-        return response()->json(self::getPersonArray($person));
-	}
-
-    private static function getPersonArray(Person $person) {
-        return [
-            'id' => $person->id,
-            'name' => $person->name,
-            'family_name' => $person->family_name,
-            'gender' => $person->gender,
-            'age'=> $person->age,
-            'card_no' => $person->card_no,
-            'police_no' => $person->police_no,
-            'case_no' => $person->case_no,
-            'medical_no' => $person->medical_no,
-            'registration_no' => $person->registration_no,
-            'section_card_no' => $person->section_card_no,
-            'temp_no' => $person->temp_no,
-            'nationality' => $person->nationality, 
-            'remarks' => $person->remarks,
-            'boutique_coupon' => self::getBoutiqueCouponForJson($person),
-            'diapers_coupon' => self::getDiapersCouponForJson($person),
-            'today' => $person->todaysTransaction(),
-            'yesterday' => $person->yesterdaysTransaction()
-        ];
-    }
-
     public function storeTransaction(StoreTransaction $request) {
 		$person = Person::find($request->person_id);
 		if ($person ->todaysTransaction() + $request->value > self::getSingleTransactionMaxAmount()) {
@@ -539,7 +460,10 @@ class BankController extends Controller
 		$transaction = new Transaction();
         $transaction->value = $request->value;
         $person->transactions()->save($transaction);
-        return $this->person($person);
+        return response()->json([
+            'today' => $person->todaysTransaction(),
+            'date' => $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at->toDateTimeString(),
+        ]);
     }
     
 	public function export() {
@@ -567,7 +491,9 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->gender = $request->gender;
 				$person->save();
-				return $this->person($person);
+				return response()->json([
+
+                ]);
 			}
 		}
     }
@@ -579,14 +505,14 @@ class BankController extends Controller
                 // Check for revoked card number
                 if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
                     return response()->json([
-                        'message' => 'Card number has been revoked',
+                        'message' => 'Card number ' . substr($request->card_no, 0, 7) . ' has been revoked',
                     ], 400);
                 }
 
                 // Check for used card number
                 if (Person::where('card_no', $request->card_no)->count() > 0) {
                     return response()->json([
-                        'message' => 'Card number already in use',
+                        'message' => 'Card number ' . substr($request->card_no, 0, 7) . ' is already in use',
                     ], 400);
                 }
 
@@ -601,7 +527,7 @@ class BankController extends Controller
                 $person->card_no = $request->card_no;
                 $person->card_issued = Carbon::now();
 				$person->save();
-				return $this->person($person);
+				return response()->json([]);
 			}
 		}
     }
@@ -612,7 +538,9 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->boutique_coupon = Carbon::now();
 				$person->save();
-				return $this->person($person);
+				return response()->json([
+                    'countdown' => $person->getBoutiqueCouponForJson(self::getBoutiqueThresholdDays()),
+                ]);
 			}
 		}
     }
@@ -623,7 +551,9 @@ class BankController extends Controller
 			if ($person != null) {
 				$person->diapers_coupon = Carbon::now();
 				$person->save();
-				return $this->person($person);
+				return response()->json([
+                    'countdown' => $person->getDiapersCouponForJson(self::getDiapersThresholdDays()),
+                ]);
 			}
 		}
     }
