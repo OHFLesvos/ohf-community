@@ -1,4 +1,6 @@
-<p>Gender</p>
+@if ($label === null || !empty($label))
+    <p>{{ $label }}</p>
+@endif
 <div class="form-check form-check-inline">
     <label class="form-check-label">
         {{ Form::radio($name, 'm', null, [ 'class' => 'form-check-input' ]) }} @icon(male) Male

@@ -57,8 +57,33 @@
 			</div>
 		</div>
 
+		<div class="card mb-4 d-none" id="children-card">
+            <div class="card-body">
+                @foreach(range(0,4) as $r)
+                <div class="form-row">
+                    <div class="col-md">
+                        {{ Form::bsText('child_family_name['.$r.']', null, [ 'placeholder' => 'Child Family Name' ], '', 'Greek: επώνυμο') }}
+                    </div>
+                    <div class="col-md">
+                        {{ Form::bsText('child_name['.$r.']', null, [ 'placeholder' => 'Child Name'  ], '', 'Greek: όνομα') }}
+                    </div>
+                    <div class="col-md-auto">
+                        {{ Form::genderSelect('child_gender['.$r.']', null, '') }}
+                    </div>
+                    <div class="col-md-auto">
+                        {{ Form::bsDate('child_date_of_birth['.$r.']', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '', 'Greek: ημερομηνία γέννησης ') }}
+                    </div>
+                    <div class="col-md-auto">
+                        <span id="age">?</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
 		<p>
             {{ Form::bsSubmitButton('Register') }}
+            <button type="button" class="btn btn-secondary" id="add-children">@icon(child) Add children</button>
         </p>
 
     {!! Form::close() !!}
@@ -69,6 +94,10 @@
     $(function(){
         $('#nationality').typeahead({
             source: [ @foreach($countries as $country) '{!! $country !!}', @endforeach ]
+        });
+        $('#add-children').on('click', function(){
+            $(this).hide();
+            $('#children-card').removeClass('d-none');
         });
     });
 @endsection

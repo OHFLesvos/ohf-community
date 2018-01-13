@@ -68,6 +68,28 @@ class PeopleController extends ParentController
         $person->skills = !empty($request->skills) ? $request->skills : null;
 		$person->save();
 
+        if (isset($request->child_family_name) && is_array($request->child_family_name)) {
+            for ($i = 0; $i < count($request->child_family_name); $i++) {
+                if (!empty($request->child_family_name[$i]) && !empty($request->child_name[$i]) && !empty($request->child_gender[$i])) {
+                    $child = new Person();
+                    $child->name = $request->child_family_name[$i];
+                    $child->family_name = $request->child_name[$i];
+                    $child->gender = $request->child_gender[$i];
+                    $child->date_of_birth = !empty($request->child_date_of_birth[$i]) ? $request->child_date_of_birth[$i] : null;
+
+                    $child->police_no = !empty($request->police_no) ? $request->police_no : null;
+                    $child->case_no = !empty($request->case_no) ? $request->case_no : null;
+                    $child->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
+                    $child->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
+                    $child->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
+                    $child->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
+                    $child->nationality = !empty($request->nationality) ? $request->nationality : null;
+
+                    $child->save();
+                }
+            }
+        }
+
         $isBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
 		if ( $isBank ) {
             $request->session()->put('filter', $person->search);
