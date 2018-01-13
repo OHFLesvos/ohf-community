@@ -13,7 +13,8 @@
             }
             tr td {
                 padding-top: 1.4em;
-                padding-bottom: 1.4em;
+                padding-bottom: 0.8em;
+                border-bottom: 1px solid black;
             }
             tr:last-child td {
                 padding-bottom: 0;
