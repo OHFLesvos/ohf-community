@@ -104,12 +104,18 @@ class BankController extends Controller
         session(['peopleOverviewRouteName' => 'bank.withdrawalSearch']);
     
         // Create query
-        $terms = preg_split('/\s+/', $filter);
         $condition = [];
-        foreach ($terms as $q) {
-            $condition[] = ['search', 'LIKE', '%' . $q . '%'];
+        if (preg_match('/[a-f0-9]{32}/', $filter)) { // QR code card number
+            $where = Person::where('card_no', $filter);
+        } else {
+            $terms = preg_split('/\s+/', $filter);
+            foreach ($terms as $q) {
+                $condition[] = ['search', 'LIKE', '%' . $q . '%'];
+            }
+            $where = Person::where($condition);
         }
-        $results = Person::where($condition)
+
+        $results = $where
             ->orderBy('name', 'asc')
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
