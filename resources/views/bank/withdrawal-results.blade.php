@@ -12,10 +12,16 @@
         @endforeach
         {{ $results->appends(['filter' => $filter])->links('vendor.pagination.bootstrap-4') }}
     @else
-        @component('components.alert.info')
-            Not found.
-            <a href="{{ route('people.create') }}?{{ $register }}">Register a new person</a>
-        @endcomponent
+        @if(isset($message))
+            @component('components.alert.error')
+                {{ $message }}
+            @endcomponent
+        @else
+            @component('components.alert.info')
+                Not found.
+                <a href="{{ route('people.create') }}?{{ $register }}">Register a new person</a>
+            @endcomponent
+        @endif
     @endif
 
 @endsection

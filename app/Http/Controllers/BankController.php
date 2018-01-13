@@ -105,7 +105,8 @@ class BankController extends Controller
     
         // Create query
         $condition = [];
-        if (preg_match('/[a-f0-9]{32}/', $filter)) { // QR code card number
+        $isCodeCard = preg_match('/[a-f0-9]{32}/', $filter);
+        if ($isCodeCard) { // QR code card number
             $where = Person::where('card_no', $filter);
         } else {
             $terms = preg_split('/\s+/', $filter);
@@ -120,12 +121,23 @@ class BankController extends Controller
             ->orderBy('family_name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
 
+        $message = null;
+
+        // Check for revoked card number
+        if ($isCodeCard && count($results) == 0) {
+            $revoked = RevokedCard::where('card_no', $filter)->first();
+            if ($revoked !=null) {
+                $message = 'Card number ' . substr($filter, 0, 7) . ' has been revoked on ' . $revoked->created_at . '.';
+            }
+        }
+
 		return view('bank.withdrawal-results', [
             'filter' => $request->filter,
             'results' => $results,
             'register' => self::createRegisterStringFromFilter($filter),
             'boutiqueThresholdDays' => self::getBoutiqueThresholdDays(),
             'diapersThresholdDays' => self::getDiapersThresholdDays(),
+            'message' => $message,
 		]);
     }
 
