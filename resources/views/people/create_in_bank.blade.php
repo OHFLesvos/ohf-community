@@ -19,7 +19,7 @@
                         {{ Form::genderSelect('gender') }}
                     </div>
                     <div class="col-md-auto">
-                        {{ Form::bsDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth') }}
+                        {{ Form::bsDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth', 'Greek: ημερομηνία γέννησης ') }}
                     </div>
 					<div class="col-md-auto">
                         <p>Age</p>
@@ -31,7 +31,7 @@
                         {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], 'Police Number', 'Greek: Δ.Κ.Α.') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsNumber('case_no', null, [ ], 'Case Number') }}
+                        {{ Form::bsNumber('case_no', null, [ ], 'Case Number', 'Greek: Aριθ. Υπ.') }}
 					</div>
                     <div class="col-md">
                         {{ Form::bsText('medical_no', null, [], 'Medical Number') }}
