@@ -30,10 +30,6 @@ function scanQR(callback) {
 }
 
 $(function(){
-	
-	$('#filter').on('click', function(){
-		$(this).select();
-	});
 
 	// Scan QR code card and search for the number
 	$('#scan-id-button').on('click', function(){
@@ -71,6 +67,7 @@ $(function(){
 		var value = $(this).attr('data-value');
 		var resultElem = $(this).parent();
 		storeTransaction(person, value, resultElem);
+		enableFilterSelect();
 	});
 
 	// Boutique
@@ -85,6 +82,7 @@ $(function(){
 				"person_id": person
 			}, function(data) {
 				resultElem.html(data.countdown);
+				enableFilterSelect();
 			})
 			.fail(function(jqXHR, textStatus) {
 				alert(textStatus);
@@ -104,6 +102,7 @@ $(function(){
 				"person_id": person
 			}, function(data) {
 				resultElem.html(data.countdown);
+				enableFilterSelect();
 			})
 			.fail(function(jqXHR, textStatus) {
 				alert(textStatus);
@@ -127,6 +126,7 @@ $(function(){
 			} else if (value == 'f') {
 				resultElem.html('<i class="fa fa-female">');
 			}
+			enableFilterSelect();
 		})
 		.fail(function(jqXHR, textStatus) {
 			alert(textStatus);
@@ -134,6 +134,13 @@ $(function(){
 	});
 
 });
+
+function enableFilterSelect() {
+	$('#filter').off('click');
+	$('#filter').on('click', function(){
+		$(this).select();
+	});
+}
 
 function storeTransaction(personId, value, resultElem) {
 	resultElem.html('<i class="fa fa-spinner fa-spin">');
