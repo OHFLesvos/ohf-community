@@ -9,7 +9,6 @@
                         @elseif($person->gender == 'm')@icon(male) 
                         @endif
                     @else
-                        {{--  @icon(question-circle-o)   --}}
                         <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-person="{{ $person->id }}">@icon(male)</button>
                         <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-person="{{ $person->id }}">@icon(female)</button>
                     @endif
@@ -20,9 +19,17 @@
                 @if(isset($person->nationality))
                     {{ $person->nationality }}
                 @endif
+                <a href="{{ route('people.edit', $person) }}" alt="Edit">@icon(pencil)</a>
             </div>
             <div class="col-auto">
-                <a href="{{ route('people.edit', $person) }}" alt="Edit">@icon(pencil)</a>
+                @icon(id-card)
+                <a href="javascript:;" class="register-card" data-person="{{ $person->id }}" data-card="{{ $person->card_no }}">
+                    @if(isset($person->card_no))
+                        <strong>{{ substr($person->card_no, 0, 7) }}</strong>
+                    @else
+                        Register
+                    @endif
+                </a>
             </div>
         </div>
     </div>

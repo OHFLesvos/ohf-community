@@ -475,7 +475,7 @@ class BankController extends Controller
 				$person->gender = $request->gender;
 				$person->save();
 				return response()->json([
-                    
+
                 ]);
 			}
 		}
@@ -488,14 +488,14 @@ class BankController extends Controller
                 // Check for revoked card number
                 if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
                     return response()->json([
-                        'message' => 'Card number has been revoked',
+                        'message' => 'Card number ' . substr($request->card_no, 0, 7) . ' has been revoked',
                     ], 400);
                 }
 
                 // Check for used card number
                 if (Person::where('card_no', $request->card_no)->count() > 0) {
                     return response()->json([
-                        'message' => 'Card number already in use',
+                        'message' => 'Card number ' . substr($request->card_no, 0, 7) . ' is already in use',
                     ], 400);
                 }
 
@@ -510,7 +510,7 @@ class BankController extends Controller
                 $person->card_no = $request->card_no;
                 $person->card_issued = Carbon::now();
 				$person->save();
-				return $this->person($person);
+				return response()->json([]);
 			}
 		}
     }

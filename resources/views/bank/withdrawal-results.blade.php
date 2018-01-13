@@ -26,6 +26,7 @@
     var giveBouqiqueCouponUrl = '{{ route('bank.giveBoutiqueCoupon') }}';
     var giveDiapersCouponUrl = '{{ route('bank.giveDiapersCoupon') }}';
     var updateGenderUrl = '{{ route('bank.updateGender') }}';
+    var registerCardUrl = '{{ route('bank.registerCard') }}';
 @endsection
 
 @section('footer')

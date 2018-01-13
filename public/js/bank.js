@@ -811,7 +811,7 @@ var Instascan = __webpack_require__(442);
 function scanQR(callback) {
 	var scanner = new Instascan.Scanner({
 		video: document.getElementById('preview'),
-		mirror: false,
+		mirror: true,
 		continuous: true
 	});
 	Instascan.Camera.getCameras().then(function (cameras) {
@@ -837,10 +837,32 @@ function scanQR(callback) {
 
 $(function () {
 
-	// // Do scan QR code card and search for the number
+	// Scan QR code card and search for the number
 	$('#scan-id-button').on('click', function () {
 		scanQR(function (content) {
 			$('#filter').val(content).parents('form').submit();
+		});
+	});
+
+	// Register QR code card
+	$('.register-card').on('click', function () {
+		var person = $(this).attr('data-person');
+		var card = $(this).attr('data-card');
+		if (card && !confirm('Do you really want to replace the card ' + card.substr(0, 7) + ' with a new one?')) {
+			return;
+		}
+		var resultElem = $(this);
+		scanQR(function (content) {
+			$.post(registerCardUrl, {
+				"_token": csrfToken,
+				"person_id": person,
+				"card_no": content
+			}, function (data) {
+				resultElem.html('<strong>' + content.substr(0, 7) + '</strong>');
+			}).fail(function (jqXHR, textStatus) {
+				var msg = jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText;
+				alert('Error: ' + msg);
+			});
 		});
 	});
 
@@ -920,38 +942,6 @@ function storeTransaction(personId, value, resultElem) {
 		resultElem.html(data.today + ' drachma ').append($('<small>').addClass('text-muted').text('on ' + data.date));
 	}).fail(function (jqXHR, textStatus) {
 		alert(textStatus + ': ' + jqXHR.responseJSON);
-	});
-}
-
-function writeRow(person) {
-	// Card
-	var card;
-	if (person.card_no) {
-		var refresh = $('<i>').addClass('fa').addClass('fa-refresh');
-		var msg = 'Really revoke the card ' + person.card_no.substr(0, 7) + ' and issue a new one?';
-		card = $('<span>').text(person.card_no.substr(0, 7) + ' ').append(createCardLink(person.id, refresh, msg));
-	} else {
-		card = createCardLink(person.id, 'Give card');
-	}
-}
-
-function createCardLink(person_id, caption, confirmMessage) {
-	return $('<a>').attr('href', 'javascript:;').html(caption).on('click', function () {
-		if (!confirmMessage || confirm(confirmMessage)) {
-			scanQR(function (content) {
-				$.post(registerCardUrl, {
-					"_token": csrfToken,
-					"person_id": person_id,
-					"card_no": content
-				}, function (data) {
-					$('tr#person-' + person_id).replaceWith(writeRow(data));
-					filterField.select();
-				}).fail(function (jqXHR, textStatus) {
-					var msg = jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText;
-					alert('Error: ' + msg);
-				});
-			});
-		}
 	});
 }
 
