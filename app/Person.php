@@ -107,7 +107,11 @@ class Person extends Model
     }
 
     function children() {
-        return $this->hasMany('App\Person', 'id');
+        if ($this->gender == 'm') {
+            return $this->hasMany('App\Person', 'father_id');
+        } else {
+            return $this->hasMany('App\Person', 'mother_id');
+        }
     }
 
     function mother() {
