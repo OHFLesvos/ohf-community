@@ -18,7 +18,9 @@
                     <tr>
                         <td title="{{ $transaction->created_at }}">
                             {{ $transaction->created_at->diffForHumans() }}
-                            <small class="text-muted">by {{ $transaction->user->name }}</small>
+                            @if(isset($transaction->user))
+                                <small class="text-muted">by {{ $transaction->user->name }}</small>
+                            @endif
                         </td>
                         <td>
                             <a href="{{ route('people.show', $transaction->transactionable) }}">
