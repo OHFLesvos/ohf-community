@@ -115,6 +115,27 @@
                 </div>
             </div>
 
+            @if(isset($person->mother) || isset($person->father) || count($person->children) > 0)
+                <div class="card mb-4">
+                    <div class="card-header">Relationships</div>
+                    <div class="card-body">
+                        @if(isset($person->mother))
+                            Mother: <a href="{{ route('people.show', $person->mother) }}">{{ $person->mother->family_name }} {{ $person->mother->name }}</a>
+                        @endif
+                        @if(isset($person->father))
+                            Father: <a href="{{ route('people.show', $person->father) }}">{{ $person->father->family_name }} {{ $person->father->name }}</a>
+                        @endif
+                        @if(count($person->children) > 0)
+                            <p>Children:</p><ul>
+                            @foreach($person->children as $child) 
+                                <li><a href="{{ route('people.show', $child) }}">{{ $child->family_name }} {{ $child->name }}</a></li>
+                            @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
         </div>
         <div class="col-md">
 
