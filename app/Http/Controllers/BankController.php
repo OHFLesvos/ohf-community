@@ -61,6 +61,10 @@ class BankController extends Controller
 		return view('bank.withdrawal', [
             'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
             'transactionValue' => self::getTransactionValueToday(),
+            'latestTransactions' => Transaction::where('transactionable_type', 'App\Person')
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->paginate(10),
 		]);
     }
 
