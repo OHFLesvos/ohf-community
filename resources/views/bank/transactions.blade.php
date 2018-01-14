@@ -23,17 +23,21 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('people.show', $transaction->transactionable) }}">
-                                {{ $transaction->transactionable->family_name }} {{ $transaction->transactionable->name }}
-                            </a>
-                            @if($transaction->transactionable->gender == 'f')@icon(female) 
-                            @elseif($transaction->transactionable->gender == 'm')@icon(male) 
-                            @endif
-                            @if(isset($transaction->transactionable->date_of_birth))
-                                {{ $transaction->transactionable->date_of_birth }} (age {{ $transaction->transactionable->age }})
-                            @endif
-                            @if(isset($transaction->transactionable->nationality))
-                                {{ $transaction->transactionable->nationality }}
+                            @if($transaction->transactionable != null)
+                                <a href="{{ route('people.show', $transaction->transactionable) }}">
+                                    {{ $transaction->transactionable->family_name }} {{ $transaction->transactionable->name }}
+                                </a>
+                                @if($transaction->transactionable->gender == 'f')@icon(female) 
+                                @elseif($transaction->transactionable->gender == 'm')@icon(male) 
+                                @endif
+                                @if(isset($transaction->transactionable->date_of_birth))
+                                    {{ $transaction->transactionable->date_of_birth }} (age {{ $transaction->transactionable->age }})
+                                @endif
+                                @if(isset($transaction->transactionable->nationality))
+                                    {{ $transaction->transactionable->nationality }}
+                                @endif
+                            @else
+                                <em>Person deleted</em>
                             @endif
                         </td>
                         <td>{{ $transaction->value }}</td>

@@ -174,7 +174,7 @@ class BankController extends Controller
             'transactions' => Transaction::where('transactionable_type', 'App\Person')
                 ->orderBy('created_at', 'DESC')
                 ->with(['user', 'transactionable'])
-                ->paginate(1000),
+                ->paginate(100),
 		]);
     }
 
