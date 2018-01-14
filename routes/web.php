@@ -28,6 +28,7 @@ Route::get('/bank/charts/sumTransactions', 'BankController@sumTransactions')->na
 
 Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
 Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');
+Route::get('/bank/withdrawal/transactions', 'BankController@withdrawalTransactions')->name('bank.withdrawalTransactions');
 Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
 Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
 Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');

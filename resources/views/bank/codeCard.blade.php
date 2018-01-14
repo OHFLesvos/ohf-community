@@ -24,8 +24,8 @@
             }
 
             tr:last-child td {
-                padding-bottom: 0;
-                border-bottom: none;
+                {{--  padding-bottom: 0;
+                border-bottom: none;  --}}
             }
             tr td.code-cell {
                 padding-left: 1.5em;

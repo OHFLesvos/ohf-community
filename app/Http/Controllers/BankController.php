@@ -61,9 +61,6 @@ class BankController extends Controller
 		return view('bank.withdrawal', [
             'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
             'transactionValue' => self::getTransactionValueToday(),
-            'latestTransactions' => Transaction::where('transactionable_type', 'App\Person')
-                ->orderBy('created_at', 'DESC')
-                ->paginate(10),
 		]);
     }
 
@@ -170,6 +167,15 @@ class BankController extends Controller
             return implode('&', $register);
         }
         return null;
+    }
+
+    function withdrawalTransactions(Request $request) {
+		return view('bank.transactions', [
+            'transactions' => Transaction::where('transactionable_type', 'App\Person')
+                ->orderBy('created_at', 'DESC')
+                ->with(['user', 'transactionable'])
+                ->paginate(1000),
+		]);
     }
 
     public function codeCard() {

@@ -322,21 +322,18 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
+                    'transactions' => [
+                        'url' => route('bank.withdrawalTransactions'),
+                        'caption' => 'Transactions',
+                        'icon' => 'list',
+                        'authorized' => Gate::allows('do-bank-withdrawals')
+                    ],
                     'deposits' => [
                         'url' => route('bank.deposit'),
                         'caption' => 'Deposit',
                         'icon' => 'money',
                         'authorized' => Gate::allows('do-bank-deposits')
                     ],
-                    'back' => [
-                        'url' => route('bank.index'),
-                        'caption' => 'Close',
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('view-bank-index')
-                    ],
-                ];
-            case 'bank.codeCard':
-                return [
                     'back' => [
                         'url' => route('bank.index'),
                         'caption' => 'Close',
@@ -359,15 +356,6 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('view-bank-index')
                     ],
                 ];
-            case 'bank.project':
-                return [
-                    'back' => [
-                        'url' => route('bank.deposit'),
-                        'caption' => 'Close',
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('do-bank-deposits'),
-                    ]
-                ];
             case 'bank.settings':
                 return [
                     'back' => [
@@ -375,6 +363,15 @@ class ContextMenuComposer {
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
+                    ]
+                ];
+            case 'bank.withdrawalTransactions':
+                return [
+                    'back' => [
+                        'url' => route('bank.withdrawal'),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('do-bank-withdrawals')
                     ]
                 ];
             case 'bank.maintenance':
