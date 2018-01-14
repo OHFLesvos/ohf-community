@@ -35,7 +35,8 @@ class Person extends Model
     }
     
     private static function createSearchString($model) {
-        return trim($model->family_name . ' ' . $model->name . ' ' . $model->police_no . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no);
+        $str = $model->family_name . ' ' . $model->name . ' ' . $model->police_no . ' ' . $model->case_no. ' ' . $model->medical_no. ' ' . $model->registration_no. ' ' . $model->section_card_no . ' ' . $model->temp_no;
+        return preg_replace('/\s+/', ' ', trim($str));
     }
     
     // /**

@@ -54,30 +54,30 @@
                         {{ Form::bsText('remarks') }}
                     </div>
 				</div>
+            </div>
+        </div>
 
-                <div id="children-container" class="d-none">
-                    <p>Children</p>
-                    <template id="child-form-row-template">
-                        <div class="form-row">
-                            <div class="col-md">
-                                {{ Form::bsText('child_family_name[x]', null, [ 'placeholder' => 'Child Family Name' ], '', 'Greek: επώνυμο') }}
-                            </div>
-                            <div class="col-md">
-                                {{ Form::bsText('child_name[x]', null, [ 'placeholder' => 'Child Name'  ], '', 'Greek: όνομα') }}
-                            </div>
-                            <div class="col-md-auto">
-                                {{ Form::genderSelect('child_gender[x]', null, '') }}
-                            </div>
-                            <div class="col-md-auto">
-                                {{ Form::bsDate('child_date_of_birth[x]', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '', 'Greek: ημερομηνία γέννησης ') }}
-                            </div>
-                            <div class="col-md-auto">
-                                <span id="age">?</span>
-                            </div>
+        <div class="card mb-4 d-none" id="children-container">
+            <div class="card-body">
+                <template id="child-form-row-template">
+                    <div class="form-row">
+                        <div class="col-md">
+                            {{ Form::bsText('child_family_name[x]', null, [ 'placeholder' => 'Child Family Name' ], '', 'Greek: επώνυμο') }}
                         </div>
-                    </template>
-                </div>
-
+                        <div class="col-md">
+                            {{ Form::bsText('child_name[x]', null, [ 'placeholder' => 'Child Name'  ], '', 'Greek: όνομα') }}
+                        </div>
+                        <div class="col-md-auto">
+                            {{ Form::genderSelect('child_gender[x]', null, '') }}
+                        </div>
+                        <div class="col-md-auto">
+                            {{ Form::bsDate('child_date_of_birth[x]', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '', 'Greek: ημερομηνία γέννησης ') }}
+                        </div>
+                        <div class="col-md-auto">
+                            <span id="age">?</span>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 
@@ -122,10 +122,14 @@
             // Add row (ensure container is visible)
             $('#children-container')
                 .removeClass('d-none')
-                .append(content);
+                .children('div').first().append(content);
 
             // Focus
-            content.find('input[name^="child_name"]').focus();
+            if (childFamilyNames.length > 0) {
+                content.find('input[name^="child_name"]').focus();
+            } else {
+                content.find('input[name^="child_family_name"]').select();
+            }
         });
     });
 @endsection

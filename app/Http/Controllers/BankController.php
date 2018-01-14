@@ -107,20 +107,25 @@ class BankController extends Controller
         session(['peopleOverviewRouteName' => 'bank.withdrawalSearch']);
     
         // Create query
-        $q = Person::orderBy('name', 'asc')
-            ->orderBy('family_name', 'asc');
+        $q = Person::orderBy('family_name', 'asc')
+            ->orderBy('name', 'asc');
         $isCodeCard = preg_match('/[a-f0-9]{32}/', $filter);
         if ($isCodeCard) { // QR code card number
             $q->where('card_no', $filter);
         } else {
-            $terms = preg_split('/\s+/', $filter);
-            foreach ($terms as $term) {
-                // Remove dash "-" from term
-                $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
-                $q->where('search', 'LIKE', '%' . $term . '%');
+            // Handle OR keyword
+            foreach(preg_split('/\s+OR\s+/', $filter) as $orTerm) {
+                $terms = preg_split('/\s+/', $orTerm);
+                $q->orWhere(function($aq) use ($terms){
+                    foreach ($terms as $term) {
+                        // Remove dash "-" from term
+                        $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
+                        // Create like condition
+                        $aq->where('search', 'LIKE', '%' . $term . '%');
+                    }
+                });
             }
         }
-
         $results = $q->paginate(\Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE));
 
         $message = null;

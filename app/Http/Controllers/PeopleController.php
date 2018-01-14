@@ -68,6 +68,8 @@ class PeopleController extends ParentController
         $person->skills = !empty($request->skills) ? $request->skills : null;
 		$person->save();
 
+        $redirectFilter[] = $person->search;
+
         if (isset($request->child_family_name) && is_array($request->child_family_name)) {
             for ($i = 0; $i < count($request->child_family_name); $i++) {
                 if (!empty($request->child_family_name[$i]) && !empty($request->child_name[$i]) && !empty($request->child_gender[$i])) {
@@ -90,13 +92,14 @@ class PeopleController extends ParentController
                         $child->father()->associate($person);
                     }
                     $child->save();
+                    $redirectFilter[] = $child->search;
                 }
             }
         }
 
         $isBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
 		if ( $isBank ) {
-            $request->session()->put('filter', $person->search);
+            $request->session()->put('filter', implode(' OR ', $redirectFilter));
             return redirect()->route('bank.withdrawalSearch')
                 ->with('success', 'Person has been added!');
         }
