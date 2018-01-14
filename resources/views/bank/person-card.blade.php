@@ -37,37 +37,37 @@
         @if(isset($person->police_no))
             <span class="d-block d-sm-inline">
                 <small class="text-muted">Police Number:</small> 
-                05/{{ $person->police_no }}
+                <span class="pr-2">05/{{ $person->police_no }}</span>
             </span>
         @endif
         @if(isset($person->case_no))
             <span class="d-block d-sm-inline">
                 <small class="text-muted">Case Number:</small>
-                {{ $person->case_no }}
+                <span class="pr-2">{{ $person->case_no }}</span>
             </span>
         @endif
         @if(isset($person->medical_no))
             <span class="d-block d-sm-inline">
                 <small class="text-muted">Medical Number:</small>
-                {{ $person->medical_no }}
+                <span class="pr-2">{{ $person->medical_no }}</span>
             </span>
         @endif
         @if(isset($person->registration_no))
             <span class="d-block d-sm-inline">
                 <small class="text-muted">Registration Number:</small>
-                {{ $person->registration_no }}
+                <span class="pr-2">{{ $person->registration_no }}</span>
             </span>
         @endif
         @if(isset($person->section_card_no))
             <span class="d-block d-sm-inline">
                 <small class="text-muted">Section Card Number:</small>
-                {{ $person->section_card_no }}
+                <span class="pr-2">{{ $person->section_card_no }}</span>
             </span>
         @endif
         @if(isset($person->temp_no))
             <span class="d-block d-sm-inline">
                 <small class="text-muted">Temporary Number:</small>
-                {{ $person->temp_no }}
+                <span class="pr-2">{{ $person->temp_no }}</span>
             </span>
         @endif
         @if (!isset($person->police_no) && !isset($person->case_no) && !isset($person->medical_no) && !isset($person->registration_no) && !isset($person->section_card_no) && !isset($person->temp_no))
@@ -75,7 +75,7 @@
         @endif
         @if(isset($person->remarks))
             <div>
-                <em>{{ $person->remarks }}</em>
+                <em class="text-info">{{ $person->remarks }}</em>
             </div>
         @endif
     </div>
