@@ -40,6 +40,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{--  {{ $latestTransactions->links('vendor.pagination.bootstrap-4') }}  --}}
         </div>
     @endif
 @endsection

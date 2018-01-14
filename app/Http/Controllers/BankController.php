@@ -63,7 +63,6 @@ class BankController extends Controller
             'transactionValue' => self::getTransactionValueToday(),
             'latestTransactions' => Transaction::where('transactionable_type', 'App\Person')
                 ->orderBy('created_at', 'DESC')
-                ->get()
                 ->paginate(10),
 		]);
     }
@@ -108,11 +107,11 @@ class BankController extends Controller
         session(['peopleOverviewRouteName' => 'bank.withdrawalSearch']);
     
         // Create query
-        $condition = [];
         $isCodeCard = preg_match('/[a-f0-9]{32}/', $filter);
         if ($isCodeCard) { // QR code card number
             $where = Person::where('card_no', $filter);
         } else {
+            $condition = [];
             $terms = preg_split('/\s+/', $filter);
             foreach ($terms as $q) {
                 $q = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $q);
@@ -568,7 +567,7 @@ class BankController extends Controller
                     $join->on('projects.id', '=', 'transactions.transactionable_id')
                         ->where('transactionable_type', 'App\Project');
                 })
-                ->select('projects.name', 'value', 'transactions.created_at')
+                ->select('projects.name', 'value', 'transactions.created_at', 'transactions.user_id')
                 ->orderBy('transactions.created_at', 'DESC')
                 ->limit(10)
                 ->get();

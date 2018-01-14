@@ -43,7 +43,10 @@
             <tbody>
             @foreach ($transactions as $transaction)
                 <tr>
-                    <td>{{ $transaction->created_at }}</td>
+                    <td title="{{ $transaction->created_at }}">
+                        {{ $transaction->created_at->diffForHumans() }}
+                        <small class="text-muted">by {{ $transaction->user->name }}</small>
+                    </td>
                     <td>{{ $transaction->name }}</td>
                     <td class="text-right">{{ $transaction->value }}</td>
                 </tr>
