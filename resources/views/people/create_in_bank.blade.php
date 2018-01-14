@@ -54,36 +54,36 @@
                         {{ Form::bsText('remarks') }}
                     </div>
 				</div>
-			</div>
-		</div>
 
-		<div class="card mb-4 d-none" id="children-card">
-            <div class="card-body">
-                @foreach(range(0,4) as $r)
-                <div class="form-row">
-                    <div class="col-md">
-                        {{ Form::bsText('child_family_name['.$r.']', null, [ 'placeholder' => 'Child Family Name' ], '', 'Greek: επώνυμο') }}
-                    </div>
-                    <div class="col-md">
-                        {{ Form::bsText('child_name['.$r.']', null, [ 'placeholder' => 'Child Name'  ], '', 'Greek: όνομα') }}
-                    </div>
-                    <div class="col-md-auto">
-                        {{ Form::genderSelect('child_gender['.$r.']', null, '') }}
-                    </div>
-                    <div class="col-md-auto">
-                        {{ Form::bsDate('child_date_of_birth['.$r.']', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '', 'Greek: ημερομηνία γέννησης ') }}
-                    </div>
-                    <div class="col-md-auto">
-                        <span id="age">?</span>
-                    </div>
+                <div id="children-container" class="d-none">
+                    <p>Children</p>
+                    <template id="child-form-row-template">
+                        <div class="form-row">
+                            <div class="col-md">
+                                {{ Form::bsText('child_family_name[x]', null, [ 'placeholder' => 'Child Family Name' ], '', 'Greek: επώνυμο') }}
+                            </div>
+                            <div class="col-md">
+                                {{ Form::bsText('child_name[x]', null, [ 'placeholder' => 'Child Name'  ], '', 'Greek: όνομα') }}
+                            </div>
+                            <div class="col-md-auto">
+                                {{ Form::genderSelect('child_gender[x]', null, '') }}
+                            </div>
+                            <div class="col-md-auto">
+                                {{ Form::bsDate('child_date_of_birth[x]', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '', 'Greek: ημερομηνία γέννησης ') }}
+                            </div>
+                            <div class="col-md-auto">
+                                <span id="age">?</span>
+                            </div>
+                        </div>
+                    </template>
                 </div>
-                @endforeach
+
             </div>
         </div>
 
 		<p>
             {{ Form::bsSubmitButton('Register') }}
-            <button type="button" class="btn btn-secondary" id="add-children">@icon(child) Add children</button>
+            <button type="button" class="btn btn-secondary" id="add-children">@icon(child) Add child</button>
         </p>
 
     {!! Form::close() !!}
@@ -91,16 +91,41 @@
 @endsection
 
 @section('script')
+    var childIndex = 0;
     $(function(){
+        // Typeahead for nationalities
         $('#nationality').typeahead({
             source: [ @foreach($countries as $country) '{!! $country !!}', @endforeach ]
         });
+
+        // Add children row
         $('#add-children').on('click', function(){
-            $(this).hide();
-            $('#children-card').removeClass('d-none');
-        });
-        $('input[name="family_name"]').on('change keyup', function(e){
-            $('input[name^="child_family_name"]').val($(this).val());
+            var content = $($('#child-form-row-template').html()); //;.replace(/\[x\]/g, '[' + childIndex++ + ']');
+
+            // Adapt name attribute
+            content.find('input').each(function(){
+                var name = $(this).attr('name');
+                $(this).attr('name', name.replace(/\[x\]/g, '[' + childIndex + ']'));
+            });
+            childIndex++;
+
+            // Set default family name
+            var familyName;
+            var childFamilyNames = $('#children-container').find('input[name^="child_family_name"]');
+            if (childFamilyNames.length > 0) {
+                familyName = childFamilyNames.last().val();
+            } else {
+                familyName = $('input[name="family_name"]').val();
+            }
+            content.find('input[name^="child_family_name"]').val(familyName);
+
+            // Add row (ensure container is visible)
+            $('#children-container')
+                .removeClass('d-none')
+                .append(content);
+
+            // Focus
+            content.find('input[name^="child_name"]').focus();
         });
     });
 @endsection
