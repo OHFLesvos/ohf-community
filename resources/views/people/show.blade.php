@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            @if(isset($person->mother) || isset($person->father) || count($person->children) > 0)
+            @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
                 <div class="card mb-4">
                     <div class="card-header">Relationships</div>
                     <div class="card-body">
@@ -124,6 +124,9 @@
                         @endif
                         @if(isset($person->father))
                             Father: <a href="{{ route('people.show', $person->father) }}">{{ $person->father->family_name }} {{ $person->father->name }}</a>
+                        @endif
+                        @if(isset($person->partner))
+                            Partner: <a href="{{ route('people.show', $person->partner) }}">{{ $person->partner->family_name }} {{ $person->partner->name }}</a>
                         @endif
                         @if(count($person->children) > 0)
                             <p>Children:</p><ul>

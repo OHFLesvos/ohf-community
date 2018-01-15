@@ -122,6 +122,10 @@ class Person extends Model
     function father() {
         return $this->belongsTo('App\Person');
     }
+    
+    function partner() {
+        return $this->hasOne('App\Person', 'partner_id');
+    }
 
     function revokedCards() {
         return $this->hasMany('App\RevokedCard');
