@@ -30,7 +30,7 @@
                 <div class="card-body">
                     <p>Served 
                         @allowed('do-bank-withdrawals')
-                            <a href="{{ route('bank.withdrawal') }}"><strong>{{ $num_people_served_today }}</strong></a> 
+                            <a href="{{ route('bank.withdrawalTransactions') }}"><strong>{{ $num_people_served_today }}</strong></a> 
                         @else
                             <strong>{{ $num_people_served_today }}</strong>
                         @endallowed

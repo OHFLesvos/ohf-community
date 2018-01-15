@@ -24,9 +24,7 @@
                         </td>
                         <td>
                             @if($transaction->transactionable != null)
-                                <a href="{{ route('people.show', $transaction->transactionable) }}">
-                                    {{ $transaction->transactionable->family_name }} {{ $transaction->transactionable->name }}
-                                </a>
+                                <a href="{{ route('people.show', $transaction->transactionable) }}">{{ $transaction->transactionable->family_name }} {{ $transaction->transactionable->name }}</a>
                                 @if($transaction->transactionable->gender == 'f')@icon(female) 
                                 @elseif($transaction->transactionable->gender == 'm')@icon(male) 
                                 @endif
