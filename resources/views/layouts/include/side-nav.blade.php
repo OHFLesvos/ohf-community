@@ -4,7 +4,7 @@
         {{-- Logo --}}
         <div class="px-3 pt-3">
             <span class="navbar-brand">
-                <img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}
+                <img src="{{ asset('/img/logo.png') }}" /> {{ Config::get('app.name') }}
             </span>
         </div>
 

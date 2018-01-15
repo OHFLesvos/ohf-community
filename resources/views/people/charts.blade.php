@@ -60,7 +60,7 @@
     </div>
 
 
-	<script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
+	<script src="{{ asset('js/Chart.min.js') }}?v={{ $app_version }}"></script>
 
 @endsection
 

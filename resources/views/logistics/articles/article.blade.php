@@ -16,7 +16,7 @@
     <div class="mx-2" id="dayChart"></div>
     <div class="mx-2" id="weekDayChart"></div>
     
-    <script src="{{asset('js/Chart.min.js')}}?v={{ $app_version }}"></script>
+    <script src="{{ asset('js/Chart.min.js') }}?v={{ $app_version }}"></script>
 @endsection
 
 @section('script')

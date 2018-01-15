@@ -7,7 +7,7 @@
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-lg-6 mt-md-4">
 
-					<img src="{{URL::asset('/img/logo_login.png')}}" class="img-fluid text-center my-sm-0 p-4" />
+					<img src="{{ asset('/img/logo_login.png') }}" class="img-fluid text-center my-sm-0 p-4" />
 
 					<div class="card mb-4">
 						<div class="card-body p-md-5">
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-        <script src="{{asset('js/app.js')}}?v={{ $app_version }}"></script>
+        <script src="{{ asset('js/app.js') }}?v={{ $app_version }}"></script>
 
     </body>
 </html>

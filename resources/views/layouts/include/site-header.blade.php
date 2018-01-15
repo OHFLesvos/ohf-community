@@ -23,7 +23,7 @@
 
         {{-- Logo, Name --}}
         <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">
-            <img src="{{URL::asset('/img/logo.png')}}" /> {{ Config::get('app.name') }}
+            <img src="{{ asset('/img/logo.png') }}" /> {{ Config::get('app.name') }}
         </a>
         {{-- Title --}}
         @if(View::hasSection('title'))

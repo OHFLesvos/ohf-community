@@ -97,7 +97,7 @@
         </div>
       </div>
 
-        <script src="{{asset('js/app.js')}}?v={{ $app_version }}"></script>
+        <script src="{{ asset('js/app.js') }}?v={{ $app_version }}"></script>
         <script>
             @yield('script')
         </script>

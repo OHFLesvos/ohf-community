@@ -36,5 +36,5 @@
 @endsection
 
 @section('footer')
-    <script src="{{asset('js/bank.js')}}?v={{ $app_version }}"></script>
+    <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}"></script>
 @endsection
