@@ -151,6 +151,8 @@ class PersonsTableSeeder extends Seeder
                 'nationality' => $nationality[array_rand($nationality)],
                 'languages' => $languages[array_rand($languages)],
                 'skills' => $skills[array_rand($skills)],
+                'gender' => rand(0, 10) > 2 ? (rand(0, 100) > 52 ? 'm' : 'f') : null,
+                'date_of_birth' => rand(0, 10) > 4 ? Carbon\Carbon::now()->subYears(rand(0, 60))->subMonths(rand(0,11))->subDays(rand(0,30)) : null,
             ]);
         }
     }

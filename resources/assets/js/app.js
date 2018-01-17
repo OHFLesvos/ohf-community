@@ -153,10 +153,32 @@ $(function(){
 	});
 });
 
+//
+// Palette
+//
+var palette = require('google-palette');
+var colorPalette = palette('tol', 8);
+$(function(){
+    $('.colorize').each(function(){
+        var i = 0;
+        $(this).find('.colorize-background').each(function(){
+            $(this).css('background-color', '#' + colorPalette[i++ %  colorPalette.length]);
+        });
+        i = 0;
+        $(this).find('.colorize-text').each(function(){
+            $(this).css('color', '#' + colorPalette[i++ %  colorPalette.length]);
+        });
+    });
+});
+
+//
+// Vue
+//
 window.Vue = require('vue');
 
 Vue.component('line-chart', require('./components/LineChart.vue'));
 Vue.component('bar-chart', require('./components/BarChart.vue'));
+Vue.component('horizontal-bar-chart', require('./components/HorizontalBarChart.vue'));
 Vue.component('task-list', require('./components/TaskList.vue'));
 
 const app = new Vue({

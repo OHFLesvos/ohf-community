@@ -53,6 +53,14 @@ Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');
 Route::post('/bank/doImport', 'BankController@doImport')->name('bank.doImport');
 
+Route::get('/people/data/nationalities', 'PeopleController@nationalities')->name('people.nationalities');
+Route::get('/people/data/genderDistribution', 'PeopleController@genderDistribution')->name('people.genderDistribution');
+Route::get('/people/data/demographics', 'PeopleController@demographics')->name('people.demographics');
+Route::get('/people/data/visitorsPerDay', 'PeopleController@visitorsPerDay')->name('people.visitorsPerDay');
+Route::get('/people/data/visitorsPerWeek', 'PeopleController@visitorsPerWeek')->name('people.visitorsPerWeek');
+Route::get('/people/data/visitorsPerMonth', 'PeopleController@visitorsPerMonth')->name('people.visitorsPerMonth');
+Route::get('/people/data/registrationsPerDay', 'PeopleController@registrationsPerDay')->name('people.registrationsPerDay');
+
 Route::get('/people/charts', 'PeopleController@charts')->name('people.charts');
 Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
 Route::get('/people/export', 'PeopleController@export')->name('people.export');
