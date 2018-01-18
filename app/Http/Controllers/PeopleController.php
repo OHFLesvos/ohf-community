@@ -490,7 +490,49 @@ class PeopleController extends ParentController
         do {
             // PHP date format: http://php.net/manual/en/function.date.php
             $dates[$date->format('F Y')] = null;
-        } while ($date->subWeek()->gt($from));
+        } while ($date->subMonth()->gt($from));
+        return collect($dates);
+    }
+
+    /**
+     * Visitors per year
+     */
+    function visitorsPerYear() {
+        $from = Carbon::now()->subYear(2)->startOfYear();
+        $to = Carbon::now();
+        $data = self::getvisitorsPerYear($from, $to);
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                'Visitors' => array_values($data),
+            ]
+        ]);
+    }
+
+    private static function getvisitorsPerYear($from, $to) {
+        $visitsPerDayQuery = self::getVisitorsPerDayQuery($from, $to);
+        return self::createYearCollectionEmpty($from, $to)
+            ->merge(
+                DB::table(DB::raw('('.$visitsPerDayQuery->toSql().') as o2'))
+                    ->select(DB::raw('YEAR(date) as year'), DB::raw('SUM(visitors) as visitors'))
+                    ->groupBy(DB::raw('YEAR(date)'))
+                    ->orderBy('date', 'DESC')
+                    ->mergeBindings($visitsPerDayQuery)
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return ["Year " . $item->year => (int)$item->visitors];
+                    })
+            )
+            ->reverse()
+            ->toArray();
+    }
+
+    private static function createYearCollectionEmpty($from, $to) {
+        $dates = [];
+        $date = (clone $to);
+        do {
+            $dates["Year " . $date->year] = null;
+        } while ($date->subYear()->gt($from));
         return collect($dates);
     }
 

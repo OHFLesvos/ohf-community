@@ -92,7 +92,7 @@
             </div>
             <div class="col-xl-6">
 
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-header">Visitors</div>
                     <div class="card-body">
 
@@ -119,6 +119,15 @@
                             title="Visitors per month"
                             ylabel="# Visitors"
                             url="{{ route('people.visitorsPerMonth') }}"
+                            :height=270
+                            :legend=false>
+                        </bar-chart>
+
+                        {{-- Visitors per year --}}
+                        <bar-chart
+                            title="Visitors per year"
+                            ylabel="# Visitors"
+                            url="{{ route('people.visitorsPerYear') }}"
                             :height=270
                             :legend=false>
                         </bar-chart>

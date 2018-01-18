@@ -60,6 +60,7 @@ Route::get('/people/data/numberTypes', 'PeopleController@numberTypes')->name('pe
 Route::get('/people/data/visitorsPerDay', 'PeopleController@visitorsPerDay')->name('people.visitorsPerDay');
 Route::get('/people/data/visitorsPerWeek', 'PeopleController@visitorsPerWeek')->name('people.visitorsPerWeek');
 Route::get('/people/data/visitorsPerMonth', 'PeopleController@visitorsPerMonth')->name('people.visitorsPerMonth');
+Route::get('/people/data/visitorsPerYear', 'PeopleController@visitorsPerYear')->name('people.visitorsPerYear');
 Route::get('/people/data/registrationsPerDay', 'PeopleController@registrationsPerDay')->name('people.registrationsPerDay');
 
 Route::get('/people/charts', 'PeopleController@charts')->name('people.charts');
