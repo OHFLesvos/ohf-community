@@ -222,8 +222,8 @@ class ContextMenuComposer {
             case 'people.index':
                 return [
                     'charts'=> [
-                        'url' => route('people.charts'),
-                        'caption' => 'Charts',
+                        'url' => route('reporting.people'),
+                        'caption' => 'Report',
                         'icon' => 'line-chart',
                         'authorized' => true
                     ],
@@ -287,15 +287,6 @@ class ContextMenuComposer {
                     'back' => [
                         'url' => route('people.index'),
                         'caption' => 'Cancel',
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', Person::class)
-                    ]
-                ];
-            case 'people.charts':
-                return [
-                    'back' => [
-                        'url' => route('people.index'),
-                        'caption' => 'Close',
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Person::class)
                     ]
@@ -445,6 +436,19 @@ class ContextMenuComposer {
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-logistics')
+                    ]
+                ];
+            
+            //
+            // Reporting
+            //
+            case 'reporting.people':
+                return [
+                    'back' => [
+                        'url' => url()->previous(),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => true // TODO
                     ]
                 ];
         }

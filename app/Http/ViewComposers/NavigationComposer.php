@@ -69,6 +69,13 @@ class NavigationComposer {
                     'badge' => $num_open_tasks > 0 ? $num_open_tasks : null
                 ],
                 [
+                    'route' => 'reporting.index',
+                    'caption' => 'Reporting',
+                    'icon' => 'bar-chart',
+                    'active' => 'reporting*',
+                    'authorized' => true,
+                ],
+                [
                     'route' => 'users.index',
                     'caption' => 'Users',
                     'icon' => 'users',

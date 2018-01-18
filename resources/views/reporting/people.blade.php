@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'People Charts')
+@section('title', 'Reporting: People')
 
 @section('content')
 
@@ -16,7 +16,7 @@
                         {{-- Nationalities --}}
                         <horizontal-bar-chart
                             title="Nationalities"
-                            url="{{ route('people.nationalities') }}"
+                            url="{{ route('reporting.people.nationalities') }}"
                             :height=70
                             :legend=false>
                         </horizontal-bar-chart>
@@ -34,7 +34,7 @@
                         {{-- Gender --}}
                         <horizontal-bar-chart
                             title="Gender"
-                            url="{{ route('people.genderDistribution') }}"
+                            url="{{ route('reporting.people.genderDistribution') }}"
                             :height=70
                             :legend=false
                             class="mb-2">
@@ -51,7 +51,7 @@
                         {{-- Demographics --}}
                         <horizontal-bar-chart
                             title="Demographics"
-                            url="{{ route('people.demographics') }}"
+                            url="{{ route('reporting.people.demographics') }}"
                             :height=70
                             :legend=false
                             class="mb-2">
@@ -70,7 +70,7 @@
                         {{-- Number Types --}}
                         <horizontal-bar-chart
                             title="Registered card / person number types"
-                            url="{{ route('people.numberTypes') }}"
+                            url="{{ route('reporting.people.numberTypes') }}"
                             :height=70
                             :legend=false
                             class="mb-2">
@@ -100,7 +100,7 @@
                         <bar-chart
                             title="Visitors per day"
                             ylabel="# Visitors"
-                            url="{{ route('people.visitorsPerDay') }}"
+                            url="{{ route('reporting.people.visitorsPerDay') }}"
                             :height=270
                             :legend=false>
                         </bar-chart>
@@ -109,7 +109,7 @@
                         <bar-chart
                             title="Visitors per week"
                             ylabel="# Visitors"
-                            url="{{ route('people.visitorsPerWeek') }}"
+                            url="{{ route('reporting.people.visitorsPerWeek') }}"
                             :height=270
                             :legend=false>
                         </bar-chart>
@@ -118,7 +118,7 @@
                         <bar-chart
                             title="Visitors per month"
                             ylabel="# Visitors"
-                            url="{{ route('people.visitorsPerMonth') }}"
+                            url="{{ route('reporting.people.visitorsPerMonth') }}"
                             :height=270
                             :legend=false>
                         </bar-chart>
@@ -127,7 +127,7 @@
                         <bar-chart
                             title="Visitors per year"
                             ylabel="# Visitors"
-                            url="{{ route('people.visitorsPerYear') }}"
+                            url="{{ route('reporting.people.visitorsPerYear') }}"
                             :height=270
                             :legend=false>
                         </bar-chart>
@@ -136,7 +136,7 @@
                         <bar-chart
                             title="Average visitors per day of week"
                             ylabel="Avg. # Visitors"
-                            url="{{ route('people.avgVisitorsPerDayOfWeek') }}"
+                            url="{{ route('reporting.people.avgVisitorsPerDayOfWeek') }}"
                             :height=270
                             :legend=false>
                         </bar-chart>
@@ -152,7 +152,7 @@
                     <bar-chart
                     title="New registrations per day"
                     ylabel="# Registrations"
-                    url="{{ route('people.registrationsPerDay') }}"
+                    url="{{ route('reporting.people.registrationsPerDay') }}"
                     :height=350
                     :legend=false
                     class="mb-2">
