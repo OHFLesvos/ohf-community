@@ -10,6 +10,7 @@ use App\Transaction;
 use App\Http\Requests\StorePerson;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\LabelAlignment;
+use Illuminate\Support\Facades\DB;
 
 class PeopleController extends ParentController
 {
@@ -245,54 +246,258 @@ class PeopleController extends ParentController
     }
 
     function charts() {
-        $data = [];
+        return view('people.charts', [
+            'nationalities' => self::getNationalities(),
+            'gender' => self::getGenderDistribution(),
+            'demographics' => self::getDemographics(),
+		]);
+    }
 
-        // Nationalities
+    /**
+     * Nationalities
+     */
+    function nationalities() {
+        return response()->json([
+            'labels' => null,
+            'datasets' => collect(self::getNationalities())
+                ->map(function($e){ return [$e]; })
+                ->toArray(),
+        ]);
+    }
+
+    private static function getNationalities($limit = 6) {
         $nationalities = collect(
-            Person
-                    ::select('nationality', \DB::raw('count(*) as total'))
+            Person::select('nationality', \DB::raw('count(*) as total'))
                     ->groupBy('nationality')
                     ->whereNotNull('nationality')
                     ->orderBy('total', 'DESC')
                     ->get()
             )->mapWithKeys(function($i){
-                return [$i['nationality'] => $i['total']];
+                return [$i['nationality'] =>  $i['total']];
             });
-        $data['nationalities'] = $nationalities->slice(0,6)->toArray();
-        $data['nationalities']['Other'] = $nationalities->slice(6)->reduce(function ($carry, $item) {
-            return $carry + $item;
-        });
-
-        // Registrations
-		$data['registrations'] = $this->getRegistrationsPerDay(91);
-
-		// Visits per week
-        $visits_per_week = [];
-		$date = Carbon::now()->endOfWeek();
-		for ($i = 0; $i < 12; $i++) {
-            $weekNum = $date->weekOfYear;
-		    $val = 0;
-            for ($d = 0; $d < 7; $d++) {
-                $endDate = clone $date;
-                $date->subDay(1);
-                $val += Transaction::where('transactionable_type', 'App\Person')
-                    ->whereBetween('created_at', [$date, $endDate])
-                    ->groupBy('transactionable_id')
-                    ->get()
-                    ->count();
-            }
-            $visits_per_week[$weekNum] = $val;
-        }
-        $data['visits_per_week'] = array_reverse($visits_per_week, true);
-
-        return view('people.charts', [
-            'data' => $data,
-            'visits_last_week' => count($data['visits_per_week']) > 1 ? array_slice($data['visits_per_week'], -2, 1)[0] : null,
-            'visits_this_week' => count($data['visits_per_week']) > 0 ? array_slice($data['visits_per_week'], -1, 1)[0] : null,
-		]);
+        $data = $nationalities->slice(0, $limit)->toArray();
+        $data['Other'] = $nationalities->slice($limit)->reduce(function ($carry, $item) {
+                 return $carry + $item;
+            });
+        return $data;
     }
-	
-	function getRegistrationsPerDay($numDays) {
+
+    /**
+     * Gender distribution
+     */
+    function genderDistribution() {
+        return response()->json([
+            'labels' => null,
+            'datasets' => collect(self::getGenderDistribution())
+                ->map(function($e){ return [$e]; })
+                ->toArray(),
+        ]);
+    }
+
+    private static function getGenderDistribution() {
+        return collect(
+            Person::select('gender', \DB::raw('count(*) as total'))
+                    ->groupBy('gender')
+                    ->whereNotNull('gender')
+                    ->get()
+            )->mapWithKeys(function($i){
+                if ($i['gender'] == 'm') {
+                    $label = 'Male';
+                } else if ($i['gender'] == 'f') {
+                    $label = 'Female';
+                } else {
+                    $label = $i['gender'];
+                }
+                return [$label =>  $i['total']];
+            })
+            ->toArray();
+    }
+
+    /**
+     * Demographics
+     */
+    function demographics() {
+        return response()->json([
+            'labels' => null,
+            'datasets' => collect(self::getDemographics())
+                ->map(function($e){ return [$e]; })
+                ->toArray(),
+        ]);
+    }
+
+    private static function getDemographics() {
+        return [
+            'Toddlers (0-4)' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(5))
+                ->select('date_of_birth')
+                ->count(),
+            'Children (5-11)' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(12))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(5))
+                ->select('date_of_birth')
+                ->count(),
+            'Adolescents (12-17)' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(18))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(12))
+                ->select('date_of_birth')
+                ->count(),            
+            'Adults (18+)' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(18))
+                ->select('date_of_birth')
+                ->count(),            
+        ];
+    }
+
+    /**
+     * Visitors per day
+     */
+    function visitorsPerDay() {
+        $from = Carbon::now()->subMonth(3);
+        $to = Carbon::now();
+        $data = self::getvisitorsPerDay($from, $to);
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                'Visitors' => array_values($data),
+            ]
+        ]);
+    }
+
+    private static function getvisitorsPerDay($from, $to) {
+        return self::createDateCollectionEmpty($from, $to)
+            ->merge(self::getVisitorsPerDayQuery($from, $to)
+                ->get()
+                ->mapWithKeys(function ($item) {
+                    return [$item->date => $item->visitors];
+                }))
+            ->reverse()
+            ->toArray();
+    }
+
+    private static function createDateCollectionEmpty($from, $to) {
+        $dates = [];
+        $date = (clone $to);
+        do {
+            $dates[$date->toDateString()] = null;
+        } while ($date->subDay()->gt($from));
+        return collect($dates);
+    }
+
+    /**
+     * Visitors per week
+     */
+    function visitorsPerWeek() {
+        $from = Carbon::now()->subMonth(6)->startOfWeek();
+        $to = Carbon::now();
+        $data = self::getvisitorsPerWeek($from, $to);
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                'Visitors' => array_values($data),
+            ]
+        ]);
+    }
+
+    private static function getvisitorsPerWeek($from, $to) {
+        $visitsPerDayQuery = self::getVisitorsPerDayQuery($from, $to);
+        return self::createWeekCollectionEmpty($from, $to)
+            ->merge(
+                // MySQL week number formats: https://www.w3resource.com/mysql/date-and-time-functions/mysql-week-function.php
+                DB::table(DB::raw('('.$visitsPerDayQuery->toSql().') as o2'))
+                    ->select(DB::raw('CONCAT(LPAD(WEEK(date, 3), 2, 0), \' / \', YEAR(date)) as week'), DB::raw('SUM(visitors) as visitors'))
+                    ->groupBy(DB::raw('WEEK(date, 3)'), DB::raw('YEAR(date)'))
+                    ->orderBy('date', 'DESC')
+                    ->mergeBindings($visitsPerDayQuery)
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->week => $item->visitors];
+                    })
+            )
+            ->reverse()
+            ->toArray();
+    }
+
+    private static function createWeekCollectionEmpty($from, $to) {
+        $dates = [];
+        $date = (clone $to);
+        do {
+            // PHP date format: http://php.net/manual/en/function.date.php
+            $dates[$date->format('W / Y')] = null;
+        } while ($date->subWeek()->gt($from));
+        return collect($dates);
+    }
+
+    /**
+     * Visitors per month
+     */
+    function visitorsPerMonth() {
+        $from = Carbon::now()->subMonth(12)->startOfMonth();
+        $to = Carbon::now();
+        $data = self::getvisitorsPerMonth($from, $to);
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                'Visitors' => array_values($data),
+            ]
+        ]);
+    }
+
+    private static function getvisitorsPerMonth($from, $to) {
+        $visitsPerDayQuery = self::getVisitorsPerDayQuery($from, $to);
+        return self::createMonthCollectionEmpty($from, $to)
+            ->merge(
+                DB::table(DB::raw('('.$visitsPerDayQuery->toSql().') as o2'))
+                    ->select(DB::raw('DATE_FORMAT(date, \'%M %Y\') as month'), DB::raw('SUM(visitors) as visitors')) // CONCAT(MONTH(date), \'/\', YEAR(date))
+                    ->groupBy(DB::raw('YEAR(date)'), DB::raw('MONTH(date)'))
+                    ->orderBy('date', 'DESC')
+                    ->mergeBindings($visitsPerDayQuery)
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->month => $item->visitors];
+                    })
+            )
+            ->reverse()
+            ->toArray();
+    }
+
+    private static function createMonthCollectionEmpty($from, $to) {
+        $dates = [];
+        $date = (clone $to);
+        do {
+            // PHP date format: http://php.net/manual/en/function.date.php
+            $dates[$date->format('F Y')] = null;
+        } while ($date->subWeek()->gt($from));
+        return collect($dates);
+    }
+
+    private static function getVisitorsPerDayQuery($from, $to) {
+        $personsQuery = DB::table('transactions')
+            ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')
+            ->groupBy(DB::raw('DAY(created_at)'), DB::raw('MONTH(created_at)'), DB::raw('YEAR(created_at)'), 'transactionable_id')
+            ->having('transactionable_type', 'App\Person')
+            ->whereDate('created_at', '>=', $from)
+            ->whereDate('created_at', '<=', $to);
+
+        return DB::table(DB::raw('('.$personsQuery->toSql().') as o1'))
+            ->select('date', DB::raw('COUNT(`person_id`) as visitors'))
+            ->groupBy('date')
+            ->mergeBindings($personsQuery);
+    }
+
+    /**
+     * Registrations per day
+     */
+    function registrationsPerDay() {
+        $data = self::getRegistrationsPerDay(91);
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                'Registrations' => array_values($data),
+            ]
+        ]);
+    }
+
+    private static function getRegistrationsPerDay($numDays) {
 		$registrations = Person::where('created_at', '>=', Carbon::now()->subDays($numDays))
             ->withTrashed()
 			->groupBy('date')
