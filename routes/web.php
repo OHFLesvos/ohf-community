@@ -79,14 +79,17 @@ Route::get('/reporting/people/chart/avgVisitorsPerDayOfWeek', 'Reporting\\People
 Route::get('/reporting/people/chart/registrationsPerDay', 'Reporting\\PeopleReportingController@registrationsPerDay')->name('reporting.people.registrationsPerDay');
 
 // Reporting: Bank
-Route::get('/reporting/bank/withdrawals', 'Reporting\\BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
-Route::get('/reporting/bank/withdrawals/chart/numTransactions', 'Reporting\\BankReportingController@numTransactions')->name('reporting.bank.numTransactions');
-Route::get('/reporting/bank/withdrawals/chart/sumTransactions', 'Reporting\\BankReportingController@sumTransactions')->name('reporting.bank.sumTransactions');
+Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => ['can:view-bank-statistics']], function () {
+        Route::get('/reporting/bank/withdrawals', 'Reporting\\BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
+        Route::get('/reporting/bank/withdrawals/chart/numTransactions', 'Reporting\\BankReportingController@numTransactions')->name('reporting.bank.numTransactions');
+        Route::get('/reporting/bank/withdrawals/chart/sumTransactions', 'Reporting\\BankReportingController@sumTransactions')->name('reporting.bank.sumTransactions');
 
-Route::get('/reporting/bank/deposits', 'Reporting\\BankReportingController@deposits')->name('reporting.bank.deposits');
-Route::get('/reporting/bank/deposits/chart/stats', 'Reporting\\BankReportingController@depositStats')->name('reporting.bank.depositStats');
-Route::get('/reporting/bank/deposits/chart/stats/{project}', 'Reporting\\BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
-
+        Route::get('/reporting/bank/deposits', 'Reporting\\BankReportingController@deposits')->name('reporting.bank.deposits');
+        Route::get('/reporting/bank/deposits/chart/stats', 'Reporting\\BankReportingController@depositStats')->name('reporting.bank.depositStats');
+        Route::get('/reporting/bank/deposits/chart/stats/{project}', 'Reporting\\BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
+    });    
+});
 
 // Logistics
 Route::group(['middleware' => 'can:use-logistics'], function () {

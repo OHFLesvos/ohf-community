@@ -13,6 +13,16 @@ use Carbon\Carbon;
 class BankReportingController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * View for withdtawal statistics
      */
     function withdrawals() {
