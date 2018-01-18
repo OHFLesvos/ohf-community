@@ -35,7 +35,7 @@ class PeopleReportingController extends Controller
         ]);
     }
 
-    private static function getNationalities($limit = 6) {
+    private static function getNationalities($limit = 10) {
         $nationalities = collect(
             Person::select('nationality', \DB::raw('count(*) as total'))
                     ->groupBy('nationality')
@@ -46,9 +46,12 @@ class PeopleReportingController extends Controller
                 return [$i['nationality'] =>  $i['total']];
             });
         $data = $nationalities->slice(0, $limit)->toArray();
-        $data['Other'] = $nationalities->slice($limit)->reduce(function ($carry, $item) {
+        $other = $nationalities->slice($limit)->reduce(function ($carry, $item) {
                  return $carry + $item;
             });
+        if ($other > 0) {
+            $data['Other'] = $other;
+        }
         return $data;
     }
 

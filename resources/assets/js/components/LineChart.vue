@@ -1,6 +1,6 @@
 <script>
     var palette = require('google-palette');
-    var colorPalette = palette('tol', 8);
+    var colorPalette = palette('tol', 12);
 
     import { Line } from 'vue-chartjs'
     export default {

@@ -96,8 +96,8 @@
                 labels: labels,
                 datasets: [{
                     label: label,
-                    backgroundColor: '#' + window.coloePalette[0],
-                    borderColor: '#' + window.coloePalette[0],
+                    backgroundColor: '#' + window.colorPalette[0],
+                    borderColor: '#' + window.colorPalette[0],
                     fill: false,
                     data: data
                 }]

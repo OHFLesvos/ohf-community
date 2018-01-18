@@ -6,7 +6,7 @@ var palette = require('google-palette');
 
 // Define color palette (for charts)
 // http://google.github.io/palette.js/
-window.coloePalette = palette('tol', 8);
+window.colorPalette = palette('tol', 12);
 
 /*====================================
 =            ON DOM READY            =
@@ -157,16 +157,15 @@ $(function(){
 // Palette
 //
 var palette = require('google-palette');
-var colorPalette = palette('tol', 8);
 $(function(){
     $('.colorize').each(function(){
         var i = 0;
         $(this).find('.colorize-background').each(function(){
-            $(this).css('background-color', '#' + colorPalette[i++ %  colorPalette.length]);
+            $(this).css('background-color', '#' + window.colorPalette[i++ % window.colorPalette.length]);
         });
         i = 0;
         $(this).find('.colorize-text').each(function(){
-            $(this).css('color', '#' + colorPalette[i++ %  colorPalette.length]);
+            $(this).css('color', '#' + colorPalette[i++ % window.colorPalette.length]);
         });
     });
 });
