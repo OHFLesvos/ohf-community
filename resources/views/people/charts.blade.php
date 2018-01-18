@@ -5,22 +5,22 @@
 @section('content')
 
     <div id="app">
-        <div class="row mb-0 mb-sm-4">
+        <div class="row mb-0 mb-sm-2">
             <div class="col-xl-6">
             
-                {{-- Nationalities --}}
-                <div class="card mb-2 mb-sm-4">
+                {{-- People --}}
+                <div class="card mb-4">
+                    <div class="card-header">People</div>
                     <div class="card-body">
-                        <div>
-                            <horizontal-bar-chart
-                                title="Nationalities"
-                                url="{{ route('people.nationalities') }}"
-                                :height=90
-                                :legend=false
-                                class="mb-2">
-                            </horizontal-bar-chart>
-                        </div>
-                        <table class="table table-sm mb-0 mt-4 colorize">
+
+                        {{-- Nationalities --}}
+                        <horizontal-bar-chart
+                            title="Nationalities"
+                            url="{{ route('people.nationalities') }}"
+                            :height=70
+                            :legend=false>
+                        </horizontal-bar-chart>
+                        <table class="table table-sm mt-2 mb-5 colorize">
                             @foreach ($nationalities as $k => $v)
                                 <tr>
                                     <td class="colorize-background">&nbsp;</td>
@@ -30,20 +30,16 @@
                                 </tr>
                             @endforeach
                         </table>
-                    </div>
-                </div>
 
-                {{-- Gender --}}
-                <div class="card mb-2 mb-sm-4">
-                    <div class="card-body">
+                        {{-- Gender --}}
                         <horizontal-bar-chart
                             title="Gender"
                             url="{{ route('people.genderDistribution') }}"
-                            :height=90
+                            :height=70
                             :legend=false
                             class="mb-2">
                         </horizontal-bar-chart>
-                        <div class="row colorize">
+                        <div class="row colorize mb-5">
                             @foreach ($gender as $k => $v)
                                 <div class="col">
                                     <span  class="colorize-background d-inline-block" style="width: 1.5em">&nbsp;</span> {{ $k }}: 
@@ -51,20 +47,16 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
-                </div>
         
-                {{-- Demographics --}}
-                <div class="card mb-2 mb-sm-0">
-                    <div class="card-body">
+                        {{-- Demographics --}}
                         <horizontal-bar-chart
                             title="Demographics"
                             url="{{ route('people.demographics') }}"
-                            :height=90
+                            :height=70
                             :legend=false
                             class="mb-2">
                         </horizontal-bar-chart>
-                        <table class="table table-sm mb-0 mt-4 colorize">
+                        <table class="table table-sm mt-2 mb-5 colorize">
                             @foreach ($demographics as $k => $v)
                                 <tr>
                                     <td class="colorize-background">&nbsp;</td>
@@ -74,51 +66,63 @@
                                 </tr>
                             @endforeach
                         </table>
+
+                        {{-- Number Types --}}
+                        <horizontal-bar-chart
+                            title="Registered card / person number types"
+                            url="{{ route('people.numberTypes') }}"
+                            :height=70
+                            :legend=false
+                            class="mb-2">
+                        </horizontal-bar-chart>
+                        <table class="table table-sm mt-2 colorize">
+                            @foreach ($numberTypes as $k => $v)
+                                <tr>
+                                    <td class="colorize-background">&nbsp;</td>
+                                    <td>{{ $k }}</td>
+                                    <td class="text-right">{{ $v }}</td>
+                                    <td class="text-right">{{ round($v / array_sum(array_values($numberTypes)) * 100) }} %</td>
+                                </tr>
+                            @endforeach
+                        </table>
+
                     </div>
                 </div>
 
             </div>
             <div class="col-xl-6">
 
-                {{-- Visitors per week --}}
-                <div class="card mb-2 mb-sm-4">
+                <div class="card">
+                    <div class="card-header">Visitors</div>
                     <div class="card-body">
+
+                        {{-- Visitors per week --}}
                         <bar-chart
                             title="Visitors per day"
                             ylabel="# Visitors"
                             url="{{ route('people.visitorsPerDay') }}"
                             :height=270
-                            :legend=false
-                            class="mb-2">
+                            :legend=false>
                         </bar-chart>
-                    </div>
-                </div>
 
-                {{-- Visitors per week --}}
-                <div class="card mb-2 mb-sm-4">
-                    <div class="card-body">
+                        {{-- Visitors per week --}}
                         <bar-chart
                             title="Visitors per week"
                             ylabel="# Visitors"
                             url="{{ route('people.visitorsPerWeek') }}"
                             :height=270
-                            :legend=false
-                            class="mb-2">
+                            :legend=false>
                         </bar-chart>
-                    </div>
-                </div>
-
-                {{-- Visitors per month --}}
-                <div class="card mb-2 mb-sm-0">
-                    <div class="card-body">
+        
+                        {{-- Visitors per month --}}
                         <bar-chart
                             title="Visitors per month"
                             ylabel="# Visitors"
                             url="{{ route('people.visitorsPerMonth') }}"
                             :height=270
-                            :legend=false
-                            class="mb-2">
+                            :legend=false>
                         </bar-chart>
+
                     </div>
                 </div>
             

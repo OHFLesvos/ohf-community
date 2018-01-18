@@ -28,11 +28,13 @@
                         'labels': res.data.labels,
                         'datasets': [],
                     };
+                    var sum = 0;
                     Object.keys(res.data.datasets).forEach(function (key) {
                         data.datasets.push({
                             label: key,
                             data: res.data.datasets[key],
                         });
+                        sum += res.data.datasets[key].reduce(function(a, b) { return a + b; }, 0);
                     });
 
                     // Assign colors to datasets
@@ -63,9 +65,24 @@
                         scales: {
                             xAxes: [{
                                 stacked: true,
+                                ticks: {
+                                    display: false,
+                                    max: sum, // + Math.ceil(sum * 0.03),
+                                },
+                                gridLines : {
+                                    display : false,
+                                    drawBorder: false,
+                                }
                             }],
                             yAxes: [{
-                                stacked: true,
+                                stacked: true, 
+                                gridLines : {
+                                    display : false,
+                                    drawBorder: false,
+                                },
+                                ticks: {
+                                    display: false,
+                                },
                             }]
                         },
                         responsive: true,

@@ -250,6 +250,7 @@ class PeopleController extends ParentController
             'nationalities' => self::getNationalities(),
             'gender' => self::getGenderDistribution(),
             'demographics' => self::getDemographics(),
+            'numberTypes' => self::getNumberTypes(),
 		]);
     }
 
@@ -345,6 +346,29 @@ class PeopleController extends ParentController
                 ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(18))
                 ->select('date_of_birth')
                 ->count(),            
+        ];
+    }
+
+    /**
+     * Number types
+     */
+    function numberTypes() {
+        return response()->json([
+            'labels' => null,
+            'datasets' => collect(self::getNumberTypes())
+                ->map(function($e){ return [$e]; })
+                ->toArray(),
+        ]);
+    }
+
+    private static function getNumberTypes() {
+        return [
+            'Police Number (05/...)' => Person::whereNotNull('police_no')->count(),          
+            'Case Number' => Person::whereNotNull('case_no')->count(),          
+            'Medical Number' => Person::whereNotNull('medical_no')->count(),          
+            'Registration Number' => Person::whereNotNull('registration_no')->count(),          
+            'Section Card Number' => Person::whereNotNull('section_card_no')->count(),          
+            'Temporary Number' => Person::whereNotNull('temp_no')->count(),          
         ];
     }
 
