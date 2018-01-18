@@ -540,7 +540,7 @@ class PeopleController extends ParentController
      * Average visitors per day of week
      */
     function avgVisitorsPerDayOfWeek() {
-        $from = Carbon::now()->subYear(1)->startOfWeek();
+        $from = Carbon::now()->subMonth(3)->startOfWeek();
         $to = Carbon::now();
         $data = self::getVisitorsPerDayOfWeek($from, $to);
         return response()->json([
