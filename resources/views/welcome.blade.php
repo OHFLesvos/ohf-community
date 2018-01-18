@@ -55,7 +55,23 @@
             </div>
         @endcan
 
-
+        @allowed('view-reports')
+            <div class="card mb-4">
+                <div class="card-header">
+                    Reports
+                    <a class="pull-right" href="{{ route('reporting.index')  }}">More reports</a>
+                </div>
+                <div class="card-body">
+                    @allowed('view-people-reports')
+                        <a href="{{ route('reporting.people')  }}">People</a><br>
+                    @endallowed
+                    @allowed('view-bank-reports')
+                        <a href="{{ route('reporting.bank.withdrawals')  }}">Bank Withdrawals</a><br>
+                        <a href="{{ route('reporting.bank.deposits')  }}">Bank Deposits</a><br>
+                    @endallowed
+                </div>
+            </div>
+        @endallowed
 
     </div>
 

@@ -101,13 +101,13 @@ return [
 
 
     'permissions' => [
+        'people.manage' => 'People: Manage',
         'people.reports.view' => 'People: View reports',
         'bank.withdrawals.do' => 'Bank: Handout drachma',
         'bank.deposits.do' => 'Bank: Deposit drachma',
         'bank.statistics.view' => 'Bank: View reports',
         'bank.configure' => 'Bank: Configure settings',
         'logistics.use' => 'Use logistics',
-        'people.manage' => 'Manage people',
         'tasks.use' => 'Use tasks'
     ]
 ];
