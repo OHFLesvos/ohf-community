@@ -19,13 +19,6 @@
                 Register drachmas returned from projects
             </div>
         @endallowed
-        @allowed('view-bank-statistics')
-            <div class="col-sm text-center mb-4">
-                <a href="{{ route('bank.charts') }}" class="big-icon">@icon(line-chart)</a><br>
-                <strong>Charts</strong><br>
-                View bank utilisation over time
-            </div>
-        @endallowed
         @allowed('do-bank-withdrawals')
             <div class="col-sm text-center mb-4">
                 <a href="{{ route('bank.codeCard') }}" class="big-icon">@icon(qrcode)</a><br>

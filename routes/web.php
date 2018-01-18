@@ -21,10 +21,10 @@ Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.u
 Route::post('/userprofile/updatePassword', 'UserProfileController@updatePassword')->name('userprofile.updatePassword');
 Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile.delete');
 
+//
+// Bank
+//
 Route::get('/bank', 'BankController@index')->name('bank.index');
-Route::get('/bank/charts', 'BankController@charts')->name('bank.charts');
-Route::get('/bank/charts/numTransactions', 'BankController@numTransactions')->name('bank.numTransactions');
-Route::get('/bank/charts/sumTransactions', 'BankController@sumTransactions')->name('bank.sumTransactions');
 
 Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
 Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');
@@ -43,9 +43,6 @@ Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank
 Route::get('/bank/deposit', 'BankController@deposit')->name('bank.deposit');
 Route::post('/bank/deposit', 'BankController@storeDeposit')->name('bank.storeDeposit');
 
-Route::get('/bank/deposit/stats', 'BankController@depositStats')->name('bank.depositStats');
-Route::get('/bank/deposit/stats/{project}', 'BankController@projectDepositStats')->name('bank.projectDepositStats');
-
 Route::get('/bank/settings', 'BankController@settings')->name('bank.settings');
 Route::post('/bank/settings', 'BankController@updateSettings')->name('bank.updateSettings');
 
@@ -53,6 +50,9 @@ Route::get('/bank/export', 'BankController@export')->name('bank.export');
 Route::get('/bank/import', 'BankController@import')->name('bank.import');
 Route::post('/bank/doImport', 'BankController@doImport')->name('bank.doImport');
 
+//
+// People
+//
 Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
 Route::get('/people/export', 'PeopleController@export')->name('people.export');
 Route::get('/people/import', 'PeopleController@import')->name('people.import');
@@ -78,6 +78,17 @@ Route::get('/reporting/people/chart/visitorsPerYear', 'Reporting\\PeopleReportin
 Route::get('/reporting/people/chart/avgVisitorsPerDayOfWeek', 'Reporting\\PeopleReportingController@avgVisitorsPerDayOfWeek')->name('reporting.people.avgVisitorsPerDayOfWeek');
 Route::get('/reporting/people/chart/registrationsPerDay', 'Reporting\\PeopleReportingController@registrationsPerDay')->name('reporting.people.registrationsPerDay');
 
+// Reporting: Bank
+Route::get('/reporting/bank/withdrawals', 'Reporting\\BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
+Route::get('/reporting/bank/withdrawals/chart/numTransactions', 'Reporting\\BankReportingController@numTransactions')->name('reporting.bank.numTransactions');
+Route::get('/reporting/bank/withdrawals/chart/sumTransactions', 'Reporting\\BankReportingController@sumTransactions')->name('reporting.bank.sumTransactions');
+
+Route::get('/reporting/bank/deposits', 'Reporting\\BankReportingController@deposits')->name('reporting.bank.deposits');
+Route::get('/reporting/bank/deposits/chart/stats', 'Reporting\\BankReportingController@depositStats')->name('reporting.bank.depositStats');
+Route::get('/reporting/bank/deposits/chart/stats/{project}', 'Reporting\\BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
+
+
+// Logistics
 Route::group(['middleware' => 'can:use-logistics'], function () {
     Route::get('/logistics', 'LogisticsController@index')->name('logistics.index');
 
