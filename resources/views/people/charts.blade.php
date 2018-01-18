@@ -93,7 +93,7 @@
             <div class="col-xl-6">
 
                 <div class="card mb-4">
-                    <div class="card-header">Visitors</div>
+                    <div class="card-header">Visitors <small class="text-muted">based on check-ins at the Bank</small></div>
                     <div class="card-body">
 
                         {{-- Visitors per week --}}
@@ -128,6 +128,15 @@
                             title="Visitors per year"
                             ylabel="# Visitors"
                             url="{{ route('people.visitorsPerYear') }}"
+                            :height=270
+                            :legend=false>
+                        </bar-chart>
+
+                        {{-- Average visitors per day of week --}}
+                        <bar-chart
+                            title="Average visitors per day of week"
+                            ylabel="Avg. # Visitors"
+                            url="{{ route('people.avgVisitorsPerDayOfWeek') }}"
                             :height=270
                             :legend=false>
                         </bar-chart>

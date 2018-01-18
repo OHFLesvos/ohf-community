@@ -536,6 +536,52 @@ class PeopleController extends ParentController
         return collect($dates);
     }
 
+    /**
+     * Average visitors per day of week
+     */
+    function avgVisitorsPerDayOfWeek() {
+        $from = Carbon::now()->subYear(1)->startOfWeek();
+        $to = Carbon::now();
+        $data = self::getVisitorsPerDayOfWeek($from, $to);
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                'Visitors' => array_values($data),
+            ]
+        ]);
+    }
+
+    private static function getVisitorsPerDayOfWeek($from, $to) {
+        $visitsPerDayQuery = self::getVisitorsPerDayQuery($from, $to);
+        return self::createDayOfWeekCollectionEmpty($from, $to)
+            ->merge(
+                // MySQL day name and day of week formats: 
+                //    https://www.w3resource.com/mysql/date-and-time-functions/mysql-dayname-function.php
+                //    https://www.w3resource.com/mysql/date-and-time-functions/mysql-dayofweek-function.php
+                DB::table(DB::raw('('.$visitsPerDayQuery->toSql().') as o2'))
+                    ->select(DB::raw('DAYNAME(date) as day'), DB::raw('AVG(visitors) as visitors'))
+                    ->groupBy(DB::raw('DAYOFWEEK(date)'))
+                    ->orderBy(DB::raw('DAYOFWEEK(date)'))
+                    ->mergeBindings($visitsPerDayQuery)
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->day => $item->visitors];
+                    })
+            )
+            ->toArray();
+    }
+
+    private static function createDayOfWeekCollectionEmpty() {
+        $dates = [];
+        $date = Carbon::now()->startOfWeek();
+        do {
+            // PHP date format: http://php.net/manual/en/function.date.php
+            $dates[$date->format('l')] = null;
+        } while ($date->addDay()->lte(Carbon::now()->endOfWeek()));
+        return collect($dates);
+    }
+    
+
     private static function getVisitorsPerDayQuery($from, $to) {
         $personsQuery = DB::table('transactions')
             ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')
