@@ -553,7 +553,7 @@ class PeopleController extends ParentController
 
     private static function getVisitorsPerDayOfWeek($from, $to) {
         $visitsPerDayQuery = self::getVisitorsPerDayQuery($from, $to);
-        return self::createDayOfWeekCollectionEmpty($from, $to)
+        return self::createDayOfWeekCollectionEmpty()
             ->merge(
                 // MySQL day name and day of week formats: 
                 //    https://www.w3resource.com/mysql/date-and-time-functions/mysql-dayname-function.php
@@ -565,7 +565,7 @@ class PeopleController extends ParentController
                     ->mergeBindings($visitsPerDayQuery)
                     ->get()
                     ->mapWithKeys(function ($item) {
-                        return [$item->day => $item->visitors];
+                        return [$item->day => round($item->visitors, 1)];
                     })
             )
             ->toArray();
