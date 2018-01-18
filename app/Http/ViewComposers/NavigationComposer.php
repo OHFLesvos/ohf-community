@@ -73,7 +73,7 @@ class NavigationComposer {
                     'caption' => 'Reporting',
                     'icon' => 'bar-chart',
                     'active' => 'reporting*',
-                    'authorized' => true,
+                    'authorized' => Gate::allows('view-reports'),
                 ],
                 [
                     'route' => 'users.index',

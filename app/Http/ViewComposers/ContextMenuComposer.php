@@ -226,7 +226,7 @@ class ContextMenuComposer {
                         'url' => route('reporting.people'),
                         'caption' => 'Report',
                         'icon' => 'line-chart',
-                        'authorized' => true
+                        'authorized' => Gate::allows('view-people-reports')
                     ],
                     'action' => [
                         'url' => route('people.create'),
@@ -325,7 +325,7 @@ class ContextMenuComposer {
                         'url' => route('reporting.bank.withdrawals'),
                         'caption' => 'Report',
                         'icon' => 'line-chart',
-                        'authorized' => Gate::allows('view-bank-statistics')
+                        'authorized' => Gate::allows('view-bank-reports')
                     ],
                     'deposit' => [
                         'url' => route('bank.deposit'),
@@ -346,7 +346,7 @@ class ContextMenuComposer {
                         'url' => route('reporting.bank.deposits'),
                         'caption' => 'Report',
                         'icon' => 'line-chart',
-                        'authorized' => Gate::allows('view-bank-statistics')
+                        'authorized' => Gate::allows('view-bank-reports')
                     ],                    
                     'withdrawal' => [
                         'url' => route('bank.withdrawal'),

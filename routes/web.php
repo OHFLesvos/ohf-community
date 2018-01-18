@@ -60,27 +60,32 @@ Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImp
 Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')->name('people.qrCode');
 Route::resource('/people', 'PeopleController');
 
-//
-// Reporting
-//
-Route::view('/reporting', 'reporting.index')->name('reporting.index');
-
-// Reporting: People
-Route::get('/reporting/people', 'Reporting\\PeopleReportingController@index')->name('reporting.people');
-Route::get('/reporting/people/chart/nationalities', 'Reporting\\PeopleReportingController@nationalities')->name('reporting.people.nationalities');
-Route::get('/reporting/people/chart/genderDistribution', 'Reporting\\PeopleReportingController@genderDistribution')->name('reporting.people.genderDistribution');
-Route::get('/reporting/people/chart/demographics', 'Reporting\\PeopleReportingController@demographics')->name('reporting.people.demographics');
-Route::get('/reporting/people/chart/numberTypes', 'Reporting\\PeopleReportingController@numberTypes')->name('reporting.people.numberTypes');
-Route::get('/reporting/people/chart/visitorsPerDay', 'Reporting\\PeopleReportingController@visitorsPerDay')->name('reporting.people.visitorsPerDay');
-Route::get('/reporting/people/chart/visitorsPerWeek', 'Reporting\\PeopleReportingController@visitorsPerWeek')->name('reporting.people.visitorsPerWeek');
-Route::get('/reporting/people/chart/visitorsPerMonth', 'Reporting\\PeopleReportingController@visitorsPerMonth')->name('reporting.people.visitorsPerMonth');
-Route::get('/reporting/people/chart/visitorsPerYear', 'Reporting\\PeopleReportingController@visitorsPerYear')->name('reporting.people.visitorsPerYear');
-Route::get('/reporting/people/chart/avgVisitorsPerDayOfWeek', 'Reporting\\PeopleReportingController@avgVisitorsPerDayOfWeek')->name('reporting.people.avgVisitorsPerDayOfWeek');
-Route::get('/reporting/people/chart/registrationsPerDay', 'Reporting\\PeopleReportingController@registrationsPerDay')->name('reporting.people.registrationsPerDay');
-
-// Reporting: Bank
 Route::group(['middleware' => ['auth']], function () {
-    Route::group(['middleware' => ['can:view-bank-statistics']], function () {
+
+    //
+    // Reporting
+    //
+    Route::group(['middleware' => ['can:view-reports']], function () {
+        Route::view('/reporting', 'reporting.index')->name('reporting.index');
+    });
+
+    // Reporting: People
+    Route::group(['middleware' => ['can:view-people-reports']], function () {
+        Route::get('/reporting/people', 'Reporting\\PeopleReportingController@index')->name('reporting.people');
+        Route::get('/reporting/people/chart/nationalities', 'Reporting\\PeopleReportingController@nationalities')->name('reporting.people.nationalities');
+        Route::get('/reporting/people/chart/genderDistribution', 'Reporting\\PeopleReportingController@genderDistribution')->name('reporting.people.genderDistribution');
+        Route::get('/reporting/people/chart/demographics', 'Reporting\\PeopleReportingController@demographics')->name('reporting.people.demographics');
+        Route::get('/reporting/people/chart/numberTypes', 'Reporting\\PeopleReportingController@numberTypes')->name('reporting.people.numberTypes');
+        Route::get('/reporting/people/chart/visitorsPerDay', 'Reporting\\PeopleReportingController@visitorsPerDay')->name('reporting.people.visitorsPerDay');
+        Route::get('/reporting/people/chart/visitorsPerWeek', 'Reporting\\PeopleReportingController@visitorsPerWeek')->name('reporting.people.visitorsPerWeek');
+        Route::get('/reporting/people/chart/visitorsPerMonth', 'Reporting\\PeopleReportingController@visitorsPerMonth')->name('reporting.people.visitorsPerMonth');
+        Route::get('/reporting/people/chart/visitorsPerYear', 'Reporting\\PeopleReportingController@visitorsPerYear')->name('reporting.people.visitorsPerYear');
+        Route::get('/reporting/people/chart/avgVisitorsPerDayOfWeek', 'Reporting\\PeopleReportingController@avgVisitorsPerDayOfWeek')->name('reporting.people.avgVisitorsPerDayOfWeek');
+        Route::get('/reporting/people/chart/registrationsPerDay', 'Reporting\\PeopleReportingController@registrationsPerDay')->name('reporting.people.registrationsPerDay');
+    });
+
+    // Reporting: Bank
+    Route::group(['middleware' => ['can:view-bank-reports']], function () {
         Route::get('/reporting/bank/withdrawals', 'Reporting\\BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
         Route::get('/reporting/bank/withdrawals/chart/numTransactions', 'Reporting\\BankReportingController@numTransactions')->name('reporting.bank.numTransactions');
         Route::get('/reporting/bank/withdrawals/chart/sumTransactions', 'Reporting\\BankReportingController@sumTransactions')->name('reporting.bank.sumTransactions');
@@ -88,7 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reporting/bank/deposits', 'Reporting\\BankReportingController@deposits')->name('reporting.bank.deposits');
         Route::get('/reporting/bank/deposits/chart/stats', 'Reporting\\BankReportingController@depositStats')->name('reporting.bank.depositStats');
         Route::get('/reporting/bank/deposits/chart/stats/{project}', 'Reporting\\BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
-    });    
+    });
 });
 
 // Logistics

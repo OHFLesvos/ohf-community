@@ -30,11 +30,11 @@ class HomeController extends Controller
     public function index()
     {
         $args = [];
-        if (Auth::user()->can('list', Person::class)) {
+        if (Auth::user()->can('list', Person::class) || Gate::allows('view-people-reports')) {
             $args['num_people'] = Person::count();
 			$args['num_people_added_today'] = Person::whereDate('created_at', '=', Carbon::today())->count();
         }
-        if (Gate::allows('do-bank-withdrawals') || Gate::allows('view-bank-statistics')) {
+        if (Gate::allows('do-bank-withdrawals') || Gate::allows('view-bank-reports')) {
             $args['num_transactions_today'] = Transaction::whereDate('created_at', '=', Carbon::today())->where('transactionable_type', 'App\Person')->count();
             $args['num_people_served_today'] = BankController::getNumberOfPersonsServedToday();
             $args['transaction_value_today'] = BankController::getTransactionValueToday();

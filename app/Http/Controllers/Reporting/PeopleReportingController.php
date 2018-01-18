@@ -12,16 +12,6 @@ use Carbon\Carbon;
 class PeopleReportingController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Index
      */
     function index() {
