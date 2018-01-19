@@ -94,6 +94,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/reporting/bank/deposits/chart/stats', 'Reporting\\BankReportingController@depositStats')->name('reporting.bank.depositStats');
         Route::get('/reporting/bank/deposits/chart/stats/{project}', 'Reporting\\BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
     });
+
+    // Reporting: Logistic articles
+    Route::get('/reporting/articles/chart/{article}/transactionsPerDay', 'Reporting\\ArticleReportingController@transactionsPerDay')->name('reporting.articles.transactionsPerDay');
+    Route::get('/reporting/articles/chart/{article}/avgTransactionsPerWeekDay', 'Reporting\\ArticleReportingController@avgTransactionsPerWeekDay')->name('reporting.articles.avgTransactionsPerWeekDay');
 });
 
 // Logistics
@@ -107,8 +111,6 @@ Route::group(['middleware' => 'can:use-logistics'], function () {
     Route::get('/logistics/articles/{article}/edit', 'ArticleController@edit')->name('logistics.articles.edit');
     Route::put('/logistics/articles/{article}', 'ArticleController@update')->name('logistics.articles.update');
     Route::delete('/logistics/articles/{article}', 'ArticleController@destroyArticle')->name('logistics.articles.destroyArticle');
-    Route::get('/logistics/articles/{article}/transactionsPerDay', 'ArticleController@transactionsPerDay')->name('logistics.articles.transactionsPerDay');
-    Route::get('/logistics/articles/{article}/avgTransactionsPerWeekDay', 'ArticleController@avgTransactionsPerWeekDay')->name('logistics.articles.avgTransactionsPerWeekDay');
 });
 
 // Tasks
