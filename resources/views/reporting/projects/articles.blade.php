@@ -30,10 +30,32 @@
                                 </div>
                                 <div class="col-md">
                                     <bar-chart
+                                        title="{{ $article->name }} ({{ $article->type }}) per week"
+                                        ylabel="{{ $article->unit }}"
+                                        url="{{ route('reporting.articles.transactionsPerWeek', $article) }}" 
+                                        :height=300
+                                        :legend=false
+                                        class="mb-4">
+                                    </bar-chart>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-md">
+                                        <bar-chart
+                                            title="{{ $article->name }} ({{ $article->type }}) per month"
+                                            ylabel="{{ $article->unit }}"
+                                            url="{{ route('reporting.articles.transactionsPerMonth', $article) }}" 
+                                            :height=300
+                                            :legend=false
+                                            class="mb-4">
+                                        </bar-chart>
+                                    </div>
+                                <div class="col-md">
+                                    <bar-chart
                                         title="Average {{ $article->name }} ({{ $article->type }}) per weekday"
                                         ylabel="{{ $article->unit }}"
                                         url="{{ route('reporting.articles.avgTransactionsPerWeekDay', $article) }}"
-                                        :height=245
+                                        :height=300
                                         :legend=false
                                         class="mb-2">
                                     </bar-chart>

@@ -104,6 +104,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/reporting/project/{project}/articles', 'Reporting\\ArticleReportingController@articles')->name('reporting.articles');
     Route::get('/reporting/articles/chart/{article}/transactionsPerDay', 'Reporting\\ArticleReportingController@transactionsPerDay')->name('reporting.articles.transactionsPerDay');
+    Route::get('/reporting/articles/chart/{article}/transactionsPerWeek', 'Reporting\\ArticleReportingController@transactionsPerWeek')->name('reporting.articles.transactionsPerWeek');
+    Route::get('/reporting/articles/chart/{article}/transactionsPerMonth', 'Reporting\\ArticleReportingController@transactionsPerMonth')->name('reporting.articles.transactionsPerMonth');
     Route::get('/reporting/articles/chart/{article}/avgTransactionsPerWeekDay', 'Reporting\\ArticleReportingController@avgTransactionsPerWeekDay')->name('reporting.articles.avgTransactionsPerWeekDay');
 });
 

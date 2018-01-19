@@ -51,11 +51,85 @@ class ArticleReportingController extends BaseReportingController
 
     private static function getTransactionsPerDay(Article $article, $from, $to) {
         return self::createDateCollectionEmpty($from, $to)
-            ->merge(self::getTransactionsPerDayQuery($article, $from, $to)
+            ->merge(
+                self::getTransactionsPerDayQuery($article, $from, $to)
                 ->get()
                 ->mapWithKeys(function ($item) {
                     return [$item->date => $item->sum];
                 }))
+            ->reverse()
+            ->toArray();
+    }
+
+    /**
+     * Returns article transaction value per week as JSON, limited by from and to date
+     */
+    public function transactionsPerWeek(Article $article, Request $request) {
+        $from = Carbon::now()->subMonth(6)->startOfWeek();
+        $to = Carbon::now();
+        
+        $data = self::getTransactionsPerWeek($article, $from, $to);
+
+        // Return JSON
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                $article->name => array_values($data)
+            ],
+        ]);
+    }
+
+    private static function getTransactionsPerWeek(Article $article, $from, $to) {
+        $sql = self::getTransactionsPerDayQuery($article, $from, $to);
+        return self::createWeekCollectionEmpty($from, $to)
+            ->merge(                
+                // MySQL week number formats: https://www.w3resource.com/mysql/date-and-time-functions/mysql-week-function.php
+                DB::table(DB::raw('('.$sql->toSql().') as o2'))
+                    ->select(DB::raw('CONCAT(LPAD(WEEK(date, 3), 2, 0), \' / \', YEAR(date)) as week'), DB::raw('SUM(sum) as sum'))
+                    ->groupBy(DB::raw('WEEK(date, 3)'), DB::raw('YEAR(date)'))
+                    ->orderBy('date', 'DESC')
+                    ->mergeBindings($sql)
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->week => $item->sum];
+                    })
+            )
+            ->reverse()
+            ->toArray();
+    }    
+
+    /**
+     * Returns article transaction value per month as JSON, limited by from and to date
+     */
+    public function transactionsPerMonth(Article $article, Request $request) {
+        $from = Carbon::now()->subMonth(6)->startOfWeek();
+        $to = Carbon::now();
+        
+        $data = self::getTransactionsPerMonth($article, $from, $to);
+
+        // Return JSON
+        return response()->json([
+            'labels' => array_keys($data),
+            'datasets' => [
+                $article->name => array_values($data)
+            ],
+        ]);
+    }
+
+    private static function getTransactionsPerMonth(Article $article, $from, $to) {
+        $sql = self::getTransactionsPerDayQuery($article, $from, $to);
+        return self::createMonthCollectionEmpty($from, $to)
+            ->merge(                
+                DB::table(DB::raw('('.$sql->toSql().') as o2'))
+                    ->select(DB::raw('DATE_FORMAT(date, \'%M %Y\') as month'), DB::raw('SUM(sum) as sum'))
+                    ->groupBy(DB::raw('YEAR(date)'), DB::raw('MONTH(date)'))
+                    ->orderBy('date', 'DESC')
+                    ->mergeBindings($sql)
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->month => $item->sum];
+                    })
+            )
             ->reverse()
             ->toArray();
     }
