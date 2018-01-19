@@ -30,7 +30,7 @@ class HomeController extends Controller
     public function index()
     {
         $args = [];
-        if (Auth::user()->can('list', Person::class) || Gate::allows('view-people-reports')) {
+        if (Auth::user()->can('list', Person::class)) {
             $args['num_people'] = Person::count();
 			$args['num_people_added_today'] = Person::whereDate('created_at', '=', Carbon::today())->count();
         }

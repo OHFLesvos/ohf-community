@@ -62,13 +62,13 @@
                     <a class="pull-right" href="{{ route('reporting.index')  }}">More reports</a>
                 </div>
                 <div class="card-body">
-                    @allowed('view-people-reports')
-                        <a href="{{ route('reporting.people')  }}">People</a><br>
-                    @endallowed
-                    @allowed('view-bank-reports')
-                        <a href="{{ route('reporting.bank.withdrawals')  }}">Bank Withdrawals</a><br>
-                        <a href="{{ route('reporting.bank.deposits')  }}">Bank Deposits</a><br>
-                    @endallowed
+                    @foreach(Config::get('reporting.reports') as $report)
+                        @if($report['featured'])
+                            @allowed($report['gate'])
+                                <a href="{{ route($report['route']) }}">{{ $report['name'] }}</a><br>
+                            @endallowed
+                        @endif
+                    @endforeach                    
                 </div>
             </div>
         @endallowed
