@@ -108,6 +108,7 @@ return [
         'bank.statistics.view' => 'Bank: View reports',
         'bank.configure' => 'Bank: Configure settings',
         'logistics.use' => 'Use logistics',
-        'tasks.use' => 'Use tasks'
+        'tasks.use' => 'Use tasks',
+        'kitchen.reports.view' => 'Kitchen: View reports',
     ]
 ];

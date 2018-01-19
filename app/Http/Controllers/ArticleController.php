@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
-    private static $types = [ 'incomming', 'outgoing' ];
+    public static $types = [ 'incomming', 'outgoing' ];
 
     /**
      * Create a new controller instance.
@@ -118,17 +118,6 @@ class ArticleController extends Controller
     }
 
     /**
-     * Shows an article and statistics about it
-     */
-    public function show(Article $article) {
-        return view('logistics.articles.article', [
-            'article' => $article,
-            'date_from' =>Carbon::today()->subDays(30),
-            'date_to' => Carbon::today(),
-        ]);
-    }
-
-    /**
      * Edits an article
      */
     public function edit(Article $article) {
@@ -149,7 +138,7 @@ class ArticleController extends Controller
         $article->unit = $request->unit;
         $updated = $article->isDirty();
         $article->save();
-        return redirect()->route('logistics.articles.show', $article)
+        return redirect()->route('logistics.articles.index', $article->project)
             ->with('info', $updated ? 'Article has been updated.' : 'No changes.');
     }
 

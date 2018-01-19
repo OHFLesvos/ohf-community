@@ -3,15 +3,33 @@
 namespace App\Http\Controllers\Reporting;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Article;
-use App\Transaction;
-use App\Project;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ArticleController;
+use App\Article;
+use App\Transaction;
+use App\Project;
+
 class ArticleReportingController extends Controller
 {
+    /**
+     * Shows an article and statistics about it
+     */
+    public function articles(Project $project, Request $request) {
+        return view('reporting.projects.articles', [
+            'projectName' => $project->name,
+            'types' => ArticleController::$types,
+            'data' => collect(ArticleController::$types)->mapWithKeys(function($e) use($project) {
+                return [$e => $project->articles()
+                    ->where('type', $e)
+                    ->orderBy('name')
+                    ->get()];
+            })
+        ]);
+    }
+
     /**
      * Returns article transaction value per day as JSON, limited by from and to date
      */

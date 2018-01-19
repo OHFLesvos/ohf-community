@@ -19,7 +19,7 @@
             <tbody>
             @foreach ($articles as $article)
                 <tr>
-                    <td><a href="{{ route('logistics.articles.show', $article) }}">{{ $article->name }}</a></td>
+                    <td><a href="{{ route('logistics.articles.edit', $article) }}">{{ $article->name }}</a></td>
                     <td>{{ $article->unit }}</td>
                     @foreach(range(6, 0) as $i)
                         @if ($date->toDateString() != Carbon\Carbon::today()->subDays($i)->toDateString())

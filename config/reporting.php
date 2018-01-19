@@ -14,7 +14,7 @@ return [
             'icon' => 'id-card',
             'name' => 'Bank: Withdrawals',
             'gate' => 'view-bank-reports',
-            'featured' => true,
+            'featured' => false,
         ],
         [
             'route' => 'reporting.bank.deposits',
@@ -23,5 +23,14 @@ return [
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],
-    ]
+        [
+            'route' => 'reporting.kitchen',
+            'icon' => 'spoon',
+            'name' => 'Kitchen',
+            'gate' => 'view-kitchen-reports',
+            'featured' => true,
+        ],
+    ],
+
+    'kitchen_project' => env('KITCHEN_PROJECT', 1),
 ];

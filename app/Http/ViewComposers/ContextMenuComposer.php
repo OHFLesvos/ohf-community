@@ -402,24 +402,24 @@ class ContextMenuComposer {
             // Logistics
             //
             case 'logistics.articles.index':
+                $project = $view->getData()['project'];
                 return [
+                    'report'=> [
+                        'url' => route('reporting.articles', $project),
+                        'caption' => 'Report',
+                        'icon' => 'line-chart',
+                        'authorized' => true // TODO
+                    ],
                     'back' => [
                         'url' => route('logistics.index'),
-                        'caption' => 'Project Overview',
-                        'icon' => 'list',
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-logistics')
                     ]
                 ];
-            case 'logistics.articles.show':
+            case 'logistics.articles.edit':
                 $article = $view->getData()['article'];
                 return [
-                    'action' => [
-                        'url' => route('logistics.articles.edit', $article),
-                        'caption' => 'Edit',
-                        'icon' => 'pencil',
-                        'icon_floating' => 'pencil',
-                        'authorized' => Gate::allows('use-logistics')
-                    ],
                     'delete' => [
                         'url' => route('logistics.articles.destroyArticle', $article),
                         'caption' => 'Delete',
@@ -429,16 +429,6 @@ class ContextMenuComposer {
                     ],
                     'back' => [
                         'url' => route('logistics.articles.index', $article->project),
-                        'caption' => 'Close',
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('use-logistics')
-                    ]
-                ];
-            case 'logistics.articles.edit':
-                $article = $view->getData()['article'];
-                return [
-                    'back' => [
-                        'url' => route('logistics.articles.show', $article),
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-logistics')
@@ -451,6 +441,7 @@ class ContextMenuComposer {
             case 'reporting.people':
             case 'reporting.bank.withdrawals':
             case 'reporting.bank.deposits':
+            case 'reporting.articles':
                 return [
                     'back' => [
                         'url' => url()->previous(),
