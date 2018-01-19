@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Reporting;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ArticleController;
 use App\Article;
 use App\Transaction;
 use App\Project;
+use Illuminate\Support\Facades\DB;
 
 class ArticleReportingController extends BaseReportingController
 {
@@ -34,14 +34,11 @@ class ArticleReportingController extends BaseReportingController
      * Returns article transaction value per day as JSON, limited by from and to date
      */
     public function transactionsPerDay(Article $article, Request $request) {
-        list($from, $to) = self::getDatesFromRequest($request);
-
-        // Collect values
-        $date = $from;
-        $data = [];
-        do {
-            $data[$date->format('D j. M')] = $article->dayTransactions($date);
-        } while($from->addDays(1) <= $to);
+        //list($from, $to) = self::getDatesFromRequest($request);
+        $from = Carbon::now()->subMonth(1);
+        $to = Carbon::now();        
+        
+        $data = self::getTransactionsPerDay($article, $from, $to);
 
         // Return JSON
         return response()->json([
@@ -50,57 +47,62 @@ class ArticleReportingController extends BaseReportingController
                 $article->name => array_values($data)
             ],
         ]);
+    }
+
+    private static function getTransactionsPerDay(Article $article, $from, $to) {
+        return self::createDateCollectionEmpty($from, $to)
+            ->merge(self::getTransactionsPerDayQuery($article, $from, $to)
+                ->get()
+                ->mapWithKeys(function ($item) {
+                    return [$item->date => $item->sum];
+                }))
+            ->reverse()
+            ->toArray();
     }
 
     /**
      * Returns average article transaction value per week day as JSON, limited by from and to date
      */
     public function avgTransactionsPerWeekDay(Article $article, Request $request) {
-        list($from, $to) = self::getDatesFromRequest($request);
-
-        // Collect values
-        $date = $from;
-        $weekdays = [];
-        do {
-            $val = $article->dayTransactions($date);
-            $weekdays[$date->format('l')][] = $val;
-        } while($from->addDays(1) <= $to);
-
-        // Calculate average over weekdays
-        $data = [];
-        $wdate = Carbon::today()->startOfWeek();
-        do { 
-            $k = $wdate->format('l');
-            $v = $weekdays[$k];
-            $filtered = array_filter($v);
-            $count = count($filtered);
-            $data[$k] = $count > 0 ? (array_sum($filtered) / $count) : null;
-        } while ($wdate->addDays(1) <= Carbon::today()->endOfWeek());
-
-        // Return JSON
+        //list($from, $to) = self::getDatesFromRequest($request);
+        $from = Carbon::now()->subMonth(3)->startOfWeek();
+        $to = Carbon::now();
+        $data = self::getAvgTransactionsPerWeekDay($article, $from, $to);
         return response()->json([
             'labels' => array_keys($data),
             'datasets' => [
-                $article->name => array_values($data)
-            ],
+                $article->name => array_values($data),
+            ]
         ]);
     }
 
-    /**
-     * Parses optional date boundaries from a request
-     */
-    private static function getDatesFromRequest(Request $request) {
-        // Validate request data
-        Validator::make($request->all(), [
-            'from' => 'date',
-            'to' => 'date',
-        ])->validate();
+    private static function getAvgTransactionsPerWeekDay(Article $article, $from, $to) {
+        $query = self::getTransactionsPerDayQuery($article, $from, $to);
+        return self::createDayOfWeekCollectionEmpty()
+            ->merge(
+                // MySQL day name and day of week formats: 
+                //    https://www.w3resource.com/mysql/date-and-time-functions/mysql-dayname-function.php
+                //    https://www.w3resource.com/mysql/date-and-time-functions/mysql-dayofweek-function.php
+                DB::table(DB::raw('('.$query->toSql().') as o2'))
+                    ->select(DB::raw('DAYNAME(date) as day'), DB::raw('AVG(sum) as avg'))
+                    ->groupBy(DB::raw('DAYOFWEEK(date)'))
+                    ->orderBy(DB::raw('DAYOFWEEK(date)'))
+                    ->mergeBindings($query)
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->day => round($item->avg, 1)];
+                    })
+            )
+            ->toArray();
+    }
 
-        // Parse dates from request
-        $from = isset($request->from) ? new Carbon($request->from) : Carbon::today()->subDays(30);
-        $to = isset($request->to) ? new Carbon($request->to) : Carbon::today();
-
-        // Return as array
-        return [$from, $to];
+    private static function getTransactionsPerDayQuery(Article $article, $from, $to) {
+        return $article->transactions()
+            ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(value) as sum'))
+            ->groupBy(DB::raw('day(created_at)'), DB::raw('month(created_at)'), DB::raw('year(created_at)'))
+            ->whereDate('created_at', '>=', $from)
+            ->whereDate('created_at', '<=', $to)
+            ->orderBy('created_at')
+            ->getBaseQuery();
     }
 }

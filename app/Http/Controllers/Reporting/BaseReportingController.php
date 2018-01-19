@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reporting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 abstract class BaseReportingController extends Controller
 {
@@ -55,5 +56,22 @@ abstract class BaseReportingController extends Controller
         } while ($date->addDay()->lte(Carbon::now()->endOfWeek()));
         return collect($dates);
     }
-    
+
+    /**
+     * Parses optional date boundaries from a request
+     */
+    protected static function getDatesFromRequest(Request $request) {
+        // Validate request data
+        Validator::make($request->all(), [
+            'from' => 'date',
+            'to' => 'date',
+        ])->validate();
+
+        // Parse dates from request
+        $from = isset($request->from) ? new Carbon($request->from) : Carbon::today()->subDays(30);
+        $to = isset($request->to) ? new Carbon($request->to) : Carbon::today();
+
+        // Return as array
+        return [$from, $to];
+    }
 }
