@@ -12,7 +12,7 @@ use App\Article;
 use App\Transaction;
 use App\Project;
 
-class ArticleReportingController extends Controller
+class ArticleReportingController extends BaseReportingController
 {
     /**
      * Shows an article and statistics about it
