@@ -221,6 +221,8 @@ class BankController extends Controller
             'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE),
             'frequent_visitor_weeks' => \Setting::get('bank.frequent_visitor_weeks', Person::FREQUENT_VISITOR_WEEKS),
             'frequent_visitor_threshold' => \Setting::get('bank.frequent_visitor_threshold', Person::FREQUENT_VISITOR_THRESHOLD),
+            'current_num_people' => Person::count(),
+            'current_num_frequent_visitors' => Reporting\PeopleReportingController::getNumberOfFrequentVisitors(),
 		]);
     }
 

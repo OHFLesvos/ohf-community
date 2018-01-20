@@ -49,7 +49,7 @@
 		</div>
 
 		<div class="card mb-4">
-			<div class="card-header">Frequent visitor</div>
+			<div class="card-header">Frequent visitors</div>
 			<div class="card-body">
 				<div class="form-row">
 					<div class="col-md">
@@ -60,6 +60,8 @@
 						</div>
 					</div>
 				</div>
+				<div class="text-muted">Current settings: {{ $current_num_frequent_visitors }} persons affected, 
+					out of {{ $current_num_people }} ({{ round($current_num_frequent_visitors/$current_num_people * 100) }} %)</div>
 			</div>
 		</div>
 
