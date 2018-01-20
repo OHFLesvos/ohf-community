@@ -15,11 +15,26 @@ class PeopleReportingController extends BaseReportingController
      * Index
      */
     function index() {
+        $daily = array_values(self::getVisitorsPerDay(Carbon::now()->subDay()->startOfDay(), Carbon::now()));
+        $weekly = array_values(self::getVisitorsPerWeek(Carbon::now()->subWeek()->startOfWeek(), Carbon::now()));
+        $monthly = array_values(self::getVisitorsPerMonth(Carbon::now()->subMonth()->startOfMonth(), Carbon::now()));
+        $year = array_values(self::getVisitorsPerYear(Carbon::now()->subYear()->startOfYear(), Carbon::now()));
         return view('reporting.people', [
+            'num_people' => Person::count(),
+			'num_people_added_today' => Person::whereDate('created_at', '=', Carbon::today())->count(),
             'nationalities' => self::getNationalities(),
             'gender' => self::getGenderDistribution(),
             'demographics' => self::getDemographics(),
             'numberTypes' => self::getNumberTypes(),
+            'frequentVisitors' => self::getNumberOfFrequentVisitors(),
+            'visitorsToday' => $daily[1],
+            'visitorsYesterday' => $daily[0],
+            'visitorsThisWeek' => $weekly[1],
+            'visitorsLastWeek' => $weekly[0],
+            'visitorsThisMonth' => $monthly[1],
+            'visitorsLastMonth' => $monthly[0],
+            'visitorsThisYear' => $year[1],
+            'visitorsLastYear' => $year[0],
 		]);
     }
 
@@ -210,7 +225,7 @@ class PeopleReportingController extends BaseReportingController
     function visitorsPerMonth() {
         $from = Carbon::now()->subMonth(12)->startOfMonth();
         $to = Carbon::now();
-        $data = self::getvisitorsPerMonth($from, $to);
+        $data = self::getVisitorsPerMonth($from, $to);
         return response()->json([
             'labels' => array_keys($data),
             'datasets' => [
@@ -219,7 +234,7 @@ class PeopleReportingController extends BaseReportingController
         ]);
     }
 
-    private static function getvisitorsPerMonth($from, $to) {
+    private static function getVisitorsPerMonth($from, $to) {
         $visitsPerDayQuery = self::getVisitorsPerDayQuery($from, $to);
         return self::createMonthCollectionEmpty($from, $to)
             ->merge(
@@ -320,10 +335,36 @@ class PeopleReportingController extends BaseReportingController
     }
 
     /**
+     * Number of frequent visitors
+     */
+    public static function getNumberOfFrequentVisitors() {
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', Person::FREQUENT_VISITOR_WEEKS);
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', Person::FREQUENT_VISITOR_THRESHOLD);
+
+        $q1 = DB::table('transactions')
+            ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')
+            ->groupBy(DB::raw('DATE(created_at)'), 'transactionable_id')
+            ->where('transactionable_type', 'App\Person')
+            ->whereDate('created_at', '>=', Carbon::today()->subWeeks($weeks));
+
+        $q2 = DB::table(DB::raw('('.$q1->toSql().') as o1'))
+            ->select('person_id', DB::raw('COUNT(`person_id`) as visits'))
+            ->groupBy('person_id')
+            ->having('visits', '>=', $threshold)
+            ->mergeBindings($q1);
+
+        $q3 = DB::table(DB::raw('('.$q2->toSql().') as o2'))
+            ->select(DB::raw('COUNT(`person_id`) as num'))
+            ->mergeBindings($q2);
+
+        return $q3->first()->num;
+    }
+
+    /**
      * Registrations per day
      */
     function registrationsPerDay() {
-        $data = self::getRegistrationsPerDay(91);
+        $data = self::getRegistrationsPerDay(60);
         return response()->json([
             'labels' => array_keys($data),
             'datasets' => [

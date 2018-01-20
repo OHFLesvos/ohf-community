@@ -13,6 +13,14 @@
                     <div class="card-header">People</div>
                     <div class="card-body">
 
+                    <div class="row mb-4 align-items-center">
+                            <div class="col text-secondary">Registered:</div>
+                            <div class="col display-4">{{ $num_people }}</div>
+                            <div class="w-100 d-block d-md-none"></div>
+                            <div class="col text-secondary">Added today:</div>
+                            <div class="col display-4">{{ $num_people_added_today }}</div>
+                        </div>
+
                         {{-- Nationalities --}}
                         <horizontal-bar-chart
                             title="Nationalities"
@@ -86,6 +94,16 @@
                             @endforeach
                         </table>
 
+                        {{-- Registrations per day --}}
+                        <bar-chart
+                            title="New registrations per day"
+                            ylabel="# Registrations"
+                            url="{{ route('reporting.people.registrationsPerDay') }}"
+                            :height=350
+                            :legend=false
+                            class="mb-2">
+                        </bar-chart>
+
                     </div>
                 </div>
 
@@ -95,7 +113,23 @@
                 <div class="card mb-4">
                     <div class="card-header">Visitors <small class="text-muted">based on check-ins at the Bank</small></div>
                     <div class="card-body">
-
+                        <div class="row mb-4 align-items-center">
+                            <div class="col text-secondary">Today:</div>
+                            <div class="col display-4">{{ $visitorsToday }}</div>
+                            <div class="col text-secondary">This week:</div>
+                            <div class="col display-4">{{ $visitorsThisWeek }}</div>
+                            <div class="w-100 d-block d-md-none"></div>
+                            <div class="col text-secondary">This month:</div>
+                            <div class="col display-4">{{ $visitorsThisMonth }}</div>
+                            <div class="col text-secondary">This year:</div>
+                            <div class="col display-4">{{ $visitorsThisYear }}</div>
+                            <div class="w-100 d-block d-md-none"></div>
+                            <div class="col text-secondary">Frequent:</div>
+                            <div class="col display-4">{{ $frequentVisitors }}</div>
+                            <div class="col text-secondary d-md-none"></div> {{-- TODO Average visitors per day, peak visitors per day --}}
+                            <div class="col display-4 d-md-none"></div>
+                        </div>
+                        
                         {{-- Visitors per week --}}
                         <bar-chart
                             title="Visitors per day"
@@ -147,18 +181,11 @@
             </div>
         </div>
 
-        <div class="card mb-2">
-            <div class="card-body">
-                    <bar-chart
-                    title="New registrations per day"
-                    ylabel="# Registrations"
-                    url="{{ route('reporting.people.registrationsPerDay') }}"
-                    :height=350
-                    :legend=false
-                    class="mb-2">
-                </bar-chart>
-            </div>
-        </div>
+        {{--  <div class="card mb-2">
+                        <div class="card-body">
+
+                        </div>
+        </div>  --}}
 
     </div>
 
