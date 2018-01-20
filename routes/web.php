@@ -13,6 +13,9 @@
 
 Route::get('/', 'HomeController@index')->name('home');
 
+// Changelog
+Route::get('/changelog', 'ChangelogController@index')->name('changelog');
+
 Route::resource('users', 'UserController');
 Route::resource('roles', 'RoleController');
 
