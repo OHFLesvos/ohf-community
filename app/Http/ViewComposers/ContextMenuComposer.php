@@ -441,10 +441,31 @@ class ContextMenuComposer {
             case 'reporting.people':
             case 'reporting.bank.withdrawals':
             case 'reporting.bank.deposits':
-            case 'reporting.articles':
                 return [
                     'back' => [
                         'url' => url()->previous(),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => true
+                    ]
+                ];
+            case 'reporting.articles':
+                if (!preg_match('#/reporting/#', url()->previous())) {
+                    session(['articleReportingBackUrl' => url()->previous()]);
+                }
+                return [
+                    'back' => [
+                        'url' => session('articleReportingBackUrl', route('reporting.index')),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => true
+                    ]
+                ];
+            case 'reporting.article':
+                $article = $view->getData()['article'];
+                return [
+                    'back' => [
+                        'url' => route('reporting.articles', $article->project),
                         'caption' => 'Close',
                         'icon' => 'times-circle',
                         'authorized' => true

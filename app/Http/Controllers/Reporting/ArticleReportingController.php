@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class ArticleReportingController extends BaseReportingController
 {
     /**
-     * Shows an article and statistics about it
+     * Shows all articles of a project and statistics about them
      */
     public function articles(Project $project, Request $request) {
         return view('reporting.projects.articles', [
@@ -25,8 +25,31 @@ class ArticleReportingController extends BaseReportingController
                 return [$e => $project->articles()
                     ->where('type', $e)
                     ->orderBy('name')
-                    ->get()];
+                    ->get()
+                    ->map(function($a){
+                        $daily = array_values(self::getTransactionsPerDay($a, Carbon::now()->subDay()->startOfDay(), Carbon::now()));
+                        $weekly = array_values(self::getTransactionsPerWeek($a, Carbon::now()->subWeek()->startOfWeek(), Carbon::now()));
+                        $monthly = array_values(self::getTransactionsPerMonth($a, Carbon::now()->subMonth()->startOfMonth(), Carbon::now()));
+                        return [
+                            'article' => $a,
+                            'today' => $daily[1],
+                            'yesterday' => $daily[0],
+                            'this_week' => $weekly[1],
+                            'last_week' => $weekly[0],
+                            'this_month' => $monthly[1],
+                            'last_month' => $monthly[0],
+                        ];
+                    })];
             })
+        ]);
+    }
+
+    /**
+     * Shows an article and statistics about it
+     */
+    public function article(Article $article) {
+        return view('reporting.projects.article', [
+            'article' => $article,
         ]);
     }
 

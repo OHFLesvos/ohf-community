@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reporting: ' . $projectName . ' Articles')
+@section('title', 'Reporting: ' . $projectName)
 
 @section('content')
     <div id="app" class="mb-3">
@@ -11,57 +11,40 @@
             </li>
             @endforeach
         </ul>
-        <div class="tab-content p-3" id="articlesTabContent">
+        <div class="tab-content pt-4" id="articlesTabContent">
             @foreach($types as $type)
                 <div class="tab-pane fade" id="{{ $type }}" role="tabpanel" aria-labelledby="{{ $type }}-tab">
                     @if( ! $data[$type]->isEmpty() )
-                        @foreach($data[$type] as $article)
-                            <h3 class="display-4">{{ $article->name }}</h3>
-                            <div class="row">
-                                <div class="col-md">
-                                    <bar-chart
-                                        title="{{ $article->name }} ({{ $article->type }}) per day"
-                                        ylabel="{{ $article->unit }}"
-                                        url="{{ route('reporting.articles.transactionsPerDay', $article) }}" 
-                                        :height=300
-                                        :legend=false
-                                        class="mb-4">
-                                    </bar-chart>
-                                </div>
-                                <div class="col-md">
-                                    <bar-chart
-                                        title="{{ $article->name }} ({{ $article->type }}) per week"
-                                        ylabel="{{ $article->unit }}"
-                                        url="{{ route('reporting.articles.transactionsPerWeek', $article) }}" 
-                                        :height=300
-                                        :legend=false
-                                        class="mb-4">
-                                    </bar-chart>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md">
-                                        <bar-chart
-                                            title="{{ $article->name }} ({{ $article->type }}) per month"
-                                            ylabel="{{ $article->unit }}"
-                                            url="{{ route('reporting.articles.transactionsPerMonth', $article) }}" 
-                                            :height=300
-                                            :legend=false
-                                            class="mb-4">
-                                        </bar-chart>
-                                    </div>
-                                <div class="col-md">
-                                    <bar-chart
-                                        title="Average {{ $article->name }} ({{ $article->type }}) per weekday"
-                                        ylabel="{{ $article->unit }}"
-                                        url="{{ route('reporting.articles.avgTransactionsPerWeekDay', $article) }}"
-                                        :height=300
-                                        :legend=false
-                                        class="mb-2">
-                                    </bar-chart>
-                                </div>
-                            </div>
-                        @endforeach
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Article</th>
+                                        <th>Unit</th>
+                                        <th>Today</th>
+                                        <th>Yesterday</th>
+                                        <th>This week</th>
+                                        <th>Last week</th>
+                                        <th>This month</th>
+                                        <th>Last month</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data[$type] as $item)
+                                        <tr>
+                                            <td><a href="{{ route('reporting.article', $item['article']) }}">{{ $item['article']->name }}</a></td>
+                                            <td>{{ $item['article']->unit }}</td>
+                                            <td>{{ $item['today'] }}</td>
+                                            <td>{{ $item['yesterday'] }}</td>
+                                            <td>{{ $item['this_week'] }}</td>
+                                            <td>{{ $item['last_week'] }}</td>
+                                            <td>{{ $item['this_month'] }}</td>
+                                            <td>{{ $item['last_month'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     @else
                         @component('components.alert.info')
                             No articels found.
@@ -72,4 +55,3 @@
         </div>
     </div>
 @endsection
-
