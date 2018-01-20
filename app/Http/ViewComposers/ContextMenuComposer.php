@@ -92,6 +92,16 @@ class ContextMenuComposer {
     private function getButtons(View $view, string $currentRouteName): array
     {
         switch ($currentRouteName) {
+            case 'changelog':
+                return [
+                    'back' => [
+                        'url' => url()->previous(),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => true
+                    ]
+                ];
+
             //
             // Users
             //
