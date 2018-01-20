@@ -30,6 +30,8 @@ class ArticleReportingController extends BaseReportingController
                         $daily = array_values(self::getTransactionsPerDay($a, Carbon::now()->subDay()->startOfDay(), Carbon::now()));
                         $weekly = array_values(self::getTransactionsPerWeek($a, Carbon::now()->subWeek()->startOfWeek(), Carbon::now()));
                         $monthly = array_values(self::getTransactionsPerMonth($a, Carbon::now()->subMonth()->startOfMonth(), Carbon::now()));
+                        $avg = self::getAvgTransactionsPerDay($a, Carbon::now()->subMonth(3)->startOfWeek(), Carbon::now());
+                        $peak = self::getPeakTransactionsPerDay($a, Carbon::now()->subMonth(6)->startOfMonth(), Carbon::now());
                         return [
                             'article' => $a,
                             'today' => $daily[1],
@@ -38,6 +40,8 @@ class ArticleReportingController extends BaseReportingController
                             'last_week' => $weekly[0],
                             'this_month' => $monthly[1],
                             'last_month' => $monthly[0],
+                            'avg' => $avg,
+                            'peak' => $peak,
                         ];
                     })];
             })
@@ -191,6 +195,27 @@ class ArticleReportingController extends BaseReportingController
                     })
             )
             ->toArray();
+    }
+
+    private static function getAvgTransactionsPerDay(Article $article, $from, $to) {
+        $query = self::getTransactionsPerDayQuery($article, $from, $to);
+        return DB::table(DB::raw('('.$query->toSql().') as o2'))
+            ->select(DB::raw('AVG(sum) as avg'))
+            ->mergeBindings($query)
+            ->get()
+            ->first()
+            ->avg;
+    }
+
+    private static function getPeakTransactionsPerDay(Article $article, $from, $to) {
+        $query = self::getTransactionsPerDayQuery($article, $from, $to);
+        return DB::table(DB::raw('('.$query->toSql().') as o2'))
+            ->select(DB::raw('sum as value'), 'date')
+            ->orderBy('value', 'DESC')
+            ->limit(1)
+            ->mergeBindings($query)
+            ->get()
+            ->first();
     }
 
     private static function getTransactionsPerDayQuery(Article $article, $from, $to) {

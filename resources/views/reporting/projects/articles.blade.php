@@ -27,6 +27,8 @@
                                         <th>Last week</th>
                                         <th>This month</th>
                                         <th>Last month</th>
+                                        <th>Daily average</th>
+                                        <th>Peak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -40,6 +42,12 @@
                                             <td>{{ $item['last_week'] }}</td>
                                             <td>{{ $item['this_month'] }}</td>
                                             <td>{{ $item['last_month'] }}</td>
+                                            <td>{{ round($item['avg']) }}</td>
+                                            <td>
+                                                @if(isset($item['peak']))
+                                                    {{ $item['peak']->value }} <small class="text-muted">{{ $item['peak']->date }}</small>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
