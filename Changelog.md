@@ -3,3 +3,4 @@
 ## 1.8.17
 
 * Added view to read the changelog
+* Persons will now be marked as "frequent visitor" based on their number of visits at the bank. Threshold can be defined in bank settings.

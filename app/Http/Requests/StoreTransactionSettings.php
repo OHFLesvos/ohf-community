@@ -27,7 +27,9 @@ class StoreTransactionSettings extends FormRequest
             'people_results_per_page' => 'required|numeric',
 			'transaction_default_value' => 'required|numeric',
 			'single_transaction_max_amount' => 'required|numeric',
-			'boutique_threshold_days' => 'required|numeric',
+            'boutique_threshold_days' => 'required|numeric',
+            'frequent_visitor_weeks' => 'required|numeric',
+            'frequent_visitor_threshold' => 'required|numeric',
         ];
     }
 }

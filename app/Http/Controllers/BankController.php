@@ -219,6 +219,8 @@ class BankController extends Controller
 			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
 			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS),
             'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE),
+            'frequent_visitor_weeks' => \Setting::get('bank.frequent_visitor_weeks', Person::FREQUENT_VISITOR_WEEKS),
+            'frequent_visitor_threshold' => \Setting::get('bank.frequent_visitor_threshold', Person::FREQUENT_VISITOR_THRESHOLD),
 		]);
     }
 
@@ -227,6 +229,8 @@ class BankController extends Controller
 		\Setting::set('bank.single_transaction_max_amount', $request->single_transaction_max_amount);
 		\Setting::set('bank.boutique_threshold_days', $request->boutique_threshold_days);
         \Setting::set('people.results_per_page', $request->people_results_per_page);
+        \Setting::set('bank.frequent_visitor_weeks', $request->frequent_visitor_weeks);
+        \Setting::set('bank.frequent_visitor_threshold', $request->frequent_visitor_threshold);
 		\Setting::save();
 		return redirect()->route('bank.index')
                     ->with('success', 'Settings have been updated!');

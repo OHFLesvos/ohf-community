@@ -48,6 +48,21 @@
 			</div>
 		</div>
 
+		<div class="card mb-4">
+			<div class="card-header">Frequent visitor</div>
+			<div class="card-body">
+				<div class="form-row">
+					<div class="col-md">
+						<div class="form-group">
+							<p>Persons are marked as frequent visitor <span class="text-warning" title="Frequent visitor">@icon(star)</span> if they visit the bank at least <em>x</em> times during the last <em>y</em> weeks.</p>
+							{{ Form::bsNumber('frequent_visitor_weeks', $frequent_visitor_weeks, [ 'min' => 1 ], 'Number of weeks') }}
+							{{ Form::bsNumber('frequent_visitor_threshold', $frequent_visitor_threshold, [ 'min' => 1 ], 'Minimum number of visits') }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<p>
 			{{ Form::bsSubmitButton('Update') }}
 		</p>

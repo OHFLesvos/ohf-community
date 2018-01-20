@@ -16,6 +16,9 @@ class Person extends Model
     
     protected $fillable = ['name', 'family_name', 'police_no', 'case_no', 'nationality', 'remarks'];
     
+    const FREQUENT_VISITOR_WEEKS = 4;
+    const FREQUENT_VISITOR_THRESHOLD = 12;
+
     public static function boot()
     {
         static::creating(function ($model) {
@@ -70,18 +73,15 @@ class Person extends Model
             ->sum();
     }
 
-    public function yesterdaysTransaction() {
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '=', Carbon::yesterday()->toDateString())
+    public function getFrequentVisitorAttribute() {
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', self::FREQUENT_VISITOR_WEEKS);
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', self::FREQUENT_VISITOR_THRESHOLD);
+        return $this->transactions()
+            ->whereDate('created_at', '>=', Carbon::today()->subWeek($weeks)->toDateString())
             ->select('value')
-            ->get();
-        return collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
+            ->count() >= $threshold;
     }
-    
+
     public function dayTransactions($year, $month, $day) {
         $date = Carbon::createFromDate($year, $month, $day);
         $transactions = $this->transactions()

@@ -1,5 +1,8 @@
 <div class="card mb-4 bg-light">
-    <div class="card-header p-2">
+    @php
+        $frequentVisitor = $person->frequentVisitor;
+    @endphp
+    <div class="card-header p-2" @if($frequentVisitor) style="background:lightgoldenrodyellow;" @endif >
         <div class="form-row">
             <div class="col">
                 <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ $person->family_name }} {{ $person->name }}</strong></a>
@@ -19,7 +22,10 @@
                 @if(isset($person->nationality))
                     {{ $person->nationality }}
                 @endif
-                <a href="{{ route('people.edit', $person) }}" alt="Edit">@icon(pencil)</a>
+                @if($frequentVisitor)
+                    <span class="text-warning" title="Frequent visitor">@icon(star)</span>
+                @endif
+                <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(pencil)</a>
             </div>
             <div class="col-auto">
                 @icon(id-card)
