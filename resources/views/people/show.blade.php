@@ -179,15 +179,22 @@
                         <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 200px">Date</th>
+                                    <th>Date</th>
                                     <th>Value</th>
+                                    <th>Author</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($transactions as $transaction)
                                     <tr>
-                                        <td>{{ $transaction->created_at }}</td>
+                                        <td>{{ $transaction->created_at->diffForHumans() }} <small class="text-muted">{{ $transaction->created_at }}</small></td>
                                         <td>{{ $transaction->value }}</td>
+                                        <td>
+                                            @if(isset($transaction->user))
+                                                {{ $transaction->user->name }}
+                                            @endif
+
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

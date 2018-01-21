@@ -447,6 +447,7 @@ class BankController extends Controller
 			}
 		}
     }
+
 	public function registerCard(Request $request) {
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
