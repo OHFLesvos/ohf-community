@@ -6,7 +6,7 @@
 * Updated laravel framework and related libraries to latest patch release
 * Added pagination to table of transactions in persons detail view, show author and date/time in human-friendly format
 * Improved calculation of frequent visitor marker
-* In the bank, transactions can be undone (if they are not older than 5 minutes)
+* In the bank, transactions as well as boutique and diapers coupons can be undone (if they are not older than 5 minutes)
 
 ## 1.8.17
 

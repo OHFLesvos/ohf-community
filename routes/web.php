@@ -34,7 +34,9 @@ Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('
 Route::get('/bank/withdrawal/transactions', 'BankController@withdrawalTransactions')->name('bank.withdrawalTransactions');
 Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
 Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
+Route::post('/bank/resetBoutiqueCoupon', 'BankController@resetBoutiqueCoupon')->name('bank.resetBoutiqueCoupon');
 Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');
+Route::post('/bank/resetDiapersCoupon', 'BankController@resetDiapersCoupon')->name('bank.resetDiapersCoupon');
 Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
 Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
 

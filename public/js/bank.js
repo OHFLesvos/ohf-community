@@ -17553,42 +17553,12 @@ $(function () {
 	$('.undo-transaction').on('click', undoTransaction);
 
 	// Boutique
-	$('.give-boutique-coupon').on('click', function () {
-		var person = $(this).attr('data-person');
-		var resultElem = $(this).parent();
-		var name = resultElem.parents('.card').find('.card-header strong').text();
-		if (confirm('Give BOUTIQUE coupon to ' + name + '?')) {
-			resultElem.html('<i class="fa fa-spinner fa-spin">');
-			$.post(giveBouqiqueCouponUrl, {
-				"_token": csrfToken,
-				"person_id": person
-			}, function (data) {
-				resultElem.html(data.countdown);
-				enableFilterSelect();
-			}).fail(function (jqXHR, textStatus) {
-				alert(textStatus);
-			});
-		}
-	});
+	$('.give-boutique-coupon').on('click', giveBoutiqueCoupon);
+	$('.undo-boutique').on('click', resetBoutiqueCoupon);
 
 	// Diapers
-	$('.give-diapers-coupon').on('click', function () {
-		var person = $(this).attr('data-person');
-		var resultElem = $(this).parent();
-		var name = resultElem.parents('.card').find('.card-header strong').text();
-		if (confirm('Give DIAPERS coupon to ' + name + '?')) {
-			resultElem.html('<i class="fa fa-spinner fa-spin">');
-			$.post(giveDiapersCouponUrl, {
-				"_token": csrfToken,
-				"person_id": person
-			}, function (data) {
-				resultElem.html(data.countdown);
-				enableFilterSelect();
-			}).fail(function (jqXHR, textStatus) {
-				alert(textStatus);
-			});
-		}
-	});
+	$('.give-diapers-coupon').on('click', giveDiapersCoupon);
+	$('.undo-diapers').on('click', resetDiapersCoupon);
 
 	// Gender
 	$('.choose-gender').on('click', selectGender);
@@ -17632,7 +17602,7 @@ function storeTransaction(personId, value, resultElem) {
 				resultElem.append($('<button>').addClass('btn btn-primary btn-sm give-cash').attr('data-person', personId).attr('data-value', 2).on('click', executeTransaction).text(2)).append(' ');
 			}
 			if (data.age === null || data.age < 12) {
-				resultElem.append($('<button>').addClass('btn btn-primary btn-sm give-cash').attr('data-person', personId).attr('data-value', 1).on('click', executeTransaction).text(1));
+				resultElem.append($('<button>').attr('type', 'button').addClass('btn btn-primary btn-sm give-cash').attr('data-person', personId).attr('data-value', 1).on('click', executeTransaction).text(1));
 			}
 		}
 	}).fail(function (jqXHR, textStatus) {
@@ -17655,6 +17625,67 @@ function selectGender() {
 		} else if (value == 'f') {
 			resultElem.html('<i class="fa fa-female">');
 		}
+		enableFilterSelect();
+	}).fail(function (jqXHR, textStatus) {
+		alert(textStatus);
+	});
+}
+
+function giveBoutiqueCoupon() {
+	var person = $(this).attr('data-person');
+	var resultElem = $(this).parent();
+	//var name = resultElem.parents('.card').find('.card-header strong').text();
+	resultElem.html('<i class="fa fa-spinner fa-spin">');
+	$.post(giveBoutiqueCouponUrl, {
+		"_token": csrfToken,
+		"person_id": person
+	}, function (data) {
+		resultElem.html(data.countdown).append(' ').append($('<a>').attr('href', 'javascript:;').addClass('undo-boutique').attr('title', 'Undo').attr('data-person', person).on('click', resetBoutiqueCoupon).append($('<i>').addClass("fa fa-undo")));
+		enableFilterSelect();
+	}).fail(function (jqXHR, textStatus) {
+		alert(textStatus);
+	});
+}
+
+function resetBoutiqueCoupon() {
+	var person = $(this).attr('data-person');
+	var resultElem = $(this).parent();
+	resultElem.html('<i class="fa fa-spinner fa-spin">');
+	$.post(resetBoutiqueCouponUrl, {
+		"_token": csrfToken,
+		"person_id": person
+	}, function (data) {
+		resultElem.empty().append($('<button>').attr('type', 'button').attr('data-person', person).attr('type', 'button').on('click', giveBoutiqueCoupon).addClass('btn btn-primary btn-sm give-boutique-coupon').text('Coupon'));
+		enableFilterSelect();
+	}).fail(function (jqXHR, textStatus) {
+		alert(textStatus);
+	});
+}
+
+function giveDiapersCoupon() {
+	var person = $(this).attr('data-person');
+	var resultElem = $(this).parent();
+	resultElem.html('<i class="fa fa-spinner fa-spin">');
+	$.post(giveDiapersCouponUrl, {
+		"_token": csrfToken,
+		"person_id": person
+	}, function (data) {
+		resultElem.html(data.countdown).append(' ').append($('<a>').attr('href', 'javascript:;').addClass('undo-diapers').attr('title', 'Undo').attr('data-person', person).on('click', resetDiapersCoupon).append($('<i>').addClass("fa fa-undo")));
+		enableFilterSelect();
+	}).fail(function (jqXHR, textStatus) {
+		alert(textStatus);
+	});
+}
+
+function resetDiapersCoupon() {
+	var person = $(this).attr('data-person');
+	var resultElem = $(this).parent();
+	resultElem.html('<i class="fa fa-spinner fa-spin">');
+	$.post(resetDiapersCouponUrl, {
+		"_token": csrfToken,
+		"person_id": person
+	}, function (data) {
+		resultElem.empty().append($('<button>').attr('type', 'button').attr('data-person', person).attr('type', 'button').on('click', giveDiapersCoupon).addClass('btn btn-primary btn-sm give-diapers-coupon').text('Coupon'));
 		enableFilterSelect();
 	}).fail(function (jqXHR, textStatus) {
 		alert(textStatus);

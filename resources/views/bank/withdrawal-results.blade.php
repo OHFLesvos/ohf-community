@@ -29,8 +29,10 @@
 @section('script')
     var csrfToken = '{{ csrf_token() }}';
     var storeTransactionUrl = '{{ route('bank.storeTransaction') }}';
-    var giveBouqiqueCouponUrl = '{{ route('bank.giveBoutiqueCoupon') }}';
+    var giveBoutiqueCouponUrl = '{{ route('bank.giveBoutiqueCoupon') }}';
+    var resetBoutiqueCouponUrl = '{{ route('bank.resetBoutiqueCoupon') }}';
     var giveDiapersCouponUrl = '{{ route('bank.giveDiapersCoupon') }}';
+    var resetDiapersCouponUrl = '{{ route('bank.resetDiapersCoupon') }}';
     var updateGenderUrl = '{{ route('bank.updateGender') }}';
     var registerCardUrl = '{{ route('bank.registerCard') }}';
 @endsection

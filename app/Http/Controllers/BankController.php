@@ -495,7 +495,19 @@ class BankController extends Controller
 			}
 		}
     }
-    
+
+    public function resetBoutiqueCoupon(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+                // TODO validate grace-time
+				$person->boutique_coupon = null;
+				$person->save();
+				return response()->json([ ]);
+			}
+		}
+    }
+
 	public function giveDiapersCoupon(Request $request) {
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
@@ -505,6 +517,17 @@ class BankController extends Controller
 				return response()->json([
                     'countdown' => $person->getDiapersCouponForJson(self::getDiapersThresholdDays()),
                 ]);
+			}
+		}
+    }
+
+	public function resetDiapersCoupon(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+				$person->diapers_coupon = null;
+				$person->save();
+				return response()->json([ ]);
 			}
 		}
     }
