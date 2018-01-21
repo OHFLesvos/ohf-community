@@ -41,7 +41,8 @@ Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.upd
 Route::post('/bank/updateDateOfBirth', 'BankController@updateDateOfBirth')->name('bank.updateDateOfBirth');
 Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
 
-Route::get('/bank/codeCard', 'BankController@codeCard')->name('bank.codeCard');
+Route::get('/bank/codeCard', 'BankController@prepareCodeCard')->name('bank.prepareCodeCard');
+Route::post('/bank/codeCard', 'BankController@createCodeCard')->name('bank.createCodeCard');
 
 Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
 Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank.updateMaintenance');

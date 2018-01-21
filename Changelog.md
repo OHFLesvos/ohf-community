@@ -8,6 +8,7 @@
 * Improved calculation of frequent visitor marker
 * In the bank, transactions as well as boutique and diapers coupons can be undone (if they are not older than 5 minutes)
 * Added a quick date of birth selector in the banks person search result screen
+* Added sceen to configure code card document
 
 ## 1.8.17
 

@@ -180,9 +180,15 @@ class BankController extends Controller
 		]);
     }
 
-    public function codeCard() {
+    public function prepareCodeCard() {
+        return view('bank.prepareCodeCard');
+    }
+
+    public function createCodeCard(Request $request) {
+        $pages = isset($request->pages) && is_numeric($request->pages) && $request->pages > 0 ? $request->pages : 1;
+
         $codes = [];
-        for ($i = 0; $i < 10 * 1; $i++) {
+        for ($i = 0; $i < 10 * $pages; $i++) {
             $code = bin2hex(random_bytes(16));
             $codes[] = base64_encode(self::createQrCode($code, substr($code, 0, 7), 500));
         }

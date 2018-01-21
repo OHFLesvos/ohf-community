@@ -371,6 +371,15 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('view-bank-index')
                     ],
                 ];
+            case 'bank.prepareCodeCard':
+                return [
+                    'back' => [
+                        'url' => route('bank.index'),
+                        'caption' => 'Cancel',
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('view-bank-index')
+                    ]
+                ];
             case 'bank.settings':
                 return [
                     'back' => [

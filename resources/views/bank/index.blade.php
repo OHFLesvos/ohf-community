@@ -21,7 +21,7 @@
         @endallowed
         @allowed('do-bank-withdrawals')
             <div class="col-sm text-center mb-4">
-                <a href="{{ route('bank.codeCard') }}" class="big-icon">@icon(qrcode)</a><br>
+                <a href="{{ route('bank.prepareCodeCard') }}" class="big-icon">@icon(qrcode)</a><br>
                 <strong>Create code card</strong><br>
                 Create a printable sheet with code cards
             </div>
