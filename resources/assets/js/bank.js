@@ -70,7 +70,7 @@ $(function(){
 		var person = $(this).attr('data-person');
 		var resultElem = $(this).parent();
 		var name = resultElem.parents('.card').find('.card-header strong').text();
-		if (confirm('Give coupon to ' + name + '?')) {
+		if (confirm('Give BOUTIQUE coupon to ' + name + '?')) {
 			resultElem.html('<i class="fa fa-spinner fa-spin">');
 			$.post( giveBouqiqueCouponUrl, {
 				"_token": csrfToken,
@@ -90,7 +90,7 @@ $(function(){
 		var person = $(this).attr('data-person');
 		var resultElem = $(this).parent();
 		var name = resultElem.parents('.card').find('.card-header strong').text();
-		if (confirm('Give coupon to ' + name + '?')) {
+		if (confirm('Give DIAPERS coupon to ' + name + '?')) {
 			resultElem.html('<i class="fa fa-spinner fa-spin">');
 			$.post( giveDiapersCouponUrl, {
 				"_token": csrfToken,
