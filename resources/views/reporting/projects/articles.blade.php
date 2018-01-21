@@ -21,14 +21,14 @@
                                     <tr>
                                         <th>Article</th>
                                         <th>Unit</th>
-                                        <th>Today</th>
-                                        <th>Yesterday</th>
-                                        <th>This week</th>
-                                        <th>Last week</th>
-                                        <th>This month</th>
-                                        <th>Last month</th>
-                                        <th>Daily average</th>
-                                        <th>Peak</th>
+                                        <th class="text-right">Today</th>
+                                        <th class="text-right">Yesterday</th>
+                                        <th class="text-right">This week</th>
+                                        <th class="text-right">Last week</th>
+                                        <th class="text-right">This month</th>
+                                        <th class="text-right">Last month</th>
+                                        <th class="text-right">Daily average</th>
+                                        <th class="text-right">Peak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -36,13 +36,13 @@
                                         <tr>
                                             <td><a href="{{ route('reporting.article', $item['article']) }}">{{ $item['article']->name }}</a></td>
                                             <td>{{ $item['article']->unit }}</td>
-                                            <td>{{ $item['today'] }}</td>
-                                            <td>{{ $item['yesterday'] }}</td>
-                                            <td>{{ $item['this_week'] }}</td>
-                                            <td>{{ $item['last_week'] }}</td>
-                                            <td>{{ $item['this_month'] }}</td>
-                                            <td>{{ $item['last_month'] }}</td>
-                                            <td>{{ round($item['avg']) }}</td>
+                                            <td class="text-right">{{ $item['today'] }}</td>
+                                            <td class="text-right">{{ $item['yesterday'] }}</td>
+                                            <td class="text-right">{{ $item['this_week'] }}</td>
+                                            <td class="text-right">{{ $item['last_week'] }}</td>
+                                            <td class="text-right">{{ $item['this_month'] }}</td>
+                                            <td class="text-right">{{ $item['last_month'] }}</td>
+                                            <td class="text-right">{{ round($item['avg']) }}</td>
                                             <td>
                                                 @if(isset($item['peak']))
                                                     {{ $item['peak']->value }} <small class="text-muted">{{ $item['peak']->date }}</small>

@@ -17,7 +17,7 @@
                             <div class="col text-secondary">Registered:</div>
                             <div class="col display-4">{{ $num_people }}</div>
                             <div class="w-100 d-block d-md-none"></div>
-                            <div class="col text-secondary">Added today:</div>
+                            <div class="col text-secondary">Registered today:</div>
                             <div class="col display-4">{{ $num_people_added_today }}</div>
                         </div>
 
@@ -115,17 +115,20 @@
                     <div class="card-body">
                         <div class="row mb-4 align-items-center">
                             <div class="col text-secondary">Today:</div>
-                            <div class="col display-4">{{ $visitorsToday }}</div>
+                            <div class="col display-4">{{ $visitorsToday ?? 0 }}</div>
+                            <div class="w-100 d-block d-sm-none"></div>
                             <div class="col text-secondary">This week:</div>
-                            <div class="col display-4">{{ $visitorsThisWeek }}</div>
+                            <div class="col display-4">{{ $visitorsThisWeek ?? 0 }}</div>
                             <div class="w-100 d-block d-md-none"></div>
                             <div class="col text-secondary">This month:</div>
-                            <div class="col display-4">{{ $visitorsThisMonth }}</div>
+                            <div class="col display-4">{{ $visitorsThisMonth ?? 0 }}</div>
+                            <div class="w-100 d-block d-sm-none"></div>
                             <div class="col text-secondary">This year:</div>
-                            <div class="col display-4">{{ $visitorsThisYear }}</div>
+                            <div class="col display-4">{{ $visitorsThisYear ?? 0 }}</div>
                             <div class="w-100 d-block d-md-none"></div>
                             <div class="col text-secondary">Frequent:</div>
                             <div class="col display-4">{{ $frequentVisitors }}</div>
+                            <div class="w-100 d-block d-sm-none"></div>
                             <div class="col text-secondary d-md-none"></div> {{-- TODO Average visitors per day, peak visitors per day --}}
                             <div class="col display-4 d-md-none"></div>
                         </div>
