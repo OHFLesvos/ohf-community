@@ -34,6 +34,7 @@ class BankController extends Controller
 	const SINGLE_TRANSACTION_MAX_AMOUNT = 2;
     const BOUTIQUE_THRESHOLD_DAYS = 7;
     const DIAPERS_THRESHOLD_DAYS = 1;
+    const UNDO_GRACE_TIME = 5; // Minutes
 
     const MONTHS_NO_TRANSACTIONS_SINCE = 2;
 
@@ -142,6 +143,7 @@ class BankController extends Controller
             'boutiqueThresholdDays' => self::getBoutiqueThresholdDays(),
             'diapersThresholdDays' => self::getDiapersThresholdDays(),
             'message' => $message,
+            'undoGraceTime' => self::UNDO_GRACE_TIME
 		]);
     }
 
@@ -399,13 +401,20 @@ class BankController extends Controller
 		$person = Person::find($request->person_id);
 		if ($person ->todaysTransaction() + $request->value > self::getSingleTransactionMaxAmount()) {
 			return response()->json(["Invalid amount, must be not greater than " . self::getSingleTransactionMaxAmount()], 400);
-		}
+        }
+        if ($person ->todaysTransaction() + $request->value < 0) {
+            return response()->json(["Invalid amount, must be greater or equals than " . (-$person ->todaysTransaction())], 400);
+        }
 		$transaction = new Transaction();
         $transaction->value = $request->value;
         $person->transactions()->save($transaction);
+
+        $date = $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at;
         return response()->json([
             'today' => $person->todaysTransaction(),
-            'date' => $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at->toDateTimeString(),
+            'date' => $date->toDateTimeString(),
+            'dateDiff' => $date->diffForHumans(),
+            'age' => $person->age,
         ]);
     }
     
@@ -440,6 +449,25 @@ class BankController extends Controller
 			}
 		}
     }
+
+	public function updateDateOfBirth(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+                if (isset($request->date_of_birth) && (new Carbon($request->date_of_birth))->lte(Carbon::today())) {
+                    $person->date_of_birth = $request->date_of_birth;
+                    $person->save();
+                    return response()->json([
+                        'date_of_birth' => $person->date_of_birth,
+                        'age' => $person->age,
+                    ]);
+                } else {
+                    return response()->json(["Invalid or empty date!"], 400);
+                }
+            }
+		}
+    }
+
 	public function registerCard(Request $request) {
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
@@ -487,16 +515,40 @@ class BankController extends Controller
 			}
 		}
     }
-    
+
+    public function resetBoutiqueCoupon(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+                // TODO validate grace-time
+				$person->boutique_coupon = null;
+				$person->save();
+				return response()->json([ ]);
+			}
+		}
+    }
+
 	public function giveDiapersCoupon(Request $request) {
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
 			if ($person != null) {
+                // TODO validate grace-time
 				$person->diapers_coupon = Carbon::now();
 				$person->save();
 				return response()->json([
                     'countdown' => $person->getDiapersCouponForJson(self::getDiapersThresholdDays()),
                 ]);
+			}
+		}
+    }
+
+	public function resetDiapersCoupon(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+				$person->diapers_coupon = null;
+				$person->save();
+				return response()->json([ ]);
 			}
 		}
     }

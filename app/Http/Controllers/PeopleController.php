@@ -113,7 +113,6 @@ class PeopleController extends ParentController
         return view('people.show', [
             'person' => $person,
             'transactions' => $person->transactions()
-                ->select('created_at', 'value')
                 ->orderBy('created_at', 'desc')
                 ->paginate(),
         ]);

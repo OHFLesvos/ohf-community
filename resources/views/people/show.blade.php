@@ -173,29 +173,33 @@
             <div class="card mb-4">
                 <div class="card-header">
                     Transactions
-                    @if ( $transactions->perPage() < $transactions->total() )
-                        <small class="pull-right text-muted">showing latest {{ $transactions->perPage() }} transactions</small>
-                    @endif
                 </div>
-                <div class="card-body @if( ! $transactions->isEmpty() )p-0 @endif">
-
+                <div class="card-body">
                     @if( ! $transactions->isEmpty() )
-                        <table class="table table-sm table-hover m-0">
+                        <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
-                                    <th style="width: 200px">Date</th>
+                                    <th>Date</th>
                                     <th>Value</th>
+                                    <th>Author</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($transactions as $transaction)
                                     <tr>
-                                        <td>{{ $transaction->created_at }}</td>
+                                        <td>{{ $transaction->created_at->diffForHumans() }} <small class="text-muted">{{ $transaction->created_at }}</small></td>
                                         <td>{{ $transaction->value }}</td>
+                                        <td>
+                                            @if(isset($transaction->user))
+                                                {{ $transaction->user->name }}
+                                            @endif
+
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $transactions->links('vendor.pagination.bootstrap-4') }}
                     @else
                         <div class="alert alert-info m-0">
                             No transactions found.

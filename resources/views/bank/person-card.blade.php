@@ -12,13 +12,17 @@
                         @elseif($person->gender == 'm')@icon(male) 
                         @endif
                     @else
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-person="{{ $person->id }}">@icon(male)</button>
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-person="{{ $person->id }}">@icon(female)</button>
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-person="{{ $person->id }}" title="Male">@icon(male)</button>
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-person="{{ $person->id }}" title="Female">@icon(female)</button>
                     @endif
                 </span>
-                @if(isset($person->date_of_birth))
-                    {{ $person->date_of_birth }} (age {{ $person->age }})
-                @endif
+                <span class="form-inline d-inline">
+                    @if(isset($person->date_of_birth))
+                        {{ $person->date_of_birth }} (age {{ $person->age }})
+                    @else
+                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus-o)</button>
+                    @endif
+                </span>
                 @if(isset($person->nationality))
                     {{ $person->nationality }}
                 @endif
@@ -94,8 +98,14 @@
                 Drachma: 
                 <span>
                     @if($today > 0)
+                        @php
+                            $transactionDate = $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at;
+                        @endphp
                         {{ $today }}
-                        <small class="text-muted">on {{ $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at }}</small>
+                        <small class="text-muted" title="{{ $transactionDate }}">registered {{ $transactionDate->diffForHumans() }}</small>
+                        @if($transactionDate->diffInMinutes() < $undoGraceTime)
+                            <a href="javascript:;" class="undo-transaction" title="Undo" data-person="{{ $person->id }}" data-value="{{ $today }}">@icon(undo)</a>
+                        @endif
                     @else
                         @if ($person->age === null || $person->age >= 12)
                             <button type="button" class="btn btn-primary btn-sm give-cash" data-value="2" data-person="{{ $person->id }}">2</button>
@@ -113,6 +123,9 @@
                 Boutique: <span>
                     @if($boutique != null)
                         {{ $boutique }}
+                        @if ((new Carbon\Carbon($person->boutique_coupon))->diffInMinutes() < $undoGraceTime)
+                            <a href="javascript:;" class="undo-boutique" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
+                        @endif
                     @else
                         <button type="button" class="btn btn-primary btn-sm give-boutique-coupon" data-person="{{ $person->id }}">Coupon</button>
                     @endif
@@ -125,7 +138,10 @@
                     @endphp
                     Diapers: <span>
                         @if($diapers != null)
-                            {{ $diapers }}
+                            @if ((new Carbon\Carbon($person->diapers_coupon))->diffInMinutes() < $undoGraceTime)
+                                {{ $diapers }}
+                            @endif
+                            <a href="javascript:;" class="undo-diapers" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
                         @else
                             <button type="button" class="btn btn-primary btn-sm give-diapers-coupon" data-person="{{ $person->id }}">Coupon</button>
                         @endif
