@@ -96,6 +96,7 @@
                     @if($today > 0)
                         {{ $today }}
                         <small class="text-muted">on {{ $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at }}</small>
+                        <a href="javascript:;" class="undo-transaction" title="Undo">@icon(undo)</a>
                     @else
                         @if ($person->age === null || $person->age >= 12)
                             <button type="button" class="btn btn-primary btn-sm give-cash" data-value="2" data-person="{{ $person->id }}">2</button>
@@ -113,6 +114,7 @@
                 Boutique: <span>
                     @if($boutique != null)
                         {{ $boutique }}
+                        <a href="javascript:;" class="undo-boutique" title="Undo">@icon(undo)</a>
                     @else
                         <button type="button" class="btn btn-primary btn-sm give-boutique-coupon" data-person="{{ $person->id }}">Coupon</button>
                     @endif
@@ -126,6 +128,7 @@
                     Diapers: <span>
                         @if($diapers != null)
                             {{ $diapers }}
+                            <a href="javascript:;" class="undo-diapers" title="Undo">@icon(undo)</a>
                         @else
                             <button type="button" class="btn btn-primary btn-sm give-diapers-coupon" data-person="{{ $person->id }}">Coupon</button>
                         @endif
