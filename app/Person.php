@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Person extends Model
 {
@@ -76,10 +77,16 @@ class Person extends Model
     public function getFrequentVisitorAttribute() {
         $weeks = \Setting::get('bank.frequent_visitor_weeks', self::FREQUENT_VISITOR_WEEKS);
         $threshold = \Setting::get('bank.frequent_visitor_threshold', self::FREQUENT_VISITOR_THRESHOLD);
-        return $this->transactions()
+        $sql = $this->transactions()
             ->whereDate('created_at', '>=', Carbon::today()->subWeek($weeks)->toDateString())
             ->select('value')
-            ->count() >= $threshold;
+            ->groupBy(DB::raw('date(created_at)'))
+            ->getBaseQuery();
+        return DB::table(DB::raw('('.$sql->toSql().') as o2'))
+            ->select(DB::raw('count(*) as count'))
+            ->mergeBindings($sql)
+            ->get()
+            ->first()->count >= $threshold;
     }
 
     public function dayTransactions($year, $month, $day) {
