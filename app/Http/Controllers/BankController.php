@@ -34,6 +34,7 @@ class BankController extends Controller
 	const SINGLE_TRANSACTION_MAX_AMOUNT = 2;
     const BOUTIQUE_THRESHOLD_DAYS = 7;
     const DIAPERS_THRESHOLD_DAYS = 1;
+    const UNDO_GRACE_TIME = 5; // Minutes
 
     const MONTHS_NO_TRANSACTIONS_SINCE = 2;
 
@@ -142,6 +143,7 @@ class BankController extends Controller
             'boutiqueThresholdDays' => self::getBoutiqueThresholdDays(),
             'diapersThresholdDays' => self::getDiapersThresholdDays(),
             'message' => $message,
+            'undoGraceTime' => self::UNDO_GRACE_TIME
 		]);
     }
 
@@ -512,6 +514,7 @@ class BankController extends Controller
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);
 			if ($person != null) {
+                // TODO validate grace-time
 				$person->diapers_coupon = Carbon::now();
 				$person->save();
 				return response()->json([

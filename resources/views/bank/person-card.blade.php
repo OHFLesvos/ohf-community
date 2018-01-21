@@ -99,7 +99,7 @@
                         @endphp
                         {{ $today }}
                         <small class="text-muted" title="{{ $transactionDate }}">registered {{ $transactionDate->diffForHumans() }}</small>
-                        @if($transactionDate->diffInMinutes() < 5)
+                        @if($transactionDate->diffInMinutes() < $undoGraceTime)
                             <a href="javascript:;" class="undo-transaction" title="Undo" data-person="{{ $person->id }}" data-value="{{ $today }}">@icon(undo)</a>
                         @endif
                     @else
@@ -119,7 +119,9 @@
                 Boutique: <span>
                     @if($boutique != null)
                         {{ $boutique }}
-                        <a href="javascript:;" class="undo-boutique" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
+                        @if ((new Carbon\Carbon($person->boutique_coupon))->diffInMinutes() < $undoGraceTime)
+                            <a href="javascript:;" class="undo-boutique" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
+                        @endif
                     @else
                         <button type="button" class="btn btn-primary btn-sm give-boutique-coupon" data-person="{{ $person->id }}">Coupon</button>
                     @endif
@@ -132,7 +134,9 @@
                     @endphp
                     Diapers: <span>
                         @if($diapers != null)
-                            {{ $diapers }}
+                            @if ((new Carbon\Carbon($person->diapers_coupon))->diffInMinutes() < $undoGraceTime)
+                                {{ $diapers }}
+                            @endif
                             <a href="javascript:;" class="undo-diapers" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
                         @else
                             <button type="button" class="btn btn-primary btn-sm give-diapers-coupon" data-person="{{ $person->id }}">Coupon</button>
