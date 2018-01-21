@@ -4,6 +4,7 @@
 
 * Small improvements in reports
 * Updated laravel framework and related libraries to latest patch release
+* Added pagination to list of transactions in persons detail view
 
 ## 1.8.17
 
