@@ -62,13 +62,8 @@ $(function(){
 	});
 
 	// Drachma
-	$('.give-cash').on('click', function(){
-		var person = $(this).attr('data-person');
-		var value = $(this).attr('data-value');
-		var resultElem = $(this).parent();
-		storeTransaction(person, value, resultElem);
-		enableFilterSelect();
-	});
+	$('.give-cash').on('click', executeTransaction);
+	$('.undo-transaction').on('click', undoTransaction);
 
 	// Boutique
 	$('.give-boutique-coupon').on('click', function(){
@@ -111,29 +106,25 @@ $(function(){
 	});
 
 	// Gender
-	$('.choose-gender').on('click', function(){
-		var person = $(this).attr('data-person');
-		var value = $(this).attr('data-value');
-		var resultElem = $(this).parent();
-		resultElem.html('<i class="fa fa-spinner fa-spin">');
-		$.post( updateGenderUrl, {
-			"_token": csrfToken,
-			"person_id":person,
-			'gender': value
-		}, function(data) {
-			if (value == 'm') {
-				resultElem.html('<i class="fa fa-male">');
-			} else if (value == 'f') {
-				resultElem.html('<i class="fa fa-female">');
-			}
-			enableFilterSelect();
-		})
-		.fail(function(jqXHR, textStatus) {
-			alert(textStatus);
-		});
-	});
+	$('.choose-gender').on('click', selectGender);
 
 });
+
+function executeTransaction() {
+	var person = $(this).attr('data-person');
+	var value = $(this).attr('data-value');
+	var resultElem = $(this).parent();
+	storeTransaction(person, value, resultElem);
+	enableFilterSelect();
+}
+
+function undoTransaction() {
+	var person = $(this).attr('data-person');
+	var value = $(this).attr('data-value');
+	var resultElem = $(this).parent();
+	storeTransaction(person, - value, resultElem);
+	enableFilterSelect();
+}
 
 function enableFilterSelect() {
 	$('#filter').off('click');
@@ -149,13 +140,65 @@ function storeTransaction(personId, value, resultElem) {
 		"person_id": personId,
 		"value": value
 	}, function(data) {
-		resultElem
-			.html(data.today + ' drachma ')
-			.append($('<small>')
-				.addClass('text-muted')
-				.text('on ' + data.date));
+		if (data.today > 0) {
+			resultElem.html(data.today + ' ')
+				.append($('<small>')
+					.addClass('text-muted')
+					.attr('title', data.date)
+					.text('registered ' + data.dateDiff))
+				.append(' ')
+				.append($('<a>')
+					.attr('href', 'javascript:;')
+					.addClass('undo-transaction')
+					.attr('title', 'Undo')
+					.attr('data-person', personId)
+					.attr('data-value', value)
+					.on('click', undoTransaction)
+					.append($('<i>').addClass("fa fa-undo")));
+		} else {
+			resultElem.empty();
+			if (data.age === null || data.age >= 12) {
+				resultElem.append($('<button>')
+				.addClass('btn btn-primary btn-sm give-cash')
+				.attr('data-person', personId)
+				.attr('data-value', 2)
+				.on('click', executeTransaction)
+				.text(2))
+				.append(' ');
+			}
+			if (data.age === null || data.age < 12) {
+				resultElem.append($('<button>')
+					.addClass('btn btn-primary btn-sm give-cash')
+					.attr('data-person', personId)
+					.attr('data-value', 1)
+					.on('click', executeTransaction)
+					.text(1));
+			}
+		}
 	})
 	.fail(function(jqXHR, textStatus) {
 		alert(textStatus + ': ' + jqXHR.responseJSON);
+	});
+}
+
+function selectGender() {
+	var person = $(this).attr('data-person');
+	var value = $(this).attr('data-value');
+	var resultElem = $(this).parent();
+	resultElem.html('<i class="fa fa-spinner fa-spin">');
+	$.post( updateGenderUrl, {
+		"_token": csrfToken,
+		"person_id":person,
+		'gender': value
+	}, function(data) {
+		if (value == 'm') {
+			resultElem.html('<i class="fa fa-male">');
+		} else if (value == 'f') {
+			resultElem.html('<i class="fa fa-female">');
+		}
+		enableFilterSelect();
+	})
+	.fail(function(jqXHR, textStatus) {
+		alert(textStatus);
 	});
 }

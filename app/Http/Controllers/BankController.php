@@ -399,13 +399,20 @@ class BankController extends Controller
 		$person = Person::find($request->person_id);
 		if ($person ->todaysTransaction() + $request->value > self::getSingleTransactionMaxAmount()) {
 			return response()->json(["Invalid amount, must be not greater than " . self::getSingleTransactionMaxAmount()], 400);
-		}
+        }
+        if ($person ->todaysTransaction() + $request->value < 0) {
+            return response()->json(["Invalid amount, must be greater or equals than " . (-$person ->todaysTransaction())], 400);
+        }
 		$transaction = new Transaction();
         $transaction->value = $request->value;
         $person->transactions()->save($transaction);
+
+        $date = $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at;
         return response()->json([
             'today' => $person->todaysTransaction(),
-            'date' => $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at->toDateTimeString(),
+            'date' => $date->toDateTimeString(),
+            'dateDiff' => $date->diffForHumans(),
+            'age' => $person->age,
         ]);
     }
     

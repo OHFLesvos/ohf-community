@@ -94,9 +94,14 @@
                 Drachma: 
                 <span>
                     @if($today > 0)
+                        @php
+                            $transactionDate = $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at;
+                        @endphp
                         {{ $today }}
-                        <small class="text-muted">on {{ $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at }}</small>
-                        <a href="javascript:;" class="undo-transaction" title="Undo">@icon(undo)</a>
+                        <small class="text-muted" title="{{ $transactionDate }}">registered {{ $transactionDate->diffForHumans() }}</small>
+                        @if($transactionDate->diffInMinutes() < 5)
+                            <a href="javascript:;" class="undo-transaction" title="Undo" data-person="{{ $person->id }}" data-value="{{ $today }}">@icon(undo)</a>
+                        @endif
                     @else
                         @if ($person->age === null || $person->age >= 12)
                             <button type="button" class="btn btn-primary btn-sm give-cash" data-value="2" data-person="{{ $person->id }}">2</button>
