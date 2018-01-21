@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.8.18
+
+* Small improvements in reports
+* Updated laravel framework and related libraries to latest patch release
+
 ## 1.8.17
 
 * Added view to read the changelog. Changelog card has been added to the dashboard.
