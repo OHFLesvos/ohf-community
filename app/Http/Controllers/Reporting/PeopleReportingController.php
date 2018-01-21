@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reporting;
 
 use App\Person;
 use App\Transaction;
+use App\RevokedCard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,21 +21,35 @@ class PeopleReportingController extends BaseReportingController
         $monthly = array_values(self::getVisitorsPerMonth(Carbon::now()->subMonth()->startOfMonth(), Carbon::now()));
         $year = array_values(self::getVisitorsPerYear(Carbon::now()->subYear()->startOfYear(), Carbon::now()));
         return view('reporting.people', [
-            'num_people' => Person::count(),
-			'num_people_added_today' => Person::whereDate('created_at', '=', Carbon::today())->count(),
+            'people' => [[
+                'Registered' => Person::count(),
+                'Registered today' => Person::whereDate('created_at', '=', Carbon::today())->count(),
+            ]],
             'nationalities' => self::getNationalities(),
             'gender' => self::getGenderDistribution(),
             'demographics' => self::getDemographics(),
             'numberTypes' => self::getNumberTypes(),
-            'frequentVisitors' => self::getNumberOfFrequentVisitors(),
-            'visitorsToday' => $daily[1],
-            'visitorsYesterday' => $daily[0],
-            'visitorsThisWeek' => $weekly[1],
-            'visitorsLastWeek' => $weekly[0],
-            'visitorsThisMonth' => $monthly[1],
-            'visitorsLastMonth' => $monthly[0],
-            'visitorsThisYear' => $year[1],
-            'visitorsLastYear' => $year[0],
+            'visitors' => [
+                [
+                    'Today' => $daily[1] ?? 0,
+                    'This week' => $weekly[1] ?? 0,
+                    'This month' => $monthly[1] ?? 0,
+                    'This year' => $year[1] ?? 0,
+                ], 
+                [
+                    'Yesterday' => $daily[0] ?? 0,
+                    'Last week' => $weekly[0] ?? 0,
+                    'Last month' => $monthly[0] ?? 0,
+                    'Last year' => $year[0] ?? 0,
+                ], 
+                [
+                    // TODO peak visitors per day
+                    'Daily average' => round(self::getAvgVisitorsPerDay( Carbon::now()->subMonth(3)->startOfWeek(), Carbon::now())),
+                    'Frequent' => self::getNumberOfFrequentVisitors(),
+                    'Cards issued' => Person::whereNotNull('card_no')->count(),
+                    'Cards revoked' => RevokedCard::count(),
+                ]
+            ],
 		]);
     }
 
@@ -318,6 +333,16 @@ class PeopleReportingController extends BaseReportingController
                     })
             )
             ->toArray();
+    }
+
+    private static function getAvgVisitorsPerDay($from, $to) {
+        $query = self::getVisitorsPerDayQuery($from, $to);
+        return DB::table(DB::raw('('.$query->toSql().') as o2'))
+            ->select(DB::raw('AVG(visitors) as avg'))
+            ->mergeBindings($query)
+            ->get()
+            ->first()
+            ->avg;
     }
 
     private static function getVisitorsPerDayQuery($from, $to) {

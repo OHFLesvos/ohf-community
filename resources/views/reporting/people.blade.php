@@ -13,13 +13,20 @@
                     <div class="card-header">People</div>
                     <div class="card-body">
 
-                    <div class="row mb-4 align-items-center">
-                            <div class="col text-secondary">Registered:</div>
-                            <div class="col display-4">{{ $num_people }}</div>
-                            <div class="w-100 d-block d-md-none"></div>
-                            <div class="col text-secondary">Registered today:</div>
-                            <div class="col display-4">{{ $num_people_added_today }}</div>
-                        </div>
+                        {{-- Important figues --}}
+                        @foreach($people as $row)
+                            <div class="row mb-4 align-items-center">
+                                @foreach($row as $k => $v)
+                                    <div class="col">
+                                        <div class="row align-items-center">
+                                            <div class="col text-secondary">{{ $k }}:</div>
+                                            <div class="col display-4">{{ $v }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 d-block d-sm-none"></div>
+                                @endforeach
+                            </div>
+                        @endforeach
 
                         {{-- Nationalities --}}
                         <horizontal-bar-chart
@@ -113,26 +120,22 @@
                 <div class="card mb-4">
                     <div class="card-header">Visitors <small class="text-muted">based on check-ins at the Bank</small></div>
                     <div class="card-body">
-                        <div class="row mb-4 align-items-center">
-                            <div class="col text-secondary">Today:</div>
-                            <div class="col display-4">{{ $visitorsToday ?? 0 }}</div>
-                            <div class="w-100 d-block d-sm-none"></div>
-                            <div class="col text-secondary">This week:</div>
-                            <div class="col display-4">{{ $visitorsThisWeek ?? 0 }}</div>
-                            <div class="w-100 d-block d-md-none"></div>
-                            <div class="col text-secondary">This month:</div>
-                            <div class="col display-4">{{ $visitorsThisMonth ?? 0 }}</div>
-                            <div class="w-100 d-block d-sm-none"></div>
-                            <div class="col text-secondary">This year:</div>
-                            <div class="col display-4">{{ $visitorsThisYear ?? 0 }}</div>
-                            <div class="w-100 d-block d-md-none"></div>
-                            <div class="col text-secondary">Frequent:</div>
-                            <div class="col display-4">{{ $frequentVisitors }}</div>
-                            <div class="w-100 d-block d-sm-none"></div>
-                            <div class="col text-secondary d-md-none"></div> {{-- TODO Average visitors per day, peak visitors per day --}}
-                            <div class="col display-4 d-md-none"></div>
-                        </div>
-                        
+
+                        {{-- Important figues --}}
+                        @foreach($visitors as $row)
+                            <div class="row mb-4 align-items-center">
+                                @foreach($row as $k => $v)
+                                    <div class="col">
+                                        <div class="row align-items-center">
+                                            <div class="col text-secondary">{{ $k }}:</div>
+                                            <div class="col display-4">{{ $v }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 d-block d-sm-none"></div>
+                                @endforeach
+                            </div>
+                        @endforeach
+
                         {{-- Visitors per week --}}
                         <bar-chart
                             title="Visitors per day"
