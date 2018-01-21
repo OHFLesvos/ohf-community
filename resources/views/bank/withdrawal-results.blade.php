@@ -34,6 +34,7 @@
     var giveDiapersCouponUrl = '{{ route('bank.giveDiapersCoupon') }}';
     var resetDiapersCouponUrl = '{{ route('bank.resetDiapersCoupon') }}';
     var updateGenderUrl = '{{ route('bank.updateGender') }}';
+    var updateDateOfBirthUrl = '{{ route('bank.updateDateOfBirth') }}';
     var registerCardUrl = '{{ route('bank.registerCard') }}';
 @endsection
 

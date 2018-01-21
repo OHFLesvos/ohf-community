@@ -76,6 +76,8 @@ $(function(){
 	// Gender
 	$('.choose-gender').on('click', selectGender);
 
+	// Date of birth
+	$('.choose-date-of-birth').on('click', selectDateOfBirth);
 });
 
 function executeTransaction() {
@@ -170,6 +172,90 @@ function selectGender() {
 	.fail(function(jqXHR, textStatus) {
 		alert(textStatus);
 	});
+}
+
+function selectDateOfBirth() {
+	var person = $(this).attr('data-person');
+	var resultElem = $(this).parent();
+	var dateSelect = $('<input>')
+		.attr('type', 'date')
+		.attr('max', getTodayDate())
+		.addClass('form-control form-control-sm');
+	resultElem.empty()
+		.append(dateSelect)
+		.append(' ')
+		.append($('<button>')
+			.attr('type', 'button')
+			.addClass('btn btn-primary btn-sm')
+			.on('click', function(){
+				if (dateSelect.val()) {
+					storeDateOfBirth(person, dateSelect.val(), resultElem);
+				}
+			})
+			.on('keydown', function(evt){
+				var isEnter = false;
+				if ("key" in evt) {
+					isEnter = (evt.key == "Enter");
+				} else {
+					isEnter = (evt.keyCode == 13);
+				}
+				if (isEnter && dateSelect.val()) {
+					storeDateOfBirth(person, dateSelect.val(), resultElem);
+				}
+			})
+			.append(
+				$('<i>').addClass("fa fa-check")
+			)
+		)
+		.append(' ')
+		.append($('<button>')
+			.attr('type', 'button')
+			.addClass('btn btn-secondary btn-sm')
+			.on('click', function(){
+				resultElem.empty().
+					append($('<button>')
+						.addClass('btn btn-warning btn-sm choose-date-of-birth')
+						.attr('data-person', person)
+						.attr('title', 'Set date of birth')
+						.on('click', selectDateOfBirth)
+						.append(
+							$('<i>').addClass("fa fa-calendar-plus-o")
+						)
+					);
+			})
+			.append(
+				$('<i>').addClass("fa fa-times")
+			)
+		);
+}
+
+function storeDateOfBirth(person, value, resultElem) {
+	$.post(updateDateOfBirthUrl, {
+		"_token": csrfToken,
+		"person_id":person,
+		'date_of_birth': value
+	}, function(data) {
+		resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
+		enableFilterSelect();
+	})
+	.fail(function(jqXHR, textStatus) {
+		alert(textStatus + ': ' + jqXHR.responseJSON);
+	});	
+}
+
+function getTodayDate() {
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if(dd<10){
+		dd='0'+dd;
+	} 
+	if(mm<10){
+		mm='0'+mm;
+	} 
+	return yyyy + '-' + mm + '-' + dd;
 }
 
 function giveBoutiqueCoupon() {

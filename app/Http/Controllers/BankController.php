@@ -450,6 +450,24 @@ class BankController extends Controller
 		}
     }
 
+	public function updateDateOfBirth(Request $request) {
+		if (isset($request->person_id) && is_numeric($request->person_id)) {
+			$person = Person::find($request->person_id);
+			if ($person != null) {
+                if (isset($request->date_of_birth) && (new Carbon($request->date_of_birth))->lte(Carbon::today())) {
+                    $person->date_of_birth = $request->date_of_birth;
+                    $person->save();
+                    return response()->json([
+                        'date_of_birth' => $person->date_of_birth,
+                        'age' => $person->age,
+                    ]);
+                } else {
+                    return response()->json(["Invalid or empty date!"], 400);
+                }
+            }
+		}
+    }
+
 	public function registerCard(Request $request) {
 		if (isset($request->person_id) && is_numeric($request->person_id)) {
 			$person = Person::find($request->person_id);

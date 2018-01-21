@@ -38,6 +38,7 @@ Route::post('/bank/resetBoutiqueCoupon', 'BankController@resetBoutiqueCoupon')->
 Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');
 Route::post('/bank/resetDiapersCoupon', 'BankController@resetDiapersCoupon')->name('bank.resetDiapersCoupon');
 Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
+Route::post('/bank/updateDateOfBirth', 'BankController@updateDateOfBirth')->name('bank.updateDateOfBirth');
 Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
 
 Route::get('/bank/codeCard', 'BankController@codeCard')->name('bank.codeCard');

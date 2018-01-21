@@ -12,13 +12,17 @@
                         @elseif($person->gender == 'm')@icon(male) 
                         @endif
                     @else
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-person="{{ $person->id }}">@icon(male)</button>
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-person="{{ $person->id }}">@icon(female)</button>
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-person="{{ $person->id }}" title="Male">@icon(male)</button>
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-person="{{ $person->id }}" title="Female">@icon(female)</button>
                     @endif
                 </span>
-                @if(isset($person->date_of_birth))
-                    {{ $person->date_of_birth }} (age {{ $person->age }})
-                @endif
+                <span class="form-inline d-inline">
+                    @if(isset($person->date_of_birth))
+                        {{ $person->date_of_birth }} (age {{ $person->age }})
+                    @else
+                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus-o)</button>
+                    @endif
+                </span>
                 @if(isset($person->nationality))
                     {{ $person->nationality }}
                 @endif
