@@ -119,22 +119,54 @@
                 <div class="card mb-4">
                     <div class="card-header">Relationships</div>
                     <div class="card-body">
-                        @if(isset($person->mother))
-                            Mother: <a href="{{ route('people.show', $person->mother) }}">{{ $person->mother->family_name }} {{ $person->mother->name }}</a>
-                        @endif
-                        @if(isset($person->father))
-                            Father: <a href="{{ route('people.show', $person->father) }}">{{ $person->father->family_name }} {{ $person->father->name }}</a>
-                        @endif
-                        @if(isset($person->partner))
-                            Partner: <a href="{{ route('people.show', $person->partner) }}">{{ $person->partner->family_name }} {{ $person->partner->name }}</a>
-                        @endif
-                        @if(count($person->children) > 0)
-                            <p>Children:</p><ul>
-                            @foreach($person->children as $child) 
-                                <li><a href="{{ route('people.show', $child) }}">{{ $child->family_name }} {{ $child->name }}</a></li>
-                            @endforeach
-                            </ul>
-                        @endif
+                        <div class="list-group">
+                            @if(isset($person->mother))
+                                <a href="{{ route('people.show', $person->mother) }}" class="list-group-item list-group-item-action">
+                                    Mother:
+                                    @if($person->mother->gender == 'f')@icon(female) 
+                                    @elseif($person->mother->gender == 'm')@icon(male) 
+                                    @endif
+                                    {{ $person->mother->family_name }} {{ $person->mother->name }}}@if(isset($person->mother->date_of_birth)), 
+                                        {{ $person->mother->date_of_birth }} (age {{ $person->mother->age }})
+                                    @endif
+                                </a>
+                            @endif
+                            @if(isset($person->father))
+                                <a href="{{ route('people.show', $person->father) }}" class="list-group-item list-group-item-action">
+                                    Father:
+                                    @if($person->father->gender == 'f')@icon(female) 
+                                    @elseif($person->father->gender == 'm')@icon(male) 
+                                    @endif
+                                    {{ $person->father->family_name }} {{ $person->father->name }}}@if(isset($person->father->date_of_birth)), 
+                                        {{ $person->father->date_of_birth }} (age {{ $person->father->age }})
+                                    @endif
+                                </a>
+                            @endif
+                            @if(isset($person->partner))
+                                <a href="{{ route('people.show', $person->partner) }}" class="list-group-item list-group-item-action">
+                                    Partner:
+                                    @if($person->partner->gender == 'f')@icon(female) 
+                                    @elseif($person->partner->gender == 'm')@icon(male) 
+                                    @endif
+                                    {{ $person->partner->family_name }} {{ $person->partner->name }}@if(isset($person->partner->date_of_birth)), 
+                                        {{ $person->partner->date_of_birth }} (age {{ $person->partner->age }})
+                                    @endif
+                                </a>
+                            @endif
+                            @if(count($person->children) > 0)
+                                @foreach($person->children->sortByDesc('age') as $child) 
+                                    <a href="{{ route('people.show', $child) }}" class="list-group-item list-group-item-action">
+                                        Child: 
+                                        @if($child->gender == 'f')@icon(female) 
+                                        @elseif($child->gender == 'm')@icon(male) 
+                                        @endif
+                                        {{ $child->family_name }} {{ $child->name }}@if(isset($child->date_of_birth)), 
+                                            {{ $child->date_of_birth }} (age {{ $child->age }})
+                                        @endif
+                                    </a>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
                 </div>
             @endif
