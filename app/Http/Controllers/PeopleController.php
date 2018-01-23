@@ -171,8 +171,12 @@ class PeopleController extends ParentController
         }
         $request->session()->put('people.filter', $filter);
 
-        return $persons = Person
-            ::where($condition)
+        $q = $persons = Person::where($condition);
+        // TODO: validator
+        if (isset($request->orderByField) && isset($request->orderByDirection)) {
+            $q->orderBy($request->orderByField, $request->orderByDirection);
+        }
+        return $q
             ->orderBy('family_name', 'asc')
             ->orderBy('name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', self::DEFAULT_RESULTS_PER_PAGE));

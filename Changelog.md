@@ -3,6 +3,7 @@
 ## 1.8.19
 
 * Added "Date of birth" and "Registered" field to "People" page.
+* Added column sorting in "People" page.
 
 ## 1.8.18
 

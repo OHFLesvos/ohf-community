@@ -1,6 +1,9 @@
 pagination = require('./pagination.js');
 
 var delayTimer;
+var orderByField = 'family_name';
+var lastOrderByField = 'family_name';
+var orderByDirection = 'asc';
 
 $(function(){
     $('#filter input').on('change keyup', function(e){
@@ -14,7 +17,7 @@ $(function(){
             tbody.append($('<tr>')
                 .append($('<td>')
                     .text('Searching...')
-                    .attr('colspan', 13))
+                    .attr('colspan', 15))
             );
 
             clearTimeout(delayTimer);
@@ -28,6 +31,17 @@ $(function(){
                 filterTable(1);
             }, 300);
         }
+    });
+
+    $('a.sort').on('click', function(){
+        orderByField = $(this).attr('data-field');
+        if ((lastOrderByField == orderByField && orderByDirection != 'desc')) {
+            orderByDirection = 'desc';
+        } else {
+            orderByDirection = 'asc';
+        }
+        lastOrderByField = orderByField;
+        filterTable(1);
     });
 
     $('#reset-filter').on('click', function(){
@@ -57,7 +71,7 @@ function filterTable(page) {
     tbody.append($('<tr>')
         .append($('<td>')
             .text('Searching...')
-            .attr('colspan', 13))
+            .attr('colspan', 15))
     );
 
     var paginator = $('#paginator');
@@ -80,7 +94,9 @@ function filterTable(page) {
         "languages": $('#filter input[name="languages"]').val(),
         "skills": $('#filter input[name="skills"]').val(),
         "remarks": $('#filter input[name="remarks"]').val(),
-        "page": page
+        "page": page,
+        'orderByField': orderByField,
+        'orderByDirection': orderByDirection,
     }, function(result) {
         tbody.empty();
         if (result.data.length > 0) {
@@ -94,7 +110,7 @@ function filterTable(page) {
                 .addClass('warning')
                 .append($('<td>')
                     .text('No results')
-                    .attr('colspan', 13))
+                    .attr('colspan', 15))
             );
         }
     })
@@ -104,7 +120,7 @@ function filterTable(page) {
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 13))
+                    .attr('colspan', 15))
             );
         });
 }
