@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.19
+
+* Added "Date of birth" and "Registered" field to "People" page.
+
 ## 1.8.18
 
 * Small improvements in reports

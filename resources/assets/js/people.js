@@ -33,13 +33,14 @@ $(function(){
     $('#reset-filter').on('click', function(){
         $('#filter input[name="family_name"]').val('');
         $('#filter input[name="name"]').val('');
+        $('#filter input[name="date_of_birth"]').val('');
+        $('#filter input[name="nationality"]').val('');
         $('#filter input[name="police_no"]').val('');
         $('#filter input[name="case_no"]').val('');
         $('#filter input[name="medical_no"]').val('');
         $('#filter input[name="registration_no"]').val('');
         $('#filter input[name="section_card_no"]').val('');
         $('#filter input[name="temp_no"]').val('');
-        $('#filter input[name="nationality"]').val('');
         $('#filter input[name="languages"]').val('');
         $('#filter input[name="skills"]').val('');
         $('#filter input[name="remarks"]').val('');
@@ -68,13 +69,14 @@ function filterTable(page) {
         "_token": csrfToken,
         "family_name": $('#filter input[name="family_name"]').val(),
         "name": $('#filter input[name="name"]').val(),
+        "date_of_birth": $('#filter input[name="date_of_birth"]').val(),
+        "nationality": $('#filter input[name="nationality"]').val(),
         "police_no": $('#filter input[name="police_no"]').val(),
         "case_no": $('#filter input[name="case_no"]').val(),
         "medical_no": $('#filter input[name="medical_no"]').val(),
         "registration_no": $('#filter input[name="registration_no"]').val(),
         "section_card_no": $('#filter input[name="section_card_no"]').val(),
         "temp_no": $('#filter input[name="temp_no"]').val(),
-        "nationality": $('#filter input[name="nationality"]').val(),
         "languages": $('#filter input[name="languages"]').val(),
         "skills": $('#filter input[name="skills"]').val(),
         "remarks": $('#filter input[name="remarks"]').val(),
@@ -130,14 +132,16 @@ function writeRow(person) {
                 .text(person.name)
             )
         )
+        .append($('<td>').text(person.date_of_birth))
+        .append($('<td>').text(person.nationality))
         .append($('<td>').text(person.police_no))
         .append($('<td>').text(person.case_no))
         .append($('<td>').text(person.medical_no))
         .append($('<td>').text(person.registration_no))
         .append($('<td>').text(person.section_card_no))
         .append($('<td>').text(person.temp_no))
-        .append($('<td>').text(person.nationality))
         .append($('<td>').text(person.languages))
         .append($('<td>').text(person.skills))
-        .append($('<td>').text(person.remarks));
+        .append($('<td>').text(person.remarks))
+        .append($('<td>').text(person.created_at));
 }
