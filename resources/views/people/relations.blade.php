@@ -88,23 +88,23 @@
 			</tbody>
 		</table>
 
-
-		{!! Form::model($person, ['route' => ['people.update', $person], 'method' => 'put']) !!}
-		{{--  <br>
-		<div class="form-row">
-			<div class="col-sm-auto">
-				{{ Form::bsRadioList('relation[]', ['father' => 'Father', 'mother' => 'Mother', 'child' => 'Child', 'partner' => 'Partner'], 'child') }}
-			</div>
-			<div class="col-sm">
-				{{ Form::bsText('relative', null, ['placeholder' => 'Name of relative'], '') }}
-			</div>
-		</div>  --}}
-
-		{{--  <p>
-			{{ Form::bsSubmitButton('Update') }}
-		</p>  --}}
-
-    {!! Form::close() !!}
+	<div class="card mb-3">
+		<div class="card-body pb-sm-1">
+			{!! Form::model($person, ['route' => ['people.update', $person], 'method' => 'put']) !!}
+				<div class="form-row">
+					<div class="col-sm-auto">
+						{{ Form::bsSelect('relation[]', ['father' => 'Father', 'mother' => 'Mother', 'child' => 'Child', 'partner' => 'Partner'], 'child', [], '') }}
+					</div>
+					<div class="col-sm">
+						{{ Form::bsText('relative', null, ['placeholder' => 'Name of relative to be added'], '') }}
+					</div>
+					<div class="col-sm-auto">
+						{{ Form::bsSubmitButton('Add', 'user-plus') }}
+					</div>
+				</div>
+			{!! Form::close() !!}
+		</div>
+	</div>
 
 @endsection
 
