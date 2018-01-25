@@ -4,8 +4,9 @@
 
 @section('content')
 
-		<p>Relations of @include('people.person-label'):</p>
+	{{--  <p>Relations of @include('people.person-label'):</p>  --}}
 
+	@if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
 		<table class="table table-sm">
 			<thead>
 				<tr>
@@ -87,16 +88,18 @@
 				@endif
 			</tbody>
 		</table>
+	@endif
 
 	<div class="card mb-3">
+		<div class="card-header">Add a new relation</div>
 		<div class="card-body pb-sm-1">
-			{!! Form::model($person, ['route' => ['people.update', $person], 'method' => 'put']) !!}
+			{!! Form::model($person, ['route' => ['people.addRelation', $person], 'method' => 'post']) !!}
 				<div class="form-row">
-					<div class="col-sm-auto">
-						{{ Form::bsSelect('relation[]', ['father' => 'Father', 'mother' => 'Mother', 'child' => 'Child', 'partner' => 'Partner'], 'child', [], '') }}
+					<div class="col-sm-auto mb-3">
+						{{ Form::bsRadioList('type', $types, 'child') }}
 					</div>
 					<div class="col-sm">
-						{{ Form::bsText('relative', null, ['placeholder' => 'Name of relative to be added'], '') }}
+						{{ Form::bsText('relative', null, ['placeholder' => 'Search relative'], '') }}
 					</div>
 					<div class="col-sm-auto">
 						{{ Form::bsSubmitButton('Add', 'user-plus') }}

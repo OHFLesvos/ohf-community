@@ -265,6 +265,12 @@ class ContextMenuComposer {
                         'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $person)
                     ],
+                    'relations' => [
+                        'url' => route('people.relations', $person),
+                        'caption' => 'Relations',
+                        'icon' => 'users',
+                        'authorized' => Auth::user()->can('update', $person)
+                    ],
                     'delete' => [
                         'url' => route('people.destroy', $person),
                         'caption' => 'Delete',

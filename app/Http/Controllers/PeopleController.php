@@ -11,6 +11,8 @@ use App\Http\Requests\StorePerson;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\LabelAlignment;
 use Illuminate\Support\Facades\DB;
+use Validator;
+use Illuminate\Validation\Rule;
 
 class PeopleController extends ParentController
 {
@@ -153,9 +155,73 @@ class PeopleController extends ParentController
 	}
 
     public function relations(Person $person) {
+        $types = [];
+        if ($person->father == null) {
+            $types['father'] = 'Father';
+        }
+        if ($person->mother == null) {
+            $types['mother'] = 'Mother';
+        }
+        if ($person->partner == null) {
+            $types['partner'] = 'Partner';
+        }
+        $types['child'] = 'Child';
         return view('people.relations', [
             'person' => $person,
+            'types' => $types,
 		]);
+    }
+
+    public function addRelation(Person $person, Request $request) {
+        Validator::make($request->all(), [
+            'type' => 'required|in:father,mother,partner,child',
+            'relative' => [
+                'required',
+                Rule::exists('persons', 'id')
+                    ->whereNot('id', $person->id)
+                    ->whereNull(function ($query) use ($request) {
+                        if ($request->type == 'father') {
+                            $query->whereNull('father_id');
+                        }
+                        if ($request->type == 'mother') {
+                            $query->whereNull('mother_id');
+                        }                        
+                        if ($request->type == 'partner') {
+                            $query->whereNull('partner_id');
+                        }                        
+                    }),
+            ],
+        ])->validate();
+
+        $relative = Person::find($request->relative);
+        $label = '';
+        if ($request->type == 'father') {
+            $person->father()->associate($relative);
+            $label = 'Father';
+        }
+        else if ($request->type == 'mother') {
+            $person->mother()->associate($relative);
+            $label = 'Mother';
+        }
+        else if ($request->type == 'partner') {
+            $relative->partner_id = $person->id;
+            $relative->save();
+            $person->partner_id = $relative->id;
+            $label = 'Partner';
+        }
+        else if ($request->type == 'child') {
+            if ($person->gender == 'f') {
+                $relative->mother()->associate($person);
+            } else if ($person->gender == 'm') {
+                $relative->father()->associate($person);
+            }
+            $relative->save();
+            $label = 'Child';
+        }
+        $person->save();
+
+        return redirect()->route('people.relations', $person)
+            ->with('success', $label . ' "' . $relative->family_name . ' ' . $relative->name . '" has been added!');
     }
 
     public function removeChild(Person $person, Person $child) {
@@ -167,7 +233,7 @@ class PeopleController extends ParentController
         }
         $child->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Relation with child "' . $child->family_name . ' ' . $child->name . '" has been removed!');
+            ->with('success', 'Child "' . $child->family_name . ' ' . $child->name . '" has been removed!');
     }
 
     public function removePartner(Person $person) {
@@ -177,7 +243,7 @@ class PeopleController extends ParentController
         $person->partner_id = null;
         $person->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Relation with partner "' . $partner->family_name . ' ' . $partner->name . '" has been removed!');
+            ->with('success', 'Partner "' . $partner->family_name . ' ' . $partner->name . '" has been removed!');
     }
 
     public function removeFather(Person $person) {
@@ -185,7 +251,7 @@ class PeopleController extends ParentController
         $person->father()->dissociate();
         $person->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Relation with father "' . $father->family_name . ' ' . $father->name . '" has been removed!');
+            ->with('success', 'Father "' . $father->family_name . ' ' . $father->name . '" has been removed!');
     }
 
     public function removeMother(Person $person) {
@@ -193,7 +259,7 @@ class PeopleController extends ParentController
         $person->mother()->dissociate();
         $person->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Relation with mother "' . $mother->family_name . ' ' . $mother->name . '" has been removed!');
+            ->with('success', 'Mother "' . $mother->family_name . ' ' . $mother->name . '" has been removed!');
     }
     
     public function destroy(Person $person) {

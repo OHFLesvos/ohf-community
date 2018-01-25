@@ -66,6 +66,7 @@ Route::get('/people/import', 'PeopleController@import')->name('people.import');
 Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
 Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')->name('people.qrCode');
 Route::get('/people/{person}/relations', 'PeopleController@relations')->name('people.relations');
+Route::post('/people/{person}/relations', 'PeopleController@addRelation')->name('people.addRelation');
 Route::delete('/people/{person}/children/{child}', 'PeopleController@removeChild')->name('people.removeChild');
 Route::delete('/people/{person}/partner', 'PeopleController@removePartner')->name('people.removePartner');
 Route::delete('/people/{person}/mother', 'PeopleController@removeMother')->name('people.removeMother');
