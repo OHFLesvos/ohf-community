@@ -60,7 +60,7 @@
                 {{ Form::bsText('remarks') }}
 			</div>
 		</div>
-
+			
 		<p>
 			{{ Form::bsSubmitButton('Update') }}
 		</p>

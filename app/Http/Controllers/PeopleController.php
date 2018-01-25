@@ -152,6 +152,50 @@ class PeopleController extends ParentController
                 ->with('success', 'Person has been updated!');
 	}
 
+    public function relations(Person $person) {
+        return view('people.relations', [
+            'person' => $person,
+		]);
+    }
+
+    public function removeChild(Person $person, Person $child) {
+        if ($person->gender == 'm') {
+            $child->father()->dissociate();
+        }
+        else if ($person->gender == 'f') {
+            $child->mother()->dissociate();
+        }
+        $child->save();
+        return redirect()->route('people.relations', $person)
+            ->with('success', 'Relation with child "' . $child->family_name . ' ' . $child->name . '" has been removed!');
+    }
+
+    public function removePartner(Person $person) {
+        $partner = $person->partner;
+        $partner->partner_id = null;
+        $partner->save();
+        $person->partner_id = null;
+        $person->save();
+        return redirect()->route('people.relations', $person)
+            ->with('success', 'Relation with partner "' . $partner->family_name . ' ' . $partner->name . '" has been removed!');
+    }
+
+    public function removeFather(Person $person) {
+        $father = $person->father;
+        $person->father()->dissociate();
+        $person->save();
+        return redirect()->route('people.relations', $person)
+            ->with('success', 'Relation with father "' . $father->family_name . ' ' . $father->name . '" has been removed!');
+    }
+
+    public function removeMother(Person $person) {
+        $mother = $person->mother;
+        $person->mother()->dissociate();
+        $person->save();
+        return redirect()->route('people.relations', $person)
+            ->with('success', 'Relation with mother "' . $mother->family_name . ' ' . $mother->name . '" has been removed!');
+    }
+    
     public function destroy(Person $person) {
         $person->delete();
         return redirect()->route(session('peopleOverviewRouteName', 'people.index'))

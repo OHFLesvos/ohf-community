@@ -279,6 +279,16 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('list', Person::class)
                     ]
                 ];
+            case 'people.relations':
+                $person = $view->getData()['person'];
+                return [
+                    'back' => [
+                        'url' => route('people.show', $person),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('view', $person)
+                    ]
+                ];
             case 'people.edit':
                 $person = $view->getData()['person'];
                 $url = route('people.show', $person);

@@ -19,6 +19,8 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsPassword', 'components.form.bsPassword', [ 'name', 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsDate', 'components.form.bsDate', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsCheckbox', 'components.form.bsCheckbox', [ 'name', 'value' => null, 'checked' => null, 'label' => null ]);
+        Form::component('bsRadio', 'components.form.bsRadio', [ 'name', 'value' => null, 'checked' => null, 'label' => null ]);
+        Form::component('bsRadioList', 'components.form.bsRadioList', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);
         Form::component('bsSelect', 'components.form.bsSelect', [ 'name', 'entries', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsSubmitButton', 'components.form.bsSubmitButton', [ 'label', 'icon' => 'check' ]);
         Form::component('bsDeleteButton', 'components.form.bsDeleteButton', [ 'label' => 'Delete', 'icon' => 'trash', 'confirmation' => 'Do you really want to delete this item?' ]);
