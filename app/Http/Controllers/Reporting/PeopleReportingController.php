@@ -89,11 +89,10 @@ class PeopleReportingController extends BaseReportingController
      * Gender distribution
      */
     function genderDistribution() {
+        $gender = self::getGenderDistribution();
         return response()->json([
-            'labels' => null,
-            'datasets' => collect(self::getGenderDistribution())
-                ->map(function($e){ return [$e]; })
-                ->toArray(),
+            'labels' => array_keys($gender),
+            'datasets' => [array_values($gender)],
         ]);
     }
 
@@ -120,11 +119,10 @@ class PeopleReportingController extends BaseReportingController
      * Demographics
      */
     function demographics() {
+        $demographics = self::getDemographics();
         return response()->json([
-            'labels' => null,
-            'datasets' => collect(self::getDemographics())
-                ->map(function($e){ return [$e]; })
-                ->toArray(),
+            'labels' => array_keys($demographics),
+            'datasets' => [array_values($demographics)],
         ]);
     }
 

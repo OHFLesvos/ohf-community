@@ -46,41 +46,48 @@
                             @endforeach
                         </table>
 
-                        {{-- Gender --}}
-                        <horizontal-bar-chart
-                            title="Gender"
-                            url="{{ route('reporting.people.genderDistribution') }}"
-                            :height=70
-                            :legend=false
-                            class="mb-2">
-                        </horizontal-bar-chart>
-                        <div class="row colorize mb-5">
-                            @foreach ($gender as $k => $v)
-                                <div class="col">
-                                    <span  class="colorize-background d-inline-block" style="width: 1.5em">&nbsp;</span> {{ $k }}: 
-                                    {{ $v }} ({{ round($v / array_sum(array_values($gender)) * 100) }} %)
+                        <div class="row">
+
+                            {{-- Gender --}}
+                            <div class="col-md-6">
+                                <pie-chart
+                                    title="Gender"
+                                    url="{{ route('reporting.people.genderDistribution') }}"
+                                    :height=300
+                                    :legend=false
+                                    class="mb-2">
+                                </pie-chart>
+                                <div class="row colorize mb-5">
+                                    @foreach ($gender as $k => $v)
+                                        <div class="col">
+                                            <span  class="colorize-background d-inline-block" style="width: 1.5em">&nbsp;</span> {{ $k }}: 
+                                            {{ $v }} ({{ round($v / array_sum(array_values($gender)) * 100) }} %)
+                                        </div>
+                                    @endforeach
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
         
-                        {{-- Demographics --}}
-                        <horizontal-bar-chart
-                            title="Demographics"
-                            url="{{ route('reporting.people.demographics') }}"
-                            :height=70
-                            :legend=false
-                            class="mb-2">
-                        </horizontal-bar-chart>
-                        <table class="table table-sm mt-2 mb-5 colorize">
-                            @foreach ($demographics as $k => $v)
-                                <tr>
-                                    <td class="colorize-background">&nbsp;</td>
-                                    <td>{{ $k }}</td>
-                                    <td class="text-right">{{ $v }}</td>
-                                    <td class="text-right">{{ round($v / array_sum(array_values($demographics)) * 100) }} %</td>
-                                </tr>
-                            @endforeach
-                        </table>
+                            {{-- Demographics --}}
+                            <div class="col-md-6">
+                                <pie-chart
+                                    title="Demographics"
+                                    url="{{ route('reporting.people.demographics') }}"
+                                    :height=300
+                                    :legend=false
+                                    class="mb-2">
+                                </pie-chart>
+                                <table class="table table-sm mt-2 mb-5 colorize">
+                                    @foreach ($demographics as $k => $v)
+                                        <tr>
+                                            <td class="colorize-background">&nbsp;</td>
+                                            <td>{{ $k }}</td>
+                                            <td class="text-right">{{ $v }}</td>
+                                            <td class="text-right">{{ round($v / array_sum(array_values($demographics)) * 100) }} %</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
 
                         {{-- Number Types --}}
                         <horizontal-bar-chart
@@ -186,12 +193,6 @@
             
             </div>
         </div>
-
-        {{--  <div class="card mb-2">
-                        <div class="card-body">
-
-                        </div>
-        </div>  --}}
 
     </div>
 

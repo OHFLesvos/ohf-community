@@ -177,6 +177,7 @@ window.Vue = require('vue');
 Vue.component('line-chart', require('./components/LineChart.vue'));
 Vue.component('bar-chart', require('./components/BarChart.vue'));
 Vue.component('horizontal-bar-chart', require('./components/HorizontalBarChart.vue'));
+Vue.component('pie-chart', require('./components/PieChart.vue'));
 Vue.component('task-list', require('./components/TaskList.vue'));
 
 const app = new Vue({
