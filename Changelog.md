@@ -4,6 +4,9 @@
 
 * Added "Date of birth" and "Registered" field to "People" page.
 * Added column sorting in "People" page.
+* Added possibilty to assign relations to person (father, mother, child, partner)
+* Replaced text-field autocomplete library
+* Use pie charts to show person demographics and gender in person report
 
 ## 1.8.18
 
