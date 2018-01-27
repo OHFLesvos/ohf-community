@@ -16,7 +16,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@if(isset($person->mother))
+				@isset($person->mother)
 					<tr>
 						<td>Mother</th>
 						<td>
@@ -32,8 +32,8 @@
 							</form>
 						</td>
 					</tr>
-				@endif
-				@if(isset($person->father))
+				@endisset
+				@isset($person->father)
 					<tr>
 						<td>Father</th>
 						<td>
@@ -49,8 +49,8 @@
 							</form>
 						</td>
 					</tr>
-				@endif
-				@if(isset($person->partner))
+				@endisset
+				@isset($person->partner)
 					<tr>
 						<td>Partner</td>
 						<td>
@@ -66,8 +66,8 @@
 							</form>
 						</td>
 					</tr>
-				@endif
-				@if(count($person->children) > 0)
+				@endisset
+				@if (count($person->children) > 0)
 					@foreach($person->children->sortByDesc('age') as $child) 
 						<tr>
 							<td>Child</td>
@@ -90,24 +90,32 @@
 		</table>
 	@endif
 
-	<div class="card mb-3">
-		<div class="card-header">Add a new relation</div>
-		<div class="card-body pb-sm-1">
-			{!! Form::model($person, ['route' => ['people.addRelation', $person], 'method' => 'post']) !!}
-				<div class="form-row">
-					<div class="col-sm-auto mb-3">
-						{{ Form::bsRadioList('type', $types, 'child') }}
+	@if (count($types) > 0)
+		<div class="card mb-3">
+			<div class="card-header">Add a new relation</div>
+			<div class="card-body pb-sm-1">
+				{!! Form::model($person, ['route' => ['people.addRelation', $person], 'method' => 'post']) !!}
+					<div class="form-row">
+						<div class="col-sm-auto mb-3">
+							{{ Form::bsRadioList('type', $types, 'child') }}
+						</div>
+						<div class="col-sm">
+							{{ Form::bsText('relative', null, ['placeholder' => 'Search relative'], '') }}
+						</div>
+						<div class="col-sm-auto">
+							{{ Form::bsSubmitButton('Add', 'user-plus') }}
+						</div>
 					</div>
-					<div class="col-sm">
-						{{ Form::bsText('relative', null, ['placeholder' => 'Search relative'], '') }}
-					</div>
-					<div class="col-sm-auto">
-						{{ Form::bsSubmitButton('Add', 'user-plus') }}
-					</div>
-				</div>
-			{!! Form::close() !!}
+				{!! Form::close() !!}
+			</div>
 		</div>
-	</div>
+	@endif
+
+	@empty($person->gender)
+		@component('components.alert.info')
+			No gender specified, cannot add children. <a href="{{ route('people.edit', $person) }}">@icon(pencil) Edit person</a>
+		@endcomponent
+	@endempty
 
 @endsection
 

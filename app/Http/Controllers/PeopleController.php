@@ -165,7 +165,9 @@ class PeopleController extends ParentController
         if ($person->partner == null) {
             $types['partner'] = 'Partner';
         }
-        $types['child'] = 'Child';
+        if ($person->gender != null) {
+            $types['child'] = 'Child';
+        }
         return view('people.relations', [
             'person' => $person,
             'types' => $types,
