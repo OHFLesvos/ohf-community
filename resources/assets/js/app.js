@@ -196,6 +196,12 @@ $(function(){
         } else if ($(this).data('autocomplete-source')) {
             opts.lookup = $(this).data('autocomplete-source');
         }
+        if ($(this).data('autocomplete-update')) {
+            opts.onSelect = function (suggestion) {
+                $($(this).data('autocomplete-update')).val(suggestion.data);
+                //console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            }
+        }
         $('[rel="autocomplete"]').autocomplete(opts);
     });
 });

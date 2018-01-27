@@ -174,6 +174,30 @@ class PeopleController extends ParentController
 		]);
     }
 
+    public function filterPersons(Request $request) {
+        $qry = Person::limit(10)
+            ->orderBy('family_name')
+            ->orderBy('name');
+        if (isset($request->query()['query'])) {
+            $qry->where('search', 'LIKE', '%' . $request->query()['query'] . '%');
+        }
+        $persons = $qry->get()
+            ->map(function($e){ 
+                $val = $e->family_name . ' '. $e->name;
+                if (!empty($e->date_of_birth)) {
+                    $val.= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
+                }
+                if (!empty($e->nationality)) {
+                    $val.= ', ' . $e->nationality;
+                }
+                return [
+                    'value' => $val,
+                    'data' => $e->id,
+                ]; 
+            });
+        return response()->json(["suggestions" => $persons]);
+    }
+
     public function addRelation(Person $person, Request $request) {
         Validator::make($request->all(), [
             'type' => 'required|in:father,mother,partner,child',
