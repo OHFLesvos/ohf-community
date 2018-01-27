@@ -46,6 +46,12 @@ class ContextMenuComposer {
             case 'people.index':
                 return [
                     [
+                        'url' => route('people.duplicates'),
+                        'caption' => 'Find duplicates',
+                        'icon' => 'exchange',
+                        'authorized' => Auth::user()->can('cleanup', Person::class)
+                    ],                    
+                    [
                         'url' => route('people.export'),
                         'caption' => 'Export',
                         'icon' => 'download',
@@ -307,6 +313,15 @@ class ContextMenuComposer {
                         'caption' => 'Cancel',
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $person)
+                    ]
+                ];
+            case 'people.duplicates':
+                return [
+                    'back' => [
+                        'url' => route('people.index'),
+                        'caption' => 'Close',
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', Person::class)
                     ]
                 ];
             case 'people.import':

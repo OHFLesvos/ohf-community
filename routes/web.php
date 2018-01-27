@@ -72,6 +72,8 @@ Route::delete('/people/{person}/children/{child}', 'PeopleController@removeChild
 Route::delete('/people/{person}/partner', 'PeopleController@removePartner')->name('people.removePartner');
 Route::delete('/people/{person}/mother', 'PeopleController@removeMother')->name('people.removeMother');
 Route::delete('/people/{person}/father', 'PeopleController@removeFather')->name('people.removeFather');
+Route::get('/people/duplicates', 'PeopleController@duplicates')->name('people.duplicates');
+Route::post('/people/applyDuplicates', 'PeopleController@applyDuplicates')->name('people.applyDuplicates');
 Route::resource('/people', 'PeopleController');
 
 Route::group(['middleware' => ['auth']], function () {

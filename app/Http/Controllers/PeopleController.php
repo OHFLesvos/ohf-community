@@ -294,6 +294,67 @@ class PeopleController extends ParentController
             ->with('success', 'Person has been deleted!');
     }
 
+    public function duplicates() {
+        $persons = Person::with('transactions')->orderBy('family_name')
+            ->orderBy('name')
+            ->get();
+        $duplicates = [];
+        $ids = [];
+        foreach($persons as $person) {
+            if (in_array($person->id, $ids)) {
+                continue;
+            }
+            $dpls = Person::with('transactions')->where('id', '!=', $person->id)
+                ->where('family_name', $person->family_name)
+                ->where('name', $person->name)
+                ->get();
+            if (count($dpls) > 0) {
+                $duplicates[] = [
+                    'person' => $person,
+                    'duplicates' => $dpls, 
+                ];
+                foreach ($dpls as $dpl) {
+                    $ids[] = $dpl->id;
+                }
+            }
+        }
+        return view('people.duplicates', [
+            'duplicates' => $duplicates,
+            'total' => Person::count(),
+            'actions' => [
+                'nothing'=> 'Nothing',
+                //'merge'=>'Merge',
+                'deletePerson' => 'Delete person',
+                'deleteDuplicate' => 'Delete duplicate',
+            ],
+		]);
+    }
+    
+    public function applyDuplicates(Request $request) {
+        Validator::make($request->all(), [
+            'action' => 'required|array',
+        ])->validate();
+        $deleted = 0;
+        foreach($request->action as $person => $duplicates) {
+            foreach($duplicates as $duplicate => $action) {
+                if ($action == 'merge') {
+                    // TODO
+                    //Person::delete($duplicate);
+                }
+                else if ($action == 'deletePerson') {
+                    Person::destroy($person);
+                    $deleted++;
+                }
+                else if ($action == 'deleteDuplicate') {
+                    Person::destroy($duplicate);
+                    $deleted++;
+                }
+            }
+        }
+        return redirect()->route('people.duplicates')
+            ->with('success', 'Done (deleted ' . $deleted . ' persons).');
+    }
+
 	public function filter(Request $request) {
         $this->authorize('list', Person::class);
 
