@@ -1,7 +1,6 @@
 require('./bootstrap');
 
 require('jquery.session/jquery.session');
-require('bootstrap-3-typeahead');
 var palette = require('google-palette');
 
 // Define color palette (for charts)
@@ -182,4 +181,21 @@ Vue.component('task-list', require('./components/TaskList.vue'));
 
 const app = new Vue({
     el: '#app'
+});
+
+//
+// Autocomplete
+//
+require('devbridge-autocomplete')
+
+$(function(){
+    $('[rel="autocomplete"]').each(function(){
+        opts = {};
+        if ($(this).data('autocomplete-url')) {
+            opts.serviceUrl = $(this).data('autocomplete-url');
+        } else if ($(this).data('autocomplete-source')) {
+            opts.lookup = $(this).data('autocomplete-source');
+        }
+        $('[rel="autocomplete"]').autocomplete(opts);
+    });
 });

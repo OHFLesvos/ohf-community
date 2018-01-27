@@ -48,7 +48,7 @@
 				</div>
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off']) }}
+                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))]) }}
 					</div>
 					<div class="col-md">
                         {{ Form::bsText('languages') }}
@@ -67,12 +67,4 @@
 
     {!! Form::close() !!}
 
-@endsection
-
-@section('script')
-	$(function(){
-		$('#nationality').typeahead({
-			source: [ @foreach($countries as $country) '{!! $country !!}', @endforeach ]
-		});
-	});
 @endsection

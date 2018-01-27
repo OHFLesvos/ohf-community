@@ -48,7 +48,7 @@
 				</div>
 				<div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off'], null, 'Greek: Υπηκοότητα') }}
+                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], null, 'Greek: Υπηκοότητα') }}
                     </div>
 					<div class="col-md">
                         {{ Form::bsText('remarks') }}
@@ -93,11 +93,6 @@
 @section('script')
     var childIndex = 0;
     $(function(){
-        // Typeahead for nationalities
-        $('#nationality').typeahead({
-            source: [ @foreach($countries as $country) '{!! $country !!}', @endforeach ]
-        });
-
         // Add children row
         $('#add-children').on('click', function(){
             var content = $($('#child-form-row-template').html()); //;.replace(/\[x\]/g, '[' + childIndex++ + ']');

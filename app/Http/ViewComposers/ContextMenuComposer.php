@@ -232,19 +232,19 @@ class ContextMenuComposer {
             //
             case 'people.index':
                 return [
-                    'report'=> [
-                        'url' => route('reporting.people'),
-                        'caption' => 'Report',
-                        'icon' => 'line-chart',
-                        'authorized' => Gate::allows('view-people-reports')
-                    ],
                     'action' => [
                         'url' => route('people.create'),
                         'caption' => 'Register',
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Person::class)
-                    ]
+                    ],
+                    'report'=> [
+                        'url' => route('reporting.people'),
+                        'caption' => 'Report',
+                        'icon' => 'line-chart',
+                        'authorized' => Gate::allows('view-people-reports')
+                    ],
                 ];
             case 'people.create':
                 return [
