@@ -5,7 +5,10 @@
 <small class="text-muted">
     @if ($numTransactions > 0)
         Transactions: {{ $numTransactions }}
-        (last: {{ $person->transactions()->orderBy('created_at', 'desc')->first()->created_at }})<br>
+        @php
+            $lastTransactionDate = $person->transactions()->orderBy('created_at', 'desc')->first()->created_at;
+        @endphp
+        (last: {{ $lastTransactionDate }}, {{ (new Carbon\Carbon($lastTransactionDate))->diffForHumans() }})<br>
     @endif
     @if ($person->card_no != null)
         Card: {{ $person->card_no }} issued on {{ $person->card_issued }}<br>

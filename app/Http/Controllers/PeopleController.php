@@ -295,8 +295,10 @@ class PeopleController extends ParentController
     }
 
     public function duplicates() {
-        $persons = Person::with('transactions')->orderBy('family_name')
+        //with(['children'])->
+        $persons = Person::orderBy('family_name')
             ->orderBy('name')
+            ->with(['children', 'father', 'mother', 'partner'])
             ->get();
         $duplicates = [];
         $ids = [];
@@ -304,10 +306,9 @@ class PeopleController extends ParentController
             if (in_array($person->id, $ids)) {
                 continue;
             }
-            $dpls = Person::with('transactions')->where('id', '!=', $person->id)
-                ->where('family_name', $person->family_name)
-                ->where('name', $person->name)
-                ->get();
+            $dpls = $persons->filter(function($e) use($person) {
+                return $e->id != $person->id && $e->family_name == $person->family_name && $e->name == $person->name;
+            });
             if (count($dpls) > 0) {
                 $duplicates[] = [
                     'person' => $person,
@@ -322,10 +323,8 @@ class PeopleController extends ParentController
             'duplicates' => $duplicates,
             'total' => Person::count(),
             'actions' => [
-                'nothing'=> 'Nothing',
-                //'merge'=>'Merge',
-                'deletePerson' => 'Delete person',
-                'deleteDuplicate' => 'Delete duplicate',
+                'nothing'=> 'Do nothing',
+                'merge'=>'Merge',
             ],
 		]);
     }
