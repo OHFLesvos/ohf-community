@@ -295,30 +295,19 @@ class PeopleController extends ParentController
     }
 
     public function duplicates() {
-        //with(['children'])->
-        $persons = Person::orderBy('family_name')
+        $names = [];
+        Person::orderBy('family_name')
             ->orderBy('name')
             ->with(['children', 'father', 'mother', 'partner'])
-            ->get();
-        $duplicates = [];
-        $ids = [];
-        foreach($persons as $person) {
-            if (in_array($person->id, $ids)) {
-                continue;
-            }
-            $dpls = $persons->filter(function($e) use($person) {
-                return $e->id != $person->id && $e->family_name == $person->family_name && $e->name == $person->name;
+            ->get()
+            ->each(function($e) use (&$names) {
+                $names[$e->family_name. ' ' . $e->name][$e->id] = $e;
             });
-            if (count($dpls) > 0) {
-                $duplicates[] = [
-                    'person' => $person,
-                    'duplicates' => $dpls, 
-                ];
-                foreach ($dpls as $dpl) {
-                    $ids[] = $dpl->id;
-                }
-            }
-        }
+        $duplicates = collect($names)
+            ->filter(function($e){
+                return count($e) > 1;
+            });
+
         return view('people.duplicates', [
             'duplicates' => $duplicates,
             'total' => Person::count(),

@@ -10,19 +10,18 @@
 	@if ($count > 0)
 		<p>Found <strong>{{ $count }}</strong> duplicates out of <strong>{{ $total }}</strong> total:</p>
 		{!! Form::open(['route' => 'people.applyDuplicates', 'method' => 'post']) !!}
-			@foreach ($duplicates as $dp)
+			@foreach ($duplicates as $name => $persons)
 				<div class="card mb-4">
 					<div class="card-header">
-						{{ $dp['person']->family_name }} {{ $dp['person']->name }}
+						{{ $name }}
 					</div>
 					<div class="card-body">
-						@include('people.duplicateDetails', ['person' => $dp['person']])<br>
-						@foreach ($dp['duplicates'] as $duplicate)
-							@include('people.duplicateDetails', ['person' => $duplicate])<br>
+						@foreach ($persons as $person)
+							<p>@include('people.duplicateDetails')</p>
 						@endforeach
 					</div>
 					<div class="card-footer text-right">
-						{{ Form::bsRadioInlineList('action[' . $dp['person']->id . '][' . $duplicate->id . ']', $actions, 'nothing') }}
+						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('id', ',') . ']', $actions, 'nothing') }}
 					</div>
 				</div>
 			@endforeach
