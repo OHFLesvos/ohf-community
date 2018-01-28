@@ -298,7 +298,7 @@ class PeopleController extends ParentController
         $names = [];
         Person::orderBy('family_name')
             ->orderBy('name')
-            ->with(['children', 'father', 'mother', 'partner'])
+            ->with(['father', 'mother', 'partner'])
             ->get()
             ->each(function($e) use (&$names) {
                 $names[$e->family_name. ' ' . $e->name][$e->id] = $e;
@@ -322,27 +322,85 @@ class PeopleController extends ParentController
         Validator::make($request->all(), [
             'action' => 'required|array',
         ])->validate();
-        $deleted = 0;
+        $merged = 0;
         foreach($request->action as $idsString => $action) {
             if ($action == 'merge') {
+
+                // Get master and related persons
                 $ids = explode(',', $idsString);
                 $persons = Person::whereIn('id', $ids)
                     ->orderBy('created_at', 'desc')
                     ->get();
                 $master = $persons->shift();
-                foreach (['gender', 'date_of_birth', 'nationality', 'skills', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
+
+                // Merge basic attributes
+                foreach (['gender', 'date_of_birth', 'nationality', 'skills', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued', 'mother_id', 'father_id'] as $attr) {
                     if ($master->$attr == null) {
                         $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
                     }
                 }
-                // remarks
-                echo '<pre>';
-                print_r($master);
+
+                // Merge children
+                $persons->each(function($e) use($master) {
+                    $e->children()->each(function($child) use($master) {
+                        if ($master->gender == 'f') {
+                            $child->mother()->dissociate();
+                            $child->mother()->associate($master);
+                        }
+                        else if ($master->gender == 'm') {
+                            $child->father()->dissociate();
+                            $child->father()->associate($master);
+                        }
+                        $child->save();
+                    });
+                });
+
+                // Merge boutique coupon
+                $master->boutique_coupon = $persons->pluck('boutique_coupon')
+                    ->push($master->boutique_coupon)
+                    ->filter(function($e) {
+                        return $e != null;
+                    })
+                    ->sort()
+                    ->last();
+
+                // Merge diapers coupon
+                $master->diapers_coupon = $persons->pluck('diapers_coupon')
+                    ->push($master->diapers_coupon)
+                    ->filter(function($e) {
+                        return $e != null;
+                    })
+                    ->sort()
+                    ->last();
+                
+                // Merge transactions
+                Transaction::whereIn('transactionable_id', $persons->pluck('id')->toArray())
+                    ->where('transactionable_type', 'App\Person')
+                    ->get()
+                    ->each(function($e) use($master) {
+                        $e->transactionable_id = $master->id;
+                        $e->save();
+                    });
+
+                // Merge remarks
+                $master->remarks = $persons->pluck('remarks')
+                    ->push($master->remarks)
+                    ->filter(function($e) {
+                        return $e != null;
+                    })
+                    ->unique()
+                    ->implode("\n");
+
+                // Save master, remove duplicates
+                $master->save();
+                $persons->each(function($e) {
+                    $e->destroy();
+                });
+                $merged++;
             }
         }
-        return;
-        return redirect()->route('people.duplicates')
-            ->with('success', 'Done (deleted ' . $deleted . ' persons).');
+        return redirect()->route('people.index')
+            ->with('success', 'Done (merged ' . $merged . ' persons).');
     }
 
     private static function getFirstNonEmptyAttributeFromCollection($collection, $attributeName) {
