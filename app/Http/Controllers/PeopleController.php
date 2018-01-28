@@ -326,14 +326,31 @@ class PeopleController extends ParentController
         foreach($request->action as $idsString => $action) {
             if ($action == 'merge') {
                 $ids = explode(',', $idsString);
-                print_r($ids);
-                // TODO
-                //Person::delete($duplicate);
+                $persons = Person::whereIn('id', $ids)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+                $master = $persons->shift();
+                foreach (['gender', 'date_of_birth', 'nationality', 'skills', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
+                    if ($master->$attr == null) {
+                        $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
+                    }
+                }
+                // remarks
+                echo '<pre>';
+                print_r($master);
             }
         }
         return;
         return redirect()->route('people.duplicates')
             ->with('success', 'Done (deleted ' . $deleted . ' persons).');
+    }
+
+    private static function getFirstNonEmptyAttributeFromCollection($collection, $attributeName) {
+        return $collection->pluck($attributeName)
+            ->filter(function($e) {
+                return $e != null;
+            })
+            ->first();
     }
 
 	public function filter(Request $request) {

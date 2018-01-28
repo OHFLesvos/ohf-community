@@ -64,5 +64,8 @@
     @if( $person->diapers_coupon != null )
         Last diapers coupon: {{ $person->diapers_coupon }} ({{ (new Carbon\Carbon($person->diapers_coupon))->diffForHumans() }})<br>
     @endif
+    @if( $person->remarks != null )
+        Remarks: <em>{{ $person->remarks }}</em><br>
+    @endif
     Registered: {{ $person->created_at }} ({{ (new Carbon\Carbon($person->created_at))->diffForHumans() }})<br>
 </small>
