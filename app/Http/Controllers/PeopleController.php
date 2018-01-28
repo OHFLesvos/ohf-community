@@ -385,18 +385,21 @@ class PeopleController extends ParentController
                     });
 
                 // Merge remarks
-                $master->remarks = $persons->pluck('remarks')
+                $remarks = $persons->pluck('remarks')
                     ->push($master->remarks)
                     ->filter(function($e) {
                         return $e != null;
                     })
                     ->unique()
                     ->implode("\n");
+                if (!empty($remarks)) {
+                    $master->remarks = $remarks;
+                }
 
                 // Save master, remove duplicates
                 $master->save();
                 $persons->each(function($e) {
-                    $e->destroy();
+                    $e->delete();
                 });
                 $merged++;
             }
