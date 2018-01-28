@@ -3,16 +3,6 @@
     $numTransactions = $person->transactions()->count();
 @endphp
 <small class="text-muted">
-    @if ($numTransactions > 0)
-        Transactions: {{ $numTransactions }}
-        @php
-            $lastTransactionDate = $person->transactions()->orderBy('created_at', 'desc')->first()->created_at;
-        @endphp
-        (last: {{ $lastTransactionDate }}, {{ (new Carbon\Carbon($lastTransactionDate))->diffForHumans() }})<br>
-    @endif
-    @if ($person->card_no != null)
-        Card: {{ $person->card_no }} issued on {{ $person->card_issued }}<br>
-    @endif
     @if(isset($person->mother))
         Mother:
         <a href="{{ route('people.show', $person->mother) }}" target="_blank">
@@ -57,5 +47,21 @@
     @endif
     @if(isset($person->temp_no))
         Temporary Number: {{ $person->temp_no }}<br>
+    @endif
+    @if ($numTransactions > 0)
+        Transactions: {{ $numTransactions }}
+        @php
+            $lastTransactionDate = $person->transactions()->orderBy('created_at', 'desc')->first()->created_at;
+        @endphp
+        (last: {{ $lastTransactionDate }}, {{ (new Carbon\Carbon($lastTransactionDate))->diffForHumans() }})<br>
+    @endif
+    @if ($person->card_no != null)
+        Card: {{ $person->card_no }} issued on {{ $person->card_issued }}<br>
+    @endif
+    @if( $person->boutique_coupon != null )
+        Last boutique coupon: {{ $person->boutique_coupon }} ({{ (new Carbon\Carbon($person->boutique_coupon))->diffForHumans() }})<br>
+    @endif
+    @if( $person->diapers_coupon != null )
+        Last diapers coupon: {{ $person->diapers_coupon }} ({{ (new Carbon\Carbon($person->diapers_coupon))->diffForHumans() }})<br>
     @endif
 </small>
