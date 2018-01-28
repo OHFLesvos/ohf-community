@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5504207fe0b60dbbb84e89c52b44087f",
-    "content-hash": "d3701a808fe39ddacae5e3135830d5b0",
+    "hash": "85ffbaf0126c44a71faac148372c53b3",
+    "content-hash": "2cfcdf623f3455c64db834d525d6d116",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -102,16 +102,16 @@
         },
         {
             "name": "cocur/slugify",
-            "version": "v3.0.1",
+            "version": "v3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cocur/slugify.git",
-                "reference": "1fdf2b1219a199301db3d7c60c16d895bba6ccde"
+                "reference": "b2ccf7b735f4f3df3979aef2e1ebf8e19ca772f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cocur/slugify/zipball/1fdf2b1219a199301db3d7c60c16d895bba6ccde",
-                "reference": "1fdf2b1219a199301db3d7c60c16d895bba6ccde",
+                "url": "https://api.github.com/repos/cocur/slugify/zipball/b2ccf7b735f4f3df3979aef2e1ebf8e19ca772f7",
+                "reference": "b2ccf7b735f4f3df3979aef2e1ebf8e19ca772f7",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
                 "slug",
                 "slugify"
             ],
-            "time": "2017-09-24 10:29:04"
+            "time": "2018-01-22 09:00:48"
         },
         {
             "name": "cviebrock/eloquent-sluggable",
@@ -856,7 +856,7 @@
             "time": "2017-11-15 23:40:40"
         },
         {
-            "name": "endroid/qrcode",
+            "name": "endroid/qr-code",
             "version": "3.2.3",
             "source": {
                 "type": "git",
@@ -922,7 +922,6 @@
                 "qr",
                 "qrcode"
             ],
-            "abandoned": "endroid/qr-code",
             "time": "2018-01-21 09:20:34"
         },
         {
@@ -972,16 +971,16 @@
         },
         {
             "name": "illuminated/db-profiler",
-            "version": "5.5.3",
+            "version": "5.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmitry-ivanov/laravel-db-profiler.git",
-                "reference": "30a1e87e794ad5f5d921322e7f7fd14fe46d8ad2"
+                "reference": "7d2d5102ae401e132fd41e7d02cef46091f50d93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dmitry-ivanov/laravel-db-profiler/zipball/30a1e87e794ad5f5d921322e7f7fd14fe46d8ad2",
-                "reference": "30a1e87e794ad5f5d921322e7f7fd14fe46d8ad2",
+                "url": "https://api.github.com/repos/dmitry-ivanov/laravel-db-profiler/zipball/7d2d5102ae401e132fd41e7d02cef46091f50d93",
+                "reference": "7d2d5102ae401e132fd41e7d02cef46091f50d93",
                 "shasum": ""
             },
             "require": {
@@ -992,7 +991,7 @@
             "require-dev": {
                 "illuminated/helper-functions": "5.5.*",
                 "illuminated/testing-tools": "5.5.*",
-                "mockery/mockery": "^0.9",
+                "mockery/mockery": "^1.0",
                 "orchestra/testbench": "3.5.*",
                 "phpunit/phpunit": "^6.0"
             },
@@ -1028,7 +1027,7 @@
                 "profiler",
                 "profiling"
             ],
-            "time": "2018-01-19 11:38:27"
+            "time": "2018-01-24 16:42:47"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1489,16 +1488,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.41",
+            "version": "1.0.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f400aa98912c561ba625ea4065031b7a41e5a155"
+                "reference": "09eabc54e199950041aef258a85847676496fe8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f400aa98912c561ba625ea4065031b7a41e5a155",
-                "reference": "f400aa98912c561ba625ea4065031b7a41e5a155",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/09eabc54e199950041aef258a85847676496fe8e",
+                "reference": "09eabc54e199950041aef258a85847676496fe8e",
                 "shasum": ""
             },
             "require": {
@@ -1509,12 +1508,13 @@
             },
             "require-dev": {
                 "ext-fileinfo": "*",
-                "mockery/mockery": "~0.9",
-                "phpspec/phpspec": "^2.2",
-                "phpunit/phpunit": "~4.8"
+                "phpspec/phpspec": "^3.4",
+                "phpunit/phpunit": "^5.7"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
+                "ext-ftp": "Allows you to use FTP server storage",
+                "ext-openssl": "Allows you to use FTPS server storage",
                 "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
                 "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
                 "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
@@ -1568,7 +1568,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-08-06 17:41:04"
+            "time": "2018-01-27 16:03:56"
         },
         {
             "name": "maatwebsite/excel",
@@ -1954,16 +1954,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "579f4ce846734a1cf55d6a531d00ca07a43e3cda"
+                "reference": "e57b3a09784f846411aa7ed664eedb73e3399078"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/579f4ce846734a1cf55d6a531d00ca07a43e3cda",
-                "reference": "579f4ce846734a1cf55d6a531d00ca07a43e3cda",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/e57b3a09784f846411aa7ed664eedb73e3399078",
+                "reference": "e57b3a09784f846411aa7ed664eedb73e3399078",
                 "shasum": ""
             },
             "require": {
@@ -2001,7 +2001,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-12-26 14:43:21"
+            "time": "2018-01-25 21:31:33"
         },
         {
             "name": "paragonie/random_compat",
@@ -4345,16 +4345,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "66465776cfc249844bde6d117abff1d22e06c2da"
+                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/66465776cfc249844bde6d117abff1d22e06c2da",
-                "reference": "66465776cfc249844bde6d117abff1d22e06c2da",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
+                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
                 "shasum": ""
             },
             "require": {
@@ -4392,7 +4392,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-27 17:38:31"
+            "time": "2017-11-30 07:14:17"
         },
         {
             "name": "phpdocumentor/type-resolver",

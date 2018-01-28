@@ -10,7 +10,7 @@
         "cviebrock/eloquent-sluggable": "4.3",
         "doctrine/dbal": "^2.6",
         "dompdf/dompdf": "^0.8.2",
-        "endroid/qrcode": "^3.1",
+        "endroid/qr-code": "^3.1",
         "illuminated/db-profiler": "^5.5",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
@@ -47,12 +47,10 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ]
     },
     "config": {
