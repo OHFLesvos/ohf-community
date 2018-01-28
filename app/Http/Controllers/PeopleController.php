@@ -334,9 +334,36 @@ class PeopleController extends ParentController
                 $master = $persons->shift();
 
                 // Merge basic attributes
-                foreach (['gender', 'date_of_birth', 'nationality', 'skills', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued', 'mother_id', 'father_id'] as $attr) {
+                foreach (['gender', 'date_of_birth', 'nationality', 'skills', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
                     if ($master->$attr == null) {
                         $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
+                    }
+                }
+
+                // Merge mother
+                if ($master->mother == null) {
+                    echo "check mother";
+                    $mother = $persons->filter(function($e) {
+                            return $e->mother != null;
+                        })
+                        ->pluck('mother')
+                        ->first();
+                        var_dump($mother);
+                    if ($mother != null) {
+                        $master->mother()->dissociate();
+                        $master->mother()->associate($mother);
+                    }
+                }
+                // Merge father
+                if ($master->father == null) {
+                    $father = $persons->filter(function($e) {
+                            return $e->father != null;
+                        })
+                        ->pluck('father')
+                        ->first();
+                    if ($father != null) {
+                        $master->father()->dissociate();
+                        $master->father()->associate($father);
                     }
                 }
 
@@ -404,6 +431,7 @@ class PeopleController extends ParentController
                 $merged++;
             }
         }
+
         return redirect()->route('people.index')
             ->with('success', 'Done (merged ' . $merged . ' persons).');
     }

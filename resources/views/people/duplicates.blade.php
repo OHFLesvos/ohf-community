@@ -28,6 +28,7 @@
 								|| !collect($persons)->every(function($e){return $e->partner == null;})
 								|| !collect($persons)->every(function($e){return $e->children->count() == 0;})
 								|| collect($persons)->pluck('date_of_birth')->filter(function($e){return $e != null;})->unique()->count() > 1
+								|| collect($persons)->pluck('nationality')->filter(function($e){return $e != null;})->unique()->count() > 1
 								? 'nothing' :'merge'
 						@endphp
 						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('id', ',') . ']', $actions, $action) }}
