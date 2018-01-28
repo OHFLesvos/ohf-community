@@ -21,7 +21,16 @@
 						@endforeach
 					</div>
 					<div class="card-footer text-right">
-						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('id', ',') . ']', $actions, count($persons) > 2 ? 'nothing' :'merge') }}
+						@php
+							$action = count($persons) > 2 
+								|| !collect($persons)->every(function($e){return $e->mother == null;})
+								|| !collect($persons)->every(function($e){return $e->father == null;})
+								|| !collect($persons)->every(function($e){return $e->partner == null;})
+								|| !collect($persons)->every(function($e){return $e->children->count() == 0;})
+								|| collect($persons)->pluck('date_of_birth')->filter(function($e){return $e != null;})->unique()->count() > 1
+								? 'nothing' :'merge'
+						@endphp
+						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('id', ',') . ']', $actions, $action) }}
 					</div>
 				</div>
 			@endforeach
