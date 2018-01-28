@@ -21,7 +21,10 @@
 						@endforeach
 					</div>
 					<div class="card-footer text-right">
-						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('id', ',') . ']', $actions, 'nothing') }}
+						@php
+							$action = 'nothing';
+						@endphp
+						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('id', ',') . ']', $actions, $action) }}
 					</div>
 				</div>
 			@endforeach

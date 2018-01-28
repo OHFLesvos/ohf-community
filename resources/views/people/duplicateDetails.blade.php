@@ -48,15 +48,15 @@
     @if(isset($person->temp_no))
         Temporary Number: {{ $person->temp_no }}<br>
     @endif
+    @if ($person->card_no != null)
+        Card: {{ $person->card_no }} issued on {{ $person->card_issued }} ({{ (new Carbon\Carbon($person->card_issued))->diffForHumans() }})<br>
+    @endif    
     @if ($numTransactions > 0)
-        Transactions: {{ $numTransactions }}
+        Transactions: {{ $numTransactions }}<br>
         @php
             $lastTransactionDate = $person->transactions()->orderBy('created_at', 'desc')->first()->created_at;
         @endphp
-        (last: {{ $lastTransactionDate }}, {{ (new Carbon\Carbon($lastTransactionDate))->diffForHumans() }})<br>
-    @endif
-    @if ($person->card_no != null)
-        Card: {{ $person->card_no }} issued on {{ $person->card_issued }}<br>
+        Last transaction: {{ $lastTransactionDate }} ({{ (new Carbon\Carbon($lastTransactionDate))->diffForHumans() }})<br>
     @endif
     @if( $person->boutique_coupon != null )
         Last boutique coupon: {{ $person->boutique_coupon }} ({{ (new Carbon\Carbon($person->boutique_coupon))->diffForHumans() }})<br>
@@ -64,4 +64,5 @@
     @if( $person->diapers_coupon != null )
         Last diapers coupon: {{ $person->diapers_coupon }} ({{ (new Carbon\Carbon($person->diapers_coupon))->diffForHumans() }})<br>
     @endif
+    Registered: {{ $person->created_at }} ({{ (new Carbon\Carbon($person->created_at))->diffForHumans() }})<br>
 </small>

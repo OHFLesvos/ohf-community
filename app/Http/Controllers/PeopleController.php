@@ -323,22 +323,15 @@ class PeopleController extends ParentController
             'action' => 'required|array',
         ])->validate();
         $deleted = 0;
-        foreach($request->action as $person => $duplicates) {
-            foreach($duplicates as $duplicate => $action) {
-                if ($action == 'merge') {
-                    // TODO
-                    //Person::delete($duplicate);
-                }
-                else if ($action == 'deletePerson') {
-                    Person::destroy($person);
-                    $deleted++;
-                }
-                else if ($action == 'deleteDuplicate') {
-                    Person::destroy($duplicate);
-                    $deleted++;
-                }
+        foreach($request->action as $idsString => $action) {
+            if ($action == 'merge') {
+                $ids = explode(',', $idsString);
+                print_r($ids);
+                // TODO
+                //Person::delete($duplicate);
             }
         }
+        return;
         return redirect()->route('people.duplicates')
             ->with('success', 'Done (deleted ' . $deleted . ' persons).');
     }
