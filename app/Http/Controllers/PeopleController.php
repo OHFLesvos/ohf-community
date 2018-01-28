@@ -342,13 +342,11 @@ class PeopleController extends ParentController
 
                 // Merge mother
                 if ($master->mother == null) {
-                    echo "check mother";
                     $mother = $persons->filter(function($e) {
                             return $e->mother != null;
                         })
                         ->pluck('mother')
                         ->first();
-                        var_dump($mother);
                     if ($mother != null) {
                         $master->mother()->dissociate();
                         $master->mother()->associate($mother);
