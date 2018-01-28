@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.20
+
+* Added functionality to remove duplicated persons
+
 ## 1.8.19
 
 * Added "Date of birth" and "Registered" field to "People" page.

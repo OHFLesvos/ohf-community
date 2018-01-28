@@ -355,6 +355,8 @@ class PeopleController extends ParentController
                     });
                 });
 
+                // TODO partner merge
+
                 // Merge boutique coupon
                 $master->boutique_coupon = $persons->pluck('boutique_coupon')
                     ->push($master->boutique_coupon)
