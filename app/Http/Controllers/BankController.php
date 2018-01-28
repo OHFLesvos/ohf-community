@@ -283,6 +283,8 @@ class BankController extends Controller
                 ->whereNull('deleted_at');
             })
             ->whereNull('transactions.id')
+            ->whereNull('boutique_coupon')
+            ->whereNull('diapers_coupon')            
             ->get()
             ->count();
     }
@@ -321,6 +323,8 @@ class BankController extends Controller
                     ->whereNull('deleted_at');
                 })
                 ->whereNull('transactions.id')
+                ->whereNull('boutique_coupon')
+                ->whereNull('diapers_coupon')                
                 ->select('persons.id')
                 ->get()
                 ->map(function($item){
