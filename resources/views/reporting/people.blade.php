@@ -108,6 +108,25 @@
                             @endforeach
                         </table>
 
+                        <h5 class="text-center"><small>Popular names</small></h5>
+                        <table class="table table-sm mt-2">
+                            {{-- <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th class="text-right">Occurrences</th>
+                                </tr>
+                            </thead> --}}
+                            <tbody>
+                                @foreach ($top_names as $v)
+                                    <tr>
+                                        <td>{{ $v->name }}</td>
+                                        <td class="text-right">{{ $v->count }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        
+
                         {{-- Registrations per day --}}
                         <bar-chart
                             title="New registrations per day"

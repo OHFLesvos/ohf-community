@@ -50,6 +50,11 @@ class PeopleReportingController extends BaseReportingController
                     'Cards revoked' => RevokedCard::count(),
                 ]
             ],
+            'top_names' => Person::select('name', DB::raw('COUNT(name) as count'))
+                ->groupBy('name')
+                ->orderBy('count', 'desc')
+                ->limit(10)
+                ->get(),
 		]);
     }
 

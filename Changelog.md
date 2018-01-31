@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.21
+
+* Added list of popular names to person report
+
 ## 1.8.20
 
 * Added functionality to remove duplicated persons
