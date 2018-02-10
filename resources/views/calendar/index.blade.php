@@ -18,7 +18,6 @@
                 center: 'title',
                 right: 'agendaDay,agendaWeek,month,listWeek'
             },
-            /*
             views: {
                 agendaDay: {
                     buttonText: 'Day'
@@ -33,7 +32,6 @@
                     buttonText: 'List'
                 }
             },
-            */
             defaultView: 'agendaWeek',
             firstDay: 1,
             weekends: true,
@@ -44,13 +42,25 @@
                 start: '10:00',
                 end: '19:00',
             },      
-            //showNonCurrentDates: false,
-            //defaultDate: '2018-02-12',
-              navLinks: true, // can click day/week names to navigate views
-              editable: true,
-              eventLimit: true, // allow "more" link when too many events
-              events: '{{ route('calendar.data') }}',
-            });
-
+            navLinks: true,
+            editable: true,
+            eventLimit: true,
+            events: '{{ route('calendar.listEvents') }}',
+            eventDrop: updateEvent,
+            eventResize: updateEvent,
+        });
     });
+
+    updateEvent = function(event, delta, revertFunc) {
+        $.post(event.updateUrl, {
+            _token: '{{ csrf_token() }}',
+            _method: 'PUT',
+            start: event.start.format(),
+            end: event.end.format(),
+        })
+        .fail(function(jqXHR, textStatus) {
+            alert(textStatus + ': ' + jqXHR.responseJSON);
+            revertFunc();
+        });
+    }
 @endsection

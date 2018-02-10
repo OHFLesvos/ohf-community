@@ -14,11 +14,22 @@ class CalendarController extends Controller
         return view('calendar.index');
     }
 
-    public function data(GetCalendarEvents $request) {
+    public function listEvents(GetCalendarEvents $request) {
         $startDate = new Carbon($request->start, $request->timezone);
         $endDate = new Carbon($request->end, $request->timezone);
         $data = CalendarEvent::whereDate('start_date', '>=', $startDate)->whereDate('end_date', '<=', $endDate)->get();
         CalendarEventResource::withoutWrapping();
         return CalendarEventResource::collection($data);
     }    
+
+    public function showEvent(CalendarEvent $event) {
+        return new CalendarEventResource($event);
+    }
+
+    public function updateEvent(CalendarEvent $event, Request $request) {
+        $event->start_date = $request->start;
+        $event->end_date = $request->end;
+        $event->save();
+        return response()->json([], 204);
+    }
 }

@@ -22,6 +22,7 @@ class CalendarEventResource extends Resource
             'end' => (new Carbon($this->end_date))->toIso8601String(),
             'allDay' => (bool)$this->all_day,
             'color' => $this->type->color,
+            'updateUrl' => route('calendar.updateEvent', $this),
         ];
     }
 }
