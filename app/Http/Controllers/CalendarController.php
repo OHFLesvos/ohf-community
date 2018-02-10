@@ -22,12 +22,7 @@ class CalendarController extends Controller
 
     public function index() {
         return view('calendar.index', [
-            'types' => CalendarEventType::orderBy('name')
-                ->get()
-                ->mapWithKeys(function($e){
-                    return [$e->id => $e->name];
-                })
-                ->toArray(),
+            'types' => CalendarEventType::orderBy('name')->get(),
         ]);
     }
 

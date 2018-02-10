@@ -13,7 +13,7 @@ class CalendarEventTypeSeeder extends Seeder
     public function run()
     {
         foreach ([
-            ['name' => 'School', 'color' => null],
+            ['name' => 'School', 'default' => true],
             ['name' => 'Garden', 'color' => 'orange'],
             ['name' => 'Office', 'color' => 'red'],
             ['name' => 'Shop', 'color' => 'green'],

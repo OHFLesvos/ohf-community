@@ -24,7 +24,13 @@
                     <div class="modal-body pb-0">
                         <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
                         {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title' ], '') }}
-                        {{ Form::bsSelect('type', $types, null, [ 'id' => 'event_editor_type' ], '') }}
+                        @php
+                            $typesArray = $types->mapWithKeys(function($e){
+                                return [$e->id => $e->name];
+                            })
+                            ->toArray();
+                        @endphp
+                        {{ Form::bsSelect('type', $typesArray, null, [ 'id' => 'event_editor_type' ], '') }}
                         {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
                     </div>
                     <div class="modal-footer">
@@ -38,9 +44,16 @@
 @endsection
 
 @section('script')
+    @php
+        $defaultType = $types->filter(function($e){
+                return $e->default;
+            })
+            ->pluck('id')
+            ->first();
+    @endphp
     var listEventsUrl = '{{ route('calendar.listEvents') }}';
     var storeEventUrl = '{{ route('calendar.storeEvent') }}';
-    var defaltEventType = {{ array_keys($types)[0] }};
+    var defaltEventType = {{ $defaultType ?? 0 }};
 
     $(document).ready(function() {
 

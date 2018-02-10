@@ -18,6 +18,7 @@ class CalendarEventTypeResource extends Resource
             'id' => $this->id,
             'name' => $this->name,
             'color' => $this->color,
+            'default' => $this->default,
         ];
     }
 }

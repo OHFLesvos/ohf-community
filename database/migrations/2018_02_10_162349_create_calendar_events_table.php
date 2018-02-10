@@ -17,6 +17,7 @@ class CreateCalendarEventsTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('color')->nullable();
+            $table->boolean('default')->default(false);
             $table->timestamps();
         });
         Schema::create('calendar_events', function (Blueprint $table) {
