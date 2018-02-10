@@ -206,3 +206,8 @@ $(function(){
         $('[rel="autocomplete"]').autocomplete(opts);
     });
 });
+
+//
+// Calendar
+//
+require('fullcalendar');

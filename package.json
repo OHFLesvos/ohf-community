@@ -16,6 +16,7 @@
     "cross-env": "^3.2.3",
     "devbridge-autocomplete": "^1.4.7",
     "font-awesome": "^4.7.0",
+    "fullcalendar": "^3.8.2",
     "google-palette": "^1.0.0",
     "instascan": "^1.0.0",
     "jquery": "^3.2.1",
@@ -26,5 +27,6 @@
     "vue": "^2.5.13",
     "vue-chartjs": "^3.0.2",
     "vue-template-compiler": "^2.5.13"
-  }
+  },
+  "dependencies": {}
 }

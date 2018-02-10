@@ -21,4 +21,6 @@ mix.options({ processCssUrls: false })
 	.js('resources/assets/js/bank.js', 'public/js')
     .js('resources/assets/js/people.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
-	.copy('node_modules/font-awesome/fonts', 'public/fonts');
+	.copy('node_modules/font-awesome/fonts', 'public/fonts')
+	.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css');
+	

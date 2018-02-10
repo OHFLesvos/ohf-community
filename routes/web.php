@@ -144,4 +144,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('/tasks', 'tasks.tasklist')->name('tasks');
 });
 
+// Calendar
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/calendar', 'CalendarController@index')->name('calendar');
+    Route::get('/calendar/data', 'CalendarController@data')->name('calendar.data');
+});
+
 Auth::routes();

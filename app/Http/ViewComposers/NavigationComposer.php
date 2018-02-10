@@ -61,6 +61,13 @@ class NavigationComposer {
                     'authorized' => Gate::allows('use-logistics')
                 ],
                 [
+                    'route' => 'calendar',
+                    'caption' => 'Calendar',
+                    'icon' => 'calendar',
+                    'active' => 'calendar*',
+                    'authorized' => true // TODO,
+                ],                
+                [
                     'route' => 'tasks',
                     'caption' => 'Tasks',
                     'icon' => 'tasks',
