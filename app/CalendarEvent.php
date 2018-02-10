@@ -10,7 +10,7 @@ class CalendarEvent extends Model
 
     public function type()
     {
-        return $this->belongsTo('App\CalendarEventType');
+        return $this->belongsTo('App\CalendarEventType', 'type_id');
     }
 
     public function user()

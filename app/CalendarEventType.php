@@ -10,6 +10,6 @@ class CalendarEventType extends Model
 
     public function events()
     {
-        return $this->hasMany('App\CalendarEvent');
+        return $this->hasMany('App\CalendarEvent', 'type_id');
     }
 }

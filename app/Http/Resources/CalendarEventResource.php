@@ -18,11 +18,13 @@ class CalendarEventResource extends Resource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'description' => $this->description,
             'start' => (new Carbon($this->start_date))->toIso8601String(),
             'end' => (new Carbon($this->end_date))->toIso8601String(),
             'allDay' => (bool)$this->all_day,
             'color' => $this->type->color,
             'updateUrl' => route('calendar.updateEvent', $this),
+            'editable' => true,
         ];
     }
 }
