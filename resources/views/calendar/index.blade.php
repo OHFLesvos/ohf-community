@@ -47,6 +47,13 @@
         var calendar = $('#calendar');
         var modal = $('#eventModal');
 
+        // Elements
+        var titleElem = $('#event_editor_title');
+        var descriptionElem = $('#event_editor_description');
+        var dateStartElem = $('#event_editor_date_start');
+        var dateEndElem = $('#event_editor_date_end');
+        var typeElem = $('#event_editor_type');
+
         calendar.fullCalendar({
             height: "auto",
             //locale: 'de',
@@ -90,17 +97,14 @@
             selectable: true,
             selectHelper: false,
             select: storeEvent,
-            unselectAuto: false,         
+            unselectAuto: false,
+            eventClick: editEvent,
         });
 
+        /**
+        * Creates a new event using modal dialog
+        **/
         function storeEvent(start, end) {
-            // Elements
-            var titleElem = $('#event_editor_title');
-            var descriptionElem = $('#event_editor_description');
-            var dateStartElem = $('#event_editor_date_start');
-            var dateEndElem = $('#event_editor_date_end');
-            var typeElem = $('#event_editor_type');
-
             // Prepare dialog
             modal.find('.modal-title').text('Create Event');
             dateStartElem.text(getDateStartLabel(start));
@@ -137,12 +141,50 @@
             titleElem.focus();
         }
 
-        function updateEvent(event, delta, revertFunc) {
-            $.post(event.updateUrl, {
+        function editEvent(calEvent, jsEvent, view) {
+            // Prepare dialog
+            modal.find('.modal-title').text('Edit Event');
+            dateStartElem.text(getDateStartLabel(calEvent.start));
+            dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
+            titleElem.val(calEvent.title);
+            descriptionElem.val(calEvent.description);
+            typeElem.val(calEvent.type);
+
+            // Action on submit
+            modal.find('form').off().on('submit', function(){
+                $.post(calEvent.updateUrl, {
+                    _token: '{{ csrf_token() }}',
+                    _method: 'PUT',
+                    title: titleElem.val(),
+                    description: descriptionElem.val(),
+                    type: typeElem.val(),
+                }, function() {
+                    modal.modal('hide');
+                    calEvent.title = titleElem.val();
+                    calEvent.description = descriptionElem.val();
+                    calEvent.type = typeElem.val();
+                    calendar.fullCalendar('updateEvent', calEvent, true);
+                })
+                .fail(function(jqXHR, textStatus) {
+                    alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                });
+            });
+
+            // Show modal
+            modal.modal('show');
+            titleElem.select();
+            return false;
+        }
+
+        /**
+        * Updates an event after dragging / resizing
+        */
+        function updateEvent(calEvent, delta, revertFunc) {
+            $.post(calEvent.updateUrl, {
                 _token: '{{ csrf_token() }}',
                 _method: 'PUT',
-                start: event.start.format(),
-                end: event.end ? event.end.format() : null,
+                start: calEvent.start.format(),
+                end: calEvent.end ? calEvent.end.format() : null,
             })
             .fail(function(jqXHR, textStatus) {
                 alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));

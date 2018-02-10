@@ -58,7 +58,20 @@ class CalendarController extends Controller
 
     // TODO validation
     public function updateEvent(CalendarEvent $event, Request $request) {
-        self::parseDate($event, $request);
+        if ($request->start != null) {
+            self::parseDate($event, $request);
+        }
+        if (!empty($request->title)) {
+            $event->title = $request->title;
+        }
+        if ($request->description !== null) {
+            $event->description = !empty($request->description) ? $request->description : null;
+        }
+        if ($request->type != null && $request->type != $event->type->id) {
+            $type = CalendarEventType::find($request->type);
+            $event->type()->dissociate();
+            $event->type()->associate($type);
+        }
         $event->save();
         return response()->json([], 204);
     }
