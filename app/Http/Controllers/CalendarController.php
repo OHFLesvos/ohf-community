@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Requests\GetCalendarEvents;
 use App\Http\Requests\StoreCalendarEvent;
+use App\Http\Requests\UpdateCalendarEvent;
+use App\Http\Requests\UpdateCalendarEventDate;
 use App\CalendarEvent;
 use App\CalendarEventType;
 use App\Http\Resources\CalendarEventResource;
@@ -56,22 +58,20 @@ class CalendarController extends Controller
         return (new CalendarEventResource($event))->response(201);
     }
 
-    // TODO validation
-    public function updateEvent(CalendarEvent $event, Request $request) {
-        if ($request->start != null) {
-            self::parseDate($event, $request);
-        }
-        if (!empty($request->title)) {
-            $event->title = $request->title;
-        }
-        if ($request->description !== null) {
-            $event->description = !empty($request->description) ? $request->description : null;
-        }
+    public function updateEvent(CalendarEvent $event, UpdateCalendarEvent $request) {
+        $event->title = $request->title;
+        $event->description = !empty($request->description) ? $request->description : null;
         if ($request->type != null && $request->type != $event->type->id) {
             $type = CalendarEventType::find($request->type);
             $event->type()->dissociate();
             $event->type()->associate($type);
         }
+        $event->save();
+        return response()->json([], 204);
+    }
+
+    public function updateEventDate(CalendarEvent $event, UpdateCalendarEventDate $request) {
+        self::parseDate($event, $request);
         $event->save();
         return response()->json([], 204);
     }

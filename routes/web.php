@@ -152,6 +152,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/calendar/event', 'CalendarController@storeEvent')->name('calendar.storeEvent');
     Route::get('/calendar/event/{event}', 'CalendarController@showEvent')->name('calendar.showEvent');
     Route::put('/calendar/event/{event}', 'CalendarController@updateEvent')->name('calendar.updateEvent');
+    Route::put('/calendar/event/{event}/date', 'CalendarController@updateEventDate')->name('calendar.updateEventDate');
 });
 
 Auth::routes();

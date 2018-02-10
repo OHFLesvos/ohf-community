@@ -92,11 +92,11 @@
             eventLimit: true,
             events: listEventsUrl,
             editable: false,
-            eventDrop: updateEvent,
-            eventResize: updateEvent,
+            eventDrop: updateEventDate,
+            eventResize: updateEventDate,
             selectable: true,
             selectHelper: false,
-            select: storeEvent,
+            select: createEvent,
             unselectAuto: false,
             eventClick: editEvent,
         });
@@ -104,7 +104,7 @@
         /**
         * Creates a new event using modal dialog
         **/
-        function storeEvent(start, end) {
+        function createEvent(start, end) {
             // Prepare dialog
             modal.find('.modal-title').text('Create Event');
             dateStartElem.text(getDateStartLabel(start));
@@ -179,8 +179,8 @@
         /**
         * Updates an event after dragging / resizing
         */
-        function updateEvent(calEvent, delta, revertFunc) {
-            $.post(calEvent.updateUrl, {
+        function updateEventDate(calEvent, delta, revertFunc) {
+            $.post(calEvent.updateDateUrl, {
                 _token: '{{ csrf_token() }}',
                 _method: 'PUT',
                 start: calEvent.start.format(),

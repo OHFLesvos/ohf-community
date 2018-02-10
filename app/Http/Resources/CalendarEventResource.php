@@ -25,6 +25,7 @@ class CalendarEventResource extends Resource
             'color' => $this->type->color,
             'type' => $this->type->id,
             'updateUrl' => route('calendar.updateEvent', $this),
+            'updateDateUrl' => route('calendar.updateEventDate', $this),
             'editable' => true,
         ];
     }
