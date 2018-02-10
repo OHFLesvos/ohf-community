@@ -147,6 +147,7 @@ Route::group(['middleware' => ['auth']], function () {
 // Calendar
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/calendar', 'CalendarController@index')->name('calendar');
+    Route::get('/calendar/eventTypes', 'CalendarController@listEventTypes')->name('calendar.listEventTypes');
     Route::get('/calendar/event', 'CalendarController@listEvents')->name('calendar.listEvents');
     Route::post('/calendar/event', 'CalendarController@storeEvent')->name('calendar.storeEvent');
     Route::get('/calendar/event/{event}', 'CalendarController@showEvent')->name('calendar.showEvent');

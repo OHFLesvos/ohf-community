@@ -22,8 +22,9 @@
                         </button>
                     </div>
                     <div class="modal-body pb-0">
-                        <p>Date/Time: <span id="event_editor_date_start"></span> - <span id="event_editor_date_end"></span></p>
+                        <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
                         {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title' ], '') }}
+                        {{ Form::bsSelect('type', $types, null, [ 'id' => 'event_editor_type' ], '') }}
                         {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
                     </div>
                     <div class="modal-footer">
@@ -37,6 +38,10 @@
 @endsection
 
 @section('script')
+    var listEventsUrl = '{{ route('calendar.listEvents') }}';
+    var storeEventUrl = '{{ route('calendar.storeEvent') }}';
+    var defaltEventType = {{ array_keys($types)[0] }};
+
     $(document).ready(function() {
 
         var calendar = $('#calendar');
@@ -78,34 +83,44 @@
             },      
             navLinks: true,
             eventLimit: true,
-            events: '{{ route('calendar.listEvents') }}',
+            events: listEventsUrl,
             editable: false,
             eventDrop: updateEvent,
             eventResize: updateEvent,
             selectable: true,
-            selectHelper: true,
+            selectHelper: false,
             select: storeEvent,
             unselectAuto: false,         
         });
 
         function storeEvent(start, end) {
+            // Elements
             var titleElem = $('#event_editor_title');
             var descriptionElem = $('#event_editor_description');
             var dateStartElem = $('#event_editor_date_start');
             var dateEndElem = $('#event_editor_date_end');
+            var typeElem = $('#event_editor_type');
+
+            // Prepare dialog
             modal.find('.modal-title').text('Create Event');
-            dateStartElem.text(start.format());
-            dateEndElem.text(end.format());
+            dateStartElem.text(getDateStartLabel(start));
+            dateEndElem.text(getDateEndLabel(start, end));
             titleElem.val('');
             descriptionElem.val('');
+            typeElem.val(defaltEventType);
+
+            // Action on cancel
             modal.on('hide.bs.modal', function (e) {
                 calendar.fullCalendar('unselect');
             });
+
+            // Action on submit
             modal.find('form').off().on('submit', function(){
-                $.post('{{ route('calendar.storeEvent') }}', {
+                $.post(storeEventUrl, {
                     _token: '{{ csrf_token() }}',
                     title: titleElem.val(),
                     description: descriptionElem.val(),
+                    type: typeElem.val(),
                     start: start.format(),
                     end: end ? end.format() : null,
                 }, function(eventData) {
@@ -113,10 +128,11 @@
                     calendar.fullCalendar('renderEvent', eventData, true);
                 })
                 .fail(function(jqXHR, textStatus) {
-                    alert(textStatus + ': ' + jqXHR.responseJSON);
-                    calendar.fullCalendar('unselect');
+                    alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
                 });
             });
+
+            // Show modal
             modal.modal('show');
             titleElem.focus();
         }
@@ -129,9 +145,28 @@
                 end: event.end ? event.end.format() : null,
             })
             .fail(function(jqXHR, textStatus) {
-                alert(textStatus + ': ' + jqXHR.responseJSON);
+                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
                 revertFunc();
             });
+        }
+
+        function getDateStartLabel(start) {
+            var isMidNight = start.format('HH:mm:ss') == '00:00:00';
+            return start.format(isMidNight ? 'LL' : 'LLL'); // LL: Date, LLL: Date with time
+        }
+
+        function getDateEndLabel(start, end) {
+            var prefix = ' - ';
+            if (start.isSame(end, 'day')) {
+                return prefix + end.format('LT'); // LT: Time
+            }
+            var startIsMidNight = start.format('HH:mm:ss') == '00:00:00';
+            var endIsMidNight = end.format('HH:mm:ss') == '00:00:00';
+            if (startIsMidNight && endIsMidNight) {
+                var newEnd = end.clone().subtract(1, 'day');
+                return start.isSame(newEnd, 'day') ? '' : prefix + newEnd.format('LL');
+            }
+            return prefix + end.format('LLL');
         }
     });
 @endsection
