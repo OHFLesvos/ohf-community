@@ -25,7 +25,6 @@ class UpdateCalendarEvent extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'description' => 'string',
             'type' => 'required|exists:calendar_event_types,id',
         ];
     }

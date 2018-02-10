@@ -50,10 +50,15 @@
             })
             ->pluck('id')
             ->first();
+        $typeColors = $types->mapWithKeys(function($e){
+                return [$e->id => $e->color];
+            })
+            ->toArray();
     @endphp
     var listEventsUrl = '{{ route('calendar.listEvents') }}';
     var storeEventUrl = '{{ route('calendar.storeEvent') }}';
     var defaltEventType = {{ $defaultType ?? 0 }};
+    var typeColors = @json($typeColors);
 
     $(document).ready(function() {
 
@@ -176,6 +181,7 @@
                     calEvent.title = titleElem.val();
                     calEvent.description = descriptionElem.val();
                     calEvent.type = typeElem.val();
+                    calEvent.color = typeColors[calEvent.type];
                     calendar.fullCalendar('updateEvent', calEvent, true);
                 })
                 .fail(function(jqXHR, textStatus) {
