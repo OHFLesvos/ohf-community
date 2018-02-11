@@ -37,7 +37,7 @@
                 </tbody>
             </table>
         </div>
-        {{ $users->links('vendor.pagination.bootstrap-4') }}
+        {{ $users->links() }}
     @else
         @component('components.alert.info')
             No users found.

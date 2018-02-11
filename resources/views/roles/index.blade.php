@@ -23,7 +23,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $roles->links('vendor.pagination.bootstrap-4') }}
+        {{ $roles->links() }}
     @else
         @component('components.alert.info')
             No roles found.

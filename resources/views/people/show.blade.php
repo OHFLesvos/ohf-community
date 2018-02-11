@@ -209,7 +209,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $transactions->links('vendor.pagination.bootstrap-4') }}
+                        {{ $transactions->links() }}
                     @else
                         <div class="alert alert-info m-0">
                             No transactions found.
