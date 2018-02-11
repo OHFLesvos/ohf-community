@@ -21,6 +21,8 @@ class CalendarResourceController extends Controller
      */
     public function index()
     {
+        $this->authorize('list', CalendarResource::class);
+
         return CalendarResourceResource::collection(CalendarResource::orderBy('title')->get());
     }
 
@@ -32,6 +34,8 @@ class CalendarResourceController extends Controller
      */
     public function store(StoreResource $request)
     {
+        $this->authorize('create', CalendarResource::class);
+
         $resource = new CalendarResource();
         $resource->title = $request->title;
         $resource->color = $request->color;
@@ -48,6 +52,8 @@ class CalendarResourceController extends Controller
      */
     public function show(CalendarResource $resource)
     {
+        $this->authorize('view', $resource);
+
         return new CalendarResourceResource($resource);
     }
 
@@ -60,6 +66,8 @@ class CalendarResourceController extends Controller
      */
     public function update(UpdateResource $request, CalendarResource $resource)
     {
+        $this->authorize('update', $resource);
+
         $resource->title = $request->title;
         $resource->color = $request->color;
         // TODO default
@@ -75,6 +83,8 @@ class CalendarResourceController extends Controller
      */
     public function destroy(CalendarResource $resource)
     {
+        $this->authorize('delete', $resource);
+
         $resource->delete();
         return response()->json([123], 204);
     }

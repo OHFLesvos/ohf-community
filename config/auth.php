@@ -113,5 +113,6 @@ return [
         'calendar.events.view' => 'Calendar: View events',
         'calendar.events.create' => 'Calendar: Create events',
         'calendar.events.manage' => 'Calendar: Edit and delete all events',
+        'calendar.resources.manage' => 'Calendar: Manage resources',
     ]
 ];

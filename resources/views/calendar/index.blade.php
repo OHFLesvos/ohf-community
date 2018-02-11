@@ -52,6 +52,7 @@
     var storeResourceUrl = '{{ route('calendar.resources.store') }}';
     var csrfToken = '{{ csrf_token() }}';
     var createEventAllowed = @can('create', App\CalendarEvent::class) true @else false @endcan;
+    var manageResourcesAllowed = @can('create', App\CalendarResource::class) true @else false @endcan;
     var currentUserId = {{ Auth::id() }};
 
     $(document).ready(function() {
@@ -76,7 +77,7 @@
             //timeFormat: 'H:mm',
             minTime: '08:00', // TODO  scrollTime: '08:00',
             header: {
-                left: 'prev,next today promptResource',
+                left: manageResourcesAllowed ? 'prev,next today promptResource' : 'prev,next today',
                 center: 'title',
                 right: 'agendaDay,agendaWeek,month,listWeek,timelineDay'
             },
@@ -107,23 +108,25 @@
             },
             resourceLabelText: 'Resources',
             resourceRender: function(resource, cellEls) {
-                cellEls.on('click', function() {
-                    if (confirm('Are you sure you want to delete ' + resource.title + '?')) {
-                        $.ajax(resource.url, {
-                            method: 'DELETE',
-                            data: {
-                                _token: csrfToken,
-                            },
-                        })
-                        .done(function() {
-                            modal.modal('hide');
-                            calendar.fullCalendar('removeResource', resource);
-                        })
-                        .fail(function(jqXHR, textStatus) {
-                            alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-                        });
-                    }
-                });
+                if (manageResourcesAllowed) {
+                    cellEls.on('click', function() {
+                        if (confirm('Are you sure you want to delete ' + resource.title + '?')) {
+                            $.ajax(resource.url, {
+                                method: 'DELETE',
+                                data: {
+                                    _token: csrfToken,
+                                },
+                            })
+                            .done(function() {
+                                modal.modal('hide');
+                                calendar.fullCalendar('removeResource', resource);
+                            })
+                            .fail(function(jqXHR, textStatus) {
+                                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                            });
+                        }
+                    });
+                }
             },
             views: {
                 agendaDay: {
