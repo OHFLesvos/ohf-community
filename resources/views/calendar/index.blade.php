@@ -35,7 +35,7 @@
                     </div>
                     <div class="modal-body pb-0">
                         <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
-                        {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title' ], '') }}
+                        {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title', 'tab' ], '') }}
                         @php
                             $typesArray = $types->mapWithKeys(function($e){
                                 return [$e->id => $e->name];
@@ -51,7 +51,8 @@
                         {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) Cancel</button>
+                        <button type="button" tabindex="-1" class="btn btn-outline-danger mr-auto" id="event_editor_delete">@icon(trash) Delete</button>
+                        <button type="button" tabindex="-1" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) Cancel</button>
                         <button type="submit" class="btn btn-primary">@icon(check) Save</button>
                     </div>
                 </form>
@@ -77,6 +78,7 @@
         var dateStartElem = $('#event_editor_date_start');
         var dateEndElem = $('#event_editor_date_end');
         var typeElem = $('#event_editor_type');
+        var deleteButton = $('#event_editor_delete');
 
         calendar.fullCalendar({
             height: "auto",
@@ -160,6 +162,9 @@
                 });
             });
 
+            // Hide delete button
+            deleteButton.hide();
+
             // Show modal
             modal.modal('show');
             titleElem.focus();
@@ -188,11 +193,17 @@
                     calEvent.description = descriptionElem.val();
                     calEvent.type = typeElem.val();
                     calEvent.color = typeColors[calEvent.type];
-                    calendar.fullCalendar('updateEvent', calEvent, true);
+                    calendar.fullCalendar('updateEvent', calEvent);
                 })
                 .fail(function(jqXHR, textStatus) {
                     alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
                 });
+            });
+
+            deleteButton.show();
+            deleteButton.off().on('click', function(){
+                modal.modal('hide');
+                calendar.fullCalendar('removeEvents', calEvent.id);
             });
 
             // Show modal
