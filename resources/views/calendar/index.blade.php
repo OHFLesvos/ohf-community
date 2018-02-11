@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-    <div id='calendar'></div>
+    <div id="calendar" class="mb-4"></div>
 @endsection
 
 @section('content-footer')
@@ -179,7 +179,7 @@
             descriptionElem.val(calEvent.description);
             typeElem.val(calEvent.type).change();
 
-            // Action on submit
+            // Action on form submit
             modal.find('form').off().on('submit', function(){
                 $.post(calEvent.updateUrl, {
                     _token: '{{ csrf_token() }}',
@@ -200,10 +200,21 @@
                 });
             });
 
+            // Action on delete button click
             deleteButton.show();
             deleteButton.off().on('click', function(){
-                modal.modal('hide');
-                calendar.fullCalendar('removeEvents', calEvent.id);
+                if (confirm('Really delete \'' + calEvent.title + '\'?')) {
+                    $.post(calEvent.deleteUrl, {
+                        _token: '{{ csrf_token() }}',
+                        _method: 'DELETE',
+                    }, function() {
+                        modal.modal('hide');
+                        calendar.fullCalendar('removeEvents', calEvent.id);
+                    })
+                    .fail(function(jqXHR, textStatus) {
+                        alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                    });
+                }
             });
 
             // Show modal

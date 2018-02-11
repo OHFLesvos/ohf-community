@@ -78,4 +78,9 @@ class CalendarController extends Controller
         $event->end_date = $endDate;
         $event->all_day = $startDate->toTimeString() == '00:00:00' && $endDate->toTimeString() == '00:00:00';
     }
+
+    public function deleteEvent(CalendarEvent $event) {
+        $event->delete();
+        return response()->json([], 204);
+    }
 }

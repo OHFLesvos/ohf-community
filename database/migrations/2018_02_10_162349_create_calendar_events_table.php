@@ -29,6 +29,7 @@ class CreateCalendarEventsTable extends Migration
             $table->boolean('all_day')->default(false);
             $table->unsignedInteger('type_id');
             $table->unsignedInteger('user_id');
+            $table->softDeletes();
             $table->timestamps();
             $table->foreign('type_id')->references('id')->on('calendar_event_types')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

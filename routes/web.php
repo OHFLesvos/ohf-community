@@ -153,6 +153,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/calendar/event/{event}', 'CalendarController@showEvent')->name('calendar.showEvent');
     Route::put('/calendar/event/{event}', 'CalendarController@updateEvent')->name('calendar.updateEvent');
     Route::put('/calendar/event/{event}/date', 'CalendarController@updateEventDate')->name('calendar.updateEventDate');
+    Route::delete('/calendar/event/{event}', 'CalendarController@deleteEvent')->name('calendar.deleteEvent');
 });
 
 Auth::routes();

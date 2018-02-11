@@ -27,6 +27,7 @@ class CalendarEventResource extends Resource
             'type' => $this->type->id,
             'updateUrl' => route('calendar.updateEvent', $this),
             'updateDateUrl' => route('calendar.updateEventDate', $this),
+            'deleteUrl' => route('calendar.deleteEvent', $this),
             'editable' => true,
             'user' => Auth::user()->name,
         ];
