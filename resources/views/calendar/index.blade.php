@@ -178,7 +178,8 @@
         * Create a new event using modal dialog
         */
         function createEvent(start, end, jsEvent, view, resource) {
-            if (calendar.fullCalendar('getResources').length == 0) {
+            var resources = calendar.fullCalendar('getResources');
+            if (resources.length == 0) {
                 alert('Please add a resource first before creating an event!');
                 calendar.fullCalendar('unselect');
                 return;
