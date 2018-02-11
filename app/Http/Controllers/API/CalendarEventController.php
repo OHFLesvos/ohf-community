@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ParentController;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Requests\GetCalendarEvents;
@@ -15,10 +14,11 @@ use App\CalendarEvent;
 use App\CalendarEventType;
 use App\Http\Resources\CalendarEventResource;
 
-class CalendarEventController extends ParentController
+class CalendarEventController extends Controller
 {
     public function __construct() {
-        $this->authorizeResource(CalendarEvent::class);
+        // TODO authorizeResource seems not to work properly, therefore using explicit approach in each method
+        //$this->authorizeResource(CalendarEvent::class);
         CalendarEventResource::withoutWrapping();
     }
 
@@ -30,6 +30,8 @@ class CalendarEventController extends ParentController
      */
     public function index(GetCalendarEvents $request)
     {
+        $this->authorize('list', CalendarEvent::class);
+
         if ($request->start != null) {
             $qry = CalendarEvent::whereDate('start_date', '>=', new Carbon($request->start, $request->timezone));
             if ($request->end != null) {
@@ -50,6 +52,8 @@ class CalendarEventController extends ParentController
      */
     public function store(StoreCalendarEvent $request)
     {
+        $this->authorize('create', CalendarEvent::class);
+
         $event = new CalendarEvent();
         $event->title = $request->title;
         $event->description = $request->description;
@@ -69,6 +73,8 @@ class CalendarEventController extends ParentController
      */
     public function show(CalendarEvent $event)
     {
+        $this->authorize('view', $event);
+
         return new CalendarEventResource($event);        
     }
 
@@ -81,6 +87,8 @@ class CalendarEventController extends ParentController
      */
     public function update(UpdateCalendarEvent $request, CalendarEvent $event)
     {
+        $this->authorize('update', $event);
+
         $event->title = $request->title;
         $event->description = !empty($request->description) ? $request->description : null;
         if ($request->type != null && $request->type != $event->type->id) {
@@ -100,6 +108,8 @@ class CalendarEventController extends ParentController
      * @return \Illuminate\Http\Response
      */
     public function updateDate(UpdateCalendarEventDate $request, CalendarEvent $event) {
+        $this->authorize('update', $event);
+
         self::parseDate($request, $event);
         $event->save();
         return response()->json([], 204);
@@ -121,6 +131,8 @@ class CalendarEventController extends ParentController
      */
     public function destroy(CalendarEvent $event)
     {
+        $this->authorize('delete', $event);
+
         $event->delete();
         return response()->json([], 204);
     }

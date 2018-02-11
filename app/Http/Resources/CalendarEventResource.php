@@ -26,7 +26,7 @@ class CalendarEventResource extends Resource
             'color' => $this->type->color,
             'type' => $this->type->id,
             'user' => Auth::user()->name,
-            'editable' => Auth::user()->can('update', $this),
+            'editable' => Auth::user()->can('update', $this->resource),
             'url' => route('calendar.events.show', $this),
             'updateUrl' => route('calendar.events.update', $this),
             'updateDateUrl' => route('calendar.events.updateDate', $this),
