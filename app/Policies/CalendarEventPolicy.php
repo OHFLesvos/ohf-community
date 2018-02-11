@@ -48,7 +48,7 @@ class CalendarEventPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('calendar.events.crud');
+        return $user->hasPermission('calendar.events.create') || $user->hasPermission('calendar.events.manage');
     }
 
     /**
@@ -60,7 +60,7 @@ class CalendarEventPolicy
      */
     public function update(User $user, CalendarEvent $calendarEvent)
     {
-        return $user->hasPermission('calendar.events.crud'); // TODO && $calendarEvent->user->id == $user->id;
+        return ($calendarEvent->user->id == $user->id && $user->hasPermission('calendar.events.create')) || $user->hasPermission('calendar.events.manage');
     }
 
     /**
@@ -72,6 +72,6 @@ class CalendarEventPolicy
      */
     public function delete(User $user, CalendarEvent $calendarEvent)
     {
-        return $user->hasPermission('calendar.events.crud'); // TODO && $calendarEvent->user->id == $user->id;
+        return ($calendarEvent->user->id == $user->id && $user->hasPermission('calendar.events.create')) || $user->hasPermission('calendar.events.manage');
     }
 }

@@ -111,6 +111,7 @@ return [
         'tasks.use' => 'Use tasks',
         'kitchen.reports.view' => 'Kitchen: View reports',
         'calendar.events.view' => 'Calendar: View events',
-        'calendar.events.crud' => 'Calendar: Create, edit and delete events',
+        'calendar.events.create' => 'Calendar: Create events',
+        'calendar.events.manage' => 'Calendar: Edit and delete all events',
     ]
 ];

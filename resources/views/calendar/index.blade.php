@@ -195,7 +195,12 @@
             typeElem.val(calEvent.type).change().prop("disabled", true);
             deleteButton.hide();
             submitButton.hide();
-            creditsElement.hide();
+            if (calEvent.user.id != currentUserId ) {
+                creditsElement.find('[rel="author"]').text(calEvent.user.name);
+                creditsElement.show();
+            } else {
+                creditsElement.hide();
+            }
 
             // Show modal
             modal.modal('show');
