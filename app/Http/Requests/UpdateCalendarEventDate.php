@@ -25,7 +25,7 @@ class UpdateCalendarEventDate extends FormRequest
     {
         return [
             'start' => 'required|date',
-            'end' => 'date',
+            'end' => 'nullable|date',
         ];
     }
 }
