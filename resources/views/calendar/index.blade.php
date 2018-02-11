@@ -16,6 +16,7 @@
 
 @section('head-meta')
     <link href="{{ asset('css/fullcalendar.min.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/scheduler.min.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
