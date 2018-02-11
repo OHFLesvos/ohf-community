@@ -110,5 +110,7 @@ return [
         'logistics.use' => 'Use logistics',
         'tasks.use' => 'Use tasks',
         'kitchen.reports.view' => 'Kitchen: View reports',
+        'calendar.events.view' => 'Calendar: View events',
+        'calendar.events.crud' => 'Calendar: Create, edit and delete events',
     ]
 ];

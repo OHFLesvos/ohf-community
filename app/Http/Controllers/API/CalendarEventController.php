@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ParentController;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Requests\GetCalendarEvents;
@@ -14,9 +15,10 @@ use App\CalendarEvent;
 use App\CalendarEventType;
 use App\Http\Resources\CalendarEventResource;
 
-class CalendarEventController extends Controller
+class CalendarEventController extends ParentController
 {
     public function __construct() {
+        $this->authorizeResource(CalendarEvent::class);
         CalendarEventResource::withoutWrapping();
     }
 

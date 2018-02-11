@@ -65,7 +65,7 @@ class NavigationComposer {
                     'caption' => 'Calendar',
                     'icon' => 'calendar',
                     'active' => 'calendar*',
-                    'authorized' => true // TODO,
+                    'authorized' => Gate::allows('view-calendar'),
                 ],                
                 [
                     'route' => 'tasks',

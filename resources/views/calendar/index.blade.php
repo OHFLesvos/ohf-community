@@ -67,7 +67,7 @@
     var defaltEventType = {{ $defaultType ?? 0 }};
     var typeColors = @json($typeColors);
     var csrfToken = '{{ csrf_token() }}';
-    var createEventAllowed = true; // TODO
+    var createEventAllowed = @can('create', App\CalendarEvent::class) true @else false @endcan;
 
     $(document).ready(function() {
 

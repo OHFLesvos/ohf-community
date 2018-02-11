@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Role' => 'App\Policies\RolePolicy',
         'App\Person' => 'App\Policies\PersonPolicy',
         'App\Task' => 'App\Policies\TaskPolicy',
+        'App\CalendarEvent' => 'App\Policies\CalendarEventPolicy',
     ];
 
     /**
@@ -38,6 +39,7 @@ class AuthServiceProvider extends ServiceProvider
             'configure-bank' => 'bank.configure',
             'use-logistics' => 'logistics.use',
             'view-kitchen-reports' => 'kitchen.reports.view',
+            'view-calendar' => 'calendar.events.view',
         ];
         foreach ($simple_permission_gate_mappings as $gate => $permission) {
             Gate::define($gate, function ($user) use($permission) {

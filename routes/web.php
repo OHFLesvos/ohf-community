@@ -145,7 +145,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 // Calendar
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'can:view-calendar']], function () {
     Route::get('/calendar', 'CalendarController@index')->name('calendar');
 });
 
