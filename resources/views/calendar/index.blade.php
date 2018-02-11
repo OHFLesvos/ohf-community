@@ -80,6 +80,7 @@
         var typeElem = $('#event_editor_type');
         var deleteButton = $('#event_editor_delete');
 
+        // Initialite the calendar
         calendar.fullCalendar({
             height: "auto",
             //locale: 'de',
@@ -128,32 +129,37 @@
         });
 
         /**
-        * Creates a new event using modal dialog
-        **/
+        * Create a new event using modal dialog
+        */
         function createEvent(start, end) {
-            // Prepare dialog
+            // Prepare modal dialog
             modal.find('.modal-title').text('Create Event');
             dateStartElem.text(getDateStartLabel(start));
             dateEndElem.text(getDateEndLabel(start, end));
             titleElem.val('');
             descriptionElem.val('');
             typeElem.val(defaltEventType).change();
+            deleteButton.hide();
 
-            // Action on cancel
+            // Action on cancel: Hide modal dialog
             modal.on('hide.bs.modal', function (e) {
                 calendar.fullCalendar('unselect');
             });
 
-            // Action on submit
+            // Action on submit: Store event
             modal.find('form').off().on('submit', function(){
-                $.post(storeEventUrl, {
-                    _token: '{{ csrf_token() }}',
-                    title: titleElem.val(),
-                    description: descriptionElem.val(),
-                    type: typeElem.val(),
-                    start: start.format(),
-                    end: end ? end.format() : null,
-                }, function(eventData) {
+                $.ajax(storeEventUrl, {
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        title: titleElem.val(),
+                        description: descriptionElem.val(),
+                        type: typeElem.val(),
+                        start: start.format(),
+                        end: end ? end.format() : null,
+                    }
+                })
+                .done(function(eventData) {
                     modal.modal('hide');
                     calendar.fullCalendar('renderEvent', eventData, true);
                 })
@@ -162,14 +168,16 @@
                 });
             });
 
-            // Hide delete button
-            deleteButton.hide();
-
             // Show modal
             modal.modal('show');
+
+            // Focus title input
             titleElem.focus();
         }
 
+        /**
+        * Edit a new event using modal dialog
+        */
         function editEvent(calEvent, jsEvent, view) {
             // Prepare dialog
             modal.find('.modal-title').text('Edit Event');
@@ -178,16 +186,20 @@
             titleElem.val(calEvent.title);
             descriptionElem.val(calEvent.description);
             typeElem.val(calEvent.type).change();
+            deleteButton.show();
 
-            // Action on form submit
+            // Action on form submit: Update event
             modal.find('form').off().on('submit', function(){
-                $.post(calEvent.updateUrl, {
-                    _token: '{{ csrf_token() }}',
-                    _method: 'PUT',
-                    title: titleElem.val(),
-                    description: descriptionElem.val(),
-                    type: typeElem.val(),
-                }, function() {
+                $.ajax(calEvent.updateUrl, {
+                    method: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        title: titleElem.val(),
+                        description: descriptionElem.val(),
+                        type: typeElem.val(),
+                    }
+                })
+                .done(function() {
                     modal.modal('hide');
                     calEvent.title = titleElem.val();
                     calEvent.description = descriptionElem.val();
@@ -200,14 +212,16 @@
                 });
             });
 
-            // Action on delete button click
-            deleteButton.show();
+            // Action on delete button click: Delete event
             deleteButton.off().on('click', function(){
                 if (confirm('Really delete \'' + calEvent.title + '\'?')) {
-                    $.post(calEvent.deleteUrl, {
-                        _token: '{{ csrf_token() }}',
-                        _method: 'DELETE',
-                    }, function() {
+                    $.ajax(calEvent.deleteUrl, {
+                        method: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                        },
+                    })
+                    .done(function() {
                         modal.modal('hide');
                         calendar.fullCalendar('removeEvents', calEvent.id);
                     })
@@ -219,7 +233,11 @@
 
             // Show modal
             modal.modal('show');
+
+            // Select title
             titleElem.select();
+
+            // Return false so default behaviour (navigate to event URL) is supressed
             return false;
         }
 
@@ -227,11 +245,13 @@
         * Updates an event after dragging / resizing
         */
         function updateEventDate(calEvent, delta, revertFunc) {
-            $.post(calEvent.updateDateUrl, {
-                _token: '{{ csrf_token() }}',
-                _method: 'PUT',
-                start: calEvent.start.format(),
-                end: calEvent.end ? calEvent.end.format() : null,
+            $.ajax(calEvent.updateDateUrl, {
+                method: 'PUT',
+                data : {
+                    _token: '{{ csrf_token() }}',
+                    start: calEvent.start.format(),
+                    end: calEvent.end ? calEvent.end.format() : null,
+                }
             })
             .fail(function(jqXHR, textStatus) {
                 alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
@@ -239,11 +259,17 @@
             });
         }
 
+        /**
+        * Creates a label text for the start date
+        */
         function getDateStartLabel(start) {
             var isMidNight = start.format('HH:mm:ss') == '00:00:00';
             return start.format(isMidNight ? 'LL' : 'LLL'); // LL: Date, LLL: Date with time
         }
 
+        /**
+        * Creates a label text for the end date
+        */
         function getDateEndLabel(start, end) {
             var prefix = ' - ';
             if (start.isSame(end, 'day')) {
@@ -258,6 +284,7 @@
             return prefix + end.format('LLL');
         }
 
+        // Change color of the label next to the type select
         typeElem.on('change', setTypeElemColor)
         function setTypeElemColor() {
             var color = typeColors[typeElem.val()];
