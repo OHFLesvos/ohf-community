@@ -34,6 +34,7 @@ class CalendarResourceController extends Controller
         $resource = new CalendarResource();
         $resource->title = $request->title;
         $resource->color = $request->color;
+        $resource->default = CalendarResource::count() == 0;
         $resource->save();
         return (new CalendarResourceResource($resource))->response(201);
     }
