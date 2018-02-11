@@ -62,8 +62,8 @@
 @endsection
 
 @section('script')
-    var listEventsUrl = '{{ route('calendar.listEvents') }}';
-    var storeEventUrl = '{{ route('calendar.storeEvent') }}';
+    var listEventsUrl = '{{ route('calendar.events.index') }}';
+    var storeEventUrl = '{{ route('calendar.events.store') }}';
     var defaltEventType = {{ $defaultType ?? 0 }};
     var typeColors = @json($typeColors);
 

@@ -147,13 +147,6 @@ Route::group(['middleware' => ['auth']], function () {
 // Calendar
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/calendar', 'CalendarController@index')->name('calendar');
-    Route::get('/calendar/eventTypes', 'CalendarController@listEventTypes')->name('calendar.listEventTypes');
-    Route::get('/calendar/event', 'CalendarController@listEvents')->name('calendar.listEvents');
-    Route::post('/calendar/event', 'CalendarController@storeEvent')->name('calendar.storeEvent');
-    Route::get('/calendar/event/{event}', 'CalendarController@showEvent')->name('calendar.showEvent');
-    Route::put('/calendar/event/{event}', 'CalendarController@updateEvent')->name('calendar.updateEvent');
-    Route::put('/calendar/event/{event}/date', 'CalendarController@updateEventDate')->name('calendar.updateEventDate');
-    Route::delete('/calendar/event/{event}', 'CalendarController@deleteEvent')->name('calendar.deleteEvent');
 });
 
 Auth::routes();

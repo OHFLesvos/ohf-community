@@ -24,8 +24,8 @@ class GetCalendarEvents extends FormRequest
     public function rules()
     {
         return [
-            'start' => 'required|date',
-            'end' => 'required|date',
+            'start' => 'date',
+            'end' => 'date',
             'timezone' => 'timezone',
         ];
     }

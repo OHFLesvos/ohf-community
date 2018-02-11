@@ -25,11 +25,12 @@ class CalendarEventResource extends Resource
             'allDay' => (bool)$this->all_day,
             'color' => $this->type->color,
             'type' => $this->type->id,
-            'updateUrl' => route('calendar.updateEvent', $this),
-            'updateDateUrl' => route('calendar.updateEventDate', $this),
-            'deleteUrl' => route('calendar.deleteEvent', $this),
-            'editable' => true,
             'user' => Auth::user()->name,
+            'editable' => true,
+            'url' => route('calendar.events.show', $this),
+            'updateUrl' => route('calendar.events.update', $this),
+            'updateDateUrl' => route('calendar.events.updateDate', $this),
+            'deleteUrl' => route('calendar.events.destroy', $this),
         ];
     }
 }
