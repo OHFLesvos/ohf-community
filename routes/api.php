@@ -31,5 +31,12 @@ Route::group(['middleware' => ['auth']], function () {
         'destroy' => 'calendar.events.destroy',
     ]]);
     Route::put('/calendar/events/{event}/date', 'Api\CalendarEventController@updateDate')->name('calendar.events.updateDate');
+    Route::apiResource('calendar/resources', 'Api\CalendarResourceController', ['names' => [
+        'index' => 'calendar.resources.index',
+        'store' => 'calendar.resources.store',
+        'show' => 'calendar.resources.show',
+        'update' => 'calendar.resources.update',
+        'destroy' => 'calendar.resources.destroy',
+    ]]);
    
 });

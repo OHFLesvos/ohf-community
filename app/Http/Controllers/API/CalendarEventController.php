@@ -89,11 +89,7 @@ class CalendarEventController extends Controller
 
         $event->title = $request->title;
         $event->description = !empty($request->description) ? $request->description : null;
-        if ($request->type != null && $request->type != $event->type->id) {
-            $type = CalendarEventType::find($request->type);
-            $event->type()->dissociate();
-            $event->type()->associate($type);
-        }
+        self::parseType($request, $event);
         $event->save();
         return response()->json([], 204);
     }
@@ -109,6 +105,7 @@ class CalendarEventController extends Controller
         $this->authorize('update', $event);
 
         self::parseDate($request, $event);
+        self::parseType($request, $event);
         $event->save();
         return response()->json([], 204);
     }
@@ -119,6 +116,14 @@ class CalendarEventController extends Controller
         $event->start_date = $startDate;
         $event->end_date = $endDate;
         $event->all_day = $startDate->toTimeString() == '00:00:00' && $endDate->toTimeString() == '00:00:00';
+    }
+
+    private static function parseType(Request $request, CalendarEvent $event) {
+        if ($request->type != null && $request->type != $event->type->id) {
+            $type = CalendarEventType::find($request->type);
+            $event->type()->dissociate();
+            $event->type()->associate($type);
+        }
     }
 
     /**

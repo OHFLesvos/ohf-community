@@ -66,6 +66,7 @@
 @section('script')
     var listEventsUrl = '{{ route('calendar.events.index') }}';
     var storeEventUrl = '{{ route('calendar.events.store') }}';
+    var listResourcesUrl = '{{ route('calendar.resources.index') }}';
     var defaltEventType = {{ $defaultType ?? 0 }};
     var typeColors = @json($typeColors);
     var csrfToken = '{{ csrf_token() }}';
@@ -96,7 +97,7 @@
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'agendaDay,agendaWeek,month,listWeek'
+                right: 'agendaDay,agendaWeek,month,listWeek,timelineDay'
             },
             views: {
                 agendaDay: {
@@ -110,13 +111,16 @@
                 },
                 listWeek: {
                     buttonText: 'List'
+                },
+                timelineDay: {
+                    buttonText: 'Timeline'
                 }
             },
             defaultView: sessionStorage.getItem('calendar-view-name') ? sessionStorage.getItem('calendar-view-name') : 'agendaWeek',
-            defaultDate: sessionStorage.getItem('calendar-view-start') ? sessionStorage.getItem('calendar-view-start') : null,
+            //defaultDate: sessionStorage.getItem('calendar-view-start') ? sessionStorage.getItem('calendar-view-start') : null,
             viewRender: function(view, element){
                 sessionStorage.setItem('calendar-view-name', view.name)
-                sessionStorage.setItem('calendar-view-start', view.intervalStart)
+                //sessionStorage.setItem('calendar-view-start', view.intervalStart)
             },
             firstDay: 1,
             weekends: true,
@@ -139,19 +143,20 @@
             unselectAuto: false,
             eventClick: editEvent,
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+            resources: listResourcesUrl,
         });
 
         /**
         * Create a new event using modal dialog
         */
-        function createEvent(start, end) {
+        function createEvent(start, end, jsEvent, view, resource) {
             // Prepare modal dialog
             modal.find('.modal-title').text('Create Event');
             dateStartElem.text(getDateStartLabel(start));
             dateEndElem.text(getDateEndLabel(start, end));
             titleElem.val('').prop("readonly", false);
             descriptionElem.val('').prop("readonly", false);
-            typeElem.val(defaltEventType).change().prop("disabled", false);
+            typeElem.val(resource ? resource.id : defaltEventType).change().prop("disabled", false);
             deleteButton.hide();
             submitButton.show();
             creditsElement.hide();
@@ -303,6 +308,7 @@
                     _token: csrfToken,
                     start: calEvent.start.format(),
                     end: calEvent.end ? calEvent.end.format() : null,
+                    type: calEvent.resourceId,
                 }
             })
             .fail(function(jqXHR, textStatus) {
