@@ -137,6 +137,7 @@
             select: createEvent,
             unselectAuto: false,
             eventClick: editEvent,
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         });
 
         /**

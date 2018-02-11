@@ -211,3 +211,4 @@ $(function(){
 // Calendar
 //
 require('fullcalendar');
+require('fullcalendar-scheduler');
