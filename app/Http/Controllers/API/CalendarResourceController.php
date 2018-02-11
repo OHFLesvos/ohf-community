@@ -62,6 +62,7 @@ class CalendarResourceController extends Controller
     {
         $resource->title = $request->title;
         $resource->color = $request->color;
+        // TODO default
         $resource->save();
         return response()->json([], 204);
     }

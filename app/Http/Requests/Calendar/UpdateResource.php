@@ -30,6 +30,7 @@ class UpdateResource extends FormRequest
                 Rule::unique('calendar_resources')->ignore($this->resource->id),
             ],
             'color' => 'required|string',
+            // TOD 'default' => 'boolean',
         ];
     }
 }

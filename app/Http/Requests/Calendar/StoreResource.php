@@ -26,6 +26,7 @@ class StoreResource extends FormRequest
         return [
             'title' => 'required|string|unique:calendar_resources',
             'color' => 'required|string',
+            // TODO 'default' => 'boolean',
         ];
     }
 }

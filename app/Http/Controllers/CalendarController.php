@@ -8,10 +8,7 @@ use App\CalendarResource;
 class CalendarController extends Controller
 {
     public function index() {
-        return view('calendar.index', [
-            // TODO
-            'resources' => CalendarResource::orderBy('title')->get(),
-        ]);
+        return view('calendar.index');
     }
 
 }

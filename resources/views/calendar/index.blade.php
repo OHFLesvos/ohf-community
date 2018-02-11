@@ -1,12 +1,5 @@
 @extends('layouts.app')
 
-@php
-    $resourceColors = $resources->mapWithKeys(function($e){
-            return [$e->id => $e->color];
-        })
-        ->toArray();
-@endphp
-
 @section('title', 'Calendar')
 
 @section('head-meta')
@@ -57,7 +50,6 @@
     var storeEventUrl = '{{ route('calendar.events.store') }}';
     var listResourcesUrl = '{{ route('calendar.resources.index') }}';
     var storeResourceUrl = '{{ route('calendar.resources.store') }}';
-    var resourceColors = @json($resourceColors);
     var csrfToken = '{{ csrf_token() }}';
     var createEventAllowed = @can('create', App\CalendarEvent::class) true @else false @endcan;
     var currentUserId = {{ Auth::id() }};
@@ -99,7 +91,7 @@
                                 data: {
                                     _token: csrfToken,
                                     title: title,
-                                    color: getRandomColor(), // TODO
+                                    color: getRandomColor(),
                                 }
                             })
                             .done(function(resourceData) {
@@ -183,8 +175,7 @@
         * Create a new event using modal dialog
         */
         function createEvent(start, end, jsEvent, view, resource) {
-            var resources = calendar.fullCalendar('getResources');
-            if (resources.length == 0) {
+            if (calendar.fullCalendar('getResources').length == 0) {
                 alert('Please add a resource first before creating an event!');
                 calendar.fullCalendar('unselect');
                 return;
@@ -196,16 +187,7 @@
             dateEndElem.text(getDateEndLabel(start, end));
             titleElem.val('').prop("readonly", false);
             descriptionElem.val('').prop("readonly", false);
-
-            resourceIdInputElem.empty();
-            $.each(resources, function (i, item) {
-                resourceIdInputElem.append($('<option>', { 
-                    value: item.id,
-                    text : item.title 
-                }));
-            });
-            resourceIdInputElem.val(resource ? resource.id : resources[0].id).change().prop("disabled", false);
-
+            updateResourceIdSelect(resource ? resource.id : resources[0].id, false);
             deleteButton.hide();
             submitButton.show();
             creditsElement.hide();
@@ -253,7 +235,8 @@
             dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
             titleElem.val(calEvent.title).prop("readonly", true);
             descriptionElem.val(calEvent.description).prop("readonly", true);
-            resourceIdInputElem.val(calEvent.resourceId).change().prop("disabled", true);
+            updateResourceIdSelect(calEvent.resourceId, true);
+
             deleteButton.hide();
             submitButton.hide();
             if (calEvent.user.id != currentUserId ) {
@@ -284,7 +267,7 @@
             dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
             titleElem.val(calEvent.title).prop("readonly", false);
             descriptionElem.val(calEvent.description).prop("readonly", false);
-            resourceIdInputElem.val(calEvent.resourceId).change().prop("disabled", false);
+            updateResourceIdSelect(calEvent.resourceId, false);
             deleteButton.show();
             submitButton.show();
             if (calEvent.user.id != currentUserId ) {
@@ -390,17 +373,31 @@
             return prefix + end.format('LLL');
         }
 
-        // Change color of the label next to the resource select
-        resourceIdInputElem.on('change', setresourceIdInputElemColor)
-        function setresourceIdInputElemColor() {
-            var color = resourceColors[resourceIdInputElem.val()];
-            resourceIdInputElem.siblings().find('label').css('color', color ? color : 'inherit');
+        function updateResourceIdSelect(resourceId, disabled) {
+            var resources = calendar.fullCalendar('getResources');
+            resourceIdInputElem.empty();
+            var resourceColors = {};
+            $.each(resources, function (i, item) {
+                resourceIdInputElem.append($('<option>', { 
+                    value: item.id,
+                    text : item.title 
+                }));
+                resourceColors[item.id] = item.eventColor;
+            });
+            console.log(resourceColors);
+            resourceIdInputElem.val(resourceId).change().prop("disabled", disabled);            
+
+            // Change color of the label next to the resource select
+            var setresourceIdInputElemColor = function() {
+                var color = resourceColors[resourceIdInputElem.val()];
+                resourceIdInputElem.siblings().find('label').css('color', color ? color : 'inherit');
+            }
+            resourceIdInputElem.off('change').on('change', setresourceIdInputElemColor)
+            setresourceIdInputElemColor();
         }
-        setresourceIdInputElemColor();
 
     });
 
-    // TODO testing only
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
