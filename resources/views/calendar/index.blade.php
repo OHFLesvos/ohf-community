@@ -66,6 +66,8 @@
     var storeEventUrl = '{{ route('calendar.events.store') }}';
     var defaltEventType = {{ $defaultType ?? 0 }};
     var typeColors = @json($typeColors);
+    var csrfToken = '{{ csrf_token() }}';
+    var createEventAllowed = true; // TODO
 
     $(document).ready(function() {
 
@@ -79,6 +81,7 @@
         var dateEndElem = $('#event_editor_date_end');
         var typeElem = $('#event_editor_type');
         var deleteButton = $('#event_editor_delete');
+        var submitButton = modal.find('button[type="submit"]');
 
         // Initialite the calendar
         calendar.fullCalendar({
@@ -121,7 +124,7 @@
             editable: false,
             eventDrop: updateEventDate,
             eventResize: updateEventDate,
-            selectable: true,
+            selectable: createEventAllowed,
             selectHelper: false,
             select: createEvent,
             unselectAuto: false,
@@ -136,10 +139,11 @@
             modal.find('.modal-title').text('Create Event');
             dateStartElem.text(getDateStartLabel(start));
             dateEndElem.text(getDateEndLabel(start, end));
-            titleElem.val('');
-            descriptionElem.val('');
-            typeElem.val(defaltEventType).change();
+            titleElem.val('').prop("readonly", false);
+            descriptionElem.val('').prop("readonly", false);
+            typeElem.val(defaltEventType).change().prop("disabled", false);
             deleteButton.hide();
+            submitButton.show();
 
             // Action on cancel: Hide modal dialog
             modal.on('hide.bs.modal', function (e) {
@@ -151,7 +155,7 @@
                 $.ajax(storeEventUrl, {
                     method: 'POST',
                     data: {
-                        _token: '{{ csrf_token() }}',
+                        _token: csrfToken,
                         title: titleElem.val(),
                         description: descriptionElem.val(),
                         type: typeElem.val(),
@@ -174,26 +178,51 @@
             // Focus title input
             titleElem.focus();
         }
+        /**
+        * Edit a new event using modal dialog
+        */
+        function showEvent(calEvent) {
+            // Prepare dialog
+            modal.find('.modal-title').text('View Event');
+            dateStartElem.text(getDateStartLabel(calEvent.start));
+            dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
+            titleElem.val(calEvent.title).prop("readonly", true);
+            descriptionElem.val(calEvent.description).prop("readonly", true);
+            typeElem.val(calEvent.type).change().prop("disabled", true);
+            deleteButton.hide();
+            submitButton.hide();
+
+            // Show modal
+            modal.modal('show');
+
+            // Return false so default behaviour (navigate to event URL) is supressed
+            return false;
+        }
 
         /**
         * Edit a new event using modal dialog
         */
         function editEvent(calEvent, jsEvent, view) {
+            if (!calEvent.editable) {
+                return showEvent(calEvent);
+            }
+
             // Prepare dialog
             modal.find('.modal-title').text('Edit Event');
             dateStartElem.text(getDateStartLabel(calEvent.start));
             dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
-            titleElem.val(calEvent.title);
-            descriptionElem.val(calEvent.description);
-            typeElem.val(calEvent.type).change();
+            titleElem.val(calEvent.title).prop("readonly", false);
+            descriptionElem.val(calEvent.description).prop("readonly", false);
+            typeElem.val(calEvent.type).change().prop("disabled", false);
             deleteButton.show();
+            submitButton.show();
 
             // Action on form submit: Update event
             modal.find('form').off().on('submit', function(){
                 $.ajax(calEvent.updateUrl, {
                     method: 'PUT',
                     data: {
-                        _token: '{{ csrf_token() }}',
+                        _token: csrfToken,
                         title: titleElem.val(),
                         description: descriptionElem.val(),
                         type: typeElem.val(),
@@ -218,7 +247,7 @@
                     $.ajax(calEvent.deleteUrl, {
                         method: 'DELETE',
                         data: {
-                            _token: '{{ csrf_token() }}',
+                            _token: csrfToken,
                         },
                     })
                     .done(function() {
@@ -248,7 +277,7 @@
             $.ajax(calEvent.updateDateUrl, {
                 method: 'PUT',
                 data : {
-                    _token: '{{ csrf_token() }}',
+                    _token: csrfToken,
                     start: calEvent.start.format(),
                     end: calEvent.end ? calEvent.end.format() : null,
                 }
