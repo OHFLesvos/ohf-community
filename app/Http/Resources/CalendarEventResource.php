@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CalendarEventResource extends Resource
 {
@@ -27,6 +28,7 @@ class CalendarEventResource extends Resource
             'updateUrl' => route('calendar.updateEvent', $this),
             'updateDateUrl' => route('calendar.updateEventDate', $this),
             'editable' => true,
+            'user' => Auth::user()->name,
         ];
     }
 }

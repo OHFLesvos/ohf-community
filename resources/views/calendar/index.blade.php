@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@php
+    $defaultType = $types->filter(function($e){
+            return $e->default;
+        })
+        ->pluck('id')
+        ->first();
+    $typeColors = $types->mapWithKeys(function($e){
+            return [$e->id => $e->color];
+        })
+        ->toArray();
+@endphp
+
 @section('title', 'Calendar')
 
 @section('head-meta')
@@ -30,7 +42,12 @@
                             })
                             ->toArray();
                         @endphp
-                        {{ Form::bsSelect('type', $typesArray, null, [ 'id' => 'event_editor_type' ], '') }}
+                        <div class="input-group mb-3">
+                            {{ Form::select('type', $typesArray, $defaultType ?? 0, [ 'class' => 'custom-select', 'id' => 'event_editor_type' ]) }}
+                            <div class="input-group-append">
+                                <label class="input-group-text" for="event_editor_type">@icon(circle)</label>
+                            </div>
+                        </div>
                         {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
                     </div>
                     <div class="modal-footer">
@@ -44,17 +61,6 @@
 @endsection
 
 @section('script')
-    @php
-        $defaultType = $types->filter(function($e){
-                return $e->default;
-            })
-            ->pluck('id')
-            ->first();
-        $typeColors = $types->mapWithKeys(function($e){
-                return [$e->id => $e->color];
-            })
-            ->toArray();
-    @endphp
     var listEventsUrl = '{{ route('calendar.listEvents') }}';
     var storeEventUrl = '{{ route('calendar.storeEvent') }}';
     var defaltEventType = {{ $defaultType ?? 0 }};
@@ -129,7 +135,7 @@
             dateEndElem.text(getDateEndLabel(start, end));
             titleElem.val('');
             descriptionElem.val('');
-            typeElem.val(defaltEventType);
+            typeElem.val(defaltEventType).change();
 
             // Action on cancel
             modal.on('hide.bs.modal', function (e) {
@@ -166,7 +172,7 @@
             dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
             titleElem.val(calEvent.title);
             descriptionElem.val(calEvent.description);
-            typeElem.val(calEvent.type);
+            typeElem.val(calEvent.type).change();
 
             // Action on submit
             modal.find('form').off().on('submit', function(){
@@ -229,5 +235,13 @@
             }
             return prefix + end.format('LLL');
         }
+
+        typeElem.on('change', setTypeElemColor)
+        function setTypeElemColor() {
+            var color = typeColors[typeElem.val()];
+            typeElem.siblings().find('label').css('color', color ? color : 'inherit');
+        }
+        setTypeElemColor();
+
     });
 @endsection
