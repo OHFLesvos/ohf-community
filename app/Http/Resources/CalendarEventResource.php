@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\Resource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 
 class CalendarEventResource extends Resource
 {
@@ -25,7 +26,7 @@ class CalendarEventResource extends Resource
             'allDay' => (bool)$this->all_day,
             'color' => $this->type->color,
             'type' => $this->type->id,
-            'user' => Auth::user()->name,
+            'user' => new UserResource($this->user),
             'editable' => Auth::user()->can('update', $this->resource),
             'url' => route('calendar.events.show', $this),
             'updateUrl' => route('calendar.events.update', $this),

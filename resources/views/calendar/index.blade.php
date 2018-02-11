@@ -49,6 +49,7 @@
                             </div>
                         </div>
                         {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
+                        <p id="event_editor_credits"><small class="text-muted">Event created by <span rel="author"></span></small></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" tabindex="-1" class="btn btn-outline-danger mr-auto" id="event_editor_delete">@icon(trash) Delete</button>
@@ -68,6 +69,7 @@
     var typeColors = @json($typeColors);
     var csrfToken = '{{ csrf_token() }}';
     var createEventAllowed = @can('create', App\CalendarEvent::class) true @else false @endcan;
+    var currentUserId = {{ Auth::id() }};
 
     $(document).ready(function() {
 
@@ -82,6 +84,7 @@
         var typeElem = $('#event_editor_type');
         var deleteButton = $('#event_editor_delete');
         var submitButton = modal.find('button[type="submit"]');
+        var creditsElement =  $('#event_editor_credits');
 
         // Initialite the calendar
         calendar.fullCalendar({
@@ -144,6 +147,7 @@
             typeElem.val(defaltEventType).change().prop("disabled", false);
             deleteButton.hide();
             submitButton.show();
+            creditsElement.hide();
 
             // Action on cancel: Hide modal dialog
             modal.on('hide.bs.modal', function (e) {
@@ -191,6 +195,7 @@
             typeElem.val(calEvent.type).change().prop("disabled", true);
             deleteButton.hide();
             submitButton.hide();
+            creditsElement.hide();
 
             // Show modal
             modal.modal('show');
@@ -216,6 +221,12 @@
             typeElem.val(calEvent.type).change().prop("disabled", false);
             deleteButton.show();
             submitButton.show();
+            if (calEvent.user.id != currentUserId ) {
+                creditsElement.find('[rel="author"]').text(calEvent.user.name);
+                creditsElement.show();
+            } else {
+                creditsElement.hide();
+            }
 
             // Action on form submit: Update event
             modal.find('form').off().on('submit', function(){

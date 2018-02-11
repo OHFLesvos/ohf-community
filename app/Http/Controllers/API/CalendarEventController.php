@@ -32,16 +32,14 @@ class CalendarEventController extends Controller
     {
         $this->authorize('list', CalendarEvent::class);
 
+        $qry = CalendarEvent::with('user');
         if ($request->start != null) {
-            $qry = CalendarEvent::whereDate('start_date', '>=', new Carbon($request->start, $request->timezone));
+            $qry->whereDate('start_date', '>=', new Carbon($request->start, $request->timezone));
             if ($request->end != null) {
                 $qry->whereDate('end_date', '<=', new Carbon($request->end, $request->timezone));
             }
-            $data = $qry->get();
-        } else {
-            $data = CalendarEvent::all();
         }
-        return CalendarEventResource::collection($data);
+        return CalendarEventResource::collection($qry->get());
     }
 
     /**
