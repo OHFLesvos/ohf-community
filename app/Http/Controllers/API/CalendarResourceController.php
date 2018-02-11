@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\CalendarResource;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CalendarResourceResource;
+use App\Http\Requests\Calendar\StoreResource;
+use App\Http\Requests\Calendar\UpdateResource;
 
 class CalendarResourceController extends Controller
 {
@@ -26,10 +27,10 @@ class CalendarResourceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Calendar\StoreResource  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreResource $request)
     {
         $resource = new CalendarResource();
         $resource->title = $request->title;
@@ -53,11 +54,11 @@ class CalendarResourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Calendar\UpdateResource  $request
      * @param  \App\CalendarResource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CalendarResource $resource)
+    public function update(UpdateResource $request, CalendarResource $resource)
     {
         $resource->title = $request->title;
         $resource->color = $request->color;

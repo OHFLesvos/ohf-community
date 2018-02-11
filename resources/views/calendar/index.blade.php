@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @php
-    $defaultResourceId = $resources->filter(function($e){
-            return $e->default;
-        })
-        ->pluck('id')
-        ->first();
     $resourceColors = $resources->mapWithKeys(function($e){
             return [$e->id => $e->color];
         })
@@ -37,14 +32,8 @@
                     <div class="modal-body pb-0">
                         <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
                         {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title', 'tab' ], '') }}
-                        @php
-                            $resourcesArray = $resources->mapWithKeys(function($e){
-                                return [$e->id => $e->title];
-                            })
-                            ->toArray();
-                        @endphp
                         <div class="input-group mb-3">
-                            {{ Form::select('resourceId', $resourcesArray, $defaultResourceId ?? 0, [ 'class' => 'custom-select', 'id' => 'event_editor_resource_id' ]) }}
+                            {{ Form::select('resourceId', [], 0, [ 'class' => 'custom-select', 'id' => 'event_editor_resource_id' ]) }}
                             <div class="input-group-append">
                                 <label class="input-group-text" for="event_editor_resource_id">@icon(circle)</label>
                             </div>
@@ -68,7 +57,6 @@
     var storeEventUrl = '{{ route('calendar.events.store') }}';
     var listResourcesUrl = '{{ route('calendar.resources.index') }}';
     var storeResourceUrl = '{{ route('calendar.resources.store') }}';
-    var defaultResourceId = {{ $defaultResourceId ?? 0 }};
     var resourceColors = @json($resourceColors);
     var csrfToken = '{{ csrf_token() }}';
     var createEventAllowed = @can('create', App\CalendarEvent::class) true @else false @endcan;
@@ -195,7 +183,8 @@
         * Create a new event using modal dialog
         */
         function createEvent(start, end, jsEvent, view, resource) {
-            if (calendar.fullCalendar( 'getResources' ).length == 0) {
+            var resources = calendar.fullCalendar('getResources');
+            if (resources.length == 0) {
                 alert('Please add a resource first before creating an event!');
                 calendar.fullCalendar('unselect');
                 return;
@@ -207,7 +196,16 @@
             dateEndElem.text(getDateEndLabel(start, end));
             titleElem.val('').prop("readonly", false);
             descriptionElem.val('').prop("readonly", false);
-            resourceIdInputElem.val(resource ? resource.id : defaultResourceId).change().prop("disabled", false);
+
+            resourceIdInputElem.empty();
+            $.each(resources, function (i, item) {
+                resourceIdInputElem.append($('<option>', { 
+                    value: item.id,
+                    text : item.title 
+                }));
+            });
+            resourceIdInputElem.val(resource ? resource.id : resources[0].id).change().prop("disabled", false);
+
             deleteButton.hide();
             submitButton.show();
             creditsElement.hide();
