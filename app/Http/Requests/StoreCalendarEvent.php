@@ -25,9 +25,9 @@ class StoreCalendarEvent extends FormRequest
     {
         return [
             'start' => 'required|date',
-            'end' => 'date',
+            'end' => 'nullable|date',
             'title' => 'required|string',
-            'type' => 'required|exists:calendar_event_types,id',
+            'resourceId' => 'required|exists:calendar_resources,id',
         ];
     }
 }

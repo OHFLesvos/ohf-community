@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @php
-    $defaultType = $types->filter(function($e){
+    $defaultResourceId = $resources->filter(function($e){
             return $e->default;
         })
         ->pluck('id')
         ->first();
-    $typeColors = $types->mapWithKeys(function($e){
+    $resourceColors = $resources->mapWithKeys(function($e){
             return [$e->id => $e->color];
         })
         ->toArray();
@@ -38,15 +38,15 @@
                         <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
                         {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title', 'tab' ], '') }}
                         @php
-                            $typesArray = $types->mapWithKeys(function($e){
-                                return [$e->id => $e->name];
+                            $resourcesArray = $resources->mapWithKeys(function($e){
+                                return [$e->id => $e->title];
                             })
                             ->toArray();
                         @endphp
                         <div class="input-group mb-3">
-                            {{ Form::select('type', $typesArray, $defaultType ?? 0, [ 'class' => 'custom-select', 'id' => 'event_editor_type' ]) }}
+                            {{ Form::select('resourceId', $resourcesArray, $defaultResourceId ?? 0, [ 'class' => 'custom-select', 'id' => 'event_editor_resource_id' ]) }}
                             <div class="input-group-append">
-                                <label class="input-group-text" for="event_editor_type">@icon(circle)</label>
+                                <label class="input-group-text" for="event_editor_resource_id">@icon(circle)</label>
                             </div>
                         </div>
                         {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
@@ -68,8 +68,8 @@
     var storeEventUrl = '{{ route('calendar.events.store') }}';
     var listResourcesUrl = '{{ route('calendar.resources.index') }}';
     var storeResourceUrl = '{{ route('calendar.resources.store') }}';
-    var defaltEventType = {{ $defaultType ?? 0 }};
-    var typeColors = @json($typeColors);
+    var defaultResourceId = {{ $defaultResourceId ?? 0 }};
+    var resourceColors = @json($resourceColors);
     var csrfToken = '{{ csrf_token() }}';
     var createEventAllowed = @can('create', App\CalendarEvent::class) true @else false @endcan;
     var currentUserId = {{ Auth::id() }};
@@ -84,7 +84,7 @@
         var descriptionElem = $('#event_editor_description');
         var dateStartElem = $('#event_editor_date_start');
         var dateEndElem = $('#event_editor_date_end');
-        var typeElem = $('#event_editor_type');
+        var resourceIdInputElem = $('#event_editor_resource_id');
         var deleteButton = $('#event_editor_delete');
         var submitButton = modal.find('button[type="submit"]');
         var creditsElement =  $('#event_editor_credits');
@@ -163,10 +163,8 @@
                 }
             },
             defaultView: sessionStorage.getItem('calendar-view-name') ? sessionStorage.getItem('calendar-view-name') : 'agendaWeek',
-            //defaultDate: sessionStorage.getItem('calendar-view-start') ? sessionStorage.getItem('calendar-view-start') : null,
             viewRender: function(view, element){
                 sessionStorage.setItem('calendar-view-name', view.name)
-                //sessionStorage.setItem('calendar-view-start', view.intervalStart)
             },
             firstDay: 1,
             weekends: true,
@@ -190,6 +188,7 @@
             eventClick: editEvent,
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             resources: listResourcesUrl,
+            resourceOrder: 'title',
         });
 
         /**
@@ -202,7 +201,7 @@
             dateEndElem.text(getDateEndLabel(start, end));
             titleElem.val('').prop("readonly", false);
             descriptionElem.val('').prop("readonly", false);
-            typeElem.val(resource ? resource.id : defaltEventType).change().prop("disabled", false);
+            resourceIdInputElem.val(resource ? resource.id : defaultResourceId).change().prop("disabled", false);
             deleteButton.hide();
             submitButton.show();
             creditsElement.hide();
@@ -220,7 +219,7 @@
                         _token: csrfToken,
                         title: titleElem.val(),
                         description: descriptionElem.val(),
-                        type: typeElem.val(),
+                        resourceId: resourceIdInputElem.val(),
                         start: start.format(),
                         end: end ? end.format() : null,
                     }
@@ -250,7 +249,7 @@
             dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
             titleElem.val(calEvent.title).prop("readonly", true);
             descriptionElem.val(calEvent.description).prop("readonly", true);
-            typeElem.val(calEvent.type).change().prop("disabled", true);
+            resourceIdInputElem.val(calEvent.resourceId).change().prop("disabled", true);
             deleteButton.hide();
             submitButton.hide();
             if (calEvent.user.id != currentUserId ) {
@@ -281,7 +280,7 @@
             dateEndElem.text(getDateEndLabel(calEvent.start, calEvent.end));
             titleElem.val(calEvent.title).prop("readonly", false);
             descriptionElem.val(calEvent.description).prop("readonly", false);
-            typeElem.val(calEvent.type).change().prop("disabled", false);
+            resourceIdInputElem.val(calEvent.resourceId).change().prop("disabled", false);
             deleteButton.show();
             submitButton.show();
             if (calEvent.user.id != currentUserId ) {
@@ -293,21 +292,20 @@
 
             // Action on form submit: Update event
             modal.find('form').off().on('submit', function(){
-                $.ajax(calEvent.updateUrl, {
+                $.ajax(calEvent.url, {
                     method: 'PUT',
                     data: {
                         _token: csrfToken,
                         title: titleElem.val(),
                         description: descriptionElem.val(),
-                        type: typeElem.val(),
+                        resourceId: resourceIdInputElem.val(),
                     }
                 })
                 .done(function() {
                     modal.modal('hide');
                     calEvent.title = titleElem.val();
                     calEvent.description = descriptionElem.val();
-                    calEvent.type = typeElem.val();
-                    calEvent.color = typeColors[calEvent.type];
+                    calEvent.resourceId = resourceIdInputElem.val();
                     calendar.fullCalendar('updateEvent', calEvent);
                 })
                 .fail(function(jqXHR, textStatus) {
@@ -318,7 +316,7 @@
             // Action on delete button click: Delete event
             deleteButton.off().on('click', function(){
                 if (confirm('Really delete \'' + calEvent.title + '\'?')) {
-                    $.ajax(calEvent.deleteUrl, {
+                    $.ajax(calEvent.url, {
                         method: 'DELETE',
                         data: {
                             _token: csrfToken,
@@ -354,7 +352,7 @@
                     _token: csrfToken,
                     start: calEvent.start.format(),
                     end: calEvent.end ? calEvent.end.format() : null,
-                    type: calEvent.resourceId,
+                    resourceId: calEvent.resourceId,
                 }
             })
             .fail(function(jqXHR, textStatus) {
@@ -388,13 +386,13 @@
             return prefix + end.format('LLL');
         }
 
-        // Change color of the label next to the type select
-        typeElem.on('change', setTypeElemColor)
-        function setTypeElemColor() {
-            var color = typeColors[typeElem.val()];
-            typeElem.siblings().find('label').css('color', color ? color : 'inherit');
+        // Change color of the label next to the resource select
+        resourceIdInputElem.on('change', setresourceIdInputElemColor)
+        function setresourceIdInputElemColor() {
+            var color = resourceColors[resourceIdInputElem.val()];
+            resourceIdInputElem.siblings().find('label').css('color', color ? color : 'inherit');
         }
-        setTypeElemColor();
+        setresourceIdInputElemColor();
 
     });
 

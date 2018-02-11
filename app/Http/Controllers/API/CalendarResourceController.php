@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use App\CalendarEventType;
+use App\CalendarResource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CalendarEventTypeResource;
+use App\Http\Resources\CalendarResourceResource;
 
 class CalendarResourceController extends Controller
 {
     public function __construct() {
-        CalendarEventTypeResource::withoutWrapping();
+        CalendarResourceResource::withoutWrapping();
     }
 
     /**
@@ -20,7 +20,7 @@ class CalendarResourceController extends Controller
      */
     public function index()
     {
-        return CalendarEventTypeResource::collection(CalendarEventType::orderBy('name')->get());
+        return CalendarResourceResource::collection(CalendarResource::orderBy('title')->get());
     }
 
     /**
@@ -31,48 +31,48 @@ class CalendarResourceController extends Controller
      */
     public function store(Request $request)
     {
-        $calendarEventType = new CalendarEventType();
-        $calendarEventType->name = $request->title;
-        $calendarEventType->color = $request->color;
-        $calendarEventType->save();
-        return (new CalendarEventTypeResource($calendarEventType))->response(201);
+        $resource = new CalendarResource();
+        $resource->title = $request->title;
+        $resource->color = $request->color;
+        $resource->save();
+        return (new CalendarResourceResource($resource))->response(201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\CalendarEventType  $calendarEventType
+     * @param  \App\CalendarResource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function show(CalendarEventType $calendarEventType)
+    public function show(CalendarResource $resource)
     {
-        return new CalendarEventTypeResource($calendarEventType);
+        return new CalendarResourceResource($resource);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CalendarEventType  $calendarEventType
+     * @param  \App\CalendarResource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CalendarEventType $calendarEventType)
+    public function update(Request $request, CalendarResource $resource)
     {
-        $calendarEventType->name = $request->title;
-        $calendarEventType->color = $request->color;
-        $calendarEventTypetype->save();
+        $resource->title = $request->title;
+        $resource->color = $request->color;
+        $resource->save();
         return response()->json([], 204);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CalendarEventType  $calendarEventType
+     * @param  \App\CalendarResource  $resource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CalendarEventType $calendarEventType)
+    public function destroy(CalendarResource $resource)
     {
-        $calendarEventType->delete();
+        $resource->delete();
         return response()->json([123], 204);
     }
 }

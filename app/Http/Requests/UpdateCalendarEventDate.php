@@ -26,7 +26,7 @@ class UpdateCalendarEventDate extends FormRequest
         return [
             'start' => 'required|date',
             'end' => 'nullable|date',
-            'type' => 'nullable|exists:calendar_event_types,id',
+            'resourceId' => 'nullable|exists:calendar_resources,id',
         ];
     }
 }

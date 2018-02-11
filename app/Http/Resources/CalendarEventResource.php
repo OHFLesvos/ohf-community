@@ -24,15 +24,11 @@ class CalendarEventResource extends Resource
             'start' => (new Carbon($this->start_date))->toIso8601String(),
             'end' => (new Carbon($this->end_date))->toIso8601String(),
             'allDay' => (bool)$this->all_day,
-            //'color' => $this->type->color,
-            'resourceId' => $this->type->id,
-            'type' => $this->type->id,
+            'resourceId' => $this->resource->resource->id,
             'user' => new UserResource($this->user),
             'editable' => Auth::user()->can('update', $this->resource),
             'url' => route('calendar.events.show', $this),
-            'updateUrl' => route('calendar.events.update', $this),
             'updateDateUrl' => route('calendar.events.updateDate', $this),
-            'deleteUrl' => route('calendar.events.destroy', $this),
         ];
     }
 }

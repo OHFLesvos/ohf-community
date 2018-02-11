@@ -11,7 +11,7 @@ use App\Http\Requests\StoreCalendarEvent;
 use App\Http\Requests\UpdateCalendarEvent;
 use App\Http\Requests\UpdateCalendarEventDate;
 use App\CalendarEvent;
-use App\CalendarEventType;
+use App\CalendarResource;
 use App\Http\Resources\CalendarEventResource;
 
 class CalendarEventController extends Controller
@@ -56,8 +56,7 @@ class CalendarEventController extends Controller
         $event->title = $request->title;
         $event->description = $request->description;
         self::parseDate($request, $event);
-        $type = CalendarEventType::find($request->type);
-        $event->type()->associate($type);
+        $event->resource()->associate(CalendarResource::find($request->resourceId));
         $event->user()->associate(Auth::user());
         $event->save();
         return (new CalendarEventResource($event))->response(201);
@@ -89,7 +88,7 @@ class CalendarEventController extends Controller
 
         $event->title = $request->title;
         $event->description = !empty($request->description) ? $request->description : null;
-        self::parseType($request, $event);
+        self::parseResourceId($request, $event);
         $event->save();
         return response()->json([], 204);
     }
@@ -105,7 +104,7 @@ class CalendarEventController extends Controller
         $this->authorize('update', $event);
 
         self::parseDate($request, $event);
-        self::parseType($request, $event);
+        self::parseResourceId($request, $event);
         $event->save();
         return response()->json([], 204);
     }
@@ -118,11 +117,10 @@ class CalendarEventController extends Controller
         $event->all_day = $startDate->toTimeString() == '00:00:00' && $endDate->toTimeString() == '00:00:00';
     }
 
-    private static function parseType(Request $request, CalendarEvent $event) {
-        if ($request->type != null && $request->type != $event->type->id) {
-            $type = CalendarEventType::find($request->type);
-            $event->type()->dissociate();
-            $event->type()->associate($type);
+    private static function parseResourceId(Request $request, CalendarEvent $event) {
+        if ($request->resourceId != null && $request->resourceId != $event->resource->id) {
+            $event->resource()->dissociate();
+            $event->resource()->associate(CalendarResource::find($request->resourceId));
         }
     }
 

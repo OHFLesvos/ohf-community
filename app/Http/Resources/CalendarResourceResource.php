@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class CalendarEventTypeResource extends Resource
+class CalendarResourceResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,9 @@ class CalendarEventTypeResource extends Resource
     {
         return [
             'id' => $this->id,
-            'title' => $this->name,
+            'title' => $this->title,
             'eventColor' => $this->color,
-            //'default' => $this->default,
+            'default' => $this->default,
             'url' => route('calendar.resources.show', $this),
         ];
     }

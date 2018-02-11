@@ -1,9 +1,9 @@
 <?php
 
-use App\CalendarEventType;
+use App\CalendarResource;
 use Illuminate\Database\Seeder;
 
-class CalendarEventTypeSeeder extends Seeder
+class CalendarResourceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class CalendarEventTypeSeeder extends Seeder
             ['name' => 'Office', 'color' => 'red'],
             ['name' => 'Shop', 'color' => 'green'],
         ] as $t) {
-            CalendarEventType::create($t);
+            CalendarResource::create($t);
         }
     }
 }
