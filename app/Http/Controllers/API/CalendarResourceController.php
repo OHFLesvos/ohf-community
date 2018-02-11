@@ -31,48 +31,48 @@ class CalendarResourceController extends Controller
      */
     public function store(Request $request)
     {
-        $type = new CalendarEventTypeResource();
-        $type->name = $request->title;
-        $type->color = $request->color;
-        $type->save();
-        return (new CalendarEventTypeResource($type))->response(201);
+        $calendarEventType = new CalendarEventType();
+        $calendarEventType->name = $request->title;
+        $calendarEventType->color = $request->color;
+        $calendarEventType->save();
+        return (new CalendarEventTypeResource($calendarEventType))->response(201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\CalendarEventType  $type
+     * @param  \App\CalendarEventType  $calendarEventType
      * @return \Illuminate\Http\Response
      */
-    public function show(CalendarEventType $type)
+    public function show(CalendarEventType $calendarEventType)
     {
-        return new CalendarEventTypeResource($type);
+        return new CalendarEventTypeResource($calendarEventType);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CalendarEventType  $type
+     * @param  \App\CalendarEventType  $calendarEventType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CalendarEventType $type)
+    public function update(Request $request, CalendarEventType $calendarEventType)
     {
-        $type->name = $request->title;
-        $type->color = $request->color;
-        $type->save();
+        $calendarEventType->name = $request->title;
+        $calendarEventType->color = $request->color;
+        $calendarEventTypetype->save();
         return response()->json([], 204);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CalendarEventType  $type
+     * @param  \App\CalendarEventType  $calendarEventType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CalendarEventType $type)
+    public function destroy(CalendarEventType $calendarEventType)
     {
-        $type->delete();
-        return response()->json([], 204);
+        $calendarEventType->delete();
+        return response()->json([123], 204);
     }
 }

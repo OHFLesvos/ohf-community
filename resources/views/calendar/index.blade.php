@@ -67,6 +67,7 @@
     var listEventsUrl = '{{ route('calendar.events.index') }}';
     var storeEventUrl = '{{ route('calendar.events.store') }}';
     var listResourcesUrl = '{{ route('calendar.resources.index') }}';
+    var storeResourceUrl = '{{ route('calendar.resources.store') }}';
     var defaltEventType = {{ $defaultType ?? 0 }};
     var typeColors = @json($typeColors);
     var csrfToken = '{{ csrf_token() }}';
@@ -95,9 +96,54 @@
             //timeFormat: 'H:mm',
             minTime: '08:00', // TODO  scrollTime: '08:00',
             header: {
-                left: 'prev,next today',
+                left: 'prev,next today promptResource',
                 center: 'title',
                 right: 'agendaDay,agendaWeek,month,listWeek,timelineDay'
+            },
+            customButtons: {
+                promptResource: {
+                    text: '+ Resource',
+                    click: function() {
+                        var title = prompt('Name');
+                        if (title) {
+                            $.ajax(storeResourceUrl, {
+                                method: 'POST',
+                                data: {
+                                    _token: csrfToken,
+                                    title: title,
+                                    color: getRandomColor(), // TODO
+                                }
+                            })
+                            .done(function(resourceData) {
+                                modal.modal('hide');
+                                calendar.fullCalendar('addResource', resourceData, true);
+                            })
+                            .fail(function(jqXHR, textStatus) {
+                                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                            });
+                        }
+                    }
+                }
+            },
+            resourceLabelText: 'Resources',
+            resourceRender: function(resource, cellEls) {
+                cellEls.on('click', function() {
+                    if (confirm('Are you sure you want to delete ' + resource.title + '?')) {
+                        $.ajax(resource.url, {
+                            method: 'DELETE',
+                            data: {
+                                _token: csrfToken,
+                            },
+                        })
+                        .done(function() {
+                            modal.modal('hide');
+                            calendar.fullCalendar('removeResource', resource);
+                        })
+                        .fail(function(jqXHR, textStatus) {
+                            alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                        });
+                    }
+                });
             },
             views: {
                 agendaDay: {
@@ -351,4 +397,15 @@
         setTypeElemColor();
 
     });
+
+    // TODO testing only
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+      
 @endsection

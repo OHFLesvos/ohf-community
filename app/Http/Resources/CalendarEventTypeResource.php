@@ -19,6 +19,7 @@ class CalendarEventTypeResource extends Resource
             'title' => $this->name,
             'eventColor' => $this->color,
             //'default' => $this->default,
+            'url' => route('calendar.resources.show', $this),
         ];
     }
 }
