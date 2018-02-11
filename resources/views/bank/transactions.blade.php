@@ -43,7 +43,7 @@
                 @endforeach
                 </tbody>
             </table>
-            {{ $transactions->links('vendor.pagination.bootstrap-4') }}
+            {{ $transactions->links() }}
         </div>
     @else
         @component('components.alert.info')

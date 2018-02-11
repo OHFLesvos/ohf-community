@@ -10,7 +10,7 @@
         @foreach ($results as $person)
             @include('bank.person-card')
         @endforeach
-        {{ $results->appends(['filter' => $filter])->links('vendor.pagination.bootstrap-4') }}
+        {{ $results->appends(['filter' => $filter])->links() }}
     @else
         @if(isset($message))
             @component('components.alert.error')
