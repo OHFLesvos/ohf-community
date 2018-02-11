@@ -111,7 +111,12 @@
                     buttonText: 'List'
                 }
             },
-            defaultView: 'agendaWeek',
+            defaultView: sessionStorage.getItem('calendar-view-name') ? sessionStorage.getItem('calendar-view-name') : 'agendaWeek',
+            defaultDate: sessionStorage.getItem('calendar-view-start') ? sessionStorage.getItem('calendar-view-start') : null,
+            viewRender: function(view, element){
+                sessionStorage.setItem('calendar-view-name', view.name)
+                sessionStorage.setItem('calendar-view-start', view.start)
+            },
             firstDay: 1,
             weekends: true,
             weekNumbers: true,
