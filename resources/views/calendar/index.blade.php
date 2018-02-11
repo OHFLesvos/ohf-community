@@ -115,7 +115,7 @@
             defaultDate: sessionStorage.getItem('calendar-view-start') ? sessionStorage.getItem('calendar-view-start') : null,
             viewRender: function(view, element){
                 sessionStorage.setItem('calendar-view-name', view.name)
-                sessionStorage.setItem('calendar-view-start', view.start)
+                sessionStorage.setItem('calendar-view-start', view.intervalStart)
             },
             firstDay: 1,
             weekends: true,
