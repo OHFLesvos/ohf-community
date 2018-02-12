@@ -39,6 +39,7 @@ class CalendarResourceController extends Controller
         $resource = new CalendarResource();
         $resource->title = $request->title;
         $resource->color = $request->color;
+        $resource->group = !empty($request->group) ? $request->group : null;
         $resource->default = CalendarResource::count() == 0;
         $resource->save();
         return (new CalendarResourceResource($resource))->response(201);
@@ -71,6 +72,7 @@ class CalendarResourceController extends Controller
         $resource->title = $request->title;
         $resource->color = $request->color;
         // TODO default
+        $resource->group = !empty($request->group) ? $request->group : null;
         $resource->save();
         return response()->json([], 204);
     }

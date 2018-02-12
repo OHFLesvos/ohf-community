@@ -17,6 +17,7 @@ class CreateCalendarEventsTable extends Migration
             $table->increments('id');
             $table->string('title')->unique();
             $table->string('color')->nullable();
+            $table->string('group')->nullable();
             $table->boolean('default')->default(false);
             $table->timestamps();
         });

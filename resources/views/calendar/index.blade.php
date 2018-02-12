@@ -172,6 +172,8 @@
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             resources: listResourcesUrl,
             resourceOrder: 'title',
+            //eventOverlap: false, // TODO
+            //resourceGroupField: 'group',
         });
 
         /**
@@ -306,7 +308,7 @@
 
             // Action on delete button click: Delete event
             deleteButton.off().on('click', function(){
-                if (confirm('Really delete \'' + calEvent.title + '\'?')) {
+                if (confirm('Really delete event \'' + calEvent.title + '\'?')) {
                     $.ajax(calEvent.url, {
                         method: 'DELETE',
                         data: {

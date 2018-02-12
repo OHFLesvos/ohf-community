@@ -17,6 +17,7 @@ class CalendarResourceResource extends Resource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'group' => $this->group,
             'eventColor' => $this->color,
             'default' => $this->default,
             'url' => route('calendar.resources.show', $this),
