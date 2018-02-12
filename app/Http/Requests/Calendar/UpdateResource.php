@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Calendar;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateResource extends FormRequest
 {

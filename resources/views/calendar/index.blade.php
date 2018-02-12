@@ -24,7 +24,7 @@
                     </div>
                     <div class="modal-body pb-0">
                         <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
-                        {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title', 'tab' ], '') }}
+                        {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title' ], '') }}
                         <div class="input-group mb-3">
                             {{ Form::select('resourceId', [], 0, [ 'class' => 'custom-select', 'id' => 'event_editor_resource_id' ]) }}
                             <div class="input-group-append">
@@ -36,6 +36,30 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" tabindex="-1" class="btn btn-outline-danger mr-auto" id="event_editor_delete">@icon(trash) Delete</button>
+                        <button type="button" tabindex="-1" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) Cancel</button>
+                        <button type="submit" class="btn btn-primary">@icon(check) Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="resourceModal" tabindex="-1" role="dialog" aria-labelledby="resourceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="javascript:;" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resourceModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body pb-0">
+                        {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'resource_editor_title' ], '') }}
+                        {{ Form::bsText('group', null, [ 'placeholder' => 'Group (optional)', 'id' => 'resource_editor_group' ], '') }}
+                        <p>{{ Form::color('color', null, [ 'placeholder' => 'Color', 'id' => 'resource_editor_color', 'type' => 'color' ]) }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" tabindex="-1" class="btn btn-outline-danger mr-auto" id="resource_editor_delete">@icon(trash) Delete</button>
                         <button type="button" tabindex="-1" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) Cancel</button>
                         <button type="submit" class="btn btn-primary">@icon(check) Save</button>
                     </div>
@@ -55,10 +79,13 @@
     var manageResourcesAllowed = @can('create', App\CalendarResource::class) true @else false @endcan;
     var currentUserId = {{ Auth::id() }};
 
+    var lastResourceGroup = null;
+
     $(document).ready(function() {
 
         var calendar = $('#calendar');
         var modal = $('#eventModal');
+        var resourceModal = $('#resourceModal');
 
         // Elements
         var titleElem = $('#event_editor_title');
@@ -69,6 +96,12 @@
         var deleteButton = $('#event_editor_delete');
         var submitButton = modal.find('button[type="submit"]');
         var creditsElement =  $('#event_editor_credits');
+
+        var resourceTitleElem = $('#resource_editor_title');
+        var resourceGroupElem = $('#resource_editor_group');
+        var resourceColorElem = $('#resource_editor_color');
+        var resourceDeleteButton = $('#resource_editor_delete');
+        var resourceSubmitButton = resourceModal.find('button[type="submit"]');
 
         // Initialite the calendar
         calendar.fullCalendar({
@@ -84,47 +117,14 @@
             customButtons: {
                 promptResource: {
                     text: '+ Resource',
-                    click: function() {
-                        var title = prompt('Name');
-                        if (title) {
-                            $.ajax(storeResourceUrl, {
-                                method: 'POST',
-                                data: {
-                                    _token: csrfToken,
-                                    title: title,
-                                    color: getRandomColor(),
-                                }
-                            })
-                            .done(function(resourceData) {
-                                modal.modal('hide');
-                                calendar.fullCalendar('addResource', resourceData, true);
-                            })
-                            .fail(function(jqXHR, textStatus) {
-                                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-                            });
-                        }
-                    }
+                    click: createResource,
                 }
             },
             resourceLabelText: 'Resources',
             resourceRender: function(resource, cellEls) {
                 if (manageResourcesAllowed) {
                     cellEls.on('click', function() {
-                        if (confirm('Are you sure you want to delete ' + resource.title + '?')) {
-                            $.ajax(resource.url, {
-                                method: 'DELETE',
-                                data: {
-                                    _token: csrfToken,
-                                },
-                            })
-                            .done(function() {
-                                modal.modal('hide');
-                                calendar.fullCalendar('removeResource', resource);
-                            })
-                            .fail(function(jqXHR, textStatus) {
-                                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-                            });
-                        }
+                        editResource(resource);
                     });
                 }
             },
@@ -173,8 +173,110 @@
             resources: listResourcesUrl,
             resourceOrder: 'title',
             //eventOverlap: false, // TODO
-            //resourceGroupField: 'group',
+            resourceGroupField: 'group',
         });
+
+        /**
+        * Create a new resource using modal dialog
+        */
+        function createResource() {
+            // Prepare modal dialog
+            resourceModal.find('.modal-title').text('Create Resource');
+
+            resourceTitleElem.val('');
+            resourceGroupElem.val(lastResourceGroup ? lastResourceGroup : '');
+            resourceColorElem.val(getRandomColor());
+
+            resourceDeleteButton.hide();
+            resourceSubmitButton.show();
+
+            // Action on submit: Store resource
+            resourceModal.find('form').off().on('submit', function(){
+                $.ajax(storeResourceUrl, {
+                    method: 'POST',
+                    data: {
+                        _token: csrfToken,
+                        title: resourceTitleElem.val(),
+                        group: resourceGroupElem.val(),
+                        color: resourceColorElem.val(),
+                    }
+                })
+                .done(function(resourceData) {
+                    lastResourceGroup = resourceGroupElem.val();
+                    resourceModal.modal('hide');
+                    calendar.fullCalendar('addResource', resourceData, true);
+                })
+                .fail(function(jqXHR, textStatus) {
+                    alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                });
+            });
+
+            // Show modal
+            resourceModal.modal('show');
+
+            // Focus title input
+            resourceTitleElem.focus();
+        }
+
+        /**
+        * Edit a resource using modal dialog
+        */
+        function editResource(resource) {
+            // Prepare modal dialog
+            resourceModal.find('.modal-title').text('Create Resource');
+
+            resourceTitleElem.val(resource.title);
+            resourceGroupElem.val(resource.group);
+            resourceColorElem.val(resource.eventColor);
+
+            resourceDeleteButton.show();
+            resourceSubmitButton.show();
+
+            // Action on submit: Update resource
+            resourceModal.find('form').off().on('submit', function(){
+                $.ajax(resource.url, {
+                    method: 'PUT',
+                    data: {
+                        _token: csrfToken,
+                        title: resourceTitleElem.val(),
+                        group: resourceGroupElem.val(),
+                        color: resourceColorElem.val(),
+                    }
+                })
+                .done(function() {
+                    resourceModal.modal('hide');
+                    calendar.fullCalendar('refetchResources');
+                })
+                .fail(function(jqXHR, textStatus) {
+                    alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                });
+            });
+
+            // Action on delete button click: Delete event
+            resourceDeleteButton.off().on('click', function(){
+                if (confirm('Are you sure you want to delete thre resource \'' + resource.title + '\'?')) {
+                    $.ajax(resource.url, {
+                        method: 'DELETE',
+                        data: {
+                            _token: csrfToken,
+                        },
+                    })
+                    .done(function() {
+                        resourceModal.modal('hide');
+                        calendar.fullCalendar('removeResource', resource);
+                    })
+                    .fail(function(jqXHR, textStatus) {
+                        alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
+                    });
+                }
+            });
+
+            // Show modal
+            resourceModal.modal('show');
+
+            // Focus title input
+            resourceTitleElem.focus();
+        }
 
         /**
         * Create a new event using modal dialog
@@ -231,6 +333,7 @@
             // Focus title input
             titleElem.focus();
         }
+
         /**
         * Edit a new event using modal dialog
         */
