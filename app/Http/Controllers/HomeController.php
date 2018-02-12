@@ -43,6 +43,14 @@ class HomeController extends Controller
             $args['num_users'] = User::count();
 			$args['latest_user'] = User::orderBy('created_at', 'desc')->first();
         }
+        $args['other'] = collect([
+            [
+                'route' => 'calendar',
+                'icon' => 'calendar',
+                'name' => 'Calendar / Scheduler',
+                'gate' => 'view-calendar',
+            ],
+        ])->filter(function($e){ return Gate::allows($e['gate']); });
         return view('welcome', $args);
     }
 }

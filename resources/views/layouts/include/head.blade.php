@@ -10,6 +10,8 @@
 
         <link href="{{ asset('css/app.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
 
+        @yield('head-meta')
+
         <link rel="icon" href="{{ asset('/img/favicon-32x32.png') }}" sizes="32x32" />
         <link rel="icon" href="{{ asset('/img/favicon-192x192.png') }}" sizes="192x192" />
         <link rel="apple-touch-icon-precomposed" href="{{ asset('/img/favicon-180x180.png') }}" />
