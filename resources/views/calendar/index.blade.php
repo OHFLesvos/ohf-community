@@ -145,9 +145,9 @@
                     buttonText: 'Timeline'
                 }
             },
-            defaultView: sessionStorage.getItem('calendar-view-name') ? sessionStorage.getItem('calendar-view-name') : 'agendaWeek',
+            defaultView: localStorage.getItem('calendar-view-name') ? localStorage.getItem('calendar-view-name') : 'agendaWeek',
             viewRender: function(view, element){
-                sessionStorage.setItem('calendar-view-name', view.name)
+                localStorage.setItem('calendar-view-name', view.name)
             },
             firstDay: 1,
             weekends: true,
