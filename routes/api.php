@@ -23,15 +23,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/tasks/{task}/done', 'TasksController@done');
 
     // Calendar
-    Route::apiResource('calendar/events', 'Api\CalendarEventController', ['names' => [
+    Route::apiResource('calendar/events', 'API\CalendarEventController', ['names' => [
         'index' => 'calendar.events.index',
         'store' => 'calendar.events.store',
         'show' => 'calendar.events.show',
         'update' => 'calendar.events.update',
         'destroy' => 'calendar.events.destroy',
     ]]);
-    Route::put('/calendar/events/{event}/date', 'Api\CalendarEventController@updateDate')->name('calendar.events.updateDate');
-    Route::apiResource('calendar/resources', 'Api\CalendarResourceController', ['names' => [
+    Route::put('/calendar/events/{event}/date', 'API\CalendarEventController@updateDate')->name('calendar.events.updateDate');
+    Route::apiResource('calendar/resources', 'API\CalendarResourceController', ['names' => [
         'index' => 'calendar.resources.index',
         'store' => 'calendar.resources.store',
         'show' => 'calendar.resources.show',
