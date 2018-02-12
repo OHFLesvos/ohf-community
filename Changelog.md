@@ -2,6 +2,7 @@
 
 ## 1.9.0
 
+* Added scheduler/calendar module
 * Added list of popular names to person report
 * Updated application framework to Laravel 5.6
 * Updated CSS framework to Bootstrap 4.0
