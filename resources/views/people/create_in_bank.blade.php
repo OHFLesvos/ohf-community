@@ -19,7 +19,7 @@
                         {{ Form::genderSelect('gender') }}
                     </div>
                     <div class="col-md-auto">
-                        {{ Form::bsDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth', 'Greek: ημερομηνία γέννησης ') }}
+                        {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth', 'Greek: ημερομηνία γέννησης ') }}
                     </div>
 					<div class="col-md-auto">
                         <p>Age</p>
@@ -71,7 +71,7 @@
                             {{ Form::genderSelect('child_gender[x]', null, '') }}
                         </div>
                         <div class="col-md-auto">
-                            {{ Form::bsDate('child_date_of_birth[x]', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '', 'Greek: ημερομηνία γέννησης ') }}
+                            {{ Form::bsStringDate('child_date_of_birth[x]', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '', 'Greek: ημερομηνία γέννησης ') }}
                         </div>
                         <div class="col-md-auto">
                             <span id="age">?</span>

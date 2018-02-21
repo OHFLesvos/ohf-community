@@ -19,7 +19,7 @@
 						{{ Form::genderSelect('gender') }}
 					</div>
                     <div class="col-md-auto">
-							{{ Form::bsDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth') }}
+							{{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth') }}
 					</div>
 					<div class="col-md-auto">
 						<p>Age</p>

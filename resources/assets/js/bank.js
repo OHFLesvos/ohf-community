@@ -178,9 +178,23 @@ function selectDateOfBirth() {
 	var person = $(this).attr('data-person');
 	var resultElem = $(this).parent();
 	var dateSelect = $('<input>')
-		.attr('type', 'date')
+		.attr('type', 'text')
 		.attr('max', getTodayDate())
-		.addClass('form-control form-control-sm');
+		.attr('pattern', '[0-9]{4}-[0-9]{2}-[0-9]{2}')
+		.attr('title', 'YYYY-MM-DD')
+		.attr('placeholder', 'YYYY-MM-DD')
+		.addClass('form-control form-control-sm')
+		.on('keydown', function(evt){
+			var isEnter = false;
+			if ("key" in evt) {
+				isEnter = (evt.key == "Enter");
+			} else {
+				isEnter = (evt.keyCode == 13);
+			}
+			if (isEnter && dateSelect.val().match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) {
+				storeDateOfBirth(person, dateSelect.val(), resultElem);
+			}
+		});
 	resultElem.empty()
 		.append(dateSelect)
 		.append(' ')
@@ -188,19 +202,10 @@ function selectDateOfBirth() {
 			.attr('type', 'button')
 			.addClass('btn btn-primary btn-sm')
 			.on('click', function(){
-				if (dateSelect.val()) {
+				if (dateSelect.val().match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) {
 					storeDateOfBirth(person, dateSelect.val(), resultElem);
-				}
-			})
-			.on('keydown', function(evt){
-				var isEnter = false;
-				if ("key" in evt) {
-					isEnter = (evt.key == "Enter");
 				} else {
-					isEnter = (evt.keyCode == 13);
-				}
-				if (isEnter && dateSelect.val()) {
-					storeDateOfBirth(person, dateSelect.val(), resultElem);
+					dateSelect.focus();
 				}
 			})
 			.append(
@@ -227,6 +232,7 @@ function selectDateOfBirth() {
 				$('<i>').addClass("fa fa-times")
 			)
 		);
+	dateSelect.focus();
 }
 
 function storeDateOfBirth(person, value, resultElem) {

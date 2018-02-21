@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.9.1
+
+* Date of birth selection in the bank is now using simple text field instead of a date selector.
+
 ## 1.9.0
 
 * Added scheduler/calendar module
