@@ -57,7 +57,7 @@ class UserController extends ParentController
         $user->save();
         $user->roles()->sync($request->roles);
         return redirect()->route('users.index')
-            ->with('success', 'User has been added.');
+            ->with('success', __('app.user_added'));
     }
 
     /**
@@ -106,10 +106,10 @@ class UserController extends ParentController
         if ($user->isDirty()) {
             $user->save();
             return redirect()->route('users.show', $user)
-                ->with('success', 'User has been updated.');
+                ->with('success', __('app.user_updated'));
         }
         return redirect()->route('users.show', $user)
-            ->with('info', 'No changes have been made.');
+            ->with('info', __('app.no_changes_made'));
     }
 
     /**
@@ -122,6 +122,6 @@ class UserController extends ParentController
     {
         $user->delete();
         return redirect()->route('users.index')
-            ->with('success', 'User has been deleted.');
+            ->with('success', __('app.user_deleted'));
     }
 }

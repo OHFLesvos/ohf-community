@@ -9,11 +9,11 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>E-Mail</th>
-                        <th>Roles</th>
-                        <th>Administrator</th>
-                        <th>Registered</th>
+                        <th>@lang('app.name')</th>
+                        <th>@lang('app.email')</th>
+                        <th>@lang('app.roles')</th>
+                        <th>@lang('app.administrator')</th>
+                        <th>@lang('app.registered')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
         {{ $users->links() }}
     @else
         @component('components.alert.info')
-            No users found.
+            @lang('app.no_users_found')
         @endcomponent
 	@endif
 	

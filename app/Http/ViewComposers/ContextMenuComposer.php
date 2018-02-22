@@ -151,7 +151,7 @@ class ContextMenuComposer {
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $user),
-                        'confirmation' => 'Really delete this user?'
+                        'confirmation' => __('app.confirm_delete_user')
                     ],
                     'back' => [
                         'url' => route('users.index'),

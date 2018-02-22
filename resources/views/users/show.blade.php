@@ -1,36 +1,39 @@
 @extends('layouts.app')
 
-@section('title', 'View User')
+@section('title', __('app.view_user'))
 
 @section('content')
 
     @if ( $user == Auth::user() )
         @component('components.alert.info')
-            This is your own user account.
+            @lang('app.this_is_your_own_account')
         @endcomponent
     @endif
 
     <table class="table">
         <tbody>
-            <tr><th>Name</th><td>{{ $user->name }}</td></tr>
             <tr>
-                <th>E-Mail</th>
+                <th>@lang('app.name')</th>
+                <td>{{ $user->name }}</td>
+            </tr>
+            <tr>
+                <th>@lang('app.email')</th>
                 <td>
                     <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
                 </td>
             </tr>
             <tr>
-                <th>Roles</th>
+                <th>@lang('app.roles')</th>
                 <td>
                     @forelse ($user->roles->sortBy('name') as $role)
                         {{ $role->name }}<br>
                     @empty
-                        <em>No roles</em>
+                        <em>@lang('app.no_roles')</em>
                     @endforelse
                 </td>
             </tr>
             <tr>
-                <th>Administrator</th>
+                <th>@lang('app.administrator')</th>
                 <td>
                     @if ( $user->isSuperAdmin() )
                         @icon(check text-success)
@@ -39,8 +42,14 @@
                     @endif
                 </td>
             </tr>
-            <tr><th>Registered</th><td>{{ $user->created_at }}</td></tr>
-            <tr><th>Last updated</th><td>{{ $user->updated_at }}</td></tr>
+            <tr>
+                <th>@lang('app.registered')</th>
+                <td>{{ $user->created_at }}</td>
+            </tr>
+            <tr>
+                <th>@lang('app.last_updated')</th>
+                <td>{{ $user->updated_at }}</td>
+            </tr>
         </tbody>
     </table>
 

@@ -8,8 +8,8 @@
         <table class="table table-sm table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Users</th>
+                    <th>@lang('app.name')</th>
+                    <th>@lang('app.users')</th>
                     <th>Permissions</th>
                 </tr>
             </thead>
@@ -26,7 +26,7 @@
         {{ $roles->links() }}
     @else
         @component('components.alert.info')
-            No roles found.
+            @lang('app.no_roles_found')
         @endcomponent
 	@endif
 	
