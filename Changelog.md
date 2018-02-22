@@ -1,9 +1,5 @@
 # Changelog
 
-## 1.9.2
-
-* Upgraded icon set to Font Awesome 5
-
 ## 1.9.1
 
 * Date of birth selection in the bank is now using simple text field instead of a date selector.
