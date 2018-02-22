@@ -34,7 +34,7 @@ class NavigationComposer {
             $nav = [
                 [
                     'route' => 'home',
-                    'caption' => 'Dashboard',
+                    'caption' => __('app.dashboard'),
                     'icon' => 'home',
                     'active' => '/',
                     'authorized' => true
@@ -84,14 +84,14 @@ class NavigationComposer {
                 ],
                 [
                     'route' => 'users.index',
-                    'caption' => 'Users',
+                    'caption' => __('app.users'),
                     'icon' => 'users',
                     'active' => 'users*',
                     'authorized' => Auth::user()->can('list', User::class)
                 ],
                 [
                     'route' => 'roles.index',
-                    'caption' => 'Roles',
+                    'caption' => __('app.roles'),
                     'icon' => 'tags',
                     'active' => 'roles*',
                     'authorized' => Auth::user()->can('list', Role::class)

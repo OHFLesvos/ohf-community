@@ -102,7 +102,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => url()->previous(),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => true
                     ]
@@ -115,14 +115,14 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('users.create'),
-                        'caption' => 'Add',
+                        'caption' => __('app.add'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', User::class)
                     ],
                     'roles' => [
                         'url' => route('roles.index'),
-                        'caption' => 'Manage Roles',
+                        'caption' => __('app.manage_roles'),
                         'icon' => 'tags',
                         'authorized' => Auth::user()->can('list', Role::class)
                     ]
@@ -131,7 +131,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('users.index'),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', User::class)
                     ]
@@ -141,21 +141,21 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('users.edit', $user),
-                        'caption' => 'Edit',
+                        'caption' => __('app.edit'),
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $user)
                     ],
                     'delete' => [
                         'url' => route('users.destroy', $user),
-                        'caption' => 'Delete',
+                        'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $user),
                         'confirmation' => 'Really delete this user?'
                     ],
                     'back' => [
                         'url' => route('users.index'),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', User::class)
                     ]
@@ -165,7 +165,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('users.show', $user),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $user)
                     ]
@@ -177,14 +177,14 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('roles.create'),
-                        'caption' => 'Add',
+                        'caption' => __('app.add'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Role::class)
                     ],
                     'users' => [
                         'url' => route('users.index'),
-                        'caption' => 'Manage Users',
+                        'caption' => __('app.manage_users'),
                         'icon' => 'users',
                         'authorized' => Auth::user()->can('list', User::class)
                     ]
@@ -193,7 +193,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('roles.index'),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Role::class)
                     ]
@@ -203,21 +203,21 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('roles.edit', $role),
-                        'caption' => 'Edit',
+                        'caption' => __('app.edit'),
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $role)
                     ],
                     'delete' => [
                         'url' => route('roles.destroy', $role),
-                        'caption' => 'Delete',
+                        'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $role),
                         'confirmation' => 'Really delete this role?'
                     ],
                     'back' => [
                         'url' => route('roles.index'),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Role::class)
                     ]
@@ -227,7 +227,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('roles.show', $role),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $role)
                     ]
@@ -256,7 +256,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route(session('peopleOverviewRouteName', 'people.index')),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Person::class)
                     ]
@@ -266,7 +266,7 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('people.edit', $person),
-                        'caption' => 'Edit',
+                        'caption' => __('app.edit'),
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $person)
@@ -279,14 +279,14 @@ class ContextMenuComposer {
                     ],
                     'delete' => [
                         'url' => route('people.destroy', $person),
-                        'caption' => 'Delete',
+                        'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $person),
                         'confirmation' => 'Really delete this person?'
                     ],
                     'back' => [
                         'url' => route(session('peopleOverviewRouteName', 'people.index')),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Person::class)
                     ]
@@ -296,7 +296,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('people.show', $person),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $person)
                     ]
@@ -310,7 +310,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => $url,
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $person)
                     ]
@@ -319,7 +319,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('people.index'),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Person::class)
                     ]
@@ -328,7 +328,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('people.index'),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Person::class)
                     ]
@@ -376,7 +376,7 @@ class ContextMenuComposer {
                     ],
                     'back' => [
                         'url' => route('bank.index'),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
                     ],
@@ -397,7 +397,7 @@ class ContextMenuComposer {
                     ],
                     'back' => [
                         'url' => route('bank.index'),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
                     ],
@@ -406,7 +406,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('bank.index'),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
                     ]
@@ -415,7 +415,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('bank.index'),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
                     ]
@@ -424,7 +424,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('bank.withdrawal'),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ]
@@ -433,7 +433,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('bank.withdrawal'),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ]
@@ -442,7 +442,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('bank.withdrawal'),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ]
@@ -462,7 +462,7 @@ class ContextMenuComposer {
                     ],
                     'back' => [
                         'url' => route('logistics.index'),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-logistics')
                     ]
@@ -472,14 +472,14 @@ class ContextMenuComposer {
                 return [
                     'delete' => [
                         'url' => route('logistics.articles.destroyArticle', $article),
-                        'caption' => 'Delete',
+                        'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Gate::allows('use-logistics'),
                         'confirmation' => 'Really delete this article?'
                     ],
                     'back' => [
                         'url' => route('logistics.articles.index', $article->project),
-                        'caption' => 'Cancel',
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('use-logistics')
                     ]
@@ -494,7 +494,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => url()->previous(),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => true
                     ]
@@ -506,7 +506,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => session('articleReportingBackUrl', route('reporting.index')),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => true
                     ]
@@ -516,7 +516,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('reporting.articles', $article->project),
-                        'caption' => 'Close',
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => true
                     ]
