@@ -32,7 +32,7 @@ Create/migrate database tables:
 
     php artisan migrate
 
-For more information see https://laravel.com/docs/5.5/installation
+For more information see https://laravel.com/docs/installation
 
 Assets
 ------
