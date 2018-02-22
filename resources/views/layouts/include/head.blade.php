@@ -8,7 +8,6 @@
 
         <title>@if(View::hasSection('title')) @yield('title') - @endif{{ Config::get('app.name') }} - {{ Config::get('app.product_name') }}</title>
 
-        <script src="{{ asset('js/icons.js') }}?v={{ $app_version }}"></script>
         <link href="{{ asset('css/app.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
 
         @yield('head-meta')

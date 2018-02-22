@@ -48,7 +48,7 @@ class ContextMenuComposer {
                     [
                         'url' => route('people.duplicates'),
                         'caption' => 'Find duplicates',
-                        'icon' => 'exchange-alt',
+                        'icon' => 'exchange',
                         'authorized' => Auth::user()->can('cleanup', Person::class)
                     ],                    
                     [
@@ -142,8 +142,8 @@ class ContextMenuComposer {
                     'action' => [
                         'url' => route('users.edit', $user),
                         'caption' => 'Edit',
-                        'icon' => 'pencil-alt',
-                        'icon_floating' => 'pencil-alt',
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $user)
                     ],
                     'delete' => [
@@ -204,8 +204,8 @@ class ContextMenuComposer {
                     'action' => [
                         'url' => route('roles.edit', $role),
                         'caption' => 'Edit',
-                        'icon' => 'pencil-alt',
-                        'icon_floating' => 'pencil-alt',
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $role)
                     ],
                     'delete' => [
@@ -248,7 +248,7 @@ class ContextMenuComposer {
                     'report'=> [
                         'url' => route('reporting.people'),
                         'caption' => 'Report',
-                        'icon' => 'chart-line',
+                        'icon' => 'line-chart',
                         'authorized' => Gate::allows('view-people-reports')
                     ],
                 ];
@@ -267,8 +267,8 @@ class ContextMenuComposer {
                     'action' => [
                         'url' => route('people.edit', $person),
                         'caption' => 'Edit',
-                        'icon' => 'pencil-alt',
-                        'icon_floating' => 'pencil-alt',
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $person)
                     ],
                     'relations' => [
@@ -365,13 +365,13 @@ class ContextMenuComposer {
                     'report'=> [
                         'url' => route('reporting.bank.withdrawals'),
                         'caption' => 'Report',
-                        'icon' => 'chart-line',
+                        'icon' => 'line-chart',
                         'authorized' => Gate::allows('view-bank-reports')
                     ],
                     'deposit' => [
                         'url' => route('bank.deposit'),
                         'caption' => 'Deposit',
-                        'icon' => 'money-bill-alt',
+                        'icon' => 'money',
                         'authorized' => Gate::allows('do-bank-deposits')
                     ],
                     'back' => [
@@ -386,7 +386,7 @@ class ContextMenuComposer {
                     'report'=> [
                         'url' => route('reporting.bank.deposits'),
                         'caption' => 'Report',
-                        'icon' => 'chart-line',
+                        'icon' => 'line-chart',
                         'authorized' => Gate::allows('view-bank-reports')
                     ],                    
                     'withdrawal' => [
@@ -457,7 +457,7 @@ class ContextMenuComposer {
                     'report'=> [
                         'url' => route('reporting.articles', $project),
                         'caption' => 'Report',
-                        'icon' => 'chart-line',
+                        'icon' => 'line-chart',
                         'authorized' => true // TODO
                     ],
                     'back' => [

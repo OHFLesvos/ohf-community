@@ -9,13 +9,13 @@
         @else
             {{-- Sidebar navigation toggle --}}
             <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button">
-                @icon(bars)
+                @icon(navicon)
             </a>
         @endif
     </div>
 
     <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button d-none d-md-inline-block ml-3">
-        @icon(bars)
+        @icon(navicon)
     </a>
 
     {{-- Brand --}}

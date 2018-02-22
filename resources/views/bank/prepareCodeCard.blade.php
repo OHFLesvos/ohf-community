@@ -9,7 +9,7 @@
     {{ Form::open(['route' => 'bank.createCodeCard']) }}
         {{ Form::bsNumber('pages', 1, ['min' => 1], 'Number of pages') }}
         <p>
-            {{ Form::bsSubmitButton('Create PDF', 'file-pdf') }}
+            {{ Form::bsSubmitButton('@icon(file-pdf-o) Create PDF', 'create') }}
         </p>
     {{ Form::close() }}
     <div id="patience-notice" style="display:none">

@@ -14,7 +14,7 @@
         @endallowed
         @allowed('do-bank-deposits')
             <div class="col-sm text-center mb-4">
-                <a href="{{ route('bank.deposit') }}" class="big-icon">@icon(money-bill-alt)</a><br>
+                <a href="{{ route('bank.deposit') }}" class="big-icon">@icon(money)</a><br>
                 <strong>Deposit</strong><br>
                 Register drachmas returned from projects
             </div>

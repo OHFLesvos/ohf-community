@@ -20,7 +20,7 @@
                     @if(isset($person->date_of_birth))
                         {{ $person->date_of_birth }} (age {{ $person->age }})
                     @else
-                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus)</button>
+                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus-o)</button>
                     @endif
                 </span>
                 @if(isset($person->nationality))
@@ -29,7 +29,7 @@
                 @if($frequentVisitor)
                     <span class="text-warning" title="Frequent visitor">@icon(star)</span>
                 @endif
-                <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(pencil-alt)</a>
+                <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(pencil)</a>
             </div>
             <div class="col-auto">
                 @icon(id-card)

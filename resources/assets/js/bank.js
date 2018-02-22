@@ -224,7 +224,7 @@ function selectDateOfBirth() {
 						.attr('title', 'Set date of birth')
 						.on('click', selectDateOfBirth)
 						.append(
-							$('<i>').addClass("fa fa-calendar-plus")
+							$('<i>').addClass("fa fa-calendar-plus-o")
 						)
 					);
 			})
