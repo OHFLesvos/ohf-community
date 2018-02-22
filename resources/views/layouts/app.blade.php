@@ -46,7 +46,7 @@
                         {{-- Validation error --}}
                         @if (count($errors) > 0)
                             <div class="alert alert-danger alert-dismissible fade show">
-                                @icon(warning) Validation failed, you have entered invalid values!
+                                @icon(warning) @lang('app.validation_failed')
                                 {{--
                                 <ul>
                                     @foreach ($errors->all() as $error)

@@ -28,10 +28,10 @@ class UserProfileController extends Controller
         if ($user->isDirty()) {
             $user->save();
             return redirect()->route('userprofile')
-                             ->with('success', 'User profile has been updated!');
+                             ->with('success', __('userprofile.profile_updated'));
         }
         return redirect()->route('userprofile')
-                         ->with('info', 'No changes have been made.');
+                         ->with('info', __('userprofile.no_changes_made'));
     }
 
     public function updatePassword(StoreNewUserPassword $request) {
@@ -40,10 +40,10 @@ class UserProfileController extends Controller
         if ($user->isDirty()) {
             $user->save();
             return redirect()->route('userprofile')
-                             ->with('success', 'Password has been updated!');
+                             ->with('success', __('userprofile.password_updated'));
         }
         return redirect()->route('userprofile')
-                         ->with('info', 'No changes have been made.');
+                         ->with('info', __('userprofile.no_changes_made'));
     }
 
     public function delete() {

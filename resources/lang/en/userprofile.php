@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'title' => 'User Profile',
+    'profile' => 'Profile',
+    'name' => 'Name',
+    'email' => 'E-Mail Address',
+    'update' => 'Update',
+    'change_password' => 'Change Password',
+    'old_password' => 'Old Password',
+    'new_password' => 'New Password',
+    'confirm_password' => 'Confirm new Password',
+    'update_password' => 'Update password',
+    'language' => 'Language',
+    'account_information' => 'Account Information',
+    'account_created_on' => 'Your account has been created on',
+    'account_updated_on' => 'and last updated on',
+    'account_removal' => 'Account Removal',
+    'account_remove_desc' => 'If you no longer plan to use this service, you can remove your account and delete all associated data.',
+    'delete_account' => 'Delete account',
+    'delete_confirm' => 'Do you really want to delete your account and lose access to all data?',
+    'profile_updated' => 'User profile has been updated.',
+    'no_changes_made' => 'No changes have been made.',
+    'password_updated' => 'Password has been updated.',
+];

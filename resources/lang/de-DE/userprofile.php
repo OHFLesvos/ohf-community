@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'title' => 'Benutzerprofil',
+    'profile' => 'Profil',
+    'name' => 'Name',
+    'email' => 'E-Mail Adresse',
+    'update' => 'Aktualisieren',
+    'change_password' => 'Passwort ändern',
+    'old_password' => 'Altes Passwort',
+    'new_password' => 'Neues Passwort',
+    'confirm_password' => 'Passwort bestätigen',
+    'update_password' => 'Passwort aktualisieren',
+    'language' => 'Sprache',
+    'account_information' => 'Kontoinformationen',
+    'account_created_on' => 'Dieser account wurde erstellt am',
+    'account_updated_on' => 'und zuletzt aktualisiert am',
+    'account_removal' => 'Konto löschen',
+    'account_remove_desc' => 'Wenn dieser Account nicht mehr benutzt werden soll, kann er hier inklusive allen damit verbundenen Daten gelöscht werden.',
+    'delete_account' => 'Account löschen',
+    'delete_confirm' => 'Soll das Konto wirklich gelöscht werden?',
+    'profile_updated' => 'Das Benutzerprofil wurde aktualisiert.',
+    'no_changes_made' => 'Keine Änderungen.',
+    'password_updated' => 'Das Passwort wurde aktualisiert.',
+];

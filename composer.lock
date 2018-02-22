@@ -4,9 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "11a97fa67d513f11cef9f8f1676cd48a",
-    "content-hash": "52b34c565d4080eb7ab55c370ba34677",
+    "hash": "4202d3f16bb85e1789f4e123c8b59896",
+    "content-hash": "37322944781465b0d22aaa947f3890b6",
     "packages": [
+        {
+            "name": "akaunting/language",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akaunting/language.git",
+                "reference": "b260dc47e8e0b8cd3d02c829789ed6457267d2c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akaunting/language/zipball/b260dc47e8e0b8cd3d02c829789ed6457267d2c4",
+                "reference": "b260dc47e8e0b8cd3d02c829789ed6457267d2c4",
+                "shasum": ""
+            },
+            "require": {
+                "consoletvs/identify": "1.*",
+                "laravel/framework": ">=5.4.0",
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Akaunting\\Language\\Provider"
+                    ],
+                    "aliases": {
+                        "Language": "Akaunting\\Language\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Akaunting\\Language\\": "./src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Duliçi",
+                    "email": "info@akaunting.com",
+                    "homepage": "https://akaunting.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Language switcher package for Laravel.",
+            "keywords": [
+                "language",
+                "laravel",
+                "switcher"
+            ],
+            "time": "2018-01-23 20:00:12"
+        },
         {
             "name": "anlutro/l4-settings",
             "version": "0.5.2",
@@ -164,6 +222,55 @@
                 "slugify"
             ],
             "time": "2018-01-22 09:00:48"
+        },
+        {
+            "name": "consoletvs/identify",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ConsoleTVs/Identify.git",
+                "reference": "21b8abb146b30a124df2737e46f217272d7039a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ConsoleTVs/Identify/zipball/21b8abb146b30a124df2737e46f217272d7039a4",
+                "reference": "21b8abb146b30a124df2737e46f217272d7039a4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "php": ">=5.5.9",
+                "sinergi/browser-detector": "6.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Unicodeveloper\\Identify\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "unicodeveloper",
+                    "email": "prosperotemuyiwa@gmail.com"
+                }
+            ],
+            "description": "A Laravel 5 Package Provider to Identify/detect a user's browser, device, operating system and Language",
+            "keywords": [
+                "Evangelist",
+                "browser",
+                "detect",
+                "github",
+                "identify",
+                "language",
+                "laravel",
+                "open source",
+                "operating system"
+            ],
+            "time": "2017-04-24 17:27:25"
         },
         {
             "name": "cviebrock/eloquent-sluggable",
@@ -2519,6 +2626,62 @@
                 "model"
             ],
             "time": "2016-12-07 07:59:43"
+        },
+        {
+            "name": "sinergi/browser-detector",
+            "version": "6.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinergi/php-browser-detector.git",
+                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
+                "reference": "7fcda47cf2690fb978c8cee3ba7304b7dca1bcc7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "6.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sinergi\\BrowserDetector\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Schuld",
+                    "email": "chris@chrisschuld.com",
+                    "homepage": "http://chrisschuld.com"
+                },
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com"
+                }
+            ],
+            "description": "Detecting the user's browser, operating system and language.",
+            "keywords": [
+                "browser",
+                "detection",
+                "language",
+                "operating system",
+                "os"
+            ],
+            "time": "2016-07-28 15:35:24"
         },
         {
             "name": "swiftmailer/swiftmailer",
