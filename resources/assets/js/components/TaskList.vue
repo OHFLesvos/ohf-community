@@ -16,15 +16,15 @@
                 </form>
                 <div v-else>
                     <a class="mr-2" href="#">
-                        <i class="fa" 
+                        <input type="radio"
                             v-on:mouseover="hoveredCircle = task.id" 
                             v-on:mouseout="hoveredCircle = 0"
-                            v-bind:class="[hoveredCircle == task.id ? 'fa-check-circle-o' : 'fa-circle-thin' ]"
-                            @click.prevent="doneTask(task.id)"></i>
+                            :checked="hoveredCircle == task.id ? true : false"
+                            @click.prevent="doneTask(task.id)">
                     </a>
                     <span @click.prevent="editTask = task; addNewTask = false">{{ task.description }}</span>
                     <!-- <small class="text-muted ml-3">{{ task.created_at }}</small> -->
-                    <span class="pull-right">
+                    <span class="float-right">
                         <a href="#" @click.prevent="deleteTask(task.id); addNewTask = null"><i class="fa fa-trash"></i></a>
                     </span>
                 </div>

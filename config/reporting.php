@@ -18,14 +18,14 @@ return [
         ],
         [
             'route' => 'reporting.bank.deposits',
-            'icon' => 'money',
+            'icon' => 'money-bill-alt',
             'name' => 'Bank: Deposits',
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],
         [
             'route' => 'reporting.kitchen',
-            'icon' => 'spoon',
+            'icon' => 'utensil-spoon',
             'name' => 'Kitchen',
             'gate' => 'view-kitchen-reports',
             'featured' => true,

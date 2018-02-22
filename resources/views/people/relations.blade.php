@@ -114,7 +114,7 @@
 
 	@empty($person->gender)
 		@component('components.alert.info')
-			No gender specified, cannot add children. <a href="{{ route('people.edit', $person) }}">@icon(pencil) Edit person</a>
+			No gender specified, cannot add children. <a href="{{ route('people.edit', $person) }}">@icon(pencil-alt) Edit person</a>
 		@endcomponent
 	@endempty
 

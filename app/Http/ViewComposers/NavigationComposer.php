@@ -49,14 +49,14 @@ class NavigationComposer {
                 [
                     'route' => 'bank.index',
                     'caption' => 'Bank',
-                    'icon' => 'bank',
+                    'icon' => 'university',
                     'active' => 'bank*',
                     'authorized' => Gate::allows('view-bank-index')
                 ],
                 [
                     'route' => 'logistics.index',
                     'caption' => 'Logistics',
-                    'icon' => 'spoon',
+                    'icon' => 'utensil-spoon',
                     'active' => 'logistics*',
                     'authorized' => Gate::allows('use-logistics')
                 ],
@@ -78,7 +78,7 @@ class NavigationComposer {
                 [
                     'route' => 'reporting.index',
                     'caption' => 'Reporting',
-                    'icon' => 'bar-chart',
+                    'icon' => 'chart-bar',
                     'active' => 'reporting*',
                     'authorized' => Gate::allows('view-reports'),
                 ],

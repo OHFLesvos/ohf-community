@@ -118,7 +118,7 @@
             @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
                 <div class="card mb-4">
                     <div class="card-header">Relationships
-                        <a href="{{ route('people.relations', $person) }}" class="pull-right btn btn-sm btn-secondary">@icon(pencil) Edit</a>
+                        <a href="{{ route('people.relations', $person) }}" class="float-right btn btn-sm btn-secondary">@icon(pencil-alt) Edit</a>
                     </div>
                     <div class="card-body">
                         <div class="list-group">
