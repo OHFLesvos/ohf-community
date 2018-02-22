@@ -78,6 +78,7 @@
     var createEventAllowed = @can('create', App\CalendarEvent::class) true @else false @endcan;
     var manageResourcesAllowed = @can('create', App\CalendarResource::class) true @else false @endcan;
     var currentUserId = {{ Auth::id() }};
+    var locale = '{{ App::getLocale() }}';
 
     var lastResourceGroup = null;
 
@@ -106,7 +107,7 @@
         // Initialite the calendar
         calendar.fullCalendar({
             height: "auto",
-            //locale: 'de',
+            locale: locale,
             //timeFormat: 'H:mm',
             minTime: '08:00', // TODO  scrollTime: '08:00',
             header: {
