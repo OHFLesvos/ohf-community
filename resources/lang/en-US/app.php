@@ -46,4 +46,6 @@ return [
     'role_added' => 'Role has been added.',
     'role_updated' => 'Role has been updated.',
     'role_deleted' => 'Role has been deleted.',
+    'hello' => 'Hello :name',
+    'welcome_text' => 'Welcome to the :app_name',
 ];

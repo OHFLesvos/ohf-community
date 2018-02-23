@@ -46,4 +46,6 @@ return [
     'role_added' => 'Rolle wurde hinzugefügt.',
     'role_updated' => 'Rolle wurde aktualisiert.',
     'role_deleted' => 'Rolle wurde gelöscht.',
+    'hello' => 'Hallo :name',
+    'welcome_text' => 'Willkommen im :app_name',
 ];
