@@ -5,11 +5,11 @@
 @section('content')
 
     @component('components.alert.info')
-        Your account has been deleted.
+        @lang('userprofile.account_deleted')
     @endcomponent
 
     <p>
-        {{ Form::bsButtonLink(route('login'), 'Go to Login', 'sign-in', 'info') }}
+        {{ Form::bsButtonLink(route('login'), __('userprofile.go_to_login'), 'sign-in', 'info') }}
     </p>
 
 @endsection

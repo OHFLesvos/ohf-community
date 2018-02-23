@@ -1,13 +1,13 @@
 @extends('layouts.login')
 
-@section('title', 'Register')
+@section('title', __('userprofile.register'))
 
 @section('content')
 
     {{ Form::open(['route' => 'register']) }}
 
         <div class="form-group">
-            {{ Form::label('name', 'Name') }}
+            {{ Form::label('name', __('userprofile.name')) }}
             {{ Form::text('name', old('name'), [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
             @if ($errors->has('name'))
                 <span class="invalid-feedback">{{ $errors->first('name') }}</span>
@@ -15,7 +15,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('email', 'E-Mail Address') }}
+            {{ Form::label('email', __('userprofile.email')) }}
             {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('password', 'Password') }}
+            {{ Form::label('password', __('userprofile.password')) }}
             {{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('password_confirmation', 'Confirm Password') }}
+            {{ Form::label('password_confirmation', __('userprofile.confirm_password')) }}
             {{ Form::password('password_confirmation', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
@@ -40,11 +40,11 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            Register
+            @lang('userprofile.register')
         </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('login') }}">Return to login</a>
+            <a href="{{ route('login') }}">@lang('userprofile.return_to_login')</a>
         </div>
 
     {{ Form::close() }}
