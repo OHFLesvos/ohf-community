@@ -1,6 +1,6 @@
 @extends('layouts.login')
 
-@section('title', 'Reset password')
+@section('title', __('userprofile.reset_password'))
 
 @section('content')
 
@@ -8,7 +8,7 @@
         <input type="hidden" name="token" value="{{ $token }}">
 
         <div class="form-group">
-            {{ Form::label('email', 'E-Mail Address') }}
+            {{ Form::label('email', __('userprofile.email')) }}
             {{ Form::text('email', $email or old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
@@ -16,7 +16,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('password', 'New Password') }}
+            {{ Form::label('password', __('userprofile.new_password')) }}
             {{ Form::password('password', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('password_confirmation', 'Confirm new Password') }}
+            {{ Form::label('password_confirmation', __('userprofile.confirm_password')) }}
             {{ Form::password('password_confirmation', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
@@ -33,7 +33,7 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            Reset Password
+            @lang('userprofile.reset_password')
         </button>
 
     </form>

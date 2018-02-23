@@ -31,4 +31,7 @@ return [
     'forgot_your_password' => 'Forgot your password?',
     'new_here' => 'Are you new here?',
     'crete_an_account' => 'Create an account',
+    'reset_password' => 'Reset password',
+    'reset_password_instructions' => 'Please enter your e-mail address. We will send you a link which allows you to reset your password.',
+    'send_reset_password_link' => 'Send Password Reset Link',
 ];

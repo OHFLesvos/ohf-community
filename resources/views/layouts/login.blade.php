@@ -18,13 +18,13 @@
 
 						</div>
 					</div>
-					<div class="text-center">
+					<p class="text-center">
 						<small>
 							@foreach (language()->allowed() as $code => $name)
 								<a href="{{ language()->back($code) }}">@if( App::getLocale() == $code )<strong>{{ $name }}</strong>@else{{ $name }}@endif</a> &nbsp;
 							@endforeach
 						</small>
-					</div>
+					</p>
 				</div>
 			</div>
 		</div>

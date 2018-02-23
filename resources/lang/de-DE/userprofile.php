@@ -31,4 +31,7 @@ return [
     'forgot_your_password' => 'Passwort vergessen?',
     'new_here' => 'Bist du neu hier?',
     'crete_an_account' => 'Erstelle ein Benutzerkonto',
+    'reset_password' => 'Passwort zurücksetzen',
+    'reset_password_instructions' => 'Bitte gib deine E-Mail Adresse ein. Wir werden dir einen Link zusenden, mit welchem du dein Passwort zurücksetzen kannst.',
+    'send_reset_password_link' => 'Link senden',
 ];
