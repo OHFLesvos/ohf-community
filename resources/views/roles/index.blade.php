@@ -10,7 +10,7 @@
                 <tr>
                     <th>@lang('app.name')</th>
                     <th>@lang('app.users')</th>
-                    <th>Permissions</th>
+                    <th>@lang('app.permissions')</th>
                 </tr>
             </thead>
             <tbody>

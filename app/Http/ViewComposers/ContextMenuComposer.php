@@ -213,7 +213,7 @@ class ContextMenuComposer {
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $role),
-                        'confirmation' => 'Really delete this role?'
+                        'confirmation' => __('app.confirm_delete_role')
                     ],
                     'back' => [
                         'url' => route('roles.index'),
