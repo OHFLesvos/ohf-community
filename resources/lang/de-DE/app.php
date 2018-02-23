@@ -48,4 +48,5 @@ return [
     'role_deleted' => 'Rolle wurde gelöscht.',
     'hello' => 'Hallo :name',
     'welcome_text' => 'Willkommen im :app_name',
+    'manage' => 'Verwalten',
 ];

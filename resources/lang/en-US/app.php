@@ -48,4 +48,5 @@ return [
     'role_deleted' => 'Role has been deleted.',
     'hello' => 'Hello :name',
     'welcome_text' => 'Welcome to the :app_name',
+    'manage' => 'Manage',
 ];
