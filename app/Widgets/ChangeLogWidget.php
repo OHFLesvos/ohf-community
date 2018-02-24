@@ -2,11 +2,13 @@
 
 namespace App\Widgets;
 
+use Illuminate\Support\Facades\Gate;
+
 class ChangeLogWidget implements Widget
 {
     function authorize(): bool
     {
-        return true;
+        return Gate::allows('view-changelogs');
     }
 
     function view(): string

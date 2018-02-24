@@ -54,4 +54,8 @@ return [
     'changelog' => 'Änderungshistorie',
     'version' => 'Version',
     'changelog_link_desc' => 'Lies mehr über die neusten Änderungen in dieser Applikation <a href=":link">hier</a>.',
+    'no_content_available_to_you' => 'Aktuell sind hier keine Inhalte für dich verfügbar.',
+    'reports' => 'Berichte',
+    'more_reports' => 'Mehr Berichte',
+    'tools' => 'Werkzeuge',
 ];

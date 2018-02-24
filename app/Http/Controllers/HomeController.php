@@ -30,6 +30,10 @@ class HomeController extends Controller
     public function index()
     {
         $widgetClasses = [
+            \App\Widgets\PersonsWidget::class,
+            \App\Widgets\BankWidget::class,
+            \App\Widgets\ReportingWidget::class,
+            \App\Widgets\ToolsWidget::class,
             \App\Widgets\UsersWidget::class,
             \App\Widgets\ChangeLogWidget::class,
         ];
@@ -41,27 +45,8 @@ class HomeController extends Controller
                 $widgets[] = $view->render();
             }
         }
-
-        $args = [];
-        $args['widgets'] = $widgets;
-
-        if (Auth::user()->can('list', Person::class)) {
-            $args['num_people'] = Person::count();
-			$args['num_people_added_today'] = Person::whereDate('created_at', '=', Carbon::today())->count();
-        }
-        if (Gate::allows('do-bank-withdrawals') || Gate::allows('view-bank-reports')) {
-            $args['num_transactions_today'] = Transaction::whereDate('created_at', '=', Carbon::today())->where('transactionable_type', 'App\Person')->count();
-            $args['num_people_served_today'] = BankController::getNumberOfPersonsServedToday();
-            $args['transaction_value_today'] = BankController::getTransactionValueToday();
-        }
-        $args['other'] = collect([
-            [
-                'route' => 'calendar',
-                'icon' => 'calendar',
-                'name' => 'Calendar / Scheduler',
-                'gate' => 'view-calendar',
-            ],
-        ])->filter(function($e){ return Gate::allows($e['gate']); });
-        return view('welcome', $args);
+        return view('welcome', [
+            'widgets' => $widgets,
+        ]);
     }
 }

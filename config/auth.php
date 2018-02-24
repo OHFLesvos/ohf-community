@@ -114,5 +114,6 @@ return [
         'calendar.events.create' => 'Calendar: Create events',
         'calendar.events.manage' => 'Calendar: Edit and delete all events',
         'calendar.resources.manage' => 'Calendar: Manage resources',
+        'app.changelogs.view' => 'View application changelogs',
     ]
 ];
