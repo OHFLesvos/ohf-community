@@ -87,11 +87,11 @@
 
             <div class="card mb-4">
                 <div class="card-header">@lang('userprofile.account_information')</div>
-                <div class="card-body">
+                <div class="card-body pb-2">
                     <p>@lang('userprofile.account_created_on') <strong>{{ $user->created_at }}</strong> 
                         @lang('userprofile.account_updated_on') <strong>{{ $user->updated_at }}</strong>.</p>
                     @if ( ! $user->roles->isEmpty() )
-                        <p>Your roles:
+                        <p>@lang('userprofile.your_roles'):
                             @foreach ($user->roles->sortBy('name') as $role)
                                 {{ $role->name }}@if (! $loop->last), @endif
                             @endforeach

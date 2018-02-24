@@ -1,7 +1,7 @@
 <div class="card mb-4">
     <div class="card-header">
         People
-        <a class="pull-right" href="{{ route('people.index')  }}">Manage</a>
+        <a class="pull-right" href="{{ route('people.index')  }}">@lang('app.manage')</a>
     </div>
     <div class="card-body pb-2">
         <p>

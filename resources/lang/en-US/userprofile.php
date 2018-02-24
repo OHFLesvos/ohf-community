@@ -16,6 +16,7 @@ return [
     'account_information' => 'Account Information',
     'account_created_on' => 'Your account has been created on',
     'account_updated_on' => 'and last updated on',
+    'your_roles' => 'Your roles',
     'account_removal' => 'Account Removal',
     'account_remove_desc' => 'If you no longer plan to use this service, you can remove your account and delete all associated data.',
     'delete_account' => 'Delete account',
@@ -33,5 +34,5 @@ return [
     'crete_an_account' => 'Create an account',
     'reset_password' => 'Reset password',
     'reset_password_instructions' => 'Please enter your e-mail address. We will send you a link which allows you to reset your password.',
-    'send_reset_password_link' => 'Send Password Reset Link',
+    'send_reset_password_link' => 'Send password reset link',
 ];
