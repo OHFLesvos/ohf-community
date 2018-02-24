@@ -29,7 +29,22 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $widgetClasses = [
+            \App\Widgets\UsersWidget::class,
+            \App\Widgets\ChangeLogWidget::class,
+        ];
+        $widgets = [];
+        foreach($widgetClasses as $w) {
+            $widget = new $w();
+            if ($widget->authorize()) {
+                $view = view($widget->view(), $widget->args());
+                $widgets[] = $view->render();
+            }
+        }
+
         $args = [];
+        $args['widgets'] = $widgets;
+
         if (Auth::user()->can('list', Person::class)) {
             $args['num_people'] = Person::count();
 			$args['num_people_added_today'] = Person::whereDate('created_at', '=', Carbon::today())->count();
@@ -38,10 +53,6 @@ class HomeController extends Controller
             $args['num_transactions_today'] = Transaction::whereDate('created_at', '=', Carbon::today())->where('transactionable_type', 'App\Person')->count();
             $args['num_people_served_today'] = BankController::getNumberOfPersonsServedToday();
             $args['transaction_value_today'] = BankController::getTransactionValueToday();
-        }
-        if (Auth::user()->can('list', User::class)) {
-            $args['num_users'] = User::count();
-			$args['latest_user'] = User::orderBy('created_at', 'desc')->first();
         }
         $args['other'] = collect([
             [

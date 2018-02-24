@@ -49,4 +49,9 @@ return [
     'hello' => 'Hallo :name',
     'welcome_text' => 'Willkommen im :app_name',
     'manage' => 'Verwalten',
+    'users_in_db' => 'Es sind <strong>:num_users</strong> Benutzer in der Datenbank registriert.',
+    'newest_user_is' => 'Der neuste Benutzer ist <a href=":link">:name</a>.',
+    'changelog' => 'Änderungshistorie',
+    'version' => 'Version',
+    'changelog_link_desc' => 'Lies mehr über die neusten Änderungen in dieser Applikation <a href=":link">hier</a>.',
 ];
