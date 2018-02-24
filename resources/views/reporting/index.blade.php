@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Reporting')
+@section('title', __('app.reporting'))
 
 @section('content')
 
-    <p>Available reports:</p>
+    <p>@lang('app.available_reports'):</p>
     <div class="list-group">
         @foreach(Config::get('reporting.reports') as $report)
             @allowed($report['gate'])

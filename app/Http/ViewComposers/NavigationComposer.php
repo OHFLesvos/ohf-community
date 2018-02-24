@@ -41,14 +41,14 @@ class NavigationComposer {
                 ],
                 [
                     'route' => 'people.index',
-                    'caption' => 'People',
+                    'caption' => __('people.people'),
                     'icon' => 'users',
                     'active' => 'people*',
                     'authorized' => Auth::user()->can('list', Person::class)
                 ],
                 [
                     'route' => 'bank.index',
-                    'caption' => 'Bank',
+                    'caption' => __('people.bank'),
                     'icon' => 'bank',
                     'active' => 'bank*',
                     'authorized' => Gate::allows('view-bank-index')
@@ -77,7 +77,7 @@ class NavigationComposer {
                 ],
                 [
                     'route' => 'reporting.index',
-                    'caption' => 'Reporting',
+                    'caption' => __('app.reporting'),
                     'icon' => 'bar-chart',
                     'active' => 'reporting*',
                     'authorized' => Gate::allows('view-reports'),
