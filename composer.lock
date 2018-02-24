@@ -1314,16 +1314,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.3",
+            "version": "v5.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "db3e5422070d9b5166493313142b30419efab207"
+                "reference": "2e68209991e15aca1382ef9a3443d13f2e0d8755"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/db3e5422070d9b5166493313142b30419efab207",
-                "reference": "db3e5422070d9b5166493313142b30419efab207",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2e68209991e15aca1382ef9a3443d13f2e0d8755",
+                "reference": "2e68209991e15aca1382ef9a3443d13f2e0d8755",
                 "shasum": ""
             },
             "require": {
@@ -1334,7 +1334,7 @@
                 "ext-openssl": "*",
                 "league/flysystem": "~1.0",
                 "monolog/monolog": "~1.12",
-                "nesbot/carbon": "~1.20",
+                "nesbot/carbon": "^1.22.1",
                 "php": "^7.1.3",
                 "psr/container": "~1.0",
                 "psr/simple-cache": "^1.0",
@@ -1380,7 +1380,7 @@
                 "illuminate/translation": "self.version",
                 "illuminate/validation": "self.version",
                 "illuminate/view": "self.version",
-                "tightenco/collect": "self.version"
+                "tightenco/collect": "<5.5.33"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "~3.0",
@@ -1445,7 +1445,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-02-09 13:33:22"
+            "time": "2018-02-22 19:21:38"
         },
         {
             "name": "laravel/tinker",
@@ -1788,16 +1788,16 @@
         },
         {
             "name": "monarobase/country-list",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Monarobase/country-list.git",
-                "reference": "4a74ca733f03a7c3009ff03c43b3acdf1e804ee3"
+                "reference": "7d3bee9cd4712fd27ede285a01228fe1984dcf70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Monarobase/country-list/zipball/4a74ca733f03a7c3009ff03c43b3acdf1e804ee3",
-                "reference": "4a74ca733f03a7c3009ff03c43b3acdf1e804ee3",
+                "url": "https://api.github.com/repos/Monarobase/country-list/zipball/7d3bee9cd4712fd27ede285a01228fe1984dcf70",
+                "reference": "7d3bee9cd4712fd27ede285a01228fe1984dcf70",
                 "shasum": ""
             },
             "require": {
@@ -1805,9 +1805,19 @@
                 "umpirsky/country-list": "2.0.*"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Monarobase\\CountryList\\CountryListServiceProvider"
+                    ],
+                    "aliases": {
+                        "Countries": "Monarobase\\CountryList\\CountryListFacade"
+                    }
+                }
+            },
             "autoload": {
-                "psr-0": {
-                    "Monarobase\\CountryList": "src/"
+                "psr-4": {
+                    "Monarobase\\CountryList\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1818,12 +1828,16 @@
                 {
                     "name": "Jonathan Thuau",
                     "email": "jonathan@monarobase.net",
-                    "homepage": "http://monarobase.net",
+                    "homepage": "https://monarobase.net",
                     "role": "Developer"
                 }
             ],
-            "description": "List of all countries with names and ISO 3166-1 codes in all languages and data formats for Laravel 4",
-            "time": "2017-02-20 15:21:00"
+            "description": "List of all countries with names and ISO 3166-1 codes in all languages and data formats for Laravel 4/5",
+            "keywords": [
+                "countries",
+                "laravel"
+            ],
+            "time": "2018-02-20 07:38:50"
         },
         {
             "name": "monolog/monolog",
