@@ -1,12 +1,11 @@
 <div class="card mb-4">
     <div class="card-header">
-        People
+        @lang('people.people')
         <a class="pull-right" href="{{ route('people.index')  }}">@lang('app.manage')</a>
     </div>
     <div class="card-body pb-2">
         <p>
-            There are <strong>{{ $num_people }}</strong> people registered in our database. 
-            @if($num_people_added_today > 0)(<strong>{{ $num_people_added_today }}</strong> new today)@endif
+            @lang('people.there_are_n_people_registered', [ 'num_people' => $num_people ])@if($num_people_added_today > 0)(@lang('people.n_new_today', [ 'num_people_added_today' => $num_people_added_today ]))@endif.
         </p>
     </div>
 </div>
