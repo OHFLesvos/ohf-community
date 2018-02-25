@@ -77,13 +77,13 @@
                                     {{ Form::bsDate('date', Carbon\Carbon::now(), [ 'required' ], '') }}
                                 </div>
                                 <div class="col-md">
-                                    {{ Form::bsText('amount', null, [ 'required', 'placeholder' => __('donations.amount') ], '') }}
+                                    {{ Form::bsText('origin', null, [ 'required', 'placeholder' => __('donations.origin'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], '') }}
                                 </div>
                                 <div class="col-md">
                                     {{ Form::bsSelect('currency', $currencies, null, [ 'required' ], '') }}
                                 </div>
                                 <div class="col-md">
-                                    {{ Form::bsText('origin', null, [ 'required', 'placeholder' => __('donations.origin'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], '') }}
+                                    {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('donations.amount'), 'step' => 'any' ], '') }}
                                 </div>
                             </div>
                             <p>
@@ -103,18 +103,16 @@
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th class="text-right">Amount</th>
-                                        <th>Currency</th>
                                         <th>Origin</th>
+                                        <th class="text-right">Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($donations as $donation)
                                         <tr>
                                             <td>{{ $donation->date }}</td>
-                                            <td class="text-right">{{ $donation->amount }}</td>
-                                            <td>{{ $donation->currency }}</td>
                                             <td>{{ $donation->origin }}</td>
+                                            <td class="text-right">{{ $donation->currency }} {{ $donation->amount }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
