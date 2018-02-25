@@ -5,5 +5,6 @@ return [
     'currencies' => [
         'CHF' => 'CHF',
         'EUR' => 'EUR',
+        'USD' => 'USD',
     ],
 ];
