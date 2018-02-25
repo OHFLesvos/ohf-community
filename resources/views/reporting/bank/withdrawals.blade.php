@@ -41,7 +41,7 @@
                     <tr>
                         <td>Drachma</td>
                         <td class="text-right">{{ $avg_sum }}</td>
-                        <td class="text-right">{{ $highest_sum->sum }} <small class="text-muted">{{ $highest_sum->date }}</small></td>
+                        <td class="text-right">@isset($highest_sum){{ $highest_sum->sum }} <small class="text-muted">{{ $highest_sum->date }}</small>@endisset </td>
                         <td class="text-right">{{ $last_month_sum }}</td>
                         <td class="text-right">{{ $this_month_sum }}</td>
                         <td class="text-right">{{ $last_week_sum }}</td>
