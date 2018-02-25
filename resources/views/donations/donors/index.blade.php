@@ -17,8 +17,8 @@
                         <th>@lang('app.email')</th>
                         <th>@lang('app.registered')</th>
                         @can('list', App\Donation::class)
-                            <th>{{ Carbon\Carbon::now()->subYear()->year }}</th>
-                            <th>{{ Carbon\Carbon::now()->year }}</th>
+                            <th class="text-right">{{ Carbon\Carbon::now()->subYear()->year }} ({{ Config::get('donations.ref_currency') }})</th>
+                            <th class="text-right">{{ Carbon\Carbon::now()->year }} ({{ Config::get('donations.ref_currency') }})</th>
                         @endcan
                     </tr>
                 </thead>
@@ -39,8 +39,8 @@
                             </td>
                             <td>{{ $donor->created_at }}</td>
                             @can('list', App\Donation::class)
-                                <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) }}</td>
-                                <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->year) }}</td>
+                                <td class="text-right">{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) }}</td>
+                                <td class="text-right">{{ $donor->amountPerYear(Carbon\Carbon::now()->year) }}</td>
                             @endcan
                         </tr>
                     @endforeach

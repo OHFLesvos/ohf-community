@@ -9,8 +9,8 @@
             <th>@lang('app.email')</th>
             <th>@lang('app.registered')</th>
             @can('list', App\Donation::class)
-                <th>{{ Carbon\Carbon::now()->subYear()->year }}</th>
-                <th>{{ Carbon\Carbon::now()->year }}</th>
+                <th>{{ Carbon\Carbon::now()->subYear()->year }} ({{ Config::get('donations.ref_currency') }})</th>
+                <th>{{ Carbon\Carbon::now()->year }} ({{ Config::get('donations.ref_currency') }})</th>
             @endcan
         </tr>
     </thead>

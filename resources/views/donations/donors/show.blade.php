@@ -72,7 +72,7 @@
                                     {{ Form::bsText('amount', null, [ 'required', 'placeholder' => __('donations.amount') ], '') }}
                                 </div>
                                 <div class="col-md">
-                                    {{ Form::bsText('currency', null, [ 'required', 'placeholder' => __('donations.currency'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($currencies)) ], '') }}
+                                    {{ Form::bsSelect('currency', $currencies, null, [ 'required' ], '') }}
                                 </div>
                                 <div class="col-md">
                                     {{ Form::bsText('origin', null, [ 'required', 'placeholder' => __('donations.origin'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], '') }}
@@ -95,7 +95,7 @@
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th>Amount</th>
+                                        <th class="text-right">Amount</th>
                                         <th>Currency</th>
                                         <th>Origin</th>
                                     </tr>
@@ -104,7 +104,7 @@
                                     @foreach ($donations as $donation)
                                         <tr>
                                             <td>{{ $donation->date }}</td>
-                                            <td>{{ $donation->amount }}</td>
+                                            <td class="text-right">{{ $donation->amount }}</td>
                                             <td>{{ $donation->currency }}</td>
                                             <td>{{ $donation->origin }}</td>
                                         </tr>

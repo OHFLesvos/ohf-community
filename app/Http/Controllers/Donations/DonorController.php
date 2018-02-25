@@ -10,6 +10,7 @@ use App\Util\CountriesExtended;
 use App\Http\Requests\Donations\StoreDonor;
 use App\Http\Requests\Donations\StoreDonation;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class DonorController extends Controller
 {
@@ -76,7 +77,7 @@ class DonorController extends Controller
         return view('donations.donors.show', [
             'donor' => $donor,
             'donations' => $donor->donations()->orderBy('date', 'desc')->paginate(),
-            'currencies' => Donation::select('currency')->distinct()->get()->pluck('currency')->toArray(),
+            'currencies' => Config::get('donations.currencies'),
             'origins' => Donation::select('origin')->distinct()->get()->pluck('origin')->toArray(),
         ]);
     }
