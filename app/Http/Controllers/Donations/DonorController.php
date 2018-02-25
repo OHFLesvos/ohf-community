@@ -173,10 +173,18 @@ class DonorController extends Controller
     {
         $this->authorize('create', Donation::class);
 
+        if ($request->currency == Config::get('donations.base_currency')) {
+            $exchange_amount = $request->amount;
+        } else {
+            $exchangeRate = 1.1686;
+            $exchange_amount = $request->amount * $exchangeRate;
+        }
+
         $donation = new Donation();
-        $donation->amount = $request->amount;
         $donation->date = $request->date;
+        $donation->amount = $request->amount;
         $donation->currency = $request->currency;
+        $donation->exchange_amount = $exchange_amount;
         $donation->origin = $request->origin;
         $donor->donations()->save($donation);
         return redirect()->back();
