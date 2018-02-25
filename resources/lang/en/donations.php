@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'donor' => 'Donor',
     'donors' => 'Donors',
     'no_donors_found' => 'No donors found.',
     'address' => 'Address',
@@ -16,4 +17,11 @@ return [
     'donor_deleted' => 'Donor deleted',
     'donors_in_db' => 'There are <strong>:num_donors</strong> donors in our database.',
     'newest_donor_is' => 'The newest donor is <a href=":link">:name</a>.',
+    'donations' => 'Donations',
+    'no_donations_found' => 'No donations found.',
+    'date' => 'Date',
+    'amount' => 'Amount',
+    'currency' => 'Currency',
+    'origin' => 'Origin',
+    'register_new_donation' => 'Register new donation',
 ];

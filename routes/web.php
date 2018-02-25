@@ -155,6 +155,7 @@ Route::group(['middleware' => 'language'], function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/donations/donors/export', 'Donations\DonorController@export')->name('donors.export');
         Route::resource('donations/donors', 'Donations\DonorController');
+        Route::post('/donations/donors/{donor}/storeDonation', 'Donations\DonorController@storeDonation')->name('donors.storeDonation');
     });
 
     Auth::routes();

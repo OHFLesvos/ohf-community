@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Donor extends Model
 {
@@ -18,5 +20,14 @@ class Donor extends Model
 
     function donations() {
         return $this->hasMany('App\Donation');
+    }
+
+    function amountPerYear($year) {
+        return $this->donations()
+            ->whereYear('date', $year)
+            ->select(DB::raw('sum(amount) as total'))
+            ->get()
+            ->pluck('total')
+            ->first() ?? 0;
     }
 }

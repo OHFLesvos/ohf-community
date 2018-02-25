@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Donations;
 
 use App\Donor;
+use App\Donation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Util\CountriesExtended;
 use App\Http\Requests\Donations\StoreDonor;
+use App\Http\Requests\Donations\StoreDonation;
 use Carbon\Carbon;
 
 class DonorController extends Controller
@@ -57,7 +59,7 @@ class DonorController extends Controller
         $donor->country = $request->country;
         $donor->email = $request->email;
         $donor->save();
-        return redirect()->route('donors.index')
+        return redirect()->route('donors.show', $donor)
             ->with('success', __('donations.donor_added'));
     }
 
@@ -73,6 +75,9 @@ class DonorController extends Controller
 
         return view('donations.donors.show', [
             'donor' => $donor,
+            'donations' => $donor->donations()->orderBy('date', 'desc')->paginate(),
+            'currencies' => Donation::select('currency')->distinct()->get()->pluck('currency')->toArray(),
+            'origins' => Donation::select('origin')->distinct()->get()->pluck('origin')->toArray(),
         ]);
     }
 
@@ -147,6 +152,26 @@ class DonorController extends Controller
                 ]);
             });
         })->export('xls');
+    }
+
+    /**
+     * Stores a new donation.
+     *
+     * @param  \App\Http\Requests\Donations\StoreDonation  $request
+     * @param  \App\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function storeDonation(StoreDonation $request, Donor $donor)
+    {
+        $this->authorize('create', Donation::class);
+
+        $donation = new Donation();
+        $donation->amount = $request->amount;
+        $donation->date = $request->date;
+        $donation->currency = $request->currency;
+        $donation->origin = $request->origin;
+        $donor->donations()->save($donation);
+        return redirect()->back();
     }
 
 }

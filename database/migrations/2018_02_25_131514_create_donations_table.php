@@ -18,6 +18,7 @@ class CreateDonationsTable extends Migration
             $table->date('date');
             $table->decimal('amount');
             $table->string('currency');
+            $table->string('origin');
             $table->softDeletes();
             $table->unsignedInteger('donor_id');
             $table->foreign('donor_id')->references('id')->on('donors')->onDelete('cascade')->onUpdate('cascade');

@@ -115,6 +115,9 @@ return [
         'calendar.resources.manage' => 'Calendar: Manage resources',
         'donations.donors.view' => 'Donations: View donors',
         'donations.donors.manage' => 'Donations: Manage donors',
+        'donations.donations.view' => 'Donations: View donations',
+        'donations.donations.register' => 'Donations: Register donations',
+        'donations.donations.edit' => 'Donations: Edit donations',
         'app.changelogs.view' => 'View application changelogs',
     ]
 ];
