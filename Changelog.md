@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.2
+
+* When register a donation in a foreign currency, the EZV Database is automatically queried for the exchange rate
+* Added USD to the list of supported currencies for donations
+
 ## 1.10.1
 
 * Added worker checkbox for person
