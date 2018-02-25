@@ -16,7 +16,7 @@
                         {{ Form::bsSelect('currency', $currencies, Config::get('donations.base_currency'), [ 'required' ], __('donations.amount')) }}
                     </div>
                     <div class="col-md">
-                        {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any' ], __('donations.amount'), __('donations.write_decimal_point_as_comma')) }}
+                        {{ Form::bsNumber('amount', null, [ 'required', 'autofocus', 'step' => 'any' ], __('donations.amount'), __('donations.write_decimal_point_as_comma')) }}
                     </div>
                     <div class="col-md">
                         {{ Form::bsNumber('exchange_rate', 1, [ 'required', 'step' => 'any' ], __('donations.exchange_rate'), __('donations.write_decimal_point_as_comma')) }}

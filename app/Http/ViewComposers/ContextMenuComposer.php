@@ -548,6 +548,16 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('view', $donor)
                     ]
                 ];
+            case 'donors.registerDonation':
+                $donor = $view->getData()['donor'];
+                return [
+                    'back' => [
+                        'url' => route('donors.show', $donor),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('view', $donor)
+                    ]
+                ];
 
             //
             // Reporting
