@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1
+
+* Added worker checkbox for person
+
 ## 1.10.0
 
 * Language support (english/german) added

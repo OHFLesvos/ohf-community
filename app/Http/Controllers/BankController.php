@@ -263,6 +263,7 @@ class BankController extends Controller
     {
         return Transaction::groupBy('transactionable_id')
             ->having(DB::raw('max(transactions.created_at)'), '<=', Carbon::today()->subMonth($months))
+            ->where('worker', false)
             ->join('persons', function ($join) {
                 $join->on('persons.id', '=', 'transactions.transactionable_id')
                     ->where('transactionable_type', 'App\Person')
@@ -284,7 +285,8 @@ class BankController extends Controller
             })
             ->whereNull('transactions.id')
             ->whereNull('boutique_coupon')
-            ->whereNull('diapers_coupon')            
+            ->whereNull('diapers_coupon')
+            ->where('worker', false)
             ->get()
             ->count();
     }
@@ -300,6 +302,7 @@ class BankController extends Controller
             ->whereNull('registration_no')
             ->whereNull('section_card_no')
             ->whereNull('temp_no')
+            ->where('worker', false)
             ->count();
     }
 
@@ -324,7 +327,8 @@ class BankController extends Controller
                 })
                 ->whereNull('transactions.id')
                 ->whereNull('boutique_coupon')
-                ->whereNull('diapers_coupon')                
+                ->whereNull('diapers_coupon')
+                ->where('worker', false)
                 ->select('persons.id')
                 ->get()
                 ->map(function($item){
@@ -340,6 +344,7 @@ class BankController extends Controller
                 ->whereNull('registration_no')
                 ->whereNull('section_card_no')
                 ->whereNull('temp_no')
+                ->where('worker', false)
                 ->delete();
         }
         return redirect()->route('bank.withdrawal')

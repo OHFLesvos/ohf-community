@@ -69,6 +69,7 @@ class PeopleController extends ParentController
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? $request->languages : null;
         $person->skills = !empty($request->skills) ? $request->skills : null;
+        $person->worker = isset($request->worker);
 		$person->save();
 
         $redirectFilter[] = $person->search;
@@ -149,6 +150,7 @@ class PeopleController extends ParentController
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
         $person->languages = !empty($request->languages) ? $request->languages : null;
         $person->skills = !empty($request->skills) ? $request->skills : null;
+        $person->worker = isset($request->worker);
         $person->save();
         return redirect()->route('people.show', $person)
                 ->with('success', 'Person has been updated!');

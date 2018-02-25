@@ -101,6 +101,12 @@
                                     <td>{{ $person->remarks }}</td>
                                 </tr>
                             @endif
+                            @if($person->worker)
+                                <tr>
+                                    <th>Worker:</th>
+                                    <td>Registered as worker</td>
+                                </tr>
+                            @endif
                             <tr>
                                 <th>Registered:</th>
                                 <td>{{ $person->created_at }}</td>

@@ -57,7 +57,8 @@
                         {{ Form::bsText('skills') }}
 					</div>
 				</div>
-                {{ Form::bsText('remarks') }}
+				{{ Form::bsText('remarks') }}
+				<p>{{ Form::bsCheckbox('worker', null, null, 'Person is registered worker') }}</p>
 			</div>
 		</div>
 			

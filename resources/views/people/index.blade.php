@@ -22,6 +22,7 @@
                     <th>Languages <a href="javascript:;" class="sort" data-field="languages">@icon(sort)</a></th>
                     <th>Skills <a href="javascript:;" class="sort" data-field="skills">@icon(sort)</a></th>
                     <th>Remarks <a href="javascript:;" class="sort" data-field="remarks">@icon(sort)</a></th>
+                    <th>Worker <a href="javascript:;" class="sort" data-field="worker">@icon(sort)</a></th>
                     <th>Registered <a href="javascript:;" class="sort" data-field="created_at">@icon(sort)</a></th>
                 </tr>
                 <tr id="filter">
@@ -39,6 +40,7 @@
                     <th>{{ Form::text('languages', !empty($filter['languages']) ? $filter['languages'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     <th>{{ Form::text('skills', !empty($filter['skills']) ? $filter['skills'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     <th>{{ Form::text('remarks', !empty($filter['remarks']) ? $filter['remarks'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>

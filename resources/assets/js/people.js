@@ -17,7 +17,7 @@ $(function(){
             tbody.append($('<tr>')
                 .append($('<td>')
                     .text('Searching...')
-                    .attr('colspan', 15))
+                    .attr('colspan', 16))
             );
 
             clearTimeout(delayTimer);
@@ -71,7 +71,7 @@ function filterTable(page) {
     tbody.append($('<tr>')
         .append($('<td>')
             .text('Searching...')
-            .attr('colspan', 15))
+            .attr('colspan', 16))
     );
 
     var paginator = $('#paginator');
@@ -110,7 +110,7 @@ function filterTable(page) {
                 .addClass('warning')
                 .append($('<td>')
                     .text('No results')
-                    .attr('colspan', 15))
+                    .attr('colspan', 16))
             );
         }
     })
@@ -120,7 +120,7 @@ function filterTable(page) {
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 15))
+                    .attr('colspan', 16))
             );
         });
 }
@@ -159,5 +159,6 @@ function writeRow(person) {
         .append($('<td>').text(person.languages))
         .append($('<td>').text(person.skills))
         .append($('<td>').text(person.remarks))
+        .append($('<td>').html(person.worker ? '<i class="fa fa-check"></i>' : '-'))
         .append($('<td>').text(person.created_at));
 }

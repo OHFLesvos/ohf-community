@@ -55,9 +55,10 @@
 					</div>
 					<div class="col-md">
                         {{ Form::bsText('skills') }}
-					</div>
+                    </div>
 				</div>
                 {{ Form::bsText('remarks') }}
+                <p>{{ Form::bsCheckbox('worker', null, null, 'Person is registered worker') }}</p>
 			</div>
 		</div>
 
