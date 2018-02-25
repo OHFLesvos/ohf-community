@@ -60,4 +60,5 @@ return [
     'more_reports' => 'More reports',
     'available_reports' => 'Available reports',
     'tools' => 'Tools',
+    'total' => 'Total',
 ];

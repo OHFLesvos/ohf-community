@@ -6,6 +6,7 @@ use App\Person;
 use App\Role;
 use App\Task;
 use App\User;
+use App\Donor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -59,6 +60,13 @@ class NavigationComposer {
                     'icon' => 'spoon',
                     'active' => 'logistics*',
                     'authorized' => Gate::allows('use-logistics')
+                ],
+                [
+                    'route' => 'donors.index',
+                    'caption' => __('donations.donors'),
+                    'icon' => 'money',
+                    'active' => 'donors*',
+                    'authorized' => Auth::user()->can('list', Donor::class),
                 ],
                 [
                     'route' => 'calendar',

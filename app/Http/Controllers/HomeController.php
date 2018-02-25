@@ -33,6 +33,7 @@ class HomeController extends Controller
             \App\Widgets\PersonsWidget::class,
             \App\Widgets\BankWidget::class,
             \App\Widgets\ReportingWidget::class,
+            \App\Widgets\DonorsWidget::class,
             \App\Widgets\ToolsWidget::class,
             \App\Widgets\UsersWidget::class,
             \App\Widgets\ChangeLogWidget::class,

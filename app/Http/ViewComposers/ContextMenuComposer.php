@@ -6,6 +6,7 @@ use App\Person;
 use App\Role;
 use App\Task;
 use App\User;
+use App\Donor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -484,7 +485,64 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('use-logistics')
                     ]
                 ];
-            
+
+            //
+            // Donations : Donors
+            //
+            case 'donors.index':
+                return [
+                    'action' => [
+                        'url' => route('donors.create'),
+                        'caption' => __('app.add'),
+                        'icon' => 'plus-circle',
+                        'icon_floating' => 'plus',
+                        'authorized' => Auth::user()->can('create', Donor::class)
+                    ]
+                ];
+            case 'donors.create':
+                return [
+                    'back' => [
+                        'url' => route('donors.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('create', Donor::class)
+                    ]
+                ];
+            case 'donors.show':
+                $donor = $view->getData()['donor'];
+                return [
+                    'action' => [
+                        'url' => route('donors.edit', $donor),
+                        'caption' => __('app.edit'),
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
+                        'authorized' => Auth::user()->can('update', $donor)
+                    ],
+                    'delete' => [
+                        'url' => route('donors.destroy', $donor),
+                        'caption' => __('app.delete'),
+                        'icon' => 'trash',
+                        'authorized' => Auth::user()->can('delete', $donor),
+                        'confirmation' => __('donations.confirm_delete_donor')
+                    ],
+                    'back' => [
+                        'url' => route('donors.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', Donor::class)
+                    ]
+                ];
+            case 'donors.edit':
+                $donor = $view->getData()['donor'];
+                return [
+                    'back' => [
+                        'url' => route('donors.show', $donor),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('view', $donor)
+                    ]
+                ];
+
             //
             // Reporting
             //

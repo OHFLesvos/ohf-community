@@ -151,6 +151,11 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/calendar', 'CalendarController@index')->name('calendar');
     });
 
+    // Donors
+    Route::group(['middleware' => ['auth']], function () {
+        Route::resource('donations/donors', 'Donations\DonorController');
+    });
+
     Auth::routes();
 
 });

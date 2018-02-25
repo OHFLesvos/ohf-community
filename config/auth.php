@@ -99,7 +99,6 @@ return [
         ],
     ],
 
-
     'permissions' => [
         'people.manage' => 'People: Manage',
         'people.reports.view' => 'People: View reports',
@@ -114,6 +113,8 @@ return [
         'calendar.events.create' => 'Calendar: Create events',
         'calendar.events.manage' => 'Calendar: Edit and delete all events',
         'calendar.resources.manage' => 'Calendar: Manage resources',
+        'donations.donors.view' => 'Donations: View donors',
+        'donations.donors.manage' => 'Donations: Manage donors',
         'app.changelogs.view' => 'View application changelogs',
     ]
 ];
