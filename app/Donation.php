@@ -19,4 +19,12 @@ class Donation extends Model
     function donor() {
         return $this->belongsTo('App\Donor');
     }
+
+    static function currenciesPerYear($year) {
+        return Donation::whereYear('date', $year)
+            ->select('currency')
+            ->groupBy('currency')
+            ->get()
+            ->pluck('currency');
+    }
 }

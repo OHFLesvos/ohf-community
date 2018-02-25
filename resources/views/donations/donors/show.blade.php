@@ -79,7 +79,7 @@
                                 <div class="col-md">
                                     {{ Form::bsText('origin', null, [ 'required', 'placeholder' => __('donations.origin'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], '') }}
                                 </div>
-                                <div class="col-md">
+                                <div class="col-md-auto">
                                     {{ Form::bsSelect('currency', $currencies, null, [ 'required' ], '') }}
                                 </div>
                                 <div class="col-md">
@@ -118,6 +118,32 @@
                                 </tbody>
                             </table>
                             {{ $donations->links() }}
+
+                            @php
+                                $currentYear = $donor->amountPerYear(Carbon\Carbon::now()->year);
+                            @endphp
+                            @if(count($currentYear) > 0)
+                                <div class="text-right">
+                                    <small>@lang('app.total') {{ Carbon\Carbon::now()->year }}: 
+                                        @foreach($currentYear as $c)
+                                            {{ $c->currency }} {{ $c->total }}@if(!$loop->last), @endif
+                                        @endforeach
+                                    </small>
+                                </div>
+                            @endif
+                            @php
+                                $lastYear = $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year);
+                            @endphp
+                            @if(count($lastYear) > 0)
+                                <div class="text-right">
+                                    <small>@lang('app.total') {{ Carbon\Carbon::now()->subYear()->year }}: 
+                                        @foreach($lastYear as $c)
+                                            {{ $c->currency }} {{ $c->total }}@if(!$loop->last), @endif
+                                        @endforeach
+                                    </small>
+                                </div>
+                            @endisset
+
                         @else
                             <div class="alert alert-info m-0">
                                 @lang('donations.no_donations_found')

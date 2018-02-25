@@ -22,12 +22,16 @@ class Donor extends Model
         return $this->hasMany('App\Donation');
     }
 
-    function amountPerYear($year) {
-        return $this->donations()
+    function amountPerYear($year, $currency = null) {
+        $query = $this->donations()
             ->whereYear('date', $year)
-            ->select(DB::raw('sum(amount) as total'))
-            ->get()
-            ->pluck('total')
-            ->first() ?? 0;
+            ->select(DB::raw('sum(amount) as total'), 'currency')
+            ->groupBy('currency');
+        if ($currency != null) {
+            $query->where('currency', $currency);
+            return $query->get()->first();
+        } else {
+            return $query->get();
+        }
     }
 }

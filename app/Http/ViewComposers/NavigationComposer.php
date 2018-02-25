@@ -65,7 +65,7 @@ class NavigationComposer {
                     'route' => 'donors.index',
                     'caption' => __('donations.donors'),
                     'icon' => 'money',
-                    'active' => 'donors*',
+                    'active' => 'donations/donors*',
                     'authorized' => Auth::user()->can('list', Donor::class),
                 ],
                 [
