@@ -82,7 +82,7 @@ class DonorController extends Controller
 
         return view('donations.donors.show', [
             'donor' => $donor,
-            'donations' => $donor->donations()->orderBy('date', 'desc')->paginate(),
+            'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate(),
             'currencies' => Config::get('donations.currencies'),
             'origins' => Donation::select('origin')->distinct()->get()->pluck('origin')->toArray(),
         ]);
@@ -176,8 +176,7 @@ class DonorController extends Controller
         if ($request->currency == Config::get('donations.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
-            $exchangeRate = 1.1686;
-            $exchange_amount = $request->amount * $exchangeRate;
+            $exchange_amount = $request->amount * self::getExchangeRate($request->currency);
         }
 
         $donation = new Donation();
@@ -188,6 +187,22 @@ class DonorController extends Controller
         $donation->origin = $request->origin;
         $donor->donations()->save($donation);
         return redirect()->back();
+    }
+
+    // See https://www.estv.admin.ch/estv/de/home/mehrwertsteuer/dienstleistungen/fremdwaehrungskurse/tageskurse.html
+    const EXCHANGE_RATE_XML = 'http://www.pwebapps.ezv.admin.ch/apps/rates/rate/getxml?activeSearchType=today';
+
+    public static function getExchangeRate($currency) : float {
+        $context  = stream_context_create(array('http' => array('header' => 'Accept: application/xml')));
+        $url = self::EXCHANGE_RATE_XML;
+        $xml = file_get_contents($url, false, $context);
+        $xml = simplexml_load_string($xml);
+        foreach ($xml->devise as $devise) {
+            if ($devise['code'] == strtolower($currency)) {
+                return (float)$devise->kurs;
+            }
+        }
+        return null;
     }
 
 }
