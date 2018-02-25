@@ -25,5 +25,9 @@ return [
     'currency' => 'Currency',
     'origin' => 'Origin',
     'register_new_donation' => 'Register new donation',
+    'register_new_donation_for' => 'Register new donation for :name',
     'search_for_name' => 'Search for name',
+    'unable_to_find_exchange_rate' => 'Unable to find current exchange rate for :currency.',
+    'exchange_rate' => 'Exchange rate',
+    'write_decimal_point_as_comma' => 'Write decimal point as comma (,)',
 ];

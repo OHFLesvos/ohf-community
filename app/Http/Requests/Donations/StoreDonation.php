@@ -26,6 +26,7 @@ class StoreDonation extends FormRequest
         return [
             'date' => 'required|date',
             'amount' => 'required|numeric|min:1',
+            'exchange_rate' => 'nullable|numeric|min:0',
             'currency' => 'required|string',
             'origin' => 'required|string',
         ];

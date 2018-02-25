@@ -25,5 +25,9 @@ return [
     'currency' => 'Währung',
     'origin' => 'Herkunft',
     'register_new_donation' => 'Neue Spende registrieren',
+    'register_new_donation_for' => 'Neue Spende für :name registrieren',
     'search_for_name' => 'Nach Name suchen',
+    'unable_to_find_exchange_rate' => 'Für die Währung :currency wurde kein aktueller Wechselkurs gefunden.',
+    'exchange_rate' => 'Wechselkurs',
+    'write_decimal_point_as_comma' => 'Dezimalpunkt als Komma (,) schreiben',
 ];

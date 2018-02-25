@@ -164,6 +164,23 @@ class DonorController extends Controller
     }
 
     /**
+     * Register a new donation.
+     *
+     * @param  \App\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function registerDonation(Donor $donor)
+    {
+        $this->authorize('create', Donation::class);
+
+        return view('donations.donations.register', [
+            'donor' => $donor,
+            'currencies' => Config::get('donations.currencies'),
+            'origins' => Donation::select('origin')->distinct()->get()->pluck('origin')->toArray(),
+        ]);
+    }
+
+    /**
      * Stores a new donation.
      *
      * @param  \App\Http\Requests\Donations\StoreDonation  $request
@@ -177,15 +194,22 @@ class DonorController extends Controller
         if ($request->currency == Config::get('donations.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
-            try {
-                $exchange_amount = $request->amount * self::getExchangeRate($request->currency);
-            } catch (\Exception $e) {
-                Log::error($e);
-                return redirect()
-                    ->back()
-                    ->withInput()
-                    ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
+            if (!empty($request->exchange_rate)) {
+                $exchange_rate = $request->exchange_rate;
+            } else {
+                try {
+                    $exchange_rate = self::getExchangeRate($request->currency);
+                } catch (\Exception $e) {
+                    Log::error($e);
+                    // If exchange cannot be determined, redirect to advanced registration form, where exchange can be specified
+                    return redirect()
+                        ->route('donors.registerDonation', $donor)
+                        ->withInput()
+                        ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
+                }
             }
+            session(['exchangeRate_' . $request->currency => $exchange_rate]);
+            $exchange_amount = $request->amount * $exchange_rate;
         }
 
         $donation = new Donation();
@@ -195,14 +219,13 @@ class DonorController extends Controller
         $donation->exchange_amount = $exchange_amount;
         $donation->origin = $request->origin;
         $donor->donations()->save($donation);
-        return redirect()->back();
+        return redirect()->route('donors.show', $donor);
     }
 
     public static function getExchangeRate($currency) : float {
         $rate = session('exchangeRate_' . $currency, null);
         if ($rate == null) {
             $rate = self::getExchangeRateFromWeb($currency);
-            session(['exchangeRate_' . $currency => $rate]);
         }
         return $rate;
     }
