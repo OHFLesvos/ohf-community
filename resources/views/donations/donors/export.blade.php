@@ -7,10 +7,11 @@
             <th>@lang('donations.city')</th>
             <th>@lang('donations.country')</th>
             <th>@lang('app.email')</th>
+            <th>@lang('donations.phone')</th>
             <th>@lang('app.registered')</th>
             @can('list', App\Donation::class)
-                <th>{{ Carbon\Carbon::now()->subYear()->year }} ({{ Config::get('donations.ref_currency') }})</th>
-                <th>{{ Carbon\Carbon::now()->year }} ({{ Config::get('donations.ref_currency') }})</th>
+                <th>@lang('donations.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
+                <th>@lang('donations.donations') {{ Carbon\Carbon::now()->year }}</th>
             @endcan
         </tr>
     </thead>
@@ -23,6 +24,7 @@
                 <td>{{ $donor->city }}</td>
                 <td>{{ $donor->country }}</td>
                 <td>{{ $donor->email }}</td>
+                <td>{{ $donor->phone }}</td>
                 <td>{{ $donor->created_at }}</td>
                 @can('list', App\Donation::class)
                     <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) }}</td>

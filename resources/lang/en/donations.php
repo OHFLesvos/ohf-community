@@ -8,6 +8,7 @@ return [
     'zip' => 'ZIP',
     'city' => 'City',
     'country' => 'Country',
+    'phone' => 'Phone',
     'confirm_delete_donor' => 'Do you really want to delete this donor?',
     'create_donor' => 'Add donor',
     'show_donor' => 'Show donor',
@@ -24,4 +25,5 @@ return [
     'currency' => 'Currency',
     'origin' => 'Origin',
     'register_new_donation' => 'Register new donation',
+    'search_for_name' => 'Search for name',
 ];

@@ -31,6 +31,9 @@
             <div class="col-md">
                 {{ Form::bsText('email', null, [ ], __('app.email')) }}
             </div>
+            <div class="col-md">
+                {{ Form::bsText('phone', null, [ ], __('donations.phone')) }}
+            </div>
         </div>
 
         <p>

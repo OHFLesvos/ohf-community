@@ -4,21 +4,34 @@
 
 @section('content')
 
+    {!! Form::open(['route' => ['donors.index'], 'method' => 'get']) !!}
+        <div class="input-group">
+            {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('donations.search_for_name') . '...' ]) }}
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">@icon(search)</button> 
+                @if(isset($filter))
+                    <a class="btn btn-secondary" href="{{ route('donors.index') }}">@icon(eraser)</a> 
+                @endif
+            </div>
+        </div>
+        <br>
+    {!! Form::close() !!}
+
     @if( ! $donors->isEmpty() )
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
                         <th>@lang('app.name')</th>
-                        <th>@lang('donations.address')</th>
-                        <th>@lang('donations.zip')</th>
-                        <th>@lang('donations.city')</th>
-                        <th>@lang('donations.country')</th>
-                        <th>@lang('app.email')</th>
-                        <th>@lang('app.registered')</th>
+                        <th class="d-none d-md-table-cell">@lang('donations.address')</th>
+                        <th class="d-none d-md-table-cell">@lang('donations.zip')</th>
+                        <th class="d-none d-md-table-cell">@lang('donations.city')</th>
+                        <th class="d-none d-md-table-cell">@lang('donations.country')</th>
+                        <th class="d-none d-sm-table-cell">@lang('app.email')</th>
+                        <th class="d-none d-sm-table-cell">@lang('donations.phone')</th>
                         @can('list', App\Donation::class)
-                            <th class="text-right">{{ Carbon\Carbon::now()->subYear()->year }} ({{ Config::get('donations.ref_currency') }})</th>
-                            <th class="text-right">{{ Carbon\Carbon::now()->year }} ({{ Config::get('donations.ref_currency') }})</th>
+                            <th class="text-right">@lang('donations.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
+                            <th class="text-right">@lang('donations.donations') {{ Carbon\Carbon::now()->year }}</th>
                         @endcan
                     </tr>
                 </thead>
@@ -28,16 +41,20 @@
                             <td>
                                 <a href="{{ route('donors.show', $donor) }}">{{ $donor->name }}</a>
                             </td>
-                            <td>{{ $donor->address }}</td>
-                            <td>{{ $donor->zip }}</td>
-                            <td>{{ $donor->city }}</td>
-                            <td>{{ $donor->country }}</td>
-                            <td>
+                            <td class="d-none d-md-table-cell">{{ $donor->address }}</td>
+                            <td class="d-none d-md-table-cell">{{ $donor->zip }}</td>
+                            <td class="d-none d-md-table-cell">{{ $donor->city }}</td>
+                            <td class="d-none d-md-table-cell">{{ $donor->country }}</td>
+                            <td class="d-none d-sm-table-cell">
                                 @isset($donor->email)
                                     <a href="mailto:{{ $donor->email }}">{{ $donor->email }}</a>
                                 @endisset
                             </td>
-                            <td>{{ $donor->created_at }}</td>
+                            <td class="d-none d-sm-table-cell">
+                                @isset($donor->phone)
+                                    <a href="mailto:{{ $donor->phone }}">{{ $donor->phone }}</a>
+                                @endisset
+                            </td>
                             @can('list', App\Donation::class)
                                 <td class="text-right">{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) }}</td>
                                 <td class="text-right">{{ $donor->amountPerYear(Carbon\Carbon::now()->year) }}</td>

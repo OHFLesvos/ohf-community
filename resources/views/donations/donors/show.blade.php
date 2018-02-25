@@ -42,6 +42,14 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th>@lang('donations.phone')</th>
+                                <td>
+                                    @isset($donor->phone)
+                                        <a href="tel:{{ $donor->phone }}">{{ $donor->phone }}</a>
+                                    @endisset
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>@lang('app.registered')</th>
                                 <td>{{ $donor->created_at }}</td>
                             </tr>

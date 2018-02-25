@@ -8,6 +8,7 @@ return [
     'zip' => 'PLZ',
     'city' => 'Ort',
     'country' => 'Land',
+    'phone' => 'Telefon',
     'confirm_delete_donor' => 'Möchtest du diesen Spender wirklich löschen?',
     'create_donor' => 'Spender hinzufügen',
     'show_donor' => 'Spender anzeigen',
@@ -24,4 +25,5 @@ return [
     'currency' => 'Währung',
     'origin' => 'Herkunft',
     'register_new_donation' => 'Neue Spende registrieren',
+    'search_for_name' => 'Nach Name suchen',
 ];

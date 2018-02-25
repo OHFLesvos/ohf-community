@@ -19,12 +19,17 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('list', Donor::class);
 
+        $query = Donor::orderBy('name');
+        if (isset($request->filter)) {
+            $query->where('name', 'LIKE', '%' . $request->filter . '%');
+        }
         return view('donations.donors.index', [
-            'donors' => Donor::orderBy('name')->paginate(),
+            'donors' => $query->paginate(),
+            'filter' => $request->filter,
         ]);
     }
 
@@ -59,6 +64,7 @@ class DonorController extends Controller
         $donor->city = $request->city;
         $donor->country = $request->country;
         $donor->email = $request->email;
+        $donor->phone = $request->phone;
         $donor->save();
         return redirect()->route('donors.show', $donor)
             ->with('success', __('donations.donor_added'));
@@ -115,6 +121,7 @@ class DonorController extends Controller
         $donor->city = $request->city;
         $donor->country = $request->country;
         $donor->email = $request->email;
+        $donor->phone = $request->phone;
         $donor->save();
         return redirect()->route('donors.show', $donor)
             ->with('success', __('donations.donor_updated'));
