@@ -6,7 +6,9 @@
     <div class="card-body pb-2">
         <p>
             @lang('donations.donors_in_db', [ 'num_donors' => $num_donors ])<br>
-            @lang('donations.newest_donor_is', [ 'link' => route('donors.show', $latest_donor), 'name' => $latest_donor->name ])
+            @isset($latest_donor)
+                @lang('donations.newest_donor_is', [ 'link' => route('donors.show', $latest_donor), 'name' => $latest_donor->name ])
+            @endisset
         </p>
     </div>
 </div>
