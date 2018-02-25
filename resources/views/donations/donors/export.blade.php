@@ -10,8 +10,18 @@
             <th>@lang('donations.phone')</th>
             <th>@lang('app.registered')</th>
             @can('list', App\Donation::class)
-                <th>@lang('donations.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
-                <th>@lang('donations.donations') {{ Carbon\Carbon::now()->year }}</th>
+                @php
+                    $currenciesLast = App\Donation::currenciesPerYear(Carbon\Carbon::now()->subYear()->year);
+                    $countLast = $currenciesLast->count();
+                    $currenciesCurrent = App\Donation::currenciesPerYear(Carbon\Carbon::now()->year);
+                    $countCurrent = $currenciesCurrent->count();
+                @endphp
+                @if($countLast > 0)
+                    <th colspan="{{ $countLast }}">@lang('donations.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
+                @endif
+                @if($countCurrent > 0)
+                    <th colspan="{{ $countCurrent }}">@lang('donations.donations') {{ Carbon\Carbon::now()->year }}</th>
+                @endif
             @endcan
         </tr>
     </thead>
@@ -27,8 +37,26 @@
                 <td>{{ $donor->phone }}</td>
                 <td>{{ $donor->created_at }}</td>
                 @can('list', App\Donation::class)
-                    <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) }}</td>
-                    <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->year) }}</td>
+                    @foreach($currenciesLast as $currency)
+                        @php
+                            $donationsLast = $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year, $currency);
+                        @endphp
+                        <td class="text-right">
+                            @isset($donationsLast)
+                                {{ $donationsLast->currency }} {{ $donationsLast->total }}
+                            @endisset
+                        </td>
+                    @endforeach
+                    @foreach($currenciesCurrent as $currency)
+                        @php
+                            $donationsCurrent = $donor->amountPerYear(Carbon\Carbon::now()->year, $currency);
+                        @endphp
+                        <td class="text-right">
+                            @isset($donationsCurrent)
+                                {{ $donationsCurrent->currency }} {{ $donationsCurrent->total }}
+                            @endisset
+                        </td>
+                    @endforeach
                 @endcan
             </tr>
         @endforeach
