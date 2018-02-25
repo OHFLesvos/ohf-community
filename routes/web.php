@@ -153,6 +153,7 @@ Route::group(['middleware' => 'language'], function () {
 
     // Donors
     Route::group(['middleware' => ['auth']], function () {
+        Route::get('/donations/donors/export', 'Donations\DonorController@export')->name('donors.export');
         Route::resource('donations/donors', 'Donations\DonorController');
     });
 

@@ -497,6 +497,12 @@ class ContextMenuComposer {
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Donor::class)
+                    ],
+                    'export' => [
+                        'url' => route('donors.export'),
+                        'caption' => __('app.export'),
+                        'icon' => 'download',
+                        'authorized' => Auth::user()->can('list', Donor::class)
                     ]
                 ];
             case 'donors.create':

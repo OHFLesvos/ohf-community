@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Util\CountriesExtended;
 use App\Http\Requests\Donations\StoreDonor;
+use Carbon\Carbon;
 
 class DonorController extends Controller
 {
@@ -127,4 +128,25 @@ class DonorController extends Controller
         return redirect()->route('donors.index')
             ->with('success', __('donations.donor_deleted'));
     }
+
+    /**
+     * Exports a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        $this->authorize('list', Donor::class);
+
+        \Excel::create('OHF_Community_Donors_' . Carbon::now()->toDateString(), function($excel) {
+            $excel->sheet(__('donations.donors'), function($sheet) {
+                $sheet->setOrientation('landscape');
+                $sheet->freezeFirstRow();
+                $sheet->loadView('donations.donors.export',[
+                    'donors' => Donor::orderBy('name')->get(),
+                ]);
+            });
+        })->export('xls');
+    }
+
 }
