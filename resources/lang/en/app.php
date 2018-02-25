@@ -62,4 +62,5 @@ return [
     'tools' => 'Tools',
     'total' => 'Total',
     'export' => 'Export',
+    'an_error_happened' => 'An error happened',
 ];

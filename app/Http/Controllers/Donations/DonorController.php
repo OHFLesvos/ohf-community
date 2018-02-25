@@ -11,6 +11,7 @@ use App\Http\Requests\Donations\StoreDonor;
 use App\Http\Requests\Donations\StoreDonation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class DonorController extends Controller
 {
@@ -176,7 +177,15 @@ class DonorController extends Controller
         if ($request->currency == Config::get('donations.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
-            $exchange_amount = $request->amount * self::getExchangeRate($request->currency);
+            try {
+                $exchange_amount = $request->amount * self::getExchangeRate($request->currency);
+            } catch (\Exception $e) {
+                Log::error($e);
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
+            }
         }
 
         $donation = new Donation();
@@ -189,10 +198,19 @@ class DonorController extends Controller
         return redirect()->back();
     }
 
+    public static function getExchangeRate($currency) : float {
+        $rate = session('exchangeRate_' . $currency, null);
+        if ($rate == null) {
+            $rate = self::getExchangeRateFromWeb($currency);
+            session(['exchangeRate_' . $currency => $rate]);
+        }
+        return $rate;
+    }
+
     // See https://www.estv.admin.ch/estv/de/home/mehrwertsteuer/dienstleistungen/fremdwaehrungskurse/tageskurse.html
     const EXCHANGE_RATE_XML = 'http://www.pwebapps.ezv.admin.ch/apps/rates/rate/getxml?activeSearchType=today';
 
-    public static function getExchangeRate($currency) : float {
+    public static function getExchangeRateFromWeb($currency) : float {
         $context  = stream_context_create(array('http' => array('header' => 'Accept: application/xml')));
         $url = self::EXCHANGE_RATE_XML;
         $xml = file_get_contents($url, false, $context);
@@ -202,7 +220,7 @@ class DonorController extends Controller
                 return (float)$devise->kurs;
             }
         }
-        return null;
+        throw new Exception('Unable to find current exchange rate for ' . $currency);
     }
 
 }
