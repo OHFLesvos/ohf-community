@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.0
+
+* Language support (english/german) added
+* Donations management added
+
 ## 1.9.1
 
 * Date of birth selection in the bank is now using simple text field instead of a date selector.
