@@ -13,10 +13,10 @@ class CalendarResourceSeeder extends Seeder
     public function run()
     {
         foreach ([
-            ['name' => 'School', 'default' => true],
-            ['name' => 'Garden', 'color' => 'orange'],
-            ['name' => 'Office', 'color' => 'red'],
-            ['name' => 'Shop', 'color' => 'green'],
+            ['title' => 'School', 'default' => true],
+            ['title' => 'Garden', 'color' => 'orange'],
+            ['title' => 'Office', 'color' => 'red'],
+            ['title' => 'Shop', 'color' => 'green'],
         ] as $t) {
             CalendarResource::create($t);
         }
