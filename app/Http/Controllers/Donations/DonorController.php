@@ -176,19 +176,39 @@ class DonorController extends Controller
         $this->authorize('list', Donation::class);
 
         \Excel::create('OHF_Community_Donors_' . str_replace(' ', '_', $donor->name) . '_' . Carbon::now()->toDateString(), function($excel) use($donor) {
-            $excel->sheet(__('donations.donations'), function($sheet) use($donor) {
+            self::createDonationSheet($excel, Carbon::now()->subYear()->year, $donor);
+            self::createDonationSheet($excel, Carbon::now()->year, $donor);
+        })->export('xlsx');
+    }
+
+    private static function createDonationSheet($excel, $year, $donor) {
+        $donations = $donor->donations()
+            ->whereYear('date', $year)
+            ->orderBy('date', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        if (count($donations) > 0) {
+            $excel->sheet(__('donations.donations') . ' ' . $year, function($sheet) use($donations) {
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
-                $donations = $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->get();
+    
+                // Data
                 $sheet->loadView('donations.donations.export',[
                     'donations' => $donations,
                 ]);
+    
+                // Currency formats
                 for ($i = 0; $i < sizeof($donations); $i++) {
                     $sheet->getStyle('C' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('donations.currencies_excel_format')[$donations[$i]->currency]);
                 }
                 $sheet->getStyle('D')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
+    
+                // Sum
+                $sumCell = 'D' . (count($donations) + 2);
+                $sheet->setCellValue($sumCell, '=SUM(D2:D' . (count($donations) + 1) . ')');
+                $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
             });
-        })->export('xlsx');
+        }
     }
 
     /**

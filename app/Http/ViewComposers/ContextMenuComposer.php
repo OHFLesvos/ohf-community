@@ -529,7 +529,7 @@ class ContextMenuComposer {
                         'url' => route('donors.exportDonations', $donor),
                         'caption' => __('app.export'),
                         'icon' => 'download',
-                        'authorized' => Auth::user()->can('list', Donation::class)
+                        'authorized' => Auth::user()->can('list', Donation::class) && $donor->donations()->count() > 0
                     ],
                     'delete' => [
                         'url' => route('donors.destroy', $donor),

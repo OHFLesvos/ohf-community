@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.5
+
+* Export of donors donations now contain the sum, and are grouped by year. Export is only possible if there are donatinons.
+
 ## 1.10.4
 
 * Added ability to export donations of specifc donor
