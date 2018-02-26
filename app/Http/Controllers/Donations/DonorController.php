@@ -226,7 +226,7 @@ class DonorController extends Controller
         $rate = session('exchangeRate_' . $currency . '_' . $date->toDateString(), null);
         if ($rate == null) {
             $rate = self::getExchangeRateFromWeb($currency, $date);
-            session(['exchangeRate_' . $currency . '_' . $date->toDateString() => $exchange_rate]);
+            session(['exchangeRate_' . $currency . '_' . $date->toDateString() => $rate]);
         }
         return $rate;
     }
