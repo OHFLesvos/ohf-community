@@ -7,6 +7,7 @@ use App\Role;
 use App\Task;
 use App\User;
 use App\Donor;
+use App\Donation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -523,6 +524,12 @@ class ContextMenuComposer {
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $donor)
+                    ],
+                    'export' => [
+                        'url' => route('donors.exportDonations', $donor),
+                        'caption' => __('app.export'),
+                        'icon' => 'download',
+                        'authorized' => Auth::user()->can('list', Donation::class)
                     ],
                     'delete' => [
                         'url' => route('donors.destroy', $donor),

@@ -160,7 +160,28 @@ class DonorController extends Controller
                     'donors' => Donor::orderBy('name')->get(),
                 ]);
             });
-        })->export('xls');
+        })->export('xlsx');
+    }
+
+    /**
+     * Exports the donations of a donor
+     *
+     * @param  \App\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function exportDonations(Donor $donor)
+    {
+        $this->authorize('list', Donation::class);
+
+        \Excel::create('OHF_Community_Donors_' . str_replace(' ', '_', $donor->name) . '_' . Carbon::now()->toDateString(), function($excel) use($donor) {
+            $excel->sheet(__('donations.donations'), function($sheet) use($donor) {
+                $sheet->setOrientation('landscape');
+                $sheet->freezeFirstRow();
+                $sheet->loadView('donations.donations.export',[
+                    'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->get(),
+                ]);
+            });
+        })->export('xlsx');
     }
 
     /**

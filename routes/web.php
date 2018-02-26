@@ -157,6 +157,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::resource('donations/donors', 'Donations\DonorController');
         Route::get('/donations/donors/{donor}/registerDonation', 'Donations\DonorController@registerDonation')->name('donors.registerDonation');
         Route::post('/donations/donors/{donor}/storeDonation', 'Donations\DonorController@storeDonation')->name('donors.storeDonation');
+        Route::get('/donations/donors/{donor}/export', 'Donations\DonorController@exportDonations')->name('donors.exportDonations');
     });
 
     Auth::routes();

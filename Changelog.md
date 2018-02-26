@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.4
+
+* Added ability to export donations of specifc donor
+
 ## 1.10.3
 
 * Exchange rate is queried from EZV based on the selected day

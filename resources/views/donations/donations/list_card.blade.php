@@ -5,9 +5,9 @@
             <table class="table table-sm table-hover">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Origin</th>
-                        <th class="text-right">Amount</th>
+                        <th>@lang('donations.date')</th>
+                        <th>@lang('donations.origin')</th>
+                        <th class="text-right">@lang('donations.amount')</th>
                     </tr>
                 </thead>
                 <tbody>
