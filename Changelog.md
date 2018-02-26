@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.3
+
+* Exchange rate is queried from EZV based on the selected day
+* Fixed syntax in .env.example
+
 ## 1.10.2
 
 * When register a donation in a foreign currency, the EZV Database is automatically queried for the exchange rate
