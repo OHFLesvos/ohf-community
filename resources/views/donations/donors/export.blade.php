@@ -27,14 +27,8 @@
                 <td>{{ $donor->phone }}</td>
                 <td>{{ $donor->created_at }}</td>
                 @can('list', App\Donation::class)
-                    <td>
-                        {{ Config::get('donations.base_currency') }}
-                        {{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) ?? 0 }}
-                    </td>
-                    <td>
-                        {{ Config::get('donations.base_currency') }}
-                        {{ $donor->amountPerYear(Carbon\Carbon::now()->year) ?? 0 }}
-                    </td>
+                    <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) ?? 0 }}</td>
+                    <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->year) ?? 0 }}</td>
                 @endcan
             </tr>
         @endforeach

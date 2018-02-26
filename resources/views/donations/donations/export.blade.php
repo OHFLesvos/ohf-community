@@ -12,8 +12,8 @@
             <tr>
                 <td>{{ $donation->date }}</td>
                 <td>{{ $donation->origin }}</td>
-                <td>{{ $donation->currency }} {{ $donation->amount }}</td>
-                <td>{{ Config::get('donations.base_currency') }} {{ $donation->exchange_amount }}</td>
+                <td>{{ $donation->amount }}</td>
+                <td>{{ $donation->exchange_amount }}</td>
             </tr>
         @endforeach
     </tbody>

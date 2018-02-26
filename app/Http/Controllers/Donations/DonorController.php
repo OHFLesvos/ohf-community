@@ -159,6 +159,8 @@ class DonorController extends Controller
                 $sheet->loadView('donations.donors.export',[
                     'donors' => Donor::orderBy('name')->get(),
                 ]);
+                $sheet->getStyle('I')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
+                $sheet->getStyle('J')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
             });
         })->export('xlsx');
     }
@@ -177,9 +179,14 @@ class DonorController extends Controller
             $excel->sheet(__('donations.donations'), function($sheet) use($donor) {
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
+                $donations = $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->get();
                 $sheet->loadView('donations.donations.export',[
-                    'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->get(),
+                    'donations' => $donations,
                 ]);
+                for ($i = 0; $i < sizeof($donations); $i++) {
+                    $sheet->getStyle('C' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('donations.currencies_excel_format')[$donations[$i]->currency]);
+                }
+                $sheet->getStyle('D')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
             });
         })->export('xlsx');
     }

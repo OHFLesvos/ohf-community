@@ -3,6 +3,7 @@
 ## 1.10.4
 
 * Added ability to export donations of specifc donor
+* Correctly formatted currency field in excel
 
 ## 1.10.3
 
