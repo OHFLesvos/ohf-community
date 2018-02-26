@@ -22,6 +22,7 @@ return [
     'no_donations_found' => 'No donations found.',
     'date' => 'Date',
     'amount' => 'Amount',
+    'exchange_amount' => 'Exchange amount',
     'currency' => 'Currency',
     'origin' => 'Origin',
     'register_new_donation' => 'Register new donation',

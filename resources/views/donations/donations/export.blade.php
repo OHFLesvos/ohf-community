@@ -4,6 +4,7 @@
             <th>@lang('donations.date')</th>
             <th>@lang('donations.origin')</th>
             <th>@lang('donations.amount')</th>
+            <th>@lang('donations.exchange_amount')</th>
         </tr>
     </thead>
     <tbody>
@@ -11,12 +12,8 @@
             <tr>
                 <td>{{ $donation->date }}</td>
                 <td>{{ $donation->origin }}</td>
-                <td>
-                    {{ $donation->currency }} {{ $donation->amount }}
-                    @if($donation->currency != Config::get('donations.base_currency'))
-                        ({{ Config::get('donations.base_currency') }} {{ $donation->exchange_amount }})
-                    @endif
-                </td>
+                <td>{{ $donation->currency }} {{ $donation->amount }}</td>
+                <td>{{ Config::get('donations.base_currency') }} {{ $donation->exchange_amount }}</td>
             </tr>
         @endforeach
     </tbody>

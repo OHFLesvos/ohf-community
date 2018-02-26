@@ -22,6 +22,7 @@ return [
     'no_donations_found' => 'Keine Spenden gefunden.',
     'date' => 'Datum',
     'amount' => 'Betrag',
+    'exchange_amount' => 'Wechselbetrag',
     'currency' => 'Währung',
     'origin' => 'Herkunft',
     'register_new_donation' => 'Neue Spende registrieren',
