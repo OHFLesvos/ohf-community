@@ -10,10 +10,10 @@
                     {{ Form::bsDate('date', Carbon\Carbon::now(), [ 'required' ], '') }}
                 </div>
                 <div class="col-md-auto">
-                    {{ Form::bsSelect('currency', $currencies, Config::get('donations.base_currency'), [ 'required' ], '') }}
+                    {{ Form::bsSelect('currency', $currencies, Config::get('donations.base_currency'), [ 'required', 'id' => 'currency' ], '') }}
                 </div>
                 <div class="col-md">
-                    {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('donations.amount'), 'step' => 'any' ], '') }}
+                    {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('donations.amount'), 'step' => 'any', 'id' => 'amount' ], '') }}
                 </div>
                 <div class="col-md">
                     {{ Form::bsText('origin', null, [ 'required', 'placeholder' => __('donations.origin'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], '') }}

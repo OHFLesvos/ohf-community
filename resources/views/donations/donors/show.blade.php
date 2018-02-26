@@ -75,3 +75,11 @@
     </div>
 
 @endsection
+
+@section('script')
+    $(function(){
+        $('#currency').on('change', function(){
+            $('#amount').focus();
+        });
+    });
+@endsection
