@@ -209,7 +209,6 @@ class DonorController extends Controller
                         ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
                 }
             }
-            session(['exchangeRate_' . $request->currency . '_' . $date->toDateString() => $exchange_rate]);
             $exchange_amount = $request->amount * $exchange_rate;
         }
 
@@ -227,6 +226,7 @@ class DonorController extends Controller
         $rate = session('exchangeRate_' . $currency . '_' . $date->toDateString(), null);
         if ($rate == null) {
             $rate = self::getExchangeRateFromWeb($currency, $date);
+            session(['exchangeRate_' . $currency . '_' . $date->toDateString() => $exchange_rate]);
         }
         return $rate;
     }
