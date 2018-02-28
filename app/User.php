@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Config;
 
 class User extends Authenticatable
 {
@@ -40,7 +41,27 @@ class User extends Authenticatable
     }
 
     public function hasPermission($permissionKey) {
-        return $this->roles->contains(function($role) use($permissionKey) { return $role->permissions->contains(function($value) use($permissionKey) { return $value->key == $permissionKey; }); });
+        return $this->roles->contains(function($role) use($permissionKey) { 
+            return $role->permissions->contains(function($value) use($permissionKey) {
+                return $value->key == $permissionKey; 
+            }); 
+        });
+    }
+
+    public function permissions() {
+        $permissions = [];
+        foreach ($this->roles as $role) {
+            foreach ($role->permissions as $permission) {
+                $permissions[] = $permission;
+            }
+        }
+
+        $configuredPermissions = Config::get('auth.permissions');
+        return collect($permissions)
+            ->filter(function($permission) use($configuredPermissions) {
+                return isset($configuredPermissions[$permission->key]);
+            })
+            ->unique();
     }
 
     public function tasks()

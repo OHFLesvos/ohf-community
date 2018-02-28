@@ -3,6 +3,7 @@
 return [
     'validation_failed' => 'Validation failed, you have entered invalid values!',
     'dashboard' => 'Dashboard',
+    'user' => 'User',
     'users' => 'Users',
     'manage_users' => 'Manage Users',
     'role' => 'Role',

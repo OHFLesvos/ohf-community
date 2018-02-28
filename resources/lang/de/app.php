@@ -3,6 +3,7 @@
 return [
     'validation_failed' => 'Validierung fehlgeschlagen, es wurden ungültige Werte eingegeben!',
     'dashboard' => 'Übersicht',
+    'user' => 'Benutzer',
     'users' => 'Benutzer',
     'manage_users' => 'Benutzer verwalten',
     'role' => 'Rolle',

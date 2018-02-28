@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Config;
 use App\User;
 use App\Role;
 
@@ -69,7 +70,8 @@ class UserController extends ParentController
     public function show(User $user)
     {
         return view('users.show', [
-            'user' => $user
+            'user' => $user,
+            'permissions' => Config::get('auth.permissions'),
         ]);
     }
 

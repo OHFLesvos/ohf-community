@@ -23,7 +23,7 @@
                             <td><a href="mailto:{{ $user->email }}" title="Send e-mail">{{ $user->email }}</a></td>
                             <td>
                                 @foreach ($user->roles->sortBy('name') as $role)
-                                    {{ $role->name }}@if (! $loop->last), @endif
+                                    <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>@if (! $loop->last), @endif
                                 @endforeach
                             </td>
                             <td>
