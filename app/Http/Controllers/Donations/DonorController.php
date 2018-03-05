@@ -272,7 +272,8 @@ class DonorController extends Controller
         $donation->exchange_amount = $exchange_amount;
         $donation->origin = $request->origin;
         $donor->donations()->save($donation);
-        return redirect()->route('donors.show', $donor);
+        return redirect()->route('donors.show', $donor)
+            ->with('success', __('donations.donation_registered'));;
     }
 
 }

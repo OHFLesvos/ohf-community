@@ -64,4 +64,5 @@ return [
     'total' => 'Total',
     'export' => 'Export',
     'an_error_happened' => 'An error happened',
+    'dismiss' => 'Dismiss',
 ];

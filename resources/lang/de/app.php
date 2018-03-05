@@ -64,4 +64,5 @@ return [
     'total' => 'Total',
     'export' => 'Exportieren',
     'an_error_happened' => 'Es ist ein Fehler aufgetreten',
+    'dismiss' => 'Ausblenden',
 ];

@@ -25,22 +25,12 @@
 
                         {{-- Success message --}}
                         @if (session('success'))
-                            <div class="alert alert-success alert-dismissible fade show">
-                                @icon(check) {{ session('success') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+                            <div class="snack-message" data-class="success" data-action="@lang('app.dismiss')">{{ session('success') }}</div>
                         @endif
 
                         {{-- Info message --}}
                         @if (session('info'))
-                            <div class="alert alert-info alert-dismissible fade show">
-                                @icon(info-circle) {{ session('info') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+                            <div class="snack-message" data-class="info" data-action="@lang('app.dismiss')">{{ session('info') }}</div>
                         @endif
 
                         {{-- Error message --}}

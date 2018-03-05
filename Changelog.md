@@ -1,9 +1,10 @@
 # Changelog
 
-## 1.11.0
+## 1.10.6
 
 * When setting / chaning a user password, it will now be validated against "Have I been pwned" (https://haveibeenpwned.com/)
 * Laravel updated to 5.6.7
+* Added "snackbar" notifications
 
 ## 1.10.5
 

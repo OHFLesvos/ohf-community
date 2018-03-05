@@ -31,4 +31,5 @@ return [
     'unable_to_find_exchange_rate' => 'Für die Währung :currency wurde kein aktueller Wechselkurs gefunden.',
     'exchange_rate' => 'Wechselkurs',
     'write_decimal_point_as_comma' => 'Dezimalpunkt als Komma (,) schreiben',
+    'donation_registered' => 'Spende wurde registriert',
 ];
