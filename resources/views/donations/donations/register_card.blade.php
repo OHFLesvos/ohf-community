@@ -1,10 +1,10 @@
 <div class="card mb-4">
     <div class="card-header">
         @lang('donations.register_new_donation')
-        <a class="pull-right" href="{{ route('donors.registerDonation', $donor)  }}">@icon(arrows-alt)</a>
+        <a class="pull-right" href="{{ route('donations.create', $donor)  }}">@icon(arrows-alt)</a>
     </div>
     <div class="card-body pb-0">
-        {!! Form::open(['route' => ['donors.storeDonation', $donor ]]) !!}
+        {!! Form::open(['route' => ['donations.store', $donor ]]) !!}
             <div class="form-row">
                 <div class="col-md">
                     {{ Form::bsDate('date', Carbon\Carbon::now(), [ 'required' ], '') }}

@@ -526,7 +526,7 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('update', $donor)
                     ],
                     'export' => [
-                        'url' => route('donors.exportDonations', $donor),
+                        'url' => route('donations.export', $donor),
                         'caption' => __('app.export'),
                         'icon' => 'download',
                         'authorized' => Auth::user()->can('list', Donation::class) && $donor->donations()->count() > 0
@@ -555,7 +555,7 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('view', $donor)
                     ]
                 ];
-            case 'donors.registerDonation':
+            case 'donations.create':
                 $donor = $view->getData()['donor'];
                 return [
                     'back' => [
