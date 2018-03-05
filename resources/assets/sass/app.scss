@@ -197,3 +197,7 @@
 .snackbar-container.info .action {
   color: theme-color("info");
 }
+
+.snackbar-container.warning .action {
+  color: theme-color("warning");
+}

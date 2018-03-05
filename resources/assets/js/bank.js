@@ -30,15 +30,20 @@ function scanQR(callback) {
 }
 
 var Snackbar = require('node-snackbar');
-function showSnackbar(text, actionText, actionClass) {
-	Snackbar.show({
+function showSnackbar(text, actionText, actionClass, callback) {
+	var args = {
 		text: text,
-		duration: 2500,
+		duration: 3000,
 		pos: 'bottom-center',
 		actionText: actionText ? actionText : null,
 		actionTextColor: null,
 		customClass: actionClass ? actionClass : null, 
-	});
+	};
+	if (callback) {
+		args['onActionClick'] = callback;
+		args['duration'] = 5000;
+	}
+	Snackbar.show(args);
 }
 
 
@@ -139,7 +144,12 @@ function storeTransaction(personId, value, resultElem) {
 					.attr('data-value', value)
 					.on('click', undoTransaction)
 					.append($('<i>').addClass("fa fa-undo")));
-			showSnackbar('Transaction has been stored');
+			var name = resultElem.parents('.card').find('.card-header strong').text();
+			showSnackbar('Transaction for ' + name + ' has been stored', 'Undo', 'warning', function(element){
+				$(element).css('opacity', 0);
+				storeTransaction(personId, - value, resultElem);
+				enableFilterSelect();
+			});
 		} else {
 			resultElem.empty();
 			if (data.age === null || data.age >= 12) {

@@ -17690,15 +17690,20 @@ function scanQR(callback) {
 }
 
 var Snackbar = __webpack_require__(106);
-function showSnackbar(text, actionText, actionClass) {
-	Snackbar.show({
+function showSnackbar(text, actionText, actionClass, callback) {
+	var args = {
 		text: text,
-		duration: 2500,
+		duration: 3000,
 		pos: 'bottom-center',
 		actionText: actionText ? actionText : null,
 		actionTextColor: null,
 		customClass: actionClass ? actionClass : null
-	});
+	};
+	if (callback) {
+		args['onActionClick'] = callback;
+		args['duration'] = 5000;
+	}
+	Snackbar.show(args);
 }
 
 $(function () {
@@ -17784,7 +17789,12 @@ function storeTransaction(personId, value, resultElem) {
 	}, function (data) {
 		if (data.today > 0) {
 			resultElem.html(data.today + ' ').append($('<small>').addClass('text-muted').attr('title', data.date).text('registered ' + data.dateDiff)).append(' ').append($('<a>').attr('href', 'javascript:;').addClass('undo-transaction').attr('title', 'Undo').attr('data-person', personId).attr('data-value', value).on('click', undoTransaction).append($('<i>').addClass("fa fa-undo")));
-			showSnackbar('Transaction has been stored');
+			var name = resultElem.parents('.card').find('.card-header strong').text();
+			showSnackbar('Transaction for ' + name + ' has been stored', 'Undo', 'warning', function (element) {
+				$(element).css('opacity', 0);
+				storeTransaction(personId, -value, resultElem);
+				enableFilterSelect();
+			});
 		} else {
 			resultElem.empty();
 			if (data.age === null || data.age >= 12) {

@@ -12245,3 +12245,7 @@ a.text-dark:hover, a.text-dark:focus {
 .snackbar-container.info .action {
   color: #17a2b8;
 }
+
+.snackbar-container.warning .action {
+  color: #ffc107;
+}
