@@ -18,7 +18,8 @@
         "maatwebsite/excel": "~2.1.0",
         "michelf/php-markdown": "^1.8",
         "monarobase/country-list": "^2.0",
-        "shiftonelabs/laravel-cascade-deletes": "^1.0"
+        "shiftonelabs/laravel-cascade-deletes": "^1.0",
+        "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

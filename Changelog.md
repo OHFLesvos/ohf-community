@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.0
+
+* When setting / chaning a user password, it will now be validated against "Have I been pwned" (https://haveibeenpwned.com/)
+
 ## 1.10.5
 
 * Export of donors donations now contain the sum, and are grouped by year. Export is only possible if there are donatinons.

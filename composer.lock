@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4202d3f16bb85e1789f4e123c8b59896",
-    "content-hash": "37322944781465b0d22aaa947f3890b6",
+    "hash": "a06c72f57829fd1c3aaaa5b67e6640e8",
+    "content-hash": "cd0be45023ac4065a4e60e33a3c27256",
     "packages": [
         {
             "name": "akaunting/language",
@@ -3926,6 +3926,51 @@
             ],
             "description": "List of all countries with names and ISO 3166-1 codes in all languages and data formats.",
             "time": "2018-01-13 16:53:17"
+        },
+        {
+            "name": "valorin/pwned-validator",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/valorin/pwned-validator.git",
+                "reference": "e6b3273d559a3892649fdc81b5e7b762cfa63c11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/valorin/pwned-validator/zipball/e6b3273d559a3892649fdc81b5e7b762cfa63c11",
+                "reference": "e6b3273d559a3892649fdc81b5e7b762cfa63c11",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "illuminate/support": "~5.5",
+                "php": ">=7.1.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Valorin\\Pwned\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Valorin\\Pwned\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Rees-Carter",
+                    "email": "stephen@rees-carter.net"
+                }
+            ],
+            "description": "Super simple Laravel Validator for checking password via the Pwned Passwords service of Have I Been Pwned",
+            "time": "2018-02-23 21:39:19"
         },
         {
             "name": "vlucas/phpdotenv",

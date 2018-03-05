@@ -33,7 +33,7 @@ class StoreUser extends FormRequest
                 'max:255',
                 Rule::unique('users'),
             ],
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|pwned',
             'roles' => 'array',
         ];
     }

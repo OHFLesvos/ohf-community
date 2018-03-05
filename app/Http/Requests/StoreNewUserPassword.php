@@ -27,7 +27,7 @@ class StoreNewUserPassword extends FormRequest
     {
         return [
             'old_password' => ['required', new OldPassword(Auth::user()->password)],
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|pwned|confirmed',
         ];
     }
 }
