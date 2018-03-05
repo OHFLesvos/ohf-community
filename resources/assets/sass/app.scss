@@ -186,6 +186,10 @@
   display: none;
 }
 
+.snackbar-container .action {
+  font-weight: bold;
+}
+
 .snackbar-container.success .action {
   color: theme-color("success");
 }

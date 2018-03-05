@@ -29,6 +29,19 @@ function scanQR(callback) {
 	});
 }
 
+var Snackbar = require('node-snackbar');
+function showSnackbar(text, actionText, actionClass) {
+	Snackbar.show({
+		text: text,
+		duration: 2500,
+		pos: 'bottom-center',
+		actionText: actionText ? actionText : null,
+		actionTextColor: null,
+		customClass: actionClass ? actionClass : null, 
+	});
+}
+
+
 $(function(){
 
 	// Scan QR code card and search for the number
@@ -53,6 +66,7 @@ $(function(){
 				"card_no": content,
 			}, function(data) {
 				resultElem.html('<strong>' + content.substr(0,7) + '</strong>');
+				showSnackbar('QR code card has been stored');
 			})
 			.fail(function(jqXHR, textStatus) {
 				var msg = jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText;
@@ -125,6 +139,7 @@ function storeTransaction(personId, value, resultElem) {
 					.attr('data-value', value)
 					.on('click', undoTransaction)
 					.append($('<i>').addClass("fa fa-undo")));
+			showSnackbar('Transaction has been stored');
 		} else {
 			resultElem.empty();
 			if (data.age === null || data.age >= 12) {
@@ -145,6 +160,7 @@ function storeTransaction(personId, value, resultElem) {
 					.on('click', executeTransaction)
 					.text(1));
 			}
+			showSnackbar('Transaction has been reverted');
 		}
 	})
 	.fail(function(jqXHR, textStatus) {
@@ -167,6 +183,7 @@ function selectGender() {
 		} else if (value == 'f') {
 			resultElem.html('<i class="fa fa-female">');
 		}
+		showSnackbar('Gender has been registered.');
 		enableFilterSelect();
 	})
 	.fail(function(jqXHR, textStatus) {
@@ -242,6 +259,7 @@ function storeDateOfBirth(person, value, resultElem) {
 		'date_of_birth': value
 	}, function(data) {
 		resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
+		showSnackbar('Date of birth has been registered.');
 		enableFilterSelect();
 	})
 	.fail(function(jqXHR, textStatus) {
@@ -282,6 +300,7 @@ function giveBoutiqueCoupon() {
 				.attr('data-person', person)
 				.on('click', resetBoutiqueCoupon)
 				.append($('<i>').addClass("fa fa-undo")));
+		showSnackbar('Boutique coupon has been registered.');
 		enableFilterSelect();
 	})
 	.fail(function(jqXHR, textStatus) {
@@ -305,6 +324,7 @@ function resetBoutiqueCoupon() {
 				.on('click', giveBoutiqueCoupon)
 				.addClass('btn btn-primary btn-sm give-boutique-coupon')
 				.text('Coupon'));
+		showSnackbar('Boutique coupon has been unregistered.');
 		enableFilterSelect();
 	})
 	.fail(function(jqXHR, textStatus) {
@@ -329,6 +349,7 @@ function giveDiapersCoupon(){
 				.attr('data-person', person)
 				.on('click', resetDiapersCoupon)
 				.append($('<i>').addClass("fa fa-undo")));
+		showSnackbar('Diapers coupon has been registered.');
 		enableFilterSelect();
 	})
 	.fail(function(jqXHR, textStatus) {
@@ -352,6 +373,7 @@ function resetDiapersCoupon() {
 				.on('click', giveDiapersCoupon)
 				.addClass('btn btn-primary btn-sm give-diapers-coupon')
 				.text('Coupon'));
+		showSnackbar('Diapers coupon has been unregistered.');
 		enableFilterSelect();
 	})
 	.fail(function(jqXHR, textStatus) {

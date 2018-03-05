@@ -25,12 +25,12 @@
 
                         {{-- Success message --}}
                         @if (session('success'))
-                            <div class="snack-message" data-class="success" data-action="@lang('app.dismiss')">{{ session('success') }}</div>
+                            <div class="snack-message"><span class="text-success">@icon(check)</span> {{ session('success') }}</div>
                         @endif
 
                         {{-- Info message --}}
                         @if (session('info'))
-                            <div class="snack-message" data-class="info" data-action="@lang('app.dismiss')">{{ session('info') }}</div>
+                            <div class="snack-message"><span class="text-info">@icon(info-circle)</span> {{ session('info') }}</div>
                         @endif
 
                         {{-- Error message --}}
