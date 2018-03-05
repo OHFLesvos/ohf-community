@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.10.6
+## 1.11.0
 
 * When setting / chaning a user password, it will now be validated against "Have I been pwned" (https://haveibeenpwned.com/)
 * Laravel updated to 5.6.7
