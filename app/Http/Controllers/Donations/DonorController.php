@@ -12,6 +12,7 @@ use App\Http\Requests\Donations\StoreDonation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonorController extends Controller
 {
@@ -239,15 +240,19 @@ class DonorController extends Controller
     {
         $this->authorize('create', Donation::class);
 
+        $date = new Carbon($request->date);
+        if ($date->isFuture()) {
+            $date = Carbon::today();
+        }
+
         if ($request->currency == Config::get('donations.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
-            $date = new Carbon($request->date);
             if (!empty($request->exchange_rate)) {
                 $exchange_rate = $request->exchange_rate;
             } else {
                 try {
-                    $exchange_rate = self::getExchangeRate($request->currency, $date);
+                    $exchange_rate = EzvExchangeRates::getExchangeRate($request->currency, $date);
                 } catch (\Exception $e) {
                     Log::error($e);
                     // If exchange cannot be determined, redirect to advanced registration form, where exchange can be specified
@@ -261,43 +266,13 @@ class DonorController extends Controller
         }
 
         $donation = new Donation();
-        $donation->date = $request->date;
+        $donation->date = $date;
         $donation->amount = $request->amount;
         $donation->currency = $request->currency;
         $donation->exchange_amount = $exchange_amount;
         $donation->origin = $request->origin;
         $donor->donations()->save($donation);
         return redirect()->route('donors.show', $donor);
-    }
-
-    public static function getExchangeRate($currency, $date) : float {
-        $rate = session('exchangeRate_' . $currency . '_' . $date->toDateString(), null);
-        if ($rate == null) {
-            $rate = self::getExchangeRateFromWeb($currency, $date);
-            session(['exchangeRate_' . $currency . '_' . $date->toDateString() => $rate]);
-        }
-        return $rate;
-    }
-
-    // See https://www.estv.admin.ch/estv/de/home/mehrwertsteuer/dienstleistungen/fremdwaehrungskurse/tageskurse.html
-    const EXCHANGE_RATE_XML_TODAY = 'http://www.pwebapps.ezv.admin.ch/apps/rates/rate/getxml?activeSearchType=today';
-    const EXCHANGE_RATE_XML_DATE = 'http://www.pwebapps.ezv.admin.ch/apps/rates/rate/getxml?activeSearchType=userDefinedDay&d=';
-
-    public static function getExchangeRateFromWeb($currency, $date) : float {
-        $context  = stream_context_create(array('http' => array('header' => 'Accept: application/xml')));
-        if ($date->isToday()) {
-            $url = self::EXCHANGE_RATE_XML_TODAY;
-        } else {
-            $url = self::EXCHANGE_RATE_XML_DATE . $date->format('Ymd');
-        }
-        $xml = file_get_contents($url, false, $context);
-        $xml = simplexml_load_string($xml);
-        foreach ($xml->devise as $devise) {
-            if ($devise['code'] == strtolower($currency)) {
-                return (float)$devise->kurs;
-            }
-        }
-        throw new Exception('Unable to find current exchange rate for ' . $currency);
     }
 
 }

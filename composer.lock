@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a06c72f57829fd1c3aaaa5b67e6640e8",
-    "content-hash": "cd0be45023ac4065a4e60e33a3c27256",
+    "hash": "a37f7b74b434b918fbf1f61aad4c74da",
+    "content-hash": "6845850e568fc2ca629c2b29155a91f5",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1917,6 +1917,47 @@
                 "psr-3"
             ],
             "time": "2017-06-19 01:22:40"
+        },
+        {
+            "name": "mrcage/chf-exchange-rates",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mrcage/chf-exchange-rates-php.git",
+                "reference": "812fe86de1bc3284e72c47d61f4a6d0c4347f44b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mrcage/chf-exchange-rates-php/zipball/812fe86de1bc3284e72c47d61f4a6d0c4347f44b",
+                "reference": "812fe86de1bc3284e72c47d61f4a6d0c4347f44b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.5",
+                "nesbot/carbon": "~1.0",
+                "php": ">=7.1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MrCage\\EzvExchangeRates\\": "src/"
+                }
+            },
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Perrenoud",
+                    "email": "mail@nicu.ch"
+                }
+            ],
+            "description": "Retrieves Swiss Franc exchange rates for foreign currencies based on data from the website of the Swiss Federal Customs Administration.",
+            "support": {
+                "source": "https://github.com/mrcage/chf-exchange-rates-php/tree/1.0.0",
+                "issues": "https://github.com/mrcage/chf-exchange-rates-php/issues"
+            },
+            "time": "2018-03-05 17:10:40"
         },
         {
             "name": "myclabs/php-enum",
