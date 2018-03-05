@@ -189,6 +189,12 @@ class ContextMenuComposer {
                         'caption' => __('app.manage_users'),
                         'icon' => 'users',
                         'authorized' => Auth::user()->can('list', User::class)
+                    ],
+                    'permissions' => [
+                        'url' => route('roles.permissions'),
+                        'caption' => __('app.permissions'),
+                        'icon' => 'key',
+                        'authorized' => Auth::user()->can('list', User::class) && Auth::user()->can('list', Role::class)
                     ]
                 ];
             case 'roles.create':
@@ -232,6 +238,15 @@ class ContextMenuComposer {
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $role)
+                    ]
+                ];
+            case 'roles.permissions':
+                return [
+                    'back' => [
+                        'url' => route('roles.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', Role::class)
                     ]
                 ];
 

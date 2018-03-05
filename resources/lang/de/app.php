@@ -41,6 +41,7 @@ return [
     'create_role' => 'Rolle hinzufügen',
     'edit_role' => 'Rolle bearbeiten',
     'view_role' => 'Rolle anzeigen',
+    'permission' => 'Berechtigung',
     'permissions' => 'Berechtigungen',
     'no_permissions' => 'Keine Berechtigungen',
     'confirm_delete_role' => 'Soll diese Rolle wirklich gelöscht werden?',

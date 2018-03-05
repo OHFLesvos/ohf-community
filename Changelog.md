@@ -6,6 +6,7 @@
 * Laravel updated to 5.6.7
 * Added "snackbar" notifications
 * Added purpose and reference fields to donations
+* Added report about user permissions
 
 ## 1.10.5
 

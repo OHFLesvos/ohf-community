@@ -41,6 +41,7 @@ return [
     'create_role' => 'Create Role',
     'edit_role' => 'Edit Role',
     'view_role' => 'View Role',
+    'permission' => 'Permission',
     'permissions' => 'Permissions',
     'no_permissions' => 'No permissions',
     'confirm_delete_role' => 'Really delete this role?',
