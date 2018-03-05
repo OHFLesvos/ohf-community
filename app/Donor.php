@@ -30,4 +30,11 @@ class Donor extends Model
             ->pluck('total')
             ->first();
     }
+
+    function donationsPerYear() {
+        return $this->donations()
+            ->groupBy(DB::raw('YEAR(date)'))
+            ->select(DB::raw('YEAR(date) as year'), DB::raw('sum(exchange_amount) as total'))
+            ->get();
+    }
 }

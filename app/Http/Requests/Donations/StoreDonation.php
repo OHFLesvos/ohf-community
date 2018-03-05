@@ -28,7 +28,9 @@ class StoreDonation extends FormRequest
             'amount' => 'required|numeric|min:1',
             'exchange_rate' => 'nullable|numeric|min:0',
             'currency' => 'required|string',
-            'origin' => 'required|string',
+            'channel' => 'required|string',
+            'purpose' => 'nullable|string',
+            'reference' => 'nullable|string',
         ];
     }
 }

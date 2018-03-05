@@ -15,8 +15,16 @@
                 <div class="col-md">
                     {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('donations.amount'), 'step' => 'any', 'id' => 'amount' ], '') }}
                 </div>
+            </div>
+            <div class="form-row">
                 <div class="col-md">
-                    {{ Form::bsText('origin', null, [ 'required', 'placeholder' => __('donations.origin'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], '') }}
+                    {{ Form::bsText('channel', null, [ 'required', 'placeholder' => __('donations.channel'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($channels)) ], '') }}
+                </div>
+                <div class="col-md">
+                    {{ Form::bsText('purpose', null, [ 'placeholder' => __('donations.purpose') ], '') }}
+                </div>
+                <div class="col-md">
+                    {{ Form::bsText('reference', null, [ 'placeholder' => __('donations.reference') ], '') }}
                 </div>
             </div>
             <p>

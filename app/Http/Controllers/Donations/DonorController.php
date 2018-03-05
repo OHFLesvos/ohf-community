@@ -83,7 +83,7 @@ class DonorController extends Controller
             'donor' => $donor,
             'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate(),
             'currencies' => Config::get('donations.currencies'),
-            'origins' => Donation::select('origin')->distinct()->get()->pluck('origin')->toArray(),
+            'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
 

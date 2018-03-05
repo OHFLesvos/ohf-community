@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a37f7b74b434b918fbf1f61aad4c74da",
-    "content-hash": "6845850e568fc2ca629c2b29155a91f5",
+    "hash": "4123799958e1884bfbf5a87da3921e36",
+    "content-hash": "22c1ae8aa751e3cd2cf81f185fa1ed03",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1116,6 +1116,48 @@
                 "parser"
             ],
             "time": "2018-02-28 11:41:37"
+        },
+        {
+            "name": "iatstuti/laravel-nullable-fields",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michaeldyrynda/laravel-nullable-fields.git",
+                "reference": "5379ef740f44b0061caf7d07ac4714cb982e6173"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michaeldyrynda/laravel-nullable-fields/zipball/5379ef740f44b0061caf7d07ac4714cb982e6173",
+                "reference": "5379ef740f44b0061caf7d07ac4714cb982e6173",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.0",
+                "illuminate/events": "~5.0",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "utility",
+            "autoload": {
+                "psr-4": {
+                    "Iatstuti\\Database\\Support\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dyrynda",
+                    "email": "michael@dyrynda.com.au",
+                    "homepage": "https://dyrynda.com.au"
+                }
+            ],
+            "description": "This trait allows you to easily flag attributes that should be set as null when being persisted to the database using the Laravel PHP Framework.",
+            "time": "2018-02-14 10:41:34"
         },
         {
             "name": "jakub-onderka/php-console-color",

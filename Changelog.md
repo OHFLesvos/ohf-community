@@ -5,6 +5,7 @@
 * When setting / chaning a user password, it will now be validated against "Have I been pwned" (https://haveibeenpwned.com/)
 * Laravel updated to 5.6.7
 * Added "snackbar" notifications
+* Added purpose and reference fields to donations
 
 ## 1.10.5
 

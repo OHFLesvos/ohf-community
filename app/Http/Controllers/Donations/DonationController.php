@@ -27,7 +27,7 @@ class DonationController extends Controller
         return view('donations.donations.register', [
             'donor' => $donor,
             'currencies' => Config::get('donations.currencies'),
-            'origins' => Donation::select('origin')->distinct()->get()->pluck('origin')->toArray(),
+            'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
 
@@ -72,10 +72,12 @@ class DonationController extends Controller
         $donation->amount = $request->amount;
         $donation->currency = $request->currency;
         $donation->exchange_amount = $exchange_amount;
-        $donation->origin = $request->origin;
+        $donation->channel = $request->channel;
+        $donation->purpose = $request->purpose;
+        $donation->reference = $request->reference;
         $donor->donations()->save($donation);
         return redirect()->route('donors.show', $donor)
-            ->with('success', __('donations.donation_registered'));;
+            ->with('success', __('donations.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]));;
     }
 
     /**
@@ -112,13 +114,13 @@ class DonationController extends Controller
     
                 // Currency formats
                 for ($i = 0; $i < sizeof($donations); $i++) {
-                    $sheet->getStyle('C' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('donations.currencies_excel_format')[$donations[$i]->currency]);
+                    $sheet->getStyle('E' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('donations.currencies_excel_format')[$donations[$i]->currency]);
                 }
-                $sheet->getStyle('D')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
+                $sheet->getStyle('F')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
     
                 // Sum
-                $sumCell = 'D' . (count($donations) + 2);
-                $sheet->setCellValue($sumCell, '=SUM(D2:D' . (count($donations) + 1) . ')');
+                $sumCell = 'F' . (count($donations) + 2);
+                $sheet->setCellValue($sumCell, '=SUM(F2:F' . (count($donations) + 1) . ')');
                 $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
             });
         }

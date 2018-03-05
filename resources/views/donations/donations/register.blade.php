@@ -21,8 +21,16 @@
                     <div class="col-md">
                         {{ Form::bsNumber('exchange_rate', null, [ 'required', 'step' => 'any' ], __('donations.exchange_rate'), __('donations.write_decimal_point_as_comma')) }}
                     </div>
+                </div>
+                <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsText('origin', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], __('donations.origin')) }}
+                        {{ Form::bsText('channel', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($channels)) ], __('donations.channel')) }}
+                    </div>
+                    <div class="col-md">
+                        {{ Form::bsText('purpose', null, [ ], __('donations.purpose')) }}
+                    </div>
+                    <div class="col-md">
+                        {{ Form::bsText('reference', null, [ ], __('donations.reference')) }}
                     </div>
                 </div>
                 <p>
