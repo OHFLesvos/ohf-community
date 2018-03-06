@@ -11,54 +11,87 @@
                 <div class="card-header">@lang('donations.donor')</div>
                 <div class="card-body p-0">
 
-                    <table class="table mb-0">
-                        <tbody>
-                            <tr>
-                                <th>@lang('app.name')</th>
-                                <td>{{ $donor->name }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('donations.address')</th>
-                                <td>{{ $donor->address }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('donations.zip')</th>
-                                <td>{{ $donor->zip }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('donations.city')</th>
-                                <td>{{ $donor->city }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('donations.country')</th>
-                                <td>{{ $donor->country }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.email')</th>
-                                <td>
-                                    @isset($donor->email)
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.name')</strong></div>
+                                <div class="col-sm">{{ $donor->name }}</div>
+                            </div>
+                        </li>
+
+                        @isset($donor->address)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('donations.address')</strong></div>
+                                    <div class="col-sm">{{ $donor->address }}</div>
+                                </div>
+                            </li>
+                        @endisset
+
+                        @isset($donor->zip)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('donations.zip')</strong></div>
+                                    <div class="col-sm">{{ $donor->zip }}</div>
+                                </div>
+                            </li>
+                        @endisset
+
+                        @isset($donor->city)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('donations.city')</strong></div>
+                                    <div class="col-sm">{{ $donor->city }}</div>
+                                </div>
+                            </li>
+                        @endisset
+
+                        @isset($donor->country)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('donations.country')</strong></div>
+                                    <div class="col-sm">{{ $donor->country }}</div>
+                                </div>
+                            </li>
+                        @endisset
+
+                        @isset($donor->email)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('app.email')</strong></div>
+                                    <div class="col-sm">
                                         <a href="mailto:{{ $donor->email }}">{{ $donor->email }}</a>
-                                    @endisset
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>@lang('donations.phone')</th>
-                                <td>
-                                    @isset($donor->phone)
+                                    </div>
+                                </div>
+                            </li>
+                        @endisset
+
+                        @isset($donor->phone)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('donations.phone')</strong></div>
+                                    <div class="col-sm">
                                         <a href="tel:{{ $donor->phone }}">{{ $donor->phone }}</a>
-                                    @endisset
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.registered')</th>
-                                <td>{{ $donor->created_at }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.last_updated')</th>
-                                <td>{{ $donor->updated_at }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </div>
+                                </div>
+                            </li>
+                        @endisset
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.registered')</strong></div>
+                                <div class="col-sm">{{ $donor->created_at }}</div>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
+                                <div class="col-sm">{{ $donor->updated_at }}</div>
+                            </div>
+                        </li>
+
+                    </ul>
 
                 </div>
             </div>
