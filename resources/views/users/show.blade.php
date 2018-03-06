@@ -12,59 +12,73 @@
 
     <div class="row">
         <div class="col-md-9">
-            <div class="card">
+            {{-- <div class="card mb-4">
                 <div class="card-header">@lang('app.user')</div>
-                <div class="card-body p-0">
-                    <table class="table m-0">
-                        <tbody>
-                            <tr>
-                                <th>@lang('app.name')</th>
-                                <td>{{ $user->name }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.email')</th>
-                                <td>
+                <div class="card-body p-0"> --}}
+                    <ul class="list-group list-group-flush mb-2">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.name')</strong></div>
+                                <div class="col-sm">{{ $user->name }}</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.email')</strong></div>
+                                <div class="col-sm">
                                     <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.roles')</th>
-                                <td>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.roles')</strong></div>
+                                <div class="col-sm">
                                     @forelse ($user->roles->sortBy('name') as $role)
                                         <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
                                     @empty
                                         <em>@lang('app.no_roles')</em>
                                     @endforelse
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.administrator')</th>
-                                <td>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col"><strong>@lang('app.administrator')</strong></div>
+                                <div class="col">
                                     @if ( $user->isSuperAdmin() )
                                         @icon(check text-success)
                                     @else
                                         @icon(times)
                                     @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.registered')</th>
-                                <td>{{ $user->created_at }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.last_updated')</th>
-                                <td>{{ $user->updated_at }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.registered')</strong></div>
+                                <div class="col-sm">{{ $user->created_at }}</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
+                                <div class="col-sm">{{ $user->updated_at }}</div>
+                            </div>
+                        </li>
+                    </ul>
+                {{-- </div>
+            </div> --}}
         </div>
         <div class="col-md-3">
             <div class="card mb-4">
                 <div class="card-header">@lang('app.permissions')</div>
                 <div class="card-body p-0">
-                    <ul class="list-group">
+                    <ul class="list-group list-group-flush">
+                        @if ( $user->isSuperAdmin() )
+                            <li class="list-group-item list-group-item-warning">
+                                @lang('app.user_is_admin_has_all_permissions')
+                            </li>
+                        @endif
                         @if($user->permissions()->count() > 0)
                             @foreach($user->permissions() as $permission)
                                 <li class="list-group-item">{{ $permissions[$permission->key] }}</li>
