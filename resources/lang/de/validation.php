@@ -147,5 +147,6 @@ return [
         'time' => 'Uhrzeit',
         'available' => 'verfügbar',
         'size' => 'Größe',
+        'date_of_birth' => 'Geburtsdatum',
     ],
 ];

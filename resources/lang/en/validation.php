@@ -117,6 +117,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'date_of_birth' => 'Date of birth',
+    ],
 
 ];

@@ -28,7 +28,7 @@ class StorePerson extends FormRequest
         return [
             'name' => 'required|max:255',
             'family_name' => 'required|max:255',
-            'gender' => 'required', 'in:m,f',
+            'gender' => 'required|in:m,f',
             'nationality' => [
 				'nullable',
 				'max:255',
@@ -41,6 +41,7 @@ class StorePerson extends FormRequest
             'languages' => 'max:255',
             'skills' => 'max:255',
             'remarks' => 'max:255',
+            'date_of_birth' => 'nullable|date',
         ];
     }
 }

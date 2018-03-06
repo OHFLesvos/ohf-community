@@ -46,6 +46,9 @@ function showSnackbar(text, actionText, actionClass, callback) {
 	Snackbar.show(args);
 }
 
+function ajaxError(jqXHR, textStatus) {
+	alert(textStatus + ': ' + jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText);
+}
 
 $(function(){
 
@@ -73,10 +76,7 @@ $(function(){
 				resultElem.html('<strong>' + content.substr(0,7) + '</strong>');
 				showSnackbar('QR code card has been stored');
 			})
-			.fail(function(jqXHR, textStatus) {
-				var msg = jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText;
-				alert('Error: ' + msg);
-			});
+			.fail(ajaxError);
 		});
 	});
 
@@ -173,9 +173,7 @@ function storeTransaction(personId, value, resultElem) {
 			showSnackbar('Transaction has been reverted');
 		}
 	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus + ': ' + jqXHR.responseJSON);
-	});
+	.fail(ajaxError);
 }
 
 function selectGender() {
@@ -196,9 +194,7 @@ function selectGender() {
 		showSnackbar('Gender has been registered.');
 		enableFilterSelect();
 	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus);
-	});
+	.fail(ajaxError);
 }
 
 function selectDateOfBirth() {
@@ -219,7 +215,7 @@ function selectDateOfBirth() {
 				isEnter = (evt.keyCode == 13);
 			}
 			if (isEnter && dateSelect.val().match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) {
-				storeDateOfBirth(person, dateSelect.val(), resultElem);
+				storeDateOfBirth(person, dateSelect, resultElem);
 			}
 		});
 	resultElem.empty()
@@ -230,7 +226,7 @@ function selectDateOfBirth() {
 			.addClass('btn btn-primary btn-sm')
 			.on('click', function(){
 				if (dateSelect.val().match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) {
-					storeDateOfBirth(person, dateSelect.val(), resultElem);
+					storeDateOfBirth(person, dateSelect, resultElem);
 				} else {
 					dateSelect.focus();
 				}
@@ -262,18 +258,19 @@ function selectDateOfBirth() {
 	dateSelect.focus();
 }
 
-function storeDateOfBirth(person, value, resultElem) {
+function storeDateOfBirth(person, dateSelect, resultElem) {
 	$.post(updateDateOfBirthUrl, {
 		"_token": csrfToken,
 		"person_id":person,
-		'date_of_birth': value
+		'date_of_birth': dateSelect.val()
 	}, function(data) {
 		resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
 		showSnackbar('Date of birth has been registered.');
 		enableFilterSelect();
 	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus + ': ' + jqXHR.responseJSON);
+	.fail(function(jqXHR, textStatus){
+		ajaxError(jqXHR, textStatus);
+		dateSelect.select();
 	});	
 }
 
@@ -313,9 +310,7 @@ function giveBoutiqueCoupon() {
 		showSnackbar('Boutique coupon has been registered.');
 		enableFilterSelect();
 	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus);
-	});
+	.fail(ajaxError);
 }
 
 function resetBoutiqueCoupon() {
@@ -337,9 +332,7 @@ function resetBoutiqueCoupon() {
 		showSnackbar('Boutique coupon has been unregistered.');
 		enableFilterSelect();
 	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus);
-	});
+	.fail(ajaxError);
 }
 
 function giveDiapersCoupon(){
@@ -362,9 +355,7 @@ function giveDiapersCoupon(){
 		showSnackbar('Diapers coupon has been registered.');
 		enableFilterSelect();
 	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus);
-	});
+	.fail(ajaxError);
 }
 
 function resetDiapersCoupon() {
@@ -386,7 +377,5 @@ function resetDiapersCoupon() {
 		showSnackbar('Diapers coupon has been unregistered.');
 		enableFilterSelect();
 	})
-	.fail(function(jqXHR, textStatus) {
-		alert(textStatus);
-	});
+	.fail(ajaxError);
 }
