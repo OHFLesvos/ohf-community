@@ -66,5 +66,6 @@ return [
     'export' => 'Export',
     'an_error_happened' => 'An error happened',
     'dismiss' => 'Dismiss',
-    'user_is_admin_has_all_permissions' => 'This user is an administrator and has therefore all permissions.'
+    'user_is_admin_has_all_permissions' => 'This user is an administrator and has therefore all permissions.',
+    'remarks' => 'Bemerkungen',
 ];

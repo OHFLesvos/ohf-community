@@ -35,7 +35,12 @@
                 {{ Form::bsText('phone', null, [ ], __('donations.phone')) }}
             </div>
         </div>
-
+        <div class="form-row">
+            <div class="col-md">
+                {{ Form::bsTextarea('remarks', null, [ 'rows' => 2 ], __('app.remarks')) }}
+            </div>
+        </div>
+        
         <p>
             {{ Form::bsSubmitButton(__('app.create')) }}
         </p>

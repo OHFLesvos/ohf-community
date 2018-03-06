@@ -64,6 +64,7 @@ class DonorController extends Controller
         $donor->country = $request->country;
         $donor->email = $request->email;
         $donor->phone = $request->phone;
+        $donor->remarks = $request->remarks;
         $donor->save();
         return redirect()->route('donors.show', $donor)
             ->with('success', __('donations.donor_added'));
@@ -121,6 +122,7 @@ class DonorController extends Controller
         $donor->country = $request->country;
         $donor->email = $request->email;
         $donor->phone = $request->phone;
+        $donor->remarks = $request->remarks;
         $donor->save();
         return redirect()->route('donors.show', $donor)
             ->with('success', __('donations.donor_updated'));
