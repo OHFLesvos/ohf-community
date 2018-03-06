@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.1
+
+* Added remarks to donors
+
 ## 1.11.0
 
 * When setting / chaning a user password, it will now be validated against "Have I been pwned" (https://haveibeenpwned.com/)
