@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.11.2
+
+* Improved date of birth validation in persons/bank screens
+
 ## 1.11.1
 
 * Added remarks to donors
