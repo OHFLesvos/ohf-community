@@ -11,8 +11,15 @@
     </div>
 
     {!! Form::open(['route' => ['logistics.articles.store', $project]]) !!}
-        {{ Form::hidden('date', $date) }}
-
+        <div class="input-group mb-4">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="registerDate">@icon(calendar)</label>
+            </div>
+            {{ Form::date('date', $date, [ 'class' => 'form-control', 'id' => 'registerDate','max' => Carbon\Carbon::today()->toDateString() ]) }}
+            <div class="input-group-append">
+                <a class="btn btn-secondary text-light" href="{{ route('logistics.articles.index', $project) }}">Today</a>
+            </div>
+        </div>
         <ul class="nav nav-tabs tab-remember" id="articlesTabNav" role="tablist">
             @foreach($types as $type)
             <li class="nav-item">
@@ -42,6 +49,10 @@
     var inputsHash;
 
     $(function(){
+        $('#registerDate').on('change', function(){
+            document.location='{{ route('logistics.articles.index', $project) }}?date=' + $(this).val();
+        });
+
         $('#articlesTable input').on('keydown', function(evt){
             var isEnter = false;
             if ("key" in evt) {

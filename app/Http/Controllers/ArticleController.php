@@ -30,6 +30,8 @@ class ArticleController extends Controller
 
         if (isset($request->date)) {
             $date = new Carbon($request->date);
+        } else if (session('date') != null) {
+            $date = new Carbon(session('date'));
         } else {
             $date = Carbon::today();
         }
@@ -114,7 +116,8 @@ class ArticleController extends Controller
         }
 
         return redirect()->route('logistics.articles.index', $project)
-            ->with($updated ? 'success' : 'info', $updated ? 'Values have been updated.' : 'No changes.');
+            ->with($updated ? 'success' : 'info', $updated ? 'Values have been updated.' : 'No changes.')
+            ->with('date', $date);
     }
 
     /**
