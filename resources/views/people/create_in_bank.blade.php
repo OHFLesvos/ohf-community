@@ -99,8 +99,15 @@
 
             // Adapt name attribute
             content.find('input').each(function(){
-                var name = $(this).attr('name');
-                $(this).attr('name', name.replace(/\[x\]/g, '[' + childIndex + ']'));
+                $(this).attr('name', $(this).attr('name').replace(/\[x\]/g, '[' + childIndex + ']'));
+                if ($(this).attr('id')) {
+                    $(this).attr('id', $(this).attr('id').replace(/-x-/g, '-' + childIndex + '-'));
+                }
+            });
+            content.find('label').each(function(){
+                if ($(this).attr('for')) {
+                    $(this).attr('for', $(this).attr('for').replace(/-x-/g, '-' + childIndex + '-'));
+                }
             });
             childIndex++;
 

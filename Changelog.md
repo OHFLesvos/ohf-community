@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.4
+
+* Fixed gender selection when registering children.
+
 ## 1.11.3
 
 * Updated Laravel to v5.6.9.
