@@ -21,3 +21,4 @@
 * Implement privilege assignment with expiration date
 * Move privilege report to reports view
 * Add privacy statement which user must accept on first registration
+* Mail notification of admin when new person registers
