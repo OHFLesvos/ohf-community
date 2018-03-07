@@ -5,6 +5,7 @@
 * Updated Laravel to v5.6.9.
 * Added checkbox for remembering the session to login view, default is false.
 * Optimized login view for small screens.
+* UI: Implemented custom checkbox/radio style.
 
 ## 1.11.2
 

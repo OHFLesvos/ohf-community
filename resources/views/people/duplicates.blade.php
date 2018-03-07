@@ -37,12 +37,10 @@
 			@endforeach
 			<p>{{ Form::bsSubmitButton('Apply') }}</p>
 		{!! Form::close() !!}
-	@endif
-
-	@empty($duplicates)
+	@else
 		@component('components.alert.info')
 			No duplicates found.
 		@endcomponent
-	@endempty
+	@endif
 
 @endsection

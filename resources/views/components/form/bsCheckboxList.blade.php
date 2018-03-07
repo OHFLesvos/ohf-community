@@ -2,8 +2,8 @@
     <p>{{ $label }}</p>
 @endif
 @foreach($entries as $k => $v)
-    <div class="custom-control custom-radio custom-control-inline">
-        {{ Form::radio($name, $k, $k == $value, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, $k) ]) }}
+    <div class="custom-control custom-checkbox">
+        {{ Form::checkbox($name, $k, $value != null ? in_array($k, $value) : null, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, $k) ]) }}
         <label class="custom-control-label" for="{{ form_id_string($name, $k) }}">{{ $v }}</label>
     </div>
 @endforeach

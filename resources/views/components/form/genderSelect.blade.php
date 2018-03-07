@@ -1,15 +1,13 @@
 @if ($label === null || !empty($label))
     <p>{{ $label }}</p>
 @endif
-<div class="form-check form-check-inline">
-    <label class="form-check-label">
-        {{ Form::radio($name, 'm', null, [ 'class' => 'form-check-input' ]) }} @icon(male) Male
-    </label>
+<div class="custom-control custom-radio custom-control-inline">
+    {{ Form::radio($name, 'm', null, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, 'm') ]) }}
+    <label class="custom-control-label" for="{{ form_id_string($name, 'm') }}">@icon(male) Male</label>
 </div>
-<div class="form-check form-check-inline">
-    <label class="form-check-label">
-        {{ Form::radio($name, 'f', null, [ 'class' => 'form-check-input' ]) }} @icon(female) Female
-    </label>
+<div class="custom-control custom-radio custom-control-inline">
+    {{ Form::radio($name, 'f', null, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, 'f') ]) }}
+    <label class="custom-control-label" for="{{ form_id_string($name, 'f') }}">@icon(female) Female</label>
 </div>
 @if ($errors->has($name))
     <div><small class="text-danger">{{ $errors->first($name) }}</small></div>
