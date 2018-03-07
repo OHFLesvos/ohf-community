@@ -10,28 +10,31 @@
                 <thead>
                     <tr>
                         <th>@lang('app.name')</th>
-                        <th>@lang('app.email')</th>
-                        <th>@lang('app.roles')</th>
-                        <th>@lang('app.administrator')</th>
-                        <th>@lang('app.registered')</th>
+                        <th class="d-none d-sm-table-cell">@lang('app.email')</th>
+                        <th class="d-none d-sm-table-cell">@lang('app.roles')</th>
+                        <th class="d-none d-md-table-cell">@lang('app.registered')</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td><a href="{{ route('users.show', $user) }}" title="View user">{{ $user->name }}</a></td>
-                            <td><a href="mailto:{{ $user->email }}" title="Send e-mail">{{ $user->email }}</a></td>
                             <td>
+                                <a href="{{ route('users.show', $user) }}" title="View user">{{ $user->name }}</a>
+                                @if($user->isSuperAdmin())
+                                    <strong>(@lang('app.administrator'))</strong>
+                                @endif
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                <a href="mailto:{{ $user->email }}" title="Send e-mail">{{ $user->email }}</a>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
                                 @foreach ($user->roles->sortBy('name') as $role)
                                     <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>@if (! $loop->last), @endif
                                 @endforeach
                             </td>
-                            <td>
-                                @if ( $user->isSuperAdmin() )
-                                    @icon(check text-success)
-                                @endif
+                            <td class="d-none d-md-table-cell">
+                                {{ $user->created_at }}
                             </td>
-                            <td>{{ $user->created_at }}</td>
                         </tr>
                     @endforeach
                 </tbody>
