@@ -28,8 +28,6 @@
                             </div>
                         </div>
 
-                        {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}
-
                     </div>
                 </div>
             </div>
@@ -42,6 +40,8 @@
                         @empty($roles)
                             <em>@lang('app.no_roles')</em>
                         @endempty
+                        <hr>
+                        {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}
                     </div>
                 </div>
             </div>

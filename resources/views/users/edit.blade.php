@@ -28,9 +28,6 @@
                             </div>
                         </div>
 
-                        @if ( App\User::count() > 1 )
-                            {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}
-                        @endif
 
                     </div>
                 </div>
@@ -44,6 +41,11 @@
                         @empty($roles)
                             <em>@lang('app.no_roles')</em>
                         @endempty
+                        @if ( App\User::count() > 1 )
+                            <hr>
+                            {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}
+                        @endif
+
                     </div>
                 </div>
             </div>

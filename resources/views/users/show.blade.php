@@ -44,18 +44,6 @@
                         </li>
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col"><strong>@lang('app.administrator')</strong></div>
-                                <div class="col">
-                                    @if ( $user->isSuperAdmin() )
-                                        @icon(check text-success)
-                                    @else
-                                        @icon(times)
-                                    @endif
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="row">
                                 <div class="col-sm"><strong>@lang('app.registered')</strong></div>
                                 <div class="col-sm">{{ $user->created_at }}</div>
                         </li>
