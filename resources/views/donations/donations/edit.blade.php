@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
-@section('title', __('donations.register_new_donation'))
+@section('title', __('donations.edit_donation'))
 
 @section('content')
 
     <div class="card mb-4">
-        <div class="card-header">@lang('donations.register_new_donation_for', [ 'name' => $donor->name])</div>
+        <div class="card-header">@lang('donations.edit_donation_of', [ 'name' => $donor->name])</div>
         <div class="card-body pb-0">    
-            {!! Form::open(['route' => ['donations.store', $donor ]]) !!}
+            {!! Form::model($donation, ['route' => ['donations.update', $donor, $donation], 'method' => 'put']) !!}
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsDate('date', Carbon\Carbon::now(), [ 'required' ], __('donations.date')) }}
+                        {{ Form::bsDate('date', null, [ 'required' ], __('donations.date')) }}
                     </div>
                     <div class="col-md-auto">
-                        {{ Form::bsSelect('currency', $currencies, Config::get('donations.base_currency'), [ 'required', 'id' => 'currency' ], __('donations.currency')) }}
+                        {{ Form::bsSelect('currency', $currencies, null, [ 'required', 'id' => 'currency' ], __('donations.currency')) }}
                     </div>
                     <div class="col-md">
                         {{ Form::bsNumber('amount', null, [ 'required', 'autofocus', 'step' => 'any', 'id' => 'amount' ], __('donations.amount'), __('donations.write_decimal_point_as_comma')) }}
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <p>
-                    {{ Form::bsSubmitButton(__('app.add')) }}
+                    {{ Form::bsSubmitButton(__('app.update')) }}
                 </p>
             {!! Form::close() !!}
         </div>

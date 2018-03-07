@@ -35,4 +35,10 @@ return [
     'write_decimal_point_as_comma' => 'Write decimal point as comma (,)',
     'donation_registered' => 'Donation of :currency :amount has been registered',
     'year' => 'Year',
+    'edit_donation' => 'Edit donation',
+    'edit_donation_of' => 'Edit donation of :name',
+    'donation_updated' => 'Donation has been updated',
+    'confirm_delete_donation' => 'Do you really want to delete this donation?',
+    'donation_deleted' => 'Donation has been deleted',
+    'leave_empty_for_automatic_calculation' => 'Leave empty for automatic calculation',
 ];

@@ -1,11 +1,12 @@
 # Changelog
 
-## NEXT
+## 1.11.3
 
 * Updated Laravel to v5.6.9.
 * Added checkbox for remembering the session to login view, default is false.
 * Optimized login view for small screens.
 * UI: Implemented custom checkbox/radio style.
+* Added possibility to edit and delete donations.
 
 ## 1.11.2
 

@@ -35,4 +35,10 @@ return [
     'write_decimal_point_as_comma' => 'Dezimalpunkt als Komma (,) schreiben',
     'donation_registered' => 'Spende von :currency :amount wurde registriert',
     'year' => 'Jahr',
+    'edit_donation' => 'Spende bearbeiten',
+    'edit_donation_of' => 'Spende von :name bearbeiten',
+    'donation_updated' => 'Spende wurde aktualisiert',
+    'confirm_delete_donation' => 'Soll diese Spende wirklich gelöscht werden?',
+    'donation_deleted' => 'Spende wurde gelöscht',
+    'leave_empty_for_automatic_calculation' => 'Leerlassen für automatische Berechnung.',
 ];

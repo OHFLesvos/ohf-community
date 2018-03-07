@@ -158,6 +158,9 @@ Route::group(['middleware' => 'language'], function () {
         Route::resource('donations/donors', 'Donations\DonorController');
         Route::get('/donations/donors/{donor}/donation', 'Donations\DonationController@register')->name('donations.create');
         Route::post('/donations/donors/{donor}/donation', 'Donations\DonationController@store')->name('donations.store');
+        Route::get('/donations/donors/{donor}/donation/{donation}/edit', 'Donations\DonationController@edit')->name('donations.edit');
+        Route::put('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@update')->name('donations.update');
+        Route::delete('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@destroy')->name('donations.destroy');
         Route::get('/donations/donors/{donor}/export', 'Donations\DonationController@export')->name('donations.export');
     });
 

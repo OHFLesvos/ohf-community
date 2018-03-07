@@ -10,10 +10,6 @@
 
 * Refactor drachma, boutique and diaper transactions into generalized coupon system
 
-## Donations
-
-* Implemend eddit/delete donation functionality
-
 ## User Management and Privileges
 
 * Implement 2FA using TOTP protocol

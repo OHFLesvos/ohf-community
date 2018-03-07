@@ -81,6 +81,88 @@ class DonationController extends Controller
     }
 
     /**
+     * Edit a donation.
+     *
+     * @param  \App\Donor  $donor
+     * @param  \App\Donation  $donation
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Donor $donor, Donation $donation)
+    {
+        $this->authorize('update', $donation);
+
+        return view('donations.donations.edit', [
+            'donor' => $donor,
+            'donation' => $donation,
+            'currencies' => Config::get('donations.currencies'),
+            'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
+        ]);
+    }
+
+    /**
+     * Updates new donation.
+     *
+     * @param  \App\Http\Requests\Donations\StoreDonation  $request
+     * @param  \App\Donor  $donor
+     * @param  \App\Donation  $donation
+     * @return \Illuminate\Http\Response
+     */
+    public function update(StoreDonation $request, Donor $donor, Donation $donation)
+    {
+        $this->authorize('update', $donation);
+
+        $date = new Carbon($request->date);
+        if ($date->isFuture()) {
+            $date = Carbon::today();
+        }
+
+        if ($request->currency == Config::get('donations.base_currency')) {
+            $exchange_amount = $request->amount;
+        } else {
+            if (!empty($request->exchange_rate)) {
+                $exchange_rate = $request->exchange_rate;
+            } else {
+                try {
+                    $exchange_rate = EzvExchangeRates::getExchangeRate($request->currency, $date);
+                } catch (\Exception $e) {
+                    Log::error($e);
+                    return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
+                }
+            }
+            $exchange_amount = $request->amount * $exchange_rate;
+        }
+
+        $donation->date = $date;
+        $donation->amount = $request->amount;
+        $donation->currency = $request->currency;
+        $donation->exchange_amount = $exchange_amount;
+        $donation->channel = $request->channel;
+        $donation->purpose = $request->purpose;
+        $donation->reference = $request->reference;
+        $donation->save();
+        return redirect()->route('donors.show', $donor)
+            ->with('success', __('donations.donation_updated'));;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Donor $donor, Donation $donation)
+    {
+        $this->authorize('delete', $donation);
+
+        $donation->delete();
+        return redirect()->route('donors.show', $donor)
+            ->with('success', __('donations.donation_deleted'));
+    }
+
+    /**
      * Exports the donations of a donor
      *
      * @param  \App\Donor  $donor

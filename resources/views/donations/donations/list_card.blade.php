@@ -10,6 +10,7 @@
                     <th>@lang('donations.purpose')</th>
                     <th class="d-none d-sm-table-cell">@lang('donations.reference')</th>
                     <th class="text-right">@lang('donations.amount')</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +26,7 @@
                                 ({{ Config::get('donations.base_currency') }} {{ $donation->exchange_amount }})
                             @endif
                         </td>
+                        <td><a href="{{ route('donations.edit', [$donor, $donation]) }}">@icon(pencil)</a></td>
                     </tr>
                 @endforeach
             </tbody>
