@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Updated Laravel to v5.6.9.
+
 ## 1.11.2
 
 * Improved "date of birth" validation in persons/bank screens.
