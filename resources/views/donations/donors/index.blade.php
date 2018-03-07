@@ -29,10 +29,10 @@
                         <th class="d-none d-md-table-cell">@lang('donations.country')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.email')</th>
                         <th class="d-none d-sm-table-cell">@lang('donations.phone')</th>
-                        @can('list', App\Donation::class)
+                        {{-- @can('list', App\Donation::class)
                             <th class="text-right d-none d-sm-table-cell">@lang('donations.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
                             <th class="text-right">@lang('donations.donations') {{ Carbon\Carbon::now()->year }}</th>
-                        @endcan
+                        @endcan --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,7 @@
                                     <a href="mailto:{{ $donor->phone }}">{{ $donor->phone }}</a>
                                 @endisset
                             </td>
-                            @can('list', App\Donation::class)
+                            {{-- @can('list', App\Donation::class)
                                 <td class="text-right d-none d-sm-table-cell">
                                     {{ Config::get('donations.base_currency') }}
                                     {{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) ?? 0 }}
@@ -64,7 +64,7 @@
                                     {{ Config::get('donations.base_currency') }}
                                     {{ $donor->amountPerYear(Carbon\Carbon::now()->year) ?? 0 }}
                                 </td>
-                            @endcan
+                            @endcan --}}
                         </tr>
                     @endforeach
                 </tbody>

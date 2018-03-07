@@ -2,19 +2,20 @@
 
 # 1.11.2
 
-* Improved date of birth validation in persons/bank screens
+* Improved "date of birth" validation in persons/bank screens.
+* Don't show donors donations in donor overviw screen.
 
 ## 1.11.1
 
-* Added remarks to donors
+* Added "remarks" field to donors.
 
 ## 1.11.0
 
-* When setting / chaning a user password, it will now be validated against "Have I been pwned" (https://haveibeenpwned.com/)
-* Laravel updated to 5.6.7
-* Added "snackbar" notifications
-* Added purpose and reference fields to donations
-* Added report about user permissions
+* When setting / changing a user password, it will now be validated against the ["Have I been pwned"](https://haveibeenpwned.com/) service.
+* Laravel updated to 5.6.7.
+* Added "snackbar"-style notifications.
+* Added "purpose" and "reference" fields to donations.
+* Added report about user permissions.
 
 ## 1.10.5
 
