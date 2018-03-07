@@ -1,6 +1,6 @@
 # Changelog
 
-# 1.11.2
+## 1.11.2
 
 * Improved "date of birth" validation in persons/bank screens.
 * Don't show donors donations in donor overviw screen.
