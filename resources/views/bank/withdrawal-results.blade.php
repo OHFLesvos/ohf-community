@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('bank.layout')
 
-@section('title', 'Bank')
+@section('title', __('people.bank'))
 
-@section('content')
+@section('wrapped-content')
 
     @include('bank.person-search')
 

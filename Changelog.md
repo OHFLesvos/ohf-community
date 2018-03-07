@@ -3,6 +3,7 @@
 ## 1.11.4
 
 * Fixed gender selection when registering children.
+* Added bottom navigation to bank views, removed bank index view.
 
 ## 1.11.3
 

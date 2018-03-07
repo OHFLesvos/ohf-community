@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('bank.layout')
 
 @section('title', 'Bank Deposits')
 
-@section('content')
+@section('wrapped-content')
 
     {!! Form::open(['route' => ['bank.storeDeposit']]) !!}
     <div class="card mb-4">
@@ -55,6 +55,5 @@
         </table>
         {{ $transactions->links() }}
     @endif
-
 
 @endsection

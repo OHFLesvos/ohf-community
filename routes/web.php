@@ -30,7 +30,9 @@ Route::group(['middleware' => 'language'], function () {
     //
     // Bank
     //
-    Route::get('/bank', 'BankController@index')->name('bank.index');
+    Route::get('/bank', function(){
+        return redirect()->route('bank.withdrawal');
+    })->name('bank.index');
 
     Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
     Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');

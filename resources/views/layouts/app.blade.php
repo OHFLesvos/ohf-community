@@ -21,7 +21,7 @@
                     </header>
 
                     {{-- Content --}}
-                    <article class="site-content container-fluid pt-3">
+                    <article class="site-content container-fluid {{ $content_padding ?? 'pt-3' }}">
 
                         {{-- Success message --}}
                         @if (session('success'))
