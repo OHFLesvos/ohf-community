@@ -3,7 +3,7 @@
 ## 1.11.2
 
 * Improved "date of birth" validation in persons/bank screens.
-* Don't show donors donations in donor overviw screen.
+* Don't show donors donations in donor overview screen.
 * Added possibility to register incoming/outgoing articles for any day in the past.
 
 ## 1.11.1
@@ -29,22 +29,22 @@
 
 ## 1.10.3
 
-* Exchange rate is queried from EZV based on the selected day
-* Fixed syntax in .env.example
+* Exchange rate is queried from EZV based on the selected day.
+* Fixed syntax in .env.example.
 
 ## 1.10.2
 
-* When register a donation in a foreign currency, the EZV Database is automatically queried for the exchange rate
-* Added USD to the list of supported currencies for donations
+* When register a donation in a foreign currency, the EZV Database is automatically queried for the exchange rate.
+* Added USD to the list of supported currencies for donations.
 
 ## 1.10.1
 
-* Added worker checkbox for person
+* Added worker checkbox for person.
 
 ## 1.10.0
 
-* Language support (english/german) added
-* Donations management added
+* Language support (english/german) added.
+* Donations management added.
 
 ## 1.9.1
 
@@ -52,32 +52,32 @@
 
 ## 1.9.0
 
-* Added scheduler/calendar module
-* Added list of popular names to person report
-* Updated application framework to Laravel 5.6
-* Updated CSS framework to Bootstrap 4.0
+* Added scheduler/calendar module.
+* Added list of popular names to person report.
+* Updated application framework to Laravel 5.6.
+* Updated CSS framework to Bootstrap 4.0.
 
 ## 1.8.20
 
-* Added functionality to remove duplicated persons
+* Added functionality to remove duplicated persons.
 
 ## 1.8.19
 
 * Added "Date of birth" and "Registered" field to "People" page.
 * Added column sorting in "People" page.
-* Added possibilty to assign relations to person (father, mother, child, partner)
-* Replaced text-field autocomplete library
-* Use pie charts to show person demographics and gender in person report
+* Added possibilty to assign relations to person (father, mother, child, partner).
+* Replaced text-field autocomplete library.
+* Use pie charts to show person demographics and gender in person report.
 
 ## 1.8.18
 
-* Small improvements in reports
-* Updated laravel framework and related libraries to latest patch release
-* Added pagination to table of transactions in persons detail view, show author and date/time in human-friendly format
-* Improved calculation of frequent visitor marker
-* In the bank, transactions as well as boutique and diapers coupons can be undone (if they are not older than 5 minutes)
-* Added a quick date of birth selector in the banks person search result screen
-* Added sceen to configure code card document
+* Small improvements in reports.
+* Updated laravel framework and related libraries to latest patch release.
+* Added pagination to table of transactions in persons detail view, show author and date/time in human-friendly format.
+* Improved calculation of frequent visitor marker.
+* In the bank, transactions as well as boutique and diapers coupons can be undone (if they are not older than 5 minutes).
+* Added a quick date of birth selector in the banks person search result screen.
+* Added sceen to configure code card document.
 
 ## 1.8.17
 
