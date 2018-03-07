@@ -4,6 +4,7 @@
 
 * Improved "date of birth" validation in persons/bank screens.
 * Don't show donors donations in donor overviw screen.
+* Added possibility to register incoming/outgoing articles for any day in the past.
 
 ## 1.11.1
 
@@ -23,8 +24,8 @@
 
 ## 1.10.4
 
-* Added ability to export donations of specifc donor
-* Correctly formatted currency field in excel
+* Added ability to export donations of specifc donor into Excel file.
+* Correctly formatted "currency" field in Excel export.
 
 ## 1.10.3
 
