@@ -208,12 +208,6 @@ $(function(){
 });
 
 //
-// Calendar
-//
-require('fullcalendar');
-require('fullcalendar-scheduler');
-
-//
 // Snackbar
 //
 var Snackbar = require('node-snackbar')
