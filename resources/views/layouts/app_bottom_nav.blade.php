@@ -12,7 +12,14 @@
             @yield('wrapped-content')
         </div>
         <div style="flex: 0 0  auto; box-shadow: lightgrey 0px 0px 5px" class="d-flex flex-row border-top">
-            @yield('bottom-nav')
+            @php
+                $currentRouteName = Route::currentRouteName();
+            @endphp
+            @foreach($bottom_nav_elements as $element)
+                <a href="{{ $element['url'] }}" class="btn text-center p-2 @if($element['active']($currentRouteName)) btn-white text-primary @else btn-white text-muted @endif col" title="{{ $element['description'] }}">
+                    @icon({{ $element['icon'] }})<br>{{ $element['label'] }}
+                </a>
+            @endforeach
         </div>
     </div>
 @endsection
