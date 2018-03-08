@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.user-roles')
 
 @section('title', __('app.users'))
 
-@section('content')
+@section('wrapped-content')
 
     @if( ! $users->isEmpty() )
         <div class="table-responsive">

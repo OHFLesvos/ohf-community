@@ -136,6 +136,9 @@ class RoleController extends ParentController
             ->with('success', __('app.role_deleted'));
     }
 
+    /**
+     * Lists all permissions
+     */
     public function permissions()
     {
         return view('roles.permissions', [

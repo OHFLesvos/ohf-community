@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.5
+
+* Improved mobile UX for users and roles views.
+
 ## 1.11.4
 
 * Fixed gender selection when registering children.

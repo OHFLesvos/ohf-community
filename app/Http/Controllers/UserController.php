@@ -126,4 +126,14 @@ class UserController extends ParentController
         return redirect()->route('users.index')
             ->with('success', __('app.user_deleted'));
     }
+
+    /**
+     * Lists all permissions
+     */
+    public function permissions()
+    {
+        return view('users.permissions', [
+            'permissions' => Config::get('auth.permissions')
+        ]);
+    }
 }

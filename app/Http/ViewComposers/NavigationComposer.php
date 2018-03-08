@@ -92,17 +92,10 @@ class NavigationComposer {
                 ],
                 [
                     'route' => 'users.index',
-                    'caption' => __('app.users'),
+                    'caption' => __('app.users_and_roles'),
                     'icon' => 'users',
-                    'active' => 'users*',
-                    'authorized' => Auth::user()->can('list', User::class)
-                ],
-                [
-                    'route' => 'roles.index',
-                    'caption' => __('app.roles'),
-                    'icon' => 'tags',
-                    'active' => 'roles*',
-                    'authorized' => Auth::user()->can('list', Role::class)
+                    'active' => ['users*', 'roles*'],
+                    'authorized' => Auth::user()->can('list', User::class) || Auth::user()->can('list', Role::class)
                 ]
             ];
             $view->with('nav', $nav);

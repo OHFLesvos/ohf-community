@@ -25,6 +25,7 @@ return [
     'no_users_found' => 'Keine Benutzer gefunden.',
     'no_roles_found' => 'Keine Rollen gefunden.',
     'no_roles' => 'Keine Rollen',
+    'no_users' => 'Keine Benutzer',
     'this_is_your_own_account' => 'Dies ist dein eigenes Konto.',
     'user_profile' => 'Benutzerprofil',
     'password' => 'Passwort',
@@ -43,6 +44,8 @@ return [
     'view_role' => 'Rolle anzeigen',
     'permission' => 'Berechtigung',
     'permissions' => 'Berechtigungen',
+    'user_permissions' => 'Benutzerberechtigungen',
+    'role_permissions' => 'Rollenberechtigungen',
     'no_permissions' => 'Keine Berechtigungen',
     'confirm_delete_role' => 'Soll diese Rolle wirklich gelöscht werden?',
     'role_added' => 'Rolle wurde hinzugefügt.',
@@ -68,4 +71,5 @@ return [
     'dismiss' => 'Ausblenden',
     'user_is_admin_has_all_permissions' => 'Dieser Benutzer ist ein Administrator und hat daher alle Berechtigungen.',
     'remarks' => 'Bemerkungen',
+    'users_and_roles' => 'Benutzer & Rollen',
 ];

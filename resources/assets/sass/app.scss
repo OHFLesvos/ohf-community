@@ -205,3 +205,24 @@
 .snackbar-container.warning .action {
   color: theme-color("warning");
 }
+
+/**
+* CSS columns
+*/
+
+.columns-3 {
+  column-count: 1;
+}
+
+@include media-breakpoint-up(md) {
+  .columns-3 {
+    column-count: 2;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .columns-3 {
+    column-count: 3;
+  }
+}
+

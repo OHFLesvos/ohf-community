@@ -128,11 +128,11 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', User::class)
                     ],
-                    'roles' => [
-                        'url' => route('roles.index'),
-                        'caption' => __('app.manage_roles'),
-                        'icon' => 'tags',
-                        'authorized' => Auth::user()->can('list', Role::class)
+                    'permissions' => [
+                        'url' => route('users.permissions'),
+                        'caption' => __('app.permissions'),
+                        'icon' => 'key',
+                        'authorized' => Auth::user()->can('list', User::class)
                     ]
                 ];
             case 'users.create':
@@ -178,6 +178,15 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('view', $user)
                     ]
                 ];
+            case 'users.permissions':
+                return [
+                    'back' => [
+                        'url' => route('users.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', User::class)
+                    ]
+                ];
             //
             // Roles
             //
@@ -190,17 +199,11 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Role::class)
                     ],
-                    'users' => [
-                        'url' => route('users.index'),
-                        'caption' => __('app.manage_users'),
-                        'icon' => 'users',
-                        'authorized' => Auth::user()->can('list', User::class)
-                    ],
                     'permissions' => [
                         'url' => route('roles.permissions'),
                         'caption' => __('app.permissions'),
                         'icon' => 'key',
-                        'authorized' => Auth::user()->can('list', User::class) && Auth::user()->can('list', Role::class)
+                        'authorized' => Auth::user()->can('list', Role::class)
                     ]
                 ];
             case 'roles.create':

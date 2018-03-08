@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.role_permissions'))
+@section('title', __('app.user_permissions'))
 
 @section('content')
     <div class="columns-3">
@@ -10,7 +10,6 @@
         -moz-page-break-inside:avoid;
         page-break-inside: avoid;
         break-inside: avoid-column;">
-                <h4>{{ $permission }}</h4>
                 @php
                     $roles = App\RolePermission::where('key', $k)
                         ->get()
@@ -18,11 +17,17 @@
                             return $e->role;
                         })
                         ->sortBy('name');
+                    $users = $roles->flatMap(function($e){
+                        return $e->users;
+                    })
+                    ->unique('id')
+                    ->sortBy('name');
                 @endphp
-                @forelse($roles as $role)
-                    <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
+                <h4>{{ $permission }}</h4>
+                @forelse($users as $user)
+                    <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a><br>
                 @empty
-                    <em>@lang('app.no_roles')</em>
+                    <em>@lang('app.no_users')</em>
                 @endforelse
             </div>
         @endforeach

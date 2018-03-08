@@ -7,7 +7,8 @@
             'icon' => 'id-card',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'bank.withdrawal' || $currentRouteName == 'bank.withdrawalSearch';
-            }
+            },
+            'authorized' => Gate::allows('do-bank-withdrawals'),
         ],
         [
             'url' => route('bank.deposit'),
@@ -16,7 +17,8 @@
             'icon' => 'money',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'bank.deposit';
-            }
+            },
+            'authorized' => Gate::allows('do-bank-deposits'),
         ]
     ] 
 ])

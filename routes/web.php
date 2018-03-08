@@ -18,6 +18,7 @@ Route::group(['middleware' => 'language'], function () {
     // Changelog
     Route::get('/changelog', 'ChangelogController@index')->name('changelog');
 
+    Route::get('users/permissions', 'UserController@permissions')->name('users.permissions');
     Route::resource('users', 'UserController');
     Route::get('roles/permissions', 'RoleController@permissions')->name('roles.permissions');
     Route::resource('roles', 'RoleController');
