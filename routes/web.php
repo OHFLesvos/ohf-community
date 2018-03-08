@@ -27,6 +27,9 @@ Route::group(['middleware' => 'language'], function () {
     Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
     Route::post('/userprofile/updatePassword', 'UserProfileController@updatePassword')->name('userprofile.updatePassword');
     Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile.delete');
+    Route::get('/userprofile/2FA', 'UserProfileController@view2FA')->name('userprofile.view2FA');
+    Route::post('/userprofile/2FA', 'UserProfileController@store2FA')->name('userprofile.store2FA');
+    Route::delete('/userprofile/2FA', 'UserProfileController@disable2FA')->name('userprofile.disable2FA');
 
     //
     // Bank

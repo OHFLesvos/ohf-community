@@ -5,10 +5,16 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Config;
+use Iatstuti\Database\Support\NullableFields;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use NullableFields;
+   
+    protected $nullable = [
+		'tfa_secret',
+    ];
 
     /**
      * The attributes that are mass assignable.

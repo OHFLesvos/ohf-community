@@ -38,4 +38,13 @@ return [
     'reset_password' => 'Passwort zurücksetzen',
     'reset_password_instructions' => 'Bitte gib deine E-Mail Adresse ein. Wir werden dir einen Link zusenden, mit welchem du dein Passwort zurücksetzen kannst.',
     'send_reset_password_link' => 'Link senden',
+    'tfa_authentication' => 'Zwei-Faktor-Authentifizierung',
+    'tfa_authentication_not_enabled' => 'Zwei-Faktor-Authentifizierung ist nicht aktiv.',
+    'tfa_scan_explanation' => 'Scanne den QR-Code mit der "Google-Authenticator" App und gib danach den Code in das untenstehende Feld ein.',
+    'tfa_enabled' => 'Zwei-Faktor-Authentifizierung aktiviert',
+    'invalid_code_please_repeat' => 'Ungültiger Code, bitte wiederholen.',
+    'invalid_secret' => 'Ungültiger Schlüssel, bitte wiederholen.',
+    'tfa_authentication_enabled' => 'Zwei-Faktor-Authentifizierung ist aktiviert',
+    'tfa_enter_code' => 'Gibt den Code aus der "Google-Authenticator" App in das untenstehende Feld ein.',
+    'tfa_disabled' => 'Zwei-Faktor-Authentifizierung deaktiviert',
 ];

@@ -72,4 +72,7 @@ return [
     'user_is_admin_has_all_permissions' => 'Dieser Benutzer ist ein Administrator und hat daher alle Berechtigungen.',
     'remarks' => 'Bemerkungen',
     'users_and_roles' => 'Benutzer & Rollen',
+    'enable' => 'Aktivieren',
+    'disable' => 'Deaktivieren',
+    'code' => 'Code',
 ];

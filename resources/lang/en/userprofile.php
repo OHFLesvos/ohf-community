@@ -38,4 +38,13 @@ return [
     'reset_password' => 'Reset password',
     'reset_password_instructions' => 'Please enter your e-mail address. We will send you a link which allows you to reset your password.',
     'send_reset_password_link' => 'Send password reset link',
+    'tfa_authentication' => 'Two-Factor Authentication',
+    'tfa_authentication_not_enabled' => 'Two Factor Authentication is not enabled.',
+    'tfa_scan_explanation' => 'Scan the QR code with the "Google-Authenticator" and enter the code into the field below.',
+    'tfa_enabled' => 'Two-Factor Authentication enabled',
+    'invalid_code_please_repeat' => 'Invalid code, please repeat.',
+    'invalid_secret' => 'Invalid secret, please repeat.',
+    'tfa_authentication_enabled' => 'Two-Factor Authentication is enabled',
+    'tfa_enter_code' => 'Enter the code from the "Google-Authenticator" app into the field below.',
+    'tfa_disabled' => 'Two-Factor Authentication disabled',
 ];

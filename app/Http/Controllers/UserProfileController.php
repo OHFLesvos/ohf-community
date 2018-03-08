@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserProfile;
 use App\Http\Requests\StoreNewUserPassword;
+use App\Http\Requests\Store2FA;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Config;
+use OTPHP\TOTP;
+use ParagonIE\ConstantTime\Base32;
+use Endroid\QrCode\QrCode;
+use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
 {
@@ -53,4 +59,57 @@ class UserProfileController extends Controller
         return view('userprofile.deleted');
     }
 
+    public function view2FA(Request $request) {
+        $user = Auth::user();
+        if ($user->tfa_secret == null) {
+            $secret = trim(Base32::encodeUpper(random_bytes(128)), '=');
+            $request->session()->push('temp_2fa_secret', $secret);
+            $otp = TOTP::create($secret);
+            $otp->setLabel($user->email);
+            $otp->setIssuer(Config::get('app.name'));
+            $qrCode = new QrCode($otp->getProvisioningUri());
+            $qrCode->setSize(400);
+            return view('userprofile.enable2FA', [
+                'image' => base64_encode($qrCode->writeString()),
+            ]);
+        } else {
+            return view('userprofile.disable2FA');
+        }
+    }
+
+    public function store2FA(Store2FA $request) {
+        $user = Auth::user();
+        $secretArr = $request->session()->pull('temp_2fa_secret', null);
+        if ($secretArr != null) {
+            $secret = $secretArr[0];
+            $otp = TOTP::create($secret);
+            if ($otp->verify($request->code)) {
+                $user->tfa_secret = $secret;
+                $user->save();
+                return redirect()->route('userprofile')
+                    ->with('info', __('userprofile.tfa_enabled'));
+            }
+            return redirect()->back()
+                ->with('error', __('userprofile.invalid_code_please_repeat'));
+        }
+        return redirect()->back()
+            ->with('error', __('userprofile.invalid_secret'));
+    }
+
+    public function disable2FA(Store2FA $request) {
+        $user = Auth::user();
+        if ($user->tfa_secret != null) {
+            $otp = TOTP::create($user->tfa_secret);
+            if ($otp->verify($request->code)) {
+                $user->tfa_secret = null;
+                $user->save();
+                return redirect()->route('userprofile')
+                    ->with('info', __('userprofile.tfa_disabled'));
+            }
+            return redirect()->back()
+                ->with('error', __('userprofile.invalid_code_please_repeat'));
+        }
+        return redirect()->back()
+            ->with('error', __('userprofile.invalid_secret'));
+    }
 }

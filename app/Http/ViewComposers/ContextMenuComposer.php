@@ -115,6 +115,15 @@ class ContextMenuComposer {
                         'authorized' => true
                     ]
                 ];
+            case 'userprofile.view2FA':
+                return [
+                    'back' => [
+                        'url' => route('userprofile'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => true,
+                    ]
+                ];
 
             //
             // Users
