@@ -7,7 +7,7 @@
 ## 1.12.0
 
 * Improved mobile UX for users and roles views.
-* Implemented Tow-Factor Authentication.
+* Implemented Tow-Factor Authentication (2FA).
 * Boutique coupons are now only available if age of 15 or above (or no age defined).
 
 ## 1.11.4
