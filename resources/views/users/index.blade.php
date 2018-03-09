@@ -12,6 +12,7 @@
                         <th>@lang('app.name')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.email')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.roles')</th>
+                        <th class="d-none d-md-table-cell text-center">@lang('userprofile.2FA')</th>
                         <th class="d-none d-md-table-cell">@lang('app.registered')</th>
                     </tr>
                 </thead>
@@ -31,6 +32,13 @@
                                 @foreach ($user->roles->sortBy('name') as $role)
                                     <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>@if (! $loop->last), @endif
                                 @endforeach
+                            </td>
+                            <td class="d-none d-md-table-cell text-center">
+                                @empty($user->tfa_secret)
+                                    @icon(times)
+                                @else
+                                    @icon(check)
+                                @endempty
                             </td>
                             <td class="d-none d-md-table-cell">
                                 {{ $user->created_at }}

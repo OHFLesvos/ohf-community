@@ -38,13 +38,22 @@ return [
     'reset_password' => 'Reset password',
     'reset_password_instructions' => 'Please enter your e-mail address. We will send you a link which allows you to reset your password.',
     'send_reset_password_link' => 'Send password reset link',
+    '2FA' => '2FA',
     'tfa_authentication' => 'Two-Factor Authentication',
-    'tfa_authentication_not_enabled' => 'Two Factor Authentication is not enabled.',
-    'tfa_scan_explanation' => 'Scan the QR code with the "Google-Authenticator" and enter the code into the field below.',
+    'tfa_authentication_not_enabled' => 'Two-Factor Authentication is not enabled.',
+    'tfa_explanation' => 'Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code
+    is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands, 
+    a second factor is still required to login successfully into this application.',
+    'tfa_apps' => 'A mobile app is required to generate the Two-Factor code. Such apps can be found in the app store of your mobile device. We recommend 
+    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a>, 
+    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.authy.authy">Authy</a> or 
+    <a target="_blank" href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp">FreeOTP Authenticator</a>.',
+    'tfa_scan_explanation' => 'Scan the QR code with your authenticator app (e.g. "Google-Authenticator") and enter the numeric code into the field below.',
     'tfa_enabled' => 'Two-Factor Authentication enabled',
     'invalid_code_please_repeat' => 'Invalid code, please repeat.',
     'invalid_secret' => 'Invalid secret, please repeat.',
     'tfa_authentication_enabled' => 'Two-Factor Authentication is enabled',
-    'tfa_enter_code' => 'Enter the code from the "Google-Authenticator" app into the field below.',
+    'tfa_enter_code' => 'Enter the code from your authenticator app into the field below.',
     'tfa_disabled' => 'Two-Factor Authentication disabled',
+    'tfa_enable_recommendation' => 'Improve the security of your account by <a href=":url">enabling Two-Factor Authentication</a>.',
 ];

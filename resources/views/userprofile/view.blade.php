@@ -71,7 +71,7 @@
                 <div class="card-header">@lang('userprofile.tfa_authentication')</div>
                 <div class="card-body">
                     @empty($user->tfa_secret)
-                        @component('components.alert.info')
+                        @component('components.alert.warning')
                             @lang('userprofile.tfa_authentication_not_enabled')
                         @endcomponent
                         <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(check) @lang('app.enable')</a>
