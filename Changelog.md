@@ -3,6 +3,7 @@
 ## 1.12.2
 
 * Added option to disable 2FA in user management.
+* Added audit logging for user profile actions.
 
 ## 1.12.1
 
