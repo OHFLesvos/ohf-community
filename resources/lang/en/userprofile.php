@@ -56,4 +56,5 @@ return [
     'tfa_enter_code' => 'Enter the code from your authenticator app into the field below.',
     'tfa_disabled' => 'Two-Factor Authentication disabled',
     'tfa_enable_recommendation' => 'Improve the security of your account by <a href=":url">enabling Two-Factor Authentication</a>.',
+    'tfa_disable_for_user' => 'Do you really want to disable Two-Factor Authentication for :name?',
 ];

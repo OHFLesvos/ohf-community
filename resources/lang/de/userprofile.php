@@ -56,4 +56,5 @@ return [
     'tfa_enter_code' => 'Gibt den Code aus deiner Authenticator App in das untenstehende Feld ein.',
     'tfa_disabled' => 'Zwei-Faktor-Authentifizierung deaktiviert',
     'tfa_enable_recommendation' => 'Verbessere die Sicherheit deines Accounts, indem du die <a href=":url">Zwei-Faktor-Authentifizierung aktivierst</a>.',
+    'tfa_disable_for_user' => 'Soll die Zwei-Faktor-Authentifizierung für :name wirklich deaktiviert werden?',
 ];

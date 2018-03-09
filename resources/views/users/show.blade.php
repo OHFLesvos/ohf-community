@@ -42,10 +42,24 @@
                                 </div>
                             </div>
                         </li>
+                        @isset($user->tfa_secret)
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm"><strong>@lang('userprofile.tfa_authentication')</strong></div>
+                                <div class="col-sm">
+                                    {!! Form::open(['route' => ['users.disable2FA', $user], 'method' => 'put']) !!}
+                                    <p>@lang('userprofile.tfa_authentication_enabled').</p>
+                                    <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('userprofile.tfa_disable_for_user', [ 'name' => $user->name ])');">@icon(times) @lang('app.disable')</button>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </li>
+                        @endisset
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-sm"><strong>@lang('app.registered')</strong></div>
                                 <div class="col-sm">{{ $user->created_at }}</div>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">

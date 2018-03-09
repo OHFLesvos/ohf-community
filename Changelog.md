@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.2
+
+* Added option to disable 2FA in user management.
+
 ## 1.12.1
 
 * Fixed 2FA code generation.

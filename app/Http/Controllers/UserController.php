@@ -113,7 +113,7 @@ class UserController extends ParentController
         return redirect()->route('users.show', $user)
             ->with('info', __('app.no_changes_made'));
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -135,5 +135,19 @@ class UserController extends ParentController
         return view('users.permissions', [
             'permissions' => Config::get('auth.permissions')
         ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function disable2FA(User $user)
+    {
+        $user->tfa_secret = null;
+        $user->save();
+        return redirect()->route('users.show', $user)
+            ->with('success', __('userprofile.tfa_disabled'));
     }
 }
