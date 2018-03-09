@@ -3,7 +3,7 @@
 ## 1.11.5
 
 * Improved mobile UX for users and roles views.
-* Added 2FA authentication option to user profile.
+* Implemented 2FA authentication.
 
 ## 1.11.4
 
