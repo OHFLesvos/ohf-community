@@ -4,6 +4,7 @@
 
 * Added option to disable 2FA in user management.
 * Added audit logging for user profile actions.
+* Added basic log viewer.
 
 ## 1.12.1
 
