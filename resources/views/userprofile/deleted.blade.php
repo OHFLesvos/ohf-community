@@ -8,8 +8,8 @@
         @lang('userprofile.account_deleted')
     @endcomponent
 
-    <p>
-        {{ Form::bsButtonLink(route('login'), __('userprofile.go_to_login'), 'sign-in', 'info') }}
-    </p>
+     <div class="text-center mt-4">
+        <a href="{{ route('login') }}">@lang('userprofile.return_to_login')</a>
+    </div>
 
 @endsection

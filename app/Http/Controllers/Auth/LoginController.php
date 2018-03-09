@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Validator;
 use OTPHP\TOTP;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -96,6 +98,13 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+            $user = Auth::user();
+            Log::info('User logged in successfully.', [
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'email' => $user->email,
+                'client_ip' => request()->ip(),
+            ]);
             return $this->sendLoginResponse($request);
         }
 
@@ -103,6 +112,11 @@ class LoginController extends Controller
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
+
+        Log::info('User failed to login.', [
+            'email' => $request->email,
+            'client_ip' => request()->ip(),
+        ]);
 
         return $this->sendFailedLoginResponse($request);
     }

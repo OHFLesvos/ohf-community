@@ -25,7 +25,6 @@ return [
     'no_changes_made' => 'Keine Änderungen.',
     'password_updated' => 'Das Passwort wurde aktualisiert.',
     'account_deleted' => 'Dein Konto wurde gelöscht.',
-    'go_to_login' => 'Zum Login',
     'register' => 'Registrieren',
     'return_to_login' => 'Zurück zum Login',
     'login' => 'Login',

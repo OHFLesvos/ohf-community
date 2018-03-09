@@ -12,6 +12,7 @@ use OTPHP\TOTP;
 use ParagonIE\ConstantTime\Base32;
 use Endroid\QrCode\QrCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserProfileController extends Controller
 {
@@ -32,6 +33,12 @@ class UserProfileController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         if ($user->isDirty()) {
+            Log::info('Used updated profile.', [
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'email' => $user->email,
+                'client_ip' => request()->ip(),
+            ]);
             $user->save();
             return redirect()->route('userprofile')
                              ->with('success', __('userprofile.profile_updated'));
@@ -44,6 +51,12 @@ class UserProfileController extends Controller
         $user = Auth::user();
         $user->password = Hash::make($request->password);
         if ($user->isDirty()) {
+            Log::notice('Used changed password.', [
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'email' => $user->email,
+                'client_ip' => request()->ip(),
+            ]);
             $user->save();
             return redirect()->route('userprofile')
                              ->with('success', __('userprofile.password_updated'));
@@ -56,6 +69,12 @@ class UserProfileController extends Controller
         $user = Auth::user();
         Auth::logout();
         $user->delete();
+        Log::notice('Used deleted account.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
+        ]);
         return view('userprofile.deleted');
     }
 
@@ -85,6 +104,12 @@ class UserProfileController extends Controller
             if ($otp->verify($request->code)) {
                 $user->tfa_secret = $secret;
                 $user->save();
+                Log::notice('User enabled 2FA.', [
+                    'user_id' => $user->id,
+                    'user_name' => $user->name,
+                    'email' => $user->email,
+                    'client_ip' => request()->ip(),
+                ]);
                 return redirect()->route('userprofile')
                     ->with('info', __('userprofile.tfa_enabled'));
             }
@@ -102,6 +127,12 @@ class UserProfileController extends Controller
             if ($otp->verify($request->code)) {
                 $user->tfa_secret = null;
                 $user->save();
+                Log::notice('Used disabled 2FA.', [
+                    'user_id' => $user->id,
+                    'user_name' => $user->name,
+                    'email' => $user->email,
+                    'client_ip' => request()->ip(),
+                ]);
                 return redirect()->route('userprofile')
                     ->with('info', __('userprofile.tfa_disabled'));
             }

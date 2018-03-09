@@ -25,7 +25,6 @@ return [
     'no_changes_made' => 'No changes have been made.',
     'password_updated' => 'Password has been updated.',
     'account_deleted' => 'Your account has been deleted.',
-    'go_to_login' => 'Go to Login',
     'register' => 'Register',
     'return_to_login' => 'Return to login',
     'login' => 'Login',
