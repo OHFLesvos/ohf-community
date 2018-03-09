@@ -44,6 +44,7 @@ class AuthServiceProvider extends ServiceProvider
             'view-kitchen-reports' => 'kitchen.reports.view',
             'view-calendar' => 'calendar.events.view',
             'view-changelogs' => 'app.changelogs.view',
+            'view-logs' => 'app.logs.view',
         ];
         foreach ($simple_permission_gate_mappings as $gate => $permission) {
             Gate::define($gate, function ($user) use($permission) {

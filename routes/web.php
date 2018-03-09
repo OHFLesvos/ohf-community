@@ -18,6 +18,9 @@ Route::group(['middleware' => 'language'], function () {
     // Changelog
     Route::get('/changelog', 'ChangelogController@index')->name('changelog');
 
+    // Log viewer
+    Route::get('/logviewer', 'LogViewerController@index')->name('logviewer.index');
+
     Route::get('users/permissions', 'UserController@permissions')->name('users.permissions');
     Route::put('users/{user}/disable2FA', 'UserController@disable2FA')->name('users.disable2FA');
     Route::resource('users', 'UserController');

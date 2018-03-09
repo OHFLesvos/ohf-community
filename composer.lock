@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2932e4fd6c0c208b29d788c9dae2e7ac",
+    "content-hash": "16ff3ce48a0fb5749a036fb2738df6a6",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1212,6 +1212,58 @@
             ],
             "description": "This trait allows you to easily flag attributes that should be set as null when being persisted to the database using the Laravel PHP Framework.",
             "time": "2018-02-14T10:41:34+00:00"
+        },
+        {
+            "name": "jackiedo/log-reader",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JackieDo/Laravel-Log-Reader.git",
+                "reference": "56eac0c6dde891e1ecce2cc7caa926bf9f1a0b5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JackieDo/Laravel-Log-Reader/zipball/56eac0c6dde891e1ecce2cc7caa926bf9f1a0b5e",
+                "reference": "56eac0c6dde891e1ecce2cc7caa926bf9f1a0b5e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": "5.*",
+                "illuminate/config": "5.*",
+                "illuminate/console": "5.*",
+                "illuminate/http": "5.*",
+                "illuminate/pagination": "5.*",
+                "illuminate/support": "5.*",
+                "nesbot/carbon": "~1.20"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jackiedo\\LogReader\\": "src/Jackiedo/LogReader"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jackie Do",
+                    "email": "anhvudo@gmail.com"
+                }
+            ],
+            "description": "An easy log reader and management tool for Laravel",
+            "keywords": [
+                "Viewer",
+                "laravel",
+                "log",
+                "log-manager",
+                "log-reader",
+                "log-viewer",
+                "logs",
+                "reader"
+            ],
+            "time": "2017-07-04T10:07:16+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

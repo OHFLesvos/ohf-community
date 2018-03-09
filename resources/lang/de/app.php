@@ -75,4 +75,9 @@ return [
     'enable' => 'Aktivieren',
     'disable' => 'Deaktivieren',
     'code' => 'Code',
+    'logviewer' => 'Log Viewer',
+    'date' => 'Datum',
+    'severity' => 'Schweregrad',
+    'message' => 'Nachricht',
+    'no_log_entries_found' => 'Keine Logeinträge gefunden.',
 ];

@@ -75,4 +75,9 @@ return [
     'enable' => 'Enable',
     'disable' => 'Disable',
     'code' => 'Code',
-];
+    'logviewer' => 'Log Viewer',
+    'date' => 'Date',
+    'severity' => 'Severity',
+    'message' => 'Message',
+    'no_log_entries_found' => 'No log entries found.',
+ ];

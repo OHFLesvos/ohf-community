@@ -119,5 +119,6 @@ return [
         'donations.donations.register' => 'Donations: Register donations',
         'donations.donations.edit' => 'Donations: Edit donations',
         'app.changelogs.view' => 'View application changelogs',
+        'app.logs.view' => 'View applicaiton log files',
     ]
 ];

@@ -96,7 +96,14 @@ class NavigationComposer {
                     'icon' => 'users',
                     'active' => ['users*', 'roles*'],
                     'authorized' => Auth::user()->can('list', User::class) || Auth::user()->can('list', Role::class)
-                ]
+                ],
+                [
+                    'route' => 'logviewer.index',
+                    'caption' => __('app.logviewer'),
+                    'icon' => 'file-text-o',
+                    'active' => 'liogviewer*',
+                    'authorized' => Gate::allows('view-logs'),
+                ],
             ];
             $view->with('nav', $nav);
         }
