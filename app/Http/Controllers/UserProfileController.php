@@ -62,8 +62,8 @@ class UserProfileController extends Controller
     public function view2FA(Request $request) {
         $user = Auth::user();
         if ($user->tfa_secret == null) {
-            $secret = trim(Base32::encodeUpper(random_bytes(128)), '=');
-            $request->session()->push('temp_2fa_secret', $secret);
+            $secret = trim(Base32::encodeUpper(random_bytes(64)), '=');
+            $request->session()->put('temp_2fa_secret', $secret);
             $otp = TOTP::create($secret);
             $otp->setLabel($user->email);
             $otp->setIssuer(Config::get('app.name'));
@@ -79,9 +79,8 @@ class UserProfileController extends Controller
 
     public function store2FA(Store2FA $request) {
         $user = Auth::user();
-        $secretArr = $request->session()->pull('temp_2fa_secret', null);
-        if ($secretArr != null) {
-            $secret = $secretArr[0];
+        $secret = $request->session()->pull('temp_2fa_secret', null);
+        if ($secret != null) {
             $otp = TOTP::create($secret);
             if ($otp->verify($request->code)) {
                 $user->tfa_secret = $secret;

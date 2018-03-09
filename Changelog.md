@@ -1,9 +1,13 @@
 # Changelog
 
+## 1.12.1
+
+* Fixed 2FA code generation.
+
 ## 1.12.0
 
 * Improved mobile UX for users and roles views.
-* Implemented 2FA authentication.
+* Implemented Tow-Factor Authentication.
 * Boutique coupons are now only available if age of 15 or above (or no age defined).
 
 ## 1.11.4
