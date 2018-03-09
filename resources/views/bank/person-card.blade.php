@@ -117,19 +117,21 @@
                 </span>
             </div>
             <div class="col-sm mb-2 mb-sm-0">
-                @php
-                    $boutique = $person->getBoutiqueCouponForJson($boutiqueThresholdDays);
-                @endphp
-                Boutique: <span>
-                    @if($boutique != null)
-                        {{ $boutique }}
-                        @if ((new Carbon\Carbon($person->boutique_coupon))->diffInMinutes() < $undoGraceTime)
-                            <a href="javascript:;" class="undo-boutique" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
+                @if ($person->age === null || $person->age >= 15)
+                    @php
+                        $boutique = $person->getBoutiqueCouponForJson($boutiqueThresholdDays);
+                    @endphp
+                    Boutique: <span>
+                        @if($boutique != null)
+                            {{ $boutique }}
+                            @if ((new Carbon\Carbon($person->boutique_coupon))->diffInMinutes() < $undoGraceTime)
+                                <a href="javascript:;" class="undo-boutique" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
+                            @endif
+                        @else
+                            <button type="button" class="btn btn-primary btn-sm give-boutique-coupon" data-person="{{ $person->id }}">Coupon</button>
                         @endif
-                    @else
-                        <button type="button" class="btn btn-primary btn-sm give-boutique-coupon" data-person="{{ $person->id }}">Coupon</button>
-                    @endif
-                </span>
+                    </span>
+                @endif
             </div>
             <div class="col-sm">
                 @if ($person->age == null || $person->age <= 4)

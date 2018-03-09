@@ -1,9 +1,10 @@
 # Changelog
 
-## 1.11.5
+## 1.12.0
 
 * Improved mobile UX for users and roles views.
 * Implemented 2FA authentication.
+* Boutique coupons are now only available if age of 15 or above (or no age defined).
 
 ## 1.11.4
 
