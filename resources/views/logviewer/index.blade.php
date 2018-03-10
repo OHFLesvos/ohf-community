@@ -57,7 +57,7 @@
                             }
                         @endphp
                         <tr>
-                            <td style="white-space: nowrap">{{ $entry->date }}</td>
+                            <td style="white-space: nowrap">{{ $entry->date }}<br><small>{{ (new Carbon\Carbon($entry->date))->diffForHumans() }}</small></td>
                             <td class="{{ $class }}">@lang('app.'.$entry->level)</td>
                             <td>{!! nl2br(e($message)) !!}
                                     @if(count($params) > 0)
