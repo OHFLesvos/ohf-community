@@ -39,7 +39,9 @@ class LogViewerController extends Controller
             $activeLevels = self::$levels;
         }
         return view('logviewer.index', [
-            'entries' => $entries->paginate(25),
+            'entries' => $entries->paginate(25, null, [
+                'path' => route('logviewer.index'),
+            ]),
             'levels' => self::$levels,
             'activeLevels' => $activeLevels,
         ]);

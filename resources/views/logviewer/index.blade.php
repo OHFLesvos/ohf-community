@@ -19,13 +19,12 @@
 
     @if( ! $entries->isEmpty() )
         <div class="table-responsive">
-            <table class="table table-sm table-striped">
+            <table class="table table-sm table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>@lang('app.date')</th>
                         <th>@lang('app.severity')</th>
                         <th>@lang('app.message')</th>
-                        <th colspan="2">@lang('app.parameters')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,13 +59,14 @@
                         <tr>
                             <td style="white-space: nowrap">{{ $entry->date }}</td>
                             <td class="{{ $class }}">@lang('app.'.$entry->level)</td>
-                            <td>{!! nl2br(e($message)) !!}</td>
-                            <td class="p-0">
-                                <table class="table m-0">
-                                    @foreach($params as $k => $v)
-                                        <tr><td>{{ $k }}</td><td>{{ $v }}</td></tr>
-                                    @endforeach
-                                </table>
+                            <td>{!! nl2br(e($message)) !!}
+                                    @if(count($params) > 0)
+                                    <table class="m-0 mt-2">
+                                        @foreach($params as $k => $v)
+                                            <tr><td>{{ $k }}</td><td>{{ $v }}</td></tr>
+                                        @endforeach
+                                    </table>
+                                    @endif
                             </td>
                         </tr>
                     @endforeach
