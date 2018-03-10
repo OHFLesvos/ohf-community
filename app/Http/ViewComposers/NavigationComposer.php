@@ -101,7 +101,7 @@ class NavigationComposer {
                     'route' => 'logviewer.index',
                     'caption' => __('app.logviewer'),
                     'icon' => 'file-text-o',
-                    'active' => 'liogviewer*',
+                    'active' => 'logviewer*',
                     'authorized' => Gate::allows('view-logs'),
                 ],
             ];

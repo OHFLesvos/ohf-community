@@ -1,3 +1,4 @@
+@auth
 <div class="h-100 d-flex flex-column">
     <header class="side-nav-header">
 
@@ -52,3 +53,4 @@
         </p>
     </footer>
 </div>
+@endauth
