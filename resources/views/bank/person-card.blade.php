@@ -89,6 +89,23 @@
             </div>
         @endif
     </div>
+    <div class="card-footer p-0 px-2 pt-2 form-row">
+        @foreach($couponTypes as $coupon)
+            @if($person->eligibleForCoupon($coupon))
+                <div class="col-sm-auto">
+                    @if($person->eligibleForCoupon($coupon))
+                        @php
+                            $lastHandout = $person->canHandoutCoupon($coupon);
+                            print_r($lastHandout);
+                        @endphp
+                        <button type="button" class="btn btn-primary btn-sm mb-2 btn-block" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}">
+                            @icon({{ $coupon->icon }}) {{ $coupon->daily_amount }} {{ $coupon->name }}
+                        </button>
+                    @endif
+                </div>
+            @endif
+        @endforeach
+    </div>
     <div class="card-footer p-2">
         <div class="row">
             <div class="col-sm mb-2 mb-sm-0">

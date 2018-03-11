@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use App\CouponType;
 
 class Person extends Model
 {
@@ -165,4 +166,32 @@ class Person extends Model
         return null;
     }
 
+    public function couponHandouts() {
+        return $this->hasMany('App\CouponHandout');
+    }
+
+    public function eligibleForCoupon(CouponType $couponType): bool {
+        $age = $this->age;
+        if ($age !== null) {
+            if ($couponType->max_age != null && $age > $couponType->max_age) {
+                return false;
+            }
+            if ($couponType->min_age != null && $age < $couponType->min_age) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function canHandoutCoupon(CouponType $couponType) {
+        $date = Carbon::today()->subDays($couponType->retention_period);
+        $handout = $this->couponHandouts()
+            ->where('coupon_type_id', $couponType->id)
+            ->whereDate('date', '>', $date)
+            ->first();
+        if ($handout != null) {
+            return (new Carbon($handout->date))->toDateString();
+        }
+        return null;
+    }
 }

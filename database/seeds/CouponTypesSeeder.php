@@ -1,0 +1,48 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use App\CouponType;
+
+class CouponTypesSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        CouponType::create([
+            'name' => 'Drachma',
+            'icon' => 'money',
+            'daily_amount' => 2,
+            'retention_period' => 1,
+            'min_age' => 12,
+            'order' => 0,
+        ]);
+        CouponType::create([
+            'name' => 'Child Drachma (Blue)',
+            'icon' => 'money',
+            'daily_amount' => 1,
+            'retention_period' => 1,
+            'max_age' => 11,
+            'order' => 1,
+        ]);
+        CouponType::create([
+            'name' => 'Boutique Coupon',
+            'icon' => 'shopping-bag',
+            'daily_amount' => 1,
+            'retention_period' => 12,
+            'min_age' => 15,
+            'order' => 2,
+        ]);
+        CouponType::create([
+            'name' => 'Diapers Coupon',
+            'icon' => 'child',
+            'daily_amount' => 1,
+            'retention_period' => 1,
+            'max_age' => 4,
+            'order' => 3,
+        ]);
+    }
+}

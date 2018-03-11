@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Gate;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\LabelAlignment;
 use Dompdf\Dompdf;
+use App\CouponType;
+use App\CouponHandout;
 
 class BankController extends Controller
 {
@@ -145,7 +147,8 @@ class BankController extends Controller
             'boutiqueThresholdDays' => self::getBoutiqueThresholdDays(),
             'diapersThresholdDays' => self::getDiapersThresholdDays(),
             'message' => $message,
-            'undoGraceTime' => self::UNDO_GRACE_TIME
+            'undoGraceTime' => self::UNDO_GRACE_TIME,
+            'couponTypes' => \App\CouponType::orderBy('order')->get(),
 		]);
     }
 
