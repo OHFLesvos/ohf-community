@@ -13,6 +13,7 @@ use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\StoreTransactionSettings;
 use App\Http\Requests\UpdatePersonDateOfBirth;
 use App\Http\Requests\UpdatePersonGender;
+use App\Http\Requests\StoreHandoutCoupon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -148,7 +149,7 @@ class BankController extends Controller
             'diapersThresholdDays' => self::getDiapersThresholdDays(),
             'message' => $message,
             'undoGraceTime' => self::UNDO_GRACE_TIME,
-            'couponTypes' => \App\CouponType::orderBy('order')->get(),
+            'couponTypes' => CouponType::orderBy('order')->orderBy('name')->get(),
 		]);
     }
 
@@ -416,27 +417,6 @@ class BankController extends Controller
 		return redirect()->route('bank.withdrawal')
 				->with('success', 'Import successful!');		
     }
-
-    public function storeTransaction(StoreTransaction $request) {
-		$person = Person::find($request->person_id);
-		if ($person ->todaysTransaction() + $request->value > self::getSingleTransactionMaxAmount()) {
-			return response()->json(["Invalid amount, must be not greater than " . self::getSingleTransactionMaxAmount()], 400);
-        }
-        if ($person ->todaysTransaction() + $request->value < 0) {
-            return response()->json(["Invalid amount, must be greater or equals than " . (-$person ->todaysTransaction())], 400);
-        }
-		$transaction = new Transaction();
-        $transaction->value = $request->value;
-        $person->transactions()->save($transaction);
-
-        $date = $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at;
-        return response()->json([
-            'today' => $person->todaysTransaction(),
-            'date' => $date->toDateTimeString(),
-            'dateDiff' => $date->diffForHumans(),
-            'age' => $person->age,
-        ]);
-    }
     
 	public function export() {
         \Excel::create('OHF_Bank_' . Carbon::now()->toDateString(), function($excel) {
@@ -518,57 +498,37 @@ class BankController extends Controller
 			}
 		}
     }
-    
-	public function giveBoutiqueCoupon(Request $request) {
-		if (isset($request->person_id) && is_numeric($request->person_id)) {
-			$person = Person::find($request->person_id);
-			if ($person != null) {
-				$person->boutique_coupon = Carbon::now();
-				$person->save();
-				return response()->json([
-                    'countdown' => $person->getBoutiqueCouponForJson(self::getBoutiqueThresholdDays()),
-                ]);
-			}
-		}
+
+    public function handoutCoupon(StoreHandoutCoupon $request) {
+        $person = Person::find($request->person_id);
+        $couponType = CouponType::find($request->coupon_type_id);
+        $coupon = new CouponHandout();
+        $coupon->date = Carbon::today();
+        $coupon->person()->associate($person);
+        $coupon->couponType()->associate($couponType);
+        $coupon->save();
+
+        $daysUntil = ((clone $coupon->date)->addDays($couponType->retention_period))->diffInDays() + 1;
+        return response()->json([
+            'countdown' => trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil]),
+        ]);
     }
 
-    public function resetBoutiqueCoupon(Request $request) {
-		if (isset($request->person_id) && is_numeric($request->person_id)) {
-			$person = Person::find($request->person_id);
-			if ($person != null) {
-                // TODO validate grace-time
-				$person->boutique_coupon = null;
-				$person->save();
-				return response()->json([ ]);
-			}
-		}
+    public function undoHandoutCoupon(StoreHandoutCoupon $request) {
+        $person = Person::find($request->person_id);
+        $couponType = CouponType::find($request->coupon_type_id);
+        $handout = $person->couponHandouts()
+            ->where('coupon_type_id', $couponType->id)
+            ->whereDate('date', Carbon::today())
+            ->first();
+        if ($handout != null) {
+            $handout->delete();
+        }
+        return response()->json([
+        ]);
     }
 
-	public function giveDiapersCoupon(Request $request) {
-		if (isset($request->person_id) && is_numeric($request->person_id)) {
-			$person = Person::find($request->person_id);
-			if ($person != null) {
-                // TODO validate grace-time
-				$person->diapers_coupon = Carbon::now();
-				$person->save();
-				return response()->json([
-                    'countdown' => $person->getDiapersCouponForJson(self::getDiapersThresholdDays()),
-                ]);
-			}
-		}
-    }
 
-	public function resetDiapersCoupon(Request $request) {
-		if (isset($request->person_id) && is_numeric($request->person_id)) {
-			$person = Person::find($request->person_id);
-			if ($person != null) {
-				$person->diapers_coupon = null;
-				$person->save();
-				return response()->json([ ]);
-			}
-		}
-    }
-    
     public function deposit() {
         $transactions = Transaction
                 ::join('projects', function ($join) {

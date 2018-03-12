@@ -8,4 +8,7 @@ return [
     'go_to_bank' => 'Go to bank',
     'view_bank_report' => 'View bank report',
     'served_n_persons_and_handed_out_n_today' => 'Served <strong>:num_people_served_today</strong> persons and handed out <strong>:transaction_value_today</strong> drachma today.',
+    'no_coupons_defined' => 'No coupons have been defined.',
+    'in_n_days' => 'tomorrow|in :days days',
+    'no_number_registered' => 'No number registered!',
 ];

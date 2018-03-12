@@ -184,13 +184,13 @@ class Person extends Model
     }
 
     public function canHandoutCoupon(CouponType $couponType) {
-        $date = Carbon::today()->subDays($couponType->retention_period);
+        $retention_date = Carbon::today()->subDays($couponType->retention_period);
         $handout = $this->couponHandouts()
             ->where('coupon_type_id', $couponType->id)
-            ->whereDate('date', '>', $date)
+            ->whereDate('date', '>', $retention_date)
             ->first();
         if ($handout != null) {
-            return (new Carbon($handout->date))->toDateString();
+            return new Carbon($handout->date);
         }
         return null;
     }

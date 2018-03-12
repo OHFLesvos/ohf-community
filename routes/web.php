@@ -49,11 +49,10 @@ Route::group(['middleware' => 'language'], function () {
     Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
     Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');
     Route::get('/bank/withdrawal/transactions', 'BankController@withdrawalTransactions')->name('bank.withdrawalTransactions');
-    Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
-    Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
-    Route::post('/bank/resetBoutiqueCoupon', 'BankController@resetBoutiqueCoupon')->name('bank.resetBoutiqueCoupon');
-    Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');
-    Route::post('/bank/resetDiapersCoupon', 'BankController@resetDiapersCoupon')->name('bank.resetDiapersCoupon');
+    
+    Route::post('/bank/handoutCoupon', 'BankController@handoutCoupon')->name('bank.handoutCoupon');
+    Route::post('/bank/undoHandoutCoupon', 'BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');
+    
     Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
     Route::post('/bank/updateDateOfBirth', 'BankController@updateDateOfBirth')->name('bank.updateDateOfBirth');
     Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
