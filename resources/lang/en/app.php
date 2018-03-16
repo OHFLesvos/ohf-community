@@ -94,4 +94,5 @@ return [
     'notice' => 'Notice', 
     'info' => 'Info',
     'debug' => 'Debug',
+    'view' => 'View',
  ];

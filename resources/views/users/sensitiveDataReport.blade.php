@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-sm">
                             <strong>{{ $user->name }}</strong><br>
-                            <a href="{{ route('users.show', $user) }}">Details</a>
+                            <a href="{{ route('users.show', $user) }}">@lang('app.view')</a>
                         </div>
                         <div class="col-sm">
                             @foreach($user->permissions()->filter(function($p) use($permissions) {
