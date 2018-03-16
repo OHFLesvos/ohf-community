@@ -6,6 +6,7 @@
 * Show human readable date in log viewerq
 * Translated report names
 * Reordered dashboard widgets
+* Translated permission names
 
 ## 1.12.2
 

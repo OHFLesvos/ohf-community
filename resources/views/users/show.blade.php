@@ -83,7 +83,7 @@
                         @endif
                         @if($user->permissions()->count() > 0)
                             @foreach($user->permissions() as $permission)
-                                <li class="list-group-item">{{ $permissions[$permission->key] }}</li>
+                                <li class="list-group-item">@lang('permissions.' . $permission->key)</li>
                             @endforeach
                         @else
                             <li class="list-group-item"><em>@lang('app.no_permissions')</em></li>

@@ -27,7 +27,7 @@
                                 <div class="col-sm">
                                 @forelse ($role->permissions->sortBy('key') as $permission)
                                     @if ( isset( $permissions[$permission->key] ) )
-                                        {{ $permissions[$permission->key] }}<br>
+                                        @lang('permissions.' . $permission->key)<br>
                                     @endif
                                     @empty
                                         <em>@lang('app.no_permissions')</em>

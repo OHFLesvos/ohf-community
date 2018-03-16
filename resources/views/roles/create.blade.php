@@ -27,7 +27,11 @@
                 <div class="card">
                     <div class="card-header">@lang('app.permissions')</div>
                     <div class="card-body">
-                        {{ Form::bsCheckboxList('permissions[]', $permissions, null) }}
+                        {{ Form::bsCheckboxList('permissions[]', collect($permissions)
+                            ->mapWithKeys(function($item, $key){
+                                return [$key => __('permissions.' . $key)];
+                            })
+                            ->toArray(), null) }}
                         @empty($permissions)
                             <em>@lang('app.no_permissions')</em>
                         @endempty

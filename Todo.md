@@ -22,4 +22,3 @@
 * Mail notification of admin when new person registers
 * Add report of users with access to sensitive data (incudes tagging permissions with a sensitive flag)
 * Add audit log wherever user accesses privacy relevant data
-* Translate permission names

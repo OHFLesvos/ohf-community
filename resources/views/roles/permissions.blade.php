@@ -4,15 +4,15 @@
 
 @section('content')
     <div class="columns-3">
-        @foreach($permissions as $k => $permission)
+        @foreach($permissions as $key => $permission)
             <div class="mb-4" style="-webkit-column-break-inside: avoid;
         -moz-column-break-inside:avoid;
         -moz-page-break-inside:avoid;
         page-break-inside: avoid;
         break-inside: avoid-column;">
-                <h4>{{ $permission }}</h4>
+                <h4>@lang('permissions.' . $key)</h4>
                 @php
-                    $roles = App\RolePermission::where('key', $k)
+                    $roles = App\RolePermission::where('key', $key)
                         ->get()
                         ->map(function($e){
                             return $e->role;

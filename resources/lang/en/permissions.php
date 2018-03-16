@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'people.manage' => 'People: Manage people',
+    'people.reports.view' => 'People: View reports',
+    'bank.withdrawals.do' => 'Bank: Handout drachma',
+    'bank.deposits.do' => 'Bank: Deposit drachma',
+    'bank.statistics.view' => 'Bank: View reports',
+    'bank.configure' => 'Bank: Configure settings',
+    'logistics.use' => 'Use logistics',
+    'tasks.use' => 'Use tasks',
+    'kitchen.reports.view' => 'Kitchen: View reports',
+    'calendar.events.view' => 'Calendar: View events',
+    'calendar.events.create' => 'Calendar: Create events',
+    'calendar.events.manage' => 'Calendar: Edit and delete all events',
+    'calendar.resources.manage' => 'Calendar: Manage resources',
+    'donations.donors.view' => 'Donations: View donors',
+    'donations.donors.manage' => 'Donations: Manage donors',
+    'donations.donations.view' => 'Donations: View donations',
+    'donations.donations.register' => 'Donations: Register donations',
+    'donations.donations.edit' => 'Donations: Edit donations',
+    'app.usermgmt.view' => 'User management: View users and roles',
+    'app.usermgmt.users.manage' => 'User management: Create, edit and delete users',
+    'app.usermgmt.roles.manage' => 'User management: Create, edit and delete roles',
+    'app.changelogs.view' => 'View application changelogs',
+    'app.logs.view' => 'View applicaiton log files',
+];
