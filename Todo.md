@@ -10,6 +10,11 @@
 
 * Refactor drachma, boutique and diaper transactions into generalized coupon system
 
+## Donations
+
+* Add report about number of donors and donations per month, year
+* Added view about latest donations
+
 ## User Management and Privileges
 
 * Implement privilege assignment with expiration date
