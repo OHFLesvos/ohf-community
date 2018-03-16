@@ -3,7 +3,7 @@
 ## 1.12.3
 
 * Adder user privilege repots to reporting screen
-* Show human readable date in log viewerq
+* Show human readable date in log viewer
 * Translated report names
 * Reordered dashboard widgets
 * Translated permission names
