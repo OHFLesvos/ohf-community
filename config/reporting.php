@@ -2,45 +2,39 @@
 
 return [
     'reports' => [
-        [
+        'people' => [
             'route' => 'reporting.people',
             'icon' => 'users',
-            'name' => 'People',
             'gate' => 'view-people-reports',
             'featured' => true,
         ],
-        [
+        'bank-withdrawals' => [
             'route' => 'reporting.bank.withdrawals',
             'icon' => 'id-card',
-            'name' => 'Bank: Withdrawals',
             'gate' => 'view-bank-reports',
             'featured' => false,
         ],
-        [
+        'bank-deposits' => [
             'route' => 'reporting.bank.deposits',
             'icon' => 'money',
-            'name' => 'Bank: Deposits',
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],
-        [
+        'kitchen' => [
             'route' => 'reporting.kitchen',
             'icon' => 'spoon',
-            'name' => 'Kitchen',
             'gate' => 'view-kitchen-reports',
             'featured' => true,
         ],
-        [
+        'user-privileges' => [
             'route' => 'users.permissions',
             'icon' => 'key',
-            'name' => 'User privileges',
             'gate' => 'view-usermgmt-reports',
             'featured' => true,
         ],
-        [
+        'role-privileges' => [
             'route' => 'roles.permissions',
             'icon' => 'key',
-            'name' => 'Role privileges',
             'gate' => 'view-usermgmt-reports',
             'featured' => false,
         ]

@@ -18,7 +18,3 @@
 * Add report of users with access to sensitive data (incudes tagging permissions with a sensitive flag)
 * Add audit log wherever user accesses privacy relevant data
 * Translate permission names
-
-## Reporting
-
-* Translate report names

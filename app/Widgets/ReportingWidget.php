@@ -28,10 +28,10 @@ class ReportingWidget implements Widget
             ->filter(function($e){
                 return $e['featured'] && Gate::allows($e['gate']);
             })
-            ->map(function($e){
-                return (object)[
-                    'url' => route($e['route']),
-                    'name' => $e['name'],
+            ->map(function($item, $key){
+                return (object)[    
+                    'url' => route($item['route']),
+                    'name' => __('reporting.' . $key),
                 ];
             });
     }

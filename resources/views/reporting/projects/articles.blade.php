@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reporting: ' . $projectName)
+@section('title', __('app.report') . ': '. $projectName)
 
 @section('content')
     <div id="app" class="mb-3">

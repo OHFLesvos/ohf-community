@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Reporting: Bank (Deposits)')
+@section('title', __('app.report') . ': ' . __('reporting.bank-deposits'))
 
 @section('content')
 
