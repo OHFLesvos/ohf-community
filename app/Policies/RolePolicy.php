@@ -25,7 +25,7 @@ class RolePolicy
      */
     public function list(User $user)
     {
-        return false;
+        return $user->hasPermission('app.usermgmt.view');
     }
 
     /**
@@ -37,7 +37,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role)
     {
-        return false;
+        return $user->hasPermission('app.usermgmt.view');
     }
 
     /**
@@ -48,7 +48,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->hasPermission('app.usermgmt.roles.manage');;
     }
 
     /**
@@ -60,7 +60,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return false;
+        return $user->hasPermission('app.usermgmt.roles.manage');;
     }
 
     /**
@@ -72,6 +72,6 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return false;
+        return $user->hasPermission('app.usermgmt.roles.manage');;
     }
 }

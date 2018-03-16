@@ -9,6 +9,13 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user, $ability)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+    }
+
     /**
      * Determine whether the user can list models.
      *
@@ -17,7 +24,7 @@ class UserPolicy
      */
     public function list(User $user)
     {
-        return $user->isSuperAdmin();
+        return $user->hasPermission('app.usermgmt.view');
     }
 
     /**
@@ -29,7 +36,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->isSuperAdmin();
+        return $user->hasPermission('app.usermgmt.view');
     }
 
     /**
@@ -40,7 +47,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->isSuperAdmin();
+        return $user->hasPermission('app.usermgmt.users.manage');
     }
 
     /**
@@ -52,7 +59,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->isSuperAdmin();
+        return $user->hasPermission('app.usermgmt.users.manage');
     }
 
     /**
@@ -64,6 +71,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->isSuperAdmin() && $user->id != $model->id;
+        return $user->hasPermission('app.usermgmt.users.manage')
+            && $user->id != $model->id // Ensure user cannot delete himself
+            && (!$model->isSuperAdmin() || User::where('is_super_admin', true)->count() > 1); // Ensure model user is not admin or not the only admin
     }
 }

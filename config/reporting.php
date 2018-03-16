@@ -30,6 +30,20 @@ return [
             'gate' => 'view-kitchen-reports',
             'featured' => true,
         ],
+        [
+            'route' => 'users.permissions',
+            'icon' => 'key',
+            'name' => 'User privileges',
+            'gate' => 'view-usermgmt-reports',
+            'featured' => true,
+        ],
+        [
+            'route' => 'roles.permissions',
+            'icon' => 'key',
+            'name' => 'Role privileges',
+            'gate' => 'view-usermgmt-reports',
+            'featured' => false,
+        ]
     ],
 
     'kitchen_project' => env('KITCHEN_PROJECT', 1),

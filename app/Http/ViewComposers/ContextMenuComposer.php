@@ -141,7 +141,7 @@ class ContextMenuComposer {
                         'url' => route('users.permissions'),
                         'caption' => __('app.permissions'),
                         'icon' => 'key',
-                        'authorized' => Auth::user()->can('list', User::class)
+                        'authorized' => Gate::allows('view-usermgmt-reports')
                     ]
                 ];
             case 'users.create':
@@ -190,7 +190,7 @@ class ContextMenuComposer {
             case 'users.permissions':
                 return [
                     'back' => [
-                        'url' => route('users.index'),
+                        'url' => url()->previous(),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', User::class)
@@ -212,7 +212,7 @@ class ContextMenuComposer {
                         'url' => route('roles.permissions'),
                         'caption' => __('app.permissions'),
                         'icon' => 'key',
-                        'authorized' => Auth::user()->can('list', Role::class)
+                        'authorized' => Gate::allows('view-usermgmt-reports')
                     ]
                 ];
             case 'roles.create':
@@ -261,7 +261,7 @@ class ContextMenuComposer {
             case 'roles.permissions':
                 return [
                     'back' => [
-                        'url' => route('roles.index'),
+                        'url' => url()->previous(),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Role::class)

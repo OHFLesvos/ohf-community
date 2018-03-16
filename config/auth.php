@@ -118,6 +118,9 @@ return [
         'donations.donations.view' => 'Donations: View donations',
         'donations.donations.register' => 'Donations: Register donations',
         'donations.donations.edit' => 'Donations: Edit donations',
+        'app.usermgmt.view' => 'User management: View users and roles',
+        'app.usermgmt.users.manage' => 'User management: Create, edit and delete users',
+        'app.usermgmt.roles.manage' => 'User management: Create, edit and delete roles',
         'app.changelogs.view' => 'View application changelogs',
         'app.logs.view' => 'View applicaiton log files',
     ]
