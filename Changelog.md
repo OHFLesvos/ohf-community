@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.12.3
+
+* Adder user privilege repots to reporting screen
+* Show human readable date in log viewerq
+
 ## 1.12.2
 
 * Added option to disable 2FA in user management.
