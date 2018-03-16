@@ -7,6 +7,7 @@
 * Translated report names
 * Reordered dashboard widgets
 * Translated permission names
+* Add report of users with access to sensitive data
 
 ## 1.12.2
 

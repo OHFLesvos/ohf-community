@@ -143,6 +143,7 @@ Route::group(['middleware' => 'language'], function () {
         // Reporting: User and role management
         Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {    
             Route::get('/reporting/users/permissions', 'UserController@permissions')->name('users.permissions');
+            Route::get('/reporting/users/sensitiveData', 'UserController@sensitiveDataReport')->name('users.sensitiveDataReport');
             Route::get('/reporting/roles/permissions', 'RoleController@permissions')->name('roles.permissions');
         });
     });

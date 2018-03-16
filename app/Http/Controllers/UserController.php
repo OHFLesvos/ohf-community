@@ -138,6 +138,24 @@ class UserController extends ParentController
     }
 
     /**
+     * Lists all permissions
+     */
+    public function sensitiveDataReport()
+    {
+        $permissions = Config::get('auth.permissions');
+        return view('users.sensitiveDataReport', [
+            'permissions' => Config::get('auth.permissions'),
+            'users' => User::orderBy('name')
+                ->get()
+                ->filter(function($u) use($permissions) {
+                    return $u->permissions()->contains(function($p) use($permissions) {
+                        return isset($permissions[$p->key]) && $permissions[$p->key]['sensitive'];
+                    });
+                })
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  User $user

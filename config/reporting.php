@@ -37,7 +37,13 @@ return [
             'icon' => 'key',
             'gate' => 'view-usermgmt-reports',
             'featured' => false,
-        ]
+        ],
+        'user-access-sensitive-data' => [
+            'route' => 'users.sensitiveDataReport',
+            'icon' => 'key',
+            'gate' => 'view-usermgmt-reports',
+            'featured' => true,
+        ],
     ],
 
     'kitchen_project' => env('KITCHEN_PROJECT', 1),
