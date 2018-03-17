@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.12.3
+
+* Adder user privilege repots to reporting screen
+* Show human readable date in log viewer
+* Translated report names
+* Reordered dashboard widgets
+* Translated permission names
+* Add report of users with access to sensitive data
+
 ## 1.12.2
 
 * Added option to disable 2FA in user management.

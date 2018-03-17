@@ -60,6 +60,7 @@ return [
     'version' => 'Version',
     'changelog_link_desc' => 'Lies mehr über die neusten Änderungen in dieser Applikation <a href=":link">hier</a>.',
     'no_content_available_to_you' => 'Aktuell sind hier keine Inhalte für dich verfügbar.',
+    'report' => 'Bericht',
     'reports' => 'Berichte',
     'reporting' => 'Berichte',
     'more_reports' => 'Mehr Berichte',
@@ -93,4 +94,5 @@ return [
     'notice' => 'Notiz', 
     'info' => 'Info',
     'debug' => 'Fehlersuche',
+    'view' => 'Anzeigen',
 ];

@@ -60,6 +60,7 @@ return [
     'version' => 'Version',
     'changelog_link_desc' => 'Read about the latest changes of this application <a href=":link">here</a>.',
     'no_content_available_to_you' => 'There is currently no content available for you here.',
+    'report' => 'Report',
     'reports' => 'Reports',
     'reporting' => 'Reporting',
     'more_reports' => 'More reports',
@@ -93,4 +94,5 @@ return [
     'notice' => 'Notice', 
     'info' => 'Info',
     'debug' => 'Debug',
+    'view' => 'View',
  ];

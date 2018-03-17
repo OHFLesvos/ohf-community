@@ -10,10 +10,14 @@
 
 * Refactor drachma, boutique and diaper transactions into generalized coupon system
 
+## Donations
+
+* Add report about number of donors and donations per month, year
+* Added view about latest donations
+
 ## User Management and Privileges
 
-* Implement 2FA using TOTP protocol
 * Implement privilege assignment with expiration date
-* Move privilege report to reports view
 * Add privacy statement which user must accept on first registration
 * Mail notification of admin when new person registers
+* Add audit log wherever user accesses privacy relevant data

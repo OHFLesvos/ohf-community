@@ -25,10 +25,8 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/logviewer', 'LogViewerController@index')->name('logviewer.index');
     });
 
-    Route::get('users/permissions', 'UserController@permissions')->name('users.permissions');
     Route::put('users/{user}/disable2FA', 'UserController@disable2FA')->name('users.disable2FA');
     Route::resource('users', 'UserController');
-    Route::get('roles/permissions', 'RoleController@permissions')->name('roles.permissions');
     Route::resource('roles', 'RoleController');
 
     Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
@@ -140,6 +138,13 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/reporting/articles/chart/{article}/transactionsPerWeek', 'Reporting\\ArticleReportingController@transactionsPerWeek')->name('reporting.articles.transactionsPerWeek');
         Route::get('/reporting/articles/chart/{article}/transactionsPerMonth', 'Reporting\\ArticleReportingController@transactionsPerMonth')->name('reporting.articles.transactionsPerMonth');
         Route::get('/reporting/articles/chart/{article}/avgTransactionsPerWeekDay', 'Reporting\\ArticleReportingController@avgTransactionsPerWeekDay')->name('reporting.articles.avgTransactionsPerWeekDay');
+
+        // Reporting: User and role management
+        Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {    
+            Route::get('/reporting/users/permissions', 'UserController@permissions')->name('users.permissions');
+            Route::get('/reporting/users/sensitiveData', 'UserController@sensitiveDataReport')->name('users.sensitiveDataReport');
+            Route::get('/reporting/roles/permissions', 'RoleController@permissions')->name('roles.permissions');
+        });
     });
 
     // Logistics
