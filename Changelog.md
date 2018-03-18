@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.4
+
+* Show administrators in pricacy report
+
 ## 1.12.3
 
 * Adder user privilege repots to reporting screen

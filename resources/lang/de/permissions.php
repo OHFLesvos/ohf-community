@@ -19,9 +19,9 @@ return [
     'donations.donations.view' => 'Spenden: Spenden betrachten',
     'donations.donations.register' => 'Spenden: Spenden registrieren',
     'donations.donations.edit' => 'Spenden: Spenden bearbeiten',
-    'app.usermgmt.view' => 'Benutzerverwaltung: View users and roles',
-    'app.usermgmt.users.manage' => 'Benutzerverwaltung: Create, edit and delete users',
-    'app.usermgmt.roles.manage' => 'Benutzerverwaltung: Create, edit and delete roles',
+    'app.usermgmt.view' => 'Benutzerverwaltung: Benutzer und Rollen betrachten',
+    'app.usermgmt.users.manage' => 'Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen',
+    'app.usermgmt.roles.manage' => 'Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen',
     'app.changelogs.view' => 'Änderungshistorie betrachten',
     'app.logs.view' => 'Logeinträge betrachten',
 ];

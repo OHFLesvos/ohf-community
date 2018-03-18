@@ -38,6 +38,8 @@ return [
     'reset_password_instructions' => 'Bitte gib deine E-Mail Adresse ein. Wir werden dir einen Link zusenden, mit welchem du dein Passwort zurücksetzen kannst.',
     'send_reset_password_link' => 'Link senden',
     '2FA' => '2FA',
+    '2FA_active' => '2FA aktiv',
+    '2FA_inactive' => '2FA inaktiv',
     'tfa_authentication' => 'Zwei-Faktor-Authentifizierung',
     'tfa_authentication_not_enabled' => 'Zwei-Faktor-Authentifizierung ist nicht aktiv.',
     'tfa_explanation' => 'Zwei-Faktor-Authentifizierung verbessert die Sicherheit deines Accounts, indem beim Login zusätzlich zum Passwort auch ein 

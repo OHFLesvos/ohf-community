@@ -38,8 +38,8 @@ return [
             'gate' => 'view-usermgmt-reports',
             'featured' => false,
         ],
-        'user-access-sensitive-data' => [
-            'route' => 'users.sensitiveDataReport',
+        'privacy' => [
+            'route' => 'reporting.privacy',
             'icon' => 'key',
             'gate' => 'view-usermgmt-reports',
             'featured' => true,
