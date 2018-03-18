@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.12.5
+
+* UI fixes
+
 ## 1.12.4
 
 * Show administrators in pricacy report

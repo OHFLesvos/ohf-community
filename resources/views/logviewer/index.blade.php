@@ -24,7 +24,7 @@
                     <tr>
                         <th>@lang('app.date')</th>
                         <th>@lang('app.severity')</th>
-                        <th>@lang('app.message')</th>
+                        <th colspan="2">@lang('app.message')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,7 +64,7 @@
                             <td class="p-0">
                                 <table class="m-0 table">
                                     @foreach($params as $k => $v)
-                                        <tr><td>{{ $k }}</td><td>{{ $v }}</td></tr>
+                                        <tr><td class="fit">{{ $k }}</td><td>{{ $v }}</td></tr>
                                     @endforeach
                                 </table>
                                 @endif
