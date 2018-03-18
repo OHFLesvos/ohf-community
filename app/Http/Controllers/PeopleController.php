@@ -58,7 +58,7 @@ class PeopleController extends ParentController
 		$person->name = $request->name;
         $person->family_name = $request->family_name;
         $person->gender = $request->gender;
-		$person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+		$person->date_of_birth = $request->date_of_birth;
 		$person->police_no = !empty($request->police_no) ? $request->police_no : null;
 		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
         $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
@@ -81,7 +81,7 @@ class PeopleController extends ParentController
                     $child->name = $request->child_name[$i];
                     $child->family_name = $request->child_family_name[$i];
                     $child->gender = $request->child_gender[$i];
-                    $child->date_of_birth = !empty($request->child_date_of_birth[$i]) ? $request->child_date_of_birth[$i] : null;
+                    $child->date_of_birth = $request->child_date_of_birth[$i];
 
                     $child->police_no = !empty($request->police_no) ? $request->police_no : null;
                     $child->case_no = !empty($request->case_no) ? $request->case_no : null;
@@ -139,7 +139,7 @@ class PeopleController extends ParentController
         $person->name = $request->name;
         $person->family_name = $request->family_name;
         $person->gender = $request->gender;
-        $person->date_of_birth = !empty($request->date_of_birth) ? $request->date_of_birth : null;
+        $person->date_of_birth = $request->date_of_birth;
         $person->police_no = !empty($request->police_no) ? $request->police_no : null;
         $person->case_no = !empty($request->case_no) ? $request->case_no : null;
         $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
