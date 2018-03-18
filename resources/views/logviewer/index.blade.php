@@ -9,7 +9,7 @@
             <div class="card-header">@lang('app.filter')</div>
             <div class="card-body">
                 <div class="row mb-2">
-                    <div class="col-sm">{{ Form::bsCheckboxInlineList('level[]', collect($levels)->mapWithKeys(function($e){return [$e => __('app.'.$e)];}), $activeLevels) }}</div>
+                    <div class="col-sm">@lang('app.severity'): {{ Form::bsCheckboxInlineList('level[]', collect($levels)->mapWithKeys(function($e){return [$e => __('app.'.$e)];}), $activeLevels) }}</div>
                 </div>
                 {{ Form::bsSubmitButton(__('app.apply_filter'), 'filter') }}
                 <a href="{{ route('logviewer.index') }}" class="btn btn-secondary">@icon(undo) @lang('app.reset_filter')</a>
@@ -24,7 +24,7 @@
                     <tr>
                         <th>@lang('app.date')</th>
                         <th>@lang('app.severity')</th>
-                        <th>@lang('app.message')</th>
+                        <th colspan="2">@lang('app.message')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,14 +59,15 @@
                         <tr>
                             <td style="white-space: nowrap">{{ $entry->date }}<br><small>{{ (new Carbon\Carbon($entry->date))->diffForHumans() }}</small></td>
                             <td class="{{ $class }}">@lang('app.'.$entry->level)</td>
-                            <td>{!! nl2br(e($message)) !!}
-                                    @if(count($params) > 0)
-                                    <table class="m-0 mt-2">
-                                        @foreach($params as $k => $v)
-                                            <tr><td>{{ $k }}</td><td>{{ $v }}</td></tr>
-                                        @endforeach
-                                    </table>
-                                    @endif
+                            <td @if(count($params) == 0) colspan="2" @endif>{!! nl2br(e($message)) !!}</td>
+                            @if(count($params) > 0)
+                            <td class="p-0">
+                                <table class="m-0 table">
+                                    @foreach($params as $k => $v)
+                                        <tr><td class="fit">{{ $k }}</td><td>{{ $v }}</td></tr>
+                                    @endforeach
+                                </table>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -95,4 +95,5 @@ return [
     'info' => 'Info',
     'debug' => 'Debug',
     'view' => 'View',
+    'user_witzh_access_to_sensitive_data' => 'Users with access to sensitive data',
  ];

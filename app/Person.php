@@ -7,10 +7,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use App\CouponType;
+use Iatstuti\Database\Support\NullableFields;
 
 class Person extends Model
 {
     use SoftDeletes;
+    use NullableFields;
     
     protected $table = 'persons';
 
@@ -18,6 +20,10 @@ class Person extends Model
     
     protected $fillable = ['name', 'family_name', 'police_no', 'case_no', 'nationality', 'remarks'];
     
+    protected $nullable = [
+		'date_of_birth',
+    ];
+
     const FREQUENT_VISITOR_WEEKS = 4;
     const FREQUENT_VISITOR_THRESHOLD = 12;
 

@@ -38,6 +38,8 @@ return [
     'reset_password_instructions' => 'Please enter your e-mail address. We will send you a link which allows you to reset your password.',
     'send_reset_password_link' => 'Send password reset link',
     '2FA' => '2FA',
+    '2FA_active' => '2FA active',
+    '2FA_inactive' => '2FA inactive',
     'tfa_authentication' => 'Two-Factor Authentication',
     'tfa_authentication_not_enabled' => 'Two-Factor Authentication is not enabled.',
     'tfa_explanation' => 'Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code

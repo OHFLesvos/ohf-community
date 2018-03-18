@@ -596,6 +596,7 @@ class ContextMenuComposer {
             case 'reporting.people':
             case 'reporting.bank.withdrawals':
             case 'reporting.bank.deposits':
+            case 'reporting.privacy':
                 return [
                     'back' => [
                         'url' => url()->previous(),

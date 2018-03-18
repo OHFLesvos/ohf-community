@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.donots-donations')
 
 @section('title', __('donations.donors'))
 
-@section('content')
+@section('wrapped-content')
 
     {!! Form::open(['route' => ['donors.index'], 'method' => 'get']) !!}
         <div class="input-group">

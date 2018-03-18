@@ -15,6 +15,21 @@ use MrCage\EzvExchangeRates\EzvExchangeRates;
 class DonationController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $this->authorize('list', Donation::class);
+
+        $query = Donation::orderBy('created_at', 'desc');
+        return view('donations.donations.index', [
+            'donations' => $query->paginate(100),
+        ]);
+    }
+
+    /**
      * Register a new donation.
      *
      * @param  \App\Donor  $donor

@@ -7,5 +7,5 @@ return [
     'kitchen' => 'Küche',
     'user-privileges' => 'Benutzerberechtigungen',
     'role-privileges' => ' Rollenberechtigungen',
-    'user-access-sensitive-data' => 'Benutzer mit Zugang zu sensitiven Daten',
+    'privacy' => 'Datenschutzbericht',
 ];

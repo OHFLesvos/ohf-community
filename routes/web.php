@@ -142,7 +142,7 @@ Route::group(['middleware' => 'language'], function () {
         // Reporting: User and role management
         Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {    
             Route::get('/reporting/users/permissions', 'UserController@permissions')->name('users.permissions');
-            Route::get('/reporting/users/sensitiveData', 'UserController@sensitiveDataReport')->name('users.sensitiveDataReport');
+            Route::get('/reporting/users/sensitiveData', 'UserController@sensitiveDataReport')->name('reporting.privacy');
             Route::get('/reporting/roles/permissions', 'RoleController@permissions')->name('roles.permissions');
         });
     });
@@ -170,7 +170,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/calendar', 'CalendarController@index')->name('calendar');
     });
 
-    // Donors
+    // Donors and donations
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/donations/donors/export', 'Donations\DonorController@export')->name('donors.export');
         Route::resource('donations/donors', 'Donations\DonorController');
@@ -180,6 +180,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::put('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@update')->name('donations.update');
         Route::delete('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@destroy')->name('donations.destroy');
         Route::get('/donations/donors/{donor}/export', 'Donations\DonationController@export')->name('donations.export');
+        Route::get('/donations', 'Donations\DonationController@index')->name('donations.index');
     });
 
     Auth::routes();

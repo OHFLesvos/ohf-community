@@ -143,12 +143,12 @@ class UserController extends ParentController
     public function sensitiveDataReport()
     {
         $permissions = Config::get('auth.permissions');
-        return view('users.sensitiveDataReport', [
+        return view('reporting.privacy', [
             'permissions' => Config::get('auth.permissions'),
             'users' => User::orderBy('name')
                 ->get()
                 ->filter(function($u) use($permissions) {
-                    return $u->permissions()->contains(function($p) use($permissions) {
+                    return $u->isSuperAdmin() || $u->permissions()->contains(function($p) use($permissions) {
                         return isset($permissions[$p->key]) && $permissions[$p->key]['sensitive'];
                     });
                 })
