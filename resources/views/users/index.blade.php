@@ -37,7 +37,7 @@
                                 @empty($user->tfa_secret)
                                     @icon(times)
                                 @else
-                                    @icon(check)
+                                    <span class="text-success">@icon(check)</span>
                                 @endempty
                             </td>
                             <td class="d-none d-md-table-cell">
