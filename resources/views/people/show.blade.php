@@ -188,26 +188,29 @@
 
             <div class="card mb-4">
                 <div class="card-header">
-                    Transactions
+                    @lang('people.coupons')
                 </div>
                 <div class="card-body">
-                    @if( ! $transactions->isEmpty() )
+                    @php
+                        $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->paginate(25);
+                    @endphp
+                    @if( ! $handouts->isEmpty() )
                         <table class="table table-sm table-hover">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Value</th>
-                                    <th>Author</th>
+                                    <th>@lang('app.date')</th>
+                                    <th>@lang('app.type')</th>
+                                    <th>@lang('app.author')</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($transactions as $transaction)
+                                @foreach ($handouts as $handout)
                                     <tr>
-                                        <td>{{ $transaction->created_at->diffForHumans() }} <small class="text-muted">{{ $transaction->created_at }}</small></td>
-                                        <td>{{ $transaction->value }}</td>
+                                        <td>{{ (new Carbon\Carbon($handout->created_at))->diffForHumans() }} <small class="text-muted">{{ $handout->date }}</small></td>
+                                        <td>{{ $handout->couponType->daily_amount }} {{ $handout->couponType->name }}</td>
                                         <td>
-                                            @if(isset($transaction->user))
-                                                {{ $transaction->user->name }}
+                                            @if(isset($handout->user))
+                                                {{ $handout->user->name }}
                                             @endif
 
                                         </td>
@@ -215,44 +218,10 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $transactions->links() }}
+                        {{ $handouts->links() }}
                     @else
                         <div class="alert alert-info m-0">
-                            No transactions found.
-                        </div>
-                    @endif
-
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    Boutique
-                </div>
-                <div class="card-body">
-
-                    @if( $person->boutique_coupon != null )
-                        Last coupon handed out on {{ $person->boutique_coupon }} ({{ (new Carbon\Carbon($person->boutique_coupon))->diffForHumans() }}).
-                    @else
-                        <div class="alert alert-info m-0">
-                            No boutique coupon handed out so far.
-                        </div>
-                    @endif
-
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    Diapers
-                </div>
-                <div class="card-body">
-
-                    @if( $person->diapers_coupon != null )
-                        Last coupon handed out on {{ $person->diapers_coupon }} ({{ (new Carbon\Carbon($person->diapers_coupon))->diffForHumans() }}).
-                    @else
-                        <div class="alert alert-info m-0">
-                            No diapers coupon handed out so far.
+                            @lang('people.no_coupons_handed_out_so_far')
                         </div>
                     @endif
 

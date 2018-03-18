@@ -96,4 +96,6 @@ return [
     'debug' => 'Debug',
     'view' => 'Anzeigen',
     'user_witzh_access_to_sensitive_data' => 'Benutzer mit Zugang zu sensitiven Daten',
+    'type' => 'Typ',
+    'author' => 'Autor',
 ];

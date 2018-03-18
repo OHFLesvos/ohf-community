@@ -11,4 +11,6 @@ return [
     'no_coupons_defined' => 'Es wurden noch keine Coupons definiert.',
     'in_n_days' => 'morgen|in :days Tagen',
     'no_number_registered' => 'Keine Nummer registriert!',
+    'coupons' => 'Coupons',
+    'no_coupons_handed_out_so_far' => 'Noch Keine Coupons ausgegeben.',
 ];
