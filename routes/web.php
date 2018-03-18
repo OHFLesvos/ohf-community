@@ -171,7 +171,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/calendar', 'CalendarController@index')->name('calendar');
     });
 
-    // Donors
+    // Donors and donations
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/donations/donors/export', 'Donations\DonorController@export')->name('donors.export');
         Route::resource('donations/donors', 'Donations\DonorController');
@@ -181,6 +181,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::put('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@update')->name('donations.update');
         Route::delete('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@destroy')->name('donations.destroy');
         Route::get('/donations/donors/{donor}/export', 'Donations\DonationController@export')->name('donations.export');
+        Route::get('/donations', 'Donations\DonationController@index')->name('donations.index');
     });
 
     Auth::routes();

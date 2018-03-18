@@ -27,7 +27,7 @@ class DonorController extends Controller
             $query->where('name', 'LIKE', '%' . $request->filter . '%');
         }
         return view('donations.donors.index', [
-            'donors' => $query->paginate(),
+            'donors' => $query->paginate(100),
             'filter' => $request->filter,
         ]);
     }

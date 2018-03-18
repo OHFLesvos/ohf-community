@@ -4,6 +4,7 @@
 
 * Show administrators in pricacy report
 * Logviewer table improvements
+* Added view about latest donations
 
 ## 1.12.3
 

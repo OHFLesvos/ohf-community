@@ -13,7 +13,6 @@
 ## Donations
 
 * Add report about number of donors and donations per month, year
-* Added view about latest donations
 
 ## User Management and Privileges
 
