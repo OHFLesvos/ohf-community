@@ -93,7 +93,7 @@ return [
     'warning' => 'Warnung', 
     'notice' => 'Notiz', 
     'info' => 'Info',
-    'debug' => 'Fehlersuche',
+    'debug' => 'Debug',
     'view' => 'Anzeigen',
     'user_witzh_access_to_sensitive_data' => 'Benutzer mit Zugang zu sensitiven Daten',
 ];

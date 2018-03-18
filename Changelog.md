@@ -3,6 +3,7 @@
 ## 1.12.4
 
 * Show administrators in pricacy report
+* Logviewer table improvements
 
 ## 1.12.3
 
