@@ -25,6 +25,9 @@
 							@endforeach
 						</small>
 					</p>
+					<p class="text-center">
+						<small><a href="{{ route('userPrivacyPolicy') }}" target="_blank">@lang('app.privacy_policy')</a></small>
+					</p>
 				</div>
 			</div>
 		</div>

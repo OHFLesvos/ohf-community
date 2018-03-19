@@ -4,6 +4,10 @@
 
 @section('content')
 
+    @component('components.alert.info')
+        @lang('app.privacy_policy_agreement_link', [ 'url' => route('userPrivacyPolicy') ])
+    @endcomponent
+
     {{ Form::open(['route' => 'register']) }}
 
         <div class="form-group">

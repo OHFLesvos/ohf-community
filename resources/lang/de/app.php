@@ -96,4 +96,6 @@ return [
     'debug' => 'Debug',
     'view' => 'Anzeigen',
     'user_witzh_access_to_sensitive_data' => 'Benutzer mit Zugang zu sensitiven Daten',
+    'privacy_policy' => 'Datenschutzrichtlinien',
+    'privacy_policy_agreement_link' => 'Mit der Benutzung dieses Dienstes stimmst du unseren <a href=":url" target="_blank">Datenschutzrichtlinien</a> zu.',
 ];

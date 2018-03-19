@@ -3,6 +3,7 @@
 ## NEXT
 
 * Donors widget shows number of donations.
+* Added privacy statement to login/registration screen.
 
 ## 1.12.5
 
