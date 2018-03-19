@@ -17,5 +17,4 @@
 ## User Management and Privileges
 
 * Implement privilege assignment with expiration date
-* Mail notification of admin when new person registers
 * Add audit log wherever user accesses privacy relevant data

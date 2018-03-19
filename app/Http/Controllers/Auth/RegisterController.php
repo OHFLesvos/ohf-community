@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistered;
 
 class RegisterController extends Controller
 {
@@ -78,6 +80,8 @@ class RegisterController extends Controller
             'email' => $user->email,
             'client_ip' => request()->ip(),
         ]);
+        $admins = User::where('is_super_admin', true)->get();
+        Mail::to($admins)->send(new UserRegistered($user));
         return $user;
     }
 }
