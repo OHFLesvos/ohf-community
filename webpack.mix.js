@@ -24,5 +24,8 @@ mix.options({ processCssUrls: false })
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.copy('node_modules/font-awesome/fonts', 'public/fonts')
 	.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')
-	.copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.css', 'public/css');
+	.copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.css', 'public/css')
+	.copy('node_modules/moment/min/moment-with-locales.min.js', 'public/js')
+	.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', 'public/js')
+	.copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.js', 'public/js');
 	

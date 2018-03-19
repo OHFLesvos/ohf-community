@@ -82,5 +82,8 @@
 @endsection
 
 @section('footer')
+    <script src='{{ asset('js/moment-with-locales.min.js') }}'></script>
+    <script src='{{ asset('js/fullcalendar.min.js') }}'></script>
+    <script src='{{ asset('js/scheduler.min.js') }}'></script>
     <script src="{{ asset('js/calendar.js') }}?v={{ $app_version }}"></script>
 @endsection

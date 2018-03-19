@@ -2,10 +2,10 @@
 // Calendar
 //
 
-import 'moment';
-import $ from 'jquery';
-import 'fullcalendar';
-import 'fullcalendar-scheduler';
+// import 'moment';
+// import $ from 'jquery';
+// import 'fullcalendar';
+// import 'fullcalendar-scheduler';
 
 var lastResourceGroup = null;
 
@@ -33,9 +33,10 @@ $(document).ready(function() {
 
     // Initialite the calendar
     calendar.fullCalendar({
+        themeSystem: 'bootstrap4',
         height: "auto",
         locale: locale,
-        //timeFormat: 'H:mm',
+        slotLabelFormat: 'H:mm',
         minTime: '08:00', // TODO  scrollTime: '08:00',
         header: {
             left: manageResourcesAllowed ? 'prev,next today promptResource' : 'prev,next today',
