@@ -1,6 +1,6 @@
 # Changelog
 
-## NEXT
+## 1.12.6
 
 * Donors widget shows number of donations.
 * Added privacy statement to login/registration screen.
