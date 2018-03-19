@@ -4,6 +4,7 @@
 
 * Donors widget shows number of donations.
 * Added privacy statement to login/registration screen.
+* A mail notification is sent to admins when new user registers.
 
 ## 1.12.5
 
