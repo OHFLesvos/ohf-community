@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Donors widget shows number of donations.
+
 ## 1.12.5
 
 * UI fixes

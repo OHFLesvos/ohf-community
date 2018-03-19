@@ -17,7 +17,7 @@ return [
     'donor_updated' => 'Spender aktualisert',
     'donor_deleted' => 'Spender gelöscht',
     'donors_in_db' => '<strong>:num_donors</strong> Spender sind in der Datenbank registriert.',
-    'newest_donor_is' => 'Der neuste Spender ist <a href=":link">:name</a>.',
+    'donations_in_db' => '<strong>:num_month</strong> Spenden diesen Monat, <strong>:num_year</strong> dieses Jahr, <strong>:num_total</strong> total.',
     'donations' => 'Spenden',
     'no_donations_found' => 'Keine Spenden gefunden.',
     'date' => 'Datum',
