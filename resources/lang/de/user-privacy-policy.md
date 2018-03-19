@@ -22,4 +22,4 @@ Du kannst deinen Account jederzeit löschen. Dies wird sobald wie möglich alle 
 
 Unsere Datenbank wird regelmässig gesichert, und die Sicherungen werden eine Woche aufbewahrt, um im Falle eines Ausfalls die Applikation wiederherstellen zu können.
 
-Dieser Dienst läuft auf einer technischen Plattform eines vertrauenswürdigen Web Hosting Anbieters, welcher sich zu einer strikten Einhaltung der Datenschutzgesetze verpflichtet hat, und keine Daten an Dritte weitergeben wird (ausser er wird von Gesetzes wegen dazu gezwungen).
+Dieser Dienst läuft auf einer technischen Plattform eines vertrauenswürdigen Web Hosting Anbieters, welcher sich zu einer strikten Einhaltung der Datenschutzgesetze verpflichtet hat und keine Daten an Dritte weitergeben wird (ausser er wird von Gesetzes wegen dazu gezwungen).
