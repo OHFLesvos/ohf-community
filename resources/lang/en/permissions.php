@@ -2,6 +2,7 @@
 
 return [
     'people.manage' => 'People: Manage people',
+    'people.export' => 'Personen: Export people',
     'people.reports.view' => 'People: View reports',
     'bank.withdrawals.do' => 'Bank: Handout drachma',
     'bank.deposits.do' => 'Bank: Deposit drachma',

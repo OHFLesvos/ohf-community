@@ -469,13 +469,13 @@ class PeopleController extends ParentController
 	}
 
     public function export() {
-        $this->authorize('list', Person::class);
+        $this->authorize('export', Person::class);
 
-        \Excel::create('OHF_Community_' . Carbon::now()->toDateString(), function($excel) {
-            $dm = Carbon::create();
-            $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
+        \Excel::create('People_' . Carbon::now()->toDateString(), function($excel) {
+            $excel->sheet(__('people.people'), function($sheet) {
                 $persons = Person::orderBy('name', 'asc')
                     ->orderBy('family_name', 'asc')
+                    ->orderBy('name', 'asc')
                     ->get();
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
@@ -483,7 +483,7 @@ class PeopleController extends ParentController
                     'persons' => $persons
                 ]);
             });
-        })->export('xls');
+        })->export('xlsx');
     }
 
     function import() {

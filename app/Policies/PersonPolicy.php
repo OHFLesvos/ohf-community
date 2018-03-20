@@ -29,6 +29,17 @@ class PersonPolicy
     }
 
     /**
+     * Determine whether the user can export persons.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function export(User $user)
+    {
+        return $user->hasPermission('people.export');
+    }
+
+    /**
      * Determine whether the user can view the person.
      *
      * @param  \App\User  $user

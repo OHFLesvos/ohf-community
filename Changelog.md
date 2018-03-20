@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Added dedicated permission for exporting list of persons.
+
 ## 1.12.6
 
 * Donors widget shows number of donations.

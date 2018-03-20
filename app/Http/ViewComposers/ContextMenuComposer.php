@@ -54,12 +54,6 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('cleanup', Person::class)
                     ],                    
                     [
-                        'url' => route('people.export'),
-                        'caption' => __('app.export'),
-                        'icon' => 'download',
-                        'authorized' => Auth::user()->can('list', Person::class)
-                    ],
-                    [
                         'url' => route('people.import'),
                         'caption' => __('app.import'),
                         'icon' => 'upload',
@@ -73,7 +67,7 @@ class ContextMenuComposer {
                         'url' => route('bank.export'),
                         'caption' => __('app.export'),
                         'icon' => 'download',
-                        'authorized' => Auth::user()->can('list', Person::class)
+                        'authorized' => Auth::user()->can('export', Person::class)
                     ],
                     [
                         'url' => route('bank.import'),
@@ -285,6 +279,12 @@ class ContextMenuComposer {
                         'caption' => __('app.report'),
                         'icon' => 'line-chart',
                         'authorized' => Gate::allows('view-people-reports')
+                    ],
+                    'export' => [
+                        'url' => route('people.export'),
+                        'caption' => __('app.export'),
+                        'icon' => 'download',
+                        'authorized' => Auth::user()->can('export', Person::class)
                     ],
                 ];
             case 'people.create':

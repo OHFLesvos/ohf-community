@@ -419,11 +419,14 @@ class BankController extends Controller
     }
     
 	public function export() {
-        \Excel::create('OHF_Bank_' . Carbon::now()->toDateString(), function($excel) {
+        $this->authorize('export', Person::class);
+
+        \Excel::create('Bank_' . Carbon::now()->toDateString(), function($excel) {
             $dm = Carbon::create();
             $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
                 $persons = Person::orderBy('name', 'asc')
                     ->orderBy('family_name', 'asc')
+                    ->orderBy('name', 'asc')
                     ->get();
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
@@ -434,7 +437,7 @@ class BankController extends Controller
                     'day' => $dm->day,
                 ]);
             });
-        })->export('xls');
+        })->export('xlsx');
     }
     
 	public function updateGender(UpdatePersonGender $request) {
