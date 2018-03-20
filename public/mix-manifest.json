@@ -2,8 +2,11 @@
     "/js/bank.js": "/js/bank.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/js/calendar.js": "/js/calendar.js",
     "/js/people.js": "/js/people.js",
+    "/js/calendar.js": "/js/calendar.js",
     "/css/fullcalendar.min.css": "/css/fullcalendar.min.css",
-    "/css/scheduler.min.css": "/css/scheduler.min.css"
+    "/css/scheduler.min.css": "/css/scheduler.min.css",
+    "/js/moment-with-locales.min.js": "/js/moment-with-locales.min.js",
+    "/js/fullcalendar.min.js": "/js/fullcalendar.min.js",
+    "/js/scheduler.min.js": "/js/scheduler.min.js"
 }

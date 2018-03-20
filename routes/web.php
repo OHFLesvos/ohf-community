@@ -184,5 +184,6 @@ Route::group(['middleware' => 'language'], function () {
     });
 
     Auth::routes();
+    Route::get('/userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
 
 });

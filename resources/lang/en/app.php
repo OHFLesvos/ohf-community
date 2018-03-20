@@ -98,4 +98,6 @@ return [
     'user_witzh_access_to_sensitive_data' => 'Users with access to sensitive data',
     'type' => 'Type',
     'author' => 'Author',
+    'privacy_policy' => 'Privacy Policy',
+    'privacy_policy_agreement_link' => 'By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.',
  ];
