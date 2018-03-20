@@ -10,6 +10,7 @@ return [
     'roles' => 'Roles',
     'manage_roles' => 'Manage Roles',
     'add' => 'Add',
+    'register' => 'Register',
     'edit' => 'Edit',
     'cancel' => 'Cancel',
     'close' => 'Close',
@@ -100,4 +101,9 @@ return [
     'author' => 'Author',
     'privacy_policy' => 'Privacy Policy',
     'privacy_policy_agreement_link' => 'By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.',
+    'export' => 'Export',
+    'import' => 'Import',
+    'settings' => 'Settings',
+    'maintenance' => 'Maintenance',
+    'transactions' => 'Transactions',
  ];

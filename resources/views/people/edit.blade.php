@@ -28,22 +28,22 @@
 				</div>
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsNumber('police_no', null, [ 'prepend' => '05/' ], 'Police Number') }}
+                        {{ Form::bsNumber('police_no', null, [ 'prepend' => '05/' ], __('people.police_number')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsNumber('case_no', null, [ ], 'Case Number') }}
+                        {{ Form::bsNumber('case_no', null, [ ], __('people.case_number')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('medical_no', null, [], 'Medical Number') }}
+                        {{ Form::bsText('medical_no', null, [], __('people.medical_number')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('registration_no', null, [], 'Registration Number') }}
+                        {{ Form::bsText('registration_no', null, [], __('people.registration_number')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('section_card_no', null, [], 'Section Card Number') }}
+                        {{ Form::bsText('section_card_no', null, [], __('people.section_card_number')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('temp_no', null, [], 'Temp Number') }}
+                        {{ Form::bsText('temp_no', null, [], __('people.temporary_number')) }}
 					</div>
 				</div>
 				<div class="form-row">

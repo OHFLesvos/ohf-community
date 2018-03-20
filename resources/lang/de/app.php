@@ -10,6 +10,7 @@ return [
     'roles' => 'Rollen',
     'manage_roles' => 'Rollen verwalten',
     'add' => 'Hinzufügen',
+    'register' => 'Registrieren',
     'edit' => 'Bearbeiten',
     'cancel' => 'Abbrechen',
     'close' => 'Schliessen',
@@ -100,4 +101,9 @@ return [
     'author' => 'Autor',
     'privacy_policy' => 'Datenschutzerklärung',
     'privacy_policy_agreement_link' => 'Mit der Benutzung dieses Dienstes stimmst du unserer <a href=":url" target="_blank">Datenschutzerklärung</a> zu.',
+    'export' => 'Export',
+    'import' => 'Import',
+    'settings' => 'Einstellungen',
+    'maintenance' => 'Wartung',
+    'transactions' => 'Transaktionen',
 ];

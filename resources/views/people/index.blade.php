@@ -9,21 +9,21 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th class="text-nowrap">Family Name <a href="javascript:;" class="sort" data-field="family_name">@icon(sort)</a></th>
-                    <th>Name <a href="javascript:;" class="sort" data-field="name">@icon(sort)</a></th>
-                    <th class="text-nowrap">Date of Birth <a href="javascript:;" class="sort" data-field="date_of_birth">@icon(sort)</a></th>
-                    <th>Nationality <a href="javascript:;" class="sort" data-field="nationality">@icon(sort)</a></th>
-                    <th class="text-nowrap">Police No.</th>
-                    <th class="text-nowrap">Case No.</th>
-                    <th class="text-nowrap">Med No.</th>
-                    <th class="text-nowrap">Reg No.</th>
-                    <th class="text-nowrap">Sec Card No.</th>
-                    <th class="text-nowrap">Temp No.</th>
-                    <th>Languages <a href="javascript:;" class="sort" data-field="languages">@icon(sort)</a></th>
-                    <th>Skills <a href="javascript:;" class="sort" data-field="skills">@icon(sort)</a></th>
-                    <th>Remarks <a href="javascript:;" class="sort" data-field="remarks">@icon(sort)</a></th>
+                    <th class="text-nowrap">@lang('people.family_name') <a href="javascript:;" class="sort" data-field="family_name">@icon(sort)</a></th>
+                    <th>@lang('people.name') <a href="javascript:;" class="sort" data-field="name">@icon(sort)</a></th>
+                    <th class="text-nowrap">@lang('people.date_of_birth') <a href="javascript:;" class="sort" data-field="date_of_birth">@icon(sort)</a></th>
+                    <th>@lang('people.nationality') <a href="javascript:;" class="sort" data-field="nationality">@icon(sort)</a></th>
+                    <th class="text-nowrap">@lang('people.police_no')</th>
+                    <th class="text-nowrap">@lang('people.case_no')</th>
+                    <th class="text-nowrap">@lang('people.med_no')</th>
+                    <th class="text-nowrap">@lang('people.reg_no')</th>
+                    <th class="text-nowrap">@lang('people.sec_card_no')</th>
+                    <th class="text-nowrap">@lang('people.temp_no')</th>
+                    <th>@lang('people.languages') <a href="javascript:;" class="sort" data-field="languages">@icon(sort)</a></th>
+                    <th>@lang('people.skills') <a href="javascript:;" class="sort" data-field="skills">@icon(sort)</a></th>
+                    <th>@lang('people.remarks') <a href="javascript:;" class="sort" data-field="remarks">@icon(sort)</a></th>
                     <th>Worker <a href="javascript:;" class="sort" data-field="worker">@icon(sort)</a></th>
-                    <th>Registered <a href="javascript:;" class="sort" data-field="created_at">@icon(sort)</a></th>
+                    <th>@lang('app.registered') <a href="javascript:;" class="sort" data-field="created_at">@icon(sort)</a></th>
                 </tr>
                 <tr id="filter">
                     <th></th>

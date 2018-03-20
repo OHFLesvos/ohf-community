@@ -7,23 +7,23 @@
     <div class="row">
         <div class="col-md">
 
-            <div class="card mb-4">
+            {{-- <div class="card mb-4">
                 <div class="card-header">Personal data</div>
-                <div class="card-body p-0">
+                <div class="card-body p-0"> --}}
 
                     <table class="table m-0">
                         <tbody>
                             <tr>
-                                <th>Family Name:</th>
+                                <th>@lang('people.family_name')</th>
                                 <td>{{ $person->family_name }}</td>
                             </tr>
                             <tr>
-                                <th>Name:</th>
+                                <th>@lang('people.name')</th>
                                 <td>{{ $person->name }}</td>
                             </tr>
                             @if(isset($person->gender))
                                 <tr>
-                                    <th>Gender:</th>
+                                    <th>@lang('people.gender')</th>
                                     <td>
                                         @if($person->gender == 'f')@icon(female) Female 
                                         @elseif($person->gender == 'm')@icon(male) Male 
@@ -33,97 +33,97 @@
                             @endif
                             @if(isset($person->date_of_birth))
                                 <tr>
-                                    <th>Date of Birth:</th>
+                                    <th>@lang('people.date_of_birth')</th>
                                     <td>{{ $person->date_of_birth }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Age:</th>
+                                    <th>@lang('people.age')</th>
                                     <td>{{ $person->age }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->police_no))
                                 <tr>
-                                    <th>Police Number:</th>
+                                    <th>@lang('people.police_number')</th>
                                     <td>{{ $person->police_no }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->case_no))
                                 <tr>
-                                    <th>Case Number:</th>
+                                    <th>@lang('people.case_number')</th>
                                     <td>{{ $person->case_no }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->medical_no))
                                 <tr>
-                                    <th>Medical Number:</th>
+                                    <th>@lang('people.medical_number')</th>
                                     <td>{{ $person->medical_no }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->registration_no))
                                 <tr>
-                                    <th>Registration Number:</th>
+                                    <th>@lang('people.registration_number')</th>
                                     <td>{{ $person->registration_no }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->section_card_no))
                                 <tr>
-                                    <th>Section Card Number:</th>
+                                    <th>@lang('people.section_card_number')</th>
                                     <td>{{ $person->section_card_no }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->temp_no))
                                 <tr>
-                                    <th>Temporary Number:</th>
+                                    <th>@lang('people.temporary_number')</th>
                                     <td>{{ $person->temp_no }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->nationality))
                             <tr>
-                                <th>Nationality:</th>
+                                <th>@lang('people.nationality')</th>
                                 <td>{{ $person->nationality }}</td>
                             </tr>
                             @endif
                             @if(isset($person->languages))
                                 <tr>
-                                    <th>Languages:</th>
+                                    <th>@lang('people.languages')</th>
                                     <td>{{ $person->languages }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->skills))
                                 <tr>
-                                    <th>Skills:</th>
+                                    <th>@lang('people.skills')</th>
                                     <td>{{ $person->skills }}</td>
                                 </tr>
                             @endif
                             @if(isset($person->remarks))
                                 <tr>
-                                    <th>Remarks:</th>
+                                    <th>@lang('people.remarks')</th>
                                     <td>{{ $person->remarks }}</td>
                                 </tr>
                             @endif
                             @if($person->worker)
                                 <tr>
-                                    <th>Worker:</th>
+                                    <th>Worker</th>
                                     <td>Registered as worker</td>
                                 </tr>
                             @endif
                             <tr>
-                                <th>Registered:</th>
+                                <th>@lang('app.created')</th>
                                 <td>{{ $person->created_at }}</td>
                             </tr>
                             <tr>
-                                <th>Last updated:</th>
+                                <th>@lang('app.last_updated')</th>
                                 <td>{{ $person->updated_at }}</td>
                             </tr>
                         </tbody>
                     </table>
 
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
 
             @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
                 <div class="card mb-4">
-                    <div class="card-header">Relationships
+                    <div class="card-header">@lang('people.relationships')
                         <a href="{{ route('people.relations', $person) }}" class="pull-right btn btn-sm btn-secondary">@icon(pencil) Edit</a>
                     </div>
                     <div class="card-body">

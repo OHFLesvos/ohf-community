@@ -30,22 +30,22 @@
         @endforeach
     @endif    
     @if(isset($person->police_no))
-        Police Number: {{ $person->police_no }}<br>
+        @lang('people.police_number'): {{ $person->police_no }}<br>
     @endif
     @if(isset($person->case_no))
-        Case Number: {{ $person->case_no }}<br>
+        @lang('people.case_number'): {{ $person->case_no }}<br>
     @endif
     @if(isset($person->medical_no))
-        Medical Number: {{ $person->medical_no }}<br>
+        @lang('people.medical_number'): {{ $person->medical_no }}<br>
     @endif
     @if(isset($person->registration_no))
-        Registration Number: {{ $person->registration_no }}<br>
+        @lang('people.registration_number'): {{ $person->registration_no }}<br>
     @endif
     @if(isset($person->section_card_no))
-        Section Card Number: {{ $person->section_card_no }}<br>
+        @lang('people.section_card_number'): {{ $person->section_card_no }}<br>
     @endif
     @if(isset($person->temp_no))
-        Temporary Number: {{ $person->temp_no }}<br>
+        @lang('people.temporary_number'): {{ $person->temp_no }}<br>
     @endif
     @if ($person->card_no != null)
         Card: {{ $person->card_no }} issued on {{ $person->card_issued }} ({{ (new Carbon\Carbon($person->card_issued))->diffForHumans() }})<br>

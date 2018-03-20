@@ -1,18 +1,18 @@
     <table>
         <thead>
             <tr>
-                <th>Family Name</th>
-                <th>Name</th>
-                <th>Police No</th>
-                <th>Case No</th>
-                <th>Medical No</th>
-                <th>Registration No</th>
-                <th>Section Card No</th>
-                <th>Temp No</th>
-                <th>Nationality</th>
-                <th>Languages</th>
-                <th>Skills</th>
-                <th>Remarks</th>
+                <th>@lang('people.family_name')</th>
+                <th>@lang('people.name')</th>
+                <th>@lang('people.police_no')</th>
+                <th>@lang('people.case_no')</th>
+                <th>@lang('people.med_no')</th>
+                <th>@lang('people.reg_no')</th>
+                <th>@lang('people.sec_card_no')</th>
+                <th>@lang('people.temp_no')</th>
+                <th>@lang('people.nationality')</th>
+                <th>@lang('people.languages')</th>
+                <th>@lang('people.skills')</th>
+                <th>@lang('people.remarks')</th>
             </tr>
         </thead>
         <tbody>

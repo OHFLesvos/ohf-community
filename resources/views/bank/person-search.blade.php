@@ -2,7 +2,7 @@
     <div class="form-row">
         <div class="col">
             <div class="input-group">
-                {{ Form::search('filter', isset($filter) ? $filter : null, [ 'id' => 'filter', 'class' => 'form-control' .(isset($results) && count($results) == 0 ? ' focus-tail' : ''), !isset($results) ? 'autofocus' : null, 'placeholder' => 'Search for name, case number, medical number, registration number, section card number...' ]) }}
+                {{ Form::search('filter', isset($filter) ? $filter : null, [ 'id' => 'filter', 'class' => 'form-control' .(isset($results) && count($results) == 0 ? ' focus-tail' : ''), !isset($results) ? 'autofocus' : null, 'placeholder' => __('people.bank_search_text') ]) }}
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">@icon(search)</button> 
                     @if(isset($filter))
