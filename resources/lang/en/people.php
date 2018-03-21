@@ -53,4 +53,6 @@ return [
     'age_n' => 'age :age',
     'display_settings' => 'Display Settings',
     'frequent_visitors' => 'Frequent Visitors',
+    'person_not_eligible_for_this_coupon' => 'Person is not eligible for this coupon.',
+    'please_wait_n_days' => 'Please wait :days days.',
 ];

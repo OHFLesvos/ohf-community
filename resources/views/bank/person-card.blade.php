@@ -105,7 +105,7 @@
                                 {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil])}})
                             </button>
                         @else
-                            <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}">
+                            <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}">
                                 {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }}
                             </button>
                         @endempty

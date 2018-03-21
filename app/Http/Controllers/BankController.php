@@ -124,8 +124,6 @@ class BankController extends Controller
             'filter' => $request->filter,
             'results' => $results,
             'register' => self::createRegisterStringFromFilter($filter),
-            'boutiqueThresholdDays' => self::getBoutiqueThresholdDays(),
-            'diapersThresholdDays' => self::getDiapersThresholdDays(),
             'message' => $message,
             'undoGraceTime' => self::UNDO_GRACE_TIME,
             'couponTypes' => CouponType::orderBy('order')->orderBy('name')->get(),
@@ -476,6 +474,7 @@ class BankController extends Controller
         $couponType = CouponType::find($request->coupon_type_id);
         $coupon = new CouponHandout();
         $coupon->date = Carbon::today();
+        $coupon->amount = $request->amount;
         $coupon->person()->associate($person);
         $coupon->couponType()->associate($couponType);
         $coupon->save();

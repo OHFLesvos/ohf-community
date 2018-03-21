@@ -115,13 +115,15 @@ function handoutCoupon(){
 	var btn = $(this);
 	var person = btn.data('person');
 	var couponType = btn.data('coupon');
+	var amount = btn.data('amount');
 	var label = $(this).html();
 	btn.attr('disabled', 'disabled');
 	btn.removeClass('btn-primary').addClass('btn-secondary');
 	$.post(handoutCouponUrl, {
 		"_token": csrfToken,
 		"person_id": person,
-		"coupon_type_id": couponType
+		"coupon_type_id": couponType,
+		"amount": amount
 	}, function(data) {
 		var name = btn.parents('.card').find('.card-header strong').text();
 		btn.append(' (' + data.countdown + ')');
