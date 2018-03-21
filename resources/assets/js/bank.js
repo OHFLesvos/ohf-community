@@ -118,7 +118,6 @@ function handoutCoupon(){
 	var amount = btn.data('amount');
 	var label = $(this).html();
 	btn.attr('disabled', 'disabled');
-	btn.removeClass('btn-primary').addClass('btn-secondary');
 	$.post(handoutCouponUrl, {
 		"_token": csrfToken,
 		"person_id": person,
@@ -127,7 +126,6 @@ function handoutCoupon(){
 	}, function(data) {
 		var name = btn.parents('.card').find('.card-header strong').text();
 		btn.append(' (' + data.countdown + ')');
-		btn.removeAttr('disabled');
 		btn.off('click').on('click', undoHandoutCoupon);
 		showSnackbar(label + ' has been handed out to ' + name + '.', 'Undo', 'warning', function(element){
 			$(element).css('opacity', 0);
@@ -135,9 +133,13 @@ function handoutCoupon(){
 			enableFilterSelect();
 		});
 
+		btn.removeClass('btn-primary').addClass('btn-secondary');
 		enableFilterSelect();
 	})
-	.fail(ajaxError);
+	.fail(ajaxError)
+	.always(function() {
+		btn.removeAttr('disabled');
+	});	
 }
 
 function undoHandoutCoupon(){
@@ -146,19 +148,23 @@ function undoHandoutCoupon(){
 	var couponType = btn.data('coupon');
 	var label = $(this).html();
 	btn.attr('disabled', 'disabled');
-	btn.removeClass('btn-secondary').addClass('btn-primary');
 	$.post(undoHandoutCouponUrl, {
 		"_token": csrfToken,
 		"person_id": person,
 		"coupon_type_id": couponType
 	}, function(data) {
 		var name = btn.parents('.card').find('.card-header strong').text();
-		btn.removeAttr('disabled');
+		btn.html(btn.html().substring(0, btn.html().lastIndexOf(" (")));
 		btn.off('click').on('click', handoutCoupon);
 		showSnackbar(label + ' has been taken back from ' + name + '.');
+
+		btn.removeClass('btn-secondary').addClass('btn-primary');
 		enableFilterSelect();
 	})
-	.fail(ajaxError);
+	.fail(ajaxError)
+	.always(function() {
+		btn.removeAttr('disabled');
+	});	
 }
 
 function selectGender() {

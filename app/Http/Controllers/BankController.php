@@ -14,6 +14,7 @@ use App\Http\Requests\StoreTransactionSettings;
 use App\Http\Requests\UpdatePersonDateOfBirth;
 use App\Http\Requests\UpdatePersonGender;
 use App\Http\Requests\StoreHandoutCoupon;
+use App\Http\Requests\StoreUndoHandoutCoupon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -485,7 +486,7 @@ class BankController extends Controller
         ]);
     }
 
-    public function undoHandoutCoupon(StoreHandoutCoupon $request) {
+    public function undoHandoutCoupon(StoreUndoHandoutCoupon $request) {
         $person = Person::find($request->person_id);
         $couponType = CouponType::find($request->coupon_type_id);
         $handout = $person->couponHandouts()
