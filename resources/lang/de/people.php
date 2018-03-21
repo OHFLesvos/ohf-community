@@ -51,4 +51,6 @@ return [
     'view_person' => 'Person betrachten',
     'edit_person' => 'Person bearbeiten',
     'age_n' => ':age Jahre',
+    'display_settings' => 'Anzeigeeinstellungen',
+    'frequent_visitors' => 'Regelmässige Besucher',
 ];

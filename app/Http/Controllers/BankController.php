@@ -35,26 +35,10 @@ class BankController extends Controller
         $this->middleware('auth');
     }
 
-	const TRANSACTION_DEFAULT_VALUE = 2;
-	const SINGLE_TRANSACTION_MAX_AMOUNT = 2;
-    const BOUTIQUE_THRESHOLD_DAYS = 7;
-    const DIAPERS_THRESHOLD_DAYS = 1;
     const UNDO_GRACE_TIME = 5; // Minutes
 
     const MONTHS_NO_TRANSACTIONS_SINCE = 2;
-
-    private static function getSingleTransactionMaxAmount() {
-		return \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT);
-	}
-	
-	private static function getBoutiqueThresholdDays() {
-		return \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS);
-	}
-
-    private static function getDiapersThresholdDays() {
-		return \Setting::get('bank.diapers_threshold_days', self::DIAPERS_THRESHOLD_DAYS);
-	}
-    
+ 
     function index() {
         return view('bank.index');
     }
@@ -223,9 +207,6 @@ class BankController extends Controller
 
     function settings() {
 		return view('bank.settings', [
-			'transaction_default_value' => \Setting::get('bank.transaction_default_value', self::TRANSACTION_DEFAULT_VALUE),
-			'single_transaction_max_amount' => \Setting::get('bank.single_transaction_max_amount', self::SINGLE_TRANSACTION_MAX_AMOUNT),
-			'boutique_threshold_days' => \Setting::get('bank.boutique_threshold_days', self::BOUTIQUE_THRESHOLD_DAYS),
             'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE),
             'frequent_visitor_weeks' => \Setting::get('bank.frequent_visitor_weeks', Person::FREQUENT_VISITOR_WEEKS),
             'frequent_visitor_threshold' => \Setting::get('bank.frequent_visitor_threshold', Person::FREQUENT_VISITOR_THRESHOLD),
@@ -235,9 +216,6 @@ class BankController extends Controller
     }
 
 	function updateSettings(StoreTransactionSettings $request) {
-		\Setting::set('bank.transaction_default_value', $request->transaction_default_value);
-		\Setting::set('bank.single_transaction_max_amount', $request->single_transaction_max_amount);
-		\Setting::set('bank.boutique_threshold_days', $request->boutique_threshold_days);
         \Setting::set('people.results_per_page', $request->people_results_per_page);
         \Setting::set('bank.frequent_visitor_weeks', $request->frequent_visitor_weeks);
         \Setting::set('bank.frequent_visitor_threshold', $request->frequent_visitor_threshold);
