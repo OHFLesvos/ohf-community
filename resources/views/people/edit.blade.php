@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Person')
+@section('title', __('people.edit_person'))
 
 @section('content')
 
@@ -10,19 +10,19 @@
 			<div class="card-body">
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('family_name', null, [ 'required' ]) }}
+                        {{ Form::bsText('family_name', null, [ 'required' ], __('people.family_name')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('name', null, [ 'required' ]) }}
+                        {{ Form::bsText('name', null, [ 'required' ], __('people.name')) }}
 					</div>
 					<div class="col-md-auto">
-						{{ Form::genderSelect('gender') }}
+						{{ Form::genderSelect('gender', null, __('people.gender')) }}
 					</div>
                     <div class="col-md-auto">
-							{{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth') }}
+							{{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people.date_of_birth')) }}
 					</div>
 					<div class="col-md-auto">
-						<p>Age</p>
+						<p>@lang('people.age')</p>
 						<span id="age">?</span>
 					</div>
 				</div>
@@ -48,22 +48,22 @@
 				</div>
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))]) }}
+                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people.nationality')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('languages') }}
+                        {{ Form::bsText('languages', null, [], __('people.languages')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('skills') }}
+                        {{ Form::bsText('skills', null, [], __('people.skills')) }}
 					</div>
 				</div>
-				{{ Form::bsText('remarks') }}
-				<p>{{ Form::bsCheckbox('worker', null, null, 'Person is registered worker') }}</p>
+                {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
+				{{ Form::bsCheckbox('worker', null, null, 'Person is registered worker') }}
 			</div>
 		</div>
 			
 		<p>
-			{{ Form::bsSubmitButton('Update') }}
+			{{ Form::bsSubmitButton(__('app.update')) }}
 		</p>
 
     {!! Form::close() !!}

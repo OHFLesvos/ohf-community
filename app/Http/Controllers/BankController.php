@@ -82,7 +82,7 @@ class BankController extends Controller
     }
 
     public static function getNumberOfCouponsHandedOut() : int {
-        return CouponHandout::whereDate('date', Carbon::today())
+        return (int)CouponHandout::whereDate('date', Carbon::today())
                 ->select(DB::raw('sum(amount) as total'))
                 ->get()
                 ->first()

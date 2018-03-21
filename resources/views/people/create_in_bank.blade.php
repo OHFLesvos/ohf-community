@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Register Person')
+@section('title', __('people.register_person'))
 
 @section('content')
 
@@ -10,19 +10,19 @@
 			<div class="card-body">
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('family_name', null, [ 'required', 'autofocus' ], null, 'Greek: επώνυμο') }}
+                        {{ Form::bsText('family_name', null, [ 'required', 'autofocus' ], __('people.family_name'), 'Greek: επώνυμο') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('name', null, [ 'required' ], null, 'Greek: όνομα') }}
+                        {{ Form::bsText('name', null, [ 'required' ], __('people.name'), 'Greek: όνομα') }}
                     </div>
 					<div class="col-md-auto">
-                        {{ Form::genderSelect('gender') }}
+                        {{ Form::genderSelect('gender', null, __('people.gender')) }}
                     </div>
                     <div class="col-md-auto">
-                        {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth', 'Greek: ημερομηνία γέννησης ') }}
+                        {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people.date_of_birth'), 'Greek: ημερομηνία γέννησης ') }}
                     </div>
 					<div class="col-md-auto">
-                        <p>Age</p>
+                        <p>@lang('people.age')</p>
                         <span id="age">?</span>
                     </div>
                 </div>
@@ -48,10 +48,10 @@
 				</div>
 				<div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], null, 'Greek: Υπηκοότητα') }}
+                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people.nationality'), 'Greek: Υπηκοότητα') }}
                     </div>
 					<div class="col-md">
-                        {{ Form::bsText('remarks') }}
+                        {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
                     </div>
 				</div>
             </div>
@@ -82,7 +82,7 @@
         </div>
 
 		<p>
-            {{ Form::bsSubmitButton('Register') }}
+            {{ Form::bsSubmitButton(__('app.register')) }}
             <button type="button" class="btn btn-secondary" id="add-children">@icon(child) Add child</button>
         </p>
 

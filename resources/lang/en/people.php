@@ -3,8 +3,8 @@
 return [
     'people' => 'People',
     'person' => 'Person',
-    'there_are_n_people_registered' => 'There are <strong>:num_people</strong> people registered in our database',
-    'n_new_today' => '<strong>:num_people_added_today</strong> new today',
+    'there_are_n_people_registered' => 'There are <strong>:num</strong> people registered in our database',
+    'n_new_today' => '<strong>:num</strong> new today',
     'bank' => 'Bank',
     'go_to_bank' => 'Go to bank',
     'view_bank_report' => 'View bank report',
@@ -44,4 +44,11 @@ return [
     'not_yet_served_any_persons' => 'We did not yet serve any persons today.',
     'num_persons_served_handing_out_coupons' => 'Today, we served <strong>:persons</strong> persons, handing out <strong>:coupons</strong> coupons.',
     'person_deleted' => 'Person deleted',
+    'no_transactions_so_far' => 'No transactions so far.',
+    'male' => 'Male',
+    'female' => 'Female',
+    'register_person' => 'Register Person',
+    'view_person' => 'Person betrachten',
+    'edit_person' => 'Edit Person',
+    'age_n' => 'age :age',
 ];
