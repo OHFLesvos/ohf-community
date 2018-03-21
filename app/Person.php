@@ -64,61 +64,14 @@ class Person extends Model
         return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
     }
 
-    public function transactions()
-    {
-        return $this->morphMany('App\Transaction', 'transactionable');
-    }
-
-    public function todaysTransaction() {
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '=', Carbon::today()->toDateString())
-            ->select('value')
-            ->get();
-        return collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
-    }
-
     public function getFrequentVisitorAttribute() {
         $weeks = \Setting::get('bank.frequent_visitor_weeks', self::FREQUENT_VISITOR_WEEKS);
         $threshold = \Setting::get('bank.frequent_visitor_threshold', self::FREQUENT_VISITOR_THRESHOLD);
-        $sql = $this->transactions()
-            ->whereDate('created_at', '>=', Carbon::today()->subWeek($weeks)->toDateString())
-            ->select('value')
-            ->groupBy(DB::raw('date(created_at)'))
-            ->getBaseQuery();
-        return DB::table(DB::raw('('.$sql->toSql().') as o2'))
-            ->select(DB::raw('count(*) as count'))
-            ->mergeBindings($sql)
-            ->get()
-            ->first()->count >= $threshold;
-    }
-
-    public function dayTransactions($year, $month, $day) {
-        $date = Carbon::createFromDate($year, $month, $day);
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '>=', $date->toDateString())
-            ->whereDate('created_at', '<', $date->addDay()->toDateString())
-            ->select('value')
-            ->get();
-        $sum = collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
-        return $sum != 0 ? $sum : null;
-    }
-    
-    public function scopeHasTransactionsToday($query) {
-        return $query
-            ->join('transactions', function($join){
-                $join->on('persons.id', '=', 'transactions.transactionable_id')
-                    ->where('transactionable_type', 'App\Person');
-            })
-			->groupBy('persons.id')
-            ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
+        return $this->couponHandouts()
+            ->whereDate('date', '>=', Carbon::today()->subWeek($weeks)->toDateString())
+            ->groupBy('date')
+            ->count() >= $threshold;
+            // TODO validate
     }
 
     function children() {
@@ -143,33 +96,6 @@ class Person extends Model
 
     function revokedCards() {
         return $this->hasMany('App\RevokedCard');
-    }
-
-	function getBoutiqueCouponForJson($thresholdDays) {
-		if ($this->boutique_coupon != null) {
-            return static::calcCouponHandoutDate($thresholdDays, $this->boutique_coupon);
-		}
-		return null;
-	}
-
-    function getDiapersCouponForJson($thresholdDays) {
-		if ($this->diapers_coupon != null) {
-            return static::calcCouponHandoutDate($thresholdDays, $this->diapers_coupon);
-		}
-		return null;
-    }
-    
-    private static function calcCouponHandoutDate($day_treshold, $compare_date) {
-        $coupon_date = (new Carbon($compare_date))->startOfDay();
-        $threshold_date = Carbon::now()->subDays($day_treshold)->startOfDay();
-        if ($coupon_date->gt($threshold_date)) {
-            $days = $coupon_date->diffInDays($threshold_date);
-            if ($days == 1) {
-                return "tomorrow";
-            }
-            return $days . ' days from now';
-        }
-        return null;
     }
 
     public function couponHandouts() {

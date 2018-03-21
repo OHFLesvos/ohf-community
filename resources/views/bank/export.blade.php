@@ -34,7 +34,7 @@
                     <td>{{ $person->temp_no }}</td>
                     <td>{{ $person->remarks }}</td>
                     @for ($i = 1; $i <= $day; $i++)
-                        <td>{{ $person->dayTransactions($year, $month, $i) }}</td>
+                        <td>TODO</td>
                     @endfor
                 </tr>
             @endforeach

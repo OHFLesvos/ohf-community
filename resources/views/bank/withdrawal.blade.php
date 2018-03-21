@@ -8,10 +8,12 @@
 
     <div id="stats" class="text-center lead my-5">
         @if($numberOfPersonsServed > 0)
-            Today, we served <strong>{{ $numberOfPersonsServed }}</strong> persons, 
-            handing out <strong>{{ $transactionValue }}</strong> drachmas.        
+            @lang('people.num_persons_served_handing_out_coupons', [
+                'persons' => $numberOfPersonsServed,
+                'coupons' => $numberOfCouponsHandedOut,
+            ])
         @else
-            We did not yet serve any persons today.
+            @lang('people.not_yet_served_any_persons')
         @endif
     </div>
 

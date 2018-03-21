@@ -115,9 +115,6 @@ class PeopleController extends ParentController
     public function show(Person $person) {
         return view('people.show', [
             'person' => $person,
-            'transactions' => $person->transactions()
-                ->orderBy('created_at', 'desc')
-                ->paginate(),
         ]);
     }
 
@@ -502,6 +499,7 @@ class PeopleController extends ParentController
         
         \Excel::selectSheets()->load($file, function($reader) {
             
+            /** TODO */
             DB::table('transactions')->delete();
             DB::table('persons')->delete();
 

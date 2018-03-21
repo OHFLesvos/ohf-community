@@ -16,6 +16,7 @@ class CreateCouponHandoutsTable extends Migration
         Schema::create('coupon_handouts', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
+            $table->unsignedInteger('amount');
             $table->integer('coupon_type_id')->unsigned();
             $table->integer('person_id')->unsigned();
             $table->integer('user_id')->unsigned()->nullable();

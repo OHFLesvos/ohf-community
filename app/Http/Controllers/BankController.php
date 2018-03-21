@@ -66,29 +66,24 @@ class BankController extends Controller
 
 		return view('bank.withdrawal', [
             'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
-            'transactionValue' => self::getTransactionValueToday(),
+            'numberOfCouponsHandedOut' => self::getNumberOfCouponsHandedOut(),
 		]);
     }
 
-    public static function getNumberOfPersonsServedToday() {
-        return Transaction::whereDate('transactions.created_at', '=', Carbon::today())
-                //->where('transactionable_type', 'App\Person')
-                ->join('persons', function ($join) {
-                    $join->on('persons.id', '=', 'transactions.transactionable_id')
-                        ->where('transactionable_type', 'App\Person')
-                        ->whereNull('deleted_at');
-                })
-                ->groupBy('transactionable_id')
-                ->havingRaw('sum(value) > 0')
-                ->select('transactionable_id')
-                ->get()
-                ->count();
+    public static function getNumberOfPersonsServedToday() : int {
+        $sql = CouponHandout::whereDate('date', Carbon::today())
+                ->groupBy('person_id')
+                ->select('person_id');
+        return DB::table(DB::raw('('.$sql->toSql().') as o2'))
+            ->select(DB::raw('count(*) as count'))
+            ->mergeBindings($sql->getQuery())
+            ->get()
+            ->first()->count;
     }
 
-    public static function getTransactionValueToday() {
-        return (int)Transaction::whereDate('created_at', '=', Carbon::today())
-                ->where('transactionable_type', 'App\Person')
-                ->select(DB::raw('sum(value) as total'))
+    public static function getNumberOfCouponsHandedOut() : int {
+        return CouponHandout::whereDate('date', Carbon::today())
+                ->select(DB::raw('sum(amount) as total'))
                 ->get()
                 ->first()
                 ->total;
@@ -179,9 +174,8 @@ class BankController extends Controller
 
     function withdrawalTransactions(Request $request) {
 		return view('bank.transactions', [
-            'transactions' => Transaction::where('transactionable_type', 'App\Person')
-                ->orderBy('created_at', 'DESC')
-                ->with(['user', 'transactionable'])
+            'transactions' => CouponHandout::orderBy('created_at', 'DESC')
+                ->with(['user', 'person', 'couponType'])
                 ->paginate(100),
 		]);
     }
@@ -401,11 +395,8 @@ class BankController extends Controller
                                 }
                                 if (isset($day) && $day > 0) {
                                     $d = Carbon::createFromDate(null, $month, $day)->toDateTimeString();
-                                    $transaction = new Transaction();
-                                    $transaction->value = intval($v);
-                                    $transaction->created_at = $d;
-                                    $transaction->updated_at = $d;
-                                    $person->transactions()->save($transaction, ['timestamps' => false]);
+                                    $value = intval($v);
+                                    // TODO
                                 }
                             }
                         }

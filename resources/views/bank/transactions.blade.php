@@ -8,9 +8,9 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Person</th>
-                        <th>Drachma</th>
+                        <th>@lang('app.date')</th>
+                        <th>@lang('people.person')</th>
+                        <th>@lang('people.coupon')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,10 +35,10 @@
                                     {{ $transaction->transactionable->nationality }}
                                 @endif
                             @else
-                                <em>Person deleted</em>
+                                <em>@lang('people.person_deleted')</em>
                             @endif
                         </td>
-                        <td>{{ $transaction->value }}</td>
+                        <td>{{ $transaction->amount }} {{ $transaction->couponType->name }}</td>
                     </tr>
                 @endforeach
                 </tbody>
