@@ -55,4 +55,5 @@ return [
     'frequent_visitors' => 'Regelmässige Besucher',
     'person_not_eligible_for_this_coupon' => 'Person ist nicht berechtigt, diesen Coupon zu erhalten.',
     'please_wait_n_days' => 'Bitte warte :days Tage.',
+    'id' => 'ID',
 ];

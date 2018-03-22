@@ -55,21 +55,21 @@ Route::group(['middleware' => 'language'], function () {
     Route::post('/bank/updateDateOfBirth', 'BankController@updateDateOfBirth')->name('bank.updateDateOfBirth');
     Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
 
-    Route::get('/bank/codeCard', 'BankController@prepareCodeCard')->name('bank.prepareCodeCard');
-    Route::post('/bank/codeCard', 'BankController@createCodeCard')->name('bank.createCodeCard');
-
-    Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
-    Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank.updateMaintenance');
+    Route::get('/bank/codeCard', 'People\Bank\CodeCardController@prepareCodeCard')->name('bank.prepareCodeCard');
+    Route::post('/bank/codeCard', 'People\Bank\CodeCardController@createCodeCard')->name('bank.createCodeCard');
 
     Route::get('/bank/deposit', 'People\Bank\DepositController@deposit')->name('bank.deposit');
     Route::post('/bank/deposit', 'People\Bank\DepositController@storeDeposit')->name('bank.storeDeposit');
 
-    Route::get('/bank/settings', 'BankController@settings')->name('bank.settings');
-    Route::post('/bank/settings', 'BankController@updateSettings')->name('bank.updateSettings');
+    Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');
+    Route::post('/bank/settings', 'People\Bank\SettingsController@updateSettings')->name('bank.updateSettings');
 
-    Route::get('/bank/export', 'BankController@export')->name('bank.export');
-    Route::get('/bank/import', 'BankController@import')->name('bank.import');
-    Route::post('/bank/doImport', 'BankController@doImport')->name('bank.doImport');
+    Route::get('/bank/maintenance', 'People\Bank\MaintenanceController@maintenance')->name('bank.maintenance');
+    Route::post('/bank/maintenance', 'People\Bank\MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
+
+    Route::get('/bank/export', 'People\Bank\ImportExportController@export')->name('bank.export');
+    Route::get('/bank/import', 'People\Bank\ImportExportController@import')->name('bank.import');
+    Route::post('/bank/doImport', 'People\Bank\ImportExportController@doImport')->name('bank.doImport');
 
     //
     // People

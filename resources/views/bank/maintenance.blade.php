@@ -11,6 +11,7 @@
             <div class="card-body">
                 <div class="form-row">
                     <div class="col-md">
+                        <p>@lang('people.there_are_n_people_registered', [ 'num' => $num_people ]).</p>
                         {{ Form::bsCheckbox('cleanup_no_transactions_since', null, null, 'Remove records not having any transactions since ' . $months_no_transactions_since . ' months (' . $people_without_transactions_since . ' persons)') }}
                         {{ Form::bsCheckbox('cleanup_no_transactions_ever', null, null, 'Remove records not having any transactions ever (' . $people_without_transactions_ever . ' persons)') }}
                         {{ Form::bsCheckbox('cleanup_no_number', null, null, 'Remove records not having any number registered (' . $people_without_number . ' persons)') }}

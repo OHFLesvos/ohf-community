@@ -11,6 +11,16 @@ use Carbon\Carbon;
 
 class DepositController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function deposit() {
         $transactions = Transaction
                 ::join('projects', function ($join) {
