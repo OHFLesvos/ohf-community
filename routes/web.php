@@ -61,8 +61,8 @@ Route::group(['middleware' => 'language'], function () {
     Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
     Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank.updateMaintenance');
 
-    Route::get('/bank/deposit', 'BankController@deposit')->name('bank.deposit');
-    Route::post('/bank/deposit', 'BankController@storeDeposit')->name('bank.storeDeposit');
+    Route::get('/bank/deposit', 'People\Bank\DepositController@deposit')->name('bank.deposit');
+    Route::post('/bank/deposit', 'People\Bank\DepositController@storeDeposit')->name('bank.storeDeposit');
 
     Route::get('/bank/settings', 'BankController@settings')->name('bank.settings');
     Route::post('/bank/settings', 'BankController@updateSettings')->name('bank.updateSettings');

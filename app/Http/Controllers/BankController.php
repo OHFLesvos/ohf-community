@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDeposit;
-use App\Project;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
-use App\Transaction;
 use App\RevokedCard;
-use App\Http\Requests\StoreTransaction;
 use App\Http\Requests\StoreTransactionSettings;
 use App\Http\Requests\UpdatePersonDateOfBirth;
 use App\Http\Requests\UpdatePersonGender;
@@ -500,39 +497,4 @@ class BankController extends Controller
         ]);
     }
 
-
-    public function deposit() {
-        $transactions = Transaction
-                ::join('projects', function ($join) {
-                    $join->on('projects.id', '=', 'transactions.transactionable_id')
-                        ->where('transactionable_type', 'App\Project');
-                })
-                ->select('projects.name', 'value', 'transactions.created_at', 'transactions.user_id')
-                ->orderBy('transactions.created_at', 'DESC')
-                ->paginate(10);
-        
-        return view('bank.deposit', [
-            'projectList' => Project::orderBy('name')
-                ->where('enable_in_bank', true)
-                ->get()
-                ->mapWithKeys(function($project){
-                    return [$project->id => $project->name];
-                }),
-            'transactions' => $transactions,
-        ]);
-    }
-
-    public function storeDeposit(StoreDeposit $request) {
-        $project = Project::find($request->project);
-        $transaction = new Transaction();
-        $transaction->value = $request->value;
-		$date = new Carbon($request->date);
-		if (!$date->isToday()) {
-			$transaction->created_at = $date->endOfDay();
-		}
-        $project->transactions()->save($transaction);
-
-        return redirect()->route('bank.deposit')
-            ->with('info', 'Added ' . $transaction->value . ' drachma to project \'' . $project->name . '\'.');
-    }
 }
