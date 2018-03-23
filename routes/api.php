@@ -39,4 +39,10 @@ Route::group(['middleware' => ['auth']], function () {
         'destroy' => 'calendar.resources.destroy',
     ]]);
    
+    // Bank
+    Route::post('/bank/handoutCoupon', 'API\People\BankController@handoutCoupon')->name('bank.handoutCoupon');
+    Route::post('/bank/undoHandoutCoupon', 'API\People\BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');
+    Route::post('/bank/registerCard', 'API\People\BankController@registerCard')->name('bank.registerCard');
+    Route::post('/bank/updateGender', 'API\People\PeopleController@updateGender')->name('bank.updateGender');
+    Route::post('/bank/updateDateOfBirth', 'API\People\PeopleController@updateDateOfBirth')->name('bank.updateDateOfBirth');
 });

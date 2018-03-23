@@ -47,13 +47,6 @@ Route::group(['middleware' => 'language'], function () {
     Route::get('/bank/withdrawal', 'People\Bank\WithdrawalController@index')->name('bank.withdrawal');
     Route::get('/bank/withdrawal/search', 'People\Bank\WithdrawalController@search')->name('bank.withdrawalSearch');
     Route::get('/bank/withdrawal/transactions', 'People\Bank\WithdrawalController@transactions')->name('bank.withdrawalTransactions');
-    
-    Route::post('/bank/handoutCoupon', 'BankController@handoutCoupon')->name('bank.handoutCoupon');
-    Route::post('/bank/undoHandoutCoupon', 'BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');
-    
-    Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
-    Route::post('/bank/updateDateOfBirth', 'BankController@updateDateOfBirth')->name('bank.updateDateOfBirth');
-    Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
 
     Route::get('/bank/codeCard', 'People\Bank\CodeCardController@prepareCodeCard')->name('bank.prepareCodeCard');
     Route::post('/bank/codeCard', 'People\Bank\CodeCardController@createCodeCard')->name('bank.createCodeCard');
