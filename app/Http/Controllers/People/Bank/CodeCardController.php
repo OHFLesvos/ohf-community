@@ -69,6 +69,11 @@ class CodeCardController extends Controller
         return $dompdf->stream(__('people.codes_card') . ' ' . substr($firstCode, 0, 7));
     }
 
+    /**
+     * Create a QR code image
+     * 
+     * @return string string containing the generated image
+     */
     private static function createQrCode($value, $label, $size) {
         $qrCode = new QrCode($value);
         $qrCode->setSize($size);
