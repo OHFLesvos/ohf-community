@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class PeopleReportingController extends BaseReportingController
 {
@@ -366,8 +367,8 @@ class PeopleReportingController extends BaseReportingController
      * Number of frequent visitors
      */
     public static function getNumberOfFrequentVisitors() {
-        $weeks = \Setting::get('bank.frequent_visitor_weeks', Person::FREQUENT_VISITOR_WEEKS);
-        $threshold = \Setting::get('bank.frequent_visitor_threshold', Person::FREQUENT_VISITOR_THRESHOLD);
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
 
         $q1 = DB::table('transactions')
             ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')

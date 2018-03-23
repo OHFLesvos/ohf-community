@@ -4,10 +4,10 @@ namespace App\Http\Controllers\People\Bank;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\Reporting\PeopleReportingController;
 use App\Http\Requests\StoreTransactionSettings;
 use App\Person;
+use Illuminate\Support\Facades\Config;
 
 class SettingsController extends Controller
 {
@@ -23,9 +23,9 @@ class SettingsController extends Controller
 
     function settings() {
 		return view('bank.settings', [
-            'people_results_per_page' => \Setting::get('people.results_per_page', PeopleController::DEFAULT_RESULTS_PER_PAGE),
-            'frequent_visitor_weeks' => \Setting::get('bank.frequent_visitor_weeks', Person::FREQUENT_VISITOR_WEEKS),
-            'frequent_visitor_threshold' => \Setting::get('bank.frequent_visitor_threshold', Person::FREQUENT_VISITOR_THRESHOLD),
+            'people_results_per_page' => \Setting::get('people.results_per_page', Config::get('bank.results_per_page')),
+            'frequent_visitor_weeks' => \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks')),
+            'frequent_visitor_threshold' => \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold')),
             'current_num_people' => Person::count(),
             'current_num_frequent_visitors' => PeopleReportingController::getNumberOfFrequentVisitors(),
 		]);

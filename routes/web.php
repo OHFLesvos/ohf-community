@@ -44,9 +44,9 @@ Route::group(['middleware' => 'language'], function () {
         return redirect()->route('bank.withdrawal');
     })->name('bank.index');
 
-    Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
-    Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');
-    Route::get('/bank/withdrawal/transactions', 'BankController@withdrawalTransactions')->name('bank.withdrawalTransactions');
+    Route::get('/bank/withdrawal', 'People\Bank\WithdrawalController@index')->name('bank.withdrawal');
+    Route::get('/bank/withdrawal/search', 'People\Bank\WithdrawalController@search')->name('bank.withdrawalSearch');
+    Route::get('/bank/withdrawal/transactions', 'People\Bank\WithdrawalController@transactions')->name('bank.withdrawalTransactions');
     
     Route::post('/bank/handoutCoupon', 'BankController@handoutCoupon')->name('bank.handoutCoupon');
     Route::post('/bank/undoHandoutCoupon', 'BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');

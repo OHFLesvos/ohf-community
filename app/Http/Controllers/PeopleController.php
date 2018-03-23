@@ -13,10 +13,10 @@ use Endroid\QrCode\LabelAlignment;
 use Illuminate\Support\Facades\DB;
 use Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Config;
 
 class PeopleController extends ParentController
 {
-    const DEFAULT_RESULTS_PER_PAGE = 15;
     const filter_fields = ['name', 'family_name', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'];
 
     /**
@@ -462,7 +462,7 @@ class PeopleController extends ParentController
         return $q
             ->orderBy('family_name', 'asc')
             ->orderBy('name', 'asc')
-            ->paginate(\Setting::get('people.results_per_page', self::DEFAULT_RESULTS_PER_PAGE));
+            ->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page')));
 	}
 
     public function export() {

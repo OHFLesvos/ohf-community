@@ -5,6 +5,7 @@ namespace App\Widgets;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\People\Bank\WithdrawalController;
 
 class BankWidget implements Widget
 {
@@ -20,8 +21,8 @@ class BankWidget implements Widget
 
     function args(): array {
         return [
-            'persons' => \App\Http\Controllers\BankController::getNumberOfPersonsServedToday(),
-            'coupons' => \App\Http\Controllers\BankController::getNumberOfCouponsHandedOut(),
+            'persons' => WithdrawalController::getNumberOfPersonsServedToday(),
+            'coupons' => WithdrawalController::getNumberOfCouponsHandedOut(),
         ];
     }
 }

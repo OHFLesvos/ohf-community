@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use App\CouponType;
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Support\Facades\Config;
 
 class Person extends Model
 {
@@ -23,9 +24,6 @@ class Person extends Model
     protected $nullable = [
 		'date_of_birth',
     ];
-
-    const FREQUENT_VISITOR_WEEKS = 4;
-    const FREQUENT_VISITOR_THRESHOLD = 12;
 
     public static function boot()
     {
@@ -65,13 +63,16 @@ class Person extends Model
     }
 
     public function getFrequentVisitorAttribute() {
-        $weeks = \Setting::get('bank.frequent_visitor_weeks', self::FREQUENT_VISITOR_WEEKS);
-        $threshold = \Setting::get('bank.frequent_visitor_threshold', self::FREQUENT_VISITOR_THRESHOLD);
-        return $this->couponHandouts()
-            ->whereDate('date', '>=', Carbon::today()->subWeek($weeks)->toDateString())
-            ->groupBy('date')
-            ->count() >= $threshold;
-            // TODO validate
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
+        $date = Carbon::today()->subWeek($weeks)->toDateString();
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
+        $q = $this->couponHandouts()
+            ->whereDate('date', '>=', $date)
+            ->groupBy('date');
+        $count = DB::table(DB::raw('('.$q->toSql().') as o2'))
+            ->mergeBindings($q->getQuery()->getQuery())
+            ->count();
+            return $count >= $threshold;
     }
 
     function children() {
