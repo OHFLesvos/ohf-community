@@ -64,8 +64,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('/bank/codeCard', 'People\Bank\CodeCardController@createCodeCard')->name('bank.createCodeCard');
         });
 
-        Route::get('/bank/deposit', 'People\Bank\DepositController@deposit')->name('bank.deposit');
-        Route::post('/bank/deposit', 'People\Bank\DepositController@storeDeposit')->name('bank.storeDeposit');
+        // Deposits
+        Route::group(['middleware' => ['can:do-bank-deposits']], function () {
+            Route::get('/bank/deposit', 'People\Bank\DepositController@deposit')->name('bank.deposit');
+            Route::post('/bank/deposit', 'People\Bank\DepositController@storeDeposit')->name('bank.storeDeposit');
+        });
 
         Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');
         Route::post('/bank/settings', 'People\Bank\SettingsController@updateSettings')->name('bank.updateSettings');

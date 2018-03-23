@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         <th class="fit">@lang('donations.date')</th>
-                        <th class="text-right fit">@lang('donations.amount')</th>
+                        <th class="text-right fit">@lang('app.amount')</th>
                         <th>@lang('donations.donor')</th>
                         <th class="d-none d-sm-table-cell">@lang('donations.channel')</th>
                         <th>@lang('donations.purpose')</th>

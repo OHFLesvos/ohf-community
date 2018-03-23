@@ -9,7 +9,7 @@
                     <th class="d-none d-sm-table-cell">@lang('donations.channel')</th>
                     <th>@lang('donations.purpose')</th>
                     <th class="d-none d-sm-table-cell">@lang('donations.reference')</th>
-                    <th class="text-right">@lang('donations.amount')</th>
+                    <th class="text-right">@lang('app.amount')</th>
                     <th></th>
                 </tr>
             </thead>
@@ -39,7 +39,7 @@
         <thead>
             <tr>
                 <th>@lang('donations.year')</th>
-                <th class="text-right">@lang('donations.amount')</th>
+                <th class="text-right">@lang('app.amount')</th>
             </tr>
         </thead>
         <tbody>

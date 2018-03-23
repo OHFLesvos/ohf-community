@@ -4,7 +4,7 @@ namespace App\Http\Controllers\People\Bank;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDeposit;
+use App\Http\Requests\People\Bank\StoreDeposit;
 use App\Project;
 use App\Transaction;
 use Carbon\Carbon;
@@ -21,6 +21,11 @@ class DepositController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Show view for storing a new deposit and show past deposits.
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function deposit() {
         $transactions = Transaction
                 ::join('projects', function ($join) {
@@ -28,7 +33,7 @@ class DepositController extends Controller
                         ->where('transactionable_type', 'App\Project');
                 })
                 ->select('projects.name', 'value', 'transactions.created_at', 'transactions.user_id')
-                ->orderBy('transactions.created_at', 'DESC')
+                ->orderBy('transactions.created_at', 'desc')
                 ->paginate(10);
         
         return view('bank.deposit', [
@@ -42,6 +47,12 @@ class DepositController extends Controller
         ]);
     }
 
+    /**
+     * Store a deposit.
+     * 
+     * @param  \App\Http\Requests\People\Bank\StoreDeposit  $request
+     * @return \Illuminate\Http\Response
+     */
     public function storeDeposit(StoreDeposit $request) {
         $project = Project::find($request->project);
         $transaction = new Transaction();
@@ -53,6 +64,6 @@ class DepositController extends Controller
         $project->transactions()->save($transaction);
 
         return redirect()->route('bank.deposit')
-            ->with('info', 'Added ' . $transaction->value . ' drachma to project \'' . $project->name . '\'.');
+            ->with('info', __('people.deposited_n_drachma_to_project', [ 'amount' => $transaction->value, 'project' => $project->name ]));
     }
 }

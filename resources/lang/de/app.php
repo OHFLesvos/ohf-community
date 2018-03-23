@@ -106,4 +106,5 @@ return [
     'settings' => 'Einstellungen',
     'maintenance' => 'Wartung',
     'transactions' => 'Transaktionen',
+    'amount' => 'Betrag',
 ];

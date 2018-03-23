@@ -106,4 +106,5 @@ return [
     'settings' => 'Settings',
     'maintenance' => 'Maintenance',
     'transactions' => 'Transactions',
+    'amount' => 'Amount',
  ];

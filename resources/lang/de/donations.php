@@ -21,7 +21,6 @@ return [
     'donations' => 'Spenden',
     'no_donations_found' => 'Keine Spenden gefunden.',
     'date' => 'Datum',
-    'amount' => 'Betrag',
     'exchange_amount' => 'Wechselbetrag',
     'currency' => 'Währung',
     'channel' => 'Kanal',

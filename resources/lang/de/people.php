@@ -62,4 +62,12 @@ return [
     'code_card_unique' => 'Corekarten müssen eindeutig sein. Benutze jedes Dokument nur einmal, und erstelle ein neues Dokument wenn du mehr Karten benötigst.',
     'number_of_pages' => 'Anzahl Seiten',
     'creating_code_card_be_patient' => 'Basierend auf der Anzahl Seiten kann es eine Weile dauern, bis da Dokument bereit ist. Bitte habe einen Moment Geduld.',
+    'withdrawal' => 'Auszahlung',
+    'withdrawals' => 'Auszahlungen',
+    'deposit' => 'Einzahlung',
+    'deposits' => 'Einzahlungen',
+    'select_project' => 'Projekt auswählen...',
+    'project' => 'Projekt',
+    'deposit_drachma' => 'Drachma einzahlen',
+    'deposited_n_drachma_to_project' => ':amount Drachma vom Projekt :project hinzugefügt.',
 ];

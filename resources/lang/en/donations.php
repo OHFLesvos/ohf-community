@@ -21,7 +21,6 @@ return [
     'donations' => 'Donations',
     'no_donations_found' => 'No donations found.',
     'date' => 'Date',
-    'amount' => 'Amount',
     'exchange_amount' => 'Exchange amount',
     'currency' => 'Currency',
     'channel' => 'Channel',
