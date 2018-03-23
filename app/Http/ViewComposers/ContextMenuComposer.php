@@ -403,6 +403,12 @@ class ContextMenuComposer {
                 ];
             case 'bank.deposit':
                 return [
+                    'transactions' => [
+                        'url' => route('bank.depositTransactions'),
+                        'caption' => __('app.transactions'),
+                        'icon' => 'list',
+                        'authorized' => Gate::allows('do-bank-deposits')
+                    ],                    
                     'report'=> [
                         'url' => route('reporting.bank.deposits'),
                         'caption' => __('app.report'),
@@ -414,7 +420,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('bank.index'),
-                        'caption' => __('app.cancel'),
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
                     ]
@@ -435,6 +441,15 @@ class ContextMenuComposer {
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('do-bank-withdrawals')
+                    ]
+                ];
+            case 'bank.depositTransactions':
+                return [
+                    'back' => [
+                        'url' => route('bank.deposit'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('do-bank-deposits')
                     ]
                 ];
             case 'bank.maintenance':

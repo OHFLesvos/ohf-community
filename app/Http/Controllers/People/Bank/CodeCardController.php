@@ -26,7 +26,7 @@ class CodeCardController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function prepareCodeCard() {
+    public function create() {
         return view('bank.prepareCodeCard');
     }
 
@@ -36,7 +36,7 @@ class CodeCardController extends Controller
      * @param  \App\Http\Requests\People\Bank\CreateCodeCard  $request
      * @return \Illuminate\Http\Response
      */
-    public function createCodeCard(CreateCodeCard $request) {
+    public function download(CreateCodeCard $request) {
         $pages = $request->pages;
 
         $codes = [];

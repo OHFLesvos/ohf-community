@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Bank')
+@section('title', __('people.withdrawals'))
 
 @section('content')
     @if( ! $transactions->isEmpty() )
@@ -9,8 +9,8 @@
                 <thead>
                     <tr>
                         <th>@lang('app.date')</th>
-                        <th>@lang('people.person')</th>
-                        <th>@lang('people.coupon')</th>
+                        <th>@lang('app.amount')</th>
+                        <th>@lang('people.recipient')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,6 +22,7 @@
                                 <small class="text-muted">by {{ $transaction->user->name }}</small>
                             @endif
                         </td>
+                        <td>{{ $transaction->amount }} {{ $transaction->couponType->name }}</td>
                         <td>
                             @if($transaction->person != null)
                                 <a href="{{ route('people.show', $transaction->person) }}">{{ $transaction->person->family_name }} {{ $transaction->person->name }}</a>
@@ -38,7 +39,6 @@
                                 <em>@lang('people.person_deleted')</em>
                             @endif
                         </td>
-                        <td>{{ $transaction->amount }} {{ $transaction->couponType->name }}</td>
                     </tr>
                 @endforeach
                 </tbody>

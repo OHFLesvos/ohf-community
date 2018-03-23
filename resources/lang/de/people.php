@@ -70,4 +70,5 @@ return [
     'project' => 'Projekt',
     'deposit_drachma' => 'Drachma einzahlen',
     'deposited_n_drachma_to_project' => ':amount Drachma vom Projekt :project hinzugefügt.',
+    'recipient' => 'EmpfängerIn',
 ];

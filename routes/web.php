@@ -57,17 +57,17 @@ Route::group(['middleware' => 'language'], function () {
         Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
             Route::get('/bank/withdrawal', 'People\Bank\WithdrawalController@index')->name('bank.withdrawal');
             Route::get('/bank/withdrawal/search', 'People\Bank\WithdrawalController@search')->name('bank.withdrawalSearch');
-            
             Route::get('/bank/withdrawal/transactions', 'People\Bank\WithdrawalController@transactions')->name('bank.withdrawalTransactions');
 
-            Route::get('/bank/codeCard', 'People\Bank\CodeCardController@prepareCodeCard')->name('bank.prepareCodeCard');
-            Route::post('/bank/codeCard', 'People\Bank\CodeCardController@createCodeCard')->name('bank.createCodeCard');
+            Route::get('/bank/codeCard', 'People\Bank\CodeCardController@create')->name('bank.prepareCodeCard');
+            Route::post('/bank/codeCard', 'People\Bank\CodeCardController@download')->name('bank.createCodeCard');
         });
 
         // Deposits
         Route::group(['middleware' => ['can:do-bank-deposits']], function () {
-            Route::get('/bank/deposit', 'People\Bank\DepositController@deposit')->name('bank.deposit');
-            Route::post('/bank/deposit', 'People\Bank\DepositController@storeDeposit')->name('bank.storeDeposit');
+            Route::get('/bank/deposit', 'People\Bank\DepositController@index')->name('bank.deposit');
+            Route::post('/bank/deposit', 'People\Bank\DepositController@store')->name('bank.storeDeposit');
+            Route::get('/bank/deposit/transactions', 'People\Bank\DepositController@transactions')->name('bank.depositTransactions');
         });
 
         Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');

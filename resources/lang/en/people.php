@@ -70,4 +70,5 @@ return [
     'project' => 'Project',
     'deposit_drachma' => 'Deposit Drachma',
     'deposited_n_drachma_to_project' => 'Added :amount drachma to project \':project\'.',
+    'recipient' => 'Recipient',
 ];
