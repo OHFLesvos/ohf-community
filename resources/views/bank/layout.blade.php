@@ -1,5 +1,5 @@
-@extends('layouts.app_bottom_nav', [ 
-    'bottom_nav_elements' => [
+@extends('layouts.tabbed_view', [ 
+    'nav_elements' => [
         [
             'url' => route('bank.withdrawal'),
             'label' => __('people.withdrawal'),

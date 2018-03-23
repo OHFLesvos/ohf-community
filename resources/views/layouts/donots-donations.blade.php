@@ -1,5 +1,5 @@
-@extends('layouts.app_bottom_nav', [ 
-    'bottom_nav_elements' => [
+@extends('layouts.tabbed_view', [ 
+    'nav_elements' => [
         [
             'url' => route('donors.index'),
             'label' => __('donations.donors'),

@@ -242,3 +242,21 @@
 .fc-today {
   background:#fcf8e3;
 }
+
+/*
+* Tabs
+*/
+.tab-active, .tab-active:hover {
+  text-decoration: none;
+  border-bottom: 4px solid theme-color("primary");
+  background: theme-color("light");
+  color: black;
+}
+
+.tab-inactive, .tab-inactive:hover {
+  text-decoration: none;
+  border-bottom: 4px solid theme-color("light");
+  background: theme-color("light");
+  color: theme-color("dark");
+}
+

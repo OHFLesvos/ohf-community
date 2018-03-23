@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'donation_management' => 'Spendenverwaltung',
     'donor' => 'Spender',
     'donors' => 'Spender',
     'no_donors_found' => 'Keine Spender gefunden.',

@@ -1,6 +1,6 @@
 @extends('layouts.user-roles')
 
-@section('title', __('app.roles'))
+@section('title', __('app.users_and_roles'))
 
 @section('wrapped-content')
 

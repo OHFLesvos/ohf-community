@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'donation_management' => 'Donation Management',
     'donor' => 'Donor',
     'donors' => 'Donors',
     'no_donors_found' => 'No donors found.',

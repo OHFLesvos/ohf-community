@@ -1,6 +1,6 @@
 @extends('layouts.donots-donations')
 
-@section('title', __('donations.donors'))
+@section('title', __('donations.donation_management'))
 
 @section('wrapped-content')
 
