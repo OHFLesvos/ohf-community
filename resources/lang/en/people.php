@@ -41,6 +41,7 @@ return [
     'bank_search_text' => 'Search for name, case number, medical number, registration number, section card number...',
     'find_duplicates' => 'Find duplicates',
     'code_card' => 'Code Card',
+    'codes_card' => 'Code Cards',
     'not_yet_served_any_persons' => 'We did not yet serve any persons today.',
     'num_persons_served_handing_out_coupons' => 'Today, we served <strong>:persons</strong> persons, handing out <strong>:coupons</strong> coupons.',
     'person_deleted' => 'Person deleted',
@@ -56,4 +57,9 @@ return [
     'person_not_eligible_for_this_coupon' => 'Person is not eligible for this coupon.',
     'please_wait_n_days' => 'Please wait :days days.',
     'id' => 'ID',
+    'create_code_card' => 'Create Code Card',
+    'create_pdf' => 'Create PDF',
+    'code_card_unique' => 'Cards should be unique. Only use each document once, and create a new document if you need more cards.',
+    'number_of_pages' => 'Number of pages',
+    'creating_code_card_be_patient' => 'Creating the document may take a while, depending on the number of pages. Please be patient.',
 ];

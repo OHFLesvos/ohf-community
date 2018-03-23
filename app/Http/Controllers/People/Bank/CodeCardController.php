@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\LabelAlignment;
 use Dompdf\Dompdf;
+use App\Http\Requests\People\Bank\CreateCodeCard;
 
 class CodeCardController extends Controller
 {
@@ -20,17 +21,31 @@ class CodeCardController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Show view for preparing new code card sheet.
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function prepareCodeCard() {
         return view('bank.prepareCodeCard');
     }
 
-    public function createCodeCard(Request $request) {
-        $pages = isset($request->pages) && is_numeric($request->pages) && $request->pages > 0 ? $request->pages : 1;
+    /**
+     * Create new code card sheet and return PDF for download.
+     * 
+     * @param  \App\Http\Requests\People\Bank\CreateCodeCard  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function createCodeCard(CreateCodeCard $request) {
+        $pages = $request->pages;
 
         $codes = [];
         for ($i = 0; $i < 10 * $pages; $i++) {
             $code = bin2hex(random_bytes(16));
             $codes[] = base64_encode(self::createQrCode($code, substr($code, 0, 7), 500));
+            if ($i == 0) {
+                $firstCode = $code;
+            }
         }
         $logo = base64_encode(file_get_contents(public_path() . '/img/logo_card.png'));
         $view = view('bank.codeCard', [
@@ -51,10 +66,10 @@ class CodeCardController extends Controller
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        return $dompdf->stream();
+        return $dompdf->stream(__('people.codes_card') . ' ' . substr($firstCode, 0, 7));
     }
 
-    public static function createQrCode($value, $label, $size) {
+    private static function createQrCode($value, $label, $size) {
         $qrCode = new QrCode($value);
         $qrCode->setSize($size);
         $qrCode->setLabel($label, 20, null, LabelAlignment::CENTER);   

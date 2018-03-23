@@ -41,6 +41,7 @@ return [
     'bank_search_text' => 'Suche nach Name, Fallnummer, Registrationsnummer, Sektorkartennummer, ...',
     'find_duplicates' => 'Duplikate finden',
     'code_card' => 'Codekarte',
+    'codes_card' => 'Codekarten',
     'not_yet_served_any_persons' => 'Heute wurden noch keine Personen bedient.',
     'num_persons_served_handing_out_coupons' => 'Heute haben wir <strong>:persons</strong> Personen bedient und <strong>:coupons</strong> Coupons ausgehändigt.',
     'person_deleted' => 'Person gelöscht',
@@ -56,4 +57,9 @@ return [
     'person_not_eligible_for_this_coupon' => 'Person ist nicht berechtigt, diesen Coupon zu erhalten.',
     'please_wait_n_days' => 'Bitte warte :days Tage.',
     'id' => 'ID',
+    'create_code_card' => 'Codekarte erstellen',
+    'create_pdf' => 'PDF erstellen',
+    'code_card_unique' => 'Corekarten müssen eindeutig sein. Benutze jedes Dokument nur einmal, und erstelle ein neues Dokument wenn du mehr Karten benötigst.',
+    'number_of_pages' => 'Anzahl Seiten',
+    'creating_code_card_be_patient' => 'Basierend auf der Anzahl Seiten kann es eine Weile dauern, bis da Dokument bereit ist. Bitte habe einen Moment Geduld.',
 ];
