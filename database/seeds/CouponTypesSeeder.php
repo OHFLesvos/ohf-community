@@ -21,7 +21,7 @@ class CouponTypesSeeder extends Seeder
             'order' => 0,
         ]);
         CouponType::create([
-            'name' => 'Child Drachma (Blue)',
+            'name' => 'Kids Drachma',
             'icon' => 'money',
             'daily_amount' => 1,
             'retention_period' => 1,

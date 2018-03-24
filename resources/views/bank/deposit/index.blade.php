@@ -44,9 +44,14 @@
         </div>
         <div class="col-md-auto p-4 lead">
             @if(count($todaysReturns) > 0)
+                <table style="border-spacing: 0.5em; border-collapse: separate;">
                 @foreach($todaysReturns as $k => $v)
-                    {{ $k }}: {{ implode(', ', $v) }} <br>
+                    <tr>
+                        <td class="text-right align-top"><strong>{{ $k }}</strong></td>
+                        <td class="align-top">{!! nl2br(e(implode("\n", $v))) !!}</td>
+                    </tr>
                 @endforeach
+                </table>
             @else
                 @lang('people.no_coupons_registered_so_far')
             @endif
