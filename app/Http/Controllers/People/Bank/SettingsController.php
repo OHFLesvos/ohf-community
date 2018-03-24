@@ -5,7 +5,7 @@ namespace App\Http\Controllers\People\Bank;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Reporting\PeopleReportingController;
-use App\Http\Requests\People\Bank\StoreTransactionSettings;
+use App\Http\Requests\People\Bank\StoreSettings;
 use App\Person;
 use Illuminate\Support\Facades\Config;
 
@@ -29,10 +29,10 @@ class SettingsController extends Controller
     /**
      * Update settings
      * 
-     * @param  \App\Http\Requests\People\Bank\StoreTransactionSettings  $request
+     * @param  \App\Http\Requests\People\Bank\StoreSettings  $request
      * @return \Illuminate\Http\Response
      */
-    function updateSettings(StoreTransactionSettings $request) {
+    function updateSettings(StoreSettings $request) {
         \Setting::set('people.results_per_page', $request->people_results_per_page);
         \Setting::set('bank.frequent_visitor_weeks', $request->frequent_visitor_weeks);
         \Setting::set('bank.frequent_visitor_threshold', $request->frequent_visitor_threshold);
