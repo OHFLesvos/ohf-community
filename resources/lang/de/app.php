@@ -110,4 +110,11 @@ return [
     'file_format' => 'Dateiformat',
     'number_results_per_page' => 'Anzahl Resultate pro Seite',
     'current_settings' => 'Aktuelle Einstellungen',
+    'daily_average' => 'Tagesdurchschnitt',
+    'highest' => 'Höchster',
+    'last_month' => 'Letzter Monat',
+    'this_month' => 'Diesen Monat',
+    'last_week' => 'Letzte Woche',
+    'this_week' => 'Diese Woche',
+    'today' => 'Heute',
 ];

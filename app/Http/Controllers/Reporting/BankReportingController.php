@@ -21,25 +21,27 @@ class BankReportingController extends Controller
             ::orderBy('order')
             ->orderBy('name')
             ->get()
-            ->mapWithKeys(function($e){
-                return [$e->name => [
-                    'avg_sum' => self::getAvgTransactionSumPerDay(),
-                    'highest_sum' => self::getHighestSumPerDay(),
-                    'last_month_sum' => self::sumOfTransactions(Carbon::today()->subMonth()->startOfMonth(), Carbon::today()->subMonth()->endOfMonth()),
-                    'this_month_sum' => self::sumOfTransactions(Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth()),
-                    'last_week_sum' => self::sumOfTransactions(Carbon::today()->subWeek()->startOfWeek(), Carbon::today()->subWeek()->endOfWeek()),
-                    'this_week_sum' => self::sumOfTransactions(Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()),
-                    'today_sum' => self::sumOfTransactions(Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
-                ]];
+            ->map(function($coupon){
+                return [
+                    'coupon' => $coupon,
+                    'avg_sum' => self::getAvgTransactionSumPerDay($coupon),
+                    'highest_sum' => self::getHighestSumPerDay($coupon),
+                    'last_month_sum' => self::sumOfTransactions($coupon, Carbon::today()->subMonth()->startOfMonth(), Carbon::today()->subMonth()->endOfMonth()),
+                    'this_month_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth()),
+                    'last_week_sum' => self::sumOfTransactions($coupon, Carbon::today()->subWeek()->startOfWeek(), Carbon::today()->subWeek()->endOfWeek()),
+                    'this_week_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()),
+                    'today_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
+                ];
             });
         return view('reporting.bank.withdrawals', [
             'coupons' => $coupons,
         ]);
     }
 
-    private static function getAvgTransactionSumPerDay() {
+    private static function getAvgTransactionSumPerDay(CouponType $coupon) {
         $sub = CouponHandout
             ::select(DB::raw('sum(amount) as sum'))
+            ->where('coupon_type_id', $coupon->id)
             ->groupBy('date');
         $result = DB
             ::table( DB::raw("({$sub->toSql()}) as sub") )
@@ -49,60 +51,41 @@ class BankReportingController extends Controller
         return $result != null ? $result->avg : null;
     }
 
-    private static function getHighestSumPerDay() {
+    private static function getHighestSumPerDay(CouponType $coupon) {
         return CouponHandout
                 ::select(DB::raw('sum(amount) as sum, date'))
+                ->where('coupon_type_id', $coupon->id)
                 ->groupBy('date')
                 ->orderBy('sum', 'DESC')
                 ->limit(1)
                 ->first();
     }
 
-    private static function sumOfTransactions($from, $to) {
+    private static function sumOfTransactions(CouponType $coupon, Carbon $from, Carbon $to) {
         $result = CouponHandout
             ::whereDate('date', '>=', $from->toDateString())
             ->whereDate('date', '<=', $to->toDateString())
+            ->where('coupon_type_id', $coupon->id)
             ->select(DB::raw('sum(amount) as sum'))
             ->first();
         return $result != null ? $result->sum : null;
     }
 
     /**
-     * Number of transactions per day
-     */
-    public function numTransactions() {
-        $data = [];
-        for ($i = 30; $i >= 0; $i--) {
-            $day = Carbon::today()->subDays($i);
-            $q = Transaction
-                ::whereDate('created_at', '=', $day->toDateString())
-				->where('transactionable_type', 'App\Person')
-                ->select('value')
-                ->get();
-            $data['labels'][] = $day->toDateString();
-            $data['datasets']['Transactions'][] = collect($q)
-                ->count();
-        }
-		return response()->json($data);
-    }
-
-    /**
      * Sum of transactions per day
      */
-    public function sumTransactions() {
+    public function sumTransactions(CouponType $coupon) {
         $data = [];
         for ($i = 30; $i >= 0; $i--) {
             $day = Carbon::today()->subDays($i);
-            $q = Transaction
-                ::whereDate('created_at', '=', $day->toDateString())
-				->where('transactionable_type', 'App\Person')
-                ->select('value')
+            $q = CouponHandout
+                ::where('coupon_type_id', $coupon->id)
+                ->whereDate('date', $day->toDateString())
+                ->groupBy('date')
+                ->select(DB::raw('SUM(amount) as sum'))
                 ->get();
             $data['labels'][] = $day->toDateString();
-            $data['datasets']['Value'][] = collect($q)
-                ->map(function($item){
-                    return $item->value;
-                })->sum();
+            $data['datasets']['Value'][] = collect($q)->pluck('sum')->first();
         }
 		return response()->json($data);
     }

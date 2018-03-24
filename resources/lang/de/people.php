@@ -85,4 +85,5 @@ return [
     'min_number_of_visits' => 'Minimale Anzahl an Besuchen',
     'card_already_in_use' => 'Kartennummer :card_no wird bereits benutzt.',
     'card_revoked' => 'Kartennummer :card_no wurde widerrufen.',
+    'num_x_handed_out_per_day' => 'Anzahl täglich herausgegebener :name',
 ];
