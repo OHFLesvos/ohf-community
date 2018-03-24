@@ -12,9 +12,12 @@ class Project extends Model
         return $this->hasMany('App\Article');
     }
 
-    public function transactions()
-    {
+    public function transactions() {
         return $this->morphMany('App\Transaction', 'transactionable');
+    }
+
+    public function couponReturns() {
+        return $this->hasMany('App\CouponReturn');
     }
 
     public function dayTransactions($date) {

@@ -62,6 +62,7 @@ class BankController extends Controller
     public function handoutCoupon(StoreHandoutCoupon $request) {
         $person = Person::find($request->person_id);
         $couponType = CouponType::find($request->coupon_type_id);
+
         $coupon = new CouponHandout();
         $coupon->date = Carbon::today();
         $coupon->amount = $request->amount;

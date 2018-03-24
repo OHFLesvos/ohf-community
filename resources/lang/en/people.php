@@ -15,6 +15,7 @@ return [
     'coupon' => 'Coupon',
     'coupons' => 'Coupons',
     'no_coupons_handed_out_so_far' => 'No coupons handed out so far.',
+    'no_coupons_registered_so_far' => 'No coupons registered so far.',
     'name' => 'Name',
     'family_name' => 'Family Name',
     'gender' => 'Gender',
@@ -68,7 +69,8 @@ return [
     'deposits' => 'Deposits',
     'select_project' => 'Select project...',
     'project' => 'Project',
-    'deposit_drachma' => 'Deposit Drachma',
-    'deposited_n_drachma_to_project' => 'Added :amount drachma to project \':project\'.',
+    'deposit_coupons' => 'Deposit Coupons',
+    'deposited_n_coupons_from_project' => 'Registered :amount :coupon from project \':project\'.',
     'recipient' => 'Recipient',
+    'select_coupon_type' => 'Select type of coupon...',
 ];

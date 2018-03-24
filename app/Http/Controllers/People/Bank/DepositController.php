@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\People\Bank\StoreDeposit;
 use App\Project;
-use App\Transaction;
+use App\CouponReturn;
+use App\CouponType;
 use Carbon\Carbon;
 
 class DepositController extends Controller
@@ -27,13 +28,38 @@ class DepositController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('bank.deposit.index', [
-            'projectList' => Project::orderBy('name')
+        $projects = Project
+                ::orderBy('name')
                 ->where('enable_in_bank', true)
                 ->get()
-                ->mapWithKeys(function($project){
-                    return [$project->id => $project->name];
-                }),
+                ->mapWithKeys(function($e){
+                    return [$e->id => $e->name];
+                })
+                ->toArray();
+
+        $couponTypes = CouponType
+                ::orderBy('order')
+                ->orderBy('name')
+                ->get()
+                ->mapWithKeys(function($e){
+                    return [$e->id => $e->name];
+                })
+                ->toArray();
+
+        $todaysReturns = [];
+        CouponReturn
+                ::where('date', Carbon::today())
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->each(function($e) use(&$todaysReturns) {
+                    $todaysReturns[$e->project->name][] = $e->amount . ' ' . $e->couponType->name;
+                });
+
+        return view('bank.deposit.index', [
+            'projects' => $projects,
+            'couponTypes' => $couponTypes,
+            'selectedCouponType' => count($couponTypes) > 0 ? array_keys($couponTypes)[0] : null,
+            'todaysReturns' => $todaysReturns,
         ]);
     }
 
@@ -44,17 +70,27 @@ class DepositController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreDeposit $request) {
-        $project = Project::find($request->project);
-        $transaction = new Transaction();
-        $transaction->value = $request->value;
-		$date = new Carbon($request->date);
-		if (!$date->isToday()) {
-			$transaction->created_at = $date->endOfDay();
-		}
-        $project->transactions()->save($transaction);
+        $project = Project::findOrFail($request->project);
+        $couponType = CouponType::findOrFail($request->coupon_type);
+        $date = new Carbon($request->date);
+
+        $coupon = CouponReturn::firstOrNew([
+            'project_id' => $project->id,
+            'coupon_type_id' => $couponType->id,
+            'date' => $date
+        ]);
+        $coupon->amount = $coupon->amount + $request->amount;
+		$coupon->date = $date;
+        $coupon->project()->associate($project);
+        $coupon->couponType()->associate($couponType);
+        $coupon->save();
 
         return redirect()->route('bank.deposit')
-            ->with('info', __('people.deposited_n_drachma_to_project', [ 'amount' => $transaction->value, 'project' => $project->name ]));
+            ->with('info', __('people.deposited_n_coupons_from_project', [ 
+                    'amount' => $request->amount, 
+                    'coupon' => $couponType->name, 
+                    'project' => $project->name 
+                ]));
     }
 
     /**
@@ -63,14 +99,10 @@ class DepositController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function transactions() {
-        $transactions = Transaction
-                ::join('projects', function ($join) {
-                    $join->on('projects.id', '=', 'transactions.transactionable_id')
-                        ->where('transactionable_type', 'App\Project');
-                })
-                ->select('projects.name', 'value', 'transactions.created_at', 'transactions.user_id')
-                ->orderBy('transactions.created_at', 'desc')
-                ->paginate(50);
+        $transactions = CouponReturn
+            ::orderBy('created_at', 'DESC')
+            ->with(['user', 'project', 'couponType'])
+            ->paginate(100);
         
         return view('bank.deposit.transactions', [
             'transactions' => $transactions,

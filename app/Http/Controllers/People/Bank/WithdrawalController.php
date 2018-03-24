@@ -134,7 +134,8 @@ class WithdrawalController extends Controller
 
     public function transactions(Request $request) {
 		return view('bank.transactions', [
-            'transactions' => CouponHandout::orderBy('created_at', 'DESC')
+            'transactions' => CouponHandout
+                ::orderBy('created_at', 'DESC')
                 ->with(['user', 'person', 'couponType'])
                 ->paginate(100),
 		]);

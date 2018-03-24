@@ -24,8 +24,9 @@ class StoreDeposit extends FormRequest
     public function rules()
     {
         return [
+            'coupon_type' => 'required|numeric|exists:coupon_types,id',
             'project' => 'required|numeric|exists:projects,id',
-            'value' => 'required|numeric|not_in:0',
+            'amount' => 'required|numeric|not_in:0',
             'date' => 'required|date',
         ];
     }

@@ -20,13 +20,20 @@
                         {{ $transaction->created_at->diffForHumans() }}
                         <small class="text-muted">by {{ $transaction->user->name }}</small>
                     </td>
-                    <td>{{ $transaction->name }}</td>
-                    <td class="text-right">{{ $transaction->value }}</td>
+                    <td>{{ $transaction->project->name }}</td>
+                    <td class="text-right">
+                        {{ $transaction->amount }}
+                        {{ $transaction->couponType->name }}
+                    </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
         {{ $transactions->links() }}
+    @else
+        @component('components.alert.info')
+            @lang('people.no_transactions_so_far')
+        @endcomponent
     @endif
 
 @endsection
