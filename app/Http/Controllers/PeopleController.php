@@ -6,7 +6,7 @@ use App\Util\CountriesExtended;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
-use App\Transaction;
+use App\CouponHandout;
 use App\Http\Requests\StorePerson;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\LabelAlignment;
@@ -400,11 +400,10 @@ class PeopleController extends ParentController
                     ->last();
                 
                 // Merge transactions
-                Transaction::whereIn('transactionable_id', $persons->pluck('id')->toArray())
-                    ->where('transactionable_type', 'App\Person')
+                CouponHandout::whereIn('person_id', $persons->pluck('id')->toArray())
                     ->get()
                     ->each(function($e) use($master) {
-                        $e->transactionable_id = $master->id;
+                        $e->person_id = $master->id;
                         $e->save();
                     });
 

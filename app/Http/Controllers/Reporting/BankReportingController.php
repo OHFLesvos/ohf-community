@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Reporting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Person;
-use App\Transaction;
+use App\CouponHandout;
 use App\Project;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -18,10 +18,9 @@ class BankReportingController extends Controller
     function withdrawals() {
         return view('reporting.bank.withdrawals', [
             'avg_sum' => self::getAvgTransactionSumPerDay(),
-            'highest_sum' => Transaction::
-                select(DB::raw('sum(value) as sum, date(created_at) as date'))
-                ->where('transactionable_type', 'App\\Person')
-                ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+            'highest_sum' => CouponHandout
+                ::select(DB::raw('sum(amount) as sum, date'))
+                ->groupBy('date')
                 ->orderBy('sum', 'DESC')
                 ->limit(1)
                 ->first(),
@@ -34,10 +33,11 @@ class BankReportingController extends Controller
     }
 
     private static function getAvgTransactionSumPerDay() {
-        $sub = Transaction::select(DB::raw('sum(value) as sum'))
-            ->where('transactionable_type', 'App\\Person')
-            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'));
-        $result = DB::table( DB::raw("({$sub->toSql()}) as sub") )
+        $sub = CouponHandout
+            ::select(DB::raw('sum(amount) as sum'))
+            ->groupBy('date');
+        $result = DB
+            ::table( DB::raw("({$sub->toSql()}) as sub") )
             ->select(DB::raw('round(avg(sum), 1) as avg'))
             ->mergeBindings($sub->getQuery())
             ->first();
@@ -45,10 +45,10 @@ class BankReportingController extends Controller
     }
 
     private static function sumOfTransactions($from, $to) {
-        $result = Transaction::where('transactionable_type', 'App\Person')
-            ->whereDate('created_at', '>=', $from->toDateString())
-            ->whereDate('created_at', '<=', $to->toDateString())
-            ->select(DB::raw('sum(value) as sum'))
+        $result = CouponHandout
+            ::whereDate('date', '>=', $from->toDateString())
+            ->whereDate('date', '<=', $to->toDateString())
+            ->select(DB::raw('sum(amount) as sum'))
             ->first();
         return $result != null ? $result->sum : null;
     }
