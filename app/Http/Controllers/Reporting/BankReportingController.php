@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reporting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Person;
+use App\CouponType;
 use App\CouponHandout;
 use App\Project;
 use Illuminate\Support\Facades\DB;
@@ -16,19 +17,23 @@ class BankReportingController extends Controller
      * View for withdtawal statistics
      */
     function withdrawals() {
+        $coupons = CouponType
+            ::orderBy('order')
+            ->orderBy('name')
+            ->get()
+            ->mapWithKeys(function($e){
+                return [$e->name => [
+                    'avg_sum' => self::getAvgTransactionSumPerDay(),
+                    'highest_sum' => self::getHighestSumPerDay(),
+                    'last_month_sum' => self::sumOfTransactions(Carbon::today()->subMonth()->startOfMonth(), Carbon::today()->subMonth()->endOfMonth()),
+                    'this_month_sum' => self::sumOfTransactions(Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth()),
+                    'last_week_sum' => self::sumOfTransactions(Carbon::today()->subWeek()->startOfWeek(), Carbon::today()->subWeek()->endOfWeek()),
+                    'this_week_sum' => self::sumOfTransactions(Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()),
+                    'today_sum' => self::sumOfTransactions(Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
+                ]];
+            });
         return view('reporting.bank.withdrawals', [
-            'avg_sum' => self::getAvgTransactionSumPerDay(),
-            'highest_sum' => CouponHandout
-                ::select(DB::raw('sum(amount) as sum, date'))
-                ->groupBy('date')
-                ->orderBy('sum', 'DESC')
-                ->limit(1)
-                ->first(),
-            'last_month_sum' => self::sumOfTransactions(Carbon::today()->subMonth()->startOfMonth(), Carbon::today()->subMonth()->endOfMonth()),
-            'this_month_sum' => self::sumOfTransactions(Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth()),
-            'last_week_sum' => self::sumOfTransactions(Carbon::today()->subWeek()->startOfWeek(), Carbon::today()->subWeek()->endOfWeek()),
-            'this_week_sum' => self::sumOfTransactions(Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()),
-            'today_sum' => self::sumOfTransactions(Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
+            'coupons' => $coupons,
         ]);
     }
 
@@ -42,6 +47,15 @@ class BankReportingController extends Controller
             ->mergeBindings($sub->getQuery())
             ->first();
         return $result != null ? $result->avg : null;
+    }
+
+    private static function getHighestSumPerDay() {
+        return CouponHandout
+                ::select(DB::raw('sum(amount) as sum, date'))
+                ->groupBy('date')
+                ->orderBy('sum', 'DESC')
+                ->limit(1)
+                ->first();
     }
 
     private static function sumOfTransactions($from, $to) {
