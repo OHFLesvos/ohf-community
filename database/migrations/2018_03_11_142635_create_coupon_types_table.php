@@ -21,6 +21,7 @@ class CreateCouponTypesTable extends Migration
             $table->unsignedInteger('retention_period');
             $table->unsignedInteger('min_age')->nullable();
             $table->unsignedInteger('max_age')->nullable();
+            $table->boolean('one_time')->defalt(false);
             $table->unsignedInteger('order')->default(0);
             $table->timestamps();
             $table->unique(['name']);
