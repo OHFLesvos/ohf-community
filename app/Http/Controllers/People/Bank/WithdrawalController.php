@@ -13,6 +13,12 @@ use App\Person;
 
 class WithdrawalController extends Controller
 {
+    /**
+     * View for searching persons.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request) {
         // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'bank.withdrawal']);
@@ -40,7 +46,13 @@ class WithdrawalController extends Controller
                 ->first()
                 ->total;
     }
-    
+
+    /**
+     * View for showing search results.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function search(Request $request) {
         // Get filter or redirect to search start
         $filter = $request->filter;
@@ -122,7 +134,12 @@ class WithdrawalController extends Controller
         return null;
     }
 
-    public function transactions(Request $request) {
+    /**
+     * View for showing coupon transactions.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function transactions() {
 		return view('bank.transactions', [
             'transactions' => CouponHandout
                 ::orderBy('created_at', 'DESC')

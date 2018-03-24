@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\People\Bank;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\CouponType;

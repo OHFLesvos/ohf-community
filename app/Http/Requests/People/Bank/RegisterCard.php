@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\People\Bank;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUndoHandoutCoupon extends FormRequest
+class RegisterCard extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class StoreUndoHandoutCoupon extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => 'required|exists:persons,id',
-            'coupon_type_id' => 'required|exists:coupon_types,id',
+            'person_id' => 'required|numeric|exists:persons,id',
+            'card_no' => 'required',
         ];
     }
 }

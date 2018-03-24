@@ -83,4 +83,6 @@ return [
     'settings_updated' => 'Settings have been updated.',
     'number_of_weeks' => 'Number of weeks',
     'min_number_of_visits' => 'Minimum number of visits',
+    'card_already_in_use' => 'Card number :card_no is already in use.',
+    'card_revoked' => 'Card number :card_no has been revoked.',
 ];

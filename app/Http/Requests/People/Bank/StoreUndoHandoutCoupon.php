@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\People\Bank;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePersonDateOfBirth extends FormRequest
+class StoreUndoHandoutCoupon extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class UpdatePersonDateOfBirth extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => 'required|numeric',
-            'date_of_birth' => 'required|date',
+            'person_id' => 'required|exists:persons,id',
+            'coupon_type_id' => 'required|exists:coupon_types,id',
         ];
     }
 }

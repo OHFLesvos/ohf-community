@@ -9,58 +9,59 @@ use App\CouponHandout;
 use Carbon\Carbon;
 use App\Person;
 use App\RevokedCard;
-use App\Http\Requests\StoreHandoutCoupon;
-use App\Http\Requests\StoreUndoHandoutCoupon;
+use App\Http\Requests\People\Bank\RegisterCard;
+use App\Http\Requests\People\Bank\StoreHandoutCoupon;
+use App\Http\Requests\People\Bank\StoreUndoHandoutCoupon;
 
 class BankController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Register code card with person.
+     * 
+     * @param  \App\Http\Requests\People\Bank\RegisterCard  $request
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
+	public function registerCard(RegisterCard $request) {
+        $person = Person::findOrFail($request->person_id);
+        
+        $this->authorize('update', $person);
+
+        // Check for revoked card number
+        if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
+            return response()->json([
+                'message' => __('people.card_revoked', [ 'card_no' => substr($request->card_no, 0, 7) ]),
+            ], 400);
+        }
+
+        // Check for used card number
+        if (Person::where('card_no', $request->card_no)->count() > 0) {
+            return response()->json([
+                'message' => __('people.card_already_in_use', [ 'card_no' => substr($request->card_no, 0, 7) ]),
+            ], 400);
+        }
+
+        // If person already has a card number, revoke it
+        if ($person->card_no != null) {
+            $revoked = new RevokedCard();
+            $revoked->card_no = $person->card_no;
+            $person->revokedCards()->save($revoked);
+        }
+
+        // Issue new card
+        $person->card_no = $request->card_no;
+        $person->card_issued = Carbon::now();
+        $person->save();
+        return response()->json([]);
     }
 
-	public function registerCard(Request $request) {
-		if (isset($request->person_id) && is_numeric($request->person_id)) {
-			$person = Person::find($request->person_id);
-			if ($person != null && isset($request->card_no)) {
-
-                // Check for revoked card number
-                if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
-                    return response()->json([
-                        'message' => 'Card number ' . substr($request->card_no, 0, 7) . ' has been revoked',
-                    ], 400);
-                }
-
-                // Check for used card number
-                if (Person::where('card_no', $request->card_no)->count() > 0) {
-                    return response()->json([
-                        'message' => 'Card number ' . substr($request->card_no, 0, 7) . ' is already in use',
-                    ], 400);
-                }
-
-                // If person already has a card number, revoke it
-                if ($person->card_no != null) {
-                    $revoked = new RevokedCard();
-                    $revoked->card_no = $person->card_no;
-                    $person->revokedCards()->save($revoked);
-                }
-
-                // Issue new card
-                $person->card_no = $request->card_no;
-                $person->card_issued = Carbon::now();
-				$person->save();
-				return response()->json([]);
-			}
-		}
-    }
-
+    /**
+     * Handout coupon to person.
+     * 
+     * @param  \App\Http\Requests\People\Bank\StoreHandoutCoupon  $request
+     * @return \Illuminate\Http\Response
+     */
     public function handoutCoupon(StoreHandoutCoupon $request) {
-        $person = Person::find($request->person_id);
+        $person = Person::findOrFail($request->person_id);
         $couponType = CouponType::find($request->coupon_type_id);
 
         $coupon = new CouponHandout();
@@ -76,8 +77,14 @@ class BankController extends Controller
         ]);
     }
 
+    /**
+     * Undo handing out coupon to person.
+     * 
+     * @param  \App\Http\Requests\People\Bank\StoreUndoHandoutCoupon  $request
+     * @return \Illuminate\Http\Response
+     */
     public function undoHandoutCoupon(StoreUndoHandoutCoupon $request) {
-        $person = Person::find($request->person_id);
+        $person = Person::findOrFail($request->person_id);
         $couponType = CouponType::find($request->coupon_type_id);
         $handout = $person->couponHandouts()
             ->where('coupon_type_id', $couponType->id)

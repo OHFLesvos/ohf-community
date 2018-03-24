@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\People;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
-class UpdatePersonGender extends FormRequest
+class UpdatePersonDateOfBirth extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,8 @@ class UpdatePersonGender extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => 'required|numeric',
-            'gender' => 'required|in:m,f',
+            'person_id' => 'required|numeric|exists:persons,id',
+            'date_of_birth' => 'required|date|before_or_equal:' . Carbon::today()->toDateString(),
         ];
     }
 }

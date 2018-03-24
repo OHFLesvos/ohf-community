@@ -83,4 +83,6 @@ return [
     'settings_updated' => 'Einstellungen wurden aktualisiert.',
     'number_of_weeks' => 'Anzahl Wochen',
     'min_number_of_visits' => 'Minimale Anzahl an Besuchen',
+    'card_already_in_use' => 'Kartennummer :card_no wird bereits benutzt.',
+    'card_revoked' => 'Kartennummer :card_no wurde widerrufen.',
 ];
