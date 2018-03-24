@@ -80,4 +80,7 @@ return [
     'remove_records_without_number' => 'Remove records not having any number registered (:num persons)',
     'person_registered_as_helper' => 'Person is registerd as Helper.',
     'removed_n_persons' => 'Removed :num persons.',
+    'settings_updated' => 'Settings have been updated.',
+    'number_of_weeks' => 'Number of weeks',
+    'min_number_of_visits' => 'Minimum number of visits',
 ];

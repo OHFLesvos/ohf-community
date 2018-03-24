@@ -20,16 +20,6 @@ class ImportExportController extends Controller
     ];
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * View for downloading file of person records.
      * 
      * @return \Illuminate\Http\Response

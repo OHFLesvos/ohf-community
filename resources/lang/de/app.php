@@ -108,4 +108,6 @@ return [
     'transactions' => 'Transaktionen',
     'amount' => 'Betrag',
     'file_format' => 'Dateiformat',
+    'number_results_per_page' => 'Anzahl Resultate pro Seite',
+    'current_settings' => 'Aktuelle Einstellungen',
 ];

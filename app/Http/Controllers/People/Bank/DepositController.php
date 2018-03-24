@@ -13,16 +13,6 @@ use Carbon\Carbon;
 class DepositController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show view for storing a new deposit.
      * 
      * @return \Illuminate\Http\Response

@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsNumber('people_results_per_page', $people_results_per_page, [ 'min' => 1 ], 'Number of results per page') }}
+                        {{ Form::bsNumber('people_results_per_page', $people_results_per_page, [ 'min' => 1 ], __('app.number_results_per_page')) }}
                     </div>
                 </div>
             </div>
@@ -24,12 +24,12 @@
 					<div class="col-md">
 						<div class="form-group">
 							<p>Persons are marked as frequent visitor <span class="text-warning" title="Frequent visitor">@icon(star)</span> if they visit the bank at least <em>x</em> times during the last <em>y</em> weeks.</p>
-							{{ Form::bsNumber('frequent_visitor_weeks', $frequent_visitor_weeks, [ 'min' => 1 ], 'Number of weeks') }}
-							{{ Form::bsNumber('frequent_visitor_threshold', $frequent_visitor_threshold, [ 'min' => 1 ], 'Minimum number of visits') }}
+							{{ Form::bsNumber('frequent_visitor_weeks', $frequent_visitor_weeks, [ 'min' => 1 ], __('people.number_of_weeks')) }}
+							{{ Form::bsNumber('frequent_visitor_threshold', $frequent_visitor_threshold, [ 'min' => 1 ], __('people.min_number_of_visits')) }}
 						</div>
 					</div>
 				</div>
-				<div class="text-muted">Current settings: {{ $current_num_frequent_visitors }} persons affected, 
+				<div class="text-muted">@lang('app.current_settings'): {{ $current_num_frequent_visitors }} persons affected, 
 					out of {{ $current_num_people }} ({{ round($current_num_frequent_visitors/$current_num_people * 100) }} %)</div>
 			</div>
 		</div>

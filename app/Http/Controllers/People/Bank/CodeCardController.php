@@ -12,16 +12,6 @@ use App\Http\Requests\People\Bank\CreateCodeCard;
 class CodeCardController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show view for preparing new code card sheet.
      * 
      * @return \Illuminate\Http\Response

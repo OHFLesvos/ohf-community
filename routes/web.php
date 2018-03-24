@@ -70,8 +70,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('/bank/deposit/transactions', 'People\Bank\DepositController@transactions')->name('bank.depositTransactions');
         });
 
-        Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');
-        Route::post('/bank/settings', 'People\Bank\SettingsController@updateSettings')->name('bank.updateSettings');
+        // Settings
+        Route::group(['middleware' => ['can:configure-bank']], function () {
+            Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');
+            Route::post('/bank/settings', 'People\Bank\SettingsController@updateSettings')->name('bank.updateSettings');
+        });
 
         // Maintenance
         Route::group(['middleware' => ['can:cleanup,App\Person']], function () {
