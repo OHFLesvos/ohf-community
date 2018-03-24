@@ -8,9 +8,17 @@ use Carbon\Carbon;
 use App\Person;
 use App\CouponType;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\People\Bank\DownloadFile;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class ImportExportController extends Controller
 {
+    public static $formats = [
+        'xlsx' => 'Excel',
+        'pdf' => 'PDF',
+    ];
+
     /**
      * Create a new controller instance.
      *
@@ -21,28 +29,89 @@ class ImportExportController extends Controller
         $this->middleware('auth');
     }
 
-    function import() {
-		return view('bank.import');
+    /**
+     * View for downloading file of person records.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    function export() {
+		return view('bank.export', [
+            'formats' => self::$formats,
+            'selectedFormat' => 'xlsx',
+        ]);
     }
-    
-	public function export() {
+
+    /**
+     * Download persons in bank as Excel or PDF file.
+     * 
+     * @param  \App\Http\Requests\People\Bank\DownloadFile  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function doExport(DownloadFile $request) {
         $this->authorize('export', Person::class);
 
-        \Excel::create('Bank_' . Carbon::now()->toDateString(), function($excel) {
-            $dm = Carbon::create();
-            $excel->sheet($dm->format('F Y'), function($sheet) use($dm) {
-                $persons = Person::orderBy('name', 'asc')
-                    ->orderBy('family_name', 'asc')
-                    ->orderBy('name', 'asc')
-                    ->get();
+        $persons = Person::orderBy('name', 'asc')
+            ->orderBy('family_name', 'asc')
+            ->orderBy('name', 'asc')
+            ->get();
+        $couponTypes = CouponType::orderBy('order')->orderBy('name')->get();
+
+        // Excel export
+        if ($request->format == 'xlsx') {
+            return self::createExcel($persons, $couponTypes);
+        }
+        
+        // PDF export
+        if ($request->format == 'pdf') {
+            return self::createPdf($persons, $couponTypes);
+        }
+    }
+
+    private static function createExcel($persons, $couponTypes) {
+        return \Excel::create(__('people.bank') . '_' . Carbon::now()->toDateString(), function($excel) use ($persons, $couponTypes) {
+            $excel->sheet(__('people.withdrawals'), function($sheet) use($persons, $couponTypes) {
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
-                $sheet->loadView('bank.export',[
+                $sheet->loadView('bank.export-table',[
                     'persons' => $persons,
-                    'couponTypes' => CouponType::orderBy('order')->orderBy('name')->get(),
+                    'couponTypes' => $couponTypes,
                 ]);
             });
+            $excel->getActiveSheet()->setAutoFilter(
+                $excel->getActiveSheet()->calculateWorksheetDimension()
+            );
         })->export('xlsx');
+    }
+
+    private static function createPdf($persons, $couponTypes) {
+        $view = view('bank.export-pdf',[
+            'persons' => $persons,
+            'couponTypes' => $couponTypes,
+        ])->render();
+
+        $options = new Options();
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($view);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        $dompdf->set_option('dpi', 96);
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        return $dompdf->stream(__('people.bank') . '_' . Carbon::now()->toDateString());
+    }
+
+    /**
+     * View for importing persons from file.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    function import() {
+		return view('bank.import');
     }
 
     function doImport(Request $request) {
@@ -52,9 +121,6 @@ class ImportExportController extends Controller
         $file = $request->file('file');
         
         \Excel::selectSheets()->load($file, function($reader) {
-            
-            //DB::table('transactions')->delete();
-            //DB::table('persons')->delete();
 
             $reader->each(function($sheet) {
 
@@ -76,18 +142,7 @@ class ImportExportController extends Controller
                         ]);
                         foreach ($row as $k => $v) {
                             if (!empty($v)) {
-                                $month = null;
-                                if (is_numeric($k) && $k > 0) {
-                                    $day = $k;
-                                } else if (preg_match('/([0-9])+.([0-9])+./', $k, $m)) {
-                                    $day = $m[1];
-                                    $month = $m[2];
-                                }
-                                if (isset($day) && $day > 0) {
-                                    $d = Carbon::createFromDate(null, $month, $day)->toDateTimeString();
-                                    $value = intval($v);
-                                    // TODO
-                                }
+
                             }
                         }
                     }

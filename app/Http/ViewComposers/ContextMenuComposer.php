@@ -462,6 +462,7 @@ class ContextMenuComposer {
                     ]
                 ];
             case 'bank.import':
+            case 'bank.export':
                 return [
                     'back' => [
                         'url' => route('bank.withdrawal'),

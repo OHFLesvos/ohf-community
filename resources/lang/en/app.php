@@ -107,4 +107,5 @@ return [
     'maintenance' => 'Maintenance',
     'transactions' => 'Transactions',
     'amount' => 'Amount',
+    'file_format' => 'File format',
  ];
