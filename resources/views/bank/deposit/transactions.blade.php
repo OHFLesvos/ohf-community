@@ -8,9 +8,10 @@
         <table class="table table-sm table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th>@lang('app.date')</th>
+                    <th>@lang('app.registered')</th>
                     <th>@lang('people.project')</th>
-                    <th class="text-right">@lang('app.amount')</th>
+                    <th>@lang('app.amount')</th>
+                    <th>@lang('app.date')</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,10 +22,11 @@
                         <small class="text-muted">by {{ $transaction->user->name }}</small>
                     </td>
                     <td>{{ $transaction->project->name }}</td>
-                    <td class="text-right">
+                    <td>
                         {{ $transaction->amount }}
                         {{ $transaction->couponType->name }}
                     </td>
+                    <td>{{ $transaction->date }}</td>
                 </tr>
             @endforeach
             </tbody>
