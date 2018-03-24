@@ -73,4 +73,11 @@ return [
     'deposited_n_coupons_from_project' => 'Registered :amount :coupon from project \':project\'.',
     'recipient' => 'Recipient',
     'select_coupon_type' => 'Select type of coupon...',
+    'cleanup_database' => 'Cleanup database',
+    'cleanup' => 'Cleanup',
+    'remove_records_no_transaction_since_n_months' => 'Remove persons not taking coupons since :months months (:num persons)',
+    'remove_records_not_having_transaction_ever' => 'Remove persons not taking any coupons ever (:num persons)',
+    'remove_records_without_number' => 'Remove records not having any number registered (:num persons)',
+    'person_registered_as_helper' => 'Person is registerd as Helper.',
+    'removed_n_persons' => 'Removed :num persons.',
 ];

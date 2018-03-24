@@ -101,13 +101,7 @@
                                     <td>{{ $person->remarks }}</td>
                                 </tr>
                             @endif
-                            @if($person->worker)
-                                <tr>
-                                    <th>Worker</th>
-                                    <td>Registered as worker</td>
-                                </tr>
-                            @endif
-                            <tr>
+                             <tr>
                                 <th>@lang('app.created')</th>
                                 <td>{{ $person->created_at }}</td>
                             </tr>
@@ -157,6 +151,12 @@
 
         </div>
         <div class="col-md">
+
+            @if($person->worker)
+                <div class="alert alert-info">
+                    @icon(info-circle) @lang('people.person_registered_as_helper')
+                </div>            
+            @endif
 
             @if(isset($person->card_no))
                 <div class="card mb-4">

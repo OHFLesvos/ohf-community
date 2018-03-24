@@ -73,4 +73,11 @@ return [
     'deposited_n_coupons_from_project' => ':amount :coupon vom Projekt :project registriert.',
     'recipient' => 'EmpfängerIn',
     'select_coupon_type' => 'Coupon auswählen...',
+    'cleanup_database' => 'Datenbank aufräumen',
+    'cleanup' => 'Aufräumen',
+    'remove_records_no_transaction_since_n_months' => 'Entferne Einträge welche seit :months Monaten keine Coupons bezogen haben (:num Personen)',
+    'remove_records_not_having_transaction_ever' => 'Entferne Einträge welche nie Coupons bezogen (:num Personen)',
+    'remove_records_without_number' => 'Entferne Einträge welche keine Nummer registriert haben (:num Personen)',
+    'person_registered_as_helper' => 'Person ist als Helfer registriert.',
+    'removed_n_persons' => ':num Personen entfernt.',
 ];

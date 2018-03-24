@@ -73,13 +73,19 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');
         Route::post('/bank/settings', 'People\Bank\SettingsController@updateSettings')->name('bank.updateSettings');
 
-        Route::get('/bank/maintenance', 'People\Bank\MaintenanceController@maintenance')->name('bank.maintenance');
-        Route::post('/bank/maintenance', 'People\Bank\MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
+        // Maintenance
+        Route::group(['middleware' => ['can:cleanup,App\Person']], function () {
+            Route::get('/bank/maintenance', 'People\Bank\MaintenanceController@maintenance')->name('bank.maintenance');
+            Route::post('/bank/maintenance', 'People\Bank\MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
+        });
 
+        // Export
         Route::group(['middleware' => ['can:export,App\Person']], function () {
             Route::get('/bank/export', 'People\Bank\ImportExportController@export')->name('bank.export');
             Route::post('/bank/doExport', 'People\Bank\ImportExportController@doExport')->name('bank.doExport');
         });
+
+        // Import
         Route::group(['middleware' => ['can:create,App\Person']], function () {
             Route::get('/bank/import', 'People\Bank\ImportExportController@import')->name('bank.import');
             Route::post('/bank/doImport', 'People\Bank\ImportExportController@doImport')->name('bank.doImport');
