@@ -1,6 +1,6 @@
 <a href="{{ route('people.show', $person) }}" target="_blank">@include('people.person-label', ['person' => $person ])</a><br>
 @php
-    $numTransactions = $person->transactions()->count();
+    $numTransactions = $person->couponHandouts()->count();
 @endphp
 <small class="text-muted">
     @if(isset($person->mother))
@@ -53,15 +53,9 @@
     @if ($numTransactions > 0)
         Transactions: {{ $numTransactions }}<br>
         @php
-            $lastTransactionDate = $person->transactions()->orderBy('created_at', 'desc')->first()->created_at;
+            $lastTransactionDate = $person->couponHandouts()->orderBy('created_at', 'desc')->first()->date;
         @endphp
         Last transaction: {{ $lastTransactionDate }} ({{ (new Carbon\Carbon($lastTransactionDate))->diffForHumans() }})<br>
-    @endif
-    @if( $person->boutique_coupon != null )
-        Last boutique coupon: {{ $person->boutique_coupon }} ({{ (new Carbon\Carbon($person->boutique_coupon))->diffForHumans() }})<br>
-    @endif
-    @if( $person->diapers_coupon != null )
-        Last diapers coupon: {{ $person->diapers_coupon }} ({{ (new Carbon\Carbon($person->diapers_coupon))->diffForHumans() }})<br>
     @endif
     @if( $person->remarks != null )
         Remarks: <em>{{ $person->remarks }}</em><br>

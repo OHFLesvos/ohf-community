@@ -381,25 +381,7 @@ class PeopleController extends ParentController
 
                 // TODO partner merge
 
-                // Merge boutique coupon
-                $master->boutique_coupon = $persons->pluck('boutique_coupon')
-                    ->push($master->boutique_coupon)
-                    ->filter(function($e) {
-                        return $e != null;
-                    })
-                    ->sort()
-                    ->last();
-
-                // Merge diapers coupon
-                $master->diapers_coupon = $persons->pluck('diapers_coupon')
-                    ->push($master->diapers_coupon)
-                    ->filter(function($e) {
-                        return $e != null;
-                    })
-                    ->sort()
-                    ->last();
-                
-                // Merge transactions
+                // Merge coupon handouts
                 CouponHandout::whereIn('person_id', $persons->pluck('id')->toArray())
                     ->get()
                     ->each(function($e) use($master) {

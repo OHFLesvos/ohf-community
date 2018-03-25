@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CouponHandout extends Model
 {
+    protected $fillable = [
+        'date',
+        'amount',
+        'person_id',
+        'coupon_type_id',
+        'user_id',
+    ];
+
     public static function boot()
     {
         static::creating(function ($model) {
