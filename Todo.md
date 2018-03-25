@@ -6,10 +6,6 @@
 * Implement auto-delete of inactive persons (e.g. 1 month)
 * Implement true deletion of persons
 
-## Bank
-
-* Refactor drachma, boutique and diaper transactions into generalized coupon system
-
 ## Donations
 
 * Add report about number of donors and donations per month, year
