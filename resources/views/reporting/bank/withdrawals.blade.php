@@ -41,7 +41,7 @@
             <bar-chart
                 title="@lang('people.num_x_handed_out_per_day', [ 'name' => $v['coupon']->name ])"
                 ylabel="# {{ $v['coupon']->name }}"
-                url="{{ route('reporting.bank.sumTransactions', $v['coupon']) }}"
+                url="{{ route('reporting.bank.couponsHandedOutPerDay', $v['coupon']) }}?from={{ $from }}&to={{ $to }}"
                 :height=300
                 :legend=false
                 class="mb-2">

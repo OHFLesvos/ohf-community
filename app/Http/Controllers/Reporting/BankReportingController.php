@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reporting;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SelectDateRange;
 use App\Person;
 use App\CouponType;
 use App\CouponHandout;
@@ -11,7 +12,7 @@ use App\Project;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class BankReportingController extends Controller
+class BankReportingController extends BaseReportingController
 {
     /**
      * View for withdtawal statistics
@@ -35,6 +36,8 @@ class BankReportingController extends Controller
             });
         return view('reporting.bank.withdrawals', [
             'coupons' => $coupons,
+            'from' => Carbon::today()->subMonth()->toDateString(),
+            'to' => Carbon::today()->toDateString(),
         ]);
     }
 
@@ -72,22 +75,36 @@ class BankReportingController extends Controller
     }
 
     /**
-     * Sum of transactions per day
+     * Returns chart data for number of coupons handed out per day.
+     * 
+     * @param  \App\CouponType $coupon the coupon type
+     * @param  \App\Http\Requests\SelectDateRange  $request
+     * @return \Illuminate\Http\Response
      */
-    public function sumTransactions(CouponType $coupon) {
-        $data = [];
-        for ($i = 30; $i >= 0; $i--) {
-            $day = Carbon::today()->subDays($i);
-            $q = CouponHandout
-                ::where('coupon_type_id', $coupon->id)
-                ->whereDate('date', $day->toDateString())
-                ->groupBy('date')
-                ->select(DB::raw('SUM(amount) as sum'))
-                ->get();
-            $data['labels'][] = $day->toDateString();
-            $data['datasets']['Value'][] = collect($q)->pluck('sum')->first();
-        }
-		return response()->json($data);
+    public function couponsHandedOutPerDay(CouponType $coupon, SelectDateRange $request) {
+        $from = new Carbon($request->from);
+        $to = new Carbon($request->to);
+        $q = self::createDateCollectionEmpty($from, $to)
+            ->merge(
+                CouponHandout
+                    ::where('coupon_type_id', $coupon->id)
+                    ->whereDate('date', '>=', $from->toDateString())
+                    ->whereDate('date', '<=', $to->toDateString())
+                    ->groupBy('date')
+                    ->select(DB::raw('SUM(amount) as sum'), 'date')
+                    ->get()
+                    ->mapWithKeys(function ($item) {
+                        return [$item->date => $item->sum];
+                    })
+            )
+            ->reverse()
+            ->toArray();        
+        return response()->json([
+            'labels' => array_keys($q),
+            'datasets' => [
+                'Value' => array_values($q),
+            ]
+        ]);
     }
 
     /**
