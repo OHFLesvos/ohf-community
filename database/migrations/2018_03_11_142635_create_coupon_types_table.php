@@ -18,10 +18,9 @@ class CreateCouponTypesTable extends Migration
             $table->string('name');
             $table->string('icon')->nullable();
             $table->unsignedInteger('daily_amount');
-            $table->unsignedInteger('retention_period');
+            $table->unsignedInteger('retention_period')->nullable();
             $table->unsignedInteger('min_age')->nullable();
             $table->unsignedInteger('max_age')->nullable();
-            $table->boolean('one_time')->defalt(false);
             $table->unsignedInteger('order')->default(0);
             $table->timestamps();
             $table->unique(['name']);

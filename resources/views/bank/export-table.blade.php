@@ -42,7 +42,7 @@
                                 $lastHandout = $person->canHandoutCoupon($coupon);
                             @endphp
                             @isset($lastHandout)
-                                {{ $lastHandout->toDateString() }}
+                                {{ $lastHandout['date'] }}
                             @endisset
                         @else
                             x

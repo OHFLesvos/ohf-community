@@ -44,5 +44,13 @@ class CouponTypesSeeder extends Seeder
             'max_age' => 4,
             'order' => 3,
         ]);
+        CouponType::create([
+            'name' => 'Powerbank',
+            'icon' => 'battery',
+            'daily_amount' => 1,
+            'retention_period' => null,
+            'min_age' => 15,
+            'order' => 4,
+        ]);        
     }
 }

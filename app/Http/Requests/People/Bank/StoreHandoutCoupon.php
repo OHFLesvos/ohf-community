@@ -53,8 +53,7 @@ class StoreHandoutCoupon extends FormRequest
             }
             $lastHandout = $person->canHandoutCoupon($coupon);
             if ($lastHandout != null) {
-                $daysUntil = ((clone $lastHandout)->addDays($coupon->retention_period))->diffInDays() + 1;
-                $validator->errors()->add('coupon_type_id', __('people.please_wait_n_days', ['days' => $daysUntil]));
+                $validator->errors()->add('coupon_type_id', $lastHandout['message']);
             }
         });
     }

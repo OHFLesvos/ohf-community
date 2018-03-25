@@ -71,9 +71,9 @@ class BankController extends Controller
         $coupon->couponType()->associate($couponType);
         $coupon->save();
 
-        $daysUntil = ((clone $coupon->date)->addDays($couponType->retention_period))->diffInDays() + 1;
+        $handout = $person->canHandoutCoupon($couponType);
         return response()->json([
-            'countdown' => trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil]),
+            'countdown' => $handout != null ? $handout['message'] : '',
         ]);
     }
 

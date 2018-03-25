@@ -98,11 +98,8 @@
                             $lastHandout = $person->canHandoutCoupon($coupon);
                         @endphp
                         @isset($lastHandout)
-                            @php
-                                $daysUntil = ((clone $lastHandout)->addDays($coupon->retention_period))->diffInDays() + 1;
-                            @endphp
                             <button type="button" class="btn btn-secondary btn-sm btn-block" disabled data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}">
-                                {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil])}})
+                                {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ $lastHandout['message'] }})
                             </button>
                         @else
                             <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}">
