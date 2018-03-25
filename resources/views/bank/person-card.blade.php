@@ -37,7 +37,7 @@
                     @if(isset($person->card_no))
                         <strong>{{ substr($person->card_no, 0, 7) }}</strong>
                     @else
-                        Register
+                        @lang('app.register')
                     @endif
                 </a>
             </div>

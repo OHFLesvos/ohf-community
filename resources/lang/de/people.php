@@ -89,4 +89,6 @@ return [
     'coupons_returned_per_day' => 'Registrierte Coupons pro Tag',
     'coupons_returned_per_day_from_project' => 'Registrierte Coupons pro Tag vom Projekt :project',
     'already_received' => 'already received',
+    'scan' => 'Lesen',
+    'qr_code_scanner' => 'QR Code Leser',
 ];
