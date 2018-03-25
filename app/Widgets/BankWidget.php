@@ -2,7 +2,6 @@
 
 namespace App\Widgets;
 
-use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\People\Bank\WithdrawalController;

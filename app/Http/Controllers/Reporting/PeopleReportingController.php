@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Reporting;
 
 use App\Person;
-use App\Transaction;
+use App\CouponHandout;
 use App\RevokedCard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -350,12 +350,11 @@ class PeopleReportingController extends BaseReportingController
     }
 
     private static function getVisitorsPerDayQuery($from, $to) {
-        $personsQuery = DB::table('transactions')
-            ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')
-            ->groupBy(DB::raw('DAY(created_at)'), DB::raw('MONTH(created_at)'), DB::raw('YEAR(created_at)'), 'transactionable_id')
-            ->having('transactionable_type', 'App\Person')
-            ->whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to);
+        $personsQuery = DB::table('coupon_handouts')
+            ->select('person_id', 'date')
+            ->groupBy('date', 'person_id')
+            ->whereDate('date', '>=', $from)
+            ->whereDate('date', '<=', $to);
 
         return DB::table(DB::raw('('.$personsQuery->toSql().') as o1'))
             ->select('date', DB::raw('COUNT(`person_id`) as visitors'))
@@ -370,11 +369,10 @@ class PeopleReportingController extends BaseReportingController
         $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
         $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
 
-        $q1 = DB::table('transactions')
-            ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')
-            ->groupBy(DB::raw('DATE(created_at)'), 'transactionable_id')
-            ->where('transactionable_type', 'App\Person')
-            ->whereDate('created_at', '>=', Carbon::today()->subWeeks($weeks));
+        $q1 = DB::table('coupon_handouts')
+            ->select('person_id', 'date')
+            ->groupBy('date', 'person_id')
+            ->whereDate('date', '>=', Carbon::today()->subWeeks($weeks));
 
         $q2 = DB::table(DB::raw('('.$q1->toSql().') as o1'))
             ->select('person_id', DB::raw('COUNT(`person_id`) as visits'))

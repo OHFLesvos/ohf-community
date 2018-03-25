@@ -8,6 +8,7 @@ use App\Http\Requests\SelectDateRange;
 use App\Person;
 use App\CouponType;
 use App\CouponHandout;
+use App\CouponReturn;
 use App\Project;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -16,6 +17,8 @@ class BankReportingController extends BaseReportingController
 {
     /**
      * View for withdtawal statistics
+     * 
+     * @return \Illuminate\Http\Response
      */
     function withdrawals() {
         $coupons = CouponType

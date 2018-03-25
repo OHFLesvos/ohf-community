@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\CouponReturn;
 
 class Project extends Model
 {
@@ -12,72 +13,58 @@ class Project extends Model
         return $this->hasMany('App\Article');
     }
 
-    public function transactions() {
-        return $this->morphMany('App\Transaction', 'transactionable');
-    }
-
     public function couponReturns() {
         return $this->hasMany('App\CouponReturn');
     }
 
     public function dayTransactions($date) {
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '>=', $date->toDateString())
-            ->whereDate('created_at', '<', (clone $date)->addDay()->toDateString())
-            ->select('value')
-            ->get();
-        $sum = collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
+        $sum = $this->couponReturns()
+            ->whereDate('date', $date->toDateString())
+            ->select(DB::raw('SUM(amount) as sum'))
+            ->get()
+            ->pluck('sum')
+            ->first();
         return $sum != 0 ? $sum : null;
     }
 
     public function avgNumTransactions() {
         // TODO: Date from/to selection
-        $avg = $this->transactions()
-            ->select(DB::raw('AVG(value) as value'))
+        $avg = $this->couponReturns()
+            ->select(DB::raw('AVG(amount) as avg'))
             ->get()
-            ->first()
-            ->value;
+            ->pluck('avg')
+            ->first();
         return $avg != null ? round($avg, 1) : null;
     }
 
     public function maxNumTransactions() {
         // TODO Date from/to selection
-        return $this->transactions()
-            ->select(DB::raw('MAX(value) as value'))
+        return $this->couponReturns()
+            ->select(DB::raw('MAX(amount) as max'))
             ->get()
-            ->first()
-            ->value;
+            ->pluck('max')
+            ->first();
     }
 
     public function weekTransactions($date) {
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '>=', (clone $date)->startOfWeek()->toDateString())
-            ->whereDate('created_at', '<', (clone $date)->endOfWeek()->toDateString())
-            ->select('value')
-            ->get();
-        $sum = collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
+        $sum = $this->couponReturns()
+            ->whereDate('date', '>=', (clone $date)->startOfWeek()->toDateString())
+            ->whereDate('date', '<=', (clone $date)->endOfWeek()->toDateString())
+            ->select(DB::raw('SUM(amount) as sum'))
+            ->get()
+            ->pluck('sum')
+            ->first();
         return $sum != 0 ? $sum : null;
     }
 
     public function monthTransactions($date) {
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '>=', (clone $date)->startOfMonth()->toDateString())
-            ->whereDate('created_at', '<', (clone $date)->endOfMonth()->toDateString())
-            ->select('value')
-            ->get();
-        $sum = collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
+        $sum = $this->couponReturns()
+            ->whereDate('date', '>=', (clone $date)->startOfMonth()->toDateString())
+            ->whereDate('date', '<=', (clone $date)->endOfMonth()->toDateString())
+            ->select(DB::raw('SUM(amount) as sum'))
+            ->get()
+            ->pluck('sum')
+            ->first();
         return $sum != 0 ? $sum : null;
     }
 
