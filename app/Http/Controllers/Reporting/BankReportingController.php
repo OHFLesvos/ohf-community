@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Reporting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SelectDateRange;
-use App\Person;
 use App\CouponType;
 use App\CouponHandout;
 use App\CouponReturn;
