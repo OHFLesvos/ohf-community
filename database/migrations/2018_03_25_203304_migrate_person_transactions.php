@@ -18,9 +18,30 @@ class MigratePersonTransactions extends Migration
      */
     public function up()
     {
-        $drachmaCoupon = CouponType::findOrFail(1);
-        $boutiqueCoupon = CouponType::findOrFail(3);
-        $diapersCoupon = CouponType::findOrFail(4);
+        $drachmaCoupon = CouponType::firstOrCreate([
+            'name' => 'Drachma',
+            'icon' => 'money',
+            'daily_amount' => 2,
+            'retention_period' => 1,
+            'min_age' => 12,
+            'order' => 0,
+        ]);
+        $boutiqueCoupon = CouponType::firstOrCreate([
+            'name' => 'Boutique Coupon',
+            'icon' => 'shopping-bag',
+            'daily_amount' => 1,
+            'retention_period' => 12,
+            'min_age' => 15,
+            'order' => 2,
+        ]);
+        $diapersCoupon = CouponType::firstOrCreate([
+            'name' => 'Diapers Coupon',
+            'icon' => 'child',
+            'daily_amount' => 1,
+            'retention_period' => 1,
+            'max_age' => 4,
+            'order' => 3,
+        ]);
 
         Transaction
             ::where('transactionable_type', 'App\Person')
