@@ -2,9 +2,9 @@
 
 namespace App\Widgets;
 
-use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\People\Bank\WithdrawalController;
 
 class BankWidget implements Widget
 {
@@ -20,9 +20,8 @@ class BankWidget implements Widget
 
     function args(): array {
         return [
-            'num_transactions_today' => Transaction::whereDate('created_at', '=', Carbon::today())->where('transactionable_type', 'App\Person')->count(),
-            'num_people_served_today' => \App\Http\Controllers\BankController::getNumberOfPersonsServedToday(),
-            'transaction_value_today' => \App\Http\Controllers\BankController::getTransactionValueToday(),
+            'persons' => WithdrawalController::getNumberOfPersonsServedToday(),
+            'coupons' => WithdrawalController::getNumberOfCouponsHandedOut(),
         ];
     }
 }

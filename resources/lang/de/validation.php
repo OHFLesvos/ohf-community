@@ -148,5 +148,6 @@ return [
         'available' => 'verfügbar',
         'size' => 'Größe',
         'date_of_birth' => 'Geburtsdatum',
+        'amount' => 'Betrag',
     ],
 ];

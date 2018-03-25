@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'donation_management' => 'Donation Management',
     'donor' => 'Donor',
     'donors' => 'Donors',
     'no_donors_found' => 'No donors found.',
@@ -21,7 +22,6 @@ return [
     'donations' => 'Donations',
     'no_donations_found' => 'No donations found.',
     'date' => 'Date',
-    'amount' => 'Amount',
     'exchange_amount' => 'Exchange amount',
     'currency' => 'Currency',
     'channel' => 'Channel',

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\People\Bank;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePersonGender extends FormRequest
+class StoreSettings extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class UpdatePersonGender extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => 'required|numeric',
-            'gender' => 'required|in:m,f',
+            'people_results_per_page' => 'required|numeric',
+            'frequent_visitor_weeks' => 'required|numeric',
+            'frequent_visitor_threshold' => 'required|numeric',
         ];
     }
 }

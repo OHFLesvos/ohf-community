@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\People\Bank;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTransaction extends FormRequest
+class StoreDeposit extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,10 @@ class StoreTransaction extends FormRequest
     public function rules()
     {
         return [
-            'value' => 'required|numeric',
-            'person_id' => 'required|numeric',
+            'coupon_type' => 'required|numeric|exists:coupon_types,id',
+            'project' => 'required|numeric|exists:projects,id',
+            'amount' => 'required|numeric|not_in:0',
+            'date' => 'required|date',
         ];
     }
 }

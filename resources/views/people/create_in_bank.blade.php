@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Register Person')
+@section('title', __('people.register_person'))
 
 @section('content')
 
@@ -10,48 +10,48 @@
 			<div class="card-body">
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('family_name', null, [ 'required', 'autofocus' ], null, 'Greek: επώνυμο') }}
+                        {{ Form::bsText('family_name', null, [ 'required', 'autofocus' ], __('people.family_name'), 'Greek: επώνυμο') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('name', null, [ 'required' ], null, 'Greek: όνομα') }}
+                        {{ Form::bsText('name', null, [ 'required' ], __('people.name'), 'Greek: όνομα') }}
                     </div>
 					<div class="col-md-auto">
-                        {{ Form::genderSelect('gender') }}
+                        {{ Form::genderSelect('gender', null, __('people.gender')) }}
                     </div>
                     <div class="col-md-auto">
-                        {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], 'Date of Birth', 'Greek: ημερομηνία γέννησης ') }}
+                        {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people.date_of_birth'), 'Greek: ημερομηνία γέννησης ') }}
                     </div>
 					<div class="col-md-auto">
-                        <p>Age</p>
+                        <p>@lang('people.age')</p>
                         <span id="age">?</span>
                     </div>
                 </div>
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], 'Police Number', 'Greek: Δ.Κ.Α.') }}
+                        {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people.police_number'), 'Greek: Δ.Κ.Α.') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsNumber('case_no', null, [ ], 'Case Number', 'Greek: Aριθ. Υπ.') }}
+                        {{ Form::bsNumber('case_no', null, [ ], __('people.case_number'), 'Greek: Aριθ. Υπ.') }}
 					</div>
                     <div class="col-md">
-                        {{ Form::bsText('medical_no', null, [], 'Medical Number') }}
+                        {{ Form::bsText('medical_no', null, [], __('people.medical_number')) }}
                     </div>
                     <div class="col-md">
-                        {{ Form::bsText('registration_no', null, [], 'Registration Number') }}
+                        {{ Form::bsText('registration_no', null, [], __('people.registration_number')) }}
                     </div>
                     <div class="col-md">
-                        {{ Form::bsText('section_card_no', null, [], 'Section Card Number') }}
+                        {{ Form::bsText('section_card_no', null, [], __('people.section_card_number')) }}
                     </div>
                     <div class="col-md">
-                        {{ Form::bsText('temp_no', null, [], 'Temporary Number') }}
+                        {{ Form::bsText('temp_no', null, [], __('people.temporary_number')) }}
                     </div>
 				</div>
 				<div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], null, 'Greek: Υπηκοότητα') }}
+                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people.nationality'), 'Greek: Υπηκοότητα') }}
                     </div>
 					<div class="col-md">
-                        {{ Form::bsText('remarks') }}
+                        {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
                     </div>
 				</div>
             </div>
@@ -82,7 +82,7 @@
         </div>
 
 		<p>
-            {{ Form::bsSubmitButton('Register') }}
+            {{ Form::bsSubmitButton(__('app.register')) }}
             <button type="button" class="btn btn-secondary" id="add-children">@icon(child) Add child</button>
         </p>
 

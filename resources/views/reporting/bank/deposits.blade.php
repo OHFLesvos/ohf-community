@@ -7,8 +7,8 @@
     <div id="app" class="mb-3">
  
         <line-chart 
-            title="Drachma deposited per day" 
-            ylabel="Drachma" 
+            title="@lang('people.coupons_returned_per_day')" 
+            ylabel="# @lang('people.coupons')"
             url="{{ route('reporting.bank.depositStats') }}" 
             :height=300>
         </line-chart>
@@ -19,14 +19,14 @@
                 <table class="table table-sm table-bordered table-striped table-hover my-5">
                     <thead>
                         <tr>
-                            <th>Project</th>
-                            <th class="text-right">Average</th>
-                            <th class="text-right">Highest</th>
-                            <th class="text-right">Last month</th>
-                            <th class="text-right">This month</th>
-                            <th class="text-right">Last week</th>
-                            <th class="text-right">This week</th>
-                            <th class="text-right">Today</th>
+                            <th>@lang('people.project')</th>
+                            <th class="text-right">@lang('app.daily_average')</th>
+                            <th class="text-right">@lang('app.highest')</th>
+                            <th class="text-right">@lang('app.last_month')</th>
+                            <th class="text-right">@lang('app.this_month')</th>
+                            <th class="text-right">@lang('app.last_week')</th>
+                            <th class="text-right">@lang('app.this_week')</th>
+                            <th class="text-right">@lang('app.today')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,8 +47,8 @@
             </div>
 
             @foreach ($projects as $project)
-                <bar-chart title="Drachma deposited per day from {{ $project->name }}" 
-                    ylabel="Drachma"
+                <bar-chart title="@lang('people.coupons_returned_per_day_from_project', [ 'project' => $project->name ])" 
+                    ylabel="# @lang('people.coupons')"
                     url="{{ route('reporting.bank.projectDepositStats', $project) }}"
                     :legend=false
                     :height=300>

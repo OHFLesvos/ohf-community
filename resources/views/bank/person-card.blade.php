@@ -37,7 +37,7 @@
                     @if(isset($person->card_no))
                         <strong>{{ substr($person->card_no, 0, 7) }}</strong>
                     @else
-                        Register
+                        @lang('app.register')
                     @endif
                 </a>
             </div>
@@ -46,42 +46,42 @@
     <div class="card-body p-2">
         @if(isset($person->police_no))
             <span class="d-block d-sm-inline">
-                <small class="text-muted">Police Number:</small> 
+                <small class="text-muted">@lang('people.police_number'):</small> 
                 <span class="pr-2">05/{{ $person->police_no }}</span>
             </span>
         @endif
         @if(isset($person->case_no))
             <span class="d-block d-sm-inline">
-                <small class="text-muted">Case Number:</small>
+                <small class="text-muted">@lang('people.case_number'):</small>
                 <span class="pr-2">{{ $person->case_no }}</span>
             </span>
         @endif
         @if(isset($person->medical_no))
             <span class="d-block d-sm-inline">
-                <small class="text-muted">Medical Number:</small>
+                <small class="text-muted">@lang('people.medical_number'):</small>
                 <span class="pr-2">{{ $person->medical_no }}</span>
             </span>
         @endif
         @if(isset($person->registration_no))
             <span class="d-block d-sm-inline">
-                <small class="text-muted">Registration Number:</small>
+                <small class="text-muted">@lang('people.registration_number'):</small>
                 <span class="pr-2">{{ $person->registration_no }}</span>
             </span>
         @endif
         @if(isset($person->section_card_no))
             <span class="d-block d-sm-inline">
-                <small class="text-muted">Section Card Number:</small>
+                <small class="text-muted">@lang('people.section_card_number'):</small>
                 <span class="pr-2">{{ $person->section_card_no }}</span>
             </span>
         @endif
         @if(isset($person->temp_no))
             <span class="d-block d-sm-inline">
-                <small class="text-muted">Temporary Number:</small>
+                <small class="text-muted">@lang('people.temporary_number'):</small>
                 <span class="pr-2">{{ $person->temp_no }}</span>
             </span>
         @endif
         @if (!isset($person->police_no) && !isset($person->case_no) && !isset($person->medical_no) && !isset($person->registration_no) && !isset($person->section_card_no) && !isset($person->temp_no))
-            <small class="text-muted">No number registered!</small>
+            <small class="text-muted">@lang('people.no_number_registered')</small>
         @endif
         @if(isset($person->remarks))
             <div>
@@ -89,67 +89,28 @@
             </div>
         @endif
     </div>
-    <div class="card-footer p-2">
-        <div class="row">
-            <div class="col-sm mb-2 mb-sm-0">
-                @php
-                    $today = $person->todaysTransaction();
-                @endphp
-                Drachma: 
-                <span>
-                    @if($today > 0)
+    <div class="card-footer p-0 px-2 pt-2 form-row">
+        @forelse($couponTypes as $coupon)
+            @if($person->eligibleForCoupon($coupon))
+                <div class="col-sm-auto mb-2">
+                    @if($person->eligibleForCoupon($coupon))
                         @php
-                            $transactionDate = $person->transactions()->orderBy('created_at', 'DESC')->first()->created_at;
+                            $lastHandout = $person->canHandoutCoupon($coupon);
                         @endphp
-                        {{ $today }}
-                        <small class="text-muted" title="{{ $transactionDate }}">registered {{ $transactionDate->diffForHumans() }}</small>
-                        @if($transactionDate->diffInMinutes() < $undoGraceTime)
-                            <a href="javascript:;" class="undo-transaction" title="Undo" data-person="{{ $person->id }}" data-value="{{ $today }}">@icon(undo)</a>
-                        @endif
-                    @else
-                        @if ($person->age === null || $person->age >= 12)
-                            <button type="button" class="btn btn-primary btn-sm give-cash" data-value="2" data-person="{{ $person->id }}">2</button>
-                        @endif
-                        @if ($person->age === null || $person->age < 12)
-                            <button type="button" class="btn btn-primary btn-sm give-cash" data-value="1" data-person="{{ $person->id }}">1</button>
-                        @endif
+                        @isset($lastHandout)
+                            <button type="button" class="btn btn-secondary btn-sm btn-block" disabled data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}">
+                                {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ $lastHandout['message'] }})
+                            </button>
+                        @else
+                            <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}">
+                                {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }}
+                            </button>
+                        @endempty
                     @endif
-                </span>
-            </div>
-            <div class="col-sm mb-2 mb-sm-0">
-                @if ($person->age === null || $person->age >= 15)
-                    @php
-                        $boutique = $person->getBoutiqueCouponForJson($boutiqueThresholdDays);
-                    @endphp
-                    Boutique: <span>
-                        @if($boutique != null)
-                            {{ $boutique }}
-                            @if ((new Carbon\Carbon($person->boutique_coupon))->diffInMinutes() < $undoGraceTime)
-                                <a href="javascript:;" class="undo-boutique" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
-                            @endif
-                        @else
-                            <button type="button" class="btn btn-primary btn-sm give-boutique-coupon" data-person="{{ $person->id }}">Coupon</button>
-                        @endif
-                    </span>
-                @endif
-            </div>
-            <div class="col-sm">
-                @if ($person->age == null || $person->age <= 4)
-                    @php
-                        $diapers = $person->getDiapersCouponForJson($diapersThresholdDays);
-                    @endphp
-                    Diapers: <span>
-                        @if($diapers != null)
-                            @if ((new Carbon\Carbon($person->diapers_coupon))->diffInMinutes() < $undoGraceTime)
-                                {{ $diapers }}
-                            @endif
-                            <a href="javascript:;" class="undo-diapers" data-person="{{ $person->id }}" title="Undo">@icon(undo)</a>
-                        @else
-                            <button type="button" class="btn btn-primary btn-sm give-diapers-coupon" data-person="{{ $person->id }}">Coupon</button>
-                        @endif
-                    </span>
-                @endif
-            </div>
-        </div>    
+                </div>
+            @endif
+        @empty
+            <em class="pb-2 px-2">@lang('people.no_coupons_defined')</em>
+        @endforelse
     </div>
 </div>

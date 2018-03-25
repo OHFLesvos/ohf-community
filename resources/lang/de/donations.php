@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'donation_management' => 'Spendenverwaltung',
     'donor' => 'Spender',
     'donors' => 'Spender',
     'no_donors_found' => 'Keine Spender gefunden.',
@@ -21,7 +22,6 @@ return [
     'donations' => 'Spenden',
     'no_donations_found' => 'Keine Spenden gefunden.',
     'date' => 'Datum',
-    'amount' => 'Betrag',
     'exchange_amount' => 'Wechselbetrag',
     'currency' => 'Währung',
     'channel' => 'Kanal',

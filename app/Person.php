@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use App\CouponType;
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Support\Facades\Config;
 
 class Person extends Model
 {
@@ -22,9 +24,6 @@ class Person extends Model
     protected $nullable = [
 		'date_of_birth',
     ];
-
-    const FREQUENT_VISITOR_WEEKS = 4;
-    const FREQUENT_VISITOR_THRESHOLD = 12;
 
     public static function boot()
     {
@@ -63,61 +62,17 @@ class Person extends Model
         return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
     }
 
-    public function transactions()
-    {
-        return $this->morphMany('App\Transaction', 'transactionable');
-    }
-
-    public function todaysTransaction() {
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '=', Carbon::today()->toDateString())
-            ->select('value')
-            ->get();
-        return collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
-    }
-
     public function getFrequentVisitorAttribute() {
-        $weeks = \Setting::get('bank.frequent_visitor_weeks', self::FREQUENT_VISITOR_WEEKS);
-        $threshold = \Setting::get('bank.frequent_visitor_threshold', self::FREQUENT_VISITOR_THRESHOLD);
-        $sql = $this->transactions()
-            ->whereDate('created_at', '>=', Carbon::today()->subWeek($weeks)->toDateString())
-            ->select('value')
-            ->groupBy(DB::raw('date(created_at)'))
-            ->getBaseQuery();
-        return DB::table(DB::raw('('.$sql->toSql().') as o2'))
-            ->select(DB::raw('count(*) as count'))
-            ->mergeBindings($sql)
-            ->get()
-            ->first()->count >= $threshold;
-    }
-
-    public function dayTransactions($year, $month, $day) {
-        $date = Carbon::createFromDate($year, $month, $day);
-        $transactions = $this->transactions()
-            ->whereDate('created_at', '>=', $date->toDateString())
-            ->whereDate('created_at', '<', $date->addDay()->toDateString())
-            ->select('value')
-            ->get();
-        $sum = collect($transactions)
-            ->map(function($item){
-                return $item->value;
-            })
-            ->sum();
-        return $sum != 0 ? $sum : null;
-    }
-    
-    public function scopeHasTransactionsToday($query) {
-        return $query
-            ->join('transactions', function($join){
-                $join->on('persons.id', '=', 'transactions.transactionable_id')
-                    ->where('transactionable_type', 'App\Person');
-            })
-			->groupBy('persons.id')
-            ->whereDate('transactions.created_at', '=', Carbon::today()->toDateString());
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
+        $date = Carbon::today()->subWeek($weeks)->toDateString();
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
+        $q = $this->couponHandouts()
+            ->whereDate('date', '>=', $date)
+            ->groupBy('date');
+        $count = DB::table(DB::raw('('.$q->toSql().') as o2'))
+            ->mergeBindings($q->getQuery()->getQuery())
+            ->count();
+            return $count >= $threshold;
     }
 
     function children() {
@@ -144,31 +99,54 @@ class Person extends Model
         return $this->hasMany('App\RevokedCard');
     }
 
-	function getBoutiqueCouponForJson($thresholdDays) {
-		if ($this->boutique_coupon != null) {
-            return static::calcCouponHandoutDate($thresholdDays, $this->boutique_coupon);
-		}
-		return null;
-	}
-
-    function getDiapersCouponForJson($thresholdDays) {
-		if ($this->diapers_coupon != null) {
-            return static::calcCouponHandoutDate($thresholdDays, $this->diapers_coupon);
-		}
-		return null;
+    public function couponHandouts() {
+        return $this->hasMany('App\CouponHandout');
     }
-    
-    private static function calcCouponHandoutDate($day_treshold, $compare_date) {
-        $coupon_date = (new Carbon($compare_date))->startOfDay();
-        $threshold_date = Carbon::now()->subDays($day_treshold)->startOfDay();
-        if ($coupon_date->gt($threshold_date)) {
-            $days = $coupon_date->diffInDays($threshold_date);
-            if ($days == 1) {
-                return "tomorrow";
+
+    public function eligibleForCoupon(CouponType $couponType): bool {
+        $age = $this->age;
+        if ($age !== null) {
+            if ($couponType->max_age != null && $age > $couponType->max_age) {
+                return false;
             }
-            return $days . ' days from now';
+            if ($couponType->min_age != null && $age < $couponType->min_age) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function canHandoutCoupon(CouponType $couponType) {
+        if ($couponType->retention_period == null) {
+            $handout = $this->couponHandouts()
+                ->where('coupon_type_id', $couponType->id)
+                ->orderBy('date', 'desc')
+                ->select('date')
+                ->first();
+            if ($handout != null) {
+                return [
+                    'date' => (new Carbon($handout->date))->toDateString(),
+                    'message' => __('people.already_received'),
+                ];
+            }
+            return null;
+        }
+
+        $retention_date = Carbon::today()->subDays($couponType->retention_period);
+        $handout = $this->couponHandouts()
+            ->where('coupon_type_id', $couponType->id)
+            ->whereDate('date', '>', $retention_date)
+            ->orderBy('date', 'desc')
+            ->select('date')
+            ->first();
+        if ($handout != null) {
+            $date = (new Carbon($handout->date));
+            $daysUntil = ((clone $date)->addDays($couponType->retention_period))->diffInDays() + 1;
+            return [
+                'date' =>  $date->toDateString(),
+                'message' => trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil]),
+            ];
         }
         return null;
     }
-
 }

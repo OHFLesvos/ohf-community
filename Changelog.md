@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.0
+
+* New generalized coupon handout system
+* Added dedicated permission for exporting list of persons.
+
 ## 1.12.6
 
 * Donors widget shows number of donations.

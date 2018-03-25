@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Reporting;
 
 use App\Person;
-use App\Transaction;
+use App\CouponHandout;
 use App\RevokedCard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class PeopleReportingController extends BaseReportingController
 {
@@ -168,12 +169,12 @@ class PeopleReportingController extends BaseReportingController
 
     private static function getNumberTypes() {
         return [
-            'Police Number (05/...)' => Person::whereNotNull('police_no')->count(),          
-            'Case Number' => Person::whereNotNull('case_no')->count(),          
-            'Medical Number' => Person::whereNotNull('medical_no')->count(),          
-            'Registration Number' => Person::whereNotNull('registration_no')->count(),          
-            'Section Card Number' => Person::whereNotNull('section_card_no')->count(),          
-            'Temporary Number' => Person::whereNotNull('temp_no')->count(),          
+            __('people.police_number') . ' (05/...)' => Person::whereNotNull('police_no')->count(),          
+            __('people.case_number') => Person::whereNotNull('case_no')->count(),          
+            __('people.medical_number') => Person::whereNotNull('medical_no')->count(),          
+            __('people.registration_number') => Person::whereNotNull('registration_no')->count(),          
+            __('people.section_card_number') => Person::whereNotNull('section_card_no')->count(),          
+            __('people.temporary_number') => Person::whereNotNull('temp_no')->count(),          
         ];
     }
 
@@ -349,12 +350,11 @@ class PeopleReportingController extends BaseReportingController
     }
 
     private static function getVisitorsPerDayQuery($from, $to) {
-        $personsQuery = DB::table('transactions')
-            ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')
-            ->groupBy(DB::raw('DAY(created_at)'), DB::raw('MONTH(created_at)'), DB::raw('YEAR(created_at)'), 'transactionable_id')
-            ->having('transactionable_type', 'App\Person')
-            ->whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to);
+        $personsQuery = DB::table('coupon_handouts')
+            ->select('person_id', 'date')
+            ->groupBy('date', 'person_id')
+            ->whereDate('date', '>=', $from)
+            ->whereDate('date', '<=', $to);
 
         return DB::table(DB::raw('('.$personsQuery->toSql().') as o1'))
             ->select('date', DB::raw('COUNT(`person_id`) as visitors'))
@@ -366,14 +366,13 @@ class PeopleReportingController extends BaseReportingController
      * Number of frequent visitors
      */
     public static function getNumberOfFrequentVisitors() {
-        $weeks = \Setting::get('bank.frequent_visitor_weeks', Person::FREQUENT_VISITOR_WEEKS);
-        $threshold = \Setting::get('bank.frequent_visitor_threshold', Person::FREQUENT_VISITOR_THRESHOLD);
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
 
-        $q1 = DB::table('transactions')
-            ->select(DB::raw('transactionable_id AS person_id'), DB::raw('DATE(created_at) AS date'), 'transactionable_type')
-            ->groupBy(DB::raw('DATE(created_at)'), 'transactionable_id')
-            ->where('transactionable_type', 'App\Person')
-            ->whereDate('created_at', '>=', Carbon::today()->subWeeks($weeks));
+        $q1 = DB::table('coupon_handouts')
+            ->select('person_id', 'date')
+            ->groupBy('date', 'person_id')
+            ->whereDate('date', '>=', Carbon::today()->subWeeks($weeks));
 
         $q2 = DB::table(DB::raw('('.$q1->toSql().') as o1'))
             ->select('person_id', DB::raw('COUNT(`person_id`) as visits'))

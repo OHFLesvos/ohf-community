@@ -10,8 +10,8 @@
     <div class="card-body pb-2">
         <p>
             @lang('people.served_n_persons_and_handed_out_n_today', [ 
-                'num_people_served_today' => Gate::allows('do-bank-withdrawals') ? '<a href="' . route('bank.withdrawalTransactions') . '">' . $num_people_served_today . '</a>': $num_people_served_today, 
-                'transaction_value_today' => $transaction_value_today 
+                'persons' => Gate::allows('do-bank-withdrawals') ? '<a href="' . route('bank.withdrawalTransactions') . '">' . $persons . '</a>': $persons, 
+                'coupons' => $coupons 
             ])
         </p>
     </div>

@@ -1,8 +1,8 @@
-@extends('layouts.app_bottom_nav', [ 
-    'bottom_nav_elements' => [
+@extends('layouts.tabbed_view', [ 
+    'nav_elements' => [
         [
             'url' => route('users.index'),
-            'label' => __('app.manage_users'),
+            'label' => __('app.users'),
             'icon' => 'users',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'users.index';
@@ -11,7 +11,7 @@
         ],
         [
             'url' => route('roles.index'),
-            'label' => __('app.manage_roles'),
+            'label' => __('app.roles'),
             'icon' => 'tags',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'roles.index';

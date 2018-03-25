@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\People\Bank;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDeposit extends FormRequest
+class RegisterCard extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class StoreDeposit extends FormRequest
     public function rules()
     {
         return [
-            'project' => 'required|numeric|exists:projects,id',
-            'value' => 'required|numeric|not_in:0',
-            'date' => 'required|date',
+            'person_id' => 'required|numeric|exists:persons,id',
+            'card_no' => 'required',
         ];
     }
 }

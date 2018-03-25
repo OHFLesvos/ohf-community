@@ -12,86 +12,106 @@
 */
 
 Route::group(['middleware' => 'language'], function () {
-
-    Route::get('/', 'HomeController@index')->name('home');
-
-    // Changelog
-    Route::group(['middleware' => ['auth', 'can:view-changelogs']], function () {
-        Route::get('/changelog', 'ChangelogController@index')->name('changelog');
-    });
-
-    // Log viewer
-    Route::group(['middleware' => ['auth', 'can:view-logs']], function () {
-        Route::get('/logviewer', 'LogViewerController@index')->name('logviewer.index');
-    });
-
-    Route::put('users/{user}/disable2FA', 'UserController@disable2FA')->name('users.disable2FA');
-    Route::resource('users', 'UserController');
-    Route::resource('roles', 'RoleController');
-
-    Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
-    Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
-    Route::post('/userprofile/updatePassword', 'UserProfileController@updatePassword')->name('userprofile.updatePassword');
-    Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile.delete');
-    Route::get('/userprofile/2FA', 'UserProfileController@view2FA')->name('userprofile.view2FA');
-    Route::post('/userprofile/2FA', 'UserProfileController@store2FA')->name('userprofile.store2FA');
-    Route::delete('/userprofile/2FA', 'UserProfileController@disable2FA')->name('userprofile.disable2FA');
-
-    //
-    // Bank
-    //
-    Route::get('/bank', function(){
-        return redirect()->route('bank.withdrawal');
-    })->name('bank.index');
-
-    Route::get('/bank/withdrawal', 'BankController@withdrawal')->name('bank.withdrawal');
-    Route::get('/bank/withdrawal/search', 'BankController@withdrawalSearch')->name('bank.withdrawalSearch');
-    Route::get('/bank/withdrawal/transactions', 'BankController@withdrawalTransactions')->name('bank.withdrawalTransactions');
-    Route::post('/bank/storeTransaction', 'BankController@storeTransaction')->name('bank.storeTransaction');
-    Route::post('/bank/giveBoutiqueCoupon', 'BankController@giveBoutiqueCoupon')->name('bank.giveBoutiqueCoupon');
-    Route::post('/bank/resetBoutiqueCoupon', 'BankController@resetBoutiqueCoupon')->name('bank.resetBoutiqueCoupon');
-    Route::post('/bank/giveDiapersCoupon', 'BankController@giveDiapersCoupon')->name('bank.giveDiapersCoupon');
-    Route::post('/bank/resetDiapersCoupon', 'BankController@resetDiapersCoupon')->name('bank.resetDiapersCoupon');
-    Route::post('/bank/updateGender', 'BankController@updateGender')->name('bank.updateGender');
-    Route::post('/bank/updateDateOfBirth', 'BankController@updateDateOfBirth')->name('bank.updateDateOfBirth');
-    Route::post('/bank/registerCard', 'BankController@registerCard')->name('bank.registerCard');
-
-    Route::get('/bank/codeCard', 'BankController@prepareCodeCard')->name('bank.prepareCodeCard');
-    Route::post('/bank/codeCard', 'BankController@createCodeCard')->name('bank.createCodeCard');
-
-    Route::get('/bank/maintenance', 'BankController@maintenance')->name('bank.maintenance');
-    Route::post('/bank/maintenance', 'BankController@updateMaintenance')->name('bank.updateMaintenance');
-
-    Route::get('/bank/deposit', 'BankController@deposit')->name('bank.deposit');
-    Route::post('/bank/deposit', 'BankController@storeDeposit')->name('bank.storeDeposit');
-
-    Route::get('/bank/settings', 'BankController@settings')->name('bank.settings');
-    Route::post('/bank/settings', 'BankController@updateSettings')->name('bank.updateSettings');
-
-    Route::get('/bank/export', 'BankController@export')->name('bank.export');
-    Route::get('/bank/import', 'BankController@import')->name('bank.import');
-    Route::post('/bank/doImport', 'BankController@doImport')->name('bank.doImport');
-
-    //
-    // People
-    //
-    Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
-    Route::get('/people/export', 'PeopleController@export')->name('people.export');
-    Route::get('/people/import', 'PeopleController@import')->name('people.import');
-    Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
-    Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')->name('people.qrCode');
-    Route::get('/people/{person}/relations', 'PeopleController@relations')->name('people.relations');
-    Route::get('/people/filterPersons', 'PeopleController@filterPersons')->name('people.filterPersons');
-    Route::post('/people/{person}/relations', 'PeopleController@addRelation')->name('people.addRelation');
-    Route::delete('/people/{person}/children/{child}', 'PeopleController@removeChild')->name('people.removeChild');
-    Route::delete('/people/{person}/partner', 'PeopleController@removePartner')->name('people.removePartner');
-    Route::delete('/people/{person}/mother', 'PeopleController@removeMother')->name('people.removeMother');
-    Route::delete('/people/{person}/father', 'PeopleController@removeFather')->name('people.removeFather');
-    Route::get('/people/duplicates', 'PeopleController@duplicates')->name('people.duplicates');
-    Route::post('/people/duplicates', 'PeopleController@applyDuplicates')->name('people.applyDuplicates');
-    Route::resource('/people', 'PeopleController');
-
+    
     Route::group(['middleware' => ['auth']], function () {
+
+        // Home (Dashboard)
+        Route::get('/', 'HomeController@index')->name('home');
+
+        // Changelog
+        Route::group(['middleware' => ['can:view-changelogs']], function () {
+            Route::get('/changelog', 'ChangelogController@index')->name('changelog');
+        });
+
+        // Log viewer
+        Route::group(['middleware' => ['can:view-logs']], function () {
+            Route::get('/logviewer', 'LogViewerController@index')->name('logviewer.index');
+        });
+
+        //
+        // User management
+        //
+        Route::put('users/{user}/disable2FA', 'UserController@disable2FA')->name('users.disable2FA');
+        Route::resource('users', 'UserController');
+        Route::resource('roles', 'RoleController');
+
+        //
+        // User profile
+        //
+        Route::get('/userprofile', 'UserProfileController@index')->name('userprofile');
+        Route::post('/userprofile', 'UserProfileController@update')->name('userprofile.update');
+        Route::post('/userprofile/updatePassword', 'UserProfileController@updatePassword')->name('userprofile.updatePassword');
+        Route::delete('/userprofile', 'UserProfileController@delete')->name('userprofile.delete');
+        Route::get('/userprofile/2FA', 'UserProfileController@view2FA')->name('userprofile.view2FA');
+        Route::post('/userprofile/2FA', 'UserProfileController@store2FA')->name('userprofile.store2FA');
+        Route::delete('/userprofile/2FA', 'UserProfileController@disable2FA')->name('userprofile.disable2FA');
+
+        //
+        // Bank
+        //
+        Route::get('/bank', function(){
+            return redirect()->route('bank.withdrawal');
+        })->name('bank.index');
+
+        // Withdrawals
+        Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
+            Route::get('/bank/withdrawal', 'People\Bank\WithdrawalController@index')->name('bank.withdrawal');
+            Route::get('/bank/withdrawal/search', 'People\Bank\WithdrawalController@search')->name('bank.withdrawalSearch');
+            Route::get('/bank/withdrawal/transactions', 'People\Bank\WithdrawalController@transactions')->name('bank.withdrawalTransactions');
+
+            Route::get('/bank/codeCard', 'People\Bank\CodeCardController@create')->name('bank.prepareCodeCard');
+            Route::post('/bank/codeCard', 'People\Bank\CodeCardController@download')->name('bank.createCodeCard');
+        });
+
+        // Deposits
+        Route::group(['middleware' => ['can:do-bank-deposits']], function () {
+            Route::get('/bank/deposit', 'People\Bank\DepositController@index')->name('bank.deposit');
+            Route::post('/bank/deposit', 'People\Bank\DepositController@store')->name('bank.storeDeposit');
+            Route::get('/bank/deposit/transactions', 'People\Bank\DepositController@transactions')->name('bank.depositTransactions');
+        });
+
+        // Settings
+        Route::group(['middleware' => ['can:configure-bank']], function () {
+            Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');
+            Route::post('/bank/settings', 'People\Bank\SettingsController@updateSettings')->name('bank.updateSettings');
+        });
+
+        // Maintenance
+        Route::group(['middleware' => ['can:cleanup,App\Person']], function () {
+            Route::get('/bank/maintenance', 'People\Bank\MaintenanceController@maintenance')->name('bank.maintenance');
+            Route::post('/bank/maintenance', 'People\Bank\MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
+        });
+
+        // Export
+        Route::group(['middleware' => ['can:export,App\Person']], function () {
+            Route::get('/bank/export', 'People\Bank\ImportExportController@export')->name('bank.export');
+            Route::post('/bank/doExport', 'People\Bank\ImportExportController@doExport')->name('bank.doExport');
+        });
+
+        // Import
+        Route::group(['middleware' => ['can:create,App\Person']], function () {
+            Route::get('/bank/import', 'People\Bank\ImportExportController@import')->name('bank.import');
+            Route::post('/bank/doImport', 'People\Bank\ImportExportController@doImport')->name('bank.doImport');
+        });
+
+        //
+        // People
+        //
+        Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
+        Route::get('/people/export', 'PeopleController@export')->name('people.export');
+        Route::get('/people/import', 'PeopleController@import')->name('people.import');
+        Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
+        Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')->name('people.qrCode');
+        Route::get('/people/{person}/relations', 'PeopleController@relations')->name('people.relations');
+        Route::get('/people/filterPersons', 'PeopleController@filterPersons')->name('people.filterPersons');
+        Route::post('/people/{person}/relations', 'PeopleController@addRelation')->name('people.addRelation');
+        Route::delete('/people/{person}/children/{child}', 'PeopleController@removeChild')->name('people.removeChild');
+        Route::delete('/people/{person}/partner', 'PeopleController@removePartner')->name('people.removePartner');
+        Route::delete('/people/{person}/mother', 'PeopleController@removeMother')->name('people.removeMother');
+        Route::delete('/people/{person}/father', 'PeopleController@removeFather')->name('people.removeFather');
+        Route::get('/people/duplicates', 'PeopleController@duplicates')->name('people.duplicates');
+        Route::post('/people/duplicates', 'PeopleController@applyDuplicates')->name('people.applyDuplicates');
+        Route::resource('/people', 'PeopleController');
 
         //
         // Reporting
@@ -118,8 +138,7 @@ Route::group(['middleware' => 'language'], function () {
         // Reporting: Bank
         Route::group(['middleware' => ['can:view-bank-reports']], function () {
             Route::get('/reporting/bank/withdrawals', 'Reporting\\BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
-            Route::get('/reporting/bank/withdrawals/chart/numTransactions', 'Reporting\\BankReportingController@numTransactions')->name('reporting.bank.numTransactions');
-            Route::get('/reporting/bank/withdrawals/chart/sumTransactions', 'Reporting\\BankReportingController@sumTransactions')->name('reporting.bank.sumTransactions');
+            Route::get('/reporting/bank/withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'Reporting\\BankReportingController@couponsHandedOutPerDay')->name('reporting.bank.couponsHandedOutPerDay');
 
             Route::get('/reporting/bank/deposits', 'Reporting\\BankReportingController@deposits')->name('reporting.bank.deposits');
             Route::get('/reporting/bank/deposits/chart/stats', 'Reporting\\BankReportingController@depositStats')->name('reporting.bank.depositStats');

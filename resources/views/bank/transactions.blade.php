@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Bank')
+@section('title', __('people.withdrawals'))
 
 @section('content')
     @if( ! $transactions->isEmpty() )
@@ -8,9 +8,9 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Person</th>
-                        <th>Drachma</th>
+                        <th>@lang('app.date')</th>
+                        <th>@lang('app.amount')</th>
+                        <th>@lang('people.recipient')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,23 +22,23 @@
                                 <small class="text-muted">by {{ $transaction->user->name }}</small>
                             @endif
                         </td>
+                        <td>{{ $transaction->amount }} {{ $transaction->couponType->name }}</td>
                         <td>
-                            @if($transaction->transactionable != null)
-                                <a href="{{ route('people.show', $transaction->transactionable) }}">{{ $transaction->transactionable->family_name }} {{ $transaction->transactionable->name }}</a>
-                                @if($transaction->transactionable->gender == 'f')@icon(female) 
-                                @elseif($transaction->transactionable->gender == 'm')@icon(male) 
+                            @if($transaction->person != null)
+                                <a href="{{ route('people.show', $transaction->person) }}">{{ $transaction->person->family_name }} {{ $transaction->person->name }}</a>
+                                @if($transaction->person->gender == 'f')@icon(female) 
+                                @elseif($transaction->person->gender == 'm')@icon(male) 
                                 @endif
-                                @if(isset($transaction->transactionable->date_of_birth))
-                                    {{ $transaction->transactionable->date_of_birth }} (age {{ $transaction->transactionable->age }})
+                                @if(isset($transaction->person->date_of_birth))
+                                    {{ $transaction->person->date_of_birth }} (@lang('people.age_n', [ 'age' => $transaction->person->age]))
                                 @endif
-                                @if(isset($transaction->transactionable->nationality))
-                                    {{ $transaction->transactionable->nationality }}
+                                @if(isset($transaction->person->nationality))
+                                    {{ $transaction->person->nationality }}
                                 @endif
                             @else
-                                <em>Person deleted</em>
+                                <em>@lang('people.person_deleted')</em>
                             @endif
                         </td>
-                        <td>{{ $transaction->value }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -47,7 +47,7 @@
         </div>
     @else
         @component('components.alert.info')
-            No transactions so far.
+            @lang('people.no_transactions_so_far')
         @endcomponent
     @endif
 @endsection

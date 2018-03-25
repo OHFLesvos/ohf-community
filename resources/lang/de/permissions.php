@@ -2,6 +2,7 @@
 
 return [
     'people.manage' => 'Personen: Personen verwalten',
+    'people.export' => 'Personen: Personen exportieren',
     'people.reports.view' => 'Personen: Berichte betrachten',
     'bank.withdrawals.do' => 'Bank: Auszahlungen durchführen',
     'bank.deposits.do' => 'Bank: Einzahlungen durchführen',

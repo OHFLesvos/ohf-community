@@ -1,39 +1,19 @@
-    <table>
-        <thead>
-            <tr>
-                <th>Family Name</th>
-                <th>Name</th>
-                <th>Police No</th>
-                <th>Case No</th>
-                <th>Medical No</th>
-                <th>Registration No</th>
-                <th>Section Card No</th>
-                <th>Temp No</th>
-                <th>Nationality</th>
-                <th>Remarks</th>
-                @for ($i = 1; $i <= $day; $i++)
-                    <th>{{ $i }}</th>
-                @endfor
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($persons as $person)
-                <tr>
-                    <td>{{ $person->family_name }}</td>
-                    <td>{{ $person->name }}</td>
-                    <td>{{ $person->police_no }}</td>
-                    <td>{{ $person->case_no }}</td>
-                    <td>{{ $person->medical_no }}</td>
-                    <td>{{ $person->registration_no }}</td>
-                    <td>{{ $person->section_card_no }}</td>
-                    <td>{{ $person->temp_no }}</td>
-                    <td>{{ $person->nationality }}</td>
-                    <td>{{ $person->remarks }}</td>
-                    @for ($i = 1; $i <= $day; $i++)
-                        <td>{{ $person->dayTransactions($year, $month, $i) }}</td>
-                    @endfor
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-  
+@extends('layouts.app')
+
+@section('title', __('app.export'))
+
+@section('content')
+
+    {!! Form::open(['route' => 'bank.doExport']) !!}
+        <div class="card mb-4">
+            <div class="card-body">
+                {{ Form::bsRadioInlineList('format', $formats, $selectedFormat, __('app.file_format')) }}
+            </div>
+        </div>
+        <p>
+            {{ Form::bsSubmitButton(__('app.export')) }}
+        </p>
+    {!! Form::close() !!}
+    
+@endsection
+

@@ -13,7 +13,7 @@
                     {{ Form::bsSelect('currency', $currencies, Config::get('donations.base_currency'), [ 'required', 'id' => 'currency' ], '') }}
                 </div>
                 <div class="col-md">
-                    {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('donations.amount'), 'step' => 'any', 'id' => 'amount' ], '') }}
+                    {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('app.amount'), 'step' => 'any', 'id' => 'amount' ], '') }}
                 </div>
             </div>
             <div class="form-row">

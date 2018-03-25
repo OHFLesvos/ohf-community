@@ -49,19 +49,13 @@ class ContextMenuComposer {
                 return [
                     [
                         'url' => route('people.duplicates'),
-                        'caption' => 'Find duplicates',
+                        'caption' => __('people.find_duplicates'),
                         'icon' => 'exchange',
                         'authorized' => Auth::user()->can('cleanup', Person::class)
                     ],                    
                     [
-                        'url' => route('people.export'),
-                        'caption' => 'Export',
-                        'icon' => 'download',
-                        'authorized' => Auth::user()->can('list', Person::class)
-                    ],
-                    [
                         'url' => route('people.import'),
-                        'caption' => 'Import',
+                        'caption' => __('app.import'),
                         'icon' => 'upload',
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
@@ -71,25 +65,25 @@ class ContextMenuComposer {
                 return [
                     [
                         'url' => route('bank.export'),
-                        'caption' => 'Export',
+                        'caption' => __('app.export'),
                         'icon' => 'download',
-                        'authorized' => Auth::user()->can('list', Person::class)
+                        'authorized' => Auth::user()->can('export', Person::class)
                     ],
                     [
                         'url' => route('bank.import'),
-                        'caption' => 'Import',
+                        'caption' => __('app.import'),
                         'icon' => 'upload',
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
                     [
                         'url' => route('bank.maintenance'),
-                        'caption' => 'Maintenance',
+                        'caption' => __('app.maintenance'),
                         'icon' => 'eraser',
                         'authorized' => Auth::user()->can('cleanup', Person::class)
                     ],
                     [
                         'url' => route('bank.settings'),
-                        'caption' => 'Settings',
+                        'caption' => __('app.settings'),
                         'icon' => 'cogs',
                         'authorized' => Gate::allows('configure-bank')
                     ],
@@ -275,16 +269,22 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('people.create'),
-                        'caption' => 'Register',
+                        'caption' => __('app.register'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
                     'report'=> [
                         'url' => route('reporting.people'),
-                        'caption' => 'Report',
+                        'caption' => __('app.report'),
                         'icon' => 'line-chart',
                         'authorized' => Gate::allows('view-people-reports')
+                    ],
+                    'export' => [
+                        'url' => route('people.export'),
+                        'caption' => __('app.export'),
+                        'icon' => 'download',
+                        'authorized' => Auth::user()->can('export', Person::class)
                     ],
                 ];
             case 'people.create':
@@ -308,7 +308,7 @@ class ContextMenuComposer {
                     ],
                     'relations' => [
                         'url' => route('people.relations', $person),
-                        'caption' => 'Relations',
+                        'caption' => __('people.relationships'),
                         'icon' => 'users',
                         'authorized' => Auth::user()->can('update', $person)
                     ],
@@ -377,35 +377,41 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('people.create'),
-                        'caption' => 'Register',
+                        'caption' => __('app.register'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Person::class)
                     ],
                     'transactions' => [
                         'url' => route('bank.withdrawalTransactions'),
-                        'caption' => 'Transactions',
+                        'caption' => __('app.transactions'),
                         'icon' => 'list',
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ],
                     'codecard' => [
                         'url' => route('bank.prepareCodeCard'),
-                        'caption' => 'Code Card',
+                        'caption' => __('people.code_card'),
                         'icon' => 'qrcode',
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ],
                     'report'=> [
                         'url' => route('reporting.bank.withdrawals'),
-                        'caption' => 'Report',
+                        'caption' => __('app.report'),
                         'icon' => 'line-chart',
                         'authorized' => Gate::allows('view-bank-reports')
                     ]
                 ];
             case 'bank.deposit':
                 return [
+                    'transactions' => [
+                        'url' => route('bank.depositTransactions'),
+                        'caption' => __('app.transactions'),
+                        'icon' => 'list',
+                        'authorized' => Gate::allows('do-bank-deposits')
+                    ],                    
                     'report'=> [
                         'url' => route('reporting.bank.deposits'),
-                        'caption' => 'Report',
+                        'caption' => __('app.report'),
                         'icon' => 'line-chart',
                         'authorized' => Gate::allows('view-bank-reports')
                     ],                    
@@ -414,7 +420,7 @@ class ContextMenuComposer {
                 return [
                     'back' => [
                         'url' => route('bank.index'),
-                        'caption' => __('app.cancel'),
+                        'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Gate::allows('view-bank-index')
                     ]
@@ -437,6 +443,15 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ]
                 ];
+            case 'bank.depositTransactions':
+                return [
+                    'back' => [
+                        'url' => route('bank.deposit'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('do-bank-deposits')
+                    ]
+                ];
             case 'bank.maintenance':
                 return [
                     'back' => [
@@ -447,6 +462,7 @@ class ContextMenuComposer {
                     ]
                 ];
             case 'bank.import':
+            case 'bank.export':
                 return [
                     'back' => [
                         'url' => route('bank.withdrawal'),
@@ -464,7 +480,7 @@ class ContextMenuComposer {
                 return [
                     'report'=> [
                         'url' => route('reporting.articles', $project),
-                        'caption' => 'Report',
+                        'caption' => __('app.report'),
                         'icon' => 'line-chart',
                         'authorized' => true // TODO
                     ],

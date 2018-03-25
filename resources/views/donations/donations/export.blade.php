@@ -5,7 +5,7 @@
             <th>@lang('donations.channel')</th>
             <th>@lang('donations.purpose')</th>
             <th>@lang('donations.reference')</th>
-            <th>@lang('donations.amount')</th>
+            <th>@lang('app.amount')</th>
             <th>@lang('donations.exchange_amount')</th>
         </tr>
     </thead>

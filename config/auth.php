@@ -103,6 +103,9 @@ return [
         'people.manage' => [
             'sensitive' => true,
         ],
+        'people.export' => [
+            'sensitive' => true,
+        ],
         'people.reports.view' => [
             'sensitive' => false,
         ],

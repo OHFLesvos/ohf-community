@@ -1,18 +1,21 @@
     <table>
         <thead>
             <tr>
-                <th>Family Name</th>
-                <th>Name</th>
-                <th>Police No</th>
-                <th>Case No</th>
-                <th>Medical No</th>
-                <th>Registration No</th>
-                <th>Section Card No</th>
-                <th>Temp No</th>
-                <th>Nationality</th>
-                <th>Languages</th>
-                <th>Skills</th>
-                <th>Remarks</th>
+                <th>@lang('people.family_name')</th>
+                <th>@lang('people.name')</th>
+                <th>@lang('people.date_of_birth')</th>
+                <th>@lang('people.age')</th>
+                <th>@lang('people.nationality')</th>
+                <th>@lang('people.police_number')</th>
+                <th>@lang('people.case_number')</th>
+                <th>@lang('people.medical_number')</th>
+                <th>@lang('people.registration_number')</th>
+                <th>@lang('people.section_card_number')</th>
+                <th>@lang('people.temporary_number')</th>
+                <th>@lang('people.languages')</th>
+                <th>@lang('people.skills')</th>
+                <th>@lang('app.registered')</th>
+                <th>@lang('people.remarks')</th>
             </tr>
         </thead>
         <tbody>
@@ -20,15 +23,18 @@
                 <tr>
                     <td>{{ $person->family_name }}</td>
                     <td>{{ $person->name }}</td>
+                    <td>{{ $person->date_of_birth }}</td>
+                    <td>{{ $person->age }}</td>
+                    <td>{{ $person->nationality }}</td>
                     <td>{{ $person->police_no }}</td>
                     <td>{{ $person->case_no }}</td>
                     <td>{{ $person->medical_no }}</td>
                     <td>{{ $person->registration_no }}</td>
                     <td>{{ $person->section_card_no }}</td>
                     <td>{{ $person->temp_no }}</td>
-                    <td>{{ $person->nationality }}</td>
                     <td>{{ $person->languages }}</td>
                     <td>{{ $person->skills }}</td>
+                    <td>{{ $person->created_at->toDateString() }}</td>
                     <td>{{ $person->remarks }}</td>
                 </tr>
             @endforeach
