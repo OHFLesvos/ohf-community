@@ -122,12 +122,13 @@ class MigratePersonTransactions extends Migration
      */
     public function down()
     {
-        CouponHandout::truncate();
         Schema::table('persons', function (Blueprint $table) {
             $table->timestamp('boutique_coupon')->nullable();
         });
         Schema::table('persons', function (Blueprint $table) {
             $table->timestamp('diapers_coupon')->nullable();
         });
+        CouponHandout::truncate();
+        CouponReturn::truncate();
     }
 }
