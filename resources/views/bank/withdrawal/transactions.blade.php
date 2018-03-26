@@ -19,7 +19,7 @@
                     <tr>
                         <td title="{{ $transaction->created_at }}">
                             {{ $transaction->created_at->diffForHumans() }}
-                            @isset($transaction->user))
+                            @isset($transaction->user)
                                 <small class="text-muted">by {{ $transaction->user->name }}</small>
                             @endisset
                         </td>
