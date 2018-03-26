@@ -487,6 +487,12 @@ class ContextMenuComposer {
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', CouponType::class)
+                    ],
+                    'back' => [
+                        'url' => route('bank.withdrawal'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('do-bank-withdrawals')
                     ]
                 ];
             case 'coupons.create':
