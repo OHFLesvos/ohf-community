@@ -29,7 +29,6 @@
                         <th>@lang('people.registration_number')</th>
                         <th>@lang('people.section_card_number')</th>
                         <th>@lang('people.temporary_number')</th>
-                        <th>@lang('people.remarks')</th>
                         @foreach($couponTypes as $coupon)
                             <th>{{ $coupon->name }}</th>
                         @endforeach
@@ -49,15 +48,14 @@
                             <td>{{ $person->registration_no }}</td>
                             <td>{{ $person->section_card_no }}</td>
                             <td>{{ $person->temp_no }}</td>
-                            <td>{{ $person->remarks }}</td>
                             @foreach($couponTypes as $coupon)
                                 <td style="text-align: center">
                                     @if($person->eligibleForCoupon($coupon))
                                         @php
-                                            $lastHandout = $person->canHandoutCoupon($coupon);
+                                            $lastHandout = $person->lastCouponHandout($coupon);
                                         @endphp
                                         @isset($lastHandout)
-                                            {{ $lastHandout['date'] }}
+                                            {{ $lastHandout }}
                                         @endisset
                                     @endif
                                 </td>

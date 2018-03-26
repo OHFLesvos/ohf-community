@@ -8,9 +8,10 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>@lang('app.registered')</th>
                         <th>@lang('app.date')</th>
-                        <th>@lang('app.amount')</th>
                         <th>@lang('people.recipient')</th>
+                        <th>@lang('app.amount')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,11 +19,11 @@
                     <tr>
                         <td title="{{ $transaction->created_at }}">
                             {{ $transaction->created_at->diffForHumans() }}
-                            @if(isset($transaction->user))
+                            @isset($transaction->user))
                                 <small class="text-muted">by {{ $transaction->user->name }}</small>
-                            @endif
+                            @endisset
                         </td>
-                        <td>{{ $transaction->amount }} {{ $transaction->couponType->name }}</td>
+                        <td>{{ $transaction->date }}</td>
                         <td>
                             @if($transaction->person != null)
                                 <a href="{{ route('people.show', $transaction->person) }}">{{ $transaction->person->family_name }} {{ $transaction->person->name }}</a>
@@ -39,6 +40,7 @@
                                 <em>@lang('people.person_deleted')</em>
                             @endif
                         </td>
+                        <td>{{ $transaction->amount }} {{ $transaction->couponType->name }}</td>
                     </tr>
                 @endforeach
                 </tbody>

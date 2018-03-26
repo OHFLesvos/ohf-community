@@ -140,11 +140,11 @@ class WithdrawalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function transactions() {
-		return view('bank.transactions', [
+		return view('bank.withdrawal.transactions', [
             'transactions' => CouponHandout
                 ::orderBy('created_at', 'DESC')
                 ->with(['user', 'person', 'couponType'])
-                ->paginate(100),
+                ->paginate(250),
 		]);
     }
 

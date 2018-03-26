@@ -92,7 +92,7 @@ class DepositController extends Controller
         $transactions = CouponReturn
             ::orderBy('created_at', 'DESC')
             ->with(['user', 'project', 'couponType'])
-            ->paginate(100);
+            ->paginate(250);
         
         return view('bank.deposit.transactions', [
             'transactions' => $transactions,

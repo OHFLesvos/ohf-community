@@ -53,7 +53,7 @@ class StoreHandoutCoupon extends FormRequest
             }
             $lastHandout = $person->canHandoutCoupon($coupon);
             if ($lastHandout != null) {
-                $validator->errors()->add('coupon_type_id', $lastHandout['message']);
+                $validator->errors()->add('coupon_type_id', $lastHandout);
             }
         });
     }

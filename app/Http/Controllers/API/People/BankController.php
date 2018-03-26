@@ -71,9 +71,8 @@ class BankController extends Controller
         $coupon->couponType()->associate($couponType);
         $coupon->save();
 
-        $handout = $person->canHandoutCoupon($couponType);
         return response()->json([
-            'countdown' => $handout != null ? $handout['message'] : '',
+            'countdown' => $person->canHandoutCoupon($couponType),
         ]);
     }
 

@@ -186,48 +186,48 @@
                 </div>
             @endif
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    @lang('people.coupons')
-                </div>
-                <div class="card-body">
-                    @php
-                        $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->paginate(25);
-                    @endphp
-                    @if( ! $handouts->isEmpty() )
-                        <table class="table table-sm table-hover">
+            @php
+                $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->paginate(25);
+            @endphp
+            @if( ! $handouts->isEmpty() )
+                <div class="card mb-4">
+                    <div class="card-header">
+                        @lang('people.coupons')
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover mb-0">
                             <thead>
                                 <tr>
                                     <th>@lang('app.date')</th>
                                     <th>@lang('app.type')</th>
+                                    <th>@lang('app.registered')</th>
                                     <th>@lang('app.author')</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($handouts as $handout)
                                     <tr>
-                                        <td>{{ (new Carbon\Carbon($handout->created_at))->diffForHumans() }} <small class="text-muted">{{ $handout->date }}</small></td>
+                                        <td>{{ $handout->date }}</td>
                                         <td>{{ $handout->couponType->daily_amount }} {{ $handout->couponType->name }}</td>
+                                        <td>{{ (new Carbon\Carbon($handout->created_at))->diffForHumans() }} <small class="text-muted">{{ $handout->created_at }}</small></td>
                                         <td>
                                             @if(isset($handout->user))
                                                 {{ $handout->user->name }}
                                             @endif
-
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $handouts->links() }}
-                    @else
-                        <div class="alert alert-info m-0">
-                            @lang('people.no_coupons_handed_out_so_far')
-                        </div>
-                    @endif
-
+                    </div>
                 </div>
-            </div>
-            
+                {{ $handouts->links() }}
+            @else
+                <div class="alert alert-info m-0">
+                    @lang('people.no_coupons_handed_out_so_far')
+                </div>
+            @endif            
+
         </div>
     </div>
 
