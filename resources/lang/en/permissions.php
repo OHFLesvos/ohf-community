@@ -2,7 +2,7 @@
 
 return [
     'people.manage' => 'People: Manage people',
-    'people.export' => 'Personen: Export people',
+    'people.export' => 'People: Export people',
     'people.reports.view' => 'People: View reports',
     'bank.withdrawals.do' => 'Bank: Handout coupons',
     'bank.deposits.do' => 'Bank: Deposit coupons',
