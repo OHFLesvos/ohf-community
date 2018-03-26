@@ -7,6 +7,7 @@
 * Implement true deletion of persons
 * Coupons: Add "returnable" property
 * Coupons: Add "enabled" property
+* Coupons: Coupon CRUD screen
 
 ## Donations
 
