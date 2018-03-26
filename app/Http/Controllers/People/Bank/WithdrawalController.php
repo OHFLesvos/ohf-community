@@ -106,7 +106,11 @@ class WithdrawalController extends Controller
             'register' => self::createRegisterStringFromFilter($filter),
             'message' => $message,
             'undoGraceTime' => Config::get('bank.undo_grace_time'),
-            'couponTypes' => CouponType::orderBy('order')->orderBy('name')->get(),
+            'couponTypes' => CouponType
+                ::where('enabled', true)
+                ->orderBy('order')
+                ->orderBy('name')
+                ->get(),
 		]);
     }
 

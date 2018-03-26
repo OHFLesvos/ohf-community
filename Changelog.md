@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.3
+
+* Coupons: Add "returnable" property
+* Coupons: Add "enabled" property
+
 ## 1.13.2
 
 * Fixed issue with last coupon handout date in export

@@ -14,6 +14,8 @@ class CouponType extends Model
         'min_age',
         'max_age',
         'order',
+        'returnable',
+        'enabled'
     ];
 
     public function couponHandouts() {

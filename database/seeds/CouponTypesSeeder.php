@@ -27,6 +27,7 @@ class CouponTypesSeeder extends Seeder
             'retention_period' => null,
             'min_age' => 15,
             'order' => 4,
+            'returnable' => false,
         ]);        
     }
 }

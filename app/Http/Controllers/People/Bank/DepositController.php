@@ -28,7 +28,8 @@ class DepositController extends Controller
                 ->toArray();
 
         $couponTypes = CouponType
-                ::orderBy('order')
+                ::where('returnable', true)
+                ->orderBy('order')
                 ->orderBy('name')
                 ->get()
                 ->mapWithKeys(function($e){
