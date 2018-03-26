@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.1
+
+* Some UI fixes related to coupons
+
 ## 1.13.0
 
 * New generalized coupon handout system
