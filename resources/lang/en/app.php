@@ -120,5 +120,5 @@ return [
     'icon' => 'Icon',
     'order' => 'Order',
     'enabled' => 'Enabled',
-    'registered_by' => 'registered by',
+    'updated_by' => 'updated by',
  ];

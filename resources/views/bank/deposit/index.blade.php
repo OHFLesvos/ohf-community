@@ -51,7 +51,7 @@
                         <td class="align-top">
                             @foreach($v as $t)
                                 {{ $t['amount'] }}
-                                <small class="text-muted pl-3">@lang('app.registered_by') {{ $t['author'] }} {{ $t['date'] }}</small>
+                                <small class="text-muted pl-3">@lang('app.updated_by') {{ $t['author'] }} {{ $t['date'] }}</small>
                                 <br>
                             @endforeach
                         </td>
