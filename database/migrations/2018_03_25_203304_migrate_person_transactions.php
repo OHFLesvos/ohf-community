@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Transaction;
+use App\CouponReturn;
 use App\CouponType;
 use App\CouponHandout;
 use App\Person;
@@ -95,6 +96,23 @@ class MigratePersonTransactions extends Migration
             $table->dropColumn('diapers_coupon');
         });
 
+        Transaction
+            ::where('transactionable_type', 'App\Project')
+            ->groupBy(DB::raw('date(created_at)'), 'transactionable_id')
+            ->select('id', DB::raw('date(created_at) as date'), DB::raw('sum(value) as amount'), 'transactionable_id', 'user_id')
+            ->having('amount', '>', 0)
+            ->get()
+            ->each(function($t) use($drachmaCoupon) {
+                CouponReturn::create([
+                    'date' => $t->date,
+                    'amount' => $t->amount,
+                    'project_id' => $t->transactionable_id,
+                    'coupon_type_id' => $drachmaCoupon->id,
+                    'user_id' => $t->user_id,
+                ]);
+            });
+
+        Transaction::where('transactionable_type', 'App\Project')->delete();
     }
 
     /**

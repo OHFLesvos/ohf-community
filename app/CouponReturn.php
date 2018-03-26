@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CouponReturn extends Model
 {
+
     public static function boot()
     {
         static::creating(function ($model) {
@@ -16,7 +17,13 @@ class CouponReturn extends Model
         parent::boot();
     }
 
-    protected $fillable = ['project_id', 'coupon_type_id', 'date'];
+    protected $fillable = [
+        'project_id',
+        'coupon_type_id',
+        'date',
+        'amount',
+        'user_id',
+    ];
 
     public function couponType() {
         return $this->belongsTo('App\CouponType');

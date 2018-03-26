@@ -88,7 +88,7 @@ return [
     'num_x_handed_out_per_day' => ':name handed out per day',
     'coupons_returned_per_day' => 'Coupons returned per day',
     'coupons_returned_per_day_from_project' => 'Coupons returned per day from :project',
-    'already_received' => 'bereits erhalten',
+    'already_received' => 'already received',
     'scan' => 'Scan',
     'qr_code_scanner' => 'QR Code Scanner',
 ];

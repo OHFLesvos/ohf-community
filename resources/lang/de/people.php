@@ -88,7 +88,7 @@ return [
     'num_x_handed_out_per_day' => 'Anzahl täglich herausgegebener :name',
     'coupons_returned_per_day' => 'Registrierte Coupons pro Tag',
     'coupons_returned_per_day_from_project' => 'Registrierte Coupons pro Tag vom Projekt :project',
-    'already_received' => 'already received',
+    'already_received' => 'bereits erhalten',
     'scan' => 'Lesen',
     'qr_code_scanner' => 'QR Code Leser',
 ];
