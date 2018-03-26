@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.4
+
+* Added coupon manager
+
 ## 1.13.3
 
 * Coupons: Add "returnable" property
