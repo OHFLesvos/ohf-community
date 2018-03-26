@@ -44,8 +44,8 @@ class MigratePersonTransactions extends Migration
             'order' => 3,
         ]);
 
-        Transaction
-            ::where('transactionable_type', 'App\Person')
+        DB::table('transactions')
+            ->where('transactionable_type', 'App\Person')
             ->groupBy(DB::raw('date(created_at)'), 'transactionable_id')
             ->select('id', DB::raw('date(created_at) as date'), DB::raw('sum(value) as amount'), 'transactionable_id', 'user_id')
             ->having('amount', '>', 0)
@@ -62,7 +62,8 @@ class MigratePersonTransactions extends Migration
 
         Transaction::where('transactionable_type', 'App\Person')->delete();
 
-        Person::whereNotNull('boutique_coupon')
+        DB::table('persons')
+            ->whereNotNull('boutique_coupon')
             ->select('id', DB::raw('boutique_coupon as date'))
             ->get()
             ->each(function($t) use($boutiqueCoupon) {
@@ -71,7 +72,6 @@ class MigratePersonTransactions extends Migration
                     'amount' => 1,
                     'person_id' => $t->id,
                     'coupon_type_id' => $boutiqueCoupon->id,
-                    'user_id' => $t->user_id,
                 ]);
             });
 
@@ -79,7 +79,8 @@ class MigratePersonTransactions extends Migration
             $table->dropColumn('boutique_coupon');
         });
 
-        Person::whereNotNull('diapers_coupon')
+        DB::table('persons')
+            ->whereNotNull('diapers_coupon')
             ->select('id', DB::raw('diapers_coupon as date'))
             ->get()
             ->each(function($t) use($diapersCoupon) {
@@ -88,7 +89,6 @@ class MigratePersonTransactions extends Migration
                     'amount' => 1,
                     'person_id' => $t->id,
                     'coupon_type_id' => $diapersCoupon->id,
-                    'user_id' => $t->user_id,
                 ]);
             });
 
@@ -96,8 +96,8 @@ class MigratePersonTransactions extends Migration
             $table->dropColumn('diapers_coupon');
         });
 
-        Transaction
-            ::where('transactionable_type', 'App\Project')
+        DB::table('transactions')
+            ->where('transactionable_type', 'App\Project')
             ->groupBy(DB::raw('date(created_at)'), 'transactionable_id')
             ->select('id', DB::raw('date(created_at) as date'), DB::raw('sum(value) as amount'), 'transactionable_id', 'user_id')
             ->having('amount', '>', 0)
