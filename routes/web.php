@@ -74,6 +74,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::group(['middleware' => ['can:configure-bank']], function () {
             Route::get('/bank/settings', 'People\Bank\SettingsController@settings')->name('bank.settings');
             Route::post('/bank/settings', 'People\Bank\SettingsController@updateSettings')->name('bank.updateSettings');
+            Route::resource('/bank/coupons', 'People\Bank\CouponTypesController');
         });
 
         // Maintenance

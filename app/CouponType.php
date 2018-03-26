@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Iatstuti\Database\Support\NullableFields;
 
 class CouponType extends Model
 {
@@ -16,6 +17,13 @@ class CouponType extends Model
         'order',
         'returnable',
         'enabled'
+    ];
+
+    protected $nullable = [
+		'icon',
+		'retention_period',
+		'min_age',
+		'max_age',
     ];
 
     public function couponHandouts() {

@@ -117,4 +117,7 @@ return [
     'last_week' => 'Last week',
     'this_week' => 'This week',
     'today' => 'Today',
+    'icon' => 'Icon',
+    'order' => 'Order',
+    'enabled' => 'Enabled',
  ];

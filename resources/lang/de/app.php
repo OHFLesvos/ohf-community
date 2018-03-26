@@ -117,4 +117,7 @@ return [
     'last_week' => 'Letzte Woche',
     'this_week' => 'Diese Woche',
     'today' => 'Heute',
+    'icon' => 'Icon',
+    'order' => 'Reihenfolge',
+    'enabled' => 'Aktiviert',
 ];

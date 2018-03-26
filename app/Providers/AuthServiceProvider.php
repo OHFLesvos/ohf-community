@@ -21,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\CalendarResource::class => \App\Policies\Calendar\ResourcePolicy::class,
         \App\Donor::class => \App\Policies\Donations\DonorPolicy::class,
         \App\Donation::class => \App\Policies\Donations\DonationPolicy::class,
+        \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
     ];
 
     /**
