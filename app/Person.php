@@ -145,29 +145,13 @@ class Person extends Model
     }
 
     public function lastCouponHandout(CouponType $couponType) {
-        if ($couponType->retention_period == null) {
-            $handout = $this->couponHandouts()
-                ->where('coupon_type_id', $couponType->id)
-                ->orderBy('date', 'desc')
-                ->select('date')
-                ->first();
-            if ($handout != null) {
-                return (new Carbon($handout->date))->toDateString();
-            }
-            return null;
-        }
-
-        $retention_date = Carbon::today()->subDays($couponType->retention_period);
         $handout = $this->couponHandouts()
             ->where('coupon_type_id', $couponType->id)
-            ->whereDate('date', '>', $retention_date)
             ->orderBy('date', 'desc')
             ->select('date')
             ->first();
         if ($handout != null) {
-            $date = (new Carbon($handout->date));
-            $daysUntil = ((clone $date)->addDays($couponType->retention_period))->diffInDays() + 1;
-            return $date->toDateString();
+            return (new Carbon($handout->date))->toDateString();
         }
         return null;
     }

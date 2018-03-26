@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.2
+
+* Fixed issue with last coupon handout date in export
+
 ## 1.13.1
 
 * Some UI fixes related to coupons
