@@ -104,4 +104,9 @@ return [
     'max_age' => 'Max. Alter',
     'returnable' => 'Einzahlbar',
     'one_time' => 'einmalig',
+    'coupon_has_been_handed_out_to' => ':amount :coupon wurde an :person herausgegeben.|:amount :coupon wurden an :person herausgegeben.',
+    'coupon_has_been_taken_back_from' => ':coupon wurde von :person zurückgenommen.',
+    'qr_code_card_has_been_registered' => 'QR Code-Karte wurde registriert.',
+    'gender_has_been_registered' => 'Geschlecht von :person wurde registriert.',
+    'date_of_birth_has_been_registered' => 'Geburtsdatum von :person wurde registriert.',
 ];

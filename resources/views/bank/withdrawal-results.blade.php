@@ -33,6 +33,7 @@
     var updateGenderUrl = '{{ route('bank.updateGender') }}';
     var updateDateOfBirthUrl = '{{ route('bank.updateDateOfBirth') }}';
     var registerCardUrl = '{{ route('bank.registerCard') }}';
+    var undoLabel = '@lang('app.undo')';
 @endsection
 
 @section('footer')

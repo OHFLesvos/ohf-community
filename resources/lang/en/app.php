@@ -121,4 +121,5 @@ return [
     'order' => 'Order',
     'enabled' => 'Enabled',
     'updated_by' => 'updated by',
+    'undo' => 'Undo',
  ];

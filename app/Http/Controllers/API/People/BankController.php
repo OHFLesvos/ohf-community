@@ -51,7 +51,9 @@ class BankController extends Controller
         $person->card_no = $request->card_no;
         $person->card_issued = Carbon::now();
         $person->save();
-        return response()->json([]);
+        return response()->json([
+            'message' => __('people.qr_code_card_has_been_registered'),
+        ]);
     }
 
     /**
@@ -73,6 +75,11 @@ class BankController extends Controller
 
         return response()->json([
             'countdown' => $person->canHandoutCoupon($couponType),
+            'message' => trans_choice('people.coupon_has_been_handed_out_to', $coupon->amount, [
+                'amount' => $coupon->amount,
+                'coupon' => $couponType->name,
+                'person' => $person->family_name . ' ' . $person->name,
+            ])
         ]);
     }
 
@@ -93,6 +100,10 @@ class BankController extends Controller
             $handout->delete();
         }
         return response()->json([
+            'message' => __('people.coupon_has_been_taken_back_from', [
+                'coupon' => $couponType->name,
+                'person' => $person->family_name . ' ' . $person->name,
+            ]),
         ]);
     }
 }

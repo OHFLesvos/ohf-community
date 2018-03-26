@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.6
+
+* Added translations for bank actions
+
 ## 1.13.5
 
 * Coupon deposit show latest changed time and author

@@ -121,4 +121,5 @@ return [
     'order' => 'Reihenfolge',
     'enabled' => 'Aktiviert',
     'updated_by' => 'aktualisiert von',
+    'undo' => 'Rückgängig',
 ];

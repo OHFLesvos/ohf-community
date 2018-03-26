@@ -27,6 +27,9 @@ class PeopleController extends Controller
 
         return response()->json([
             'gender' => $person->gender,
+            'message' => __('people.gender_has_been_registered', [
+                'person' => $person->family_name . ' ' . $person->name,
+            ]),
         ]);
     }
 
@@ -47,6 +50,9 @@ class PeopleController extends Controller
         return response()->json([
             'date_of_birth' => $person->date_of_birth,
             'age' => $person->age,
+            'message' => __('people.date_of_birth_has_been_registered', [
+                'person' => $person->family_name . ' ' . $person->name,
+            ]),
         ]);
     }
 }

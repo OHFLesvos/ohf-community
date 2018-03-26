@@ -88,7 +88,7 @@ $(function(){
 				"card_no": content,
 			}, function(data) {
 				resultElem.html('<strong>' + content.substr(0,7) + '</strong>');
-				showSnackbar('QR code card has been stored');
+				showSnackbar(data.message);
 			})
 			.fail(ajaxError);
 		});
@@ -124,10 +124,9 @@ function handoutCoupon(){
 		"coupon_type_id": couponType,
 		"amount": amount
 	}, function(data) {
-		var name = btn.parents('.card').find('.card-header strong').text();
 		btn.append(' (' + data.countdown + ')');
 		btn.off('click').on('click', undoHandoutCoupon);
-		showSnackbar(label + ' has been handed out to ' + name + '.', 'Undo', 'warning', function(element){
+		showSnackbar(data.message, undoLabel, 'warning', function(element){
 			$(element).css('opacity', 0);
 			btn.click();
 			enableFilterSelect();
@@ -153,10 +152,9 @@ function undoHandoutCoupon(){
 		"person_id": person,
 		"coupon_type_id": couponType
 	}, function(data) {
-		var name = btn.parents('.card').find('.card-header strong').text();
 		btn.html(btn.html().substring(0, btn.html().lastIndexOf(" (")));
 		btn.off('click').on('click', handoutCoupon);
-		showSnackbar(label + ' has been taken back from ' + name + '.');
+		showSnackbar(data.message);
 
 		btn.removeClass('btn-secondary').addClass('btn-primary');
 		enableFilterSelect();
@@ -182,7 +180,7 @@ function selectGender() {
 		} else if (value == 'f') {
 			resultElem.html('<i class="fa fa-female">');
 		}
-		showSnackbar('Gender has been registered.');
+		showSnackbar(data.message);
 		enableFilterSelect();
 	})
 	.fail(ajaxError);
@@ -256,7 +254,7 @@ function storeDateOfBirth(person, dateSelect, resultElem) {
 		'date_of_birth': dateSelect.val()
 	}, function(data) {
 		resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
-		showSnackbar('Date of birth has been registered.');
+		showSnackbar(data.message);
 		enableFilterSelect();
 	})
 	.fail(function(jqXHR, textStatus){

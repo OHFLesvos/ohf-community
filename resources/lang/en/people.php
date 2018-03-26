@@ -104,4 +104,9 @@ return [
     'max_age' => 'Max. age',
     'returnable' => 'Returnable',
     'one_time' => 'one-time',
+    'coupon_has_been_handed_out_to' => ':amount :coupon has been handed out to :person.|:amount :coupon have been handed out to :person.',
+    'coupon_has_been_taken_back_from' => ':coupon has been taken back from :person.',
+    'qr_code_card_has_been_registered' => 'QR code card has been registered.',
+    'gender_has_been_registered' => 'Gender of :person has been registered.',
+    'date_of_birth_has_been_registered' => 'Date of birth of :person has been registered.',
 ];
