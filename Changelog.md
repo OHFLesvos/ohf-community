@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.5
+
+* Coupon deposit show latest changed time and author
+
 ## 1.13.4
 
 * Added coupon manager

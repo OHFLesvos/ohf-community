@@ -120,4 +120,5 @@ return [
     'icon' => 'Icon',
     'order' => 'Reihenfolge',
     'enabled' => 'Aktiviert',
+    'registered_by' => 'registriert von',
 ];

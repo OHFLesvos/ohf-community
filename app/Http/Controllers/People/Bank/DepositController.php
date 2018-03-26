@@ -43,7 +43,11 @@ class DepositController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->get()
                 ->each(function($e) use(&$todaysReturns) {
-                    $todaysReturns[$e->project->name][] = $e->amount . ' ' . $e->couponType->name;
+                    $todaysReturns[$e->project->name][] = [
+                        'amount' => $e->amount . ' ' . $e->couponType->name,
+                        'author' => $e->user->name,
+                        'date' => $e->created_at->diffForHumans(),
+                    ];
                 });
 
         return view('bank.deposit.index', [

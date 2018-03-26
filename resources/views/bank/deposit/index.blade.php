@@ -48,7 +48,13 @@
                 @foreach($todaysReturns as $k => $v)
                     <tr>
                         <td class="text-right align-top"><strong>{{ $k }}</strong></td>
-                        <td class="align-top">{!! nl2br(e(implode("\n", $v))) !!}</td>
+                        <td class="align-top">
+                            @foreach($v as $t)
+                                {{ $t['amount'] }}
+                                <small class="text-muted pl-3">@lang('app.registered_by') {{ $t['author'] }} {{ $t['date'] }}</small>
+                                <br>
+                            @endforeach
+                        </td>
                     </tr>
                 @endforeach
                 </table>
