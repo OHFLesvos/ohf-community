@@ -30,19 +30,20 @@
 
                         {{-- Nationalities --}}
                         @if(count($nationalities) > 0)
-                            <horizontal-bar-chart
-                                title="Nationalities"
-                                url="{{ route('reporting.people.nationalities') }}"
-                                :height=70
-                                :legend=false>
-                            </horizontal-bar-chart>
+                            <h5 class="text-center pt-2"><small>@lang('people.nationalities')</small></h5>
                             <table class="table table-sm mt-2 mb-5 colorize">
                                 @foreach ($nationalities as $k => $v)
+                                    @php
+                                        $percent = round($v / array_sum(array_values($nationalities)) * 100);
+                                    @endphp
                                     <tr>
-                                        <td class="colorize-background">&nbsp;</td>
-                                        <td>{{ $k }}</td>
-                                        <td class="text-right">{{ $v }}</td>
-                                        <td class="text-right">{{ round($v / array_sum(array_values($nationalities)) * 100) }} %</td>
+                                        <td class="fit">{{ $k }}</td>
+                                        <td class="align-middle">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: {{ $percent }}%" aria-valuenow="{{ $percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </td>
+                                        <td class="fit text-right">{{ $percent }}%</td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -86,7 +87,6 @@
                                             <tr>
                                                 <td class="colorize-background">&nbsp;</td>
                                                 <td>{{ $k }}</td>
-                                                <td class="text-right">{{ $v }}</td>
                                                 <td class="text-right">{{ round($v / array_sum(array_values($demographics)) * 100) }} %</td>
                                             </tr>
                                         @endforeach
@@ -97,20 +97,20 @@
 
                         {{-- Number Types --}}
                         @if(array_sum(array_values($numberTypes)) > 0)
-                            <horizontal-bar-chart
-                                title="Registered card / person number types"
-                                url="{{ route('reporting.people.numberTypes') }}"
-                                :height=70
-                                :legend=false
-                                class="mb-2">
-                            </horizontal-bar-chart>
+                            <h5 class="text-center pt-2"><small>@lang('people.registered_number_types')</small></h5>
                             <table class="table table-sm mt-2 colorize">
                                 @foreach ($numberTypes as $k => $v)
+                                    @php
+                                        $percent = round($v / array_sum(array_values($numberTypes)) * 100);
+                                    @endphp
                                     <tr>
-                                        <td class="colorize-background">&nbsp;</td>
-                                        <td>{{ $k }}</td>
-                                        <td class="text-right">{{ $v }}</td>
-                                        <td class="text-right">{{ round($v / array_sum(array_values($numberTypes)) * 100) }} %</td>
+                                        <td class="fit">{{ $k }}</td>
+                                        <td class="align-middle">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: {{ $percent }}%" aria-valuenow="{{ $percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </td>
+                                        <td class="fit text-right">{{ $percent }} %</td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -119,12 +119,6 @@
                         @if(count($top_names) > 0)
                             <h5 class="text-center"><small>Popular names</small></h5>
                             <table class="table table-sm mt-2">
-                                {{-- <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th class="text-right">Occurrences</th>
-                                    </tr>
-                                </thead> --}}
                                 <tbody>
                                     @foreach ($top_names as $v)
                                         <tr>
