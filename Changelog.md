@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.7
+
+* Improved coupon managmenet UI
+
 ## 1.13.6
 
 * Added translations for bank actions

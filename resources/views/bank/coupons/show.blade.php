@@ -21,7 +21,7 @@
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-sm"><strong>@lang('people.retention_period')</strong></div>
-                    <div class="col-sm">{{ $coupon->retention_period }}</div>
+                    <div class="col-sm">{{ $coupon->retention_period }} {{ trans_choice('app.day_days', $coupon->retention_period) }}</div>
                 </div>
             </li>
         @endisset
@@ -29,7 +29,7 @@
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-sm"><strong>@lang('people.min_age')</strong></div>
-                    <div class="col-sm">{{ $coupon->min_age }}</div>
+                    <div class="col-sm">{{ $coupon->min_age }} {{ trans_choice('app.year_years', $coupon->min_age) }}</div>
                 </div>
             </li>
         @endisset
@@ -37,7 +37,7 @@
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-sm"><strong>@lang('people.max_age')</strong></div>
-                    <div class="col-sm">{{ $coupon->max_age }}</div>
+                    <div class="col-sm">{{ $coupon->max_age }} {{ trans_choice('app.year_years', $coupon->max_age) }}</div>
                 </div>
             </li>
         @endisset
