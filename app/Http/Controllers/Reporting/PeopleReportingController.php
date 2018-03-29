@@ -29,7 +29,7 @@ class PeopleReportingController extends BaseReportingController
             'nationalities' => self::getNationalities(),
             'gender' => self::getGenderDistribution(),
             'demographics' => self::getDemographics(),
-            'numberTypes' => self::getNumberTypes(),
+            'numberTypes' => self::getNumberTypes()->toArray(),
             'visitors' => [
                 [
                     'Today' => $daily[1] ?? 0,
@@ -161,21 +161,23 @@ class PeopleReportingController extends BaseReportingController
     function numberTypes() {
         return response()->json([
             'labels' => null,
-            'datasets' => collect(self::getNumberTypes())
+            'datasets' => self::getNumberTypes()
                 ->map(function($e){ return [$e]; })
-                ->toArray(),
+                ->toArray()
         ]);
     }
 
     private static function getNumberTypes() {
-        return [
+        return collect([
             __('people.police_number') . ' (05/...)' => Person::whereNotNull('police_no')->count(),          
             __('people.case_number') => Person::whereNotNull('case_no')->count(),          
             __('people.medical_number') => Person::whereNotNull('medical_no')->count(),          
             __('people.registration_number') => Person::whereNotNull('registration_no')->count(),          
             __('people.section_card_number') => Person::whereNotNull('section_card_no')->count(),          
             __('people.temporary_number') => Person::whereNotNull('temp_no')->count(),          
-        ];
+        ])
+        ->sort()
+        ->reverse();
     }
 
     /**

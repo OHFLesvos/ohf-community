@@ -109,4 +109,6 @@ return [
     'qr_code_card_has_been_registered' => 'QR Code-Karte wurde registriert.',
     'gender_has_been_registered' => 'Geschlecht von :person wurde registriert.',
     'date_of_birth_has_been_registered' => 'Geburtsdatum von :person wurde registriert.',
+    'nationalities' => 'Nationalitäten',
+    'registered_number_types' => 'Registered Nummertypen',
 ];
