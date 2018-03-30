@@ -4,9 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class CouponReturn extends Model
+class CouponReturn extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
 
     public static function boot()
     {
