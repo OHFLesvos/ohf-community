@@ -43,21 +43,20 @@
         <div class="col col-lg-2">
         </div>
         <div class="col-md-auto p-4 lead">
-            @if(count($todaysReturns) > 0)
-                <table style="border-spacing: 0.5em; border-collapse: separate;">
-                @foreach($todaysReturns as $k => $v)
-                    <tr>
-                        <td class="text-right align-top"><strong>{{ $k }}</strong></td>
-                        <td class="align-top">
-                            @foreach($v as $t)
-                                {{ $t['amount'] }} &nbsp;
-                                <small class="text-muted">@lang('app.updated_by') {{ $t['author'] }} {{ $t['date'] }}</small>
-                                <br>
-                            @endforeach
-                        </td>
-                    </tr>
+            @if(count($audits) > 0)
+                <p class="text-center">@lang('people.todays_transactions'):</p>
+                @foreach($audits as $audit)
+                    <p class="mb-3 mb-sm-1">
+                        @lang($audit['amount_diff'] > 0 ? 'people.user_added_coupons_from_project' : 'people.user_removed_coupons_from_project', [
+                            'user' => $audit['user'],
+                            'amount' => abs($audit['amount_diff']),
+                            'coupons' => $audit['coupon'],
+                            'project' => $audit['project'],
+                            'date' => $audit['date'],
+                        ])
+                        <small class="text-muted d-block d-sm-inline-block ml-0 ml-sm-2" title="{{ $audit['created_at'] }}">{{ $audit['created_at']->diffForHumans() }}</small>
+                    </p>
                 @endforeach
-                </table>
             @else
                 @lang('people.no_coupons_registered_so_far')
             @endif

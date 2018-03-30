@@ -111,4 +111,7 @@ return [
     'date_of_birth_has_been_registered' => 'Date of birth of :person has been registered.',
     'nationalities' => 'Nationalities',
     'registered_number_types' => 'Registered number types',
+    'todays_transactions' => 'Todays transactions',
+    'user_added_coupons_from_project' => '<strong>:user</strong> added <strong>:amount :coupons</strong> from <strong>:project</strong> for <strong>:date</strong>',
+    'user_removed_coupons_from_project' => '<strong>:user</strong> removed <strong>:amount :coupons</strong> from <strong>:project</strong> for <strong>:date</strong>',
 ];
