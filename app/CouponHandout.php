@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class CouponHandout extends Model
+class CouponHandout extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $fillable = [
         'date',
         'amount',
@@ -34,5 +37,15 @@ class CouponHandout extends Model
 
     public function user() {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function generateTags(): array
+    {
+        return [
+            $this->couponType->name,
+        ];
     }
 }

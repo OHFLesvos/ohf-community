@@ -2,6 +2,7 @@
 
 ## 1.13.7
 
+* Added auditing for coupon handouts and returns
 * Improved coupon managmenet UI
 
 ## 1.13.6
