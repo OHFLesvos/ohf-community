@@ -37,6 +37,11 @@ class CreateAuditsTable extends Migration
             $table->string('user_agent')->nullable();
             $table->string('tags')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null')
+                ->onUpdate('set null');
         });
     }
 
