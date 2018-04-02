@@ -3,6 +3,7 @@
 ## 1.13.8
 
 * Fixed coupon return transactions using audit model
+* Removed unnecessary user reference in coupon returns (since we now have audits)
 
 ## 1.13.7
 
