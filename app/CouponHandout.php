@@ -15,17 +15,7 @@ class CouponHandout extends Model implements Auditable
         'amount',
         'person_id',
         'coupon_type_id',
-        'user_id',
     ];
-
-    public static function boot()
-    {
-        static::creating(function ($model) {
-            $model->user_id = Auth::id();
-        });
-
-        parent::boot();
-    }
 
     public function couponType() {
         return $this->belongsTo('App\CouponType');
@@ -33,10 +23,6 @@ class CouponHandout extends Model implements Auditable
 
     public function person() {
         return $this->belongsTo('App\Person');
-    }
-
-    public function user() {
-        return $this->belongsTo('App\User');
     }
 
     /**

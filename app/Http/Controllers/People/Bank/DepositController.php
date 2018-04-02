@@ -110,13 +110,11 @@ class DepositController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function transactions() {
-        $transactions = Audit
-            ::where('auditable_type', 'App\CouponReturn')
-            ->orderBy('created_at', 'DESC')
-            ->paginate(50);
-
         return view('bank.deposit.transactions', [
-            'transactions' => $transactions,
+            'transactions' => Audit
+                ::where('auditable_type', 'App\CouponReturn')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(50),
         ]);
     }
 }

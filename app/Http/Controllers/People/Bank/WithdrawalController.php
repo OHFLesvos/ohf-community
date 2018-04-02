@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\CouponType;
 use App\CouponHandout;
 use App\Person;
+use OwenIt\Auditing\Models\Audit;
 
 class WithdrawalController extends Controller
 {
@@ -145,10 +146,10 @@ class WithdrawalController extends Controller
      */
     public function transactions() {
 		return view('bank.withdrawal.transactions', [
-            'transactions' => CouponHandout
-                ::orderBy('created_at', 'DESC')
-                ->with(['user', 'person', 'couponType'])
-                ->paginate(250),
+            'transactions' => Audit
+                ::where('auditable_type', 'App\CouponHandout')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(50),
 		]);
     }
 

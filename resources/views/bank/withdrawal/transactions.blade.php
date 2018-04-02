@@ -16,6 +16,16 @@
                 </thead>
                 <tbody>
                 @foreach($transactions as $transaction)
+                    @php
+                        $elem = \App\CouponHandout::find($transaction->auditable_id);
+                        $amount_diff = 0;
+                        if (isset($transaction->getModified()['amount']['new'])) {
+                            $amount_diff += $transaction->getModified()['amount']['new'] ;
+                        }
+                        if (isset($transaction->getModified()['amount']['old'])) {
+                            $amount_diff -= $transaction->getModified()['amount']['old'];
+                        }
+                    @endphp
                     <tr>
                         <td title="{{ $transaction->created_at }}">
                             {{ $transaction->created_at->diffForHumans() }}
@@ -23,24 +33,29 @@
                                 <small class="text-muted">by {{ $transaction->user->name }}</small>
                             @endisset
                         </td>
-                        <td>{{ $transaction->date }}</td>
-                        <td>
-                            @if($transaction->person != null)
-                                <a href="{{ route('people.show', $transaction->person) }}">{{ $transaction->person->family_name }} {{ $transaction->person->name }}</a>
-                                @if($transaction->person->gender == 'f')@icon(female) 
-                                @elseif($transaction->person->gender == 'm')@icon(male) 
+                        @isset($elem)
+                            <td>{{ $elem->date }}</td>
+                            <td>
+                                <a href="{{ route('people.show', $elem->person) }}">{{ $elem->person->family_name }} {{ $elem->person->name }}</a>
+                                @if($elem->person->gender == 'f')@icon(female) 
+                                @elseif($elem->person->gender == 'm')@icon(male) 
                                 @endif
-                                @if(isset($transaction->person->date_of_birth))
-                                    {{ $transaction->person->date_of_birth }} (@lang('people.age_n', [ 'age' => $transaction->person->age]))
-                                @endif
-                                @if(isset($transaction->person->nationality))
-                                    {{ $transaction->person->nationality }}
-                                @endif
-                            @else
-                                <em>@lang('people.person_deleted')</em>
-                            @endif
-                        </td>
-                        <td>{{ $transaction->amount }} {{ $transaction->couponType->name }}</td>
+                                    @if(isset($elem->person->date_of_birth))
+                                        {{ $elem->person->date_of_birth }} (@lang('people.age_n', [ 'age' => $elem->person->age]))
+                                    @endif
+                                    @if(isset($elem->person->nationality))
+                                        {{ $elem->person->nationality }}
+                                    @endif
+                            </td>
+                            <td>
+                                {{ $amount_diff }}
+                                {{ $elem->couponType->name }}
+                            </td>
+                        @else
+                            <td colspan="3">
+                                @lang('app.not_found')
+                            </td>
+                        @endisset
                     </tr>
                 @endforeach
                 </tbody>
