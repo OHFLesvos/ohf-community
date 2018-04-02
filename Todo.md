@@ -9,6 +9,7 @@
 ## Donations
 
 * Add report about number of donors and donations per month, year
+* Added form for registering new donations directly
 
 ## User Management and Privileges
 
