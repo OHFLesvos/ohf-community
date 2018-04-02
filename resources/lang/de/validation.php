@@ -149,5 +149,6 @@ return [
         'size' => 'Größe',
         'date_of_birth' => 'Geburtsdatum',
         'amount' => 'Betrag',
+        'file' => 'Datei',
     ],
 ];
