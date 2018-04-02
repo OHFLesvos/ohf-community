@@ -61,7 +61,7 @@
                             @endisset
                         </td>
                         <td>
-                            @isset($coupon)
+                            @isset($person)
                                 <a href="{{ route('people.show', $person) }}">{{ $person->family_name }} {{ $person->name }}</a>
                                 @if($person->gender == 'f')@icon(female) 
                                 @elseif($person->gender == 'm')@icon(male) 
