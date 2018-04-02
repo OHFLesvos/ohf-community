@@ -1464,16 +1464,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.14",
+            "version": "v5.6.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "fba33e59fd43661933e9cecb84dfb0a64c5323ce"
+                "reference": "baa42cf6bdd942523fafece21ec16a1843c6db0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/fba33e59fd43661933e9cecb84dfb0a64c5323ce",
-                "reference": "fba33e59fd43661933e9cecb84dfb0a64c5323ce",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/baa42cf6bdd942523fafece21ec16a1843c6db0f",
+                "reference": "baa42cf6bdd942523fafece21ec16a1843c6db0f",
                 "shasum": ""
             },
             "require": {
@@ -1598,7 +1598,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-03-28 14:17:03"
+            "time": "2018-03-30 13:29:58"
         },
         {
             "name": "laravel/tinker",
@@ -2261,16 +2261,16 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "v6.0.1",
+            "version": "v6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
-                "reference": "953f175307532cfd61d447229fd3fbb95d5a5e0d"
+                "reference": "8e6273d6bdef802e0efb51fe2005f1229f0c5f80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/953f175307532cfd61d447229fd3fbb95d5a5e0d",
-                "reference": "953f175307532cfd61d447229fd3fbb95d5a5e0d",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/8e6273d6bdef802e0efb51fe2005f1229f0c5f80",
+                "reference": "8e6273d6bdef802e0efb51fe2005f1229f0c5f80",
                 "shasum": ""
             },
             "require": {
@@ -2340,7 +2340,7 @@
                 "revision",
                 "tracking"
             ],
-            "time": "2018-02-15 16:23:28"
+            "time": "2018-04-02 11:58:04"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -2733,16 +2733,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.17",
+            "version": "v0.8.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec"
+                "reference": "5357b1cffc8fb375d6a9e3c86d5c82dd38a40834"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
-                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/5357b1cffc8fb375d6a9e3c86d5c82dd38a40834",
+                "reference": "5357b1cffc8fb375d6a9e3c86d5c82dd38a40834",
                 "shasum": ""
             },
             "require": {
@@ -2801,7 +2801,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-12-28 16:14:16"
+            "time": "2018-04-02 05:41:44"
         },
         {
             "name": "ramsey/uuid",
