@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SelectDateRange;
 use App\CouponType;
 use App\CouponHandout;
-use App\CouponReturn;
 use App\Project;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
