@@ -17,6 +17,13 @@
                 </thead>
                 <tbody>
                 @foreach ($transactions as $transaction)
+                    @php
+                        $elem = \App\CouponReturn::find($transaction->auditable_id);
+                        $amount_diff = $transaction->getModified()['amount']['new'] ;
+                        if (isset($transaction->getModified()['amount']['old'])) {
+                            $amount_diff -= $transaction->getModified()['amount']['old'];
+                        }
+                    @endphp
                     <tr>
                         <td title="{{ $transaction->created_at }}">
                             {{ $transaction->created_at->diffForHumans() }}
@@ -24,12 +31,18 @@
                                 <small class="text-muted">by {{ $transaction->user->name }}</small>
                             @endisset
                         </td>
-                        <td>{{ $transaction->date }}</td>
-                        <td>{{ $transaction->project->name }}</td>
-                        <td>
-                            {{ $transaction->amount }}
-                            {{ $transaction->couponType->name }}
-                        </td>
+                        @isset($elem)
+                            <td>{{ $elem->date }}</td>
+                            <td>{{ $elem->project->name }}</td>
+                            <td>
+                                {{ $amount_diff }}
+                                {{ $elem->couponType->name }}
+                            </td>
+                        @else
+                            <td colspan="3">
+                                @lang('app.not_found')
+                            </td>
+                        @endisset
                     </tr>
                 @endforeach
                 </tbody>

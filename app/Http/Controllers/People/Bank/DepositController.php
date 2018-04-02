@@ -9,6 +9,7 @@ use App\Project;
 use App\CouponReturn;
 use App\CouponType;
 use Carbon\Carbon;
+use OwenIt\Auditing\Models\Audit;
 
 class DepositController extends Controller
 {
@@ -109,11 +110,11 @@ class DepositController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function transactions() {
-        $transactions = CouponReturn
-            ::orderBy('created_at', 'DESC')
-            ->with(['user', 'project', 'couponType'])
-            ->paginate(250);
-        
+        $transactions = Audit
+            ::where('auditable_type', 'App\CouponReturn')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(50);
+
         return view('bank.deposit.transactions', [
             'transactions' => $transactions,
         ]);

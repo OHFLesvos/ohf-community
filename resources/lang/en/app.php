@@ -128,4 +128,5 @@ return [
     'enabled' => 'Enabled',
     'updated_by' => 'updated by',
     'undo' => 'Undo',
+    'not_found' => 'Not found',
  ];

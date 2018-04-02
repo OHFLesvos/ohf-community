@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.8
+
+* Fixed coupon return transactions using audit model
+
 ## 1.13.7
 
 * Added auditing for coupon handouts and returns

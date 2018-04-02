@@ -128,4 +128,5 @@ return [
     'enabled' => 'Aktiviert',
     'updated_by' => 'aktualisiert von',
     'undo' => 'Rückgängig',
+    'not_found' => 'Nicht gefunden',
 ];
