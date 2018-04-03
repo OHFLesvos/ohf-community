@@ -1,22 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Upload Bank Data')
+@section('title', __('people.import_bank_data'))
 
 @section('content')
 
     {!! Form::open(['route' => 'bank.doImport', 'files' => true]) !!}
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="form-group">
-                    {{ Form::file('file', null, [ 'class' => 'form-control-file'  ]) }}
-                </div>
-            </div>
-        </div>
-
+        {{ Form::bsFile('file', [], __('app.choose_file')) }}
         <p>
-            {{ Form::bsSubmitButton('Import', 'upload') }}
+            {{ Form::bsSubmitButton(__('app.import'), 'upload') }}
         </p>
-
     {!! Form::close() !!}
     
 @endsection

@@ -114,4 +114,6 @@ return [
     'todays_transactions' => 'Heutige Transaktionen',
     'user_added_coupons_from_project' => '<strong>:user</strong> fügte <strong>:amount :coupons</strong> von <strong>:project</strong> für <strong>:date</strong> hinzu',
     'user_removed_coupons_from_project' => '<strong>:user</strong> entfernte <strong>:amount :coupons</strong> von <strong>:project</strong> für <strong>:date</strong> hinzu',
+    'import_people_data' => 'Personendaten importieren',
+    'import_bank_data' => 'Bankdaten importieren',
 ];

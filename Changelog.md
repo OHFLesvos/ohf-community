@@ -4,6 +4,7 @@
 
 * Fixed coupon return transactions using audit model
 * Removed unnecessary user reference in coupon handouts and returns (since we now have audits)
+* Improved file upload control
 
 ## 1.13.7
 
