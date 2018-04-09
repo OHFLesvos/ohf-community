@@ -1,10 +1,10 @@
 <div class="card mb-4 bg-light">
     @php
         $frequentVisitor = $person->frequentVisitor;
-        $family = $person->family;
-        if (count($family) > 1) {
-            $family_filter = implode(' OR ', collect($family)->pluck('search')->sort()->toArray());
-        }
+//        $family = $person->family;
+//        if (count($family) > 1) {
+//            $family_filter = implode(' OR ', collect($family)->pluck('search')->sort()->toArray());
+//        }
     @endphp
     <div class="card-header p-2" @if($frequentVisitor) style="background:lightgoldenrodyellow;" @endif >
         <div class="form-row">
