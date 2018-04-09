@@ -5,6 +5,7 @@
 * Fixed coupon return transactions using audit model
 * Removed unnecessary user reference in coupon handouts and returns (since we now have audits)
 * Improved file upload control
+* Added search for family members in bank
 
 ## 1.13.7
 

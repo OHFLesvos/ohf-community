@@ -95,6 +95,27 @@ class Person extends Model
         return $this->hasOne('App\Person', 'partner_id');
     }
 
+    function getFamilyAttribute() {
+        $members = [$this];
+        $mother = $this->mother;
+        if ($mother != null) {
+            $members[] = $mother;
+        }
+        $father = $this->father;
+        if ($father != null) {
+            $members[] = $father;
+        }
+        $partner = $this->partner;
+        if ($partner != null) {
+            $members[] = $partner;
+        }
+        $children = $this->children;
+        if ($children != null && $children->count() > 0) {
+            $members[] = $children;
+        }
+        return $members;
+    }
+
     function revokedCards() {
         return $this->hasMany('App\RevokedCard');
     }

@@ -116,4 +116,5 @@ return [
     'user_removed_coupons_from_project' => '<strong>:user</strong> removed <strong>:amount :coupons</strong> from <strong>:project</strong> for <strong>:date</strong>',
     'import_people_data' => 'Import people data',
     'import_bank_data' => 'Import bank data',
+    'search_family_members' => 'Search family members',
 ];
