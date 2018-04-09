@@ -100,7 +100,6 @@ class MaintenanceController extends Controller
                 ->get()
                 ->pluck('person_id')
                 ->toArray();
-                print_r($ids);
             $cnt += Person::destroy($ids);
         }
         if (isset($request->cleanup_no_coupons_ever)) {
