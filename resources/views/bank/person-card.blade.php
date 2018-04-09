@@ -117,9 +117,9 @@
             <em class="pb-2 px-2">@lang('people.no_coupons_defined')</em>
         @endforelse
     </div>
-    @if(isset($family_filter) && $filter != $family_filter)
+    {{-- @if(isset($family_filter) && $filter != $family_filter)
         <div class="card-footer p-2">
             <a href="{{ route('bank.withdrawalSearch') }}?filter={{ $family_filter }}" class="btn btn-sm btn-success">@lang('people.search_family_members')</a>
         </div>
-    @endif
+    @endif --}}
 </div>
