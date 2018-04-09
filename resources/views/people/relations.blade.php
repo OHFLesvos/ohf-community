@@ -10,8 +10,8 @@
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th>Relation</th>
-					<th>Person</th>
+					<th>@lang('people.relation')</th>
+					<th>@lang('people.person')</th>
 					<th></th>
 				</tr>
 			</thead>

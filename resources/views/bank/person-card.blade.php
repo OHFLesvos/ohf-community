@@ -1,10 +1,6 @@
-<div class="card mb-4 bg-light">
+<div class="card @if(isset($bottom_margin))mb-{{ $bottom_margin }}@else mb-4 @endif bg-light @isset($border)border-{{ $border }}@endisset">
     @php
         $frequentVisitor = $person->frequentVisitor;
-//        $family = $person->family;
-//        if (count($family) > 1) {
-//            $family_filter = implode(' OR ', collect($family)->pluck('search')->sort()->toArray());
-//        }
     @endphp
     <div class="card-header p-2" @if($frequentVisitor) style="background:lightgoldenrodyellow;" @endif >
         <div class="form-row">
@@ -93,33 +89,30 @@
             </div>
         @endif
     </div>
-    <div class="card-footer p-0 px-2 pt-2 form-row">
-        @forelse($couponTypes as $coupon)
-            @if($person->eligibleForCoupon($coupon))
-                <div class="col-sm-auto mb-2">
-                    @if($person->eligibleForCoupon($coupon))
-                        @php
-                            $lastHandout = $person->canHandoutCoupon($coupon);
-                        @endphp
-                        @isset($lastHandout)
-                            <button type="button" class="btn btn-secondary btn-sm btn-block" disabled data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}">
-                                {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ $lastHandout }})
-                            </button>
-                        @else
-                            <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}">
-                                {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }}
-                            </button>
-                        @endempty
-                    @endif
-                </div>
-            @endif
-        @empty
-            <em class="pb-2 px-2">@lang('people.no_coupons_defined')</em>
-        @endforelse
-    </div>
-    {{-- @if(isset($family_filter) && $filter != $family_filter)
-        <div class="card-footer p-2">
-            <a href="{{ route('bank.withdrawalSearch') }}?filter={{ $family_filter }}" class="btn btn-sm btn-success">@lang('people.search_family_members')</a>
+    <div class="card-footer p-0 px-2 pt-2">
+        <div class="form-row">
+            @forelse($couponTypes as $coupon)
+                @if($person->eligibleForCoupon($coupon))
+                    <div class="col-sm-auto mb-2">
+                        @if($person->eligibleForCoupon($coupon))
+                            @php
+                                $lastHandout = $person->canHandoutCoupon($coupon);
+                            @endphp
+                            @isset($lastHandout)
+                                <button type="button" class="btn btn-secondary btn-sm btn-block" disabled data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}">
+                                    {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ $lastHandout }})
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}">
+                                    {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }}
+                                </button>
+                            @endempty
+                        @endif
+                    </div>
+                @endif
+            @empty
+                <em class="pb-2 px-2">@lang('people.no_coupons_defined')</em>
+            @endforelse
         </div>
-    @endif --}}
+    </div>
 </div>

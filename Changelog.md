@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.9
+
+* Bank search shows family relations
+
 ## 1.13.8
 
 * Fixed coupon return transactions using audit model

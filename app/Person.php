@@ -95,6 +95,42 @@ class Person extends Model
         return $this->hasOne('App\Person', 'partner_id');
     }
 
+    function getSiblingsAttribute() {
+        $siblings = [];
+
+        $mother = $this->mother;
+        if ($mother != null) {
+            $children = $mother->children;
+            if ($children != null && $children->count() > 0) {
+                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$siblings) {
+                    $siblings[] = $c;
+                });
+            }
+        }
+
+        $father = $this->father;
+        if ($father != null) {
+            $children = $father->children;
+            if ($children != null && $children->count() > 0) {
+                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$siblings) {
+                    $siblings[] = $c;
+                });
+            }
+        }
+
+        $partner = $this->partner;
+        if ($partner != null) {
+            $children = $partner->children;
+            if ($children != null && $children->count() > 0) {
+                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$siblings) {
+                    $siblings[] = $c;
+                });
+            }
+        }
+
+        return collect($siblings);
+    }
+
     function getFamilyAttribute() {
         $members = [$this];
         $mother = $this->mother;
@@ -111,9 +147,18 @@ class Person extends Model
         }
         $children = $this->children;
         if ($children != null && $children->count() > 0) {
-            $members[] = $children;
+            $children->each(function($c) use(&$members) {
+                $members[] = $c;
+            });
         }
-        return $members;
+        $this->siblings->each(function($c) use(&$members) {
+            $members[] = $c;
+        });
+        return collect($members);
+    }
+
+    function getOtherFamilyMembersAttribute() {
+        return $this->family->filter(function($m) { return $m->id != $this->id; });
     }
 
     function revokedCards() {

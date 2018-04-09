@@ -7,8 +7,25 @@
     @include('bank.person-search')
 
     @if(count($results) > 0)
+        @php
+            $ids = [];
+        @endphp
         @foreach ($results as $person)
-            @include('bank.person-card')
+            @php
+                if (in_array($person->id, $ids)) {
+                    continue;
+                }
+                $members = $person->otherFamilyMembers;
+            @endphp
+            @include('bank.person-card', [ 'bottom_margin' => $members->count() > 0 ? 1 : 4 ])
+            @if ($members->count() > 0)
+                @foreach($members as $member)
+                    @php
+                        $ids[] = $member->id;
+                    @endphp
+                    @include('bank.person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 4 : 1, 'border' => 'info' ])
+                @endforeach
+            @endif
         @endforeach
         {{ $results->appends(['filter' => $filter])->links() }}
     @else
