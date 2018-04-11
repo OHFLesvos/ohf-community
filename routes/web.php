@@ -192,17 +192,24 @@ Route::group(['middleware' => 'language'], function () {
     });
 
     // Donors and donations
-    Route::group(['middleware' => ['auth']], function () {
-        Route::get('/donations/donors/export', 'Donations\DonorController@export')->name('donors.export');
-        Route::resource('donations/donors', 'Donations\DonorController');
-        Route::get('/donations/donors/{donor}/donation', 'Donations\DonationController@register')->name('donations.create');
-        Route::post('/donations/donors/{donor}/donation', 'Donations\DonationController@store')->name('donations.store');
-        Route::get('/donations/donors/{donor}/donation/{donation}/edit', 'Donations\DonationController@edit')->name('donations.edit');
-        Route::put('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@update')->name('donations.update');
-        Route::delete('/donations/donors/{donor}/donation/{donation}', 'Donations\DonationController@destroy')->name('donations.destroy');
-        Route::get('/donations/donors/{donor}/export', 'Donations\DonationController@export')->name('donations.export');
-        Route::get('/donations', 'Donations\DonationController@index')->name('donations.index');
-    });
+    Route::namespace('Donations')
+        ->middleware(['auth'])
+        ->prefix('donations')
+        ->group(function () {
+            // Donors
+            Route::name('donations.')->group(function () {
+                Route::name('donors.export')->get('donors/export', 'DonorController@export');
+                Route::resource('donors', 'DonorController');
+            });
+
+            // Donations
+            Route::name('donations.index')->get('/', 'DonationController@index');
+            Route::prefix('donors/{donor}')
+                ->group(function () {
+                    Route::name('donations.export')->get('export', 'DonationController@export');
+                    Route::resource('donations', 'DonationController')->except('show', 'index');
+                });
+        });
 
     Auth::routes();
     Route::get('/userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');

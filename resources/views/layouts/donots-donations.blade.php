@@ -1,11 +1,11 @@
 @extends('layouts.tabbed_view', [ 
     'nav_elements' => [
         [
-            'url' => route('donors.index'),
+            'url' => route('donations.donors.index'),
             'label' => __('donations.donors'),
             'icon' => 'handshake-o',
             'active' => function($currentRouteName) {
-                return $currentRouteName == 'donors.index';
+                return $currentRouteName == 'donations.donors.index';
             },
             'authorized' => Auth::user()->can('list', \App\Donor::class)
         ],

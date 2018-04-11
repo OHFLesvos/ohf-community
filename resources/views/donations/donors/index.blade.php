@@ -4,13 +4,13 @@
 
 @section('wrapped-content')
 
-    {!! Form::open(['route' => ['donors.index'], 'method' => 'get']) !!}
+    {!! Form::open(['route' => ['donations.donors.index'], 'method' => 'get']) !!}
         <div class="input-group">
             {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('donations.search_for_name') . '...' ]) }}
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">@icon(search)</button> 
                 @if(isset($filter))
-                    <a class="btn btn-secondary" href="{{ route('donors.index') }}">@icon(eraser)</a> 
+                    <a class="btn btn-secondary" href="{{ route('donations.donors.index') }}">@icon(eraser)</a> 
                 @endif
             </div>
         </div>
@@ -39,7 +39,7 @@
                     @foreach ($donors as $donor)
                         <tr>
                             <td>
-                                <a href="{{ route('donors.show', $donor) }}">{{ $donor->name }}</a>
+                                <a href="{{ route('donations.donors.show', $donor) }}">{{ $donor->name }}</a>
                             </td>
                             <td class="d-none d-md-table-cell">{{ $donor->address }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->zip }}</td>

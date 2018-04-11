@@ -1,7 +1,7 @@
 <div class="card mb-4">
     <div class="card-header">
         @lang('donations.donors')
-        <a class="pull-right" href="{{ route('donors.index')  }}">@lang('app.manage')</a>
+        <a class="pull-right" href="{{ route('donations.donors.index')  }}">@lang('app.manage')</a>
     </div>
     <div class="card-body pb-2">
         <p>

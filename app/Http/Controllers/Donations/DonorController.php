@@ -66,7 +66,7 @@ class DonorController extends Controller
         $donor->phone = $request->phone;
         $donor->remarks = $request->remarks;
         $donor->save();
-        return redirect()->route('donors.show', $donor)
+        return redirect()->route('donations.donors.show', $donor)
             ->with('success', __('donations.donor_added'));
     }
 
@@ -124,7 +124,7 @@ class DonorController extends Controller
         $donor->phone = $request->phone;
         $donor->remarks = $request->remarks;
         $donor->save();
-        return redirect()->route('donors.show', $donor)
+        return redirect()->route('donations.donors.show', $donor)
             ->with('success', __('donations.donor_updated'));
     }
 
@@ -139,7 +139,7 @@ class DonorController extends Controller
         $this->authorize('delete', $donor);
 
         $donor->delete();
-        return redirect()->route('donors.index')
+        return redirect()->route('donations.donors.index')
             ->with('success', __('donations.donor_deleted'));
     }
 

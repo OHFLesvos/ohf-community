@@ -62,7 +62,7 @@ class NavigationComposer {
                     'authorized' => Gate::allows('use-logistics')
                 ],
                 [
-                    'route' => 'donors.index',
+                    'route' => 'donations.donors.index',
                     'caption' => __('donations.donations'),
                     'icon' => 'handshake-o',
                     'active' => 'donations/donors*',

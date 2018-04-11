@@ -35,7 +35,7 @@ class DonationController extends Controller
      * @param  \App\Donor  $donor
      * @return \Illuminate\Http\Response
      */
-    public function register(Donor $donor)
+    public function create(Donor $donor)
     {
         $this->authorize('create', Donation::class);
 
@@ -91,7 +91,7 @@ class DonationController extends Controller
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
         $donor->donations()->save($donation);
-        return redirect()->route('donors.show', $donor)
+        return redirect()->route('donations.donors.show', $donor)
             ->with('success', __('donations.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]));;
     }
 
@@ -158,7 +158,7 @@ class DonationController extends Controller
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
         $donation->save();
-        return redirect()->route('donors.show', $donor)
+        return redirect()->route('donations.donors.show', $donor)
             ->with('success', __('donations.donation_updated'));;
     }
 
@@ -173,7 +173,7 @@ class DonationController extends Controller
         $this->authorize('delete', $donation);
 
         $donation->delete();
-        return redirect()->route('donors.show', $donor)
+        return redirect()->route('donations.donors.show', $donor)
             ->with('success', __('donations.donation_deleted'));
     }
 

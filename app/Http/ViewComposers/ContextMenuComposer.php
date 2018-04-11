@@ -579,36 +579,36 @@ class ContextMenuComposer {
             //
             // Donations : Donors
             //
-            case 'donors.index':
+            case 'donations.donors.index':
                 return [
                     'action' => [
-                        'url' => route('donors.create'),
+                        'url' => route('donations.donors.create'),
                         'caption' => __('app.add'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Donor::class)
                     ],
                     'export' => [
-                        'url' => route('donors.export'),
+                        'url' => route('donations.donors.export'),
                         'caption' => __('app.export'),
                         'icon' => 'download',
                         'authorized' => Auth::user()->can('list', Donor::class)
                     ]
                 ];
-            case 'donors.create':
+            case 'donations.donors.create':
                 return [
                     'back' => [
-                        'url' => route('donors.index'),
+                        'url' => route('donations.donors.index'),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('create', Donor::class)
                     ]
                 ];
-            case 'donors.show':
+            case 'donations.donors.show':
                 $donor = $view->getData()['donor'];
                 return [
                     'action' => [
-                        'url' => route('donors.edit', $donor),
+                        'url' => route('donations.donors.edit', $donor),
                         'caption' => __('app.edit'),
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
@@ -621,24 +621,24 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('list', Donation::class) && $donor->donations()->count() > 0
                     ],
                     'delete' => [
-                        'url' => route('donors.destroy', $donor),
+                        'url' => route('donations.donors.destroy', $donor),
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $donor),
                         'confirmation' => __('donations.confirm_delete_donor')
                     ],
                     'back' => [
-                        'url' => route('donors.index'),
+                        'url' => route('donations.donors.index'),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Donor::class)
                     ]
                 ];
-            case 'donors.edit':
+            case 'donations.donors.edit':
                 $donor = $view->getData()['donor'];
                 return [
                     'back' => [
-                        'url' => route('donors.show', $donor),
+                        'url' => route('donations.donors.show', $donor),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $donor)
@@ -648,7 +648,7 @@ class ContextMenuComposer {
                 $donor = $view->getData()['donor'];
                 return [
                     'back' => [
-                        'url' => route('donors.show', $donor),
+                        'url' => route('donations.donors.show', $donor),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $donor)
@@ -666,7 +666,7 @@ class ContextMenuComposer {
                         'confirmation' => __('donations.confirm_delete_donation')
                     ],
                     'back' => [
-                        'url' => route('donors.show', $donor),
+                        'url' => route('donations.donors.show', $donor),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $donor)
