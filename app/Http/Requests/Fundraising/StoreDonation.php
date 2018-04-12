@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Donations;
+namespace App\Http\Requests\Fundraising;
 
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -579,94 +579,94 @@ class ContextMenuComposer {
             //
             // Donations : Donors
             //
-            case 'donations.donors.index':
+            case 'fundraising.donors.index':
                 return [
                     'action' => [
-                        'url' => route('donations.donors.create'),
+                        'url' => route('fundraising.donors.create'),
                         'caption' => __('app.add'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Donor::class)
                     ],
                     'export' => [
-                        'url' => route('donations.donors.export'),
+                        'url' => route('fundraising.donors.export'),
                         'caption' => __('app.export'),
                         'icon' => 'download',
                         'authorized' => Auth::user()->can('list', Donor::class)
                     ]
                 ];
-            case 'donations.donors.create':
+            case 'fundraising.donors.create':
                 return [
                     'back' => [
-                        'url' => route('donations.donors.index'),
+                        'url' => route('fundraising.donors.index'),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('create', Donor::class)
                     ]
                 ];
-            case 'donations.donors.show':
+            case 'fundraising.donors.show':
                 $donor = $view->getData()['donor'];
                 return [
                     'action' => [
-                        'url' => route('donations.donors.edit', $donor),
+                        'url' => route('fundraising.donors.edit', $donor),
                         'caption' => __('app.edit'),
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $donor)
                     ],
                     'export' => [
-                        'url' => route('donations.export', $donor),
+                        'url' => route('fundraising.donations.export', $donor),
                         'caption' => __('app.export'),
                         'icon' => 'download',
                         'authorized' => Auth::user()->can('list', Donation::class) && $donor->donations()->count() > 0
                     ],
                     'delete' => [
-                        'url' => route('donations.donors.destroy', $donor),
+                        'url' => route('fundraising.donors.destroy', $donor),
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $donor),
-                        'confirmation' => __('donations.confirm_delete_donor')
+                        'confirmation' => __('fundraising.confirm_delete_donor')
                     ],
                     'back' => [
-                        'url' => route('donations.donors.index'),
+                        'url' => route('fundraising.donors.index'),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Donor::class)
                     ]
                 ];
-            case 'donations.donors.edit':
+            case 'fundraising.donors.edit':
                 $donor = $view->getData()['donor'];
                 return [
                     'back' => [
-                        'url' => route('donations.donors.show', $donor),
+                        'url' => route('fundraising.donors.show', $donor),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $donor)
                     ]
                 ];
-            case 'donations.create':
+            case 'fundraising.donations.create':
                 $donor = $view->getData()['donor'];
                 return [
                     'back' => [
-                        'url' => route('donations.donors.show', $donor),
+                        'url' => route('fundraising.donors.show', $donor),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $donor)
                     ]
                 ];
-            case 'donations.edit':
+            case 'fundraising.donations.edit':
                 $donor = $view->getData()['donor'];
                 $donation = $view->getData()['donation'];
                 return [
                     'delete' => [
-                        'url' => route('donations.destroy', [$donor, $donation]),
+                        'url' => route('fundraising.donations.destroy', [$donor, $donation]),
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $donation),
-                        'confirmation' => __('donations.confirm_delete_donation')
+                        'confirmation' => __('fundraising.confirm_delete_donation')
                     ],
                     'back' => [
-                        'url' => route('donations.donors.show', $donor),
+                        'url' => route('fundraising.donors.show', $donor),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $donor)

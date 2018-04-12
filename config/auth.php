@@ -142,19 +142,19 @@ return [
         'calendar.resources.manage' => [
             'sensitive' => false,
         ],
-        'donations.donors.view' => [
+        'fundraising.donors.view' => [
             'sensitive' => true,
         ],
-        'donations.donors.manage' => [
+        'fundraising.donors.manage' => [
             'sensitive' => true,
         ],
-        'donations.donations.view' => [
+        'fundraising.donations.view' => [
             'sensitive' => true,
         ],
-        'donations.donations.register' => [
+        'fundraising.donations.register' => [
             'sensitive' => true,
         ],
-        'donations.donations.edit' => [
+        'fundraising.donations.edit' => [
             'sensitive' => true,
         ],
         'app.usermgmt.view' => [

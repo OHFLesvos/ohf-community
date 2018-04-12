@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies\Donations;
+namespace App\Policies\Fundraising;
 
 use App\User;
 use App\Donation;
@@ -25,7 +25,7 @@ class DonationPolicy
      */
     public function list(User $user)
     {
-        return $user->hasPermission('donations.donations.view');
+        return $user->hasPermission('fundraising.donations.view');
     }
 
     /**
@@ -37,7 +37,7 @@ class DonationPolicy
      */
     public function view(User $user, Donation $donation)
     {
-        return $user->hasPermission('donations.donations.view');
+        return $user->hasPermission('fundraising.donations.view');
     }
 
     /**
@@ -48,7 +48,7 @@ class DonationPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('donations.donations.register');
+        return $user->hasPermission('fundraising.donations.register');
     }
 
     /**
@@ -60,7 +60,7 @@ class DonationPolicy
      */
     public function update(User $user, Donation $donation)
     {
-        return $user->hasPermission('donations.donations.edit');
+        return $user->hasPermission('fundraising.donations.edit');
     }
 
     /**
@@ -72,6 +72,6 @@ class DonationPolicy
      */
     public function delete(User $user, Donation $donation)
     {
-        return $user->hasPermission('donations.donations.edit');
+        return $user->hasPermission('fundraising.donations.edit');
     }
 }

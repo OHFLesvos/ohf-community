@@ -192,18 +192,17 @@ Route::group(['middleware' => 'language'], function () {
     });
 
     // Donors and donations
-    Route::namespace('Donations')
+    Route::namespace('Fundraising')
         ->middleware(['auth'])
-        ->prefix('donations')
+        ->prefix('fundraising')
+        ->name('fundraising.')
         ->group(function () {
             // Donors
-            Route::name('donations.')->group(function () {
-                Route::name('donors.export')->get('donors/export', 'DonorController@export');
-                Route::resource('donors', 'DonorController');
-            });
+            Route::name('donors.export')->get('donors/export', 'DonorController@export');
+            Route::resource('donors', 'DonorController');
 
             // Donations
-            Route::name('donations.index')->get('/', 'DonationController@index');
+            Route::name('donations.index')->get('donations', 'DonationController@index');
             Route::prefix('donors/{donor}')
                 ->group(function () {
                     Route::name('donations.export')->get('export', 'DonationController@export');

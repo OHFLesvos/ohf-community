@@ -1,12 +1,12 @@
 <table class="table table-sm table-hover">
     <thead>
         <tr>
-            <th>@lang('donations.date')</th>
-            <th>@lang('donations.channel')</th>
-            <th>@lang('donations.purpose')</th>
-            <th>@lang('donations.reference')</th>
+            <th>@lang('fundraising.date')</th>
+            <th>@lang('fundraising.channel')</th>
+            <th>@lang('fundraising.purpose')</th>
+            <th>@lang('fundraising.reference')</th>
             <th>@lang('app.amount')</th>
-            <th>@lang('donations.exchange_amount')</th>
+            <th>@lang('fundraising.exchange_amount')</th>
         </tr>
     </thead>
     <tbody>

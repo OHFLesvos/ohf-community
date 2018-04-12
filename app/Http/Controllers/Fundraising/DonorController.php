@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Donations;
+namespace App\Http\Controllers\Fundraising;
 
 use App\Donor;
 use App\Donation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Util\CountriesExtended;
-use App\Http\Requests\Donations\StoreDonor;
+use App\Http\Requests\Fundraising\StoreDonor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 
@@ -26,7 +26,7 @@ class DonorController extends Controller
         if (isset($request->filter)) {
             $query->where('name', 'LIKE', '%' . $request->filter . '%');
         }
-        return view('donations.donors.index', [
+        return view('fundraising.donors.index', [
             'donors' => $query->paginate(100),
             'filter' => $request->filter,
         ]);
@@ -41,7 +41,7 @@ class DonorController extends Controller
     {
         $this->authorize('create', Donor::class);
 
-        return view('donations.donors.create', [
+        return view('fundraising.donors.create', [
             'countries' => CountriesExtended::getList('en'),
         ]);
     }
@@ -49,7 +49,7 @@ class DonorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Donations\StoreDonor  $request
+     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreDonor $request)
@@ -66,8 +66,8 @@ class DonorController extends Controller
         $donor->phone = $request->phone;
         $donor->remarks = $request->remarks;
         $donor->save();
-        return redirect()->route('donations.donors.show', $donor)
-            ->with('success', __('donations.donor_added'));
+        return redirect()->route('fundraising.donors.show', $donor)
+            ->with('success', __('fundraising.donor_added'));
     }
 
     /**
@@ -80,10 +80,10 @@ class DonorController extends Controller
     {
         $this->authorize('view', $donor);
 
-        return view('donations.donors.show', [
+        return view('fundraising.donors.show', [
             'donor' => $donor,
             'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate(),
-            'currencies' => Config::get('donations.currencies'),
+            'currencies' => Config::get('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
@@ -98,7 +98,7 @@ class DonorController extends Controller
     {
         $this->authorize('update', $donor);
 
-        return view('donations.donors.edit', [
+        return view('fundraising.donors.edit', [
             'donor' => $donor,
             'countries' => CountriesExtended::getList('en'),
         ]);
@@ -107,7 +107,7 @@ class DonorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Donations\StoreDonor  $request
+     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
      * @param  \App\Donor  $donor
      * @return \Illuminate\Http\Response
      */
@@ -124,8 +124,8 @@ class DonorController extends Controller
         $donor->phone = $request->phone;
         $donor->remarks = $request->remarks;
         $donor->save();
-        return redirect()->route('donations.donors.show', $donor)
-            ->with('success', __('donations.donor_updated'));
+        return redirect()->route('fundraising.donors.show', $donor)
+            ->with('success', __('fundraising.donor_updated'));
     }
 
     /**
@@ -139,8 +139,8 @@ class DonorController extends Controller
         $this->authorize('delete', $donor);
 
         $donor->delete();
-        return redirect()->route('donations.donors.index')
-            ->with('success', __('donations.donor_deleted'));
+        return redirect()->route('fundraising.donors.index')
+            ->with('success', __('fundraising.donor_deleted'));
     }
 
     /**
@@ -153,14 +153,14 @@ class DonorController extends Controller
         $this->authorize('list', Donor::class);
 
         \Excel::create('OHF_Community_Donors_' . Carbon::now()->toDateString(), function($excel) {
-            $excel->sheet(__('donations.donors'), function($sheet) {
+            $excel->sheet(__('fundraising.donors'), function($sheet) {
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
-                $sheet->loadView('donations.donors.export',[
+                $sheet->loadView('fundraising.donors.export',[
                     'donors' => Donor::orderBy('name')->get(),
                 ]);
-                $sheet->getStyle('I')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
-                $sheet->getStyle('J')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
+                $sheet->getStyle('I')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
+                $sheet->getStyle('J')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
             });
         })->export('xlsx');
     }

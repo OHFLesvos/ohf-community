@@ -1,20 +1,20 @@
 @extends('layouts.tabbed_view', [ 
     'nav_elements' => [
         [
-            'url' => route('donations.donors.index'),
-            'label' => __('donations.donors'),
+            'url' => route('fundraising.donors.index'),
+            'label' => __('fundraising.donors'),
             'icon' => 'handshake-o',
             'active' => function($currentRouteName) {
-                return $currentRouteName == 'donations.donors.index';
+                return $currentRouteName == 'fundraising.donors.index';
             },
             'authorized' => Auth::user()->can('list', \App\Donor::class)
         ],
         [
-            'url' => route('donations.index'),
-            'label' => __('donations.donations'),
+            'url' => route('fundraising.donations.index'),
+            'label' => __('fundraising.donations'),
             'icon' => 'money',
             'active' => function($currentRouteName) {
-                return $currentRouteName == 'donations.index';
+                return $currentRouteName == 'fundraising.donations.index';
             },
             'authorized' => Auth::user()->can('list', \App\Donation::class)
         ]

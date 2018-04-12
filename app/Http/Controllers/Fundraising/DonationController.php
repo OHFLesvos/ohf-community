@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Donations;
+namespace App\Http\Controllers\Fundraising;
 
 use App\Donor;
 use App\Donation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Donations\StoreDonation;
+use App\Http\Requests\Fundraising\StoreDonation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +24,7 @@ class DonationController extends Controller
         $this->authorize('list', Donation::class);
 
         $query = Donation::orderBy('created_at', 'desc');
-        return view('donations.donations.index', [
+        return view('fundraising.donations.index', [
             'donations' => $query->paginate(100),
         ]);
     }
@@ -39,9 +39,9 @@ class DonationController extends Controller
     {
         $this->authorize('create', Donation::class);
 
-        return view('donations.donations.register', [
+        return view('fundraising.donations.register', [
             'donor' => $donor,
-            'currencies' => Config::get('donations.currencies'),
+            'currencies' => Config::get('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
@@ -49,7 +49,7 @@ class DonationController extends Controller
     /**
      * Stores a new donation.
      *
-     * @param  \App\Http\Requests\Donations\StoreDonation  $request
+     * @param  \App\Http\Requests\Fundraising\StoreDonation  $request
      * @param  \App\Donor  $donor
      * @return \Illuminate\Http\Response
      */
@@ -62,7 +62,7 @@ class DonationController extends Controller
             $date = Carbon::today();
         }
 
-        if ($request->currency == Config::get('donations.base_currency')) {
+        if ($request->currency == Config::get('fundraising.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
             if (!empty($request->exchange_rate)) {
@@ -74,7 +74,7 @@ class DonationController extends Controller
                     Log::error($e);
                     // If exchange cannot be determined, redirect to advanced registration form, where exchange can be specified
                     return redirect()
-                        ->route('donations.create', $donor)
+                        ->route('fundraising.create', $donor)
                         ->withInput()
                         ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
                 }
@@ -91,8 +91,8 @@ class DonationController extends Controller
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
         $donor->donations()->save($donation);
-        return redirect()->route('donations.donors.show', $donor)
-            ->with('success', __('donations.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]));;
+        return redirect()->route('fundraising.donors.show', $donor)
+            ->with('success', __('fundraising.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]));;
     }
 
     /**
@@ -106,10 +106,10 @@ class DonationController extends Controller
     {
         $this->authorize('update', $donation);
 
-        return view('donations.donations.edit', [
+        return view('fundraising.donations.edit', [
             'donor' => $donor,
             'donation' => $donation,
-            'currencies' => Config::get('donations.currencies'),
+            'currencies' => Config::get('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
@@ -117,7 +117,7 @@ class DonationController extends Controller
     /**
      * Updates new donation.
      *
-     * @param  \App\Http\Requests\Donations\StoreDonation  $request
+     * @param  \App\Http\Requests\Fundraising\StoreDonation  $request
      * @param  \App\Donor  $donor
      * @param  \App\Donation  $donation
      * @return \Illuminate\Http\Response
@@ -131,7 +131,7 @@ class DonationController extends Controller
             $date = Carbon::today();
         }
 
-        if ($request->currency == Config::get('donations.base_currency')) {
+        if ($request->currency == Config::get('fundraising.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
             if (!empty($request->exchange_rate)) {
@@ -158,8 +158,8 @@ class DonationController extends Controller
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
         $donation->save();
-        return redirect()->route('donations.donors.show', $donor)
-            ->with('success', __('donations.donation_updated'));;
+        return redirect()->route('fundraising.donors.show', $donor)
+            ->with('success', __('fundraising.donation_updated'));;
     }
 
     /**
@@ -173,8 +173,8 @@ class DonationController extends Controller
         $this->authorize('delete', $donation);
 
         $donation->delete();
-        return redirect()->route('donations.donors.show', $donor)
-            ->with('success', __('donations.donation_deleted'));
+        return redirect()->route('fundraising.donors.show', $donor)
+            ->with('success', __('fundraising.donation_deleted'));
     }
 
     /**
@@ -200,20 +200,20 @@ class DonationController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         if (count($donations) > 0) {
-            $excel->sheet(__('donations.donations') . ' ' . $year, function($sheet) use($donations) {
+            $excel->sheet(__('fundraising.donations') . ' ' . $year, function($sheet) use($donations) {
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
     
                 // Data
-                $sheet->loadView('donations.donations.export',[
+                $sheet->loadView('fundraising.donations.export',[
                     'donations' => $donations,
                 ]);
     
                 // Currency formats
                 for ($i = 0; $i < sizeof($donations); $i++) {
-                    $sheet->getStyle('E' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('donations.currencies_excel_format')[$donations[$i]->currency]);
+                    $sheet->getStyle('E' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('fundraising.currencies_excel_format')[$donations[$i]->currency]);
                 }
-                $sheet->getStyle('F')->getNumberFormat()->setFormatCode(Config::get('donations.base_currency_excel_format'));
+                $sheet->getStyle('F')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
     
                 // Sum
                 $sumCell = 'F' . (count($donations) + 2);

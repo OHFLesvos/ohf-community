@@ -2,16 +2,16 @@
     <thead>
         <tr>
             <th>@lang('app.name')</th>
-            <th>@lang('donations.address')</th>
-            <th>@lang('donations.zip')</th>
-            <th>@lang('donations.city')</th>
-            <th>@lang('donations.country')</th>
+            <th>@lang('fundraising.address')</th>
+            <th>@lang('fundraising.zip')</th>
+            <th>@lang('fundraising.city')</th>
+            <th>@lang('fundraising.country')</th>
             <th>@lang('app.email')</th>
-            <th>@lang('donations.phone')</th>
+            <th>@lang('fundraising.phone')</th>
             <th>@lang('app.registered')</th>
             @can('list', App\Donation::class)
-                <th>@lang('donations.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
-                <th>@lang('donations.donations') {{ Carbon\Carbon::now()->year }}</th>
+                <th>@lang('fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
+                <th>@lang('fundraising.donations') {{ Carbon\Carbon::now()->year }}</th>
             @endcan
         </tr>
     </thead>
