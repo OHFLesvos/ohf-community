@@ -4,36 +4,37 @@
 
 @section('content')
     <div class="columns-3">
-        @foreach($permissions as $key => $permission)
-            <div class="mb-4" style="-webkit-column-break-inside: avoid;
-        -moz-column-break-inside:avoid;
-        -moz-page-break-inside:avoid;
-        page-break-inside: avoid;
-        break-inside: avoid-column;">
-                @php
-                    $roles = App\RolePermission::where('key', $key)
-                        ->get()
-                        ->map(function($e){
-                            return $e->role;
-                        })
-                        ->sortBy('name');
-                    $users = $roles->flatMap(function($e){
-                        return $e->users;
-                    })
-                    ->concat(App\User::where('is_super_admin', true)->get())
-                    ->unique('id')
-                    ->sortBy('name');
-                @endphp
-                <h4>@lang('permissions.' . $key)</h4>
-                @forelse($users as $user)
-                    <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
-                    @if($user->isSuperAdmin())
-                        (@lang('app.administrator'))
-                    @endif
-                    <br>
-                @empty
-                    <em>@lang('app.no_users')</em>
-                @endforelse
+        @foreach($permissions as $title => $elements)   
+            <div class="mb-4 column-break-avoid">
+                <h4>{{ $title == null ? __('app.general') : $title }}</h4>
+                @foreach($elements as $key => $label)
+                    <div class="mb-4 column-break-avoid">
+                        <p class="mb-1">{{ $label }}:</p>
+                        @php
+                            $roles = App\RolePermission::where('key', $key)
+                                ->get()
+                                ->map(function($e){
+                                    return $e->role;
+                                })
+                                ->sortBy('name');
+                            $users = $roles->flatMap(function($e){
+                                    return $e->users;
+                                })
+                                ->concat(App\User::where('is_super_admin', true)->get())
+                                ->unique('id')
+                                ->sortBy('name');
+                        @endphp
+                        @forelse($users as $user)
+                            <a class="pl-3" href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
+                            @if($user->isSuperAdmin())
+                                (@lang('app.administrator'))
+                            @endif
+                            <br>
+                        @empty
+                            <em  class="pl-3">@lang('app.no_users').</em>
+                        @endforelse
+                    </div>
+                @endforeach
             </div>
         @endforeach
     </div>

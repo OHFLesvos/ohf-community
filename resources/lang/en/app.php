@@ -129,4 +129,6 @@ return [
     'updated_by' => 'updated by',
     'undo' => 'Undo',
     'not_found' => 'Not found',
+    'miscellaneous' => 'Miscellaneous',
+    'general' => 'General',
  ];

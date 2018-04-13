@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRole;
 use App\Role;
+use App\User;
 use App\RolePermission;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -36,7 +37,8 @@ class RoleController extends ParentController
     public function create()
     {
         return view('roles.create', [
-            'permissions' => Config::get('auth.permissions')
+            'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
+            'permissions' => self::getCategorizedPermissions(),
         ]);
     }
 
@@ -51,6 +53,7 @@ class RoleController extends ParentController
         $role = new Role();
         $role->name = $request->name;
         $role->save();
+        $role->users()->sync($request->users);
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
@@ -72,9 +75,19 @@ class RoleController extends ParentController
      */
     public function show(Role $role)
     {
+        $current_permissions = $role->permissions->pluck('key')->sort();
+        $permissions = [];
+        foreach (self::getCategorizedPermissions() as $title => $elements) {
+            foreach($elements as $key => $label) {
+                if ($current_permissions->contains($key)) {
+                    $permissions[$title][] = $label;
+                }
+            }
+        }
+
         return view('roles.show', [
             'role' => $role,
-            'permissions' => Config::get('auth.permissions')
+            'permissions' => $permissions,
         ]);
     }
 
@@ -88,7 +101,8 @@ class RoleController extends ParentController
     {
         return view('roles.edit', [
             'role' => $role,
-            'permissions' => Config::get('auth.permissions')
+            'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
+            'permissions' => self::getCategorizedPermissions(),
         ]);
     }
 
@@ -103,6 +117,7 @@ class RoleController extends ParentController
     {
         $role->name = $request->name;
         $role->save();
+        $role->users()->sync($request->users);
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
@@ -118,6 +133,8 @@ class RoleController extends ParentController
                 RolePermission::where('key', $k)->where('role_id', $role->id)->delete();
             }
         }
+        $valid_keys = array_keys(Config::get('auth.permissions'));
+        RolePermission::destroy($role->permissions->whereNotIn('key', $valid_keys)->pluck('id')->toArray());
 
         return redirect()->route('roles.show', $role)
             ->with('success', __('app.role_updated'));
@@ -142,7 +159,26 @@ class RoleController extends ParentController
     public function permissions()
     {
         return view('roles.permissions', [
-            'permissions' => Config::get('auth.permissions')
+            'permissions' => self::getCategorizedPermissions(),
         ]);
+    }
+
+    public static function getCategorizedPermissions() {
+        $map = collect(Config::get('auth.permissions'))
+            ->keys()
+            ->mapWithKeys(function($item){
+                return [$item => __('permissions.' . $item)];
+            })
+            ->toArray();
+        $permissions = [];
+        foreach($map as $k => $v) {
+            if (preg_match('/^(.+): (.+)$/', $v, $m)) {
+                $permissions[$m[1]][$k] = $m[2];
+            } else {
+                $permissions[null][$k] = $v;
+            }
+        }
+        ksort($permissions);
+        return $permissions;
     }
 }

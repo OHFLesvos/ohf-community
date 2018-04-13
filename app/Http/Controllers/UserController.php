@@ -133,7 +133,7 @@ class UserController extends ParentController
     public function permissions()
     {
         return view('users.permissions', [
-            'permissions' => Config::get('auth.permissions')
+            'permissions' => RoleController::getCategorizedPermissions(),
         ]);
     }
 

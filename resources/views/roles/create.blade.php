@@ -6,36 +6,36 @@
 
     {!! Form::open(['route' => ['roles.store']]) !!}
 
-        <div class="row">
+        <div class="mb-3">
+            <div class="form-row">
+                <div class="col-md">
+                    {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
+                </div>
+            </div>
+        </div>
 
-            <div class="col-md-8 mb-4">
-                <div class="card">
-                    <div class="card-header">@lang('app.role')</div>
-                    <div class="card-body">
+        <div class="card-deck mb-3">
 
-                        <div class="form-row">
-                            <div class="col-md">
-                                {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
-                            </div>
-                        </div>
-
-                    </div>
+            {{-- Users --}}
+            <div class="card">
+                <div class="card-header">@lang('app.users')</div>
+                <div class="card-body columns-3">
+                    {{ Form::bsCheckboxList('users[]', $users, null) }}
                 </div>
             </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header">@lang('app.permissions')</div>
-                    <div class="card-body">
-                        {{ Form::bsCheckboxList('permissions[]', collect($permissions)
-                            ->mapWithKeys(function($item, $key){
-                                return [$key => __('permissions.' . $key)];
-                            })
-                            ->toArray(), null) }}
-                        @empty($permissions)
-                            <em>@lang('app.no_permissions')</em>
-                        @endempty
-                    </div>
+            {{-- Permissions --}}
+            <div class="card">
+                <div class="card-header">@lang('app.permissions')</div>
+                <div class="card-body columns-2">
+                    @forelse($permissions as $title => $elements)
+                        <div class="column-break-avoid">
+                            <h5 @unless($loop->first) class="mt-3" @endunless>{{ $title == null ? __('app.general') : $title }}</h5>
+                            {{ Form::bsCheckboxList('permissions[]', $elements, null) }}
+                        </div>
+                    @empty
+                        <em>@lang('app.no_permissions')</em>
+                    @endforelse
                 </div>
             </div>
 

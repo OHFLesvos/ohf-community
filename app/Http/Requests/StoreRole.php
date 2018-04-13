@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Config;
+use App\User;
 
 class StoreRole extends FormRequest
 {
@@ -31,6 +33,8 @@ class StoreRole extends FormRequest
                 'max:255',
                 isset($this->role) ? Rule::unique('roles')->ignore($this->role->id) : Rule::unique('roles')
             ],
+            'users' => 'array|in:' . User::select('id')->get()->pluck('id')->implode(','),
+            'permissions' => 'array|in:' . implode(',', array_keys(Config::get('auth.permissions'))),
         ];
     }
 }

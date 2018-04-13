@@ -4,26 +4,27 @@
 
 @section('content')
     <div class="columns-3">
-        @foreach($permissions as $key => $permission)
-            <div class="mb-4" style="-webkit-column-break-inside: avoid;
-        -moz-column-break-inside:avoid;
-        -moz-page-break-inside:avoid;
-        page-break-inside: avoid;
-        break-inside: avoid-column;">
-                <h4>@lang('permissions.' . $key)</h4>
-                @php
-                    $roles = App\RolePermission::where('key', $key)
-                        ->get()
-                        ->map(function($e){
-                            return $e->role;
-                        })
-                        ->sortBy('name');
-                @endphp
-                @forelse($roles as $role)
-                    <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
-                @empty
-                    <em>@lang('app.no_roles')</em>
-                @endforelse
+        @foreach($permissions as $title => $elements)
+            <div class="mb-4 column-break-avoid">
+                <h4>{{ $title == null ? __('app.general') : $title }}</h4>
+                @foreach($elements as $key => $label)
+                    <div class="mb-4 column-break-avoid">
+                        <p class="mb-1">{{ $label }}:</p>
+                        @php
+                            $roles = App\RolePermission::where('key', $key)
+                                ->get()
+                                ->map(function($e){
+                                    return $e->role;
+                                })
+                                ->sortBy('name');
+                        @endphp
+                        @forelse($roles as $role)
+                            <a class="pl-3" href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
+                        @empty
+                            <em class="pl-3">@lang('app.no_roles').</em>
+                        @endforelse
+                    </div>
+                @endforeach
             </div>
         @endforeach
     </div>
