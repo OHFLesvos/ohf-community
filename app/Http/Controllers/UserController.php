@@ -69,9 +69,19 @@ class UserController extends ParentController
      */
     public function show(User $user)
     {
+        $current_permissions = $user->permissions()->pluck('key');
+        $permissions = [];
+        foreach (RoleController::getCategorizedPermissions() as $title => $elements) {
+            foreach($elements as $key => $label) {
+                if ($current_permissions->contains($key)) {
+                    $permissions[$title][] = $label;
+                }
+            }
+        }
+
         return view('users.show', [
             'user' => $user,
-            'permissions' => Config::get('auth.permissions'),
+            'permissions' => $permissions,
         ]);
     }
 

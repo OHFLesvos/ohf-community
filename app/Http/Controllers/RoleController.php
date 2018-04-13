@@ -75,7 +75,7 @@ class RoleController extends ParentController
      */
     public function show(Role $role)
     {
-        $current_permissions = $role->permissions->pluck('key')->sort();
+        $current_permissions = $role->permissions->pluck('key');
         $permissions = [];
         foreach (self::getCategorizedPermissions() as $title => $elements) {
             foreach($elements as $key => $label) {

@@ -57,22 +57,22 @@
                 <div class="card-header">@lang('app.permissions') ({{ $role->permissions->count() }})</div>
                 <ul class="list-group list-group-flush">
                     @if(count($permissions) > 0)
-                            @foreach($permissions as $title => $elements)
-                                <li class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            {{ $title == null ? __('app.general') : $title }}<span class="d-inline d-md-none">:</span>
-                                        </div>
-                                        <div class="col-md">
-                                            <ul class="list-unstyled">
-                                                @foreach($elements as $item)
-                                                    <li class="ml-4 ml-md-0 mt-1 mt-md-0">{{ $item }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                        @foreach($permissions as $title => $elements)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        {{ $title == null ? __('app.general') : $title }}<span class="d-inline d-md-none">:</span>
                                     </div>
-                                </li>
-                            @endforeach
+                                    <div class="col-md">
+                                        <ul class="list-unstyled">
+                                            @foreach($elements as $item)
+                                                <li class="ml-4 ml-md-0 mt-1 mt-md-0">{{ $item }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
                     @else
                         <li class="list-group-item"><em>@lang('app.no_permissions_assigned')</em></li>
                     @endif
