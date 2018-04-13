@@ -34,7 +34,7 @@
                             {{ Form::bsCheckboxList('permissions[]', $elements, $role->permissions->pluck('key')->toArray()) }}
                         </div>
                     @empty
-                        <em>@lang('app.no_permissions')</em>
+                        <em>@lang('app.no_permissions_defined')</em>
                     @endforelse
                 </div>
             </div>

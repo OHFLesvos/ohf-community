@@ -20,19 +20,19 @@
                                 <small class="text-info">@lang('app.administrator')</small>
                             @endif
                     </div>
-                        <div class="col-sm">
-                            <ul>
+                        <div class="col-sm mt-2 mt-sm-0">
+                            <ul class="list-unstyled">
                                 @if($user->isSuperAdmin())
                                     @foreach(collect($permissions)->filter(function($p) {
                                         return $p['sensitive'];
                                     }) as $key => $permission)
-                                        <li>@lang('permissions.' . $key)<br></li>
+                                        <li class="mt-1 mt-md-0">@lang('permissions.' . $key)</li>
                                     @endforeach
                                 @else
                                     @foreach($user->permissions()->filter(function($p) use($permissions) {
                                             return isset($permissions[$p->key]) && $permissions[$p->key]['sensitive'];
                                         }) as $permission)
-                                        <li>@lang('permissions.' . $permission->key)<br></li>
+                                        <li class="mt-1 mt-md-0">@lang('permissions.' . $permission->key)</li>
                                     @endforeach
                                 @endif
                             </ul>

@@ -39,7 +39,7 @@
                     <div class="card-body">
                         {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(function($role){return [ $role->id => $role->name ];}), null) }}
                         @empty($roles)
-                            <em>@lang('app.no_roles')</em>
+                            <em>@lang('app.no_roles_defined')</em>
                         @endempty
                         @if ( App\User::count() > 1 )
                             <hr>

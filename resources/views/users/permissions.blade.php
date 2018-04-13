@@ -31,7 +31,7 @@
                             @endif
                             <br>
                         @empty
-                            <em  class="pl-3">@lang('app.no_users').</em>
+                            <em  class="pl-3">@lang('app.no_users_assigned')</em>
                         @endforelse
                     </div>
                 @endforeach

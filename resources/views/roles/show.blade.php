@@ -14,13 +14,13 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('app.created')</strong></div>
-                <div class="col-sm">{{ $role->created_at }}</div>
+                <div class="col-sm">{{ $role->created_at }} <small class="text-muted pl-2">{{ $role->created_at->diffForHumans() }}</small></div>
             </div>
         </li>
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
-                <div class="col-sm">{{ $role->updated_at }}</div>
+                <div class="col-sm">{{ $role->updated_at }} <small class="text-muted pl-2">{{ $role->updated_at->diffForHumans() }}</small></div>
             </div>
         </li>
     </ul>
@@ -43,7 +43,7 @@
                         </div>
                     @else
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><em>@lang('app.no_users_found')</em></li>
+                            <li class="list-group-item"><em>@lang('app.no_users_assigned')</em></li>
                         </ul>
                     @endif
                 </div>
@@ -55,21 +55,28 @@
         <div class="col-md">
             <div class="card mb-4">
                 <div class="card-header">@lang('app.permissions') ({{ $role->permissions->count() }})</div>
-                <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
                     @if(count($permissions) > 0)
-                        <ul class="my-3 mx-0">
                             @foreach($permissions as $title => $elements)
-                                <li>{{ $title == null ? __('app.general') : $title }}:<ul>
-                                @foreach($elements as $item)
-                                    <li>{{ $item }}</li>
-                                @endforeach
-                                </ul>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            {{ $title == null ? __('app.general') : $title }}<span class="d-inline d-md-none">:</span>
+                                        </div>
+                                        <div class="col-md">
+                                            <ul class="list-unstyled">
+                                                @foreach($elements as $item)
+                                                    <li class="ml-4 ml-md-0 mt-1 mt-md-0">{{ $item }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
                             @endforeach
-                        </ul>
                     @else
-                        <p class="mx-3 mt-3 mb-3"><em>@lang('app.no_permissions')</em></p>
+                        <li class="list-group-item"><em>@lang('app.no_permissions_assigned')</em></li>
                     @endif
-                </div>
+                </ul>
             </div>
         </div>
 

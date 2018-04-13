@@ -21,7 +21,7 @@
                         @forelse($roles as $role)
                             <a class="pl-3" href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
                         @empty
-                            <em class="pl-3">@lang('app.no_roles').</em>
+                            <em class="pl-3">@lang('app.no_roles_assigned')</em>
                         @endforelse
                     </div>
                 @endforeach

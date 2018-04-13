@@ -37,7 +37,7 @@
                                     @forelse ($user->roles->sortBy('name') as $role)
                                         <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
                                     @empty
-                                        <em>@lang('app.no_roles')</em>
+                                        <em>@lang('app.no_roles_assigned')</em>
                                     @endforelse
                                 </div>
                             </div>
@@ -58,13 +58,13 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-sm"><strong>@lang('app.registered')</strong></div>
-                                <div class="col-sm">{{ $user->created_at }}</div>
+                                <div class="col-sm">{{ $user->created_at }} <small class="text-muted pl-2">{{ $user->created_at->diffForHumans() }}</small></div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
-                                <div class="col-sm">{{ $user->updated_at }}</div>
+                                <div class="col-sm">{{ $user->updated_at }} <small class="text-muted pl-2">{{ $user->updated_at->diffForHumans() }}</small></div>
                             </div>
                         </li>
                     </ul>
@@ -86,7 +86,7 @@
                                 <li class="list-group-item">@lang('permissions.' . $permission->key)</li>
                             @endforeach
                         @else
-                            <li class="list-group-item"><em>@lang('app.no_permissions')</em></li>
+                            <li class="list-group-item"><em>@lang('app.no_permissions_assigned')</em></li>
                         @endif
                     </ul>
                 </div>

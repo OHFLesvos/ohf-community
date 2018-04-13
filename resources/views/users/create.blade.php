@@ -38,7 +38,7 @@
                     <div class="card-body">
                         {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(function($role){return [ $role->id => $role->name ];}), null) }}
                         @empty($roles)
-                            <em>@lang('app.no_roles')</em>
+                            <em>@lang('app.no_roles_defined')</em>
                         @endempty
                         <hr>
                         {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}

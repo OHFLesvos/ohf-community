@@ -9,16 +9,16 @@
             <thead>
                 <tr>
                     <th>@lang('app.name')</th>
-                    <th>@lang('app.users')</th>
-                    <th class="d-none d-sm-table-cell">@lang('app.permissions')</th>
+                    <th class="text-right">@lang('app.users')</th>
+                    <th class="text-right d-none d-sm-table-cell">@lang('app.permissions')</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($roles as $role)
                     <tr>
                         <td><a href="{{ route('roles.show', $role) }}" title="View Role">{{ $role->name }}</a></td>
-                        <td>{{ $role->users->count()  }}</td>
-                        <td class="d-none d-sm-table-cell">{{ $role->permissions->count()  }}</td>
+                        <td class="text-right">{{ $role->users->count()  }}</td>
+                        <td class="text-right d-none d-sm-table-cell">{{ $role->permissions->count()  }}</td>
                     </tr>
                 @endforeach
             </tbody>
