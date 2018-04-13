@@ -12,7 +12,10 @@ class Donor extends Model
     use NullableFields;
 
     protected $nullable = [
-		'address',
+        'first_name',
+        'last_name',
+        'company',
+		'street',
         'zip',
         'city',
         'country',
@@ -20,6 +23,23 @@ class Donor extends Model
         'phone',
         'remarks',
     ];
+
+    function getNameAttribute() {
+        $str = '';
+        if ($this->first_name != null) {
+            $str .= $this->first_name;
+        }
+        if ($this->last_name != null) {
+            $str .= ' ' . $this->last_name;
+        }
+        if ($this->company != null) {
+            if (!empty($str)) {
+                $str .= ', ';
+            }
+            $str .= $this->company;
+        }
+        return trim($str);
+    }
 
     function donations() {
         return $this->hasMany('App\Donation');

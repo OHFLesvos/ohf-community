@@ -19,11 +19,11 @@
                             </div>
                         </li>
 
-                        @isset($donor->address)
+                        @isset($donor->street)
                             <li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-sm"><strong>@lang('fundraising.address')</strong></div>
-                                    <div class="col-sm">{{ $donor->address }}</div>
+                                    <div class="col-sm"><strong>@lang('fundraising.street')</strong></div>
+                                    <div class="col-sm">{{ $donor->street }}</div>
                                 </div>
                             </li>
                         @endisset

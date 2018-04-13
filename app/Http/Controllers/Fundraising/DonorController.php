@@ -11,6 +11,7 @@ use App\Http\Requests\Fundraising\StoreDonor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use JeroenDesloovere\VCard\VCard;
+use Illuminate\Support\Facades\DB;
 
 class DonorController extends Controller
 {
@@ -23,9 +24,14 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        $query = Donor::orderBy('name');
+        $query = Donor
+            ::orderBy('first_name')
+            ->orderBy('last_name')
+            ->orderBy('company');
         if (isset($request->filter)) {
-            $query->where('name', 'LIKE', '%' . $request->filter . '%');
+            $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $request->filter . '%')
+                ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $request->filter . '%')
+                ->orWhere('company', 'LIKE', '%' . $request->filter . '%');
         }
         return view('fundraising.donors.index', [
             'donors' => $query->paginate(100),
@@ -58,8 +64,10 @@ class DonorController extends Controller
         $this->authorize('create', Donor::class);
 
         $donor = new Donor();
-        $donor->name = $request->name;
-        $donor->address = $request->address;
+        $donor->first_name = $request->first_name;
+        $donor->last_name = $request->last_name;
+        $donor->company = $request->company;
+        $donor->street = $request->street;
         $donor->zip = $request->zip;
         $donor->city = $request->city;
         $donor->country = $request->country;
@@ -116,8 +124,10 @@ class DonorController extends Controller
     {
         $this->authorize('update', $donor);
 
-        $donor->name = $request->name;
-        $donor->address = $request->address;
+        $donor->first_name = $request->first_name;
+        $donor->last_name = $request->last_name;
+        $donor->company = $request->company;
+        $donor->street = $request->street;
         $donor->zip = $request->zip;
         $donor->city = $request->city;
         $donor->country = $request->country;
@@ -176,16 +186,19 @@ class DonorController extends Controller
     {
         $this->authorize('view', $donor);
 
-        $name_parts = explode(' ', $donor->name); // TODO
-        $first_name = isset($name_parts[0]) ? $name_parts[0] : null;
-        $last_name = isset($name_parts[1]) ? $name_parts[1] : null;
-
         // define vcard
         $vcard = new VCard();
-        $vcard->addName($last_name, $first_name, '', '', '');
-        $vcard->addEmail($donor->email);
-        $vcard->addPhoneNumber($donor->phone, 'HOME');
-        $vcard->addAddress(null, null, $donor->address, $donor->city, null, $donor->zip, $donor->country, 'HOME;POSTAL');
+        if ($donor->company != null) {
+            $vcard->addCompany($donor->company);
+        }
+        $vcard->addName($donor->last_name, $donor->first_name, '', '', '');
+        if ($donor->email != null) {
+            $vcard->addEmail($donor->email);
+        }
+        if ($donor->phone != null) {
+            $vcard->addPhoneNumber($donor->phone, $donor->company != null ? 'WORK' : 'HOME');
+        }
+        $vcard->addAddress(null, null, $donor->street, $donor->city, null, $donor->zip, $donor->country, ($donor->company != null ? 'WORK' : 'HOME') . ';POSTAL');
 
         // return vcard as a download
         return $vcard->download();

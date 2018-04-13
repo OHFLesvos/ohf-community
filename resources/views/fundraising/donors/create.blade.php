@@ -13,7 +13,7 @@
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('address', null, [ ], __('fundraising.address')) }}
+                {{ Form::bsText('street', null, [ ], __('fundraising.street')) }}
             </div>
         </div>
         <div class="form-row">

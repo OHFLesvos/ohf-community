@@ -23,7 +23,8 @@
                 <thead>
                     <tr>
                         <th>@lang('app.name')</th>
-                        <th class="d-none d-md-table-cell">@lang('fundraising.address')</th>
+                        <th class="d-none d-md-table-cell">@lang('fundraising.company')</th>
+                        <th class="d-none d-md-table-cell">@lang('fundraising.street')</th>
                         <th class="d-none d-md-table-cell">@lang('fundraising.zip')</th>
                         <th class="d-none d-md-table-cell">@lang('fundraising.city')</th>
                         <th class="d-none d-md-table-cell">@lang('fundraising.country')</th>
@@ -41,7 +42,8 @@
                             <td>
                                 <a href="{{ route('fundraising.donors.show', $donor) }}">{{ $donor->name }}</a>
                             </td>
-                            <td class="d-none d-md-table-cell">{{ $donor->address }}</td>
+                            <td class="d-none d-md-table-cell">{{ $donor->company }}</td>
+                            <td class="d-none d-md-table-cell">{{ $donor->street }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->zip }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->city }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->country }}</td>
