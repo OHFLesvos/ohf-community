@@ -10,6 +10,7 @@ use App\Util\CountriesExtended;
 use App\Http\Requests\Fundraising\StoreDonor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
+use JeroenDesloovere\VCard\VCard;
 
 class DonorController extends Controller
 {
@@ -165,4 +166,28 @@ class DonorController extends Controller
         })->export('xlsx');
     }
 
+    /**
+     * Download vcard
+     * 
+     * @param  \App\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    function vcard(Donor $donor)
+    {
+        $this->authorize('view', $donor);
+
+        $name_parts = explode(' ', $donor->name); // TODO
+        $first_name = isset($name_parts[0]) ? $name_parts[0] : null;
+        $last_name = isset($name_parts[1]) ? $name_parts[1] : null;
+
+        // define vcard
+        $vcard = new VCard();
+        $vcard->addName($last_name, $first_name, '', '', '');
+        $vcard->addEmail($donor->email);
+        $vcard->addPhoneNumber($donor->phone, 'HOME');
+        $vcard->addAddress(null, null, $donor->address, $donor->city, null, $donor->zip, $donor->country, 'HOME;POSTAL');
+
+        // return vcard as a download
+        return $vcard->download();
+    }
 }

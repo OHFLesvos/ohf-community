@@ -133,4 +133,5 @@ return [
     'not_found' => 'Not found',
     'miscellaneous' => 'Miscellaneous',
     'general' => 'General',
+    'vcard' => 'vCard',
  ];

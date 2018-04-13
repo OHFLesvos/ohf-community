@@ -202,6 +202,7 @@ Route::group(['middleware' => 'language'], function () {
     Route::namespace('Fundraising')->middleware(['auth'])->prefix('fundraising')->name('fundraising.')->group(function () {
         // Donors
         Route::name('donors.export')->get('donors/export', 'DonorController@export');
+        Route::name('donors.vcard')->get('donors/{donor}/vcard', 'DonorController@vcard');
         Route::resource('donors', 'DonorController');
 
         // Donations

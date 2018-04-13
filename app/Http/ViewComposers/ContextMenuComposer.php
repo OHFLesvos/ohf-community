@@ -626,6 +626,12 @@ class ContextMenuComposer {
                         'icon' => 'download',
                         'authorized' => Auth::user()->can('list', Donation::class) && $donor->donations()->count() > 0
                     ],
+                    'vcard' => [
+                        'url' => route('fundraising.donors.vcard', $donor),
+                        'caption' => __('app.vcard'),
+                        'icon' => 'vcard',
+                        'authorized' => Auth::user()->can('view', $donor)
+                    ],
                     'delete' => [
                         'url' => route('fundraising.donors.destroy', $donor),
                         'caption' => __('app.delete'),
