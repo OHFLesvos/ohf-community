@@ -143,7 +143,13 @@ class ContextMenuComposer {
                         'caption' => __('app.permissions'),
                         'icon' => 'key',
                         'authorized' => Gate::allows('view-usermgmt-reports')
-                    ]
+                    ],
+                    'privacy' => [
+                        'url' => route('reporting.privacy'),
+                        'caption' => __('reporting.privacy'),
+                        'icon' => 'eye',
+                        'authorized' => Gate::allows('view-usermgmt-reports')
+                    ],                    
                 ];
             case 'users.create':
                 return [

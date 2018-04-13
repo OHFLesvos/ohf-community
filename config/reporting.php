@@ -40,7 +40,7 @@ return [
         ],
         'privacy' => [
             'route' => 'reporting.privacy',
-            'icon' => 'key',
+            'icon' => 'eye',
             'gate' => 'view-usermgmt-reports',
             'featured' => true,
         ],

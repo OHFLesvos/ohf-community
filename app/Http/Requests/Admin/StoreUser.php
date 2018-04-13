@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Role;
 
-class UpdateUser extends FormRequest
+class StoreUser extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,9 +32,10 @@ class UpdateUser extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->user->id),
+                Rule::unique('users'),
             ],
-            'roles' => 'array',
+            'password' => 'required|string|min:6|pwned',
+            'roles' => 'array|in:' . Role::select('id')->get()->pluck('id')->implode(','),
         ];
     }
 }

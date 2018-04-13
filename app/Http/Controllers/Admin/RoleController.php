@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreRole;
+use App\Http\Controllers\ParentController;
+use App\Http\Requests\Admin\StoreRole;
 use App\Role;
 use App\User;
 use App\RolePermission;
@@ -45,7 +46,7 @@ class RoleController extends ParentController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\StoreRole  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRole $request)
@@ -109,7 +110,7 @@ class RoleController extends ParentController
     /**
      * Update the specified resource in storage.
      *
-     * @param StoreRole|\Illuminate\Http\Request $request
+     * @param \App\Http\Requests\Admin\StoreRole $request
      * @param  Role $role
      * @return \Illuminate\Http\Response
      */

@@ -65,7 +65,7 @@ class NavigationComposer {
                     'route' => 'fundraising.donors.index',
                     'caption' => __('fundraising.donation_management'),
                     'icon' => 'handshake-o',
-                    'active' => 'donations/donors*',
+                    'active' => 'fundraising/*',
                     'authorized' => Auth::user()->can('list', Donor::class),
                 ],
                 [
@@ -94,7 +94,7 @@ class NavigationComposer {
                     'route' => 'users.index',
                     'caption' => __('app.users_and_roles'),
                     'icon' => 'users',
-                    'active' => ['users*', 'roles*'],
+                    'active' => ['admin/users*', 'admin/roles*'],
                     'authorized' => Auth::user()->can('list', User::class) || Auth::user()->can('list', Role::class)
                 ],
                 [

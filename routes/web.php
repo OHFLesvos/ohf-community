@@ -29,11 +29,23 @@ Route::group(['middleware' => 'language'], function () {
         });
 
         //
-        // User management
+        // User and role management
         //
-        Route::put('users/{user}/disable2FA', 'UserController@disable2FA')->name('users.disable2FA');
-        Route::resource('users', 'UserController');
-        Route::resource('roles', 'RoleController');
+        Route::namespace('Admin')->prefix('admin')->group(function(){
+            // Users
+            Route::put('users/{user}/disable2FA', 'UserController@disable2FA')->name('users.disable2FA');
+            Route::resource('users', 'UserController');
+
+            // Roles
+            Route::resource('roles', 'RoleController');
+
+            // Reporting
+            Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {    
+                Route::get('reporting/users/permissions', 'UserController@permissions')->name('users.permissions');
+                Route::get('reporting/users/sensitiveData', 'UserController@sensitiveDataReport')->name('reporting.privacy');
+                Route::get('reporting/roles/permissions', 'RoleController@permissions')->name('roles.permissions');
+            });
+        });
 
         //
         // User profile
@@ -160,12 +172,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/reporting/articles/chart/{article}/transactionsPerMonth', 'Reporting\\ArticleReportingController@transactionsPerMonth')->name('reporting.articles.transactionsPerMonth');
         Route::get('/reporting/articles/chart/{article}/avgTransactionsPerWeekDay', 'Reporting\\ArticleReportingController@avgTransactionsPerWeekDay')->name('reporting.articles.avgTransactionsPerWeekDay');
 
-        // Reporting: User and role management
-        Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {    
-            Route::get('/reporting/users/permissions', 'UserController@permissions')->name('users.permissions');
-            Route::get('/reporting/users/sensitiveData', 'UserController@sensitiveDataReport')->name('reporting.privacy');
-            Route::get('/reporting/roles/permissions', 'RoleController@permissions')->name('roles.permissions');
-        });
+
     });
 
     // Logistics
@@ -192,23 +199,18 @@ Route::group(['middleware' => 'language'], function () {
     });
 
     // Donors and donations
-    Route::namespace('Fundraising')
-        ->middleware(['auth'])
-        ->prefix('fundraising')
-        ->name('fundraising.')
-        ->group(function () {
-            // Donors
-            Route::name('donors.export')->get('donors/export', 'DonorController@export');
-            Route::resource('donors', 'DonorController');
+    Route::namespace('Fundraising')->middleware(['auth'])->prefix('fundraising')->name('fundraising.')->group(function () {
+        // Donors
+        Route::name('donors.export')->get('donors/export', 'DonorController@export');
+        Route::resource('donors', 'DonorController');
 
-            // Donations
-            Route::name('donations.index')->get('donations', 'DonationController@index');
-            Route::prefix('donors/{donor}')
-                ->group(function () {
-                    Route::name('donations.export')->get('export', 'DonationController@export');
-                    Route::resource('donations', 'DonationController')->except('show', 'index');
-                });
+        // Donations
+        Route::name('donations.index')->get('donations', 'DonationController@index');
+        Route::prefix('donors/{donor}')->group(function () {
+            Route::name('donations.export')->get('export', 'DonationController@export');
+            Route::resource('donations', 'DonationController')->except('show', 'index');
         });
+    });
 
     Auth::routes();
     Route::get('/userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
