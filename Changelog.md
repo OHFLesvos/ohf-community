@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.10
+
+* UI improvements in user and role manager
+* Updated libraries
+
 ## 1.13.9
 
 * Bank search shows family relations
