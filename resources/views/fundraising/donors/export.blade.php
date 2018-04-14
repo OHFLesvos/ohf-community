@@ -26,7 +26,7 @@
                 <td>{{ $donor->street }}</td>
                 <td>{{ $donor->zip }}</td>
                 <td>{{ $donor->city }}</td>
-                <td>{{ $donor->country }}</td>
+                <td>{{ $donor->country_name }}</td>
                 <td>{{ $donor->email }}</td>
                 <td>{{ $donor->phone }}</td>
                 <td>{{ $donor->created_at }}</td>

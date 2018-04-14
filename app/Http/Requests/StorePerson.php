@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Util\CountriesExtended;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -32,7 +31,7 @@ class StorePerson extends FormRequest
             'nationality' => [
 				'nullable',
 				'max:255',
-				Rule::in(CountriesExtended::getList('en'))
+				Rule::in(\Countries::getList('en'))
 			],
             'medical_no' => 'max:255',
             'registration_no' => 'max:255',

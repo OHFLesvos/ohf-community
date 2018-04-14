@@ -33,8 +33,8 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsDeleteButton', 'components.form.bsDeleteButton', [ 'label' => 'Delete', 'icon' => 'trash', 'confirmation' => 'Do you really want to delete this item?' ]);
         Form::component('bsDeleteForm', 'components.form.bsDeleteForm', [ 'action', 'label' => 'Delete', 'icon' => 'trash', 'confirmation' => 'Do you really want to delete this item?' ]);
         Form::component('bsButtonLink', 'components.form.bsButtonLink', [ 'href', 'label', 'icon', 'class' => 'secondary' ]);
-
         Form::component('genderSelect', 'components.form.genderSelect', [ 'name', 'value' => null, 'label' => 'Gender' ]);
+        Form::component('bsCountryName', 'components.form.bsCountryName', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
     }
 
     /**

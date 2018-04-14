@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Util\CountriesExtended;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Person;
@@ -42,7 +41,7 @@ class PeopleController extends ParentController
 
     public function create() {
         $usedInBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
-        $countries = CountriesExtended::getList('en');
+        $countries = \Countries::getList('en');
         if ($usedInBank) {
             return view('people.create_in_bank', [
                 'countries' => $countries,
@@ -128,7 +127,7 @@ class PeopleController extends ParentController
     public function edit(Person $person) {
         return view('people.edit', [
             'person' => $person,
-            'countries' => CountriesExtended::getList('en')
+            'countries' => \Countries::getList('en')
 		]);
 	}
 

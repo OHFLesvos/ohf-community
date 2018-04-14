@@ -58,11 +58,11 @@
                             </li>
                         @endisset
 
-                        @isset($donor->country)
+                        @isset($donor->country_name)
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-sm"><strong>@lang('fundraising.country')</strong></div>
-                                    <div class="col-sm">{{ $donor->country }}</div>
+                                    <div class="col-sm">{{ $donor->country_name }}</div>
                                 </div>
                             </li>
                         @endisset

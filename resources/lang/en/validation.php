@@ -88,6 +88,8 @@ return [
     'url'                  => 'The :attribute format is invalid.',
     'old_password'         => 'The :attribute does not match.',
     'pwned'                => 'You password is insufficiently secure as it has been found in known password breaches, please chose a new one.',
+    'country_code'         => 'The :attribute is not valid.',
+    'country_name'         => 'The :attribute is not valid.',
 
     /*
     |--------------------------------------------------------------------------

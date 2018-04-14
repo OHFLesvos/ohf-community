@@ -4,16 +4,38 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Util\CountriesExtended;
+use App\Http\Requests\GetCountryList;
 
 class CountryListController extends Controller
 {
-    function list(Request $request) {
-        $lang = $request->lang ?? 'en';
-        $countries = CountriesExtended::getList($lang);
-        return response()->json([
-            "suggestions" => $countries,
-        ]);
+    function suggestions(GetCountryList $request) {
+        $lang = $request->lang ?? \App::getLocale();
+        $countries = collect(\Countries::getList($lang));
+
+        // Filter by query
+        if (isset($request->query()['query'])) {
+            $q = $request->query()['query'];
+            $countries = $countries
+                ->filter(function($e) use($q) {
+                    return stristr($e, $q);
+                });
+        }
+
+        return response()->json(self::createSuggestionArray($countries));
     }
     
+    private static function createSuggestionArray($data) {
+        return [
+            "suggestions" => collect($data)
+                ->map(function($v, $k){
+                    return [
+                        'value' => $v,
+                        'data' => $k,
+                    ];
+                })
+                ->values()
+                ->toArray(),
+            ];
+    }
+
 }

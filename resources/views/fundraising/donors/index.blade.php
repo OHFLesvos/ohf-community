@@ -64,7 +64,7 @@
                             <td class="d-none d-md-table-cell">{{ $donor->street }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->zip }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->city }}</td>
-                            <td class="d-none d-md-table-cell">{{ $donor->country }}</td>
+                            <td class="d-none d-md-table-cell">{{ $donor->country_name }}</td>
                             <td class="d-none d-sm-table-cell">
                                 @isset($donor->email)
                                     <a href="mailto:{{ $donor->email }}">{{ $donor->email }}</a>

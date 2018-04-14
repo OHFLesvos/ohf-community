@@ -6,7 +6,6 @@ use App\Donor;
 use App\Donation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Util\CountriesExtended;
 use App\Http\Requests\Fundraising\StoreDonor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -48,9 +47,7 @@ class DonorController extends Controller
     {
         $this->authorize('create', Donor::class);
 
-        return view('fundraising.donors.create', [
-            'countries' => CountriesExtended::getList('en'),
-        ]);
+        return view('fundraising.donors.create');
     }
 
     /**
@@ -70,7 +67,7 @@ class DonorController extends Controller
         $donor->street = $request->street;
         $donor->zip = $request->zip;
         $donor->city = $request->city;
-        $donor->country = $request->country;
+        $donor->country_name = $request->country_name;
         $donor->email = $request->email;
         $donor->phone = $request->phone;
         $donor->remarks = $request->remarks;
@@ -109,7 +106,6 @@ class DonorController extends Controller
 
         return view('fundraising.donors.edit', [
             'donor' => $donor,
-            'countries' => CountriesExtended::getList('en'),
         ]);
     }
 
@@ -130,7 +126,7 @@ class DonorController extends Controller
         $donor->street = $request->street;
         $donor->zip = $request->zip;
         $donor->city = $request->city;
-        $donor->country = $request->country;
+        $donor->country_name = $request->country_name;
         $donor->email = $request->email;
         $donor->phone = $request->phone;
         $donor->remarks = $request->remarks;
@@ -204,7 +200,7 @@ class DonorController extends Controller
         if ($donor->phone != null) {
             $vcard->addPhoneNumber($donor->phone, $donor->company != null ? 'WORK' : 'HOME');
         }
-        $vcard->addAddress(null, null, $donor->street, $donor->city, null, $donor->zip, $donor->country, ($donor->company != null ? 'WORK' : 'HOME') . ';POSTAL');
+        $vcard->addAddress(null, null, $donor->street, $donor->city, null, $donor->zip, $donor->country_name, ($donor->company != null ? 'WORK' : 'HOME') . ';POSTAL');
 
         // return vcard as a download
         return $vcard->download();

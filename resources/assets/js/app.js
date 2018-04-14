@@ -194,13 +194,20 @@ $(function(){
         opts = {};
         if ($(this).data('autocomplete-url')) {
             opts.serviceUrl = $(this).data('autocomplete-url');
+            opts.dataType = 'json';
+            opts.deferRequestBy = 100; //ms
         } else if ($(this).data('autocomplete-source')) {
             opts.lookup = $(this).data('autocomplete-source');
         }
         if ($(this).data('autocomplete-update')) {
             opts.onSelect = function (suggestion) {
                 $($(this).data('autocomplete-update')).val(suggestion.data);
-                //console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            }
+            opts.onSearchError = function (suggestion) {
+                $($(this).data('autocomplete-update')).val('');
+            }
+            opts.onSearchStart = function (suggestion) {
+                $($(this).data('autocomplete-update')).val('');
             }
         }
         $('[rel="autocomplete"]').autocomplete(opts);

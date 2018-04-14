@@ -28,7 +28,7 @@
                 {{ Form::bsText('city', null, [ ], __('fundraising.city')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('country', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries)) ], __('fundraising.country')) }}
+                {{ Form::bsCountryName('country_name', null, [ ], __('fundraising.country')) }}
             </div>
         </div>
         <div class="form-row">

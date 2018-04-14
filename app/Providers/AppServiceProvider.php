@@ -11,6 +11,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Rules\CountryCode;
+use App\Rules\CountryName;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -58,6 +60,8 @@ class AppServiceProvider extends ServiceProvider
             return Gate::allows($gate);
         });
 
+        Validator::extend('country_code', CountryCode::class);
+        Validator::extend('country_name', CountryName::class);
     }
 
     /**

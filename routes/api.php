@@ -18,6 +18,11 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['middleware' => ['auth']], function () {
+
+    Route::namespace('Api')->name('api.suggestions.')->middleware('language')->group(function () {
+        Route::get('countries', 'CountryListController@suggestions')->name('country');
+    });
+
     // Tasks
     Route::resource('tasks', 'TasksController');
     Route::put('/tasks/{task}/done', 'TasksController@done');

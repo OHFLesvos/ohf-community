@@ -19,6 +19,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->text('company')->nullable()->after('name');
             $table->text('last_name')->nullable()->after('name');
             $table->text('first_name')->nullable()->after('name');
+            $table->text('country_code')->nullable()->after('city');
         });
         Donor::all()->each(function($donor){
             $name_parts = preg_split('/\\s+/', $donor->name);
@@ -27,11 +28,15 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $donor->first_name = $first_name;
             $donor->last_name = $last_name;
             $donor->street = $donor->address;
+            if ($donor->country != null) {
+                $donor->country_code = array_flip(Countries::getList('en'))[$donor->country] ?? null;
+            }
             $donor->save();
         });
         Schema::table('donors', function (Blueprint $table) {
             $table->dropColumn('name');
             $table->dropColumn('address');
+            $table->dropColumn('country');
         });
     }
 
@@ -45,10 +50,14 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
         Schema::table('donors', function (Blueprint $table) {
             $table->string('address')->after('id')->nullable();
             $table->string('name')->after('id');
+            $table->string('country')->after('city')->nullable();
         });
         Donor::all()->each(function($donor){
             $donor->name = $donor->first_name . ' ' . $donor->last_name;
             $donor->address = $donor->street;
+            if ($donor->country_code != null) {
+                $donor->country = Countries::getList('en')[$donor->country_code] ?? null;
+            }
             $donor->save();
         });
         Schema::table('donors', function (Blueprint $table) {
@@ -56,6 +65,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->dropColumn('last_name');
             $table->dropColumn('company');
             $table->dropColumn('street');
+            $table->dropColumn('country_code');
         });
     }
 }

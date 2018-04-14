@@ -41,6 +41,29 @@ class Donor extends Model
         return trim($str);
     }
 
+    /**
+     * Get the country name based on the country code
+     * 
+     * @return string
+     */
+    public function getCountryNameAttribute() {
+        if ($this->country_code != null) {
+            return \Countries::getOne($this->country_code, \App::getLocale());
+        }
+        return null;
+    }
+
+    /**
+     * Set the country code based on the country name
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setCountryNameAttribute($value)
+    {
+        $this->attributes['country_code'] = $value != null ? array_flip(\Countries::getList(\App::getLocale()))[$value] ?? null : null;
+    }    
+
     function donations() {
         return $this->hasMany('App\Donation');
     }
