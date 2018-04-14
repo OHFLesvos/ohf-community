@@ -10,7 +10,7 @@
             {!! Form::open(['route' => ['fundraising.donations.store', $donor ]]) !!}
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsDate('date', Carbon\Carbon::today()->toDateString(), [ 'required', 'max' => Carbon\Carbon::today()->toDateString() ], __('fundraising.date')) }}
+                        {{ Form::bsDate('date', Carbon\Carbon::today()->toDateString(), [ 'required', 'max' => Carbon\Carbon::today()->toDateString() ], __('app.date')) }}
                     </div>
                     <div class="col-md-auto">
                         {{ Form::bsSelect('currency', $currencies, Config::get('fundraising.base_currency'), [ 'required', 'id' => 'currency' ], __('fundraising.currency')) }}

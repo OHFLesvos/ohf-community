@@ -8,27 +8,27 @@
 
        <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('first_name', null, [ ], __('fundraising.first_name')) }}
+                {{ Form::bsText('first_name', null, [ ], __('app.first_name')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('last_name', null, [ ], __('fundraising.last_name')) }}
+                {{ Form::bsText('last_name', null, [ ], __('app.last_name')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('company', null, [ ], __('fundraising.company')) }}
+                {{ Form::bsText('company', null, [ ], __('app.company')) }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('street', null, [ ], __('fundraising.street')) }}
+                {{ Form::bsText('street', null, [ ], __('app.street')) }}
             </div>
             <div class="col-md-2 col-lg-1">
-                {{ Form::bsText('zip', null, [  ], __('fundraising.zip')) }}
+                {{ Form::bsText('zip', null, [  ], __('app.zip')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('city', null, [ ], __('fundraising.city')) }}
+                {{ Form::bsText('city', null, [ ], __('app.city')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsCountryName('country_name', null, [ ], __('fundraising.country')) }}
+                {{ Form::bsCountryName('country_name', null, [ ], __('app.country')) }}
             </div>
         </div>
         <div class="form-row">
@@ -36,10 +36,10 @@
                 {{ Form::bsEmail('email', null, [ ], __('app.email')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('phone', null, [ ], __('fundraising.phone')) }}
+                {{ Form::bsText('phone', null, [ ], __('app.phone')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('language', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(App\Donor::languages()) ], __('fundraising.correspondence_language')) }}
+                {{ Form::bsText('language', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(App\Donor::languages()) ], __('app.correspondence_language')) }}
             </div>
         </div>
         <div class="form-row">

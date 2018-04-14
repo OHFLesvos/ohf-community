@@ -9,7 +9,7 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="fit">@lang('fundraising.date')</th>
+                        <th class="fit">@lang('app.date')</th>
                         <th class="text-right fit">@lang('app.amount')</th>
                         <th>@lang('fundraising.donor')</th>
                         <th class="d-none d-sm-table-cell">@lang('fundraising.channel')</th>

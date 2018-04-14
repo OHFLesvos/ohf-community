@@ -22,16 +22,16 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('fundraising.first_name')</th>
-                        <th>@lang('fundraising.last_name')</th>
-                        <th>@lang('fundraising.company')</th>
-                        <th class="d-none d-md-table-cell">@lang('fundraising.street')</th>
-                        <th class="d-none d-md-table-cell">@lang('fundraising.zip')</th>
-                        <th class="d-none d-md-table-cell">@lang('fundraising.city')</th>
-                        <th class="d-none d-md-table-cell">@lang('fundraising.country')</th>
+                        <th>@lang('app.first_name')</th>
+                        <th>@lang('app.last_name')</th>
+                        <th>@lang('app.company')</th>
+                        <th class="d-none d-md-table-cell">@lang('app.street')</th>
+                        <th class="d-none d-md-table-cell">@lang('app.zip')</th>
+                        <th class="d-none d-md-table-cell">@lang('app.city')</th>
+                        <th class="d-none d-md-table-cell">@lang('app.country')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.email')</th>
-                        <th class="d-none d-sm-table-cell">@lang('fundraising.phone')</th>
-                        <th class="d-none d-sm-table-cell">@lang('fundraising.correspondence_language')</th>
+                        <th class="d-none d-sm-table-cell">@lang('app.phone')</th>
+                        <th class="d-none d-sm-table-cell">@lang('app.correspondence_language')</th>
                         {{-- @can('list', App\Donation::class)
                             <th class="text-right d-none d-sm-table-cell">@lang('fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
                             <th class="text-right">@lang('fundraising.donations') {{ Carbon\Carbon::now()->year }}</th>

@@ -1,7 +1,7 @@
 <table class="table table-sm table-hover">
     <thead>
         <tr>
-            <th>@lang('fundraising.date')</th>
+            <th>@lang('app.date')</th>
             <th>@lang('fundraising.channel')</th>
             <th>@lang('fundraising.purpose')</th>
             <th>@lang('fundraising.reference')</th>

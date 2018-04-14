@@ -22,7 +22,7 @@
                 @isset($donor->company)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('fundraising.company')</strong></div>
+                            <div class="col-sm"><strong>@lang('app.company')</strong></div>
                             <div class="col-sm">{{ $donor->company }}</div>
                         </div>
                     </li>
@@ -31,7 +31,7 @@
                 @isset($donor->street)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('fundraising.street')</strong></div>
+                            <div class="col-sm"><strong>@lang('app.street')</strong></div>
                             <div class="col-sm">{{ $donor->street }}</div>
                         </div>
                     </li>
@@ -40,7 +40,7 @@
                 @isset($donor->zip)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('fundraising.zip')</strong></div>
+                            <div class="col-sm"><strong>@lang('app.zip')</strong></div>
                             <div class="col-sm">{{ $donor->zip }}</div>
                         </div>
                     </li>
@@ -49,7 +49,7 @@
                 @isset($donor->city)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('fundraising.city')</strong></div>
+                            <div class="col-sm"><strong>@lang('app.city')</strong></div>
                             <div class="col-sm">{{ $donor->city }}</div>
                         </div>
                     </li>
@@ -58,7 +58,7 @@
                 @isset($donor->country_name)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('fundraising.country')</strong></div>
+                            <div class="col-sm"><strong>@lang('app.country')</strong></div>
                             <div class="col-sm">{{ $donor->country_name }}</div>
                         </div>
                     </li>
@@ -78,7 +78,7 @@
                 @isset($donor->phone)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('fundraising.phone')</strong></div>
+                            <div class="col-sm"><strong>@lang('app.phone')</strong></div>
                             <div class="col-sm">
                                 <a href="tel:{{ $donor->phone }}">{{ $donor->phone }}</a>
                             </div>
@@ -89,7 +89,7 @@
                 @isset($donor->language)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('fundraising.correspondence_language')</strong></div>
+                            <div class="col-sm"><strong>@lang('app.correspondence_language')</strong></div>
                             <div class="col-sm">
                                 {{ $donor->language }}
                             </div>
@@ -176,7 +176,7 @@
                         <table class="table table-sm table-hover mt-2">
                             <thead>
                                 <tr>
-                                    <th>@lang('fundraising.date')</th>
+                                    <th>@lang('app.date')</th>
                                     <th class="d-none d-sm-table-cell">@lang('fundraising.channel')</th>
                                     <th>@lang('fundraising.purpose')</th>
                                     <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
@@ -208,7 +208,7 @@
                     <table class="table table-sm mt-5">
                         <thead>
                             <tr>
-                                <th>@lang('fundraising.year')</th>
+                                <th>@lang('app.year')</th>
                                 <th class="text-right">@lang('app.amount')</th>
                             </tr>
                         </thead>
