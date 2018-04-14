@@ -39,7 +39,7 @@ class DonationController extends Controller
     {
         $this->authorize('create', Donation::class);
 
-        return view('fundraising.donations.register', [
+        return view('fundraising.donations.create', [
             'donor' => $donor,
             'currencies' => Config::get('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
@@ -72,9 +72,8 @@ class DonationController extends Controller
                     $exchange_rate = EzvExchangeRates::getExchangeRate($request->currency, $date);
                 } catch (\Exception $e) {
                     Log::error($e);
-                    // If exchange cannot be determined, redirect to advanced registration form, where exchange can be specified
                     return redirect()
-                        ->route('fundraising.create', $donor)
+                        ->back()
                         ->withInput()
                         ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
                 }

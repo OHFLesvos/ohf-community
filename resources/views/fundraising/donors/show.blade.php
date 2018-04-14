@@ -127,11 +127,110 @@
         </div>
 
         <div class="col-md mb-4">
+
+            {{-- Register new donation --}}
             @can('create', App\Donation::class)
-                @include('fundraising.donations.register_card')
+                <div class="card mb-4">
+                    <div class="card-header">
+                        @lang('fundraising.register_new_donation')
+                    </div>
+                    <div class="card-body pb-0">
+                        {!! Form::open(['route' => ['fundraising.donations.store', $donor ]]) !!}
+                            <div class="form-row">
+                                <div class="col-md">
+                                    {{ Form::bsDate('date', Carbon\Carbon::now()->toDateString(), [ 'required', 'max' => Carbon\Carbon::today()->toDateString() ], '') }}
+                                </div>
+                                <div class="col-md-auto">
+                                    {{ Form::bsSelect('currency', $currencies, Config::get('fundraising.base_currency'), [ 'required', 'id' => 'currency' ], '') }}
+                                </div>
+                                <div class="col-md">
+                                    {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('app.amount'), 'step' => 'any', 'id' => 'amount' ], '') }}
+                                </div>
+                                <div class="col-md" id="exchange_rate_container">
+                                    {{ Form::bsNumber('exchange_rate', null, [ 'placeholder' => __('fundraising.optional_exchange_rate'), 'step' => 'any', 'title' => __('fundraising.leave_empty_for_automatic_calculation') ], '') }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md">
+                                    {{ Form::bsText('channel', null, [ 'required', 'placeholder' => __('fundraising.channel'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($channels)) ], '') }}
+                                </div>
+                                <div class="col-md">
+                                    {{ Form::bsText('purpose', null, [ 'placeholder' => __('fundraising.purpose') ], '') }}
+                                </div>
+                                <div class="col-md">
+                                    {{ Form::bsText('reference', null, [ 'placeholder' => __('fundraising.reference') ], '') }}
+                                </div>
+                            </div>
+                            <p>
+                                {{ Form::bsSubmitButton(__('app.add')) }}
+                            </p>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
             @endcan
+
+            {{--  Individual donations  --}}
             @can('list', App\Donation::class)
-                @include('fundraising.donations.list_card')
+                @if( ! $donations->isEmpty() )
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover mt-2">
+                            <thead>
+                                <tr>
+                                    <th>@lang('fundraising.date')</th>
+                                    <th class="d-none d-sm-table-cell">@lang('fundraising.channel')</th>
+                                    <th>@lang('fundraising.purpose')</th>
+                                    <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
+                                    <th class="text-right">@lang('app.amount')</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($donations as $donation)
+                                    <tr>
+                                        <td><a href="{{ route('fundraising.donations.edit', [$donor, $donation]) }}">{{ $donation->date }}</a></td>
+                                        <td class="d-none d-sm-table-cell">{{ $donation->channel }}</td>
+                                        <td>{{ $donation->purpose }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $donation->reference }}</td>
+                                        <td class="text-right">
+                                            {{ $donation->currency }} {{ $donation->amount }}
+                                            @if($donation->currency != Config::get('fundraising.base_currency'))
+                                                ({{ Config::get('fundraising.base_currency') }} {{ $donation->exchange_amount }})
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ $donations->links() }}
+                    
+                    {{--  Donations per year  --}}
+                    <table class="table table-sm mt-5">
+                        <thead>
+                            <tr>
+                                <th>@lang('fundraising.year')</th>
+                                <th class="text-right">@lang('app.amount')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($donor->donationsPerYear() as $donation)
+                                <tr>
+                                    <td>{{ $donation->year }}</td>
+                                    <td class="text-right" style="text-decoration: underline;">
+                                        {{ Config::get('fundraising.base_currency') }}
+                                        {{ $donation->total }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                
+                @else
+                    <div class="alert alert-info m-0">
+                        @lang('fundraising.no_donations_found')
+                    </div>
+                @endif
+            
             @endcan
         </div>
     </div>
@@ -139,9 +238,19 @@
 @endsection
 
 @section('script')
+    function toggleExchangeAmount() {
+        if ($('#currency').val() != '{{ Config::get('fundraising.base_currency') }}') {
+            $('#exchange_rate_container').show();
+        } else {
+            $('#exchange_rate_container').hide();
+        }
+    }
+
     $(function(){
         $('#currency').on('change', function(){
             $('#amount').focus();
+            toggleExchangeAmount();
         });
+        toggleExchangeAmount();
     });
 @endsection

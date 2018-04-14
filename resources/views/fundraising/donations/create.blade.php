@@ -7,10 +7,10 @@
     <div class="card mb-4">
         <div class="card-header">@lang('fundraising.register_new_donation_for', [ 'name' => $donor->name])</div>
         <div class="card-body pb-0">    
-            {!! Form::open(['route' => ['fundraising.store', $donor ]]) !!}
+            {!! Form::open(['route' => ['fundraising.donations.store', $donor ]]) !!}
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsDate('date', Carbon\Carbon::now(), [ 'required' ], __('fundraising.date')) }}
+                        {{ Form::bsDate('date', Carbon\Carbon::today()->toDateString(), [ 'required', 'max' => Carbon\Carbon::today()->toDateString() ], __('fundraising.date')) }}
                     </div>
                     <div class="col-md-auto">
                         {{ Form::bsSelect('currency', $currencies, Config::get('fundraising.base_currency'), [ 'required', 'id' => 'currency' ], __('fundraising.currency')) }}

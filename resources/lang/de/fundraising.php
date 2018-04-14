@@ -37,6 +37,7 @@ return [
     'search_for_name' => 'Nach Name suchen',
     'unable_to_find_exchange_rate' => 'Für die Währung :currency wurde kein aktueller Wechselkurs gefunden.',
     'exchange_rate' => 'Wechselkurs',
+    'optional_exchange_rate' => '(optional) Wechselkurs',
     'write_decimal_point_as_comma' => 'Dezimalpunkt als Komma (,) schreiben',
     'donation_registered' => 'Spende von :currency :amount wurde registriert',
     'year' => 'Jahr',

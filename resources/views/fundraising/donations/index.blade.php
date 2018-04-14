@@ -29,7 +29,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('fundraising.donors.show', $donation->donor) }}">{{ $donation->donor->name }}</a>
+                                <a href="{{ route('fundraising.donors.show', $donation->donor) }}">{{ $donation->donor->full_name }}</a>
                             </td>
                             <td class="d-none d-sm-table-cell">{{ $donation->channel }}</td>
                             <td>{{ $donation->purpose }}</td>

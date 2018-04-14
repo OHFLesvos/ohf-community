@@ -37,6 +37,7 @@ return [
     'search_for_name' => 'Search for name',
     'unable_to_find_exchange_rate' => 'Unable to find current exchange rate for :currency.',
     'exchange_rate' => 'Exchange rate',
+    'optional_exchange_rate' => '(optional) Exchange rate',
     'write_decimal_point_as_comma' => 'Write decimal point as comma (,)',
     'donation_registered' => 'Donation of :currency :amount has been registered',
     'year' => 'Year',

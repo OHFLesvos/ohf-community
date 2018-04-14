@@ -7,7 +7,7 @@
     {!! Form::model($donation, ['route' => ['fundraising.donations.update', $donor, $donation], 'method' => 'put']) !!}
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsDate('date', null, [ 'required' ], __('fundraising.date')) }}
+                {{ Form::bsDate('date', null, [ 'required', 'max' => Carbon\Carbon::today()->toDateString() ], __('fundraising.date')) }}
             </div>
             <div class="col-md-auto">
                 {{ Form::bsSelect('currency', $currencies, null, [ 'required', 'id' => 'currency' ], __('fundraising.currency')) }}

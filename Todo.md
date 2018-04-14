@@ -9,8 +9,6 @@
 ## Donations
 
 * Add report about number of donors and donations per month, year
-* Added form for registering new donations directly
-* Cleanup code exchage rate edit/create
 * Person title
 
 ## User Management and Privileges
