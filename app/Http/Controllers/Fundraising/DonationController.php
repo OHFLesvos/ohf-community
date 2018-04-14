@@ -204,7 +204,7 @@ class DonationController extends Controller
                 $sheet->freezeFirstRow();
     
                 // Data
-                $sheet->loadView('fundraising.donations.export',[
+                $sheet->loadView('fundraising.donations.export-single',[
                     'donations' => $donations,
                 ]);
     
