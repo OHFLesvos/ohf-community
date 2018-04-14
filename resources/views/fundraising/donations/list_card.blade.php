@@ -16,7 +16,7 @@
             <tbody>
                 @foreach ($donations as $donation)
                     <tr>
-                        <td>{{ $donation->date }}</td>
+                        <td><a href="{{ route('fundraising.donations.edit', [$donor, $donation]) }}">{{ $donation->date }}</a></td>
                         <td class="d-none d-sm-table-cell">{{ $donation->channel }}</td>
                         <td>{{ $donation->purpose }}</td>
                         <td class="d-none d-sm-table-cell">{{ $donation->reference }}</td>
@@ -26,7 +26,6 @@
                                 ({{ Config::get('fundraising.base_currency') }} {{ $donation->exchange_amount }})
                             @endif
                         </td>
-                        <td><a href="{{ route('fundraising.donations.edit', [$donor, $donation]) }}">@icon(pencil)</a></td>
                     </tr>
                 @endforeach
             </tbody>

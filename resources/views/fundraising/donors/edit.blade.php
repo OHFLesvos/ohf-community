@@ -8,17 +8,21 @@
 
        <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
+                {{ Form::bsText('first_name', null, [ ], __('fundraising.first_name')) }}
+            </div>
+            <div class="col-md">
+                {{ Form::bsText('last_name', null, [ ], __('fundraising.last_name')) }}
+            </div>
+            <div class="col-md">
+                {{ Form::bsText('company', null, [ ], __('fundraising.company')) }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-md">
                 {{ Form::bsText('street', null, [ ], __('fundraising.street')) }}
             </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-2">
-                {{ Form::bsText('zip', null, [ ], __('fundraising.zip')) }}
+            <div class="col-md-2 col-lg-1">
+                {{ Form::bsText('zip', null, [  ], __('fundraising.zip')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('city', null, [ ], __('fundraising.city')) }}

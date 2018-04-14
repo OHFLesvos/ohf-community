@@ -22,8 +22,9 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('app.name')</th>
-                        <th class="d-none d-md-table-cell">@lang('fundraising.company')</th>
+                        <th>@lang('fundraising.first_name')</th>
+                        <th>@lang('fundraising.last_name')</th>
+                        <th>@lang('fundraising.company')</th>
                         <th class="d-none d-md-table-cell">@lang('fundraising.street')</th>
                         <th class="d-none d-md-table-cell">@lang('fundraising.zip')</th>
                         <th class="d-none d-md-table-cell">@lang('fundraising.city')</th>
@@ -40,9 +41,26 @@
                     @foreach ($donors as $donor)
                         <tr>
                             <td>
-                                <a href="{{ route('fundraising.donors.show', $donor) }}">{{ $donor->name }}</a>
+                                @isset($donor->first_name)
+                                    <a href="{{ route('fundraising.donors.show', $donor) }}">
+                                        {{ $donor->first_name }}
+                                    </a>
+                                @endisset
                             </td>
-                            <td class="d-none d-md-table-cell">{{ $donor->company }}</td>
+                            <td>
+                                @isset($donor->last_name)
+                                    <a href="{{ route('fundraising.donors.show', $donor) }}">
+                                        {{ $donor->last_name }}
+                                    </a>
+                                @endisset
+                            </td>
+                            <td>
+                                @isset($donor->company)
+                                    <a href="{{ route('fundraising.donors.show', $donor) }}">
+                                        {{ $donor->company }}
+                                    </a>
+                                @endisset
+                            </td>
                             <td class="d-none d-md-table-cell">{{ $donor->street }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->zip }}</td>
                             <td class="d-none d-md-table-cell">{{ $donor->city }}</td>

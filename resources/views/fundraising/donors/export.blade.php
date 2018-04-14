@@ -1,7 +1,9 @@
 <table>
     <thead>
         <tr>
-            <th>@lang('app.name')</th>
+            <th>@lang('fundraising.first_name')</th>
+            <th>@lang('fundraising.last_name')</th>
+            <th>@lang('fundraising.company')</th>
             <th>@lang('fundraising.street')</th>
             <th>@lang('fundraising.zip')</th>
             <th>@lang('fundraising.city')</th>
@@ -18,7 +20,9 @@
     <tbody>
         @foreach ($donors as $donor)
             <tr>
-                <td>{{ $donor->name }}</td>
+                <td>{{ $donor->first_name }}</td>
+                <td>{{ $donor->last_name }}</td>
+                <td>{{ $donor->company }}</td>
                 <td>{{ $donor->street }}</td>
                 <td>{{ $donor->zip }}</td>
                 <td>{{ $donor->city }}</td>

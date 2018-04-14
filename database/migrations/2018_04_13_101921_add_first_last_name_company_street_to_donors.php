@@ -21,7 +21,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->text('first_name')->nullable()->after('name');
         });
         Donor::all()->each(function($donor){
-            $name_parts = explode(' ', $donor->name);
+            $name_parts = preg_split('/\\s+/', $donor->name);
             $first_name = isset($name_parts[0]) ? $name_parts[0] : null;
             $last_name = isset($name_parts[1]) ? $name_parts[1] : null;
             $donor->first_name = $first_name;

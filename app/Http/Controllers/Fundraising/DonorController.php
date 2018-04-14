@@ -163,12 +163,16 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        \Excel::create('OHF_Community_Donors_' . Carbon::now()->toDateString(), function($excel) {
+        \Excel::create(Config::get('app.name') . ' ' . __('fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')', function($excel) {
             $excel->sheet(__('fundraising.donors'), function($sheet) {
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
                 $sheet->loadView('fundraising.donors.export',[
-                    'donors' => Donor::orderBy('name')->get(),
+                    'donors' => Donor
+                        ::orderBy('first_name')
+                        ->orderBy('last_name')
+                        ->orderBy('company')
+                        ->get(),
                 ]);
                 $sheet->getStyle('I')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
                 $sheet->getStyle('J')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
@@ -191,7 +195,9 @@ class DonorController extends Controller
         if ($donor->company != null) {
             $vcard->addCompany($donor->company);
         }
-        $vcard->addName($donor->last_name, $donor->first_name, '', '', '');
+        if ($donor->last_name != null || $donor->first_name != null) {
+            $vcard->addName($donor->last_name, $donor->first_name, '', '', '');
+        }
         if ($donor->email != null) {
             $vcard->addEmail($donor->email);
         }

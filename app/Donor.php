@@ -24,7 +24,7 @@ class Donor extends Model
         'remarks',
     ];
 
-    function getNameAttribute() {
+    function getFullNameAttribute() {
         $str = '';
         if ($this->first_name != null) {
             $str .= $this->first_name;

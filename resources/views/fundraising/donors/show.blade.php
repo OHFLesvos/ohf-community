@@ -7,17 +7,29 @@
     <div class="row">
 
         <div class="col-md mb-4">
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">@lang('fundraising.donor')</div>
-                <div class="card-body p-0">
+                <div class="card-body p-0"> --}}
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-sm"><strong>@lang('app.name')</strong></div>
-                                <div class="col-sm">{{ $donor->name }}</div>
-                            </div>
-                        </li>
+
+                        @if($donor->first_name != null || $donor->last_name != null)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('app.name')</strong></div>
+                                    <div class="col-sm">{{ $donor->first_name }} {{ $donor->last_name }}</div>
+                                </div>
+                            </li>
+                        @endisset
+
+                        @isset($donor->company)
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col-sm"><strong>@lang('fundraising.company')</strong></div>
+                                    <div class="col-sm">{{ $donor->company }}</div>
+                                </div>
+                            </li>
+                        @endisset
 
                         @isset($donor->street)
                             <li class="list-group-item">
@@ -91,21 +103,21 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-sm"><strong>@lang('app.registered')</strong></div>
-                                <div class="col-sm">{{ $donor->created_at }}</div>
+                                <div class="col-sm">{{ $donor->created_at }} <small class="text-muted pl-2">{{ $donor->created_at->diffForHumans() }}</small></div>
                             </div>
                         </li>
 
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
-                                <div class="col-sm">{{ $donor->updated_at }}</div>
+                                <div class="col-sm">{{ $donor->updated_at }} <small class="text-muted pl-2">{{ $donor->created_at->diffForHumans() }}</small></div>
                             </div>
                         </li>
 
                     </ul>
 
-                </div>
-            </div>
+                {{-- </div>
+            </div> --}}
         </div>
 
         <div class="col-md mb-4">

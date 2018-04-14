@@ -24,7 +24,9 @@ class StoreDonor extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'first_name' => 'required_without_all:last_name,company',
+            'last_name' => 'required_without_all:first_name,company',
+            'company' => 'required_without_all:first_name,last_name',
             'email' => 'nullable|email',
         ];
     }
