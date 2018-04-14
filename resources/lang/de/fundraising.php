@@ -14,6 +14,7 @@ return [
     'city' => 'Ort',
     'country' => 'Land',
     'phone' => 'Telefon',
+    'correspondence_language' => 'Korrespondenzsprache',
     'confirm_delete_donor' => 'Möchtest du diesen Spender wirklich löschen?',
     'create_donor' => 'Spender hinzufügen',
     'show_donor' => 'Spender anzeigen',

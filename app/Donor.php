@@ -21,6 +21,7 @@ class Donor extends Model
         'country',
         'email',
         'phone',
+        'language',
         'remarks',
     ];
 
@@ -82,5 +83,9 @@ class Donor extends Model
             ->groupBy(DB::raw('YEAR(date)'))
             ->select(DB::raw('YEAR(date) as year'), DB::raw('sum(exchange_amount) as total'))
             ->get();
+    }
+
+    public static function languages() {
+        return self::select('language')->groupBy('language')->orderBy('language')->get()->pluck('language')->toArray();
     }
 }

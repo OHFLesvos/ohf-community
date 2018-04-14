@@ -21,10 +21,10 @@ class CountryListController extends Controller
                 });
         }
 
-        return response()->json(self::createSuggestionArray($countries));
+        return response()->json(self::suggestions_array($countries));
     }
-    
-    private static function createSuggestionArray($data) {
+
+    public static function suggestions_array($data) {
         return [
             "suggestions" => collect($data)
                 ->map(function($v, $k){

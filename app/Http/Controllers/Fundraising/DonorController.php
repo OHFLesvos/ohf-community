@@ -70,6 +70,7 @@ class DonorController extends Controller
         $donor->country_name = $request->country_name;
         $donor->email = $request->email;
         $donor->phone = $request->phone;
+        $donor->language = $request->language;
         $donor->remarks = $request->remarks;
         $donor->save();
         return redirect()->route('fundraising.donors.show', $donor)
@@ -129,6 +130,7 @@ class DonorController extends Controller
         $donor->country_name = $request->country_name;
         $donor->email = $request->email;
         $donor->phone = $request->phone;
+        $donor->language = $request->language;
         $donor->remarks = $request->remarks;
         $donor->save();
         return redirect()->route('fundraising.donors.show', $donor)
@@ -204,5 +206,12 @@ class DonorController extends Controller
 
         // return vcard as a download
         return $vcard->download();
+    }
+
+    function languages()
+    {
+        return response()->json([
+            "suggestions" => Donor::languages(),
+        ]);
     }
 }

@@ -14,6 +14,7 @@ return [
     'city' => 'City',
     'country' => 'Country',
     'phone' => 'Phone',
+    'correspondence_language' => 'Correspondence language',
     'confirm_delete_donor' => 'Do you really want to delete this donor?',
     'create_donor' => 'Add donor',
     'show_donor' => 'Show donor',

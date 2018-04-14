@@ -31,6 +31,7 @@
                         <th class="d-none d-md-table-cell">@lang('fundraising.country')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.email')</th>
                         <th class="d-none d-sm-table-cell">@lang('fundraising.phone')</th>
+                        <th class="d-none d-sm-table-cell">@lang('fundraising.correspondence_language')</th>
                         {{-- @can('list', App\Donation::class)
                             <th class="text-right d-none d-sm-table-cell">@lang('fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
                             <th class="text-right">@lang('fundraising.donations') {{ Carbon\Carbon::now()->year }}</th>
@@ -72,9 +73,10 @@
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 @isset($donor->phone)
-                                    <a href="mailto:{{ $donor->phone }}">{{ $donor->phone }}</a>
+                                    <a href="tel:{{ $donor->phone }}">{{ $donor->phone }}</a>
                                 @endisset
                             </td>
+                            <td class="d-none d-md-table-cell">{{ $donor->language }}</td>
                             {{-- @can('list', App\Donation::class)
                                 <td class="text-right d-none d-sm-table-cell">
                                     {{ Config::get('fundraising.base_currency') }}

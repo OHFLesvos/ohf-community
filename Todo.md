@@ -12,7 +12,6 @@
 * Added form for registering new donations directly
 * Cleanup code exchage rate edit/create
 * Person title
-* Person language
 
 ## User Management and Privileges
 

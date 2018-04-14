@@ -38,6 +38,9 @@
             <div class="col-md">
                 {{ Form::bsText('phone', null, [ ], __('fundraising.phone')) }}
             </div>
+            <div class="col-md">
+                {{ Form::bsText('language', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(App\Donor::languages()) ], __('fundraising.correspondence_language')) }}
+            </div>
         </div>
         <div class="form-row">
             <div class="col-md">

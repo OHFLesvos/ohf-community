@@ -20,6 +20,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->text('last_name')->nullable()->after('name');
             $table->text('first_name')->nullable()->after('name');
             $table->text('country_code')->nullable()->after('city');
+            $table->text('language')->nullable()->after('phone');
         });
         Donor::all()->each(function($donor){
             $name_parts = preg_split('/\\s+/', $donor->name);
@@ -66,6 +67,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->dropColumn('company');
             $table->dropColumn('street');
             $table->dropColumn('country_code');
+            $table->dropColumn('language');
         });
     }
 }

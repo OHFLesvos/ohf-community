@@ -4,6 +4,7 @@
 
 * UI improvements in user and role manager
 * Updated libraries
+* Added correspondence language to donors
 
 ## 1.13.9
 

@@ -210,7 +210,7 @@ $(function(){
                 $($(this).data('autocomplete-update')).val('');
             }
         }
-        $('[rel="autocomplete"]').autocomplete(opts);
+        $(this).autocomplete(opts);
     });
 });
 
