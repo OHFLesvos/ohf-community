@@ -208,10 +208,4 @@ class DonorController extends Controller
         return $vcard->download();
     }
 
-    function languages()
-    {
-        return response()->json([
-            "suggestions" => Donor::languages(),
-        ]);
-    }
 }
