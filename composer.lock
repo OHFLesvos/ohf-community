@@ -1160,23 +1160,23 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.2.9",
+            "version": "3.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "be8af010a62b8086e26e01a40400b65dd0522db5"
+                "reference": "15411c93fa91c0d0c25d98b08a3d5cc9de720fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/be8af010a62b8086e26e01a40400b65dd0522db5",
-                "reference": "be8af010a62b8086e26e01a40400b65dd0522db5",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/15411c93fa91c0d0c25d98b08a3d5cc9de720fc7",
+                "reference": "15411c93fa91c0d0c25d98b08a3d5cc9de720fc7",
                 "shasum": ""
             },
             "require": {
                 "bacon/bacon-qr-code": "^1.0.3",
                 "endroid/installer": "^1.0.3",
                 "ext-gd": "*",
-                "khanamiryan/qrcode-detector-decoder": "1.0",
+                "khanamiryan/qrcode-detector-decoder": "^1.0.2",
                 "myclabs/php-enum": "^1.5",
                 "php": ">=7.1",
                 "symfony/options-resolver": "^2.7|^3.0|^4.0",
@@ -1216,7 +1216,7 @@
                 "qr",
                 "qrcode"
             ],
-            "time": "2018-04-14 06:34:09"
+            "time": "2018-05-07 16:04:16"
         },
         {
             "name": "erusev/parsedown",
@@ -1554,16 +1554,16 @@
         },
         {
             "name": "khanamiryan/qrcode-detector-decoder",
-            "version": "1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/khanamiryan/php-qrcode-detector-decoder.git",
-                "reference": "96d5f80680b04803c4f1b69d6e01735e876b80c7"
+                "reference": "a75482d3bc804e3f6702332bfda6cccbb0dfaa76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/khanamiryan/php-qrcode-detector-decoder/zipball/96d5f80680b04803c4f1b69d6e01735e876b80c7",
-                "reference": "96d5f80680b04803c4f1b69d6e01735e876b80c7",
+                "url": "https://api.github.com/repos/khanamiryan/php-qrcode-detector-decoder/zipball/a75482d3bc804e3f6702332bfda6cccbb0dfaa76",
+                "reference": "a75482d3bc804e3f6702332bfda6cccbb0dfaa76",
                 "shasum": ""
             },
             "require": {
@@ -1574,11 +1574,11 @@
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "lib/"
-                ],
+                "psr-4": {
+                    "Zxing\\": "lib/"
+                },
                 "files": [
-                    "lib/common/customFunctions.php"
+                    "lib/Common/customFunctions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1594,26 +1594,26 @@
                 }
             ],
             "description": "QR code decoder / reader",
-            "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder",
+            "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
             "keywords": [
                 "barcode",
                 "qr",
                 "zxing"
             ],
-            "time": "2017-01-13 09:11:46"
+            "time": "2018-04-26 11:41:33"
         },
         {
             "name": "laravel/framework",
-            "version": "v5.6.20",
+            "version": "v5.6.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c"
+                "reference": "637fd797a6dde8d24a9f07da77e375ec251c5d24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c",
-                "reference": "3c11e7acc6ad14dd86e2f9e4bf3230010c3e611c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/637fd797a6dde8d24a9f07da77e375ec251c5d24",
+                "reference": "637fd797a6dde8d24a9f07da77e375ec251c5d24",
                 "shasum": ""
             },
             "require": {
@@ -1739,20 +1739,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-05-02 15:22:18"
+            "time": "2018-05-15 13:34:20"
         },
         {
             "name": "laravel/tinker",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/tinker.git",
-                "reference": "b22fe905fcefdffae76b011e27c7ac09e07e052b"
+                "reference": "e3086ee8cb1f54a39ae8dcb72d1c37d10128997d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/tinker/zipball/b22fe905fcefdffae76b011e27c7ac09e07e052b",
-                "reference": "b22fe905fcefdffae76b011e27c7ac09e07e052b",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
+                "reference": "e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
                 "shasum": ""
             },
             "require": {
@@ -1802,20 +1802,20 @@
                 "laravel",
                 "psysh"
             ],
-            "time": "2018-04-16 12:10:37"
+            "time": "2018-05-17 13:42:07"
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.6.7",
+            "version": "v5.6.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "38f2c6ff0d3dfc497175a5cff5e24b3937f6e2c9"
+                "reference": "42c0854e00d6bb3346883d122b444fbf15a13ecb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/38f2c6ff0d3dfc497175a5cff5e24b3937f6e2c9",
-                "reference": "38f2c6ff0d3dfc497175a5cff5e24b3937f6e2c9",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/42c0854e00d6bb3346883d122b444fbf15a13ecb",
+                "reference": "42c0854e00d6bb3346883d122b444fbf15a13ecb",
                 "shasum": ""
             },
             "require": {
@@ -1870,20 +1870,20 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "https://laravelcollective.com",
-            "time": "2018-04-26 16:09:18"
+            "time": "2018-05-10 17:15:15"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.44",
+            "version": "1.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02"
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/168dbe519737221dc87d17385cde33073881fd02",
-                "reference": "168dbe519737221dc87d17385cde33073881fd02",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
+                "reference": "a99f94e63b512d75f851b181afcdf0ee9ebef7e6",
                 "shasum": ""
             },
             "require": {
@@ -1954,20 +1954,20 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-04-06 09:58:14"
+            "time": "2018-05-07 08:44:23"
         },
         {
             "name": "maatwebsite/excel",
-            "version": "2.1.27",
+            "version": "2.1.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "ea758fe5a9d33e0d88b40f099d1df652a0c99d38"
+                "reference": "06e397a30595d1082963d6aa5ec0c3a9961d70c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/ea758fe5a9d33e0d88b40f099d1df652a0c99d38",
-                "reference": "ea758fe5a9d33e0d88b40f099d1df652a0c99d38",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/06e397a30595d1082963d6aa5ec0c3a9961d70c8",
+                "reference": "06e397a30595d1082963d6aa5ec0c3a9961d70c8",
                 "shasum": ""
             },
             "require": {
@@ -2032,7 +2032,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2018-03-09 13:14:19"
+            "time": "2018-05-09 14:34:18"
         },
         {
             "name": "michelf/php-markdown",
@@ -2254,20 +2254,20 @@
         },
         {
             "name": "myclabs/php-enum",
-            "version": "1.5.2",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "3ed7088cfd0a0e06534b7f8b0eee82acea574fac"
+                "reference": "8c5649e4ed99acd53a40eada270154dcac089f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/3ed7088cfd0a0e06534b7f8b0eee82acea574fac",
-                "reference": "3ed7088cfd0a0e06534b7f8b0eee82acea574fac",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/8c5649e4ed99acd53a40eada270154dcac089f7e",
+                "reference": "8c5649e4ed99acd53a40eada270154dcac089f7e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3"
+                "php": ">=5.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.35|^5.7|^6.0",
@@ -2294,7 +2294,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2017-06-28 16:24:08"
+            "time": "2018-05-09 08:09:15"
         },
         {
             "name": "nesbot/carbon",
