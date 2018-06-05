@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.13.12
+
+* Fixed issue with creating new person and remembering name
+
 ## 1.13.11
 
 * Updated libraries
