@@ -2,6 +2,7 @@
  * Instascan QR code camera 
  */
 const Instascan = require('instascan');
+var sha256 = require('js-sha256');
 function scanQR(callback) {
 	let scanner = new Instascan.Scanner({ 
 		video: document.getElementById('preview'),
@@ -13,7 +14,8 @@ function scanQR(callback) {
 		scanner.addListener('scan', function (content) {
 			scanner.stop();
 			$('#videoPreviewModal').modal('hide');
-			callback(content);
+			var hashContent = sha256(content);
+			callback(hashContent);
 		});
 		scanner.start(cameras[0]).then(function(){
 			$('#videoPreviewModal').modal('show');
@@ -69,6 +71,7 @@ $(function(){
 	// Scan QR code card and search for the number
 	$('#scan-id-button').on('click', function(){
 		scanQR(function(content){
+			$('#bank-results').empty().html('Searching card ...');
 			$('#filter').val(content).parents('form').submit();
 		});
 	});

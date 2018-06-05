@@ -6,6 +6,7 @@
 
     @include('bank.person-search')
 
+    <div id="bank-results">
     @if(count($results) > 0)
         @php
             $ids = [];
@@ -40,6 +41,7 @@
             @endcomponent
         @endif
     @endif
+    </div>
 
 @endsection
 

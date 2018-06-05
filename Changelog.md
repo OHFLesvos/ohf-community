@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.13.11
+
+* Updated libraries
+* Card scanner encrypts QR code with sha256
+
 ## 1.13.10
 
 * UI improvements in user and role manager
