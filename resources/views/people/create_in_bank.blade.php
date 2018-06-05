@@ -10,10 +10,10 @@
 			<div class="card-body">
 				<div class="form-row">
 					<div class="col-md">
-                        {{ Form::bsText('family_name', null, [ 'required', 'autofocus' ], __('people.family_name'), 'Greek: επώνυμο') }}
+                        {{ Form::bsText('family_name', request()->query('family_name'), [ 'required', 'autofocus' ], __('people.family_name'), 'Greek: επώνυμο') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('name', null, [ 'required' ], __('people.name'), 'Greek: όνομα') }}
+                        {{ Form::bsText('name', request()->query('name'), [ 'required' ], __('people.name'), 'Greek: όνομα') }}
                     </div>
 					<div class="col-md-auto">
                         {{ Form::genderSelect('gender', null, __('people.gender')) }}
@@ -31,7 +31,7 @@
                         {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people.police_number'), 'Greek: Δ.Κ.Α.') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsNumber('case_no', null, [ ], __('people.case_number'), 'Greek: Aριθ. Υπ.') }}
+                        {{ Form::bsNumber('case_no', request()->query('case_no'), [ ], __('people.case_number'), 'Greek: Aριθ. Υπ.') }}
 					</div>
                     <div class="col-md">
                         {{ Form::bsText('medical_no', null, [], __('people.medical_number')) }}
