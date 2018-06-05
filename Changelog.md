@@ -4,6 +4,7 @@
 
 * New scanned cards screen added
 * Remove buttons not maching age-restrictions when updating person age
+* Added quick-nationality select to persons in bank
 
 ## 1.13.12
 
