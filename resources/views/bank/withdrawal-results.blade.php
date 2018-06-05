@@ -4,43 +4,45 @@
 
 @section('wrapped-content')
 
-    @include('bank.person-search')
+    <div id="bank-container">
 
-    <div id="bank-results">
-    @if(count($results) > 0)
-        @php
-            $ids = [];
-        @endphp
-        @foreach ($results as $person)
+        @include('bank.person-search')
+
+        @if(count($results) > 0)
             @php
-                if (in_array($person->id, $ids)) {
-                    continue;
-                }
-                $members = $person->otherFamilyMembers;
+                $ids = [];
             @endphp
-            @include('bank.person-card', [ 'bottom_margin' => $members->count() > 0 ? 1 : 4 ])
-            @if ($members->count() > 0)
-                @foreach($members as $member)
-                    @php
-                        $ids[] = $member->id;
-                    @endphp
-                    @include('bank.person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 4 : 1, 'border' => 'info' ])
-                @endforeach
-            @endif
-        @endforeach
-        {{ $results->appends(['filter' => $filter])->links() }}
-    @else
-        @if(isset($message))
-            @component('components.alert.error')
-                {{ $message }}
-            @endcomponent
+            @foreach ($results as $person)
+                @php
+                    if (in_array($person->id, $ids)) {
+                        continue;
+                    }
+                    $members = $person->otherFamilyMembers;
+                @endphp
+                @include('bank.person-card', [ 'bottom_margin' => $members->count() > 0 ? 1 : 4 ])
+                @if ($members->count() > 0)
+                    @foreach($members as $member)
+                        @php
+                            $ids[] = $member->id;
+                        @endphp
+                        @include('bank.person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 4 : 1, 'border' => 'info' ])
+                    @endforeach
+                @endif
+            @endforeach
+            {{ $results->appends(['filter' => $filter])->links() }}
         @else
-            @component('components.alert.info')
-                Not found.
-                <a href="{{ route('people.create') }}?{{ $register }}">Register a new person</a>
-            @endcomponent
+            @if(isset($message))
+                @component('components.alert.error')
+                    {{ $message }}
+                @endcomponent
+            @else
+                @component('components.alert.info')
+                    Not found.
+                    <a href="{{ route('people.create') }}?{{ $register }}">Register a new person</a>
+                @endcomponent
+            @endif
         @endif
-    @endif
+
     </div>
 
 @endsection

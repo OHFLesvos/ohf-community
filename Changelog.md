@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.0
+
+* New scanned cards screen added
+
 ## 1.13.12
 
 * Fixed issue with creating new person and remembering name

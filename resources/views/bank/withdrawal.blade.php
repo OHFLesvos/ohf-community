@@ -4,17 +4,21 @@
 
 @section('wrapped-content')
 
-    @include('bank.person-search')
+    <div id="bank-container">
 
-    <div id="stats" class="text-center lead my-5">
-        @if($numberOfPersonsServed > 0)
-            @lang('people.num_persons_served_handing_out_coupons', [
-                'persons' => $numberOfPersonsServed,
-                'coupons' => $numberOfCouponsHandedOut,
-            ])
-        @else
-            @lang('people.not_yet_served_any_persons')
-        @endif
+        @include('bank.person-search')
+
+        <div id="stats" class="text-center lead my-5">
+            @if($numberOfPersonsServed > 0)
+                @lang('people.num_persons_served_handing_out_coupons', [
+                    'persons' => $numberOfPersonsServed,
+                    'coupons' => $numberOfCouponsHandedOut,
+                ])
+            @else
+                @lang('people.not_yet_served_any_persons')
+            @endif
+        </div>
+
     </div>
 
 @endsection

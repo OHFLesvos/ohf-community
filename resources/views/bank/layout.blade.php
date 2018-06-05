@@ -5,7 +5,10 @@
             'label' => __('people.withdrawal'),
             'icon' => 'id-card',
             'active' => function($currentRouteName) {
-                return $currentRouteName == 'bank.withdrawal' || $currentRouteName == 'bank.withdrawalSearch';
+                return $currentRouteName == 'bank.withdrawal'
+                    || $currentRouteName == 'bank.withdrawalSearch'
+                    || $currentRouteName == 'bank.registerCard'
+                    || $currentRouteName == 'bank.showCard';
             },
             'authorized' => Gate::allows('do-bank-withdrawals'),
         ],

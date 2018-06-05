@@ -71,8 +71,9 @@ $(function(){
 	// Scan QR code card and search for the number
 	$('#scan-id-button').on('click', function(){
 		scanQR(function(content){
-			$('#bank-results').empty().html('Searching card ...');
-			$('#filter').val(content).parents('form').submit();
+			$('#bank-container').empty().html('Searching card ...');
+			document.location = '/bank/withdrawal/cards/' + content;
+			//$('#filter').val(content).parents('form').submit();
 		});
 	});
 

@@ -1,1 +1,275 @@
-!function(e){var a={};function t(n){if(a[n])return a[n].exports;var i=a[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,t),i.l=!0,i.exports}t.m=e,t.c=a,t.d=function(e,a,n){t.o(e,a)||Object.defineProperty(e,a,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var a=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(a,"a",a),a},t.o=function(e,a){return Object.prototype.hasOwnProperty.call(e,a)},t.p="/",t(t.s=746)}({746:function(e,a,t){e.exports=t(747)},747:function(e,a,t){var n;pagination=t(748);var i="family_name",l="family_name",r="asc";function p(e){$("#filter-status").html("");var a=$("#results-table tbody");a.empty(),a.append($("<tr>").append($("<td>").text("Searching...").attr("colspan",16)));var t=$("#paginator");t.empty();var n=$("#paginator-info");n.empty(),$.post(filterUrl,{_token:csrfToken,family_name:$('#filter input[name="family_name"]').val(),name:$('#filter input[name="name"]').val(),date_of_birth:$('#filter input[name="date_of_birth"]').val(),nationality:$('#filter input[name="nationality"]').val(),police_no:$('#filter input[name="police_no"]').val(),case_no:$('#filter input[name="case_no"]').val(),medical_no:$('#filter input[name="medical_no"]').val(),registration_no:$('#filter input[name="registration_no"]').val(),section_card_no:$('#filter input[name="section_card_no"]').val(),temp_no:$('#filter input[name="temp_no"]').val(),languages:$('#filter input[name="languages"]').val(),skills:$('#filter input[name="skills"]').val(),remarks:$('#filter input[name="remarks"]').val(),page:e,orderByField:i,orderByDirection:r},function(e){a.empty(),e.data.length>0?($.each(e.data,function(e,t){a.append(function(e){var a="";"f"==e.gender&&(a="female");"m"==e.gender&&(a="male");return $("<tr>").attr("id","person-"+e.id).append($("<td>").html(""!=a?'<i class="fa fa-'+a+'"></i>':"")).append($("<td>").append($("<a>").attr("href","people/"+e.id).text(e.family_name))).append($("<td>").append($("<a>").attr("href","people/"+e.id).text(e.name))).append($("<td>").text(e.date_of_birth)).append($("<td>").text(e.nationality)).append($("<td>").text(e.police_no)).append($("<td>").text(e.case_no)).append($("<td>").text(e.medical_no)).append($("<td>").text(e.registration_no)).append($("<td>").text(e.section_card_no)).append($("<td>").text(e.temp_no)).append($("<td>").text(e.languages)).append($("<td>").text(e.skills)).append($("<td>").text(e.remarks)).append($("<td>").html(e.worker?'<i class="fa fa-check"></i>':"-")).append($("<td>").text(e.created_at))}(t))}),pagination.updatePagination(t,e,p),n.html(e.from+" - "+e.to+" of "+e.total)):a.append($("<tr>").addClass("warning").append($("<td>").text("No results").attr("colspan",16)))}).fail(function(e,t){a.empty(),a.append($("<tr>").addClass("danger").append($("<td>").text(t).attr("colspan",16)))})}$(function(){$("#filter input").on("change keyup",function(e){var a=e.keyCode;if(0==a||8==a||13==a||27==a||46==a||a>=48&&a<=90||a>=96&&a<=111){var t=$(this);$("#filter-status").html("");var i=$("#results-table tbody");i.empty(),i.append($("<tr>").append($("<td>").text("Searching...").attr("colspan",16))),clearTimeout(n),n=setTimeout(function(){27==a&&t.val("").focus(),13==a&&t.blur(),p(1)},300)}}),$("a.sort").on("click",function(){i=$(this).attr("data-field"),r=l==i&&"desc"!=r?"desc":"asc",l=i,p(1)}),$("#reset-filter").on("click",function(){$('#filter input[name="family_name"]').val(""),$('#filter input[name="name"]').val(""),$('#filter input[name="date_of_birth"]').val(""),$('#filter input[name="nationality"]').val(""),$('#filter input[name="police_no"]').val(""),$('#filter input[name="case_no"]').val(""),$('#filter input[name="medical_no"]').val(""),$('#filter input[name="registration_no"]').val(""),$('#filter input[name="section_card_no"]').val(""),$('#filter input[name="temp_no"]').val(""),$('#filter input[name="languages"]').val(""),$('#filter input[name="skills"]').val(""),$('#filter input[name="remarks"]').val(""),p(1)}),p(1)})},748:function(e,a){function t(e,a,t,n){var i=$("<li>").addClass("page-item");return null!=a?i.append($("<a>").addClass("page-link").attr("href","javascript:;").html(e).on("click",function(){n(a)})):i.append($("<span>").addClass("page-link").html(e)),null!=t&&i.addClass(t),i}e.exports={updatePagination:function(e,a,n){e.empty(),a.current_page>1?e.append(t("&laquo;",1,null,n)):e.append(t("&laquo;",null,"disabled",n));a.current_page>1?e.append(t("&lsaquo;",a.current_page-1,null,n)):e.append(t("&lsaquo;",null,"disabled",n));for(i=2+Math.max(2-(a.last_page-a.current_page),0);i>=1;i--)a.current_page>i&&e.append(t(a.current_page-i,a.current_page-i,null,n));for(e.append(t(a.current_page,null,"active",n)),i=1;i<=2+Math.max(0,3-a.current_page);i++)a.current_page+i-1<a.last_page&&e.append(t(a.current_page+i,a.current_page+i,null,n));a.current_page<a.last_page?e.append(t("&rsaquo;",a.current_page+1,null,n)):e.append(t("&rsaquo;",null,"disabled",n));a.current_page<a.last_page?e.append(t("&raquo;",a.last_page,null,n)):e.append(t("&raquo;",null,"disabled",n))}}}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 748);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 748:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(749);
+
+
+/***/ }),
+
+/***/ 749:
+/***/ (function(module, exports, __webpack_require__) {
+
+pagination = __webpack_require__(750);
+
+var delayTimer;
+var orderByField = 'family_name';
+var lastOrderByField = 'family_name';
+var orderByDirection = 'asc';
+
+$(function () {
+    $('#filter input').on('change keyup', function (e) {
+        var keyCode = e.keyCode;
+        if (keyCode == 0 || keyCode == 8 || keyCode == 13 || keyCode == 27 || keyCode == 46 || keyCode >= 48 && keyCode <= 90 || keyCode >= 96 && keyCode <= 111) {
+            var elem = $(this);
+
+            $('#filter-status').html('');
+            var tbody = $('#results-table tbody');
+            tbody.empty();
+            tbody.append($('<tr>').append($('<td>').text('Searching...').attr('colspan', 16)));
+
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function () {
+                if (keyCode == 27) {
+                    // ESC
+                    elem.val('').focus();
+                }
+                if (keyCode == 13) {
+                    // Enter
+                    elem.blur();
+                }
+                filterTable(1);
+            }, 300);
+        }
+    });
+
+    $('a.sort').on('click', function () {
+        orderByField = $(this).attr('data-field');
+        if (lastOrderByField == orderByField && orderByDirection != 'desc') {
+            orderByDirection = 'desc';
+        } else {
+            orderByDirection = 'asc';
+        }
+        lastOrderByField = orderByField;
+        filterTable(1);
+    });
+
+    $('#reset-filter').on('click', function () {
+        $('#filter input[name="family_name"]').val('');
+        $('#filter input[name="name"]').val('');
+        $('#filter input[name="date_of_birth"]').val('');
+        $('#filter input[name="nationality"]').val('');
+        $('#filter input[name="police_no"]').val('');
+        $('#filter input[name="case_no"]').val('');
+        $('#filter input[name="medical_no"]').val('');
+        $('#filter input[name="registration_no"]').val('');
+        $('#filter input[name="section_card_no"]').val('');
+        $('#filter input[name="temp_no"]').val('');
+        $('#filter input[name="languages"]').val('');
+        $('#filter input[name="skills"]').val('');
+        $('#filter input[name="remarks"]').val('');
+        filterTable(1);
+    });
+
+    filterTable(1);
+});
+
+function filterTable(page) {
+    $('#filter-status').html('');
+    var tbody = $('#results-table tbody');
+    tbody.empty();
+    tbody.append($('<tr>').append($('<td>').text('Searching...').attr('colspan', 16)));
+
+    var paginator = $('#paginator');
+    paginator.empty();
+
+    var paginationInfo = $('#paginator-info');
+    paginationInfo.empty();
+    $.post(filterUrl, {
+        "_token": csrfToken,
+        "family_name": $('#filter input[name="family_name"]').val(),
+        "name": $('#filter input[name="name"]').val(),
+        "date_of_birth": $('#filter input[name="date_of_birth"]').val(),
+        "nationality": $('#filter input[name="nationality"]').val(),
+        "police_no": $('#filter input[name="police_no"]').val(),
+        "case_no": $('#filter input[name="case_no"]').val(),
+        "medical_no": $('#filter input[name="medical_no"]').val(),
+        "registration_no": $('#filter input[name="registration_no"]').val(),
+        "section_card_no": $('#filter input[name="section_card_no"]').val(),
+        "temp_no": $('#filter input[name="temp_no"]').val(),
+        "languages": $('#filter input[name="languages"]').val(),
+        "skills": $('#filter input[name="skills"]').val(),
+        "remarks": $('#filter input[name="remarks"]').val(),
+        "page": page,
+        'orderByField': orderByField,
+        'orderByDirection': orderByDirection
+    }, function (result) {
+        tbody.empty();
+        if (result.data.length > 0) {
+            $.each(result.data, function (k, v) {
+                tbody.append(writeRow(v));
+            });
+            pagination.updatePagination(paginator, result, filterTable);
+            paginationInfo.html(result.from + ' - ' + result.to + ' of ' + result.total);
+        } else {
+            tbody.append($('<tr>').addClass('warning').append($('<td>').text('No results').attr('colspan', 16)));
+        }
+    }).fail(function (jqXHR, textStatus) {
+        tbody.empty();
+        tbody.append($('<tr>').addClass('danger').append($('<td>').text(textStatus).attr('colspan', 16)));
+    });
+}
+
+function writeRow(person) {
+    var icon = '';
+    if (person.gender == 'f') {
+        icon = 'female';
+    }
+    if (person.gender == 'm') {
+        icon = 'male';
+    }
+    return $('<tr>').attr('id', 'person-' + person.id).append($('<td>').html(icon != '' ? '<i class="fa fa-' + icon + '"></i>' : '')).append($('<td>').append($('<a>').attr('href', 'people/' + person.id).text(person.family_name))).append($('<td>').append($('<a>').attr('href', 'people/' + person.id).text(person.name))).append($('<td>').text(person.date_of_birth)).append($('<td>').text(person.nationality)).append($('<td>').text(person.police_no)).append($('<td>').text(person.case_no)).append($('<td>').text(person.medical_no)).append($('<td>').text(person.registration_no)).append($('<td>').text(person.section_card_no)).append($('<td>').text(person.temp_no)).append($('<td>').text(person.languages)).append($('<td>').text(person.skills)).append($('<td>').text(person.remarks)).append($('<td>').html(person.worker ? '<i class="fa fa-check"></i>' : '-')).append($('<td>').text(person.created_at));
+}
+
+/***/ }),
+
+/***/ 750:
+/***/ (function(module, exports) {
+
+module.exports = {
+    updatePagination: updatePagination
+};
+
+function updatePagination(container, result, callback) {
+    container.empty();
+
+    // First page
+    if (result.current_page > 1) {
+        container.append(createPaginationItem('&laquo;', 1, null, callback));
+    } else {
+        container.append(createPaginationItem('&laquo;', null, 'disabled', callback));
+    }
+
+    // Previous page
+    if (result.current_page > 1) {
+        container.append(createPaginationItem('&lsaquo;', result.current_page - 1, null, callback));
+    } else {
+        container.append(createPaginationItem('&lsaquo;', null, 'disabled', callback));
+    }
+
+    // Pages before
+    for (i = 2 + Math.max(2 - (result.last_page - result.current_page), 0); i >= 1; i--) {
+        if (result.current_page > i) {
+            container.append(createPaginationItem(result.current_page - i, result.current_page - i, null, callback));
+        }
+    }
+
+    // Current page
+    container.append(createPaginationItem(result.current_page, null, 'active', callback));
+
+    // Pages after
+    for (i = 1; i <= 2 + Math.max(0, 3 - result.current_page); i++) {
+        if (result.current_page + i - 1 < result.last_page) {
+            container.append(createPaginationItem(result.current_page + i, result.current_page + i, null, callback));
+        }
+    }
+
+    // Next page
+    if (result.current_page < result.last_page) {
+        container.append(createPaginationItem('&rsaquo;', result.current_page + 1, null, callback));
+    } else {
+        container.append(createPaginationItem('&rsaquo;', null, 'disabled', callback));
+    }
+
+    // Last page
+    if (result.current_page < result.last_page) {
+        container.append(createPaginationItem('&raquo;', result.last_page, null, callback));
+    } else {
+        container.append(createPaginationItem('&raquo;', null, 'disabled', callback));
+    }
+}
+
+function createPaginationItem(content, pageTarget, elemClass, callback) {
+    var elem = $('<li>').addClass('page-item');
+    if (pageTarget != null) {
+        elem.append($('<a>').addClass('page-link').attr('href', 'javascript:;').html(content).on('click', function () {
+            callback(pageTarget);
+        }));
+    } else {
+        elem.append($('<span>').addClass('page-link').html(content));
+    }
+    if (elemClass != null) {
+        elem.addClass(elemClass);
+    }
+    return elem;
+}
+
+/***/ })
+
+/******/ });

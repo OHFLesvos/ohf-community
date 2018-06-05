@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Bank\RegisterCard;
 use App\CouponType;
 use App\CouponHandout;
 use App\Person;
@@ -154,4 +155,29 @@ class WithdrawalController extends Controller
 		]);
     }
 
+    public function registerCard(RegisterCard $request) {
+        $person = new Person();
+        $person->card_no = $request->card_no;
+        $person->save();
+        return redirect()->route('bank.showCard', $person->card_no);
+    }
+
+    public function showCard(String $cardNo) {
+        $person = Person::where('card_no', $cardNo)->first();
+        if ($person != null) {
+            return view('bank.withdrawal.showCard', [
+                'person' => $person,
+                'undoGraceTime' => Config::get('bank.undo_grace_time'),
+                'couponTypes' => CouponType
+                    ::where('enabled', true)
+                    ->orderBy('order')
+                    ->orderBy('name')
+                    ->get(),
+            ]);
+        } else {
+            return view('bank.withdrawal.noCard', [
+                'cardNo' => $cardNo,
+            ]);
+        }
+    }
 }

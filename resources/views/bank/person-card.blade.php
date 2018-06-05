@@ -43,52 +43,51 @@
             </div>
         </div>
     </div>
-    <div class="card-body p-2">
-        @if(isset($person->police_no))
-            <span class="d-block d-sm-inline">
-                <small class="text-muted">@lang('people.police_number'):</small> 
-                <span class="pr-2">05/{{ $person->police_no }}</span>
-            </span>
-        @endif
-        @if(isset($person->case_no))
-            <span class="d-block d-sm-inline">
-                <small class="text-muted">@lang('people.case_number'):</small>
-                <span class="pr-2">{{ $person->case_no }}</span>
-            </span>
-        @endif
-        @if(isset($person->medical_no))
-            <span class="d-block d-sm-inline">
-                <small class="text-muted">@lang('people.medical_number'):</small>
-                <span class="pr-2">{{ $person->medical_no }}</span>
-            </span>
-        @endif
-        @if(isset($person->registration_no))
-            <span class="d-block d-sm-inline">
-                <small class="text-muted">@lang('people.registration_number'):</small>
-                <span class="pr-2">{{ $person->registration_no }}</span>
-            </span>
-        @endif
-        @if(isset($person->section_card_no))
-            <span class="d-block d-sm-inline">
-                <small class="text-muted">@lang('people.section_card_number'):</small>
-                <span class="pr-2">{{ $person->section_card_no }}</span>
-            </span>
-        @endif
-        @if(isset($person->temp_no))
-            <span class="d-block d-sm-inline">
-                <small class="text-muted">@lang('people.temporary_number'):</small>
-                <span class="pr-2">{{ $person->temp_no }}</span>
-            </span>
-        @endif
-        @if (!isset($person->police_no) && !isset($person->case_no) && !isset($person->medical_no) && !isset($person->registration_no) && !isset($person->section_card_no) && !isset($person->temp_no))
-            <small class="text-muted">@lang('people.no_number_registered')</small>
-        @endif
-        @if(isset($person->remarks))
-            <div>
-                <em class="text-info">{{ $person->remarks }}</em>
-            </div>
-        @endif
-    </div>
+    @if (isset($person->police_no) || isset($person->case_no) || isset($person->medical_no) || isset($person->registration_no) || isset($person->section_card_no) || isset($person->temp_no) || isset($person->remarks))
+        <div class="card-body p-2">
+            @if(isset($person->police_no))
+                <span class="d-block d-sm-inline">
+                    <small class="text-muted">@lang('people.police_number'):</small> 
+                    <span class="pr-2">05/{{ $person->police_no }}</span>
+                </span>
+            @endif
+            @if(isset($person->case_no))
+                <span class="d-block d-sm-inline">
+                    <small class="text-muted">@lang('people.case_number'):</small>
+                    <span class="pr-2">{{ $person->case_no }}</span>
+                </span>
+            @endif
+            @if(isset($person->medical_no))
+                <span class="d-block d-sm-inline">
+                    <small class="text-muted">@lang('people.medical_number'):</small>
+                    <span class="pr-2">{{ $person->medical_no }}</span>
+                </span>
+            @endif
+            @if(isset($person->registration_no))
+                <span class="d-block d-sm-inline">
+                    <small class="text-muted">@lang('people.registration_number'):</small>
+                    <span class="pr-2">{{ $person->registration_no }}</span>
+                </span>
+            @endif
+            @if(isset($person->section_card_no))
+                <span class="d-block d-sm-inline">
+                    <small class="text-muted">@lang('people.section_card_number'):</small>
+                    <span class="pr-2">{{ $person->section_card_no }}</span>
+                </span>
+            @endif
+            @if(isset($person->temp_no))
+                <span class="d-block d-sm-inline">
+                    <small class="text-muted">@lang('people.temporary_number'):</small>
+                    <span class="pr-2">{{ $person->temp_no }}</span>
+                </span>
+            @endif
+            @if(isset($person->remarks))
+                <div>
+                    <em class="text-info">{{ $person->remarks }}</em>
+                </div>
+            @endif
+        </div>
+    @endif
     <div class="card-footer p-0 px-2 pt-2">
         <div class="form-row">
             @forelse($couponTypes as $coupon)
