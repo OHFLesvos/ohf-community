@@ -32,6 +32,7 @@
     var undoHandoutCouponUrl = '{{ route('bank.undoHandoutCoupon') }}';
     var updateGenderUrl = '{{ route('bank.updateGender') }}';
     var updateDateOfBirthUrl = '{{ route('bank.updateDateOfBirth') }}';
+    var updateNationalityUrl = '{{ route('bank.updateNationality') }}';
     var registerCardUrl = '{{ route('bank.registerCard') }}';
     var undoLabel = '@lang('app.undo')';
 @endsection

@@ -110,6 +110,7 @@ return [
     'qr_code_card_has_been_registered' => 'QR code card has been registered.',
     'gender_has_been_registered' => 'Gender of :person has been registered.',
     'date_of_birth_has_been_registered' => 'Date of birth of :person has been registered.',
+    'nationality_has_been_registered' => 'Nationality of :person has been registered.',
     'nationalities' => 'Nationalities',
     'registered_number_types' => 'Registered number types',
     'todays_transactions' => 'Todays transactions',

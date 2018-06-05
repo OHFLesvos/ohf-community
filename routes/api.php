@@ -51,5 +51,6 @@ Route::group(['middleware' => ['auth']], function () {
         });
         Route::post('/bank/updateGender', 'API\People\PeopleController@updateGender')->name('bank.updateGender');
         Route::post('/bank/updateDateOfBirth', 'API\People\PeopleController@updateDateOfBirth')->name('bank.updateDateOfBirth');
+        Route::post('/bank/updateNationality', 'API\People\PeopleController@updateNationality')->name('bank.updateNationality');
     });
 });

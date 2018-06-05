@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\People\UpdatePersonDateOfBirth;
 use App\Http\Requests\People\UpdatePersonGender;
+use App\Http\Requests\People\UpdatePersonNationality;
 use Carbon\Carbon;
 use App\Person;
 
@@ -55,4 +56,28 @@ class PeopleController extends Controller
             ]),
         ]);
     }
+
+    
+    /**
+     * Update date of birth of person.
+     * 
+     * @param  \App\Http\Requests\People\UpdatePersonNationality  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function updateNationality(UpdatePersonNationality $request) {
+        $person = Person::findOrFail($request->person_id);
+
+        $this->authorize('update', $person);
+
+        $person->nationality = $request->nationality;
+        $person->save();
+
+        return response()->json([
+            'nationality' => $person->nationality,
+            'message' => __('people.nationality_has_been_registered', [
+                'person' => $person->family_name . ' ' . $person->name,
+            ]),
+        ]);
+    }
+
 }

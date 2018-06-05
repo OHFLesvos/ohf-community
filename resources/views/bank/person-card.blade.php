@@ -23,9 +23,13 @@
                         <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus-o)</button>
                     @endif
                 </span>
-                @if(isset($person->nationality))
-                    {{ $person->nationality }}
-                @endif
+                <span class="form-inline d-inline">
+                    @if(isset($person->nationality))
+                        {{ $person->nationality }}
+                    @else
+                        <button class="btn btn-warning btn-sm choose-nationality" data-person="{{ $person->id }}" title="Set nationality">@icon(globe)</button>
+                    @endif
+                </span>
                 @if($frequentVisitor)
                     <span class="text-warning" title="Frequent visitor">@icon(star)</span>
                 @endif

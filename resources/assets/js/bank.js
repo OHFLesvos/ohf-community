@@ -106,6 +106,9 @@ $(function(){
 
 	// Date of birth
 	$('.choose-date-of-birth').on('click', selectDateOfBirth);
+
+	// Nationality
+	$('.choose-nationality').on('click', selectNationality);
 });
 
 function enableFilterSelect() {
@@ -291,4 +294,74 @@ function getTodayDate() {
 		mm='0'+mm;
 	} 
 	return yyyy + '-' + mm + '-' + dd;
+}
+
+function selectNationality() {
+	var person = $(this).attr('data-person');
+	var resultElem = $(this).parent();
+	var nationalitySelect = $('<input>')
+		.attr('type', 'text')
+		.attr('placeholder', 'Choose nationality')
+		.addClass('form-control form-control-sm')
+		.on('keydown', function(evt){
+			var isEnter = false;
+			if ("key" in evt) {
+				isEnter = (evt.key == "Enter");
+			} else {
+				isEnter = (evt.keyCode == 13);
+			}
+			if (isEnter) {
+				storeNationality(person, nationalitySelect, resultElem);
+			}
+		});
+	resultElem.empty()
+		.append(nationalitySelect)
+		.append(' ')
+		.append($('<button>')
+			.attr('type', 'button')
+			.addClass('btn btn-primary btn-sm')
+			.on('click', function(){
+				storeNationality(person, nationalitySelect, resultElem);
+			})
+			.append(
+				$('<i>').addClass("fa fa-check")
+			)
+		)
+		.append(' ')
+		.append($('<button>')
+			.attr('type', 'button')
+			.addClass('btn btn-secondary btn-sm')
+			.on('click', function(){
+				resultElem.empty().
+					append($('<button>')
+						.addClass('btn btn-warning btn-sm choose-nationality')
+						.attr('data-person', person)
+						.attr('title', 'Set nationality')
+						.on('click', selectNationality)
+						.append(
+							$('<i>').addClass("fa fa-globe")
+						)
+					);
+			})
+			.append(
+				$('<i>').addClass("fa fa-times")
+			)
+		);
+	nationalitySelect.focus();
+}
+
+function storeNationality(person, nationalitySelect, resultElem) {
+	$.post(updateNationalityUrl, {
+		"_token": csrfToken,
+		"person_id":person,
+		'nationality': nationalitySelect.val()
+	}, function(data) {
+		resultElem.html(data.nationality);
+		showSnackbar(data.message);
+		enableFilterSelect();
+	})
+	.fail(function(jqXHR, textStatus){
+		ajaxError(jqXHR, textStatus);
+		nationalitySelect.select();
+	});	
 }
