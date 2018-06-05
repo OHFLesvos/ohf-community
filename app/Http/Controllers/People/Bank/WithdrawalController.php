@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\CouponType;
 use App\CouponHandout;
 use App\Person;
+use App\RevokedCard;
 use OwenIt\Auditing\Models\Audit;
 
 class WithdrawalController extends Controller
@@ -72,7 +73,7 @@ class WithdrawalController extends Controller
         // Create query
         $q = Person::orderBy('family_name', 'asc')
             ->orderBy('name', 'asc');
-        $isCodeCard = preg_match('/[a-f0-9]{32}/', $filter);
+        $isCodeCard = preg_match('/[a-f0-9]{10,}/i', $filter);
         if ($isCodeCard) { // QR code card number
             $q->where('card_no', $filter);
         } else {
