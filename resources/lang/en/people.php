@@ -91,6 +91,8 @@ return [
     'coupons_returned_per_day_from_project' => 'Coupons returned per day from :project',
     'already_received' => 'already received',
     'scan' => 'Scan',
+    'scan_another_card' => 'Scan another card',
+    'search_persons' => 'Search persons',
     'qr_code_scanner' => 'QR Code Scanner',
     'view_coupon' => 'View Coupon',
     'edit_coupon' => 'Edit Coupon',

@@ -91,6 +91,8 @@ return [
     'coupons_returned_per_day_from_project' => 'Registrierte Coupons pro Tag vom Projekt :project',
     'already_received' => 'bereits erhalten',
     'scan' => 'Lesen',
+    'scan_another_card' => 'Eine andere Karte lesen',
+    'search_persons' => 'Personen suchen',
     'qr_code_scanner' => 'QR Code Leser',
     'view_coupon' => 'Coupon betrachten',
     'edit_coupon' => 'Coupon bearbeiten',
