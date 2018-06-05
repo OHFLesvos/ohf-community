@@ -258,6 +258,17 @@ function storeDateOfBirth(person, dateSelect, resultElem) {
 		'date_of_birth': dateSelect.val()
 	}, function(data) {
 		resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
+		// Remove buttons not maching age-restrictions
+		$('button[data-min_age]').each(function(){
+			if ($(this).data('min_age') && data.age < $(this).data('min_age')) {
+				$(this).parent().remove();
+			}
+		});
+		$('button[data-max_age]').each(function(){
+			if ($(this).data('max_age') && data.age > $(this).data('max_age')) {
+				$(this).parent().remove();
+			}
+		});
 		showSnackbar(data.message);
 		enableFilterSelect();
 	})

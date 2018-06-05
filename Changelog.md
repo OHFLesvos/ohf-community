@@ -3,6 +3,7 @@
 ## 1.14.0
 
 * New scanned cards screen added
+* Remove buttons not maching age-restrictions when updating person age
 
 ## 1.13.12
 
