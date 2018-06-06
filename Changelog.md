@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.0
+
+* Added "salutation" field to donors
+
 ## 1.14.2
 
 * Fixed issues with revoking cards

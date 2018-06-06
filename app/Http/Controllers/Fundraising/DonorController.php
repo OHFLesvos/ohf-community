@@ -61,6 +61,7 @@ class DonorController extends Controller
         $this->authorize('create', Donor::class);
 
         $donor = new Donor();
+        $donor->salutation = $request->salutation;
         $donor->first_name = $request->first_name;
         $donor->last_name = $request->last_name;
         $donor->company = $request->company;
@@ -121,6 +122,7 @@ class DonorController extends Controller
     {
         $this->authorize('update', $donor);
 
+        $donor->salutation = $request->salutation;
         $donor->first_name = $request->first_name;
         $donor->last_name = $request->last_name;
         $donor->company = $request->company;

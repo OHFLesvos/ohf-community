@@ -1,6 +1,7 @@
 <table>
     <thead>
         <tr>
+            <th>@lang('app.salutation')</th>
             <th>@lang('app.first_name')</th>
             <th>@lang('app.last_name')</th>
             <th>@lang('app.company')</th>
@@ -21,6 +22,7 @@
     <tbody>
         @foreach ($donors as $donor)
             <tr>
+                <td>{{ $donor->salutation }}</td>
                 <td>{{ $donor->first_name }}</td>
                 <td>{{ $donor->last_name }}</td>
                 <td>{{ $donor->company }}</td>

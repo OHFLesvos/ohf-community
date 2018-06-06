@@ -12,6 +12,7 @@ class Donor extends Model
     use NullableFields;
 
     protected $nullable = [
+        'salutation',
         'first_name',
         'last_name',
         'company',
@@ -86,6 +87,11 @@ class Donor extends Model
     }
 
     public static function languages() {
-        return self::select('language')->groupBy('language')->orderBy('language')->get()->pluck('language')->toArray();
+        return self::select('language')->groupBy('language')->whereNotNull('language')->orderBy('language')->get()->pluck('language')->toArray();
     }
+
+    public static function salutations() {
+        return self::select('salutation')->groupBy('salutation')->whereNotNull('salutation')->orderBy('salutation')->get()->pluck('salutation')->toArray();
+    }
+    
 }

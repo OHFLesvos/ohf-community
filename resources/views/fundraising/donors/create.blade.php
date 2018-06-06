@@ -8,7 +8,10 @@
 
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('first_name', null, [ 'autofocus' ], __('app.first_name')) }}
+                {{ Form::bsText('salutation', null, [ 'autofocus', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(App\Donor::salutations()) ], __('app.salutation')) }}
+            </div>
+            <div class="col-md">
+                {{ Form::bsText('first_name', null, [ ], __('app.first_name')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('last_name', null, [ ], __('app.last_name')) }}

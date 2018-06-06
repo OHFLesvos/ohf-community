@@ -145,4 +145,5 @@ return [
     'phone' => 'Phone',
     'year' => 'Year',
     'correspondence_language' => 'Correspondence language',
+    'salutation' => 'Salutation',
  ];

@@ -10,11 +10,25 @@
 
             <ul class="list-group list-group-flush">
 
+
+                @if($donor->salutation != null)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm"><strong>@lang('app.salutation')</strong></div>
+                            <div class="col-sm">
+                                {{ $donor->salutation }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+
                 @if($donor->first_name != null || $donor->last_name != null)
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-sm"><strong>@lang('app.name')</strong></div>
-                            <div class="col-sm">{{ $donor->first_name }} {{ $donor->last_name }}</div>
+                            <div class="col-sm">
+                                {{ $donor->first_name }} {{ $donor->last_name }}
+                            </div>
                         </div>
                     </li>
                 @endisset
