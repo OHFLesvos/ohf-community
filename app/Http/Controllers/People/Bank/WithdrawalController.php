@@ -74,34 +74,21 @@ class WithdrawalController extends Controller
         // Create query
         $q = Person::orderBy('family_name', 'asc')
             ->orderBy('name', 'asc');
-        $isCodeCard = preg_match('/[a-f0-9]{10,}/i', $filter);
-        if ($isCodeCard) { // QR code card number
-            $q->where('card_no', $filter);
-        } else {
-            // Handle OR keyword
-            foreach(preg_split('/\s+OR\s+/', $filter) as $orTerm) {
-                $terms = preg_split('/\s+/', $orTerm);
-                $q->orWhere(function($aq) use ($terms){
-                    foreach ($terms as $term) {
-                        // Remove dash "-" from term
-                        $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
-                        // Create like condition
-                        $aq->where('search', 'LIKE', '%' . $term . '%');
-                    }
-                });
-            }
+        // Handle OR keyword
+        foreach(preg_split('/\s+OR\s+/', $filter) as $orTerm) {
+            $terms = preg_split('/\s+/', $orTerm);
+            $q->orWhere(function($aq) use ($terms){
+                foreach ($terms as $term) {
+                    // Remove dash "-" from term
+                    $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
+                    // Create like condition
+                    $aq->where('search', 'LIKE', '%' . $term . '%');
+                }
+            });
         }
         $results = $q->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page')));
 
         $message = null;
-
-        // Check for revoked card number
-        if ($isCodeCard && count($results) == 0) {
-            $revoked = RevokedCard::where('card_no', $filter)->first();
-            if ($revoked !=null) {
-                $message = 'Card number ' . substr($filter, 0, 7) . ' has been revoked on ' . $revoked->created_at . '.';
-            }
-        }
 
 		return view('bank.withdrawal-results', [
             'filter' => $request->filter,
@@ -155,7 +142,7 @@ class WithdrawalController extends Controller
 		]);
     }
 
-    public function registerCard(RegisterCard $request) {
+    public function registerCardAsPerson(RegisterCard $request) {
         $person = new Person();
         $person->card_no = $request->card_no;
         $person->save();
@@ -163,6 +150,16 @@ class WithdrawalController extends Controller
     }
 
     public function showCard(String $cardNo) {
+        // TODO validation
+
+        // Check for revoked card number
+        $revoked = RevokedCard::where('card_no', $cardNo)->first();
+        if ($revoked != null) {
+            return view('bank.withdrawal.error', [
+                'message' => __('people.card_revoked', [ 'card_no' => substr($cardNo, 0, 7), 'date' => $revoked->created_at ]),
+            ]);
+        }
+
         $person = Person::where('card_no', $cardNo)->first();
         if ($person != null) {
             return view('bank.withdrawal.showCard', [

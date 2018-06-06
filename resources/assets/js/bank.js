@@ -73,7 +73,6 @@ $(function(){
 		scanQR(function(content){
 			$('#bank-container').empty().html('Searching card ...');
 			document.location = '/bank/withdrawal/cards/' + content;
-			//$('#filter').val(content).parents('form').submit();
 		});
 	});
 
@@ -93,6 +92,7 @@ $(function(){
 			}, function(data) {
 				resultElem.html('<strong>' + content.substr(0,7) + '</strong>');
 				showSnackbar(data.message);
+				document.location = '/bank/withdrawal/cards/' + content;
 			})
 			.fail(ajaxError);
 		});

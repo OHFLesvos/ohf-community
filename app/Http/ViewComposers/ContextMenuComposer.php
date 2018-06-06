@@ -387,6 +387,7 @@ class ContextMenuComposer {
             //
             case 'bank.withdrawal':
             case 'bank.withdrawalSearch':
+            case 'bank.showCard':
                 return [
                     'action' => [
                         'url' => route('people.create'),
@@ -403,7 +404,7 @@ class ContextMenuComposer {
                     ],
                     'codecard' => [
                         'url' => route('bank.prepareCodeCard'),
-                        'caption' => __('people.code_card'),
+                        'caption' => __('people.code_cards'),
                         'icon' => 'qrcode',
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ],

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.14.2
+
+* Fixed issues with revoking cards
+
 ## 1.14.0
 
 * New scanned cards screen added

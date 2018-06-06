@@ -9,7 +9,7 @@
         Card not registered.
     @endcomponent
 
-    {{ Form::open(['route' => 'bank.registerCard']) }}
+    {{ Form::open(['route' => 'bank.registerCardAsPerson']) }}
         {{ Form::hidden('card_no', $cardNo) }}
         <div class="row">
             <div class="col-md">

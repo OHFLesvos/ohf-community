@@ -27,9 +27,10 @@ class BankController extends Controller
         $this->authorize('update', $person);
 
         // Check for revoked card number
-        if (RevokedCard::where('card_no', $request->card_no)->count() > 0) {
+        $revoked = RevokedCard::where('card_no', $request->card_no)->first();
+        if ($revoked != null) {
             return response()->json([
-                'message' => __('people.card_revoked', [ 'card_no' => substr($request->card_no, 0, 7) ]),
+                'message' => __('people.card_revoked', [ 'card_no' => substr($request->card_no, 0, 7), 'date' => $revoked->created_at ]),
             ], 400);
         }
 
