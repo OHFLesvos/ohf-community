@@ -35,4 +35,6 @@ return [
     'confirm_delete_donation' => 'Do you really want to delete this donation?',
     'donation_deleted' => 'Donation has been deleted',
     'leave_empty_for_automatic_calculation' => 'Leave empty for automatic calculation',
+    'thanked' => 'Thanked',
+    'donor_thanked' => 'Donor has been thanked',
 ];

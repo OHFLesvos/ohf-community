@@ -16,6 +16,7 @@
                         <th>@lang('fundraising.purpose')</th>
                         <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
                         <th class="fit">@lang('app.registered')</th>
+                        <th class="fit" title="@lang('fundraising.thanked')">@icon(handshake-o)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,13 @@
                             <td>{{ $donation->purpose }}</td>
                             <td class="d-none d-sm-table-cell">{{ $donation->reference }}</td>
                             <td class="d-none d-sm-table-cell fit">{{ $donation->created_at }}</td>
+                            @if($donation->thanked != null)
+                                <td class="fit" title="{{ $donation->thanked->toDateString() }}">
+                                    @icon(check)
+                                </td>
+                            @else
+                                <td></td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

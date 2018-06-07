@@ -3,6 +3,7 @@
 ## 1.15.0
 
 * Added "salutation" field to donors
+* Added "thanked" field to donations
 
 ## 1.14.2
 

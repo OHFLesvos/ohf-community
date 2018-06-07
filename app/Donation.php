@@ -14,6 +14,11 @@ class Donation extends Model
 		'reference',
     ];
 
+    protected $dates = [
+        'deleted_at',
+        'thanked',
+    ];
+
     function donor() {
         return $this->belongsTo('App\Donor');
     }

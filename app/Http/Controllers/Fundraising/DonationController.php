@@ -156,6 +156,7 @@ class DonationController extends Controller
         $donation->channel = $request->channel;
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
+        $donation->thanked = !empty($request->thanked) ? Carbon::now() : null;
         $donation->save();
         return redirect()->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donation_updated'));;

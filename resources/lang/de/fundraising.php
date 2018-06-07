@@ -35,4 +35,6 @@ return [
     'confirm_delete_donation' => 'Soll diese Spende wirklich gelöscht werden?',
     'donation_deleted' => 'Spende wurde gelöscht',
     'leave_empty_for_automatic_calculation' => 'Leerlassen für automatische Berechnung.',
+    'thanked' => 'Verdankt',
+    'donor_thanked' => 'Spende wurde verdankt',
 ];

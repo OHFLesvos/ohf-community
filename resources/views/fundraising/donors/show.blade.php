@@ -195,7 +195,7 @@
                                     <th>@lang('fundraising.purpose')</th>
                                     <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
                                     <th class="text-right">@lang('app.amount')</th>
-                                    <th></th>
+                                    <th ckass="fit">@lang('fundraising.thanked')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -209,6 +209,11 @@
                                             {{ $donation->currency }} {{ $donation->amount }}
                                             @if($donation->currency != Config::get('fundraising.base_currency'))
                                                 ({{ Config::get('fundraising.base_currency') }} {{ $donation->exchange_amount }})
+                                            @endif
+                                        </td>
+                                        <td class="fit">
+                                            @if($donation->thanked != null)
+                                                {{ optional($donation->thanked)->toDateString() }}
                                             @endif
                                         </td>
                                     </tr>

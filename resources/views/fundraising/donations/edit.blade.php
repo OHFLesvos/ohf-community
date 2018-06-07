@@ -30,6 +30,7 @@
                 {{ Form::bsText('reference', null, [ ], __('fundraising.reference')) }}
             </div>
         </div>
+        <p>{{ Form::bsCheckbox('thanked', null, null, __('fundraising.donor_thanked')) }}</p>
         
         <div class="row">
             <div class="col-auto pt-1">
