@@ -13,6 +13,7 @@
             <th>@lang('app.phone')</th>
             <th>@lang('app.correspondence_language')</th>
             <th>@lang('app.registered')</th>
+            <th>@lang('app.remarks')</th>
             @can('list', App\Donation::class)
                 <th>@lang('fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
                 <th>@lang('fundraising.donations') {{ Carbon\Carbon::now()->year }}</th>
@@ -34,6 +35,7 @@
                 <td>{{ $donor->phone }}</td>
                 <td>{{ $donor->language }}</td>
                 <td>{{ $donor->created_at }}</td>
+                <td>{{ $donor->remarks }}</td>
                 @can('list', App\Donation::class)
                     <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) ?? 0 }}</td>
                     <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->year) ?? 0 }}</td>

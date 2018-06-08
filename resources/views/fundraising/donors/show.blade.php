@@ -111,17 +111,6 @@
                     </li>
                 @endisset
 
-                @isset($donor->remarks)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm"><strong>@lang('app.remarks')</strong></div>
-                            <div class="col-sm">
-                                <em>{!! nl2br(e($donor->remarks)) !!}</em>
-                            </div>
-                        </div>
-                    </li>
-                @endisset
-
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-sm"><strong>@lang('app.registered')</strong></div>
@@ -137,6 +126,14 @@
                 </li>
 
             </ul>
+
+            @isset($donor->remarks)
+                <br>
+                @component('components.alert.info')
+                    @lang('app.remarks')<br>
+                    {!! nl2br(e($donor->remarks)) !!}
+                @endcomponent
+            @endisset
 
         </div>
 
