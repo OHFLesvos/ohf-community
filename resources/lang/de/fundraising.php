@@ -37,4 +37,5 @@ return [
     'leave_empty_for_automatic_calculation' => 'Leerlassen für automatische Berechnung.',
     'thanked' => 'Verdankt',
     'donor_thanked' => 'Spende wurde verdankt',
+    'in_name_of' => 'Im Namen von',
 ];

@@ -15,6 +15,7 @@
                         <th class="d-none d-sm-table-cell">@lang('fundraising.channel')</th>
                         <th>@lang('fundraising.purpose')</th>
                         <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
+                        <th class="d-none d-sm-table-cell">@lang('fundraising.in_name_of')</th>
                         <th class="fit">@lang('app.registered')</th>
                         <th class="fit" title="@lang('fundraising.thanked')">@icon(handshake-o)</th>
                     </tr>
@@ -35,6 +36,7 @@
                             <td class="d-none d-sm-table-cell">{{ $donation->channel }}</td>
                             <td>{{ $donation->purpose }}</td>
                             <td class="d-none d-sm-table-cell">{{ $donation->reference }}</td>
+                            <td class="d-none d-sm-table-cell">{{ $donation->in_name_of }}</td>
                             <td class="d-none d-sm-table-cell fit">{{ $donation->created_at }}</td>
                             @if($donation->thanked != null)
                                 <td class="fit" title="{{ $donation->thanked->toDateString() }}">

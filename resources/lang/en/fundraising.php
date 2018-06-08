@@ -37,4 +37,5 @@ return [
     'leave_empty_for_automatic_calculation' => 'Leave empty for automatic calculation',
     'thanked' => 'Thanked',
     'donor_thanked' => 'Donor has been thanked',
+    'in_name_of' => 'In the name of',
 ];

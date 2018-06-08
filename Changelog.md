@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.1
+
+* Added "in name of" column to donors
+
 ## 1.15.0
 
 * Added "salutation" field to donors

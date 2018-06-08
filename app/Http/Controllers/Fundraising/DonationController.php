@@ -89,6 +89,7 @@ class DonationController extends Controller
         $donation->channel = $request->channel;
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
+        $donation->in_name_of = $request->in_name_of;
         $donor->donations()->save($donation);
         return redirect()->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]));;
@@ -156,6 +157,7 @@ class DonationController extends Controller
         $donation->channel = $request->channel;
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
+        $donation->in_name_of = $request->in_name_of;
         $donation->thanked = !empty($request->thanked) ? Carbon::now() : null;
         $donation->save();
         return redirect()->route('fundraising.donors.show', $donor)
@@ -216,7 +218,7 @@ class DonationController extends Controller
                 $sheet->getStyle('F')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
     
                 // Sum
-                $sumCell = 'F' . (count($donations) + 2);
+                $sumCell = 'H' . (count($donations) + 2);
                 //$sheet->setCellValue($sumCell, '=SUM(F2:F' . (count($donations) + 1) . ')');
                 $sheet->setCellValue($sumCell, $donations->sum('exchange_amount'));
                 $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);

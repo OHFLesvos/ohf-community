@@ -175,6 +175,7 @@
                                     {{ Form::bsText('reference', null, [ 'placeholder' => __('fundraising.reference') ], '') }}
                                 </div>
                             </div>
+                            {{ Form::bsText('in_name_of', null, [ 'placeholder' => __('fundraising.in_name_of') . ' ...' ], '') }}
                             <p>
                                 {{ Form::bsSubmitButton(__('app.add')) }}
                             </p>
@@ -194,6 +195,7 @@
                                     <th class="d-none d-sm-table-cell">@lang('fundraising.channel')</th>
                                     <th>@lang('fundraising.purpose')</th>
                                     <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
+                                    <th class="d-none d-sm-table-cell">@lang('fundraising.in_name_of')</th>
                                     <th class="text-right">@lang('app.amount')</th>
                                     <th ckass="fit">@lang('fundraising.thanked')</th>
                                 </tr>
@@ -205,6 +207,7 @@
                                         <td class="d-none d-sm-table-cell">{{ $donation->channel }}</td>
                                         <td>{{ $donation->purpose }}</td>
                                         <td class="d-none d-sm-table-cell">{{ $donation->reference }}</td>
+                                        <td class="d-none d-sm-table-cell">{{ $donation->in_name_of }}</td>
                                         <td class="text-right">
                                             {{ $donation->currency }} {{ $donation->amount }}
                                             @if($donation->currency != Config::get('fundraising.base_currency'))

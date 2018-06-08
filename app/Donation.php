@@ -11,7 +11,8 @@ class Donation extends Model
 
 	protected $nullable = [
 		'purpose',
-		'reference',
+        'reference',
+        'in_name_of',
     ];
 
     protected $dates = [
