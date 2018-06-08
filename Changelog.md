@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.2
+
+* More prominent donor remarks
+
 ## 1.15.1
 
 * Added "in name of" column to donors
