@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.1
+
+* Fixed wiki article formatting
+
 ## 1.16.0
 
 * Added wiki article module with tag support

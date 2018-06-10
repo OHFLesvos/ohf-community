@@ -70,6 +70,11 @@ class ArticleController extends Controller
         $this->authorize('view', $article);
 
         $article->content = MarkdownExtra::defaultTransform($article->content);
+        $article->content = preg_replace('/<a /', '<a target="_blank" ', $article->content);
+        $article->content = preg_replace("/(\w|<\/a>|<\/em>|<\/strong>)\n/", '\1<br>', $article->content);
+        $article->content = preg_replace('/tel:([0-9+ ]+[0-9])/', '<a href="tel:\1">\1</a>', $article->content);
+        $article->content = emailize($article->content);
+
         return view('wiki.articles.show', [
             'article' => $article,
             'audit' =>  Audit

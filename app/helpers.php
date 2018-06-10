@@ -798,3 +798,11 @@ if (! function_exists('list_fa_icons')) {
         ];
     }
 }
+
+if (! function_exists('emailize')) {
+    function emailize($text) {
+        $regex = '/([a-zA-Z0-9_\-\.]*@\S+\.\w+)/';
+        $replace = '<a href="mailto:$1">$1</a>';
+        return preg_replace($regex, $replace, $text);
+    }
+}

@@ -4,9 +4,10 @@
 
 @section('content')
 
-    <h2>{{ $article->title }}</h2>
+    <h1>{{ $article->title }}</h1>
 	{!! $article->content !!}
 
+    <hr>
     @if(count($article->tags) > 0)
         <p>
             <strong>@lang('app.tags'):</strong>
