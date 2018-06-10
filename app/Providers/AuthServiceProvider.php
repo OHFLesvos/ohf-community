@@ -22,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Donor::class => \App\Policies\Fundraising\DonorPolicy::class,
         \App\Donation::class => \App\Policies\Fundraising\DonationPolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
+        \App\WikiArticle::class => \App\Policies\Wiki\ArticlePolicy::class,
     ];
 
     /**

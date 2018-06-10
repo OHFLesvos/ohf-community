@@ -146,4 +146,11 @@ return [
     'year' => 'Year',
     'correspondence_language' => 'Correspondence language',
     'salutation' => 'Salutation',
+    'title' => 'Title',
+    'content' => 'Content',
+    'tag' => 'Tag',
+    'tags' => 'Tags',
+    'separate_by_comma' => 'Separate by comma',
+    'syntax' => 'Syntax',
+    'edited' => 'edited',
  ];

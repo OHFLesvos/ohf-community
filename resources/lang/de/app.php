@@ -146,4 +146,11 @@ return [
     'year' => 'Jahr',
     'correspondence_language' => 'Korrespondenzsprache',
     'salutation' => 'Anrede',
+    'title' => 'Titel',
+    'content' => 'Inhalt',
+    'tag' => 'Stichwort',
+    'tags' => 'Stichwörter',
+    'separate_by_comma' => 'Mit Komma separieren',
+    'syntax' => 'Syntax',
+    'edited' => 'bearbeitet',
 ];

@@ -157,6 +157,15 @@ return [
         'fundraising.donations.edit' => [
             'sensitive' => true,
         ],
+        'wiki.view' => [
+            'sensitive' => false,
+        ],
+        'wiki.edit' => [
+            'sensitive' => false,
+        ],
+        'wiki.delete' => [
+            'sensitive' => false,
+        ],
         'app.usermgmt.view' => [
             'sensitive' => true,
         ],

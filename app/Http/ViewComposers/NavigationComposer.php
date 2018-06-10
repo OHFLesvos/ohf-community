@@ -7,6 +7,7 @@ use App\Role;
 use App\Task;
 use App\User;
 use App\Donor;
+use App\WikiArticle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -67,6 +68,13 @@ class NavigationComposer {
                     'icon' => 'handshake-o',
                     'active' => 'fundraising/*',
                     'authorized' => Auth::user()->can('list', Donor::class),
+                ],
+                [
+                    'route' => 'wiki.articles.index',
+                    'caption' => __('wiki.wiki'),
+                    'icon' => 'book',
+                    'active' => 'wiki/*',
+                    'authorized' => Auth::user()->can('list', WikiArticle::class),
                 ],
                 [
                     'route' => 'calendar',

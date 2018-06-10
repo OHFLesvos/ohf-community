@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.0
+
+* Added wiki article module with tag support
+
 ## 1.15.2
 
 * More prominent donor remarks

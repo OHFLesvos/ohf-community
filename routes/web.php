@@ -175,7 +175,11 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/reporting/articles/chart/{article}/transactionsPerMonth', 'Reporting\\ArticleReportingController@transactionsPerMonth')->name('reporting.articles.transactionsPerMonth');
         Route::get('/reporting/articles/chart/{article}/avgTransactionsPerWeekDay', 'Reporting\\ArticleReportingController@avgTransactionsPerWeekDay')->name('reporting.articles.avgTransactionsPerWeekDay');
 
-
+        // Wiki
+        Route::namespace('Wiki')->prefix('wiki')->name('wiki.')->group(function(){
+            Route::resource('articles', 'ArticleController');
+            Route::get('articles/tag/{tag}', 'ArticleController@tag')->name('articles.tag');
+        });
     });
 
     // Logistics
