@@ -152,4 +152,5 @@ return [
     'tags' => 'Tags',
     'separate_by_comma' => 'Separate by comma',
     'syntax' => 'Syntax',
+    'edited' => 'edited',
  ];

@@ -5,11 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use AustinHeap\Database\Encryption\Traits\HasEncryptedAttributes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class WikiArticle extends Model
+class WikiArticle extends Model implements Auditable
 {
     use Sluggable;
     use HasEncryptedAttributes;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * Return the sluggable configuration array for this model.

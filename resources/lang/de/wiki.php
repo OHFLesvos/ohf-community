@@ -12,4 +12,6 @@ return [
     'article_deleted' => 'Artikel gelöscht.',
     'confirm_delete_article' => 'Soll der Artikel wirklich gelöscht werden?',
     'num_articles_in_total' => 'Ein Artikel insgesamt.|:num Artikel insgesamt.',
+    'articles_in_db' => 'Ein Artikel in der Datenbank|:num Artikel in der Datenbank.',
+    'the_latest_article_is' => 'Der neuste Artikel ist',
 ];

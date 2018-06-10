@@ -9,6 +9,7 @@ use App\Tag;
 use App\Http\Requests\Wiki\StoreArticle;
 use Michelf\MarkdownExtra;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use OwenIt\Auditing\Models\Audit;
 
 class ArticleController extends Controller
 {
@@ -71,6 +72,10 @@ class ArticleController extends Controller
         $article->content = MarkdownExtra::defaultTransform($article->content);
         return view('wiki.articles.show', [
             'article' => $article,
+            'audit' =>  Audit
+                ::where('auditable_type', 'App\WikiArticle')
+                ->orderBy('created_at', 'DESC')
+                ->first(),
         ]);
     }
 

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <h1>{{ $article->title }}</h1>
+    <h2>{{ $article->title }}</h2>
 	{!! $article->content !!}
 
     @if(count($article->tags) > 0)
@@ -15,4 +15,7 @@
             @endforeach
         </p>
     @endif
+
+    <p><small><span title="{{ $audit->created_at }}">{{ $audit->updated_at->diffForHumans() }}</span> @lang('app.updated_by') {{ $audit->user->name }}</small></p>
+
 @endsection
