@@ -15,8 +15,8 @@ class CreateWikiArticlesTable extends Migration
     {
         Schema::create('wiki_articles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('slug');
+            $table->string('title')->unique();
+            $table->string('slug')->unique();
             $table->text('content');
             $table->softDeletes();
             $table->timestamps();

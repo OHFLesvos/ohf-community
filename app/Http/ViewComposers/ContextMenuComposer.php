@@ -9,6 +9,7 @@ use App\User;
 use App\Donor;
 use App\Donation;
 use App\CouponType;
+use App\WikiArticle;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -686,6 +687,72 @@ class ContextMenuComposer {
                     ]
                 ];
 
+            //
+            // Wiki: Articles
+            //
+            case 'wiki.articles.index':
+                return [
+                    'action' => [
+                        'url' => route('wiki.articles.create'),
+                        'caption' => __('app.add'),
+                        'icon' => 'plus-circle',
+                        'icon_floating' => 'plus',
+                        'authorized' => Auth::user()->can('create', WikiArticle::class)
+                    ],
+                ];
+            case 'wiki.articles.tag':
+                return [
+                    'back' => [
+                        'url' => route('wiki.articles.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('create', WikiArticle::class)
+                    ]
+                ];
+            case 'wiki.articles.create':
+                return [
+                    'back' => [
+                        'url' => route('wiki.articles.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('create', WikiArticle::class)
+                    ]
+                ];
+            case 'wiki.articles.show':
+                $article = $view->getData()['article'];
+                return [
+                    'action' => [
+                        'url' => route('wiki.articles.edit', $article),
+                        'caption' => __('app.edit'),
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
+                        'authorized' => Auth::user()->can('update', $article)
+                    ],
+                    'delete' => [
+                        'url' => route('wiki.articles.destroy', $article),
+                        'caption' => __('app.delete'),
+                        'icon' => 'trash',
+                        'authorized' => Auth::user()->can('delete', $article),
+                        'confirmation' => __('wiki.confirm_delete_article')
+                    ],
+                    'back' => [
+                        'url' => route('wiki.articles.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', WikiArticle::class)
+                    ]
+                ];
+            case 'wiki.articles.edit':
+                $article = $view->getData()['article'];
+                return [
+                    'back' => [
+                        'url' => route('wiki.articles.show', $article),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('view', $article)
+                    ]
+                ];
+ 
             //
             // Reporting
             //
