@@ -48,7 +48,7 @@ class ArticleController extends Controller
 
         $tags = self::splitTags($request->tags);
         foreach($tags as $tag_str) {
-            $tag = Tag::where('name', $tag_str)->get();
+            $tag = Tag::where('name', $tag_str)->first();
             if ($tag != null) {
                 $article->tags()->attach($tag);
             } else {
@@ -58,7 +58,7 @@ class ArticleController extends Controller
             }
         }
 
-        return redirect()->route('wiki.articles.index')
+        return redirect()->route('wiki.articles.show', $article)
             ->with('info', __('wiki.article_created'));
     }
 
@@ -122,6 +122,7 @@ class ArticleController extends Controller
         $this->authorize('delete', $article);
 
         $article->delete();
+
         return redirect()->route('wiki.articles.index')
             ->with('info', __('wiki.article_deleted'));
     }

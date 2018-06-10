@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.2
+
+* Fix wiki article tag creation
+
 ## 1.16.1
 
 * Fixed wiki article formatting
