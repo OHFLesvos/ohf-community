@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.5
+
+* Small fixed in wiki module
+
 ## 1.16.4
 
 * Added wiki links to wiki using [[slug]] syntax.

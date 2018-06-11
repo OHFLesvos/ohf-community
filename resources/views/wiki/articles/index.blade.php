@@ -7,7 +7,7 @@
     @if( ! $articles->isEmpty() )
         <div>
             <h2>@lang('wiki.articles')</h2>
-            <div class="columns-3">
+            <div class="columns-3 mb-3">
                 @foreach ($articles as $article)
                     <a href="{{ route('wiki.articles.show', $article) }}">{{ $article->title }}</a><br>
                 @endforeach

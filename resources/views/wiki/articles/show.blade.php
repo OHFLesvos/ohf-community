@@ -17,6 +17,10 @@
         </p>
     @endif
 
-    <p><small><span title="{{ $audit->created_at }}">{{ $audit->updated_at->diffForHumans() }}</span> @lang('app.updated_by') {{ $audit->user->name }}</small></p>
-
+    @php
+        $audit = $article->audits()->with('user')->latest()->first();
+    @endphp
+    @isset($audit)
+        <p><small><span title="{{ $audit->getMetadata()['audit_created_at'] }}">{{ (new Carbon\Carbon($audit->getMetadata()['audit_created_at']))->diffForHumans() }}</span> @lang('app.updated_by') {{ $audit->getMetadata()['user_name'] }}</small></p>
+    @endif
 @endsection

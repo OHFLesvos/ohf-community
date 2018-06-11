@@ -17,7 +17,7 @@ class ArticleController extends Controller
         $this->authorize('list', WikiArticle::class);
 
         return view('wiki.articles.index', [
-            'articles' => WikiArticle::orderBy('title')->paginate(),
+            'articles' => WikiArticle::orderBy('title')->paginate(50),
             'tags' => Tag::orderBy('name')->get(),
         ]);
     }
@@ -26,7 +26,7 @@ class ArticleController extends Controller
         $this->authorize('list', WikiArticle::class);
 
         return view('wiki.articles.tag', [
-            'articles' => $tag->wikiArticles()->orderBy('title')->paginate(),
+            'articles' => $tag->wikiArticles()->orderBy('title')->paginate(50),
             'tag' => $tag,
         ]);
     }
@@ -95,11 +95,7 @@ class ArticleController extends Controller
         }, $article->content);
 
         return view('wiki.articles.show', [
-            'article' => $article,
-            'audit' =>  Audit
-                ::where('auditable_type', 'App\WikiArticle')
-                ->orderBy('created_at', 'DESC')
-                ->first(),
+            'article' => $article
         ]);
     }
 
