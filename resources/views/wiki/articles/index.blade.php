@@ -15,7 +15,7 @@
             {{ $articles->links() }}
             <p class="mt-2"><small>{{ trans_choice('wiki.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}</small></p>
         </div>
-        <div>
+        <div class="mb-4">
             <h2 class="mt-2">@lang('app.tags')</h2>
             <div class="columns-3">
                 @foreach ($tags as $tag)
