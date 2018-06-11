@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.4
+
+* Added wiki links to wiki using [[slug]] syntax.
+
 ## 1.16.3
 
 * Added lates changes view to wiki

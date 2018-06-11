@@ -86,6 +86,13 @@ class ArticleController extends Controller
         $article->content = preg_replace('/tel:([0-9+ ]+[0-9])/', '<a href="tel:\1">\1</a>', $article->content);
         $article->content = emailize($article->content);
         $article->content = preg_replace('/map:"(.+)"/', '<iframe style="width: 100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' . env('GOOGLE_MAPS_API_KEY') . '&q=\1" allowfullscreen></iframe>', $article->content);
+        $article->content = preg_replace_callback("/(\[\[([a-z0-9-]+)\]\])/", function($matches){
+            $article = WikiArticle::where('slug', $matches[2])->first();
+            if ($article != null) {
+                return '<a href="' . route('wiki.articles.show', $article) . '">' . $article->title . '</a>';
+            }
+            return $matches[1];
+        }, $article->content);
 
         return view('wiki.articles.show', [
             'article' => $article,
