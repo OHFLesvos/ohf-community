@@ -3,6 +3,7 @@
 ## 1.16.3
 
 * Added lates changes view to wiki
+* Added google maps API key and keyword to wiki
 
 ## 1.16.2
 
