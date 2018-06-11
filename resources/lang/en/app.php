@@ -153,4 +153,5 @@ return [
     'separate_by_comma' => 'Separate by comma',
     'syntax' => 'Syntax',
     'edited' => 'edited',
+    'latest_changes' => 'Latest changes',
  ];

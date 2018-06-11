@@ -3,6 +3,7 @@
 return [
     'wiki' => 'Wiki',
     'no_articles_found' => 'No articles found.',
+    'articles' => 'Article',
     'articles' => 'Articles',
     'create_article' => 'Create article',
     'article_created' => 'Article created.',

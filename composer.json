@@ -29,7 +29,7 @@
         "michelf/php-markdown": "^1.8",
         "monarobase/country-list": "^2.0",
         "mrcage/chf-exchange-rates": "~1.0",
-        "owen-it/laravel-auditing": "^6.0",
+        "owen-it/laravel-auditing": "7.0",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spomky-labs/otphp": "^9.1",
         "valorin/pwned-validator": "^1.0"

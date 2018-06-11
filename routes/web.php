@@ -177,6 +177,7 @@ Route::group(['middleware' => 'language'], function () {
 
         // Wiki
         Route::namespace('Wiki')->prefix('wiki')->name('wiki.')->group(function(){
+            Route::get('articles/_latest_changes', 'ArticleController@latestChanges')->name('articles.latestChanges');
             Route::resource('articles', 'ArticleController');
             Route::get('articles/tag/{tag}', 'ArticleController@tag')->name('articles.tag');
         });

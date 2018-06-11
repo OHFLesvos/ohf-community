@@ -31,6 +31,17 @@ class ArticleController extends Controller
         ]);
     }
 
+    public function latestChanges() {
+        $this->authorize('list', WikiArticle::class);
+
+        return view('wiki.articles.latest_changes', [
+            'audits' =>  Audit
+                ::where('auditable_type', 'App\WikiArticle')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(),
+        ]);
+    }
+
     public function create() {
         $this->authorize('create', WikiArticle::class);
 

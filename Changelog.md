@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.3
+
+* Added lates changes view to wiki
+
 ## 1.16.2
 
 * Fix wiki article tag creation

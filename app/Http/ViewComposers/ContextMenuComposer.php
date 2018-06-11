@@ -699,14 +699,21 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', WikiArticle::class)
                     ],
+                    'latestChanges' => [
+                        'url' => route('wiki.articles.latestChanges'),
+                        'caption' => __('app.latest_changes'),
+                        'icon' => 'history',
+                        'authorized' => Auth::user()->can('list', WikiArticle::class)
+                    ],
                 ];
             case 'wiki.articles.tag':
+            case 'wiki.articles.latestChanges':
                 return [
                     'back' => [
                         'url' => route('wiki.articles.index'),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('create', WikiArticle::class)
+                        'authorized' => Auth::user()->can('list', WikiArticle::class)
                     ]
                 ];
             case 'wiki.articles.create':
@@ -715,7 +722,7 @@ class ContextMenuComposer {
                         'url' => route('wiki.articles.index'),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('create', WikiArticle::class)
+                        'authorized' => Auth::user()->can('list', WikiArticle::class)
                     ]
                 ];
             case 'wiki.articles.show':
