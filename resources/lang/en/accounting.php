@@ -9,4 +9,5 @@ return [
     'beneficiary' => 'Beneficiary',
     'transactions_registered' => 'Transaction registered.',
     'receipt' => 'Receipt',
+    'show_transaction' => 'Show transaction',
 ];

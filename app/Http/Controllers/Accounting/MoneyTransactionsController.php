@@ -91,9 +91,13 @@ class MoneyTransactionsController extends Controller
      * @param  \App\MoneyTransaction  $moneyTransaction
      * @return \Illuminate\Http\Response
      */
-    public function show(MoneyTransaction $moneyTransaction)
+    public function show(MoneyTransaction $transaction)
     {
-        //
+        $this->authorize('view', $transaction);
+
+        return view('accounting.transactions.show', [
+            'transaction' => $transaction, // ??
+        ]);
     }
 
     /**

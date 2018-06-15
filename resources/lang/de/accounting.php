@@ -9,4 +9,5 @@ return [
     'beneficiary' => 'Empfänger',
     'transactions_registered' => 'Transaktion registriert.',
     'receipt' => 'Beleg',
+    'show_transaction' => 'Transaktion anzeigen',
 ];

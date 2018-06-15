@@ -783,6 +783,16 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('list', MoneyTransaction::class)
                     ]
                 ];
+            case 'accounting.transactions.show':
+                $transaction = $view->getData()['transaction'];
+                return [
+                    'back' => [
+                        'url' => route('accounting.transactions.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', MoneyTransaction::class)
+                    ]
+                ];
 
 
             //
