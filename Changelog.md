@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.0
+
+* Added basic money transaction registration for accounting
+
 ## 1.16.5
 
 * Small fixed in wiki module

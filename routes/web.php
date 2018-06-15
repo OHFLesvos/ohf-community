@@ -181,6 +181,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::resource('articles', 'ArticleController');
             Route::get('articles/tag/{tag}', 'ArticleController@tag')->name('articles.tag');
         });
+
+        // Accounting
+        Route::namespace('Accounting')->prefix('accounting')->name('accounting.')->group(function(){
+            Route::resource('transactions', 'MoneyTransactionsController');
+        });
     });
 
     // Logistics

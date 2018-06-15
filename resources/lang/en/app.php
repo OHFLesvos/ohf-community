@@ -154,4 +154,6 @@ return [
     'syntax' => 'Syntax',
     'edited' => 'edited',
     'latest_changes' => 'Latest changes',
+    'project' => 'Project',
+    'description' => 'Description',
  ];

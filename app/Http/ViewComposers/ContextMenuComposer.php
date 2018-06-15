@@ -10,6 +10,7 @@ use App\Donor;
 use App\Donation;
 use App\CouponType;
 use App\WikiArticle;
+use App\MoneyTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -759,7 +760,31 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('view', $article)
                     ]
                 ];
- 
+
+            //
+            // Accounting: Transactions
+            //
+            case 'accounting.transactions.index':
+                return [
+                    'action' => [
+                        'url' => route('accounting.transactions.create'),
+                        'caption' => __('app.add'),
+                        'icon' => 'plus-circle',
+                        'icon_floating' => 'plus',
+                        'authorized' => Auth::user()->can('create', MoneyTransaction::class)
+                    ],
+                ];
+            case 'accounting.transactions.create':
+                return [
+                    'back' => [
+                        'url' => route('accounting.transactions.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', MoneyTransaction::class)
+                    ]
+                ];
+
+
             //
             // Reporting
             //
