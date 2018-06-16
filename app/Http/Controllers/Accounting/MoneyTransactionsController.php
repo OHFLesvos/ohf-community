@@ -6,6 +6,7 @@ use App\MoneyTransaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreTransaction;
+use Illuminate\Support\Facades\DB;
 
 class MoneyTransactionsController extends Controller
 {
@@ -132,5 +133,20 @@ class MoneyTransactionsController extends Controller
     public function destroy(MoneyTransaction $moneyTransaction)
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function summary()
+    {
+        //$this->authorize('list', MoneyTransaction::class);
+
+        return view('accounting.transactions.summary', [
+            'incomeByProject' => MoneyTransaction::select('project', DB::raw('SUM(amount) as sum'))->where('type', 'income')->groupBy('project')->orderBy('project')->get(),
+            'spendingByProject' => MoneyTransaction::select('project', DB::raw('SUM(amount) as sum'))->where('type', 'spending')->groupBy('project')->orderBy('project')->get(),
+        ]);
     }
 }

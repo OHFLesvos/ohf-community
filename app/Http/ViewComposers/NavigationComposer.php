@@ -8,6 +8,7 @@ use App\Task;
 use App\User;
 use App\Donor;
 use App\WikiArticle;
+use App\MoneyTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -75,6 +76,13 @@ class NavigationComposer {
                     'icon' => 'book',
                     'active' => 'wiki/*',
                     'authorized' => Auth::user()->can('list', WikiArticle::class),
+                ],
+                [
+                    'route' => 'accounting.transactions.index',
+                    'caption' => __('accounting.accounting'),
+                    'icon' => 'money',
+                    'active' => 'accounting/*',
+                    'authorized' => Auth::user()->can('list', MoneyTransaction::class),
                 ],
                 [
                     'route' => 'calendar',

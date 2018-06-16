@@ -1,7 +1,9 @@
 <?php
 
 return [
+    'accounting' => 'Buchhaltung',
     'transactions' => 'Transaktionen',
+    'summary' => 'Zusammenfassung',
     'no_transactions_found' => 'Keine Transaktionen gefunden.',
     'income' => 'Einnahmen',
     'spending' => 'Ausgaben',
@@ -10,4 +12,5 @@ return [
     'transactions_registered' => 'Transaktion registriert.',
     'receipt' => 'Beleg',
     'show_transaction' => 'Transaktion anzeigen',
+    'wallet' => 'Wallet',
 ];

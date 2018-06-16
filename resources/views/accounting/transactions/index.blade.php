@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.accounting')
 
-@section('title', __('accounting.transactions'))
+@section('title', __('accounting.accounting'))
 
-@section('content')
+@section('wrapped-content')
 
     @if( ! $transactions->isEmpty() )
         <div class="table-responsive">

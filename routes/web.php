@@ -184,6 +184,7 @@ Route::group(['middleware' => 'language'], function () {
 
         // Accounting
         Route::namespace('Accounting')->prefix('accounting')->name('accounting.')->group(function(){
+            Route::get('transactions/summary', 'MoneyTransactionsController@summary')->name('transactions.summary');
             Route::resource('transactions', 'MoneyTransactionsController');
         });
     });

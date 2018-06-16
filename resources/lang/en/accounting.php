@@ -1,7 +1,9 @@
 <?php
 
 return [
+    'accounting' => 'Accounting',
     'transactions' => 'Transactions',
+    'summary' => 'Summary',
     'no_transactions_found' => 'No transactions found.',
     'income' => 'Income',
     'spending' => 'Spending',
@@ -10,4 +12,5 @@ return [
     'transactions_registered' => 'Transaction registered.',
     'receipt' => 'Receipt',
     'show_transaction' => 'Show transaction',
+    'wallet' => 'Wallet',
 ];
