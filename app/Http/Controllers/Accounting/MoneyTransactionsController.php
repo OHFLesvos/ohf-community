@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreTransaction;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class MoneyTransactionsController extends Controller
 {
@@ -138,15 +139,34 @@ class MoneyTransactionsController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function summary()
+    public function summary(Request $request)
     {
         //$this->authorize('list', MoneyTransaction::class);
 
+        $dateFrom = Carbon::now()->startOfMonth();
+        $dateTo = $dateFrom->endOfMonth();
+
+        setlocale(LC_TIME, \App::getLocale());
+
         return view('accounting.transactions.summary', [
-            'incomeByProject' => MoneyTransaction::select('project', DB::raw('SUM(amount) as sum'))->where('type', 'income')->groupBy('project')->orderBy('project')->get(),
-            'spendingByProject' => MoneyTransaction::select('project', DB::raw('SUM(amount) as sum'))->where('type', 'spending')->groupBy('project')->orderBy('project')->get(),
+            'month' => $dateFrom->formatLocalized('%B %Y'),
+            'incomeByProject' => MoneyTransaction
+                ::select('project', DB::raw('SUM(amount) as sum'))
+                ->whereDate('date', '>=', $dateFrom)
+                ->whereDate('date', '<=', $dateTo)
+                ->where('type', 'income')
+                ->groupBy('project')
+                ->orderBy('project')
+                ->get(),
+            'spendingByProject' => MoneyTransaction
+                ::select('project', DB::raw('SUM(amount) as sum'))
+                ->where('type', 'spending')
+                ->groupBy('project')
+                ->orderBy('project')
+                ->get(),
         ]);
     }
 }

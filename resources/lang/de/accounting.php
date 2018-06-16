@@ -12,5 +12,5 @@ return [
     'transactions_registered' => 'Transaktion registriert.',
     'receipt' => 'Beleg',
     'show_transaction' => 'Transaktion anzeigen',
-    'wallet' => 'Wallet',
+    'wallet' => 'Kasse',
 ];

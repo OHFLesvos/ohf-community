@@ -4,7 +4,7 @@
 
 @section('wrapped-content')
 
-    <h2 class="mb-4">June 2018</h2>
+    <h2 class="mb-4">{{ $month }}</h2>
 
     <div class="row">
         <div class="col-sm">
