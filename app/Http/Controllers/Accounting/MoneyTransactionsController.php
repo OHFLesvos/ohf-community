@@ -146,9 +146,20 @@ class MoneyTransactionsController extends Controller
     {
         //$this->authorize('list', MoneyTransaction::class);
 
-        $dateFrom = Carbon::now()->startOfMonth();
+        $validatedData = $request->validate([
+            'month' => 'nullable|integer|min:1|max:12',
+            'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
+        ]);
+
+        // Select date
+        if (isset($request->month) && isset($request->year)) {
+            $dateFrom = (new Carbon($request->year.'-'.$request->month.'-01'))->startOfMonth();
+        } else {
+            $dateFrom = Carbon::now()->startOfMonth();
+        }
         $dateTo = (clone $dateFrom)->endOfMonth();
 
+        // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
         return view('accounting.transactions.summary', [
@@ -163,6 +174,8 @@ class MoneyTransactionsController extends Controller
                 ->get(),
             'spendingByProject' => MoneyTransaction
                 ::select('project', DB::raw('SUM(amount) as sum'))
+                ->whereDate('date', '>=', $dateFrom)
+                ->whereDate('date', '<=', $dateTo)
                 ->where('type', 'spending')
                 ->groupBy('project')
                 ->orderBy('project')

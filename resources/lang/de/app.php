@@ -156,4 +156,5 @@ return [
     'latest_changes' => 'Letzte Änderungen',
     'project' => 'Projekt',
     'description' => 'Beschreibung',
+    'no_data_available_in_the_selected_time_range' => 'Keine Daten im ausgewählten Zeitraum vorhanden.',
 ];

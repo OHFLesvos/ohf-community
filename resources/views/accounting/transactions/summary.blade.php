@@ -12,12 +12,16 @@
                 <div class="card-header">@lang('accounting.income')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
-                        @foreach($incomeByProject as $v)
-                            <tr>
-                                <td>{{ $v->project }}</td>
-                                <td class="text-right">{{ number_format($v->sum, 2) }}</td>
-                            </tr>
-                        @endforeach
+                        @if(count($incomeByProject) > 0)
+                            @foreach($incomeByProject as $v)
+                                <tr>
+                                    <td>{{ $v->project }}</td>
+                                    <td class="text-right">{{ number_format($v->sum, 2) }}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -27,12 +31,16 @@
                 <div class="card-header">@lang('accounting.spending')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
-                        @foreach($spendingByProject as $v)
-                            <tr>
-                                <td>{{ $v->project }}</td>
-                                <td class="text-right">{{ number_format($v->sum, 2) }}</td>
-                            </tr>
-                        @endforeach
+                        @if(count($spendingByProject) > 0)
+                            @foreach($spendingByProject as $v)
+                                <tr>
+                                    <td>{{ $v->project }}</td>
+                                    <td class="text-right">{{ number_format($v->sum, 2) }}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
