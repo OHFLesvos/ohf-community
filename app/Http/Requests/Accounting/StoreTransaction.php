@@ -40,6 +40,7 @@ class StoreTransaction extends FormRequest
                 'min:0.05',
             ],
             'receipt_no' => [
+                'nullable',
                 'integer',
                 'min:1',
             ],

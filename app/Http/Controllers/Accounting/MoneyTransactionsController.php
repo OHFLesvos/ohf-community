@@ -147,7 +147,7 @@ class MoneyTransactionsController extends Controller
         //$this->authorize('list', MoneyTransaction::class);
 
         $dateFrom = Carbon::now()->startOfMonth();
-        $dateTo = $dateFrom->endOfMonth();
+        $dateTo = (clone $dateFrom)->endOfMonth();
 
         setlocale(LC_TIME, \App::getLocale());
 
