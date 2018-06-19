@@ -3,9 +3,16 @@
 @section('title', __('accounting.accounting'))
 
 @section('wrapped-content')
-
-    <h2 class="mb-4">{{ $month }}</h2>
-
+{{ $month }}
+    <div class="row">
+        <div class="col-sm">
+            <h2 class="mb-4">{{ $monthName }}</h2>
+        </div>
+        <div class="col-sm-auto">
+            {{ Form::bsSelect('timerange', $months, $month, [ 'id' => 'timerange' ], '') }}
+        </div>
+    </div>
+    
     <div class="row">
         <div class="col-sm">
             <div class="card mb-4">
@@ -68,5 +75,15 @@
         </div>
     </div>
 
+    
 	
+@endsection
+
+@section('script')
+$(function(){
+    $('#timerange').on('change', function(){
+        var val = $(this).val().split('-');
+        document.location = '{{ route('accounting.transactions.summary') }}?year=' + val[0] + '&month=' + val[1];
+    });
+});
 @endsection

@@ -144,14 +144,13 @@ class MoneyTransactionsController extends Controller
      */
     public function summary(Request $request)
     {
-        //$this->authorize('list', MoneyTransaction::class);
+        $this->authorize('list', MoneyTransaction::class);
 
+        // Select date range (month)
         $validatedData = $request->validate([
             'month' => 'nullable|integer|min:1|max:12',
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
         ]);
-
-        // Select date
         if (isset($request->month) && isset($request->year)) {
             $dateFrom = (new Carbon($request->year.'-'.$request->month.'-01'))->startOfMonth();
         } else {
@@ -163,7 +162,20 @@ class MoneyTransactionsController extends Controller
         setlocale(LC_TIME, \App::getLocale());
 
         return view('accounting.transactions.summary', [
-            'month' => $dateFrom->formatLocalized('%B %Y'),
+            'monthName' => $dateFrom->formatLocalized('%B %Y'),
+            'month' => $dateFrom->format('Y-m'),
+            'months' => MoneyTransaction
+                ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
+                ->groupBy(DB::raw('MONTH(date)'))
+                ->groupBy(DB::raw('YEAR(date)'))
+                ->orderBy('year', 'desc')
+                ->orderBy('month', 'desc')
+                ->get()
+                ->mapWithKeys(function($e){
+                    $date = new Carbon($e->year.'-'.$e->month.'-01');
+                    return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
+                })
+                ->toArray(),
             'incomeByProject' => MoneyTransaction
                 ::select('project', DB::raw('SUM(amount) as sum'))
                 ->whereDate('date', '>=', $dateFrom)
