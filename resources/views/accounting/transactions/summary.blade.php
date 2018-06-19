@@ -3,13 +3,15 @@
 @section('title', __('accounting.accounting'))
 
 @section('wrapped-content')
-{{ $month }}
+
     <div class="row">
         <div class="col-sm">
             <h2 class="mb-4">{{ $monthName }}</h2>
         </div>
         <div class="col-sm-auto">
-            {{ Form::bsSelect('timerange', $months, $month, [ 'id' => 'timerange' ], '') }}
+            @if(sizeof($months) > 0)
+                {{ Form::bsSelect('timerange', $months, $month, [ 'id' => 'timerange' ], '') }}
+            @endif
         </div>
     </div>
     

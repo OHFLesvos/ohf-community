@@ -40,6 +40,10 @@ class MoneyTransactionsController extends Controller
         return view('accounting.transactions.create', [
             'beneficiaries' => self::getBeneficiaries(),
             'projects' => self::getProjects(),
+            'newReceiptNo' => optional(MoneyTransaction
+                ::select(DB::raw('MAX(receipt_no) as val'))
+                ->first())
+                ->val + 1,
         ]);
     }
 
@@ -148,7 +152,7 @@ class MoneyTransactionsController extends Controller
 
         // Select date range (month)
         $validatedData = $request->validate([
-            'month' => 'nullable|integer|min:1|max:12',
+            'month' => 'nullable|regex:/[0-1][1-9]/',
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
         ]);
         if (isset($request->month) && isset($request->year)) {

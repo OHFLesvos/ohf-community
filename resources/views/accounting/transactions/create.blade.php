@@ -15,7 +15,7 @@
                 {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('fundraising.write_decimal_point_as_comma')) }}
             </div>
             <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', null, [ 'min' => 0 ], __('accounting.receipt') . ' #') }}
+                {{ Form::bsNumber('receipt_no', $newReceiptNo, [ 'min' => $newReceiptNo ], __('accounting.receipt') . ' #') }}
             </div>
             <div class="col-sm">
                 {{ Form::bsText('beneficiary', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($beneficiaries)) ], __('accounting.beneficiary')) }}
