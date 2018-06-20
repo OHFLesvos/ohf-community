@@ -6,7 +6,7 @@
     {!! Form::model($transaction, ['route' => ['accounting.transactions.update', $transaction], 'method' => 'put', 'files' => true]) !!}
         <div class="form-row">
             <div class="col-sm">
-                {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required', 'autofocus' ], __('app.date')) }}
+                {{ Form::bsDate('date', null, [ 'required', 'autofocus' ], __('app.date')) }}
             </div>
             <div class="col-sm-auto pb-3">
             {{ Form::bsRadioInlineList('type', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending') ], 'spending', __('app.type')) }}
@@ -29,7 +29,7 @@
                 {{ Form::bsText('description', null, [  'required' ], __('app.description')) }}
             </div>
         </div>
-        {{ Form::bsFile('receipt_picture', [], __('accounting.choose_picture_of_receipt')) }}
+        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __('accounting.choose_picture_of_receipt')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>

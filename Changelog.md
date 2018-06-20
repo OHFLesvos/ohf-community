@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.2
+
+* Fixed date edit issue in accounting
+
 ## 1.17.1
 
 * Fixed issue with encryption (field size)

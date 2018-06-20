@@ -29,7 +29,7 @@
                 {{ Form::bsText('description', null, [  'required' ], __('app.description')) }}
             </div>
         </div>
-        {{ Form::bsFile('receipt_picture', [], __('accounting.choose_picture_of_receipt')) }}
+        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __('accounting.choose_picture_of_receipt')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.add')) }}
         </p>
