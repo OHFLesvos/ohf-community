@@ -4,6 +4,10 @@
 
 @section('content')
 
+    @isset($transaction->receipt_picture)
+        <div class="row">
+            <div class="col-md-8">
+    @endisset
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row">
@@ -69,16 +73,13 @@
                 </div>
             </div>
         </li>
-        @isset($transaction->receipt_picture)
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.receipt')</strong></div>
-                    <div class="col-sm">
-                        <img src="{{ Storage::url($transaction->receipt_picture) }}" style="max-width:100%">
-                    </div>
-                </div>
-            </li>
-        @endisset
     </ul>
+    @isset($transaction->receipt_picture)
+        </div>
+        <div class="col-md-4 mb-3">
+            <img src="{{ Storage::url($transaction->receipt_picture) }}" class="img-fluid">
+        </div>
+    @endisset
+</div>
 
 @endsection

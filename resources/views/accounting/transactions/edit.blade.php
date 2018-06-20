@@ -29,7 +29,10 @@
                 {{ Form::bsText('description', null, [  'required' ], __('app.description')) }}
             </div>
         </div>
-        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __('accounting.choose_picture_of_receipt')) }}
+        @isset($transaction->receipt_picture)
+            {{ Form::bsCheckbox('remove_receipt_picture', 1, null, __('accounting.remove_receipt_picture')) }}<br>
+        @endisset
+        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __($transaction->receipt_picture != null ? 'accounting.change_picture_of_receipt' : 'accounting.choose_picture_of_receipt')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>

@@ -18,4 +18,6 @@ return [
     'confirm_delete_transaction' => 'Soll diese Transaktion wirklich gelöscht werden?',
     'edit_transaction' => 'Transaktion bearbeiten',
     'choose_picture_of_receipt' => 'Beleg-Bild auswählen',
+    'change_picture_of_receipt' => 'Beleg-Bild ändern',
+    'remove_receipt_picture' => 'Beleg-Bild entfernen',
 ];

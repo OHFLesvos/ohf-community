@@ -150,6 +150,10 @@ class MoneyTransactionsController extends Controller
         $transaction->project = $request->project;
         $transaction->description = $request->description;
 
+        if (isset($request->remove_receipt_picture)) {
+            $transaction->receipt_picture = null;
+            Storage::delete($transaction->receipt_picture);
+        }
         if (isset($request->receipt_picture)) {
             if ($transaction->receipt_picture != null) {
                 Storage::delete($transaction->receipt_picture);
