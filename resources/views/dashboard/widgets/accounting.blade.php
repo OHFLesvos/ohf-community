@@ -6,10 +6,10 @@
     <div class="card-body pb-2">
         <p>
             @isset($income)
-                @lang('accounting.income'): {{ $income }}<br>
+                @lang('accounting.income'): {{ number_format($income, 2) }}<br>
             @endif
             @isset($spending)
-                @lang('accounting.spending'): {{ $spending }}
+                @lang('accounting.spending'): {{ number_format($spending, 2) }}
             @endif
         </p>
     </div>
