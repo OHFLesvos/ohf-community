@@ -116,7 +116,7 @@
                             </table>
                         @endif
 
-                        @if(count($top_names) > 0)
+                        {{-- @if(count($top_names) > 0)
                             <h5 class="text-center"><small>Popular names</small></h5>
                             <table class="table table-sm mt-2">
                                 <tbody>
@@ -128,7 +128,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        @endif
+                        @endif --}}
 
                         {{-- Registrations per day --}}
                         <bar-chart
