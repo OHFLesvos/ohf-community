@@ -60,7 +60,7 @@ class MoneyTransactionPolicy
      */
     public function update(User $user, MoneyTransaction $moneyTransaction)
     {
-        return $user->hasPermission('accounting.transactions.update');
+        return $user->hasPermission('accounting.transactions.update_delete');
     }
 
     /**
@@ -72,6 +72,6 @@ class MoneyTransactionPolicy
      */
     public function delete(User $user, MoneyTransaction $moneyTransaction)
     {
-        return $user->hasPermission('accounting.transactions.delete');
+        return $user->hasPermission('accounting.transactions.update_delete');
     }
 }

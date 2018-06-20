@@ -166,6 +166,18 @@ return [
         'wiki.delete' => [
             'sensitive' => false,
         ],
+        'accounting.transactions.view' => [
+            'sensitive' => true,
+        ],
+        'accounting.transactions.create' => [
+            'sensitive' => true,
+        ],
+        'accounting.transactions.update_delete' => [
+            'sensitive' => true,
+        ],
+        'accounting.summary.view' => [
+            'sensitive' => false,
+        ],
         'app.usermgmt.view' => [
             'sensitive' => true,
         ],

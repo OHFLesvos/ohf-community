@@ -171,7 +171,7 @@ class MoneyTransactionsController extends Controller
      */
     public function summary(Request $request)
     {
-        $this->authorize('list', MoneyTransaction::class);
+        $this->authorize('view-accounting-summary');
 
         // Select date range (month)
         $validatedData = $request->validate([

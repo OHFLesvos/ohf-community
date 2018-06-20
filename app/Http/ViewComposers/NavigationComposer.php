@@ -82,7 +82,7 @@ class NavigationComposer {
                     'caption' => __('accounting.accounting'),
                     'icon' => 'money',
                     'active' => 'accounting/*',
-                    'authorized' => Auth::user()->can('list', MoneyTransaction::class),
+                    'authorized' => Auth::user()->can('list', MoneyTransaction::class) ||  Gate::allows('view-accounting-summary'),
                 ],
                 [
                     'route' => 'calendar',

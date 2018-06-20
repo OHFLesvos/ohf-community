@@ -16,7 +16,7 @@
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'accounting.transactions.summary';
             },
-            'authorized' => Auth::user()->can('list', \App\MoneyTransaction::class)
+            'authorized' => Gate::allows('view-accounting-summary')
         ]
     ] 
 ])
