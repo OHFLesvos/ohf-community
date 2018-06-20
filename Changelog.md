@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.1
+
+* Fixed issue with encryption (field size)
+
 ## 1.17.0
 
 * Added basic money transaction registration for accounting
