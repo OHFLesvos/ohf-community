@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.3
+
+* Unique form autocomplete
+
 ## 1.17.2
 
 * Fixed date edit issue in accounting

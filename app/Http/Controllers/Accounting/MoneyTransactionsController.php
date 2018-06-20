@@ -55,6 +55,7 @@ class MoneyTransactionsController extends Controller
             ->orderBy('beneficiary')
             ->get()
             ->pluck('beneficiary')
+            ->unique()
             ->toArray();
     }
 
@@ -65,6 +66,7 @@ class MoneyTransactionsController extends Controller
             ->orderBy('project')
             ->get()
             ->pluck('project')
+            ->unique()
             ->toArray();
     }
 
