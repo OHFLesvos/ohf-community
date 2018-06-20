@@ -786,11 +786,35 @@ class ContextMenuComposer {
             case 'accounting.transactions.show':
                 $transaction = $view->getData()['transaction'];
                 return [
+                    'action' => [
+                        'url' => route('accounting.transactions.edit', $transaction),
+                        'caption' => __('app.edit'),
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
+                        'authorized' => Auth::user()->can('update', $transaction)
+                    ],
+                    'delete' => [
+                        'url' => route('accounting.transactions.destroy', $transaction),
+                        'caption' => __('app.delete'),
+                        'icon' => 'trash',
+                        'authorized' => Auth::user()->can('delete', $transaction),
+                        'confirmation' => __('accounting.confirm_delete_transaction')
+                    ],
                     'back' => [
                         'url' => route('accounting.transactions.index'),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', MoneyTransaction::class)
+                    ]
+                ];
+            case 'accounting.transactions.edit':
+                $transaction = $view->getData()['transaction'];
+                return [
+                    'back' => [
+                        'url' => route('accounting.transactions.show', $transaction),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('view', $transaction)
                     ]
                 ];
 

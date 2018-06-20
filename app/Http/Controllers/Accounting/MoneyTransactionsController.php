@@ -94,7 +94,7 @@ class MoneyTransactionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\MoneyTransaction  $moneyTransaction
+     * @param  \App\MoneyTransaction  $transaction
      * @return \Illuminate\Http\Response
      */
     public function show(MoneyTransaction $transaction)
@@ -102,42 +102,65 @@ class MoneyTransactionsController extends Controller
         $this->authorize('view', $transaction);
 
         return view('accounting.transactions.show', [
-            'transaction' => $transaction, // ??
+            'transaction' => $transaction,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\MoneyTransaction  $moneyTransaction
+     * @param  \App\MoneyTransaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function edit(MoneyTransaction $moneyTransaction)
+    public function edit(MoneyTransaction $transaction)
     {
-        //
+        $this->authorize('update', $transaction);
+
+        return view('accounting.transactions.edit', [
+            'transaction' => $transaction,
+            'beneficiaries' => self::getBeneficiaries(),
+            'projects' => self::getProjects(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MoneyTransaction  $moneyTransaction
+     * @param  \App\MoneyTransaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MoneyTransaction $moneyTransaction)
+    public function update(StoreTransaction $request, MoneyTransaction $transaction)
     {
-        //
+        $this->authorize('update', $transaction);
+
+        $transaction->date = $request->date;
+        $transaction->type = $request->type;
+        $transaction->amount = $request->amount;
+        $transaction->beneficiary = $request->beneficiary;
+        $transaction->receipt_no = $request->receipt_no;
+        $transaction->project = $request->project;
+        $transaction->description = $request->description;
+        $transaction->save();
+
+        return redirect()->route('accounting.transactions.show', $transaction)
+        ->with('info', __('accounting.transactions_updated'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MoneyTransaction  $moneyTransaction
+     * @param  \App\MoneyTransaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MoneyTransaction $moneyTransaction)
+    public function destroy(MoneyTransaction $transaction)
     {
-        //
+        $this->authorize('delete', $transaction);
+
+        $transaction->delete();
+
+        return redirect()->route('accounting.transactions.index')
+            ->with('info', __('accounting.transactions_deleted'));
     }
 
     /**
