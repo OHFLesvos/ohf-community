@@ -7,7 +7,7 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('app.date')</strong></div>
+                <div class="col-sm-4"><strong>@lang('app.date')</strong></div>
                 <div class="col-sm">
                     {{ $transaction->date }}
                 </div>
@@ -15,7 +15,7 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('app.amount')
+                <div class="col-sm-4"><strong>@lang('app.amount')
                     @if($transaction->type == 'income') (@lang('accounting.income')) @endif
                     @if($transaction->type == 'spending') (@lang('accounting.spending')) @endif
                 </strong></div>
@@ -27,7 +27,7 @@
         @isset($transaction->receipt_no)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm"><strong>@lang('accounting.receipt') #</strong></div>
+                    <div class="col-sm-4"><strong>@lang('accounting.receipt') #</strong></div>
                     <div class="col-sm">
                         {{ $transaction->receipt_no }}
                     </div>
@@ -36,7 +36,7 @@
         @endisset
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('accounting.beneficiary')</strong></div>
+                <div class="col-sm-4"><strong>@lang('accounting.beneficiary')</strong></div>
                 <div class="col-sm">
                     {{ $transaction->beneficiary }}
                 </div>
@@ -44,7 +44,7 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('app.project')</strong></div>
+                <div class="col-sm-4"><strong>@lang('app.project')</strong></div>
                 <div class="col-sm">
                     {{ $transaction->project }}
                 </div>
@@ -52,7 +52,7 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('app.description')</strong></div>
+                <div class="col-sm-4"><strong>@lang('app.description')</strong></div>
                 <div class="col-sm">
                     {{ $transaction->description }}
                 </div>
@@ -60,7 +60,7 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('app.registered')</strong></div>
+                <div class="col-sm-4"><strong>@lang('app.registered')</strong></div>
                 <div class="col-sm">
                     @php
                         $audit = $transaction->audits()->latest()->first();
@@ -69,6 +69,16 @@
                 </div>
             </div>
         </li>
+        @isset($transaction->receipt_picture)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting.receipt')</strong></div>
+                    <div class="col-sm">
+                        <img src="{{ Storage::url($transaction->receipt_picture) }}" style="max-width:100%">
+                    </div>
+                </div>
+            </li>
+        @endisset
     </ul>
 
 @endsection

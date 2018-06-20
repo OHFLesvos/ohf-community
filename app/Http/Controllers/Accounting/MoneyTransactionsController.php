@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreTransaction;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class MoneyTransactionsController extends Controller
 {
@@ -85,6 +86,11 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->project = $request->project;
         $transaction->description = $request->description;
+        
+        if (isset($request->receipt_picture)) {
+            $transaction->receipt_picture = $request->file('receipt_picture')->store('public/accounting/receipts');
+        }
+
         $transaction->save();
 
         return redirect()->route('accounting.transactions.index')
@@ -141,6 +147,14 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->project = $request->project;
         $transaction->description = $request->description;
+
+        if (isset($request->receipt_picture)) {
+            if ($transaction->receipt_picture != null) {
+                Storage::delete($transaction->receipt_picture);
+            }
+            $transaction->receipt_picture = $request->file('receipt_picture')->store('public/accounting/receipts');
+        }
+
         $transaction->save();
 
         return redirect()->route('accounting.transactions.show', $transaction)
@@ -156,6 +170,10 @@ class MoneyTransactionsController extends Controller
     public function destroy(MoneyTransaction $transaction)
     {
         $this->authorize('delete', $transaction);
+
+        if ($transaction->receipt_picture != null) {
+            Storage::delete($transaction->receipt_picture);
+        }
 
         $transaction->delete();
 

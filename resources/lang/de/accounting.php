@@ -17,4 +17,5 @@ return [
     'wallet' => 'Kasse',
     'confirm_delete_transaction' => 'Soll diese Transaktion wirklich gelöscht werden?',
     'edit_transaction' => 'Transaktion bearbeiten',
+    'choose_picture_of_receipt' => 'Beleg-Bild auswählen',
 ];

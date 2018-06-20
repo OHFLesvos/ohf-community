@@ -3,7 +3,7 @@
 @section('title', __('accounting.register_new_transaction'))
 
 @section('content')
-    {!! Form::open(['route' => ['accounting.transactions.store' ]]) !!}
+    {!! Form::open(['route' => ['accounting.transactions.store' ], 'files' => true]) !!}
         <div class="form-row">
             <div class="col-sm">
                 {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required', 'autofocus' ], __('app.date')) }}
@@ -29,6 +29,7 @@
                 {{ Form::bsText('description', null, [  'required' ], __('app.description')) }}
             </div>
         </div>
+        {{ Form::bsFile('receipt_picture', [], __('accounting.choose_picture_of_receipt')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.add')) }}
         </p>
