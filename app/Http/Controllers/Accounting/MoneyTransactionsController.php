@@ -268,22 +268,56 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('list', MoneyTransaction::class);
 
-        \Excel::create(Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')', function($excel) {
-            $excel->sheet(__('accounting.accounting'), function($sheet) {
-                $sheet->setOrientation('landscape');
-                $sheet->freezeFirstRow();
-                $sheet->loadView('accounting.transactions.export',[
-                    'transactions' => MoneyTransaction
-                    ::orderBy('date', 'DESC')
-                    ->orderBy('created_at', 'DESC')
-                    ->get(),
-                ]);
-                $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
-                $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
-            });
-            $excel->getActiveSheet()->setAutoFilter(
-                $excel->getActiveSheet()->calculateWorksheetDimension()
-            );
+        // TODO: Probably define on more general location
+        setlocale(LC_TIME, \App::getLocale());
+
+        $months = MoneyTransaction
+            ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
+            ->groupBy(DB::raw('MONTH(date)'))
+            ->groupBy(DB::raw('YEAR(date)'))
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get()
+            ->map(function($e){
+                return (new Carbon($e->year.'-'.$e->month.'-01'))->startOfMonth();
+            })
+            ->toArray();
+
+        \Excel::create(Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')', function($excel) use($months) {
+            foreach($months as $month) {
+                $excel->sheet($month->formatLocalized('%B %Y'), function($sheet) use ($month) {
+                    $dateFrom = $month;
+                    $dateTo = (clone $dateFrom)->endOfMonth();
+
+                    $transactions = MoneyTransaction
+                        ::orderBy('date', 'DESC')
+                        ->orderBy('created_at', 'DESC')
+                        ->whereDate('date', '>=', $dateFrom)
+                        ->whereDate('date', '<=', $dateTo)                        
+                        ->get();
+
+                    $sheet->setOrientation('landscape');
+                    $sheet->freezeFirstRow();
+                    $sheet->loadView('accounting.transactions.export', [
+                        'transactions' => $transactions,
+                    ]);
+                    $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
+                    $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
+
+                    //$sheet->setCellValue($sumCell, '=SUM(B2:B' . (count($transactions) + 1) . ')');
+                    $sumCell = 'B' . (count($transactions) + 3);
+                    $sheet->setCellValue($sumCell, $transactions->where('type', 'income')->sum('amount'));
+                    $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+
+                    $sumCell = 'C' . (count($transactions) + 3);
+                    $sheet->setCellValue($sumCell, $transactions->where('type', 'spending')->sum('amount'));
+                    $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+
+                });
+                $excel->getActiveSheet()->setAutoFilter(
+                    $excel->getActiveSheet()->calculateWorksheetDimension()
+                );
+            }
     })->export('xlsx');
     }
 
