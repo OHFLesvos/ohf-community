@@ -1,7 +1,12 @@
 <div class="card mb-4">
     <div class="card-header">
         @lang('accounting.accounting') {{ $monthName }}
-        <a class="pull-right" href="{{ route('accounting.transactions.summary')  }}">@lang('app.view')</a>
+        <span class="pull-right">
+            @can('create', App\MoneyTransaction::class)
+                <a href="{{ route('accounting.transactions.create')  }}">@lang('app.register')</a> &nbsp;
+            @endcan
+            <a href="{{ route('accounting.transactions.summary')  }}">@lang('app.view')</a>
+        </span>
     </div>
     <div class="card-body pb-2">
         <p>

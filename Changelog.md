@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.5
+
+* Accounting image scale
+
 ## 1.17.4
 
 * Accounting fixes

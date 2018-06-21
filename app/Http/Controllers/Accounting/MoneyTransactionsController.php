@@ -9,6 +9,7 @@ use App\Http\Requests\Accounting\StoreTransaction;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use \Gumlet\ImageResize;
 
 class MoneyTransactionsController extends Controller
 {
@@ -90,6 +91,11 @@ class MoneyTransactionsController extends Controller
         $transaction->description = $request->description;
         
         if (isset($request->receipt_picture)) {
+            // Resize image
+            $image = new ImageResize($request->file('receipt_picture')->getRealPath());
+            $image->resizeToBestFit(800, 800);
+            $image->save($request->file('receipt_picture')->getRealPath());
+
             $transaction->receipt_picture = $request->file('receipt_picture')->store('public/accounting/receipts');
         }
 
@@ -158,6 +164,12 @@ class MoneyTransactionsController extends Controller
             if ($transaction->receipt_picture != null) {
                 Storage::delete($transaction->receipt_picture);
             }
+
+            // Resize image
+            $image = new ImageResize($request->file('receipt_picture')->getRealPath());
+            $image->resizeToBestFit(800, 800);
+            $image->save($request->file('receipt_picture')->getRealPath());
+
             $transaction->receipt_picture = $request->file('receipt_picture')->store('public/accounting/receipts');
         }
 
