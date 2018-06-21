@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.6
+
+* Accounting excel export
+
 ## 1.17.5
 
 * Accounting image scale
