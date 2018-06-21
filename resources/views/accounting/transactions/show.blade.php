@@ -28,16 +28,6 @@
                 </div>
             </div>
         </li>
-        @isset($transaction->receipt_no)
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.receipt') #</strong></div>
-                    <div class="col-sm">
-                        {{ $transaction->receipt_no }}
-                    </div>
-                </div>
-            </li>
-        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('accounting.beneficiary')</strong></div>
@@ -62,6 +52,16 @@
                 </div>
             </div>
         </li>
+        @isset($transaction->receipt_no)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting.receipt') #</strong></div>
+                    <div class="col-sm">
+                        {{ $transaction->receipt_no }}
+                    </div>
+                </div>
+            </li>
+        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('app.registered')</strong></div>

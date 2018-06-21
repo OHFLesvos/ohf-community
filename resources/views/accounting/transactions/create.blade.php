@@ -14,9 +14,6 @@
             <div class="col-sm">
                 {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('fundraising.write_decimal_point_as_comma')) }}
             </div>
-            <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', $newReceiptNo, [ 'min' => $newReceiptNo ], __('accounting.receipt') . ' #') }}
-            </div>
             <div class="col-sm">
                 {{ Form::bsText('beneficiary', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($beneficiaries)) ], __('accounting.beneficiary')) }}
             </div>
@@ -29,7 +26,15 @@
                 {{ Form::bsText('description', null, [  'required' ], __('app.description')) }}
             </div>
         </div>
-        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __('accounting.choose_picture_of_receipt')) }}
+        <div class="form-row">
+            <div class="col-sm-auto">
+                {{ Form::bsNumber('receipt_no', $newReceiptNo, [ 'min' => $newReceiptNo ], __('accounting.receipt') . ' #') }}
+            </div>
+            <div class="col-sm">
+                <label>@lang('accounting.receipt')</label>
+                {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __('accounting.choose_picture_of_receipt')) }}
+            </div>
+        </div>
         <p>
             {{ Form::bsSubmitButton(__('app.add')) }}
         </p>
