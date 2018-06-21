@@ -17,16 +17,16 @@
                         <th class="d-none d-sm-table-cell">@lang('accounting.beneficiary')</th>
                         <th>@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.description')</th>
-                        <th class="d-none d-md-table-cell">@lang('app.registered')</th>
+                        <th class="fit d-none d-md-table-cell">@lang('app.registered')</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
                             <td class="fit"><a href="{{ route('accounting.transactions.show', $transaction) }}">{{ $transaction->date }}</a></td>
-                            <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ $transaction->amount }}</td>
-                            <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income'){{ $transaction->amount }}@endif</td>
-                            <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending'){{ $transaction->amount }}@endif</td>
+                            <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
+                            <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income'){{ number_format($transaction->amount, 2) }}@endif</td>
+                            <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending'){{ number_format($transaction->amount, 2) }}@endif</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->receipt_no }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
                             <td>{{ $transaction->project }}</td>
@@ -34,7 +34,7 @@
                             @php
                                 $audit = $transaction->audits()->latest()->first();
                             @endphp
-                            <td class="d-none d-md-table-cell">{{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset</td>
+                            <td class="fit d-none d-md-table-cell">{{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset</td>
                         </tr>
                     @endforeach
                 </tbody>

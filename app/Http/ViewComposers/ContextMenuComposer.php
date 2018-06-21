@@ -773,6 +773,12 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', MoneyTransaction::class)
                     ],
+                    'export' => [
+                        'url' => route('accounting.transactions.export'),
+                        'caption' => __('app.export'),
+                        'icon' => 'download',
+                        'authorized' => Auth::user()->can('list', MoneyTransaction::class)
+                    ],
                 ];
             case 'accounting.transactions.create':
                 return [

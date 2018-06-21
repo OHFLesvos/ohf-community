@@ -24,7 +24,7 @@
                     @if($transaction->type == 'spending') (@lang('accounting.spending')) @endif
                 </strong></div>
                 <div class="col-sm @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">
-                    {{ $transaction->amount }}
+                    {{ number_format($transaction->amount, 2) }}
                 </div>
             </div>
         </li>

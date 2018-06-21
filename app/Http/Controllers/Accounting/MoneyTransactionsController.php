@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use \Gumlet\ImageResize;
+use Illuminate\Support\Facades\Config;
 
 class MoneyTransactionsController extends Controller
 {
@@ -257,4 +258,33 @@ class MoneyTransactionsController extends Controller
                 ->get(),
         ]);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        $this->authorize('list', MoneyTransaction::class);
+
+        \Excel::create(Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')', function($excel) {
+            $excel->sheet(__('accounting.accounting'), function($sheet) {
+                $sheet->setOrientation('landscape');
+                $sheet->freezeFirstRow();
+                $sheet->loadView('accounting.transactions.export',[
+                    'transactions' => MoneyTransaction
+                    ::orderBy('date', 'DESC')
+                    ->orderBy('created_at', 'DESC')
+                    ->get(),
+                ]);
+                $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
+            });
+            $excel->getActiveSheet()->setAutoFilter(
+                $excel->getActiveSheet()->calculateWorksheetDimension()
+            );
+    })->export('xlsx');
+    }
+
 }
