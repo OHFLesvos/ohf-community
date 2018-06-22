@@ -4,6 +4,13 @@
 
 @section('wrapped-content')
 
+    @if(count($filter) > 0)
+        <p>
+        {{-- Results are filtered. --}}
+        <a href="{{ route('accounting.transactions.index') }}" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
+        </p>
+    @endif
+
     @if( ! $transactions->isEmpty() )
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
@@ -40,7 +47,7 @@
                 </tbody>
             </table>
         </div>
-        {{ $transactions->links() }}
+        {{ $transactions->appends($filter)->links() }}
     @else
         @component('components.alert.info')
             @lang('accounting.no_transactions_found')

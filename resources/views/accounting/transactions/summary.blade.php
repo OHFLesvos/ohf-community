@@ -6,11 +6,11 @@
 
     <div class="row">
         <div class="col-sm">
-            <h2 class="mb-4">{{ $monthName }}</h2>
+            <h2 class="mb-4">{{ $monthDate->formatLocalized('%B %Y') }}</h2>
         </div>
         <div class="col-sm-auto">
             @if(sizeof($months) > 0)
-                {{ Form::bsSelect('timerange', $months, $month, [ 'id' => 'timerange' ], '') }}
+                {{ Form::bsSelect('timerange', $months, $monthDate->format('Y-m'), [ 'id' => 'timerange' ], '') }}
             @endif
         </div>
     </div>
@@ -24,7 +24,11 @@
                         @if(count($incomeByProject) > 0)
                             @foreach($incomeByProject as $v)
                                 <tr>
-                                    <td>{{ $v->project }}</td>
+                                    <td>
+                                        <a href="{{ route('accounting.transactions.index') }}?type=income&project={{ $v->project }}&year={{ $monthDate->year }}&month={{ $monthDate->month }}">
+                                            {{ $v->project }}
+                                        </a>
+                                    </td>
                                     <td class="text-right">{{ number_format($v->sum, 2) }}</td>
                                 </tr>
                             @endforeach
@@ -43,7 +47,11 @@
                         @if(count($spendingByProject) > 0)
                             @foreach($spendingByProject as $v)
                                 <tr>
-                                    <td>{{ $v->project }}</td>
+                                    <td>
+                                        <a href="{{ route('accounting.transactions.index') }}?type=spending&project={{ $v->project }}&year={{ $monthDate->year }}&month={{ $monthDate->month }}">
+                                            {{ $v->project }}
+                                        </a>
+                                    </td>
                                     <td class="text-right">{{ number_format($v->sum, 2) }}</td>
                                 </tr>
                             @endforeach

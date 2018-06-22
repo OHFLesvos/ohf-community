@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.7
+
+* Accounting drilldown
+
 ## 1.17.6
 
 * Accounting excel export

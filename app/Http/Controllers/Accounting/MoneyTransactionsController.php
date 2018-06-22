@@ -11,23 +11,63 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use \Gumlet\ImageResize;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rule;
 
 class MoneyTransactionsController extends Controller
 {
+    private static $filterColumns = [
+        'type',
+        'project',
+        'beneficiary',
+        'date'
+    ];
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('list', MoneyTransaction::class);
 
+        $validatedData = $request->validate([
+            'date' => [
+                'nullable',
+                'date',
+                'before_or_equal:' . Carbon::today(),
+            ],
+            'type' => [
+                'nullable',
+                Rule::in(['income', 'spending']),
+            ],
+            'month' => 'nullable|regex:/[0-1]?[1-9]/',
+            'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
+        ]);
+
+        $query = MoneyTransaction
+            ::orderBy('date', 'DESC')
+            ->orderBy('created_at', 'DESC');
+
+        $filter = [];
+        foreach (self::$filterColumns as $col) {
+            if (!empty($request->$col)) {
+                $query->where($col, $request->$col);
+                $filter[$col] = $request->$col;
+            }
+        }
+        if (!empty($request->month)) {
+            $query->where(DB::raw('MONTH(date)'), $request->month);
+            $filter['month'] = $request->month;
+        }
+        if (!empty($request->year)) {
+            $query->where(DB::raw('YEAR(date)'), $request->year);
+            $filter['year'] = $request->year;
+        }
+
         return view('accounting.transactions.index', [
-            'transactions' => MoneyTransaction
-                ::orderBy('date', 'DESC')
-                ->orderBy('created_at', 'DESC')
-                ->paginate(),
+            'transactions' => $query->paginate(),
+            'filter' => $filter,
         ]);
     }
 
@@ -226,8 +266,7 @@ class MoneyTransactionsController extends Controller
         setlocale(LC_TIME, \App::getLocale());
 
         return view('accounting.transactions.summary', [
-            'monthName' => $dateFrom->formatLocalized('%B %Y'),
-            'month' => $dateFrom->format('Y-m'),
+            'monthDate' => $dateFrom,
             'months' => MoneyTransaction
                 ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
                 ->groupBy(DB::raw('MONTH(date)'))
