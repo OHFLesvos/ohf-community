@@ -6,8 +6,7 @@
 
     @if(count($filter) > 0)
         <p>
-        {{-- Results are filtered. --}}
-        <a href="{{ route('accounting.transactions.index') }}" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
+            <a href="{{ route('accounting.transactions.index') }}" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
         </p>
     @endif
 
@@ -45,9 +44,21 @@
                         </tr>
                     @endforeach
                 </tbody>
+                @if(count($filter) > 0)
+                    <tfoot>
+                        <tr class="d-none d-sm-table-row">
+                            <td></td>
+                            <td class="text-right d-none d-sm-table-cell text-info"><u>{{ number_format($transactions->where('type', 'income')->sum('amount'), 2) }}</u></td>
+                            <td class="text-right d-none d-sm-table-cell text-info"><u>{{ number_format($transactions->where('type', 'spending')->sum('amount'), 2) }}</u></td>
+                            <td colspan="5"></td>
+                        </tr>
+                    </tfoot>
+                @endif
             </table>
         </div>
-        {{ $transactions->appends($filter)->links() }}
+        <div style="overflow-x: auto">
+            {{ $transactions->appends($filter)->links() }}
+        </div>
     @else
         @component('components.alert.info')
             @lang('accounting.no_transactions_found')

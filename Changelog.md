@@ -3,6 +3,7 @@
 ## 1.18.0
 
 * Widget restyling
+* Added accounting sum up when filtered
 
 ## 1.17.7
 
