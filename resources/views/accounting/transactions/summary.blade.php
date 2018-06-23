@@ -77,7 +77,7 @@
                         </tr>
                         <tr>
                             <td>@lang('accounting.wallet')</td>
-                            <td class="text-right"><u>{{ number_format($incomeByProject->sum('sum') - $spendingByProject->sum('sum'), 2) }}</u></td>
+                            <td class="text-right"><u>{{ number_format($wallet, 2) }}</u></td>
                         </tr>
                     </tbody>
                 </table>

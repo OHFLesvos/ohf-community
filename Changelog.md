@@ -2,38 +2,60 @@
 
 ## 1.18.0
 
+General:
+
 * Widget restyling
+
+Accounting:
+
 * Added accounting sum up when filtered
+* Added wallet calculation with previous months
 
 ## 1.17.7
 
-* Accounting drilldown
+Accounting:
+
+* Added rilldown
 
 ## 1.17.6
 
-* Accounting excel export
+Accounting:
+
+* Added excel export
 
 ## 1.17.5
 
-* Accounting image scale
+Accounting_
+
+* Added image downscaling when uploading receipt image
 
 ## 1.17.4
 
-* Accounting fixes
+Accounting:
+
+* Minor fixes
 
 ## 1.17.3
+
+Accounting:
 
 * Unique form autocomplete
 
 ## 1.17.2
 
-* Fixed date edit issue in accounting
+Accounting:
+
+* Fixed date edit issue
 
 ## 1.17.1
+
+Accounting:
 
 * Fixed issue with encryption (field size)
 
 ## 1.17.0
+
+Accounting:
 
 * Added basic money transaction registration for accounting
 

@@ -265,6 +265,41 @@ class MoneyTransactionsController extends Controller
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
+        $incomeByProject = MoneyTransaction
+            ::select('project', DB::raw('SUM(amount) as sum'))
+            ->whereDate('date', '>=', $dateFrom)
+            ->whereDate('date', '<=', $dateTo)
+            ->where('type', 'income')
+            ->groupBy('project')
+            ->orderBy('project')
+            ->get();
+
+        $spendingByProject = MoneyTransaction
+            ::select('project', DB::raw('SUM(amount) as sum'))
+            ->whereDate('date', '>=', $dateFrom)
+            ->whereDate('date', '<=', $dateTo)
+            ->where('type', 'spending')
+            ->groupBy('project')
+            ->orderBy('project')
+            ->get();
+    
+        // Calculate wallet
+        $previousIncome = optional(MoneyTransaction
+            ::select(DB::raw('SUM(amount) as sum'))
+            ->whereDate('date', '<', $dateFrom)
+            ->where('type', 'income')
+            ->first())
+            ->sum;
+        $previousSpending = optional(MoneyTransaction
+            ::select(DB::raw('SUM(amount) as sum'))
+            ->whereDate('date', '<', $dateFrom)
+            ->where('type', 'spending')
+            ->first())
+            ->sum;
+
+        $previousWallet = $previousIncome - $previousSpending;
+        $wallet = $previousWallet + $incomeByProject->sum('sum') - $spendingByProject->sum('sum');
+
         return view('accounting.transactions.summary', [
             'monthDate' => $dateFrom,
             'months' => MoneyTransaction
@@ -279,22 +314,9 @@ class MoneyTransactionsController extends Controller
                     return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
                 })
                 ->toArray(),
-            'incomeByProject' => MoneyTransaction
-                ::select('project', DB::raw('SUM(amount) as sum'))
-                ->whereDate('date', '>=', $dateFrom)
-                ->whereDate('date', '<=', $dateTo)
-                ->where('type', 'income')
-                ->groupBy('project')
-                ->orderBy('project')
-                ->get(),
-            'spendingByProject' => MoneyTransaction
-                ::select('project', DB::raw('SUM(amount) as sum'))
-                ->whereDate('date', '>=', $dateFrom)
-                ->whereDate('date', '<=', $dateTo)
-                ->where('type', 'spending')
-                ->groupBy('project')
-                ->orderBy('project')
-                ->get(),
+            'incomeByProject' => $incomeByProject,
+            'spendingByProject' => $spendingByProject,
+            'wallet' => $wallet,
         ]);
     }
 
@@ -357,7 +379,7 @@ class MoneyTransactionsController extends Controller
                     $excel->getActiveSheet()->calculateWorksheetDimension()
                 );
             }
-    })->export('xlsx');
+        })->export('xlsx');
     }
 
 }
