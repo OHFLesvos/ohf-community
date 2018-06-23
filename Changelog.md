@@ -10,6 +10,7 @@ Accounting:
 
 * Added accounting sum up when filtered
 * Added wallet calculation with previous months
+* Auto-suggest description
 
 ## 1.17.7
 
