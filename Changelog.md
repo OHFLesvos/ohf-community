@@ -5,6 +5,7 @@
 General:
 
 * Widget restyling
+* Added lity lightbox
 
 Accounting:
 

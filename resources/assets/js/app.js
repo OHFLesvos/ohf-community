@@ -231,3 +231,6 @@ $(function(){
         }); 
     }); 
 });
+
+// Lity Lightbox
+var lity = require('lity');
