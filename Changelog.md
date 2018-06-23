@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.18.0
+
+* Widget restyling
+
 ## 1.17.7
 
 * Accounting drilldown

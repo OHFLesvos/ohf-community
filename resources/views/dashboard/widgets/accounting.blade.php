@@ -8,7 +8,7 @@
         ],
         [
             'url' => route('accounting.transactions.summary'),
-            'title' => __('app.view'),
+            'title' => __('accounting.summary'),
             'icon' => 'calculator',
             'authorized' => Gate::allows('view-accounting-summary'),
         ],

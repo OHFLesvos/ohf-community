@@ -26,10 +26,10 @@ class HomeController extends Controller
         $widgetClasses = [
             \App\Widgets\BankWidget::class,
             \App\Widgets\PersonsWidget::class,
-            \App\Widgets\ReportingWidget::class,
-            \App\Widgets\DonorsWidget::class,
-            \App\Widgets\AccountingWidget::class,
             \App\Widgets\WikiArticlesWidget::class,
+            \App\Widgets\AccountingWidget::class,
+            \App\Widgets\DonorsWidget::class,
+            \App\Widgets\ReportingWidget::class,
             \App\Widgets\ToolsWidget::class,
             \App\Widgets\UsersWidget::class,
             \App\Widgets\ChangeLogWidget::class,
@@ -37,8 +37,9 @@ class HomeController extends Controller
         $widgets = [];
         foreach($widgetClasses as $w) {
             $widget = new $w();
-            if ($widget->authorize()) {
-                $widgets[$widget->view()] = $widget->args();
+            if ($widget->authorize()) { 
+                $view = view($widget->view(), $widget->args());
+                $widgets[] = $view->render();
             }
         }
         return view('welcome', [

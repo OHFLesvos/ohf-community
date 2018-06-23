@@ -1,8 +1,19 @@
-<div class="card mb-4">
-    <div class="card-header">
-        @lang('fundraising.donors')
-        <a class="pull-right" href="{{ route('fundraising.donors.index')  }}">@lang('app.manage')</a>
-    </div>
+@php
+    $links = [
+        [
+            'url' => route('fundraising.donors.index'),
+            'title' => __('app.manage'),
+            'icon' => 'pencil',
+            'authorized' => true,
+        ],
+    ];
+@endphp
+
+@extends('dashboard.widgets.base')
+
+@section('widget-title', __('fundraising.donors'))
+
+@section('widget-content')
     <div class="card-body pb-2">
         <p>
             @lang('fundraising.donors_in_db', [ 'num_donors' => $num_donors ])<br>
@@ -13,4 +24,4 @@
             ])<br>
         </p>
     </div>
-</div>
+@endsection

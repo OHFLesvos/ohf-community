@@ -1,7 +1,8 @@
-<div class="card mb-4">
-    <div class="card-header">
-        @lang('app.tools')
-    </div>
+@extends('dashboard.widgets.base')
+
+@section('widget-title', __('app.tools'))
+
+@section('widget-content')
     <div class="card-body p-0">
         <div class="list-group list-group-flush">
             @foreach($tools as $o)
@@ -11,4 +12,4 @@
             @endforeach                    
         </div>
     </div>
-</div>
+@endsection

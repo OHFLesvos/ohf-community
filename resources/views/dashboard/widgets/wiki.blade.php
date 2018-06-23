@@ -1,8 +1,19 @@
-<div class="card mb-4">
-    <div class="card-header">
-        @lang('wiki.wiki')
-        <a class="pull-right" href="{{ route('wiki.articles.index')  }}">@lang('app.view')</a>
-    </div>
+@php
+    $links = [
+        [
+            'url' => route('wiki.articles.index'),
+            'title' => __('app.view'),
+            'icon' => 'search',
+            'authorized' => true,
+        ],
+    ];
+@endphp
+
+@extends('dashboard.widgets.base')
+
+@section('widget-title', __('wiki.wiki'))
+
+@section('widget-content')
     <div class="card-body pb-2">
         <p>
             {{ trans_choice('wiki.articles_in_db', $num_articles, [ 'num' => $num_articles ]) }}
@@ -14,4 +25,4 @@
             @endisset
         </p>
     </div>
-</div>
+@endsection

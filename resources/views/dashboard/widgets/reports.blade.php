@@ -1,8 +1,19 @@
-<div class="card mb-4">
-    <div class="card-header">
-        @lang('app.reports')
-        <a class="pull-right" href="{{ route('reporting.index')  }}">@lang('app.more_reports')</a>
-    </div>
+@php
+    $links = [
+        [
+            'url' => route('reporting.index'),
+            'title' => __('app.more_reports'),
+            'icon' => 'list',
+            'authorized' => true,
+        ],
+    ];
+@endphp
+
+@extends('dashboard.widgets.base')
+
+@section('widget-title', __('app.reports'))
+
+@section('widget-content')
     <div class="card-body">
         @foreach($reports as $report)
             <a href="{{ $report->url }}">
@@ -10,4 +21,4 @@
             </a><br>
         @endforeach                    
     </div>
-</div>
+@endsection

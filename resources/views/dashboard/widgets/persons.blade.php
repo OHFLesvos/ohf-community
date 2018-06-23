@@ -1,8 +1,19 @@
-<div class="card mb-4">
-    <div class="card-header">
-        @lang('people.people')
-        <a class="pull-right" href="{{ route('people.index')  }}">@lang('app.manage')</a>
-    </div>
+@php
+    $links = [
+        [
+            'url' => route('people.index'),
+            'title' => __('app.manage'),
+            'icon' => 'pencil',
+            'authorized' => true,
+        ],
+    ];
+@endphp
+
+@extends('dashboard.widgets.base')
+
+@section('widget-title', __('people.people'))
+
+@section('widget-content')
     <div class="card-body pb-2">
         <p>
             @lang('people.there_are_n_people_registered', [ 
@@ -12,4 +23,4 @@
             ]))@endif.
         </p>
     </div>
-</div>
+@endsection

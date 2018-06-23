@@ -5,6 +5,7 @@
                 @yield('widget-title')
             </div>
             <div class="col-auto pr-2">
+                @yield('widget-subtitle')
                 @isset($links)
                     @foreach($links as $link)
                         @if($link['authorized'])
