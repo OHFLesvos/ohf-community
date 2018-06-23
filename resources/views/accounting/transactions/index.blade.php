@@ -15,13 +15,13 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="fit">@lang('app.date')</th>
+                        <th class="fit @if(isset($filter['date']) || isset($filter['year']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
-                        <th class="fit d-none d-sm-table-cell text-right">@lang('accounting.income')</th>
-                        <th class="fit d-none d-sm-table-cell text-right">@lang('accounting.spending')</th>
-                        <th>@lang('app.project')</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
+                        <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.description')</th>
-                        <th class="d-none d-sm-table-cell">@lang('accounting.beneficiary')</th>
+                        <th class="d-none d-sm-table-cell  @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
                         <th class="fit d-none d-sm-table-cell">@lang('accounting.receipt') #</th>
                         <th class="fit d-none d-md-table-cell">@lang('app.registered')</th>
                     </tr>
