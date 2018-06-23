@@ -14,8 +14,8 @@
 
     @if ( count($widgets) > 0 )
         <div class="card-columns">
-            @foreach($widgets as $w)
-                {!! $w !!}
+            @foreach($widgets as $widget => $args)
+                @include($widget, $args)
             @endforeach
         </div>
     @else

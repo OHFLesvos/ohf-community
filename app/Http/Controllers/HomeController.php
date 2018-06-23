@@ -38,8 +38,7 @@ class HomeController extends Controller
         foreach($widgetClasses as $w) {
             $widget = new $w();
             if ($widget->authorize()) {
-                $view = view($widget->view(), $widget->args());
-                $widgets[] = $view->render();
+                $widgets[$widget->view()] = $widget->args();
             }
         }
         return view('welcome', [
