@@ -19,13 +19,14 @@ class ItemTransactionController extends Controller
             'item' => 'required',
         ]);
 
+        $transactions = InventoryItemTransaction
+            ::where('item', $request->item)
+            ->select('*')
+            ->orderBy('created_at', 'desc');
+
         return view('inventory.transactions.changes', [
                 'storage' => $storage,
-                'transactions' => InventoryItemTransaction
-                    ::where('item', $request->item)
-                    ->select('*')
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(),
+                'transactions' => $transactions->paginate(),
             ]);
     }
 

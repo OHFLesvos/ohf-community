@@ -27,7 +27,15 @@
                                 {{ $transaction->quantity }}
                             </td>
                             <td class="d-none d-sm-table-cell fit text-right">
-                                {{ $transaction->total }}
+                                @php
+                                    echo App\InventoryItemTransaction
+                                        ::where('item', $transaction->item)
+                                        ->where('created_at', '<=', $transaction->created_at)
+                                        ->select(DB::raw('sum(quantity) as total'))
+                                        ->groupBy('item')
+                                        ->first()
+                                        ->total;
+                                @endphp
                             </td>
                             <td>
                                 @if($transaction->quantity > 0)
