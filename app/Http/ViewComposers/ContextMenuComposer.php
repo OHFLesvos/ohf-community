@@ -849,6 +849,16 @@ class ContextMenuComposer {
                         'authorized' => true, // TODO Storage
                     ]
                 ];
+            case 'storage.containers.transactions.show':
+                    $container = $view->getData()['container'];
+                    return [
+                        'back' => [
+                            'url' => route('storage.containers.show', $container),
+                            'caption' => __('app.close'),
+                            'icon' => 'times-circle',
+                            'authorized' => true, // TODO Storage
+                        ]
+                    ];
             case 'storage.containers.transactions.create':
             case 'storage.containers.transactions.remove':
                 $container = $view->getData()['container'];

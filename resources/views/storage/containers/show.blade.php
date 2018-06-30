@@ -21,10 +21,14 @@
                     @foreach($container->transactions()->groupBy('item')->select(DB::raw('SUM(quantity) as sum'), 'item')->orderBy('item')->get() as $transaction)
                         <tr class="@if($transaction->sum <= 0) text-danger @endif">
                             <td class="align-middle fit text-right">{{ $transaction->sum }}</td>
-                            <td class="align-middle">{{ $transaction->item }}</td>
+                            <td class="align-middle">
+                                <a href="{{ route('storage.containers.transactions.show', $container) }}?item={{ $transaction->item }}">
+                                    {{ $transaction->item }}
+                                </a>
+                            </td>
                             <td class="align-middle fit">
                                 @if($transaction->sum > 0)
-                                    <a href="{{ route('storage.containers.transactions.remove', $container) }}?item={{ $transaction->item }}" class="btn btn-secondary btn-sm">
+                                    <a href="{{ route('storage.containers.transactions.remove', $container) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
                                         @icon(minus-circle)<span class="d-none d-sm-inline"> @lang('storage.take_out')</span>
                                     </a>
                                 @endif

@@ -193,6 +193,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::namespace('Storage')->prefix('storage')->name('storage.')->group(function(){
             Route::get('containers', 'TransactionController@index')->name('containers.index');
             Route::get('containers/{container}', 'TransactionController@show')->name('containers.show');
+            Route::get('containers/{container}/transactions', 'TransactionController@showTransaction')->name('containers.transactions.show');
             Route::get('containers/{container}/transactions/create', 'TransactionController@create')->name('containers.transactions.create');
             Route::get('containers/{container}/transactions/remove', 'TransactionController@remove')->name('containers.transactions.remove');
             Route::post('containers/{container}/transactions', 'TransactionController@store')->name('containers.transactions.store');

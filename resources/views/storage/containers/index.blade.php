@@ -11,7 +11,12 @@
                     <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $container->name }}</h5>
                     @php
-                        $num_items = $container->transactions()->groupBy('item')->get()->count();
+                        $num_items = $container->transactions()
+                            ->groupBy('item')
+                            ->select(DB::raw('sum(quantity) as total'), 'item')
+                            ->having('total', '>=', 1)
+                            ->get()
+                            ->count();
                     @endphp
                     <small>{{ trans_choice('storage.num_items', $num_items, ['num' => $num_items]) }}</small>
                     </div>

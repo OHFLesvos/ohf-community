@@ -21,11 +21,28 @@ class TransactionController extends Controller
             'container' => $container,
         ]);
     }
+    
+    public function showTransaction(StorageContainer $container, Request $request) {
+        return view('storage.containers.transactions.index', [
+                'container' => $container,
+                'transactions' => StorageTransaction
+                    ::where('item', $request->item)
+                    ->select('*')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(),
+            ]);
+    }
 
     public function create(StorageContainer $container) {
         return view('storage.containers.transactions.create', [
             'container' => $container,
-            'items' => StorageTransaction::groupBy('item')->select('item')->orderBy('item')->get()->pluck('item')->toArray(),
+            'items' => StorageTransaction
+                ::groupBy('item')
+                ->select('item')
+                ->orderBy('item')
+                ->get()
+                ->pluck('item')
+                ->toArray(),
         ]);
     }
 
@@ -36,7 +53,7 @@ class TransactionController extends Controller
         $container->transactions()->save($transaction);
 
         return redirect()->route('storage.containers.show', $container)
-            ->with('success', __('storage.item_registered'));
+            ->with('success', __('storage.items_registered'));
     }
 
     public function remove(StorageContainer $container, Request $request) {
