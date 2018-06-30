@@ -201,6 +201,8 @@ Route::group(['middleware' => 'language'], function () {
 
             Route::get('transactions/{storage}/egress', 'ItemTransactionController@egress')->name('transactions.egress');
             Route::post('transactions/{storage}/egress', 'ItemTransactionController@storeEgress')->name('transactions.storeEgress');
+
+            Route::delete('transactions/{storage}', 'ItemTransactionController@destroy')->name('transactions.destroy');
         });
     });
 

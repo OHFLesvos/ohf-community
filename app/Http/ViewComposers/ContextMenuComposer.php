@@ -826,7 +826,7 @@ class ContextMenuComposer {
 
 
             //
-            // Storage: Containers
+            // Inventory
             //
             case 'inventory.storages.index':
                 return [
@@ -852,6 +852,13 @@ class ContextMenuComposer {
             case 'inventory.transactions.changes':
                     $storage = $view->getData()['storage'];
                     return [
+                        'delete' => [
+                            'url' => route('inventory.transactions.destroy', $storage) . '?item=' . request()->item,
+                            'caption' => __('app.delete'),
+                            'icon' => 'trash',
+                            'authorized' => true, // TODO Storage
+                            'confirmation' => __('inventory.confirm_delete_item')
+                        ],
                         'back' => [
                             'url' => route('inventory.storages.show', $storage),
                             'caption' => __('app.close'),

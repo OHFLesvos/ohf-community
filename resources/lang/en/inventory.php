@@ -19,4 +19,6 @@ return [
     'changes_of_stock_in_storage' => 'Changes of <em>:item</em> in <em>:storage</em>',
     'origin' => 'Origin',
     'destination' => 'Destination',
+    'confirm_delete_item' => 'Do you really want to delete this item and its change-history?',
+    'item_deleted' => 'Item deleted',
 ];

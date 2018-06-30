@@ -113,4 +113,20 @@ class ItemTransactionController extends Controller
         return redirect()->route('inventory.storages.show', $storage)
             ->with('success', __('inventory.items_removed'));
     }
+
+    public function destroy(InventoryStorage $storage, Request $request) {
+        // TODO Storage auth
+
+        $request->validate([
+            'item' => 'required',
+        ]);
+
+        InventoryItemTransaction
+            ::where('item', $request->item)
+            ->delete();
+
+        return redirect()->route('inventory.storages.show', $storage)
+            ->with('success', __('inventory.item_deleted'));
+    }
+
 }

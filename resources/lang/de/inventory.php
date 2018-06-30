@@ -19,4 +19,6 @@ return [
     'changes_of_stock_in_storage' => 'Bestandsveränderung von <em>:item</em> in <em>:storage</em>',
     'origin' => 'Herkunft',
     'destination' => 'Ziel',
+    'confirm_delete_item' => 'Soll dieser Artikel wirklich entfernt werden, inklusive der ganzen Bestandsveränderung?',
+    'item_deleted' => 'Artikel gelöscht',
 ];
