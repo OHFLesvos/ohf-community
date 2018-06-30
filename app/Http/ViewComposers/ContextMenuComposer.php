@@ -826,6 +826,43 @@ class ContextMenuComposer {
 
 
             //
+            // Storage: Containers
+            //
+            case 'storage.containers.index':
+                return [
+
+                ];
+            case 'storage.containers.show':
+                $container = $view->getData()['container'];
+                return [
+                    'action' => [
+                        'url' => route('storage.containers.transactions.create', $container),
+                        'caption' => __('storage.add_items'),
+                        'icon' => 'plus-circle',
+                        'icon_floating' => 'plus',
+                        'authorized' => true, // TODO Storage
+                    ],
+                    'back' => [
+                        'url' => route('storage.containers.index'),
+                        'caption' => __('app.overview'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Storage
+                    ]
+                ];
+            case 'storage.containers.transactions.create':
+            case 'storage.containers.transactions.remove':
+                $container = $view->getData()['container'];
+                return [
+                    'back' => [
+                        'url' => route('storage.containers.show', $container),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Storage
+                    ]
+                ];
+
+
+            //
             // Reporting
             //
             case 'reporting.people':

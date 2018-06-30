@@ -17,7 +17,7 @@ class CreateStoargeTransactionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('container_id');
             $table->string('item');
-            $table->integer('amount');
+            $table->integer('quantity');
             $table->date('expiration_date')->nullable();
             $table->string('source')->nullable();
             $table->string('destination')->nullable();
