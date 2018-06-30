@@ -19,12 +19,12 @@ class InventoryItemTransactionSeeder extends Seeder
             [
                 'item' => "Rice (10 KG)",
                 'quantity' => 5,
-                'source' => 'Cash & Carry',
+                'origin' => 'Cash & Carry',
             ],
             [
                 'item' => "Rice (10 KG)",
                 'quantity' => 3,
-                'source' => 'Cash & Carry',
+                'origin' => 'Cash & Carry',
             ],
             [
                 'item' => "Rice (10 KG)",
@@ -38,7 +38,7 @@ class InventoryItemTransactionSeeder extends Seeder
             [
                 'item' => "Tomatoes (Box)",
                 'quantity' => 2,
-                'source' => 'Garden',
+                'origin' => 'Garden',
             ],
         ] as $data) {
             $transaction = new InventoryItemTransaction();

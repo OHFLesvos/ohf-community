@@ -12,23 +12,31 @@
                     <tr>
                         <th class="fit">@lang('app.date')</th>
                         <th class="fit text-right">@lang('inventory.quantity')</th>
-                        <th class="fit text-right">@lang('app.total')</th>
-                        <th colspan="2">@lang('app.user')</th>
+                        <th class="d-none d-sm-table-cell fit text-right">@lang('app.total')</th>
+                        <th>@lang('inventory.origin') / @lang('inventory.destination')</th>
+                        <th class="fit d-none d-sm-table-cell">@lang('app.user')</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($transactions as $transaction)
                         <tr>
-                            <td class="align-middle fit text-right" title="{{ $transaction->created_at }}">
+                            <td class="fit text-right" title="{{ $transaction->created_at }}">
                                 {{ $transaction->created_at->diffForHumans() }}
                             </td>
-                            <td class="align-middle fit text-right @if($transaction->quantity > 0) text-success @else text-danger @endif ">
+                            <td class="fit text-right @if($transaction->quantity > 0) text-success @else text-danger @endif ">
                                 {{ $transaction->quantity }}
                             </td>
-                            <td class="align-middle fit text-right">
+                            <td class="d-none d-sm-table-cell fit text-right">
                                 {{ $transaction->total }}
                             </td>
-                            <td class="align-middle">
+                            <td>
+                                @if($transaction->quantity > 0)
+                                    {{ $transaction->origin }}
+                                @else
+                                    {{ $transaction->destination }}
+                                @endif
+                            </td>
+                            <td class="fit d-none d-sm-table-cell">
                                 @isset($transaction->user_id)
                                     @can('view', $transaction->user)
                                         <a href="{{ route('users.show', $transaction->user) }}">{{ $transaction->user_name }}</a>

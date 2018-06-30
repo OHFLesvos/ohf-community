@@ -17,4 +17,6 @@ return [
     'no_items_found' => 'Keine Artikel gefunden.',
     'changes_of_stock' => 'Bestandsveränderung',
     'changes_of_stock_in_storage' => 'Bestandsveränderung von <em>:item</em> in <em>:storage</em>',
+    'origin' => 'Herkunft',
+    'destination' => 'Ziel',
 ];

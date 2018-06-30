@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Iatstuti\Database\Support\NullableFields;
 
 class InventoryItemTransaction extends Model
 {
+    use NullableFields;
+
     public static function boot()
     {
         static::creating(function ($model) {
@@ -16,6 +19,11 @@ class InventoryItemTransaction extends Model
 
         parent::boot();
     }
+
+    protected $nullable = [
+        'origin',
+        'destination',
+    ];
 
     public function storage() {
         return $this->belongsTo('App\InventoryStorage', 'storage_id');

@@ -31,6 +31,14 @@ class ItemTransactionController extends Controller
                 ->get()
                 ->pluck('item')
                 ->toArray(),
+            'origins' => InventoryItemTransaction
+                ::groupBy('origin')
+                ->whereNotNull('origin')
+                ->select('origin')
+                ->orderBy('origin')
+                ->get()
+                ->pluck('origin')
+                ->toArray(),
         ]);
     }
 
@@ -38,6 +46,7 @@ class ItemTransactionController extends Controller
         $transaction = new InventoryItemTransaction();
         $transaction->item = $request->item;
         $transaction->quantity = $request->quantity;
+        $transaction->origin = $request->origin;
         $storage->transactions()->save($transaction);
 
         return redirect()->route('inventory.storages.show', $storage)
@@ -56,6 +65,14 @@ class ItemTransactionController extends Controller
             'storage' => $storage,
             'item' => $transaction->item,
             'total' => $transaction->total,
+            'destinations' => InventoryItemTransaction
+                ::groupBy('destination')
+                ->whereNotNull('destination')
+                ->select('destination')
+                ->orderBy('destination')
+                ->get()
+                ->pluck('destination')
+                ->toArray(),
         ]);
     }
 
@@ -70,6 +87,7 @@ class ItemTransactionController extends Controller
         $transaction = new InventoryItemTransaction();
         $transaction->item = $itemTransaction->item;
         $transaction->quantity = -($request->quantity);
+        $transaction->destination = $request->destination;
         $storage->transactions()->save($transaction);
 
         return redirect()->route('inventory.storages.show', $storage)

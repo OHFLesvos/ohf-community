@@ -17,4 +17,6 @@ return [
     'no_items_found' => 'No items found.',
     'changes_of_stock' => 'Changes of Stock',
     'changes_of_stock_in_storage' => 'Changes of <em>:item</em> in <em>:storage</em>',
+    'origin' => 'Origin',
+    'destination' => 'Destination',
 ];

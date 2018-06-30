@@ -14,6 +14,9 @@
             <div class="col-sm">
                 {{ Form::bsText('item', $item, [ 'readonly' ], __('inventory.item')) }}
             </div>
+            <div class="col-sm">
+                {{ Form::bsText('destination', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($destinations)) ], __('inventory.destination')) }}
+            </div>
         </div>
         <p>
             {{ Form::bsSubmitButton(__('app.remove')) }}
