@@ -17,26 +17,26 @@ class StorageTransactionSeeder extends Seeder
 
         foreach([
             [
-                'name' => "Rice (10 KG)",
+                'item' => "Rice (10 KG)",
                 'amount' => 5,
                 'source' => 'Cash & Carry',
             ],
             [
-                'name' => "Rice (10 KG)",
+                'item' => "Rice (10 KG)",
                 'amount' => 3,
                 'source' => 'Cash & Carry',
             ],
             [
-                'name' => "Rice (10 KG)",
+                'item' => "Rice (10 KG)",
                 'amount' => -4,
                 'destination' => 'Kitchen',
             ],
             [
-                'name' => "Potatoes (20 KG Bag)",
+                'item' => "Potatoes (20 KG Bag)",
                 'amount' => 1,
             ],
             [
-                'name' => "Tomatoes (Box)",
+                'item' => "Tomatoes (Box)",
                 'amount' => 2,
                 'source' => 'Garden',
             ],

@@ -16,7 +16,7 @@ class CreateStoargeTransactionsTable extends Migration
         Schema::create('storage_transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('container_id');
-            $table->string('name');
+            $table->string('item');
             $table->integer('amount');
             $table->date('expiration_date')->nullable();
             $table->string('source')->nullable();

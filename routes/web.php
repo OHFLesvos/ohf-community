@@ -188,6 +188,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('transactions/summary', 'MoneyTransactionsController@summary')->name('transactions.summary');
             Route::resource('transactions', 'MoneyTransactionsController');
         });
+
+        // Storage
+        Route::namespace('Storage')->prefix('storage')->name('storage.')->group(function(){
+            Route::get('overview', 'TransactionController@overview')->name('overview');
+        });
     });
 
     // Logistics
