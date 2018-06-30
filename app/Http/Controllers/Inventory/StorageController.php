@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 class StorageController extends Controller
 {
     public function index() {
+        // TODO Storage auth
+
         return view('inventory.storages.index', [
             'storages' => InventoryStorage
                 ::orderBy('name')
@@ -19,6 +21,8 @@ class StorageController extends Controller
     }
 
     public function show(InventoryStorage $storage) {
+        // TODO Storage auth
+
         return view('inventory.storages.show', [
             'storage' => $storage,
         ]);

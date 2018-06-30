@@ -7,10 +7,18 @@ use App\Http\Controllers\Controller;
 use App\InventoryStorage;
 use App\InventoryItemTransaction;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Inventory\StoreIngressTransaction;
+use App\Http\Requests\Inventory\StoreEgressTransaction;
 
 class ItemTransactionController extends Controller
 {
     public function changes(InventoryStorage $storage, Request $request) {
+        // TODO Storage auth
+
+        $request->validate([
+            'item' => 'required',
+        ]);
+
         return view('inventory.transactions.changes', [
                 'storage' => $storage,
                 'transactions' => InventoryItemTransaction
@@ -22,6 +30,8 @@ class ItemTransactionController extends Controller
     }
 
     public function ingress(InventoryStorage $storage) {
+        // TODO Storage auth
+
         return view('inventory.transactions.ingress', [
             'storage' => $storage,
             'items' => InventoryItemTransaction
@@ -42,7 +52,9 @@ class ItemTransactionController extends Controller
         ]);
     }
 
-    public function storeIngress(InventoryStorage $storage, Request $request) {
+    public function storeIngress(InventoryStorage $storage, StoreIngressTransaction $request) {
+        // TODO Storage auth
+
         $transaction = new InventoryItemTransaction();
         $transaction->item = $request->item;
         $transaction->quantity = $request->quantity;
@@ -54,6 +66,12 @@ class ItemTransactionController extends Controller
     }
 
     public function egress(InventoryStorage $storage, Request $request) {
+        // TODO Storage auth
+
+        $request->validate([
+            'item' => 'required',
+        ]);
+
         $transaction = InventoryItemTransaction
             ::where('item', $request->item)
             ->groupBy('item')
@@ -76,7 +94,9 @@ class ItemTransactionController extends Controller
         ]);
     }
 
-    public function storeEgress(InventoryStorage $storage, Request $request) {
+    public function storeEgress(InventoryStorage $storage, StoreEgressTransaction $request) {
+        // TODO Storage auth
+
         $itemTransaction = InventoryItemTransaction
             ::where('item', $request->item)
             ->groupBy('item')
