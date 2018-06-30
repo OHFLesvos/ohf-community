@@ -191,13 +191,16 @@ Route::group(['middleware' => 'language'], function () {
 
         // Inventory
         Route::namespace('Inventory')->prefix('inventory')->name('inventory.')->group(function(){
-            Route::get('storages', 'TransactionController@index')->name('storages.index');
-            Route::get('storages/{storage}', 'TransactionController@show')->name('storages.show');
-            Route::get('storages/{storage}/transactions', 'TransactionController@showTransaction')->name('storages.transactions.show');
-            Route::get('storages/{storage}/transactions/create', 'TransactionController@create')->name('storages.transactions.create');
-            Route::get('storages/{storage}/transactions/remove', 'TransactionController@remove')->name('storages.transactions.remove');
-            Route::post('storages/{storage}/transactions', 'TransactionController@store')->name('storages.transactions.store');
-            Route::post('storages/{storage}/transactions/storeRemove', 'TransactionController@storeRemove')->name('storages.transactions.storeRemove');
+            Route::get('storages', 'StorageController@index')->name('storages.index');
+            Route::get('storages/{storage}', 'StorageController@show')->name('storages.show');
+
+            Route::get('transactions/{storage}', 'ItemTransactionController@changes')->name('transactions.changes');
+
+            Route::get('transactions/{storage}/ingress', 'ItemTransactionController@ingress')->name('transactions.ingress');
+            Route::post('transactions/{storage}/ingress', 'ItemTransactionController@storeIngress')->name('transactions.storeIngress');
+
+            Route::get('transactions/{storage}/egress', 'ItemTransactionController@egress')->name('transactions.egress');
+            Route::post('transactions/{storage}/egress', 'ItemTransactionController@storeEgress')->name('transactions.storeEgress');
         });
     });
 

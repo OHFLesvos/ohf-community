@@ -22,13 +22,13 @@
                         <tr class="@if($transaction->sum <= 0) text-danger @endif">
                             <td class="align-middle fit text-right">{{ $transaction->sum }}</td>
                             <td class="align-middle">
-                                <a href="{{ route('inventory.storages.transactions.show', $storage) }}?item={{ $transaction->item }}">
+                                <a href="{{ route('inventory.transactions.changes', $storage) }}?item={{ $transaction->item }}">
                                     {{ $transaction->item }}
                                 </a>
                             </td>
                             <td class="align-middle fit">
                                 @if($transaction->sum > 0)
-                                    <a href="{{ route('inventory.storages.transactions.remove', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
+                                    <a href="{{ route('inventory.transactions.egress', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
                                         @icon(minus-circle)<span class="d-none d-sm-inline"> @lang('inventory.take_out')</span>
                                     </a>
                                 @endif

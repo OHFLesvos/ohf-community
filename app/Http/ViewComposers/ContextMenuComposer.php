@@ -836,7 +836,7 @@ class ContextMenuComposer {
                 $storage = $view->getData()['storage'];
                 return [
                     'action' => [
-                        'url' => route('inventory.storages.transactions.create', $storage),
+                        'url' => route('inventory.transactions.ingress', $storage),
                         'caption' => __('inventory.add_items'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
@@ -849,7 +849,7 @@ class ContextMenuComposer {
                         'authorized' => true, // TODO Storage
                     ]
                 ];
-            case 'inventory.storages.transactions.show':
+            case 'inventory.transactions.changes':
                     $storage = $view->getData()['storage'];
                     return [
                         'back' => [
@@ -859,8 +859,8 @@ class ContextMenuComposer {
                             'authorized' => true, // TODO Storage
                         ]
                     ];
-            case 'inventory.storages.transactions.create':
-            case 'inventory.storages.transactions.remove':
+            case 'inventory.transactions.ingress':
+            case 'inventory.transactions.egress':
                 $storage = $view->getData()['storage'];
                 return [
                     'back' => [

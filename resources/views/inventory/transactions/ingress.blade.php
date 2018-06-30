@@ -3,7 +3,7 @@
 @section('title', __('inventory.add_items'))
 
 @section('content')
-    {!! Form::open(['route' => ['inventory.storages.transactions.store', $storage ]]) !!}
+    {!! Form::open(['route' => ['inventory.transactions.storeIngress', $storage ]]) !!}
         <div class="form-row">
             <div class="col-sm-auto">
                 {{ Form::bsText('storage', $storage->name, [ 'disabled' ], __('inventory.storage')) }}

@@ -8,22 +8,10 @@ use App\InventoryStorage;
 use App\InventoryItemTransaction;
 use Illuminate\Support\Facades\DB;
 
-class TransactionController extends Controller
+class ItemTransactionController extends Controller
 {
-    public function index() {
-        return view('inventory.storages.index', [
-            'storages' => InventoryStorage::orderBy('name')->get(),
-        ]);
-    }
-
-    public function show(InventoryStorage $storage) {
-        return view('inventory.storages.show', [
-            'storage' => $storage,
-        ]);
-    }
-    
-    public function showTransaction(InventoryStorage $storage, Request $request) {
-        return view('inventory.storages.transactions.index', [
+    public function changes(InventoryStorage $storage, Request $request) {
+        return view('inventory.transactions.changes', [
                 'storage' => $storage,
                 'transactions' => InventoryItemTransaction
                     ::where('item', $request->item)
@@ -33,8 +21,8 @@ class TransactionController extends Controller
             ]);
     }
 
-    public function create(InventoryStorage $storage) {
-        return view('inventory.storages.transactions.create', [
+    public function ingress(InventoryStorage $storage) {
+        return view('inventory.transactions.ingress', [
             'storage' => $storage,
             'items' => InventoryItemTransaction
                 ::groupBy('item')
@@ -46,7 +34,7 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function store(InventoryStorage $storage, Request $request) {
+    public function storeIngress(InventoryStorage $storage, Request $request) {
         $transaction = new InventoryItemTransaction();
         $transaction->item = $request->item;
         $transaction->quantity = $request->quantity;
@@ -56,7 +44,7 @@ class TransactionController extends Controller
             ->with('success', __('inventory.items_registered'));
     }
 
-    public function remove(InventoryStorage $storage, Request $request) {
+    public function egress(InventoryStorage $storage, Request $request) {
         $transaction = InventoryItemTransaction
             ::where('item', $request->item)
             ->groupBy('item')
@@ -64,14 +52,14 @@ class TransactionController extends Controller
             ->having('total', '>=', 1)
             ->firstOrFail();
 
-        return view('inventory.storages.transactions.remove', [
+        return view('inventory.transactions.egress', [
             'storage' => $storage,
             'item' => $transaction->item,
             'total' => $transaction->total,
         ]);
     }
 
-    public function storeRemove(InventoryStorage $storage, Request $request) {
+    public function storeEgress(InventoryStorage $storage, Request $request) {
         $itemTransaction = InventoryItemTransaction
             ::where('item', $request->item)
             ->groupBy('item')
