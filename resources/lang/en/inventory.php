@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'storage_management' => 'Storage Management',
+    'inventory_management' => 'Inventory Management',
     'no_items_registered' => 'No items registered.',
-    'no_containers_defined' => 'No containers defined',
+    'no_storages_defined' => 'No storages defined.',
     'item' => 'Item',
     'quantity' => 'Quantity',
     'take_out' => 'Take out',
@@ -11,9 +11,9 @@ return [
     'view_storage_content' => 'View storage content',
     'add_items' => 'Add item(s)',
     'items_registered' => 'Items(s) registered.',
-    'container' => 'Container',
+    'storage' => 'Storage',
     'remove_items' => 'Remove item(s)',
     'items_removed' => 'Items(s) removed.',
     'no_items_found' => 'No items found.',
-    'changes_of_stock_in_container' => 'Changes of <em>:item</em> in <em>:container</em>',
+    'changes_of_stock_in_storage' => 'Changes of <em>:item</em> in <em>:storage</em>',
 ];

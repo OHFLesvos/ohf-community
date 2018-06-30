@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesSeeder::class);
         $this->call(ProjectsSeeder::class);
         $this->call(CouponTypesSeeder::class);
-        $this->call(StorageContainerSeeder::class);
+        $this->call(InventoryStorageSeeder::class);
 
         $this->call(CalendarResourceSeeder::class);
         $this->call(PersonsTableSeeder::class);
         $this->call(MoneyTransactionSeeder::class);
-        $this->call(StorageTransactionSeeder::class);
+        $this->call(InventoryItemTransactionSeeder::class);
     }
 }

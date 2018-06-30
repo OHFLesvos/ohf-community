@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\StorageContainer;
-use App\StorageTransaction;
+use App\InventoryStorage;
+use App\InventoryItemTransaction;
 
-class StorageTransactionSeeder extends Seeder
+class InventoryItemTransactionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class StorageTransactionSeeder extends Seeder
      */
     public function run()
     {
-        $foodContainer = StorageContainer::find(1);
+        $foodContainer = InventoryStorage::find(1);
 
         foreach([
             [
@@ -41,7 +41,7 @@ class StorageTransactionSeeder extends Seeder
                 'source' => 'Garden',
             ],
         ] as $data) {
-            $transaction = new StorageTransaction();
+            $transaction = new InventoryItemTransaction();
             foreach ($data as $k => $v) {
                 $transaction->$k = $v;
             }

@@ -828,43 +828,43 @@ class ContextMenuComposer {
             //
             // Storage: Containers
             //
-            case 'storage.containers.index':
+            case 'inventory.storages.index':
                 return [
 
                 ];
-            case 'storage.containers.show':
-                $container = $view->getData()['container'];
+            case 'inventory.storages.show':
+                $storage = $view->getData()['storage'];
                 return [
                     'action' => [
-                        'url' => route('storage.containers.transactions.create', $container),
-                        'caption' => __('storage.add_items'),
+                        'url' => route('inventory.storages.transactions.create', $storage),
+                        'caption' => __('inventory.add_items'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => true, // TODO Storage
                     ],
                     'back' => [
-                        'url' => route('storage.containers.index'),
+                        'url' => route('inventory.storages.index'),
                         'caption' => __('app.overview'),
-                        'icon' => 'times-circle',
+                        'icon' => 'list',
                         'authorized' => true, // TODO Storage
                     ]
                 ];
-            case 'storage.containers.transactions.show':
-                    $container = $view->getData()['container'];
+            case 'inventory.storages.transactions.show':
+                    $storage = $view->getData()['storage'];
                     return [
                         'back' => [
-                            'url' => route('storage.containers.show', $container),
+                            'url' => route('inventory.storages.show', $storage),
                             'caption' => __('app.close'),
                             'icon' => 'times-circle',
                             'authorized' => true, // TODO Storage
                         ]
                     ];
-            case 'storage.containers.transactions.create':
-            case 'storage.containers.transactions.remove':
-                $container = $view->getData()['container'];
+            case 'inventory.storages.transactions.create':
+            case 'inventory.storages.transactions.remove':
+                $storage = $view->getData()['storage'];
                 return [
                     'back' => [
-                        'url' => route('storage.containers.show', $container),
+                        'url' => route('inventory.storages.show', $storage),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => true, // TODO Storage

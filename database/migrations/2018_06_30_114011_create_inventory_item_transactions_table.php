@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoargeTransactionsTable extends Migration
+class CreateInventoryItemTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateStoargeTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('storage_transactions', function (Blueprint $table) {
+        Schema::create('inventory_item_transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('container_id');
+            $table->unsignedInteger('storage_id');
             $table->string('item');
             $table->integer('quantity');
             $table->date('expiration_date')->nullable();
@@ -24,7 +24,7 @@ class CreateStoargeTransactionsTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->string('user_name')->nullable();
             $table->timestamps();
-            $table->foreign('container_id')->references('id')->on('storage_containers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('storage_id')->references('id')->on('inventory_storages')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
     }
@@ -36,6 +36,6 @@ class CreateStoargeTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('storage_transactions');
+        Schema::dropIfExists('inventory_item_transactions');
     }
 }

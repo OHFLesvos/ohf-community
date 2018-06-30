@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoargeContainersTable extends Migration
+class CreateInventoryStoragesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateStoargeContainersTable extends Migration
      */
     public function up()
     {
-        Schema::create('storage_containers', function (Blueprint $table) {
+        Schema::create('inventory_storages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
@@ -29,6 +29,6 @@ class CreateStoargeContainersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('storage_containers');
+        Schema::dropIfExists('inventory_storages');
     }
 }

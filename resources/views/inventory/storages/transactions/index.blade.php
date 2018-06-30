@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', __('storage.view_storage_content'))
+@section('title', __('inventory.view_storage_content'))
 
 @section('content')
 
-    <h4 class="mb-3">@lang('storage.changes_of_stock_in_container', ['item' => request()->item, 'container' => $container->name ])</h4>
+    <h4 class="mb-3">@lang('inventory.changes_of_stock_in_storage', ['item' => request()->item, 'storage' => $storage->name ])</h4>
     @if (! $transactions->isEmpty())
         <div class="table-responsive">
             <table class="table table-sm table-striped table-bordered">
                 <thead>
                     <tr>
                         <th class="fit">@lang('app.date')</th>
-                        <th class="fit text-right">@lang('storage.quantity')</th>
+                        <th class="fit text-right">@lang('inventory.quantity')</th>
                         <th class="fit text-right">@lang('app.total')</th>
                         <th colspan="2">@lang('app.user')</th>
                     </tr>
@@ -45,7 +45,7 @@
         {{ $transactions->appends(['item' => request()->item])->links() }}
     @else
         @component('components.alert.info')
-            @lang('storage.no_items_found')
+            @lang('inventory.no_items_found')
         @endcomponent
     @endif
 	

@@ -189,15 +189,15 @@ Route::group(['middleware' => 'language'], function () {
             Route::resource('transactions', 'MoneyTransactionsController');
         });
 
-        // Storage
-        Route::namespace('Storage')->prefix('storage')->name('storage.')->group(function(){
-            Route::get('containers', 'TransactionController@index')->name('containers.index');
-            Route::get('containers/{container}', 'TransactionController@show')->name('containers.show');
-            Route::get('containers/{container}/transactions', 'TransactionController@showTransaction')->name('containers.transactions.show');
-            Route::get('containers/{container}/transactions/create', 'TransactionController@create')->name('containers.transactions.create');
-            Route::get('containers/{container}/transactions/remove', 'TransactionController@remove')->name('containers.transactions.remove');
-            Route::post('containers/{container}/transactions', 'TransactionController@store')->name('containers.transactions.store');
-            Route::post('containers/{container}/transactions/storeRemove', 'TransactionController@storeRemove')->name('containers.transactions.storeRemove');
+        // Inventory
+        Route::namespace('Inventory')->prefix('inventory')->name('inventory.')->group(function(){
+            Route::get('storages', 'TransactionController@index')->name('storages.index');
+            Route::get('storages/{storage}', 'TransactionController@show')->name('storages.show');
+            Route::get('storages/{storage}/transactions', 'TransactionController@showTransaction')->name('storages.transactions.show');
+            Route::get('storages/{storage}/transactions/create', 'TransactionController@create')->name('storages.transactions.create');
+            Route::get('storages/{storage}/transactions/remove', 'TransactionController@remove')->name('storages.transactions.remove');
+            Route::post('storages/{storage}/transactions', 'TransactionController@store')->name('storages.transactions.store');
+            Route::post('storages/{storage}/transactions/storeRemove', 'TransactionController@storeRemove')->name('storages.transactions.storeRemove');
         });
     });
 

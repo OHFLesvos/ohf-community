@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Iatstuti\Database\Support\NullableFields;
 
-class StorageContainer extends Model
+class InventoryStorage extends Model
 {
     use Sluggable;
     use NullableFields;
@@ -40,6 +40,6 @@ class StorageContainer extends Model
     ];
 
     public function transactions() {
-        return $this->hasMany('App\StorageTransaction', 'container_id');
+        return $this->hasMany('App\InventoryItemTransaction', 'storage_id');
     }  
 }

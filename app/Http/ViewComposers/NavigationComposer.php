@@ -85,10 +85,10 @@ class NavigationComposer {
                     'authorized' => Auth::user()->can('list', MoneyTransaction::class) || Gate::allows('view-accounting-summary'),
                 ],
                 [
-                    'route' => 'storage.containers.index',
-                    'caption' => __('storage.storage_management'),
-                    'icon' => 'container',
-                    'active' => 'storage/*',
+                    'route' => 'inventory.storages.index',
+                    'caption' => __('inventory.inventory_management'),
+                    'icon' => 'archive',
+                    'active' => 'inventory/*',
                     'authorized' => true, // TODO Storage
                 ],
                 [

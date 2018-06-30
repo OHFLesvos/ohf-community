@@ -1,9 +1,9 @@
 <?php
 
-use App\StorageContainer;
+use App\InventoryStorage;
 use Illuminate\Database\Seeder;
 
-class StorageContainerSeeder extends Seeder
+class InventoryStorageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,8 +23,8 @@ class StorageContainerSeeder extends Seeder
             [
                 'name' => 'Tool Storage',
             ],
-        ])->each(function ($container) { 
-            StorageContainer::create($container); 
+        ])->each(function ($storage) { 
+            InventoryStorage::create($storage); 
         });
     }
 }

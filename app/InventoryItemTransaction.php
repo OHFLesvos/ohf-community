@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class StorageTransaction extends Model
+class InventoryItemTransaction extends Model
 {
     public static function boot()
     {
@@ -17,8 +17,8 @@ class StorageTransaction extends Model
         parent::boot();
     }
 
-    public function container() {
-        return $this->belongsTo('App\StorageContainer', 'container_id');
+    public function storage() {
+        return $this->belongsTo('App\InventoryStorage', 'storage_id');
     }
 
     public function user() {
