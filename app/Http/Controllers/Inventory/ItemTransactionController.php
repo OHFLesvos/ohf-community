@@ -50,6 +50,14 @@ class ItemTransactionController extends Controller
                 ->get()
                 ->pluck('origin')
                 ->toArray(),
+            'payers' => InventoryItemTransaction
+                ::groupBy('sponsor')
+                ->whereNotNull('sponsor')
+                ->select('sponsor')
+                ->orderBy('sponsor')
+                ->get()
+                ->pluck('sponsor')
+                ->toArray(),
         ]);
     }
 
@@ -60,6 +68,7 @@ class ItemTransactionController extends Controller
         $transaction->item = $request->item;
         $transaction->quantity = $request->quantity;
         $transaction->origin = $request->origin;
+        $transaction->sponsor = $request->sponsor;
         $storage->transactions()->save($transaction);
 
         return redirect()->route('inventory.storages.show', $storage)

@@ -21,6 +21,7 @@ class CreateInventoryItemTransactionsTable extends Migration
             $table->date('expiration_date')->nullable();
             $table->string('origin')->nullable();
             $table->string('destination')->nullable();
+            $table->string('sponsor')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->string('user_name')->nullable();
             $table->timestamps();

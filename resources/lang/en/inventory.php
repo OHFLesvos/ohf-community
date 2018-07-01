@@ -21,4 +21,5 @@ return [
     'destination' => 'Destination',
     'confirm_delete_item' => 'Do you really want to delete this item and its change-history?',
     'item_deleted' => 'Item deleted',
+    'sponsor' => 'Sponsor',
 ];

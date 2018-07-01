@@ -23,6 +23,7 @@ class InventoryItemTransaction extends Model
     protected $nullable = [
         'origin',
         'destination',
+        'sponsor',
     ];
 
     public function storage() {

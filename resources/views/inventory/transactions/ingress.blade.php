@@ -14,8 +14,13 @@
             <div class="col-sm">
                 {{ Form::bsText('item', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($items)) ], __('inventory.item')) }}
             </div>
+        </div>
+        <div class="form-row">
             <div class="col-sm">
                 {{ Form::bsText('origin', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($origins)) ], __('inventory.origin')) }}
+            </div>
+            <div class="col-sm">
+                {{ Form::bsText('sponsor', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($payers)) ], __('inventory.sponsor')) }}
             </div>
         </div>
         <p>

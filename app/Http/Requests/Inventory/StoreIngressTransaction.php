@@ -25,8 +25,9 @@ class StoreIngressTransaction extends FormRequest
     {
         return [
             'quantity' => 'numeric|required|min:1',
-            'item' => 'required',
-            'origin' => 'nullable',
+            'item' => 'required|max:191',
+            'origin' => 'nullable|max:191',
+            'sponsor' => 'nullable|max:191',
         ];
     }
 }

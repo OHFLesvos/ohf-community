@@ -14,6 +14,7 @@
                         <th class="fit text-right">@lang('inventory.quantity')</th>
                         <th class="d-none d-sm-table-cell fit text-right">@lang('app.total')</th>
                         <th>@lang('inventory.origin') / @lang('inventory.destination')</th>
+                        <th class="d-none d-sm-table-cell">@lang('inventory.sponsor')</th>
                         <th class="fit d-none d-sm-table-cell">@lang('app.user')</th>
                     </tr>
                 </thead>
@@ -43,6 +44,9 @@
                                 @else
                                     {{ $transaction->destination }}
                                 @endif
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                {{ $transaction->sponsor }}
                             </td>
                             <td class="fit d-none d-sm-table-cell">
                                 @isset($transaction->user_id)
