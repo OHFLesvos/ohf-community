@@ -5,11 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InventoryStorage extends Model
 {
     use Sluggable;
     use NullableFields;
+    use SoftDeletes; // TODO might collide with slug
 
     /**
      * Return the sluggable configuration array for this model.
