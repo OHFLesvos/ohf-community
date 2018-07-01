@@ -3,6 +3,12 @@
 @section('title', __('inventory.store_items'))
 
 @section('content')
+    <datalist id="items">
+        @foreach($items as $i)
+            <option value="{{ $i }}">
+        @endforeach
+    </datalist>
+
     {!! Form::open(['route' => ['inventory.transactions.storeIngress', $storage ]]) !!}
         <p>@lang('inventory.store_following_items_in_storage', ['storage' => $storage->name]):</p>
         <div id="item-container">
@@ -11,7 +17,7 @@
                     {{ Form::bsNumber('quantity[]', null, [ 'autofocus', 'required', 'min' => 1], __('inventory.quantity')) }}
                 </div>
                 <div class="col">
-                    {{ Form::bsText('item[]', request()->item, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($items)) ], __('inventory.item')) }}
+                    {{ Form::bsText('item[]', request()->item, [ 'required', 'list' => 'items' ], __('inventory.item')) }}
                 </div>
             </div>
         </div>
@@ -21,7 +27,7 @@
                     {{ Form::bsNumber('quantity[]', null, [ 'required', 'min' => 1], __('inventory.quantity')) }}
                 </div>
                 <div class="col">
-                    {{ Form::bsText('item[]', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($items)) ], __('inventory.item')) }}
+                    {{ Form::bsText('item[]', null, [ 'required', 'list' => 'items' ], __('inventory.item')) }}
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-secondary form-control-plaintext remove-new-item">@icon(minus-circle)</button>
@@ -44,7 +50,6 @@
 @endsection
 
 @section('script')
-    var childIndex = 0;
     $(function(){
         // Add new item
         $('.add-new-item').on('click', function(){

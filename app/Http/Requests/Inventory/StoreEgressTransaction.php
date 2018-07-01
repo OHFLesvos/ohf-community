@@ -24,8 +24,8 @@ class StoreEgressTransaction extends FormRequest
     public function rules()
     {
         return [
-            'quantity' => 'numeric|required|min:1',
-            'item' => 'required|max:191',
+            'quantity.*' => 'numeric|required|min:1',
+            'item.*' => 'required|max:191',
             'destination' => 'nullable|max:191',
         ];
     }

@@ -26,4 +26,5 @@ return [
     'store_following_items_in_storage' => 'Store the following item(s) in <em>:storage</em>',
     'take_out_following_items_from_storage'  => 'Take out the following item(s) from <em>:storage</em>',
     'add_another_item' => 'Add another item',
+    'remove_another_item' => 'Remove another item',
 ];

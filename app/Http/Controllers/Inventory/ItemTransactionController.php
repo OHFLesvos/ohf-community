@@ -95,6 +95,13 @@ class ItemTransactionController extends Controller
             'storage' => $storage,
             'item' => $transaction->item,
             'total' => $transaction->total,
+            'items' => InventoryItemTransaction
+                ::groupBy('item')
+                ->select('item')
+                ->orderBy('item')
+                ->get()
+                ->pluck('item')
+                ->toArray(),
             'destinations' => InventoryItemTransaction
                 ::groupBy('destination')
                 ->whereNotNull('destination')
@@ -109,18 +116,22 @@ class ItemTransactionController extends Controller
     public function storeEgress(InventoryStorage $storage, StoreEgressTransaction $request) {
         // TODO Storage auth
 
-        $itemTransaction = InventoryItemTransaction
-            ::where('item', $request->item)
-            ->groupBy('item')
-            ->select(DB::raw('sum(quantity) as total'), 'item')
-            ->having('total', '>=', $request->quantity)
-            ->firstOrFail();
-
-        $transaction = new InventoryItemTransaction();
-        $transaction->item = $itemTransaction->item;
-        $transaction->quantity = -($request->quantity);
-        $transaction->destination = $request->destination;
-        $storage->transactions()->save($transaction);
+        foreach($request->item as $k => $v) {
+            $itemTransaction = InventoryItemTransaction
+                ::where('item', $request->item[$k])
+                ->groupBy('item')
+                ->select(DB::raw('sum(quantity) as total'), 'item')
+                ->having('total', '>=', $request->quantity[$k])
+                ->first();
+            if ($itemTransaction != null) {
+                $transaction = new InventoryItemTransaction();
+                $transaction->item = $itemTransaction->item;
+                $transaction->quantity = -($request->quantity[$k]);
+                $transaction->destination = $request->destination;
+                $storage->transactions()->save($transaction);
+            }
+            // TODO Storage validation
+        }
 
         return redirect()->route('inventory.storages.show', $storage)
             ->with('success', __('inventory.items_taken_out'));
