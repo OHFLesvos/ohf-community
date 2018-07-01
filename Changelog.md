@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.1
+
+Inventory:
+
+* Fix widget when empty storages
+
 ## 1.19.0
 
 Accounting:
