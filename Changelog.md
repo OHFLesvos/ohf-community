@@ -2,6 +2,10 @@
 
 ## 1.19.0
 
+Accounting:
+
+* Fixed month selection in summary when no transactions in current month have been made
+
 Inventory:
 
 * New module added for inventory management

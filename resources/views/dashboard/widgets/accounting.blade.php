@@ -28,5 +28,8 @@
         @isset($spending)
             <tr><td>@lang('accounting.spending')</td><td class="text-right">{{ number_format($spending, 2) }}</td></tr>
         @endif
+        @if(!isset($income) && !isset($spending))
+            <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+        @endif
     </table>
 @endsection

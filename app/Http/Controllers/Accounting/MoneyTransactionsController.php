@@ -263,6 +263,8 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('view-accounting-summary');
 
+        $currentMonth = Carbon::now()->startOfMonth();
+
         // Select date range (month)
         $validatedData = $request->validate([
             'month' => 'nullable|regex:/[0-1][1-9]/',
@@ -271,7 +273,7 @@ class MoneyTransactionsController extends Controller
         if (isset($request->month) && isset($request->year)) {
             $dateFrom = (new Carbon($request->year.'-'.$request->month.'-01'))->startOfMonth();
         } else {
-            $dateFrom = Carbon::now()->startOfMonth();
+            $dateFrom = $currentMonth;
         }
         $dateTo = (clone $dateFrom)->endOfMonth();
 
@@ -313,20 +315,23 @@ class MoneyTransactionsController extends Controller
         $previousWallet = $previousIncome - $previousSpending;
         $wallet = $previousWallet + $incomeByProject->sum('sum') - $spendingByProject->sum('sum');
 
+        $months = MoneyTransaction
+            ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
+            ->groupBy(DB::raw('MONTH(date)'))
+            ->groupBy(DB::raw('YEAR(date)'))
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->get()
+            ->mapWithKeys(function($e){
+                $date = new Carbon($e->year.'-'.$e->month.'-01');
+                return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
+            })
+            ->prepend($currentMonth->formatLocalized('%B %Y'), $currentMonth->format('Y-m'))
+            ->toArray();
+
         return view('accounting.transactions.summary', [
             'monthDate' => $dateFrom,
-            'months' => MoneyTransaction
-                ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
-                ->groupBy(DB::raw('MONTH(date)'))
-                ->groupBy(DB::raw('YEAR(date)'))
-                ->orderBy('year', 'desc')
-                ->orderBy('month', 'desc')
-                ->get()
-                ->mapWithKeys(function($e){
-                    $date = new Carbon($e->year.'-'.$e->month.'-01');
-                    return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
-                })
-                ->toArray(),
+            'months' => $months,
             'incomeByProject' => $incomeByProject,
             'spendingByProject' => $spendingByProject,
             'wallet' => $wallet,
