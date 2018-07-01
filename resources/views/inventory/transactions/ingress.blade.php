@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('inventory.add_items'))
+@section('title', __('inventory.store_items'))
 
 @section('content')
     {!! Form::open(['route' => ['inventory.transactions.storeIngress', $storage ]]) !!}

@@ -837,7 +837,7 @@ class ContextMenuComposer {
                 return [
                     'action' => [
                         'url' => route('inventory.transactions.ingress', $storage),
-                        'caption' => __('inventory.add_items'),
+                        'caption' => __('inventory.store_items'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
                         'authorized' => true, // TODO Storage
@@ -854,13 +854,13 @@ class ContextMenuComposer {
                 return [
                     'add' => [
                         'url' => route('inventory.transactions.ingress', $storage) . '?item=' . request()->item,
-                        'caption' => __('inventory.add_items'),
+                        'caption' => __('inventory.store_items'),
                         'icon' => 'plus-circle',
                         'authorized' => true, // TODO Storage
                     ],
                     'remove' => [
                         'url' => route('inventory.transactions.egress', $storage) . '?item=' . request()->item,
-                        'caption' => __('inventory.remove_items'),
+                        'caption' => __('inventory.take_out_items'),
                         'icon' => 'minus-circle',
                         'authorized' => true, // TODO Storage
                     ],

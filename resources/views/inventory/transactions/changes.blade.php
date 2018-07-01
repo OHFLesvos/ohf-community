@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('inventory.stock'))
+@section('title', __('inventory.transactions'))
 
 @section('content')
 

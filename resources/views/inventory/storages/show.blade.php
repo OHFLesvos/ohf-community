@@ -13,7 +13,10 @@
             <table class="table table-sm table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th class="fit text-right">@lang('inventory.quantity')</th>
+                        <th class="fit text-right">
+                            <span class="d-none d-sm-inline">@lang('inventory.quantity')</span>
+                            <span class="d-inline d-sm-none">#</span>
+                        </th>
                         <th colspan="2">@lang('inventory.item')</th>
                     </tr>
                 </thead>
@@ -27,6 +30,9 @@
                                 </a>
                             </td>
                             <td class="align-middle fit">
+                                <a href="{{ route('inventory.transactions.ingress', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
+                                    @icon(plus-circle)<span class="d-none d-sm-inline"> @lang('inventory.store')</span>
+                                </a>
                                 @if($transaction->sum > 0)
                                     <a href="{{ route('inventory.transactions.egress', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
                                         @icon(minus-circle)<span class="d-none d-sm-inline"> @lang('inventory.take_out')</span>

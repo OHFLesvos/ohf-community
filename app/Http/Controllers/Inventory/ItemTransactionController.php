@@ -72,7 +72,7 @@ class ItemTransactionController extends Controller
         $storage->transactions()->save($transaction);
 
         return redirect()->route('inventory.storages.show', $storage)
-            ->with('success', __('inventory.items_registered'));
+            ->with('success', __('inventory.items_stored'));
     }
 
     public function egress(InventoryStorage $storage, Request $request) {
@@ -121,7 +121,7 @@ class ItemTransactionController extends Controller
         $storage->transactions()->save($transaction);
 
         return redirect()->route('inventory.storages.show', $storage)
-            ->with('success', __('inventory.items_removed'));
+            ->with('success', __('inventory.items_taken_out'));
     }
 
     public function destroy(InventoryStorage $storage, Request $request) {
