@@ -11,10 +11,12 @@ use App\Donation;
 use App\CouponType;
 use App\WikiArticle;
 use App\MoneyTransaction;
+use App\InventoryItemTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class ContextMenuComposer {
 
@@ -851,24 +853,26 @@ class ContextMenuComposer {
                 ];
             case 'inventory.transactions.changes':
                 $storage = $view->getData()['storage'];
+                $numTransactions = InventoryItemTransaction::where('item', request()->item)->count();
+                $sum = InventoryItemTransaction::where('item', request()->item)->groupBy('item')->select(DB::raw('SUM(quantity) as sum'), 'item')->orderBy('item')->first()->sum;
                 return [
                     'add' => [
                         'url' => route('inventory.transactions.ingress', $storage) . '?item=' . request()->item,
                         'caption' => __('inventory.store_items'),
                         'icon' => 'plus-circle',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => $numTransactions > 0, // TODO Storage
                     ],
                     'remove' => [
                         'url' => route('inventory.transactions.egress', $storage) . '?item=' . request()->item,
                         'caption' => __('inventory.take_out_items'),
                         'icon' => 'minus-circle',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => $numTransactions > 0 && $sum > 0, // TODO Storage
                     ],
                     'delete' => [
                         'url' => route('inventory.transactions.destroy', $storage) . '?item=' . request()->item,
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => $numTransactions > 0, // TODO Storage
                         'confirmation' => __('inventory.confirm_delete_item')
                     ],
                     'back' => [
