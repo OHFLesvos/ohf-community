@@ -9,6 +9,7 @@ use App\User;
 use App\Donor;
 use App\WikiArticle;
 use App\MoneyTransaction;
+use App\InventoryStorage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -83,6 +84,13 @@ class NavigationComposer {
                     'icon' => 'money',
                     'active' => 'accounting/*',
                     'authorized' => Auth::user()->can('list', MoneyTransaction::class) || Gate::allows('view-accounting-summary'),
+                ],
+                [
+                    'route' => 'inventory.storages.index',
+                    'caption' => __('inventory.inventory_management'),
+                    'icon' => 'archive',
+                    'active' => 'inventory/*',
+                    'authorized' => Auth::user()->can('list', InventoryStorage::class),
                 ],
                 [
                     'route' => 'calendar',

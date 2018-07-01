@@ -178,6 +178,18 @@ return [
         'accounting.summary.view' => [
             'sensitive' => false,
         ],
+        'inventory.storage.view' => [
+            'sensitive' => false,
+        ],
+        'inventory.storage.manage' => [
+            'sensitive' => false,
+        ],
+        'inventory.transactions.create' => [
+            'sensitive' => false,
+        ],
+        'inventory.transactions.delete' => [
+            'sensitive' => false,
+        ],
         'app.usermgmt.view' => [
             'sensitive' => true,
         ],

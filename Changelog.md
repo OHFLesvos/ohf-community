@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.0
+
+Inventory:
+
+* New module added for inventory management
+
 ## 1.18.0
 
 General:

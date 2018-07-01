@@ -188,6 +188,21 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('transactions/summary', 'MoneyTransactionsController@summary')->name('transactions.summary');
             Route::resource('transactions', 'MoneyTransactionsController');
         });
+
+        // Inventory
+        Route::namespace('Inventory')->prefix('inventory')->name('inventory.')->group(function(){
+            Route::resource('storages', 'StorageController');
+
+            Route::get('transactions/{storage}', 'ItemTransactionController@changes')->name('transactions.changes');
+
+            Route::get('transactions/{storage}/ingress', 'ItemTransactionController@ingress')->name('transactions.ingress');
+            Route::post('transactions/{storage}/ingress', 'ItemTransactionController@storeIngress')->name('transactions.storeIngress');
+
+            Route::get('transactions/{storage}/egress', 'ItemTransactionController@egress')->name('transactions.egress');
+            Route::post('transactions/{storage}/egress', 'ItemTransactionController@storeEgress')->name('transactions.storeEgress');
+
+            Route::delete('transactions/{storage}', 'ItemTransactionController@destroy')->name('transactions.destroy');
+        });
     });
 
     // Logistics
