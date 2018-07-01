@@ -28,6 +28,7 @@ class HomeController extends Controller
             \App\Widgets\PersonsWidget::class,
             \App\Widgets\WikiArticlesWidget::class,
             \App\Widgets\AccountingWidget::class,
+            \App\Widgets\InventoryWidget::class,
             \App\Widgets\DonorsWidget::class,
             \App\Widgets\ReportingWidget::class,
             \App\Widgets\ToolsWidget::class,
