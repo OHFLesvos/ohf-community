@@ -23,4 +23,6 @@ return [
     'confirm_delete_item' => 'Soll dieser Artikel wirklich entfernt werden, inklusive der ganzen Bestandsveränderung?',
     'item_deleted' => 'Artikel gelöscht',
     'sponsor' => 'Geldgeber',
+    'store_following_items_in_storage' => 'Lagere die folgenden Artikel in <em>:storage</em> ein',
+    'take_out_following_items_from_storage'  => 'Nehme die folgenden Artikel aus <em>:storage</em> heraus',
 ];

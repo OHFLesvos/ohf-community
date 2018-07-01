@@ -23,4 +23,6 @@ return [
     'confirm_delete_item' => 'Do you really want to delete this item and its change-history?',
     'item_deleted' => 'Item deleted',
     'sponsor' => 'Sponsor',
+    'store_following_items_in_storage' => 'Store the following item(s) in <em>:storage</em>',
+    'take_out_following_items_from_storage'  => 'Take out the following item(s) from <em>:storage</em>',
 ];

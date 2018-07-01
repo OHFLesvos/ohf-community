@@ -4,14 +4,12 @@
 
 @section('content')
     {!! Form::open(['route' => ['inventory.transactions.storeIngress', $storage ]]) !!}
+        <p>@lang('inventory.store_following_items_in_storage', ['storage' => $storage->name]):</p>
         <div class="form-row">
-            <div class="col-sm-auto">
-                {{ Form::bsText('storage', $storage->name, [ 'disabled' ], __('inventory.storage')) }}
-            </div>
-            <div class="col-sm-2">
+            <div class="col-4 col-sm-3 col-md-2 col-xl-1">
                 {{ Form::bsNumber('quantity', null, [ 'autofocus', 'required', 'min' => 1], __('inventory.quantity')) }}
             </div>
-            <div class="col-sm">
+            <div class="col">
                 {{ Form::bsText('item', request()->item, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($items)) ], __('inventory.item')) }}
             </div>
         </div>
