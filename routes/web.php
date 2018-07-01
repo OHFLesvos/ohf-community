@@ -191,8 +191,7 @@ Route::group(['middleware' => 'language'], function () {
 
         // Inventory
         Route::namespace('Inventory')->prefix('inventory')->name('inventory.')->group(function(){
-            Route::get('storages', 'StorageController@index')->name('storages.index');
-            Route::get('storages/{storage}', 'StorageController@show')->name('storages.show');
+            Route::resource('storages', 'StorageController');
 
             Route::get('transactions/{storage}', 'ItemTransactionController@changes')->name('transactions.changes');
 

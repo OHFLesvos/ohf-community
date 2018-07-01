@@ -27,4 +27,11 @@ return [
     'take_out_following_items_from_storage'  => 'Nehme die folgenden Artikel aus <em>:storage</em> heraus',
     'add_another_item' => 'Einen weiteren Artikel einlagern',
     'remove_another_item' => 'Einen weiteren Artikel herausnehmen',
+    'add_storage' => 'Lager hinzufügen',
+    'storage_added' => 'Lager hinzugefügt.',
+    'edit_storage' => 'Lager bearbeiten',
+    'delete_storage' => 'Lager löschen',
+    'confirm_delete_storage' => 'Soll das Lager wirklich gelöscht werden, inklusive aller Artikel?',
+    'storage_updated' => 'Lager aktualisiert.',
+    'storage_deleted' => 'Lager gelöscht.',
 ];

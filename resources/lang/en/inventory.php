@@ -27,4 +27,11 @@ return [
     'take_out_following_items_from_storage'  => 'Take out the following item(s) from <em>:storage</em>',
     'add_another_item' => 'Add another item',
     'remove_another_item' => 'Remove another item',
+    'add_storage' => 'Add storage',
+    'storage_added' => 'Storage added.',
+    'edit_storage' => 'Edit storage',
+    'delete_storage' => 'Delete storage',
+    'confirm_delete_storage' => 'Do you really want to remove this storage and all stored items?',
+    'storage_updated' => 'Storage updated.',
+    'storage_deleted' => 'Storage deleted.',
 ];
