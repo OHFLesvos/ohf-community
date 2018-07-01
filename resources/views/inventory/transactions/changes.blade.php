@@ -11,8 +11,14 @@
                 <thead>
                     <tr>
                         <th class="fit">@lang('app.date')</th>
-                        <th class="fit text-right">@lang('inventory.quantity')</th>
-                        <th class="d-none d-sm-table-cell fit text-right">@lang('app.total')</th>
+                        <th class="fit text-right">
+                            <span class="d-none d-sm-inline">@lang('inventory.quantity')</span>
+                            <span class="d-inline d-sm-none">#</span>
+                        </th>
+                        <th class="fit text-right">
+                            <span class="d-none d-sm-inline">@lang('app.total')</span>
+                            <span class="d-inline d-sm-none">&Sigma;</span>
+                        </th>
                         <th>@lang('inventory.origin') / @lang('inventory.destination')</th>
                         <th class="d-none d-sm-table-cell">@lang('inventory.sponsor')</th>
                         <th class="fit d-none d-sm-table-cell">@lang('app.user')</th>
@@ -27,7 +33,7 @@
                             <td class="fit text-right @if($transaction->quantity > 0) text-success @else text-danger @endif ">
                                 {{ $transaction->quantity }}
                             </td>
-                            <td class="d-none d-sm-table-cell fit text-right">
+                            <td class="fit text-right">
                                 @php
                                     echo App\InventoryItemTransaction
                                         ::where('item', $transaction->item)

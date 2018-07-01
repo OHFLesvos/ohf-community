@@ -64,12 +64,14 @@ class ItemTransactionController extends Controller
     public function storeIngress(InventoryStorage $storage, StoreIngressTransaction $request) {
         // TODO Storage auth
 
-        $transaction = new InventoryItemTransaction();
-        $transaction->item = $request->item;
-        $transaction->quantity = $request->quantity;
-        $transaction->origin = $request->origin;
-        $transaction->sponsor = $request->sponsor;
-        $storage->transactions()->save($transaction);
+        foreach($request->item as $k => $v) {
+            $transaction = new InventoryItemTransaction();
+            $transaction->item = $request->item[$k];
+            $transaction->quantity = $request->quantity[$k];
+            $transaction->origin = $request->origin;
+            $transaction->sponsor = $request->sponsor;
+            $storage->transactions()->save($transaction);
+        }
 
         return redirect()->route('inventory.storages.show', $storage)
             ->with('success', __('inventory.items_stored'));

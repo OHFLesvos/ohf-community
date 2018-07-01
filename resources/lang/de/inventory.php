@@ -25,4 +25,5 @@ return [
     'sponsor' => 'Geldgeber',
     'store_following_items_in_storage' => 'Lagere die folgenden Artikel in <em>:storage</em> ein',
     'take_out_following_items_from_storage'  => 'Nehme die folgenden Artikel aus <em>:storage</em> heraus',
+    'add_another_item' => 'Einen weiteren Artikel hinzufügen',
 ];

@@ -24,8 +24,8 @@ class StoreIngressTransaction extends FormRequest
     public function rules()
     {
         return [
-            'quantity' => 'numeric|required|min:1',
-            'item' => 'required|max:191',
+            'quantity.*' => 'numeric|required|min:1',
+            'item.*' => 'required|max:191',
             'origin' => 'nullable|max:191',
             'sponsor' => 'nullable|max:191',
         ];
