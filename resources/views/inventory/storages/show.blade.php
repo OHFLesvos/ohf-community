@@ -25,20 +25,26 @@
                         <tr class="@if($transaction->sum <= 0) text-danger @endif">
                             <td class="align-middle fit text-right">{{ $transaction->sum }}</td>
                             <td class="align-middle">
-                                <a href="{{ route('inventory.transactions.changes', $storage) }}?item={{ $transaction->item }}">
-                                    {{ $transaction->item }}
-                                </a>
-                            </td>
-                            <td class="align-middle fit">
-                                <a href="{{ route('inventory.transactions.ingress', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
-                                    @icon(plus-circle)<span class="d-none d-sm-inline"> @lang('inventory.store')</span>
-                                </a>
-                                @if($transaction->sum > 0)
-                                    <a href="{{ route('inventory.transactions.egress', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
-                                        @icon(minus-circle)<span class="d-none d-sm-inline"> @lang('inventory.take_out')</span>
+                                @can('list', App\InventoryItemTransaction::class)
+                                    <a href="{{ route('inventory.transactions.changes', $storage) }}?item={{ $transaction->item }}">
+                                        {{ $transaction->item }}
                                     </a>
-                                @endif
+                                @else
+                                    {{ $transaction->item }}
+                                @endcan
                             </td>
+                            @can('create', App\InventoryItemTransaction::class)
+                                <td class="align-middle fit">
+                                    <a href="{{ route('inventory.transactions.ingress', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
+                                        @icon(plus-circle)<span class="d-none d-sm-inline"> @lang('inventory.store')</span>
+                                    </a>
+                                    @if($transaction->sum > 0)
+                                        <a href="{{ route('inventory.transactions.egress', $storage) }}?item={{ $transaction->item }}" class="btn btn-secondary btn">
+                                            @icon(minus-circle)<span class="d-none d-sm-inline"> @lang('inventory.take_out')</span>
+                                        </a>
+                                    @endif
+                                </td>
+                            @endcan
                         </tr>
                     @endforeach
                 </tbody>
