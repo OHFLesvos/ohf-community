@@ -850,22 +850,34 @@ class ContextMenuComposer {
                     ]
                 ];
             case 'inventory.transactions.changes':
-                    $storage = $view->getData()['storage'];
-                    return [
-                        'delete' => [
-                            'url' => route('inventory.transactions.destroy', $storage) . '?item=' . request()->item,
-                            'caption' => __('app.delete'),
-                            'icon' => 'trash',
-                            'authorized' => true, // TODO Storage
-                            'confirmation' => __('inventory.confirm_delete_item')
-                        ],
-                        'back' => [
-                            'url' => route('inventory.storages.show', $storage),
-                            'caption' => __('app.close'),
-                            'icon' => 'times-circle',
-                            'authorized' => true, // TODO Storage
-                        ]
-                    ];
+                $storage = $view->getData()['storage'];
+                return [
+                    'add' => [
+                        'url' => route('inventory.transactions.ingress', $storage) . '?item=' . request()->item,
+                        'caption' => __('inventory.add_items'),
+                        'icon' => 'plus-circle',
+                        'authorized' => true, // TODO Storage
+                    ],
+                    'remove' => [
+                        'url' => route('inventory.transactions.egress', $storage) . '?item=' . request()->item,
+                        'caption' => __('inventory.remove_items'),
+                        'icon' => 'minus-circle',
+                        'authorized' => true, // TODO Storage
+                    ],
+                    'delete' => [
+                        'url' => route('inventory.transactions.destroy', $storage) . '?item=' . request()->item,
+                        'caption' => __('app.delete'),
+                        'icon' => 'trash',
+                        'authorized' => true, // TODO Storage
+                        'confirmation' => __('inventory.confirm_delete_item')
+                    ],
+                    'back' => [
+                        'url' => route('inventory.storages.show', $storage),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Storage
+                    ]
+                ];
             case 'inventory.transactions.ingress':
             case 'inventory.transactions.egress':
                 $storage = $view->getData()['storage'];

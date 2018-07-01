@@ -12,7 +12,7 @@
                 {{ Form::bsNumber('quantity', null, [ 'autofocus', 'required', 'min' => 1], __('inventory.quantity')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsText('item', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($items)) ], __('inventory.item')) }}
+                {{ Form::bsText('item', request()->item, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($items)) ], __('inventory.item')) }}
             </div>
         </div>
         <div class="form-row">

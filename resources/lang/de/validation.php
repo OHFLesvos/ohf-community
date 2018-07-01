@@ -154,5 +154,6 @@ return [
         'file' => 'Datei',
         'country_code' => 'Ländercode',
         'country_name' => 'Ländername',
+        'quantity' => 'Menge',
     ],
 ];
