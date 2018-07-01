@@ -12,6 +12,7 @@ use App\CouponType;
 use App\WikiArticle;
 use App\MoneyTransaction;
 use App\InventoryItemTransaction;
+use App\InventoryStorage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -836,7 +837,7 @@ class ContextMenuComposer {
                         'url' => route('inventory.storages.create'),
                         'caption' => __('inventory.add_storage'),
                         'icon' => 'plus-circle',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('create', InventoryStorage::class),
                     ],
                 ];
             case 'inventory.storages.create':
@@ -845,7 +846,7 @@ class ContextMenuComposer {
                         'url' => route('inventory.storages.index'),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('list', InventoryStorage::class),
                     ],
                 ];
             case 'inventory.storages.show':
@@ -856,26 +857,26 @@ class ContextMenuComposer {
                         'caption' => __('inventory.store_items'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('create', InventoryItemTransaction::class),
                     ],
                     'edit' => [
                         'url' => route('inventory.storages.edit', $storage),
                         'caption' => __('inventory.edit_storage'),
                         'icon' => 'pencil',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('edit', $storage),
                     ],
                     'delete' => [
                         'url' => route('inventory.storages.destroy', $storage),
                         'caption' => __('inventory.delete_storage'),
                         'icon' => 'trash',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('delete', $storage),
                         'confirmation' => __('inventory.confirm_delete_storage')
                     ],
                     'back' => [
                         'url' => route('inventory.storages.index'),
                         'caption' => __('app.overview'),
                         'icon' => 'list',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('list', InventoryStorage::class),
                     ]
                 ];
             case 'inventory.storages.edit':
@@ -885,7 +886,7 @@ class ContextMenuComposer {
                         'url' => route('inventory.storages.show', $storage),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('view', $storage),
                     ],
                 ];
             case 'inventory.transactions.changes':
@@ -897,26 +898,26 @@ class ContextMenuComposer {
                         'url' => route('inventory.transactions.ingress', $storage) . '?item=' . request()->item,
                         'caption' => __('inventory.store_items'),
                         'icon' => 'plus-circle',
-                        'authorized' => $numTransactions > 0, // TODO Storage
+                        'authorized' => $numTransactions > 0 && Auth::user()->can('create', InventoryItemTransaction::class),
                     ],
                     'remove' => [
                         'url' => route('inventory.transactions.egress', $storage) . '?item=' . request()->item,
                         'caption' => __('inventory.take_out_items'),
                         'icon' => 'minus-circle',
-                        'authorized' => $numTransactions > 0 && $sum > 0, // TODO Storage
+                        'authorized' => $numTransactions > 0 && $sum > 0 && Auth::user()->can('create', InventoryItemTransaction::class),
                     ],
                     'delete' => [
                         'url' => route('inventory.transactions.destroy', $storage) . '?item=' . request()->item,
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
-                        'authorized' => $numTransactions > 0, // TODO Storage
+                        'authorized' => $numTransactions > 0 && Auth::user()->can('delete', InventoryItemTransaction::class),
                         'confirmation' => __('inventory.confirm_delete_item')
                     ],
                     'back' => [
                         'url' => route('inventory.storages.show', $storage),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('view', $storage),
                     ]
                 ];
             case 'inventory.transactions.ingress':
@@ -927,7 +928,7 @@ class ContextMenuComposer {
                         'url' => route('inventory.storages.show', $storage),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Storage
+                        'authorized' => Auth::user()->can('view', $storage),
                     ]
                 ];
 

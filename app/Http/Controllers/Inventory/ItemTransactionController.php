@@ -13,7 +13,7 @@ use App\Http\Requests\Inventory\StoreEgressTransaction;
 class ItemTransactionController extends Controller
 {
     public function changes(InventoryStorage $storage, Request $request) {
-        // TODO Storage auth
+        $this->authorize('list', InventoryItemTransaction::class);
 
         $request->validate([
             'item' => 'required',
@@ -31,7 +31,7 @@ class ItemTransactionController extends Controller
     }
 
     public function ingress(InventoryStorage $storage) {
-        // TODO Storage auth
+        $this->authorize('create', InventoryItemTransaction::class);
 
         return view('inventory.transactions.ingress', [
             'storage' => $storage,
@@ -62,7 +62,7 @@ class ItemTransactionController extends Controller
     }
 
     public function storeIngress(InventoryStorage $storage, StoreIngressTransaction $request) {
-        // TODO Storage auth
+        $this->authorize('create', InventoryItemTransaction::class);
 
         foreach($request->item as $k => $v) {
             $transaction = new InventoryItemTransaction();
@@ -78,7 +78,7 @@ class ItemTransactionController extends Controller
     }
 
     public function egress(InventoryStorage $storage, Request $request) {
-        // TODO Storage auth
+        $this->authorize('create', InventoryItemTransaction::class);
 
         $request->validate([
             'item' => 'required',
@@ -114,7 +114,7 @@ class ItemTransactionController extends Controller
     }
 
     public function storeEgress(InventoryStorage $storage, StoreEgressTransaction $request) {
-        // TODO Storage auth
+        $this->authorize('create', InventoryItemTransaction::class);
 
         foreach($request->item as $k => $v) {
             $itemTransaction = InventoryItemTransaction
@@ -138,7 +138,7 @@ class ItemTransactionController extends Controller
     }
 
     public function destroy(InventoryStorage $storage, Request $request) {
-        // TODO Storage auth
+        $this->authorize('delete', InventoryItemTransaction::class);
 
         $request->validate([
             'item' => 'required',

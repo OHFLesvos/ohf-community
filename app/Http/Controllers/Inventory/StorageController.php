@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class StorageController extends Controller
 {
     public function index() {
-        // TODO Storage auth
+        $this->authorize('list', InventoryStorage::class);
 
         return view('inventory.storages.index', [
             'storages' => InventoryStorage
@@ -21,14 +21,14 @@ class StorageController extends Controller
     }
     
     public function create() {
-        // TODO Storage auth
+        $this->authorize('create', InventoryStorage::class);
 
         return view('inventory.storages.create', [
         ]);
     }
 
     public function store(Request $request) {
-        // TODO Storage auth
+        $this->authorize('create', InventoryStorage::class);
 
         $storage = new InventoryStorage();
         $storage->name = $request->name;
@@ -40,7 +40,7 @@ class StorageController extends Controller
     }
 
     public function show(InventoryStorage $storage) {
-        // TODO Storage auth
+        $this->authorize('view', $storage);
 
         return view('inventory.storages.show', [
             'storage' => $storage,
@@ -48,7 +48,7 @@ class StorageController extends Controller
     }
 
     public function edit(InventoryStorage $storage) {
-        // TODO Storage auth
+        $this->authorize('update', $storage);
 
         return view('inventory.storages.edit', [
             'storage' => $storage,
@@ -56,7 +56,7 @@ class StorageController extends Controller
     }
 
     public function update(InventoryStorage $storage, Request $request) {
-        // TODO Storage auth
+        $this->authorize('update', $storage);
 
         $storage->name = $request->name;
         $storage->description = $request->description;
@@ -67,7 +67,7 @@ class StorageController extends Controller
     }
 
     public function destroy(InventoryStorage $storage) {
-        // TODO Storage auth
+        $this->authorize('delete', $storage);
         
         $storage->delete();
 

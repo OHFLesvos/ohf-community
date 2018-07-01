@@ -9,6 +9,7 @@ use App\User;
 use App\Donor;
 use App\WikiArticle;
 use App\MoneyTransaction;
+use App\InventoryStorage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -89,7 +90,7 @@ class NavigationComposer {
                     'caption' => __('inventory.inventory_management'),
                     'icon' => 'archive',
                     'active' => 'inventory/*',
-                    'authorized' => true, // TODO Storage
+                    'authorized' => Auth::user()->can('list', InventoryStorage::class),
                 ],
                 [
                     'route' => 'calendar',
