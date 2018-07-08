@@ -157,6 +157,9 @@ return [
         'fundraising.donations.edit' => [
             'sensitive' => true,
         ],
+        'fundraising.donations.accept_webhooks' => [
+            'sensitive' => false,
+        ],        
         'wiki.view' => [
             'sensitive' => false,
         ],

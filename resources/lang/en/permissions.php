@@ -20,6 +20,7 @@ return [
     'fundraising.donations.view' => 'Donation management: View donations',
     'fundraising.donations.register' => 'Donation management: Register donations',
     'fundraising.donations.edit' => 'Donation management: Edit donations',
+    'fundraising.donations.accept_webhooks' => 'Donation management: Accept Webhooks',
     'wiki.view' => 'Wiki: View articles',
     'wiki.edit' => 'Wiki: Create and edit articles',
     'wiki.delete' => 'Wiki: Delete articles',

@@ -20,6 +20,7 @@ return [
     'fundraising.donations.view' => 'Spendenverwaltung: Spenden betrachten',
     'fundraising.donations.register' => 'Spendenverwaltung: Spenden registrieren',
     'fundraising.donations.edit' => 'Spendenverwaltung: Spenden bearbeiten',
+    'fundraising.donations.accept_webhooks' => 'Spendenverwaltung: Webhooks akzeptieren',
     'wiki.view' => 'Wiki: Artikel betrachten',
     'wiki.edit' => 'Wiki: Artikel erstellen und bearbeiten',
     'wiki.delete' => 'Wiki: Artikel löschen',

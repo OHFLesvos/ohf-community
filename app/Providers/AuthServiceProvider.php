@@ -47,6 +47,7 @@ class AuthServiceProvider extends ServiceProvider
             'view-usermgmt-reports' => 'app.usermgmt.view',
             'configure-bank' => 'bank.configure',
             'use-logistics' => 'logistics.use',
+            'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
             'view-accounting-summary' => 'accounting.summary.view',
             'view-kitchen-reports' => 'kitchen.reports.view',
             'view-calendar' => 'calendar.events.view',
