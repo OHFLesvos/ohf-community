@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.2
+
+Fundraising:
+
+* Support for RaiseNow Webhook
+
 ## 1.19.1
 
 Inventory:

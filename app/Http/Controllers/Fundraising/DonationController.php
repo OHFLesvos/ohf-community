@@ -226,9 +226,11 @@ class DonationController extends Controller
         }
     }
 
+    /**
+     * Store donation and donor supplied by RaiseNow Webhook
+     */
     public function raiseNowWebHookListener(Request $request) {
         $data = $request->all();
-        Log::notice('RaiseNow WebHook triggered.', $data);
 
         $donor = Donor
             ::where('first_name', $request->stored_customer_firstname)

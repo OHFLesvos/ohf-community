@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
-// RaiseNow WebHook
+// RaiseNow Webhook
 Route::namespace('Fundraising')
     ->middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
     ->prefix('fundraising')
