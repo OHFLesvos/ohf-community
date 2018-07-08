@@ -251,17 +251,18 @@ class DonationController extends Controller
             $donor->save();
         }
 
+        $date = new Carbon($request->created);
         $amount = $request->amount / 100;
-        $currency= strtoupper($request->currency);
+        $currency = strtoupper($request->currency);
         if ($currency == Config::get('fundraising.base_currency')) {
-            $exchange_rate = EzvExchangeRates::getExchangeRate($request->currency, $date);
+            $exchange_rate = EzvExchangeRates::getExchangeRate($currency, $date);
             $exchange_amount = $amount * $exchange_rate;
         } else {
             $exchange_amount = $amount;
         }
 
         $donation = new Donation();
-        $donation->date = new Carbon($request->created);
+        $donation->date = $date;
         $donation->amount = $amount;
         $donation->currency = $currency;
         $donation->exchange_amount = $exchange_amount;
