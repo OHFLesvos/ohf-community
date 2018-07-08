@@ -54,3 +54,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/bank/updateNationality', 'API\People\PeopleController@updateNationality')->name('bank.updateNationality');
     });
 });
+
+// RaiseNow WebHook
+Route::namespace('Fundraising')->middleware([])->prefix('fundraising')->name('fundraising.')->group(function () {
+    Route::name('donations.raiseNowWebHook')->get('donations/raiseNowWebHook', 'DonationController@raiseNowWebHook');
+});

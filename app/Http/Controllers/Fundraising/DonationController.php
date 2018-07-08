@@ -226,4 +226,8 @@ class DonationController extends Controller
         }
     }
 
+    public function raiseNowWebHook(Request $request) {
+        $data = $request->all();
+        Log::notice('RaiseNow WebHook triggered.', $data);        
+    }
 }
