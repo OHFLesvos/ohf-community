@@ -254,7 +254,7 @@ class DonationController extends Controller
         $date = new Carbon($request->created);
         $amount = $request->amount / 100;
         $currency = strtoupper($request->currency);
-        if ($currency == Config::get('fundraising.base_currency')) {
+        if ($currency != Config::get('fundraising.base_currency')) {
             $exchange_rate = EzvExchangeRates::getExchangeRate($currency, $date);
             $exchange_amount = $amount * $exchange_rate;
         } else {
