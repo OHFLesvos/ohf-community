@@ -57,5 +57,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 // RaiseNow WebHook
 Route::namespace('Fundraising')->middleware([])->prefix('fundraising')->name('fundraising.')->group(function () {
-    Route::name('donations.raiseNowWebHook')->get('donations/raiseNowWebHook', 'DonationController@raiseNowWebHook');
+    Route::name('donations.raiseNowWebHook')->post('donations/raiseNowWebHook', 'DonationController@raiseNowWebHook');
 });
