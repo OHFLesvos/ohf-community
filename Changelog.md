@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.3
+
+Fundraising:
+
+* Logging in RaiseNow Webhook
+
 ## 1.19.2
 
 Fundraising:
