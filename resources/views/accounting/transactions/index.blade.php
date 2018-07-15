@@ -13,12 +13,24 @@
         <div class="card-body">
             {!! Form::open(['route' => ['accounting.transactions.index' ], 'method' => 'get']) !!}
                 <div class="form-row">
+                    <div class="col-sm-auto mb-3">
+                        {{ Form::bsRadioInlineList('filter[type]', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending') ], $filter['type'] ?? null, __('app.type')) }}
+                    </div>
                     <div class="col-sm-auto">
                         {{ Form::bsDate('filter[date]', $filter['date'] ?? null, [], __('app.date')) }}
                     </div>
                     <div class="col-sm-auto">
+                        {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ ], __('accounting.beneficiary')) }}
+                    </div>
+                    <div class="col-sm-auto">
+                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ ], __('app.project')) }}
+                    </div>
+                    <div class="col-sm-auto">
                         {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('accounting.receipt')) }}
                     </div>
+                </div>
+                <hr>
+                <div class="form-row">
                     <div class="col-sm-auto">
                         {{ Form::bsSelect('sortColumn', $sortColumns, $sortColumn, [], __('app.order_by')) }}
                     </div>
