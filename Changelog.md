@@ -4,6 +4,18 @@
 
 Accounting:
 
+* Auto-jump do amount after choosing date
+* Paginate by 100 records instead of 25
+* Show receipt number in mobile view
+
+Donations:
+
+* Fix table cell in mobile view
+
+## 1.19.4
+
+Accounting:
+
 * Filter for transactions added
 
 ## 1.19.3

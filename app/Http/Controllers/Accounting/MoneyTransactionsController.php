@@ -94,7 +94,7 @@ class MoneyTransactionsController extends Controller
         session(['accounting.filter' => $filter]);
 
         return view('accounting.transactions.index', [
-            'transactions' => $query->paginate(),
+            'transactions' => $query->paginate(100),
             'filter' => $filter,
             'sortColumns' => $sortColumns,
             'sortColumn' => $sortColumn,
