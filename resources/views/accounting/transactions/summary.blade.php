@@ -25,7 +25,7 @@
                             @foreach($incomeByProject as $v)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('accounting.transactions.index') }}?filter[type]=income&filter[project]={{ $v->project }}&year={{ $monthDate->year }}&month={{ $monthDate->month }}">
+                                        <a href="{{ route('accounting.transactions.index') }}?filter[type]=income&filter[project]={{ $v->project }}&filter[date_start]={{ $monthDate->startOfMonth()->toDateString() }}&filter[date_end]={{ $monthDate->endOfMonth()->toDateString() }}">
                                             {{ $v->project }}
                                         </a>
                                     </td>
