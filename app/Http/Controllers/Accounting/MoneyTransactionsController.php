@@ -93,6 +93,7 @@ class MoneyTransactionsController extends Controller
             ->orderBy('created_at', 'DESC');
         foreach (self::$filterColumns as $col) {
             if (!empty($filter[$col])) {
+                // TODO: use 'like' % ... % for project and beneficiary 
                 $query->where($col, $filter[$col]);
             }
         }
