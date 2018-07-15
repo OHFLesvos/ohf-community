@@ -9,6 +9,27 @@
             <a href="{{ route('accounting.transactions.index') }}" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
         </p>
     @endif
+    <div class="card mb-4">
+        <div class="card-body">
+            {!! Form::open(['route' => ['accounting.transactions.index' ], 'method' => 'get']) !!}
+                <div class="form-row">
+                    <div class="col-sm-auto">
+                        {{ Form::bsDate('filter[date]', $filter['date'] ?? null, [], __('app.date')) }}
+                    </div>
+                    <div class="col-sm-auto">
+                        {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('accounting.receipt')) }}
+                    </div>
+                    <div class="col-sm-auto">
+                        {{ Form::bsSelect('sortColumn', $sortColumns, $sortColumn, [], __('app.order_by')) }}
+                    </div>
+                    <div class="col-sm-auto mb-3">
+                        {{ Form::bsRadioInlineList('sortOrder', [ 'asc' => __('app.ascending'), 'desc' => __('app.descending') ], $sortOrder, __('app.order')) }}
+                    </div>
+                </div>
+                {{ Form::bsSubmitButton(__('app.update'), 'search') }}
+            {!! Form::close() !!}
+        </div>
+    </div>
 
     @if( ! $transactions->isEmpty() )
         <div class="table-responsive">

@@ -159,4 +159,7 @@ return [
     'no_data_available_in_the_selected_time_range' => 'Keine Daten im ausgewählten Zeitraum vorhanden.',
     'overview' => 'Übersicht',
     'remove' => 'Entfernen',
+    'ascending' => 'Aufsteigend',
+    'descending' => 'Absteigend',
+    'order_by' => 'Sortieren nach',
 ];

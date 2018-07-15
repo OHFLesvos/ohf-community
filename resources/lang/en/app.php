@@ -159,4 +159,7 @@ return [
     'no_data_available_in_the_selected_time_range' => 'No data available in the selected time range.',
     'overview' => 'Overview',
     'remove' => 'Remove',
+    'ascending' => 'Ascending',
+    'descending' => 'Descending',
+    'order_by' => 'Order by',
  ];

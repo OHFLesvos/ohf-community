@@ -19,7 +19,8 @@ class MoneyTransactionsController extends Controller
         'type',
         'project',
         'beneficiary',
-        'date'
+        'date',
+        'receipt_no'
     ];
 
     /**
@@ -43,17 +44,36 @@ class MoneyTransactionsController extends Controller
             ],
             'month' => 'nullable|regex:/[0-1]?[1-9]/',
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
+            'sortColumn' => 'nullable|in:date,created_at,project,beneficiary,receipt_no',
+            'sortOrder' => 'nullable|in:asc,desc',
         ]);
 
+        $sortColumns = [
+            'date' => __('app.date'),
+            'project' => __('app.project'),
+            'beneficiary'=> __('accounting.beneficiary'),
+            'receipt_no' => __('accounting.receipt'),
+            'created_at' => __('app.registered')
+        ];
+        $sortColumn = session('accounting.sortColumn', 'date');
+        $sortOrder = session('accounting.sortOrder', 'desc');
+        if (isset($request->sortColumn)) {
+            $sortColumn = $request->sortColumn;
+            session(['accounting.sortColumn' => $sortColumn]);
+        }
+        if (isset($request->sortOrder)) {
+            $sortOrder = $request->sortOrder;
+            session(['accounting.sortOrder' => $sortOrder]);
+        }
         $query = MoneyTransaction
-            ::orderBy('date', 'DESC')
+            ::orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
 
         $filter = [];
         foreach (self::$filterColumns as $col) {
-            if (!empty($request->$col)) {
-                $query->where($col, $request->$col);
-                $filter[$col] = $request->$col;
+            if (!empty($request->filter[$col])) {
+                $query->where($col, $request->filter[$col]);
+                $filter[$col] = $request->filter[$col];
             }
         }
         if (!empty($request->month)) {
@@ -68,6 +88,9 @@ class MoneyTransactionsController extends Controller
         return view('accounting.transactions.index', [
             'transactions' => $query->paginate(),
             'filter' => $filter,
+            'sortColumns' => $sortColumns,
+            'sortColumn' => $sortColumn,
+            'sortOrder' => $sortOrder,
         ]);
     }
 
