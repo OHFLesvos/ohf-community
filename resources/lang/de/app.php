@@ -164,4 +164,7 @@ return [
     'order_by' => 'Sortieren nach',
     'from' => 'Von',
     'to' => 'Bis',
+    'any' => 'Egal',
+    'filter_results' => 'Resultate filtern',
+    'edit_filter' => 'Filter bearbeiten',
 ];

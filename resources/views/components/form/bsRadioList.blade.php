@@ -1,5 +1,5 @@
 @if ($label !== null || !empty($label))
-    <p>{{ $label }}</p>
+    <p class="mb-1">{{ $label }}</p>
 @endif
 @foreach($entries as $k => $v)
     <div class="custom-control custom-radio">

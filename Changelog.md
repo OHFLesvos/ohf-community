@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.4
+
+Accounting:
+
+* Filter for transactions added
+
 ## 1.19.3
 
 Fundraising:

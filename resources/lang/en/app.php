@@ -164,4 +164,7 @@ return [
     'order_by' => 'Order by',
     'from' => 'From',
     'to' => 'To',
+    'any' => 'Any',
+    'filter_results' => 'Filter results',
+    'edit_filter' => 'Edit filter',
  ];
