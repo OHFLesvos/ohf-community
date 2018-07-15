@@ -4,25 +4,28 @@
 
 @section('wrapped-content')
 
-    @if(count($filter) > 0)
-        <p>
-            <a href="{{ route('accounting.transactions.index') }}" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
-        </p>
-    @endif
+    <p class="text-right">
+        @if(count($filter) > 0)
+            <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
+            <button type="button" class="btn btn-sm btn-secondary" id="filter_results">@lang('app.edit_filter')</button>
+        @else
+            <button type="button" class="btn btn-sm btn-secondary" id="filter_results">@lang('app.filter_results')</button>
+        @endif
+    </p>
 
     @if( ! $transactions->isEmpty() )
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="fit @if(isset($filter['date']) || isset($filter['year']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
+                        <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.description')</th>
-                        <th class="d-none d-sm-table-cell  @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
-                        <th class="fit d-none d-sm-table-cell">@lang('accounting.receipt') #</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
+                        <th class="fit d-none d-sm-table-cell @isset($filter['receipt_no']) text-info @endisset">@lang('accounting.receipt') #</th>
                         <th class="fit d-none d-md-table-cell">@lang('app.registered')</th>
                     </tr>
                 </thead>
@@ -65,4 +68,71 @@
         @endcomponent
 	@endif
 	
+@endsection
+
+@section('content-footer')
+    {!! Form::open(['route' => ['accounting.transactions.index' ], 'method' => 'get']) !!}
+    <div class="modal" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="javascript:;" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="filterModalLabel">@lang('app.filter')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body pb-0">
+                        <div class="form-row">
+                            <div class="col-sm mb-3">
+                                {{ Form::bsRadioList('filter[type]', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending'), null => __('app.any'),  ], $filter['type'] ?? null, __('app.type')) }}
+                            </div>
+                            <div class="col-sm">
+                                {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('accounting.receipt') . ' #') }}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm">
+                                {{ Form::bsDate('filter[date_start]', $filter['date_start'] ?? null, [], __('app.from')) }}
+                            </div>
+                            <div class="col-sm">
+                                {{ Form::bsDate('filter[date_end]', $filter['date_end'] ?? null, [], __('app.to')) }}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm">
+                                {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ ], __('accounting.beneficiary')) }}
+                            </div>
+                            <div class="col-sm">
+                                {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ ], __('app.project')) }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-row">
+                            <div class="col-sm-auto">
+                                {{ Form::bsSelect('sortColumn', $sortColumns, $sortColumn, [], __('app.order_by')) }}
+                            </div>
+                            <div class="col-sm-auto mb-3">
+                                {{ Form::bsRadioList('sortOrder', [ 'asc' => __('app.ascending'), 'desc' => __('app.descending') ], $sortOrder, __('app.order')) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-secondary" tabindex="-1">@icon(eraser) @lang('app.reset_filter')</a>
+                        {{ Form::bsSubmitButton(__('app.update'), 'search') }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
+
+@endsection
+
+@section('script')
+$(function(){
+    $('#filter_results').on('click', function(){
+        $('#filterModal').modal('show');
+    });
+});
 @endsection
