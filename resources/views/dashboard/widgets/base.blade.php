@@ -7,13 +7,11 @@
             <div class="col-auto pr-2">
                 @yield('widget-subtitle')
                 @isset($links)
-                    @foreach($links as $link)
-                        @if($link['authorized'])
-                            <a href="{{ $link['url'] }}" class="btn btn-sm btn-outline-primary @if(!$loop->last) mr-1 @endif" title="{{ $link['title'] }}">
-                                @icon({{ $link['icon'] }})
-                                <span class="d-none d-xl-inline"> {{ $link['title'] }}</span>
-                            </a>
-                        @endif
+                    @foreach(collect($links)->where('authorized', true) as $link)
+                        <a href="{{ $link['url'] }}" class="btn btn-sm btn-outline-primary @if(!$loop->last) mr-1 @endif" title="{{ $link['title'] }}">
+                            @icon({{ $link['icon'] }})
+                            <span class="d-none d-xl-inline"> {{ $link['title'] }}</span>
+                        </a>
                     @endforeach
                 @endisset
             </div>
