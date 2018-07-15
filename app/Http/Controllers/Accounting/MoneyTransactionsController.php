@@ -19,7 +19,6 @@ class MoneyTransactionsController extends Controller
         'type',
         'project',
         'beneficiary',
-        'date',
         'receipt_no'
     ];
 
@@ -33,7 +32,12 @@ class MoneyTransactionsController extends Controller
         $this->authorize('list', MoneyTransaction::class);
 
         $validatedData = $request->validate([
-            'date' => [
+            'date_start' => [
+                'nullable',
+                'date',
+                'before_or_equal:' . Carbon::today(),
+            ],
+            'date_end' => [
                 'nullable',
                 'date',
                 'before_or_equal:' . Carbon::today(),
@@ -69,21 +73,25 @@ class MoneyTransactionsController extends Controller
             ::orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
 
-        $filter = [];
+        if ($request->query('reset_filter') != null) {
+            session(['accounting.filter' => []]);
+        }
+        $filter = session('accounting.filter', []);
         foreach (self::$filterColumns as $col) {
             if (!empty($request->filter[$col])) {
                 $query->where($col, $request->filter[$col]);
                 $filter[$col] = $request->filter[$col];
             }
         }
-        if (!empty($request->month)) {
-            $query->where(DB::raw('MONTH(date)'), $request->month);
-            $filter['month'] = $request->month;
+        if (!empty($request->filter['date_start'])) {
+            $query->whereDate('date', '>=', $request->filter['date_start']);
+            $filter['date_start'] = $request->filter['date_start'];
         }
-        if (!empty($request->year)) {
-            $query->where(DB::raw('YEAR(date)'), $request->year);
-            $filter['year'] = $request->year;
+        if (!empty($request->filter['date_end'])) {
+            $query->whereDate('date', '<=', $request->filter['date_end']);
+            $filter['date_end'] = $request->filter['date_end'];
         }
+        session(['accounting.filter' => $filter]);
 
         return view('accounting.transactions.index', [
             'transactions' => $query->paginate(),

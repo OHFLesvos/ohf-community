@@ -6,9 +6,10 @@
 
     @if(count($filter) > 0)
         <p>
-            <a href="{{ route('accounting.transactions.index') }}" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
+            <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-sm btn-primary">@lang('app.reset_filter')</a>
         </p>
     @endif
+
     <div class="card mb-4">
         <div class="card-body">
             {!! Form::open(['route' => ['accounting.transactions.index' ], 'method' => 'get']) !!}
@@ -17,7 +18,10 @@
                         {{ Form::bsRadioInlineList('filter[type]', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending') ], $filter['type'] ?? null, __('app.type')) }}
                     </div>
                     <div class="col-sm-auto">
-                        {{ Form::bsDate('filter[date]', $filter['date'] ?? null, [], __('app.date')) }}
+                        {{ Form::bsDate('filter[date_start]', $filter['date_start'] ?? null, [], __('app.from')) }}
+                    </div>
+                    <div class="col-sm-auto">
+                        {{ Form::bsDate('filter[date_end]', $filter['date_end'] ?? null, [], __('app.to')) }}
                     </div>
                     <div class="col-sm-auto">
                         {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ ], __('accounting.beneficiary')) }}
@@ -48,14 +52,14 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="fit @if(isset($filter['date']) || isset($filter['year']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
+                        <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.description')</th>
-                        <th class="d-none d-sm-table-cell  @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
-                        <th class="fit d-none d-sm-table-cell">@lang('accounting.receipt') #</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
+                        <th class="fit d-none d-sm-table-cell @isset($filter['receipt_no']) text-info @endisset">@lang('accounting.receipt') #</th>
                         <th class="fit d-none d-md-table-cell">@lang('app.registered')</th>
                     </tr>
                 </thead>

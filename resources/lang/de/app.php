@@ -162,4 +162,6 @@ return [
     'ascending' => 'Aufsteigend',
     'descending' => 'Absteigend',
     'order_by' => 'Sortieren nach',
+    'from' => 'Von',
+    'to' => 'Bis',
 ];

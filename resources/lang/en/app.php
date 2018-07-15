@@ -162,4 +162,6 @@ return [
     'ascending' => 'Ascending',
     'descending' => 'Descending',
     'order_by' => 'Order by',
+    'from' => 'From',
+    'to' => 'To',
  ];
