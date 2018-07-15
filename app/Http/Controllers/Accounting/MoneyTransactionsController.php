@@ -69,9 +69,6 @@ class MoneyTransactionsController extends Controller
             $sortOrder = $request->sortOrder;
             session(['accounting.sortOrder' => $sortOrder]);
         }
-        $query = MoneyTransaction
-            ::orderBy($sortColumn, $sortOrder)
-            ->orderBy('created_at', 'DESC');
 
         if ($request->query('reset_filter') != null) {
             session(['accounting.filter' => []]);
@@ -79,19 +76,32 @@ class MoneyTransactionsController extends Controller
         $filter = session('accounting.filter', []);
         foreach (self::$filterColumns as $col) {
             if (!empty($request->filter[$col])) {
-                $query->where($col, $request->filter[$col]);
                 $filter[$col] = $request->filter[$col];
             }
         }
         if (!empty($request->filter['date_start'])) {
-            $query->whereDate('date', '>=', $request->filter['date_start']);
             $filter['date_start'] = $request->filter['date_start'];
         }
         if (!empty($request->filter['date_end'])) {
-            $query->whereDate('date', '<=', $request->filter['date_end']);
             $filter['date_end'] = $request->filter['date_end'];
         }
         session(['accounting.filter' => $filter]);
+
+        // Apply filter to eloquent query
+        $query = MoneyTransaction
+            ::orderBy($sortColumn, $sortOrder)
+            ->orderBy('created_at', 'DESC');
+        foreach (self::$filterColumns as $col) {
+            if (!empty($filter[$col])) {
+                $query->where($col, $filter[$col]);
+            }
+        }
+        if (!empty($filter['date_start'])) {
+            $query->whereDate('date', '>=', $filter['date_start']);
+        }
+        if (!empty($filter['date_end'])) {
+            $query->whereDate('date', '<=', $filter['date_end']);
+        }
 
         return view('accounting.transactions.index', [
             'transactions' => $query->paginate(100),

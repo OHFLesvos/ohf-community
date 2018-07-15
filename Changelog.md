@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.6
+
+Accounting:
+
+* Fix filter
+
 ## 1.19.5
 
 Accounting:
