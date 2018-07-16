@@ -20,4 +20,5 @@ return [
     'choose_picture_of_receipt' => 'Beleg-Bild auswählen',
     'change_picture_of_receipt' => 'Beleg-Bild ändern',
     'remove_receipt_picture' => 'Beleg-Bild entfernen',
+    'registered_today' => 'Heute registriert',
 ];

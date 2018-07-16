@@ -19,7 +19,8 @@ class MoneyTransactionsController extends Controller
         'type',
         'project',
         'beneficiary',
-        'receipt_no'
+        'receipt_no',
+        'today',
     ];
 
     /**
@@ -93,8 +94,13 @@ class MoneyTransactionsController extends Controller
             ->orderBy('created_at', 'DESC');
         foreach (self::$filterColumns as $col) {
             if (!empty($filter[$col])) {
-                // TODO: use 'like' % ... % for project and beneficiary 
-                $query->where($col, $filter[$col]);
+                if ($col == 'today') {
+                    $query->whereDate('created_at', Carbon::today());
+                } else if ($col == 'project' || $col == 'beneficiary') {
+                    $query->where($col, 'like', '%' . $filter[$col] . '%');
+                } else {
+                    $query->where($col, $filter[$col]);
+                }
             }
         }
         if (!empty($filter['date_start'])) {

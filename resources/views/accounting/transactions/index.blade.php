@@ -101,12 +101,13 @@
                         </div>
                         <div class="form-row">
                             <div class="col-sm">
-                                {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ ], __('accounting.beneficiary')) }}
-                            </div>
-                            <div class="col-sm">
                                 {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ ], __('app.project')) }}
                             </div>
+                            <div class="col-sm">
+                                {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ ], __('accounting.beneficiary')) }}
+                            </div>
                         </div>
+                        {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('accounting.registered_today')) }}
                         <hr>
                         <div class="form-row">
                             <div class="col-sm-auto">
@@ -118,7 +119,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-secondary" tabindex="-1">@icon(eraser) @lang('app.reset_filter')</a>
+                        @if(count($filter) > 0)
+                            <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-secondary" tabindex="-1">@icon(eraser) @lang('app.reset_filter')</a>
+                        @endif
                         {{ Form::bsSubmitButton(__('app.update'), 'search') }}
                     </div>
                 </form>

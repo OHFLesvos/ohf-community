@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.19.7
+
+Accounting:
+
+* Added "today" filter
+* Project and beneficiary filter now as wildcard
+
 ## 1.19.6
 
 Accounting:

@@ -20,4 +20,5 @@ return [
     'choose_picture_of_receipt' => 'Choose picture of receipt',
     'change_picture_of_receipt' => 'Change picture of receipt',
     'remove_receipt_picture' => 'Remove picture of receipt',
+    'registered_today' => 'Registered today',
 ];
