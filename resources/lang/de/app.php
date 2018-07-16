@@ -167,4 +167,5 @@ return [
     'any' => 'Egal',
     'filter_results' => 'Resultate filtern',
     'edit_filter' => 'Filter bearbeiten',
+    'save_and_continue' => 'Speichern und fortfahren',
 ];

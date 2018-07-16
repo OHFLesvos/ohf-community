@@ -208,7 +208,7 @@ class MoneyTransactionsController extends Controller
 
         $transaction->save();
 
-        return redirect()->route('accounting.transactions.index')
+        return redirect()->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index')
             ->with('info', __('accounting.transactions_registered'));
     }
 

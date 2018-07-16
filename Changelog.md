@@ -6,6 +6,7 @@ Accounting:
 
 * Fix filter
 * Show total summary when filtered in mobile view
+* Added save and continue button
 
 ## 1.19.7
 
