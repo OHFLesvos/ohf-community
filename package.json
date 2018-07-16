@@ -14,7 +14,7 @@
     "bootstrap": "^4.1.2",
     "chart.js": "^2.7.2",
     "cross-env": "^3.2.3",
-    "devbridge-autocomplete": "^1.4.8",
+    "devbridge-autocomplete": "1.4.7",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.9.0",
     "fullcalendar-scheduler": "^1.9.4",
