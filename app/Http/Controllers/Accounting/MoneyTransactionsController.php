@@ -78,13 +78,19 @@ class MoneyTransactionsController extends Controller
         foreach (self::$filterColumns as $col) {
             if (!empty($request->filter[$col])) {
                 $filter[$col] = $request->filter[$col];
+            } else if (isset($request->filter)) {
+                unset($filter[$col]);
             }
         }
         if (!empty($request->filter['date_start'])) {
             $filter['date_start'] = $request->filter['date_start'];
+        } else if (isset($request->filter)) {
+            unset($filter['date_start']);
         }
         if (!empty($request->filter['date_end'])) {
             $filter['date_end'] = $request->filter['date_end'];
+        } else if (isset($request->filter)) {
+            unset($filter['date_end']);
         }
         session(['accounting.filter' => $filter]);
 

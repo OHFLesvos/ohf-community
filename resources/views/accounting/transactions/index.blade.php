@@ -26,7 +26,7 @@
                         <th class="d-none d-sm-table-cell">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
                         <th class="fit @isset($filter['receipt_no']) text-info @endisset"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
-                        <th class="fit d-none d-md-table-cell">@lang('app.registered')</th>
+                        <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,14 +48,26 @@
                     @endforeach
                 </tbody>
                 @if(count($filter) > 0)
-                    <tfoot>
-                        <tr class="d-none d-sm-table-row">
-                            <td></td>
-                            <td class="text-right d-none d-sm-table-cell text-info"><u>{{ number_format($transactions->where('type', 'income')->sum('amount'), 2) }}</u></td>
-                            <td class="text-right d-none d-sm-table-cell text-info"><u>{{ number_format($transactions->where('type', 'spending')->sum('amount'), 2) }}</u></td>
+                    @php
+                        $sum_income = $transactions->where('type', 'income')->sum('amount');
+                        $sum_spending = $transactions->where('type', 'spending')->sum('amount');
+                    @endphp
+                    @if($sum_income > 0 || $sum_spending > 0)
+                        <tr>
+                            <td>@lang('app.total')</td>
+                            <td class="text-right d-none d-sm-table-cell">
+                                <u class="text-success">{{ number_format($sum_income, 2) }}</u>
+                            </td>
+                            <td class="text-right d-none d-sm-table-cell">
+                                <u class="text-danger">{{ number_format($sum_spending, 2) }}</u>
+                            </td>
+                            <td class="text-right d-table-cell d-sm-none">
+                                @if($sum_income > 0)<u class="text-success">{{ number_format($sum_income, 2) }}</u><br>@endif
+                                @if($sum_spending > 0)<u class="text-danger">{{ number_format($sum_spending, 2) }}</u>@endif
+                            </td>
                             <td colspan="5"></td>
                         </tr>
-                    </tfoot>
+                    @endif
                 @endif
             </table>
         </div>

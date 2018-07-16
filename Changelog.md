@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.19.8
+
+Accounting:
+
+* Fix filter
+* Show total summary when filtered in mobile view
+
 ## 1.19.7
 
 Accounting:
