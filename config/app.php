@@ -18,7 +18,7 @@ return [
 
 	'product_url' => 'https://github.com/mrcage/ohf-community',
 
-    'version' => 'v1.19.7',
+    'version' => 'v1.19.8',
 
     /*
     |--------------------------------------------------------------------------
