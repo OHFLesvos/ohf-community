@@ -103,7 +103,7 @@ class MoneyTransactionsController extends Controller
             if (!empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());
-                } else if ($col == 'project' || $col == 'beneficiary') {
+                } else if ($col == 'project' || $col == 'beneficiary' || $col == 'description') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
                 } else {
                     $query->where($col, $filter[$col]);

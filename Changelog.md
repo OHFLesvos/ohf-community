@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.10
+
+Accounting:
+
+* Filter for description fix
+
 ## 1.19.9
 
 Accounting:
