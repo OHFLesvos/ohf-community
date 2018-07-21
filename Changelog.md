@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.19.11
+
+Accounting:
+
+* Color description filter column
+* Sort excel export by date ascending
+
 ## 1.19.10
 
 Accounting:

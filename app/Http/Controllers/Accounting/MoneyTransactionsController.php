@@ -426,8 +426,8 @@ class MoneyTransactionsController extends Controller
                     $dateTo = (clone $dateFrom)->endOfMonth();
 
                     $transactions = MoneyTransaction
-                        ::orderBy('date', 'DESC')
-                        ->orderBy('created_at', 'DESC')
+                        ::orderBy('date', 'ASC')
+                        ->orderBy('created_at', 'ASC')
                         ->whereDate('date', '>=', $dateFrom)
                         ->whereDate('date', '<=', $dateTo)                        
                         ->get();
