@@ -23,7 +23,7 @@
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
-                        <th class="d-none d-sm-table-cell">@lang('app.description')</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
                         <th class="fit @isset($filter['receipt_no']) text-info @endisset"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
