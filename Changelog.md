@@ -6,6 +6,7 @@ Accounting:
 
 * Color description filter column
 * Sort excel export by date ascending
+* Added filter for having no receipt
 
 ## 1.19.10
 

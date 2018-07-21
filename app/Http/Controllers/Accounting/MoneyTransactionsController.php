@@ -22,6 +22,7 @@ class MoneyTransactionsController extends Controller
         'description',
         'receipt_no',
         'today',
+        'no_receipt',
     ];
 
     /**
@@ -102,7 +103,12 @@ class MoneyTransactionsController extends Controller
         foreach (self::$filterColumns as $col) {
             if (!empty($filter[$col])) {
                 if ($col == 'today') {
-                    $query->whereDate('created_at', Carbon::today());
+                    $query->whereDate('created_at', Carbon::today()); 
+                } else if ($col == 'no_receipt') {  
+                    $query->where(function($query){
+                        $query->whereNull('receipt_no');
+                        $query->orWhereNull('receipt_picture');
+                    }); 
                 } else if ($col == 'project' || $col == 'beneficiary' || $col == 'description') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
                 } else {

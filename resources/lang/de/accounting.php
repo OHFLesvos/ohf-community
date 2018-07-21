@@ -21,4 +21,5 @@ return [
     'change_picture_of_receipt' => 'Beleg-Bild ändern',
     'remove_receipt_picture' => 'Beleg-Bild entfernen',
     'registered_today' => 'Heute registriert',
+    'no_receipt' => 'Kein Beleg',
 ];

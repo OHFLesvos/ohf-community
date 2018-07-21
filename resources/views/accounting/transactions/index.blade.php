@@ -25,7 +25,7 @@
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
-                        <th class="fit @isset($filter['receipt_no']) text-info @endisset"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
+                        <th class="fit @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
                     </tr>
                 </thead>
@@ -120,7 +120,14 @@
                             </div>
                         </div>
                         {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}
-                        {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('accounting.registered_today')) }}
+                        <div class="form-row">
+                            <div class="col-sm">
+                                {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('accounting.registered_today')) }}
+                            </div>
+                            <div class="col-sm">
+                                {{ Form::bsCheckbox('filter[no_receipt]', 1, $filter['no_receipt'] ?? false, __('accounting.no_receipt')) }}
+                            </div>
+                        </div>
                         <hr>
                         <div class="form-row">
                             <div class="col-sm-auto">
