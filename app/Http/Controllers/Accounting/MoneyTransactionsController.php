@@ -19,6 +19,7 @@ class MoneyTransactionsController extends Controller
         'type',
         'project',
         'beneficiary',
+        'description',
         'receipt_no',
         'today',
     ];
@@ -122,6 +123,8 @@ class MoneyTransactionsController extends Controller
             'sortColumns' => $sortColumns,
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
+            'beneficiaries' => self::getBeneficiaries(),
+            'projects' => self::getProjects(),
         ]);
     }
 

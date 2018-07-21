@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.19.9
+
+Accounting:
+
+* Filter for description
+* Filter autocomplete
+
 ## 1.19.8
 
 Accounting:

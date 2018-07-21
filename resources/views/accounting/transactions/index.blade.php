@@ -113,12 +113,13 @@
                         </div>
                         <div class="form-row">
                             <div class="col-sm">
-                                {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ ], __('app.project')) }}
+                                {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
                             </div>
                             <div class="col-sm">
-                                {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ ], __('accounting.beneficiary')) }}
+                                {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($beneficiaries)) ], __('accounting.beneficiary')) }}
                             </div>
                         </div>
+                        {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}
                         {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('accounting.registered_today')) }}
                         <hr>
                         <div class="form-row">
