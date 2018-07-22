@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.12
+
+Accounting:
+
+* No autocompletition for description
+
 ## 1.19.11
 
 Accounting:

@@ -146,7 +146,6 @@ class MoneyTransactionsController extends Controller
         return view('accounting.transactions.create', [
             'beneficiaries' => self::getBeneficiaries(),
             'projects' => self::getProjects(),
-            'descriptions' => self::getDescriptions(),
             'newReceiptNo' => optional(MoneyTransaction
                 ::select(DB::raw('MAX(receipt_no) as val'))
                 ->first())
@@ -172,17 +171,6 @@ class MoneyTransactionsController extends Controller
             ->orderBy('project')
             ->get()
             ->pluck('project')
-            ->unique()
-            ->toArray();
-    }
-
-    private static function getDescriptions() {
-        return MoneyTransaction
-            ::select('description')
-            ->groupBy('description')
-            ->orderBy('description')
-            ->get()
-            ->pluck('description')
             ->unique()
             ->toArray();
     }
@@ -250,7 +238,6 @@ class MoneyTransactionsController extends Controller
             'transaction' => $transaction,
             'beneficiaries' => self::getBeneficiaries(),
             'projects' => self::getProjects(),
-            'descriptions' => self::getDescriptions(),
         ]);
     }
 

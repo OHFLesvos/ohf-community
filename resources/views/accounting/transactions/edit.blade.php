@@ -23,7 +23,7 @@
                 {{ Form::bsText('project', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
             </div>
             <div class="col-sm-8">
-                {{ Form::bsText('description', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($descriptions)) ], __('app.description')) }}
+                {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
             </div>
         </div>
         <div class="form-row">
