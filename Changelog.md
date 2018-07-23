@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.19.13
+
+Accounting:
+
+* Show difference in summary
+* Jump to transaction details if receipt no is filtered
+
 ## 1.19.12
 
 Accounting:

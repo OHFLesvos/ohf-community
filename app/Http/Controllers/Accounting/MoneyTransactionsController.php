@@ -122,9 +122,18 @@ class MoneyTransactionsController extends Controller
         if (!empty($filter['date_end'])) {
             $query->whereDate('date', '<=', $filter['date_end']);
         }
+        
+        // Get results
+        $transactions = $query->paginate(100);
+
+        // Single receipt no. query
+        if ($transactions->count() == 1 && !empty($filter['receipt_no'])) {
+            session(['accounting.filter' => []]);
+            return redirect()->route('accounting.transactions.show', $transactions->first());
+        }
 
         return view('accounting.transactions.index', [
-            'transactions' => $query->paginate(100),
+            'transactions' => $transactions,
             'filter' => $filter,
             'sortColumns' => $sortColumns,
             'sortColumn' => $sortColumn,

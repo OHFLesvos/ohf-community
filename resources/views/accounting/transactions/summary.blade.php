@@ -55,6 +55,10 @@
                             <td class="text-right"><u>{{ number_format($spendingByProject->sum('sum'), 2) }}</u></td>
                         </tr>
                         <tr>
+                            <td>@lang('accounting.difference')</td>
+                            <td class="text-right"><u>{{ number_format($incomeByProject->sum('sum') - $spendingByProject->sum('sum'), 2) }}</u></td>
+                        </tr>
+                        <tr>
                             <td>@lang('accounting.wallet')</td>
                             <td class="text-right"><u>{{ number_format($wallet, 2) }}</u></td>
                         </tr>
