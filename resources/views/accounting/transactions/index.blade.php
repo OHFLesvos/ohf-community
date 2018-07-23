@@ -41,7 +41,7 @@
                             <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
                             <td class="@isset($transaction->receipt_picture) text-success @endisset">{{ $transaction->receipt_no }}</td>
                             @php
-                                $audit = $transaction->audits()->latest()->first();
+                                $audit = $transaction->audits()->first();
                             @endphp
                             <td class="fit d-none d-md-table-cell">{{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset</td>
                         </tr>

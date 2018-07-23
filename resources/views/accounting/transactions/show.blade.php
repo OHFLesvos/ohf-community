@@ -67,7 +67,7 @@
                 <div class="col-sm-4"><strong>@lang('app.registered')</strong></div>
                 <div class="col-sm">
                     @php
-                        $audit = $transaction->audits()->latest()->first();
+                        $audit = $transaction->audits()->first();
                     @endphp
                     {{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset
                 </div>

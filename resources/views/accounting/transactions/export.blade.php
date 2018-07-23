@@ -23,7 +23,7 @@
                 <td>{{ $transaction->project }}</td>
                 <td>{{ $transaction->description }}</td>
                 @php
-                    $audit = $transaction->audits()->latest()->first();
+                    $audit = $transaction->audits()->first();
                 @endphp
                 <td>{{ $transaction->created_at }}</td>
                 <td>@isset($audit){{ $audit->getMetadata()['user_name'] }}@endisset</td>
