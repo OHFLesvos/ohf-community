@@ -63,7 +63,7 @@ class Person extends Model
         try {
             return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
         } catch (\Exception $e) {
-            Log::error('Error calculating age of ' . $this->family_name . ' ' . $this->name . ': ' . $e->getMessage());
+            Log::error('Error calculating age of ' . $this->family_name . ' ' . $this->name . ' ('. $this->date_of_birth . '): ' . $e->getMessage());
             return null;
         }
     }
