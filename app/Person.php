@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\CouponType;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class Person extends Model
 {
@@ -59,7 +60,12 @@ class Person extends Model
     // }
 
     public function getAgeAttribute() {
-        return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
+        try {
+            return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
+        } catch (\Exception $e) {
+            Log::error('Error calculating age of ' . $this->family_name . ' ' . $this->name . ': ' . $e->getMessage());
+            return null;
+        }
     }
 
     public function getFrequentVisitorAttribute() {

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.19.14
+
+Accounting:
+
+* Show correct transaction author
+
+Bank:
+
+* Fixed date parsing
+
 ## 1.19.13
 
 Accounting:
