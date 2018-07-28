@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="col-auto">
-            <button class="btn btn-primary" type="button" id="scan-id-button">@icon(qrcode)<span class="d-none d-sm-inline"> @lang('people.scan')</span></button> 
+            <button class="btn btn-primary" type="button" id="scan-id-button">@icon(qrcode)<span class="d-none d-sm-inline"> @lang('people.scan_card')</span></button> 
         </div>
     </div>
 {{ Form::close() }}

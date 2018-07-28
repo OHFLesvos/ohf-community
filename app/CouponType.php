@@ -14,6 +14,7 @@ class CouponType extends Model
         'retention_period',
         'min_age',
         'max_age',
+        'daily_spending_limit',
         'order',
         'returnable',
         'enabled'
@@ -23,7 +24,8 @@ class CouponType extends Model
 		'icon',
 		'retention_period',
 		'min_age',
-		'max_age',
+        'max_age',
+        'daily_spending_limit',
     ];
 
     public function couponHandouts() {

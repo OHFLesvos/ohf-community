@@ -14,6 +14,7 @@
                         <th>@lang('people.retention_period')</th>
                         <th>@lang('people.min_age')</th>
                         <th>@lang('people.max_age')</th>
+                        <th>@lang('people.daily_spending_limit')</th>
                         <th>@lang('app.order')</th>
                         <th>@lang('app.enabled')</th>
                         <th>@lang('people.returnable')</th>
@@ -30,6 +31,7 @@
                             <td>{{ $coupon->retention_period != null ? $coupon->retention_period . ' ' . trans_choice('app.day_days', $coupon->retention_period) : __('people.one_time') }}</td>
                             <td>@isset($coupon->min_age) {{ $coupon->min_age }} {{ trans_choice('app.year_years', $coupon->min_age) }} @endisset</td>
                             <td>@isset($coupon->max_age) {{ $coupon->max_age }} {{ trans_choice('app.year_years', $coupon->max_age) }} @endisset</td>
+                            <td>@isset($coupon->daily_spending_limit) {{ $coupon->daily_spending_limit }} @lang('people.per_day') @endisset</td>
                             <td>{{ $coupon->order }}</td>
                             <td>@if($coupon->enabled) @icon(check) @else @icon(times) @endif</td>
                             <td>@if($coupon->returnable) @icon(check) @else @icon(times) @endif</td>

@@ -33,10 +33,16 @@
             <div class="col-md">
                 {{ Form::bsNumber('max_age', null, [ ], __('people.max_age'), __('app.in_years')) }}
             </div>
+            <div class="col-md">
+                {{ Form::bsNumber('daily_spending_limit', null, [ ], __('people.daily_spending_limit'), __('people.per_day')) }}
+            </div>
         </div>
         <div class="form-row mb-4">
             <div class="col-md">
-                {{ Form::bsNumber('order', null, [ ], __('app.order')) }}
+                @php
+                    $default_order = optional(App\CouponType::select(DB::raw('MAX(`order`) as max_order'))->first())->max_order + 1;
+                @endphp
+                {{ Form::bsNumber('order', $default_order, [ 'min' => 0 ], __('app.order')) }}
             </div>
             <div class="col-md pt-md-4">
                 {{ Form::bsCheckbox('enabled', 1, null, __('app.enabled')) }}

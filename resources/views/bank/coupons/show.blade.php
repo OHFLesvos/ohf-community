@@ -41,6 +41,14 @@
                 </div>
             </li>
         @endisset
+        @isset($coupon->daily_spending_limit)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm"><strong>@lang('people.daily_spending_limit')</strong></div>
+                    <div class="col-sm">{{ $coupon->daily_spending_limit }} @lang('people.per_day')</div>
+                </div>
+            </li>
+        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('app.order')</strong></div>

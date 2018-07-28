@@ -30,6 +30,7 @@ class StoreCouponType extends FormRequest
             'retention_period' => 'nullable|numeric|min:1',
             'min_age' =>  'nullable|numeric|min:1',
             'max_age' =>  'nullable|numeric|min:1',
+            'daily_spending_limit' =>  'nullable|numeric|min:1',
             'order' => 'required|numeric|min:0',
             'enabled' => 'boolean',
             'returnable' => 'boolean',
