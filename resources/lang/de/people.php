@@ -108,6 +108,7 @@ return [
     'max_age' => 'Max. Alter',
     'daily_spending_limit' => 'Ausgabelimite',
     'per_day' => 'pro Tag',
+    'daily_limit_reached' => 'Tageslimite erreicht',
     'returnable' => 'Einzahlbar',
     'one_time' => 'einmalig',
     'coupon_has_been_handed_out_to' => ':amount :coupon wurde an :person herausgegeben.|:amount :coupon wurden an :person herausgegeben.',

@@ -108,6 +108,7 @@ return [
     'max_age' => 'Max. age',
     'daily_spending_limit' => 'Spending limit',
     'per_day' => 'per day',
+    'daily_limit_reached' => 'Daily limit reached',
     'returnable' => 'Returnable',
     'one_time' => 'one-time',
     'coupon_has_been_handed_out_to' => ':amount :coupon has been handed out to :person.|:amount :coupon have been handed out to :person.',

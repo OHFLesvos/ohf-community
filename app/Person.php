@@ -198,7 +198,7 @@ class Person extends Model
             if ($handout != null) {
                 return __('people.already_received');
             }
-            return null;
+            return $this->checkDailySpendingLimit($couponType);
         }
 
         $retention_date = Carbon::today()->subDays($couponType->retention_period);
@@ -213,7 +213,19 @@ class Person extends Model
             $daysUntil = ((clone $date)->addDays($couponType->retention_period))->diffInDays() + 1;
             return trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil]);
         }
-        return null;
+        return $this->checkDailySpendingLimit($couponType);
+    }
+
+    private function checkDailySpendingLimit($couponType) {
+        if ($couponType->daily_spending_limit != null) {
+            $handouts_today = CouponHandout
+                ::whereDate('date', Carbon::today())
+                ->where('coupon_type_id', $couponType->id)
+                ->count();
+            if ($handouts_today >= $couponType->daily_spending_limit) {
+                return __('people.daily_limit_reached');
+            }
+        }
     }
 
     public function lastCouponHandout(CouponType $couponType) {
