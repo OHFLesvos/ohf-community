@@ -37,8 +37,8 @@
                 @endcomponent
             @else
                 @component('components.alert.info')
-                    Not found.
-                    <a href="{{ route('people.create') }}?{{ $register }}">Register a new person</a>
+                    @lang('app.not_found').
+                    <a href="{{ route('people.create') }}?{{ $register }}">@lang('people.register_a_new_person')</a>
                 @endcomponent
             @endif
         @endif

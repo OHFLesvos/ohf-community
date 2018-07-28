@@ -20,7 +20,7 @@
 
     <div class="text-right">
         <button class="btn btn-secondary btn" type="button" id="scan-id-button">@icon(qrcode)<span class="d-none d-sm-inline"> @lang('people.scan_another_card')</span></button> 
-        <a class="btn btn-secondary btn" href="{{ route('bank.withdrawal') }}">@icon(search) @lang('people.search_persons')</a>
+        <a class="btn btn-secondary btn" href="{{ route('bank.withdrawal') }}">@icon(search)<span class="d-none d-sm-inline"> @lang('people.search_persons')</span></a>
     </div>
 
     </div>

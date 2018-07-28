@@ -142,13 +142,6 @@ class WithdrawalController extends Controller
 		]);
     }
 
-    public function registerCardAsPerson(RegisterCard $request) {
-        $person = new Person();
-        $person->card_no = $request->card_no;
-        $person->save();
-        return redirect()->route('bank.showCard', $person->card_no);
-    }
-
     public function showCard(String $cardNo) {
         // TODO validation
 

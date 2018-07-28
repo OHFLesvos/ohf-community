@@ -69,6 +69,7 @@ class PeopleController extends ParentController
 		$person->languages = !empty($request->languages) ? $request->languages : null;
         $person->skills = !empty($request->skills) ? $request->skills : null;
         $person->worker = isset($request->worker);
+        $person->card_no = $request->card_no;
 		$person->save();
 
         $redirectFilter[] = $person->search;

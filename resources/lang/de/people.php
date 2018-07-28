@@ -109,6 +109,7 @@ return [
     'daily_spending_limit' => 'Ausgabelimite',
     'per_day' => 'pro Tag',
     'daily_limit_reached' => 'Tageslimite erreicht',
+    'register_a_new_person' => 'Eine neue Person registrieren',
     'returnable' => 'Einzahlbar',
     'one_time' => 'einmalig',
     'coupon_has_been_handed_out_to' => ':amount :coupon wurde an :person herausgegeben.|:amount :coupon wurden an :person herausgegeben.',
