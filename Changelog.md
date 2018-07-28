@@ -5,6 +5,7 @@
 Bank:
 
 * Added daily spending limit option to coupons
+* Removed card-registration without person, added card when registering person
 
 ## 1.19.14
 
