@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.0
+
+Bank:
+
+* Added daily spending limit option to coupons
+
 ## 1.19.14
 
 Accounting:
