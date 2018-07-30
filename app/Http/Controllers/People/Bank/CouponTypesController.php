@@ -59,6 +59,7 @@ class CouponTypesController extends Controller
         $coupon->order = $request->order;
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);
+        $coupon->qr_code_enabled = isset($request->qr_code_enabled);
         $coupon->save();
 
         return redirect()->route('coupons.index')
@@ -116,6 +117,7 @@ class CouponTypesController extends Controller
         $coupon->order = $request->order;
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);
+        $coupon->qr_code_enabled = isset($request->qr_code_enabled);
         $coupon->save();
 
         return redirect()->route('coupons.show', $coupon)

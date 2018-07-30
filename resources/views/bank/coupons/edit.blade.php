@@ -46,6 +46,7 @@
             <div class="col-md pt-md-4">
                 {{ Form::bsCheckbox('enabled', 1, null, __('app.enabled')) }}
                 {{ Form::bsCheckbox('returnable', 1, null, __('people.returnable')) }}
+                {{ Form::bsCheckbox('qr_code_enabled', 1, null, __('people.with_qr_code')) }}
             </div>
         </div>
 

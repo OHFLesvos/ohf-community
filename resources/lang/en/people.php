@@ -134,4 +134,6 @@ return [
     'sister' => 'Sister',
     'children' => 'Children',
     'child' => 'Child',
+    'with_qr_code' => 'Coupons with QR code',
+    'qr_code' => 'QR-Code',
 ];

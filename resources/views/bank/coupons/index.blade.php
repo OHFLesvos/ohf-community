@@ -18,6 +18,7 @@
                         <th>@lang('app.order')</th>
                         <th>@lang('app.enabled')</th>
                         <th>@lang('people.returnable')</th>
+                        <th>@lang('people.qr_code')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,7 @@
                             <td>{{ $coupon->order }}</td>
                             <td>@if($coupon->enabled) @icon(check) @else @icon(times) @endif</td>
                             <td>@if($coupon->returnable) @icon(check) @else @icon(times) @endif</td>
+                            <td>@if($coupon->qr_code_enabled) @icon(check) @else @icon(times) @endif</td>
                         </tr>
                     @endforeach
                 </tbody>
