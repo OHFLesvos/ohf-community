@@ -106,7 +106,7 @@
                                     {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ $lastHandout }})
                                 </button>
                             @else
-                                <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}" data-min_age="{{ $coupon->min_age }}"  data-max_age="{{ $coupon->max_age }}">
+                                <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}" data-min_age="{{ $coupon->min_age }}"  data-max_age="{{ $coupon->max_age }}" data-qr-code-enabled="{{ $coupon->qr_code_enabled }}">
                                     {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }}
                                 </button>
                             @endempty

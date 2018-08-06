@@ -5,6 +5,8 @@ namespace App\Http\Requests\People\Bank;
 use Illuminate\Foundation\Http\FormRequest;
 use App\CouponType;
 use App\Person;
+use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class StoreHandoutCoupon extends FormRequest
 {
@@ -34,6 +36,12 @@ class StoreHandoutCoupon extends FormRequest
                 'min:1',
                 'max:' . CouponType::findOrFail($this->coupon_type_id)->daily_amount,
             ],
+            'code' => [
+                'nullable',
+                Rule::unique('coupon_handouts')->where(function ($query) {
+                    return $query->where('date', Carbon::today());
+                })
+            ]
         ];
     }
 

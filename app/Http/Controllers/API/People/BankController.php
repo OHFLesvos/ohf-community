@@ -70,6 +70,7 @@ class BankController extends Controller
         $coupon = new CouponHandout();
         $coupon->date = Carbon::today();
         $coupon->amount = $request->amount;
+        $coupon->code = $request->code;
         $coupon->person()->associate($person);
         $coupon->couponType()->associate($couponType);
         $coupon->save();

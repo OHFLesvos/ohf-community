@@ -123,14 +123,31 @@ function handoutCoupon(){
 	var person = btn.data('person');
 	var couponType = btn.data('coupon');
 	var amount = btn.data('amount');
+	var qrCodeEnabled = btn.data('qr-code-enabled');
 	var label = $(this).html();
+	if (qrCodeEnabled) {
+		scanQR(function(content){
+			sendHandoutRequest(btn, {
+				"_token": csrfToken,
+				"person_id": person,
+				"coupon_type_id": couponType,
+				"amount": amount,
+				'code': content,
+			});
+		});
+	} else {
+		sendHandoutRequest(btn, {
+			"_token": csrfToken,
+			"person_id": person,
+			"coupon_type_id": couponType,
+			"amount": amount
+		});
+	}
+}
+
+function sendHandoutRequest(btn, postData) {
 	btn.attr('disabled', 'disabled');
-	$.post(handoutCouponUrl, {
-		"_token": csrfToken,
-		"person_id": person,
-		"coupon_type_id": couponType,
-		"amount": amount
-	}, function(data) {
+	$.post(handoutCouponUrl, postData, function(data) {
 		btn.append(' (' + data.countdown + ')');
 		btn.off('click').on('click', undoHandoutCoupon);
 		showSnackbar(data.message, undoLabel, 'warning', function(element){
