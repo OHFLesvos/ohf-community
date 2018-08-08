@@ -385,3 +385,4 @@ function storeNationality(person, nationalitySelect, resultElem) {
 		nationalitySelect.select();
 	});	
 }
+
