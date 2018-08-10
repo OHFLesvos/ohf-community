@@ -4,8 +4,10 @@
 
 @section('content')
 
-    <div class="text-center">
-        <button type="button" class="btn btn-lg btn-primary">@lang('people.scan')</button>
+    <div id="shop-container">
+        <p class="text-center">
+            <button type="button" class="btn btn-lg btn-primary check-shop-card">@lang('people.scan')</button>
+        </p>
     </div>
 
 @endsection

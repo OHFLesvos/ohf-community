@@ -109,6 +109,9 @@ $(function(){
 
 	// Nationality
 	$('.choose-nationality').on('click', selectNationality);
+
+	// Check shop card
+	$('.check-shop-card').on('click', checkShopCard);
 });
 
 function enableFilterSelect() {
@@ -383,3 +386,9 @@ function storeNationality(person, nationalitySelect, resultElem) {
 	});	
 }
 
+function checkShopCard() {
+	scanQR(function(content){
+		$('#shop-container').empty().html('Searching card ...');
+		document.location = '/shop/code/' + content;
+	});
+}

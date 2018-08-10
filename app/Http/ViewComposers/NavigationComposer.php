@@ -93,6 +93,13 @@ class NavigationComposer {
                     'authorized' => Auth::user()->can('list', InventoryStorage::class),
                 ],
                 [
+                    'route' => 'shop.index',
+                    'caption' => __('shop.shop'),
+                    'icon' => 'shop',
+                    'active' => 'shop/*',
+                    'authorized' => true,
+                ],
+                [
                     'route' => 'calendar',
                     'caption' => 'Calendar',
                     'icon' => 'calendar',
