@@ -12,7 +12,6 @@
 
 @section('script')
     var csrfToken = '{{ csrf_token() }}';
-    var qrCodeScannerLabel = '@lang('people.qr_code_scanner')';
 @endsection
 
 @section('footer')

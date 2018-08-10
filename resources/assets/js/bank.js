@@ -3,7 +3,7 @@
  */
 const Instascan = require('instascan');
 var sha256 = require('js-sha256');
-function scanQR(callback, dialogLabel) {
+function scanQR(callback) {
 	let scanner = new Instascan.Scanner({ 
 		video: document.getElementById('preview'),
 		mirror: true,
@@ -19,9 +19,6 @@ function scanQR(callback, dialogLabel) {
 		});
 		scanner.start(cameras[0]).then(function(){
 			$('#videoPreviewModal').modal('show');
-			if (dialogLabel) {
-				$('#videoPreviewModalLabel').text(dialogLabel);
-			}
 			$('#videoPreviewModal').on('hide.bs.modal', function (e) {
 				scanner.stop();
 			})
@@ -76,7 +73,7 @@ $(function(){
 		scanQR(function(content){
 			$('#bank-container').empty().html('Searching card ...');
 			document.location = '/bank/withdrawal/cards/' + content;
-		}, qrCodeScannerLabel);
+		});
 	});
 
 	// Register QR code card
@@ -98,7 +95,7 @@ $(function(){
 				document.location = '/bank/withdrawal/cards/' + content;
 			})
 			.fail(ajaxError);
-		}, qrCodeScannerLabel);
+		});
 	});
 
 	// Coupon
@@ -137,7 +134,7 @@ function handoutCoupon(){
 				"amount": amount,
 				'code': content,
 			});
-		}, qrCodeScannerLabel);
+		});
 	} else {
 		sendHandoutRequest(btn, {
 			"_token": csrfToken,
