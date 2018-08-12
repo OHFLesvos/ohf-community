@@ -17,9 +17,10 @@ class ShopController extends Controller
         // code_redeemed
         $handout = CouponHandout::where('code', $code)->orderBy('date', 'asc')->first();
 
+        $redeemed = null;
         if ($handout != null) {
             $redeemed = $handout->code_redeemed;
-            if ($redeemed != null) {
+            if ($redeemed == null) {
                 $handout->code_redeemed = Carbon::now();
                 $handout->save();
             }

@@ -95,7 +95,7 @@ class NavigationComposer {
                 [
                     'route' => 'shop.index',
                     'caption' => __('shop.shop'),
-                    'icon' => 'shop',
+                    'icon' => 'shopping-bag',
                     'active' => 'shop/*',
                     'authorized' => true,
                 ],
