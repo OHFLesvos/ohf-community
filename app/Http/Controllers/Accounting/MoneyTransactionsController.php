@@ -109,7 +109,7 @@ class MoneyTransactionsController extends Controller
                         $query->whereNull('receipt_no');
                         $query->orWhereNull('receipt_picture');
                     }); 
-                } else if ($col == 'project' || $col == 'beneficiary' || $col == 'description') {
+                } else if ($col == 'beneficiary' || $col == 'description') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
                 } else {
                     $query->where($col, $filter[$col]);

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.2
+
+Accounting:
+
+* Exact filter for project
+
 ## 1.20.0
 
 Bank:
