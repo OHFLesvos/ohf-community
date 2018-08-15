@@ -15,7 +15,15 @@ class ShopController extends Controller
 
     public function searchCode(string $code) {
         // code_redeemed
-        $handout = CouponHandout::where('code', $code)->orderBy('date', 'asc')->first();
+        $handout = CouponHandout::where('code', $code)
+            ->whereDate('date', Carbon::today())
+            ->first();
+        if ($handout == null) {
+            $handout = CouponHandout::where('code', $code)
+                ->whereNull('code_redeemed')
+                ->orderBy('date', 'desc')
+                ->first();
+        }
 
         $redeemed = null;
         if ($handout != null) {
@@ -26,9 +34,16 @@ class ShopController extends Controller
             }
         }
 
+        $redeemed_cards = CouponHandout::where('code', $code)
+            ->whereDate('date', Carbon::today())
+            ->whereNotNull('code_redeemed')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
         return view('shop.searchCode', [
             'handout' => $handout,
             'redeemed' => $redeemed,
+            'redeemed_cards' => $redeemed_cards,
         ]);
     }
 }

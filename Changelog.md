@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.4
+
+Shop:
+
+* Improved shop interface
+
 ## 1.20.3
 
 Accounting:
