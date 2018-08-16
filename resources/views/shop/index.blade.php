@@ -19,18 +19,39 @@
         @if($code != null)
             @if($handout != null)
                 <div class="card mb-4">
-                    @if($redeemed != null)
-                        <div class="card-header bg-warning text-dark">
-                            Already redeemed {{ $redeemed }} ({{ $handout->updated_at->diffForHumans() }})
-                        </div>
-                    @else
-                        <div class="card-header bg-success text-light">
-                            Valid!
-                        </div>
-                    @endif
+                    <div class="card-header">
+                        Card {{ substr($code, 0, 7) }}
+                        <span class="pull-right">Registered {{ $handout->date }}</span>
+                    </div>
                     <div class="card-body">
-                        @include('people.person-label', ['person' => $handout->person ])<br>
-                        Card registered: {{ $handout->date }}
+
+                        <div class="row">
+                            <div class="col-auto">
+                                <span class="display-4">
+                                @if($handout->person->gender == 'f')@icon(female)
+                                @elseif($handout->person->gender == 'm')@icon(male)
+                                @endif
+                                </span>
+                            </div>
+                            <div class="col-auto mb-4 mb-sm-0">
+                                <a href="{{ route('people.show', $handout->person) }}" target="_blank">{{ $handout->person->family_name }} {{ $handout->person->name }}</a><br>
+                                @if(isset($handout->person->date_of_birth)){{ $handout->person->date_of_birth }} (age {{ $handout->person->age }})@endif<br>
+                                @if($handout->person->nationality != null){{ $handout->person->nationality }}@endif
+                            </div>
+                            <div class="col-sm">
+                                @if($redeemed != null)
+                                    @component('components.alert.warning')
+                                        Card already redeemed {{ $handout->updated_at->diffForHumans() }}
+                                    @endcomponent                                
+                                @else
+                                    @component('components.alert.success')
+                                        Card valid.
+                                    @endcomponent                                
+                                @endif
+                            </div>
+                        </div>
+
+                        
                     </div>
                 </div>
             @else
