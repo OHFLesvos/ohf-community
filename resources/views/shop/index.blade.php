@@ -21,7 +21,9 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         Card {{ substr($code, 0, 7) }}
-                        <span class="pull-right">Registered {{ $handout->date }}</span>
+                        <span class="pull-right">
+                            <span class="d-none d-sm-inline">Registered</span> {{ $handout->date }}
+                        </span>
                     </div>
                     <div class="card-body">
 
