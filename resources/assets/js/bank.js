@@ -389,6 +389,6 @@ function storeNationality(person, nationalitySelect, resultElem) {
 function checkShopCard() {
 	scanQR(function(content){
 		$('#shop-container').empty().html('Searching card ...');
-		document.location = '/shop/code/' + content;
+		document.location = shopUrl + '?code=' + content;
 	});
 }

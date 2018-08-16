@@ -130,7 +130,6 @@ Route::group(['middleware' => 'language'], function () {
 
         Route::namespace('Shop')->prefix('shop')->name('shop.')->group(function(){
             Route::get('/', 'ShopController@index')->name('index');
-            Route::get('/code/{code}', 'ShopController@searchCode')->name('searchCode');
         });
 
         //
