@@ -40,7 +40,6 @@ class ShopController extends Controller
 
         $redeemed_cards = CouponHandout
             ::whereDate('code_redeemed', Carbon::today())
-            ->where('code', '!=', $code)
             ->orderBy('updated_at', 'desc')
             ->get();
 

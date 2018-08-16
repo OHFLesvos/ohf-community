@@ -40,15 +40,19 @@
                                 @if(isset($handout->person->date_of_birth)){{ $handout->person->date_of_birth }} (age {{ $handout->person->age }})@endif<br>
                                 @if($handout->person->nationality != null){{ $handout->person->nationality }}@endif
                             </div>
-                            <div class="col-sm">
+                            <div class="col-sm text-center">
                                 @if($redeemed != null)
-                                    @component('components.alert.warning')
-                                        Card already redeemed {{ $handout->updated_at->diffForHumans() }}
-                                    @endcomponent                                
+                                    {{-- @component('components.alert.warning') --}}
+                                    <strong class="text-warning">
+                                        Card already redeemed <br><small>{{ $handout->updated_at->diffForHumans() }}</small>
+                                    </strong>
+                                    {{-- @endcomponent                                 --}}
                                 @else
-                                    @component('components.alert.success')
+                                    {{-- @component('components.alert.success') --}}
+                                    <strong class="text-success">
                                         Card valid.
-                                    @endcomponent                                
+                                    {{-- @endcomponent                                 --}}
+                                    </strong>
                                 @endif
                             </div>
                         </div>
