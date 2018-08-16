@@ -6,12 +6,13 @@
 
     <div id="shop-container">
 
-        <p class="text-center">
-            <button type="button" class="btn btn-lg btn-primary check-shop-card">
+        <p>
+            <button type="button" class="btn btn-lg btn-block btn-primary check-shop-card">
+                @icon(qrcode)
                 @if($code != null)
                     Scan other card
                 @else
-                    @lang('people.scan')
+                    Scan card
                 @endif
             </button>
         </p>
@@ -26,38 +27,39 @@
                         </span>
                     </div>
                     <div class="card-body">
-
-                        <div class="row">
-                            <div class="col-auto">
-                                <span class="display-4">
-                                @if($handout->person->gender == 'f')@icon(female)
-                                @elseif($handout->person->gender == 'm')@icon(male)
-                                @endif
-                                </span>
+                        <div class="row align-items-center">
+                            <div class="col mb-4 mb-sm-0">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <span class="display-4">
+                                        @if($handout->person->gender == 'f')@icon(female)
+                                        @elseif($handout->person->gender == 'm')@icon(male)
+                                        @endif
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <a href="{{ route('people.show', $handout->person) }}" target="_blank">{{ $handout->person->family_name }} {{ $handout->person->name }}</a><br>
+                                        @if(isset($handout->person->date_of_birth)){{ $handout->person->date_of_birth }} (age {{ $handout->person->age }})@endif<br>
+                                        @if($handout->person->nationality != null){{ $handout->person->nationality }}@endif
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-auto mb-4 mb-sm-0">
-                                <a href="{{ route('people.show', $handout->person) }}" target="_blank">{{ $handout->person->family_name }} {{ $handout->person->name }}</a><br>
-                                @if(isset($handout->person->date_of_birth)){{ $handout->person->date_of_birth }} (age {{ $handout->person->age }})@endif<br>
-                                @if($handout->person->nationality != null){{ $handout->person->nationality }}@endif
-                            </div>
-                            <div class="col-sm text-center">
-                                @if($redeemed != null)
-                                    {{-- @component('components.alert.warning') --}}
+                            <div class="col-sm-auto text-center">
+                                @if($handout->code_redeemed != null)
                                     <strong class="text-warning">
-                                        Card already redeemed <br><small>{{ $handout->updated_at->diffForHumans() }}</small>
+                                        @icon(warning) Card already redeemed.<br>
+                                        <small>{{ $handout->updated_at->diffForHumans() }}</small>
                                     </strong>
-                                    {{-- @endcomponent                                 --}}
                                 @else
-                                    {{-- @component('components.alert.success') --}}
-                                    <strong class="text-success">
-                                        Card valid.
-                                    {{-- @endcomponent                                 --}}
-                                    </strong>
+                                    {{ Form::open(['route' => 'shop.redeem']) }}
+                                    {{ Form::hidden('code', $code) }}
+                                    <button type="submit" class="btn btn-lg btn-block btn-success check-shop-card">
+                                        @icon(check) Redeem
+                                    </button>
+                                    {{ Form::close() }}
                                 @endif
                             </div>
                         </div>
-
-                        
                     </div>
                 </div>
             @else

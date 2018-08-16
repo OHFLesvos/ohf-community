@@ -13,7 +13,6 @@ class ShopController extends Controller
 
         $code = $request->code;
         $handout = null;
-        $redeemed = null;
 
         if ($code != null) {
 
@@ -27,15 +26,6 @@ class ShopController extends Controller
                     ->orderBy('date', 'desc')
                     ->first();
             }
-
-            if ($handout != null) {
-                $redeemed = $handout->code_redeemed;
-                if ($redeemed == null) {
-                    $handout->code_redeemed = Carbon::now();
-                    $handout->save();
-                }
-            }
-                
         }
 
         $redeemed_cards = CouponHandout
@@ -46,9 +36,34 @@ class ShopController extends Controller
         return view('shop.index', [
             'code' => $code,
             'handout' => $handout,
-            'redeemed' => $redeemed,
             'redeemed_cards' => $redeemed_cards,
         ]);
+    }
+
+    public function redeem(Request $request) {
+
+        // code_redeemed
+        $handout = CouponHandout::where('code', $request->code)
+            ->whereDate('date', Carbon::today())
+            ->first();
+        if ($handout == null) {
+            $handout = CouponHandout::where('code', $code)
+                ->whereNull('code_redeemed')
+                ->orderBy('date', 'desc')
+                ->first();
+        }
+
+        if ($handout != null) {
+            $redeemed = $handout->code_redeemed;
+            if ($redeemed == null) {
+                $handout->code_redeemed = Carbon::now();
+                $handout->save();
+                return redirect()->route('shop.index')
+                    ->with('success', __('shop.code_redeemed'));
+            }
+        }
+
+        return redirect()->route('shop.index');
     }
 }
 
