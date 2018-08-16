@@ -30,17 +30,25 @@
                         <div class="row align-items-center">
                             <div class="col mb-4 mb-sm-0">
                                 <div class="row align-items-center">
-                                    <div class="col-auto">
+                                    <div class="col-auto text-center">
                                         <span class="display-4">
-                                        @if($handout->person->gender == 'f')@icon(female)
-                                        @elseif($handout->person->gender == 'm')@icon(male)
-                                        @endif
+                                            @if($handout->person->gender == 'f')@icon(female)
+                                            @elseif($handout->person->gender == 'm')@icon(male)
+                                            @endif
                                         </span>
                                     </div>
                                     <div class="col">
                                         <a href="{{ route('people.show', $handout->person) }}" target="_blank">{{ $handout->person->family_name }} {{ $handout->person->name }}</a><br>
                                         @if(isset($handout->person->date_of_birth)){{ $handout->person->date_of_birth }} (age {{ $handout->person->age }})@endif<br>
                                         @if($handout->person->nationality != null){{ $handout->person->nationality }}@endif
+                                        @php
+                                            $children = $handout->person->children;
+                                        @endphp
+                                        @if(count($children) > 0)
+                                            @foreach($children as $child)
+                                                @icon(child) {{ $child->family_name }} {{ $child->name }} (age {{ $child->age }})<br>
+                                            @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +84,9 @@
         <table class="table table-sm table-striped mb-4">
             @foreach($redeemed_cards as $rc)
                 <tr>
-                    <td>@include('people.person-label', ['person' => $rc->person ])</td>
+                    <td>
+                        @include('people.person-label', ['person' => $rc->person ])
+                    </td>
                     <td>{{ $rc->updated_at->diffForHumans() }}</td>
                 </tr>
             @endforeach
