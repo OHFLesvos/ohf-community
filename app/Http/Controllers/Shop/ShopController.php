@@ -59,7 +59,7 @@ class ShopController extends Controller
                 $handout->code_redeemed = Carbon::now();
                 $handout->save();
                 return redirect()->route('shop.index')
-                    ->with('success', __('shop.code_redeemed'));
+                    ->with('success', __('shop.card_redeemed'));
             }
         }
 

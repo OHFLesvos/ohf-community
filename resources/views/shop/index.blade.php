@@ -10,9 +10,9 @@
             <button type="button" class="btn btn-lg btn-block btn-primary check-shop-card">
                 @icon(qrcode)
                 @if($code != null)
-                    Scan other card
+                    @lang('shop.scan_another_card')
                 @else
-                    Scan card
+                    @lang('shop.scan_card')
                 @endif
             </button>
         </p>
@@ -21,9 +21,9 @@
             @if($handout != null)
                 <div class="card mb-4">
                     <div class="card-header">
-                        Card {{ substr($code, 0, 7) }}
+                        @lang('shop.card') {{ substr($code, 0, 7) }}
                         <span class="pull-right">
-                            <span class="d-none d-sm-inline">Registered</span> {{ $handout->date }}
+                            <span class="d-none d-sm-inline">@lang('shop.registered')</span> {{ $handout->date }}
                         </span>
                     </div>
                     <div class="card-body">
@@ -38,7 +38,8 @@
                                         </span>
                                     </div>
                                     <div class="col">
-                                        <a href="{{ route('people.show', $handout->person) }}" target="_blank">{{ $handout->person->family_name }} {{ $handout->person->name }}</a><br>
+                                        {{ $handout->person->family_name }} {{ $handout->person->name }} 
+                                        <a href="{{ route('people.show', $handout->person) }}" target="_blank">@icon(search)</a><br>
                                         @if(isset($handout->person->date_of_birth)){{ $handout->person->date_of_birth }} (age {{ $handout->person->age }})@endif<br>
                                         @if($handout->person->nationality != null){{ $handout->person->nationality }}@endif
                                         @php
@@ -55,14 +56,14 @@
                             <div class="col-sm-auto text-center">
                                 @if($handout->code_redeemed != null)
                                     <strong class="text-warning">
-                                        @icon(warning) Card already redeemed.<br>
+                                        @icon(warning) @lang('shop.card_already_redeemed')<br>
                                         <small>{{ $handout->updated_at->diffForHumans() }}</small>
                                     </strong>
                                 @else
                                     {{ Form::open(['route' => 'shop.redeem']) }}
                                     {{ Form::hidden('code', $code) }}
                                     <button type="submit" class="btn btn-lg btn-block btn-success check-shop-card">
-                                        @icon(check) Redeem
+                                        @icon(check) @lang('shop.redeem')
                                     </button>
                                     {{ Form::close() }}
                                 @endif
@@ -72,27 +73,26 @@
                 </div>
             @else
                 @component('components.alert.warning')
-                    Card not registered.
+                    @lang('shop.card_not_registered')
                 @endcomponent
             @endif
         @endif
 
+        @if(count($redeemed_cards) > 0)
+            <h4 class="mb-3">@lang('shop.redeemed_cards') (@lang('shop.num_today', [ 'num' => count($redeemed_cards) ]))</h4>
+            <table class="table table-sm table-striped mb-4">
+                @foreach($redeemed_cards as $rc)
+                    <tr>
+                        <td>
+                            <a href="{{ route('shop.index') }}?code={{ $rc->code }}">@include('people.person-label', ['person' => $rc->person ])</a>
+                        </td>
+                        <td>{{ $rc->updated_at->diffForHumans() }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        @endif
+
     </div>
-
-    @if(count($redeemed_cards) > 0)
-        <h4 class="mb-3">Redeemed cards ({{ count($redeemed_cards) }} today)</h4>
-        <table class="table table-sm table-striped mb-4">
-            @foreach($redeemed_cards as $rc)
-                <tr>
-                    <td>
-                        @include('people.person-label', ['person' => $rc->person ])
-                    </td>
-                    <td>{{ $rc->updated_at->diffForHumans() }}</td>
-                </tr>
-            @endforeach
-        </table>
-    @endif
-
 
 @endsection
 
