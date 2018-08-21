@@ -3,7 +3,7 @@
         [
             'url' => route('shop.index'),
             'title' => __('shop.scan_card'),
-            'icon' => 'qr-code',
+            'icon' => 'qrcode',
             'authorized' => true,
         ],
     ];
