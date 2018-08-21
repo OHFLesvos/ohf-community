@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.7
+
+Shop:
+
+* Accept coupons from today or yesterday
+
 ## 1.20.6
 
 Shop:

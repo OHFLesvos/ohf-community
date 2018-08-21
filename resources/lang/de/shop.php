@@ -12,4 +12,5 @@ return [
     'redeemed_cards' => 'Eingelöste Karten',
     'num_today' => ':num heute',
     'card_redeemed' => 'Karte wurde eingelöst.',
+    'num_cards_redeemed_today' => ':num Karte wurde heute eingelöst.|:num Karten wurden heute eingelöst.',
 ];

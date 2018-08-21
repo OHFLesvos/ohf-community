@@ -62,7 +62,7 @@
                                 @else
                                     {{ Form::open(['route' => 'shop.redeem']) }}
                                     {{ Form::hidden('code', $code) }}
-                                    <button type="submit" class="btn btn-lg btn-block btn-success check-shop-card">
+                                    <button type="submit" class="btn btn-lg btn-block btn-success">
                                         @icon(check) @lang('shop.redeem')
                                     </button>
                                     {{ Form::close() }}

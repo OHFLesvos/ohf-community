@@ -26,6 +26,7 @@ class HomeController extends Controller
         $widgetClasses = [
             \App\Widgets\BankWidget::class,
             \App\Widgets\PersonsWidget::class,
+            \App\Widgets\ShopWidget::class,
             \App\Widgets\WikiArticlesWidget::class,
             \App\Widgets\AccountingWidget::class,
             \App\Widgets\InventoryWidget::class,

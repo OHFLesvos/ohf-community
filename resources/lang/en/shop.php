@@ -12,4 +12,5 @@ return [
     'redeemed_cards' => 'Redeemed cards',
     'num_today' => ':num today',
     'card_redeemed' => 'Card has been redeemed.',
+    'num_cards_redeemed_today' => ':num card has been redeemed today.|:num cards have been redeemed today.',
 ];

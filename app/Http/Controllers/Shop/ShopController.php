@@ -17,10 +17,13 @@ class ShopController extends Controller
         if ($code != null) {
 
             // code_redeemed
+            $acceptDate = Carbon::today()->subDays(1);
             $handout = CouponHandout::where('code', $code)
-                ->whereDate('date', Carbon::today())
+                ->whereDate('date', '>=', $acceptDate)
+                ->orderBy('date', 'desc')
                 ->first();
             if ($handout == null) {
+                echo 1;
                 $handout = CouponHandout::where('code', $code)
                     ->whereNull('code_redeemed')
                     ->orderBy('date', 'desc')
@@ -43,8 +46,10 @@ class ShopController extends Controller
     public function redeem(Request $request) {
 
         // code_redeemed
+        $acceptDate = Carbon::today()->subDays(1);
         $handout = CouponHandout::where('code', $request->code)
-            ->whereDate('date', Carbon::today())
+            ->whereDate('date', '>=', $acceptDate)
+            ->orderBy('date', 'desc')
             ->first();
         if ($handout == null) {
             $handout = CouponHandout::where('code', $code)
