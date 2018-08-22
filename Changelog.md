@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.10
+
+Shop:
+
+* Added authorization
+
 ## 1.20.9
 
 General:
