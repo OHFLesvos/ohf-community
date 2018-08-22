@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.20.9
+
+General:
+
+* Libraries updated
+
+Shop:
+
+* Minor fixes
+
 ## 1.20.8
 
 Shop:

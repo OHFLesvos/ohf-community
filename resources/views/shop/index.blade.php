@@ -47,7 +47,7 @@
                                         @endphp
                                         @if(count($children) > 0)
                                             @foreach($children as $child)
-                                                @icon(child) {{ $child->family_name }} {{ $child->name }} (age {{ $child->age }})<br>
+                                                <br>@icon(child) {{ $child->family_name }} {{ $child->name }} (age {{ $child->age }})
                                             @endforeach
                                         @endif
                                     </div>
