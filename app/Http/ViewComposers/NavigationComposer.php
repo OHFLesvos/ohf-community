@@ -96,8 +96,8 @@ class NavigationComposer {
                     'route' => 'shop.index',
                     'caption' => __('shop.shop'),
                     'icon' => 'shopping-bag',
-                    'active' => 'shop/*',
-                    'authorized' => true,
+                    'active' => 'shop*',
+                    'authorized' => Gate::allows('validate-shop-coupons'),
                 ],
                 [
                     'route' => 'calendar',

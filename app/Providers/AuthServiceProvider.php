@@ -41,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
             'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
             'do-bank-withdrawals' => 'bank.withdrawals.do',
             'do-bank-deposits' => 'bank.deposits.do',
+            'validate-shop-coupons' => 'shop.coupons.validate',
             'view-bank-reports' => 'bank.statistics.view',
             'view-people-reports' => 'people.reports.view',
             'view-reports' => ['people.reports.view', 'bank.statistics.view', 'kitchen.reports.view', 'app.usermgmt.view'],

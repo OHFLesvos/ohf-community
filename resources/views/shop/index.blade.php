@@ -86,7 +86,7 @@
             <h4 class="mb-3">@lang('shop.redeemed_cards') (@lang('shop.num_today', [ 'num' => count($redeemed_cards) ]))</h4>
             <table class="table table-sm table-striped mb-4">
                 @foreach($redeemed_cards as $rc)
-                    <tr>
+                    <tr @if($rc->code == $code) class="table-info" @endif>
                         <td>
                             <a href="{{ route('shop.index') }}?code={{ $rc->code }}">@include('people.person-label', ['person' => $rc->person ])</a>
                         </td>

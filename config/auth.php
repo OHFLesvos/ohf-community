@@ -118,6 +118,9 @@ return [
         'bank.statistics.view' => [
             'sensitive' => false,
         ],
+        'shop.coupons.validate' => [
+            'sensitive' => true,
+        ],
         'bank.configure' => [
             'sensitive' => false,
         ],

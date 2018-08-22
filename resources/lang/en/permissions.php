@@ -8,6 +8,7 @@ return [
     'bank.deposits.do' => 'Bank: Deposit coupons',
     'bank.statistics.view' => 'Bank: View reports',
     'bank.configure' => 'Bank: Configure settings',
+    'shop.coupons.validate' => 'Shop: Validate coupons',
     'logistics.use' => 'Use logistics',
     'tasks.use' => 'Use tasks',
     'kitchen.reports.view' => 'Kitchen: View reports',

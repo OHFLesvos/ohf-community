@@ -8,6 +8,7 @@ return [
     'bank.deposits.do' => 'Bank: Einzahlungen durchführen',
     'bank.statistics.view' => 'Bank: Berichte betrachten',
     'bank.configure' => 'Bank: Einstellungen konfigurieren',
+    'shop.coupons.validate' => 'Markt: Coupons validieren',
     'logistics.use' => 'Logistikmodul benutzen',
     'tasks.use' => 'Aufgabenmodul benutzen',
     'kitchen.reports.view' => 'Küche: Berichte betrachten',

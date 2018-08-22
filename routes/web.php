@@ -128,7 +128,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::post('/people/duplicates', 'PeopleController@applyDuplicates')->name('people.applyDuplicates');
         Route::resource('/people', 'PeopleController');
 
-        Route::namespace('Shop')->prefix('shop')->name('shop.')->group(function(){
+        Route::namespace('Shop')->prefix('shop')->name('shop.')->middleware(['can:validate-shop-coupons'])->group(function(){
             Route::get('/', 'ShopController@index')->name('index');
             Route::post('/', 'ShopController@redeem')->name('redeem');
         });

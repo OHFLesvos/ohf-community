@@ -11,7 +11,7 @@ class ShopWidget implements Widget
 {
     function authorize(): bool
     {
-        return true; // todo
+        return Gate::allows('validate-shop-coupons');
     }
 
     function view(): string
