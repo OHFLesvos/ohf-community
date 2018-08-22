@@ -6,29 +6,38 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CouponHandout;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ShopController extends Controller
 {
+    const COUPON_VALID_DAYS = 2;
+
     public function index(Request $request) {
 
         $code = $request->code;
         $handout = null;
+        $expired = false;
 
         if ($code != null) {
 
             // code_redeemed
-            $acceptDate = Carbon::today()->subDays(1);
+            $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
             $handout = CouponHandout::where('code', $code)
                 ->whereDate('date', '>=', $acceptDate)
                 ->orderBy('date', 'desc')
                 ->first();
             if ($handout == null) {
-                echo 1;
                 $handout = CouponHandout::where('code', $code)
                     ->whereNull('code_redeemed')
                     ->orderBy('date', 'desc')
                     ->first();
+                $expired = true;
             }
+
+            Log::notice('Shop: Search code.', [
+                'code' => $code,
+                'handout' => $handout != null ? $handout->date : null,
+            ]);
         }
 
         $redeemed_cards = CouponHandout
@@ -40,19 +49,20 @@ class ShopController extends Controller
             'code' => $code,
             'handout' => $handout,
             'redeemed_cards' => $redeemed_cards,
+            'expired' => $expired,
         ]);
     }
 
     public function redeem(Request $request) {
 
         // code_redeemed
-        $acceptDate = Carbon::today()->subDays(1);
+        $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
         $handout = CouponHandout::where('code', $request->code)
             ->whereDate('date', '>=', $acceptDate)
             ->orderBy('date', 'desc')
             ->first();
         if ($handout == null) {
-            $handout = CouponHandout::where('code', $code)
+            $handout = CouponHandout::where('code', $request->code)
                 ->whereNull('code_redeemed')
                 ->orderBy('date', 'desc')
                 ->first();
@@ -63,6 +73,11 @@ class ShopController extends Controller
             if ($redeemed == null) {
                 $handout->code_redeemed = Carbon::now();
                 $handout->save();
+
+                Log::notice('Shop: Redeem code.', [
+                    'code' => $request->code,
+                ]);
+
                 return redirect()->route('shop.index')
                     ->with('success', __('shop.card_redeemed'));
             }

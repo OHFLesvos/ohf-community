@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.8
+
+Shop:
+
+* Minor fixes
+
 ## 1.20.7
 
 Shop:

@@ -8,6 +8,7 @@ return [
     'card_not_registered' => 'Card not registered.',
     'redeem' => 'Redeem',
     'card_already_redeemed' => 'Card already redeemed.',
+    'card_expired' => 'Card expired.',
     'card' => 'Card',
     'redeemed_cards' => 'Redeemed cards',
     'num_today' => ':num today',

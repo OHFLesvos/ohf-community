@@ -59,6 +59,10 @@
                                         @icon(warning) @lang('shop.card_already_redeemed')<br>
                                         <small>{{ $handout->updated_at->diffForHumans() }}</small>
                                     </strong>
+                                @elseif($expired)
+                                    <strong class="text-warning">
+                                        @icon(warning) @lang('shop.card_expired')<br>
+                                    </strong>
                                 @else
                                     {{ Form::open(['route' => 'shop.redeem']) }}
                                     {{ Form::hidden('code', $code) }}
