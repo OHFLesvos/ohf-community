@@ -7,10 +7,15 @@ use App\Http\Controllers\Controller;
 use App\CouponHandout;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\People\ShopCardResource;
 
 class ShopController extends Controller
 {
     const COUPON_VALID_DAYS = 2;
+
+    public function __construct() {
+        ShopCardResource::withoutWrapping();
+    }
 
     public function index(Request $request) {
 
@@ -53,6 +58,33 @@ class ShopController extends Controller
         ]);
     }
 
+    // API: Search card
+    public function searchCard(Request $request) {
+        $code = $request->code;
+        if ($code != null) {
+            $handout = null;
+            $expired = false;
+   
+            $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
+            $handout = CouponHandout::where('code', $code)
+                ->whereDate('date', '>=', $acceptDate)
+                ->orderBy('date', 'desc')
+                ->first();
+            if ($handout == null) {
+                $handout = CouponHandout::where('code', $code)
+                    ->whereNull('code_redeemed')
+                    ->orderBy('date', 'desc')
+                    ->first();
+                $expired = true;
+            }
+
+            if ($handout != null) {
+                return (new ShopCardResource($handout));
+            }
+        }
+        return response()->json([], 404);
+    }
+
     public function redeem(Request $request) {
 
         // code_redeemed
@@ -84,6 +116,11 @@ class ShopController extends Controller
         }
 
         return redirect()->route('shop.index');
+    }
+
+    // API: Redeem card
+    public function redeemCard() {
+        // TODO
     }
 }
 

@@ -64,3 +64,13 @@ Route::namespace('Fundraising')
         Route::name('donations.raiseNowWebHookListener')->post('donations/raiseNowWebHookListener', 'DonationController@raiseNowWebHookListener');
     });
 
+// Shop
+Route::namespace('Shop')
+    ->prefix('shop')
+    ->name('shop.')
+    // TODO: Authentication and authorization
+    //->middleware(['can:validate-shop-coupons'])
+    ->group(function(){
+        Route::get('/', 'ShopController@searchCard')->name('searchCard');
+        Route::post('/', 'ShopController@redeemCard')->name('redeemCard');
+});
