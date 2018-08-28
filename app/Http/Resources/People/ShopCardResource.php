@@ -21,6 +21,7 @@ class ShopCardResource extends JsonResource
             'date_of_birth' => $this->person->date_of_birth,
             'age' => $this->person->age,
             'nationality' => $this->person->nationality,
+            'gender' => $this->person->gender,
             'date' => $this->date,
             'code' => $this->code,
             'code_redeemed' => $this->code_redeemed,
