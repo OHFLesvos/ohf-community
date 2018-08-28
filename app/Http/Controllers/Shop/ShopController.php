@@ -8,6 +8,7 @@ use App\CouponHandout;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\People\ShopCardResource;
+use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
@@ -27,12 +28,20 @@ class ShopController extends Controller
 
             // code_redeemed
             $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
-            $handout = CouponHandout::where('code', $code)
+            $handout = CouponHandout
+                ::where(function($q) use ($code) {
+                    return $q->where('code', $code)
+                        ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+                })
                 ->whereDate('date', '>=', $acceptDate)
                 ->orderBy('date', 'desc')
                 ->first();
             if ($handout == null) {
-                $handout = CouponHandout::where('code', $code)
+                $handout = CouponHandout
+                    ::where(function($q) use ($code) {
+                        return $q->where('code', $code)
+                            ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+                    })
                     ->whereNull('code_redeemed')
                     ->orderBy('date', 'desc')
                     ->first();
@@ -66,12 +75,20 @@ class ShopController extends Controller
             $expired = false;
    
             $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
-            $handout = CouponHandout::where('code', $code)
+            $handout = CouponHandout
+                ::where(function($q) use ($code) {
+                    return $q->where('code', $code)
+                        ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+                })
                 ->whereDate('date', '>=', $acceptDate)
                 ->orderBy('date', 'desc')
                 ->first();
             if ($handout == null) {
-                $handout = CouponHandout::where('code', $code)
+                $handout = CouponHandout
+                    ::where(function($q) use ($code) {
+                        return $q->where('code', $code)
+                            ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+                    })
                     ->whereNull('code_redeemed')
                     ->orderBy('date', 'desc')
                     ->first();
@@ -89,12 +106,21 @@ class ShopController extends Controller
 
         // code_redeemed
         $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
-        $handout = CouponHandout::where('code', $request->code)
+        $code = $request->code;
+        $handout = CouponHandout
+            ::where(function($q) use ($code) {
+                return $q->where('code', $code)
+                    ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+            })
             ->whereDate('date', '>=', $acceptDate)
             ->orderBy('date', 'desc')
             ->first();
         if ($handout == null) {
-            $handout = CouponHandout::where('code', $request->code)
+            $handout = CouponHandout
+                ::where(function($q) use ($code) {
+                    return $q->where('code', $code)
+                        ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+                })            
                 ->whereNull('code_redeemed')
                 ->orderBy('date', 'desc')
                 ->first();
