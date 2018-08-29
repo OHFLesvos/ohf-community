@@ -454,6 +454,10 @@ class MoneyTransactionsController extends Controller
                 $excel->getActiveSheet()->setAutoFilter(
                     $excel->getActiveSheet()->calculateWorksheetDimension()
                 );
+
+                for ($col = 'A'; $col !== 'J'; $col++) {
+                    $excel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
+                }                  
             }
 
             // Summary
