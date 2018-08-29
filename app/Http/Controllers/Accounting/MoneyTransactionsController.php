@@ -124,7 +124,7 @@ class MoneyTransactionsController extends Controller
         }
         
         // Get results
-        $transactions = $query->paginate(100);
+        $transactions = $query->paginate(250);
 
         // Single receipt no. query
         if ($transactions->count() == 1 && !empty($filter['receipt_no'])) {
