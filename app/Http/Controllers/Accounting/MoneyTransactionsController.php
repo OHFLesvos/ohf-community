@@ -475,10 +475,6 @@ class MoneyTransactionsController extends Controller
 
             });
 
-            $excel->getActiveSheet()->setAutoFilter(
-                $excel->getActiveSheet()->calculateWorksheetDimension()
-            );
-
         })->export('xlsx');
     }
 
