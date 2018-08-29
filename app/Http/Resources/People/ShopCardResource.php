@@ -25,7 +25,6 @@ class ShopCardResource extends JsonResource
             'date' => $this->date,
             'code' => $this->code,
             'code_redeemed' => $this->code_redeemed,
-            //'end' => (new Carbon($this->end_date))->toIso8601String(),
         ];
     }
 }
