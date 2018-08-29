@@ -470,8 +470,10 @@ class MoneyTransactionsController extends Controller
                 $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
                 $sheet->getStyle('B2:B'.(count($months) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKGREEN));
                 $sheet->getStyle('C2:C'.(count($months) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKRED));
+                $sheet->getStyle('D')->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('E')->getNumberFormat()->setFormatCode('#,##0.00');
 
-                $sheet->getStyle('E2:E'.(count($months) + 1))->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+                //$sheet->getStyle('E2:E'.(count($months) + 1))->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
 
             });
 
