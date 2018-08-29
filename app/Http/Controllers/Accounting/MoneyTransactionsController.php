@@ -422,6 +422,21 @@ class MoneyTransactionsController extends Controller
             ->toArray();
 
         \Excel::create(Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')', function($excel) use($months) {
+
+            // All transactions
+            $excel->sheet(__('accounting.all_transactions'), function($sheet) {
+                $transactions = MoneyTransaction
+                    ::orderBy('date', 'ASC')
+                    ->orderBy('created_at', 'ASC')
+                    ->get();
+
+                self::fillTransactionEportSheet($sheet, $transactions);
+            });
+            $excel->getActiveSheet()->setAutoFilter(
+                $excel->getActiveSheet()->calculateWorksheetDimension()
+            );
+
+            // Transactions by month
             foreach($months as $month) {
                 $excel->sheet($month->formatLocalized('%B %Y'), function($sheet) use ($month) {
                     $dateFrom = $month;
@@ -434,32 +449,14 @@ class MoneyTransactionsController extends Controller
                         ->whereDate('date', '<=', $dateTo)                        
                         ->get();
 
-                    $sheet->setOrientation('landscape');
-                    $sheet->freezeFirstRow();
-                    $sheet->loadView('accounting.transactions.export', [
-                        'transactions' => $transactions,
-                    ]);
-                    $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
-                    $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
-                    $sheet->getStyle('B2:B'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKGREEN));
-                    $sheet->getStyle('C2:C'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKRED));
-
-                    // $sumCell = 'B' . (count($transactions) + 3);
-                    // $sheet->setCellValue($sumCell, '=SUM(B2:B' . (count($transactions) + 1) . ')');
-                    // //$sheet->setCellValue($sumCell, $transactions->where('type', 'income')->sum('amount'));
-                    // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
-
-                    // $sumCell = 'C' . (count($transactions) + 3);
-                    // $sheet->setCellValue($sumCell, '=SUM(C2:C' . (count($transactions) + 1) . ')');
-                    // //$sheet->setCellValue($sumCell, $transactions->where('type', 'spending')->sum('amount'));
-                    // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
-
+                    self::fillTransactionEportSheet($sheet, $transactions);
                 });
                 $excel->getActiveSheet()->setAutoFilter(
                     $excel->getActiveSheet()->calculateWorksheetDimension()
                 );
             }
 
+            // Summary
             $excel->sheet(__('accounting.summary'), function($sheet) use($months) {
                 $sheet->setOrientation('landscape');
                 $sheet->freezeFirstRow();
@@ -478,6 +475,28 @@ class MoneyTransactionsController extends Controller
             });
 
         })->export('xlsx');
+    }
+
+    private static function fillTransactionEportSheet($sheet, $transactions) {
+        $sheet->setOrientation('landscape');
+        $sheet->freezeFirstRow();
+        $sheet->loadView('accounting.transactions.export', [
+            'transactions' => $transactions,
+        ]);
+        $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
+        $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
+        $sheet->getStyle('B2:B'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKGREEN));
+        $sheet->getStyle('C2:C'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKRED));
+
+        // $sumCell = 'B' . (count($transactions) + 3);
+        // $sheet->setCellValue($sumCell, '=SUM(B2:B' . (count($transactions) + 1) . ')');
+        // //$sheet->setCellValue($sumCell, $transactions->where('type', 'income')->sum('amount'));
+        // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+
+        // $sumCell = 'C' . (count($transactions) + 3);
+        // $sheet->setCellValue($sumCell, '=SUM(C2:C' . (count($transactions) + 1) . ')');
+        // //$sheet->setCellValue($sumCell, $transactions->where('type', 'spending')->sum('amount'));
+        // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
     }
 
 }

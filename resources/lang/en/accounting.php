@@ -3,6 +3,7 @@
 return [
     'accounting' => 'Accounting',
     'transactions' => 'Transactions',
+    'all_transactions' => 'All transactions',
     'summary' => 'Summary',
     'no_transactions_found' => 'No transactions found.',
     'income' => 'Income',
