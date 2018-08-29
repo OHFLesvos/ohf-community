@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.11
+
+Accounting:
+
+* Export with summary
+
 ## 1.20.10
 
 Shop:

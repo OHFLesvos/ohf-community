@@ -441,21 +441,44 @@ class MoneyTransactionsController extends Controller
                     ]);
                     $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
                     $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
+                    $sheet->getStyle('B2:B'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKGREEN));
+                    $sheet->getStyle('C2:C'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKRED));
 
-                    //$sheet->setCellValue($sumCell, '=SUM(B2:B' . (count($transactions) + 1) . ')');
-                    $sumCell = 'B' . (count($transactions) + 3);
-                    $sheet->setCellValue($sumCell, $transactions->where('type', 'income')->sum('amount'));
-                    $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+                    // $sumCell = 'B' . (count($transactions) + 3);
+                    // $sheet->setCellValue($sumCell, '=SUM(B2:B' . (count($transactions) + 1) . ')');
+                    // //$sheet->setCellValue($sumCell, $transactions->where('type', 'income')->sum('amount'));
+                    // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
 
-                    $sumCell = 'C' . (count($transactions) + 3);
-                    $sheet->setCellValue($sumCell, $transactions->where('type', 'spending')->sum('amount'));
-                    $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+                    // $sumCell = 'C' . (count($transactions) + 3);
+                    // $sheet->setCellValue($sumCell, '=SUM(C2:C' . (count($transactions) + 1) . ')');
+                    // //$sheet->setCellValue($sumCell, $transactions->where('type', 'spending')->sum('amount'));
+                    // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
 
                 });
                 $excel->getActiveSheet()->setAutoFilter(
                     $excel->getActiveSheet()->calculateWorksheetDimension()
                 );
             }
+
+            $excel->sheet(__('accounting.summary'), function($sheet) use($months) {
+                $sheet->setOrientation('landscape');
+                $sheet->freezeFirstRow();
+                $sheet->loadView('accounting.transactions.export_summary', [
+                    'months' => $months,
+                ]);
+                $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
+                $sheet->getStyle('B2:B'.(count($months) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKGREEN));
+                $sheet->getStyle('C2:C'.(count($months) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKRED));
+
+                $sheet->getStyle('E2:E'.(count($months) + 1))->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+
+            });
+
+            $excel->getActiveSheet()->setAutoFilter(
+                $excel->getActiveSheet()->calculateWorksheetDimension()
+            );
+
         })->export('xlsx');
     }
 

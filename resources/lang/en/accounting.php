@@ -23,4 +23,5 @@ return [
     'registered_today' => 'Registered today',
     'no_receipt' => 'No receipt',
     'difference' => 'Difference',
+    'month' => 'Month',
 ];
