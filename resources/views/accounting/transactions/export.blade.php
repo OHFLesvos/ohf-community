@@ -10,6 +10,8 @@
             <th>@lang('app.description')</th>
             <th>@lang('app.registered')</th>
             <th>@lang('app.author')</th>
+            <th>@lang('accounting.wallet_owner')</th>
+            <th>@lang('app.remarks')</th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +29,8 @@
                 @endphp
                 <td>{{ $transaction->created_at }}</td>
                 <td>@isset($audit){{ $audit->getMetadata()['user_name'] }}@endisset</td>
+                <td>{{ $transaction->wallet_owner }}</td>
+                <td>{{ $transaction->remarks }}</td>
             </tr>
         @endforeach
     </tbody>

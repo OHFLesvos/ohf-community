@@ -23,6 +23,8 @@ class MoneyTransactionsController extends Controller
         'receipt_no',
         'today',
         'no_receipt',
+        'category',
+        'wallet_owner',
     ];
 
     /**
@@ -202,6 +204,8 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->project = $request->project;
         $transaction->description = $request->description;
+        $transaction->remarks = $request->remarks;
+        $transaction->wallet_owner = $request->wallet_owner;
         
         if (isset($request->receipt_picture)) {
             // Resize image
@@ -268,6 +272,8 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->project = $request->project;
         $transaction->description = $request->description;
+        $transaction->remarks = $request->remarks;
+        $transaction->wallet_owner = $request->wallet_owner;
 
         if (isset($request->remove_receipt_picture)) {
             $transaction->receipt_picture = null;

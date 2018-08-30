@@ -43,7 +43,16 @@
                     @endisset
                 </div>
             </div>
-        </div>        
+        </div>    
+        <div class="form-row">
+            <div class="col-sm-4">
+                {{ Form::bsText('wallet_owner', null, [ ], __('accounting.wallet_owner')) }}
+            </div>
+            <div class="col-sm-8">
+                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
+            </div>
+        </div>
+        
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>

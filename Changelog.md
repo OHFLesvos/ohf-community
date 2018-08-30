@@ -5,6 +5,7 @@
 Accounting:
 
 * Export with summary
+* Remarks and wallet owner column added
 
 ## 1.20.10
 

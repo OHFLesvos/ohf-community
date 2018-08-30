@@ -25,4 +25,5 @@ return [
     'no_receipt' => 'No receipt',
     'difference' => 'Difference',
     'month' => 'Month',
+    'wallet_owner' => 'Wallet owner',
 ];

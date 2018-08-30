@@ -25,4 +25,5 @@ return [
     'no_receipt' => 'Kein Beleg',
     'difference' => 'Differenz',
     'month' => 'Monat',
+    'wallet_owner' => 'Wallet owner',
 ];
