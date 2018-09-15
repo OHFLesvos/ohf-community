@@ -19,21 +19,17 @@
     "fullcalendar": "^3.9.0",
     "fullcalendar-scheduler": "^1.9.4",
     "google-palette": "^1.1.0",
-    "instascan": "^1.0.0",
     "jquery": "^3.3.1",
     "jquery.session": "^1.0.0",
     "jsqr": "^1.1.1",
     "laravel-mix": "^2.1.14",
     "lity": "^2.3.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "node-snackbar": "^0.1.11",
     "popper.js": "^1.14.4",
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
     "vue-template-compiler": "^2.5.17"
-  },
-  "dependencies": {
-    "js-sha256": "^0.9.0"
   }
 }

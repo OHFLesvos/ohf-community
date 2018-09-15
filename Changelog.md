@@ -1,13 +1,15 @@
 # Changelog
 
-## 1.20.11
+## 1.20.10
+
+General:
+
+* Replacement of QR code scanner library
 
 Accounting:
 
 * Export with summary
 * Remarks and wallet owner column added
-
-## 1.20.10
 
 Shop:
 
