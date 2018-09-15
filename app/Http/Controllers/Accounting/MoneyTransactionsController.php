@@ -64,7 +64,7 @@ class MoneyTransactionsController extends Controller
             'receipt_no' => __('accounting.receipt'),
             'created_at' => __('app.registered')
         ];
-        $sortColumn = session('accounting.sortColumn', 'date');
+        $sortColumn = session('accounting.sortColumn', 'created_at');
         $sortOrder = session('accounting.sortOrder', 'desc');
         if (isset($request->sortColumn)) {
             $sortColumn = $request->sortColumn;

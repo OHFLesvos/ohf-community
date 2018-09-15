@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.11
+
+Accounting:
+
+* Default order transactions by "registered"
+
 ## 1.20.10
 
 General:
