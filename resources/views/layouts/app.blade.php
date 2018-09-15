@@ -80,22 +80,22 @@
 
         </div>
 
-    <!-- Modal -->
-    <div class="modal" id="videoPreviewModal" tabindex="-1" role="dialog" aria-labelledby="videoPreviewModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="videoPreviewModalLabel">@lang('people.qr_code_scanner')</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+        <!-- Modal -->
+        <div class="modal" id="videoPreviewModal" tabindex="-1" role="dialog" aria-labelledby="videoPreviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="videoPreviewModalLabel">@lang('people.qr_code_scanner')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <canvas id="preview" hidden style="width: 100%; height: 100%"></canvas>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <video id="preview" style="width: 100%; height: 100%"></video>
-            </div>
-          </div>
         </div>
-      </div>
 
         @yield('content-footer')
 
