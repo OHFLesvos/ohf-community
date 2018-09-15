@@ -92,6 +92,7 @@
                     </div>
                     <div class="modal-body">
                         <canvas id="preview" hidden style="width: 100%; height: 100%"></canvas>
+                        <span id="videoPreviewMessage">@lang('app.please_wait')...</span>
                     </div>
                 </div>
             </div>

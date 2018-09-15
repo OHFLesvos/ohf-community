@@ -168,4 +168,5 @@ return [
     'filter_results' => 'Filter results',
     'edit_filter' => 'Edit filter',
     'save_and_continue' => 'Save and continue',
+    'please_wait' => 'Please wait',
  ];

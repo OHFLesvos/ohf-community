@@ -270,6 +270,7 @@ var jsQR = __webpack_require__(439);
 var video = document.createElement("video");
 var canvasElement = document.getElementById("preview");
 var canvas = canvasElement.getContext("2d");
+var videoPreviewMessage = $('#videoPreviewMessage');
 
 var localStream;
 var qrCallback;
@@ -285,6 +286,7 @@ function drawLine(begin, end, color) {
 
 function tick() {
 	if (video.readyState === video.HAVE_ENOUGH_DATA) {
+		videoPreviewMessage.hide();
 		canvasElement.hidden = false;
 		canvasElement.height = video.videoHeight;
 		canvasElement.width = video.videoWidth;
