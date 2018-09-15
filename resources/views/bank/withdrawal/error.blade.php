@@ -26,6 +26,8 @@
     var updateNationalityUrl = '{{ route('bank.updateNationality') }}';
     var registerCardUrl = '{{ route('bank.registerCard') }}';
     var undoLabel = '@lang('app.undo')';
+    var scannerDialogTitle = '@lang('people.qr_code_scanner')';
+    var scannerDialogWaitMessage = '@lang('app.please_wait')';
 @endsection
 
 @section('footer')
