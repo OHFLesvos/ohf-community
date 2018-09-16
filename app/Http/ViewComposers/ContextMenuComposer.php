@@ -811,6 +811,12 @@ class ContextMenuComposer {
                         'icon_floating' => 'pencil',
                         'authorized' => Auth::user()->can('update', $transaction)
                     ],
+                    'receipt' => [
+                        'url' => route('accounting.transactions.editReceipt', $transaction),
+                        'caption' => __('accounting.receipt'),
+                        'icon' => 'list-ol',
+                        'authorized' => Auth::user()->can('update', $transaction),
+                    ],
                     'delete' => [
                         'url' => route('accounting.transactions.destroy', $transaction),
                         'caption' => __('app.delete'),
@@ -826,6 +832,7 @@ class ContextMenuComposer {
                     ]
                 ];
             case 'accounting.transactions.edit':
+            case 'accounting.transactions.editReceipt':
                 $transaction = $view->getData()['transaction'];
                 return [
                     'back' => [

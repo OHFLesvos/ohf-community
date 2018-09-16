@@ -298,6 +298,49 @@ class MoneyTransactionsController extends Controller
         ->with('info', __('accounting.transactions_updated'));
     }
 
+    public function editReceipt(MoneyTransaction $transaction)
+    {
+        $this->authorize('update', $transaction);
+
+        return view('accounting.transactions.editReceipt', [
+            'transaction' => $transaction,
+        ]);
+    }
+    
+    public function updateReceipt(Request $request, MoneyTransaction $transaction)
+    {
+        $this->authorize('update', $transaction);
+        
+        // $img = $request->img;
+        // $img = str_replace('data:image/png;base64,', '', $img);
+        // $img = str_replace(' ', '+', $img);
+        // $data = base64_decode($img);
+
+        // Storage::put('public/accounting/receipts/foo.png', $data);
+
+        if ($transaction->receipt_picture != null) {
+            Storage::delete($transaction->receipt_picture);
+        }
+
+        $transaction->receipt_picture = $request->file('img')->store('public/accounting/receipts');
+        $transaction->save();
+
+        return response(null, 204);
+    }
+
+    function deleteReceipt(MoneyTransaction $transaction) {
+        $this->authorize('update', $transaction);
+
+        if ($transaction->receipt_picture != null) {
+            Storage::delete($transaction->receipt_picture);
+        }
+        $transaction->receipt_picture = null;
+
+        $transaction->save();
+
+        return response(null, 204);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
