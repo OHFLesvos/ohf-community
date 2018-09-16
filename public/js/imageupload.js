@@ -65,7 +65,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 15:
+/***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -263,7 +263,7 @@ module.exports = __webpack_require__(249);
 /***/ (function(module, exports, __webpack_require__) {
 
 var Cropper = __webpack_require__(250).default;
-var Snackbar = __webpack_require__(15);
+var Snackbar = __webpack_require__(10);
 
 function showAlert(message) {
     Snackbar.show({
@@ -274,64 +274,17 @@ function showAlert(message) {
     });
 }
 
-/*
-const player = document.getElementById('player');
-const canvas = document.getElementById('canvas');
-const context = canvas.getContext('2d');
-const captureButton = document.getElementById('imageCapture');
-const recaptureButton = document.getElementById('imageRecapture');
-const submitButton = document.getElementById('imageSubmit');
-const imageValue = document.getElementById('imageValue');
-
-  const constraints = {
-      video: {
-          width: {
-              min: 1280
-          },
-          height: {
-              min: 720
-          }
-      }
-  };
-
-  function startCapture() {
-      navigator.mediaDevices.getUserMedia(constraints)
-          .then((stream) => {
-              // Attach the video stream to the video element and autoplay.
-              player.srcObject = stream;
-          });
-  }
-
-  recaptureButton.addEventListener('click', () => {
-      startCapture();
-      recaptureButton.hidden = true;
-      captureButton.hidden = false;
-      submitButton.hidden = true;
-  });
-
-  captureButton.addEventListener('click', () => {
-      canvas.height = player.videoHeight;
-      canvas.width = player.videoWidth;
-
-      context.drawImage(player, 0, 0, canvas.width, canvas.height);
-      recaptureButton.hidden = false;
-      captureButton.hidden = true;
-      submitButton.hidden = false;
-
-      player.hidden = true;
-
-
-      // Stop all video streams.
-      player.srcObject.getVideoTracks().forEach(track => track.stop());
-  });
-
-  submitButton.addEventListener('click', () => {
-      var dataURL = canvas.toDataURL("image/png");
-      imageValue.value = dataURL;
-  });
-
-  startCapture();
-*/
+// Video constraints
+var constraints = {
+    video: {
+        width: {
+            min: 1280
+        },
+        height: {
+            min: 720
+        }
+    }
+};
 
 window.addEventListener('DOMContentLoaded', function () {
     var upload = document.getElementById('upload');
@@ -343,12 +296,56 @@ window.addEventListener('DOMContentLoaded', function () {
     var $progressBar = $('.progress-bar');
     var $alert = $('.alert');
     var $modal = $('#modal');
+
+    var startCaptureButton = document.getElementById('startCapture');
+    var captureButton = document.getElementById('capture');
+    var $captureModal = $('#captureModal');
+    var player = document.getElementById('player');
+    var captureCanvas = document.getElementById('captureCanvas');
+
     var cropper;
 
-    upload.addEventListener('click', function (e) {
+    // Click on "Upload" button
+    upload.addEventListener('click', function () {
         input.click();
     });
 
+    // Click on "Capture" button
+    startCaptureButton.addEventListener('click', function () {
+        navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+            $captureModal.modal('show');
+            // Attach the video stream to the video element and autoplay.
+            player.srcObject = stream;
+        });
+        // TODO exception handling
+    });
+
+    // Stop video when dialog is closed
+    $captureModal.on('hidden.bs.modal', function () {
+        // Stop all video streams.
+        player.srcObject.getVideoTracks().forEach(function (track) {
+            return track.stop();
+        });
+    });
+
+    // Capture recorded image
+    captureButton.addEventListener('click', function () {
+        player.srcObject.getVideoTracks().forEach(function (track) {
+            return track.stop();
+        });
+
+        captureCanvas.height = player.videoHeight;
+        captureCanvas.width = player.videoWidth;
+        var context = captureCanvas.getContext('2d');
+        context.drawImage(player, 0, 0, captureCanvas.width, captureCanvas.height);
+        $captureModal.modal('hide');
+
+        image.src = captureCanvas.toDataURL("image/png");
+
+        $modal.modal('show');
+    });
+
+    // Upload file
     input.addEventListener('change', function (e) {
         var files = e.target.files;
         var done = function done(url) {
@@ -376,12 +373,12 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     $modal.on('shown.bs.modal', function () {
-        cropper = new Cropper(image, {
-            viewMode: 3
-        });
+        // cropper = new Cropper(image, {
+        //     viewMode: 3,
+        // });
     }).on('hidden.bs.modal', function () {
-        cropper.destroy();
-        cropper = null;
+        // cropper.destroy();
+        // cropper = null;
     });
 
     document.getElementById('crop').addEventListener('click', function () {

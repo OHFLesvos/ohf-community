@@ -65,7 +65,7 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 15:
+/***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -336,7 +336,7 @@ function scanQR(callback) {
 	});
 }
 
-var Snackbar = __webpack_require__(15);
+var Snackbar = __webpack_require__(10);
 function showSnackbar(text, actionText, actionClass, callback) {
 	var args = {
 		text: text,

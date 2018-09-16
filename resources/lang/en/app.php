@@ -172,4 +172,6 @@ return [
     'upload' => 'Upload',
     'crop' => 'Crop',
     'crop_the_image' => 'Crop the image',
+    'capture' => 'Capture',
+    'capture_image' => 'Capture image',
  ];

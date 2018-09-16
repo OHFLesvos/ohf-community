@@ -172,4 +172,6 @@ return [
     'upload' => 'Heraufladen',
     'crop' => 'Zuschneiden',
     'crop_the_image' => 'Bild zuschneiden',
+    'capture' => 'Aufnehmen',
+    'capture_image' => 'Bild aufnehmen',
 ];

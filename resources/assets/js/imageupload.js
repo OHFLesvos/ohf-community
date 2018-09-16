@@ -10,66 +10,19 @@ function showAlert(message) {
     });
 }
 
-/*
-const player = document.getElementById('player');
-const canvas = document.getElementById('canvas');
-const context = canvas.getContext('2d');
-const captureButton = document.getElementById('imageCapture');
-const recaptureButton = document.getElementById('imageRecapture');
-const submitButton = document.getElementById('imageSubmit');
-const imageValue = document.getElementById('imageValue');
+// Video constraints
+const constraints = {
+    video: {
+        width: {
+            min: 1280
+        },
+        height: {
+            min: 720
+        }
+    }
+};
 
-  const constraints = {
-      video: {
-          width: {
-              min: 1280
-          },
-          height: {
-              min: 720
-          }
-      }
-  };
-
-  function startCapture() {
-      navigator.mediaDevices.getUserMedia(constraints)
-          .then((stream) => {
-              // Attach the video stream to the video element and autoplay.
-              player.srcObject = stream;
-          });
-  }
-
-  recaptureButton.addEventListener('click', () => {
-      startCapture();
-      recaptureButton.hidden = true;
-      captureButton.hidden = false;
-      submitButton.hidden = true;
-  });
-
-  captureButton.addEventListener('click', () => {
-      canvas.height = player.videoHeight;
-      canvas.width = player.videoWidth;
-
-      context.drawImage(player, 0, 0, canvas.width, canvas.height);
-      recaptureButton.hidden = false;
-      captureButton.hidden = true;
-      submitButton.hidden = false;
-
-      player.hidden = true;
-
-
-      // Stop all video streams.
-      player.srcObject.getVideoTracks().forEach(track => track.stop());
-  });
-
-  submitButton.addEventListener('click', () => {
-      var dataURL = canvas.toDataURL("image/png");
-      imageValue.value = dataURL;
-  });
-
-  startCapture();
-*/
-
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', () => {
     var upload = document.getElementById('upload');
     var remove = document.getElementById('delete');
     var preview = document.getElementById('preview');
@@ -79,13 +32,54 @@ window.addEventListener('DOMContentLoaded', function () {
     var $progressBar = $('.progress-bar');
     var $alert = $('.alert');
     var $modal = $('#modal');
+    
+    const startCaptureButton = document.getElementById('startCapture');
+    const captureButton = document.getElementById('capture');
+    var $captureModal = $('#captureModal');
+    const player = document.getElementById('player');
+    const captureCanvas = document.getElementById('captureCanvas');
+
     var cropper;
 
-    upload.addEventListener('click', function (e) {
+    // Click on "Upload" button
+    upload.addEventListener('click', () => {
         input.click();
     });
 
-    input.addEventListener('change', function (e) {
+    // Click on "Capture" button
+    startCaptureButton.addEventListener('click', () => {
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                $captureModal.modal('show');
+                // Attach the video stream to the video element and autoplay.
+                player.srcObject = stream;
+            });
+        // TODO exception handling
+    });
+
+    // Stop video when dialog is closed
+    $captureModal.on('hidden.bs.modal', () => {
+        // Stop all video streams.
+        player.srcObject.getVideoTracks().forEach(track => track.stop());
+    });
+
+    // Capture recorded image
+    captureButton.addEventListener('click', () => {
+        player.srcObject.getVideoTracks().forEach(track => track.stop());
+  
+        captureCanvas.height = player.videoHeight;
+        captureCanvas.width = player.videoWidth;
+        var context = captureCanvas.getContext('2d');
+        context.drawImage(player, 0, 0, captureCanvas.width, captureCanvas.height);
+        $captureModal.modal('hide');
+
+        image.src = captureCanvas.toDataURL("image/png");
+
+        $modal.modal('show');
+    });
+
+    // Upload file
+    input.addEventListener('change', (e) => {
         var files = e.target.files;
         var done = function (url) {
             input.value = '';
@@ -111,16 +105,16 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    $modal.on('shown.bs.modal', function () {
-        cropper = new Cropper(image, {
-            viewMode: 3,
-        });
-    }).on('hidden.bs.modal', function () {
-        cropper.destroy();
-        cropper = null;
+    $modal.on('shown.bs.modal', () => {
+        // cropper = new Cropper(image, {
+        //     viewMode: 3,
+        // });
+    }).on('hidden.bs.modal', () => {
+        // cropper.destroy();
+        // cropper = null;
     });
 
-    document.getElementById('crop').addEventListener('click', function () {
+    document.getElementById('crop').addEventListener('click', () => {
         var initialPreviewURL;
         var canvas;
 
@@ -149,7 +143,7 @@ window.addEventListener('DOMContentLoaded', function () {
                     processData: false,
                     contentType: false,
 
-                    xhr: function () {
+                    xhr: () => {
                         var xhr = new XMLHttpRequest();
 
                         xhr.upload.onprogress = function (e) {
@@ -167,19 +161,19 @@ window.addEventListener('DOMContentLoaded', function () {
                     },
 
                     // Success
-                    success: function () {
+                    success: () => {
                         showAlert('Upload success');
                         remove.hidden = false;
                     },
 
                     // Error
-                    error: function () {
+                    error: () => {
                         preview.src = initialPreviewURL;
                         showAlert('Upload error');
                     },
 
                     // Complete
-                    complete: function () {
+                    complete: () => {
                         $progress.hide();
                     },
                 });
@@ -198,14 +192,14 @@ window.addEventListener('DOMContentLoaded', function () {
                     },
         
                     // Success
-                    success: function () {
+                    success: () => {
                         showAlert('Delete success');
                         remove.hidden = true;
                         preview.hidden = true;
                     },
         
                     // Error
-                    error: function () {
+                    error: () => {
                         showAlert('Delete error');
                     },
                 });
