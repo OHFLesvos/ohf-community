@@ -26,4 +26,5 @@ return [
     'difference' => 'Difference',
     'month' => 'Month',
     'wallet_owner' => 'Wallet owner',
+    'confirm_delete_receipt' => 'Really delete this receipt?',
 ];

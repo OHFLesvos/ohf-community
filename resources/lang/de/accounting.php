@@ -25,5 +25,6 @@ return [
     'no_receipt' => 'Kein Beleg',
     'difference' => 'Differenz',
     'month' => 'Monat',
-    'wallet_owner' => 'Wallet owner',
+    'wallet_owner' => 'Kasseninhaber',
+    'confirm_delete_receipt' => 'Diesen Beleg wirklich löschen?',
 ];

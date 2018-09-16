@@ -65,6 +65,7 @@
         var csrfToken = '{{ csrf_token() }}';
         var imageUploadUrl = '{{ route('accounting.transactions.updateReceipt', $transaction) }}';
         var imageDeleteUrl = '{{ route('accounting.transactions.deleteReceipt', $transaction) }}';
+        var imageDeleteConfirmation = '@lang('accounting.confirm_delete_receipt')';
     </script>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">

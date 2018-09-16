@@ -832,7 +832,6 @@ class ContextMenuComposer {
                     ]
                 ];
             case 'accounting.transactions.edit':
-            case 'accounting.transactions.editReceipt':
                 $transaction = $view->getData()['transaction'];
                 return [
                     'back' => [
@@ -842,7 +841,16 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('view', $transaction)
                     ]
                 ];
-
+            case 'accounting.transactions.editReceipt':
+                $transaction = $view->getData()['transaction'];
+                return [
+                    'back' => [
+                        'url' => route('accounting.transactions.show', $transaction),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('view', $transaction)
+                    ]
+                ];
 
             //
             // Inventory

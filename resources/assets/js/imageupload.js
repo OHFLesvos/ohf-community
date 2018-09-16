@@ -85,29 +85,6 @@ window.addEventListener('DOMContentLoaded', function () {
         input.click();
     });
 
-    if (remove) {
-        remove.addEventListener('click', function (e) {
-            $.ajax(imageDeleteUrl, {
-                method: 'DELETE',
-                data: {
-                    _token: csrfToken
-                },
-    
-                // Success
-                success: function () {
-                    showAlert('Delete success');
-                    remove.hidden = true;
-                    preview.hidden = true;
-                },
-    
-                // Error
-                error: function () {
-                    showAlert('Delete error');
-                },
-            });
-        });
-    }
-
     input.addEventListener('change', function (e) {
         var files = e.target.files;
         var done = function (url) {
@@ -209,4 +186,30 @@ window.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+
+    // Remove image
+    if (remove) {
+        remove.addEventListener('click', () => {
+            if (confirm(imageDeleteConfirmation)) {
+                $.ajax(imageDeleteUrl, {
+                    method: 'DELETE',
+                    data: {
+                        _token: csrfToken
+                    },
+        
+                    // Success
+                    success: function () {
+                        showAlert('Delete success');
+                        remove.hidden = true;
+                        preview.hidden = true;
+                    },
+        
+                    // Error
+                    error: function () {
+                        showAlert('Delete error');
+                    },
+                });
+            }
+        });
+    }
 });
