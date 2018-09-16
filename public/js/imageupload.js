@@ -296,10 +296,12 @@ window.addEventListener('DOMContentLoaded', function () {
     var $progressBar = $('.progress-bar');
     var $alert = $('.alert');
     var $modal = $('#modal');
+    var cropButton = document.getElementById('crop');
+    var cropTitle = document.getElementById('cropTitle');
+    var captureTitle = document.getElementById('captureTitle');
 
     var startCaptureButton = document.getElementById('startCapture');
     var captureButton = document.getElementById('capture');
-    var $captureModal = $('#captureModal');
     var player = document.getElementById('player');
     var captureCanvas = document.getElementById('captureCanvas');
 
@@ -312,20 +314,22 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // Click on "Capture" button
     startCaptureButton.addEventListener('click', function () {
+        image.hidden = true;
+        player.hidden = false;
+        cropTitle.hidden = true;
+        captureTitle.hidden = false;
+        image.src = null;
+
         navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
-            $captureModal.modal('show');
+
+            captureButton.hidden = false;
+            cropButton.hidden = true;
+
+            $modal.modal('show');
             // Attach the video stream to the video element and autoplay.
             player.srcObject = stream;
         });
         // TODO exception handling
-    });
-
-    // Stop video when dialog is closed
-    $captureModal.on('hidden.bs.modal', function () {
-        // Stop all video streams.
-        player.srcObject.getVideoTracks().forEach(function (track) {
-            return track.stop();
-        });
     });
 
     // Capture recorded image
@@ -338,11 +342,23 @@ window.addEventListener('DOMContentLoaded', function () {
         captureCanvas.width = player.videoWidth;
         var context = captureCanvas.getContext('2d');
         context.drawImage(player, 0, 0, captureCanvas.width, captureCanvas.height);
-        $captureModal.modal('hide');
 
         image.src = captureCanvas.toDataURL("image/png");
 
-        $modal.modal('show');
+        image.hidden = false;
+        player.hidden = true;
+        captureButton.hidden = true;
+        cropButton.hidden = false;
+
+        cropTitle.hidden = false;
+        captureTitle.hidden = true;
+
+        if (cropper) {
+            cropper.destroy();
+        }
+        cropper = new Cropper(image, {
+            viewMode: 3
+        });
     });
 
     // Upload file
@@ -351,12 +367,19 @@ window.addEventListener('DOMContentLoaded', function () {
         var done = function done(url) {
             input.value = '';
             image.src = url;
+
+            image.hidden = false;
+            player.hidden = true;
+            captureButton.hidden = true;
+            cropButton.hidden = false;
+            cropTitle.hidden = false;
+            captureTitle.hidden = true;
+
             $alert.hide();
             $modal.modal('show');
         };
         var reader;
         var file;
-        var url;
 
         if (files && files.length > 0) {
             file = files[0];
@@ -373,15 +396,22 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     $modal.on('shown.bs.modal', function () {
-        // cropper = new Cropper(image, {
-        //     viewMode: 3,
-        // });
+        cropper = new Cropper(image, {
+            viewMode: 3
+        });
     }).on('hidden.bs.modal', function () {
-        // cropper.destroy();
-        // cropper = null;
+        cropper.destroy();
+        cropper = null;
+
+        // Stop all video streams.
+        if (player.srcObject != null) {
+            player.srcObject.getVideoTracks().forEach(function (track) {
+                return track.stop();
+            });
+        }
     });
 
-    document.getElementById('crop').addEventListener('click', function () {
+    cropButton.addEventListener('click', function () {
         var initialPreviewURL;
         var canvas;
 
@@ -395,6 +425,7 @@ window.addEventListener('DOMContentLoaded', function () {
             initialPreviewURL = preview.src;
             preview.src = canvas.toDataURL();
             preview.hidden = false;
+            $progressBar.width('0%').attr('aria-valuenow', 0).text('0%');
             $progress.show();
             $alert.removeClass('alert-success alert-warning');
             canvas.toBlob(function (blob) {

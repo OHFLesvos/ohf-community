@@ -26,9 +26,9 @@
 
 @section('content')
     <p class="text-center">
-        <button class="btn btn-primary" id="upload">@icon(upload) @lang('app.upload')</button>
-        <button class="btn btn-primary" id="startCapture">@icon(camera) @lang('app.capture')</button>
-        <button class="btn btn-danger" id="delete" @if($transaction->receipt_picture == null) hidden @endif >@icon(trash) @lang('app.delete')</button>
+        <button class="btn btn-primary" id="upload">@icon(upload)<span class="d-none d-sm-inline"> @lang('app.upload')</span></button>
+        <button class="btn btn-primary" id="startCapture">@icon(camera)<span class="d-none d-sm-inline"> @lang('app.capture')</span></button>
+        <button class="btn btn-danger" id="delete" @if($transaction->receipt_picture == null) hidden @endif >@icon(trash)<span class="d-none d-sm-inline"> @lang('app.delete')</span></button>
     </p>
 
     <div class="progress">
@@ -56,51 +56,31 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">@lang('app.crop_the_image')</h5>
+                    <h5 class="modal-title" id="modalLabel">
+                        <span id="cropTitle">@lang('app.crop_the_image')</span>
+                        <span id="captureTitle">@lang('app.capture_image')</span>
+                    </h5>
                     <span>
+                        <button type="button" class="close" id="capture">
+                            <span class="text-">@icon(camera)</span>
+                        </button>
                         <button type="button" class="close" id="crop">
-                            <span class="text-">@icon(check)</span>
+                            <span class="text-">@icon(crop)</span>
                         </button>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             @icon(times)
-                            {{-- <span aria-hidden="true">&times;</span> --}}
                         </button>
                     </span>
                 </div>
                 <div class="modal-body">
                     <div class="img-container">
-                        <img id="image">
+                        <img id="image" hidden>
+                        <video id="player" autoplay style="max-width: 100%;" hidden></video>
                     </div>
                 </div>
                 {{-- <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">@icon(times) @lang('app.cancel')</button>
                     <button type="button" class="btn btn-primary" id="crop">@icon(crop) @lang('app.crop')</button>
-                </div> --}}
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="captureModal" tabindex="-1" role="dialog" aria-labelledby="captureModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="captureModalLabel">@lang('app.capture_image')</h5>
-                    <span>
-                        <button type="button" class="close" id="capture">
-                            <span class="text-">@icon(check)</span>
-                        </button>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            @icon(times)
-                            {{-- <span aria-hidden="true">&times;</span> --}}
-                        </button>
-                    </span>
-                </div>
-                <div class="modal-body">
-                    <video id="player" autoplay style="max-width: 100%;"></video>
-                </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">@icon(times) @lang('app.cancel')</button>
-                    <button type="button" class="btn btn-primary" id="capture">@icon(camera) @lang('app.capture')</button>
                 </div> --}}
             </div>
         </div>
