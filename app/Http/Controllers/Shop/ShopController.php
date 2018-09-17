@@ -12,12 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
-    const COUPON_VALID_DAYS = 2;
+    const COUPON_VALID_DAYS = 4;
 
     public function __construct() {
         ShopCardResource::withoutWrapping();
     }
 
+    // Search card
     public function index(Request $request) {
 
         $code = $request->code;
@@ -96,12 +97,15 @@ class ShopController extends Controller
             }
 
             if ($handout != null) {
-                return (new ShopCardResource($handout));
+                return (new ShopCardResource($handout))->additional(['meta' => [
+                    'key' => 'value',
+                ]]);
             }
         }
         return response()->json([], 404);
     }
 
+    // Redeem card
     public function redeem(Request $request) {
 
         // code_redeemed
