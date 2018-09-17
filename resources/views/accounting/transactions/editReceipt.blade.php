@@ -62,10 +62,16 @@
                     </h5>
                     <span>
                         <button type="button" class="close" id="capture">
-                            <span class="text-">@icon(camera)</span>
+                            <span class="text-">@icon(check)</span>
                         </button>
                         <button type="button" class="close" id="crop">
-                            <span class="text-">@icon(crop)</span>
+                            <span class="text-">@icon(check)</span>
+                        </button>
+                        <button type="button" class="close" id="rotate-right">
+                            <span class="text-">@icon(rotate-right)</span>
+                        </button>
+                        <button type="button" class="close" id="rotate-left">
+                            <span class="text-">@icon(rotate-left)</span>
                         </button>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             @icon(times)

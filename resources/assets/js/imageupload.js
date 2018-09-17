@@ -35,6 +35,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const cropButton = document.getElementById('crop');
     const cropTitle = document.getElementById('cropTitle');
     const captureTitle = document.getElementById('captureTitle');
+    
+    const rotateRight = document.getElementById('rotate-right');
+    const rotateLeft = document.getElementById('rotate-left');
 
     const startCaptureButton = document.getElementById('startCapture');
     const captureButton = document.getElementById('capture');
@@ -54,6 +57,8 @@ window.addEventListener('DOMContentLoaded', () => {
         player.hidden = false;
         cropTitle.hidden = true;
         captureTitle.hidden = false;
+        rotateRight.hidden = true;
+        rotateLeft.hidden = true;
         image.src = null;
 
         navigator.mediaDevices.getUserMedia(constraints)
@@ -84,6 +89,8 @@ window.addEventListener('DOMContentLoaded', () => {
         player.hidden = true;
         captureButton.hidden = true;
         cropButton.hidden = false;
+        rotateRight.hidden = false;
+        rotateLeft.hidden = false;
 
         cropTitle.hidden = false;
         captureTitle.hidden = true;
@@ -104,6 +111,8 @@ window.addEventListener('DOMContentLoaded', () => {
             image.src = url;
 
             image.hidden = false;
+            rotateRight.hidden = false;
+            rotateLeft.hidden = false;
             player.hidden = true;
             captureButton.hidden = true;
             cropButton.hidden = false;
@@ -132,7 +141,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     $modal.on('shown.bs.modal', () => {
         cropper = new Cropper(image, {
-            viewMode: 3,
+            viewMode: 1,
+            autoCrop: false,
         });
     }).on('hidden.bs.modal', () => {
         cropper.destroy();
@@ -143,6 +153,17 @@ window.addEventListener('DOMContentLoaded', () => {
             player.srcObject.getVideoTracks().forEach(track => track.stop());
         }
     });
+
+    rotateRight.addEventListener('click', () => {
+        if (cropper) {
+            cropper.rotate(90);
+        }
+    });
+    rotateLeft.addEventListener('click', () => {
+        if (cropper) {
+            cropper.rotate(-90);
+        }
+    });    
 
     cropButton.addEventListener('click', () => {
         var initialPreviewURL;
