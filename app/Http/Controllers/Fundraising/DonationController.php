@@ -272,7 +272,7 @@ class DonationController extends Controller
             $donation->currency = $currency;
             $donation->exchange_amount = $exchange_amount;
             $donation->channel = 'RaiseNow (' . $request->payment_method . ')';
-            $donation->purpose = $request->stored_customer_message;
+            $donation->purpose = $request->stored_customer_message; // TODO consider stored_customer_purpose
             $donation->reference = $request->epp_transaction_id;
             $donor->donations()->save($donation);
         }
