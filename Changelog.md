@@ -5,6 +5,7 @@
 Accounting:
 
 * Default order transactions by "registered"
+* Alternative receipt image upload and editor
 
 ## 1.20.10
 
