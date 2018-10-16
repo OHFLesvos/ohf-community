@@ -174,4 +174,7 @@ return [
     'crop_the_image' => 'Bild zuschneiden',
     'capture' => 'Aufnehmen',
     'capture_image' => 'Bild aufnehmen',
+    'responsibilities' => 'Verantwortlichkeiten',
+    'yes' => 'Ja',
+    'no' => 'Nein',
 ];

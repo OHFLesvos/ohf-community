@@ -23,7 +23,8 @@ class Person extends Model
     protected $fillable = ['name', 'family_name', 'police_no', 'case_no', 'nationality', 'remarks'];
     
     protected $nullable = [
-		'date_of_birth',
+        'date_of_birth',
+        'nickname',
     ];
 
     public static function boot()
@@ -49,6 +50,14 @@ class Person extends Model
         return preg_replace('/\s+/', ' ', trim($str));
     }
     
+    /**
+     * Get the helper record associated with the person.
+     */
+    public function helper()
+    {
+        return $this->belongsTo('App\Helper', 'id', 'person_id');
+    }
+
     // /**
     //  * Get the route key for the model.
     //  *

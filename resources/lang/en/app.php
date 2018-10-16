@@ -174,4 +174,11 @@ return [
     'crop_the_image' => 'Crop the image',
     'capture' => 'Capture',
     'capture_image' => 'Capture image',
+    'local_phone' => 'Local Phone',
+    'other_phone' => 'Other Phone',
+    'whatsapp' => 'WhatsApp',
+    'skype' => 'Skype',
+    'responsibilities' => 'Responsibilities',
+    'yes' => 'Yes',
+    'no' => 'No',
  ];

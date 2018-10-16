@@ -38,7 +38,7 @@ class MaintenanceController extends Controller
     {
         return CouponHandout::groupBy('person_id')
             ->having(DB::raw('max(coupon_handouts.date)'), '<=', Carbon::today()->subMonth($months))
-            ->where('worker', false)
+            // TODO: consider helper status
             ->join('persons', function ($join) {
                 $join->on('persons.id', '=', 'coupon_handouts.person_id')
                     ->whereNull('deleted_at');
@@ -59,7 +59,7 @@ class MaintenanceController extends Controller
                 ->whereNull('deleted_at');
             })
             ->whereNull('coupon_handouts.id')
-            ->where('worker', false)
+            ->doesntHave('helper')
             ->get()
             ->count();
     }
@@ -77,7 +77,7 @@ class MaintenanceController extends Controller
             ->whereNull('registration_no')
             ->whereNull('section_card_no')
             ->whereNull('temp_no')
-            ->where('worker', false)
+            ->doesntHave('helper')
             ->count();
     }
 
@@ -92,7 +92,7 @@ class MaintenanceController extends Controller
         if (isset($request->cleanup_no_coupons_since)) {
             $ids = CouponHandout::groupBy('person_id')
                 ->having(DB::raw('max(coupon_handouts.date)'), '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
-                ->where('worker', false)
+                // TODO: consider helper status
                 ->join('persons', function ($join) {
                     $join->on('persons.id', '=', 'coupon_handouts.person_id')
                         ->whereNull('deleted_at');
@@ -100,7 +100,9 @@ class MaintenanceController extends Controller
                 ->get()
                 ->pluck('person_id')
                 ->toArray();
-            $cnt += Person::destroy($ids);
+            // Ignore helpers
+            $ids_wo_helpers = Person::find($ids)->load('helper')->where('helper', null)->pluck('id')->toArray();
+            $cnt += Person::destroy($ids_wo_helpers);
         }
         if (isset($request->cleanup_no_coupons_ever)) {
             $ids = Person::leftJoin('coupon_handouts', function($join){
@@ -108,7 +110,7 @@ class MaintenanceController extends Controller
                     ->whereNull('deleted_at');
                 })
                 ->whereNull('coupon_handouts.id')
-                ->where('worker', false)
+                ->doesntHave('helper')
                 ->select('persons.id')
                 ->get()
                 ->pluck('id')
@@ -122,7 +124,7 @@ class MaintenanceController extends Controller
                 ->whereNull('registration_no')
                 ->whereNull('section_card_no')
                 ->whereNull('temp_no')
-                ->where('worker', false)
+                ->doesntHave('helper')
                 ->delete();
         }
          return redirect()->route('bank.withdrawal')

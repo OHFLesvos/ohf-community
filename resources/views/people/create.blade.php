@@ -53,12 +53,8 @@
 					<div class="col-md">
                         {{ Form::bsText('languages', null, [], __('people.languages')) }}
 					</div>
-					<div class="col-md">
-                        {{ Form::bsText('skills', null, [], __('people.skills')) }}
-                    </div>
 				</div>
                 {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
-                {{ Form::bsCheckbox('worker', null, null, 'Person is registered worker') }}
 			</div>
 		</div>
 

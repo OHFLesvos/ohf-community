@@ -20,9 +20,8 @@
                     <th class="text-nowrap">@lang('people.sec_card_no')</th>
                     <th class="text-nowrap">@lang('people.temp_no')</th>
                     <th>@lang('people.languages') <a href="javascript:;" class="sort" data-field="languages">@icon(sort)</a></th>
-                    <th>@lang('people.skills') <a href="javascript:;" class="sort" data-field="skills">@icon(sort)</a></th>
                     <th>@lang('people.remarks') <a href="javascript:;" class="sort" data-field="remarks">@icon(sort)</a></th>
-                    <th>Worker <a href="javascript:;" class="sort" data-field="worker">@icon(sort)</a></th>
+                    {{-- TODO <th>@lang('people.helper') <a href="javascript:;" class="sort" data-field="helper">@icon(sort)</a></th> --}}
                     <th>@lang('app.registered') <a href="javascript:;" class="sort" data-field="created_at">@icon(sort)</a></th>
                 </tr>
                 <tr id="filter">
@@ -38,9 +37,8 @@
                     <th>{{ Form::text('section_card_no', !empty($filter['section_card_no']) ? $filter['section_card_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     <th>{{ Form::text('temp_no', !empty($filter['temp_no']) ? $filter['temp_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     <th>{{ Form::text('languages', !empty($filter['languages']) ? $filter['languages'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                    <th>{{ Form::text('skills', !empty($filter['skills']) ? $filter['skills'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     <th>{{ Form::text('remarks', !empty($filter['remarks']) ? $filter['remarks'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                    <th></th>
+                    {{-- TODO <th></th> --}}
                     <th></th>
                 </tr>
             </thead>

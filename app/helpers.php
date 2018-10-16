@@ -799,10 +799,52 @@ if (! function_exists('list_fa_icons')) {
     }
 }
 
+if (! function_exists('icon')) {
+    function icon($value) {
+        return '<i class="fa fa-' . $value . '"></i>';
+    }
+}
+
 if (! function_exists('emailize')) {
     function emailize($text) {
         $regex = '/([a-zA-Z0-9_\-\.]*@\S+\.\w+)/';
         $replace = '<a href="mailto:$1">$1</a>';
         return preg_replace($regex, $replace, $text);
+    }
+}
+
+if (! function_exists('email_link')) {
+    function email_link($value) {
+        return '<a href="mailto:' . $value . '">' . $value . '</a>';
+    }
+}
+
+if (! function_exists('tel_link')) {
+    function tel_link($value) {
+        return '<a href="tel:' . preg_replace('/[^+0-9]/', '', $value) . '">' . $value . '</a>';
+    }
+}
+
+if (! function_exists('whatsapp_link')) {
+    function whatsapp_link($value) {
+        // See https://medium.com/@jeanlivino/how-to-fix-whatsapp-api-in-desktop-browsers-fc661b513dc
+        $iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
+        $android = strpos($_SERVER['HTTP_USER_AGENT'],"Android");
+        $palmpre = strpos($_SERVER['HTTP_USER_AGENT'],"webOS");
+        $berry = strpos($_SERVER['HTTP_USER_AGENT'],"BlackBerry");
+        $ipod = strpos($_SERVER['HTTP_USER_AGENT'],"iPod");
+        $chrome = strpos($_SERVER['HTTP_USER_AGENT'],"Chrome");
+        if ($iphone || $android || $palmpre || $ipod || $berry || $chrome == true) {
+            $prefix = '<a href="https://api.whatsapp.com/send?phone=';
+        } else {
+            $prefix = '<a target="_blank" href="https://web.whatsapp.com/send?phone=';
+        }
+        return $prefix . preg_replace('/[^0-9]/', '', $value) . '">' . $value . '</a>';
+    }
+}
+
+if (! function_exists('skype_link')) {
+    function skype_link($value) {
+        return '<a href="skype:' . $value . '?chat">' . $value . '</a>';
     }
 }

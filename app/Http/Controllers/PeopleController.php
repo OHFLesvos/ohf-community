@@ -67,8 +67,6 @@ class PeopleController extends ParentController
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? $request->languages : null;
-        $person->skills = !empty($request->skills) ? $request->skills : null;
-        $person->worker = isset($request->worker);
         $person->card_no = $request->card_no;
 		$person->save();
 
@@ -146,8 +144,6 @@ class PeopleController extends ParentController
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
         $person->languages = !empty($request->languages) ? $request->languages : null;
-        $person->skills = !empty($request->skills) ? $request->skills : null;
-        $person->worker = isset($request->worker);
         $person->save();
         return redirect()->route('people.show', $person)
                 ->with('success', 'Person has been updated!');

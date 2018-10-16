@@ -60,6 +60,26 @@ class AppServiceProvider extends ServiceProvider
             return Gate::allows($gate);
         });
 
+        // Blade directive to create a link to a telephone number
+        Blade::directive('tel', function ($expression) {
+            return "<?php echo tel_link($expression); ?>";
+        });
+
+        // Blade directive to create a link to a WhatsApp number
+        Blade::directive('whatsapp', function ($expression) {
+            return "<?php echo whatsapp_link($expression); ?>";
+        });
+
+        // Blade directive to create a link to an email address
+        Blade::directive('email', function ($expression) {
+            return "<?php echo email_link($expression); ?>";
+        });
+
+        // Blade directive to create a link to call a skype name
+        Blade::directive('skype', function ($expression) {
+            return "<?php echo skype_link($expression); ?>";
+        });
+
         Validator::extend('country_code', CountryCode::class);
         Validator::extend('country_name', CountryName::class);
     }

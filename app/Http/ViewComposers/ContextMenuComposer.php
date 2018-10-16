@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Person;
+use App\Helper;
 use App\Role;
 use App\Task;
 use App\User;
@@ -384,6 +385,56 @@ class ContextMenuComposer {
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('list', Person::class)
+                    ]
+                ];
+
+            //
+            // Helpers
+            //
+            case 'people.helpers.index':
+                return [
+                    // 'action' => [
+                    //     'url' => route('people.create'),
+                    //     'caption' => __('app.register'),
+                    //     'icon' => 'plus-circle',
+                    //     'icon_floating' => 'plus',
+                    //     'authorized' => true, // TODO Auth::user()->can('create', Helper::class)
+                    // ],
+                    'export' => [
+                        'url' => route('people.helpers.export'),
+                        'caption' => __('app.export'),
+                        'icon' => 'download',
+                        'authorized' => true, // TODO Auth::user()->can('export', Helper::class)
+                    ],
+                ];
+            case 'people.helpers.show':
+                $helper = $view->getData()['helper'];
+                return [
+                    'action' => [
+                        'url' => route('people.helpers.edit', $helper),
+                        'caption' => __('app.edit'),
+                        'icon' => 'pencil',
+                        'icon_floating' => 'pencil',
+                        'authorized' => true, // TODO Auth::user()->can('update', $helper)
+                    ],
+                    'person' => [
+                        'url' => route('people.show', $helper->person),
+                        'caption' => __('people.view_person'),
+                        'icon' => 'users',
+                        'authorized' => Auth::user()->can('view', $helper->person),
+                    ],
+                    'delete' => [
+                        'url' => route('people.helpers.destroy', $helper),
+                        'caption' => __('app.delete'),
+                        'icon' => 'trash',
+                        'authorized' => true, // TODO Auth::user()->can('delete', $helper),
+                        'confirmation' => 'Really delete this helper?'
+                    ],
+                    'back' => [
+                        'url' => route('people.helpers.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
                     ]
                 ];
 

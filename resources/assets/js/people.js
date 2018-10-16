@@ -157,8 +157,7 @@ function writeRow(person) {
         .append($('<td>').text(person.section_card_no))
         .append($('<td>').text(person.temp_no))
         .append($('<td>').text(person.languages))
-        .append($('<td>').text(person.skills))
         .append($('<td>').text(person.remarks))
-        .append($('<td>').html(person.worker ? '<i class="fa fa-check"></i>' : '-'))
+        // TODO .append($('<td>').html(person.helper ? '<i class="fa fa-check"></i>' : '-'))
         .append($('<td>').text(person.created_at));
 }

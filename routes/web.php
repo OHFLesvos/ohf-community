@@ -135,8 +135,9 @@ Route::group(['middleware' => 'language'], function () {
         });
 
         // Helper
-        Route::namespace('People\Helpers')->prefix('helpers')->name('helpers.')->group(function(){
-            Route::resource('list', 'ListController');
+        Route::namespace('People\Helpers')->name('people.')->group(function(){
+            Route::get('helpers/export', 'HelperListController@export')->name('helpers.export');
+            Route::resource('helpers', 'HelperListController');
         });
 
         //

@@ -5,6 +5,11 @@
     <div class="card-header p-2" @if($frequentVisitor) style="background:lightgoldenrodyellow;" @endif >
         <div class="form-row">
             <div class="col">
+                @if(optional($person->helper)->active)
+                    <strong>
+                        <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('people.helper')) }}</a>
+                    </strong>
+                @endif
                 <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ $person->family_name }} {{ $person->name }}</strong></a>
                 <span>
                     @if(isset($person->gender))
