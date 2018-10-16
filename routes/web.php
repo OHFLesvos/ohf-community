@@ -134,6 +134,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('/', 'ShopController@redeem')->name('redeem');
         });
 
+        // Helper
+        Route::namespace('People\Helpers')->prefix('helpers')->name('helpers.')->group(function(){
+            Route::resource('list', 'ListController');
+        });
+
         //
         // Reporting
         //
