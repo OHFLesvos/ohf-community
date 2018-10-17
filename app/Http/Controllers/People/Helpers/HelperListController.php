@@ -25,23 +25,29 @@ class HelperListController extends Controller
                 'label' => __('people.name'),
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->name; },
-                'overview' => true,
-                'detail_link' => true,
+                'overview' => false,
                 'section' => 'general',
             ],
             [
                 'label' => __('people.family_name'),
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->family_name; },
-                'overview' => true,
-                'detail_link' => true,
+                'overview' => false,
                 'section' => 'general',
             ],
             [
                 'label' => __('people.nickname'),
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->nickname; },
+                'overview' => false,
+                'section' => 'general',
+            ],
+            [
+                'label' => __('people.name'),
+                'icon' => null,
+                'value' => function($helper) { return $helper->person->fullName; },
                 'overview' => true,
+                'overview_only' => true,
                 'detail_link' => true,
                 'section' => 'general',
             ],
@@ -72,6 +78,13 @@ class HelperListController extends Controller
                 'value' => function($helper) { return $helper->person->gender == 'f' ? __('people.female') : __('people.male'); },
                 'value_html' => function($helper) { return $helper->person->gender == 'f' ? icon('female') : icon('male'); },
                 'overview' => true,
+                'section' => 'general',
+            ],
+            [
+                'label' => __('people.languages'),
+                'icon' => 'language',
+                'value' => function($helper) { return $helper->person->languages; },
+                'overview' => false,
                 'section' => 'general',
             ],
             [
@@ -113,6 +126,73 @@ class HelperListController extends Controller
                 'value_html' => function($helper) { return $helper->skype != null ? skype_link($helper->skype) : null; },
                 'overview' => false,
                 'section' => 'reachability',
+            ],
+            [
+                'label' => __('people.residence'),
+                'icon' => null,
+                'value' => 'residence',
+                'value_html' => function($helper) { return nl2br($helper->residence); },
+                'overview' => false,
+                'section' => 'reachability',
+            ],
+            [
+                'label' => __('app.responsibilities'),
+                'icon' => null,
+                'value' => function($helper) { return implode(", ", $helper->responsibilities); },
+                'value_html' => function($helper) { return implode("<br>", $helper->responsibilities); },
+                'overview' => true,
+                'section' => 'occupation',
+            ],
+            [
+                'label' => __('people.application_date'),
+                'icon' => 'calendar',
+                'value' => function($helper) { return optional($helper->work_application_date)->toDateString(); },
+                'overview' => false,
+                'section' => 'occupation',
+            ],
+            [
+                'label' => __('people.rejection_date'),
+                'icon' => 'calendar',
+                'value' => function($helper) { return optional($helper->work_rejection_date)->toDateString(); },
+                'overview' => false,
+                'section' => 'occupation',
+            ],
+            [
+                'label' => __('people.starting_date'),
+                'icon' => 'calendar',
+                'value' => function($helper) { return optional($helper->work_starting_date)->toDateString(); },
+                'overview' => false,
+                'section' => 'occupation',
+            ],
+            [
+                'label' => __('people.leaving_date'),
+                'icon' => 'calendar',
+                'value' => function($helper) { return optional($helper->work_leaving_date)->toDateString(); },
+                'overview' => false,
+                'section' => 'occupation',
+            ],
+            [
+                'label' => __('people.trial_period'),
+                'icon' => 'calendar',
+                'value' => function($helper) { return $helper->work_trial_period !== null ? ($helper->work_trial_period ? __('app.yes') : __('app.no')) : null ; },
+                'overview' => false,
+                'section' => 'occupation',
+            ],
+            [
+                'label' => __('people.background'),
+                'icon' => null,
+                'value' => 'background',
+                'value_html' => function($helper) { return nl2br($helper->work_background); },
+                'overview' => false,
+                'section' => 'occupation',
+            ],
+            [
+                'label' => __('people.improvements'),
+                'icon' => null,
+                'value' => 'improvements',
+                'value_html' => function($helper) { return nl2br($helper->work_improvements); },
+                'overview' => false,
+                'section' => 'occupation',
             ],
             [
                 'label' => __('people.police_number'),
@@ -158,67 +238,9 @@ class HelperListController extends Controller
                 'section' => 'identification',
             ],
             [
-                'label' => __('people.languages'),
-                'icon' => 'language',
-                'value' => function($helper) { return $helper->person->languages; },
-                'overview' => false,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('app.responsibilities'),
-                'icon' => null,
-                'value' => function($helper) { return implode(", ", $helper->responsibilities); },
-                'value_html' => function($helper) { return implode("<br>", $helper->responsibilities); },
-                'overview' => true,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('people.application_date'),
-                'icon' => 'calendar',
-                'value' => function($helper) { return optional($helper->work_application_date)->toDateString(); },
-                'overview' => false,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('people.rejection_date'),
-                'icon' => 'calendar',
-                'value' => function($helper) { return optional($helper->work_rejection_date)->toDateString(); },
-                'overview' => false,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('people.starting_date'),
-                'icon' => 'calendar',
-                'value' => function($helper) { return optional($helper->work_starting_date)->toDateString(); },
-                'overview' => false,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('people.leaving_date'),
-                'icon' => 'calendar',
-                'value' => function($helper) { return optional($helper->work_leaving_date)->toDateString(); },
-                'overview' => false,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('people.trial_period'),
-                'icon' => 'calendar',
-                'value' => function($helper) { return $helper->work_trial_period ? __('app.yes') : __('app.no') ; },
-                'overview' => false,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('people.remarks'),
-                'icon' => null,
-                'value' => function($helper) { return $helper->person->remarks; },
-                'value_html' => function($helper) { return nl2br($helper->person->remarks); },
-                'overview' => false,
-                'section' => 'general',
-            ],
-            [
                 'label' => __('people.casework'),
                 'icon' => null,
-                'value' => function($helper) { return $helper->casework ? __('app.yes') : __('app.no'); },
+                'value' => function($helper) { return $helper->casework !== null ? ($helper->casework ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
                 'section' => 'casework',
             ],
@@ -232,7 +254,7 @@ class HelperListController extends Controller
             [
                 'label' => __('people.geo_restriction'),
                 'icon' => null,
-                'value' => function($helper) { return $helper->casework_geo_restriction  ? __('app.yes') : __('app.no'); },
+                'value' => function($helper) { return $helper->casework_geo_restriction !== null ? ($helper->casework_geo_restriction  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
                 'section' => 'casework',
             ],
@@ -274,7 +296,7 @@ class HelperListController extends Controller
             [
                 'label' => __('people.vulnerable'),
                 'icon' => null,
-                'value' => function($helper) { return $helper->casework_vulnerable ? __('app.yes') : __('app.no'); },
+                'value' => function($helper) { return $helper->casework_vulnerable !== null ? ($helper->casework_vulnerable ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
                 'section' => 'casework',
             ],
@@ -293,36 +315,28 @@ class HelperListController extends Controller
                 'section' => 'casework',
             ],
             [
-                'label' => __('people.lawyer_contact'),
+                'label' => __('people.lawyer_phone'),
                 'icon' => null,
-                'value' => 'casework_lawyer_contact',
-                'value_html' => function($helper) { return nl2br($helper->casework_lawyer_contact); },
+                'value' => 'casework_lawyer_phone',
+                'value_html' => function($helper) { return $helper->casework_lawyer_phone != null ? phone_link($helper->casework_lawyer_phone) : null; },
                 'overview' => false,
                 'section' => 'casework',
             ],
             [
-                'label' => __('people.background'),
+                'label' => __('people.lawyer_email'),
                 'icon' => null,
-                'value' => 'background',
-                'value_html' => function($helper) { return nl2br($helper->work_background); },
+                'value' => 'casework_lawyer_email',
+                'value_html' => function($helper) { return $helper->casework_lawyer_email != null ? email_link($helper->casework_lawyer_email) : null; },
                 'overview' => false,
-                'section' => 'occupation',
+                'section' => 'casework',
             ],
             [
-                'label' => __('people.improvements'),
+                'label' => __('people.remarks'),
                 'icon' => null,
-                'value' => 'improvements',
-                'value_html' => function($helper) { return nl2br($helper->work_improvements); },
+                'value' => function($helper) { return $helper->person->remarks; },
+                'value_html' => function($helper) { return nl2br($helper->person->remarks); },
                 'overview' => false,
-                'section' => 'occupation',
-            ],
-            [
-                'label' => __('people.residence'),
-                'icon' => null,
-                'value' => 'residence',
-                'value_html' => function($helper) { return nl2br($helper->residence); },
-                'overview' => false,
-                'section' => 'reachability',
+                'section' => 'general',
             ],
         ];
     }
@@ -366,23 +380,27 @@ class HelperListController extends Controller
 
         $sections = $this->getSections();
         $fields = collect($this->getFields());
+        $with_empty_fields = $request->has('empty_fields');
 
         return view('people.helpers.show', [
             'helper' => $helper,
             'data' => collect(array_keys($sections))
-                ->mapWithKeys(function($section) use($fields, $sections, $helper) {
+                ->mapWithKeys(function($section) use($fields, $sections, $helper, $with_empty_fields) {
+                    $collection = $fields
+                        ->where('section', $section)
+                        ->where('overview_only', false)
+                        ->map(function($f) use($helper) { 
+                            return [
+                                'label' => $f['label'],
+                                'icon' => $f['icon'],
+                                'value' => self::getFieldValue($f, $helper),
+                            ];
+                        });
+                    if (!$with_empty_fields) {
+                        $collection = $collection->whereNotIn('value', [null]);
+                    }
                     return [ 
-                        $sections[$section] => $fields
-                            ->where('section', $section)
-                            ->map(function($f) use($helper) { 
-                                return [
-                                    'label' => $f['label'],
-                                    'icon' => $f['icon'],
-                                    'value' => self::getFieldValue($f, $helper),
-                                ];
-                            })
-                            ->whereNotIn('value', [null])
-                            ->toArray() 
+                        $sections[$section] => $collection->toArray()
                     ];
                 })
                 ->toArray(),
@@ -401,7 +419,7 @@ class HelperListController extends Controller
                 $sheet->setFontSize(10);
                 $sheet->setFreeze('D2');
                 $sheet->loadView('people.helpers.export',[
-                    'fields' => $this->getFields(),
+                    'fields' => collect($this->getFields())->where('overview_only', false),
                     'helpers' => Helper::get()->load('person')->sortBy('persons.name'),
                 ]);
             });

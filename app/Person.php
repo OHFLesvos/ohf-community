@@ -77,6 +77,23 @@ class Person extends Model
         }
     }
 
+    function getFullNameAttribute() {
+        $str = '';
+        if ($this->name != null) {
+            $str .= $this->name;
+        }
+        if ($this->family_name != null) {
+            $str .= ' ' . $this->family_name;
+        }
+        if ($this->nickname != null) {
+            if (!empty($str)) {
+                $str .= ' ';
+            }
+            $str .= '"'.$this->nickname.'"';
+        }
+        return trim($str);
+    }
+
     public function getFrequentVisitorAttribute() {
         $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
         $date = Carbon::today()->subWeek($weeks)->toDateString();

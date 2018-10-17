@@ -134,9 +134,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('/', 'ShopController@redeem')->name('redeem');
         });
 
-        // Helper
+        // Helpers
         Route::namespace('People\Helpers')->name('people.')->group(function(){
             Route::get('helpers/export', 'HelperListController@export')->name('helpers.export');
+            Route::get('helpers/import', 'HelperListController@import')->name('helpers.import');
+            Route::post('helpers/doImport', 'HelperListController@doImport')->name('helpers.doImport');
             Route::resource('helpers', 'HelperListController');
         });
 
