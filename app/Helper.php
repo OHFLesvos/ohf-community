@@ -72,7 +72,6 @@ class Helper extends Model
         'improvements',
         'residence',
         'leaving_date',
-        'destination',
     ];
 
     public function getActiveAttribute() {

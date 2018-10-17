@@ -174,7 +174,12 @@ return [
     'crop_the_image' => 'Bild zuschneiden',
     'capture' => 'Aufnehmen',
     'capture_image' => 'Bild aufnehmen',
+    'local_phone' => 'Lokales Telefon',
+    'other_phone' => 'Anderes Telefon',
+    'whatsapp' => 'WhatsApp',
+    'skype' => 'Skype',
     'responsibilities' => 'Verantwortlichkeiten',
     'yes' => 'Ja',
     'no' => 'Nein',
+    'status' => 'Status',
 ];

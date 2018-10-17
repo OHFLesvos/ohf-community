@@ -181,4 +181,5 @@ return [
     'responsibilities' => 'Responsibilities',
     'yes' => 'Yes',
     'no' => 'No',
+    'status' => 'Status',
  ];

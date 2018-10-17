@@ -22,15 +22,19 @@ class CreateHelpersTable extends Migration
             $table->string('whatsapp')->nullable();
             $table->string('email')->nullable();
             $table->string('skype')->nullable();
+            $table->text('residence')->nullable();
             // police no. field already in "persons" table
             // DoB field already in "persons" table
-            $table->date('application_date')->nullable();
-            $table->date('rejection_date')->nullable();
-            $table->date('starting_date')->nullable();
-            $table->boolean('trial_period')->nullable();
+            $table->date('work_application_date')->nullable();
+            $table->date('work_rejection_date')->nullable();
+            $table->date('work_starting_date')->nullable();
+            $table->boolean('work_trial_period')->nullable();
+            $table->text('work_background')->nullable()->comment("Profession before Lesbos, secret talents, ambitions");
+            $table->text('work_improvements')->nullable()->comment("Improvements in their work");
+            $table->date('work_leaving_date')->nullable();
             // case number field already in "persons" table
             $table->boolean('casework')->nullable();
-            $table->enum('casework_status', ['applicant', 'first_rejection', 'second_rejection', 'asylum_granted'])->nullable();
+            $table->enum('casework_status', ['awaiting_interview', 'first_rejection', 'second_rejection', 'subsidiary_protection', 'refugee_status'])->nullable();
             $table->boolean('casework_geo_restriction')->nullable();
             $table->date('casework_interview_date')->nullable();
             $table->date('casework_first_decision_date')->nullable();
@@ -41,13 +45,8 @@ class CreateHelpersTable extends Migration
             $table->date('casework_card_expiry_date')->nullable();
             $table->string('casework_lawyer_name')->nullable();
             $table->text('casework_lawyer_contact')->nullable();
-            $table->text('background')->nullable()->comment("Profession before Lesbos, secret talents, ambitions");
-            $table->text('improvements')->nullable()->comment("Improvements in their work");
             // languages field already in "persons" table
-            $table->text('residence')->nullable();
             // notes (remarks) field already in "persons" table
-            $table->date('leaving_date')->nullable();
-            $table->text('destination')->nullable()->comment("Last known destination or residency");
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade')->onUpdate('cascade');

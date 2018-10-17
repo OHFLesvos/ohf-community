@@ -3,8 +3,7 @@
 @section('title', __('people.helpers'))
 
 @section('content')
-
-    @if( ! $helpers->isEmpty() )
+    @if( ! $data->isEmpty() )
         <div class="table-responsive">
             <table class="table table-sm table-striped table-bordered table-hover">
                 <thead>
@@ -18,20 +17,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($helpers as $helper)
+                    @foreach($data as $id => $fields)
                         <tr>
                             @foreach($fields as $field)
                                 <td>
-                                    @if(isset($field['detail_link']) && $field['detail_link'])<a href="{{ route('people.helpers.show', $helper) }}">@endif
-                                    @isset($field['value_html'])
-                                        {{ $field['prefix'] ?? '' }}{!! $field['value_html']($helper) !!}
-                                    @else
-                                        @if(gettype($field['value']) == 'string')
-                                            {{ $field['prefix'] ?? '' }}{{ $helper->{$field['value']} }}
-                                        @else
-                                            {{ $field['prefix'] ?? '' }}{{ $field['value']($helper) }}
-                                        @endif
-                                    @endisset
+                                    @if(isset($field['detail_link']) && $field['detail_link'])<a href="{{ route('people.helpers.show', $id) }}">@endif
+                                    {!! $field['value'] !!}
                                     @if(isset($field['detail_link']) && $field['detail_link'])</a>@endif
                                 </td>
                             @endforeach
