@@ -49,6 +49,7 @@ class CreateHelpersTable extends Migration
             $table->string('casework_lawyer_name')->nullable();
             $table->text('casework_lawyer_phone')->nullable();
             $table->text('casework_lawyer_email')->nullable();
+            $table->text('notes')->nullable();
             // languages field already in "persons" table
             // notes (remarks) field already in "persons" table
             $table->timestamps();

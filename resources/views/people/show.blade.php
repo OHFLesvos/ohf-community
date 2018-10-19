@@ -86,7 +86,7 @@
                             @if(isset($person->languages))
                                 <tr>
                                     <th>@lang('people.languages')</th>
-                                    <td>{{ $person->languages }}</td>
+                                    <td>{!! implode('<br>', $person->languages) !!}</td>
                                 </tr>
                             @endif
                             @if(isset($person->skills))

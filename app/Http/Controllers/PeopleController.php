@@ -66,7 +66,7 @@ class PeopleController extends ParentController
         $person->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
-		$person->languages = !empty($request->languages) ? $request->languages : null;
+		$person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
         $person->card_no = $request->card_no;
 		$person->save();
 
@@ -143,7 +143,7 @@ class PeopleController extends ParentController
         $person->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
-        $person->languages = !empty($request->languages) ? $request->languages : null;
+        $person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
         $person->save();
         return redirect()->route('people.show', $person)
                 ->with('success', 'Person has been updated!');
@@ -496,7 +496,7 @@ class PeopleController extends ParentController
                             'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
                             'temp_no' => isset($row->temp_no) ? $row->temp_no : null,
                             'nationality' => $row->nationality,
-                            'languages' => $row->languages,
+                            'languages' => !empty($row->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $row->languages) : null,
                             'skills' => $row->skills,
                             'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
                         ]);

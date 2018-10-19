@@ -181,4 +181,5 @@ return [
     'import_helper_data' => 'Import helper data',
     'has_id_card' => 'Has ID card?',
     'has_passport' => 'Has passport?',
+    'notes' => 'Notes',
 ];

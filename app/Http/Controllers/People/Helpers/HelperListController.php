@@ -462,14 +462,14 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_lawyer_email = $value; },
             ],
             [
-                'label_key' => 'people.remarks',
+                'label_key' => 'people.notes',
                 'icon' => null,
-                'value' => function($helper) { return $helper->person->remarks; },
-                'value_html' => function($helper) { return nl2br($helper->person->remarks); },
+                'value' => function($helper) { return $helper->notes; },
+                'value_html' => function($helper) { return nl2br($helper->notes); },
                 'overview' => false,
                 'section' => 'general',
                 'import_labels' => [ 'Notes' ],
-                'assign' => function($person, $helper, $value) { $person->remarks = $value; },
+                'assign' => function($person, $helper, $value) { $helper->notes = $value; },
             ],
         ];
     }

@@ -19,7 +19,7 @@
 						{{ Form::genderSelect('gender', null, __('people.gender')) }}
 					</div>
                     <div class="col-md-auto">
-							{{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people.date_of_birth')) }}
+						{{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people.date_of_birth')) }}
 					</div>
 					<div class="col-md-auto">
 						<p>@lang('people.age')</p>
@@ -51,7 +51,7 @@
                         {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people.nationality')) }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsText('languages', null, [], __('people.languages')) }}
+                        {{ Form::bsText('languages', $person->languages != null ? implode(', ', $person->languages) : null, [], __('people.languages')) }}
 					</div>
 				</div>
                 {{ Form::bsText('remarks', null, [], __('people.remarks')) }}

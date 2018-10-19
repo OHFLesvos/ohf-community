@@ -181,4 +181,5 @@ return [
     'import_helper_data' => 'Helferdaten importieren',
     'has_id_card' => 'Hat ID Karte?',
     'has_passport' => 'Hat Reisepass?',
+    'notes' => 'Notizen',
 ];

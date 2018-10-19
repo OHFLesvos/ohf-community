@@ -38,7 +38,7 @@ class Helper extends Model implements Auditable
         'casework_second_decision_date',
         'casework_vulnerability_assessment_date',
         'casework_card_expiry_date',
-        'leaving_date',
+        'work_leaving_date',
     ];
 
     /**
@@ -82,7 +82,7 @@ class Helper extends Model implements Auditable
     ];
 
     public function getIsActiveAttribute() {
-        return $this->starting_date != null && $this->leaving_date == null;
+        return $this->work_starting_date != null && $this->work_leaving_date == null;
     }
 
     public function getIsOnTrialPeriodAttribute() {
