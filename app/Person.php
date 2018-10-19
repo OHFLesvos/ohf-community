@@ -55,7 +55,7 @@ class Person extends Model
      */
     public function helper()
     {
-        return $this->belongsTo('App\Helper', 'id', 'person_id');
+        return $this->hasOne('App\Helper', 'person_id', 'id');
     }
 
     // /**
@@ -67,6 +67,15 @@ class Person extends Model
     // {
     //     return 'public_id';
     // }
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'languages' => 'array',
+    ];    
 
     public function getAgeAttribute() {
         try {

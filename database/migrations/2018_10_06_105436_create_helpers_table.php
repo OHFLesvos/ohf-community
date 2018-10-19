@@ -34,14 +34,17 @@ class CreateHelpersTable extends Migration
             $table->date('work_leaving_date')->nullable();
             // case number field already in "persons" table
             $table->boolean('casework')->nullable();
-            $table->enum('casework_status', ['awaiting_interview', 'first_rejection', 'second_rejection', 'subsidiary_protection', 'refugee_status'])->nullable();
+            $table->enum('casework_asylum_request_status', ['awaiting_interview', 'first_rejection', 'second_rejection', 'subsidiary_protection', 'refugee_status'])->nullable();
             $table->boolean('casework_geo_restriction')->nullable();
-            $table->date('casework_interview_date')->nullable();
+            $table->boolean('casework_has_id_card')->nullable();
+            $table->boolean('casework_has_passport')->nullable();
+            $table->date('casework_first_interview_date')->nullable();
+            $table->date('casework_second_interview_date')->nullable();
             $table->date('casework_first_decision_date')->nullable();
             $table->date('casework_appeal_date')->nullable();
             $table->date('casework_second_decision_date')->nullable();
-            $table->date('casework_vulnerable_date')->nullable()->comment('Date when vulnerability was assessed');
-            $table->boolean('casework_vulnerable')->nullable()->comment('Person has vulnerability status');
+            $table->date('casework_vulnerability_assessment_date')->nullable()->comment('Date when vulnerability was assessed');
+            $table->string('casework_vulnerability')->nullable();
             $table->date('casework_card_expiry_date')->nullable();
             $table->string('casework_lawyer_name')->nullable();
             $table->text('casework_lawyer_phone')->nullable();

@@ -141,7 +141,7 @@ class ImportExportController extends Controller
             });
         });
 		return redirect()->route('bank.withdrawal')
-				->with('success', 'Import successful!');		
+				->with('success', _('app.import_successful'));		
     }
   
 }

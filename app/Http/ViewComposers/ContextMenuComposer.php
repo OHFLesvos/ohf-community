@@ -406,6 +406,12 @@ class ContextMenuComposer {
                         'icon' => 'download',
                         'authorized' => true, // TODO Auth::user()->can('export', Helper::class)
                     ],
+                    'import' => [
+                        'url' => route('people.helpers.import'),
+                        'caption' => __('app.import'),
+                        'icon' => 'upload',
+                        'authorized' => true, // TODO Auth::user()->can('export', Helper::class)
+                    ],
                 ];
             case 'people.helpers.show':
                 $helper = $view->getData()['helper'];
@@ -433,6 +439,15 @@ class ContextMenuComposer {
                     'back' => [
                         'url' => route('people.helpers.index'),
                         'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
+                    ]
+                ];
+            case 'people.helpers.import':
+                return [
+                    'back' => [
+                        'url' => route('people.helpers.index'),
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
                     ]

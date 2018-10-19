@@ -182,4 +182,6 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'status' => 'Status',
+    'choose_file' => 'Choose file',
+    'import_successful' => 'Import successful.',
  ];

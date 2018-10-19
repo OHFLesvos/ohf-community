@@ -12,7 +12,7 @@
         @else
             @component('components.alert.info')
                 @if($helper->work_application_date != null)
-                    @lang('people.person_on_helper_waiting_list_date', ['date' => $helper->work_application_date->toDateString() ])
+                    @lang('people.person_on_helper_waiting_list_date', ['date' => $helper->work_application_date->toDateString(), 'diff' => $helper->work_application_date->diffForHumans() ])
                 @else
                     @lang('people.person_on_helper_waiting_list')
                 @endif
@@ -25,7 +25,7 @@
             @endcomponent
         @elseif($helper->work_trial_period)
             @component('components.alert.warning')
-                @lang('people.helper_on_trial_period', ['date' => $helper->work_starting_date->toDateString() ])
+                @lang('people.helper_on_trial_period', ['date' => $helper->work_starting_date->toDateString(), 'diff' => $helper->work_starting_date->diffForHumans() ])
             @endcomponent
         @endif
     @endif

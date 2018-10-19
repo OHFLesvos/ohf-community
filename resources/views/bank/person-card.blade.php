@@ -5,7 +5,7 @@
     <div class="card-header p-2" @if($frequentVisitor) style="background:lightgoldenrodyellow;" @endif >
         <div class="form-row">
             <div class="col">
-                @if(optional($person->helper)->active)
+                @if(optional($person->helper)->isActive)
                     <strong>
                         <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('people.helper')) }}</a>
                     </strong>

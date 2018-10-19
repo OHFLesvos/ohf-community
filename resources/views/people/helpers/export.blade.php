@@ -3,7 +3,7 @@
         <tr>
             @foreach($fields as $field)
                 <th>
-                    {{ $field['label'] }}
+                    @lang($field['label_key'])
                 </th>
             @endforeach
         </tr>

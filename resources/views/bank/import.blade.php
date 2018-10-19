@@ -5,7 +5,7 @@
 @section('content')
 
     {!! Form::open(['route' => 'bank.doImport', 'files' => true]) !!}
-        {{ Form::bsFile('file', [], __('app.choose_file')) }}
+        {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('app.choose_file')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.import'), 'upload') }}
         </p>

@@ -506,7 +506,7 @@ class PeopleController extends ParentController
             });
         });
 		return redirect()->route('people.index')
-				->with('success', 'Import successful!');		
+				->with('success', _('app.import_successful'));
     }
 
 }

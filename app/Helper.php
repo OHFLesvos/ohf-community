@@ -5,18 +5,20 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\NullableFields;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Helper extends Model
+class Helper extends Model implements Auditable
 {
     use SoftDeletes;
     use NullableFields;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * Get the person record associated with the helper.
      */
     public function person()
     {
-        return $this->hasOne('App\Person', 'id', 'person_id');
+        return $this->belongsTo('App\Person', 'person_id', 'id');
     }
 
     /**
@@ -26,14 +28,15 @@ class Helper extends Model
      */
     protected $dates = [
         'deleted_at',
-        'application_date',
-        'rejection_date',
-        'starting_date',
-        'casework_interview_date',
+        'work_application_date',
+        'work_rejection_date',
+        'work_starting_date',
+        'casework_first_interview_date',
+        'casework_second_interview_date',
         'casework_first_decision_date',
         'casework_appeal_date',
         'casework_second_decision_date',
-        'casework_vulnerable_date',
+        'casework_vulnerability_assessment_date',
         'casework_card_expiry_date',
         'leaving_date',
     ];
@@ -61,21 +64,29 @@ class Helper extends Model
         'work_background',
         'work_improvements',
         'work_leaving_date',
-        'casework_status',
+        'casework_asylum_request_status',
         'casework_geo_restriction',
-        'casework_interview_date',
+        'casework_has_id_card',
+        'casework_has_passport',
+        'casework_first_interview_date',
+        'casework_second_interview_date',
         'casework_first_decision_date',
         'casework_appeal_date',
         'casework_second_decision_date',
-        'casework_vulnerable_date',
-        'casework_vulnerable',
+        'casework_vulnerability_assessment_date',
+        'casework_vulnerability',
         'casework_card_expiry_date',
         'casework_lawyer_name',
         'casework_lawyer_phone',
         'casework_lawyer_email',
     ];
 
-    public function getActiveAttribute() {
+    public function getIsActiveAttribute() {
         return $this->starting_date != null && $this->leaving_date == null;
     }
+
+    public function getIsOnTrialPeriodAttribute() {
+        return $this->is_active && $this->work_trial_period;
+    }
+
 }

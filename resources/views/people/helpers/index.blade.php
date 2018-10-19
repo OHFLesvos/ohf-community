@@ -31,6 +31,7 @@
                 </tbody>
             </table>
         </div>
+        <p><small>{{ $data->count() }} results.</small></p>
     @else
         @component('components.alert.info')
             @lang('people.no_helpers_found')
