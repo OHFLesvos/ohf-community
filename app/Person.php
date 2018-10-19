@@ -98,7 +98,7 @@ class Person extends Model
             if (!empty($str)) {
                 $str .= ' ';
             }
-            $str .= '"'.$this->nickname.'"';
+            $str .= '«'.$this->nickname.'»';
         }
         return trim($str);
     }

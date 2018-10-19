@@ -323,6 +323,10 @@ class HelperListController extends Controller
                         $helper->casework_asylum_request_status = 'subsidiary_protection'; 
                     } else if (self::getAllTranslations('people.refugee_status')->contains($value)) {
                         $helper->casework_asylum_request_status = 'refugee_status'; 
+                    } else if (self::getAllTranslations('people.deported')->contains($value)) {
+                        $helper->casework_asylum_request_status = 'deported'; 
+                    } else if (self::getAllTranslations('people.voluntarily_returned')->contains($value)) {
+                        $helper->casework_asylum_request_status = 'voluntarily_returned'; 
                     }
                 },
             ],
