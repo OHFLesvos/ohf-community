@@ -605,37 +605,59 @@ class HelperListController extends Controller
                         $person = new Person();
                         $helper = new Helper();
 
-                        $row->each(function($value, $label) use($fields, $helper, $person) {
-                            if ($value !== null && $value != 'N/A') {
-                                $fields->each(function($f) use($helper, $person, $label, $value) {
-                                    if ($f['labels']->containsStrict(strtolower($label))) {
-                                        try {
-                                            $f['assign']($person, $helper, $value);
-                                        } catch(\Exception $e) {
-                                            echo "Exception for <b>'$value'</b>: " . $e->getMessage()."<br><br>";
-                                            // ignored
-                                        }
-                                    }
-                                });
-                            }
-                        });
+                        self::assignImportedValues($row, $fields, $helper, $person);
 
-                        if (isset($person->name)) {
-                            if (!isset($person->gender)) {
-                                $person->gender = null;
+                        if (isset($person->name) && isset($person->family_name)) {
+                            $existing_person = Person::where('name', $person->name)
+                                ->where('family_name', $person->family_name)
+                                ->where('nationality', $person->nationality)
+                                ->where('date_of_birth', $person->date_of_birth)
+                                ->first();
+                            if ($existing_person != null) {
+                                echo "Found existing {$person->name} {$person->family_name}<br>";
+                                $existing_helper = $existing_person->helper;
+                                $new_helper = false;
+                                if ($existing_helper == null) {
+                                    $existing_helper = new Helper();
+                                    $new_helper = true;
+                                }
+                                self::assignImportedValues($row, $fields, $existing_helper, $existing_person);
+                                $existing_person->save();
+                                if ($new_helper) {
+                                    $existing_person->helper()->save($existing_helper);
+                                } else {
+                                    $existing_helper->save();
+                                }
+                            } else {
+                                $person->save();
+                                $person->helper()->save($helper);
                             }
-                            $person->save();
-                            $person->helper()->save($helper);
                         }
                         
                     });
                 }
             });
         });
-		// return redirect()->route('people.helpers.index')
-		// 		->with('success', __('app.import_successful'));		
+		return redirect()->route('people.helpers.index')
+				->with('success', __('app.import_successful'));		
     }
 
+    private static function assignImportedValues($row, $fields, $helper, $person) {
+        $row->each(function($value, $label) use($fields, $helper, $person) {
+            if ($value !== null && $value != 'N/A') {
+                $fields->each(function($f) use($helper, $person, $label, $value) {
+                    if ($f['labels']->containsStrict(strtolower($label))) {
+                        try {
+                            $f['assign']($person, $helper, $value);
+                        } catch(\Exception $e) {
+                            // echo "Exception for <b>'$value'</b>: " . $e->getMessage()."<br><br>";
+                            // ignored
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     private static function getAllTranslations($key) {
         return collect(language()->allowed())
