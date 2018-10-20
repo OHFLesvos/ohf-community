@@ -398,18 +398,18 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people.casework',
+                'label_key' => 'people.endorses_casework',
                 'icon' => null,
                 'value' => function($helper) {
-                    return $helper->casework !== null ? ($helper->casework ? __('app.yes') : __('app.no')) : null; 
+                    return $helper->endorses_casework !== null ? ($helper->endorses_casework ? __('app.yes') : __('app.no')) : null; 
                 },
                 'overview' => false,
                 'section' => 'casework',
                 'assign' => function($person, $helper, $value) { 
-                    $helper->casework = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
+                    $helper->endorses_casework = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
                 },
                 'form_type' => 'radio',
-                'form_name' => 'casework',
+                'form_name' => 'endorses_casework',
                 'form_list' => [ 
                     null => __('app.unspecified'),
                     __('app.yes') => __('app.yes'),
@@ -439,17 +439,17 @@ class HelperListController extends Controller
                 // TODO validation
             ],
             [
-                'label_key' => 'people.geo_restriction',
+                'label_key' => 'people.has_geo_restriction',
                 'icon' => null,
-                'value' => function($helper) { return $helper->casework_geo_restriction !== null ? ($helper->casework_geo_restriction  ? __('app.yes') : __('app.no')) : null; },
+                'value' => function($helper) { return $helper->casework_has_geo_restriction !== null ? ($helper->casework_has_geo_restriction  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ 'Geo Restriction' ],
                 'assign' => function($person, $helper, $value) { 
-                    $helper->casework_geo_restriction = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
+                    $helper->casework_has_geo_restriction = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
                 },
                 'form_type' => 'radio',
-                'form_name' => 'geo_restriction',
+                'form_name' => 'has_geo_restriction',
                 'form_list' => [ 
                     null => __('app.unspecified'),
                     __('app.yes') => __('app.yes'),
