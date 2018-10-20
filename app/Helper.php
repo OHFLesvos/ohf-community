@@ -62,7 +62,7 @@ class Helper extends Model implements Auditable
         'work_rejection_date',
         'work_starting_date',
         'work_background',
-        'work_improvements',
+        'work_feedback_wishes',
         'work_leaving_date',
         'endorses_casework',
         'casework_asylum_request_status',
