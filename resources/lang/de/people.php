@@ -188,4 +188,6 @@ return [
     'distribution' => 'Distribution',
     'shirt_size' => 'Shirtgrösse',
     'shoe_size' => 'Schuhgrösse',
+    'urgent_needs' => 'Dringender Bedarf',
+    'work_needs' => 'Bedarf für die Arbeit',
 ];

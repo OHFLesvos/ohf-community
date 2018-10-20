@@ -21,7 +21,7 @@
                                 @elseif($field['type'] == 'date')
                                     {{ Form::bsDate($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'textarea')
-                                    {{ Form::bsTextarea($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                                    {{ Form::bsTextarea($field['name'], $field['value'], [ 'rows' => 3, 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'checkbox')
                                     <div class="mb-3">{{ Form::bsCheckbox($field['name'], __('app.yes'), $field['value'] == __('app.yes'), $field['label'], $field['help'] ?? null) }}</div>
                                 @elseif($field['type'] == 'radio')

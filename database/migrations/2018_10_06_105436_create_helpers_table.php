@@ -51,6 +51,8 @@ class CreateHelpersTable extends Migration
             $table->text('casework_lawyer_email')->nullable();
             $table->string('shirt_size')->nullable();
             $table->string('shoe_size')->nullable();
+            $table->string('urgent_needs')->nullable();
+            $table->string('work_needs')->nullable();
             $table->text('notes')->nullable();
             // languages field already in "persons" table
             // notes (remarks) field already in "persons" table

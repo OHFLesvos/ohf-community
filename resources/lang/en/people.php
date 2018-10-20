@@ -188,4 +188,6 @@ return [
     'distribution' => 'Distribution',
     'shirt_size' => 'Shirt Size',
     'shoe_size' => 'Shoe Size',
+    'urgent_needs' => 'Urgent Needs',
+    'work_needs' => 'Needs for Work',
 ];

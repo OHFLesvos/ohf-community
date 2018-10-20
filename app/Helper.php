@@ -79,6 +79,10 @@ class Helper extends Model implements Auditable
         'casework_lawyer_name',
         'casework_lawyer_phone',
         'casework_lawyer_email',
+        'shirt_size',
+        'shoe_size',
+        'urgent_needs',
+        'work_needs',
     ];
 
     public function getIsActiveAttribute() {

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\People\Helpers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImportHelpers;
 use App\Helper;
 use App\Person;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rule;
 
 class HelperListController extends Controller
 {
@@ -38,42 +40,46 @@ class HelperListController extends Controller
                 'label_key' => 'people.name',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->name; },
-                'overview' => false,
+                'overview' => true,
+                'detail_link' => true,
                 'section' => 'general',
                 'assign' => function($person, $helper, $value) { $person->name = $value; },
                 'form_type' => 'text',
                 'form_name' => 'name',
+                'form_validate' => 'required|max:255',
             ],
             [
                 'label_key' => 'people.family_name',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->family_name; },
-                'overview' => false,
+                'overview' => true,
                 'section' => 'general',
                 'import_labels' => [ 'Surname' ],
                 'assign' => function($person, $helper, $value) { $person->family_name = $value; },
                 'form_type' => 'text',
                 'form_name' => 'family_name',
+                'form_validate' => 'required|max:255',
             ],
             [
                 'label_key' => 'people.nickname',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->nickname; },
-                'overview' => false,
+                'overview' => true,
                 'section' => 'general',
                 'assign' => function($person, $helper, $value) { $person->nickname = $value; },
                 'form_type' => 'text',
                 'form_name' => 'nickname',
+                'form_validate' => 'nullable|max:255',
             ],
-            [
-                'label_key' => 'people.name',
-                'icon' => null,
-                'value' => function($helper) { return $helper->person->fullName; },
-                'overview' => true,
-                'overview_only' => true,
-                'detail_link' => true,
-                'section' => 'general',
-            ],
+            // [
+            //     'label_key' => 'people.name',
+            //     'icon' => null,
+            //     'value' => function($helper) { return $helper->person->fullName; },
+            //     'overview' => true,
+            //     'overview_only' => true,
+            //     'detail_link' => true,
+            //     'section' => 'general',
+            // ],
             [
                 'label_key' => 'people.nationality',
                 'icon' => 'globe',
@@ -84,6 +90,13 @@ class HelperListController extends Controller
                 'form_type' => 'text',
                 'form_name' => 'nationality',
                 'form_autocomplete' => function() { return \Countries::getList('en'); },
+                'form_validate' => function(){
+                    return [
+                        'nullable',
+                        'max:255',
+                        Rule::in(\Countries::getList('en'))
+                    ];    
+                },
             ],
             [
                 'label_key' => 'people.date_of_birth',
@@ -96,6 +109,7 @@ class HelperListController extends Controller
                 'form_type' => 'text',
                 'form_name' => 'date_of_birth',
                 'form_placeholder' => 'YYYY-MM-DD',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.age',
@@ -121,6 +135,7 @@ class HelperListController extends Controller
                     __('people.male') => __('people.male'),
                     __('people.female') => __('people.female')
                 ],
+                'form_validate' => 'required', // |in:m,f
             ],
             [
                 'label_key' => 'people.languages',
@@ -179,6 +194,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->email = $value; },
                 'form_type' => 'email',
                 'form_name' => 'email',
+                'form_validate' => 'nullable|email',
             ],
             [
                 'label_key' => 'app.skype',
@@ -253,6 +269,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->work_application_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'application_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.rejection_date',
@@ -263,6 +280,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->work_rejection_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'rejection_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.starting_date',
@@ -274,6 +292,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->work_starting_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'starting_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.leaving_date',
@@ -284,6 +303,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->work_leaving_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'leaving_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.background',
@@ -320,7 +340,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $val = preg_replace('/^05\//', '', $value); $person->police_no = (!empty($val) ? $val : null); },
                 'form_type' => 'number',
                 'form_name' => 'police_number',
-                // PREfix
+                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.case_number',
@@ -331,6 +351,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->case_no = $value; },
                 'form_type' => 'number',
                 'form_name' => 'case_number',
+                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.medical_number',
@@ -341,6 +362,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->medical_no = $value; },
                 'form_type' => 'number',
                 'form_name' => 'medical_number',
+                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.registration_number',
@@ -351,6 +373,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->registration_no = $value; },
                 'form_type' => 'number',
                 'form_name' => 'registration_number',
+                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.section_card_number',
@@ -361,6 +384,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->section_card_no = $value; },
                 'form_type' => 'number',
                 'form_name' => 'section_card_number',
+                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.temporary_number',
@@ -371,6 +395,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->temp_no = $value; },
                 'form_type' => 'number',
                 'form_name' => 'temporary_number',
+                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.casework',
@@ -411,6 +436,7 @@ class HelperListController extends Controller
                 'form_name' => 'asylum_request_status',
                 'form_list' => collect(self::$asylum_request_states)->mapWithKeys(function($s){ return [ __('people.' . $s) => __('people.' . $s) ]; })->toArray(),
                 'form_placeholder' => __('app.select_status'),
+                // TODO validation
             ],
             [
                 'label_key' => 'people.geo_restriction',
@@ -475,6 +501,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_first_interview_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'first_interview_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.second_interview_date',
@@ -486,6 +513,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_second_interview_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'second_interview_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.first_decision_date',
@@ -497,6 +525,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_first_decision_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'first_decision_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.appeal_date',
@@ -508,6 +537,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_appeal_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'appeal_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.second_decision_date',
@@ -519,6 +549,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_second_decision_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'second_decision_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.vulnerability_assessment_date',
@@ -530,6 +561,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_vulnerability_assessment_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'vulnerability_assessment_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.vulnerability',
@@ -551,6 +583,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_card_expiry_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'card_expiry_date',
+                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.lawyer_name',
@@ -585,6 +618,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_lawyer_email = $value; },
                 'form_type' => 'email',
                 'form_name' => 'lawyer_email',
+                'form_validate' => 'nullable|email',
             ],
             [
                 'label_key' => 'people.notes',
@@ -617,6 +651,28 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->shirt_size = $value; },
                 'form_type' => 'text',
                 'form_name' => 'shoe_size',
+            ],
+            [
+                'label_key' => 'people.urgent_needs',
+                'icon' => null,
+                'value' => function($helper) { return $helper->urgent_needs; },
+                'value_html' => function($helper) { return nl2br($helper->urgent_needs); },
+                'overview' => false,
+                'section' => 'distribution',
+                'assign' => function($person, $helper, $value) { $helper->urgent_needs = $value; },
+                'form_type' => 'textarea',
+                'form_name' => 'urgent_needs',
+            ],
+            [
+                'label_key' => 'people.work_needs',
+                'icon' => null,
+                'value' => function($helper) { return $helper->work_needs; },
+                'value_html' => function($helper) { return nl2br($helper->work_needs); },
+                'overview' => false,
+                'section' => 'distribution',
+                'assign' => function($person, $helper, $value) { $helper->work_needs = $value; },
+                'form_type' => 'textarea',
+                'form_name' => 'work_needs',
             ],
             [
                 'label_key' => 'people.remarks',
@@ -743,6 +799,20 @@ class HelperListController extends Controller
     public function update(Helper $helper, Request $request) {
         // TODO authorization
 
+        // Validation
+        $rules = collect($this->getFields())
+            ->filter(function($f){ 
+                return isset($f['form_name']) && isset($f['form_type']) 
+                    && isset($f['assign']) && is_callable($f['assign'])
+                    && isset($f['form_validate']);
+            })
+            ->mapWithKeys(function($f){
+                $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
+                return [$f['form_name'] => $rules];
+            })
+            ->toArray();
+        $request->validate($rules);
+
         collect($this->getFields())
             ->filter(function($f){ 
                 return isset($f['form_name']) && isset($f['form_type']) 
@@ -797,13 +867,9 @@ class HelperListController extends Controller
         return view('people.helpers.import');
     }
 
-    function doImport(Request $request) {
+    function doImport(ImportHelpers $request) {
         // TODO $this->authorize('create', Helper::class);
 
-        // TODO validation using Request
-        $this->validate($request, [
-            'file' => 'required|file',
-        ]);
         $file = $request->file('file');
 
         Config::set('excel.import.heading', 'original');
