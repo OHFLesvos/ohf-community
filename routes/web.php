@@ -136,9 +136,9 @@ Route::group(['middleware' => 'language'], function () {
 
         // Helpers
         Route::namespace('People\Helpers')->name('people.')->group(function(){
-            Route::get('helpers/export', 'HelperListController@export')->name('helpers.export');
-            Route::get('helpers/import', 'HelperListController@import')->name('helpers.import');
-            Route::post('helpers/doImport', 'HelperListController@doImport')->name('helpers.doImport');
+            Route::get('helpers/export', 'HelperListController@export')->name('helpers.export')->middleware('can:export,App\Helper');
+            Route::get('helpers/import', 'HelperListController@import')->name('helpers.import')->middleware('can:import,App\Helper');
+            Route::post('helpers/doImport', 'HelperListController@doImport')->name('helpers.doImport')->middleware('can:import,App\Helper');
             Route::resource('helpers', 'HelperListController');
         });
 
