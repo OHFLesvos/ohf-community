@@ -9,6 +9,7 @@ return [
     'bank.statistics.view' => 'Bank: View reports',
     'bank.configure' => 'Bank: Configure settings',
     'shop.coupons.validate' => 'Shop: Validate coupons',
+    'people.helpers.manage' => 'Helpers: Manage helpers',
     'logistics.use' => 'Use logistics',
     'tasks.use' => 'Use tasks',
     'kitchen.reports.view' => 'Kitchen: View reports',
