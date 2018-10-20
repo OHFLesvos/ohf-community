@@ -6,9 +6,13 @@
         <div class="form-row">
             <div class="col">
                 @if(optional($person->helper)->isActive)
-                    <strong>
-                        <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('people.helper')) }}</a>
-                    </strong>
+                    @can('view', $person->helper)
+                        <strong>
+                            <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('people.helper')) }}</a>
+                        </strong>
+                    @else
+                        <strong class="text-warning">{{ strtoupper(__('people.helper')) }}</strong>
+                    @endcan
                 @endif
                 <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ $person->family_name }} {{ $person->name }}</strong></a>
                 <span>

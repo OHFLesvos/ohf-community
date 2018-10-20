@@ -161,7 +161,7 @@
 
             @if($person->helper != null)
                 <div class="alert alert-info">
-                    @icon(info-circle) @lang('people.person_registered_as_helper', [ 'url' => route('people.helpers.show', $person->helper) ])
+                    @icon(info-circle) @lang('people.person_registered_as_helper')
                 </div>            
             @endif
 

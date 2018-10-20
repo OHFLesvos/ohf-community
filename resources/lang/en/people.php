@@ -79,7 +79,7 @@ return [
     'remove_records_no_transaction_since_n_months' => 'Remove persons not taking coupons since :months months (:num persons)',
     'remove_records_not_having_transaction_ever' => 'Remove persons not taking any coupons ever (:num persons)',
     'remove_records_without_number' => 'Remove records not having any number registered (:num persons)',
-    'person_registered_as_helper' => 'Person is registerd as <a href=":url">Helper</a>.',
+    'person_registered_as_helper' => 'Person is registerd as a helper.',
     'removed_n_persons' => 'Removed :num persons.',
     'settings_updated' => 'Settings have been updated.',
     'number_of_weeks' => 'Number of weeks',

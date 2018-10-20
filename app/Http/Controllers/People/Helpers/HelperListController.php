@@ -689,7 +689,7 @@ class HelperListController extends Controller
     }
 
     public function index(Request $request) {
-        // TODO authorization
+        $this->authorize('create', Helper::class);
 
         $fields = collect($this->getFields())->where('overview', true);
         return view('people.helpers.index', [
@@ -715,7 +715,7 @@ class HelperListController extends Controller
     }
 
     public function show(Helper $helper, Request $request) {
-        // TODO authorization
+        $this->authorize('view', $helper);
 
         $sections = $this->getSections();
         $fields = collect($this->getFields());
@@ -747,7 +747,7 @@ class HelperListController extends Controller
     }
 
     public function edit(Helper $helper) {
-        // TODO authorization
+        $this->authorize('update', $helper);
 
         $sections = $this->getSections();
         $fields = collect($this->getFields());
@@ -792,7 +792,7 @@ class HelperListController extends Controller
     }
 
     public function update(Helper $helper, Request $request) {
-        // TODO authorization
+        $this->authorize('update', $helper);
 
         // Validation
         $rules = collect($this->getFields())
@@ -824,7 +824,7 @@ class HelperListController extends Controller
     }
 
     public function destroy(Helper $helper) {
-        // TODO authorization
+        $this->authorize('delete', $helper);
 
         $helper->delete();
         
@@ -833,7 +833,7 @@ class HelperListController extends Controller
     }
 
     public function export(Request $request) {
-        // TODO authorization
+        $this->authorize('export', Helper::class);
 
         \Excel::create(__('people.helpers').'_' . Carbon::now()->toDateString(), function($excel) {
             $excel->sheet(__('people.helpers'), function($sheet) {
@@ -860,13 +860,13 @@ class HelperListController extends Controller
     }
 
     function import() {
-        //$this->authorize('create', Helper::class);
+        $this->authorize('import', Helper::class);
 
         return view('people.helpers.import');
     }
 
     function doImport(ImportHelpers $request) {
-        // TODO $this->authorize('create', Helper::class);
+        $this->authorize('import', Helper::class);
 
         $file = $request->file('file');
 

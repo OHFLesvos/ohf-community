@@ -79,7 +79,7 @@ return [
     'remove_records_no_transaction_since_n_months' => 'Entferne Einträge welche seit :months Monaten keine Coupons bezogen haben (:num Personen)',
     'remove_records_not_having_transaction_ever' => 'Entferne Einträge welche nie Coupons bezogen (:num Personen)',
     'remove_records_without_number' => 'Entferne Einträge welche keine Nummer registriert haben (:num Personen)',
-    'person_registered_as_helper' => 'Person ist als <a href=":url">Helfer</a> registriert.',
+    'person_registered_as_helper' => 'Person ist als Helfer registriert.',
     'removed_n_persons' => ':num Personen entfernt.',
     'settings_updated' => 'Einstellungen wurden aktualisiert.',
     'number_of_weeks' => 'Anzahl Wochen',

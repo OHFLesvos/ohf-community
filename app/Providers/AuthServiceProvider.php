@@ -26,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\MoneyTransaction::class => \App\Policies\Accounting\MoneyTransactionPolicy::class,
         \App\InventoryItemTransaction::class => \App\Policies\Inventory\ItemTransactionPolicy::class,
         \App\InventoryStorage::class => \App\Policies\Inventory\StoragePolicy::class,
+        \App\Helper::class => \App\Policies\People\HelperPolicy::class,
     ];
 
     /**

@@ -331,6 +331,12 @@ class ContextMenuComposer {
                         'icon' => 'users',
                         'authorized' => Auth::user()->can('update', $person)
                     ],
+                    'helper' => $person->helper != null ? [
+                        'url' => route('people.helpers.show', $person->helper),
+                        'caption' => __('people.view_helper'),
+                        'icon' => 'id-badge',
+                        'authorized' => Auth::user()->can('view', $person->helper),
+                    ] : null,
                     'delete' => [
                         'url' => route('people.destroy', $person),
                         'caption' => __('app.delete'),
@@ -393,24 +399,24 @@ class ContextMenuComposer {
             //
             case 'people.helpers.index':
                 return [
-                    // 'action' => [
-                    //     'url' => route('people.create'),
-                    //     'caption' => __('app.register'),
-                    //     'icon' => 'plus-circle',
-                    //     'icon_floating' => 'plus',
-                    //     'authorized' => true, // TODO Auth::user()->can('create', Helper::class)
-                    // ],
+                    'action' => [
+                        'url' => route('people.helpers.create'),
+                        'caption' => __('app.register'),
+                        'icon' => 'plus-circle',
+                        'icon_floating' => 'plus',
+                        'authorized' => Auth::user()->can('create', Helper::class)
+                    ],
                     'export' => [
                         'url' => route('people.helpers.export'),
                         'caption' => __('app.export'),
                         'icon' => 'download',
-                        'authorized' => true, // TODO Auth::user()->can('export', Helper::class)
+                        'authorized' => Auth::user()->can('export', Helper::class)
                     ],
                     'import' => [
                         'url' => route('people.helpers.import'),
                         'caption' => __('app.import'),
                         'icon' => 'upload',
-                        'authorized' => true, // TODO Auth::user()->can('export', Helper::class)
+                        'authorized' => Auth::user()->can('import', Helper::class)
                     ],
                 ];
             case 'people.helpers.show':
@@ -421,7 +427,7 @@ class ContextMenuComposer {
                         'caption' => __('app.edit'),
                         'icon' => 'pencil',
                         'icon_floating' => 'pencil',
-                        'authorized' => true, // TODO Auth::user()->can('update', $helper)
+                        'authorized' => Auth::user()->can('update', $helper)
                     ],
                     'person' => [
                         'url' => route('people.show', $helper->person),
@@ -433,14 +439,14 @@ class ContextMenuComposer {
                         'url' => route('people.helpers.destroy', $helper),
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
-                        'authorized' => true, // TODO Auth::user()->can('delete', $helper),
+                        'authorized' => Auth::user()->can('delete', $helper),
                         'confirmation' => 'Really delete this helper?'
                     ],
                     'back' => [
                         'url' => route('people.helpers.index'),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
+                        'authorized' => Auth::user()->can('list', Helper::class)
                     ]
                 ];
             case 'people.helpers.edit':
@@ -450,16 +456,17 @@ class ContextMenuComposer {
                         'url' => route('people.helpers.show', $helper),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
+                        'authorized' => Auth::user()->can('view', Helper::class)
                     ]
                 ];
+            case 'people.helpers.create':
             case 'people.helpers.import':
                 return [
                     'back' => [
                         'url' => route('people.helpers.index'),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
+                        'authorized' => Auth::user()->can('list', Helper::class)
                     ]
                 ];
 

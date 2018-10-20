@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use App\Person;
+use App\Helper;
 use App\Role;
 use App\Task;
 use App\User;
@@ -56,6 +57,13 @@ class NavigationComposer {
                     'icon' => 'bank',
                     'active' => 'bank*',
                     'authorized' => Gate::allows('view-bank-index')
+                ],
+                [
+                    'route' => 'people.helpers.index',
+                    'caption' => __('people.helpers'),
+                    'icon' => 'id-badge',
+                    'active' => 'helpers*',
+                    'authorized' => Auth::user()->can('list', Helper::class)
                 ],
                 [
                     'route' => 'logistics.index',
