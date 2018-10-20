@@ -184,4 +184,5 @@ return [
     'notes' => 'Notes',
     'edit_helper' => 'Edit Helper',
     'helper_updated' => 'Helper updated.',
+    'helper_deleted' => 'Helper deleted.',
 ];

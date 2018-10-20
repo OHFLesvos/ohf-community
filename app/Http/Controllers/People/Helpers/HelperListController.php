@@ -695,6 +695,15 @@ class HelperListController extends Controller
 				->with('success', __('people.helper_updated'));		
     }
 
+    public function destroy(Helper $helper) {
+        // TODO authorization
+
+        $helper->delete();
+        
+        return redirect()->route('people.helpers.index')
+            ->with('success', __('people.helper_deleted'));
+    }
+
     public function export(Request $request) {
         // TODO authorization
 
