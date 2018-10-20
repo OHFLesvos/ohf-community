@@ -166,6 +166,7 @@ return [
     'to' => 'To',
     'any' => 'Any',
     'filter_results' => 'Filter results',
+    'n_results_found' => ':num results found',
     'edit_filter' => 'Edit filter',
     'save_and_continue' => 'Save and continue',
     'please_wait' => 'Please wait',
@@ -184,4 +185,5 @@ return [
     'status' => 'Status',
     'choose_file' => 'Choose file',
     'import_successful' => 'Import successful.',
+    'select_status' => 'Select status...',
  ];

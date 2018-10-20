@@ -111,6 +111,7 @@ return [
     'amount' => 'Betrag',
     'file_format' => 'Dateiformat',
     'number_results_per_page' => 'Anzahl Resultate pro Seite',
+    'n_results_found' => ':num Resultate gefunden',
     'current_settings' => 'Aktuelle Einstellungen',
     'daily_average' => 'Tagesdurchschnitt',
     'highest' => 'Höchster',
@@ -184,4 +185,5 @@ return [
     'status' => 'Status',
     'choose_file' => 'Datei wählen',
     'import_successful' => 'Import erfolgreich.',
+    'select_status' => 'Status wählen...',
 ];

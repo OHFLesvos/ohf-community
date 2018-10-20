@@ -182,4 +182,5 @@ return [
     'has_id_card' => 'Hat ID Karte?',
     'has_passport' => 'Hat Reisepass?',
     'notes' => 'Notizen',
+    'edit_helper' => 'Helfer bearbeiten',
 ];

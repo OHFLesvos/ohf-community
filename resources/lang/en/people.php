@@ -182,4 +182,5 @@ return [
     'has_id_card' => 'Has ID card?',
     'has_passport' => 'Has passport?',
     'notes' => 'Notes',
+    'edit_helper' => 'Edit Helper',
 ];

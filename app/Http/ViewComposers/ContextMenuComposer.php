@@ -443,6 +443,16 @@ class ContextMenuComposer {
                         'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
                     ]
                 ];
+            case 'people.helpers.edit':
+                $helper = $view->getData()['helper'];
+                return [
+                    'back' => [
+                        'url' => route('people.helpers.show', $helper),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Auth::user()->can('list', Helper::class)
+                    ]
+                ];
             case 'people.helpers.import':
                 return [
                     'back' => [
