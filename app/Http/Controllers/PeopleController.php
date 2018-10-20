@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 class PeopleController extends ParentController
 {
@@ -284,7 +285,12 @@ class PeopleController extends ParentController
     }
     
     public function destroy(Person $person) {
+        if ($person->portrait_picture != null) {
+            Storage::delete($person->portrait_picture);
+        }
+
         $person->delete();
+
         return redirect()->route(session('peopleOverviewRouteName', 'people.index'))
             ->with('success', 'Person has been deleted!');
     }

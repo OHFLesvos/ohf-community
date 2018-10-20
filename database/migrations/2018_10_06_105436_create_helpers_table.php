@@ -63,6 +63,7 @@ class CreateHelpersTable extends Migration
 
         Schema::table('persons', function (Blueprint $table) {
             $table->string('nickname')->nullable()->after('family_name');
+            $table->string('portrait_picture')->nullable()->after('languages');
             $table->dropColumn('worker');
             $table->dropColumn('skills');
         });
@@ -79,6 +80,7 @@ class CreateHelpersTable extends Migration
             $table->string('skills')->nullable();
             $table->boolean('worker')->default(false);
             $table->dropColumn('nickname');
+            $table->dropColumn('portrait_picture');
         });
 
         Schema::dropIfExists('helpers');

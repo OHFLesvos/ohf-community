@@ -25,6 +25,7 @@ class Person extends Model
     protected $nullable = [
         'date_of_birth',
         'nickname',
+        'portrait_picture',
     ];
 
     public static function boot()

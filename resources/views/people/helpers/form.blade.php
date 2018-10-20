@@ -19,6 +19,8 @@
                             <div class="mb-3">{{ Form::bsRadioList($field['name'], $field['list'], $field['value'], $field['label'], $field['help'] ?? null) }}</div>
                         @elseif($field['type'] == 'select')
                             {{ Form::bsSelect($field['name'], $field['list'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                        @elseif($field['type'] == 'image')
+                            {{ Form::bsFile($field['name'], [ 'accept' => 'image/*' ], $field['label'], $field['help'] ?? null) }}
                         @else
                             @php
                                 $args = [];

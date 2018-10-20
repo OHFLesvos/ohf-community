@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::open(['route' => ['people.helpers.store']]) !!}
+    {!! Form::open(['route' => ['people.helpers.store'], 'files' => true]) !!}
 
         @include('people.helpers.form')
 		<p>

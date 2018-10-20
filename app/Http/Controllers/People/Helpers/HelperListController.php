@@ -10,6 +10,8 @@ use App\Person;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use \Gumlet\ImageResize;
 
 class HelperListController extends Controller
 {
@@ -36,6 +38,33 @@ class HelperListController extends Controller
 
     function getFields() {
         return [
+            [
+                'label_key' => 'people.portrait_picture',
+                'icon' => null,
+                'value' => function($helper) { return $helper->person->portrait_picture; },
+                'value_html' => function($helper) { 
+                    return isset($helper->person->portrait_picture) 
+                        ? '<img src="' . Storage::url($helper->person->portrait_picture) . '" class="img-fluid">'
+                        : null;
+                },
+                'overview' => false,
+                'section' => 'general',
+                'assign' => function($person, $helper, $value) {
+                    // TODO remove picture if requested
+                    if (isset($value)) {
+                        if ($person->portrait_picture != null) {
+                            Storage::delete($person->portrait_picture);
+                        }                        
+                        $image = new ImageResize($value->getRealPath());
+                        $image->resizeToBestFit(800, 800);
+                        $image->save($value->getRealPath());
+                        $person->portrait_picture = $value->store('public/people/portrait_pictures');
+                    }
+                },
+                'form_type' => 'image',
+                'form_name' => 'portrait_picture',
+                'form_validate' => [ 'nullable', 'image'],
+            ],
             [
                 'label_key' => 'people.name',
                 'icon' => null,

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::model($helper, ['route' => ['people.helpers.update', $helper], 'method' => 'put']) !!}
+    {!! Form::model($helper, ['route' => ['people.helpers.update', $helper], 'method' => 'put', 'files' => true]) !!}
 
         @include('people.helpers.form')
 		<p>

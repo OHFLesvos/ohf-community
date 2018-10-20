@@ -193,4 +193,5 @@ return [
     'work_needs' => 'Needs for Work',
     'register_helper' => 'Register Helper',
     'helper_registered' => 'Helper registered.',
+    'portrait_picture' => 'Portrait Picture',
 ];
