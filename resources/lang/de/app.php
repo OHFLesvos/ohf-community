@@ -186,4 +186,5 @@ return [
     'choose_file' => 'Datei wählen',
     'import_successful' => 'Import erfolgreich.',
     'select_status' => 'Status wählen...',
+    'unspecified' => 'Nicht spezifiziert',
 ];

@@ -24,10 +24,21 @@
                                     {{ Form::bsTextarea($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'checkbox')
                                     <div class="mb-3">{{ Form::bsCheckbox($field['name'], __('app.yes'), $field['value'] == __('app.yes'), $field['label'], $field['help'] ?? null) }}</div>
+                                @elseif($field['type'] == 'radio')
+                                    <div class="mb-3">{{ Form::bsRadioList($field['name'], $field['list'], $field['value'], $field['label'], $field['help'] ?? null) }}</div>
                                 @elseif($field['type'] == 'select')
                                     {{ Form::bsSelect($field['name'], $field['list'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @else
-                                    {{ Form::bsText($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                                    @php
+                                        $args = [];
+                                        if (isset($field['autocomplete'])) {
+                                            $args['autocomplete'] = 'off';
+                                            $args['rel'] = 'autocomplete';
+                                            $args['data-autocomplete-source'] = json_encode(array_values($field['autocomplete']));
+                                        }
+                                        $args['placeholder'] = $field['placeholder'] ?? null
+                                    @endphp
+                                    {{ Form::bsText($field['name'], $field['value'], $args, $field['label'], $field['help'] ?? null) }}
                                 @endif
                             @endforeach
                         </div>

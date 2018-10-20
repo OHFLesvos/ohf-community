@@ -82,7 +82,7 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->nationality = $value; },
                 'form_type' => 'text',
                 'form_name' => 'nationality',
-                // TODO propose
+                'form_autocomplete' => function() { return \Countries::getList('en'); },
             ],
             [
                 'label_key' => 'people.date_of_birth',
@@ -113,8 +113,13 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { 
                     $helper->person->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null); 
                 },
-                'form_type' => 'radio', // TODO
+                'form_type' => 'radio',
                 'form_name' => 'gender',
+                'form_list' => [ 
+                    null => __('app.unspecified'),
+                    __('people.male') => __('people.male'),
+                    __('people.female') => __('people.female')
+                ],
             ],
             [
                 'label_key' => 'people.languages',
@@ -230,8 +235,13 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { 
                     $helper->work_trial_period = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
                 },
-                'form_type' => 'checkbox', // TODO
+                'form_type' => 'radio',
                 'form_name' => 'trial_period',
+                'form_list' => [ 
+                    null => __('app.unspecified'),
+                    __('app.yes') => __('app.yes'),
+                    __('app.no') => __('app.no'),
+                ],
             ],
             [
                 'label_key' => 'people.application_date',
@@ -372,8 +382,13 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { 
                     $helper->casework = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
                 },
-                'form_type' => 'checkbox', // TODO
+                'form_type' => 'radio',
                 'form_name' => 'casework',
+                'form_list' => [ 
+                    null => __('app.unspecified'),
+                    __('app.yes') => __('app.yes'),
+                    __('app.no') => __('app.no'),
+                ],
             ],
             [
                 'label_key' => 'people.asylum_request_status',
@@ -406,8 +421,13 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { 
                     $helper->casework_geo_restriction = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
                 },
-                'form_type' => 'checkbox',
+                'form_type' => 'radio',
                 'form_name' => 'geo_restriction',
+                'form_list' => [ 
+                    null => __('app.unspecified'),
+                    __('app.yes') => __('app.yes'),
+                    __('app.no') => __('app.no'),
+                ],
             ],
             [
                 'label_key' => 'people.has_id_card',
@@ -419,8 +439,13 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { 
                     $helper->casework_has_id_card = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
                 },
-                'form_type' => 'checkbox',
+                'form_type' => 'radio',
                 'form_name' => 'has_id_card',
+                'form_list' => [ 
+                    null => __('app.unspecified'),
+                    __('app.yes') => __('app.yes'),
+                    __('app.no') => __('app.no'),
+                ],
             ],
             [
                 'label_key' => 'people.has_passport',
@@ -431,8 +456,13 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { 
                     $helper->casework_has_passport = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null); 
                 },
-                'form_type' => 'checkbox',
+                'form_type' => 'radio',
                 'form_name' => 'has_passport',
+                'form_list' => [ 
+                    null => __('app.unspecified'),
+                    __('app.yes') => __('app.yes'),
+                    __('app.no') => __('app.no'),
+                ],
             ],
             [
                 'label_key' => 'people.first_interview_date',
@@ -667,6 +697,7 @@ class HelperListController extends Controller
                                     'placeholder' => $f['form_placeholder'] ?? null,
                                     'help' => $f['form_help'] ?? null,
                                     'list' => $f['form_list'] ?? null,
+                                    'autocomplete' => isset($f['form_autocomplete']) && is_callable($f['form_autocomplete']) ? $f['form_autocomplete']() : null,
                                     'value' => is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']},
                                 ];
                             })
