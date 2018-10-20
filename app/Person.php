@@ -10,6 +10,7 @@ use App\CouponType;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class Person extends Model
 {
@@ -39,6 +40,15 @@ class Person extends Model
             $model->search = self::createSearchString($model);
         });
         
+        static::deleting(function($model) {
+            if ($model->helper != null) {
+                $model->helper->delete();
+            }
+            if ($model->portrait_picture != null) {
+                Storage::delete($model->portrait_picture);
+            }
+         });
+
         parent::boot();
     }
 
