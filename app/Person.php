@@ -44,8 +44,10 @@ class Person extends Model
             if ($model->helper != null) {
                 $model->helper->delete();
             }
-            if ($model->portrait_picture != null) {
-                Storage::delete($model->portrait_picture);
+            if ($model->isForceDeleting()) {
+                if ($model->portrait_picture != null) {
+                    Storage::delete($model->portrait_picture);
+                }
             }
          });
 
