@@ -13,7 +13,6 @@
                         <div class="card-header">{{ $section_label }}</div>
                         <div class="card-body">
                             @foreach($fields as $field)
-                                {{-- TODO 'required' --}}
                                 @if($field['type'] == 'number')
                                     {{ Form::bsNumber($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null, 'prepend' => $field['prefix'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'email')
@@ -35,6 +34,9 @@
                                             $args['autocomplete'] = 'off';
                                             $args['rel'] = 'autocomplete';
                                             $args['data-autocomplete-source'] = json_encode(array_values($field['autocomplete']));
+                                        }
+                                        if (isset($field['required'])) {
+                                            $args[] = 'required';
                                         }
                                         $args['placeholder'] = $field['placeholder'] ?? null
                                     @endphp

@@ -716,7 +716,7 @@ class HelperListController extends Controller
                 ];
             }),
             'data' => Helper::get()->load('person')
-                //->sortBy('persons.name')
+                ->sortBy('person.name')
                 ->mapWithKeys(function($helper) use($fields) {
                     return [ $helper->id => $fields
                         ->map(function($field) use($helper){
@@ -776,7 +776,17 @@ class HelperListController extends Controller
                         $sections[$section] => $fields
                             ->where('section', $section)
                             ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
-                            ->map(function($f) use($helper) { 
+                            ->map(function($f) use($helper) {
+
+                                $required = false;
+                                if (isset($f['form_validate'])) {
+                                    $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
+                                    if (!is_array($rules)) {
+                                        $rules = explode('|', $rules);
+                                    }
+                                    $required = in_array('required', $rules);
+                                }
+
                                 return [
                                     'label' => __($f['label_key']),
                                     'name' => $f['form_name'],
@@ -785,6 +795,7 @@ class HelperListController extends Controller
                                     'placeholder' => $f['form_placeholder'] ?? null,
                                     'help' => $f['form_help'] ?? null,
                                     'list' => $f['form_list'] ?? null,
+                                    'required' => $required ? 'required' : null,
                                     'autocomplete' => isset($f['form_autocomplete']) && is_callable($f['form_autocomplete']) ? $f['form_autocomplete']() : null,
                                     'value' => is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']},
                                 ];
@@ -842,6 +853,11 @@ class HelperListController extends Controller
 
         \Excel::create(__('people.helpers').'_' . Carbon::now()->toDateString(), function($excel) {
             $excel->sheet(__('people.helpers'), function($sheet) {
+
+                $sorting = 'person.name'; // TODO flexible sorting
+                $fields = collect($this->getFields()) // TODO flexible field selection
+                    ->where('overview_only', false);
+
                 $sheet->setOrientation('landscape');
                 $sheet->setPageMargin(0.25);
                 $sheet->setAllBorders('thin');
@@ -849,10 +865,8 @@ class HelperListController extends Controller
                 $sheet->setFontSize(10);
                 $sheet->setFreeze('D2');
                 $sheet->loadView('people.helpers.export',[
-                    'fields' => collect($this->getFields())
-                        ->where('overview_only', false),
-                    'helpers' => Helper::get()->load('person')
-                        // TODO ->sortBy('persons.name'),
+                    'fields' => $fields,
+                    'helpers' => Helper::get()->load('person')->sortBy($sorting),
                 ]);
             });
             $excel->getActiveSheet()->setAutoFilter(
