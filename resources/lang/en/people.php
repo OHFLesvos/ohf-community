@@ -185,4 +185,7 @@ return [
     'edit_helper' => 'Edit Helper',
     'helper_updated' => 'Helper updated.',
     'helper_deleted' => 'Helper deleted.',
+    'distribution' => 'Distribution',
+    'shirt_size' => 'Shirt Size',
+    'shoe_size' => 'Shoe Size',
 ];

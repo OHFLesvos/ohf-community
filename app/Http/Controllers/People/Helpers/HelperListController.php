@@ -28,6 +28,7 @@ class HelperListController extends Controller
             'occupation' => __('people.occupation'),
             'identification' => __('people.identification'),
             'casework' => __('people.casework'),
+            'distribution' => __('people.distribution'),
         ];
     }
 
@@ -596,6 +597,37 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->notes = $value; },
                 'form_type' => 'textarea',
                 'form_name' => 'notes',
+            ],
+            [
+                'label_key' => 'people.shirt_size',
+                'icon' => null,
+                'value' => function($helper) { return $helper->shirt_size; },
+                'overview' => false,
+                'section' => 'distribution',
+                'assign' => function($person, $helper, $value) { $helper->shirt_size = $value; },
+                'form_type' => 'text',
+                'form_name' => 'shirt_size',
+            ],
+            [
+                'label_key' => 'people.shoe_size',
+                'icon' => null,
+                'value' => function($helper) { return $helper->shirt_size; },
+                'overview' => false,
+                'section' => 'distribution',
+                'assign' => function($person, $helper, $value) { $helper->shirt_size = $value; },
+                'form_type' => 'text',
+                'form_name' => 'shoe_size',
+            ],
+            [
+                'label_key' => 'people.remarks',
+                'icon' => null,
+                'value' => function($helper) { return $helper->person->remarks; },
+                'value_html' => function($helper) { return nl2br($helper->person->remarks); },
+                'overview' => false,
+                'section' => 'distribution',
+                'assign' => function($person, $helper, $value) { $person->remarks = $value; },
+                'form_type' => 'textarea',
+                'form_name' => 'remarks',
             ],
         ];
     }

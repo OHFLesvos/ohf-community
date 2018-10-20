@@ -185,4 +185,7 @@ return [
     'edit_helper' => 'Helfer bearbeiten',
     'helper_updated' => 'Helfer aktualisiert.',
     'helper_deleted' => 'Helfer gelöscht.',
+    'distribution' => 'Distribution',
+    'shirt_size' => 'Shirtgrösse',
+    'shoe_size' => 'Schuhgrösse',
 ];
