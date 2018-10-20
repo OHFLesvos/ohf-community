@@ -135,7 +135,7 @@ class HelperListController extends Controller
                     __('people.male') => __('people.male'),
                     __('people.female') => __('people.female')
                 ],
-                'form_validate' => 'required', // |in:m,f
+                'form_validate' => 'required', // TODO |in:m,f
             ],
             [
                 'label_key' => 'people.languages',
@@ -688,22 +688,6 @@ class HelperListController extends Controller
         ];
     }
 
-    private static function getFieldValue($field, $helper, $with_html = true) {
-        $value = null;
-        if ($with_html && isset($field['value_html']) && is_callable($field['value_html'])) {
-            $value = $field['value_html']($helper);
-        } else {
-            $value = is_callable($field['value']) ? $field['value']($helper) : $helper->{$field['value']};
-            if ($value != null) {
-                $value = htmlspecialchars($value);
-            }
-        }
-        if ($value != null) {
-            $value = ($field['prefix'] ?? '') . $value;
-        }
-        return $value;     
-    }
-
     public function index(Request $request) {
         // TODO authorization
 
@@ -888,7 +872,7 @@ class HelperListController extends Controller
 
         Config::set('excel.import.heading', 'original');
         \Excel::selectSheets()->load($file, function($reader) {
-            
+
             $fields = collect($this->getFields())
                 ->where('overview_only', false)
                 ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
@@ -918,7 +902,6 @@ class HelperListController extends Controller
                                 ->where('date_of_birth', $person->date_of_birth)
                                 ->first();
                             if ($existing_person != null) {
-                                echo "Found existing {$person->name} {$person->family_name}<br>";
                                 $existing_helper = $existing_person->helper;
                                 $new_helper = false;
                                 if ($existing_helper == null) {
@@ -948,18 +931,19 @@ class HelperListController extends Controller
 
     private static function assignImportedValues($row, $fields, $helper, $person) {
         $row->each(function($value, $label) use($fields, $helper, $person) {
-            if ($value !== null && $value != 'N/A') {
-                $fields->each(function($f) use($helper, $person, $label, $value) {
-                    if ($f['labels']->containsStrict(strtolower($label))) {
-                        try {
-                            $f['assign']($person, $helper, $value);
-                        } catch(\Exception $e) {
-                            // echo "Exception for <b>'$value'</b>: " . $e->getMessage()."<br><br>";
-                            // ignored
-                        }
-                    }
-                });
+            if ($value == 'N/A') {
+                $value = null;
             }
+            $fields->each(function($f) use($helper, $person, $label, $value) {
+                if ($f['labels']->containsStrict(strtolower($label))) {
+                    try {
+                        $f['assign']($person, $helper, $value);
+                    } catch(\Exception $e) {
+                        // echo "Exception for <b>'$value'</b>: " . $e->getMessage()."<br><br>";
+                        // ignored
+                    }
+                }
+            });
         });
     }
 
@@ -967,6 +951,22 @@ class HelperListController extends Controller
         return collect(language()->allowed())
             ->keys()
             ->map(function($lk) use ($key) { return __($key, [], $lk); });
+    }
+
+    private static function getFieldValue($field, $helper, $with_html = true) {
+        $value = null;
+        if ($with_html && isset($field['value_html']) && is_callable($field['value_html'])) {
+            $value = $field['value_html']($helper);
+        } else {
+            $value = is_callable($field['value']) ? $field['value']($helper) : $helper->{$field['value']};
+            if ($value != null) {
+                $value = htmlspecialchars($value);
+            }
+        }
+        if ($value != null) {
+            $value = ($field['prefix'] ?? '') . $value;
+        }
+        return $value;     
     }
 
 }
