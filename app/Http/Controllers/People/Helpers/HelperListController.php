@@ -91,7 +91,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'general',
                 'import_labels' => [ 'DOB' ],
-                'assign' => function($person, $helper, $value) { $person->date_of_birth = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $person->date_of_birth = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'text',
                 'form_name' => 'date_of_birth',
                 'form_placeholder' => 'YYYY-MM-DD',
@@ -239,7 +239,7 @@ class HelperListController extends Controller
                 'value' => function($helper) { return optional($helper->work_application_date)->toDateString(); },
                 'overview' => false,
                 'section' => 'occupation',
-                'assign' => function($person, $helper, $value) { $helper->work_application_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->work_application_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'application_date',
             ],
@@ -249,7 +249,7 @@ class HelperListController extends Controller
                 'value' => function($helper) { return optional($helper->work_rejection_date)->toDateString(); },
                 'overview' => false,
                 'section' => 'occupation',
-                'assign' => function($person, $helper, $value) { $helper->work_rejection_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->work_rejection_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'rejection_date',
             ],
@@ -260,7 +260,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'occupation',
                 'import_labels' => [ 'Starting date at OHF' ],
-                'assign' => function($person, $helper, $value) { $helper->work_starting_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->work_starting_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'starting_date',
             ],
@@ -270,7 +270,7 @@ class HelperListController extends Controller
                 'value' => function($helper) { return optional($helper->work_leaving_date)->toDateString(); },
                 'overview' => false,
                 'section' => 'occupation',
-                'assign' => function($person, $helper, $value) { $helper->work_leaving_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->work_leaving_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'leaving_date',
             ],
@@ -441,7 +441,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ '1st interview date' ],
-                'assign' => function($person, $helper, $value) { $helper->casework_first_interview_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->casework_first_interview_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'first_interview_date',
             ],
@@ -452,7 +452,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ '2nd interview date' ],
-                'assign' => function($person, $helper, $value) { $helper->casework_second_interview_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->casework_second_interview_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'second_interview_date',
             ],
@@ -463,7 +463,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ '1st decision date' ],
-                'assign' => function($person, $helper, $value) { $helper->casework_first_decision_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->casework_first_decision_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'first_decision_date',
             ],
@@ -474,7 +474,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ 'Appeal date' ],
-                'assign' => function($person, $helper, $value) { $helper->casework_appeal_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->casework_appeal_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'appeal_date',
             ],
@@ -485,7 +485,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ '2nd decision date' ],
-                'assign' => function($person, $helper, $value) { $helper->casework_second_decision_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->casework_second_decision_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'second_decision_date',
             ],
@@ -496,7 +496,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ 'Vulnerability assessment date' ],
-                'assign' => function($person, $helper, $value) { $helper->casework_vulnerability_assessment_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->casework_vulnerability_assessment_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'vulnerability_assessment_date',
             ],
@@ -517,7 +517,7 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'casework',
                 'import_labels' => [ 'Asylum card expiry' ],
-                'assign' => function($person, $helper, $value) { $helper->casework_card_expiry_date = Carbon::parse($value); },
+                'assign' => function($person, $helper, $value) { $helper->casework_card_expiry_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'card_expiry_date',
             ],
@@ -675,6 +675,24 @@ class HelperListController extends Controller
                 })
                 ->toArray(),
         ]);
+    }
+
+    public function update(Helper $helper, Request $request) {
+        // TODO authorization
+
+        collect($this->getFields())
+            ->filter(function($f){ 
+                return isset($f['form_name']) && isset($f['form_type']) 
+                    && isset($f['assign']) && is_callable($f['assign']);
+            })
+            ->each(function($f) use($helper, $request) {
+                $f['assign']($helper->person, $helper, $request->{$f['form_name']});
+            });
+        $helper->save();
+        $helper->person->save();
+
+		return redirect()->route('people.helpers.show', $helper)
+				->with('success', __('people.helper_updated'));		
     }
 
     public function export(Request $request) {

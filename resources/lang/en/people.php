@@ -183,4 +183,5 @@ return [
     'has_passport' => 'Has passport?',
     'notes' => 'Notes',
     'edit_helper' => 'Edit Helper',
+    'helper_updated' => 'Helper updated.',
 ];

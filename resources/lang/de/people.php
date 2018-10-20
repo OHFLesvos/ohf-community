@@ -183,4 +183,5 @@ return [
     'has_passport' => 'Hat Reisepass?',
     'notes' => 'Notizen',
     'edit_helper' => 'Helfer bearbeiten',
+    'helper_updated' => 'Helfer aktualisiert.',
 ];

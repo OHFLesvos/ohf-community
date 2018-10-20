@@ -13,20 +13,21 @@
                         <div class="card-header">{{ $section_label }}</div>
                         <div class="card-body">
                             @foreach($fields as $field)
+                                {{-- TODO 'required' --}}
                                 @if($field['type'] == 'number')
-                                    {{ Form::bsNumber($field['name'], $field['value'], [ 'required', 'placeholder' => $field['placeholder'] ?? null, 'prepend' => $field['prefix'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                                    {{ Form::bsNumber($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null, 'prepend' => $field['prefix'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'email')
-                                    {{ Form::bsEmail($field['name'], $field['value'], [ 'required', 'placeholder' => $field['placeholder'] ?? null, 'prepend' => $field['prefix'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                                    {{ Form::bsEmail($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null, 'prepend' => $field['prefix'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'date')
-                                    {{ Form::bsDate($field['name'], $field['value'], [ 'required', 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                                    {{ Form::bsDate($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'textarea')
-                                    {{ Form::bsTextarea($field['name'], $field['value'], [ 'required', 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                                    {{ Form::bsTextarea($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @elseif($field['type'] == 'checkbox')
                                     <div class="mb-3">{{ Form::bsCheckbox($field['name'], __('app.yes'), $field['value'] == __('app.yes'), $field['label'], $field['help'] ?? null) }}</div>
                                 @elseif($field['type'] == 'select')
                                     {{ Form::bsSelect($field['name'], $field['list'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @else
-                                    {{ Form::bsText($field['name'], $field['value'], [ 'required', 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
+                                    {{ Form::bsText($field['name'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                                 @endif
                             @endforeach
                         </div>
