@@ -245,9 +245,9 @@
                     </table>
                 
                 @else
-                    <div class="alert alert-info m-0">
+                    @component('components.alert.info')
                         @lang('fundraising.no_donations_found')
-                    </div>
+                    @endcomponent
                 @endif
             
             @endcan

@@ -4,7 +4,13 @@
 
 @section('content')
 
-    <div class="row">
+    @if($person->helper != null)
+        @component('components.alert.info')
+            @lang('people.person_registered_as_helper')
+        @endcomponent
+    @endif
+
+    <div class="row mb-3">
         <div class="col-md">
 
             {{-- <div class="card mb-4">
@@ -159,12 +165,6 @@
         </div>
         <div class="col-md">
 
-            @if($person->helper != null)
-                <div class="alert alert-info">
-                    @icon(info-circle) @lang('people.person_registered_as_helper')
-                </div>            
-            @endif
-
             @if(isset($person->card_no))
                 <div class="card mb-4">
                     <div class="card-header">Card</div>
@@ -230,9 +230,9 @@
                 </div>
                 {{ $handouts->links() }}
             @else
-                <div class="alert alert-info m-0">
+                @component('components.alert.info')
                     @lang('people.no_coupons_handed_out_so_far')
-                </div>
+                @endcomponent
             @endif            
 
         </div>
