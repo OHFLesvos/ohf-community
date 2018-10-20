@@ -126,7 +126,7 @@ class HelperListController extends Controller
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function($person, $helper, $value) { 
-                    $helper->person->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null); 
+                    $person->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null); 
                 },
                 'form_type' => 'radio',
                 'form_name' => 'gender',
@@ -135,7 +135,7 @@ class HelperListController extends Controller
                     __('people.male') => __('people.male'),
                     __('people.female') => __('people.female')
                 ],
-                'form_validate' => 'required', // TODO |in:m,f
+                'form_validate' => 'required', // TODO better validation |in:m,f
             ],
             [
                 'label_key' => 'people.languages',
@@ -180,7 +180,7 @@ class HelperListController extends Controller
                 'value_html' => function($helper) { return $helper->whatsapp != null ? whatsapp_link($helper->whatsapp) : null; },
                 'overview' => false,
                 'section' => 'reachability',
-                'assign' => function($person, $helper, $value) { $helper->whatsapp = ($value == 'same' ? $helper->local_phone : $helper->whatsapp); },
+                'assign' => function($person, $helper, $value) { $helper->whatsapp = ($value == 'same' ? $helper->local_phone : $value); },
                 'form_type' => 'text',
                 'form_name' => 'whatsapp',
             ],
@@ -308,7 +308,7 @@ class HelperListController extends Controller
             [
                 'label_key' => 'people.background',
                 'icon' => null,
-                'value' => 'background',
+                'value' => 'work_background',
                 'value_html' => function($helper) { return nl2br($helper->work_background); },
                 'overview' => false,
                 'section' => 'occupation',
@@ -320,7 +320,7 @@ class HelperListController extends Controller
             [
                 'label_key' => 'people.improvements',
                 'icon' => null,
-                'value' => 'improvements',
+                'value' => 'work_improvements',
                 'value_html' => function($helper) { return nl2br($helper->work_improvements); },
                 'overview' => false,
                 'section' => 'occupation',
@@ -689,7 +689,7 @@ class HelperListController extends Controller
     }
 
     public function index(Request $request) {
-        $this->authorize('create', Helper::class);
+        $this->authorize('list', Helper::class);
 
         $fields = collect($this->getFields())->where('overview', true);
         return view('people.helpers.index', [
@@ -712,6 +712,100 @@ class HelperListController extends Controller
                         ->toArray()];
                 }),
         ]);
+    }
+
+    public function create(Request $request) {
+        $this->authorize('create', Helper::class);
+
+        $sections = $this->getSections();
+        $fields = collect($this->getFields());
+
+        return view('people.helpers.create', [
+            'data' => collect(array_keys($sections))
+                ->mapWithKeys(function($section) use($fields, $sections) {
+                    return [ 
+                        $sections[$section] => $fields
+                            ->where('section', $section)
+                            ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
+                            ->map(function($f) {
+                                $value = null;
+                                return self::createFormField($f, $value);
+                            })
+                            ->toArray()
+                    ];
+                })
+                ->toArray(),
+        ]);
+    }
+
+    private static function createFormField($f, $value) {
+
+        // Calculate required attribute
+        $required = false;
+        if (isset($f['form_validate'])) {
+            $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
+            if (!is_array($rules)) {
+                $rules = explode('|', $rules);
+            }
+            $required = in_array('required', $rules);
+        }
+
+        return [
+            'label' => __($f['label_key']),
+            'name' => $f['form_name'],
+            'type' => $f['form_type'],
+            'prefix' => $f['prefix'] ?? null,
+            'placeholder' => $f['form_placeholder'] ?? null,
+            'help' => $f['form_help'] ?? null,
+            'list' => $f['form_list'] ?? null,
+            'required' => $required ? 'required' : null,
+            'autocomplete' => isset($f['form_autocomplete']) && is_callable($f['form_autocomplete']) ? $f['form_autocomplete']() : null,
+            'value' => $value,
+        ];
+    }
+
+    public function store(Request $request) {
+        $this->authorize('create', Helper::class);
+
+        $this->validateFormData($request);
+
+        $person = new Person(); // TODO check existing person
+        $helper = new Helper();
+
+        $this->applyFormData($request, $person, $helper);
+
+        $person->save();
+        $person->helper()->save($helper);
+
+        return redirect()->route('people.helpers.show', $helper)
+            ->with('success', __('people.helper_registered'));	
+    }
+
+    private function validateFormData($request) {
+        $request->validate(
+            collect($this->getFields())
+                ->filter(function($f){ 
+                    return isset($f['form_name']) && isset($f['form_type']) 
+                        && isset($f['assign']) && is_callable($f['assign'])
+                        && isset($f['form_validate']);
+                })
+                ->mapWithKeys(function($f){
+                    $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
+                    return [$f['form_name'] => $rules];
+                })
+                ->toArray()
+        );
+    }
+
+    private function applyFormData($request, $person, $helper) {
+        collect($this->getFields())
+            ->filter(function($f){ 
+                return isset($f['form_name']) && isset($f['form_type']) 
+                    && isset($f['assign']) && is_callable($f['assign']);
+            })
+            ->each(function($f) use($person, $helper, $request) {
+                $f['assign']($person, $helper, $request->{$f['form_name']});
+            });        
     }
 
     public function show(Helper $helper, Request $request) {
@@ -761,28 +855,8 @@ class HelperListController extends Controller
                             ->where('section', $section)
                             ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
                             ->map(function($f) use($helper) {
-
-                                $required = false;
-                                if (isset($f['form_validate'])) {
-                                    $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
-                                    if (!is_array($rules)) {
-                                        $rules = explode('|', $rules);
-                                    }
-                                    $required = in_array('required', $rules);
-                                }
-
-                                return [
-                                    'label' => __($f['label_key']),
-                                    'name' => $f['form_name'],
-                                    'type' => $f['form_type'],
-                                    'prefix' => $f['prefix'] ?? null,
-                                    'placeholder' => $f['form_placeholder'] ?? null,
-                                    'help' => $f['form_help'] ?? null,
-                                    'list' => $f['form_list'] ?? null,
-                                    'required' => $required ? 'required' : null,
-                                    'autocomplete' => isset($f['form_autocomplete']) && is_callable($f['form_autocomplete']) ? $f['form_autocomplete']() : null,
-                                    'value' => is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']},
-                                ];
+                                $value = is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']};
+                                return self::createFormField($f, $value);
                             })
                             ->toArray()
                     ];
@@ -794,28 +868,10 @@ class HelperListController extends Controller
     public function update(Helper $helper, Request $request) {
         $this->authorize('update', $helper);
 
-        // Validation
-        $rules = collect($this->getFields())
-            ->filter(function($f){ 
-                return isset($f['form_name']) && isset($f['form_type']) 
-                    && isset($f['assign']) && is_callable($f['assign'])
-                    && isset($f['form_validate']);
-            })
-            ->mapWithKeys(function($f){
-                $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
-                return [$f['form_name'] => $rules];
-            })
-            ->toArray();
-        $request->validate($rules);
+        $this->validateFormData($request);
+        
+        $this->applyFormData($request, $helper->person, $helper);
 
-        collect($this->getFields())
-            ->filter(function($f){ 
-                return isset($f['form_name']) && isset($f['form_type']) 
-                    && isset($f['assign']) && is_callable($f['assign']);
-            })
-            ->each(function($f) use($helper, $request) {
-                $f['assign']($helper->person, $helper, $request->{$f['form_name']});
-            });
         $helper->save();
         $helper->person->save();
 

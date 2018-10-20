@@ -190,4 +190,6 @@ return [
     'shoe_size' => 'Schuhgrösse',
     'urgent_needs' => 'Dringender Bedarf',
     'work_needs' => 'Bedarf für die Arbeit',
+    'register_helper' => 'Helfer registrieren',
+    'helper_registered' => 'Helfer registriert.',
 ];

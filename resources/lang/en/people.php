@@ -190,4 +190,6 @@ return [
     'shoe_size' => 'Shoe Size',
     'urgent_needs' => 'Urgent Needs',
     'work_needs' => 'Needs for Work',
+    'register_helper' => 'Register Helper',
+    'helper_registered' => 'Helper registered.',
 ];
