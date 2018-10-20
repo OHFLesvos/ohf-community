@@ -157,7 +157,7 @@ return [
     'endorses_casework' => 'Fallarbeit erlaubt?',
     'identification' => 'Identifikation',
     'background' => 'Hintergrund',
-    'improvements' => 'Verbesserungen',
+    'feedback_wishes' => 'Feedback & Wünsche',
     'residence' => 'Aufenthalt',
     'has_geo_restriction' => 'Hat geografische Einschränkung?',
     'first_interview_date' => 'Datum des ersten Interviews',

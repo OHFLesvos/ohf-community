@@ -157,7 +157,7 @@ return [
     'endorses_casework' => 'Endorses Casework?',
     'identification' => 'Identification',
     'background' => 'Background',
-    'improvements' => 'Improvements',
+    'feedback_wishes' => 'Feedback & Wishes',
     'residence' => 'Residence',
     'has_geo_restriction' => 'Has geographical Restriction?',
     'first_interview_date' => 'First Interview Date',
