@@ -194,4 +194,5 @@ return [
     'register_helper' => 'Helfer registrieren',
     'helper_registered' => 'Helfer registriert.',
     'portrait_picture' => 'Portraitfoto',
+    'portrait' => 'Portrait',
 ];

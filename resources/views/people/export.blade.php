@@ -13,7 +13,6 @@
                 <th>@lang('people.section_card_number')</th>
                 <th>@lang('people.temporary_number')</th>
                 <th>@lang('people.languages')</th>
-                <th>@lang('people.skills')</th>
                 <th>@lang('app.registered')</th>
                 <th>@lang('people.remarks')</th>
             </tr>
@@ -33,7 +32,6 @@
                     <td>{{ $person->section_card_no }}</td>
                     <td>{{ $person->temp_no }}</td>
                     <td>{{ $person->languages }}</td>
-                    <td>{{ $person->skills }}</td>
                     <td>{{ $person->created_at->toDateString() }}</td>
                     <td>{{ $person->remarks }}</td>
                 </tr>

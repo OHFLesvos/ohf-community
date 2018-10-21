@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Config;
 
 class PeopleController extends ParentController
 {
-    const filter_fields = ['name', 'family_name', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'remarks', 'nationality', 'languages', 'skills', 'date_of_birth'];
+    const filter_fields = ['name', 'family_name', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'remarks', 'nationality', 'languages', 'date_of_birth'];
 
     /**
      * Create a new controller instance.
@@ -330,7 +330,7 @@ class PeopleController extends ParentController
                 $master = $persons->shift();
 
                 // Merge basic attributes
-                foreach (['gender', 'date_of_birth', 'nationality', 'skills', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
+                foreach (['gender', 'date_of_birth', 'nationality', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
                     if ($master->$attr == null) {
                         $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
                     }
@@ -498,7 +498,6 @@ class PeopleController extends ParentController
                             'temp_no' => isset($row->temp_no) ? $row->temp_no : null,
                             'nationality' => $row->nationality,
                             'languages' => !empty($row->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $row->languages) : null,
-                            'skills' => $row->skills,
                             'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
                         ]);
                     }

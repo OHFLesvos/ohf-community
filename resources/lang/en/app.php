@@ -187,4 +187,5 @@ return [
     'import_successful' => 'Import successful.',
     'select_status' => 'Select status...',
     'unspecified' => 'Unspecified',
+    'remove_image' => 'Remove image',
  ];

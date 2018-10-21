@@ -126,17 +126,6 @@ class PersonsTableSeeder extends Seeder
             'Tigrinya',
             'Italian'
         ];
-        $skills = [
-            null,
-            'Driver',
-            'Tailor',
-            'Barber',
-            'Electrician',
-            'Builder',
-            'Business',
-            'Cook',
-            'Farmer',
-        ];
 
         $items = [];
         for ($i = 0; $i < 900; $i++) {
@@ -150,7 +139,6 @@ class PersonsTableSeeder extends Seeder
                 'temp_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
                 'nationality' => $nationality[array_rand($nationality)],
                 'languages' => $languages[array_rand($languages)],
-                'skills' => $skills[array_rand($skills)],
                 'gender' => rand(0, 10) > 2 ? (rand(0, 100) > 52 ? 'm' : 'f') : null,
                 'date_of_birth' => rand(0, 10) > 4 ? Carbon\Carbon::now()->subYears(rand(0, 60))->subMonths(rand(0,11))->subDays(rand(0,30)) : null,
             ]);

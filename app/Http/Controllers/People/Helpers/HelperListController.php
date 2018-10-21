@@ -27,6 +27,7 @@ class HelperListController extends Controller
 
     function getSections() {
         return [
+            'portrait' => __('people.portrait'),
             'general' => __('app.general'),
             'reachability' => __('people.reachability'),
             'occupation' => __('people.occupation'),
@@ -48,7 +49,7 @@ class HelperListController extends Controller
                         : null;
                 },
                 'overview' => false,
-                'section' => 'general',
+                'section' => 'portrait',
                 'assign' => function($person, $helper, $value) {
                     // TODO remove picture if requested
                     if (isset($value)) {
@@ -60,6 +61,12 @@ class HelperListController extends Controller
                         $image->save($value->getRealPath());
                         $person->portrait_picture = $value->store('public/people/portrait_pictures');
                     }
+                },
+                'cleanup' => function($person, $helper) {
+                    if ($person->portrait_picture != null) {
+                        Storage::delete($person->portrait_picture);
+                        $person->portrait_picture = null;
+                    }                        
                 },
                 'form_type' => 'image',
                 'form_name' => 'portrait_picture',
@@ -833,6 +840,9 @@ class HelperListController extends Controller
                     && isset($f['assign']) && is_callable($f['assign']);
             })
             ->each(function($f) use($person, $helper, $request) {
+                if (isset($request->{$f['form_name'].'_delete'}) && isset($f['cleanup']) && is_callable($f['cleanup'])) {
+                    $f['cleanup']($person, $helper);
+                }
                 $f['assign']($person, $helper, $request->{$f['form_name']});
             });        
     }

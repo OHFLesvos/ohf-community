@@ -21,6 +21,9 @@
                             {{ Form::bsSelect($field['name'], $field['list'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
                         @elseif($field['type'] == 'image')
                             {{ Form::bsFile($field['name'], [ 'accept' => 'image/*' ], $field['label'], $field['help'] ?? null) }}
+                            @isset($field['value'])
+                                <div class="mb-3">{{ Form::bsCheckbox($field['name'].'_delete', 1, null, __('app.remove_image')) }}</div>
+                            @endisset
                         @else
                             @php
                                 $args = [];

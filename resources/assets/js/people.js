@@ -56,7 +56,6 @@ $(function(){
         $('#filter input[name="section_card_no"]').val('');
         $('#filter input[name="temp_no"]').val('');
         $('#filter input[name="languages"]').val('');
-        $('#filter input[name="skills"]').val('');
         $('#filter input[name="remarks"]').val('');
         filterTable(1);
     });
@@ -92,7 +91,6 @@ function filterTable(page) {
         "section_card_no": $('#filter input[name="section_card_no"]').val(),
         "temp_no": $('#filter input[name="temp_no"]').val(),
         "languages": $('#filter input[name="languages"]').val(),
-        "skills": $('#filter input[name="skills"]').val(),
         "remarks": $('#filter input[name="remarks"]').val(),
         "page": page,
         'orderByField': orderByField,

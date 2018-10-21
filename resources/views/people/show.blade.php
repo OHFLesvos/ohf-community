@@ -12,114 +12,238 @@
 
     <div class="row mb-3">
         <div class="col-md">
-
-            {{-- <div class="card mb-4">
-                <div class="card-header">Personal data</div>
-                <div class="card-body p-0"> --}}
-
-                    <table class="table m-0">
-                        <tbody>
-                            <tr>
-                                <th>@lang('people.family_name')</th>
-                                <td>{{ $person->family_name }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('people.name')</th>
-                                <td>{{ $person->name }}</td>
-                            </tr>
-                            @if(isset($person->gender))
-                                <tr>
-                                    <th>@lang('people.gender')</th>
-                                    <td>
-                                        @if($person->gender == 'f')@icon(female) Female 
-                                        @elseif($person->gender == 'm')@icon(male) Male 
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endif
-                            @if(isset($person->date_of_birth))
-                                <tr>
-                                    <th>@lang('people.date_of_birth')</th>
-                                    <td>{{ $person->date_of_birth }}</td>
-                                </tr>
-                                <tr>
-                                    <th>@lang('people.age')</th>
-                                    <td>{{ $person->age }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->police_no))
-                                <tr>
-                                    <th>@lang('people.police_number')</th>
-                                    <td>{{ $person->police_no }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->case_no))
-                                <tr>
-                                    <th>@lang('people.case_number')</th>
-                                    <td>{{ $person->case_no }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->medical_no))
-                                <tr>
-                                    <th>@lang('people.medical_number')</th>
-                                    <td>{{ $person->medical_no }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->registration_no))
-                                <tr>
-                                    <th>@lang('people.registration_number')</th>
-                                    <td>{{ $person->registration_no }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->section_card_no))
-                                <tr>
-                                    <th>@lang('people.section_card_number')</th>
-                                    <td>{{ $person->section_card_no }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->temp_no))
-                                <tr>
-                                    <th>@lang('people.temporary_number')</th>
-                                    <td>{{ $person->temp_no }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->nationality))
-                            <tr>
-                                <th>@lang('people.nationality')</th>
-                                <td>{{ $person->nationality }}</td>
-                            </tr>
-                            @endif
-                            @if(isset($person->languages))
-                                <tr>
-                                    <th>@lang('people.languages')</th>
-                                    <td>{!! implode('<br>', $person->languages) !!}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->skills))
-                                <tr>
-                                    <th>@lang('people.skills')</th>
-                                    <td>{{ $person->skills }}</td>
-                                </tr>
-                            @endif
-                            @if(isset($person->remarks))
-                                <tr>
-                                    <th>@lang('people.remarks')</th>
-                                    <td>{{ $person->remarks }}</td>
-                                </tr>
-                            @endif
-                             <tr>
-                                <th>@lang('app.created')</th>
-                                <td>{{ $person->created_at }}</td>
-                            </tr>
-                            <tr>
-                                <th>@lang('app.last_updated')</th>
-                                <td>{{ $person->updated_at }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                {{-- </div>
-            </div> --}}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <strong>
+                                @lang('people.family_name')
+                            </strong>
+                        </div>
+                        <div class="col-sm">
+                            {{ $person->family_name }}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <strong>
+                                @lang('people.name')
+                            </strong>
+                        </div>
+                        <div class="col-sm">
+                            {{ $person->name }}
+                        </div>
+                    </div>
+                </li>
+                @isset($person->gender)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.gender')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                @if($person->gender == 'f')@icon(female) Female 
+                                @elseif($person->gender == 'm')@icon(male) Male 
+                                @endif
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->date_of_birth)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.date_of_birth')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->date_of_birth }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.age')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->age }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->police_no)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.police_number')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                05/{{ $person->police_no }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->case_no)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.case_number')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->case_no }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->medical_no)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.medical_number')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->medical_no }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->registration_no)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.registration_number')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->registration_no }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->section_card_no)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.section_card_number')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->section_card_no }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->temp_no)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.temporary_number')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->temp_no }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->nationality)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.nationality')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->nationality }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->languages)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.languages')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {!! implode('<br>', $person->languages) !!}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->remarks)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.remarks')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                {{ $person->remarks }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                @isset($person->portrait_picture)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <strong>
+                                    @lang('people.portrait_picture')
+                                </strong>
+                            </div>
+                            <div class="col-sm">
+                                <img src="{{ Storage::url($person->portrait_picture) }}" class="img-fluid">
+                            </div>
+                        </div>
+                    </li>
+                @endisset
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <strong>
+                                @lang('app.created')
+                            </strong>
+                        </div>
+                        <div class="col-sm">
+                            {{ $person->created_at }}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <strong>
+                                @lang('app.last_updated')
+                            </strong>
+                        </div>
+                        <div class="col-sm">
+                            {{ $person->updated_at }}
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
             @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
                 <div class="card my-4">

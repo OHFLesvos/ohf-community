@@ -38,7 +38,6 @@ class StorePerson extends FormRequest
             'section_card_no' => 'max:255',
             'temp_no' => 'max:255',
             'languages' => 'max:255',
-            'skills' => 'max:255',
             'remarks' => 'max:255',
             'date_of_birth' => 'nullable|date',
         ];
