@@ -22,8 +22,6 @@ class HelperListController extends Controller
         'second_rejection',
         'subsidiary_protection',
         'refugee_status',
-        'deported',
-        'voluntarily_returned',
     ];
 
     function getSections() {

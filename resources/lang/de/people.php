@@ -178,8 +178,6 @@ return [
     'second_rejection' => 'Zweite Ablehnung',
     'subsidiary_protection' => 'Subsidiärer Schutz',
     'refugee_status' => 'Flüchtlingsstatus',
-    'deported' => 'Deportiert',
-    'voluntarily_returned' => 'Freiwillig Zurückgekehrt',
     'import_helper_data' => 'Helferdaten importieren',
     'has_id_card' => 'Hat ID Karte?',
     'has_passport' => 'Hat Reisepass?',
