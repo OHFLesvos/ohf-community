@@ -100,8 +100,7 @@
 							{{ Form::bsRadioList('type', $types, 'child') }}
 						</div>
 						<div class="col-sm">
-							{{ Form::bsText('relativeSearch', null, ['placeholder' => 'Search relative', 'rel' => 'autocomplete', 'data-autocomplete-url' => route('people.filterPersons'), 'data-autocomplete-update' => '#relative'], '') }}
-							{{ Form::hidden('relative', null, [ 'id' => 'relative' ]) }}
+							{{ Form::bsAutocomplete('relative', null, route('people.filterPersons'), ['placeholder' => __('people.search_relative')], '') }}
 						</div>
 						<div class="col-sm-auto">
 							{{ Form::bsSubmitButton('Add', 'user-plus') }}

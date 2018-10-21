@@ -774,7 +774,8 @@ class HelperListController extends Controller
         $person = Person::find($request->person_id);
         $helper = new Helper();
         $person->helper()->save($helper);
-        return redirect()->route('people.helpers.edit', $helper);
+        return redirect()->route('people.helpers.edit', $helper)
+            ->with('success', __('people.helper_registered'));
     }
 
     public function create(Request $request) {

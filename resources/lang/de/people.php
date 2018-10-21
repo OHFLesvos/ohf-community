@@ -28,6 +28,7 @@ return [
     'relation' => 'Beziehung',
     'relations' => 'Beziehungen',
     'relationships' => 'Beziehungen',
+    'search_relative' => 'Verwandte Person suchen',
     'police_number' => 'Polizeinummer',
     'police_no' => 'Polizei-Nr.',
     'case_number' => 'Fallnummer',

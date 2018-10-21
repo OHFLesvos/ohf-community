@@ -4,8 +4,7 @@
 
 @section('content')
     {!! Form::open(['route' => ['people.helpers.storeFrom']]) !!}
-        {{ Form::bsText('person_search', null, ['placeholder' => __('people.search_existing_person'), 'rel' => 'autocomplete', 'data-autocomplete-url' => route('people.filterPersons'), 'data-autocomplete-update' => '#person_id'], '') }}
-        {{ Form::hidden('person_id', null, [ 'id' => 'person_id' ]) }}
+        {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
 		<p>
             {{ Form::bsSubmitButton(__('people.use_existing_person')) }} 
 			<a href="{{ route('people.helpers.create') }}" class="btn btn-primary">@icon(plus-circle) @lang('people.register_new_person')</a>

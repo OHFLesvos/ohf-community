@@ -28,6 +28,7 @@ return [
     'relation' => 'Relation',
     'relations' => 'Relations',
     'relationships' => 'Relationships',
+    'search_relative' => 'Search relative',
     'police_number' => 'Police Number',
     'police_no' => 'Police No.',
     'case_number' => 'Case Number',
