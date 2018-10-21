@@ -744,8 +744,32 @@ class HelperListController extends Controller
         ]);
     }
 
+    function getGroupings() {
+        return collect([
+            'nationalities' => [
+                'label' => __('people.nationalities'),
+                'groups' => function() {
+                    return Person::groupBy('nationality')
+                        ->orderBy('nationality')
+                        ->whereNotNull('nationality')
+                        ->get()
+                        ->pluck('nationality')
+                        ->toArray();
+                },
+                'query' => function($q, $v) {
+                    return $q
+                        ->join('persons', 'helpers.person_id', '=', 'persons.id')
+                        ->where('nationality', $v);
+                },
+            ],
+        ]);
+    }
+
     public function index(Request $request) {
         $this->authorize('list', Helper::class);
+
+        // Fields
+        $fields = collect($this->getFields())->where('overview', true);
 
         // Scope
         $scopes = $this->getScopes();
@@ -757,15 +781,37 @@ class HelperListController extends Controller
         }
         $scope_method = $scopes->get($scope)['scope'];
 
-        $fields = collect($this->getFields())->where('overview', true);
-        return view('people.helpers.index', [
-            'fields' => $fields->map(function($f){
-                return [
-                    'label' => __($f['label_key']),
-                    'icon' => $f['icon'],
-                ];
-            }),
-            'data' => Helper::$scope_method()
+        // Groupings
+        $groupings = $this->getGroupings();
+        if ($request->grouping != null && $groupings->keys()->contains($request->grouping)) {
+            $grouping = $request->grouping;
+            // TODO $request->session()->put('helpers_grouping', $grouping);
+        } else {
+            // TODO $grouping = $request->session()->get('helpers_grouping', null);
+            $grouping = null;
+        }
+        if ($grouping != null) {
+            $groups = $groupings->get($grouping)['groups']();
+            foreach($groups as $value) {
+                $q = Helper::$scope_method();
+                $groupings->get($grouping)['query']($q, $value);
+                $data[] = $q
+                    ->get()
+                    ->load('person')
+                    ->sortBy('person.name')
+                    ->mapWithKeys(function($helper) use($fields) {
+                        return [ $helper->id => $fields
+                            ->map(function($field) use($helper){
+                                return [
+                                    'detail_link' => isset($field['detail_link']) && $field['detail_link'],
+                                    'value' => self::getFieldValue($field, $helper),
+                                ];
+                            })
+                            ->toArray()];
+                    });
+            }
+        } else {
+            $data = Helper::$scope_method()
                 ->get()
                 ->load('person')
                 ->sortBy('person.name')
@@ -778,7 +824,18 @@ class HelperListController extends Controller
                             ];
                         })
                         ->toArray()];
-                }),
+                });
+        }
+
+        return view('people.helpers.index', [
+            'fields' => $fields->map(function($f){
+                return [
+                    'label' => __($f['label_key']),
+                    'icon' => $f['icon'],
+                ];
+            }),
+            'groups' => $groups ?? null,
+            'data' => $data,
             'scopes' => $scopes->map(function($v, $k) use($scope) {
                 return [
                     'label' => $v['label'],
