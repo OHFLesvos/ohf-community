@@ -48,6 +48,7 @@ class HelperListController extends Controller
                         : null;
                 },
                 'overview' => false,
+                'exclude_export' => true,
                 'section' => 'portrait',
                 'assign' => function($person, $helper, $value) {
                     if (isset($value)) {
@@ -997,26 +998,37 @@ class HelperListController extends Controller
         $this->authorize('export', Helper::class);
 
         \Excel::create(__('people.helpers').'_' . Carbon::now()->toDateString(), function($excel) {
-            $excel->sheet(__('people.helpers'), function($sheet) {
+            $sorting = 'person.name'; // TODO flexible sorting
 
-                $sorting = 'person.name'; // TODO flexible sorting
-                $fields = collect($this->getFields()) // TODO flexible field selection
-                    ->where('overview_only', false);
+            foreach($this->getScopes() as $scope) {
+                $excel->sheet($scope['label'], function($sheet) use($scope, $sorting) {
 
-                $sheet->setOrientation('landscape');
-                $sheet->setPageMargin(0.25);
-                $sheet->setAllBorders('thin');
-                $sheet->setFitToPage(false);
-                $sheet->setFontSize(10);
-                $sheet->setFreeze('D2');
-                $sheet->loadView('people.helpers.export',[
-                    'fields' => $fields,
-                    'helpers' => Helper::get()->load('person')->sortBy($sorting),
-                ]);
-            });
-            $excel->getActiveSheet()->setAutoFilter(
-                $excel->getActiveSheet()->calculateWorksheetDimension()
-            );
+                    $fields = collect($this->getFields()) // TODO flexible field selection
+                        ->where('overview_only', false)
+                        ->where('exclude_export', false);
+                    
+                    $scope_method = $scope['scope'];
+                    $helpers = Helper::$scope_method()
+                        ->get()
+                        ->load('person')
+                        ->sortBy($sorting);
+    
+                    $sheet->setOrientation('landscape');
+                    $sheet->setPageMargin(0.25);
+                    $sheet->setAllBorders('thin');
+                    $sheet->setFitToPage(false);
+                    $sheet->setFontSize(10);
+                    $sheet->setFreeze('D2');
+                    $sheet->loadView('people.helpers.export',[
+                        'fields' => $fields,
+                        'helpers' => $helpers,
+                    ]);
+                });
+                $excel->getActiveSheet()->setAutoFilter(
+                    $excel->getActiveSheet()->calculateWorksheetDimension()
+                );
+            }
+            $excel->setActiveSheetIndex(0);
         })->export('xlsx');
     }
 
