@@ -460,6 +460,7 @@ class ContextMenuComposer {
                     ]
                 ];
             case 'people.helpers.create':
+            case 'people.helpers.createFrom':
             case 'people.helpers.import':
                 return [
                     'back' => [
