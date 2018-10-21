@@ -195,4 +195,9 @@ return [
     'helper_registered' => 'Helfer registriert.',
     'portrait_picture' => 'Portraitfoto',
     'portrait' => 'Portrait',
+    'use_existing_person' => 'Verwende existierende Person',
+    'register_new_person' => 'Neue Person registrieren',
+    'search_existing_person' => 'Suche existierende person...',
+    'helper_already_exists' => 'Helper existiert bereits.',
+
 ];

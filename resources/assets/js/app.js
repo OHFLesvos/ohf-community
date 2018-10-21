@@ -202,9 +202,11 @@ $(function(){
         if ($(this).data('autocomplete-update')) {
             opts.onSelect = function (suggestion) {
                 $($(this).data('autocomplete-update')).val(suggestion.data);
+                $($(this).data('autocomplete-update')).change();
             }
             opts.onSearchError = function (suggestion) {
                 $($(this).data('autocomplete-update')).val('');
+                $($(this).data('autocomplete-update')).change();
             }
             opts.onSearchStart = function (suggestion) {
                 $($(this).data('autocomplete-update')).val('');

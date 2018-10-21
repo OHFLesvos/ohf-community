@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use \Gumlet\ImageResize;
+use Validator;
 
 class HelperListController extends Controller
 {
@@ -51,7 +52,6 @@ class HelperListController extends Controller
                 'overview' => false,
                 'section' => 'portrait',
                 'assign' => function($person, $helper, $value) {
-                    // TODO remove picture if requested
                     if (isset($value)) {
                         if ($person->portrait_picture != null) {
                             Storage::delete($person->portrait_picture);
@@ -748,6 +748,33 @@ class HelperListController extends Controller
                         ->toArray()];
                 }),
         ]);
+    }
+
+    public function createFrom(Request $request) {
+        $this->authorize('create', Helper::class);
+
+        return view('people.helpers.createFrom');
+    }
+
+    public function storeFrom(Request $request) {
+        $this->authorize('create', Helper::class);
+
+        Validator::make($request->all(), [
+            'person_id' => [
+                'required',
+                Rule::exists('persons', 'id'),
+                function($attribute, $value, $fail) {
+                    if (Person::where('id', $value)->has('helper')->first() != null) {
+                        return $fail(__('people.helper_already_exists'));
+                    }
+                },
+            ],
+        ])->validate();
+
+        $person = Person::find($request->person_id);
+        $helper = new Helper();
+        $person->helper()->save($helper);
+        return redirect()->route('people.helpers.edit', $helper);
     }
 
     public function create(Request $request) {

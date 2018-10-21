@@ -400,7 +400,7 @@ class ContextMenuComposer {
             case 'people.helpers.index':
                 return [
                     'action' => [
-                        'url' => route('people.helpers.create'),
+                        'url' => route('people.helpers.createFrom'),
                         'caption' => __('app.register'),
                         'icon' => 'plus-circle',
                         'icon_floating' => 'plus',
