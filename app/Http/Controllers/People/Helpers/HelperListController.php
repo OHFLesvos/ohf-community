@@ -470,7 +470,7 @@ class HelperListController extends Controller
                 'form_name' => 'asylum_request_status',
                 'form_list' => collect(self::$asylum_request_states)->mapWithKeys(function($s){ return [ __('people.' . $s) => __('people.' . $s) ]; })->toArray(),
                 'form_placeholder' => __('app.select_status'),
-                // TODO validation
+                'form_validate' => 'nullable', // TODO better validation
             ],
             [
                 'label_key' => 'people.has_geo_restriction',
@@ -831,7 +831,7 @@ class HelperListController extends Controller
 
         $this->validateFormData($request);
 
-        $person = new Person(); // TODO check existing person
+        $person = new Person();
         $helper = new Helper();
 
         $this->applyFormData($request, $person, $helper);
