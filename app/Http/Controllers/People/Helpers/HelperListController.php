@@ -722,8 +722,39 @@ class HelperListController extends Controller
         ];
     }
 
+    function getScopes() {
+        return collect([
+            'active' => [
+                'label' => __('people.active'),
+                'scope' => 'active',
+            ],
+            'trial' => [
+                'label' => __('people.trial_period'),
+                'scope' => 'trial',
+            ],
+            'applicants' => [
+                'label' => __('people.applicants'),
+                'scope' => 'applicants',
+            ],
+            'alumni' => [
+                'label' => __('people.alumni'),
+                'scope' => 'alumni',
+            ],
+        ]);
+    }
+
     public function index(Request $request) {
         $this->authorize('list', Helper::class);
+
+        // Scope
+        $scopes = $this->getScopes();
+        if ($request->scope != null && $scopes->keys()->contains($request->scope)) {
+            $scope = $request->scope;
+            $request->session()->put('helpers_scope', $scope);
+        } else {
+            $scope = $request->session()->get('helpers_scope', $scopes->keys()->first());
+        }
+        $scope_method = $scopes->get($scope)['scope'];
 
         $fields = collect($this->getFields())->where('overview', true);
         return view('people.helpers.index', [
@@ -733,7 +764,9 @@ class HelperListController extends Controller
                     'icon' => $f['icon'],
                 ];
             }),
-            'data' => Helper::get()->load('person')
+            'data' => Helper::$scope_method()
+                ->get()
+                ->load('person')
                 ->sortBy('person.name')
                 ->mapWithKeys(function($helper) use($fields) {
                     return [ $helper->id => $fields
@@ -745,6 +778,13 @@ class HelperListController extends Controller
                         })
                         ->toArray()];
                 }),
+            'scopes' => $scopes->map(function($v, $k) use($scope) {
+                return [
+                    'label' => $v['label'],
+                    'url' => route('people.helpers.index', ['scope' => $k]),
+                    'active' => ($scope == $k),
+                ];
+            }),
         ]);
     }
 

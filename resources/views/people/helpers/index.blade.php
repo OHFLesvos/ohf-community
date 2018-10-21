@@ -3,6 +3,11 @@
 @section('title', __('people.helpers'))
 
 @section('content')
+    <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Scopes">
+        @foreach($scopes as $scope)
+            <a href="{{ $scope['url'] }}" class="btn @if($scope['active']) btn-dark @else btn-secondary @endif">{{ $scope['label'] }}</a>
+        @endforeach
+    </div>
     @if( ! $data->isEmpty() )
         <div class="table-responsive">
             <table class="table table-sm table-striped table-bordered table-hover">

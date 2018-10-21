@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Iatstuti\Database\Support\NullableFields;
 use OwenIt\Auditing\Contracts\Auditable;
+use Carbon\Carbon;
 
 class Helper extends Model implements Auditable
 {
@@ -85,6 +86,67 @@ class Helper extends Model implements Auditable
         'urgent_needs',
         'work_needs',
     ];
+
+    /**
+     * Scope a query to only include applicants.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeApplicants($query)
+    {
+        return $query
+            ->whereNull('work_starting_date')
+            ->orWhereDate('work_starting_date', '>', Carbon::today());
+    }
+
+    /**
+     * Scope a query to only include active helpers.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query
+            ->whereNotNull('work_starting_date')
+            ->whereDate('work_starting_date', '<=', Carbon::today())
+            ->where(function($q){
+                return $q->whereNull('work_leaving_date')
+                    ->orWhereDate('work_leaving_date', '>=', Carbon::today());
+            });
+    }
+
+    /**
+     * Scope a query to only include helpers on trial.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTrial($query)
+    {
+        return $query
+            ->whereNotNull('work_starting_date')
+            ->whereDate('work_starting_date', '<=', Carbon::today())
+            ->where(function($q){
+                return $q->whereNull('work_leaving_date')
+                    ->orWhereDate('work_leaving_date', '>=', Carbon::today());
+            })
+            ->where('work_trial_period', true);
+    }
+
+    /**
+     * Scope a query to only include alumni (former helpers).
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAlumni($query)
+    {
+        return $query
+            ->whereNotNull('work_leaving_date')
+            ->whereDate('work_leaving_date', '<', Carbon::today());
+    }
 
     public function getIsActiveAttribute() {
         return $this->work_starting_date != null && $this->work_leaving_date == null;

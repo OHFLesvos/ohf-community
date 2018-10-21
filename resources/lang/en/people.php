@@ -198,4 +198,7 @@ return [
     'register_new_person' => 'Register new person',
     'search_existing_person' => 'Search existing person...',
     'helper_already_exists' => 'Helper already exists.',
+    'active' => 'Active',
+    'applicants' => 'Applicants',
+    'alumni' => 'Alumni',
 ];
