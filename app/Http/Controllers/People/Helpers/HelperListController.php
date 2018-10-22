@@ -835,7 +835,7 @@ class HelperListController extends Controller
                 ];
             }),
             'groups' => $groups ?? null,
-            'data' => $data,
+            'data' => $data ?? [],
             'scopes' => $scopes->map(function($v, $k) use($scope) {
                 return [
                     'label' => $v['label'],

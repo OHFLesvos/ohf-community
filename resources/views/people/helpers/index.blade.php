@@ -9,19 +9,19 @@
         @endforeach
     </div>
     @isset($groups)
-        @include('people.helpers.tablehead')
-        @foreach($groups as $group)
-            @if( $data[$loop->index]->count() > 0)
-                <tr class="table-secondary"><th colspan="{{ $fields->count() }}">{{ $group }}</th></tr>
-                @include('people.helpers.tablebody', ['data' => $data[$loop->index]])
-            @endif
-        @endforeach
-        @include('people.helpers.tablefoot')
+        @component('people.helpers.table', ['fields' => $fields])
+            @foreach($groups as $group)
+                @if( $data[$loop->index]->count() > 0)
+                    <tr class="table-secondary"><th colspan="{{ $fields->count() }}">{{ $group }} <small>({{ $data[$loop->index]->count() }})</small></th></tr>
+                    @include('people.helpers.tablebody', ['data' => $data[$loop->index]])
+                @endif
+            @endforeach
+        @endcomponent
     @else
         @if( ! $data->isEmpty() )
-            @include('people.helpers.tablehead')
-            @include('people.helpers.tablebody')
-            @include('people.helpers.tablefoot')
+            @component('people.helpers.table', ['fields' => $fields])
+                @include('people.helpers.tablebody')
+            @endcomponent
             <p><small>@lang('app.n_results_found', [ 'num' => $data->count() ])</small></p>
         @else
             @component('components.alert.info')
