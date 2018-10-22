@@ -758,6 +758,7 @@ class HelperListController extends Controller
                 },
                 'query' => function($q, $v) {
                     return $q
+                        ->select('helpers.*')
                         ->join('persons', 'helpers.person_id', '=', 'persons.id')
                         ->where('nationality', $v);
                 },
@@ -790,12 +791,13 @@ class HelperListController extends Controller
             // TODO $grouping = $request->session()->get('helpers_grouping', null);
             $grouping = null;
         }
+        $data = collect();
         if ($grouping != null) {
             $groups = $groupings->get($grouping)['groups']();
             foreach($groups as $value) {
                 $q = Helper::$scope_method();
                 $groupings->get($grouping)['query']($q, $value);
-                $data[] = $q
+                $data->push($q
                     ->get()
                     ->load('person')
                     ->sortBy('person.name')
@@ -808,7 +810,8 @@ class HelperListController extends Controller
                                 ];
                             })
                             ->toArray()];
-                    });
+                    })
+                );
             }
         } else {
             $data = Helper::$scope_method()
@@ -835,12 +838,19 @@ class HelperListController extends Controller
                 ];
             }),
             'groups' => $groups ?? null,
-            'data' => $data ?? [],
+            'data' => $data,
             'scopes' => $scopes->map(function($v, $k) use($scope) {
                 return [
                     'label' => $v['label'],
                     'url' => route('people.helpers.index', ['scope' => $k]),
                     'active' => ($scope == $k),
+                ];
+            }),
+            'groupings' => $groupings->map(function($v, $k) use($grouping) {
+                return [
+                    'label' => $v['label'],
+                    'url' => route('people.helpers.index', ['grouping' => $k]),
+                    'active' => ($grouping == $k),
                 ];
             }),
         ]);
