@@ -4,23 +4,30 @@
 
 @section('content')
 
-    {{-- Scopes --}}
-    <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Scopes">
-        @foreach($scopes as $scope)
-            <a href="{{ $scope['url'] }}" class="btn @if($scope['active']) btn-dark @else btn-secondary @endif">{{ $scope['label'] }}</a>
-        @endforeach
+    <div class="row">
+
+        {{-- Scopes --}}
+        <div class="col-md" style="overflow-x: auto">
+            <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Scopes">
+                @foreach($scopes as $scope)
+                    <a href="{{ $scope['url'] }}" class="btn @if($scope['active']) btn-dark @else btn-secondary @endif">{{ $scope['label'] }}</a>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- Groupings --}}
+        <div class="col-md text-right" style="overflow-x: auto">
+            <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Groupings">
+                @foreach($groupings as $grouping)
+                    <a href="{{ $grouping['url'] }}" class="btn @if($grouping['active']) btn-dark @else btn-secondary @endif">{{ $grouping['label'] }}</a>
+                @endforeach
+                @if($groupings->where('active', true)->count() > 0)
+                    <a href="{{ route('people.helpers.index') }}" class="btn btn-secondary">@icon(times)</a>
+                @endif
+            </div>
+        </div>
     </div>
 
-    {{-- Groupings --}}
-    <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Groupings">
-        @foreach($groupings as $grouping)
-            <a href="{{ $grouping['url'] }}" class="btn @if($grouping['active']) btn-dark @else btn-secondary @endif">{{ $grouping['label'] }}</a>
-        @endforeach
-        @if($groupings->where('active', true)->count() > 0)
-            <a href="{{ route('people.helpers.index') }}" class="btn btn-secondary">@icon(times)</a>
-        @endif
-    </div>
-{{-- @dump($groups) --}}
     @if(isset($groups) && $data->filter(function($d){ return count($d) > 0; })->count() > 0)
         @component('people.helpers.table', ['fields' => $fields])
             @foreach($groups as $group)
