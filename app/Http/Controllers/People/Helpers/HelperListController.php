@@ -179,7 +179,7 @@ class HelperListController extends Controller
                 'value_html' => function($helper) { return $helper->person->languages != null ? implode("<br>", $helper->person->languages) : null; },
                 'overview' => false,
                 'section' => 'general',
-                'assign' => function($person, $helper, $value) { $person->languages = ($value != null ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) : null); },
+                'assign' => function($person, $helper, $value) { $person->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value)) : null); },
                 'form_type' => 'text',
                 'form_name' => 'languages',
                 'form_help' => __('app.separate_by_comma'),
@@ -272,7 +272,7 @@ class HelperListController extends Controller
                             }
                         }
                     }
-                    $helper->responsibilities = $values;
+                    $helper->responsibilities = array_map('trim', $values);
                 },
                 'form_type' => 'text',
                 'form_name' => 'responsibilities',
@@ -763,6 +763,65 @@ class HelperListController extends Controller
                         ->where('nationality', $v);
                 },
             ],
+            'languages' => [
+                'label' => __('people.languages'),
+                'groups' => function() {
+                    return Person::groupBy('languages')
+                        ->orderBy('languages')
+                        ->whereNotNull('languages')
+                        ->get()
+                        ->pluck('languages')
+                        ->flatten()
+                        ->unique()
+                        ->sort()
+                        ->toArray();
+                },
+                'query' => function($q, $v) {
+                    return $q
+                        ->select('helpers.*')
+                        ->join('persons', 'helpers.person_id', '=', 'persons.id')
+                        ->where('languages', "like",'%"'.$v.'"%');
+                },
+            ],
+            'responsibilities' => [
+                'label' => __('app.responsibilities'),
+                'groups' => function() {
+                    return Helper::groupBy('responsibilities')
+                        ->orderBy('responsibilities')
+                        ->whereNotNull('responsibilities')
+                        ->get()
+                        ->pluck('responsibilities')
+                        ->flatten()
+                        ->unique()
+                        ->sort()
+                        ->toArray();
+                },
+                'query' => function($q, $v) {
+                    return $q
+                        ->where('responsibilities', "like",'%"'.$v.'"%');
+                },
+            ],
+            'asylum_request_status' => [
+                'label' => __('people.asylum_request_status'),
+                'groups' => function() {
+                    return Helper::groupBy('casework_asylum_request_status')
+                        ->orderBy('casework_asylum_request_status')
+                        ->whereNotNull('casework_asylum_request_status')
+                        ->get()
+                        ->pluck('casework_asylum_request_status')
+                        ->flatten()
+                        ->unique()
+                        ->sort()
+                        ->toArray();
+                },
+                'query' => function($q, $v) {
+                    return $q
+                        ->where('casework_asylum_request_status', $v);
+                },
+                'label_transform'=> function($groups) {
+                    return collect($groups)->map(function($s) { return __('people.'.$s); });
+                },
+            ],
         ]);
     }
 
@@ -812,6 +871,9 @@ class HelperListController extends Controller
                             ->toArray()];
                     })
                 );
+            }
+            if (isset($groupings->get($grouping)['label_transform']) && is_callable($groupings->get($grouping)['label_transform'])) {
+                $groups = $groupings->get($grouping)['label_transform']($groups);
             }
         } else {
             $data = Helper::$scope_method()

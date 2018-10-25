@@ -20,7 +20,7 @@
             <a href="{{ route('people.helpers.index') }}" class="btn btn-secondary">@icon(times)</a>
         @endif
     </div>
-
+{{-- @dump($groups) --}}
     @if(isset($groups) && $data->filter(function($d){ return count($d) > 0; })->count() > 0)
         @component('people.helpers.table', ['fields' => $fields])
             @foreach($groups as $group)
