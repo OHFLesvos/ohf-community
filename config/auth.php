@@ -124,6 +124,9 @@ return [
         'bank.configure' => [
             'sensitive' => false,
         ],
+        'people.helpers.view' => [
+            'sensitive' => true,
+        ],
         'people.helpers.manage' => [
             'sensitive' => true,
         ],
