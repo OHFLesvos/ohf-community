@@ -22,7 +22,7 @@
                     <a href="{{ $grouping['url'] }}" class="btn @if($grouping['active']) btn-dark @else btn-secondary @endif">{{ $grouping['label'] }}</a>
                 @endforeach
                 @if($groupings->where('active', true)->count() > 0)
-                    <a href="{{ route('people.helpers.index') }}" class="btn btn-secondary">@icon(times)</a>
+                    <a href="{{ route('people.helpers.index') }}?grouping=" class="btn btn-secondary">@icon(times)</a>
                 @endif
             </div>
         </div>

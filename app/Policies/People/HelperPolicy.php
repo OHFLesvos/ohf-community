@@ -25,7 +25,7 @@ class HelperPolicy
      */
     public function list(User $user)
     {
-        return $user->hasPermission('people.helpers.manage');
+        return $user->hasPermission('people.helpers.view');
     }
 
     /**
@@ -36,7 +36,7 @@ class HelperPolicy
      */
     public function export(User $user)
     {
-        return $user->hasPermission('people.helpers.manage');
+        return $user->hasPermission('people.helpers.view');
     }
 
         /**
@@ -59,7 +59,7 @@ class HelperPolicy
      */
     public function view(User $user, Helper $helper)
     {
-        return $user->hasPermission('people.helpers.manage');
+        return $user->hasPermission('people.helpers.view');
     }
 
     /**

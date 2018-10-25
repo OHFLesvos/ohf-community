@@ -9,6 +9,7 @@ return [
     'bank.statistics.view' => 'Bank: Berichte betrachten',
     'bank.configure' => 'Bank: Einstellungen konfigurieren',
     'shop.coupons.validate' => 'Markt: Coupons validieren',
+    'people.helpers.view' => 'Helfer: Helfer betrachten',
     'people.helpers.manage' => 'Helfer: Helfer verwalten',
     'logistics.use' => 'Logistikmodul benutzen',
     'tasks.use' => 'Aufgabenmodul benutzen',

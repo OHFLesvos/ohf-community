@@ -845,10 +845,12 @@ class HelperListController extends Controller
         $groupings = $this->getGroupings();
         if ($request->grouping != null && $groupings->keys()->contains($request->grouping)) {
             $grouping = $request->grouping;
-            // TODO $request->session()->put('helpers_grouping', $grouping);
+            $request->session()->put('helpers_grouping', $grouping);
+        } elseif ($request->has('grouping') && $request->grouping == null) {
+                $request->session()->forget('helpers_grouping');
+                $grouping = null;    
         } else {
-            // TODO $grouping = $request->session()->get('helpers_grouping', null);
-            $grouping = null;
+            $grouping = $request->session()->get('helpers_grouping', null);
         }
         $data = collect();
         if ($grouping != null) {
