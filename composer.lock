@@ -3204,16 +3204,16 @@
         },
         {
             "name": "spomky-labs/otphp",
-            "version": "v9.1.0",
+            "version": "v9.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Spomky-Labs/otphp.git",
-                "reference": "4b303e33972f6c886f32b38fea60f41be6d74ec1"
+                "reference": "4974ef2e200cee8f17230d9505690d29c518e696"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spomky-Labs/otphp/zipball/4b303e33972f6c886f32b38fea60f41be6d74ec1",
-                "reference": "4b303e33972f6c886f32b38fea60f41be6d74ec1",
+                "url": "https://api.github.com/repos/Spomky-Labs/otphp/zipball/4974ef2e200cee8f17230d9505690d29c518e696",
+                "reference": "4974ef2e200cee8f17230d9505690d29c518e696",
                 "shasum": ""
             },
             "require": {
@@ -3261,7 +3261,7 @@
                 "otp",
                 "totp"
             ],
-            "time": "2018-02-26T13:45:15+00:00"
+            "time": "2018-10-26T07:37:27+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
