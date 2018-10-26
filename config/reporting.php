@@ -2,6 +2,12 @@
 
 return [
     'reports' => [
+        'monthly_summary' => [
+            'route' => 'reporting.monthly-summary',
+            'icon' => 'char',
+            'gate' => 'view-people-reports',
+            'featured' => true,
+        ], 
         'people' => [
             'route' => 'reporting.people',
             'icon' => 'users',

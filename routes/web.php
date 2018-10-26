@@ -151,6 +151,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::view('/reporting', 'reporting.index')->name('reporting.index');
         });
 
+        // Reporting: Monthly summary report
+        Route::group(['middleware' => ['can:view-people-reports']], function () {
+            Route::get('/reporting/monthly-summary', 'Reporting\\MonthlySummaryReportingController@index')->name('reporting.monthly-summary');
+        });
+
         // Reporting: People
         Route::group(['middleware' => ['can:view-people-reports']], function () {
             Route::get('/reporting/people', 'Reporting\\PeopleReportingController@index')->name('reporting.people');
