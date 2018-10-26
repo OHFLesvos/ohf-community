@@ -74,4 +74,26 @@ abstract class BaseReportingController extends Controller
         // Return as array
         return [$from, $to];
     }
+
+    /**
+     * Parses optional date boundaries from a request
+     */
+    protected static function getMonthRangeDatesFromRequest(Request $request) {
+        // Validate request data
+        Validator::make($request->all(), [
+            'year' => 'numeric|required_with:month',
+            'month' => 'numeric|min:1|max:12|required_with:year',
+        ])->validate();
+
+        // Parse dates from request
+        $now = Carbon::now();
+        $year = $request->year != null ? $request->year : $now->year;
+        $month = $request->month != null ? $request->month : $now->month;
+
+        $from = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+        $to = (clone $from)->endOfMonth();
+
+        // Return as array
+        return [$from, $to];
+    }
 }
