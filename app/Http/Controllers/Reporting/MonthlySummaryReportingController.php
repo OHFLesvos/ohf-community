@@ -62,38 +62,48 @@ class MonthlySummaryReportingController extends BaseReportingController
             ->join('coupon_types', 'coupon_type_id', 'coupon_types.id')
             ->groupBy('coupon_type_id')
             ->orderBy('count', 'DESC')
-            ->get();
+            ->get()
+            ->map(function($i){ return [
+                'label' => $i->name,
+                'value' => $i->count
+            ];});
     }
 
     private static function uniqueVisitors($from, $to) {
-        return CouponHandout::whereDate('date', '>=', $from)
-            ->whereDate('date', '<=', $to)
-            ->groupBy('person_id')
-            ->get()
-            ->count();
+        return self::countResults(
+            CouponHandout::whereDate('date', '>=', $from)
+                ->whereDate('date', '<=', $to)
+                ->groupBy('person_id')
+        );
     }
 
     private static function totalVisitors($from, $to) {
-        return CouponHandout::whereDate('date', '>=', $from)
-            ->whereDate('date', '<=', $to)
-            ->groupBy('person_id')
-            ->groupBy('date')
-            ->get()
-            ->count();
+        return self::countResults(
+            CouponHandout::whereDate('date', '>=', $from)
+                ->whereDate('date', '<=', $to)
+                ->groupBy('person_id')
+                ->groupBy('date')
+        );
     }
 
     private static function daysActive($from, $to) {
-        return CouponHandout::whereDate('date', '>=', $from)
-            ->whereDate('date', '<=', $to)
-            ->groupBy('date')
-            ->get()
-            ->count();
+        return self::countResults(
+            CouponHandout::whereDate('date', '>=', $from)
+                ->whereDate('date', '<=', $to)
+                ->groupBy('date')
+        );
     }
 
     private static function newRegistrations($from, $to) {
         return Person::withTrashed()
             ->whereDate('created_at', '>=', $from)
             ->whereDate('created_at', '<=', $to)
+            ->count();
+    }
+
+    private static function countResults($query) {
+        return DB::table(DB::raw('('.$query->toSql().') as t'))
+            ->mergeBindings($query->getQuery())
             ->count();
     }
 }

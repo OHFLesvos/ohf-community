@@ -21,10 +21,7 @@
                 [
                     'label' => 'Coupons handed out',
                     'value' => $coupons_handed_out,
-                    'list' => $coupon_types_handed_out->map(function($i){ return [
-                        'label' => $i->name,
-                        'value' => $i->count
-                    ]; }),
+                    'list' => $coupon_types_handed_out,
                 ],
                 [
                     'label' => 'Unique visitors',
@@ -47,7 +44,7 @@
                     'value' => $new_registrations,
                 ],
                 [
-                    'label' => 'New registrations / day',
+                    'label' => 'Average registrations / day',
                     'value' => $days_active > 0 ? round($new_registrations / $days_active) : 0,
                 ],
             ];
