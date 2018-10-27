@@ -16,10 +16,9 @@ class MonthlySummaryReportingController extends BaseReportingController
     public function index(Request $request) {
         list($from, $to) = self::getMonthRangeDatesFromRequest($request);
 
-
         return view('reporting.monthly-summary', [
-            'from' => $from,
-            'to' => $to,
+            'monthDate' => $from,
+            'months' => self::monthsWithData(),
             'coupons_handed_out' => self::couponsHandedOut($from, $to),
             'coupon_types_handed_out' => self::couponTypesHandedOut($from, $to),
             'unique_visitors' => self::uniqueVisitors($from, $to),
@@ -29,44 +28,59 @@ class MonthlySummaryReportingController extends BaseReportingController
         ]);
     }
 
+    private static function monthsWithData() {
+        $coupon_months = CouponHandout::select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as m'))
+            ->groupBy(DB::raw('YEAR(date)'))
+            ->groupBy(DB::raw('MONTH(date)'))
+            ->get()
+            ->pluck('m')
+            ->mapWithKeys(function($m){
+                return [ $m => (new Carbon($m))->format('F Y') ];
+            })
+            ->toArray();
+        
+        // TODO people
+
+        return $coupon_months;
+    }
+
     private static function couponsHandedOut($from, $to) {
-        return CouponHandout::whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
+        return CouponHandout::whereDate('date', '>=', $from)
+            ->whereDate('date', '<=', $to)
             ->count();
     }
     
     private static function couponTypesHandedOut($from, $to) {
         return CouponHandout::select('coupon_types.name', DB::raw('COUNT(coupon_type_id) as count'))
-            ->whereDate('coupon_handouts.created_at', '>=', $from)
-            ->whereDate('coupon_handouts.created_at', '<=', $to)
+            ->whereDate('coupon_handouts.date', '>=', $from)
+            ->whereDate('coupon_handouts.date', '<=', $to)
             ->join('coupon_types', 'coupon_type_id', 'coupon_types.id')
             ->groupBy('coupon_type_id')
             ->orderBy('count', 'DESC')
-            ->get()
-            ->toArray();
+            ->get();
     }
 
     private static function uniqueVisitors($from, $to) {
-        return CouponHandout::whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
+        return CouponHandout::whereDate('date', '>=', $from)
+            ->whereDate('date', '<=', $to)
             ->groupBy('person_id')
             ->get()
             ->count();
     }
 
     private static function totalVisitors($from, $to) {
-        return CouponHandout::whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
+        return CouponHandout::whereDate('date', '>=', $from)
+            ->whereDate('date', '<=', $to)
             ->groupBy('person_id')
-            ->groupBy(DB::raw('DATE(created_at)'))
+            ->groupBy('date')
             ->get()
             ->count();
     }
 
     private static function daysActive($from, $to) {
-        return CouponHandout::whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
-            ->groupBy(DB::raw('DATE(created_at)'))
+        return CouponHandout::whereDate('date', '>=', $from)
+            ->whereDate('date', '<=', $to)
+            ->groupBy('date')
             ->get()
             ->count();
     }
