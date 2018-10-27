@@ -17,46 +17,76 @@
 
     <div id="app">
         @php
+            $current_average_visitors_per_day = $current_days_active > 0 ? round($current_total_visitors / $current_days_active) : 0;
+            $previous_average_visitors_per_day = $previous_days_active > 0 ? round($previous_total_visitors / $previous_days_active) : 0;
+
+            $current_average_registrations_per_day = $current_days_active > 0 ? round($current_new_registrations / $current_days_active) : 0;
+            $previous_average_registrations_per_day = $previous_days_active > 0 ? round($previous_new_registrations / $previous_days_active) : 0;
+
             $data = [
                 [
                     'label' => 'Coupons handed out',
-                    'value' => $coupons_handed_out,
-                    'list' => $coupon_types_handed_out,
+                    'value' => $current_coupons_handed_out,
+                    'percent' => [$previous_coupons_handed_out, $current_coupons_handed_out],
+                    'list' => $current_coupon_types_handed_out,
                 ],
                 [
                     'label' => 'Unique visitors',
-                    'value' => $unique_visitors,
+                    'value' => $current_unique_visitors,
+                    'percent' => [$previous_unique_visitors, $current_unique_visitors],
                 ],
                 [
                     'label' => 'Total visitors',
-                    'value' => $total_visitors,
+                    'value' => $current_total_visitors,
+                    'percent' => [$previous_total_visitors, $current_total_visitors],
                 ],
                 [
                     'label' => 'Days active',
-                    'value' => $days_active,
+                    'value' => $current_days_active,
+                    'percent' => [$previous_days_active, $current_days_active],
                 ],
                 [
                     'label' => 'Average visitors / day',
-                    'value' => $days_active > 0 ? round($total_visitors / $days_active) : 0,
+                    'value' => $current_average_visitors_per_day,
+                    'percent' => [$previous_average_visitors_per_day, $current_average_visitors_per_day],
                 ],
                 [
                     'label' => 'New registrations',
-                    'value' => $new_registrations,
+                    'value' => $current_new_registrations,
+                    'percent' => [$previous_new_registrations, $current_new_registrations],
                 ],
                 [
                     'label' => 'Average registrations / day',
-                    'value' => $days_active > 0 ? round($new_registrations / $days_active) : 0,
+                    'value' => $current_average_registrations_per_day,
+                    'percent' => [$previous_average_registrations_per_day, $current_average_registrations_per_day],
                 ],
             ];
         @endphp
 
-        {{-- <div class="row"> --}}
-        <div class="card-columns">
+        <div class="row">
+        {{-- <div class="card-columns"> --}}
             @foreach($data as $item)
-                {{-- <div class="col-sm mb-3"> --}}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
                     <div class="card text-dark bg-light">
                         <div class="card-body text-right">
-                            <big class="display-4">{{ number_format($item['value']) }}</big><br>
+                            <big class="display-4">{{ number_format($item['value']) }}</big>
+                            @isset($item['percent'])
+                                @php
+                                    list($prev, $cur) = $item['percent'];
+                                    $percent_val = $prev != 0 ? round((($cur - $prev) / $prev) * 100) : null;
+                                @endphp
+                                @isset($percent_val)
+                                &nbsp; <small class="@if($percent_val > 0) text-success @elseif($percent_val < 0) text-danger @endif">
+                                    {{ abs($percent_val) }}% 
+                                    @if($percent_val > 0)
+                                        @icon(caret-up)
+                                    @elseif($percent_val < 0)
+                                        @icon(caret-down)
+                                    @endif
+                                </small>
+                                @endisset
+                            @endisset
+                            <br>
                             <small class="text-uppercase">{{ $item['label'] }}</small>
                         </div>
                         @isset($item['list'])
@@ -70,10 +100,9 @@
                             </ul>
                         @endisset
                     </div>
-                {{-- </div> --}}
-            @endforeach`
+                </div>
+            @endforeach
         </div>
-        {{-- </div> --}}
 
     </div>
 @endsection

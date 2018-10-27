@@ -15,16 +15,31 @@ class MonthlySummaryReportingController extends BaseReportingController
 {
     public function index(Request $request) {
         list($from, $to) = self::getMonthRangeDatesFromRequest($request);
+        $prev_from = (clone $from)->subMonth(1)->startOfMonth();
+        $prev_to = (clone $prev_from)->endOfMonth();
+        $year_from = (clone $from)->startOfYear();
 
         return view('reporting.monthly-summary', [
             'monthDate' => $from,
             'months' => self::monthsWithData(),
-            'coupons_handed_out' => self::couponsHandedOut($from, $to),
-            'coupon_types_handed_out' => self::couponTypesHandedOut($from, $to),
-            'unique_visitors' => self::uniqueVisitors($from, $to),
-            'total_visitors' => self::totalVisitors($from, $to),
-            'days_active' => self::daysActive($from, $to),
-            'new_registrations' => self::newRegistrations($from, $to),
+            
+            'current_coupons_handed_out' => self::couponsHandedOut($from, $to),
+            'previous_coupons_handed_out' => self::couponsHandedOut($prev_from, $prev_to),
+            
+            'current_coupon_types_handed_out' => self::couponTypesHandedOut($from, $to),
+            'previous_coupon_types_handed_out' => self::couponTypesHandedOut($prev_from, $prev_to),
+            
+            'current_unique_visitors' => self::uniqueVisitors($from, $to),
+            'previous_unique_visitors' => self::uniqueVisitors($prev_from, $prev_to),
+            
+            'current_total_visitors' => self::totalVisitors($from, $to),
+            'previous_total_visitors' => self::totalVisitors($prev_from, $prev_to),
+            
+            'current_days_active' => self::daysActive($from, $to),
+            'previous_days_active' => self::daysActive($prev_from, $prev_to),
+            
+            'current_new_registrations' => self::newRegistrations($from, $to),
+            'previous_new_registrations' => self::newRegistrations($prev_from, $prev_to),
         ]);
     }
 
