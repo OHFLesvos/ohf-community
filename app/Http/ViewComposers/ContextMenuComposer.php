@@ -1044,6 +1044,7 @@ class ContextMenuComposer {
             //
             // Reporting
             //
+            case 'reporting.monthly-summary':
             case 'reporting.people':
             case 'reporting.bank.withdrawals':
             case 'reporting.bank.deposits':

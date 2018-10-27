@@ -39,19 +39,24 @@
                     'value' => $days_active,
                 ],
                 [
-                    'label' => 'Average visitors per day',
+                    'label' => 'Average visitors / day',
                     'value' => $days_active > 0 ? round($total_visitors / $days_active) : 0,
                 ],
                 [
                     'label' => 'New registrations',
                     'value' => $new_registrations,
                 ],
+                [
+                    'label' => 'New registrations / day',
+                    'value' => $days_active > 0 ? round($new_registrations / $days_active) : 0,
+                ],
             ];
         @endphp
 
-        <div class="row">
+        {{-- <div class="row"> --}}
+        <div class="card-columns">
             @foreach($data as $item)
-                <div class="col-sm mb-3">
+                {{-- <div class="col-sm mb-3"> --}}
                     <div class="card text-dark bg-light">
                         <div class="card-body text-right">
                             <big class="display-4">{{ number_format($item['value']) }}</big><br>
@@ -68,9 +73,10 @@
                             </ul>
                         @endisset
                     </div>
-                </div>
-            @endforeach
+                {{-- </div> --}}
+            @endforeach`
         </div>
+        {{-- </div> --}}
 
     </div>
 @endsection

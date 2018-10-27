@@ -29,19 +29,24 @@ class MonthlySummaryReportingController extends BaseReportingController
     }
 
     private static function monthsWithData() {
-        $coupon_months = CouponHandout::select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as m'))
+        $months = CouponHandout::select(DB::raw('DATE_FORMAT(date, \'%Y-%m\') as y_m'))
             ->groupBy(DB::raw('YEAR(date)'))
             ->groupBy(DB::raw('MONTH(date)'))
             ->get()
-            ->pluck('m')
+            ->pluck('y_m');
+        
+        $months = $months->merge(Person::withTrashed()->select(DB::raw('DATE_FORMAT(created_at, \'%Y-%m\') as y_m'))
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->get()
+            ->pluck('y_m'));
+
+        return $months
+            ->sort()
             ->mapWithKeys(function($m){
                 return [ $m => (new Carbon($m))->format('F Y') ];
             })
             ->toArray();
-        
-        // TODO people
-
-        return $coupon_months;
     }
 
     private static function couponsHandedOut($from, $to) {
@@ -86,7 +91,8 @@ class MonthlySummaryReportingController extends BaseReportingController
     }
 
     private static function newRegistrations($from, $to) {
-        return Person::whereDate('created_at', '>=', $from)
+        return Person::withTrashed()
+            ->whereDate('created_at', '>=', $from)
             ->whereDate('created_at', '<=', $to)
             ->count();
     }
