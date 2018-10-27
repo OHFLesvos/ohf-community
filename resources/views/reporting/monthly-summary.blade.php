@@ -29,21 +29,25 @@
                     'value' => $current_coupons_handed_out,
                     'percent' => [$previous_coupons_handed_out, $current_coupons_handed_out],
                     'list' => $current_coupon_types_handed_out,
-                ],
-                [
-                    'label' => 'Unique visitors',
-                    'value' => $current_unique_visitors,
-                    'percent' => [$previous_unique_visitors, $current_unique_visitors],
-                ],
-                [
-                    'label' => 'Total visitors',
-                    'value' => $current_total_visitors,
-                    'percent' => [$previous_total_visitors, $current_total_visitors],
+                    'ytd' => $year_coupons_handed_out,
                 ],
                 [
                     'label' => 'Days active',
                     'value' => $current_days_active,
                     'percent' => [$previous_days_active, $current_days_active],
+                    'ytd' => $year_days_active,
+                ],
+                [
+                    'label' => 'Unique visitors',
+                    'value' => $current_unique_visitors,
+                    'percent' => [$previous_unique_visitors, $current_unique_visitors],
+                    'ytd' => $year_unique_visitors,
+                ],
+                [
+                    'label' => 'Total visitors',
+                    'value' => $current_total_visitors,
+                    'percent' => [$previous_total_visitors, $current_total_visitors],
+                    'ytd' => $year_total_visitors,
                 ],
                 [
                     'label' => 'Average visitors / day',
@@ -54,6 +58,7 @@
                     'label' => 'New registrations',
                     'value' => $current_new_registrations,
                     'percent' => [$previous_new_registrations, $current_new_registrations],
+                    'ytd' => $year_new_registrations,
                 ],
                 [
                     'label' => 'Average registrations / day',
@@ -88,6 +93,9 @@
                             @endisset
                             <br>
                             <small class="text-uppercase">{{ $item['label'] }}</small>
+                            @isset($item['ytd'])
+                            <br><small class="text-muted" title="Year-to-date">{{ number_format($item['ytd']) }} (YTD)</small>
+                            @endisset
                         </div>
                         @isset($item['list'])
                             <ul class="list-group list-group-flush">

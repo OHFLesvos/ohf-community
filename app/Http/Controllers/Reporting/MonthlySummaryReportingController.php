@@ -25,21 +25,25 @@ class MonthlySummaryReportingController extends BaseReportingController
             
             'current_coupons_handed_out' => self::couponsHandedOut($from, $to),
             'previous_coupons_handed_out' => self::couponsHandedOut($prev_from, $prev_to),
+            'year_coupons_handed_out' => self::couponsHandedOut($year_from, $to),
             
             'current_coupon_types_handed_out' => self::couponTypesHandedOut($from, $to),
-            'previous_coupon_types_handed_out' => self::couponTypesHandedOut($prev_from, $prev_to),
             
             'current_unique_visitors' => self::uniqueVisitors($from, $to),
             'previous_unique_visitors' => self::uniqueVisitors($prev_from, $prev_to),
+            'year_unique_visitors' => self::uniqueVisitors($year_from, $to),
             
             'current_total_visitors' => self::totalVisitors($from, $to),
             'previous_total_visitors' => self::totalVisitors($prev_from, $prev_to),
+            'year_total_visitors' => self::totalVisitors($year_from, $to),
             
             'current_days_active' => self::daysActive($from, $to),
             'previous_days_active' => self::daysActive($prev_from, $prev_to),
+            'year_days_active' => self::daysActive($year_from, $to),
             
             'current_new_registrations' => self::newRegistrations($from, $to),
             'previous_new_registrations' => self::newRegistrations($prev_from, $prev_to),
+            'year_new_registrations' => self::newRegistrations($year_from, $to),
         ]);
     }
 
