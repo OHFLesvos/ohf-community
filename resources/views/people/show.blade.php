@@ -10,6 +10,12 @@
         @endcomponent
     @endif
 
+    @isset($person->remarks)
+        @component('components.alert.info')
+            @lang('people.remarks'): {{ $person->remarks }}
+        @endcomponent
+    @endisset
+
     <div class="row mb-3">
         <div class="col-md">
             <ul class="list-group list-group-flush">
@@ -230,12 +236,6 @@
                     </div>
                 </li>
             </ul>
-
-            @isset($person->remarks)
-                @component('components.alert.info')
-                    @lang('people.remarks'): {{ $person->remarks }}
-                @endcomponent
-            @endisset
 
             @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
                 <div class="card my-4">
