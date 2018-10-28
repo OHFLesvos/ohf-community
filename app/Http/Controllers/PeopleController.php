@@ -321,94 +321,100 @@ class PeopleController extends ParentController
         $merged = 0;
         foreach($request->action as $idsString => $action) {
             if ($action == 'merge') {
-
-                // Get master and related persons
                 $ids = explode(',', $idsString);
-                $persons = Person::whereIn('id', $ids)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
-                $master = $persons->shift();
-
-                // Merge basic attributes
-                foreach (['gender', 'date_of_birth', 'nationality', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
-                    if ($master->$attr == null) {
-                        $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
-                    }
-                }
-
-                // Merge mother
-                if ($master->mother == null) {
-                    $mother = $persons->filter(function($e) {
-                            return $e->mother != null;
-                        })
-                        ->pluck('mother')
-                        ->first();
-                    if ($mother != null) {
-                        $master->mother()->dissociate();
-                        $master->mother()->associate($mother);
-                    }
-                }
-                // Merge father
-                if ($master->father == null) {
-                    $father = $persons->filter(function($e) {
-                            return $e->father != null;
-                        })
-                        ->pluck('father')
-                        ->first();
-                    if ($father != null) {
-                        $master->father()->dissociate();
-                        $master->father()->associate($father);
-                    }
-                }
-
-                // Merge children
-                $persons->each(function($e) use($master) {
-                    $e->children()->each(function($child) use($master) {
-                        if ($master->gender == 'f') {
-                            $child->mother()->dissociate();
-                            $child->mother()->associate($master);
-                        }
-                        else if ($master->gender == 'm') {
-                            $child->father()->dissociate();
-                            $child->father()->associate($master);
-                        }
-                        $child->save();
-                    });
-                });
-
-                // TODO partner merge
-
-                // Merge coupon handouts
-                CouponHandout::whereIn('person_id', $persons->pluck('id')->toArray())
-                    ->get()
-                    ->each(function($e) use($master) {
-                        $e->person_id = $master->id;
-                        $e->save();
-                    });
-
-                // Merge remarks
-                $remarks = $persons->pluck('remarks')
-                    ->push($master->remarks)
-                    ->filter(function($e) {
-                        return $e != null;
-                    })
-                    ->unique()
-                    ->implode("\n");
-                if (!empty($remarks)) {
-                    $master->remarks = $remarks;
-                }
-
-                // Save master, remove duplicates
-                $master->save();
-                $persons->each(function($e) {
-                    $e->delete();
-                });
+                self::mergePersons($ids);
                 $merged++;
             }
         }
 
         return redirect()->route('people.index')
             ->with('success', 'Done (merged ' . $merged . ' persons).');
+    }
+
+    private static function mergePersons($ids) {
+
+        // Get master and related persons
+        $persons = Person::whereIn('id', $ids)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $master = $persons->shift();
+
+        // Merge basic attributes
+        foreach (['gender', 'date_of_birth', 'nationality', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
+            if ($master->$attr == null) {
+                $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
+            }
+        }
+
+        // Merge mother
+        if ($master->mother == null) {
+            $mother = $persons->filter(function($e) {
+                    return $e->mother != null;
+                })
+                ->pluck('mother')
+                ->first();
+            if ($mother != null) {
+                $master->mother()->dissociate();
+                $master->mother()->associate($mother);
+            }
+        }
+        // Merge father
+        if ($master->father == null) {
+            $father = $persons->filter(function($e) {
+                    return $e->father != null;
+                })
+                ->pluck('father')
+                ->first();
+            if ($father != null) {
+                $master->father()->dissociate();
+                $master->father()->associate($father);
+            }
+        }
+
+        // Merge children
+        $persons->each(function($e) use($master) {
+            $e->children()->each(function($child) use($master) {
+                if ($master->gender == 'f') {
+                    $child->mother()->dissociate();
+                    $child->mother()->associate($master);
+                }
+                else if ($master->gender == 'm') {
+                    $child->father()->dissociate();
+                    $child->father()->associate($master);
+                }
+                $child->save();
+            });
+        });
+
+        // TODO partner merge
+
+        // Merge coupon handouts
+        CouponHandout::whereIn('person_id', $persons->pluck('id')->toArray())
+            ->get()
+            ->each(function($e) use($master) {
+                $e->person_id = $master->id;
+                $e->save();
+            });
+
+        // Merge remarks
+        $remarks = $persons->pluck('remarks')
+            ->push($master->remarks)
+            ->filter(function($e) {
+                return $e != null;
+            })
+            ->unique()
+            ->implode("\n");
+        if (!empty($remarks)) {
+            $master->remarks = $remarks;
+        }
+
+        // Save master, remove duplicates
+        $master->save();
+        $persons->each(function($e) {
+            $e->forceDelete();
+        });
+
+        return count($ids);
     }
 
     private static function getFirstNonEmptyAttributeFromCollection($collection, $attributeName) {
@@ -441,7 +447,36 @@ class PeopleController extends ParentController
             ->orderBy('family_name', 'asc')
             ->orderBy('name', 'asc')
             ->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page')));
-	}
+    }
+    
+    public function bulkAction(Request $request) {
+        $this->authorize('manage-people');
+
+        Validator::make($request->all(), [
+            'selected_action' => 'required|in:delete,merge',
+            'selected_people' => 'array',
+        ])->validate();
+        $action = $request->selected_action;
+        $ids = $request->selected_people;
+
+        // Bulk delete
+        if ($action == 'delete') {
+
+            $n = Person::destroy($ids);
+
+            return redirect()->route('people.index')
+                ->with('success', trans_choice('people.deleted_n_persons', $n, [ 'num' => $n ]));
+        }
+
+        // Merge
+        if ($action == 'merge') {
+            
+            $n = self::mergePersons($ids);
+
+            return redirect()->route('people.index')
+                ->with('success', __('people.merged_n_persons', [ 'num' => $n ]));
+        }
+    }
 
     public function export() {
         $this->authorize('export', Person::class);

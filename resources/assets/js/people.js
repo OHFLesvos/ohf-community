@@ -131,8 +131,44 @@ function writeRow(person) {
     if (person.gender == 'm') {
         icon = 'male';
     }
+    
+    bulk_select = ($('#bulk_select_on').length > 0)
+    bulk_select_elem = null;
+    if (bulk_select) {
+        bulk_select_elem = $('<td>')
+            .append($('<input>')
+                .attr('type', 'checkbox')
+                .attr('name', 'selected_people[]')
+                .val(person.id)
+                .on('change', function() {
+                    if ($(this).prop('checked')) {
+                        $(this).parents('tr').addClass('table-secondary');
+                    } else {
+                        $(this).parents('tr').removeClass('table-secondary');
+                    }
+                    num_selected = $('table').find('input[name="selected_people[]"]:checked').length;
+                    if (num_selected > 0) {
+                        $('#selected_actions_container').show();
+                        $('#selected_count').text(num_selected);
+                        $('#selected_actions_container').find('button').each(function(){
+                            if ($(this).data('bulk-min')) {
+                                if ($(this).data('bulk-min') <= num_selected) {
+                                    $(this).show();
+                                } else {
+                                    $(this).hide();
+                                }
+                            }
+                        });
+                    } else {
+                        $('#selected_actions_container').hide();
+                    }
+                })
+            )
+    }
+
     return $('<tr>')
         .attr('id', 'person-' + person.id)
+        .append(bulk_select_elem)
         .append($('<td>').html(icon != '' ? '<i class="fa fa-' + icon + '"></i>' : ''))
         .append($('<td>')
             .append($('<a>')
@@ -154,7 +190,7 @@ function writeRow(person) {
         .append($('<td>').text(person.registration_no))
         .append($('<td>').text(person.section_card_no))
         .append($('<td>').text(person.temp_no))
-        .append($('<td>').text(person.languages))
+        .append($('<td>').text(person.languages ? person.languages.join(', ') : ''))
         .append($('<td>').text(person.remarks))
         // TODO .append($('<td>').html(person.helper ? '<i class="fa fa-check"></i>' : '-'))
         .append($('<td>').text(person.created_at));

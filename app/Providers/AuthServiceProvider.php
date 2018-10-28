@@ -39,6 +39,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         $simple_permission_gate_mappings = [
+            'manage-people' => 'people.manage',
             'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
             'do-bank-withdrawals' => 'bank.withdrawals.do',
             'do-bank-deposits' => 'bank.deposits.do',

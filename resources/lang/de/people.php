@@ -3,6 +3,7 @@
 return [
     'people' => 'Personen',
     'person' => 'Person',
+    'persons' => 'Personen',
     'there_are_n_people_registered' => 'Es sind <strong>:num</strong> Personen in der Datenbank registriert',
     'n_new_today' => '<strong>:num</strong> heute',
     'bank' => 'Bank',
@@ -48,6 +49,10 @@ return [
     'not_yet_served_any_persons' => 'Heute wurden noch keine Personen bedient.',
     'num_persons_served_handing_out_coupons' => 'Heute haben wir <strong>:persons</strong> Personen bedient und <strong>:coupons</strong> Coupons ausgehändigt.',
     'person_deleted' => 'Person gelöscht',
+    'deleted_n_persons' => 'Eine Person gelöscht.|:num Personen gelöscht.',
+    'merged_n_persons' => ':num Personen zusammengeführt.',
+    'really_delete_these_persons' => 'Diese Personen wirklich löschen?',
+    'really_merge_these_persons' => 'Diese Personen wirklich zusammenführen?',
     'no_transactions_so_far' => 'Bis jetzt wurden noch keine Transaktionen registriert.',
     'male' => 'männlich',
     'female' => 'weiblich',

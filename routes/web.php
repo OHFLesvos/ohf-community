@@ -126,6 +126,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::delete('/people/{person}/father', 'PeopleController@removeFather')->name('people.removeFather');
         Route::get('/people/duplicates', 'PeopleController@duplicates')->name('people.duplicates');
         Route::post('/people/duplicates', 'PeopleController@applyDuplicates')->name('people.applyDuplicates');
+        Route::post('/people/bulkAction', 'PeopleController@bulkAction')->name('people.bulkAction');
         Route::resource('/people', 'PeopleController');
 
         // Shop

@@ -188,4 +188,6 @@ return [
     'select_status' => 'Select status...',
     'unspecified' => 'Unspecified',
     'remove_image' => 'Remove image',
+    'bulk_action' => 'Bulk action',
+    'merge' => 'Merge',
  ];

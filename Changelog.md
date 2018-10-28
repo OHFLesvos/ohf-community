@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.21.2
+
+People:
+
+* Added bulk delete / merge
+
 ## 1.21.1
 
 Helpers:

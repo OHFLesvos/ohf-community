@@ -188,4 +188,6 @@ return [
     'select_status' => 'Status wählen...',
     'unspecified' => 'Nicht spezifiziert',
     'remove_image' => 'Bild entfernen',
+    'bulk_action' => 'Massenbearbeitung',
+    'merge' => 'Zusammenführen',
 ];
