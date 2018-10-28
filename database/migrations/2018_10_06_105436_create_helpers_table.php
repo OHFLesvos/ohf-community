@@ -34,7 +34,7 @@ class CreateHelpersTable extends Migration
             $table->date('work_leaving_date')->nullable();
             // case number field already in "persons" table
             $table->boolean('endorses_casework')->nullable();
-            $table->enum('casework_asylum_request_status', ['awaiting_interview', 'first_rejection', 'second_rejection', 'subsidiary_protection', 'refugee_status'])->nullable();
+            $table->enum('casework_asylum_request_status', ['awaiting_interview', 'waiting_for_decision', 'first_rejection', 'second_rejection', 'subsidiary_protection', 'refugee_status'])->nullable();
             $table->boolean('casework_has_geo_restriction')->nullable();
             $table->boolean('casework_has_id_card')->nullable();
             $table->boolean('casework_has_passport')->nullable();

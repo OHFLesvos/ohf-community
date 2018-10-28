@@ -179,6 +179,7 @@ return [
     'lawyer_email' => 'Lawyer E-Mail',
     'asylum_request_status' => 'Asylum Request Status',
     'awaiting_interview' => 'Awaiting interview',
+    'waiting_for_decision' => 'Waiting for decision',
     'first_rejection' => 'First rejection',
     'second_rejection' => 'Second rejection',
     'subsidiary_protection' => 'Subsidiary protection',

@@ -18,6 +18,7 @@ class HelperListController extends Controller
 {
     private static $asylum_request_states = [
         'awaiting_interview',
+        'waiting_for_decision',
         'first_rejection',
         'second_rejection',
         'subsidiary_protection',

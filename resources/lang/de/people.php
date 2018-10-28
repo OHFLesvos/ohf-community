@@ -179,6 +179,7 @@ return [
     'lawyer_email' => 'E-Mail des Anwalts',
     'asylum_request_status' => 'Status des Asylantrags',
     'awaiting_interview' => 'Wartet auf Interview',
+    'waiting_for_decision' => 'Wartet auf Entscheidung',
     'first_rejection' => 'Erste Ablehnung',
     'second_rejection' => 'Zweite Ablehnung',
     'subsidiary_protection' => 'Subsidiärer Schutz',
