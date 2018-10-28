@@ -209,4 +209,6 @@ return [
     'applicants' => 'Bewerber',
     'alumni' => 'Alumni',
     'allow_for_helpers' => 'Für Helfer erlauben',
+    'we_have_n_helpers' => 'Wir haben <strong>:active</strong> aktive Helper (<strong>:trial</strong> auf Probe).',
+    'n_helpers_on_waiting_list' => 'Es sind <strong>:num</strong> Bewerber auf der Warteliste.',
 ];

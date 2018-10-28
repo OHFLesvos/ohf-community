@@ -209,4 +209,6 @@ return [
     'applicants' => 'Applicants',
     'alumni' => 'Alumni',
     'allow_for_helpers' => 'Allow for helpers',
+    'we_have_n_helpers' => 'We have <strong>:active</strong> active helpers (<strong>:trial</strong> on trial).',
+    'n_helpers_on_waiting_list' => 'There are <strong>:num</strong> applicants on the waiting list.',
 ];

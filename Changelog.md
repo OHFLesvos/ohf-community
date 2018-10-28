@@ -11,6 +11,7 @@ People:
 Helpers:
 
 * Regular scope
+* Widget
 
 ## 1.21.1
 
