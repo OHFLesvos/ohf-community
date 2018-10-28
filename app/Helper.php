@@ -118,6 +118,24 @@ class Helper extends Model implements Auditable
     }
 
     /**
+     * Scope a query to only include regular helpers (not on trial).
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeRegular($query)
+    {
+        return $query
+            ->whereNotNull('work_starting_date')
+            ->whereDate('work_starting_date', '<=', Carbon::today())
+            ->where(function($q){
+                return $q->whereNull('work_leaving_date')
+                    ->orWhereDate('work_leaving_date', '>=', Carbon::today());
+            })
+            ->where('work_trial_period', false);
+    }
+
+    /**
      * Scope a query to only include helpers on trial.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

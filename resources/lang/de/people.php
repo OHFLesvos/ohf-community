@@ -151,6 +151,7 @@ return [
     'starting_date' => 'Startdatum',
     'leaving_date' => 'Enddatum',
     'trial_period' => 'Auf Probe',
+    'regular' => 'Reglulär',
     'person_on_helper_waiting_list' => 'Diese Person hat sich als Helfer beworben.',
     'person_on_helper_waiting_list_date' => 'Dieser Person hat sich am :date als Helfer beworben (:diff).',
     'helper_application_rejection' => 'Die Bewerbung dieser Person wurde am :date abgelehnt.',

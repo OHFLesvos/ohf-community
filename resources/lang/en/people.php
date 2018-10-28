@@ -151,6 +151,7 @@ return [
     'starting_date' => 'Starting Date',
     'leaving_date' => 'Leaving Date',
     'trial_period' => 'Trial Period',
+    'regular' => 'Regular',
     'person_on_helper_waiting_list' => 'This person has applied to become a helper.',
     'person_on_helper_waiting_list_date' => 'This person has applied to become a helper on :date (:diff).',
     'helper_application_rejection' => 'This person\'s helper application has been rejected on :date.',

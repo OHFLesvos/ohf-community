@@ -8,6 +8,10 @@ People:
 * Family name shown uppercase
 * Coupons can be allowed for helpers or not
 
+Helpers:
+
+* Regular scope
+
 ## 1.21.1
 
 Helpers:

@@ -734,6 +734,10 @@ class HelperListController extends Controller
                 'label' => __('people.trial_period'),
                 'scope' => 'trial',
             ],
+            'regular' => [
+                'label' => __('people.regular'),
+                'scope' => 'regular',
+            ],
             'applicants' => [
                 'label' => __('people.applicants'),
                 'scope' => 'applicants',
