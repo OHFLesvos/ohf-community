@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class PeopleController extends ParentController
 {
@@ -393,7 +394,12 @@ class PeopleController extends ParentController
             ->get()
             ->each(function($e) use($master) {
                 $e->person_id = $master->id;
-                $e->save();
+                try {
+                    $e->save();
+                } catch(\Illuminate\Database\QueryException $ex){ 
+                    // Ignore
+                    Log::notice('Skip adapting coupon handout during merge: ' . $ex->getMessage());
+                }
             });
 
         // Merge remarks
