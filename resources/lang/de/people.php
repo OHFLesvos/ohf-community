@@ -207,4 +207,5 @@ return [
     'active' => 'Aktive',
     'applicants' => 'Bewerber',
     'alumni' => 'Alumni',
+    'allow_for_helpers' => 'Für Helfer erlauben',
 ];

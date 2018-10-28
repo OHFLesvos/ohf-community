@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @if($person->helper != null)
+    @if(optional($person->helper)->isActive)
         @component('components.alert.info')
             @lang('people.person_registered_as_helper')
         @endcomponent

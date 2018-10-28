@@ -6,6 +6,7 @@ People:
 
 * Added bulk delete / merge
 * Family name shown uppercase
+* Coupons can be allowed for helpers or not
 
 ## 1.21.1
 
