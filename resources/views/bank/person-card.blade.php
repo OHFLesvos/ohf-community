@@ -14,7 +14,7 @@
                         <strong class="text-warning">{{ strtoupper(__('people.helper')) }}</strong>
                     @endcan
                 @endif
-                <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ $person->family_name }} {{ $person->name }}</strong></a>
+                <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ strtoupper($person->family_name) }} {{ $person->name }}</strong></a>
                 <span>
                     @if(isset($person->gender))
                         @if($person->gender == 'f')@icon(female) 

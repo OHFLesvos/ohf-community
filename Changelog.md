@@ -5,6 +5,7 @@
 People:
 
 * Added bulk delete / merge
+* Family name shown uppercase
 
 ## 1.21.1
 
