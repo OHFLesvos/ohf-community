@@ -191,20 +191,6 @@
                         </div>
                     </li>
                 @endisset
-                @isset($person->remarks)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <strong>
-                                    @lang('people.remarks')
-                                </strong>
-                            </div>
-                            <div class="col-sm">
-                                {{ $person->remarks }}
-                            </div>
-                        </div>
-                    </li>
-                @endisset
                 @isset($person->portrait_picture)
                     <li class="list-group-item">
                         <div class="row">
@@ -244,6 +230,12 @@
                     </div>
                 </li>
             </ul>
+
+            @isset($person->remarks)
+                @component('components.alert.info')
+                    @lang('people.remarks'): {{ $person->remarks }}
+                @endcomponent
+            @endisset
 
             @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
                 <div class="card my-4">

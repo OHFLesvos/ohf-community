@@ -341,7 +341,20 @@ class PeopleController extends ParentController
         $master = $persons->shift();
 
         // Merge basic attributes
-        foreach (['gender', 'date_of_birth', 'nationality', 'languages', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'card_no', 'card_issued'] as $attr) {
+        foreach ([
+                'gender',
+                'date_of_birth',
+                'nationality',
+                'languages',
+                'police_no',
+                'case_no',
+                'medical_no',
+                'registration_no',
+                'section_card_no',
+                'temp_no',
+                'card_no',
+                'card_issued'
+            ] as $attr) {
             if ($master->$attr == null) {
                 $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
             }
