@@ -4,7 +4,7 @@ return [
     'reports' => [
         'monthly_summary' => [
             'route' => 'reporting.monthly-summary',
-            'icon' => 'char',
+            'icon' => 'book',
             'gate' => 'view-people-reports',
             'featured' => true,
         ], 
