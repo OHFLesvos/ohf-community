@@ -2,6 +2,12 @@
 
 ## 1.21.2
 
+Helper:
+
+* Fixed permission check
+
+## 1.21.2
+
 People:
 
 * Added bulk delete / merge
