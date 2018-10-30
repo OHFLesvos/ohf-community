@@ -19,7 +19,7 @@ class Person extends Model
     
     protected $table = 'persons';
 
-    protected $dates = ['deleted_at', 'date_of_birth'];
+    protected $dates = ['deleted_at'];
     
     protected $fillable = ['name', 'family_name', 'police_no', 'case_no', 'nationality', 'remarks'];
     
