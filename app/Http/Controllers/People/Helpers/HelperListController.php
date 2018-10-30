@@ -303,6 +303,7 @@ class HelperListController extends Controller
                 'value' => function($helper) { return optional($helper->work_application_date)->toDateString(); },
                 'overview' => false,
                 'section' => 'occupation',
+                'import_labels' => [ 'Appliction date' ],
                 'assign' => function($person, $helper, $value) { $helper->work_application_date = !empty($value) ? Carbon::parse($value) : null; },
                 'form_type' => 'date',
                 'form_name' => 'application_date',
@@ -1234,7 +1235,7 @@ class HelperListController extends Controller
                     ];
                 });
 
-            $sheet_titles = self::getAllTranslations('people.helpers');
+            $sheet_titles = self::getAllTranslations('people.helpers')->push('Worksheet');
             $reader->each(function($sheet) use($sheet_titles, $fields) {
                 if ($sheet_titles->contains($sheet->getTitle())) {
                     $sheet->each(function($row) use($fields) {
