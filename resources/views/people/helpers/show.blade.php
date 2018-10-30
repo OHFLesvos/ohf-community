@@ -21,7 +21,11 @@
     @else
         @if($helper->work_leaving_date != null)
             @component('components.alert.warning')
-                @lang('people.helper_left', ['date' => $helper->work_leaving_date->toDateString() ])
+                @if($helper->work_leaving_date < Carbon\Carbon::today())
+                    @lang('people.helper_left', ['date' => $helper->work_leaving_date->toDateString() ])
+                @else
+                    @lang('people.helper_will_leave', ['date' => $helper->work_leaving_date->toDateString() ])
+                @endif
             @endcomponent
         @elseif($helper->work_trial_period)
             @component('components.alert.warning')

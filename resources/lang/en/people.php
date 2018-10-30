@@ -156,6 +156,7 @@ return [
     'person_on_helper_waiting_list_date' => 'This person has applied to become a helper on :date (:diff).',
     'helper_application_rejection' => 'This person\'s helper application has been rejected on :date.',
     'helper_left' => 'This helper left on :date.',
+    'helper_will_leave' => 'This helper will leave on :date.',
     'helper_on_trial_period' => 'This helper is on a trial period (started :date, :diff).',
     'nickname' => 'Nickname',
     'reachability' => 'Reachability',

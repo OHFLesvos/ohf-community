@@ -1,8 +1,14 @@
 # Changelog
 
+## 1.21.4
+
+Helpers:
+
+* Helper future leaving message clarified
+
 ## 1.21.3
 
-Helper:
+Helpers:
 
 * Fixed permission check
 

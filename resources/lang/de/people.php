@@ -156,6 +156,7 @@ return [
     'person_on_helper_waiting_list_date' => 'Dieser Person hat sich am :date als Helfer beworben (:diff).',
     'helper_application_rejection' => 'Die Bewerbung dieser Person wurde am :date abgelehnt.',
     'helper_left' => 'Dieser Helfer verliess uns am :date.',
+    'helper_will_leave' => 'Dieser Helfer wird uns am :date verlassen.',
     'helper_on_trial_period' => 'Dieser Helfer ist auf Probe (seit :date, :diff).',
     'nickname' => 'Spitzname',
     'reachability' => 'Erreichbarkeit',
