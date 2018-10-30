@@ -5,6 +5,8 @@
 Helpers:
 
 * Helper future leaving message clarified
+* Gender grouping
+* Null values in certain groupings
 
 ## 1.21.3
 

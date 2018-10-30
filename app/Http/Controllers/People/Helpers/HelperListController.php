@@ -162,7 +162,7 @@ class HelperListController extends Controller
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function($person, $helper, $value) { 
-                    $person->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null); 
+                    $person->gender = ($value != null ? (self::getAllTranslations('people.female')->contains($value) ? 'f' : 'm') : null); 
                 },
                 'form_type' => 'radio',
                 'form_name' => 'gender',
@@ -788,6 +788,40 @@ class HelperListController extends Controller
                         ->where('languages', "like",'%"'.$v.'"%');
                 },
             ],
+            'gender' => [
+                'label' => __('people.gender'),
+                'groups' => function() {
+                    return Person::groupBy('gender')
+                        ->orderBy('gender')
+                        ->whereNotNull('gender')
+                        ->get()
+                        ->pluck('gender')
+                        ->flatten()
+                        ->unique()
+                        ->sort()
+                        ->push(null)
+                        ->toArray();
+                },
+                'query' => function($q, $v) {
+                    return $q
+                        ->select('helpers.*')
+                        ->join('persons', 'helpers.person_id', '=', 'persons.id')
+                        ->where('gender', $v);
+                },
+                'label_transform'=> function($groups) {
+                    return collect($groups)
+                        ->map(function($s) {
+                            switch ($s) {
+                                case 'f':
+                                    return __('people.female');
+                                case 'm':
+                                    return __('people.male');
+                                default:
+                                    return __('app.unspecified');
+                            }
+                        });
+                },
+            ],
             'responsibilities' => [
                 'label' => __('app.responsibilities'),
                 'groups' => function() {
@@ -817,6 +851,7 @@ class HelperListController extends Controller
                         ->flatten()
                         ->unique()
                         ->sort()
+                        ->push(null)
                         ->toArray();
                 },
                 'query' => function($q, $v) {
@@ -824,7 +859,11 @@ class HelperListController extends Controller
                         ->where('casework_asylum_request_status', $v);
                 },
                 'label_transform'=> function($groups) {
-                    return collect($groups)->map(function($s) { return __('people.'.$s); });
+                    return collect($groups)
+                        ->map(function($s) {
+
+                            return $s == null ? __('app.unspecified') : __('people.'.$s);
+                        });
                 },
             ],
         ]);
