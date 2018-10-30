@@ -456,7 +456,7 @@ class ContextMenuComposer {
                         'url' => route('people.helpers.show', $helper),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('view', Helper::class)
+                        'authorized' => Auth::user()->can('view', $helper)
                     ]
                 ];
             case 'people.helpers.create':
