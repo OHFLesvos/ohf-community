@@ -272,8 +272,9 @@ class HelperListController extends Controller
                                 $values[] = $v;
                             }
                         }
+                        $values = array_map('trim', $values);
                     }
-                    $helper->responsibilities = array_map('trim', $values);
+                    $helper->responsibilities = $values;
                 },
                 'form_type' => 'text',
                 'form_name' => 'responsibilities',
