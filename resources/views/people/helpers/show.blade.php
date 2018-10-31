@@ -34,7 +34,10 @@
         @endif
     @endif
 
-    <div class="columns-2">
+    <div class="@isset($helper->person->portrait_picture)columns-3 @else columns-2 @endisset">
+        @isset($helper->person->portrait_picture)
+            <img src="{{ Storage::url($helper->person->portrait_picture) }}" class="img-fluid mb-4">
+        @endisset
         @foreach($data as $section_label => $fields)
             @if(!empty($fields))
                 <div class="card mb-4 column-break-avoid">

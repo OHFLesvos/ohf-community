@@ -50,6 +50,7 @@ class HelperListController extends Controller
                 },
                 'overview' => false,
                 'exclude_export' => true,
+                'exclude_show' => true,
                 'section' => 'portrait',
                 'assign' => function($person, $helper, $value) {
                     if (isset($value)) {
@@ -117,6 +118,25 @@ class HelperListController extends Controller
             //     'section' => 'general',
             // ],
             [
+                'label_key' => 'people.gender',
+                'icon' => null,
+                'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('people.female') : __('people.male')) : null; },
+                'value_html' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? icon('female') : icon('male')) : null; },
+                'overview' => true,
+                'section' => 'general',
+                'assign' => function($person, $helper, $value) { 
+                    $person->gender = ($value != null ? (self::getAllTranslations('people.female')->contains($value) ? 'f' : 'm') : null); 
+                },
+                'form_type' => 'radio',
+                'form_name' => 'gender',
+                'form_list' => [ 
+                    null => __('app.unspecified'),
+                    __('people.male') => __('people.male'),
+                    __('people.female') => __('people.female')
+                ],
+                'form_validate' => 'required', // TODO better validation |in:m,f
+            ],
+            [
                 'label_key' => 'people.nationality',
                 'icon' => 'globe',
                 'value' => function($helper) { return $helper->person->nationality; },
@@ -153,25 +173,6 @@ class HelperListController extends Controller
                 'value' => function($helper) { return $helper->person->age; },
                 'overview' => true,
                 'section' => 'general',
-            ],
-            [
-                'label_key' => 'people.gender',
-                'icon' => null,
-                'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('people.female') : __('people.male')) : null; },
-                'value_html' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? icon('female') : icon('male')) : null; },
-                'overview' => true,
-                'section' => 'general',
-                'assign' => function($person, $helper, $value) { 
-                    $person->gender = ($value != null ? (self::getAllTranslations('people.female')->contains($value) ? 'f' : 'm') : null); 
-                },
-                'form_type' => 'radio',
-                'form_name' => 'gender',
-                'form_list' => [ 
-                    null => __('app.unspecified'),
-                    __('people.male') => __('people.male'),
-                    __('people.female') => __('people.female')
-                ],
-                'form_validate' => 'required', // TODO better validation |in:m,f
             ],
             [
                 'label_key' => 'people.languages',
@@ -1105,6 +1106,7 @@ class HelperListController extends Controller
                     $collection = $fields
                         ->where('section', $section)
                         ->where('overview_only', false)
+                        ->where('exclude_show', false)
                         ->map(function($f) use($helper) { 
                             return [
                                 'label' => __($f['label_key']),
