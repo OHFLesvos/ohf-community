@@ -7,6 +7,7 @@ Helpers:
 * Helper future leaving message clarified
 * Gender grouping
 * Null values in certain groupings
+* WhatsApp link adds persons name
 
 ## 1.21.3
 

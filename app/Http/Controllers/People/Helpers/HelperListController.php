@@ -213,7 +213,7 @@ class HelperListController extends Controller
                 'label_key' => 'app.whatsapp',
                 'icon' => 'whatsapp',
                 'value' => 'whatsapp',
-                'value_html' => function($helper) { return $helper->whatsapp != null ? whatsapp_link($helper->whatsapp) : null; },
+                'value_html' => function($helper) { return $helper->whatsapp != null ? whatsapp_link($helper->whatsapp, 'Hello ' . $helper->person->name) : null; },
                 'overview' => false,
                 'section' => 'reachability',
                 'assign' => function($person, $helper, $value) { $helper->whatsapp = ($value == 'same' ? $helper->local_phone : $value); },
