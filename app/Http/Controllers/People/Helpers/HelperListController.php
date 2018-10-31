@@ -118,6 +118,24 @@ class HelperListController extends Controller
             //     'section' => 'general',
             // ],
             [
+                'label_key' => 'people.nationality',
+                'icon' => 'globe',
+                'value' => function($helper) { return $helper->person->nationality; },
+                'overview' => true,
+                'section' => 'general',
+                'assign' => function($person, $helper, $value) { $person->nationality = $value; },
+                'form_type' => 'text',
+                'form_name' => 'nationality',
+                'form_autocomplete' => function() { return \Countries::getList('en'); },
+                'form_validate' => function(){
+                    return [
+                        'nullable',
+                        'max:255',
+                        Rule::in(\Countries::getList('en'))
+                    ];    
+                },
+            ],
+            [
                 'label_key' => 'people.gender',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('people.female') : __('people.male')) : null; },
@@ -135,24 +153,6 @@ class HelperListController extends Controller
                     __('people.female') => __('people.female')
                 ],
                 'form_validate' => 'required', // TODO better validation |in:m,f
-            ],
-            [
-                'label_key' => 'people.nationality',
-                'icon' => 'globe',
-                'value' => function($helper) { return $helper->person->nationality; },
-                'overview' => true,
-                'section' => 'general',
-                'assign' => function($person, $helper, $value) { $person->nationality = $value; },
-                'form_type' => 'text',
-                'form_name' => 'nationality',
-                'form_autocomplete' => function() { return \Countries::getList('en'); },
-                'form_validate' => function(){
-                    return [
-                        'nullable',
-                        'max:255',
-                        Rule::in(\Countries::getList('en'))
-                    ];    
-                },
             ],
             [
                 'label_key' => 'people.date_of_birth',
