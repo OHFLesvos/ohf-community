@@ -187,6 +187,7 @@ return [
     'subsidiary_protection' => 'Subsidiary protection',
     'refugee_status' => 'Refugee status',
     'import_helper_data' => 'Import helper data',
+    'exportieren_helper_data' => 'Export helper data',
     'has_id_card' => 'Has ID card?',
     'has_passport' => 'Has passport?',
     'notes' => 'Notes',
@@ -212,4 +213,5 @@ return [
     'allow_for_helpers' => 'Allow for helpers',
     'we_have_n_helpers' => 'We have <strong>:active</strong> active helpers (<strong>:trial</strong> on trial).',
     'n_helpers_on_waiting_list' => 'There are <strong>:num</strong> applicants on the waiting list.',
+    'scope' => 'Scope',
 ];

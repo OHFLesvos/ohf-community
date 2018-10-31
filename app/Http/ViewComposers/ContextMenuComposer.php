@@ -462,6 +462,7 @@ class ContextMenuComposer {
             case 'people.helpers.create':
             case 'people.helpers.createFrom':
             case 'people.helpers.import':
+            case 'people.helpers.export':
                 return [
                     'back' => [
                         'url' => route('people.helpers.index'),

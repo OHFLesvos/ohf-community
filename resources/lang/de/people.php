@@ -187,6 +187,7 @@ return [
     'subsidiary_protection' => 'Subsidiärer Schutz',
     'refugee_status' => 'Flüchtlingsstatus',
     'import_helper_data' => 'Helferdaten importieren',
+    'exportieren_helper_data' => 'Helferdaten exportieren',
     'has_id_card' => 'Hat ID Karte?',
     'has_passport' => 'Hat Reisepass?',
     'notes' => 'Notizen',
@@ -212,4 +213,5 @@ return [
     'allow_for_helpers' => 'Für Helfer erlauben',
     'we_have_n_helpers' => 'Wir haben <strong>:active</strong> aktive Helper (<strong>:trial</strong> auf Probe).',
     'n_helpers_on_waiting_list' => 'Es sind <strong>:num</strong> Bewerber auf der Warteliste.',
+    'scope' => 'Bereich',
 ];

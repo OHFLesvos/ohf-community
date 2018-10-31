@@ -4,7 +4,8 @@ namespace App\Http\Controllers\People\Helpers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ImportHelpers;
+use App\Http\Requests\People\ImportHelpers;
+use App\Http\Requests\People\ExportHelpers;
 use App\Helper;
 use App\Person;
 use Carbon\Carbon;
@@ -1173,13 +1174,50 @@ class HelperListController extends Controller
             ->with('success', __('people.helper_deleted'));
     }
 
-    public function export(Request $request) {
+    function export() {
         $this->authorize('export', Helper::class);
 
-        \Excel::create(__('people.helpers').'_' . Carbon::now()->toDateString(), function($excel) {
+        return view('people.helpers.export', [
+            'formats' => [
+                'xlsx' => 'Excel (.xsls)',
+                'csv' => 'Comma-separated values (.csv)',
+                'tsv' => 'Tab-separated values (.csv)',
+            ],
+            'format' => 'xlsx',
+            'scopes' => $this->getScopes()->mapWithKeys(function($s, $k){
+                return [ $k => $s['label'] ];
+            })->toArray(),
+            'scope' => $this->getScopes()->keys()->first(),
+        ]);
+    }
+
+    public function doExport(ExportHelpers $request) {
+        $this->authorize('export', Helper::class);
+
+        Validator::make($request->all(), [
+            'scope' => [
+                'required', 
+                Rule::in($this->getScopes()->keys()->toArray()),
+            ],
+        ])->validate();
+
+        $scope = $this->getScopes()[$request->scope];
+
+        if ($request->format == 'csv') {
+            Config::set('excel.csv.delimiter', ',');
+            $format = 'csv';
+        } else if ($request->format == 'tsv') {
+            Config::set('excel.csv.delimiter', "\t");
+            Config::set('excel.csv.enclosure', "");
+            $format = 'csv';
+        } else {
+            $format = 'xlsx';
+        }
+
+        \Excel::create(__('people.helpers').'_' . Carbon::now()->toDateString(), function($excel) use($scope) {
             $sorting = 'person.name'; // TODO flexible sorting
 
-            foreach($this->getScopes() as $scope) {
+            // foreach($this->getScopes() as $scope) {
                 $excel->sheet($scope['label'], function($sheet) use($scope, $sorting) {
 
                     $fields = collect($this->getFields()) // TODO flexible field selection
@@ -1198,7 +1236,7 @@ class HelperListController extends Controller
                     $sheet->setFitToPage(false);
                     $sheet->setFontSize(10);
                     $sheet->setFreeze('D2');
-                    $sheet->loadView('people.helpers.export',[
+                    $sheet->loadView('people.helpers.export-table',[
                         'fields' => $fields,
                         'helpers' => $helpers,
                     ]);
@@ -1206,9 +1244,9 @@ class HelperListController extends Controller
                 $excel->getActiveSheet()->setAutoFilter(
                     $excel->getActiveSheet()->calculateWorksheetDimension()
                 );
-            }
+            // }
             $excel->setActiveSheetIndex(0);
-        })->export('xlsx');
+        })->export($format);
     }
 
     function import() {
