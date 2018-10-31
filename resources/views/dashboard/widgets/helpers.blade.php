@@ -2,8 +2,8 @@
     $links = [
         [
             'url' => route('people.helpers.index'),
-            'title' =>  Auth::user()->can('update', App\Helper::class) ? __('app.manage') : __('app.view'),
-            'icon' => Auth::user()->can('update', App\Helper::class) ? 'pencil' : 'search',
+            'title' =>  Auth::user()->can('manage-helpers') ? __('app.manage') : __('app.view'),
+            'icon' => Auth::user()->can('manage-helpers') ? 'pencil' : 'search',
             'authorized' => Auth::user()->can('list', App\Helper::class),
         ],
     ];
