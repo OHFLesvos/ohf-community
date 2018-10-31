@@ -836,7 +836,7 @@ if (! function_exists('whatsapp_link')) {
         $chrome = strpos($_SERVER['HTTP_USER_AGENT'],"Chrome");
         if ($android || $iphone) {
             $prefix = '<a href="whatsapp://send?phone=';
-        } elseif ($$palmpre || $ipod || $berry || $chrome) {
+        } elseif ($palmpre || $ipod || $berry || $chrome) {
             $prefix = '<a href="https://api.whatsapp.com/send?phone=';
         } else {
             $prefix = '<a target="_blank" href="https://web.whatsapp.com/send?phone=';
