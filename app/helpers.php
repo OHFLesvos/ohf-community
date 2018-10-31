@@ -841,7 +841,7 @@ if (! function_exists('whatsapp_link')) {
         } else {
             $prefix = '<a target="_blank" href="https://web.whatsapp.com/send?phone=';
         }
-        $suffix = $text != null ? '&text' . urlencode($text) : '';
+        $suffix = $text != null ? '&text=' . urlencode($text) : '';
         return $prefix . preg_replace('/[^0-9]/', '', $value) . $suffix . '">' . $value . '</a>';
     }
 }
