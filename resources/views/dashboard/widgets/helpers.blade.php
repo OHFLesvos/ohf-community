@@ -2,9 +2,9 @@
     $links = [
         [
             'url' => route('people.helpers.index'),
-            'title' => __('app.manage'),
-            'icon' => 'pencil',
-            'authorized' => true,
+            'title' =>  Auth::user()->can('update', App\Helper::class) ? __('app.manage') : __('app.view'),
+            'icon' => Auth::user()->can('update', App\Helper::class) ? 'pencil' : 'search',
+            'authorized' => Auth::user()->can('list', App\Helper::class),
         ],
     ];
 @endphp
