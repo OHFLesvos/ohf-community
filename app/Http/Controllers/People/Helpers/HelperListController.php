@@ -1180,9 +1180,9 @@ class HelperListController extends Controller
 
         return view('people.helpers.export', [
             'formats' => [
-                'xlsx' => 'Excel (.xsls)',
-                'csv' => 'Comma-separated values (.csv)',
-                'tsv' => 'Tab-separated values (.csv)',
+                'xlsx' => __('app.excel_xls'),
+                'csv' => __('app.comma_separated_values_csv'),
+                'tsv' => __('app.tab_separated_values_csv'),
             ],
             'format' => 'xlsx',
             'scopes' => $this->getScopes()->mapWithKeys(function($s, $k){
@@ -1215,11 +1215,11 @@ class HelperListController extends Controller
             $format = 'xlsx';
         }
 
-        \Excel::create(__('people.helpers').'_' . Carbon::now()->toDateString(), function($excel) use($scope) {
+        \Excel::create(__('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString(), function($excel) use($scope) {
             $sorting = 'person.name'; // TODO flexible sorting
 
             // foreach($this->getScopes() as $scope) {
-                $excel->sheet($scope['label'], function($sheet) use($scope, $sorting) {
+                $excel->sheet(__('people.helpers'), function($sheet) use($scope, $sorting) {
 
                     $fields = collect($this->getFields()) // TODO flexible field selection
                         ->where('overview_only', false)

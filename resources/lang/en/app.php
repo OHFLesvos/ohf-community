@@ -190,4 +190,7 @@ return [
     'remove_image' => 'Remove image',
     'bulk_action' => 'Bulk action',
     'merge' => 'Merge',
+    'excel_xls' => 'Excel (.xsls)',
+    'comma_separated_values_csv' => 'Comma-separated values (.csv)',
+    'tab_separated_values_csv' => 'Tab-separated values (.csv)',
  ];
