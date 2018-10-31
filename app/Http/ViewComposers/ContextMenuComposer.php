@@ -435,6 +435,12 @@ class ContextMenuComposer {
                         'icon' => 'users',
                         'authorized' => Auth::user()->can('view', $helper->person),
                     ],
+                    'vcard' => [
+                        'url' => route('people.helpers.vcard', $helper),
+                        'caption' => __('app.vcard'),
+                        'icon' => 'vcard',
+                        'authorized' => Auth::user()->can('view', $helper)
+                    ],                    
                     'delete' => [
                         'url' => route('people.helpers.destroy', $helper),
                         'caption' => __('app.delete'),

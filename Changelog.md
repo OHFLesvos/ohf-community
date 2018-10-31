@@ -9,6 +9,7 @@ Helpers:
 * Null values in certain groupings
 * WhatsApp link adds persons name
 * Export formats and scope
+* Helper vCard
 
 ## 1.21.3
 

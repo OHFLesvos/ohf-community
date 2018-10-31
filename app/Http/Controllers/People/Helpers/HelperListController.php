@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use \Gumlet\ImageResize;
+use JeroenDesloovere\VCard\VCard;
 use Validator;
 
 class HelperListController extends Controller
@@ -1357,6 +1358,38 @@ class HelperListController extends Controller
             $value = ($field['prefix'] ?? '') . $value;
         }
         return $value;     
+    }
+
+    /**
+     * Download vcard
+     * 
+     * @param  \App\Helper  $helper
+     * @return \Illuminate\Http\Response
+     */
+    function vcard(Helper $helper)
+    {
+        $this->authorize('view', $helper);
+
+        // define vcard
+        $vcard = new VCard();
+        // if ($helper->company != null) {
+        //     $vcard->addCompany($helper->company);
+        // }
+        if ($helper->person->family_name != null || $helper->person->name != null) {
+            $vcard->addName($helper->person->family_name, $helper->person->name, '', '', '');
+        }
+        if ($helper->email != null) {
+            $vcard->addEmail($helper->email);
+        }
+        if ($helper->local_phone != null) {
+            $vcard->addPhoneNumber($helper->local_phone, 'HOME');
+        }
+        if ($helper->whatsapp != null && $helper->local_phone != $helper->whatsapp) {
+            $vcard->addPhoneNumber($helper->whatsapp, 'WORK');
+        }
+
+        // return vcard as a download
+        return $vcard->download();
     }
 
 }
