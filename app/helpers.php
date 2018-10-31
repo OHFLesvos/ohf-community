@@ -826,7 +826,7 @@ if (! function_exists('tel_link')) {
 }
 
 if (! function_exists('whatsapp_link')) {
-    function whatsapp_link($value) {
+    function whatsapp_link($value, $text = null) {
         // See https://medium.com/@jeanlivino/how-to-fix-whatsapp-api-in-desktop-browsers-fc661b513dc
         $iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
         $android = strpos($_SERVER['HTTP_USER_AGENT'],"Android");
@@ -834,14 +834,15 @@ if (! function_exists('whatsapp_link')) {
         $berry = strpos($_SERVER['HTTP_USER_AGENT'],"BlackBerry");
         $ipod = strpos($_SERVER['HTTP_USER_AGENT'],"iPod");
         $chrome = strpos($_SERVER['HTTP_USER_AGENT'],"Chrome");
-        if ($android) {
+        if ($android || $iphone) {
             $prefix = '<a href="whatsapp://send?phone=';
-        } elseif ($iphone || $palmpre || $ipod || $berry || $chrome == true) {
+        } elseif ($$palmpre || $ipod || $berry || $chrome) {
             $prefix = '<a href="https://api.whatsapp.com/send?phone=';
         } else {
             $prefix = '<a target="_blank" href="https://web.whatsapp.com/send?phone=';
         }
-        return $prefix . preg_replace('/[^0-9]/', '', $value) . '">' . $value . '</a>';
+        $suffix = $text != null ? '&text' . urlencode($text) : '';
+        return $prefix . preg_replace('/[^0-9]/', '', $value) . $suffix . '">' . $value . '</a>';
     }
 }
 
