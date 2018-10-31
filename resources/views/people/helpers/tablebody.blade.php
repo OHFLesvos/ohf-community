@@ -1,12 +1,15 @@
         <tbody>
-            @foreach($data as $id => $fields)
+            @foreach($data as $item)
                 <tr>
-                    @foreach($fields as $field)
+                    @foreach($item['fields'] as $field)
                         <td>
-                            {{-- TODO @can('view', $helper) --}}
-                            @if(isset($field['detail_link']) && $field['detail_link'])<a href="{{ route('people.helpers.show', $id) }}">@endif
+                            @can('view', $item['model'])
+                                @if(isset($field['detail_link']) && $field['detail_link'])<a href="{{ route('people.helpers.show', $item['model']) }}">@endif
+                            @endcan
                             {!! $field['value'] !!}
-                            @if(isset($field['detail_link']) && $field['detail_link'])</a>@endif
+                            @can('view', $item['model'])
+                                @if(isset($field['detail_link']) && $field['detail_link'])</a>@endif
+                            @endcan
                         </td>
                     @endforeach
                 </tr>

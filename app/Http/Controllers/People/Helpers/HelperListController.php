@@ -874,6 +874,19 @@ class HelperListController extends Controller
         ]);
     }
 
+    private function getViews() {
+        return collect([
+            'list' => [
+                'label' => __('app.list'),
+                'icon' => 'list',
+            ],
+            'grid' => [
+                'label' => __('app.grid'),
+                'icon' => 'th-large',
+            ],
+        ]);
+    }
+
     public function index(Request $request) {
         $this->authorize('list', Helper::class);
 
@@ -912,14 +925,17 @@ class HelperListController extends Controller
                     ->load('person')
                     ->sortBy('person.name')
                     ->mapWithKeys(function($helper) use($fields) {
-                        return [ $helper->id => $fields
-                            ->map(function($field) use($helper){
-                                return [
-                                    'detail_link' => isset($field['detail_link']) && $field['detail_link'],
-                                    'value' => self::getFieldValue($field, $helper),
-                                ];
-                            })
-                            ->toArray()];
+                        return [ $helper->id => [
+                            'model' => $helper,
+                            'fields' => $fields
+                                ->map(function($field) use($helper){
+                                    return [
+                                        'detail_link' => isset($field['detail_link']) && $field['detail_link'],
+                                        'value' => self::getFieldValue($field, $helper),
+                                    ];
+                                })
+                                ->toArray()]
+                            ];
                     })
                 );
             }
@@ -932,15 +948,28 @@ class HelperListController extends Controller
                 ->load('person')
                 ->sortBy('person.name')
                 ->mapWithKeys(function($helper) use($fields) {
-                    return [ $helper->id => $fields
-                        ->map(function($field) use($helper){
-                            return [
-                                'detail_link' => isset($field['detail_link']) && $field['detail_link'],
-                                'value' => self::getFieldValue($field, $helper),
-                            ];
-                        })
-                        ->toArray()];
+                    return [ $helper->id => [
+                        'model' => $helper,
+                        'fields' => $fields
+                            ->map(function($field) use($helper){
+                                return [
+                                    'detail_link' => isset($field['detail_link']) && $field['detail_link'],
+                                    'value' => self::getFieldValue($field, $helper),
+                                ];
+                            })
+                            ->toArray()
+                        ]
+                    ];
                 });
+        }
+
+        // Displays
+        $displays = $this->getViews();
+        if ($request->display != null && $displays->keys()->contains($request->display)) {
+            $display = $request->display;
+            $request->session()->put('helpers_display', $display);
+        } else {
+            $display = $request->session()->get('helpers_display', $displays->keys()->first());
         }
 
         return view('people.helpers.index', [
@@ -966,6 +995,15 @@ class HelperListController extends Controller
                     'active' => ($grouping == $k),
                 ];
             }),
+            'displays' => $displays->map(function($v, $k) use($display) {
+                return [
+                    'label' => $v['label'],
+                    'icon' => $v['icon'],
+                    'url' => route('people.helpers.index', ['display' => $k]),
+                    'active' => ($display == $k),
+                ];
+            }),
+            'selected_display' => $display,
         ]);
     }
 

@@ -193,4 +193,6 @@ return [
     'excel_xls' => 'Excel (.xsls)',
     'comma_separated_values_csv' => 'Komma-separierte Werte (.csv)',
     'tab_separated_values_csv' => 'Tab-separierte Werte (.csv)',
+    'list' => 'Liste',
+    'grid' => 'Gitter',
 ];

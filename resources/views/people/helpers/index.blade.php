@@ -7,7 +7,7 @@
     <div class="row">
 
         {{-- Scopes --}}
-        <div class="col-md" style="overflow-x: auto">
+        <div class="col-md-auto" style="overflow-x: auto">
             <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Scopes">
                 @foreach($scopes as $scope)
                     <a href="{{ $scope['url'] }}" class="btn @if($scope['active']) btn-dark @else btn-secondary @endif">{{ $scope['label'] }}</a>
@@ -15,8 +15,9 @@
             </div>
         </div>
 
+
         {{-- Groupings --}}
-        <div class="col-md text-right" style="overflow-x: auto">
+        <div class="col-md-auto text-right" style="overflow-x: auto">
             <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Groupings">
                 @foreach($groupings as $grouping)
                     <a href="{{ $grouping['url'] }}" class="btn @if($grouping['active']) btn-dark @else btn-secondary @endif">{{ $grouping['label'] }}</a>
@@ -26,23 +27,45 @@
                 @endif
             </div>
         </div>
+
+        {{-- Displays --}}
+        <div class="col-md-auto">
+            <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Displays">
+                @foreach($displays as $display)
+                    <a href="{{ $display['url'] }}" class="btn @if($display['active']) btn-dark @else btn-secondary @endif" title="{{ $display['label'] }}">@icon({{ $display['icon'] }})</a>
+                @endforeach
+            </div>
+        </div>
     </div>
 
     @if(isset($groups) && $data->filter(function($d){ return count($d) > 0; })->count() > 0)
-        @component('people.helpers.table', ['fields' => $fields])
+        @if($selected_display == 'list')
+            @component('people.helpers.table', ['fields' => $fields])
+                @foreach($groups as $group)
+                    @if($data[$loop->index]->count() > 0)
+                        <tr class="table-secondary">
+                            <th colspan="{{ $fields->count() }}">{{ $group }} <small>({{ $data[$loop->index]->count() }})</small></th>
+                        </tr>
+                        @include('people.helpers.tablebody', ['data' => $data[$loop->index]])
+                    @endif
+                @endforeach
+            @endcomponent
+        @elseif($selected_display == 'grid')
             @foreach($groups as $group)
                 @if($data[$loop->index]->count() > 0)
-                    <tr class="table-secondary">
-                        <th colspan="{{ $fields->count() }}">{{ $group }} <small>({{ $data[$loop->index]->count() }})</small></th>
-                    </tr>
-                    @include('people.helpers.tablebody', ['data' => $data[$loop->index]])
+                <h4 class="mb-3">{{ $group }} <small>({{ $data[$loop->index]->count() }})</small></h4>
+                @include('people.helpers.grid', ['data' => $data[$loop->index]])
                 @endif
             @endforeach
-        @endcomponent
+        @endif
     @elseif(!isset($groups) && !$data->isEmpty() )
-        @component('people.helpers.table', ['fields' => $fields])
-            @include('people.helpers.tablebody')
-        @endcomponent
+        @if($selected_display == 'list')
+            @component('people.helpers.table', ['fields' => $fields])
+                @include('people.helpers.tablebody')
+            @endcomponent
+        @elseif($selected_display == 'grid')
+            @include('people.helpers.grid')
+        @endif
         <p><small>@lang('app.n_results_found', [ 'num' => $data->count() ])</small></p>
     @else
         @component('components.alert.info')

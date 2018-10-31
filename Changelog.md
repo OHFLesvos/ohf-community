@@ -10,6 +10,7 @@ Helpers:
 * WhatsApp link adds persons name
 * Export formats and scope
 * Helper vCard
+* Helper grid view
 
 ## 1.21.3
 
