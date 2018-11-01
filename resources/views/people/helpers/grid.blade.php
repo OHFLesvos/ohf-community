@@ -29,7 +29,10 @@
                     <small>
                         {{ $item['model']->person->name }} {{ strtoupper($item['model']->person->family_name) }}<br>
                         {{ $item['model']->person->age }}@if($item['model']->person->age != null && $item['model']->person->nationality != null),@endif
-                        {{ $item['model']->person->nationality }}
+                        {{ $item['model']->person->nationality }}<br>
+                        @if(is_array($item['model']->responsibilities) && count($item['model']->responsibilities) > 0)
+                            {{ implode(', ', $item['model']->responsibilities) }}
+                        @endif
                     </small>
                 </div>
             </div>
