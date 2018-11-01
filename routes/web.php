@@ -143,7 +143,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('helpers/doImport', 'HelperListController@doImport')->name('helpers.doImport')->middleware('can:import,App\Helper');
             Route::get('helpers/createFrom', 'HelperListController@createFrom')->name('helpers.createFrom')->middleware('can:create,App\Helper');
             Route::post('helpers/createFrom', 'HelperListController@storeFrom')->name('helpers.storeFrom')->middleware('can:create,App\Helper');
-            Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')->name('helpers.vcard')->middleware('can:view,App\Helper');
+            Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')->name('helpers.vcard');
             Route::resource('helpers', 'HelperListController');
         });
 
