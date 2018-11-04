@@ -12,6 +12,7 @@ Helpers:
 * Helper vCard
 * Helper grid view
 * Added option to download portraits
+* Enforce 2:3 aspect ratio for portraits
 
 ## 1.21.3
 
