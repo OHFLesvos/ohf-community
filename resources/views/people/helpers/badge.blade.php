@@ -96,10 +96,19 @@
 
             .borders {
                 position: fixed; 
-                top: 7.4cm; 
-                border-top: 1px dotted gray; 
+                top: 0;
+                height: 14.78cm; 
+                border: 1px dotted gray;
                 left: 0; 
-                width: 10.5cm;
+                width: 10.48cm;
+            }
+
+            .mid-border {
+                position: fixed; 
+                top: 7.4cm;
+                border-top: 1px dotted gray;
+                left: 0; 
+                width: 10.48cm;
             }
         </style>
     </head>
@@ -108,6 +117,7 @@
             <div class="frontside @unless($loop->first) page-break  @endunless">
                 @include('people.helpers.badge-content')
                 <div class="borders"></div>
+                <div class="mid-border"></div>
             </div>
             <div class="backside rotate">
                 @include('people.helpers.badge-content')
