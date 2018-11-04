@@ -15,7 +15,7 @@
                 margin-left: 1cm;
                 margin-right: 1cm;
                 margin-bottom: 1cm;
-                background: lime;
+                {{-- background: lime; --}}
             }
 
             .page-break {
@@ -23,7 +23,7 @@
             }
 
             .frontside {
-                background: lightblue;
+                {{-- background: lightblue; --}}
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -43,9 +43,9 @@
             }
 
             .title {
-                background: cyan;
+                {{-- background: cyan; --}}
                 position: absolute;
-                top: 2.0cm;
+                top: 1.9cm;
                 width: 100%;
                 text-align: center;
             }
@@ -61,7 +61,7 @@
             }
 
             .backside {
-                background: lightgreen;
+                {{-- background: lightgreen; --}}
                 position: absolute;
                 top: 7.4cm;
                 left: 0;
@@ -70,10 +70,10 @@
             }
 
             .issued {
-                background: cyan;
+                {{-- background: cyan; --}}
                 position: absolute;
-                bottom: 0;
-                right: 0;
+                top: 5.0cm;
+                right: 0cm;
                 font-size: 8pt;
             }
 
@@ -93,35 +93,24 @@
                 /* Internet Explorer */
                 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
             }
+
+            .borders {
+                position: fixed; 
+                top: 7.4cm; 
+                border-top: 1px dotted gray; 
+                left: 0; 
+                width: 10.5cm;
+            }
         </style>
     </head>
     <body>
         @foreach($helpers as $helper)
             <div class="frontside @unless($loop->first) page-break  @endunless">
-                <div class="logo">
-                    <img src="{{ public_path('img/logo_card.png') }}">
-                </div>
-                <div class="title">
-                    <div class="name">
-                        @isset($helper->person->nickname)
-                            {{ $helper->person->nickname }}
-                        @else
-                            {{ $helper->person->name }}
-                        @endisset
-                    </div>
-                    <div class="responsibilities">
-                        @if(is_array($helper->responsibilities) && count($helper->responsibilities) > 0)
-                            {{ implode(', ', $helper->responsibilities) }}
-                        @endif
-                    </div>
-                </div>
-                <div style="position: fixed; top: 7.4cm; border-top: 1px dotted gray; left: 0; width: 10.5cm"></div>
+                @include('people.helpers.badge-content')
+                <div class="borders"></div>
             </div>
             <div class="backside rotate">
-                abc
-                <div class="issued">
-                    Issued: {{ Carbon\Carbon::today()->toDateString() }}
-                </div>
+                @include('people.helpers.badge-content')
             </div>
         @endforeach
     </body>
