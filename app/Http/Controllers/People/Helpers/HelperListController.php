@@ -76,6 +76,7 @@ class HelperListController extends Controller
                 'form_type' => 'image',
                 'form_name' => 'portrait_picture',
                 'form_validate' => [ 'nullable', 'image'],
+                'form_help' => __('people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
                 'label_key' => 'people.name',

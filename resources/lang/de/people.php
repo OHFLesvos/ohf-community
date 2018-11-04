@@ -215,4 +215,5 @@ return [
     'n_helpers_on_waiting_list' => 'Es sind <strong>:num</strong> Bewerber auf der Warteliste.',
     'scope' => 'Bereich',
     'include_portraits' => 'Inklusive Portraits',
+    'image_will_be_croped_resized_to_2_3_aspect_ratio' => 'Das Bild wird, falls nötig, auf ein 2:3 Seitenverhältnis zugeschnitten.',
 ];

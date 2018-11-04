@@ -215,4 +215,5 @@ return [
     'n_helpers_on_waiting_list' => 'There are <strong>:num</strong> applicants on the waiting list.',
     'scope' => 'Scope',
     'include_portraits' => 'Include Portraits',
+    'image_will_be_croped_resized_to_2_3_aspect_ratio' => 'Image will be cropped/resized to 2:3 aspect ratio if necessary.',
 ];
