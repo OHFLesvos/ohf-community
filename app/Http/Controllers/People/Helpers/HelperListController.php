@@ -1435,6 +1435,8 @@ class HelperListController extends Controller
         // if ($helper->company != null) {
         //     $vcard->addCompany($helper->company);
         // }
+        $vcard->addCompany(Config::get('app.name'));
+
         if ($helper->person->family_name != null || $helper->person->name != null) {
             $vcard->addName($helper->person->family_name, $helper->person->name, '', '', '');
         }
@@ -1446,6 +1448,11 @@ class HelperListController extends Controller
         }
         if ($helper->whatsapp != null && $helper->local_phone != $helper->whatsapp) {
             $vcard->addPhoneNumber($helper->whatsapp, 'WORK');
+        }
+
+        if (isset($helper->person->portrait_picture)) {
+            $contents = Storage::get($helper->person->portrait_picture);
+            $vcard->addPhotoContent($contents);
         }
 
         // return vcard as a download
