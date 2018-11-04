@@ -62,7 +62,7 @@ class HelperListController extends Controller
                         }                        
                         $image = new ImageResize($value->getRealPath());
                         $image->resizeToBestFit(800, 800, true);
-                        $image->crop(533, 800); // 2:3 aspect ratio
+                        $image->crop(533, 800, true); // 2:3 aspect ratio
                         $image->save($value->getRealPath());
                         $person->portrait_picture = $value->store('public/people/portrait_pictures');
                     }
