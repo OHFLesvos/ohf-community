@@ -16,6 +16,8 @@ use \Gumlet\ImageResize;
 use JeroenDesloovere\VCard\VCard;
 use Validator;
 use ZipStream\ZipStream;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class HelperListController extends Controller
 {
@@ -1452,11 +1454,66 @@ class HelperListController extends Controller
 
         if (isset($helper->person->portrait_picture)) {
             $contents = Storage::get($helper->person->portrait_picture);
-            $vcard->addPhotoContent($contents);
+            if ($contents != null) {
+                $vcard->addPhotoContent($contents);
+            }
         }
 
         // return vcard as a download
         return $vcard->download();
     }
 
+    /**
+     * Download badge PDF
+     * 
+     * @param  \App\Helper  $helper
+     * @return \Illuminate\Http\Response
+     */
+    public function badge(Helper $helper)
+    {
+        $this->authorize('view', $helper);
+        
+        $helpers = [$helper];
+
+        $this->createBadges($helpers, __('people.badge') . ' ' . $helper->person->fullName);
+    }
+
+    /**
+     * Download badges PDF
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function badges()
+    {
+        $this->authorize('list', Helper::class);
+
+        $helpers = Helper::active()
+            ->get()
+            ->load('person')
+            ->sortBy('person.name');
+
+        $this->createBadges($helpers, __('people.badges') . ' ' . Carbon::now()->toDateString());
+    }
+    
+    private function createBadges($helpers, $title) {
+        $options = new Options();
+        $options->set('defaultFont', 'Helvetica');
+        $dompdf = new Dompdf($options);
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A6', 'portrait');
+        $dompdf->set_option('dpi', 300);
+
+        // Content
+        $view = view('people.helpers.badge',[
+            'helpers' => $helpers,
+        ])->render();
+        $dompdf->loadHtml($view);
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        return $dompdf->stream($title);
+    }
 }

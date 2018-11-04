@@ -216,4 +216,6 @@ return [
     'scope' => 'Scope',
     'include_portraits' => 'Include Portraits',
     'image_will_be_croped_resized_to_2_3_aspect_ratio' => 'Image will be cropped/resized to 2:3 aspect ratio if necessary.',
+    'badge' => 'Badge',
+    'badges' => 'Badges',
 ];

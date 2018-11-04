@@ -418,6 +418,12 @@ class ContextMenuComposer {
                         'icon' => 'upload',
                         'authorized' => Auth::user()->can('import', Helper::class)
                     ],
+                    'badges' => [
+                        'url' => route('people.helpers.badges'),
+                        'caption' => __('people.badges'),
+                        'icon' => 'vcard',
+                        'authorized' => Auth::user()->can('list', Helper::class)
+                    ], 
                 ];
             case 'people.helpers.show':
                 $helper = $view->getData()['helper'];
@@ -438,6 +444,12 @@ class ContextMenuComposer {
                     'vcard' => [
                         'url' => route('people.helpers.vcard', $helper),
                         'caption' => __('app.vcard'),
+                        'icon' => 'vcard',
+                        'authorized' => Auth::user()->can('view', $helper)
+                    ],                    
+                    'badge' => [
+                        'url' => route('people.helpers.badge', $helper),
+                        'caption' => __('people.badge'),
                         'icon' => 'vcard',
                         'authorized' => Auth::user()->can('view', $helper)
                     ],                    
