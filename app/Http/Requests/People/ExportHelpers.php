@@ -26,6 +26,7 @@ class ExportHelpers extends FormRequest
         return [
             'format' => 'required|in:xlsx,csv,tsv',
             'scope' => 'required',
+            'include_portraits' => 'boolean',
         ];
     }
 }

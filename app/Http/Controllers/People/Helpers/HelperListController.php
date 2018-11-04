@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use \Gumlet\ImageResize;
 use JeroenDesloovere\VCard\VCard;
 use Validator;
+use ZipStream\ZipStream;
 
 class HelperListController extends Controller
 {
@@ -1253,39 +1254,58 @@ class HelperListController extends Controller
             $format = 'xlsx';
         }
 
-        \Excel::create(__('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString(), function($excel) use($scope) {
-            $sorting = 'person.name'; // TODO flexible sorting
+        
+        $fields = collect($this->getFields()) // TODO flexible field selection
+            ->where('overview_only', false)
+            ->where('exclude_export', false);
 
-            // foreach($this->getScopes() as $scope) {
-                $excel->sheet(__('people.helpers'), function($sheet) use($scope, $sorting) {
+        $sorting = 'person.name'; // TODO flexible sorting
+        $scope_method = $scope['scope'];
+        $helpers = Helper::$scope_method()
+            ->get()
+            ->load('person')
+            ->sortBy($sorting);
 
-                    $fields = collect($this->getFields()) // TODO flexible field selection
-                        ->where('overview_only', false)
-                        ->where('exclude_export', false);
-                    
-                    $scope_method = $scope['scope'];
-                    $helpers = Helper::$scope_method()
-                        ->get()
-                        ->load('person')
-                        ->sortBy($sorting);
-    
-                    $sheet->setOrientation('landscape');
-                    $sheet->setPageMargin(0.25);
-                    $sheet->setAllBorders('thin');
-                    $sheet->setFitToPage(false);
-                    $sheet->setFontSize(10);
-                    $sheet->setFreeze('D2');
-                    $sheet->loadView('people.helpers.export-table',[
-                        'fields' => $fields,
-                        'helpers' => $helpers,
-                    ]);
-                });
-                $excel->getActiveSheet()->setAutoFilter(
-                    $excel->getActiveSheet()->calculateWorksheetDimension()
-                );
-            // }
+        $file_name = __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
+        $spreadsheet = \Excel::create($file_name, function($excel) use($helpers, $fields) {
+            $excel->sheet(__('people.helpers'), function($sheet) use($helpers, $fields) {
+                $sheet->setOrientation('landscape');
+                $sheet->setPageMargin(0.25);
+                $sheet->setAllBorders('thin');
+                $sheet->setFitToPage(false);
+                $sheet->setFontSize(10);
+                $sheet->setFreeze('D2');
+                $sheet->loadView('people.helpers.export-table',[
+                    'fields' => $fields,
+                    'helpers' => $helpers,
+                ]);
+            });
+            $excel->getActiveSheet()->setAutoFilter(
+                $excel->getActiveSheet()->calculateWorksheetDimension()
+            );
             $excel->setActiveSheetIndex(0);
-        })->export($format);
+        });
+
+        // Download as ZIP with portraits
+        if (isset($request->include_portraits)) {
+            $zip = new ZipStream($file_name . '.zip');
+            $ext = $format;
+            $zip->addFile($file_name . '.' . $ext, $spreadsheet->string($format));
+            foreach ($helpers as $helper) {
+                if (isset($helper->person->portrait_picture)) {
+                    $picture_path = storage_path('app/'.$helper->person->portrait_picture);
+                    if (is_file($picture_path)) {
+                        $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
+                        $zip->addFileFromPath('portraits/' . $helper->person->fullName . '.' . $ext , $picture_path);
+                    }
+                }
+            }
+            $zip->finish();
+        } 
+        // Download as simple spreadsheet
+        else {
+            $spreadsheet->export($format);
+        }
     }
 
     function import() {

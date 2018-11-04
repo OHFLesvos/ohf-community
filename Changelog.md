@@ -11,6 +11,7 @@ Helpers:
 * Export formats and scope
 * Helper vCard
 * Helper grid view
+* Added option to download portraits
 
 ## 1.21.3
 

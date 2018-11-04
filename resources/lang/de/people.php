@@ -214,4 +214,5 @@ return [
     'we_have_n_helpers' => 'Wir haben <strong>:active</strong> aktive Helper (<strong>:trial</strong> auf Probe).',
     'n_helpers_on_waiting_list' => 'Es sind <strong>:num</strong> Bewerber auf der Warteliste.',
     'scope' => 'Bereich',
+    'include_portraits' => 'Inklusive Portraits',
 ];

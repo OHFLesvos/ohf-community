@@ -19,6 +19,7 @@
         "doctrine/dbal": "^2.6",
         "dompdf/dompdf": "^0.8.2",
         "endroid/qr-code": "^3.1",
+        "gumlet/php-image-resize": "1.8.*",
         "iatstuti/laravel-nullable-fields": "~1.0",
         "jackiedo/log-reader": "^2.1",
         "jeroendesloovere/vcard": "^1.6",
@@ -26,14 +27,14 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
         "maatwebsite/excel": "~2.1.0",
+        "maennchen/zipstream-php": "^0.5.2",
         "michelf/php-markdown": "^1.8",
         "monarobase/country-list": "^2.0",
         "mrcage/chf-exchange-rates": "~1.0",
         "owen-it/laravel-auditing": "7.0",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spomky-labs/otphp": "^9.1",
-        "valorin/pwned-validator": "^1.0",
-        "gumlet/php-image-resize": "1.8.*"
+        "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
