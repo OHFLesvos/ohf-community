@@ -421,7 +421,7 @@ class ContextMenuComposer {
                     'badges' => [
                         'url' => route('people.helpers.badges'),
                         'caption' => __('people.badges'),
-                        'icon' => 'vcard',
+                        'icon' => 'id-card',
                         'authorized' => Auth::user()->can('list', Helper::class)
                     ], 
                 ];
@@ -450,7 +450,7 @@ class ContextMenuComposer {
                     'badge' => [
                         'url' => route('people.helpers.badge', $helper),
                         'caption' => __('people.badge'),
-                        'icon' => 'vcard',
+                        'icon' => 'id-card',
                         'authorized' => Auth::user()->can('view', $helper)
                     ],                    
                     'delete' => [

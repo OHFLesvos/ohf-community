@@ -31,6 +31,17 @@
                 height: 5.4cm;
             }
 
+            .logo {
+                position: absolute;
+                top: 0cm;
+                width: 100%;
+                text-align: center;
+            }
+
+            .logo > img {
+
+            }
+
             .title {
                 background: cyan;
                 position: absolute;
@@ -64,11 +75,31 @@
                 bottom: 0;
                 right: 0;
             }
+
+            .rotate {
+                /* Safari */
+                -webkit-transform: rotate(-180deg);
+
+                /* Firefox */
+                -moz-transform: rotate(-180deg);
+
+                /* IE */
+                -ms-transform: rotate(-180deg);
+
+                /* Opera */
+                -o-transform: rotate(-180deg);
+
+                /* Internet Explorer */
+                filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+            }
         </style>
     </head>
     <body>
         @foreach($helpers as $helper)
             <div class="frontside @unless($loop->first) page-break  @endunless">
+                <div class="logo">
+                    <img src="{{ public_path('img/logo_card.png') }}">
+                </div>
                 <div class="title">
                     <div class="name">
                         @isset($helper->person->nickname)
@@ -83,9 +114,9 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            <div class="backside">
                 <div style="position: fixed; top: 7.4cm; border-top: 1px dotted gray; left: 0; width: 10.5cm"></div>
+            </div>
+            <div class="backside rotate">
                 abc
                 <div class="issued">
                     Issued: {{ Carbon\Carbon::today()->toDateString() }}
