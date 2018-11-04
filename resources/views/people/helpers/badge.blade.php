@@ -39,24 +39,24 @@
             }
 
             .logo > img {
-
+                height: 1.5cm;
             }
 
             .title {
                 background: cyan;
                 position: absolute;
-                top: 2.2cm;
+                top: 2.0cm;
                 width: 100%;
                 text-align: center;
             }
 
             .name {
-                font-size: 30pt;
+                font-size: 36pt;
                 font-weight: bold;
             }
 
             .responsibilities {
-                font-size: 18pt;
+                font-size: 14pt;
                 font-weight: normal;
             }
 
@@ -74,6 +74,7 @@
                 position: absolute;
                 bottom: 0;
                 right: 0;
+                font-size: 8pt;
             }
 
             .rotate {
