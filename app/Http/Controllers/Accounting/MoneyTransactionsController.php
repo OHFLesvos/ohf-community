@@ -332,7 +332,7 @@ class MoneyTransactionsController extends Controller
 
         // Select date range (month)
         $validatedData = $request->validate([
-            'month' => 'nullable|regex:/[0-1][1-9]/',
+            'month' => 'nullable|regex:/[0-1][0-9]/',
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
         ]);
         if (isset($request->month) && isset($request->year)) {
