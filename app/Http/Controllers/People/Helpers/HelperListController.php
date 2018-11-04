@@ -1512,7 +1512,6 @@ class HelperListController extends Controller
 
         // Render the HTML as PDF
         $dompdf->render();
-        ob_end_clean();
 
         // Output the generated PDF to Browser
         return $dompdf->stream($title);
