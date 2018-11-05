@@ -106,7 +106,7 @@
             .borders {
                 position: fixed;
                 top: 0;
-                height: 14.78cm;
+                height: 14.77cm;
                 border: 2px dotted black;
                 left: 0;
                 width: 10.48cm;
@@ -117,7 +117,7 @@
                 top: 7.4cm;
                 border-top: 2px dotted black;
                 left: 0;
-                width: 10.48cm;
+                width: 10.47cm;
             }
         </style>
     </head>
