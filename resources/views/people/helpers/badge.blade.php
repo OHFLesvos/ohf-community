@@ -42,6 +42,15 @@
                 height: 1.5cm;
             }
 
+            .portrait {
+                position: absolute;
+                top: 0cm;
+            }
+
+            .portrait > img {
+                height: 5.4cm;
+            }
+
             .title {
                 {{-- background: cyan; --}}
                 position: absolute;
@@ -95,19 +104,19 @@
             }
 
             .borders {
-                position: fixed; 
+                position: fixed;
                 top: 0;
-                height: 14.78cm; 
-                border: 1px dotted gray;
-                left: 0; 
+                height: 14.78cm;
+                border: 2px dotted black;
+                left: 0;
                 width: 10.48cm;
             }
 
             .mid-border {
-                position: fixed; 
+                position: fixed;
                 top: 7.4cm;
-                border-top: 1px dotted gray;
-                left: 0; 
+                border-top: 2px dotted black;
+                left: 0;
                 width: 10.48cm;
             }
         </style>
