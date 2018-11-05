@@ -109,7 +109,7 @@
                 height: 14.77cm;
                 border: 2px dotted black;
                 left: 0;
-                width: 10.48cm;
+                width: 10.47cm;
             }
 
             .mid-border {
@@ -117,7 +117,7 @@
                 top: 7.4cm;
                 border-top: 2px dotted black;
                 left: 0;
-                width: 10.47cm;
+                width: 10.5cm;
             }
         </style>
     </head>
