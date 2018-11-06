@@ -15,6 +15,10 @@ Helpers:
 * Enforce 2:3 aspect ratio for portraits
 * Added company and photo to helper vCard
 
+Shop:
+
+* Added barber shop list / check-in
+
 ## 1.21.3
 
 Helpers:
