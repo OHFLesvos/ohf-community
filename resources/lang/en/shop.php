@@ -16,4 +16,7 @@ return [
     'num_cards_redeemed_today' => ':num card has been redeemed today.|:num cards have been redeemed today.',
     'barber_shop' => 'Barber Shop',
     'no_persons_registered_today' => 'No persons registered today.',
+    'check_in' => 'Check-in',
+    'checked_in_person' => 'Checked in :person.',
+    'confirm_checkin_of_person' => 'Please confirm check-in of the following person:',
 ];

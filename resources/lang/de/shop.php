@@ -16,4 +16,7 @@ return [
     'num_cards_redeemed_today' => ':num Karte wurde heute eingelöst.|:num Karten wurden heute eingelöst.',
     'barber_shop' => 'Friseur',
     'no_persons_registered_today' => 'Heute wurden noch keine Personen registiert.',
+    'check_in' => 'Einchecken',
+    'checked_in_person' => ':person eingecheckt.',
+    'confirm_checkin_of_person' => 'Bitte bestätige den Check-in der folgenden Person:',
 ];

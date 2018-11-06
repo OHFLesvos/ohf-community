@@ -14,7 +14,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($list as $person)
+                    @foreach($list as $item)
+                        @php
+                            $person = $item['person'];
+                        @endphp
                         <tr>
                             <td class="fit text-right align-middle">{{ $loop->iteration }}</td>
                             <td class="align-middle">
@@ -27,12 +30,16 @@
                                 @endcan
                             </td>
                             <td class="fit align-middle">
-                                <button type="button" 
-                                    class="btn btn-primary btn-sm checkin-button" 
-                                    data-person-id="{{ $person->id }}"
-                                    data-person-name="{{ $person->fullName }}">
-                                        @icon(check)<span class="d-none d-sm-inline"> Check-in</span>
-                                </button>
+                                @if($item['redeemed'] != null)
+                                    {{ $item['redeemed']->format('H:i') }}
+                                @else
+                                    <button type="button" 
+                                        class="btn btn-primary btn-sm checkin-button" 
+                                        data-person-id="{{ $person->id }}"
+                                        data-person-name="{{ $person->fullName }}">
+                                            @icon(check)<span class="d-none d-sm-inline"> @lang('shop.check_in')</span>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -48,20 +55,12 @@
 
 @section('script')
     var csrfToken = '{{ csrf_token() }}';
-    $(function(){
-        $('.checkin-button').on('click', function(){
-            var person_name = $(this).data('person-name');
-            if (confirm('Please confirm check-in of "' + person_name + '".')) {
-                var person_id = $(this).data('person-id');
-                var sender_btn = $(this);
-                sender_btn.children('i').removeClass('check').addClass('fa-spinner fa-spin');
-                sender_btn.removeClass('btn-primary').addClass('btn-secondary');
-                sender_btn.prop('disabled', true);
-                setTimeout(function(){
-                    sender_btn.parent().append('Checked-in');
-                    sender_btn.remove();
-                }, 1000);
-            }
-        })
-    });  
+    var checkinUrl = '{{ route('shop.barber.checkin') }}';
+    var scannerDialogTitle = '@lang('people.qr_code_scanner')';
+    var scannerDialogWaitMessage = '@lang('app.please_wait')';
+    var checkInConfirmationMessage = '@lang('shop.confirm_checkin_of_person')';
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}"></script>
 @endsection
