@@ -26,4 +26,8 @@ class BarberShopController extends Controller
             'list' => $list,
         ]);
     }
+
+    public function checkin(Request $request) {
+        
+    }
 }
