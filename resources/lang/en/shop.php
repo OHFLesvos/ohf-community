@@ -14,4 +14,6 @@ return [
     'num_today' => ':num today',
     'card_redeemed' => 'Card has been redeemed.',
     'num_cards_redeemed_today' => ':num card has been redeemed today.|:num cards have been redeemed today.',
+    'barber_shop' => 'Barber Shop',
+    'no_persons_registered_today' => 'No persons registered today.',
 ];

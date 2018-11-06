@@ -14,4 +14,6 @@ return [
     'num_today' => ':num heute',
     'card_redeemed' => 'Karte wurde eingelöst.',
     'num_cards_redeemed_today' => ':num Karte wurde heute eingelöst.|:num Karten wurden heute eingelöst.',
+    'barber_shop' => 'Friseur',
+    'no_persons_registered_today' => 'Heute wurden noch keine Personen registiert.',
 ];

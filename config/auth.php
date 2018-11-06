@@ -121,6 +121,9 @@ return [
         'shop.coupons.validate' => [
             'sensitive' => true,
         ],
+        'shop.barber.list.view' => [
+            'sensitive' => true,
+        ],
         'bank.configure' => [
             'sensitive' => false,
         ],

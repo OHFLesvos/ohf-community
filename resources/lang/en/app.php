@@ -195,4 +195,5 @@ return [
     'tab_separated_values_csv' => 'Tab-separated values (.csv)',
     'list' => 'List',
     'grid' => 'Grid',
+    'position' => 'Position',
  ];

@@ -108,6 +108,13 @@ class NavigationComposer {
                     'authorized' => Gate::allows('validate-shop-coupons'),
                 ],
                 [
+                    'route' => 'shop.barber.index',
+                    'caption' => __('shop.barber_shop'),
+                    'icon' => 'scissors',
+                    'active' => 'barber*',
+                    'authorized' => Gate::allows('view-barber-list'),
+                ],
+                [
                     'route' => 'calendar',
                     'caption' => 'Calendar',
                     'icon' => 'calendar',

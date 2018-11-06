@@ -134,6 +134,9 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('/', 'ShopController@index')->name('index');
             Route::post('/', 'ShopController@redeem')->name('redeem');
         });
+        Route::namespace('Shop')->prefix('barber')->name('shop.barber.')->middleware(['can:view-barber-list'])->group(function(){
+            Route::get('/', 'BarberShopController@index')->name('index');
+        });
 
         // Helpers
         Route::namespace('People\Helpers')->name('people.')->group(function(){
