@@ -30,10 +30,13 @@ abstract class SettingsController extends Controller
                         'value' => \Setting::get($k, $e['default']),
                         'type' => $e['form_type'],
                         'label' => __($e['label_key']),
-                        'section' => $e['section'],
-                        'args' => $e['form_args'],
+                        'section' => $e['section'] ?? null,
+                        'args' => $e['form_args'] ?? null,
                         'include_pre' => $e['include_pre'] ?? null,
                         'include_post' => $e['include_post'] ?? null,
+                        'list' => $e['form_list'] ?? null,
+                        'help' => $e['form_help'] ?? null,
+                        'placeholder' => $e['form_placeholder'] ?? null,
                     ]
                 ]; }),
         ]);
@@ -62,7 +65,12 @@ abstract class SettingsController extends Controller
 
         // Update
         foreach($this->getSettings() as $field_key => $field) {
-            \Setting::set($field_key, $request->{str_slug($field_key)});        
+            $value = $request->{str_slug($field_key)};
+            if ($value !== null) {
+                \Setting::set($field_key, $value);
+            } else {
+                \Setting::forget($field_key);
+            }
         }
         \Setting::save();
         

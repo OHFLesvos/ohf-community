@@ -137,6 +137,8 @@ Route::group(['middleware' => 'language'], function () {
         Route::namespace('Shop')->prefix('barber')->name('shop.barber.')->middleware(['can:view-barber-list'])->group(function(){
             Route::get('/', 'BarberShopController@index')->name('index');
             Route::post('/checkin', 'BarberShopController@checkin')->name('checkin');
+            Route::get('/settings', 'BarberShopSettingsController@edit')->name('settings.edit')->middleware(['can:configure-barber-list']);
+            Route::put('/settings', 'BarberShopSettingsController@update')->name('settings.update')->middleware(['can:configure-barber-list']);
         });
 
         // Helpers

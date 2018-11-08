@@ -197,4 +197,5 @@ return [
     'grid' => 'Grid',
     'position' => 'Position',
     'settings_updated' => 'Settings have been updated.',
+    'not_configured' => 'Not configured.',
  ];

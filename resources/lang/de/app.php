@@ -197,4 +197,5 @@ return [
     'grid' => 'Gitter',
     'position' => 'Position',
     'settings_updated' => 'Einstellungen wurden aktualisiert.',
+    'not_configured' => 'Nicht konfiguriert.',
 ];

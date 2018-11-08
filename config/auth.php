@@ -124,6 +124,9 @@ return [
         'shop.barber.list.view' => [
             'sensitive' => true,
         ],
+        'shop.barber.list.configure' => [
+            'sensitive' => false,
+        ],
         'bank.configure' => [
             'sensitive' => false,
         ],

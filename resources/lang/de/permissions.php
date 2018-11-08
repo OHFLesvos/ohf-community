@@ -10,6 +10,7 @@ return [
     'bank.configure' => 'Bank: Einstellungen konfigurieren',
     'shop.coupons.validate' => 'Markt: Coupons validieren',
     'shop.barber.list.view' => 'Frisör: Reservationen anzeigen',
+    'shop.barber.list.configure' => 'Frisör: Einstellungen konfigurieren',
     'people.helpers.view' => 'Helfer: Helfer betrachten',
     'people.helpers.manage' => 'Helfer: Helfer verwalten',
     'logistics.use' => 'Logistikmodul benutzen',

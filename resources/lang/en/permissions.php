@@ -10,6 +10,7 @@ return [
     'bank.configure' => 'Bank: Configure settings',
     'shop.coupons.validate' => 'Shop: Validate coupons',
     'shop.barber.list.view' => 'Barber: View reservations',
+    'shop.barber.list.configure' => 'Barber: Configure settings',
     'people.helpers.view' => 'Helpers: View helpers',
     'people.helpers.manage' => 'Helpers: Manage helpers',
     'logistics.use' => 'Use logistics',
