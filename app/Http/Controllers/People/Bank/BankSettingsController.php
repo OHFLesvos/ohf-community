@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\People\Bank;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 
 use App\Http\Controllers\SettingsController;
