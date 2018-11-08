@@ -21,6 +21,9 @@
                         <tr>
                             <td class="fit text-right align-middle">{{ $loop->iteration }}</td>
                             <td class="align-middle">
+                                @if(optional($person->helper)->isActive)
+                                    <strong class="text-warning">{{ strtoupper(__('people.helper')) }}</strong>
+                                @endif
                                 @can('view', $person)
                                     <a href="{{ route('people.show', $person) }}" target="_blank">
                                 @endcan
