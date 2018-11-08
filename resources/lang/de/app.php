@@ -196,4 +196,5 @@ return [
     'list' => 'Liste',
     'grid' => 'Gitter',
     'position' => 'Position',
+    'settings_updated' => 'Einstellungen wurden aktualisiert.',
 ];

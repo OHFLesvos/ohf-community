@@ -6,19 +6,21 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 
+use App\Http\Controllers\SettingsController;
+
 use App\Http\Controllers\Reporting\PeopleReportingController;
 use App\Person;
 
-class SettingsController extends Controller
+class BankSettingsController extends SettingsController
 {
-    private function getSections() {
+    protected function getSections() {
         return [
             'display_settings' => __('people.display_settings'),
             'frequent_visitors' => __('people.frequent_visitors'),
         ];
     }
 
-    private function getSettings() {
+    protected function getSettings() {
         return [
             'people.results_per_page' => [
                 'default' => Config::get('bank.results_per_page'),
@@ -52,58 +54,12 @@ class SettingsController extends Controller
         ];
     }
 
-    /**
-     * View for configuring settings.
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    function settings() {
-        return view('bank.settings', [
-            'sections' => $this->getSections(),
-            'fields' => collect($this->getSettings())
-                ->mapWithKeys(function($e, $k){ return [ 
-                    str_slug($k) => [
-                        'value' => \Setting::get($k, $e['default']),
-                        'type' => $e['form_type'],
-                        'label' => __($e['label_key']),
-                        'section' => $e['section'],
-                        'args' => $e['form_args'],
-                        'include_pre' => $e['include_pre'] ?? null,
-                        'include_post' => $e['include_post'] ?? null,
-                    ]
-                ]; }),
-        ]);
+    protected function getUpdateRouteName() {
+        return 'bank.settings.update';
     }
 
-    /**
-     * Update settings
-     * 
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    function updateSettings(Request $request) {
-
-        // Validate
-        $request->validate(
-            collect($this->getSettings())
-                ->filter(function($f){ 
-                    return isset($f['form_validate']);
-                })
-                ->mapWithKeys(function($f, $k) {
-                    $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
-                    return [str_slug($k) => $rules];
-                })
-                ->toArray()
-        );
-
-        // Update
-        foreach($this->getSettings() as $field_key => $field) {
-            \Setting::set($field_key, $request->{str_slug($field_key)});        
-        }
-        \Setting::save();
-        
-        // Redirect
-        return redirect()->route('bank.withdrawal')
-            ->with('success', __('people.settings_updated'));
+    protected function getRedirectRouteName() {
+        return 'bank.withdrawal';
     }
+
 }

@@ -196,4 +196,5 @@ return [
     'list' => 'List',
     'grid' => 'Grid',
     'position' => 'Position',
+    'settings_updated' => 'Settings have been updated.',
  ];

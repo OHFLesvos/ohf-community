@@ -95,7 +95,7 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('configure-bank')
                     ],
                     [
-                        'url' => route('bank.settings'),
+                        'url' => route('bank.settings.edit'),
                         'caption' => __('app.settings'),
                         'icon' => 'cogs',
                         'authorized' => Gate::allows('configure-bank')
@@ -547,7 +547,7 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('view-bank-index')
                     ]
                 ];
-            case 'bank.settings':
+            case 'bank.settings.edit':
                 return [
                     'back' => [
                         'url' => route('bank.index'),

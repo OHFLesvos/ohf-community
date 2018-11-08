@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::open(['route' => ['bank.updateSettings']]) !!}
+    {!! Form::open(['route' => [ $route ], 'method' => 'put']) !!}
 
 		@foreach($sections as $section_key => $section_label)
 			@if($fields->where('section', $section_key)->count() > 0)
