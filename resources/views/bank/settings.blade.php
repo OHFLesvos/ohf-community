@@ -6,33 +6,34 @@
 
     {!! Form::open(['route' => ['bank.updateSettings']]) !!}
 
-        <div class="card mb-4">
-            <div class="card-header">@lang('people.display_settings')</div>
-            <div class="card-body">
-                <div class="form-row">
-                    <div class="col-md">
-                        {{ Form::bsNumber('people_results_per_page', $people_results_per_page, [ 'min' => 1 ], __('app.number_results_per_page')) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-		<div class="card mb-4">
-			<div class="card-header">@lang('people.frequent_visitors')</div>
-			<div class="card-body">
-				<div class="form-row">
-					<div class="col-md">
-						<div class="form-group">
-							<p>Persons are marked as frequent visitor <span class="text-warning" title="Frequent visitor">@icon(star)</span> if they visit the bank at least <em>x</em> times during the last <em>y</em> weeks.</p>
-							{{ Form::bsNumber('frequent_visitor_weeks', $frequent_visitor_weeks, [ 'min' => 1 ], __('people.number_of_weeks')) }}
-							{{ Form::bsNumber('frequent_visitor_threshold', $frequent_visitor_threshold, [ 'min' => 1 ], __('people.min_number_of_visits')) }}
-						</div>
-					</div>
+		@foreach($sections as $section_key => $section_label)
+			@if($fields->where('section', $section_key)->count() > 0)
+				<h2 class="display-4">{{ $section_label }}</h2>
+				<div class="mb-4">
+					@foreach($fields->where('section', $section_key) as $field_key => $field)
+						@isset($field['include_pre']) 
+							@if(is_array($field['include_pre']) && count($field['include_pre']) > 0) 
+								@include($field['include_pre'][0], count($field['include_pre']) > 1 ? $field['include_pre'][1] : [])
+							@else
+								@include($field['include_pre'])
+							@endif
+						@endisset
+						@if($field['type'] == 'number')
+							{{ Form::bsNumber($field_key, $field['value'], $field['args'] ?? [], $field['label']) }}
+						@else
+							{{ Form::bsText($field_key, $field['value'], $field['args'] ?? [], $field['label']) }}
+						@endif
+						@isset($field['include_post']) 
+							@if(is_array($field['include_post']) && count($field['include_post']) > 0) 
+								@include($field['include_post'][0], count($field['include_post']) > 1 ? $field['include_post'][1] : [])
+							@else
+								@include($field['include_post'])
+							@endif
+						@endisset
+					@endforeach
 				</div>
-				<div class="text-muted">@lang('app.current_settings'): {{ $current_num_frequent_visitors }} persons affected, 
-					out of {{ $current_num_people }} ({{ round($current_num_frequent_visitors/$current_num_people * 100) }} %)</div>
-			</div>
-		</div>
+			@endif
+		@endforeach
 
 		<p>
 			{{ Form::bsSubmitButton(__('app.update')) }}
