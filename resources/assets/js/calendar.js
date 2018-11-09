@@ -31,6 +31,14 @@ $(document).ready(function() {
     var resourceDeleteButton = $('#resource_editor_delete');
     var resourceSubmitButton = resourceModal.find('button[type="submit"]');
 
+    modal.on('shown.bs.modal', function (e) {
+        titleElem.focus();
+    });
+
+    resourceModal.on('shown.bs.modal', function (e) {
+        resourceTitleElem.focus();
+    });
+
     // Initialite the calendar
     calendar.fullCalendar({
         themeSystem: 'bootstrap4',

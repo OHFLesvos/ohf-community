@@ -84,6 +84,10 @@
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
     var checkInConfirmationMessage = '@lang('shop.confirm_checkin_of_person')';
     var delereReservationConfirmMessage = '@lang('shop.confirm_delete_reservation')';
+
+    $('#addHelperModal').on('shown.bs.modal', function (e) {
+        $('input[name="person_id_search"]').focus();
+    });
 @endsection
 
 @section('footer')
