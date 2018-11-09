@@ -55,6 +55,10 @@
                 @lang('shop.no_persons_registered_today')
             @endcomponent
         @endif
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addHelperModal">
+            @icon(plus-circle) @lang('people.add_helper')
+        </button>
     @else
         @component('components.alert.warning')
             @lang('app.not_configured')
@@ -72,4 +76,18 @@
 
 @section('footer')
     <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}"></script>
+@endsection
+
+@section('content-footer')
+    {!! Form::open(['route' => ['shop.barber.addPerson' ], 'method' => 'post']) !!}
+        @component('components.modal', [ 'id' => 'addHelperModal' ])
+            @slot('title', __('people.add_helper'))
+
+            {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
+
+            @slot('footer')
+                {{ Form::bsSubmitButton(__('app.add')) }}
+            @endslot
+        @endcomponent
+    {!! Form::close() !!}
 @endsection

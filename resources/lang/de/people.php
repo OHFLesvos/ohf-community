@@ -85,6 +85,7 @@ return [
     'remove_records_no_transaction_since_n_months' => 'Entferne Einträge welche seit :months Monaten keine Coupons bezogen haben (:num Personen)',
     'remove_records_not_having_transaction_ever' => 'Entferne Einträge welche nie Coupons bezogen (:num Personen)',
     'remove_records_without_number' => 'Entferne Einträge welche keine Nummer registriert haben (:num Personen)',
+    'person_registered' => 'Person wurde registriert.',
     'person_registered_as_helper' => 'Person ist als Helfer registriert.',
     'removed_n_persons' => ':num Personen entfernt.',
     'number_of_weeks' => 'Anzahl Wochen',
@@ -217,4 +218,5 @@ return [
     'image_will_be_croped_resized_to_2_3_aspect_ratio' => 'Das Bild wird, falls nötig, auf ein 2:3 Seitenverhältnis zugeschnitten.',
     'badge' => 'Badge',
     'badges' => 'Badges',
+    'add_helper' => 'Helfer hinzufügen',
 ];

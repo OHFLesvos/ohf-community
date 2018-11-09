@@ -85,6 +85,7 @@ return [
     'remove_records_no_transaction_since_n_months' => 'Remove persons not taking coupons since :months months (:num persons)',
     'remove_records_not_having_transaction_ever' => 'Remove persons not taking any coupons ever (:num persons)',
     'remove_records_without_number' => 'Remove records not having any number registered (:num persons)',
+    'person_registered' => 'Person registered.',
     'person_registered_as_helper' => 'Person is registerd as a helper.',
     'removed_n_persons' => 'Removed :num persons.',
     'number_of_weeks' => 'Number of weeks',
@@ -217,4 +218,5 @@ return [
     'image_will_be_croped_resized_to_2_3_aspect_ratio' => 'Image will be cropped/resized to 2:3 aspect ratio if necessary.',
     'badge' => 'Badge',
     'badges' => 'Badges',
+    'add_helper' => 'Add helper',
 ];

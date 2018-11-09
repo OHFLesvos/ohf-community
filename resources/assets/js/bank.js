@@ -479,5 +479,5 @@ $(function(){
 				btn.addClass('btn-primary').removeClass('btn-secondary');
 			});	
 		}
-	})
+	});
 });  

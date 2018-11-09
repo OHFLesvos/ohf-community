@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\CouponHandout;
 use Carbon\Carbon;
 use App\Http\Requests\Shop\DoCheckIn;
+use App\Http\Requests\Shop\AddPerson;
+use App\Person;
+use App\CouponType;
 
 class BarberShopController extends Controller
 {
@@ -52,5 +55,20 @@ class BarberShopController extends Controller
             return response()->json([], 404);
         }
         return response()->json([], 405);
+    }
+
+    public function addPerson(AddPerson $request) {
+        $person = Person::findOrFail($request->person_id);
+        $couponType = CouponType::find(\Setting::get('shop.barber.coupon_type', 0));
+
+        $coupon = new CouponHandout();
+        $coupon->date = Carbon::today();
+        $coupon->amount = 1;
+        $coupon->person()->associate($person);
+        $coupon->couponType()->associate($couponType);
+        $coupon->save();
+        
+        return redirect()->route('shop.barber.index')
+            ->with('success', __('people.person_registered'));
     }
 }
