@@ -23,4 +23,5 @@ return [
     'reservation_does_not_exists' => 'Reservation existiert nicht.',
     'reservation_removed' => 'Reservation entfernt.',
     'confirm_delete_reservation' => 'Please confirm to remove the reservation the following person:',
+    'num_reservations_today' => '<strong>Eine</strong> Reservation heute.|<strong>:num</strong> reservationen heute.',
 ];

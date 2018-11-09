@@ -199,4 +199,5 @@ return [
     'position' => 'Position',
     'settings_updated' => 'Settings have been updated.',
     'not_configured' => 'Not configured.',
+    'view_list' => 'View list',
  ];

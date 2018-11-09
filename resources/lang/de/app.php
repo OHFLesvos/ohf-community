@@ -199,4 +199,5 @@ return [
     'position' => 'Position',
     'settings_updated' => 'Einstellungen wurden aktualisiert.',
     'not_configured' => 'Nicht konfiguriert.',
+    'view_list' => 'Liste anzeigen',
 ];
