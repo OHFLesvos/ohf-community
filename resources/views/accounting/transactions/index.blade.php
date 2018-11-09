@@ -7,10 +7,10 @@
     <p class="text-right">
         @if(count($filter) > 0)
             <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-sm btn-primary">@icon(eraser) @lang('app.reset_filter')</a>
-            <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#filterModal">@icon(search) @lang('app.edit_filter')</button>
-        @else
-            <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#filterModal">@icon(search) @lang('app.filter_results')</button>
         @endif
+        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#filterModal">
+            @icon(search) @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
+        </button>
     </p>
 
     @if( ! $transactions->isEmpty() )

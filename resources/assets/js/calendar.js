@@ -152,7 +152,7 @@ $(document).ready(function() {
     */
     function editResource(resource) {
         // Prepare modal dialog
-        resourceModal.find('.modal-title').text('Create Resource');
+        resourceModal.find('.modal-title').text('Edit Resource');
 
         resourceTitleElem.val(resource.title);
         resourceGroupElem.val(resource.group);

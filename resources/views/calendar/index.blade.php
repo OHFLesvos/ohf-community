@@ -15,8 +15,6 @@
 
     <form action="javascript:;" method="POST">
         @component('components.modal', [ 'id' => 'eventModal' ])
-            @slot('title', 'Modal title')
-
             <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
             {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title' ], '') }}
             <div class="input-group mb-3">
@@ -38,8 +36,6 @@
 
     <form action="javascript:;" method="POST">
         @component('components.modal', [ 'id' => 'resourceModal' ])
-            @slot('title', 'Modal title')
-
             {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'resource_editor_title' ], '') }}
             {{ Form::bsText('group', null, [ 'placeholder' => 'Group (optional)', 'id' => 'resource_editor_group' ], '') }}
             <p>{{ Form::color('color', null, [ 'placeholder' => 'Color', 'id' => 'resource_editor_color', 'type' => 'color' ]) }}</p>
