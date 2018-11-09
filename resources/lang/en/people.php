@@ -219,4 +219,5 @@ return [
     'badge' => 'Badge',
     'badges' => 'Badges',
     'add_helper' => 'Add helper',
+    'validity_in_days' => 'Validity in days',
 ];

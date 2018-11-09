@@ -133,6 +133,8 @@ Route::group(['middleware' => 'language'], function () {
         Route::namespace('Shop')->prefix('shop')->name('shop.')->middleware(['can:validate-shop-coupons'])->group(function(){
             Route::get('/', 'ShopController@index')->name('index');
             Route::post('/', 'ShopController@redeem')->name('redeem');
+            Route::get('/settings', 'ShopSettingsController@edit')->name('settings.edit')->middleware(['can:configure-shop']);
+            Route::put('/settings', 'ShopSettingsController@update')->name('settings.update')->middleware(['can:configure-shop']);
         });
         Route::namespace('Shop')->prefix('barber')->name('shop.barber.')->middleware(['can:view-barber-list'])->group(function(){
             Route::get('/', 'BarberShopController@index')->name('index');

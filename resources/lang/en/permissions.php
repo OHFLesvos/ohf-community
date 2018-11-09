@@ -9,6 +9,7 @@ return [
     'bank.statistics.view' => 'Bank: View reports',
     'bank.configure' => 'Bank: Configure settings',
     'shop.coupons.validate' => 'Shop: Validate coupons',
+    'shop.configure' => 'Markt: Configure settings',
     'shop.barber.list.view' => 'Barber: View reservations',
     'shop.barber.list.configure' => 'Barber: Configure settings',
     'people.helpers.view' => 'Helpers: View helpers',

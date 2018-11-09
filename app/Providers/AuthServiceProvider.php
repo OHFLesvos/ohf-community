@@ -45,6 +45,7 @@ class AuthServiceProvider extends ServiceProvider
             'do-bank-withdrawals' => 'bank.withdrawals.do',
             'do-bank-deposits' => 'bank.deposits.do',
             'validate-shop-coupons' => 'shop.coupons.validate',
+            'configure-shop' => 'shop.configure',
             'view-barber-list' => 'shop.barber.list.view',
             'configure-barber-list' => 'shop.barber.list.configure',
             'view-bank-reports' => 'bank.statistics.view',

@@ -654,6 +654,26 @@ class ContextMenuComposer {
                     ]
                 ];
 
+            // Shop
+            case 'shop.index':
+                return [
+                    'settings' => [
+                        'url' => route('shop.settings.edit'),
+                        'caption' => __('app.settings'),
+                        'icon' => 'cogs',
+                        'authorized' => Gate::allows('configure-shop')
+                    ]
+                ];
+            case 'shop.settings.edit':
+                return [
+                    'back' => [
+                        'url' => route('shop.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('validate-shop-coupons')
+                    ]
+                ];
+
             // Barber
             case 'shop.barber.index':
                 return [

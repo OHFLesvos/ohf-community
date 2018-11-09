@@ -18,6 +18,7 @@ Helpers:
 Shop:
 
 * Added barber shop list / check-in
+* Shop coupon validity can now be configured
 
 ## 1.21.3
 

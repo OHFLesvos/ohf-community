@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
-    const COUPON_VALID_DAYS = 4;
-
     public function __construct() {
         ShopCardResource::withoutWrapping();
+    }
+
+    private static function getCouponValidity() {
+        return \Setting::get('shop.coupon_valid_days', 1);
     }
 
     // Search card
@@ -28,7 +30,7 @@ class ShopController extends Controller
         if ($code != null) {
 
             // code_redeemed
-            $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
+            $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
             $handout = CouponHandout
                 ::where(function($q) use ($code) {
                     return $q->where('code', $code)
@@ -75,7 +77,7 @@ class ShopController extends Controller
             $handout = null;
             $expired = false;
    
-            $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
+            $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
             $handout = CouponHandout
                 ::where(function($q) use ($code) {
                     return $q->where('code', $code)
@@ -109,7 +111,7 @@ class ShopController extends Controller
     public function redeem(Request $request) {
 
         // code_redeemed
-        $acceptDate = Carbon::today()->subDays(self::COUPON_VALID_DAYS - 1);
+        $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
         $code = $request->code;
         $handout = CouponHandout
             ::where(function($q) use ($code) {
