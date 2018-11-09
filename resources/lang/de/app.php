@@ -168,6 +168,7 @@ return [
     'any' => 'Egal',
     'filter_results' => 'Resultate filtern',
     'edit_filter' => 'Filter bearbeiten',
+    'save' => 'Speichern',
     'save_and_continue' => 'Speichern und weiter',
     'please_wait' => 'Bitte warten',
     'upload' => 'Heraufladen',

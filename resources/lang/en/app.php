@@ -168,6 +168,7 @@ return [
     'filter_results' => 'Filter results',
     'n_results_found' => ':num results found',
     'edit_filter' => 'Edit filter',
+    'save' => 'Save',
     'save_and_continue' => 'Save and continue',
     'please_wait' => 'Please wait',
     'upload' => 'Upload',

@@ -422,7 +422,7 @@ $(document).ready(function() {
             }));
             resourceColors[item.id] = item.eventColor;
         });
-        console.log(resourceColors);
+        //console.log(resourceColors);
         resourceIdInputElem.val(resourceId).change().prop("disabled", disabled);            
 
         // Change color of the label next to the resource select
