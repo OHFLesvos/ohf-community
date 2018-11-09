@@ -120,7 +120,7 @@ $(document).ready(function() {
         resourceSubmitButton.show();
 
         // Action on submit: Store resource
-        resourceModal.find('form').off().on('submit', function(){
+        resourceModal.parent('form').off().on('submit', function(){
             $.ajax(storeResourceUrl, {
                 method: 'POST',
                 data: {
@@ -162,7 +162,7 @@ $(document).ready(function() {
         resourceSubmitButton.show();
 
         // Action on submit: Update resource
-        resourceModal.find('form').off().on('submit', function(){
+        resourceModal.parent('form').off().on('submit', function(){
             $.ajax(resource.url, {
                 method: 'PUT',
                 data: {
@@ -235,7 +235,7 @@ $(document).ready(function() {
         });
 
         // Action on submit: Store event
-        modal.find('form').off().on('submit', function(){
+        modal.parent('form').off().on('submit', function(){
             $.ajax(storeEventUrl, {
                 method: 'POST',
                 data: {
@@ -316,7 +316,7 @@ $(document).ready(function() {
         }
 
         // Action on form submit: Update event
-        modal.find('form').off().on('submit', function(){
+        modal.parent('form').off().on('submit', function(){
             $.ajax(calEvent.url, {
                 method: 'PUT',
                 data: {

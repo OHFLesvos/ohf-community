@@ -12,44 +12,46 @@
 @endsection
 
 @section('content-footer')
-    @component('components.modal', [ 'name' => 'event' ])
 
-        @slot('title', 'Modal title')
+    <form action="javascript:;" method="POST">
+        @component('components.modal', [ 'name' => 'event' ])
+            @slot('title', 'Modal title')
 
-        <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
-        {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title' ], '') }}
-        <div class="input-group mb-3">
-            {{ Form::select('resourceId', [], 0, [ 'class' => 'custom-select', 'id' => 'event_editor_resource_id' ]) }}
-            <div class="input-group-append">
-                <label class="input-group-text" for="event_editor_resource_id">@icon(circle)</label>
+            <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
+            {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'event_editor_title' ], '') }}
+            <div class="input-group mb-3">
+                {{ Form::select('resourceId', [], 0, [ 'class' => 'custom-select', 'id' => 'event_editor_resource_id' ]) }}
+                <div class="input-group-append">
+                    <label class="input-group-text" for="event_editor_resource_id">@icon(circle)</label>
+                </div>
             </div>
-        </div>
-        {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
-        <p id="event_editor_credits"><small class="text-muted">Event created by <span rel="author"></span></small></p>
+            {{ Form::bsTextarea('description', null, [ 'placeholder' => 'Description', 'id' => 'event_editor_description', 'rows' => 3 ], '') }}
+            <p id="event_editor_credits"><small class="text-muted">Event created by <span rel="author"></span></small></p>
 
-        @slot('footer')
-            <button type="button" tabindex="-2" class="btn btn-outline-danger mr-auto" id="event_editor_delete">@icon(trash) @lang('app.delete')</button>
-            <button type="button" tabindex="-1" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) @lang('app.cancel')</button>
-            <button type="submit" class="btn btn-primary">@icon(check) @lang('app.save')</button>
-        @endslot
+            @slot('footer')
+                <button type="button" tabindex="-2" class="btn btn-outline-danger mr-auto" id="event_editor_delete">@icon(trash) @lang('app.delete')</button>
+                <button type="button" tabindex="-1" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) @lang('app.cancel')</button>
+                <button type="submit" class="btn btn-primary">@icon(check) @lang('app.save')</button>
+            @endslot
+        @endcomponent
+    </form>
 
-    @endcomponent
+    <form action="javascript:;" method="POST">
+        @component('components.modal', [ 'name' => 'resource' ])
+            @slot('title', 'Modal title')
 
-    @component('components.modal', [ 'name' => 'resource' ])
+            {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'resource_editor_title' ], '') }}
+            {{ Form::bsText('group', null, [ 'placeholder' => 'Group (optional)', 'id' => 'resource_editor_group' ], '') }}
+            <p>{{ Form::color('color', null, [ 'placeholder' => 'Color', 'id' => 'resource_editor_color', 'type' => 'color' ]) }}</p>
 
-        @slot('title', 'Modal title')
+            @slot('footer')
+                <button type="button" tabindex="-2" class="btn btn-outline-danger mr-auto" id="resource_editor_delete">@icon(trash) @lang('app.delete')</button>
+                <button type="button" tabindex="-1" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) @lang('app.cancel')</button>
+                <button type="submit" class="btn btn-primary">@icon(check) @lang('app.save')</button>
+            @endslot
+        @endcomponent
+    </form>
 
-        {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'resource_editor_title' ], '') }}
-        {{ Form::bsText('group', null, [ 'placeholder' => 'Group (optional)', 'id' => 'resource_editor_group' ], '') }}
-        <p>{{ Form::color('color', null, [ 'placeholder' => 'Color', 'id' => 'resource_editor_color', 'type' => 'color' ]) }}</p>
-
-        @slot('footer')
-            <button type="button" tabindex="-2" class="btn btn-outline-danger mr-auto" id="resource_editor_delete">@icon(trash) @lang('app.delete')</button>
-            <button type="button" tabindex="-1" class="btn btn-secondary" data-dismiss="modal">@icon(times-circle) @lang('app.cancel')</button>
-            <button type="submit" class="btn btn-primary">@icon(check) @lang('app.save')</button>
-        @endslot
-
-    @endcomponent
 @endsection
 
 @section('script')
