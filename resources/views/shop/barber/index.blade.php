@@ -43,6 +43,17 @@
                                             data-person-name="{{ $person->fullName }}">
                                                 @icon(check)<span class="d-none d-sm-inline"> @lang('shop.check_in')</span>
                                         </button>
+                                        <form class="d-inline delete-reservation-form" method="post" action="{{ route('shop.barber.removePerson') }}">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button type="submit" 
+                                                class="btn btn-sm btn-link text-danger"
+                                                name="person_id" 
+                                                value="{{ $person->id }}" 
+                                                data-person-name="{{ $person->fullName }}" >
+                                                @lang('app.remove')
+                                            </button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>
@@ -72,6 +83,7 @@
     var scannerDialogTitle = '@lang('people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
     var checkInConfirmationMessage = '@lang('shop.confirm_checkin_of_person')';
+    var delereReservationConfirmMessage = '@lang('shop.confirm_delete_reservation')';
 @endsection
 
 @section('footer')
@@ -83,7 +95,7 @@
         @component('components.modal', [ 'id' => 'addHelperModal' ])
             @slot('title', __('people.add_helper'))
 
-            {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
+            {{ Form::bsAutocomplete('person_id', null, route('people.helpers.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
 
             @slot('footer')
                 {{ Form::bsSubmitButton(__('app.add')) }}

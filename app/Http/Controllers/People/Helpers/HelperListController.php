@@ -1516,4 +1516,36 @@ class HelperListController extends Controller
         // Output the generated PDF to Browser
         return $dompdf->stream($title);
     }
+
+    public function filterPersons(Request $request) {
+        $qry = Person::limit(10)
+            ->whereHas('helper', function ($query) {
+                $query->whereNotNull('work_starting_date')
+                ->whereDate('work_starting_date', '<=', Carbon::today())
+                ->where(function($q){
+                    return $q->whereNull('work_leaving_date')
+                        ->orWhereDate('work_leaving_date', '>=', Carbon::today());
+                });
+            })
+            ->orderBy('family_name')
+            ->orderBy('name');
+        if (isset($request->query()['query'])) {
+            $qry->where('search', 'LIKE', '%' . $request->query()['query'] . '%');
+        }
+        $persons = $qry->get()
+            ->map(function($e){ 
+                $val = $e->family_name . ' '. $e->name;
+                if (!empty($e->date_of_birth)) {
+                    $val.= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
+                }
+                if (!empty($e->nationality)) {
+                    $val.= ', ' . $e->nationality;
+                }
+                return [
+                    'value' => $val,
+                    'data' => $e->id,
+                ]; 
+            });
+        return response()->json(["suggestions" => $persons]);
+    }
 }

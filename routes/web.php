@@ -138,6 +138,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('/', 'BarberShopController@index')->name('index');
             Route::post('/checkin', 'BarberShopController@checkin')->name('checkin');
             Route::post('/addPerson', 'BarberShopController@addPerson')->name('addPerson');
+            Route::delete('/removePerson', 'BarberShopController@removePerson')->name('removePerson');
             Route::get('/settings', 'BarberShopSettingsController@edit')->name('settings.edit')->middleware(['can:configure-barber-list']);
             Route::put('/settings', 'BarberShopSettingsController@update')->name('settings.update')->middleware(['can:configure-barber-list']);
         });
@@ -153,6 +154,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')->name('helpers.vcard');
             Route::get('helpers/{helper}/badge', 'HelperListController@badge')->name('helpers.badge');
             Route::get('helpers/badges', 'HelperListController@badges')->name('helpers.badges')->middleware('can:list,App\Helper');
+            Route::get('helpers/filterPersons', 'HelperListController@filterPersons')->name('helpers.filterPersons');            
             Route::resource('helpers', 'HelperListController');
         });
 

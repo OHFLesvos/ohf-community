@@ -468,6 +468,7 @@ $(function(){
 				"_token": csrfToken,
 				"person_id": person_id
 			}, function(data) {
+				btn.siblings().remove();
 				btn.parent().append(data.time);
 				btn.remove();
 				showSnackbar(data.message);
@@ -478,6 +479,13 @@ $(function(){
 				btn.children('i').addClass('check').removeClass('fa-spinner fa-spin');
 				btn.addClass('btn-primary').removeClass('btn-secondary');
 			});	
+		}
+	});
+
+	$('.delete-reservation-form').on('submit', function(e){
+		var person_name = $(this).find('button[type="submit"]').data('person-name');
+		if (!confirm(delereReservationConfirmMessage + ' ' + person_name)) {
+			e.preventDefault();
 		}
 	});
 });  

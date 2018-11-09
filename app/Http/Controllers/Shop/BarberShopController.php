@@ -8,6 +8,7 @@ use App\CouponHandout;
 use Carbon\Carbon;
 use App\Http\Requests\Shop\DoCheckIn;
 use App\Http\Requests\Shop\AddPerson;
+use App\Http\Requests\Shop\RemovePerson;
 use App\Person;
 use App\CouponType;
 
@@ -58,9 +59,23 @@ class BarberShopController extends Controller
     }
 
     public function addPerson(AddPerson $request) {
+        $request->validate([
+            'person_id' => [
+                function($attribute, $value, $fail) {
+                    $existing = CouponHandout::whereDate('date', Carbon::today())
+                        ->where('person_id', $value)
+                        ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type', 0))
+                        ->first();
+                    if ($existing != null) {
+                        return $fail(__('shop.reservation_exists_already'));
+                    }
+                },
+            ],
+        ]);
+
         $person = Person::findOrFail($request->person_id);
         $couponType = CouponType::find(\Setting::get('shop.barber.coupon_type', 0));
-
+    
         $coupon = new CouponHandout();
         $coupon->date = Carbon::today();
         $coupon->amount = 1;
@@ -70,5 +85,29 @@ class BarberShopController extends Controller
         
         return redirect()->route('shop.barber.index')
             ->with('success', __('people.person_registered'));
+    }
+
+    public function removePerson(RemovePerson $request) {
+        $request->validate([
+            'person_id' => [
+                function($attribute, $value, $fail) {
+                    $existing = CouponHandout::whereDate('date', Carbon::today())
+                        ->where('person_id', $value)
+                        ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type', 0))
+                        ->first();
+                    if ($existing == null) {
+                        return $fail(__('shop.reservation_does_not_exists'));
+                    }
+                },
+            ],
+        ]);
+
+        CouponHandout::whereDate('date', Carbon::today())
+                        ->where('person_id', $request->person_id)
+                        ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type', 0))
+                        ->delete();
+        
+        return redirect()->route('shop.barber.index')
+            ->with('success', __('shop.reservation_removed'));
     }
 }

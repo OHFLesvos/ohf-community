@@ -19,4 +19,8 @@ return [
     'check_in' => 'Einchecken',
     'checked_in_person' => ':person eingecheckt.',
     'confirm_checkin_of_person' => 'Bitte bestätige den Check-in der folgenden Person:',
+    'reservation_exists_already' => 'Reservierung besteht bereits.',
+    'reservation_does_not_exists' => 'Reservation existiert nicht.',
+    'reservation_removed' => 'Reservation entfernt.',
+    'confirm_delete_reservation' => 'Please confirm to remove the reservation the following person:',
 ];
