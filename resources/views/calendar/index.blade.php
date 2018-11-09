@@ -14,7 +14,7 @@
 @section('content-footer')
 
     <form action="javascript:;" method="POST">
-        @component('components.modal', [ 'name' => 'event' ])
+        @component('components.modal', [ 'id' => 'eventModal' ])
             @slot('title', 'Modal title')
 
             <p><span id="event_editor_date_start"></span><span id="event_editor_date_end"></span></p>
@@ -37,7 +37,7 @@
     </form>
 
     <form action="javascript:;" method="POST">
-        @component('components.modal', [ 'name' => 'resource' ])
+        @component('components.modal', [ 'id' => 'resourceModal' ])
             @slot('title', 'Modal title')
 
             {{ Form::bsText('title', null, [ 'placeholder' => 'Title', 'id' => 'resource_editor_title' ], '') }}
