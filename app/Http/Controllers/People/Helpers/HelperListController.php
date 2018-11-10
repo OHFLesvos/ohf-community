@@ -16,8 +16,7 @@ use \Gumlet\ImageResize;
 use JeroenDesloovere\VCard\VCard;
 use Validator;
 use ZipStream\ZipStream;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use App\Util\BadgeCreator;
 
 class HelperListController extends Controller
 {
@@ -1472,51 +1471,19 @@ class HelperListController extends Controller
     public function badge(Helper $helper)
     {
         $this->authorize('view', $helper);
-        
-        $helpers = [$helper];
 
-        $this->createBadges($helpers, __('people.badge') . ' ' . $helper->person->fullName);
+        $badgeCreator = new BadgeCreator([self::toBadgePerson($helper)]);
+        $badgeCreator->createPdf(__('people.badge') . ' ' . $helper->person->fullName);
     }
 
-    /**
-     * Download badges PDF
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function badges()
-    {
-        $this->authorize('list', Helper::class);
-
-        $helpers = Helper::active()
-            ->get()
-            ->load('person')
-            ->sortBy('person.name');
-
-        $this->createBadges($helpers, __('people.badges') . ' ' . Carbon::now()->toDateString());
+    private static function toBadgePerson($helper) {
+        return [
+            'name' => $helper->person->nickname ?? $helper->person->name,
+            'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
+            'id' =>  substr($helper->person->public_id, 0, 7),
+        ];
     }
     
-    private function createBadges($helpers, $title) {
-        $options = new Options();
-        $options->set('defaultFont', 'Helvetica');
-        $dompdf = new Dompdf($options);
-
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A6', 'portrait');
-        $dompdf->set_option('dpi', 300);
-
-        // Content
-        $view = view('people.helpers.badge',[
-            'helpers' => $helpers,
-        ])->render();
-        $dompdf->loadHtml($view);
-
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF to Browser
-        return $dompdf->stream($title);
-    }
-
     public function filterPersons(Request $request) {
         $qry = Person::limit(10)
             ->whereHas('helper', function ($query) {

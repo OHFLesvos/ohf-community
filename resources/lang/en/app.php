@@ -200,4 +200,8 @@ return [
     'settings_updated' => 'Settings have been updated.',
     'not_configured' => 'Not configured.',
     'view_list' => 'View list',
+    'source' => 'Source',
+    'file' => 'File',
+    'empty_data_source' => 'Empty data source.',
+    'choose_alternative_logo' => 'Choose alternative logo',
  ];

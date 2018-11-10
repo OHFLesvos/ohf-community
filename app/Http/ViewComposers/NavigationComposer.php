@@ -130,6 +130,13 @@ class NavigationComposer {
                     'badge' => $num_open_tasks > 0 ? $num_open_tasks : null
                 ],
                 [
+                    'route' => 'badges.index',
+                    'caption' => __('people.badges'),
+                    'icon' => 'id-card',
+                    'active' => 'badges*',
+                    'authorized' => Gate::allows('create-badges'),
+                ],
+                [
                     'route' => 'reporting.index',
                     'caption' => __('app.reporting'),
                     'icon' => 'bar-chart',

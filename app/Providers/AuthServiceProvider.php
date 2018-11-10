@@ -41,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         $simple_permission_gate_mappings = [
             'manage-people' => 'people.manage',
             'manage-helpers' => 'people.helpers.manage',
+            'create-badges' => 'badges.create',
             'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
             'do-bank-withdrawals' => 'bank.withdrawals.do',
             'do-bank-deposits' => 'bank.deposits.do',

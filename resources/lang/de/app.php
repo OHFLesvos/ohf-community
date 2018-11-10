@@ -200,4 +200,8 @@ return [
     'settings_updated' => 'Einstellungen wurden aktualisiert.',
     'not_configured' => 'Nicht konfiguriert.',
     'view_list' => 'Liste anzeigen',
+    'source' => 'Quelle',
+    'file' => 'Datei',
+    'empty_data_source' => 'Leere Datenquelle.',
+    'choose_alternative_logo' => 'Wähle ein alternatives Logo',
 ];
