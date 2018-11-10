@@ -1488,6 +1488,7 @@ class HelperListController extends Controller
         $this->authorize('list', Helper::class);
 
         $helpers = Helper::active()
+            ->limit(7) // TODO
             ->get()
             ->load('person')
             ->sortBy('person.name');
@@ -1496,6 +1497,7 @@ class HelperListController extends Controller
     }
     
     private function createBadges($helpers, $title) {
+
         $options = new Options();
         $options->set('defaultFont', 'Helvetica');
         $dompdf = new Dompdf($options);
@@ -1514,7 +1516,64 @@ class HelperListController extends Controller
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        return $dompdf->stream($title);
+        //return $dompdf->stream($title);
+        $tmp_file = str_random(10);
+        Storage::put($tmp_file, $dompdf->output());
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'A4',
+            'margin_left' => 0,
+            'margin_right' => 0,
+            'margin_top' => 0,
+            'margin_bottom' => 0,
+            'margin_header' => 0,
+            'margin_footer' => 0,
+        ]);
+        
+        $mpdf->SetImportUse();
+        
+        $h = $mpdf->h;
+        $w = $mpdf->w;
+        
+        $mpdf->SetDisplayMode('fullpage');
+        $pagecount = $mpdf->SetSourceFile(storage_path('app/' . $tmp_file));
+        Storage::delete($tmp_file);
+        for ($i = 0; $i < $pagecount; $i++) {
+            if ($i % 4 == 0) {
+                $mpdf->AddPage();
+            }
+            $tplIdx = $mpdf->ImportPage($i + 1);
+            $x = $i % 2 == 0 ? 0 : $w / 2;
+            $y = $i % 4 == 0 || $i % 4 == 1 ? 0 : $h / 2;
+            $mpdf->UseTemplate($tplIdx, $x, $y);
+        }
+
+        $mpdf->Output($title . '.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+    }
+
+    function GetBookletPages($np, $backcover = true) {
+        $lastpage = $np;
+        $np = 4 * ceil($np / 4);
+        $pp = array();
+    
+        for ($i = 1; $i <= $np / 2; $i++) {
+    
+            $p1 = $np - $i + 1;
+    
+            if ($backcover) {
+                if ($i == 1) {
+                    $p1 = $lastpage;
+                } elseif ($p1 >= $lastpage) {
+                    $p1 = 0;
+                }
+            }
+    
+            $pp[] = ($i % 2 == 1)
+                ? array( $p1,  $i )
+                : array( $i, $p1 );
+        }
+    
+        return $pp;
     }
 
     public function filterPersons(Request $request) {
