@@ -161,6 +161,15 @@ Route::group(['middleware' => 'language'], function () {
         });
 
         //
+        // Badges // TODO auth
+        //
+        Route::name('badges.')->prefix('badges')->group(function(){
+            Route::get('/', 'BadgeMakerController@index')->name('index');
+            Route::post('/', 'BadgeMakerController@make')->name('make');
+        });
+        
+
+        //
         // Reporting
         //
         Route::group(['middleware' => ['can:view-reports']], function () {
