@@ -67,9 +67,11 @@
             @endcomponent
         @endif
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addHelperModal">
-            @icon(plus-circle) @lang('people.add_helper')
-        </button>
+        @can('list', App\Person::class)
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addHelperModal">
+                @icon(plus-circle) @lang('people.add_helper')
+            </button>
+        @endcan
     @else
         @component('components.alert.warning')
             @lang('app.not_configured')
