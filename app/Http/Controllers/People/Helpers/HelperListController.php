@@ -1471,9 +1471,13 @@ class HelperListController extends Controller
     {
         $this->authorize('view', $helper);
         
-        $helpers = [$helper];
+        $persons = [[
+            'name' => $helper->person->nickname ?? $helper->person->name,
+            'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
+            'id' =>  substr($helper->person->public_id, 0, 7),
+        ]];
 
-        $this->createBadges($helpers, __('people.badge') . ' ' . $helper->person->fullName);
+        $this->createBadges($persons, __('people.badge') . ' ' . $helper->person->fullName);
     }
 
     /**
@@ -1490,22 +1494,22 @@ class HelperListController extends Controller
             ->load('person')
             ->sortBy('person.name');
 
-        $this->createBadges($helpers, __('people.badges') . ' ' . Carbon::now()->toDateString());
-    }
-    
-    private function createBadges($helpers, $title) {
         $persons = $helpers
-            ->map(function($e){
+            ->map(function($helper){
                 return [
-                    'name' => $e->person->nickname ?? $e->person->name,
-                    'position' => is_array($e->responsibilities) ? implode(', ', $e->responsibilities) : '',
-                    'id' =>  substr($e->person->public_id, 0, 7),
+                    'name' => $helper->person->nickname ?? $helper->person->name,
+                    'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
+                    'id' =>  substr($helper->person->public_id, 0, 7),
                 ];
             })
             ->sortBy('name')
             ->values()
             ->all();
-            
+
+        $this->createBadges($persons, __('people.badges') . ' ' . __('people.helpers') . ' ' .Carbon::now()->toDateString());
+    }
+    
+    private function createBadges($persons, $title) {
         $padding = 10;
 
         $punch_hole_size = 6;
