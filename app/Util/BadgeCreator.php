@@ -15,7 +15,10 @@ class BadgeCreator {
     }
 
     public function createPdf($title) {
-        $persons = $this->persons;
+        $persons = collect($this->persons)
+            ->sortBy('name')
+            ->values()
+            ->all();
 
         $padding = 10;
 

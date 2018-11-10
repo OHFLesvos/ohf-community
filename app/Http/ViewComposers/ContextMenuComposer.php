@@ -419,10 +419,10 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('import', Helper::class)
                     ],
                     'badges' => [
-                        'url' => route('people.helpers.badges'),
+                        'url' => route('badges.index', ['source' => 'helpers']),
                         'caption' => __('people.badges'),
                         'icon' => 'id-card',
-                        'authorized' => Auth::user()->can('list', Helper::class)
+                        'authorized' => Auth::user()->can('list', Helper::class) && Gate::allows('create-badges')
                     ], 
                 ];
             case 'people.helpers.show':
@@ -451,7 +451,7 @@ class ContextMenuComposer {
                         'url' => route('people.helpers.badge', $helper),
                         'caption' => __('people.badge'),
                         'icon' => 'id-card',
-                        'authorized' => Auth::user()->can('view', $helper)
+                        'authorized' => Auth::user()->can('view', $helper) && Gate::allows('create-badges')
                     ],                    
                     'delete' => [
                         'url' => route('people.helpers.destroy', $helper),

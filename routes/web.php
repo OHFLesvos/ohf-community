@@ -155,7 +155,6 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('helpers/createFrom', 'HelperListController@storeFrom')->name('helpers.storeFrom')->middleware('can:create,App\Helper');
             Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')->name('helpers.vcard');
             Route::get('helpers/{helper}/badge', 'HelperListController@badge')->name('helpers.badge');
-            Route::get('helpers/badges', 'HelperListController@badges')->name('helpers.badges')->middleware('can:list,App\Helper');
             Route::get('helpers/filterPersons', 'HelperListController@filterPersons')->name('helpers.filterPersons');            
             Route::resource('helpers', 'HelperListController');
         });
@@ -163,11 +162,10 @@ Route::group(['middleware' => 'language'], function () {
         //
         // Badges // TODO auth
         //
-        Route::name('badges.')->prefix('badges')->group(function(){
+        Route::name('badges.')->prefix('badges')->middleware(['can:create-badges'])->group(function(){
             Route::get('/', 'BadgeMakerController@index')->name('index');
             Route::post('/', 'BadgeMakerController@make')->name('make');
         });
-        
 
         //
         // Reporting

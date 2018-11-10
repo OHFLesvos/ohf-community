@@ -1476,30 +1476,6 @@ class HelperListController extends Controller
         $badgeCreator->createPdf(__('people.badge') . ' ' . $helper->person->fullName);
     }
 
-    /**
-     * Download badges PDF
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function badges()
-    {
-        $this->authorize('list', Helper::class);
-
-        $helpers = Helper::active()
-            ->get()
-            ->load('person')
-            ->sortBy('person.name');
-
-        $persons = $helpers
-            ->map(function($helper){ return self::toBadgePerson($helper); })
-            ->sortBy('name')
-            ->values()
-            ->all();
-
-        $badgeCreator = new BadgeCreator($persons);
-        $badgeCreator->createPdf(__('people.badges') . ' ' . __('people.helpers'));
-    }
-
     private static function toBadgePerson($helper) {
         return [
             'name' => $helper->person->nickname ?? $helper->person->name,

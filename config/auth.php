@@ -139,6 +139,9 @@ return [
         'people.helpers.manage' => [
             'sensitive' => true,
         ],
+        'badges.create' => [
+            'sensitive' => false,
+        ],
         'logistics.use' => [
             'sensitive' => false,
         ],

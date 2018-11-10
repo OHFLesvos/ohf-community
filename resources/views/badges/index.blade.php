@@ -9,8 +9,8 @@
             {{ Form::bsRadioList('source', $sources, $source, __('app.source')) }}
         </div>
 
-        <div id="file_upload">
-            {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('app.choose_file')) }}
+        <div id="file_upload" class="mb-3">
+            {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('app.choose_file'), __('people.file_must_be_excel_cvs_containing_columns_name_position')) }}
         </div>
 
 		<p>

@@ -8,21 +8,31 @@ use App\Helper;
 use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Auth;
 
 class BadgeMakerController extends Controller
 {
     private static function getSources() {
-        return collect([
-            'helpers' => __('people.helpers'),
-            'file' => __('app.file'),
-        ]);
+        $sources = [
+            [
+                'key' => 'helpers',
+                'label' => __('people.helpers'),
+                'allowed' => Auth::user()->can('list', Helper::class),
+            ],
+            [
+                'key' => 'file',
+                'label' => __('app.file'),
+                'allowed' => true,
+            ],
+        ];
+        return collect($sources)->where('allowed', true)->pluck('label', 'key');
     }
 
     public function index(Request $request) {
-        // TODO pre-select source
-
         $sources = self::getSources();
-        $source = $sources->keys()->first();
+        $source = $request->has('source') && $sources->keys()->contains($request->source) 
+            ? $request->source
+            : $sources->keys()->first();
 
         return view('badges.index', [
             'source' => $source,
@@ -49,10 +59,7 @@ class BadgeMakerController extends Controller
         if ($request->source == 'helpers') {
             $persons = Helper::active()
                 ->get()
-                ->map(function($helper){ return self::helperToBadgePerson($helper); })
-                ->sortBy('name')
-                ->values()
-                ->all();
+                ->map(function($helper){ return self::helperToBadgePerson($helper); });
             $title = __('people.badges') . ' ' .__('people.helpers');
         }
         // Source: File

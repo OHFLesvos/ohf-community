@@ -14,6 +14,7 @@ return [
     'shop.barber.list.configure' => 'Frisör: Einstellungen bearbeiten',
     'people.helpers.view' => 'Helfer: Helfer betrachten',
     'people.helpers.manage' => 'Helfer: Helfer verwalten',
+    'badges.create' => 'Badges: Badges erstellen',
     'logistics.use' => 'Logistikmodul benutzen',
     'tasks.use' => 'Aufgabenmodul benutzen',
     'kitchen.reports.view' => 'Küche: Berichte betrachten',
