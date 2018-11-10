@@ -203,4 +203,5 @@ return [
     'source' => 'Source',
     'file' => 'File',
     'empty_data_source' => 'Empty data source.',
+    'choose_alternative_logo' => 'Choose alternative logo',
  ];

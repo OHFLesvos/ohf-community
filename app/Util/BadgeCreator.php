@@ -9,9 +9,15 @@ use \Mpdf\Output;
 class BadgeCreator {
 
     private $persons;
+    private $logo;
 
     public function __construct($persons) {
         $this->persons = $persons;
+        $this->logo = public_path('img/logo_card.png');
+    }
+
+    public function setLogo($path) {
+        $this->logo = $path;
     }
 
     public function createPdf($title) {
@@ -43,7 +49,7 @@ class BadgeCreator {
 
         .logo {
             text-align: center;
-            margin-top: 3mm;
+            margin-top: 6mm;
         }
 
         .name {
@@ -51,7 +57,7 @@ class BadgeCreator {
             font-size: 30pt;
             padding: 0;
             margin: 0;
-            margin-top: 2mm;
+            margin-top: 1mm;
         }
 
         .position {
@@ -85,7 +91,7 @@ class BadgeCreator {
 
             $content = '
             <div class="logo">
-                <img src="'. public_path('img/logo_card.png') .'" style="height: 15mm;">
+                <img src="'. $this->logo .'" style="height: 15mm;">
             </div>
             <h1 class="name">' . $persons[$i]['name'] . '</h1>
             <h2 class="position">' . $persons[$i]['position'] . '</h2>';

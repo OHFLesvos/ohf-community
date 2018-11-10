@@ -50,6 +50,10 @@ class BadgeMakerController extends Controller
                 'file',
                 'required_if:source,file'
             ],
+            'alt_logo' => [
+                'file',
+                'image',
+            ],            
         ])->validate();
 
         $persons = [];
@@ -90,6 +94,9 @@ class BadgeMakerController extends Controller
             ->validate();
 
         $badgeCreator = new BadgeCreator($persons);
+        if ($request->has('alt_logo')) {
+            $badgeCreator->setLogo($request->file('alt_logo'));
+        }
         $badgeCreator->createPdf($title);
     }
 
