@@ -20,6 +20,10 @@ Shop:
 * Added barber shop list / check-in
 * Shop coupon validity can now be configured
 
+Badge:
+
+* Added badge creator screen
+
 ## 1.21.3
 
 Helpers:
