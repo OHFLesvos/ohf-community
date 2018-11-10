@@ -1473,7 +1473,7 @@ class HelperListController extends Controller
         $this->authorize('view', $helper);
 
         $badgeCreator = new BadgeCreator([self::toBadgePerson($helper)]);
-        $badgeCreator->createPdf(__('people.badge') . ' ' . $helper->person->fullName . ' ' .Carbon::now()->toDateString());
+        $badgeCreator->createPdf(__('people.badge') . ' ' . $helper->person->fullName);
     }
 
     /**
@@ -1497,7 +1497,7 @@ class HelperListController extends Controller
             ->all();
 
         $badgeCreator = new BadgeCreator($persons);
-        $badgeCreator->createPdf(__('people.badges') . ' ' . __('people.helpers') . ' ' .Carbon::now()->toDateString());
+        $badgeCreator->createPdf(__('people.badges') . ' ' . __('people.helpers'));
     }
 
     private static function toBadgePerson($helper) {

@@ -116,7 +116,7 @@ class BadgeCreator {
 
         }
 
-        $mpdf->Output($title . '.pdf', Output\Destination::DOWNLOAD);
+        $mpdf->Output($title . ' ' .Carbon::now()->toDateString() . '.pdf', Output\Destination::DOWNLOAD);
     }
 
 }
