@@ -16,6 +16,7 @@ use \Gumlet\ImageResize;
 use JeroenDesloovere\VCard\VCard;
 use Validator;
 use ZipStream\ZipStream;
+use App\Util\BadgeCreator;
 
 class HelperListController extends Controller
 {
@@ -1470,14 +1471,9 @@ class HelperListController extends Controller
     public function badge(Helper $helper)
     {
         $this->authorize('view', $helper);
-        
-        $persons = [[
-            'name' => $helper->person->nickname ?? $helper->person->name,
-            'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
-            'id' =>  substr($helper->person->public_id, 0, 7),
-        ]];
 
-        $this->createBadges($persons, __('people.badge') . ' ' . $helper->person->fullName);
+        $badgeCreator = new BadgeCreator([self::toBadgePerson($helper)]);
+        $badgeCreator->createPdf(__('people.badge') . ' ' . $helper->person->fullName . ' ' .Carbon::now()->toDateString());
     }
 
     /**
@@ -1495,148 +1491,23 @@ class HelperListController extends Controller
             ->sortBy('person.name');
 
         $persons = $helpers
-            ->map(function($helper){
-                return [
-                    'name' => $helper->person->nickname ?? $helper->person->name,
-                    'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
-                    'id' =>  substr($helper->person->public_id, 0, 7),
-                ];
-            })
+            ->map(function($helper){ return self::toBadgePerson($helper); })
             ->sortBy('name')
             ->values()
             ->all();
 
-        $this->createBadges($persons, __('people.badges') . ' ' . __('people.helpers') . ' ' .Carbon::now()->toDateString());
-    }
-    
-    private function createBadges($persons, $title) {
-        $padding = 10;
-
-        $punch_hole_size = 6;
-        $punch_hole_distance_center = 12;
-
-        $mpdf = new \Mpdf\Mpdf([
-            'format' => 'A4',
-            'margin_left' => 0,
-            'margin_right' => 0,
-            'margin_top' => 0,
-            'margin_bottom' => 0,
-            'margin_header' => 0,
-            'margin_footer' => 0,
-        ]);
-        $mpdf->SetDisplayMode('fullpage');
-
-        // Style
-        $mpdf->writeHTML('body { 
-            font-family: Helvetica; 
-        }
-
-        .logo {
-            text-align: center;
-            margin-top: 3mm;
-        }
-
-        .name {
-            text-align: center;
-            font-size: 30pt;
-            padding: 0;
-            margin: 0;
-            margin-top: 2mm;
-        }
-
-        .position {
-            text-align: center;
-            font-weight: normal;
-            padding: 0;
-            margin: 0;
-        }
-
-        .issued {
-            text-align: right;
-            font-size: 8pt;
-        }
-        ', 1);
-
-        $h = $mpdf->h;
-        $w = $mpdf->w;
-
-        $bw = $w / 2;
-        $bh = $h / 2;
-        $bsh = $bh / 2;
-
-        for ($i = 0; $i < count($persons); $i++) {
-            
-            $x = $i % 2 == 0 ? 0 : $w / 2;
-            $y = $i % 4 == 0 || $i % 4 == 1 ? 0 : $h / 2;
-
-            if ($i % 4 == 0) {
-                $mpdf->AddPage();
-            }
-
-            $content = '
-            <div class="logo">
-                <img src="'. public_path('img/logo_card.png') .'" style="height: 15mm;">
-            </div>
-            <h1 class="name">' . $persons[$i]['name'] . '</h1>
-            <h2 class="position">' . $persons[$i]['position'] . '</h2>';
-
-            // TODO image <img src="{{ Storage::path($helper->person->portrait_picture) }}">
-
-            // Borders
-            $mpdf->writeHTML('<div style="position: absolute; left: '.$x.'mm; top: '.$y.'mm; width: '.$bw.'mm; height: '.$bh.'mm; border: 1px dotted black;"></div>');
-            $mpdf->writeHTML('<div style="position: absolute; left: '.$x.'mm; top: '.($y+ ($bh/2)).'mm; width: '.$bw.'mm; border-top: 1px dotted black;"></div>');
-
-            // Front-side content
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + $padding) . 'mm; top: '. ($y + $padding).'mm; width: '. ($bw - (2 * $padding)) .'mm; height: '. ($bsh - (2 * $padding)) .'mm;">
-            ' . $content . '
-            </div>');
-
-            // Back-side content
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + $padding) . 'mm; top: '. ($y + $bsh + $padding).'mm; width: '. ($bw - (2 * $padding)) .'mm; height: '. ($bsh - (2 * $padding)) .'mm; rotate: 180;">
-            ' . $content . '
-            </div>');
-
-            // Issued
-            $mpdf->WriteFixedPosHTML('<div class="issued">Issued: ' . Carbon::today()->toDateString() . '</div>', $x + $padding, $y + $bsh - $padding - 3, $bw - (2 * $padding), 10, 'auto');
-
-            // Punch hole
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($bw / 2) - ($punch_hole_size / 2)) .'mm; top: '. ($y + $punch_hole_distance_center - ($punch_hole_size / 2)) .'mm; width: '. $punch_hole_size .'mm; height: ' . $punch_hole_size . 'mm; border-radius: ' . ($punch_hole_size / 2) .'mm; border: 1px dotted black;"></div>');
-            
-            // QR Code of ID
-            if (!empty($persons[$i]['id'])) {
-                $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['id'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" />', $x + $padding, $y + $padding + 42, 30, 30, 'auto');
-            }
-
-        }
-
-        $mpdf->Output($title . '.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        $badgeCreator = new BadgeCreator($persons);
+        $badgeCreator->createPdf(__('people.badges') . ' ' . __('people.helpers') . ' ' .Carbon::now()->toDateString());
     }
 
-    function GetBookletPages($np, $backcover = true) {
-        $lastpage = $np;
-        $np = 4 * ceil($np / 4);
-        $pp = array();
-    
-        for ($i = 1; $i <= $np / 2; $i++) {
-    
-            $p1 = $np - $i + 1;
-    
-            if ($backcover) {
-                if ($i == 1) {
-                    $p1 = $lastpage;
-                } elseif ($p1 >= $lastpage) {
-                    $p1 = 0;
-                }
-            }
-    
-            $pp[] = ($i % 2 == 1)
-                ? array( $p1,  $i )
-                : array( $i, $p1 );
-        }
-    
-        return $pp;
+    private static function toBadgePerson($helper) {
+        return [
+            'name' => $helper->person->nickname ?? $helper->person->name,
+            'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
+            'id' =>  substr($helper->person->public_id, 0, 7),
+        ];
     }
-
+    
     public function filterPersons(Request $request) {
         $qry = Person::limit(10)
             ->whereHas('helper', function ($query) {
