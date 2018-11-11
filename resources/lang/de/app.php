@@ -204,4 +204,6 @@ return [
     'file' => 'Datei',
     'empty_data_source' => 'Leere Datenquelle.',
     'choose_alternative_logo' => 'Wähle ein alternatives Logo',
+    'next' => 'Weiter',
+    'id' => 'ID',
 ];

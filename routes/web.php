@@ -160,11 +160,12 @@ Route::group(['middleware' => 'language'], function () {
         });
 
         //
-        // Badges // TODO auth
+        // Badges
         //
         Route::name('badges.')->prefix('badges')->middleware(['can:create-badges'])->group(function(){
             Route::get('/', 'BadgeMakerController@index')->name('index');
-            Route::post('/', 'BadgeMakerController@make')->name('make');
+            Route::post('/selection', 'BadgeMakerController@selection')->name('selection');
+            Route::post('/make', 'BadgeMakerController@make')->name('make');
         });
 
         //

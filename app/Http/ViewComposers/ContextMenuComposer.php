@@ -1100,6 +1100,18 @@ class ContextMenuComposer {
                     ]
                 ];
 
+            //
+            // Badges
+            //
+            case 'badges.selection':
+                return [
+                    'back' => [
+                        'url' => route('badges.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('create-badges'),
+                    ],
+                ];
 
             //
             // Reporting

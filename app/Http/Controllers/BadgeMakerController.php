@@ -40,7 +40,7 @@ class BadgeMakerController extends Controller
         ]);
     }
 
-    public function make(Request $request) {
+    public function selection(Request $request) {
         $validator = Validator::make($request->all(), [
             'source' => [
                 'required',
@@ -50,10 +50,6 @@ class BadgeMakerController extends Controller
                 'file',
                 'required_if:source,file'
             ],
-            'alt_logo' => [
-                'file',
-                'image',
-            ],            
         ])->validate();
 
         $persons = [];
@@ -64,7 +60,6 @@ class BadgeMakerController extends Controller
             $persons = Helper::active()
                 ->get()
                 ->map(function($helper){ return self::helperToBadgePerson($helper); });
-            $title = __('people.badges') . ' ' .__('people.helpers');
         }
         // Source: File
         else if ($request->source == 'file') {
@@ -81,7 +76,6 @@ class BadgeMakerController extends Controller
                     });
                 });
             });
-            $title = __('people.badges');
         }
 
         // Ensure there are records
@@ -93,8 +87,42 @@ class BadgeMakerController extends Controller
             })
             ->validate();
 
+        return view('badges.selection', [
+            'persons' => $persons,
+        ]);
+    }
+
+    public function make(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'persons' => [
+                'required',
+                'array',
+            ],
+            'persons.*' => [
+                'json'
+            ],
+            'alt_logo' => [
+                'file',
+                'image',
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('badges.index')
+                ->with('error', implode(', ', $validator->errors()->all()));
+        }
+
+        $persons = collect($request->persons)->map(function($e){ return json_decode($e, true); });
+
+        // Ensure there are records
+        if (count($persons) == 0) {
+            return redirect()->route('badges.index')
+                ->with('error', __('app.empty_data_source'));
+        }    
+
+        $title = __('people.badges');
+
         $badgeCreator = new BadgeCreator($persons);
-        if ($request->has('alt_logo')) {
+        if ($request->hasFile('alt_logo')) {
             $badgeCreator->setLogo($request->file('alt_logo'));
         }
         $badgeCreator->createPdf($title);
