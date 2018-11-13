@@ -88,26 +88,29 @@ class BarberShopController extends Controller
     }
 
     public function removePerson(RemovePerson $request) {
-        $request->validate([
-            'person_id' => [
-                function($attribute, $value, $fail) {
-                    $existing = CouponHandout::whereDate('date', Carbon::today())
-                        ->where('person_id', $value)
-                        ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type', 0))
-                        ->first();
-                    if ($existing == null) {
-                        return $fail(__('shop.reservation_does_not_exists'));
-                    }
-                },
-            ],
-        ]);
-
-        CouponHandout::whereDate('date', Carbon::today())
-                        ->where('person_id', $request->person_id)
-                        ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type', 0))
-                        ->delete();
-        
-        return redirect()->route('shop.barber.index')
-            ->with('success', __('shop.reservation_removed'));
+        if (\Setting::get('shop.barber.allow_remove', false)) {
+            $request->validate([
+                'person_id' => [
+                    function($attribute, $value, $fail) {
+                        $existing = CouponHandout::whereDate('date', Carbon::today())
+                            ->where('person_id', $value)
+                            ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type', 0))
+                            ->first();
+                        if ($existing == null) {
+                            return $fail(__('shop.reservation_does_not_exists'));
+                        }
+                    },
+                ],
+            ]);
+    
+            CouponHandout::whereDate('date', Carbon::today())
+                            ->where('person_id', $request->person_id)
+                            ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type', 0))
+                            ->delete();
+            
+            return redirect()->route('shop.barber.index')
+                ->with('success', __('shop.reservation_removed'));
+        }
+        return response()->json([], 403);
     }
 }

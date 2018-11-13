@@ -24,4 +24,5 @@ return [
     'reservation_removed' => 'Reservation entfernt.',
     'confirm_delete_reservation' => 'Please confirm to remove the reservation the following person:',
     'num_reservations_today' => '<strong>Eine</strong> Reservation heute.|<strong>:num</strong> reservationen heute.',
+    'allow_remove_reservation' => 'Erlaube, Registrationen zu entfernen?',
 ];

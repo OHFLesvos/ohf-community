@@ -43,17 +43,20 @@
                                             data-person-name="{{ $person->fullName }}">
                                                 @icon(check)<span class="d-none d-sm-inline"> @lang('shop.check_in')</span>
                                         </button>
-                                        <form class="d-inline delete-reservation-form" method="post" action="{{ route('shop.barber.removePerson') }}">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <button type="submit" 
-                                                class="btn btn-sm btn-link text-danger"
-                                                name="person_id" 
-                                                value="{{ $person->id }}" 
-                                                data-person-name="{{ $person->fullName }}" >
-                                                @lang('app.remove')
-                                            </button>
-                                        </form>
+                                        @if(\Setting::get('shop.barber.allow_remove', false))
+                                            <form class="d-inline delete-reservation-form" method="post" action="{{ route('shop.barber.removePerson') }}">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button type="submit" 
+                                                    class="btn btn-sm btn-link text-danger"
+                                                    name="person_id" 
+                                                    value="{{ $person->id }}" 
+                                                    data-person-name="{{ $person->fullName }}" >
+                                                    <span class="d-none d-sm-inline">@lang('app.remove')</span>
+                                                    <span class="d-inline d-sm-none">@icon(times)</span>
+                                                </button>
+                                            </form>
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

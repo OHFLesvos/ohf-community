@@ -21,6 +21,12 @@ class BarberShopSettingsController extends SettingsController
                 'form_validate' => 'nullable|exists:coupon_types,id',
                 'label_key' => 'people.coupon',
             ],
+            'shop.barber.allow_remove' => [
+                'default' => false,
+                'form_type' => 'checkbox',
+                'form_validate' => 'nullable|boolean',
+                'label_key' => 'shop.allow_remove_reservation',
+            ]
         ];
     }
 
