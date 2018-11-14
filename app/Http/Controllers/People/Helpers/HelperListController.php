@@ -16,7 +16,6 @@ use \Gumlet\ImageResize;
 use JeroenDesloovere\VCard\VCard;
 use Validator;
 use ZipStream\ZipStream;
-use App\Util\BadgeCreator;
 
 class HelperListController extends Controller
 {
@@ -1460,28 +1459,6 @@ class HelperListController extends Controller
 
         // return vcard as a download
         return $vcard->download();
-    }
-
-    /**
-     * Download badge PDF
-     * 
-     * @param  \App\Helper  $helper
-     * @return \Illuminate\Http\Response
-     */
-    public function badge(Helper $helper)
-    {
-        $this->authorize('view', $helper);
-
-        $badgeCreator = new BadgeCreator([self::toBadgePerson($helper)]);
-        $badgeCreator->createPdf(__('people.badge') . ' ' . $helper->person->fullName);
-    }
-
-    private static function toBadgePerson($helper) {
-        return [
-            'name' => $helper->person->nickname ?? $helper->person->name,
-            'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
-            'id' =>  substr($helper->person->public_id, 0, 7),
-        ];
     }
     
     public function filterPersons(Request $request) {

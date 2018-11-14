@@ -154,7 +154,6 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('helpers/createFrom', 'HelperListController@createFrom')->name('helpers.createFrom')->middleware('can:create,App\Helper');
             Route::post('helpers/createFrom', 'HelperListController@storeFrom')->name('helpers.storeFrom')->middleware('can:create,App\Helper');
             Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')->name('helpers.vcard');
-            Route::get('helpers/{helper}/badge', 'HelperListController@badge')->name('helpers.badge');
             Route::get('helpers/filterPersons', 'HelperListController@filterPersons')->name('helpers.filterPersons')->middleware('can:list,App\Person');
             Route::resource('helpers', 'HelperListController');
         });

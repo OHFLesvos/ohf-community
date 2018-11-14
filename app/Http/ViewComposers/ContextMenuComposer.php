@@ -447,12 +447,6 @@ class ContextMenuComposer {
                         'icon' => 'vcard',
                         'authorized' => Auth::user()->can('view', $helper)
                     ],                    
-                    'badge' => [
-                        'url' => route('people.helpers.badge', $helper),
-                        'caption' => __('people.badge'),
-                        'icon' => 'id-card',
-                        'authorized' => Auth::user()->can('view', $helper) && Gate::allows('create-badges')
-                    ],                    
                     'delete' => [
                         'url' => route('people.helpers.destroy', $helper),
                         'caption' => __('app.delete'),
