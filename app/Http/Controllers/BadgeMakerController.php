@@ -132,15 +132,15 @@ class BadgeMakerController extends Controller
 
     private static function helperToBadgePerson($helper) {
         // Set a card number if not yet assigned
-        if ($helper->person->card_no == null) {
-            $helper->person->card_no = substr(bin2hex(random_bytes(16)), 0, 7);
+        if ($helper->person->staff_card_no == null) {
+            $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
             $helper->person->save();
             // TODO add option to renew card number
         }
         return [
             'name' => $helper->person->nickname ?? $helper->person->name,
             'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
-            'id' =>  $helper->person->card_no,
+            'id' =>  $helper->person->staff_card_no,
         ];
     }
 }

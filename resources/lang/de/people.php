@@ -221,4 +221,5 @@ return [
     'add_helper' => 'Helfer hinzufügen',
     'validity_in_days' => 'Gültigkeit in Tagen',
     'file_must_be_excel_cvs_containing_columns_name_position' => 'Datei muss im Excel oder CSV Format vorliegen und die Spalten \'Name\', \'Position\' und optional \'ID\' beinhalten.',
+    'staff_card_no' => 'Mitarbeiterkartennummer',
 ];

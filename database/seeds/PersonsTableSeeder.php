@@ -138,7 +138,7 @@ class PersonsTableSeeder extends Seeder
                 'section_card_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
                 'temp_no' => rand(0,100) < 5 ? rand(10000,99999) : null,
                 'nationality' => $nationality[array_rand($nationality)],
-                'languages' => $languages[array_rand($languages)],
+                'languages' => [$languages[array_rand($languages)]],
                 'gender' => rand(0, 10) > 2 ? (rand(0, 100) > 52 ? 'm' : 'f') : null,
                 'date_of_birth' => rand(0, 10) > 4 ? Carbon\Carbon::now()->subYears(rand(0, 60))->subMonths(rand(0,11))->subDays(rand(0,30)) : null,
             ]);

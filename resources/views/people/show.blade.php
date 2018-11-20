@@ -192,7 +192,7 @@
                                 </strong>
                             </div>
                             <div class="col-sm">
-                                {!! implode('<br>', $person->languages) !!}
+                                {!! is_array($person->languages) ? implode('<br>', $person->languages) : $person->languages !!}
                             </div>
                         </div>
                     </li>

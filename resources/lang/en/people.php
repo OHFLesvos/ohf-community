@@ -221,4 +221,5 @@ return [
     'add_helper' => 'Add helper',
     'validity_in_days' => 'Validity in days',
     'file_must_be_excel_cvs_containing_columns_name_position' => 'File must be in Excel or CSV format and contain the columns \'Name\', \'Position\' and optional \'ID\'.',
+    'staff_card_no' => 'Staff card number',
 ];

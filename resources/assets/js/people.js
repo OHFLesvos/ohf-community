@@ -190,7 +190,7 @@ function writeRow(person) {
         .append($('<td>').text(person.registration_no))
         .append($('<td>').text(person.section_card_no))
         .append($('<td>').text(person.temp_no))
-        .append($('<td>').text(person.languages ? person.languages.join(', ') : ''))
+        .append($('<td>').text(person.languages ? Array.isArray(person.languages) ? person.languages.join(', ') : person.languages : ''))
         .append($('<td>').text(person.remarks))
         // TODO .append($('<td>').html(person.helper ? '<i class="fa fa-check"></i>' : '-'))
         .append($('<td>').text(person.created_at));

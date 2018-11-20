@@ -442,6 +442,17 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
+                'label_key' => 'people.staff_card_no',
+                'icon' => 'id-card',
+                'value' => function($helper) { return $helper->person->staff_card_no; },
+                'overview' => false,
+                'section' => 'identification',
+                'assign' => function($person, $helper, $value) { $person->staff_card_no = $value; },
+                // 'form_type' => 'number',
+                // 'form_name' => 'staff_card_no',
+                // 'form_validate' => 'nullable|numeric',
+            ],
+            [
                 'label_key' => 'people.endorses_casework',
                 'icon' => null,
                 'value' => function($helper) {
