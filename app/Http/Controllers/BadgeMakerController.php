@@ -111,7 +111,9 @@ class BadgeMakerController extends Controller
                 ->with('error', implode(', ', $validator->errors()->all()));
         }
 
-        $persons = collect($request->persons)->map(function($e){ return json_decode($e, true); });
+        $persons = collect($request->persons)->map(function($e){ 
+            return json_decode($e, true); 
+        });
 
         // Ensure there are records
         if (count($persons) == 0) {
@@ -129,10 +131,16 @@ class BadgeMakerController extends Controller
     }
 
     private static function helperToBadgePerson($helper) {
+        // Set a card number if not yet assigned
+        if ($helper->person->card_no == null) {
+            $helper->person->card_no = substr(bin2hex(random_bytes(16)), 0, 7);
+            $helper->person->save();
+            // TODO add option to renew card number
+        }
         return [
             'name' => $helper->person->nickname ?? $helper->person->name,
             'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
-            'id' =>  substr($helper->person->public_id, 0, 7),
+            'id' =>  $helper->person->card_no,
         ];
     }
 }
