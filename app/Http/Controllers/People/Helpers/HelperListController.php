@@ -16,6 +16,7 @@ use \Gumlet\ImageResize;
 use JeroenDesloovere\VCard\VCard;
 use Validator;
 use ZipStream\ZipStream;
+use Illuminate\Support\Facades\Gate;
 
 class HelperListController extends Controller
 {
@@ -131,7 +132,9 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->nationality = $value; },
                 'form_type' => 'text',
                 'form_name' => 'nationality',
-                'form_autocomplete' => function() { return \Countries::getList('en'); },
+                'form_autocomplete' => function() {
+                    return \Countries::getList('en'); 
+                },
                 'form_validate' => function(){
                     return [
                         'nullable',
@@ -190,6 +193,17 @@ class HelperListController extends Controller
                 'form_type' => 'text',
                 'form_name' => 'languages',
                 'form_help' => __('app.separate_by_comma'),
+                'form_autocomplete' => function() { 
+                    return Person::groupBy('languages')
+                        ->orderBy('languages')
+                        ->whereNotNull('languages')
+                        ->get()
+                        ->pluck('languages')
+                        ->flatten()
+                        ->unique()
+                        ->sort()
+                        ->toArray();                        
+                },
             ],
             [
                 'label_key' => 'app.local_phone',
@@ -285,6 +299,17 @@ class HelperListController extends Controller
                 'form_type' => 'text',
                 'form_name' => 'responsibilities',
                 'form_help' => __('app.separate_by_comma'),
+                'form_autocomplete' => function() { 
+                    return Helper::groupBy('responsibilities')
+                        ->orderBy('responsibilities')
+                        ->whereNotNull('responsibilities')
+                        ->get()
+                        ->pluck('responsibilities')
+                        ->flatten()
+                        ->unique()
+                        ->sort()
+                        ->toArray();
+                },
             ],
             [
                 'label_key' => 'people.trial_period',
@@ -470,6 +495,8 @@ class HelperListController extends Controller
                     __('app.yes') => __('app.yes'),
                     __('app.no') => __('app.no'),
                 ],
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.asylum_request_status',
@@ -492,6 +519,8 @@ class HelperListController extends Controller
                 'form_list' => collect(self::$asylum_request_states)->mapWithKeys(function($s){ return [ __('people.' . $s) => __('people.' . $s) ]; })->toArray(),
                 'form_placeholder' => __('app.select_status'),
                 'form_validate' => 'nullable', // TODO better validation
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.has_geo_restriction',
@@ -510,6 +539,8 @@ class HelperListController extends Controller
                     __('app.yes') => __('app.yes'),
                     __('app.no') => __('app.no'),
                 ],
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.has_id_card',
@@ -528,6 +559,8 @@ class HelperListController extends Controller
                     __('app.yes') => __('app.yes'),
                     __('app.no') => __('app.no'),
                 ],
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.has_passport',
@@ -545,6 +578,8 @@ class HelperListController extends Controller
                     __('app.yes') => __('app.yes'),
                     __('app.no') => __('app.no'),
                 ],
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.first_interview_date',
@@ -557,6 +592,8 @@ class HelperListController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'first_interview_date',
                 'form_validate' => 'nullable|date',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.second_interview_date',
@@ -569,6 +606,8 @@ class HelperListController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'second_interview_date',
                 'form_validate' => 'nullable|date',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.first_decision_date',
@@ -581,6 +620,8 @@ class HelperListController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'first_decision_date',
                 'form_validate' => 'nullable|date',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.appeal_date',
@@ -593,6 +634,8 @@ class HelperListController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'appeal_date',
                 'form_validate' => 'nullable|date',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.second_decision_date',
@@ -605,6 +648,8 @@ class HelperListController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'second_decision_date',
                 'form_validate' => 'nullable|date',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.vulnerability_assessment_date',
@@ -617,6 +662,8 @@ class HelperListController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'vulnerability_assessment_date',
                 'form_validate' => 'nullable|date',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.vulnerability',
@@ -627,6 +674,8 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_vulnerability = $value; },
                 'form_type' => 'text',
                 'form_name' => 'vulnerability',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.card_expiry_date',
@@ -639,6 +688,8 @@ class HelperListController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'card_expiry_date',
                 'form_validate' => 'nullable|date',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.lawyer_name',
@@ -650,6 +701,8 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_lawyer_name = $value != 'No' ? $value : null; },
                 'form_type' => 'text',
                 'form_name' => 'lawyer_name',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.lawyer_phone',
@@ -662,6 +715,8 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $helper->casework_lawyer_phone = $value; },
                 'form_type' => 'text',
                 'form_name' => 'lawyer_phone',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.lawyer_email',
@@ -674,6 +729,8 @@ class HelperListController extends Controller
                 'form_type' => 'email',
                 'form_name' => 'lawyer_email',
                 'form_validate' => 'nullable|email',
+                'authorized_view' => Gate::allows('view-helpers-casework'),
+                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.notes',
@@ -905,7 +962,9 @@ class HelperListController extends Controller
         $this->authorize('list', Helper::class);
 
         // Fields
-        $fields = collect($this->getFields())->where('overview', true);
+        $fields = collect($this->getFields())
+            ->where('overview', true)
+            ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; });
 
         // Scope
         $scopes = $this->getScopes();
@@ -1061,6 +1120,7 @@ class HelperListController extends Controller
                     return [ 
                         $sections[$section] => $fields
                             ->where('section', $section)
+                            ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
                             ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
                             ->map(function($f) {
                                 $value = null;
@@ -1134,6 +1194,7 @@ class HelperListController extends Controller
 
     private function applyFormData($request, $person, $helper) {
         collect($this->getFields())
+            ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
             ->filter(function($f){ 
                 return isset($f['form_name']) && isset($f['form_type']) 
                     && isset($f['assign']) && is_callable($f['assign']);
@@ -1161,6 +1222,7 @@ class HelperListController extends Controller
                         ->where('section', $section)
                         ->where('overview_only', false)
                         ->where('exclude_show', false)
+                        ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; })
                         ->map(function($f) use($helper) { 
                             return [
                                 'label' => __($f['label_key']),
@@ -1192,6 +1254,7 @@ class HelperListController extends Controller
                     return [ 
                         $sections[$section] => $fields
                             ->where('section', $section)
+                            ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
                             ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
                             ->map(function($f) use($helper) {
                                 $value = is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']};
@@ -1270,7 +1333,8 @@ class HelperListController extends Controller
         
         $fields = collect($this->getFields()) // TODO flexible field selection
             ->where('overview_only', false)
-            ->where('exclude_export', false);
+            ->where('exclude_export', false)
+            ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; });
 
         $sorting = 'person.name'; // TODO flexible sorting
         $scope_method = $scope['scope'];
@@ -1455,10 +1519,10 @@ class HelperListController extends Controller
             $vcard->addEmail($helper->email);
         }
         if ($helper->local_phone != null) {
-            $vcard->addPhoneNumber($helper->local_phone, 'HOME');
+            $vcard->addPhoneNumber(preg_replace('/[^+0-9]/', '', $helper->local_phone), 'HOME');
         }
         if ($helper->whatsapp != null && $helper->local_phone != $helper->whatsapp) {
-            $vcard->addPhoneNumber($helper->whatsapp, 'WORK');
+            $vcard->addPhoneNumber(preg_replace('/[^+0-9]/', '', $helper->whatsapp), 'WORK');
         }
 
         if (isset($helper->person->portrait_picture)) {

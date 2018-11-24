@@ -14,6 +14,8 @@ return [
     'shop.barber.list.configure' => 'Barber: Configure settings',
     'people.helpers.view' => 'Helpers: View helpers',
     'people.helpers.manage' => 'Helpers: Manage helpers',
+    'people.helpers.casework.view' => 'Helpers: View casework',
+    'people.helpers.casework.manage' => 'Helpers: Manage casework',
     'badges.create' => 'Badges: Create badges',
     'logistics.use' => 'Use logistics',
     'tasks.use' => 'Use tasks',

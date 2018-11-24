@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.21.6
+
+Helpers:
+
+* Case work permissions
+* Autocomplete lanugage, responsibilities
+* Fix vcard number export
+
 ## 1.21.5
 
 * Added staff card number

@@ -78,5 +78,22 @@ class AuthServiceProvider extends ServiceProvider
             });
         }
 
+        $simple_permission_gate_mappings_no_super_admin = [
+            'view-helpers-casework' => 'people.helpers.casework.view',
+            'manage-helpers-casework' => 'people.helpers.casework.manage',
+        ];
+        foreach ($simple_permission_gate_mappings_no_super_admin as $gate => $permission) {
+            Gate::define($gate, function ($user) use($permission) {
+                if (is_array($permission)) {
+                    $hasPermission = false;
+                    foreach ($permission as $pe) {
+                        $hasPermission |= $user->hasPermission($pe);
+                    }
+                    return $hasPermission;
+                }
+                return $user->hasPermission($permission);
+            });
+        }
+
     }
 }

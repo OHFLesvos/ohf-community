@@ -139,6 +139,12 @@ return [
         'people.helpers.manage' => [
             'sensitive' => true,
         ],
+        'people.helpers.casework.view' => [
+            'sensitive' => true,
+        ],
+        'people.helpers.casework.manage' => [
+            'sensitive' => true,
+        ],
         'badges.create' => [
             'sensitive' => false,
         ],
