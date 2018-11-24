@@ -31,7 +31,7 @@
                     <td>{{ $person->registration_no }}</td>
                     <td>{{ $person->section_card_no }}</td>
                     <td>{{ $person->temp_no }}</td>
-                    <td>{{ $person->languages }}</td>
+                    <td>{{ is_array($person->languages) ? implode(', ', $person->languages) : $person->languages }}</td>
                     <td>{{ $person->created_at->toDateString() }}</td>
                     <td>{{ $person->remarks }}</td>
                 </tr>
