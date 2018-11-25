@@ -33,10 +33,8 @@ class StorePerson extends FormRequest
 				'max:255',
 				Rule::in(\Countries::getList('en'))
 			],
-            'medical_no' => 'max:255',
             'registration_no' => 'max:255',
             'section_card_no' => 'max:255',
-            'temp_no' => 'max:255',
             'languages' => 'max:255',
             'remarks' => 'max:255',
             'date_of_birth' => 'nullable|date',

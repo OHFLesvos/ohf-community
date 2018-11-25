@@ -17,7 +17,18 @@ use Illuminate\Support\Facades\Log;
 
 class PeopleController extends ParentController
 {
-    const filter_fields = ['name', 'family_name', 'police_no', 'case_no', 'medical_no', 'registration_no', 'section_card_no', 'temp_no', 'remarks', 'nationality', 'languages', 'date_of_birth'];
+    const filter_fields = [
+        'name',
+        'family_name',
+        'police_no',
+        'case_no',
+        'registration_no',
+        'section_card_no',
+        'remarks',
+        'nationality',
+        'languages',
+        'date_of_birth'
+    ];
 
     /**
      * Create a new controller instance.
@@ -61,10 +72,8 @@ class PeopleController extends ParentController
 		$person->date_of_birth = $request->date_of_birth;
 		$person->police_no = !empty($request->police_no) ? $request->police_no : null;
 		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
         $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
         $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
-        $person->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
@@ -84,10 +93,8 @@ class PeopleController extends ParentController
 
                     $child->police_no = !empty($request->police_no) ? $request->police_no : null;
                     $child->case_no = !empty($request->case_no) ? $request->case_no : null;
-                    $child->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
                     $child->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
                     $child->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
-                    $child->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
                     $child->nationality = !empty($request->nationality) ? $request->nationality : null;
                     if ($person->gender == 'f') {
                         $child->mother()->associate($person);
@@ -138,10 +145,8 @@ class PeopleController extends ParentController
         $person->date_of_birth = $request->date_of_birth;
         $person->police_no = !empty($request->police_no) ? $request->police_no : null;
         $person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->medical_no = !empty($request->medical_no) ? $request->medical_no : null;
         $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
         $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
-        $person->temp_no = !empty($request->temp_no) ? $request->temp_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
         $person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
@@ -348,10 +353,8 @@ class PeopleController extends ParentController
                 'languages',
                 'police_no',
                 'case_no',
-                'medical_no',
                 'registration_no',
                 'section_card_no',
-                'temp_no',
                 'card_no',
                 'card_issued'
             ] as $attr) {
@@ -546,10 +549,8 @@ class PeopleController extends ParentController
                             'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
                             'police_no' => is_numeric($row->police_no) ? $row->police_no : null,
                             'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
-                            'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
                             'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
                             'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
-                            'temp_no' => isset($row->temp_no) ? $row->temp_no : null,
                             'nationality' => $row->nationality,
                             'languages' => !empty($row->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $row->languages) : null,
                             'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,

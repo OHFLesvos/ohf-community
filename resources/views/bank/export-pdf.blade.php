@@ -25,10 +25,8 @@
                         <th>@lang('people.nationality')</th>
                         <th>@lang('people.police_number')</th>
                         <th>@lang('people.case_number')</th>
-                        <th>@lang('people.medical_number')</th>
                         <th>@lang('people.registration_number')</th>
-                        <th>@lang('people.section_card_number')</th>
-                        <th>@lang('people.temporary_number')</th>
+                        <th>@lang('people.section_card_number')h>
                         @foreach($couponTypes as $coupon)
                             <th>{{ $coupon->name }}</th>
                         @endforeach
@@ -44,10 +42,8 @@
                             <td>{{ $person->nationality }}</td>
                             <td>{{ $person->police_no }}</td>
                             <td>{{ $person->case_no }}</td>
-                            <td>{{ $person->medical_no }}</td>
                             <td>{{ $person->registration_no }}</td>
                             <td>{{ $person->section_card_no }}</td>
-                            <td>{{ $person->temp_no }}</td>
                             @foreach($couponTypes as $coupon)
                                 <td style="text-align: center">
                                     @if($person->eligibleForCoupon($coupon))

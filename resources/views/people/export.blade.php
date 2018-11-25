@@ -8,10 +8,8 @@
                 <th>@lang('people.nationality')</th>
                 <th>@lang('people.police_number')</th>
                 <th>@lang('people.case_number')</th>
-                <th>@lang('people.medical_number')</th>
                 <th>@lang('people.registration_number')</th>
                 <th>@lang('people.section_card_number')</th>
-                <th>@lang('people.temporary_number')</th>
                 <th>@lang('people.languages')</th>
                 <th>@lang('app.registered')</th>
                 <th>@lang('people.remarks')</th>
@@ -27,10 +25,8 @@
                     <td>{{ $person->nationality }}</td>
                     <td>{{ $person->police_no }}</td>
                     <td>{{ $person->case_no }}</td>
-                    <td>{{ $person->medical_no }}</td>
                     <td>{{ $person->registration_no }}</td>
                     <td>{{ $person->section_card_no }}</td>
-                    <td>{{ $person->temp_no }}</td>
                     <td>{{ is_array($person->languages) ? implode(', ', $person->languages) : $person->languages }}</td>
                     <td>{{ $person->created_at->toDateString() }}</td>
                     <td>{{ $person->remarks }}</td>

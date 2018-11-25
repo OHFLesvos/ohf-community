@@ -35,17 +35,11 @@
     @if(isset($person->case_no))
         @lang('people.case_number'): {{ $person->case_no }}<br>
     @endif
-    @if(isset($person->medical_no))
-        @lang('people.medical_number'): {{ $person->medical_no }}<br>
-    @endif
     @if(isset($person->registration_no))
         @lang('people.registration_number'): {{ $person->registration_no }}<br>
     @endif
     @if(isset($person->section_card_no))
         @lang('people.section_card_number'): {{ $person->section_card_no }}<br>
-    @endif
-    @if(isset($person->temp_no))
-        @lang('people.temporary_number'): {{ $person->temp_no }}<br>
     @endif
     @if ($person->card_no != null)
         Card: {{ $person->card_no }} issued on {{ $person->card_issued }} ({{ (new Carbon\Carbon($person->card_issued))->diffForHumans() }})<br>

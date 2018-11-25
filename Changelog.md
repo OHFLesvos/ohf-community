@@ -2,6 +2,10 @@
 
 ## 1.21.6
 
+People:
+
+* Removed barely used temp and medical number fields from person records
+
 Helpers:
 
 * Case work permissions

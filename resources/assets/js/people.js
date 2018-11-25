@@ -17,7 +17,7 @@ $(function(){
             tbody.append($('<tr>')
                 .append($('<td>')
                     .text('Searching...')
-                    .attr('colspan', 16))
+                    .attr('colspan', 14))
             );
 
             clearTimeout(delayTimer);
@@ -51,10 +51,8 @@ $(function(){
         $('#filter input[name="nationality"]').val('');
         $('#filter input[name="police_no"]').val('');
         $('#filter input[name="case_no"]').val('');
-        $('#filter input[name="medical_no"]').val('');
         $('#filter input[name="registration_no"]').val('');
         $('#filter input[name="section_card_no"]').val('');
-        $('#filter input[name="temp_no"]').val('');
         $('#filter input[name="languages"]').val('');
         $('#filter input[name="remarks"]').val('');
         filterTable(1);
@@ -70,7 +68,7 @@ function filterTable(page) {
     tbody.append($('<tr>')
         .append($('<td>')
             .text('Searching...')
-            .attr('colspan', 16))
+            .attr('colspan', 14))
     );
 
     var paginator = $('#paginator');
@@ -86,10 +84,8 @@ function filterTable(page) {
         "nationality": $('#filter input[name="nationality"]').val(),
         "police_no": $('#filter input[name="police_no"]').val(),
         "case_no": $('#filter input[name="case_no"]').val(),
-        "medical_no": $('#filter input[name="medical_no"]').val(),
         "registration_no": $('#filter input[name="registration_no"]').val(),
         "section_card_no": $('#filter input[name="section_card_no"]').val(),
-        "temp_no": $('#filter input[name="temp_no"]').val(),
         "languages": $('#filter input[name="languages"]').val(),
         "remarks": $('#filter input[name="remarks"]').val(),
         "page": page,
@@ -108,7 +104,7 @@ function filterTable(page) {
                 .addClass('warning')
                 .append($('<td>')
                     .text('No results')
-                    .attr('colspan', 16))
+                    .attr('colspan', 14))
             );
         }
     })
@@ -118,7 +114,7 @@ function filterTable(page) {
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 16))
+                    .attr('colspan', 14))
             );
         });
 }
@@ -186,10 +182,8 @@ function writeRow(person) {
         .append($('<td>').text(person.nationality))
         .append($('<td>').text(person.police_no))
         .append($('<td>').text(person.case_no))
-        .append($('<td>').text(person.medical_no))
         .append($('<td>').text(person.registration_no))
         .append($('<td>').text(person.section_card_no))
-        .append($('<td>').text(person.temp_no))
         .append($('<td>').text(person.languages ? Array.isArray(person.languages) ? person.languages.join(', ') : person.languages : ''))
         .append($('<td>').text(person.remarks))
         // TODO .append($('<td>').html(person.helper ? '<i class="fa fa-check"></i>' : '-'))

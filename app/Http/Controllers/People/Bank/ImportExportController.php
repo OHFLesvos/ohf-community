@@ -123,10 +123,8 @@ class ImportExportController extends Controller
                             'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
                             'police_no' => is_numeric($row->police_no) ? $row->police_no : null,
                             'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
-                            'medical_no' => isset($row->medical_no) ? $row->medical_no : null,
                             'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
                             'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
-                            'temp_no' => isset($row->temp_no) ? $row->temp_no : null,
                             'nationality' => $row->nationality,
                             'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
                         ]);

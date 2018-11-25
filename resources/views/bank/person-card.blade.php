@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-    @if (isset($person->police_no) || isset($person->case_no) || isset($person->medical_no) || isset($person->registration_no) || isset($person->section_card_no) || isset($person->temp_no) || isset($person->remarks))
+    @if (isset($person->police_no) || isset($person->case_no) || isset($person->registration_no) || isset($person->section_card_no) || isset($person->remarks))
         <div class="card-body p-2">
             @if(isset($person->police_no))
                 <span class="d-block d-sm-inline">
@@ -70,12 +70,6 @@
                     <span class="pr-2">{{ $person->case_no }}</span>
                 </span>
             @endif
-            @if(isset($person->medical_no))
-                <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people.medical_number'):</small>
-                    <span class="pr-2">{{ $person->medical_no }}</span>
-                </span>
-            @endif
             @if(isset($person->registration_no))
                 <span class="d-block d-sm-inline">
                     <small class="text-muted">@lang('people.registration_number'):</small>
@@ -86,12 +80,6 @@
                 <span class="d-block d-sm-inline">
                     <small class="text-muted">@lang('people.section_card_number'):</small>
                     <span class="pr-2">{{ $person->section_card_no }}</span>
-                </span>
-            @endif
-            @if(isset($person->temp_no))
-                <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people.temporary_number'):</small>
-                    <span class="pr-2">{{ $person->temp_no }}</span>
                 </span>
             @endif
             @if(isset($person->remarks))

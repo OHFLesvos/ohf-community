@@ -34,16 +34,10 @@
                         {{ Form::bsNumber('case_no', request()->query('case_no'), [ ], __('people.case_number'), 'Greek: Aριθ. Υπ.') }}
 					</div>
                     <div class="col-md">
-                        {{ Form::bsText('medical_no', null, [], __('people.medical_number')) }}
-                    </div>
-                    <div class="col-md">
                         {{ Form::bsText('registration_no', null, [], __('people.registration_number')) }}
                     </div>
                     <div class="col-md">
                         {{ Form::bsText('section_card_no', null, [], __('people.section_card_number')) }}
-                    </div>
-                    <div class="col-md">
-                        {{ Form::bsText('temp_no', null, [], __('people.temporary_number')) }}
                     </div>
 				</div>
 				<div class="form-row">

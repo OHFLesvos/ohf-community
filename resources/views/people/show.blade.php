@@ -113,20 +113,6 @@
                         </div>
                     </li>
                 @endisset
-                @isset($person->medical_no)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <strong>
-                                    @lang('people.medical_number')
-                                </strong>
-                            </div>
-                            <div class="col-sm">
-                                {{ $person->medical_no }}
-                            </div>
-                        </div>
-                    </li>
-                @endisset
                 @isset($person->registration_no)
                     <li class="list-group-item">
                         <div class="row">
@@ -151,20 +137,6 @@
                             </div>
                             <div class="col-sm">
                                 {{ $person->section_card_no }}
-                            </div>
-                        </div>
-                    </li>
-                @endisset
-                @isset($person->temp_no)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm-5">
-                                <strong>
-                                    @lang('people.temporary_number')
-                                </strong>
-                            </div>
-                            <div class="col-sm">
-                                {{ $person->temp_no }}
                             </div>
                         </div>
                     </li>

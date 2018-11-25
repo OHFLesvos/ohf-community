@@ -73,10 +73,8 @@ class MaintenanceController extends Controller
     {
         return Person::whereNull('police_no')
             ->whereNull('case_no')
-            ->whereNull('medical_no')
             ->whereNull('registration_no')
             ->whereNull('section_card_no')
-            ->whereNull('temp_no')
             ->doesntHave('helper')
             ->count();
     }
@@ -120,10 +118,8 @@ class MaintenanceController extends Controller
         if (isset($request->cleanup_no_number)) {
             $cnt +=  Person::whereNull('police_no')
                 ->whereNull('case_no')
-                ->whereNull('medical_no')
                 ->whereNull('registration_no')
                 ->whereNull('section_card_no')
-                ->whereNull('temp_no')
                 ->doesntHave('helper')
                 ->delete();
         }

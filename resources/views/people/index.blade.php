@@ -44,10 +44,8 @@
                         <th>@lang('people.nationality') <a href="javascript:;" class="sort" data-field="nationality">@icon(sort)</a></th>
                         <th class="text-nowrap">@lang('people.police_no')</th>
                         <th class="text-nowrap">@lang('people.case_no')</th>
-                        <th class="text-nowrap">@lang('people.med_no')</th>
                         <th class="text-nowrap">@lang('people.reg_no')</th>
                         <th class="text-nowrap">@lang('people.sec_card_no')</th>
-                        <th class="text-nowrap">@lang('people.temp_no')</th>
                         <th>@lang('people.languages') <a href="javascript:;" class="sort" data-field="languages">@icon(sort)</a></th>
                         <th>@lang('people.remarks') <a href="javascript:;" class="sort" data-field="remarks">@icon(sort)</a></th>
                         <th rowspan="2" class="align-top">@lang('app.registered') <a href="javascript:;" class="sort" data-field="created_at">@icon(sort)</a></th>
@@ -59,17 +57,15 @@
                         <th>{{ Form::text('nationality', !empty($filter['nationality']) ? $filter['nationality'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                         <th>{{ Form::text('police_no', !empty($filter['police_no']) ? $filter['police_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                         <th>{{ Form::text('case_no', !empty($filter['case_no']) ? $filter['case_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                        <th>{{ Form::text('medical_no', !empty($filter['medical_no']) ? $filter['medical_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                         <th>{{ Form::text('registration_no', !empty($filter['registration_no']) ? $filter['registration_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                         <th>{{ Form::text('section_card_no', !empty($filter['section_card_no']) ? $filter['section_card_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
-                        <th>{{ Form::text('temp_no', !empty($filter['temp_no']) ? $filter['temp_no'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                         <th>{{ Form::text('languages', !empty($filter['languages']) ? $filter['languages'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                         <th>{{ Form::text('remarks', !empty($filter['remarks']) ? $filter['remarks'] : null, [ 'class' => 'form-control form-control-sm', 'placeholder' => 'Filter...', 'autocomplete' => 'off' ]) }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="13">Loading, please wait...</td>
+                        <td colspan="11">Loading, please wait...</td>
                     </tr>
                 </tbody>
             </table>
