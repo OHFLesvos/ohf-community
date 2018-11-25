@@ -21,7 +21,6 @@ class PeopleController extends ParentController
         'name',
         'family_name',
         'police_no',
-        'case_no',
         'registration_no',
         'section_card_no',
         'remarks',
@@ -352,7 +351,7 @@ class PeopleController extends ParentController
                 'nationality',
                 'languages',
                 'police_no',
-                'case_no',
+                'case_no_hash',
                 'registration_no',
                 'section_card_no',
                 'card_no',
@@ -548,12 +547,11 @@ class PeopleController extends ParentController
                             'name' => $row->name,
                             'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
                             'police_no' => is_numeric($row->police_no) ? $row->police_no : null,
-                            'case_no' => is_numeric($row->case_no) ? $row->case_no : null,
                             'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
                             'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
                             'nationality' => $row->nationality,
                             'languages' => !empty($row->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $row->languages) : null,
-                            'remarks' => !is_numeric($row->case_no) && empty($row->remarks) ? $row->case_no : $row->remarks,
+                            'remarks' => $row->remarks,
                         ]);
                     }
                 });

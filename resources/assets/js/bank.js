@@ -176,7 +176,7 @@ $(function(){
 
 function enableFilterSelect() {
 	$('#filter').off('click');
-	$('#filter').on('click', function(){
+	$('#filter').on('focus', function(){
 		$(this).select();
 	});
 }

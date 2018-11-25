@@ -7,7 +7,6 @@
                 <th>@lang('people.age')</th>
                 <th>@lang('people.nationality')</th>
                 <th>@lang('people.police_number')</th>
-                <th>@lang('people.case_number')</th>
                 <th>@lang('people.registration_number')</th>
                 <th>@lang('people.section_card_number')</th>
                 <th>@lang('people.languages')</th>
@@ -24,7 +23,6 @@
                     <td>{{ $person->age }}</td>
                     <td>{{ $person->nationality }}</td>
                     <td>{{ $person->police_no }}</td>
-                    <td>{{ $person->case_no }}</td>
                     <td>{{ $person->registration_no }}</td>
                     <td>{{ $person->section_card_no }}</td>
                     <td>{{ is_array($person->languages) ? implode(', ', $person->languages) : $person->languages }}</td>

@@ -99,7 +99,7 @@
                         </div>
                     </li>
                 @endisset
-                @isset($person->case_no)
+                @isset($person->case_no_hash)
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-sm-5">
@@ -108,7 +108,7 @@
                                 </strong>
                             </div>
                             <div class="col-sm">
-                                {{ $person->case_no }}
+                                @lang('app.yes')
                             </div>
                         </div>
                     </li>

@@ -11,6 +11,7 @@ use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class Person extends Model
 {
@@ -21,7 +22,14 @@ class Person extends Model
 
     protected $dates = ['deleted_at'];
     
-    protected $fillable = ['name', 'family_name', 'police_no', 'case_no', 'nationality', 'remarks'];
+    protected $fillable = [
+        'name',
+        'family_name',
+        'police_no',
+        'case_no',
+        'nationality',
+        'remarks'
+    ];
     
     protected $nullable = [
         'date_of_birth',
@@ -114,6 +122,17 @@ class Person extends Model
             $str .= '«'.$this->nickname.'»';
         }
         return trim($str);
+    }
+
+    public function setCaseNoAttribute($value) {
+        if ($value !== null && $value != '') {
+            $value = preg_replace("/[^0-9]/", "", $value);
+            if ($value <= 0) {
+                $this->case_no_hash = null;
+            } else {
+                $this->case_no_hash = hash('sha256', $value);
+            }
+        }
     }
 
     public function getFrequentVisitorAttribute() {

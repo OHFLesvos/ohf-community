@@ -31,7 +31,7 @@
                         {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people.police_number'), 'Greek: Δ.Κ.Α.') }}
 					</div>
 					<div class="col-md">
-                        {{ Form::bsNumber('case_no', request()->query('case_no'), [ ], __('people.case_number'), 'Greek: Aριθ. Υπ.') }}
+                        {{ Form::bsText('case_no', request()->query('case_no'), [ ], __('people.case_number'), 'Greek: Aριθ. Υπ.') }}
 					</div>
                     <div class="col-md">
                         {{ Form::bsText('registration_no', null, [], __('people.registration_number')) }}

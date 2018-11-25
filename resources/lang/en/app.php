@@ -206,4 +206,5 @@ return [
     'choose_alternative_logo' => 'Choose alternative logo',
     'next' => 'Next',
     'id' => 'ID',
+    'leave_unchanged' => 'leave unchanged',
  ];

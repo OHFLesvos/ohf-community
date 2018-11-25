@@ -17,7 +17,7 @@ $(function(){
             tbody.append($('<tr>')
                 .append($('<td>')
                     .text('Searching...')
-                    .attr('colspan', 14))
+                    .attr('colspan', 13))
             );
 
             clearTimeout(delayTimer);
@@ -50,7 +50,6 @@ $(function(){
         $('#filter input[name="date_of_birth"]').val('');
         $('#filter input[name="nationality"]').val('');
         $('#filter input[name="police_no"]').val('');
-        $('#filter input[name="case_no"]').val('');
         $('#filter input[name="registration_no"]').val('');
         $('#filter input[name="section_card_no"]').val('');
         $('#filter input[name="languages"]').val('');
@@ -68,7 +67,7 @@ function filterTable(page) {
     tbody.append($('<tr>')
         .append($('<td>')
             .text('Searching...')
-            .attr('colspan', 14))
+            .attr('colspan', 13))
     );
 
     var paginator = $('#paginator');
@@ -83,7 +82,6 @@ function filterTable(page) {
         "date_of_birth": $('#filter input[name="date_of_birth"]').val(),
         "nationality": $('#filter input[name="nationality"]').val(),
         "police_no": $('#filter input[name="police_no"]').val(),
-        "case_no": $('#filter input[name="case_no"]').val(),
         "registration_no": $('#filter input[name="registration_no"]').val(),
         "section_card_no": $('#filter input[name="section_card_no"]').val(),
         "languages": $('#filter input[name="languages"]').val(),
@@ -104,7 +102,7 @@ function filterTable(page) {
                 .addClass('warning')
                 .append($('<td>')
                     .text('No results')
-                    .attr('colspan', 14))
+                    .attr('colspan', 13))
             );
         }
     })
@@ -114,7 +112,7 @@ function filterTable(page) {
                 .addClass('danger')
                 .append($('<td>')
                     .text(textStatus)
-                    .attr('colspan', 14))
+                    .attr('colspan', 13))
             );
         });
 }
@@ -181,7 +179,6 @@ function writeRow(person) {
         .append($('<td>').text(person.date_of_birth))
         .append($('<td>').text(person.nationality))
         .append($('<td>').text(person.police_no))
-        .append($('<td>').text(person.case_no))
         .append($('<td>').text(person.registration_no))
         .append($('<td>').text(person.section_card_no))
         .append($('<td>').text(person.languages ? Array.isArray(person.languages) ? person.languages.join(', ') : person.languages : ''))

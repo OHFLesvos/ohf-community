@@ -32,8 +32,8 @@
     @if(isset($person->police_no))
         @lang('people.police_number'): {{ $person->police_no }}<br>
     @endif
-    @if(isset($person->case_no))
-        @lang('people.case_number'): {{ $person->case_no }}<br>
+    @if(isset($person->case_no_hash))
+        @lang('people.case_number'): {{ $person->case_no_hash != null ? __('app.yes') : __('app.no') }}<br>
     @endif
     @if(isset($person->registration_no))
         @lang('people.registration_number'): {{ $person->registration_no }}<br>

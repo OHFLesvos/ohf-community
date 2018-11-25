@@ -1,10 +1,11 @@
 # Changelog
 
-## 1.21.6
+## 1.22.0
 
 People:
 
 * Removed barely used temp and medical number fields from person records
+* Case-number is now stored in hashed form, and no longer displayed to the user
 
 Helpers:
 

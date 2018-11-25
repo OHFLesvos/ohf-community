@@ -74,6 +74,7 @@ class WithdrawalController extends Controller
         // Create query
         $q = Person::orderBy('family_name', 'asc')
             ->orderBy('name', 'asc');
+
         // Handle OR keyword
         foreach(preg_split('/\s+OR\s+/', $filter) as $orTerm) {
             $terms = preg_split('/\s+/', $orTerm);
@@ -85,14 +86,15 @@ class WithdrawalController extends Controller
                     $aq->where(function($wq) use ($term) {
                        $wq->where('search', 'LIKE', '%' . $term . '%'); 
                        $wq->orWhere('police_no', $term);
-                       $wq->orWhere('case_no', $term);
                        $wq->orWhere('registration_no', $term);
                        $wq->orWhere('section_card_no', $term);
+                       $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
                     });
                 }
             });
         }
-        $results = $q->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page')));
+        $limit = \Setting::get('people.results_per_page', Config::get('bank.results_per_page'));
+        $results = $q->paginate($limit);
 
         $message = null;
 
