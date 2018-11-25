@@ -59,12 +59,7 @@ class Person extends Model
     }
     
     private static function createSearchString($model) {
-        $str = $model->family_name 
-            . ' ' . $model->name 
-            . ' ' . $model->police_no 
-            . ' ' . $model->case_no
-            . ' ' . $model->registration_no
-            . ' ' . $model->section_card_no;
+        $str = $model->family_name . ' ' . $model->name;
         return preg_replace('/\s+/', ' ', trim($str));
     }
     

@@ -38,7 +38,7 @@ return [
     'reg_no' => 'Reg. No.',
     'section_card_number' => 'Section Card Number',
     'sec_card_no' => 'Sec. Card No.',
-    'bank_search_text' => 'Search for name, case number, medical number, registration number, section card number...',
+    'bank_search_text' => 'Search for name, police number, case number, registration number, section card number...',
     'find_duplicates' => 'Find duplicates',
     'code_card' => 'Code Card',
     'code_cards' => 'Code Cards',

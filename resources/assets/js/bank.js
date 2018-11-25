@@ -170,6 +170,8 @@ $(function(){
 
 	// Check shop card
 	$('.check-shop-card').on('click', checkShopCard);
+
+	enableFilterSelect();
 });
 
 function enableFilterSelect() {

@@ -82,7 +82,13 @@ class WithdrawalController extends Controller
                     // Remove dash "-" from term
                     $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
                     // Create like condition
-                    $aq->where('search', 'LIKE', '%' . $term . '%');
+                    $aq->where(function($wq) use ($term) {
+                       $wq->where('search', 'LIKE', '%' . $term . '%'); 
+                       $wq->orWhere('police_no', $term);
+                       $wq->orWhere('case_no', $term);
+                       $wq->orWhere('registration_no', $term);
+                       $wq->orWhere('section_card_no', $term);
+                    });
                 }
             });
         }
