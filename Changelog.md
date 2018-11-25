@@ -7,6 +7,7 @@ Helpers:
 * Case work permissions
 * Autocomplete lanugage, responsibilities
 * Fix vcard number export
+* DB encryption for sensitive helper data
 
 ## 1.21.5
 
