@@ -24,12 +24,12 @@ class AddCaseNoHashToPersons extends Migration
         Schema::table('helpers', function (Blueprint $table) {
             $table->string('casework_case_number')->nullable()->after('endorses_casework');
         });
-        Person::all()->each(function($p) {
-            if ($p->case_no != null) {
-                $p->case_no_hash = hash('sha256', $p->case_no);
-                $p->save();
+        Person::all()->each(function($person) {
+            if ($person->case_no != null) {
+                $person->case_no_hash = hash('sha256', $person->case_no);
+                $person->save();
                 if ($person->helper != null) {
-                    $person->helper->casework_case_number = $p->case_no;
+                    $person->helper->casework_case_number = $person->case_no;
                     $person->helper->save();
                 }
             }
