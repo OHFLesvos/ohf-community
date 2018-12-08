@@ -4,6 +4,7 @@
 
 * Library update
 * Fix badge issue with reissuing ID, badges with same name
+* Added column sets and orientation to helper export
 
 ## 1.22.0
 

@@ -207,4 +207,8 @@ return [
     'next' => 'Next',
     'id' => 'ID',
     'leave_unchanged' => 'leave unchanged',
+    'all' => 'All',
+    'orientation' => 'Orientation',
+    'portrait' => 'Portrait',
+    'landscape' => 'Landscape',
  ];

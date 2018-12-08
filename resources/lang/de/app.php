@@ -207,4 +207,8 @@ return [
     'next' => 'Weiter',
     'id' => 'ID',
     'leave_unchanged' => 'unverändert lassen',
+    'all' => 'Alle',
+    'orientation' => 'Ausrichtung',
+    'portrait' => 'Hochformat',
+    'landscape' => 'Querformat',
 ];

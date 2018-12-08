@@ -938,6 +938,23 @@ class HelperListController extends Controller
         ]);
     }
 
+    private function getColumnSets() {
+        return collect([
+            'all' => [
+                'label' => __('app.all'),
+                'columns' => [],
+            ],
+            'name_nationality_occupation' => [
+                'label' => __('people.name_nationality_occupation'),
+                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities'],
+            ],
+            'contact_info' => [
+                'label' => __('people.contact_info'),
+                'columns' => ['name', 'family_name', 'nickname', 'local_phone', 'other_phone', 'whatsapp', 'email', 'skype', 'residence'],
+            ],
+        ]);
+    }
+
     public function index(Request $request) {
         $this->authorize('list', Helper::class);
 
@@ -1284,6 +1301,10 @@ class HelperListController extends Controller
                 return [ $k => $s['label'] ];
             })->toArray(),
             'scope' => $this->getScopes()->keys()->first(),
+            'columnt_sets' => $this->getColumnSets()->mapWithKeys(function($s, $k){
+                return [ $k => $s['label'] ];
+            })->toArray(),
+            'columnt_set' => $this->getColumnSets()->keys()->first(),
         ]);
     }
 
@@ -1295,6 +1316,14 @@ class HelperListController extends Controller
                 'required', 
                 Rule::in($this->getScopes()->keys()->toArray()),
             ],
+            'column_set' => [
+                'required', 
+                Rule::in($this->getColumnSets()->keys()->toArray()),
+            ],
+            'orientation' => [
+                'required',
+                'in:portrait,landscape',
+            ]
         ])->validate();
 
         $scope = $this->getScopes()[$request->scope];
@@ -1310,11 +1339,20 @@ class HelperListController extends Controller
             $format = 'xlsx';
         }
 
-        
+        $columnSet = $this->getColumnSets()[$request->column_set];
         $fields = collect($this->getFields()) // TODO flexible field selection
             ->where('overview_only', false)
             ->where('exclude_export', false)
-            ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; });
+            ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; })
+            ->filter(function($e) use($columnSet){
+                if (count($columnSet['columns']) > 0) {
+                    if (isset($e['form_name'])) {
+                        return in_array($e['form_name'], $columnSet['columns']);
+                    }
+                    return false;
+                }
+                return true;
+            });
 
         $sorting = 'person.name'; // TODO flexible sorting
         $scope_method = $scope['scope'];
@@ -1323,10 +1361,11 @@ class HelperListController extends Controller
             ->load('person')
             ->sortBy($sorting);
 
+        $orientation = $request->orientation;
         $file_name = __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
-        $spreadsheet = \Excel::create($file_name, function($excel) use($helpers, $fields) {
-            $excel->sheet(__('people.helpers'), function($sheet) use($helpers, $fields) {
-                $sheet->setOrientation('landscape');
+        $spreadsheet = \Excel::create($file_name, function($excel) use($helpers, $fields, $orientation) {
+            $excel->sheet(__('people.helpers'), function($sheet) use($helpers, $fields, $orientation) {
+                $sheet->setOrientation($orientation);
                 $sheet->setPageMargin(0.25);
                 $sheet->setAllBorders('thin');
                 $sheet->setFitToPage(false);
