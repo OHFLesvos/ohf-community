@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.22.1
+
+* Library update
+* Fix badge issue with reissuing ID, badges with same name
+
 ## 1.22.0
 
 People:

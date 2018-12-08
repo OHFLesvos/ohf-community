@@ -122,8 +122,8 @@ class BadgeCreator {
             $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($bw / 2) - ($punch_hole_size / 2)) .'mm; top: '. ($y + $punch_hole_distance_center - ($punch_hole_size / 2)) .'mm; width: '. $punch_hole_size .'mm; height: ' . $punch_hole_size . 'mm; border-radius: ' . ($punch_hole_size / 2) .'mm; border: 1px dotted black;"></div>');
             
             // QR Code of ID
-            if (!empty($persons[$i]['id'])) {
-                $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['id'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['id'].'</small>', $x + $padding - 3, $y + $padding + 43, 30, 30, 'auto');
+            if (!empty($persons[$i]['code'])) {
+                $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['code'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['code'].'</small>', $x + $padding - 3, $y + $padding + 43, 30, 30, 'auto');
             }
 
         }

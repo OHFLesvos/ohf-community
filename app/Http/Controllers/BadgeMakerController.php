@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class BadgeMakerController extends Controller
 {
+    private const BADGE_ITEMS_SESSION_KEY = 'badge_items';
+
     private static function getSources() {
         $sources = [
             [
@@ -29,6 +31,8 @@ class BadgeMakerController extends Controller
     }
 
     public function index(Request $request) {
+        $request->session()->forget(self::BADGE_ITEMS_SESSION_KEY);
+
         $sources = self::getSources();
         $source = $request->has('source') && $sources->keys()->contains($request->source) 
             ? $request->source
@@ -71,7 +75,7 @@ class BadgeMakerController extends Controller
                         $persons[] = [
                             'name' => $row->name,
                             'position' => $row->position,
-                            'id' => $row->id ?? null,
+                            'code' => $row->code ?? null,
                         ];
                     });
                 });
@@ -87,8 +91,16 @@ class BadgeMakerController extends Controller
             })
             ->validate();
 
+        $data = collect($persons)->sortBy('name')->mapWithKeys(function($e){
+            $id = md5(uniqid(null, true));
+            return [ $id => $e ];
+        });
+        $request->session()->put(self::BADGE_ITEMS_SESSION_KEY, $data->toArray());
+
         return view('badges.selection', [
-            'persons' => $persons,
+            'persons' => $data->map(function($e){ 
+                return $e['name'] . ($e['position'] != null ? ' (' . $e['position'] . ')' : '');
+            })->toArray(),
         ]);
     }
 
@@ -99,7 +111,7 @@ class BadgeMakerController extends Controller
                 'array',
             ],
             'persons.*' => [
-                'json'
+                'string'
             ],
             'alt_logo' => [
                 'file',
@@ -111,8 +123,21 @@ class BadgeMakerController extends Controller
                 ->with('error', implode(', ', $validator->errors()->all()));
         }
 
-        $persons = collect($request->persons)->map(function($e){ 
-            return json_decode($e, true); 
+        // Retrieve data
+        $data = $request->session()->get(self::BADGE_ITEMS_SESSION_KEY, []);
+        $persons = collect($request->persons)->map(function($e) use($data) { 
+            $person = $data[$e];
+
+            if (isset($person['type']) && $person['type'] == 'helper' && isset($person['id'])) {
+                $helper = Helper::find($person['id']);
+                if ($helper != null) {
+                    $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
+                    $helper->person->save();
+                    $person['code'] = $helper->person->staff_card_no;
+                }
+            }
+
+            return $person;
         });
 
         // Ensure there are records
@@ -131,16 +156,11 @@ class BadgeMakerController extends Controller
     }
 
     private static function helperToBadgePerson($helper) {
-        // Set a card number if not yet assigned
-        if ($helper->person->staff_card_no == null) {
-            $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
-            $helper->person->save();
-            // TODO add option to renew card number
-        }
         return [
+            'type' => 'helper',
+            'id' => $helper->id,
             'name' => $helper->person->nickname ?? $helper->person->name,
             'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
-            'id' =>  $helper->person->staff_card_no,
         ];
     }
 }
