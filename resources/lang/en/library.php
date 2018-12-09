@@ -11,6 +11,7 @@ return [
     'extend' => 'Extend',
     'book_lent' => 'Book lent.',
     'book_returned' => 'Book returned.',
+    'no_books_lent' => 'No books lent.',
     'no_books_lent_so_far' => 'No books lent so far.',
     'lend_a_book' => 'Lend a book',
     'lend_book' => 'Lend book',

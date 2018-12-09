@@ -29,7 +29,7 @@
                                 {{ $lending->lending_date->toDateString() }}
                             </td>
                             <td>
-                                {{ $lending->returned_date->toDateString() }}
+                                {{ optional($lending->returned_date)->toDateString() }}
                             </td>
                         </tr>
                     @endforeach

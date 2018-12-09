@@ -9,11 +9,6 @@
         <small class="d-block d-sm-inline">{{ $person->nationality }}@isset($person->date_of_birth), {{ $person->date_of_birth }}@endisset</small>
     </h2>
 
-    @php
-        $lendings = $person->bookLendings()
-            ->whereNull('returned_date')
-            ->orderBy('return_date', 'asc');
-    @endphp
     @if($lendings->count() > 0)
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
@@ -26,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($lendings->get() as $lending)
+                    @foreach($lendings as $lending)
                         <tr class="@if($lending->return_date->lt(Carbon\Carbon::today()))table-danger @elseif($lending->return_date->eq(Carbon\Carbon::today()))table-warning @endif">
                             <td class="align-middle">
                                 <a href="{{ route('library.lending.book', $lending->book) }}">{{ $lending->book->title }} @isset($lending->book->author)({{ $lending->book->author }})@endisset</a>
@@ -56,7 +51,7 @@
         </div>
     @else
         @component('components.alert.info')
-            @lang('library.no_books_lent_so_far')
+            @lang('library.no_books_lent')
         @endcomponent
     @endif
 

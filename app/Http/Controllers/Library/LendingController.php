@@ -24,6 +24,7 @@ class LendingController extends Controller
 
         return view('library.lending.person', [ 
             'person' => $person,
+            'lendings' => $person->bookLendings()->whereNull('returned_date')->orderBy('return_date', 'asc')->get(),
         ]);
     }
 
@@ -32,7 +33,7 @@ class LendingController extends Controller
 
         return view('library.lending.personLog', [ 
             'person' => $person,
-            'lendings' => $person->bookLendings()->whereNotNull('returned_date')->orderBy('lending_date', 'desc')->paginate(25),
+            'lendings' => $person->bookLendings()->orderBy('lending_date', 'desc')->paginate(25),
         ]);
     }
 
@@ -49,7 +50,7 @@ class LendingController extends Controller
 
         return view('library.lending.bookLog', [ 
             'book' => $book,
-            'lendings' => $book->lendings()->whereNotNull('returned_date')->orderBy('lending_date', 'desc')->paginate(25),
+            'lendings' => $book->lendings()->orderBy('lending_date', 'desc')->paginate(25),
         ]);
     }
 

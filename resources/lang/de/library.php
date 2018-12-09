@@ -11,6 +11,7 @@ return [
     'extend' => 'Verlängern',
     'book_lent' => 'Buch ausgeliehen.',
     'book_returned' => 'Buch zurückgegeben.',
+    'no_books_lent' => 'Kein Buch ausgeliehen.',
     'no_books_lent_so_far' => 'Noch kein Buch ausgeliehen.',
     'lend_a_book' => 'Leihe ein Buch aus',
     'lend_book' => 'Buch ausleihen',    
