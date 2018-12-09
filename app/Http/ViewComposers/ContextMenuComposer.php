@@ -688,6 +688,34 @@ class ContextMenuComposer {
                     ]
                 ];
 
+            // Barber
+            case 'library.lending.index':
+                return [
+                    'settings' => [
+                        'url' => route('library.settings.edit'),
+                        'caption' => __('app.settings'),
+                        'icon' => 'cogs',
+                        'authorized' => true, // TODO Gate::allows('configure-barber-list')
+                    ]
+                ];
+            case 'library.settings.edit':
+                return [
+                    'back' => [
+                        'url' => route('library.lending.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ]
+                ];
+            case 'library.lending.person':
+                return [
+                    'back' => [
+                        'url' => route('library.lending.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ]
+                ];
 
             //
             // Logistics

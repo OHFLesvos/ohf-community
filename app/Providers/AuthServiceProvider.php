@@ -49,6 +49,7 @@ class AuthServiceProvider extends ServiceProvider
             'configure-shop' => 'shop.configure',
             'view-barber-list' => 'shop.barber.list.view',
             'configure-barber-list' => 'shop.barber.list.configure',
+            'configure-library' => 'library.configure',
             'view-bank-reports' => 'bank.statistics.view',
             'view-people-reports' => 'people.reports.view',
             'view-reports' => ['people.reports.view', 'bank.statistics.view', 'kitchen.reports.view', 'app.usermgmt.view'],

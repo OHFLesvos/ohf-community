@@ -145,6 +145,17 @@ Route::group(['middleware' => 'language'], function () {
             Route::put('/settings', 'BarberShopSettingsController@update')->name('settings.update')->middleware(['can:configure-barber-list']);
         });
 
+        Route::namespace('Library')->prefix('library')->name('library.')->group(function(){
+            Route::get('lending', 'LendingController@index')->name('lending.index');
+            Route::get('lending/person/{person}', 'LendingController@person')->name('lending.person');
+            Route::post('lending/{person}/lendBook', 'LendingController@lendBook')->name('lending.lendBook');
+            Route::post('lending/{person}/returnBook', 'LendingController@returnBook')->name('lending.returnBook');
+            Route::get('lending/book/{book}', 'LendingController@book')->name('lending.book');
+            Route::get('books/filter', 'BookController@filter')->name('books.filter');
+            Route::get('settings', 'LibrarySettingsController@edit')->name('settings.edit')->middleware(['can:configure-library']);
+            Route::put('settings', 'LibrarySettingsController@update')->name('settings.update')->middleware(['can:configure-library']);
+        });
+
         // Helpers
         Route::namespace('People\Helpers')->name('people.')->group(function(){
             Route::get('helpers/export', 'HelperListController@export')->name('helpers.export')->middleware('can:export,App\Helper');

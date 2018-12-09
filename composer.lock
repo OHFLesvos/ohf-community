@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ebb37080e236f7c35bf7e7df5a0d327b",
+    "content-hash": "915433b7af60c6b80d66dcdbaa8d402f",
     "packages": [
         {
             "name": "akaunting/language",
@@ -353,6 +353,52 @@
                 "transliterator"
             ],
             "time": "2017-04-04T11:38:05+00:00"
+        },
+        {
+            "name": "biblys/isbn",
+            "version": "2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/biblys/isbn.git",
+                "reference": "0bad3d96058266e2bca306a2359f6594e4ef1561"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/biblys/isbn/zipball/0bad3d96058266e2bca306a2359f6594e4ef1561",
+                "reference": "0bad3d96058266e2bca306a2359f6594e4ef1561",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.2",
+                "phpunit/phpunit": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Biblys": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Clement Bourgoin",
+                    "email": "cb@nokto.net"
+                }
+            ],
+            "description": "A PHP library to convert and validate ISBN & EAN",
+            "homepage": "https://github.com/biblys/isbn",
+            "keywords": [
+                "ISBN",
+                "book",
+                "ean"
+            ],
+            "time": "2017-11-22T00:00:00+00:00"
         },
         {
             "name": "cocur/slugify",

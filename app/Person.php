@@ -306,4 +306,8 @@ class Person extends Model
         }
         return null;
     }
+
+    public function bookLendings() {
+        return $this->hasMany('App\LibraryLending', 'person_id');
+    }
 }
