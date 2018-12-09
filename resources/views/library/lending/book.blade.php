@@ -11,70 +11,46 @@
     </h2>
 
     @php
-        $lendings = $book->lendings()
-            ->orderBy('return_date', 'desc')
-            ->orderBy('created_at', 'desc');
+        $lending = $book->lendings()->whereNull('returned_date')->first();
     @endphp
-    @if($lendings->count() > 0)
-        <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>@lang('people.person')</th>
-                        <th class="d-none d-sm-table-cell">@lang('library.lending')</th>
-                        <th>@lang('library.returned')</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($lendings->get() as $lending)
-                        <tr class="@if($lending->returned_date == null)@if($lending->return_date->lt(Carbon\Carbon::today()))table-danger @elseif($lending->return_date->eq(Carbon\Carbon::today()))table-warning @else table-info @endif @endif">
-                            <td class="align-middle">
-                                <a href="{{ route('library.lending.person', $lending->person) }}">{{ $lending->person->fullName}}</a>
-                            </td>
-                            <td class="align-middle d-none d-sm-table-cell">
-                                {{ $lending->lending_date->toDateString() }}
-                            </td>
-                            <td class="align-middle">
-                                {{ optional($lending->returned_date)->toDateString() }}
-                            </td>
-                            <td class="fit">
-                                @if($lending->returned_date == null)
-                                    <form action="{{ route('library.lending.returnBook', $lending->person) }}" method="post" class="d-inline">
-                                        {{ csrf_field() }}
-                                        {{ Form::hidden('book_id', $book->id) }}
-                                        <button type="submit" class="btn btn-sm btn-success">
-                                            @icon(inbox)<span class="d-none d-sm-inline"> @lang('library.return')</span>
-                                        </button>
-                                    </form>
-                                    <button type="button" class="btn btn-sm btn-primary">
-                                        @icon(calendar-plus-o)<span class="d-none d-sm-inline"> @lang('library.extend')</span>
-                                    </button>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    @else
+    @isset($lending)
         @component('components.alert.info')
-            @lang('library.no_books_lent_so_far')
+            Book is lent to <a href="{{ route('library.lending.person', $lending->person) }}">{{ $lending->person->fullName}}</a> until <strong>{{ $lending->return_date->toDateString() }}</strong>.
         @endcomponent
-    @endif
+        {!! Form::open(['route' => ['library.lending.returnBook', $book], 'method' => 'post']) !!}
+            <p>
+                <button type="submit" class="btn btn-success">
+                    @icon(inbox)<span class="d-none d-sm-inline"> @lang('library.return')</span>
+                </button>
+            </p>
+        {!! Form::close() !!}
+    @else
+        @component('components.alert.success')
+            @lang('library.book_is_available')
+        @endcomponent
+        <div class="card mt-3">
+            <div class="card-header">@lang('library.lend_book')</div>
+            <div class="card-body">
+                {!! Form::open(['route' => ['library.lending.lendBook', $book], 'method' => 'post']) !!}
+                    {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
+                    <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>                
+                {!! Form::close() !!}
+            </div>
+        </div>
+    @endisset
 
 @endsection
 
 @section('script')
     function toggleSubmit() {
-        if ($('#book_id').val()) {
+        if ($('#person_id').val()) {
             $('#lend-existing-book-button').attr('disabled', false);
         } else {
             $('#lend-existing-book-button').attr('disabled', true);
         }
     }
     $(function(){
-        $('#book_id').on('change', toggleSubmit);
+        $('#person_id').on('change', toggleSubmit);
         toggleSubmit();
     });
 @endsection

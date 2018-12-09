@@ -6,8 +6,7 @@
 
     <h2 class="mb-3">
         {{ $person->fullName }}
-        <small class="d-block d-sm-inline">{{ $person->nationality }}@isset($person->date_of_birth), {{ $person->date_of_birth }}@endisset
-        </small>
+        <small class="d-block d-sm-inline">{{ $person->nationality }}@isset($person->date_of_birth), {{ $person->date_of_birth }}@endisset</small>
     </h2>
 
     @php
@@ -39,7 +38,7 @@
                                 {{ $lending->return_date->toDateString() }}
                             </td>
                             <td class="fit">
-                                <form action="{{ route('library.lending.returnBook', $person) }}" method="post" class="d-inline">
+                                <form action="{{ route('library.lending.returnBookFromPerson', $person) }}" method="post" class="d-inline">
                                     {{ csrf_field() }}
                                     {{ Form::hidden('book_id', $lending->book->id) }}
                                     <button type="submit" class="btn btn-sm btn-success">
@@ -64,7 +63,7 @@
     <div class="card mt-3">
         <div class="card-header">@lang('library.lend_a_book')</div>
         <div class="card-body">
-            {!! Form::open(['route' => ['library.lending.lendBook', $person], 'method' => 'post']) !!}
+            {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
                 {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
                 <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>                
             {!! Form::close() !!}

@@ -211,4 +211,5 @@ return [
     'orientation' => 'Orientation',
     'portrait' => 'Portrait',
     'landscape' => 'Landscape',
+    'log' => 'Log',
  ];

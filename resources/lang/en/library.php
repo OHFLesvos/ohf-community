@@ -18,4 +18,9 @@ return [
     'default_lening_duration_days_in_days' => 'Default lending duration in days',
     'book_already_lent' => 'Book is already lent.',
     'returned' => 'Returned',
+    'book_lending_log' => 'Book lending log',
+    'book_is_available' => 'Book is available.',
+    'person_lending_log' => 'Person lending log',
+    'lent' => 'Lent',
+    'not_lent_to_anyone_so_far' => 'Not lent to anyone so far.',
 ];

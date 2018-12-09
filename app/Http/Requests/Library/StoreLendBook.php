@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Library;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\LibraryLending;
 
 class StoreLendBook extends FormRequest
 {
@@ -25,28 +24,11 @@ class StoreLendBook extends FormRequest
     public function rules()
     {
         return [
-            'book_id' => [
+            'person_id' => [
                 'required',
-                'exists:library_books,id',
+                'exists:persons,id',
             ]
         ];
     }
 
-        /**
-     * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            $lending = LibraryLending::where('book_id', $this->book_id)
-                ->whereNull('returned_date')
-                ->first();
-            if ($lending != null) {
-                $validator->errors()->add('book_id', __('library.book_already_lent'));
-            }
-        });
-    }
 }

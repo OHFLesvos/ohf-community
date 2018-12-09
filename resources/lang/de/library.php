@@ -18,4 +18,9 @@ return [
     'default_lening_duration_days_in_days' => 'Standard Ausleihedauer in Tagen',
     'book_already_lent' => 'Buch ist bereits ausgeliehen.',
     'returned' => 'Zurückgegeben',
+    'book_lending_log' => 'Vergangene Buchausleihen',
+    'book_is_available' => 'Buch ist verfügbar.',
+    'person_lending_log' => 'In der Vergangenheit ausgeliehene Bücher',
+    'lent' => 'Ausgeliehen',
+    'not_lent_to_anyone_so_far' => 'Wurde noch nicht an jemanden ausgeliehen.',
 ];

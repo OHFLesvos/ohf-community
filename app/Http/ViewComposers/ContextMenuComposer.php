@@ -708,9 +708,52 @@ class ContextMenuComposer {
                     ]
                 ];
             case 'library.lending.person':
+                $person = $view->getData()['person'];
                 return [
+                    'log' => [
+                        'url' => route('library.lending.personLog', $person),
+                        'caption' => __('app.log'),
+                        'icon' => 'list',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ],
                     'back' => [
                         'url' => route('library.lending.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ]
+                ];
+            case 'library.lending.personLog':
+                $person = $view->getData()['person'];
+                return [
+                    'back' => [
+                        'url' => route('library.lending.person', $person),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ]
+                ];
+            case 'library.lending.book':
+                $book = $view->getData()['book'];
+                return [
+                    'log' => [
+                        'url' => route('library.lending.bookLog', $book),
+                        'caption' => __('app.log'),
+                        'icon' => 'list',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ],
+                    'back' => [
+                        'url' => route('library.lending.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ]
+                ];
+            case 'library.lending.bookLog':
+                $book = $view->getData()['book'];
+                return [
+                    'back' => [
+                        'url' => route('library.lending.book', $book),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
                         'authorized' => true, // TODO Gate::allows('view-barber-list')

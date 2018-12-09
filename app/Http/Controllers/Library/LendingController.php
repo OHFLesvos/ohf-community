@@ -9,7 +9,8 @@ use App\LibraryBook;
 use App\Person;
 use Carbon\Carbon;
 use App\Http\Requests\Library\StoreLendBook;
-use App\Http\Requests\Library\StoreReturnBook;
+use App\Http\Requests\Library\StoreLendBookToPerson;
+use App\Http\Requests\Library\StoreReturnBookFromPerson;
 
 class LendingController extends Controller
 {
@@ -20,27 +21,45 @@ class LendingController extends Controller
 
     public function person(Person $person) {
         // TODO authentication
+
         return view('library.lending.person', [ 
             'person' => $person,
         ]);
     }
 
+    public function personLog(Person $person) {
+        // TODO authentication
+
+        return view('library.lending.personLog', [ 
+            'person' => $person,
+            'lendings' => $person->bookLendings()->whereNotNull('returned_date')->orderBy('lending_date', 'desc')->paginate(25),
+        ]);
+    }
+
     public function book(LibraryBook $book) {
         // TODO authentication
+
         return view('library.lending.book', [ 
             'book' => $book,
         ]);
     }
 
-    public function lendBook(Person $person, StoreLendBook $request) {
+    public function bookLog(LibraryBook $book) {
         // TODO authentication
-        // TODO validate no date conflict
 
-        $duration = \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS);
+        return view('library.lending.bookLog', [ 
+            'book' => $book,
+            'lendings' => $book->lendings()->whereNotNull('returned_date')->orderBy('lending_date', 'desc')->paginate(25),
+        ]);
+    }
+
+    public function lendBookToPerson(Person $person, StoreLendBookToPerson $request) {
+        // TODO authentication
 
         $book = LibraryBook::findOrFail($request->book_id);
         $lending = new LibraryLending();
         $lending->lending_date = Carbon::today();
+        $duration = \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS);
         $lending->return_date = Carbon::today()->addDays($duration);
         $lending->person()->associate($person);
         $lending->book()->associate($book);
@@ -50,8 +69,26 @@ class LendingController extends Controller
             ->with('success', __('library.book_lent'));	
     }
 
-    public function returnBook(Person $person, StoreReturnBook $request) {
+    public function lendBook(LibraryBook $book, StoreLendBook $request) {
         // TODO authentication
+        // TODO validate no date conflict
+
+        $person = Person::findOrFail($request->person_id);
+        $lending = new LibraryLending();
+        $lending->lending_date = Carbon::today();
+        $duration = \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS);
+        $lending->return_date = Carbon::today()->addDays($duration);
+        $lending->person()->associate($person);
+        $lending->book()->associate($book);
+        $lending->save();
+
+        return redirect()->route('library.lending.book', $book)
+            ->with('success', __('library.book_lent'));	
+    }
+
+    public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request) {
+        // TODO authentication
+
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
             ->whereNull('returned_date')
@@ -60,6 +97,19 @@ class LendingController extends Controller
         $lending->save();
 
         return redirect()->route('library.lending.person', $person)
+            ->with('success', __('library.book_returned'));	
+    }
+
+    public function returnBook(LibraryBook $book) {
+        // TODO authentication
+
+        $lending = LibraryLending::where('book_id', $book->id)
+            ->whereNull('returned_date')
+            ->firstOrFail();
+        $lending->returned_date = Carbon::today();
+        $lending->save();
+
+        return redirect()->route('library.lending.book', $book)
             ->with('success', __('library.book_returned'));	
     }
     

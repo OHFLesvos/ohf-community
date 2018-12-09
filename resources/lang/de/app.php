@@ -211,4 +211,5 @@ return [
     'orientation' => 'Ausrichtung',
     'portrait' => 'Hochformat',
     'landscape' => 'Querformat',
+    'log' => 'Log',
 ];
