@@ -212,4 +212,5 @@ return [
     'portrait' => 'Hochformat',
     'landscape' => 'Querformat',
     'log' => 'Log',
+    'number_of_days' => 'Anzahl Tage',
 ];

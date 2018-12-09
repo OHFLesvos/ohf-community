@@ -707,6 +707,16 @@ class ContextMenuComposer {
                         'authorized' => true, // TODO Gate::allows('view-barber-list')
                     ]
                 ];
+            case 'library.lending.persons':
+            case 'library.lending.books':
+                return [
+                    'back' => [
+                        'url' => route('library.lending.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    ]
+                ];
             case 'library.lending.person':
                 $person = $view->getData()['person'];
                 $entries = [];

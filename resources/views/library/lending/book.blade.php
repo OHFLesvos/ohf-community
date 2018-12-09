@@ -14,13 +14,25 @@
         $lending = $book->lendings()->whereNull('returned_date')->first();
     @endphp
     @isset($lending)
+        @if($lending->return_date->lt(Carbon\Carbon::today()))
+            @component('components.alert.error')
+                @lang('library.book_is_overdue')
+            @endcomponent
+        @elseif($lending->return_date->eq(Carbon\Carbon::today()))
+            @component('components.alert.warning')
+                @lang('library.book_is_overdue_soon')
+            @endcomponent
+        @endif
         @component('components.alert.info')
-            Book is lent to <a href="{{ route('library.lending.person', $lending->person) }}">{{ $lending->person->fullName}}</a> until <strong>{{ $lending->return_date->toDateString() }}</strong>.
+            @lang('library.book_is_lent_to_person_until', [ 'route' => route('library.lending.person', $lending->person), 'person' => $lending->person->fullName, 'until' => $lending->return_date->toDateString() ])
         @endcomponent
         {!! Form::open(['route' => ['library.lending.returnBook', $book], 'method' => 'post']) !!}
             <p>
                 <button type="submit" class="btn btn-success">
                     @icon(inbox) @lang('library.return')
+                </button>
+                <button type="button" class="btn btn-primary extend-lending-button">
+                    @icon(calendar-plus-o) @lang('library.extend')
                 </button>
             </p>
         {!! Form::close() !!}
@@ -52,5 +64,12 @@
     $(function(){
         $('#person_id').on('change', toggleSubmit);
         toggleSubmit();
+    });
+
+    $('.extend-lending-button').on('click', function(){
+        var days = prompt('{{ __('app.number_of_days') }}:', {{ $default_extend_duration }});
+        if (days != null && days > 0) {
+            window.post('{{ route('library.lending.extendBook', $book) }}', {_token: '{{ csrf_token() }}', days: days});
+        }
     });
 @endsection

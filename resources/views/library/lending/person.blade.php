@@ -40,7 +40,7 @@
                                         @icon(inbox)<span class="d-none d-sm-inline"> @lang('library.return')</span>
                                     </button>
                                 </form>
-                                <button type="button" class="btn btn-sm btn-primary">
+                                <button type="button" class="btn btn-sm btn-primary extend-lending-button" data-book="{{ $lending->book->id }}">
                                     @icon(calendar-plus-o)<span class="d-none d-sm-inline"> @lang('library.extend')</span>
                                 </button>
                             </td>
@@ -79,4 +79,28 @@
         $('#book_id').on('change', toggleSubmit);
         toggleSubmit();
     });
+
+    $('.extend-lending-button').on('click', function(){
+        var book_id = $(this).data('book');
+        var days = prompt('{{ __('app.number_of_days') }}:', {{ $default_extend_duration }});
+        if (days != null && days > 0) {
+            window.post('{{ route('library.lending.extendBookToPerson', $person) }}', {_token: '{{ csrf_token() }}', book_id: book_id, days: days});
+        }
+    });
+
+    {{-- $('#extendLendingModal').on('shown.bs.modal', function (e) {
+        $('input[name="person_id_search"]').focus();
+    }); --}}
 @endsection
+
+{{-- @section('content-footer')
+    {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
+        @component('components.modal', [ 'id' => 'extendLendingModal' ])
+            @slot('title', __('library.extend'))
+
+            @slot('footer')
+                {{ Form::bsSubmitButton(__('app.extend')) }}
+            @endslot
+        @endcomponent
+    {!! Form::close() !!}
+@endsection --}}

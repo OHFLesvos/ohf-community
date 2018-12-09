@@ -212,4 +212,5 @@ return [
     'portrait' => 'Portrait',
     'landscape' => 'Landscape',
     'log' => 'Log',
+    'number_of_days' => 'Number of days',
  ];

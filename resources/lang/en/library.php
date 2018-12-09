@@ -27,4 +27,8 @@ return [
     'books' => 'Books',
     'borrowers' => 'Borrowers',
     'lent_books' => 'Lent books',
+    'book_is_overdue' => 'Book is overdue.',
+    'book_is_overdue_soon' => 'Book is overdue soon.',
+    'book_is_lent_to_person_until' => 'Book is lent to <a href=":route">:person</a> until <strong>:until</strong>.',
+    'book_extended' => 'Book extended.',
 ];

@@ -11,19 +11,30 @@ use Carbon\Carbon;
 use App\Http\Requests\Library\StoreLendBook;
 use App\Http\Requests\Library\StoreLendBookToPerson;
 use App\Http\Requests\Library\StoreReturnBookFromPerson;
+use App\Http\Requests\Library\StoreExtendBook;
+use App\Http\Requests\Library\StoreExtendBookToPerson;
 
 class LendingController extends Controller
 {
-    public function index(Request $request) {
+    public function index() {
         // TODO authentication
-        return view('library.lending.index', [ ]);
+        return view('library.lending.index', [ 
+            'num_borrowers' => Person::whereHas('bookLendings', function ($query) {
+                    $query->whereNull('returned_date');
+                })->count(),
+            'num_lent_books' => LibraryBook::whereHas('lendings', function ($query) {
+                    $query->whereNull('returned_date');
+                })->count(),
+        ]);
     }
 
     public function persons() {
         // TODO authentication
 
         return view('library.lending.persons', [ 
-            'persons' => Person::has('bookLendings')->get()->sortBy('fullName'),
+            'persons' => Person::whereHas('bookLendings', function ($query) {
+                $query->whereNull('returned_date');
+            })->get()->sortBy('fullName'),
         ]);
     }
 
@@ -33,6 +44,7 @@ class LendingController extends Controller
         return view('library.lending.person', [ 
             'person' => $person,
             'lendings' => $person->bookLendings()->whereNull('returned_date')->orderBy('return_date', 'asc')->get(),
+            'default_extend_duration' => \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS),
         ]);
     }
 
@@ -49,7 +61,9 @@ class LendingController extends Controller
         // TODO authentication
 
         return view('library.lending.books', [ 
-            'books' => LibraryBook::has('lendings')->get()->sortBy('title'),
+            'books' => LibraryBook::whereHas('lendings', function ($query) {
+                $query->whereNull('returned_date');
+            })->get()->sortBy('title'),
         ]);
     }
 
@@ -58,6 +72,7 @@ class LendingController extends Controller
 
         return view('library.lending.book', [ 
             'book' => $book,
+            'default_extend_duration' => \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS),
         ]);
     }
 
@@ -101,6 +116,33 @@ class LendingController extends Controller
 
         return redirect()->route('library.lending.book', $book)
             ->with('success', __('library.book_lent'));	
+    }
+
+    public function extendBookToPerson(Person $person, StoreReturnBookFromPerson $request) {
+        // TODO authentication
+        
+        $lending = LibraryLending::where('book_id', $request->book_id)
+            ->where('person_id', $person->id)
+            ->whereNull('returned_date')
+            ->firstOrFail();
+        $lending->return_date = $lending->return_date->addDays($request->days);
+        $lending->save();
+
+        return redirect()->route('library.lending.person', $person)
+            ->with('success', __('library.book_extended'));	
+    }
+
+    public function extendBook(LibraryBook $book, StoreExtendBook $request) {
+        // TODO authentication
+
+        $lending = LibraryLending::where('book_id', $book->id)
+            ->whereNull('returned_date')
+            ->firstOrFail();
+        $lending->return_date = $lending->return_date->addDays($request->days);
+        $lending->save();
+
+        return redirect()->route('library.lending.book', $book)
+            ->with('success', __('library.book_extended'));	
     }
 
     public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request) {

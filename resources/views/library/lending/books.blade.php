@@ -16,13 +16,13 @@
                 </thead>
                 <tbody>
                     @foreach($books as $book)
-                        <tr>
+                        @php
+                            $lending = $book->lendings()->whereNull('returned_date')->first();
+                        @endphp
+                        <tr class="@if($lending->return_date->lt(Carbon\Carbon::today()))table-danger @elseif($lending->return_date->eq(Carbon\Carbon::today()))table-warning @endif">
                             <td>
                                 <a href="{{ route('library.lending.book', $book) }}">{{ $book->title }}</a>
                             </td>
-                            @php
-                                $lending = $book->lendings()->whereNull('returned_date')->first();
-                            @endphp
                             <td class="d-none d-sm-table-cell">
                                 @isset($lending)@isset($lending->person)
                                     <a href="{{ route('library.lending.person', $lending->person) }}">{{ $lending->person->fullName}}</a>
