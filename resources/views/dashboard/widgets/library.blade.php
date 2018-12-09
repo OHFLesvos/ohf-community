@@ -4,7 +4,7 @@
             'url' => route('library.lending.books'),
             'title' => __('library.books'),
             'icon' => 'list',
-            'authorized' => true,
+            'authorized' => Auth::user()->can('list', App\LibraryBook::class),
         ],
     ];
 @endphp

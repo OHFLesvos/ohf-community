@@ -9,6 +9,8 @@ use App\LibraryBook;
 class BookController extends Controller
 {
 	public function filter(Request $request) {
+        $this->authorize('list', LibraryBook::class);
+
         $qry = LibraryBook::limit(10)
             ->orderBy('title')
             ->orderBy('author');

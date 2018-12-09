@@ -727,7 +727,7 @@ class ContextMenuComposer {
                         'url' => route('library.lending.personLog', $person),
                         'caption' => __('app.log'),
                         'icon' => 'list',
-                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                        'authorized' => Auth::user()->can('list', Person::class),
                     ];
                 }
                 $entries['back'] = [
@@ -744,7 +744,7 @@ class ContextMenuComposer {
                         'url' => route('library.lending.person', $person),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                        'authorized' => Auth::user()->can('list', Person::class),
                     ]
                 ];
             case 'library.lending.book':
@@ -755,7 +755,7 @@ class ContextMenuComposer {
                         'url' => route('library.lending.bookLog', $book),
                         'caption' => __('app.log'),
                         'icon' => 'list',
-                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                        'authorized' => Auth::user()->can('view', $book),
                     ];
                 }
                 $entries['back'] = [
@@ -772,7 +772,7 @@ class ContextMenuComposer {
                         'url' => route('library.lending.book', $book),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                        'authorized' => Auth::user()->can('view', $book),
                     ]
                 ];
 

@@ -28,7 +28,7 @@ class LendingController extends Controller
     }
 
     public function persons() {
-        // TODO authentication
+        $this->authorize('list', Person::class);
 
         return view('library.lending.persons', [ 
             'persons' => Person::whereHas('bookLendings', function ($query) {
@@ -38,7 +38,7 @@ class LendingController extends Controller
     }
 
     public function person(Person $person) {
-        // TODO authentication
+        $this->authorize('list', Person::class);
 
         return view('library.lending.person', [ 
             'person' => $person,
@@ -48,7 +48,7 @@ class LendingController extends Controller
     }
 
     public function personLog(Person $person) {
-        // TODO authentication
+        $this->authorize('list', Person::class);
 
         return view('library.lending.personLog', [ 
             'person' => $person,
@@ -57,7 +57,7 @@ class LendingController extends Controller
     }
 
     public function books() {
-        // TODO authentication
+        $this->authorize('list', LibraryBook::class);
 
         return view('library.lending.books', [ 
             'books' => LibraryBook::whereHas('lendings', function ($query) {
@@ -67,7 +67,7 @@ class LendingController extends Controller
     }
 
     public function book(LibraryBook $book) {
-        // TODO authentication
+        $this->authorize('view', $book);
 
         return view('library.lending.book', [ 
             'book' => $book,
@@ -76,7 +76,7 @@ class LendingController extends Controller
     }
 
     public function bookLog(LibraryBook $book) {
-        // TODO authentication
+        $this->authorize('view', $book);
 
         return view('library.lending.bookLog', [ 
             'book' => $book,
@@ -85,7 +85,7 @@ class LendingController extends Controller
     }
 
     public function lendBookToPerson(Person $person, StoreLendBookToPerson $request) {
-        // TODO authentication
+        $this->authorize('create', LibraryLending::class);
 
         $book = LibraryBook::findOrFail($request->book_id);
         $lending = new LibraryLending();
@@ -101,7 +101,7 @@ class LendingController extends Controller
     }
 
     public function lendBook(LibraryBook $book, StoreLendBook $request) {
-        // TODO authentication
+        $this->authorize('create', LibraryLending::class);
         // TODO validate no date conflict
 
         $person = Person::findOrFail($request->person_id);
@@ -118,7 +118,7 @@ class LendingController extends Controller
     }
 
     public function extendBookToPerson(Person $person, StoreReturnBookFromPerson $request) {
-        // TODO authentication
+        $this->authorize('update', LibraryLending::class);
         
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
@@ -132,7 +132,7 @@ class LendingController extends Controller
     }
 
     public function extendBook(LibraryBook $book, StoreExtendBook $request) {
-        // TODO authentication
+        $this->authorize('update', LibraryLending::class);
 
         $lending = LibraryLending::where('book_id', $book->id)
             ->whereNull('returned_date')
@@ -145,7 +145,7 @@ class LendingController extends Controller
     }
 
     public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request) {
-        // TODO authentication
+        $this->authorize('update', LibraryLending::class);
 
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
@@ -159,7 +159,7 @@ class LendingController extends Controller
     }
 
     public function returnBook(LibraryBook $book) {
-        // TODO authentication
+        $this->authorize('update', LibraryLending::class);
 
         $lending = LibraryLending::where('book_id', $book->id)
             ->whereNull('returned_date')

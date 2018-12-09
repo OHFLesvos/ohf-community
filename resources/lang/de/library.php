@@ -31,5 +31,5 @@ return [
     'book_is_overdue_soon' => 'Buch ist bald überfällig.',
     'book_is_lent_to_person_until' => 'Buch ist ausgeliehen an <a href=":route">:person</a> bis <strong>:until</strong>.',
     'book_extended' => 'Buch verlängert.',
-
+    'num_books_lending_to_num_persons' => '<strong>:persons</strong> Personen haben <strong>:books</strong> Bücher ausgeliehen.',
 ];

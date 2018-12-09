@@ -175,6 +175,8 @@ class PeopleController extends ParentController
     }
 
     public function filterPersons(Request $request) {
+        $this->authorize('list', Person::class);
+
         $qry = Person::limit(10)
             ->orderBy('family_name')
             ->orderBy('name');

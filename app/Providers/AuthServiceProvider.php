@@ -27,6 +27,8 @@ class AuthServiceProvider extends ServiceProvider
         \App\InventoryItemTransaction::class => \App\Policies\Inventory\ItemTransactionPolicy::class,
         \App\InventoryStorage::class => \App\Policies\Inventory\StoragePolicy::class,
         \App\Helper::class => \App\Policies\People\HelperPolicy::class,
+        \App\LibraryBook::class => \App\Policies\Library\LibraryBookPolicy::class,
+        \App\LibraryLending::class => \App\Policies\Library\LibraryLendingPolicy::class,
     ];
 
     /**

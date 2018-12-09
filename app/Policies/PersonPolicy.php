@@ -25,7 +25,8 @@ class PersonPolicy
      */
     public function list(User $user)
     {
-        return $user->hasPermission('people.manage');
+        return $user->hasPermission('people.manage')
+            || $user->hasPermission('library.operate');
     }
 
     /**
