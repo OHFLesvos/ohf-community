@@ -17,7 +17,6 @@ use App\Http\Requests\Library\StoreExtendBookToPerson;
 class LendingController extends Controller
 {
     public function index() {
-        // TODO authentication
         return view('library.lending.index', [ 
             'num_borrowers' => Person::whereHas('bookLendings', function ($query) {
                     $query->whereNull('returned_date');

@@ -706,7 +706,7 @@ class ContextMenuComposer {
                         'url' => route('library.lending.index'),
                         'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                        'authorized' => Gate::allows('operate-library'),
                     ]
                 ];
             case 'library.lending.persons':
@@ -716,7 +716,7 @@ class ContextMenuComposer {
                         'url' => route('library.lending.index'),
                         'caption' => __('app.close'),
                         'icon' => 'times-circle',
-                        'authorized' => true, // TODO Gate::allows('view-barber-list')
+                        'authorized' => Gate::allows('operate-library'),
                     ]
                 ];
             case 'library.lending.person':
@@ -734,7 +734,7 @@ class ContextMenuComposer {
                     'url' => route('library.lending.index'),
                     'caption' => __('app.close'),
                     'icon' => 'times-circle',
-                    'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    'authorized' => Gate::allows('operate-library'),
                 ];
                 return $entries;
             case 'library.lending.personLog':
@@ -762,7 +762,7 @@ class ContextMenuComposer {
                     'url' => route('library.lending.index'),
                     'caption' => __('app.close'),
                     'icon' => 'times-circle',
-                    'authorized' => true, // TODO Gate::allows('view-barber-list')
+                    'authorized' => Gate::allows('operate-library'),
                 ];
                 return $entries;
             case 'library.lending.bookLog':
