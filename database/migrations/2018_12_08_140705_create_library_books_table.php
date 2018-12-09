@@ -16,9 +16,9 @@ class CreateLibraryBooksTable extends Migration
         Schema::create('library_books', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('author')->nullale();
-            $table->string('language')->nullale();
-            $table->string('isbn')->nullale();
+            $table->string('author')->nullable();
+            $table->string('language')->nullable();
+            $table->string('isbn')->nullable();
             $table->timestamps();
         });
     }

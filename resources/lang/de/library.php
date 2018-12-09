@@ -24,4 +24,7 @@ return [
     'person_lending_log' => 'In der Vergangenheit ausgeliehene Bücher',
     'lent' => 'Ausgeliehen',
     'not_lent_to_anyone_so_far' => 'Wurde noch nicht an jemanden ausgeliehen.',
+    'books' => 'Bücher',
+    'borrowers' => 'Entleiher',
+    'lent_books' => 'Ausgeliehene Bücher',
 ];

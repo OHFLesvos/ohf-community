@@ -24,4 +24,7 @@ return [
     'person_lending_log' => 'Person lending log',
     'lent' => 'Lent',
     'not_lent_to_anyone_so_far' => 'Not lent to anyone so far.',
+    'books' => 'Books',
+    'borrowers' => 'Borrowers',
+    'lent_books' => 'Lent books',
 ];

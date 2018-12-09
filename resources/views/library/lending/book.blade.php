@@ -20,7 +20,7 @@
         {!! Form::open(['route' => ['library.lending.returnBook', $book], 'method' => 'post']) !!}
             <p>
                 <button type="submit" class="btn btn-success">
-                    @icon(inbox)<span class="d-none d-sm-inline"> @lang('library.return')</span>
+                    @icon(inbox) @lang('library.return')
                 </button>
             </p>
         {!! Form::close() !!}

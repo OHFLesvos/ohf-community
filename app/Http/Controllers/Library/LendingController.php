@@ -19,6 +19,14 @@ class LendingController extends Controller
         return view('library.lending.index', [ ]);
     }
 
+    public function persons() {
+        // TODO authentication
+
+        return view('library.lending.persons', [ 
+            'persons' => Person::has('bookLendings')->get()->sortBy('fullName'),
+        ]);
+    }
+
     public function person(Person $person) {
         // TODO authentication
 
@@ -34,6 +42,14 @@ class LendingController extends Controller
         return view('library.lending.personLog', [ 
             'person' => $person,
             'lendings' => $person->bookLendings()->orderBy('lending_date', 'desc')->paginate(25),
+        ]);
+    }
+
+    public function books() {
+        // TODO authentication
+
+        return view('library.lending.books', [ 
+            'books' => LibraryBook::has('lendings')->get()->sortBy('title'),
         ]);
     }
 

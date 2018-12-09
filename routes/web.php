@@ -148,11 +148,13 @@ Route::group(['middleware' => 'language'], function () {
         Route::namespace('Library')->prefix('library')->name('library.')->group(function(){
             Route::get('lending', 'LendingController@index')->name('lending.index');
             
+            Route::get('lending/persons', 'LendingController@persons')->name('lending.persons');
             Route::get('lending/person/{person}', 'LendingController@person')->name('lending.person');
             Route::post('lending/{person}/lendBook', 'LendingController@lendBookToPerson')->name('lending.lendBookToPerson');
             Route::post('lending/{person}/returnBook', 'LendingController@returnBookFromPerson')->name('lending.returnBookFromPerson');
             Route::get('lending/{person}/log', 'LendingController@personLog')->name('lending.personLog');
 
+            Route::get('lending/books', 'LendingController@books')->name('lending.books');
             Route::get('lending/book/{book}', 'LendingController@book')->name('lending.book');
             Route::post('lending/book/{book}/lend', 'LendingController@lendBook')->name('lending.lendBook');
             Route::post('lending/book/{book}/return', 'LendingController@returnBook')->name('lending.returnBook');

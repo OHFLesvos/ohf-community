@@ -15,7 +15,7 @@
                 <thead>
                     <tr>
                         <th>@lang('library.book')</th>
-                        <th class="d-none d-sm-table-cell">@lang('library.lending')</th>
+                        <th class="d-none d-sm-table-cell">@lang('library.lent')</th>
                         <th>@lang('library.return')</th>
                         <th></th>
                     </tr>
