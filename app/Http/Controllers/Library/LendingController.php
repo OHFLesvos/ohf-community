@@ -87,7 +87,15 @@ class LendingController extends Controller
     public function lendBookToPerson(Person $person, StoreLendBookToPerson $request) {
         $this->authorize('create', LibraryLending::class);
 
-        $book = LibraryBook::findOrFail($request->book_id);
+        if (!empty($request->title)) {
+            $book = new LibraryBook();
+            $book->title = $request->title;
+            $book->author = $request->author;
+            $book->isbn = $request->isbn;
+            $book->save();
+        } else {
+            $book = LibraryBook::findOrFail($request->book_id);
+        }
         $lending = new LibraryLending();
         $lending->lending_date = Carbon::today();
         $duration = \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS);

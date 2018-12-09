@@ -20,6 +20,11 @@ class LibraryBook extends Model
         return $this->hasMany('App\LibraryLending', 'book_id');
     }
 
+    public function setIsbnAttribute($value) {
+        $val = preg_replace('/[^+0-9x]/i', '', $value);
+        $this->attributes['isbn'] = !empty($val) ? $val : null;
+    }
+
     public function getIsbn10Attribute() {
         if ($this->isbn != null) {
             $isbn = new Isbn($this->isbn);

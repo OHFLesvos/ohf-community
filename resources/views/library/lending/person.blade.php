@@ -60,7 +60,10 @@
         <div class="card-body">
             {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
                 {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
-                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>                
+                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>
+                @can('create', App\LibraryBook::class)
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerBookModal">@icon(plus-circle) @lang('library.register_new_book')</button>
+                @endcan
             {!! Form::close() !!}
         </div>
     </div>
@@ -88,19 +91,21 @@
         }
     });
 
-    {{-- $('#extendLendingModal').on('shown.bs.modal', function (e) {
-        $('input[name="person_id_search"]').focus();
-    }); --}}
+    $('#registerBookModal').on('shown.bs.modal', function (e) {
+        $('input[name="title"]').focus();
+    });
 @endsection
 
-{{-- @section('content-footer')
+@section('content-footer')
     {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
-        @component('components.modal', [ 'id' => 'extendLendingModal' ])
-            @slot('title', __('library.extend'))
-
+        @component('components.modal', [ 'id' => 'registerBookModal' ])
+            @slot('title', __('library.register_new_book'))
+                {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
+                {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
+                {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
             @slot('footer')
-                {{ Form::bsSubmitButton(__('app.extend')) }}
+                {{ Form::bsSubmitButton(__('library.register_and_lend_book')) }}
             @endslot
         @endcomponent
     {!! Form::close() !!}
-@endsection --}}
+@endsection

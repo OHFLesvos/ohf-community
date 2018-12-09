@@ -26,7 +26,7 @@ class StoreLendBookToPerson extends FormRequest
     {
         return [
             'book_id' => [
-                'required',
+                'required_without:title',
                 'exists:library_books,id',
             ]
         ];
