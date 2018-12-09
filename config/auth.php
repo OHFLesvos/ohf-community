@@ -130,6 +130,12 @@ return [
         'shop.barber.list.configure' => [
             'sensitive' => false,
         ],
+        'library.operate' => [
+            'sensitive' => true,
+        ],
+        'library.configure' => [
+            'sensitive' => true,
+        ],        
         'bank.configure' => [
             'sensitive' => false,
         ],

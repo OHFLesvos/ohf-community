@@ -145,7 +145,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::put('/settings', 'BarberShopSettingsController@update')->name('settings.update')->middleware(['can:configure-barber-list']);
         });
 
-        Route::namespace('Library')->prefix('library')->name('library.')->group(function(){
+        Route::namespace('Library')->prefix('library')->name('library.')->middleware(['can:operate-library'])->group(function(){
             Route::get('lending', 'LendingController@index')->name('lending.index');
             
             Route::get('lending/persons', 'LendingController@persons')->name('lending.persons');

@@ -12,6 +12,8 @@ return [
     'shop.configure' => 'Markt: Configure settings',
     'shop.barber.list.view' => 'Barber: View reservations',
     'shop.barber.list.configure' => 'Barber: Configure settings',
+    'library.operate' => 'Library: Operate library',
+    'library.configure' => 'Library: Configure settings',
     'people.helpers.view' => 'Helpers: View helpers',
     'people.helpers.manage' => 'Helpers: Manage helpers',
     'people.helpers.casework.view' => 'Helpers: View casework',

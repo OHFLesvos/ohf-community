@@ -115,6 +115,13 @@ class NavigationComposer {
                     'authorized' => Gate::allows('view-barber-list'),
                 ],
                 [
+                    'route' => 'library.lending.index',
+                    'caption' => __('library.library'),
+                    'icon' => 'book',
+                    'active' => 'library*',
+                    'authorized' => Gate::allows('operate-library'),
+                ],
+                [
                     'route' => 'calendar',
                     'caption' => 'Calendar',
                     'icon' => 'calendar',

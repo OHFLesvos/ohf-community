@@ -688,14 +688,16 @@ class ContextMenuComposer {
                     ]
                 ];
 
-            // Barber
+            //
+            // Library
+            //
             case 'library.lending.index':
                 return [
                     'settings' => [
                         'url' => route('library.settings.edit'),
                         'caption' => __('app.settings'),
                         'icon' => 'cogs',
-                        'authorized' => true, // TODO Gate::allows('configure-barber-list')
+                        'authorized' => Gate::allows('configure-library')
                     ]
                 ];
             case 'library.settings.edit':

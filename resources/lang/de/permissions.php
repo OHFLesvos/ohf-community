@@ -12,6 +12,8 @@ return [
     'shop.configure' => 'Markt: Einstellungen bearbeiten',
     'shop.barber.list.view' => 'Frisör: Reservationen anzeigen',
     'shop.barber.list.configure' => 'Frisör: Einstellungen bearbeiten',
+    'library.operate' => 'Bibliothek: Bibliothek betreiben',
+    'library.configure' => 'Bibliothek: Einstellungen bearbeiten',
     'people.helpers.view' => 'Helfer: Helfer betrachten',
     'people.helpers.manage' => 'Helfer: Helfer verwalten',
     'people.helpers.casework.view' => 'Helfer: Fallarbeitsdaten anzeigen',
