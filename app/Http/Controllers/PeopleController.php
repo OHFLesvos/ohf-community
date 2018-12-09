@@ -42,6 +42,8 @@ class PeopleController extends ParentController
     }
 
     function index(Request $request) {
+        $this->authorize('manage-people');
+
         // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'people.index']);
 

@@ -721,22 +721,26 @@ class ContextMenuComposer {
                 ];
             case 'library.lending.person':
                 $person = $view->getData()['person'];
-                $entries = [];
-                if ($person->bookLendings()->count() > 0) {
-                    $entries['log'] = [
+                return [
+                    'log' => [
                         'url' => route('library.lending.personLog', $person),
                         'caption' => __('app.log'),
                         'icon' => 'list',
-                        'authorized' => Auth::user()->can('list', Person::class),
-                    ];
-                }
-                $entries['back'] = [
-                    'url' => route('library.lending.index'),
-                    'caption' => __('app.close'),
-                    'icon' => 'times-circle',
-                    'authorized' => Gate::allows('operate-library'),
+                        'authorized' => $person->bookLendings()->count() > 0 && Auth::user()->can('list', Person::class),
+                    ],
+                    'person' => [
+                        'url' => route('people.show', $person),
+                        'caption' => __('people.view_person'),
+                        'icon' => 'users',
+                        'authorized' => Auth::user()->can('view', $person),
+                    ],
+                    'back' => [
+                        'url' => route('library.lending.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('operate-library'),
+                    ],
                 ];
-                return $entries;
             case 'library.lending.personLog':
                 $person = $view->getData()['person'];
                 return [
@@ -749,22 +753,20 @@ class ContextMenuComposer {
                 ];
             case 'library.lending.book':
                 $book = $view->getData()['book'];
-                $entries = [];
-                if ($book->lendings()->count() > 0) {
-                    $entries['log'] = [
+                return [
+                    'log' => [
                         'url' => route('library.lending.bookLog', $book),
                         'caption' => __('app.log'),
                         'icon' => 'list',
-                        'authorized' => Auth::user()->can('view', $book),
-                    ];
-                }
-                $entries['back'] = [
-                    'url' => route('library.lending.index'),
-                    'caption' => __('app.close'),
-                    'icon' => 'times-circle',
-                    'authorized' => Gate::allows('operate-library'),
+                        'authorized' => $book->lendings()->count() > 0 && Auth::user()->can('view', $book),
+                    ],
+                    'back' => [
+                        'url' => route('library.lending.index'),
+                        'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Gate::allows('operate-library'),
+                    ],
                 ];
-                return $entries;
             case 'library.lending.bookLog':
                 $book = $view->getData()['book'];
                 return [

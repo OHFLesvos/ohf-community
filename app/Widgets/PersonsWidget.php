@@ -11,7 +11,7 @@ class PersonsWidget implements Widget
 {
     function authorize(): bool
     {
-        return Auth::user()->can('list', Person::class);
+        return Gate::allows('manage-people');
     }
 
     function view(): string

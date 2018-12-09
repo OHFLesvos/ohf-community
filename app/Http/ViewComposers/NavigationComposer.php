@@ -49,7 +49,7 @@ class NavigationComposer {
                     'caption' => __('people.people'),
                     'icon' => 'users',
                     'active' => 'people*',
-                    'authorized' => Auth::user()->can('list', Person::class)
+                    'authorized' => Gate::allows('manage-people')
                 ],
                 [
                     'route' => 'bank.index',
