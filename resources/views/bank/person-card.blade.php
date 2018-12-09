@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-    @if (isset($person->police_no) || isset($person->case_no_hash) || isset($person->registration_no) || isset($person->section_card_no) || isset($person->remarks))
+    @if (isset($person->police_no) || isset($person->case_no_hash) || isset($person->registration_no) || isset($person->section_card_no) || isset($person->remarks) || $person->hasOverdueBookLendings)
         <div class="card-body p-2">
             @if(isset($person->police_no))
                 <span class="d-block d-sm-inline">
@@ -85,6 +85,17 @@
             @if(isset($person->remarks))
                 <div>
                     <em class="text-info">{{ $person->remarks }}</em>
+                </div>
+            @endif
+            @if($person->hasOverdueBookLendings)
+                <div>
+                    <em class="text-danger">Needs to bring back book(s) to the 
+                    @can('operate-library')
+                        <a href="{{ route('library.lending.person', $person) }}">Library</a>
+                    @else
+                        Library
+                    @endcan
+                    </em>
                 </div>
             @endif
         </div>

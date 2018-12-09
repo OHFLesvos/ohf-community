@@ -310,4 +310,8 @@ class Person extends Model
     public function bookLendings() {
         return $this->hasMany('App\LibraryLending', 'person_id');
     }
+
+    public function getHasOverdueBookLendingsAttribute() {
+        return $this->bookLendings()->whereDate('return_date', '<', Carbon::today())->count();
+    }
 }

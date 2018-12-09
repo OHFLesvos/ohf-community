@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
                     @foreach($persons as $person)
-                        <tr>
+                        <tr class="@if($person->hasOverdueBookLendings) table-danger @endif">
                             <td>
                                 <a href="{{ route('library.lending.person', $person) }}">{{ $person->fullName }}</a>
                             </td>
