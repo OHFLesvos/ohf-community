@@ -21,6 +21,11 @@ class LibrarySettingsController extends SettingsController
                 'form_args' => [ 'min' => 1 ],
                 'form_validate' => 'required|numeric|min:1',
                 'label_key' => 'library.default_lening_duration_days_in_days',
+            ],
+            'google.api_key' => [
+                'default' => '',
+                'form_type' => 'text',
+                'label_key' => 'app.google_api_key',
             ]
         ];
     }

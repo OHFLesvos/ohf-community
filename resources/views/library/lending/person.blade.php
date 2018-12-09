@@ -92,17 +92,21 @@
     });
 
     $('#registerBookModal').on('shown.bs.modal', function (e) {
-        $('input[name="title"]').focus();
+        $('input[name="isbn"]').focus();
     });
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/library.js') }}?v={{ $app_version }}"></script>
 @endsection
 
 @section('content-footer')
     {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'registerBookModal' ])
             @slot('title', __('library.register_new_book'))
+                {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
                 {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
                 {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
-                {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
             @slot('footer')
                 {{ Form::bsSubmitButton(__('library.register_and_lend_book')) }}
             @endslot

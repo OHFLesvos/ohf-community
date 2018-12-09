@@ -163,6 +163,8 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('lending/book/{book}/log', 'LendingController@bookLog')->name('lending.bookLog');
 
             Route::get('books/filter', 'BookController@filter')->name('books.filter');
+            Route::get('books/findIsbn/{isbn}', 'BookController@findIsbn')->name('books.findIsbn');
+
             Route::get('settings', 'LibrarySettingsController@edit')->name('settings.edit')->middleware(['can:configure-library']);
             Route::put('settings', 'LibrarySettingsController@update')->name('settings.update')->middleware(['can:configure-library']);
         });

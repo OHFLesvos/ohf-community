@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Library;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\LibraryBook;
+use Scriptotek\GoogleBooks\GoogleBooks;
 
 class BookController extends Controller
 {
@@ -34,5 +35,19 @@ class BookController extends Controller
                 ]; 
             });
         return response()->json(["suggestions" => $records]);
+    }
+
+    public function findIsbn($isbn) {
+        $books = new GoogleBooks([
+            'key' => \Setting::get('google.api_key'),
+        ]);
+        $volume = $books->volumes->byIsbn($isbn);
+        if ($volume == null || $volume->volumeInfo == null) {
+            return response()->json([], 404);
+        }
+        return response()->json([
+            'title' => $volume->volumeInfo->title,
+            'author' => implode(', ', $volume->volumeInfo->authors),
+        ]);
     }
 }
