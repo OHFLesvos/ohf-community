@@ -19,7 +19,7 @@
                             <td>
                                 <a href="{{ route('library.lending.person', $person) }}">{{ $person->fullName }}</a>
                             </td>
-                            <td>{{ $person->bookLendings->count() }}</td>
+                            <td>{{ $person->bookLendings()->whereNull('returned_date')->count() }}</td>
                         </tr>
                     @endforeach
                 </tbody>

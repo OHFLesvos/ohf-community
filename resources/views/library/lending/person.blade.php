@@ -105,6 +105,12 @@
         @component('components.modal', [ 'id' => 'registerBookModal' ])
             @slot('title', __('library.register_new_book'))
                 {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
+                {{-- <div class="input-group mb-3">
+                    <input type="text" name="isbn" class="form-control" placeholder="@lang('library.isbn')">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">@icon(question)</span>
+                    </div>
+                </div> --}}
                 {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
                 {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
             @slot('footer')
