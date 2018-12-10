@@ -214,4 +214,5 @@ return [
     'log' => 'Log',
     'number_of_days' => 'Number of days',
     'google_api_key' => 'Google API key',
+    'language' => 'Language',
  ];

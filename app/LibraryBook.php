@@ -32,4 +32,14 @@ class LibraryBook extends Model
         }
     }
 
+    public function getIsbnAttribute() {
+        if ($this->isbn13 != null) {
+            $isbn = new Isbn($this->isbn13);
+            if ($isbn->isValid()) {
+                return $isbn->format('ISBN-13');
+            }
+        }
+        return null;
+    }
+
 }

@@ -6,7 +6,9 @@
 
     <h2 class="mb-3">
         {{ $book->title }}
-        <small class="d-block d-sm-inline">{{ $book->author }}@isset($book->isbn), {{ $book->isbn13 }}@endisset</small>
+        <small class="d-block d-sm-inline">
+            {{ $book->author }}@if(isset($book->author) && isset($book->isbn13)),@endif {{ $book->isbn }}
+        </small>
     </h2>
 
     @if($lendings->count() > 0)

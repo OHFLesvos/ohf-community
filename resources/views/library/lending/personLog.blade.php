@@ -6,7 +6,9 @@
 
     <h2 class="mb-3">
         {{ $person->fullName }}
-        <small class="d-block d-sm-inline">{{ $person->nationality }}@isset($person->date_of_birth), {{ $person->date_of_birth }}@endisset</small>
+        <small class="d-block d-sm-inline">
+            {{ $person->nationality }}@if(isset($person->nationality) && isset($person->date_of_birth)),@endif {{ $person->date_of_birth }}
+        </small>
     </h2>
 
     @if($lendings->count() > 0)

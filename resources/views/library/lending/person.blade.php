@@ -6,7 +6,9 @@
 
     <h2 class="mb-3">
         {{ $person->fullName }}
-        <small class="d-block d-sm-inline">{{ $person->nationality }}@isset($person->date_of_birth), {{ $person->date_of_birth }}@endisset</small>
+        <small class="d-block d-sm-inline">
+            {{ $person->nationality }}@if(isset($person->nationality) && isset($person->date_of_birth)),@endif {{ $person->date_of_birth }}
+        </small>
     </h2>
 
     @if($lendings->count() > 0)
@@ -60,9 +62,13 @@
         <div class="card-body">
             {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
                 {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
-                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>
+                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">
+                    @icon(check) @lang('library.lend_book')
+                </button>
                 @can('create', App\LibraryBook::class)
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerBookModal">@icon(plus-circle) @lang('library.register_new_book')</button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerBookModal">
+                        @icon(plus-circle) @lang('library.new_book')
+                    </button>
                 @endcan
             {!! Form::close() !!}
         </div>
@@ -103,6 +109,7 @@
                 {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
                 {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
                 {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
+                {{ Form::bsText('language', '', [ 'placeholder' => __('app.language') ], '') }}
             @slot('footer')
                 {{ Form::bsSubmitButton(__('library.register_and_lend_book')) }}
             @endslot

@@ -92,6 +92,7 @@ class LendingController extends Controller
             $book->title = $request->title;
             $book->author = $request->author;
             $book->isbn = $request->isbn;
+            $book->language = $request->language;
             $book->save();
         } else {
             $book = LibraryBook::findOrFail($request->book_id);

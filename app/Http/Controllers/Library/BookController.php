@@ -49,6 +49,7 @@ class BookController extends Controller
         return response()->json([
             'title' => $volume->volumeInfo->title,
             'author' => implode(', ', $volume->volumeInfo->authors),
+            'language' => $volume->volumeInfo->language,
         ]);
     }
 }
