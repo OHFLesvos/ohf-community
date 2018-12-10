@@ -17,9 +17,11 @@ class BookController extends Controller
             ->orderBy('author');
         if (isset($request->query()['query'])) {
             $qry->where('title', 'LIKE', '%' . $request->query()['query'] . '%')
-                ->orWhere('author', 'LIKE', '%' . $request->query()['query'] . '%')
-                ->orWhere('isbn10', 'LIKE', preg_replace('/[^+0-9x]/i', '', $request->query()['query']) . '%')
-                ->orWhere('isbn13', 'LIKE', preg_replace('/[^+0-9x]/i', '', $request->query()['query']) . '%');
+                ->orWhere('author', 'LIKE', '%' . $request->query()['query'] . '%');
+            if (preg_match('/^[0-9x-]+$/i', $request->query()['query'])) {
+                $qry->orWhere('isbn10', 'LIKE', preg_replace('/[^+0-9x]/i', '', $request->query()['query']) . '%');
+                $qry->orWhere('isbn13', 'LIKE', preg_replace('/[^+0-9x]/i', '', $request->query()['query']) . '%');
+            }
         }
         $records = $qry->get()
             ->map(function($e){ 
@@ -28,7 +30,7 @@ class BookController extends Controller
                     $val.= ' (' . $e->author . ')';
                 }
                 if (!empty($e->isbn)) {
-                    $val.= ', ' . $e->isbn13;
+                    $val.= ', ' . $e->isbn;
                 }
                 return [
                     'value' => $val,
