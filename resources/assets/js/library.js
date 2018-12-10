@@ -1,17 +1,11 @@
 const ISBN = require( 'isbn-validate' );
 
-function toggleSubmit() {
-    if ($('#book_id').val()) {
-        $('#lend-existing-book-button').attr('disabled', false);
-    } else {
-        $('#lend-existing-book-button').attr('disabled', true);
-    }
-}
-
 $(function(){
     $('#lendBookModal').on('shown.bs.modal', function (e) {
-        $('input[name="book_id"]').val('')
+        $('input[name="book_id"]').val('').trigger('change');
         $('input[name="book_id_search"]').val('').focus();
+        $('input[name="person_id"]').val('').trigger('change');
+        $('input[name="person_id_search"]').val('').focus();
     });
 
     $('#registerBookModal').on('shown.bs.modal', function (e) {

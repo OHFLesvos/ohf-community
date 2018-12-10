@@ -41,15 +41,11 @@
         @component('components.alert.success')
             @lang('library.book_is_available')
         @endcomponent
-        <div class="card mt-3">
-            <div class="card-header">@lang('library.lend_book')</div>
-            <div class="card-body">
-                {!! Form::open(['route' => ['library.lending.lendBook', $book], 'method' => 'post']) !!}
-                    {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
-                    <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>                
-                {!! Form::close() !!}
-            </div>
-        </div>
+        <p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lendBookModal">
+                @icon(plus-circle) @lang('library.lend_book')
+            </button>
+        </p>
     @endisset
 
 @endsection
@@ -63,6 +59,7 @@
         }
     }
     $(function(){
+        $('#person_id').on('change', toggleSubmit);
         toggleSubmit();
     });
 
@@ -72,4 +69,20 @@
             window.post('{{ route('library.lending.extendBook', $book) }}', {_token: '{{ csrf_token() }}', days: days});
         }
     });
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/library.js') }}?v={{ $app_version }}"></script>
+@endsection
+
+@section('content-footer')
+    {!! Form::open(['route' => ['library.lending.lendBook', $book], 'method' => 'post']) !!}
+        @component('components.modal', [ 'id' => 'lendBookModal' ])
+            @slot('title', __('library.lend_book'))
+            {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
+            @slot('footer')
+                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>                
+            @endslot
+        @endcomponent
+    {!! Form::close() !!}
 @endsection
