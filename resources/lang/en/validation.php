@@ -114,6 +114,7 @@ return [
     'pwned'                => 'You password is insufficiently secure as it has been found in known password breaches, please chose a new one.',
     'country_code'         => 'The :attribute is not valid.',
     'country_name'         => 'The :attribute is not valid.',
+    'isbn'                 => 'The :attribute is not valid.',
 
     /*
     |--------------------------------------------------------------------------
@@ -145,6 +146,7 @@ return [
 
     'attributes' => [
         'date_of_birth' => 'Date of birth',
+        'isbn' => 'ISBN',
     ],
 
 ];

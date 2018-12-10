@@ -28,6 +28,10 @@ class StoreLendBookToPerson extends FormRequest
             'book_id' => [
                 'required_without:title',
                 'exists:library_books,id',
+            ],
+            'isbn' => [
+                'nullable',
+                'isbn',
             ]
         ];
     }

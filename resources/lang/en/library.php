@@ -34,4 +34,5 @@ return [
     'num_books_lending_to_num_persons' => '<strong>:persons</strong> persons are lending <strong>:books</strong> books.',
     'register_new_book' => 'Register new book',
     'register_and_lend_book' => 'Regsiter & lend book',
+    'invalid_isbn' => 'Invalid ISBN.',
 ];

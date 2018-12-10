@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
+use App\Rules\Isbn;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -82,6 +83,7 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('country_code', CountryCode::class);
         Validator::extend('country_name', CountryName::class);
+        Validator::extend('isbn', Isbn::class);
     }
 
     /**

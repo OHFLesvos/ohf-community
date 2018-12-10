@@ -90,6 +90,7 @@ return [
     'pwned' => 'Dieses Passwort wurde als unsicher eingestuft, da es in gehackten Datenbanken gefunden wurde. Bitte verwende ein neues Passwort.',
     'country_code' => 'Der :attribute ist ungültig.',
     'country_name' => 'Der :attribute ist ungültig.',
+    'isbn' => 'Die :attribute ist ungültig.',
 
     /*
     |--------------------------------------------------------------------------
@@ -155,5 +156,6 @@ return [
         'country_code' => 'Ländercode',
         'country_name' => 'Ländername',
         'quantity' => 'Menge',
+        'isbn' => 'ISBN',
     ],
 ];
