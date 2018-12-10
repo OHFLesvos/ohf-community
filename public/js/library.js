@@ -1,1 +1,232 @@
-!function(t){var e={};function n(r){if(e[r])return e[r].exports;var a=e[r]={i:r,l:!1,exports:{}};return t[r].call(a.exports,a,a.exports,n),a.l=!0,a.exports}n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:r})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="/",n(n.s=248)}({248:function(t,e,n){t.exports=n(249)},249:function(t,e,n){var r=n(250);$(function(){$('input[name="isbn"]').on("input propertychange",function(){$(this).removeClass("is-valid").removeClass("is-invalid");var t=$(this).val().toUpperCase().replace(/[^+0-9X]/gi,"");/^(97(8|9))?\d{9}(\d|X)$/.test(t)&&r.Validate(t)?($(this).addClass("is-valid"),$('input[name="title"]').val(""),$('input[name="author"]').val(""),$('input[name="title"]').attr("placeholder","Searching for title..."),$('input[name="author"]').attr("placeholder","Searching for author..."),$.get("/library/books/findIsbn/"+t,function(t){$('input[name="title"]').val(t.title),$('input[name="author"]').val(t.author)}).fail(function(){$('input[name="title"]').attr("placeholder","Title"),$('input[name="author"]').attr("placeholder","Author")})):$(this).val().length>0&&$(this).addClass("is-invalid")})})},250:function(t,e,n){const r=n(251),a=n(252);t.exports=class{static Validate(t){return t=t.replace(r.PREFIX,""),!!r.ISBN.test(t)&&a(t)}}},251:function(t,e){t.exports={PREFIX:/^ISBN(?:-1[03])?:?\x20+/i,ISBN:/^(?:\d{9}[\dXx]|\d{13})$/}},252:function(t,e){t.exports=(t=>{let e=(t=t.toString()).slice(0,-1);e=e.split("").map(Number);const n=t.slice(-1),r="X"!==n?parseInt(n,10):"X",a=(e=e.map((t,e)=>t*(e+1))).reduce((t,e)=>t+e,0)%11;return r===(10!==a?a:"X")})}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 250);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 250:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(251);
+
+
+/***/ }),
+
+/***/ 251:
+/***/ (function(module, exports, __webpack_require__) {
+
+var ISBN = __webpack_require__(252);
+$(function () {
+    $('#registerBookModal').on('shown.bs.modal', function (e) {
+        $('input[name="isbn"]').focus();
+        var book_search = $('input[name="book_id_search"]').val().toUpperCase().replace(/[^+0-9X]/gi, '');
+        if (ISBN.Validate(book_search)) {
+            $('input[name="isbn"]').val(book_search).trigger('propertychange');
+        }
+    });
+
+    $('input[name="isbn"]').on('input propertychange', function () {
+        $(this).removeClass('is-valid').removeClass('is-invalid');
+        var isbn = $(this).val().toUpperCase().replace(/[^+0-9X]/gi, '');
+        if (/^(97(8|9))?\d{9}(\d|X)$/.test(isbn) && ISBN.Validate(isbn)) {
+            $(this).addClass('is-valid');
+            $('input[name="title"]').val('');
+            $('input[name="author"]').val('');
+            $('input[name="title"]').attr('placeholder', 'Searching for title...');
+            $('input[name="author"]').attr('placeholder', 'Searching for author...');
+            $.get("/library/books/findIsbn/" + isbn, function (data) {
+                $('input[name="title"]').val(data.title);
+                $('input[name="author"]').val(data.author);
+            }).fail(function () {
+                $('input[name="title"]').attr('placeholder', 'Title');
+                $('input[name="author"]').attr('placeholder', 'Author');
+            });
+        } else if ($(this).val().length > 0) {
+            $(this).addClass('is-invalid');
+        }
+    });
+});
+
+/***/ }),
+
+/***/ 252:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* 
+ * @author: Tomasz Sochacki
+ * ISBN-13 and ISBN-10 validator.
+ */
+
+const regexp = __webpack_require__( 253 );
+const checksum = __webpack_require__( 254 );
+
+class ISBN {
+    static Validate( isbn ) {
+        //Method always retruns boolean value!
+        
+        //Remove optional prefix:
+        isbn = isbn.replace( regexp.PREFIX, '' );
+        
+        if( !regexp.ISBN.test( isbn ) ) {
+            return false;
+        }
+        
+        return checksum( isbn ); //true or false
+    }
+}
+
+module.exports = ISBN;
+
+/***/ }),
+
+/***/ 253:
+/***/ (function(module, exports) {
+
+/* 
+ * @author: Tomasz Sochacki
+ * Regular Expression for validate ISBN-10 and ISB-13
+ */
+
+/*
+ * Regexp for remove prefix in ISBN number.
+ * Example prefixes which will be removed:
+ * ISBN number
+ * ISBN: number
+ * ISBN-10 number
+ * ISBN-13 number
+ * ISBN-10: number
+ * ISBN-13: number
+ * 
+ * Regexp description:
+ * /^ISBN       on start 'ISBN' or 'isbn'
+ * (?:-1[03])?  optional prefix -10 or -13
+ * :?           optional colon ":"
+ * \x20+        minimum one space
+ * /i           case insensitive
+ */
+const PREFIX = /^ISBN(?:-1[03])?:?\x20+/i;
+
+/*
+ * Regexp for validate ISBN (only nubers or char "X").
+ * Example for ISBN-10: "048665088X", "0306406152".
+ * Example for ISBN-13: "9788371815102".
+ * 
+ * Regexp description:
+ * /^          start of string
+ * (?:
+ *    \d{9}    9 digits
+ *    [\dXx]   and of end one digit or char "X"/"x"
+ *    |\d{13}  or 13 digits (ISBN-13)
+ * )$/         and of string
+ */
+const ISBN = /^(?:\d{9}[\dXx]|\d{13})$/;
+
+module.exports = {
+    PREFIX,
+    ISBN
+};
+
+/***/ }),
+
+/***/ 254:
+/***/ (function(module, exports) {
+
+/* 
+ * @author: Tomasz Sochacki
+ * Checksum for validate ISBN-10 and ISBN-13.
+ */
+
+const checksum = ( isbn ) => {
+    //isbn have to be number or string (composed only of digits or char "X"):
+    isbn = isbn.toString();
+
+    //Remove last digit (control digit):
+    let number = isbn.slice( 0,-1 );
+	
+    //Convert number to array (with only digits):
+    number = number.split( '' ).map( Number );
+    
+    //Save last digit (control digit):
+    const last = isbn.slice( -1 );
+    const lastDigit = ( last !== 'X' ) ? parseInt( last, 10 ) : 'X';
+
+    //Algorithm for checksum calculation (digit * position):
+    number = number.map( ( digit, index ) => {
+        return digit * ( index + 1 );
+    } );
+    
+    //Calculate checksum from array:
+    const sum = number.reduce( ( a, b ) => a + b, 0 );
+
+    //Validate control digit:
+    const controlDigit = sum % 11;
+    return lastDigit === ( controlDigit !== 10 ? controlDigit : 'X' ); 
+};
+
+module.exports = checksum;
+
+
+/***/ })
+
+/******/ });

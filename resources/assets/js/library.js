@@ -1,5 +1,13 @@
 const ISBN = require( 'isbn-validate' );
 $(function(){
+    $('#registerBookModal').on('shown.bs.modal', function (e) {
+        $('input[name="isbn"]').focus();
+        var book_search = $('input[name="book_id_search"]').val().toUpperCase().replace(/[^+0-9X]/gi, '');
+        if (ISBN.Validate(book_search)) {
+            $('input[name="isbn"]').val(book_search).trigger('propertychange');
+        }
+    });
+
     $('input[name="isbn"]').on('input propertychange', function(){
         $(this).removeClass('is-valid').removeClass('is-invalid');
         var isbn = $(this).val().toUpperCase().replace(/[^+0-9X]/gi, '');

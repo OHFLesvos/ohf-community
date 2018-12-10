@@ -22,27 +22,14 @@ class LibraryBook extends Model
 
     public function setIsbnAttribute($value) {
         $val = preg_replace('/[^+0-9x]/i', '', $value);
-        $this->attributes['isbn'] = !empty($val) ? $val : null;
-    }
-
-    public function getIsbn10Attribute() {
-        if ($this->isbn != null) {
-            $isbn = new Isbn($this->isbn);
-            if ($isbn->isValid()) {
-                return $isbn->format('ISBN-10');
-            }
+        $isbn = new Isbn($val);
+        if ($isbn->isValid()) {
+            $this->attributes['isbn10'] = preg_replace('/[^+0-9x]/i', '', $isbn->format('ISBN-10'));
+            $this->attributes['isbn13'] = preg_replace('/[^+0-9x]/i', '', $isbn->format('ISBN-13'));
+        } else {
+            $this->attributes['isbn10'] = null;
+            $this->attributes['isbn13'] = null;
         }
-        return null;
-    }
-
-    public function getIsbn13Attribute() {
-        if ($this->isbn != null) {
-            $isbn = new Isbn($this->isbn);
-            if ($isbn->isValid()) {
-                return $isbn->format('ISBN-13');
-            }
-        }
-        return null;
     }
 
 }

@@ -18,7 +18,8 @@ class CreateLibraryBooksTable extends Migration
             $table->string('title');
             $table->string('author')->nullable();
             $table->string('language')->nullable();
-            $table->string('isbn')->nullable();
+            $table->string('isbn10')->nullable();
+            $table->string('isbn13')->nullable();
             $table->timestamps();
         });
     }
