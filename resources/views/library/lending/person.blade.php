@@ -76,6 +76,13 @@
     $(function(){
         $('#book_id').on('change', toggleSubmit);
         toggleSubmit();
+
+        @if($errors->get('book_id') != null)
+            $('#lendBookModal').modal('show');
+        @endif
+        @if($errors->get('isbn') != null || $errors->get('title') != null || $errors->get('author') != null || $errors->get('language') != null)
+            $('#registerBookModal').modal('show');
+        @endif        
     });
 
     $('.extend-lending-button').on('click', function(){

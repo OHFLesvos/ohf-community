@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.23.1
+
+* Library improvements
+
 ## 1.23.0
 
 * Added Library module

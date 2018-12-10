@@ -28,6 +28,7 @@ class LibraryWidget implements Widget
             'num_lent_books' => LibraryBook::whereHas('lendings', function ($query) {
                     $query->whereNull('returned_date');
                 })->count(),
+            'num_books' => LibraryBook::count(),
         ];
     }
 }

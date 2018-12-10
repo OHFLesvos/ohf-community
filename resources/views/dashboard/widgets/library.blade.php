@@ -1,10 +1,10 @@
 @php
     $links = [
         [
-            'url' => route('library.lending.books'),
-            'title' => __('library.books'),
+            'url' => route($num_lent_books > 0 ? 'library.lending.books' : 'library.lending.index'),
+            'title' => __($num_lent_books > 0 ? 'library.books' : 'app.search'),
             'icon' => 'list',
-            'authorized' => Auth::user()->can('list', App\LibraryBook::class),
+            'authorized' => true,
         ],
     ];
 @endphp
@@ -16,5 +16,6 @@
 @section('widget-content')
     <div class="card-body">
         @lang('library.num_books_lending_to_num_persons', ['persons' => $num_borrowers, 'books' => $num_lent_books ])
+        @lang('library.num_books_in_total', ['books' => $num_books])
     </div>
 @endsection

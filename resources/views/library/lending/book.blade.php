@@ -61,6 +61,10 @@
     $(function(){
         $('#person_id').on('change', toggleSubmit);
         toggleSubmit();
+
+        @if($errors->get('person_id') != null)
+            $('#lendBookModal').modal('show');
+        @endif
     });
 
     $('.extend-lending-button').on('click', function(){

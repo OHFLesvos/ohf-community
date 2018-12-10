@@ -33,4 +33,6 @@ return [
     'book_extended' => 'Buch verlängert.',
     'num_books_lending_to_num_persons' => '<strong>:persons</strong> Personen haben <strong>:books</strong> Bücher ausgeliehen.',
     'invalid_isbn' => 'Ungültige ISBN.',
+    'new_book' => 'Neues Buch',
+    'num_books_in_total' => 'Wir haben insgesamt <strong>:books</strong> Bücher.',
 ];

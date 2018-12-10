@@ -36,4 +36,5 @@ return [
     'register_and_lend_book' => 'Register & lend book',
     'invalid_isbn' => 'Invalid ISBN.',
     'new_book' => 'New book',
+    'num_books_in_total' => 'We have <strong>:books</strong> books in total.',
 ];
