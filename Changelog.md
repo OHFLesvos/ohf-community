@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.23.1
+## 1.23.2
 
 Library:
 
