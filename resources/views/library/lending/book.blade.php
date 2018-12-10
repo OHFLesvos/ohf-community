@@ -63,7 +63,6 @@
         }
     }
     $(function(){
-        $('#person_id').on('change', toggleSubmit);
         toggleSubmit();
     });
 

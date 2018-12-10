@@ -57,22 +57,11 @@
         @endcomponent
     @endif
 
-    <div class="card mt-3">
-        <div class="card-header">@lang('library.lend_a_book')</div>
-        <div class="card-body">
-            {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
-                {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
-                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">
-                    @icon(check) @lang('library.lend_book')
-                </button>
-                @can('create', App\LibraryBook::class)
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerBookModal">
-                        @icon(plus-circle) @lang('library.new_book')
-                    </button>
-                @endcan
-            {!! Form::close() !!}
-        </div>
-    </div>
+    <p>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lendBookModal">
+            @icon(plus-circle) @lang('library.lend_a_book')
+        </button>
+    </p>
 
 @endsection
 
@@ -103,13 +92,31 @@
 @endsection
 
 @section('content-footer')
+
+    {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
+        @component('components.modal', [ 'id' => 'lendBookModal' ])
+            @slot('title', __('library.lend_a_book'))
+            {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
+            @slot('footer')
+                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">
+                    @icon(check) @lang('library.lend_book')
+                </button>
+                @can('create', App\LibraryBook::class)
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerBookModal">
+                        @icon(plus-circle) @lang('library.new_book')
+                    </button>
+                @endcan
+            @endslot
+        @endcomponent
+    {!! Form::close() !!}
+
     {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'registerBookModal' ])
             @slot('title', __('library.register_new_book'))
-                {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
-                {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
-                {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
-                {{ Form::bsText('language', '', [ 'placeholder' => __('app.language') ], '') }}
+            {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
+            {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
+            {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
+            {{ Form::bsText('language', '', [ 'placeholder' => __('app.language') ], '') }}
             @slot('footer')
                 {{ Form::bsSubmitButton(__('library.register_and_lend_book')) }}
             @endslot
