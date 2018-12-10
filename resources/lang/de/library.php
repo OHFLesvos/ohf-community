@@ -37,4 +37,6 @@ return [
     'num_books_in_total' => 'Wir haben insgesamt <strong>:books</strong> Bücher.',
     'max_amount_of_books_person_can_lend' => 'Anzahl Bücher welche eine Person ausleihen kann',
     'person_cannot_lend_more_than_n_books' => 'Person kann nicht mehr als :num Bücher ausleihen.',
+    'edit_book' => 'Buch bearbeiten',
+    'book_updated' => 'Buch aktualisiert',
 ];

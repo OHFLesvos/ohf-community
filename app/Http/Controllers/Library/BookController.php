@@ -6,9 +6,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\LibraryBook;
 use Scriptotek\GoogleBooks\GoogleBooks;
+use App\Http\Requests\Library\UpdateBook;
 
 class BookController extends Controller
 {
+    public function edit(LibraryBook $book) {
+        $this->authorize('update', $book);
+
+        return view('library.books.edit', [ 
+            'book' => $book,
+        ]);
+    }
+    
+    public function update(LibraryBook $book, UpdateBook $request) {
+        $this->authorize('update', $book);
+
+        $book->title = $request->title;
+        $book->author = $request->author;
+        $book->language = $request->language;
+        $book->isbn = $request->isbn;
+        $book->save();
+
+        return redirect()->route('library.lending.book', $book)
+            ->with('success', __('library.book_updated'));	
+    }
+
 	public function filter(Request $request) {
         $this->authorize('list', LibraryBook::class);
 

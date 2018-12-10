@@ -5,6 +5,7 @@
 Library:
 
 * Book lending limits per person.
+* Added possibility to edit book.
 
 ## 1.23.1
 

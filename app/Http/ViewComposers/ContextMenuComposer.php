@@ -760,6 +760,12 @@ class ContextMenuComposer {
                         'icon' => 'list',
                         'authorized' => $book->lendings()->count() > 0 && Auth::user()->can('view', $book),
                     ],
+                    'edit' => [
+                        'url' => route('library.books.edit', $book),
+                        'caption' => __('app.edit'),
+                        'icon' => 'pencil',
+                        'authorized' => Auth::user()->can('update', $book),
+                    ],
                     'back' => [
                         'url' => route('library.lending.index'),
                         'caption' => __('app.close'),
@@ -773,6 +779,16 @@ class ContextMenuComposer {
                     'back' => [
                         'url' => route('library.lending.book', $book),
                         'caption' => __('app.close'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('view', $book),
+                    ]
+                ];
+            case 'library.books.edit':
+                $book = $view->getData()['book'];
+                return [
+                    'back' => [
+                        'url' => route('library.lending.book', $book),
+                        'caption' => __('app.cancel'),
                         'icon' => 'times-circle',
                         'authorized' => Auth::user()->can('view', $book),
                     ]
