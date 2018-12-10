@@ -2,6 +2,12 @@
 
 ## 1.23.1
 
+Library:
+
+* Book lending limits per person.
+
+## 1.23.1
+
 * Library improvements
 
 ## 1.23.0

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Library;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\LibraryLending;
 
 class StoreLendBook extends FormRequest
 {
@@ -31,4 +32,21 @@ class StoreLendBook extends FormRequest
         ];
     }
 
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (\Setting::has('library.max_books_per_person')) {
+                $count = LibraryLending::where('person_id', $this->person_id)->whereNull('returned_date')->count();
+                if (\Setting::get('library.max_books_per_person') <= $count) {
+                    $validator->errors()->add('person_id', __('library.person_cannot_lend_more_than_n_books', ['num' => \Setting::get('library.max_books_per_person')]));
+                }
+            }
+        });
+    }
 }

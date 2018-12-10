@@ -45,6 +45,14 @@ class StoreLendBookToPerson extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
+
+            if (\Setting::has('library.max_books_per_person')) {
+                $count = LibraryLending::where('person_id', $this->person->id)->whereNull('returned_date')->count();
+                if (\Setting::get('library.max_books_per_person') <= $count) {
+                    $validator->errors()->add('book_id', __('library.person_cannot_lend_more_than_n_books', ['num' => \Setting::get('library.max_books_per_person')]));
+                }
+            }
+
             $lending = LibraryLending::where('book_id', $this->book_id)
                 ->whereNull('returned_date')
                 ->first();

@@ -37,4 +37,6 @@ return [
     'invalid_isbn' => 'Invalid ISBN.',
     'new_book' => 'New book',
     'num_books_in_total' => 'We have <strong>:books</strong> books in total.',
+    'max_amount_of_books_person_can_lend' => 'Amount of books a person can lend',
+    'person_cannot_lend_more_than_n_books' => 'Person cannot lend more than :num books.',
 ];

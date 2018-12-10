@@ -191,7 +191,9 @@ require('devbridge-autocomplete')
 
 $(function(){
     $('[rel="autocomplete"]').each(function(){
-        opts = {};
+        opts = {
+            showNoSuggestionNotice: true,
+        };
         if ($(this).data('autocomplete-url')) {
             opts.serviceUrl = $(this).data('autocomplete-url');
             opts.dataType = 'json';

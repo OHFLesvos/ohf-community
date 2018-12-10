@@ -56,12 +56,13 @@
             @lang('library.no_books_lent')
         @endcomponent
     @endif
-
-    <p>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lendBookModal">
-            @icon(plus-circle) @lang('library.lend_a_book')
-        </button>
-    </p>
+    @if(!Setting::has('library.max_books_per_person') || Setting::get('library.max_books_per_person') > $lendings->count())
+        <p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lendBookModal">
+                @icon(plus-circle) @lang('library.lend_a_book')
+            </button>
+        </p>
+    @endif
 
 @endsection
 
