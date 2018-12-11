@@ -785,11 +785,33 @@ class ContextMenuComposer {
                 ];
             case 'library.books.index':
                 return [
-                    
+                    'action' => [
+                        'url' => route('library.books.create'),
+                        'caption' => __('app.add'),
+                        'icon' => 'plus-circle',
+                        'icon_floating' => 'plus',
+                        'authorized' => Auth::user()->can('create', \App\LibraryBook::class)
+                    ],
+                ];
+            case 'library.books.create':
+                return [
+                    'back' => [
+                        'url' => route('library.books.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', \App\LibraryBook::class),
+                    ]
                 ];
             case 'library.books.edit':
                 $book = $view->getData()['book'];
                 return [
+                    'delete' => [
+                        'url' => route('library.books.destroy', $book),
+                        'caption' => __('app.delete'),
+                        'icon' => 'trash',
+                        'authorized' => Auth::user()->can('delete', $book),
+                        'confirmation' => __('library.confirm_delete_book')
+                    ],
                     'back' => [
                         'url' => route('library.lending.book', $book),
                         'caption' => __('app.cancel'),

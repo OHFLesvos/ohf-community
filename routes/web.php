@@ -165,9 +165,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('books/filter', 'BookController@filter')->name('books.filter');
             Route::get('books/findIsbn/{isbn}', 'BookController@findIsbn')->name('books.findIsbn');
 
-            Route::resource('books', 'BookController')->only([
-                'index', 'edit', 'update'
-            ]);
+            Route::resource('books', 'BookController');
 
             Route::get('settings', 'LibrarySettingsController@edit')->name('settings.edit')->middleware(['can:configure-library']);
             Route::put('settings', 'LibrarySettingsController@update')->name('settings.update')->middleware(['can:configure-library']);

@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.library')
 
 @section('title', __('library.library'))
 
-@section('content')
+@section('wrapped-content')
     <div class="row">
         <div class="col-md">
-            <div class="card mt-3">
+            <div class="card mb-4">
                 <div class="card-header">{{ ucfirst(__('people.persons')) }}
                     <a href="{{ route('library.lending.persons') }}" class="pull-right">@lang('library.borrowers') ({{ $num_borrowers }})</a>
                 </div>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="col-md">
-            <div class="card mt-3">
+            <div class="card">
                 <div class="card-header">@lang('library.books')
                     <a href="{{ route('library.lending.books') }}" class="pull-right">@lang('library.lent_books') ({{ $num_lent_books }})</a>
                 </div>

@@ -42,4 +42,8 @@ return [
     'edit_book' => 'Edit book',
     'book_updated' => 'Book updated.',
     'no_books_registered' => 'No book registered.',
+    'book_registered' => 'Book registered.',
+    'register_book' => 'Register book',
+    'book_removed' => 'Book removed.',
+    'confirm_delete_book' => 'Should this book be deleted?',
 ];

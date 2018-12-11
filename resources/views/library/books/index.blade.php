@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.library')
 
 @section('title', __('library.library'))
 
-@section('content')
+@section('wrapped-content')
 
     @if($books->count() > 0)
         <div class="table-responsive">
@@ -32,6 +32,7 @@
             </table>
         </div>
         {{ $books->links() }}
+        <p><small>@lang('library.num_books_in_total', [ 'books' => $num_books ])</small></p>
     @else
         @component('components.alert.info')
             @lang('library.no_books_registered')

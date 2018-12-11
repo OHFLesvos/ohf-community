@@ -5,6 +5,7 @@
 Library:
 
 * Fixed ISBN validation
+* Book creation and editing capabilities
 
 ## 1.23.2
 
