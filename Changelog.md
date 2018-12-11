@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.23.3
+
+Library:
+
+* Fixed ISBN validation
+
 ## 1.23.2
 
 Library:

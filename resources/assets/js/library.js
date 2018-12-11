@@ -1,4 +1,4 @@
-const ISBN = require( 'isbn-validate' );
+const isIsbn = require('is-isbn')
 
 $(function(){
     $('#lendBookModal').on('shown.bs.modal', function (e) {
@@ -11,7 +11,7 @@ $(function(){
     $('#registerBookModal').on('shown.bs.modal', function (e) {
         $('input[name="isbn"]').focus();
         var book_search = $('input[name="book_id_search"]').val().toUpperCase().replace(/[^+0-9X]/gi, '');
-        if (ISBN.Validate(book_search)) {
+        if (isIsbn.validate(book_search)) {
             $('input[name="isbn"]').val(book_search).trigger('propertychange');
         }
     });
@@ -19,7 +19,7 @@ $(function(){
     $('input[name="isbn"]').on('input propertychange', function(){
         $(this).removeClass('is-valid').removeClass('is-invalid');
         var isbn = $(this).val().toUpperCase().replace(/[^+0-9X]/gi, '');
-        if (/^(97(8|9))?\d{9}(\d|X)$/.test(isbn) && ISBN.Validate(isbn)) {
+        if (/^(97(8|9))?\d{9}(\d|X)$/.test(isbn) && isIsbn.validate(isbn)) {
             $(this).addClass('is-valid');
             $('input[name="title"]').val('');
             $('input[name="author"]').val('');

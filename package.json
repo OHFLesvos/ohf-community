@@ -20,6 +20,7 @@
     "fullcalendar": "^3.9.0",
     "fullcalendar-scheduler": "^1.9.4",
     "google-palette": "^1.1.0",
+    "is-isbn": "^1.1.0",
     "isbn-validate": "^1.0.3",
     "jquery": "^3.3.1",
     "jquery.session": "^1.0.0",
@@ -33,5 +34,6 @@
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
     "vue-template-compiler": "^2.5.17"
-  }
+  },
+  "dependencies": {}
 }
