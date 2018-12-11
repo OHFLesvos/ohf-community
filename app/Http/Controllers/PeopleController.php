@@ -183,7 +183,16 @@ class PeopleController extends ParentController
             ->orderBy('family_name')
             ->orderBy('name');
         if (isset($request->query()['query'])) {
-            $qry->where('search', 'LIKE', '%' . $request->query()['query'] . '%');
+            $terms = preg_split('/\s+/', $request->query()['query']);
+            foreach ($terms as $term) {
+                $qry->where(function($wq) use ($term) {
+                    $wq->where('search', 'LIKE', '%' . $term  . '%');
+                    $wq->orWhere('police_no', $term);
+                    $wq->orWhere('registration_no', $term);
+                    $wq->orWhere('section_card_no', $term);
+                    $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
+                });
+            }
         }
         $persons = $qry->get()
             ->map(function($e){ 
