@@ -6,6 +6,7 @@ Library:
 
 * Fixed ISBN validation
 * Book creation and editing capabilities
+* Register persons in library
 
 ## 1.23.2
 

@@ -149,6 +149,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('lending', 'LendingController@index')->name('lending.index');
             
             Route::get('lending/persons', 'LendingController@persons')->name('lending.persons');
+            Route::post('lending/persons/create', 'LendingController@storePerson')->name('lending.storePerson');
             Route::get('lending/person/{person}', 'LendingController@person')->name('lending.person');
             Route::post('lending/person/{person}/lendBook', 'LendingController@lendBookToPerson')->name('lending.lendBookToPerson');
             Route::post('lending/person/{person}/extendBook', 'LendingController@extendBookToPerson')->name('lending.extendBookToPerson');

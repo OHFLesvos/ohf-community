@@ -10,7 +10,7 @@
                     <a href="{{ route('library.lending.persons') }}" class="pull-right">@lang('library.borrowers') ({{ $num_borrowers }})</a>
                 </div>
                 <div class="card-body pb-2">
-                    {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
+                    {{ Form::bsAutocompleteWithButton('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], __('app.register'), 'button-register-person', 'plus-circle') }}
                 </div>
             </div>
         </div>
@@ -41,5 +41,51 @@
     $(function(){
         $('#person_id').on('change', navigateToPerson);
         $('#book_id').on('change', navigateToBook);
+
+        $('#button-register-person').on('click', function(){
+            $('#registerPersoModal').modal('show');
+        });
+        $('#registerPersoModal').on('shown.bs.modal', function (e) {
+            $('input[name="name"]').focus();
+        });
+        @if($errors->get('name') != null || $errors->get('family_name') != null || $errors->get('gender') != null || $errors->get('date_of_birth') != null  || $errors->get('nationality') != null || $errors->get('police_no') != null)
+            $('#registerPersoModal').modal('show');
+        @endif        
     });
+@endsection
+
+@section('content-footer')
+
+    {!! Form::open(['route' => ['library.lending.storePerson'], 'method' => 'post']) !!}
+        @component('components.modal', [ 'id' => 'registerPersoModal' ])
+            @slot('title', __('people.register_new_person'))
+            <div class="form-row">
+                <div class="col-md">
+                    {{ Form::bsText('name', '', [ 'placeholder' => __('people.name') ], '') }}
+                </div>
+                <div class="col-md">
+                    {{ Form::bsText('family_name', '', [ 'placeholder' => __('people.family_name') ], '') }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md mb-3">
+                    {{ Form::genderSelect('gender', null, '') }}
+                </div>
+                <div class="col-md">
+                    {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '') }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md">
+                    {{ Form::bsText('nationality', null, [ 'placeholder' => __('people.nationality') ], '') }}
+                </div>
+                <div class="col-md">
+                    {{ Form::bsNumber('police_no', null, ['prepend' => '05/', 'placeholder' => __('people.police_number') ], '') }}
+                </div>
+            </div>
+            @slot('footer')
+                {{ Form::bsSubmitButton(__('app.register')) }}
+            @endslot
+        @endcomponent
+    {!! Form::close() !!}
 @endsection

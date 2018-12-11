@@ -39,4 +39,9 @@ return [
     'person_cannot_lend_more_than_n_books' => 'Person kann nicht mehr als :num Bücher ausleihen.',
     'edit_book' => 'Buch bearbeiten',
     'book_updated' => 'Buch aktualisiert',
+    'no_books_registered' => 'Kein Buch registriert.',
+    'book_registered' => 'Buch registriert.',
+    'register_book' => 'Buch registrieren',
+    'book_removed' => 'Book entfernt.',
+    'confirm_delete_book' => 'Soll dieses Buch gelöscht werden?',    
 ];
