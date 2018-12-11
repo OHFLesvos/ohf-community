@@ -10,6 +10,15 @@ use App\Http\Requests\Library\UpdateBook;
 
 class BookController extends Controller
 {
+    public function index() {
+        $this->authorize('list', LibraryBook::class);
+
+        return view('library.books.index', [ 
+            'books' => LibraryBook::orderBy('title')->paginate(100),
+        ]);
+    }
+    
+
     public function edit(LibraryBook $book) {
         $this->authorize('update', $book);
 

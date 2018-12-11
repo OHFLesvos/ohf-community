@@ -783,6 +783,10 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('view', $book),
                     ]
                 ];
+            case 'library.books.index':
+                return [
+                    
+                ];
             case 'library.books.edit':
                 $book = $view->getData()['book'];
                 return [

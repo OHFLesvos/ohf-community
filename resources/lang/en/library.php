@@ -41,4 +41,5 @@ return [
     'person_cannot_lend_more_than_n_books' => 'Person cannot lend more than :num books.',
     'edit_book' => 'Edit book',
     'book_updated' => 'Book updated.',
+    'no_books_registered' => 'No book registered.',
 ];
