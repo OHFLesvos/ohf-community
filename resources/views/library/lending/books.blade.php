@@ -21,7 +21,9 @@
                         @endphp
                         <tr class="@if($lending->return_date->lt(Carbon\Carbon::today()))table-danger @elseif($lending->return_date->eq(Carbon\Carbon::today()))table-warning @endif">
                             <td>
-                                <a href="{{ route('library.lending.book', $book) }}">{{ $book->title }}</a>
+                                <a href="{{ route('library.lending.book', $book) }}">
+                                    {{ $book->title }}@isset($book->author), {{ $book->author }}@endisset
+                                </a>
                             </td>
                             <td class="d-none d-sm-table-cell">
                                 @isset($lending)@isset($lending->person)
