@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.23.4
+
+Library:
+
+* Fixed permission issue
+
 ## 1.23.3
 
 Library:

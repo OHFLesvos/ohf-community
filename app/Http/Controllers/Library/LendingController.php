@@ -144,12 +144,11 @@ class LendingController extends Controller
     }
 
     public function extendBookToPerson(Person $person, StoreReturnBookFromPerson $request) {
-        $this->authorize('update', LibraryLending::class);
-        
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
             ->whereNull('returned_date')
             ->firstOrFail();
+        $this->authorize('update', $lending);
         $lending->return_date = $lending->return_date->addDays($request->days);
         $lending->save();
 
@@ -158,11 +157,10 @@ class LendingController extends Controller
     }
 
     public function extendBook(LibraryBook $book, StoreExtendBook $request) {
-        $this->authorize('update', LibraryLending::class);
-
         $lending = LibraryLending::where('book_id', $book->id)
             ->whereNull('returned_date')
             ->firstOrFail();
+        $this->authorize('update', $lending);
         $lending->return_date = $lending->return_date->addDays($request->days);
         $lending->save();
 
@@ -171,12 +169,11 @@ class LendingController extends Controller
     }
 
     public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request) {
-        $this->authorize('update', LibraryLending::class);
-
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
             ->whereNull('returned_date')
             ->firstOrFail();
+        $this->authorize('update', $lending);
         $lending->returned_date = Carbon::today();
         $lending->save();
 
@@ -185,11 +182,10 @@ class LendingController extends Controller
     }
 
     public function returnBook(LibraryBook $book) {
-        $this->authorize('update', LibraryLending::class);
-
         $lending = LibraryLending::where('book_id', $book->id)
             ->whereNull('returned_date')
             ->firstOrFail();
+        $this->authorize('update', $lending);
         $lending->returned_date = Carbon::today();
         $lending->save();
 
