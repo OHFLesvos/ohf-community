@@ -25,7 +25,7 @@
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
-                        <th class="fit @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
+                        <th class="fit text-right @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
                     </tr>
                 </thead>
@@ -39,7 +39,9 @@
                             <td>{{ $transaction->project }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
-                            <td class="@isset($transaction->receipt_picture) text-success @endisset">{{ $transaction->receipt_no }}</td>
+                            <td class="@isset($transaction->receipt_picture) text-success @else @isset($transaction->receipt_no) table-warning receipt-picture-missing @endisset @endisset text-right" data-transaction-id="{{ $transaction->id }}">
+                                {{ $transaction->receipt_no }}
+                            </td>
                             @php
                                 $audit = $transaction->audits()->first();
                             @endphp
@@ -74,12 +76,66 @@
         <div style="overflow-x: auto">
             {{ $transactions->appends($filter)->links() }}
         </div>
+        @foreach ($transactions->filter(function($e){ return $e->receipt_no != null && $e->receipt_picture == null; }) as $transaction)
+            <form action="{{ route('accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-nine upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
+                {{ csrf_field() }}
+                {{ Form::file('img', [ 'class' => 'd-none' ]) }}
+                {{ $transaction->id }}
+            </form>
+        @endforeach
     @else
         @component('components.alert.info')
             @lang('accounting.no_transactions_found')
         @endcomponent
 	@endif
-	
+@endsection
+
+@section('script')
+    $(function(){
+        $('.receipt-picture-missing').on('click', function(){
+            var tr_id = $(this).data('transaction-id');
+            $('#receipt_upload_' + tr_id).find('input[type=file]').click();
+        });
+        $('.upload-receipt-form input[type="file"]').on('change', function(){
+            $(this).parents('form').submit();
+        });
+        $('.upload-receipt-form').on('submit', function(e){
+            e.preventDefault();
+            var tr_id = $(this).attr('id').substr('#receipt_upload_'.length - 1);
+            var td = $('.receipt-picture-missing[data-transaction-id="' + tr_id + '"]');
+            td.removeClass('table-warning').addClass('table-info');
+            $.ajax({
+                url: $(this).attr('action'),
+                type: "POST",
+                data:  new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function() {
+                    td.removeClass('table-info receipt-picture-missing')
+                        .addClass('text-success');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    td.removeClass('table-info').addClass('table-warning');
+                    var message;
+                    if (jqXHR.responseJSON.message) {
+                        if (jqXHR.responseJSON.errors) {
+                            message = "";
+                            var errors = jqXHR.responseJSON.errors;
+                            Object.keys(errors).forEach(function(key) {
+                                message += errors[key] + "\n";
+                            });
+                        } else {
+                            message = jqXHR.responseJSON.message;
+                        }
+                    } else {
+                        message = textStatus + ': ' + jqXHR.responseText;
+                    }
+                    alert(message);
+                }
+            });
+        });
+    });
 @endsection
 
 @section('content-footer')

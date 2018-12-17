@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.23.5
+
+Accounting:
+
+* Simplified receipt picture upload if its missing
+
 ## 1.23.4
 
 Library:
