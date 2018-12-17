@@ -729,16 +729,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.9.0",
+            "version": "v2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "21fdabe2fc01e004e1966f200d900554876bc63c"
+                "reference": "ec74d6e300d78fbc896669c3ca57ef9719adc9c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/21fdabe2fc01e004e1966f200d900554876bc63c",
-                "reference": "21fdabe2fc01e004e1966f200d900554876bc63c",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/ec74d6e300d78fbc896669c3ca57ef9719adc9c6",
+                "reference": "ec74d6e300d78fbc896669c3ca57ef9719adc9c6",
                 "shasum": ""
             },
             "require": {
@@ -807,7 +807,7 @@
                 "php",
                 "queryobject"
             ],
-            "time": "2018-12-04T04:39:48+00:00"
+            "time": "2018-12-14T04:51:13+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -1219,16 +1219,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.5.0",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "0095706c3bf2389f15f6c097bab4a00a48fc5ff7"
+                "reference": "d95143907cf178f9073523af4b37feb25bd6cdd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/0095706c3bf2389f15f6c097bab4a00a48fc5ff7",
-                "reference": "0095706c3bf2389f15f6c097bab4a00a48fc5ff7",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/d95143907cf178f9073523af4b37feb25bd6cdd0",
+                "reference": "d95143907cf178f9073523af4b37feb25bd6cdd0",
                 "shasum": ""
             },
             "require": {
@@ -1275,7 +1275,7 @@
                 "qr",
                 "qrcode"
             ],
-            "time": "2018-12-01T12:34:40+00:00"
+            "time": "2018-12-16T12:37:37+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -1604,16 +1604,16 @@
         },
         {
             "name": "jackiedo/log-reader",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JackieDo/Laravel-Log-Reader.git",
-                "reference": "56eac0c6dde891e1ecce2cc7caa926bf9f1a0b5e"
+                "reference": "10c6b52b52cde4250e40bae83d7a17f0532adfc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JackieDo/Laravel-Log-Reader/zipball/56eac0c6dde891e1ecce2cc7caa926bf9f1a0b5e",
-                "reference": "56eac0c6dde891e1ecce2cc7caa926bf9f1a0b5e",
+                "url": "https://api.github.com/repos/JackieDo/Laravel-Log-Reader/zipball/10c6b52b52cde4250e40bae83d7a17f0532adfc2",
+                "reference": "10c6b52b52cde4250e40bae83d7a17f0532adfc2",
                 "shasum": ""
             },
             "require": {
@@ -1652,7 +1652,7 @@
                 "logs",
                 "reader"
             ],
-            "time": "2017-07-04T10:07:16+00:00"
+            "time": "2018-12-10T00:39:04+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -6219,16 +6219,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.5.0",
+            "version": "7.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "520723129e2b3fc1dc4c0953e43c9d40e1ecb352"
+                "reference": "c23d78776ad415d5506e0679723cb461d71f488f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/520723129e2b3fc1dc4c0953e43c9d40e1ecb352",
-                "reference": "520723129e2b3fc1dc4c0953e43c9d40e1ecb352",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c23d78776ad415d5506e0679723cb461d71f488f",
+                "reference": "c23d78776ad415d5506e0679723cb461d71f488f",
                 "shasum": ""
             },
             "require": {
@@ -6299,7 +6299,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-12-07T07:08:12+00:00"
+            "time": "2018-12-12T07:20:32+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
