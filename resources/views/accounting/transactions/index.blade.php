@@ -18,6 +18,7 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
+                        <th class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
                         <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
@@ -25,13 +26,17 @@
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
-                        <th class="fit text-right @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
+                            <td class="@isset($transaction->receipt_picture) text-success @else @isset($transaction->receipt_no) table-warning receipt-picture-missing @endisset @endisset text-center" data-transaction-id="{{ $transaction->id }}">
+                                @isset($transaction->receipt_picture)<a href="{{ Storage::url($transaction->receipt_picture) }}" data-lity>@endisset
+                                    {{ $transaction->receipt_no }}
+                                @isset($transaction->receipt_picture)</a>@endisset
+                            </td>
                             <td class="fit"><a href="{{ route('accounting.transactions.show', $transaction) }}">{{ $transaction->date }}</a></td>
                             <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
                             <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income'){{ number_format($transaction->amount, 2) }}@endif</td>
@@ -39,9 +44,6 @@
                             <td>{{ $transaction->project }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
-                            <td class="@isset($transaction->receipt_picture) text-success @else @isset($transaction->receipt_no) table-warning receipt-picture-missing @endisset @endisset text-right" data-transaction-id="{{ $transaction->id }}">
-                                {{ $transaction->receipt_no }}
-                            </td>
                             @php
                                 $audit = $transaction->audits()->first();
                             @endphp
