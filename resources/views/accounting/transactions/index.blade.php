@@ -77,9 +77,9 @@
             {{ $transactions->appends($filter)->links() }}
         </div>
         @foreach ($transactions->filter(function($e){ return $e->receipt_no != null && $e->receipt_picture == null; }) as $transaction)
-            <form action="{{ route('accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-nine upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
+            <form action="{{ route('accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-none upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
                 {{ csrf_field() }}
-                {{ Form::file('img', [ 'class' => 'd-none' ]) }}
+                {{ Form::file('img', [ 'accept' => 'image/*', 'class' => 'd-none' ]) }}
             </form>
         @endforeach
     @else
