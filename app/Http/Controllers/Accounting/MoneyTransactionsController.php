@@ -260,6 +260,15 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
+    public function snippet(MoneyTransaction $transaction)
+    {
+        $this->authorize('view', $transaction);
+
+        return view('accounting.transactions.snippet', [
+            'transaction' => $transaction,
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

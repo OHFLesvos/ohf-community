@@ -33,11 +33,17 @@
                     @foreach ($transactions as $transaction)
                         <tr>
                             <td class="@isset($transaction->receipt_picture) text-success @else @isset($transaction->receipt_no) table-warning receipt-picture-missing @endisset @endisset text-center" data-transaction-id="{{ $transaction->id }}">
-                                @isset($transaction->receipt_picture)<a href="{{ Storage::url($transaction->receipt_picture) }}" data-lity>@endisset
-                                    {{ $transaction->receipt_no }}
-                                @isset($transaction->receipt_picture)</a>@endisset
+                                {{ $transaction->receipt_no }}
                             </td>
-                            <td class="fit"><a href="{{ route('accounting.transactions.show', $transaction) }}">{{ $transaction->date }}</a></td>
+                            <td class="fit">
+                                <a href="{{ route('accounting.transactions.show', $transaction) }}" 
+                                    data-url="{{ route('accounting.transactions.snippet', $transaction) }}" 
+                                    @can('update', $transaction) data-edit-url="{{ route('accounting.transactions.edit', $transaction) }}"@endcan 
+                                    @isset($transaction->receipt_picture) data-receipt-url="{{ Storage::url($transaction->receipt_picture) }}" @endisset
+                                    class="details-link">
+                                    {{ $transaction->date }}
+                                </a>
+                            </td>
                             <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
                             <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income'){{ number_format($transaction->amount, 2) }}@endif</td>
                             <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending'){{ number_format($transaction->amount, 2) }}@endif</td>
@@ -104,7 +110,9 @@
             e.preventDefault();
             var tr_id = $(this).attr('id').substr('#receipt_upload_'.length - 1);
             var td = $('.receipt-picture-missing[data-transaction-id="' + tr_id + '"]');
-            td.removeClass('table-warning').addClass('table-info');
+            td.removeClass('table-warning')
+                .addClass('table-info')
+                .off('click');
             $.ajax({
                 url: $(this).attr('action'),
                 type: "POST",
@@ -133,6 +141,37 @@
                         message = textStatus + ': ' + jqXHR.responseText;
                     }
                     alert(message);
+                }
+            });
+        });
+
+        $('.details-link').on('click', function(e){
+            e.preventDefault();
+            var container = $('#detailsModal');
+            var edit_url =  $(this).data('edit-url');
+            var receipt_url =  $(this).data('receipt-url');
+            container.modal('show');
+            container.find('.modal-footer')
+                .hide();
+            container.find('.modal-body')
+                .removeClass('pb-0')
+                .removeClass('p-0')
+                .html('<div class="text-center p-4"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
+            $.get($(this).data('url'), function(result) {
+                container.find('.modal-body')
+                    .addClass('p-0')
+                    .html(result);
+                var footer_html = '';
+                if (receipt_url) {
+                    footer_html += '<a href="' + receipt_url +'" class="btn btn-secondary" data-lity><i class="fa fa-image"></i> Receipt</a>';
+                }
+                if (edit_url) {
+                    footer_html += '<a href="' + edit_url +'" class="btn btn-secondary"><i class="fa fa-pencil"></i> Edit</a>';
+                }
+                if (footer_html.length > 0) {
+                    container.find('.modal-footer')
+                        .html(footer_html)
+                        .show();
                 }
             });
         });
@@ -195,4 +234,9 @@
             @endslot
         @endcomponent
     {!! Form::close() !!}
+
+    @component('components.modal', [ 'id' => 'detailsModal' ])
+        @slot('title', 'Transaction details')
+        @slot('footer')@endslot
+    @endcomponent
 @endsection
