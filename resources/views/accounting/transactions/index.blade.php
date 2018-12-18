@@ -80,7 +80,6 @@
             <form action="{{ route('accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-nine upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
                 {{ csrf_field() }}
                 {{ Form::file('img', [ 'class' => 'd-none' ]) }}
-                {{ $transaction->id }}
             </form>
         @endforeach
     @else
