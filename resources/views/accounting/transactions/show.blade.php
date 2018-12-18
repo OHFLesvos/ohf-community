@@ -99,7 +99,20 @@
         <div class="col-md-4 mb-3">
             <a href="{{ Storage::url($transaction->receipt_picture) }}" data-lity><img src="{{ Storage::url($transaction->receipt_picture) }}" class="img-fluid"></a>
         </div>
+    </div>
     @endisset
-</div>
+
+    <p class="mt-3">
+        @isset($prev_id)
+            <a href="{{ route('accounting.transactions.show', $prev_id) }}" class="btn btn-sm btn-secondary">
+                &lsaquo; Previous
+            </a>
+        @endisset
+        @isset($next_id)
+            <a href="{{ route('accounting.transactions.show', $next_id) }}" class="btn btn-sm btn-secondary">
+                Next &rsaquo; 
+            </a>
+        @endisset
+    </p>
 
 @endsection

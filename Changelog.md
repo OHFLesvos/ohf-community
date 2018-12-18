@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.23.6
+
+Accounting:
+
+* Added previous and next transaction buttons
+
 ## 1.23.5
 
 Accounting:

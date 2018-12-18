@@ -98,7 +98,29 @@ class MoneyTransactionsController extends Controller
         }
         session(['accounting.filter' => $filter]);
 
-        // Apply filter to eloquent query
+        $query = self::createIndexQuery($filter, $sortColumn, $sortOrder);
+        
+        // Get results
+        $transactions = $query->paginate(250);
+
+        // Single receipt no. query
+        if ($transactions->count() == 1 && !empty($filter['receipt_no'])) {
+            session(['accounting.filter' => []]);
+            return redirect()->route('accounting.transactions.show', $transactions->first());
+        }
+
+        return view('accounting.transactions.index', [
+            'transactions' => $transactions,
+            'filter' => $filter,
+            'sortColumns' => $sortColumns,
+            'sortColumn' => $sortColumn,
+            'sortOrder' => $sortOrder,
+            'beneficiaries' => self::getBeneficiaries(),
+            'projects' => self::getProjects(),
+        ]);
+    }
+
+    private static function createIndexQuery($filter, $sortColumn, $sortOrder) {
         $query = MoneyTransaction
             ::orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
@@ -124,25 +146,7 @@ class MoneyTransactionsController extends Controller
         if (!empty($filter['date_end'])) {
             $query->whereDate('date', '<=', $filter['date_end']);
         }
-        
-        // Get results
-        $transactions = $query->paginate(250);
-
-        // Single receipt no. query
-        if ($transactions->count() == 1 && !empty($filter['receipt_no'])) {
-            session(['accounting.filter' => []]);
-            return redirect()->route('accounting.transactions.show', $transactions->first());
-        }
-
-        return view('accounting.transactions.index', [
-            'transactions' => $transactions,
-            'filter' => $filter,
-            'sortColumns' => $sortColumns,
-            'sortColumn' => $sortColumn,
-            'sortOrder' => $sortOrder,
-            'beneficiaries' => self::getBeneficiaries(),
-            'projects' => self::getProjects(),
-        ]);
+        return $query;
     }
 
     /**
@@ -232,8 +236,27 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('view', $transaction);
 
+        $sortColumn = session('accounting.sortColumn', 'created_at');
+        $sortOrder = session('accounting.sortOrder', 'desc');
+        $filter = session('accounting.filter', []);
+        $query = self::createIndexQuery($filter, $sortColumn, $sortOrder);
+        // TODO: can this be optimized, e.g. with a cursor??
+        $res = $query->select('id')->get()->pluck('id')->toArray();
+        $prev_id = null;
+        $next_id = null;
+        $cnt = count($res);
+        for ($i = 0; $i < $cnt; $i++) {
+            $prev_id = $i > 0 ? $res[$i - 1] : null;
+            $next_id = $i < $cnt - 1 ? $res[$i + 1] : null;
+            if ($res[$i] == $transaction->id) {
+                break;
+            }
+        }
+
         return view('accounting.transactions.show', [
             'transaction' => $transaction,
+            'prev_id' => $prev_id,
+            'next_id' => $next_id,
         ]);
     }
 
