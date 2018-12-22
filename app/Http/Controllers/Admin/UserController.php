@@ -27,7 +27,7 @@ class UserController extends ParentController
     public function index()
     {
         return view('users.index', [
-            'users' => User::with(['roles'])->orderBy('name')->paginate()
+            'users' => User::with(['roles'])->orderBy('name')->paginate(100)
         ]);
     }
 
