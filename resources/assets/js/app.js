@@ -191,7 +191,7 @@ require('devbridge-autocomplete')
 
 $(function(){
     $('[rel="autocomplete"]').each(function(){
-        opts = {
+        var opts = {
             showNoSuggestionNotice: true,
         };
         if ($(this).data('autocomplete-url')) {
@@ -262,3 +262,9 @@ window.post = function(path, parameters) {
     $(document.body).append(form);
     form.submit();
 }
+
+// bs-custom-file-input
+import bsCustomFileInput from 'bs-custom-file-input'
+$(document).ready(function () {
+    bsCustomFileInput.init()
+})
