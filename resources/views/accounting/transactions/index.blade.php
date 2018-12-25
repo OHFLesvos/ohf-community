@@ -32,7 +32,7 @@
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
-                            <td class="@isset($transaction->receipt_picture) text-success @else @isset($transaction->receipt_no) table-warning receipt-picture-missing @endisset @endisset text-center" data-transaction-id="{{ $transaction->id }}">
+                            <td class="@unless($transaction->receipt_picture)@isset($transaction->receipt_no) table-warning receipt-picture-missing @endisset @endunless text-center" data-transaction-id="{{ $transaction->id }}">
                                 {{ $transaction->receipt_no }}
                             </td>
                             <td class="fit">
@@ -151,6 +151,8 @@
             var edit_url =  $(this).data('edit-url');
             var receipt_url =  $(this).data('receipt-url');
             container.modal('show');
+            container.find('.modal-header')
+                .hide();
             container.find('.modal-footer')
                 .hide();
             container.find('.modal-body')
@@ -158,6 +160,8 @@
                 .removeClass('p-0')
                 .html('<div class="text-center p-4"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
             $.get($(this).data('url'), function(result) {
+                container.find('.modal-header')
+                    .show();
                 container.find('.modal-body')
                     .addClass('p-0')
                     .html(result);
