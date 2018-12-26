@@ -29,7 +29,7 @@
 
         {{-- Users --}}
         @php
-            $users = $role->users->sortBy('name')->paginate();
+            $users = $role->users->sortBy('name')->paginate(50);
         @endphp
         <div class="col-md">
             <div class="card mb-4">

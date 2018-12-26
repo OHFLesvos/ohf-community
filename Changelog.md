@@ -6,6 +6,10 @@ Accounting:
 
 * Added previous and next transaction buttons
 
+User management:
+
+* Larger amount of results per page in user and role pagination
+
 ## 1.23.5
 
 Accounting:

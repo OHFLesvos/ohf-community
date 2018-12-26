@@ -26,7 +26,7 @@ class RoleController extends ParentController
     public function index()
     {
         return view('roles.index', [
-            'roles' => Role::with(['users', 'permissions'])->orderBy('name')->paginate()
+            'roles' => Role::with(['users', 'permissions'])->orderBy('name')->paginate(100)
         ]);
     }
 
