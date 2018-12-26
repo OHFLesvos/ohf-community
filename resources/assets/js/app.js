@@ -174,11 +174,16 @@ $(function(){
 //
 window.Vue = require('vue');
 
-Vue.component('line-chart', require('./components/LineChart.vue'));
-Vue.component('bar-chart', require('./components/BarChart.vue'));
-Vue.component('horizontal-bar-chart', require('./components/HorizontalBarChart.vue'));
-Vue.component('pie-chart', require('./components/PieChart.vue'));
-Vue.component('task-list', require('./components/TaskList.vue'));
+import LineChart from './components/LineChart.vue';
+Vue.component('line-chart', LineChart);
+import BarChart from './components/BarChart.vue';
+Vue.component('bar-chart', BarChart);
+import HorizontalBarChart from './components/HorizontalBarChart.vue';
+Vue.component('horizontal-bar-chart', HorizontalBarChart);
+import PieChart from './components/PieChart.vue';
+Vue.component('pie-chart', PieChart);
+import TaskList from './components/TaskList.vue';
+Vue.component('task-list', TaskList);
 
 const app = new Vue({
     el: '#app'
