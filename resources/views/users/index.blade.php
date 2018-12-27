@@ -12,8 +12,8 @@
                         <th>@lang('app.name')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.email')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.roles')</th>
-                        <th class="d-none d-md-table-cell text-center">@lang('userprofile.2FA')</th>
-                        <th class="d-none d-md-table-cell">@lang('app.registered')</th>
+                        <th class="d-none d-md-table-cell text-center fit">@lang('userprofile.2FA')</th>
+                        <th class="d-none d-md-table-cell fit">@lang('app.registered')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,14 +33,14 @@
                                     <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>@if (! $loop->last), @endif
                                 @endforeach
                             </td>
-                            <td class="d-none d-md-table-cell text-center">
+                            <td class="d-none d-md-table-cell text-center fit">
                                 @empty($user->tfa_secret)
                                     @icon(times)
                                 @else
                                     <span class="text-success">@icon(check)</span>
                                 @endempty
                             </td>
-                            <td class="d-none d-md-table-cell">
+                            <td class="d-none d-md-table-cell fit">
                                 {{ $user->created_at }}
                             </td>
                         </tr>
