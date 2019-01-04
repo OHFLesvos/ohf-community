@@ -10,6 +10,10 @@ User management:
 
 * Larger amount of results per page in user and role pagination
 
+Library:
+
+* Fixed book lending check in bank
+
 ## 1.23.5
 
 Accounting:
