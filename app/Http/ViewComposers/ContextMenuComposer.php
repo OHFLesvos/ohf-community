@@ -931,6 +931,24 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('view', $donor)
                     ]
                 ];
+            case 'fundraising.donations.index':
+                return [
+                    'import' => [
+                        'url' => route('fundraising.donations.import'),
+                        'caption' => __('app.import'),
+                        'icon' => 'upload',
+                        'authorized' => Auth::user()->can('create', Donation::class)
+                    ]
+                ];
+            case 'fundraising.donations.import':
+                return [
+                    'back' => [
+                        'url' => route('fundraising.donations.index'),
+                        'caption' => __('app.cancel'),
+                        'icon' => 'times-circle',
+                        'authorized' => Auth::user()->can('list', Donation::class)
+                    ]
+                ];
             case 'fundraising.donations.create':
                 $donor = $view->getData()['donor'];
                 return [

@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
+use Validator;
+use Illuminate\Validation\Rule;
 
 class DonationController extends Controller
 {
@@ -226,6 +228,80 @@ class DonationController extends Controller
         }
     }
 
+    function import() {
+        $this->authorize('create', Donation::class);
+
+        return view('fundraising.donations.import', [
+            'types' => [ 
+                'stripe' => 'Stripe'
+            ],
+            'type' => 'stripe',
+        ]);
+    }
+
+    function doImport(Request $request) {
+        $this->authorize('create', Donation::class);
+
+        Validator::make($request->all(), [
+            'type' => [
+                'required', 
+                Rule::in([ 'stripe' ]),
+            ],
+            'file' => [
+                'required', 
+                'file',
+            ],
+        ])->validate();
+
+        $file = $request->file('file');
+        \Excel::selectSheets()->load($file, function($reader) {
+            $reader->each(function($sheet) {
+                $sheet->each(function($row) {
+                    if ($row->status == 'Paid') {
+
+                        $donor = Donor
+                            ::where('email', $row->customer_email)
+                            ->first();
+                        if ($donor == null) {
+                            $donor = new Donor();
+                            $donor->first_name = preg_replace('/@.*$/', '', $row->customer_email);
+                            $donor->email = $row->customer_email;
+                            $donor->save();
+                        }
+
+                        $date = new Carbon($row->created_utc);
+                        $amount = $row->amount;
+                        $currency = strtoupper($row->currency);
+                        if ($currency != Config::get('fundraising.base_currency')) {
+                            $exchange_rate = EzvExchangeRates::getExchangeRate($currency, $date);
+                            $exchange_amount = $amount * $exchange_rate;
+                        } else {
+                            $exchange_amount = $amount;
+                        }
+            
+                        $donation = Donation
+                             ::where('channel', 'Stripe')
+                             ->where('reference', $row->id)
+                             ->first();
+                        if ($donation == null) {
+                            $donation = new Donation();
+                            $donation->date = $date;
+                            $donation->amount = $amount;
+                            $donation->currency = $currency;
+                            $donation->exchange_amount = $exchange_amount;
+                            $donation->channel = 'Stripe';
+                            $donation->reference = $row->id;
+                            $donor->donations()->save($donation);
+                        }
+                    }
+                });
+            });
+        });
+
+		return redirect()->route('fundraising.donations.index')
+				->with('success', __('app.import_successful'));		
+    }
+
     /**
      * Store donation and donor supplied by RaiseNow Webhook
      */
@@ -234,10 +310,12 @@ class DonationController extends Controller
 
         Log::info("Donation webhook", $data);
 
-        if (!empty($request->stored_customer_firstname) && !empty($request->stored_customer_lastname) && !empty($request->stored_customer_city)) {
+        if (!empty($request->stored_customer_firstname) && !empty($request->stored_customer_lastname) && !empty($request->stored_customer_street) && !empty($request->stored_customer_city)) {
+            $street = $request->stored_customer_street . (!empty($request->stored_customer_street_number) ? ' ' . $request->stored_customer_street_number : '');
             $donor = Donor
                 ::where('first_name', $request->stored_customer_firstname)
                 ->where('last_name', $request->stored_customer_lastname)
+                ->where('street', $street)
                 ->where('city', $request->stored_customer_city)
                 ->first();
             if ($donor == null) {
@@ -246,7 +324,7 @@ class DonationController extends Controller
                 $donor->first_name = $request->stored_customer_firstname;
                 $donor->last_name = $request->stored_customer_lastname;
                 $donor->company = $request->stored_customer_company;
-                $donor->street = $request->stored_customer_street . (!empty($request->stored_customer_street_number) ? ' ' . $request->stored_customer_street_number : '');
+                $donor->street = $street;
                 $donor->zip = $request->stored_customer_zip_code;
                 $donor->city = $request->stored_customer_city;
                 $donor->country_code = $request->stored_customer_country;

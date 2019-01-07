@@ -311,6 +311,8 @@ Route::group(['middleware' => 'language'], function () {
 
         // Donations
         Route::name('donations.index')->get('donations', 'DonationController@index');
+        Route::name('donations.import')->get('donations/import', 'DonationController@import');//->middleware('can:import,App\Helper');
+        Route::name('donations.doImport')->post('donations/import', 'DonationController@doImport');//->middleware('can:import,App\Helper');
         Route::prefix('donors/{donor}')->group(function () {
             Route::name('donations.export')->get('export', 'DonationController@export');
             Route::resource('donations', 'DonationController')->except('show', 'index');

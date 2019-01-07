@@ -14,6 +14,10 @@ Library:
 
 * Fixed book lending check in bank
 
+Donor management:
+
+* Stripe file import
+
 ## 1.23.5
 
 Accounting:
