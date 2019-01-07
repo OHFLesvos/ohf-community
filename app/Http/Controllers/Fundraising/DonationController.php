@@ -291,6 +291,7 @@ class DonationController extends Controller
                             $donation->exchange_amount = $exchange_amount;
                             $donation->channel = 'Stripe';
                             $donation->reference = $row->id;
+                            $donation->purpose = $row->description;
                             $donor->donations()->save($donation);
                         }
                     }
