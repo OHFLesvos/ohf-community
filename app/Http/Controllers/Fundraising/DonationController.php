@@ -353,6 +353,7 @@ class DonationController extends Controller
                 'TWI' => 'Twint',
                 'PFC' => 'PostFinance Card',
                 'PEF' => 'PostFinance E-Finance',
+                'AMX' => 'American Express',
             ];
             $payment_method = $payment_methods[$request->payment_method] ?? $request->payment_method;
             $donation = new Donation();
