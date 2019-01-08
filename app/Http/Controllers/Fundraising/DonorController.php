@@ -61,11 +61,13 @@ class DonorController extends Controller
         // Filter
         if ($request->session()->has('donors_filter')) {
             $filter = $request->session()->get('donors_filter');
-            $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
-                ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
-                ->orWhere('company', 'LIKE', '%' . $filter . '%')
-                ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-                ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
+            $query->where(function($wq) use($filter) {
+                return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere('company', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
+            });
         } else {
             $filter = null;
         }
