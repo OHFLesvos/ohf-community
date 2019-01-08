@@ -345,12 +345,22 @@ class DonationController extends Controller
                 $exchange_amount = $amount;
             }
 
+            $payment_methods = [
+                'ECA' => 'MasterCard',
+                'MPW' => 'MasterPass',
+                'PP'  => 'PayPal',
+                'VIS' => 'Visa',
+                'TWI' => 'Twint',
+                'PFC' => 'PostFinance Card',
+                'PEF' => 'PostFinance E-Finance',
+            ];
+            $payment_method = $payment_methods[$request->payment_method] ?? $request->payment_method;
             $donation = new Donation();
             $donation->date = $date;
             $donation->amount = $amount;
             $donation->currency = $currency;
             $donation->exchange_amount = $exchange_amount;
-            $donation->channel = 'RaiseNow (' . $request->payment_method . ')';
+            $donation->channel = 'RaiseNow (' . $payment_method . ')';
             $donation->purpose = $request->stored_customer_message; // TODO consider stored_customer_purpose
             $donation->reference = $request->epp_transaction_id;
             $donor->donations()->save($donation);
