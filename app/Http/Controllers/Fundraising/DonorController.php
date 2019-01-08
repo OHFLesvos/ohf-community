@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fundraising;
 
 use App\Donor;
 use App\Donation;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use JeroenDesloovere\VCard\VCard;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class DonorController extends Controller
 {
@@ -23,18 +25,60 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        $query = Donor
-            ::orderBy('first_name')
-            ->orderBy('last_name')
-            ->orderBy('company');
-        if (isset($request->filter)) {
-            $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $request->filter . '%')
-                ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $request->filter . '%')
-                ->orWhere('company', 'LIKE', '%' . $request->filter . '%');
+        // Validate request
+        Validator::make($request->all(), [
+            'tag' => [
+                'nullable', 
+                'alpha_dash',
+            ],
+        ])->validate();
+
+        // Handle tag session persistence
+        if ($request->has('reset_tag')) {
+            $request->session()->forget('donors_tag');
         }
+        if (isset($request->tag)) {
+            $request->session()->put('donors_tag', $request->tag);
+        }
+
+        // Handle filter session persistence
+        if ($request->has('reset_filter') || ($request->has('filter') && $request->filter == null)) {
+            $request->session()->forget('donors_filter');
+        }
+        if (isset($request->filter)) {
+            $request->session()->put('donors_filter', $request->filter);
+        }
+
+        // Init query
+        if ($request->session()->has('donors_tag')) {
+            $tag = Tag::where('slug', $request->session()->get('donors_tag'))->firstOrFail();
+            $query = $tag->donors();
+        } else {
+            $tag = null;
+            $query = Donor::query();
+        }
+
+        // Filter
+        if ($request->session()->has('donors_filter')) {
+            $filter = $request->session()->get('donors_filter');
+            $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
+                ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+                ->orWhere('company', 'LIKE', '%' . $filter . '%')
+                ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
+        } else {
+            $filter = null;
+        }
+
         return view('fundraising.donors.index', [
-            'donors' => $query->paginate(100),
-            'filter' => $request->filter,
+            'donors' => $query
+                ->orderBy('first_name')
+                ->orderBy('last_name')
+                ->orderBy('company')
+                ->paginate(100),
+            'filter' => $filter,
+            'tag' => $tag,
+            'tags' => Tag::has('donors')->orderBy('name')->get(),
         ]);
     }
 
@@ -74,8 +118,26 @@ class DonorController extends Controller
         $donor->language = $request->language;
         $donor->remarks = $request->remarks;
         $donor->save();
+
+        // Tags
+        $tags = self::splitTags($request->tags);
+        foreach ($tags as $tag_str) {
+            $tag = Tag::where('name', $tag_str)->first();
+            if ($tag != null) {
+                $donor->tags()->attach($tag);
+            } else {
+                $tag = new Tag();
+                $tag->name = $tag_str;
+                $donor->tags()->save($tag);
+            }
+        }
+
         return redirect()->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donor_added'));
+    }
+
+    private static function splitTags($value) {
+        return array_unique(preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY));
     }
 
     /**
@@ -135,6 +197,23 @@ class DonorController extends Controller
         $donor->language = $request->language;
         $donor->remarks = $request->remarks;
         $donor->save();
+
+        // Tags
+        $tags = self::splitTags($request->tags);
+        $tag_ids = [];
+        foreach($tags as $tag_str) {
+            $tag = Tag::where('name', $tag_str)->first();
+            if ($tag != null) {
+                $tag_ids[] = $tag->id;
+            } else {
+                $tag = new Tag();
+                $tag->name = $tag_str;
+                $tag->save();
+                $tag_ids[] = $tag->id;
+            }
+        }
+        $donor->tags()->sync($tag_ids);
+
         return redirect()->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donor_updated'));
     }
@@ -148,6 +227,8 @@ class DonorController extends Controller
     public function destroy(Donor $donor)
     {
         $this->authorize('delete', $donor);
+
+        $donor->tags()->detach();
 
         $donor->delete();
         return redirect()->route('fundraising.donors.index')

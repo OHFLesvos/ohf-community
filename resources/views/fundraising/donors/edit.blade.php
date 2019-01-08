@@ -49,6 +49,9 @@
             <div class="col-md">
                 {{ Form::bsTextarea('remarks', null, [ 'rows' => 2 ], __('app.remarks')) }}
             </div>
+            <div class="col-md">
+                {{ Form::bsText('tags', $donor->tags->sortBy('name')->pluck('name')->implode(', '), [], __('app.tags'), __('app.separate_by_comma')) }}
+            </div>
         </div>
 
         <p>

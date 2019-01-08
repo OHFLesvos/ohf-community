@@ -5,17 +5,32 @@
 @section('wrapped-content')
 
     {!! Form::open(['route' => ['fundraising.donors.index'], 'method' => 'get']) !!}
-        <div class="input-group">
+        <div class="input-group mb-3">
             {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('fundraising.search_for_name') . '...' ]) }}
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">@icon(search)</button> 
                 @if(isset($filter))
-                    <a class="btn btn-secondary" href="{{ route('fundraising.donors.index') }}">@icon(eraser)</a> 
+                    <a class="btn btn-secondary" href="{{ route('fundraising.donors.index', ['reset_filter']) }}">@icon(eraser)</a> 
                 @endif
             </div>
         </div>
-        <br>
     {!! Form::close() !!}
+
+    @isset($tag)
+        <p>
+            @lang('app.tag'): 
+            <span class="badge badge-primary">{{ $tag->name }} 
+                <a href="{{ route('fundraising.donors.index', ['reset_tag']) }}" class="text-light">@icon(times)</a>
+            </span>
+        </p>
+    @elseif(count($tags) > 0)
+        <p>
+            @lang('app.tags'): 
+            @foreach($tags as $tag)
+                <a href="{{ route('fundraising.donors.index', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if(!$loop->last), @endif
+            @endforeach
+        </p>
+    @endisset
 
     @if( ! $donors->isEmpty() )
         <div class="table-responsive">

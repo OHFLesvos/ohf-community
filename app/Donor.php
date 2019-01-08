@@ -94,4 +94,11 @@ class Donor extends Model
         return self::select('salutation')->groupBy('salutation')->whereNotNull('salutation')->orderBy('salutation')->get()->pluck('salutation')->toArray();
     }
     
+    /**
+     * Get all of the tags for the wiki article.
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Tag', 'taggable');
+    }
 }

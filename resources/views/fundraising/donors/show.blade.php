@@ -10,7 +10,6 @@
 
             <ul class="list-group list-group-flush">
 
-
                 @if($donor->salutation != null)
                     <li class="list-group-item">
                         <div class="row">
@@ -124,6 +123,19 @@
                         <div class="col-sm">{{ $donor->updated_at }} <small class="text-muted pl-2">{{ $donor->created_at->diffForHumans() }}</small></div>
                     </div>
                 </li>
+
+                @if(count($donor->tags) > 0)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm"><strong>@lang('app.tags')</strong></div>
+                            <div class="col-sm">
+                                @foreach($donor->tags->sortBy('name') as $tag)
+                                    <a href="{{ route('fundraising.donors.index', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if(!$loop->last), @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    </li>
+                @endif
 
             </ul>
 

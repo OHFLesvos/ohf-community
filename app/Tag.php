@@ -42,4 +42,12 @@ class Tag extends Model
     {
         return $this->morphedByMany('App\WikiArticle', 'taggable');
     }
+
+    /**
+     * Get all of the donors that are assigned this tag.
+     */
+    public function donors()
+    {
+        return $this->morphedByMany('App\Donor', 'taggable');
+    }
 }
