@@ -17,6 +17,7 @@ Library:
 Donor management:
 
 * Stripe file import
+* Tag support for donors
 
 ## 1.23.5
 
