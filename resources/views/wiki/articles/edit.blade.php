@@ -9,7 +9,7 @@
         {{ Form::bsText('title', null, [], __('app.title')) }}
         {{ Form::bsTextarea('content', null, [], __('app.content')) }}
         @include('markdown-help')
-        {{ Form::bsText('tags', $article->tags->sortBy('name')->pluck('name')->implode(', '), [], __('app.tags'), __('app.separate_by_comma')) }}
+        {{ Form::bsText('tags', $article->tags->sortBy('name')->pluck('name')->implode(', '), [], __('app.tags')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>

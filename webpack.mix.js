@@ -24,6 +24,9 @@ mix.options({ processCssUrls: false })
 	.js('resources/assets/js/library.js', 'public/js')
 	.js('resources/assets/js/imageupload.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
+	.styles([
+		'node_modules/tags-input/tags-input.css',
+	], 'public/css/styles.css')
 	.copy('node_modules/font-awesome/fonts', 'public/fonts')
 	.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')
 	.copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.css', 'public/css')

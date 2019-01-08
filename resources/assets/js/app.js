@@ -273,3 +273,11 @@ import bsCustomFileInput from 'bs-custom-file-input'
 $(document).ready(function () {
     bsCustomFileInput.init()
 })
+
+/**
+ * Tags input
+ */
+var tagsInput = require('tags-input');
+$(document).ready(function () {
+    tagsInput(document.querySelector('input[name="tags"]'));
+});
