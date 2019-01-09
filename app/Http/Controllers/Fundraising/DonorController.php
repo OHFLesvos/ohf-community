@@ -257,9 +257,12 @@ class DonorController extends Controller
                         ->orderBy('company')
                         ->get(),
                 ]);
-                $sheet->getStyle('I')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
-                $sheet->getStyle('J')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
+                $sheet->getStyle('O')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
+                $sheet->getStyle('P')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
             });
+            $excel->getActiveSheet()->setAutoFilter(
+                $excel->getActiveSheet()->calculateWorksheetDimension()
+            );
         })->export('xlsx');
     }
 

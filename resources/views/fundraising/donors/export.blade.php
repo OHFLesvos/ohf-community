@@ -13,6 +13,7 @@
             <th>@lang('app.phone')</th>
             <th>@lang('app.correspondence_language')</th>
             <th>@lang('app.registered')</th>
+            <th>@lang('app.tags')</th>
             <th>@lang('app.remarks')</th>
             @can('list', App\Donation::class)
                 <th>@lang('fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
@@ -35,6 +36,11 @@
                 <td>{{ $donor->phone }}</td>
                 <td>{{ $donor->language }}</td>
                 <td>{{ $donor->created_at }}</td>
+                <td>
+                    @foreach($donor->tags->sortBy('name') as $tag)
+                        {{ $tag->name }}@if(!$loop->last), @endif
+                    @endforeach
+                </td>
                 <td>{{ $donor->remarks }}</td>
                 @can('list', App\Donation::class)
                     <td>{{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) ?? 0 }}</td>
