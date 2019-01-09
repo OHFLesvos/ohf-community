@@ -107,7 +107,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="float-right"><small>@lang('app.total'): {{ $donors->count() }}</small></div>
+        <div class="float-right"><small>@lang('app.total'): {{ $donors->total() }}</small></div>
         {{ $donors->links() }}
     @else
         @component('components.alert.info')
