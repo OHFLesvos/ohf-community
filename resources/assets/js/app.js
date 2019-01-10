@@ -279,5 +279,5 @@ $(document).ready(function () {
  */
 var tagsInput = require('tags-input');
 $(document).ready(function () {
-    tagsInput(document.querySelector('input[name="tags"]'));
+    [].forEach.call(document.querySelectorAll('input[name="tags"]'), tagsInput);
 });

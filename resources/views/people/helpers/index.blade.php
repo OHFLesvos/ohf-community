@@ -7,7 +7,7 @@
     <div class="row">
 
         {{-- Scopes --}}
-        <div class="col-md-auto" style="overflow-x: auto">
+        <div class="col-md-auto text-nowrap" style="overflow-x: auto">
             <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Scopes">
                 @foreach($scopes as $scope)
                     <a href="{{ $scope['url'] }}" class="btn @if($scope['active']) btn-dark @else btn-secondary @endif">{{ $scope['label'] }}</a>
@@ -17,7 +17,7 @@
 
 
         {{-- Groupings --}}
-        <div class="col-md-auto text-right" style="overflow-x: auto">
+        <div class="col-md-auto text-right text-nowrap" style="overflow-x: auto">
             <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Groupings">
                 @foreach($groupings as $grouping)
                     <a href="{{ $grouping['url'] }}" class="btn @if($grouping['active']) btn-dark @else btn-secondary @endif">{{ $grouping['label'] }}</a>
