@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.23.7
+
+Helpers:
+
+* Report added
+
 ## 1.23.6
 
 Accounting:

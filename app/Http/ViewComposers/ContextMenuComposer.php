@@ -101,6 +101,21 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('configure-bank')
                     ],
                 ];
+            case 'people.helpers.index':
+                return [
+                    'export' => [
+                        'url' => route('people.helpers.export'),
+                        'caption' => __('app.export'),
+                        'icon' => 'download',
+                        'authorized' => Auth::user()->can('export', Helper::class)
+                    ],
+                    'import' => [
+                        'url' => route('people.helpers.import'),
+                        'caption' => __('app.import'),
+                        'icon' => 'upload',
+                        'authorized' => Auth::user()->can('import', Helper::class)
+                    ],
+                ];
         }
         return [];
     }
@@ -406,18 +421,12 @@ class ContextMenuComposer {
                         'icon_floating' => 'plus',
                         'authorized' => Auth::user()->can('create', Helper::class)
                     ],
-                    'export' => [
-                        'url' => route('people.helpers.export'),
-                        'caption' => __('app.export'),
-                        'icon' => 'download',
-                        'authorized' => Auth::user()->can('export', Helper::class)
-                    ],
-                    'import' => [
-                        'url' => route('people.helpers.import'),
-                        'caption' => __('app.import'),
-                        'icon' => 'upload',
-                        'authorized' => Auth::user()->can('import', Helper::class)
-                    ],
+                    'report' => [
+                        'url' => route('people.helpers.report'),
+                        'caption' => __('app.report'),
+                        'icon' => 'bar-chart',
+                        'authorized' => Auth::user()->can('list', Helper::class)
+                    ],                    
                     'badges' => [
                         'url' => route('badges.index', ['source' => 'helpers']),
                         'caption' => __('people.badges'),
@@ -475,6 +484,7 @@ class ContextMenuComposer {
             case 'people.helpers.createFrom':
             case 'people.helpers.import':
             case 'people.helpers.export':
+            case 'people.helpers.report':
                 return [
                     'back' => [
                         'url' => route('people.helpers.index'),

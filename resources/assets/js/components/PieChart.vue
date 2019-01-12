@@ -55,6 +55,22 @@
                         animation: {
                             duration: 0
                         },
+                        // Percentage in tooltips (see https://stackoverflow.com/questions/37257034/chart-js-2-0-doughnut-tooltip-percentages/49717859#49717859)
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                                    var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                                    var total = meta.total;
+                                    var currentValue = dataset.data[tooltipItem.index];
+                                    var percentage = parseFloat((currentValue/total*100).toFixed(1));
+                                    return currentValue + ' (' + percentage + '%)';
+                                },
+                                title: function(tooltipItem, data) {
+                                    return data.labels[tooltipItem[0].index];
+                                }
+                            }
+                        },
                     };
 
                     // Render chart

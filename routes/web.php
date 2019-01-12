@@ -174,6 +174,10 @@ Route::group(['middleware' => 'language'], function () {
 
         // Helpers
         Route::namespace('People\Helpers')->name('people.')->group(function(){
+            Route::get('helpers/report', 'HelperListController@report')->name('helpers.report')->middleware('can:list,App\Helper');
+            Route::get('helpers/report/ages', 'HelperListController@ages')->name('helpers.report.ages');
+            Route::get('helpers/report/nationalities', 'HelperListController@nationalities')->name('helpers.report.nationalities');
+            Route::get('helpers/report/genderDistribution', 'HelperListController@genderDistribution')->name('helpers.report.genderDistribution');
             Route::get('helpers/export', 'HelperListController@export')->name('helpers.export')->middleware('can:export,App\Helper');
             Route::post('helpers/doExport', 'HelperListController@doExport')->name('helpers.doExport')->middleware('can:export,App\Helper');
             Route::get('helpers/import', 'HelperListController@import')->name('helpers.import')->middleware('can:import,App\Helper');
