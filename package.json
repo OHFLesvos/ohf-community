@@ -18,7 +18,7 @@
     "cross-env": "^3.2.3",
     "devbridge-autocomplete": "1.4.7",
     "font-awesome": "^4.7.0",
-    "fullcalendar": "^3.9.0",
+    "fullcalendar": "^3.10.0",
     "fullcalendar-scheduler": "^1.9.4",
     "google-palette": "^1.1.0",
     "is-isbn": "^1.1.0",
@@ -26,18 +26,18 @@
     "jquery": "^3.3.1",
     "jquery.session": "^1.0.0",
     "jsqr": "^1.1.1",
-    "laravel-mix": "^4.0.13",
+    "laravel-mix": "^4.0.14",
     "lity": "^2.3.1",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",
     "node-snackbar": "^0.1.15",
     "popper.js": "^1.14.6",
-    "sass": "^1.16.0",
+    "sass": "^1.16.1",
     "sass-loader": "^7.1.0",
     "tags-input": "^1.1.1",
-    "vue": "^2.5.21",
+    "vue": "^2.5.22",
     "vue-chartjs": "^3.4.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.22"
   },
   "dependencies": {}
 }
