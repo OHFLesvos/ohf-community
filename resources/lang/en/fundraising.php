@@ -23,7 +23,7 @@ return [
     'reference' => 'Reference',
     'register_new_donation' => 'Register new donation',
     'register_new_donation_for' => 'Register new donation for :name',
-    'search_for_name' => 'Search for name',
+    'search_for_name_address_email_phone' => 'Search for name, address, e-mail, phone',
     'unable_to_find_exchange_rate' => 'Unable to find current exchange rate for :currency.',
     'exchange_rate' => 'Exchange rate',
     'optional_exchange_rate' => '(optional) Exchange rate',

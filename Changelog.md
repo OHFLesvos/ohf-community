@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.23.8
+
+Donors:
+
+* More powerful filter in donor search, can search for address, phone, mail
+
 ## 1.23.7
 
 Helpers:

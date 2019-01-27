@@ -23,7 +23,7 @@ return [
     'reference' => 'Referenz',
     'register_new_donation' => 'Neue Spende registrieren',
     'register_new_donation_for' => 'Neue Spende für :name registrieren',
-    'search_for_name' => 'Nach Name suchen',
+    'search_for_name_address_email_phone' => 'Nach Name, Adresse, E-Mail, Telefon suchen',
     'unable_to_find_exchange_rate' => 'Für die Währung :currency wurde kein aktueller Wechselkurs gefunden.',
     'exchange_rate' => 'Wechselkurs',
     'optional_exchange_rate' => '(optional) Wechselkurs',

@@ -66,7 +66,14 @@ class DonorController extends Controller
                     ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere('company', 'LIKE', '%' . $filter . '%')
                     ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
+                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('street', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('zip', $filter)
+                    ->orWhere('city', 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere('email', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $filter . '%');
             });
         } else {
             $filter = null;
