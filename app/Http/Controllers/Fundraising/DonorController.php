@@ -62,6 +62,11 @@ class DonorController extends Controller
         if ($request->session()->has('donors_filter')) {
             $filter = $request->session()->get('donors_filter');
             $query->where(function($wq) use($filter) {
+                $countries = \Countries::getList(\App::getLocale());
+                array_walk($countries, function(&$value, $idx){
+                    $value = strtolower($value);
+                });
+                $countries = array_flip($countries);
                 return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere('company', 'LIKE', '%' . $filter . '%')
@@ -72,6 +77,7 @@ class DonorController extends Controller
                     ->orWhere('city', 'LIKE', '%' . $filter . '%')
                     ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere('country_code', $countries[strtolower($filter)] ?? $filter)
                     ->orWhere('email', 'LIKE', '%' . $filter . '%')
                     ->orWhere('phone', 'LIKE', '%' . $filter . '%');
             });
