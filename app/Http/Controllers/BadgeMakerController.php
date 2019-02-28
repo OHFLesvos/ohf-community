@@ -26,6 +26,11 @@ class BadgeMakerController extends Controller
                 'label' => __('app.file'),
                 'allowed' => true,
             ],
+            [
+                'key' => 'list',
+                'label' => __('app.list'),
+                'allowed' => true,
+            ],
         ];
         return collect($sources)->where('allowed', true)->pluck('label', 'key');
     }
@@ -54,6 +59,10 @@ class BadgeMakerController extends Controller
                 'file',
                 'required_if:source,file'
             ],
+            'name' => [
+                'array',
+                'required_if:source,list'
+            ],
         ])->validate();
 
         $persons = [];
@@ -71,15 +80,28 @@ class BadgeMakerController extends Controller
             \Excel::selectSheets()->load($file, function($reader) use(&$persons) {
                 $reader->each(function($sheet) use(&$persons) {
                     $sheet->each(function($row) use(&$persons) {
-                        if (isset($row->name) && isset($row->position))
-                        $persons[] = [
-                            'name' => $row->name,
-                            'position' => $row->position,
-                            'code' => $row->code ?? null,
-                        ];
+                        if (isset($row->name) && isset($row->position)) {
+                            $persons[] = [
+                                'name' => $row->name,
+                                'position' => $row->position,
+                                'code' => $row->code ?? null,
+                            ];
+                        }
                     });
                 });
             });
+        }
+        // Source: List
+        else if ($request->source == 'list') {
+            for ($i = 0; $i < count($request->name); $i++) {
+                if (!empty($request->name[$i])) {
+                    $persons[] = [
+                        'name' => $request->name[$i],
+                        'position' => $request->position[$i] ?? null,
+                        'code' => null
+                    ];
+                }
+            }
         }
 
         // Ensure there are records

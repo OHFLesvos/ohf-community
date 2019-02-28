@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.23.9
+
+Badges:
+
+* New list input
+
 ## 1.23.8
 
 Donors:

@@ -10,6 +10,20 @@
         <div id="file_upload" class="mb-3">
             {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('app.choose_file'), __('people.file_must_be_excel_cvs_containing_columns_name_position')) }}
         </div>
+        <template id="new_input_list_row">
+            <div class="form-row">
+                <div class="col">{{ Form::bsText('name[]', null, ['placeholder' => __('app.name')], '') }}</div>
+                <div class="col-4">{{ Form::bsText('position[]', null, ['placeholder' => __('app.position')], '') }}</div>
+                <div class="col-auto"><button type="button" class="btn btn-success">@icon(plus-circle)</button></div>
+            </div>
+        </template>
+        <div id="input_list" class="mb-3">
+            {{-- <div class="form-row">
+                <div class="col">{{ Form::bsText('name', null, ['placeholder' => __('app.name')], '') }}</div>
+                <div class="col-4">{{ Form::bsText('position', null, ['placeholder' => __('app.position')], '') }}</div>
+                <div class="col-auto"><button type="button" class="btn btn-danger">@icon(minus-circle)</button></div>
+            </div> --}}
+        </div>
 		<p>
 			{{ Form::bsSubmitButton(__('app.next')) }}
 		</p>
@@ -23,9 +37,35 @@
         else
             $('#file_upload').hide();
     }
-    
+    function toggleInputList() {
+        if ($('input[name="source"]:checked').val() == 'list') {
+            $('#input_list').show();
+            if ($('#input_list').children().empty()) {
+                addNewInputListRow();
+            }
+        }
+        else
+            $('#input_list').hide();
+    }
+    function addNewInputListRow() {
+        var elem = $('#new_input_list_row').clone().html();
+        $('#input_list').find('button')
+            .removeClass('btn-success')
+            .addClass('btn-danger')
+            .off('click')
+            .on('click', removeInputListRow)
+            .html('<i class="fa fa-minus-circle"></i>');
+        $('#input_list').append(elem);
+        $('#input_list').find('button').last().on('click', addNewInputListRow);
+        $('#input_list').find('input[name="name[]"]').last().focus();
+    }
+    function removeInputListRow() {
+        $(this).parents('div[class="form-row"]').remove();
+    }
     $(function(){
         $('input[name="source"]').on('change', toggleFileUplad);
         toggleFileUplad();
+        $('input[name="source"]').on('change', toggleInputList);
+        toggleInputList();
     });
 @endsection
