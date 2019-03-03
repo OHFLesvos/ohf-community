@@ -22,6 +22,9 @@ class HelpersExport extends BaseExport implements FromCollection, WithMapping
         $this->sorting = $sorting;
     }
 
+    /**
+    * @return \Illuminate\Support\Collection
+    */
     public function collection(): Collection
     {
         return Helper::{$this->scopeMethod}()
