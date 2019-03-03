@@ -17,6 +17,7 @@ use JeroenDesloovere\VCard\VCard;
 use Validator;
 use ZipStream\ZipStream;
 use Illuminate\Support\Facades\Gate;
+use App\Exports\HelpersExport;
 
 class HelperListController extends Controller
 {
@@ -1294,7 +1295,8 @@ class HelperListController extends Controller
             'formats' => [
                 'xlsx' => __('app.excel_xls'),
                 'csv' => __('app.comma_separated_values_csv'),
-                'tsv' => __('app.tab_separated_values_csv'),
+                'tsv' => __('app.tab_separated_values_tsv'),
+                'pdf' => __('app.pdf_pdf'),
             ],
             'format' => 'xlsx',
             'scopes' => $this->getScopes()->mapWithKeys(function($s, $k){
@@ -1320,73 +1322,32 @@ class HelperListController extends Controller
                 'required', 
                 Rule::in($this->getColumnSets()->keys()->toArray()),
             ],
-            'orientation' => [
-                'required',
-                'in:portrait,landscape',
-            ]
         ])->validate();
 
+        $fields = self::filterFieldsByColumnSet($this->getFields(), $this->getColumnSets()[$request->column_set]);
         $scope = $this->getScopes()[$request->scope];
 
-        if ($request->format == 'csv') {
-            Config::set('excel.csv.delimiter', ',');
-            $format = 'csv';
-        } else if ($request->format == 'tsv') {
-            Config::set('excel.csv.delimiter', "\t");
-            Config::set('excel.csv.enclosure', "");
-            $format = 'csv';
-        } else {
-            $format = 'xlsx';
-        }
+        $export = new HelpersExport($fields, $scope['scope']);
+        $export->setOrientation($request->orientation);
 
-        $columnSet = $this->getColumnSets()[$request->column_set];
-        $fields = collect($this->getFields()) // TODO flexible field selection
-            ->where('overview_only', false)
-            ->where('exclude_export', false)
-            ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; })
-            ->filter(function($e) use($columnSet){
-                if (count($columnSet['columns']) > 0) {
-                    if (isset($e['form_name'])) {
-                        return in_array($e['form_name'], $columnSet['columns']);
-                    }
-                    return false;
-                }
-                return true;
-            });
-
-        $sorting = 'person.name'; // TODO flexible sorting
-        $scope_method = $scope['scope'];
-        $helpers = Helper::$scope_method()
-            ->get()
-            ->load('person')
-            ->sortBy($sorting);
-
-        $orientation = $request->orientation;
         $file_name = __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
-        $spreadsheet = \Excel::create($file_name, function($excel) use($helpers, $fields, $orientation) {
-            $excel->sheet(__('people.helpers'), function($sheet) use($helpers, $fields, $orientation) {
-                $sheet->setOrientation($orientation);
-                $sheet->setPageMargin(0.25);
-                $sheet->setAllBorders('thin');
-                $sheet->setFitToPage(false);
-                $sheet->setFontSize(10);
-                $sheet->setFreeze('D2');
-                $sheet->loadView('people.helpers.export-table',[
-                    'fields' => $fields,
-                    'helpers' => $helpers,
-                ]);
-            });
-            $excel->getActiveSheet()->setAutoFilter(
-                $excel->getActiveSheet()->calculateWorksheetDimension()
-            );
-            $excel->setActiveSheetIndex(0);
-        });
+        if ($request->format == 'csv') {
+            $file_ext = 'csv';
+        } else if ($request->format == 'tsv') {
+            $file_ext = 'tsv';
+        } else if ($request->format == 'pdf') {
+            $file_ext = 'pdf';
+        } else {
+            $file_ext = 'xlsx';
+        }
 
         // Download as ZIP with portraits
         if (isset($request->include_portraits)) {
             $zip = new ZipStream($file_name . '.zip');
-            $ext = $format;
-            $zip->addFile($file_name . '.' . $ext, $spreadsheet->string($format));
+            $temp_file = 'temp/' . uniqid() . '.' . $file_ext;
+            $export->store($temp_file);
+            $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
+            Storage::delete($temp_file);
             foreach ($helpers as $helper) {
                 if (isset($helper->person->portrait_picture)) {
                     $picture_path = storage_path('app/'.$helper->person->portrait_picture);
@@ -1400,8 +1361,26 @@ class HelperListController extends Controller
         } 
         // Download as simple spreadsheet
         else {
-            $spreadsheet->export($format);
+            return $export->download($file_name . '.' . $file_ext);
         }
+    }
+
+    private static function filterFieldsByColumnSet(array $fields, array $columnSet) {
+        return collect($fields)
+            ->where('overview_only', false)
+            ->where('exclude_export', false)
+            ->filter(function($e){ 
+                return !isset($e['authorized_view']) || $e['authorized_view']; 
+            })
+            ->filter(function($e) use($columnSet){
+                if (count($columnSet['columns']) > 0) {
+                    if (isset($e['form_name'])) {
+                        return in_array($e['form_name'], $columnSet['columns']);
+                    }
+                    return false;
+                }
+                return true;
+            });
     }
 
     function import() {

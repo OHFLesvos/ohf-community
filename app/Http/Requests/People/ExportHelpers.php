@@ -24,8 +24,14 @@ class ExportHelpers extends FormRequest
     public function rules()
     {
         return [
-            'format' => 'required|in:xlsx,csv,tsv',
-            'scope' => 'required',
+            'format' => [
+                'required',
+                'in:xlsx,csv,tsv,pdf'
+            ],
+            'orientation' => [
+                'required',
+                'in:portrait,landscape',
+            ],
             'include_portraits' => 'boolean',
         ];
     }
