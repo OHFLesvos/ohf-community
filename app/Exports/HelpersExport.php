@@ -5,9 +5,10 @@ namespace App\Exports;
 use App\Helper;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class HelpersExport extends BaseExport implements FromCollection, WithMapping
+class HelpersExport extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
     private $fields;
     private $scopeMethod;

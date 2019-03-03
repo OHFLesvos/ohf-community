@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -14,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 
-abstract class BaseExport implements WithTitle, WithHeadings, ShouldAutoSize, WithEvents
+abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
 {
     use Exportable;
 
@@ -96,7 +95,7 @@ abstract class BaseExport implements WithTitle, WithHeadings, ShouldAutoSize, Wi
         $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
     }
 
-    private function applyStyles(Worksheet $sheet) {
+    protected function applyStyles(Worksheet $sheet) {
         // Styling of header row
         $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')
             ->getFont()
