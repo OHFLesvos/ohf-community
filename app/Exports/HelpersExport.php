@@ -2,12 +2,10 @@
 
 namespace App\Exports;
 
+use App\Helper;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
-
-use Illuminate\Support\Collection;
-
-use App\Helper;
 
 class HelpersExport extends BaseExport implements FromCollection, WithMapping
 {
@@ -41,10 +39,11 @@ class HelpersExport extends BaseExport implements FromCollection, WithMapping
         return $this->fields
             ->map(function($field) use($helper) {
                 if (gettype($field['value']) == 'string') {
-                    return ($field['prefix'] ?? '').($helper->{$field['value']});
+                    $value = $helper->{$field['value']};
                 } else {
-                    return ($field['prefix'] ?? '').($field['value']($helper));
+                    $value = $field['value']($helper);
                 }
+                return $value != null ? (($field['prefix'] ?? '') . $value) : null;
             })
             ->toArray();
     }

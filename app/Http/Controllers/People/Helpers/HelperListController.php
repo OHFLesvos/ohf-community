@@ -18,6 +18,7 @@ use Validator;
 use ZipStream\ZipStream;
 use Illuminate\Support\Facades\Gate;
 use App\Exports\HelpersExport;
+use App\Imports\HelpersImport;
 
 class HelperListController extends Controller
 {
@@ -1441,81 +1442,23 @@ class HelperListController extends Controller
 
         $file = $request->file('file');
 
-        Config::set('excel.import.heading', 'original');
-        \Excel::selectSheets()->load($file, function($reader) {
-
-            $fields = collect($this->getFields())
-                ->where('overview_only', false)
-                ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
-                ->map(function($f){
-                    return [
-                        'labels' => self::getAllTranslations($f['label_key'])
-                            ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
-                            ->map(function($l){ return strtolower($l); }),
-                        'assign' => $f['assign'],
-                    ];
-                });
-
-            $sheet_titles = self::getAllTranslations('people.helpers')->push('Worksheet');
-            $reader->each(function($sheet) use($sheet_titles, $fields) {
-                if ($sheet_titles->contains($sheet->getTitle())) {
-                    $sheet->each(function($row) use($fields) {
-
-                        $person = new Person();
-                        $helper = new Helper();
-
-                        self::assignImportedValues($row, $fields, $helper, $person);
-
-                        if (isset($person->name) && isset($person->family_name)) {
-                            $existing_person = Person::where('name', $person->name)
-                                ->where('family_name', $person->family_name)
-                                ->where('nationality', $person->nationality)
-                                ->where('date_of_birth', $person->date_of_birth)
-                                ->first();
-                            if ($existing_person != null) {
-                                $existing_helper = $existing_person->helper;
-                                $new_helper = false;
-                                if ($existing_helper == null) {
-                                    $existing_helper = new Helper();
-                                    $new_helper = true;
-                                }
-                                self::assignImportedValues($row, $fields, $existing_helper, $existing_person);
-                                $existing_person->save();
-                                if ($new_helper) {
-                                    $existing_person->helper()->save($existing_helper);
-                                } else {
-                                    $existing_helper->save();
-                                }
-                            } else {
-                                $person->save();
-                                $person->helper()->save($helper);
-                            }
-                        }
-                        
-                    });
-                }
+        $fields = collect($this->getFields())
+            ->where('overview_only', false)
+            ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
+            ->map(function($f){
+                return [
+                    'labels' => self::getAllTranslations($f['label_key'])
+                        ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
+                        ->map(function($l){ return strtolower($l); }),
+                    'assign' => $f['assign'],
+                ];
             });
-        });
+
+        $importer = new HelpersImport($fields);
+        $importer->import($file);
+
 		return redirect()->route('people.helpers.index')
 				->with('success', __('app.import_successful'));		
-    }
-
-    private static function assignImportedValues($row, $fields, $helper, $person) {
-        $row->each(function($value, $label) use($fields, $helper, $person) {
-            if ($value == 'N/A') {
-                $value = null;
-            }
-            $fields->each(function($f) use($helper, $person, $label, $value) {
-                if ($f['labels']->containsStrict(strtolower($label))) {
-                    try {
-                        $f['assign']($person, $helper, $value);
-                    } catch(\Exception $e) {
-                        // echo "Exception for <b>'$value'</b>: " . $e->getMessage()."<br><br>";
-                        // ignored
-                    }
-                }
-            });
-        });
     }
 
     private static function getAllTranslations($key) {
