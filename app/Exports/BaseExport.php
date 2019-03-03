@@ -90,7 +90,7 @@ abstract class BaseExport implements WithTitle, WithHeadings, ShouldAutoSize, Wi
 
     private function setupView(Worksheet $sheet) {
         // Freeze first line
-        $sheet->freezePane('A2');
+        $sheet->freezePane('B2');
         
         // Auto-filter
         $sheet->setAutoFilter($sheet->calculateWorksheetDimension());

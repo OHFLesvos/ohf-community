@@ -13,11 +13,15 @@ class HelpersExport extends BaseExport implements FromCollection, WithMapping
 {
     private $fields;
     private $scopeMethod;
-    private $sorting = 'person.name'; // TODO flexible sorting
+    private $sorting = 'person.name';
 
     public function __construct(Collection $fields, string $scopeMethod) {
         $this->fields = $fields;
         $this->scopeMethod = $scopeMethod;
+    }
+
+    public function setSorting(string $sorting) {
+        $this->sorting = $sorting;
     }
 
     public function collection(): Collection

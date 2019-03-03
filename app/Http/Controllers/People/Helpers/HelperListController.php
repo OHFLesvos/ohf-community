@@ -956,6 +956,43 @@ class HelperListController extends Controller
         ]);
     }
 
+    private function getSorters() {
+        return collect([
+            'first_name' => [
+                'label' => __('app.first_name'),
+                'sorting' => 'person.name',
+            ],
+            'last_name' => [
+                'label' => __('app.last_name'),
+                'sorting' => 'person.family_name',
+            ],
+            'nationality' => [
+                'label' => __('people.nationality'),
+                'sorting' => 'person.nationality',
+            ],
+            'gender' => [
+                'label' => __('people.gender'),
+                'sorting' => 'person.gender',
+            ],
+            'age' => [
+                'label' => __('people.age'),
+                'sorting' => 'person.age',
+            ],
+            'residence' => [
+                'label' => __('people.residence'),
+                'sorting' => 'residence',
+            ],
+            'work_application_date' => [
+                'label' => __('people.application_date'),
+                'sorting' => 'work_application_date',
+            ],
+            'work_starting_date' => [
+                'label' => __('people.starting_date'),
+                'sorting' => 'work_starting_date',
+            ],
+        ]);
+    }
+
     public function index(Request $request) {
         $this->authorize('list', Helper::class);
 
@@ -1307,6 +1344,10 @@ class HelperListController extends Controller
                 return [ $k => $s['label'] ];
             })->toArray(),
             'columnt_set' => $this->getColumnSets()->keys()->first(),
+            'sorters' => $this->getSorters()->mapWithKeys(function($s, $k){
+                return [ $k => $s['label'] ];
+            })->toArray(),
+            'sorting' => $this->getSorters()->keys()->first(),
         ]);
     }
 
@@ -1322,13 +1363,19 @@ class HelperListController extends Controller
                 'required', 
                 Rule::in($this->getColumnSets()->keys()->toArray()),
             ],
+            'sorting' => [
+                'required', 
+                Rule::in($this->getSorters()->keys()->toArray()),
+            ],
         ])->validate();
 
         $fields = self::filterFieldsByColumnSet($this->getFields(), $this->getColumnSets()[$request->column_set]);
         $scope = $this->getScopes()[$request->scope];
+        $sorting = $this->getSorters()[$request->sorting];       
 
         $export = new HelpersExport($fields, $scope['scope']);
         $export->setOrientation($request->orientation);
+        $export->setSorting($sorting['sorting']);
 
         $file_name = __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
         if ($request->format == 'csv') {
