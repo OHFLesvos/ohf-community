@@ -1370,7 +1370,8 @@ class HelperListController extends Controller
             ],
         ])->validate();
 
-        $fields = self::filterFieldsByColumnSet($this->getFields(), $this->getColumnSets()[$request->column_set]);
+        $columnSet = $this->getColumnSets()[$request->column_set];
+        $fields = self::filterFieldsByColumnSet($this->getFields(), $columnSet);
         $scope = $this->getScopes()[$request->scope];
         $sorting = $this->getSorters()[$request->sorting];       
 
@@ -1440,9 +1441,17 @@ class HelperListController extends Controller
     function doImport(ImportHelpers $request) {
         $this->authorize('import', Helper::class);
 
-        $file = $request->file('file');
+        $fields = self::getImportFields($this->getFields());
 
-        $fields = collect($this->getFields())
+        $importer = new HelpersImport($fields);
+        $importer->import($request->file('file'));
+
+		return redirect()->route('people.helpers.index')
+				->with('success', __('app.import_successful'));		
+    }
+
+    private static function getImportFields($fields) {
+        return collect($fields)
             ->where('overview_only', false)
             ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
             ->map(function($f){
@@ -1453,12 +1462,6 @@ class HelperListController extends Controller
                     'assign' => $f['assign'],
                 ];
             });
-
-        $importer = new HelpersImport($fields);
-        $importer->import($file);
-
-		return redirect()->route('people.helpers.index')
-				->with('success', __('app.import_successful'));		
     }
 
     private static function getAllTranslations($key) {
