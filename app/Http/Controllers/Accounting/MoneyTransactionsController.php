@@ -13,6 +13,7 @@ use \Gumlet\ImageResize;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 use App\Exports\MoneyTransactionsExport;
+use App\Exports\MoneyTransactionsMonthsExport;
 
 class MoneyTransactionsController extends Controller
 {
@@ -448,18 +449,9 @@ class MoneyTransactionsController extends Controller
         $file_name = Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
         $file_ext = 'xlsx';
 
-        $export = new MoneyTransactionsExport();
+        // $export = new MoneyTransactionsExport();
+        $export = new MoneyTransactionsMonthsExport();
         return $export->download($file_name . '.' . $file_ext);
-
-        // // All transactions
-        // $excel->sheet(__('accounting.all_transactions'), function($sheet) {
-        //     $transactions = MoneyTransaction
-        //         ::orderBy('date', 'ASC')
-        //         ->orderBy('created_at', 'ASC')
-        //         ->get();
-
-        //     self::fillTransactionEportSheet($sheet, $transactions);
-        // });
     }
 
     public function editReceipt(MoneyTransaction $transaction)

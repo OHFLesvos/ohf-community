@@ -3,71 +3,33 @@
 namespace App\Exports;
 
 use App\MoneyTransaction;
-use App\Exports\Sheets\MoneyTransactionsMonthSheet;
-use App\Exports\Sheets\MoneyTransactionsSummarySheet;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Carbon\Carbon;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\BeforeExport;
-use Maatwebsite\Excel\Events\BeforeWriting;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class MoneyTransactionsExport implements WithMultipleSheets, WithEvents
+use Illuminate\Support\Collection;
+
+class MoneyTransactionsExport extends BaseMoneyTransactionsExport
 {
-    use Exportable, DefaultFormatting;
+    public function __construct()
+    {
+        $this->setOrientation('landscape');
+    }    
 
     /**
-     * @return array
-     */
-    public function sheets(): array
+    * @return \Illuminate\Support\Collection
+    */
+    public function collection(): Collection
     {
-        // TODO: Probably define on more general location
-        setlocale(LC_TIME, \App::getLocale());
-
-        $months = MoneyTransaction
-            ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
-            ->groupBy(DB::raw('MONTH(date)'))
-            ->groupBy(DB::raw('YEAR(date)'))
-            ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
-            ->get()
-            ->map(function($e){
-                return (new Carbon($e->year.'-'.$e->month.'-01'))->startOfMonth();
-            })
-            ->toArray();
-
-        $sheets = [];
-
-        // Transactions by month
-        foreach ($months as $month) {
-            $sheet = new MoneyTransactionsMonthSheet($month);
-            $sheet->setOrientation('landscape');
-            $sheets[] = $sheet;
-        }
-
-        // Summary
-        $sheets[] = new MoneyTransactionsSummarySheet($months);
-
-        return $sheets;
+        return MoneyTransaction
+                ::orderBy('date', 'ASC')
+                ->orderBy('created_at', 'ASC')
+                ->get();
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function registerEvents(): array
+    public function title(): string
     {
-        return [
-            BeforeExport::class => function(BeforeExport $event) {
-                $spreadsheet = $event->writer->getDelegate();
-                $this->setupSpreadsheet($spreadsheet);
-            },
-            BeforeWriting::class => function(BeforeWriting $event) {
-                $spreadsheet = $event->writer->getDelegate();
-                $spreadsheet->setActiveSheetIndex($spreadsheet->getSheetCount() - 1);
-            },
-        ];
+        return __('accounting.all_transactions');
     }
 
 }
