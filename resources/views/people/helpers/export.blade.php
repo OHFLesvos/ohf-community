@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people.exportieren_helper_data'))
+@section('title', __('people.export_helper_data'))
 
 @section('content')
 

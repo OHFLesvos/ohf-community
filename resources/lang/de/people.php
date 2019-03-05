@@ -183,7 +183,7 @@ return [
     'subsidiary_protection' => 'Subsidiärer Schutz',
     'refugee_status' => 'Flüchtlingsstatus',
     'import_helper_data' => 'Helferdaten importieren',
-    'exportieren_helper_data' => 'Helferdaten exportieren',
+    'export_helper_data' => 'Helferdaten exportieren',
     'has_id_card' => 'Hat ID Karte?',
     'has_passport' => 'Hat Reisepass?',
     'notes' => 'Notizen',

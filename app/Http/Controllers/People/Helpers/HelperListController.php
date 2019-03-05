@@ -5,7 +5,6 @@ namespace App\Http\Controllers\People\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\People\ImportHelpers;
-use App\Http\Requests\People\ExportHelpers;
 use App\Helper;
 use App\Person;
 use Carbon\Carbon;
@@ -19,9 +18,12 @@ use ZipStream\ZipStream;
 use Illuminate\Support\Facades\Gate;
 use App\Exports\HelpersExport;
 use App\Imports\HelpersImport;
+use App\Http\Controllers\ExportableActions;
 
 class HelperListController extends Controller
 {
+    use ExportableActions;
+
     private static $asylum_request_states = [
         'awaiting_interview',
         'waiting_for_decision',
@@ -1326,17 +1328,19 @@ class HelperListController extends Controller
             ->with('success', __('people.helper_deleted'));
     }
 
-    function export() {
+    function exportAuthorize()
+    {
         $this->authorize('export', Helper::class);
+    }
 
-        return view('people.helpers.export', [
-            'formats' => [
-                'xlsx' => __('app.excel_xls'),
-                'csv' => __('app.comma_separated_values_csv'),
-                'tsv' => __('app.tab_separated_values_tsv'),
-                'pdf' => __('app.pdf_pdf'),
-            ],
-            'format' => 'xlsx',
+    function exportView(): string
+    {
+        return 'people.helpers.export';
+    }
+
+    function exportViewArgs(): array
+    {
+        return [
             'scopes' => $this->getScopes()->mapWithKeys(function($s, $k){
                 return [ $k => $s['label'] ];
             })->toArray(),
@@ -1349,13 +1353,12 @@ class HelperListController extends Controller
                 return [ $k => $s['label'] ];
             })->toArray(),
             'sorting' => $this->getSorters()->keys()->first(),
-        ]);
+        ];
     }
 
-    public function doExport(ExportHelpers $request) {
-        $this->authorize('export', Helper::class);
-
-        Validator::make($request->all(), [
+    function exportValidateArgs(): array
+    {
+        return [
             'scope' => [
                 'required', 
                 Rule::in($this->getScopes()->keys()->toArray()),
@@ -1368,8 +1371,22 @@ class HelperListController extends Controller
                 'required', 
                 Rule::in($this->getSorters()->keys()->toArray()),
             ],
-        ])->validate();
+            'orientation' => [
+                'required',
+                'in:portrait,landscape',
+            ],
+            'include_portraits' => 'boolean',
+        ];
+    }
 
+    function exportFilename(Request $request): string
+    {
+        $scope = $this->getScopes()[$request->scope];
+        return __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
+    }
+
+    function exportExportable(Request $request)
+    {
         $columnSet = $this->getColumnSets()[$request->column_set];
         $fields = self::filterFieldsByColumnSet($this->getFields(), $columnSet);
         $scope = $this->getScopes()[$request->scope];
@@ -1378,18 +1395,28 @@ class HelperListController extends Controller
         $export = new HelpersExport($fields, $scope['scope']);
         $export->setOrientation($request->orientation);
         $export->setSorting($sorting['sorting']);
+        return $export;
+    }
 
-        $file_name = __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
-        if ($request->format == 'csv') {
-            $file_ext = 'csv';
-        } else if ($request->format == 'tsv') {
-            $file_ext = 'tsv';
-        } else if ($request->format == 'pdf') {
-            $file_ext = 'pdf';
-        } else {
-            $file_ext = 'xlsx';
-        }
+    private static function filterFieldsByColumnSet(array $fields, array $columnSet) {
+        return collect($fields)
+            ->where('overview_only', false)
+            ->where('exclude_export', false)
+            ->filter(function($e){ 
+                return !isset($e['authorized_view']) || $e['authorized_view']; 
+            })
+            ->filter(function($e) use($columnSet){
+                if (count($columnSet['columns']) > 0) {
+                    if (isset($e['form_name'])) {
+                        return in_array($e['form_name'], $columnSet['columns']);
+                    }
+                    return false;
+                }
+                return true;
+            });
+    }
 
+    protected function exportDownload(Request $request, $export, $file_name, $file_ext) {
         // Download as ZIP with portraits
         if (isset($request->include_portraits)) {
             $zip = new ZipStream($file_name . '.zip');
@@ -1412,24 +1439,6 @@ class HelperListController extends Controller
         else {
             return $export->download($file_name . '.' . $file_ext);
         }
-    }
-
-    private static function filterFieldsByColumnSet(array $fields, array $columnSet) {
-        return collect($fields)
-            ->where('overview_only', false)
-            ->where('exclude_export', false)
-            ->filter(function($e){ 
-                return !isset($e['authorized_view']) || $e['authorized_view']; 
-            })
-            ->filter(function($e) use($columnSet){
-                if (count($columnSet['columns']) > 0) {
-                    if (isset($e['form_name'])) {
-                        return in_array($e['form_name'], $columnSet['columns']);
-                    }
-                    return false;
-                }
-                return true;
-            });
     }
 
     function import() {
