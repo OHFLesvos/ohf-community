@@ -7,8 +7,10 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
+use Maatwebsite\Excel\Events\BeforeWriting;
 use Maatwebsite\Excel\Events\AfterSheet;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
@@ -35,11 +37,8 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
     {
         return [
             BeforeExport::class => function(BeforeExport $event) {
-                // Creator
-                $event->writer->getDelegate()->getProperties()->setCreator(env('APP_NAME'));
-                
-                // Default font
-                $event->writer->getDelegate()->getDefaultStyle()->getFont()->setSize(9);
+                $spreadsheet = $event->writer->getDelegate();
+                $this->setupSpreadsheet($spreadsheet);
             },
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
@@ -47,10 +46,26 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
                 $this->setupView($sheet);
                 $this->applyStyles($sheet);
             },
+            BeforeWriting::class => function(BeforeWriting $event) {
+                $spreadsheet = $event->writer->getDelegate();
+                $this->finishSpreadsheet($spreadsheet);
+            },
         ];
     }
+    
+    protected function setupSpreadsheet(Spreadsheet $spreadsheet) {
+        // Creator
+        $spreadsheet->getProperties()->setCreator(env('APP_NAME'));
+    
+        // Default font
+        $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
+    }
 
-    private function setupPage(Worksheet $sheet) {
+    protected function finishSpreadsheet(Spreadsheet $spreadsheet) {
+        // ... to be extended
+    }
+
+    protected function setupPage(Worksheet $sheet) {
         // Orientation
         if ($this->orientation == 'landscape') {
             $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
@@ -87,7 +102,7 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
         $sheet->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(1, 1);
     }
 
-    private function setupView(Worksheet $sheet) {
+    protected function setupView(Worksheet $sheet) {
         // Freeze first line
         $sheet->freezePane('B2');
         

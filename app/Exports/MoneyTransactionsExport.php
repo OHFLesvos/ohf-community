@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\BeforeExport;
+use Maatwebsite\Excel\Events\BeforeWriting;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class MoneyTransactionsExport implements WithMultipleSheets
+class MoneyTransactionsExport implements WithMultipleSheets, WithEvents
 {
     use Exportable;
-
-    public function __construct()
-    {
-
-    }
 
     /**
      * @return array
@@ -52,5 +51,34 @@ class MoneyTransactionsExport implements WithMultipleSheets
         $sheets[] = new MoneyTransactionsSummarySheet($months);
 
         return $sheets;
+    }
+
+    /**
+     * @return array
+     */
+    public function registerEvents(): array
+    {
+        return [
+            BeforeExport::class => function(BeforeExport $event) {
+                $spreadsheet = $event->writer->getDelegate();
+                $this->setupSpreadsheet($spreadsheet);
+            },
+            BeforeWriting::class => function(BeforeWriting $event) {
+                $spreadsheet = $event->writer->getDelegate();
+                $this->finishSpreadsheet($spreadsheet);
+            },
+        ];
+    }
+
+    protected function setupSpreadsheet(Spreadsheet $spreadsheet) {
+        // Creator
+        $spreadsheet->getProperties()->setCreator(env('APP_NAME'));
+    
+        // Default font
+        $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
+    }
+    
+    protected function finishSpreadsheet(Spreadsheet $spreadsheet) {
+        $spreadsheet->setActiveSheetIndex($spreadsheet->getSheetCount() - 1);
     }
 }

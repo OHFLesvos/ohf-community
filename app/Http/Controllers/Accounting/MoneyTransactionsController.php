@@ -451,15 +451,15 @@ class MoneyTransactionsController extends Controller
         $export = new MoneyTransactionsExport();
         return $export->download($file_name . '.' . $file_ext);
 
-            // All transactions
-            $excel->sheet(__('accounting.all_transactions'), function($sheet) {
-                $transactions = MoneyTransaction
-                    ::orderBy('date', 'ASC')
-                    ->orderBy('created_at', 'ASC')
-                    ->get();
+        // // All transactions
+        // $excel->sheet(__('accounting.all_transactions'), function($sheet) {
+        //     $transactions = MoneyTransaction
+        //         ::orderBy('date', 'ASC')
+        //         ->orderBy('created_at', 'ASC')
+        //         ->get();
 
-                self::fillTransactionEportSheet($sheet, $transactions);
-            });
+        //     self::fillTransactionEportSheet($sheet, $transactions);
+        // });
     }
 
     public function editReceipt(MoneyTransaction $transaction)

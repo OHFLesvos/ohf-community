@@ -47,7 +47,6 @@ class MoneyTransactionsSummarySheet extends BaseExport implements FromView, With
         ];
     }
 
-
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
