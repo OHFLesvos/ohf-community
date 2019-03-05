@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class MoneyTransactionsExport implements WithMultipleSheets, WithEvents
 {
-    use Exportable;
+    use Exportable, DefaultFormatting;
 
     /**
      * @return array
@@ -65,20 +65,9 @@ class MoneyTransactionsExport implements WithMultipleSheets, WithEvents
             },
             BeforeWriting::class => function(BeforeWriting $event) {
                 $spreadsheet = $event->writer->getDelegate();
-                $this->finishSpreadsheet($spreadsheet);
+                $spreadsheet->setActiveSheetIndex($spreadsheet->getSheetCount() - 1);
             },
         ];
     }
 
-    protected function setupSpreadsheet(Spreadsheet $spreadsheet) {
-        // Creator
-        $spreadsheet->getProperties()->setCreator(env('APP_NAME'));
-    
-        // Default font
-        $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
-    }
-    
-    protected function finishSpreadsheet(Spreadsheet $spreadsheet) {
-        $spreadsheet->setActiveSheetIndex($spreadsheet->getSheetCount() - 1);
-    }
 }

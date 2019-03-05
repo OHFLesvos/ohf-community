@@ -17,7 +17,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 
 abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
 {
-    use Exportable;
+    use Exportable, DefaultFormatting;
 
     private $orientation = 'portrait';
     private $margins = null;
@@ -46,84 +46,7 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
                 $this->setupView($sheet);
                 $this->applyStyles($sheet);
             },
-            BeforeWriting::class => function(BeforeWriting $event) {
-                $spreadsheet = $event->writer->getDelegate();
-                $this->finishSpreadsheet($spreadsheet);
-            },
         ];
     }
-    
-    protected function setupSpreadsheet(Spreadsheet $spreadsheet) {
-        // Creator
-        $spreadsheet->getProperties()->setCreator(env('APP_NAME'));
-    
-        // Default font
-        $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
-    }
-
-    protected function finishSpreadsheet(Spreadsheet $spreadsheet) {
-        // ... to be extended
-    }
-
-    protected function setupPage(Worksheet $sheet) {
-        // Orientation
-        if ($this->orientation == 'landscape') {
-            $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
-        } else {
-            $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_PORTRAIT);
-        }
-
-        // Paper size
-        $sheet->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
-
-        // Margins
-        if ($this->margins != null) {
-            $sheet->getPageMargins()->setTop($this->margins);
-            $sheet->getPageMargins()->setRight($this->margins);
-            $sheet->getPageMargins()->setLeft($this->margins);
-            $sheet->getPageMargins()->setBottom($this->margins);
-        }
-
-        // Fit to page width
-        // $sheet->getPageSetup()->setFitToWidth(1);
-        // $sheet->getPageSetup()->setFitToHeight(0);
-
-        // Centering
-        //$sheet->getPageSetup()->setHorizontalCentered(true);
-        //$sheet->getPageSetup()->setVerticalCentered(false);
-
-        // Header: Centered: sheet name
-        $sheet->getHeaderFooter()->setOddHeader('&C&A');
-
-        // Footer: Left: date, right: current page / number of pages
-        $sheet->getHeaderFooter()->setOddFooter('&L&D&R&P / &N');
-
-        // Print header row on each page
-        $sheet->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(1, 1);
-    }
-
-    protected function setupView(Worksheet $sheet) {
-        // Freeze first line
-        $sheet->freezePane('B2');
-        
-        // Auto-filter
-        $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
-    }
-
-    protected function applyStyles(Worksheet $sheet) {
-        // Styling of header row
-        $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')
-            ->getFont()
-            ->setBold(true);
-
-        // Borders
-        $sheet->getStyle($sheet->calculateWorksheetDimension())
-            ->getBorders()
-            ->getAllBorders()
-            ->setBorderStyle(Border::BORDER_THIN);
-        $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')
-            ->getBorders()
-            ->getBottom()
-            ->setBorderStyle(Border::BORDER_MEDIUM);
-    }
+  
 }
