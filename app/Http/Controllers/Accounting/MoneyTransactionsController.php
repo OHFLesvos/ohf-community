@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 use App\Exports\MoneyTransactionsExport;
 use App\Exports\MoneyTransactionsMonthsExport;
+use App\Http\Controllers\ExportableActions;
 
 class MoneyTransactionsController extends Controller
 {
+    use ExportableActions;
+
     private static $filterColumns = [
         'type',
         'project',
@@ -437,21 +440,48 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function export()
+    function exportAuthorize()
     {
         $this->authorize('list', MoneyTransaction::class);
-        
-        $file_name = Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
-        $file_ext = 'xlsx';
+    }
 
-        // $export = new MoneyTransactionsExport();
-        $export = new MoneyTransactionsMonthsExport();
-        return $export->download($file_name . '.' . $file_ext);
+    function exportView(): string
+    {
+        return 'accounting.transactions.export';
+    }
+
+    function exportViewArgs(): array
+    {
+        return [ 
+            'groupings' => [
+                'none' => 'None',
+                'monthly' => 'Monthly',
+            ],
+            'grouping' => 'none',
+        ];
+    }
+
+    function exportValidateArgs(): array
+    {
+        return [
+            'grouping' => [
+                'required', 
+                Rule::in(['none', 'monthly']),
+            ],
+        ];
+    }
+
+    function exportFilename(Request $request): string
+    {
+        return Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
+    }
+
+    function exportExportable(Request $request)
+    {
+        if ($request->grouping == 'monthly') {
+            return new MoneyTransactionsMonthsExport();
+        }
+        return new MoneyTransactionsExport();
     }
 
     public function editReceipt(MoneyTransaction $transaction)

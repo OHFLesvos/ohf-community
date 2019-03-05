@@ -1090,6 +1090,7 @@ class ContextMenuComposer {
                     ],
                 ];
             case 'accounting.transactions.create':
+            case 'accounting.transactions.export':
                 return [
                     'back' => [
                         'url' => route('accounting.transactions.index'),

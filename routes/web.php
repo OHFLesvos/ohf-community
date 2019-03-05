@@ -259,6 +259,7 @@ Route::group(['middleware' => 'language'], function () {
         // Accounting
         Route::namespace('Accounting')->prefix('accounting')->name('accounting.')->group(function(){
             Route::get('transactions/export', 'MoneyTransactionsController@export')->name('transactions.export');
+            Route::post('transactions/doExport', 'MoneyTransactionsController@doExport')->name('transactions.doExport');
             Route::get('transactions/summary', 'MoneyTransactionsController@summary')->name('transactions.summary');
             Route::get('transactions/{transaction}/snippet', 'MoneyTransactionsController@snippet')->name('transactions.snippet');
             Route::get('transactions/{transaction}/receipt', 'MoneyTransactionsController@editReceipt')->name('transactions.editReceipt');
