@@ -29,11 +29,19 @@ class DonationsExport implements WithMultipleSheets, WithEvents
      */
     public function sheets(): array
     {
-        // TODO ignore empty sheets: if (count($donations) > 0) {
-        return [
-            new DonationsSheet(Carbon::now()->subYear()->year, $this->donor),
-            new DonationsSheet(Carbon::now()->year, $this->donor),
-        ];
+        $sheets = [];
+
+        $last_year = Carbon::now()->subYear()->year;
+        if ($this->donor->donations()->whereYear('date', $last_year)->count() > 0) {
+            $sheets[] = new DonationsSheet($last_year, $this->donor);
+        }
+
+        $this_year = Carbon::now()->year;
+        if ($this->donor->donations()->whereYear('date', $this_year)->count() > 0) {
+            $sheets[] = new DonationsSheet($this_year, $this->donor);
+        }
+
+        return $sheets;
     }
 
     /**

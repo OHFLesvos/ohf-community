@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Config;
 use JeroenDesloovere\VCard\VCard;
 use Illuminate\Support\Facades\DB;
 use Validator;
+use App\Exports\DonorsExport;
 
 class DonorController extends Controller
 {
@@ -259,24 +260,9 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        \Excel::create(Config::get('app.name') . ' ' . __('fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')', function($excel) {
-            $excel->sheet(__('fundraising.donors'), function($sheet) {
-                $sheet->setOrientation('landscape');
-                $sheet->freezeFirstRow();
-                $sheet->loadView('fundraising.donors.export',[
-                    'donors' => Donor
-                        ::orderBy('first_name')
-                        ->orderBy('last_name')
-                        ->orderBy('company')
-                        ->get(),
-                ]);
-                $sheet->getStyle('O')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
-                $sheet->getStyle('P')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
-            });
-            $excel->getActiveSheet()->setAutoFilter(
-                $excel->getActiveSheet()->calculateWorksheetDimension()
-            );
-        })->export('xlsx');
+        $file_name = Config::get('app.name') . ' ' . __('fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')';
+
+        return (new DonorsExport)->download($file_name . '.' . 'xlsx');
     }
 
     /**

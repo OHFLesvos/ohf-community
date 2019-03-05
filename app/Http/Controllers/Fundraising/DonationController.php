@@ -194,8 +194,7 @@ class DonationController extends Controller
 
         $file_name = Config::get('app.name') . ' ' .__('fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
 
-        $export = new DonationsExport($donor);
-        return $export->download($file_name . '.' . 'xlsx');
+        return (new DonationsExport($donor))->download($file_name . '.' . 'xlsx');
     }
 
     function import() {

@@ -53,7 +53,7 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
         return __('fundraising.donations') . ' ' . $this->year;
     }
 
-        /**
+    /**
      * @return array
      */
     public function headings(): array
