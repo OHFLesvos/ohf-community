@@ -5,8 +5,6 @@ namespace App\Exports\Sheets;
 use App\MoneyTransaction;
 use App\Exports\BaseMoneyTransactionsExport;
 
-use Illuminate\Support\Collection;
-
 class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
 {
     private $month;
@@ -16,10 +14,7 @@ class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
         $this->month = $month;
     }
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection(): Collection
+    public function query(): \Illuminate\Database\Eloquent\Builder
     {
         $dateFrom = $this->month;
         $dateTo = (clone $dateFrom)->endOfMonth();
@@ -28,8 +23,7 @@ class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
             ::orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC')
             ->whereDate('date', '>=', $dateFrom)
-            ->whereDate('date', '<=', $dateTo)                        
-            ->get();
+            ->whereDate('date', '<=', $dateTo);
     }
 
     /**

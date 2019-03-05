@@ -7,33 +7,27 @@ use App\Donation;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Collection;
 
 use Carbon\Carbon;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class DonorsExport extends BaseExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting
+class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
     public function __construct()
     {
         $this->setOrientation('landscape');
     }
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection(): Collection
+    public function query(): \Illuminate\Database\Eloquent\Builder
     {
         return Donor
             ::orderBy('first_name')
             ->orderBy('last_name')
-            ->orderBy('company')
-            ->get();
-
+            ->orderBy('company');
     }
 
     /**

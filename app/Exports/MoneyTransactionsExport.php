@@ -4,8 +4,6 @@ namespace App\Exports;
 
 use App\MoneyTransaction;
 
-use Illuminate\Support\Collection;
-
 class MoneyTransactionsExport extends BaseMoneyTransactionsExport
 {
     public function __construct()
@@ -13,15 +11,11 @@ class MoneyTransactionsExport extends BaseMoneyTransactionsExport
         $this->setOrientation('landscape');
     }    
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection(): Collection
+    public function query(): \Illuminate\Database\Eloquent\Builder
     {
         return MoneyTransaction
                 ::orderBy('date', 'ASC')
-                ->orderBy('created_at', 'ASC')
-                ->get();
+                ->orderBy('created_at', 'ASC');
     }
 
     /**
