@@ -14,6 +14,7 @@ use MrCage\EzvExchangeRates\EzvExchangeRates;
 use Validator;
 use Illuminate\Validation\Rule;
 use App\Exports\DonationsExport;
+use App\Imports\DonationsImport;
 
 class DonationController extends Controller
 {
@@ -222,51 +223,7 @@ class DonationController extends Controller
             ],
         ])->validate();
 
-        $file = $request->file('file');
-        \Excel::selectSheets()->load($file, function($reader) {
-            $reader->each(function($sheet) {
-                $sheet->each(function($row) {
-                    if ($row->status == 'Paid') {
-
-                        $donor = Donor
-                            ::where('email', $row->customer_email)
-                            ->first();
-                        if ($donor == null) {
-                            $donor = new Donor();
-                            $donor->first_name = preg_replace('/@.*$/', '', $row->customer_email);
-                            $donor->email = $row->customer_email;
-                            $donor->save();
-                        }
-
-                        $date = new Carbon($row->created_utc);
-                        $amount = $row->amount;
-                        $currency = strtoupper($row->currency);
-                        if ($currency != Config::get('fundraising.base_currency')) {
-                            $exchange_rate = EzvExchangeRates::getExchangeRate($currency, $date);
-                            $exchange_amount = $amount * $exchange_rate;
-                        } else {
-                            $exchange_amount = $amount;
-                        }
-            
-                        $donation = Donation
-                             ::where('channel', 'Stripe')
-                             ->where('reference', $row->id)
-                             ->first();
-                        if ($donation == null) {
-                            $donation = new Donation();
-                            $donation->date = $date;
-                            $donation->amount = $amount;
-                            $donation->currency = $currency;
-                            $donation->exchange_amount = $exchange_amount;
-                            $donation->channel = 'Stripe';
-                            $donation->reference = $row->id;
-                            $donation->purpose = $row->description;
-                            $donor->donations()->save($donation);
-                        }
-                    }
-                });
-            });
-        });
+        (new DonationsImport)->import($request->file('file'));
 
 		return redirect()->route('fundraising.donations.index')
 				->with('success', __('app.import_successful'));		
