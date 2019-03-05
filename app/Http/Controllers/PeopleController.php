@@ -14,6 +14,7 @@ use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use App\Exports\PeopleExport;
 
 class PeopleController extends ParentController
 {
@@ -515,19 +516,8 @@ class PeopleController extends ParentController
     public function export() {
         $this->authorize('export', Person::class);
 
-        \Excel::create('People_' . Carbon::now()->toDateString(), function($excel) {
-            $excel->sheet(__('people.people'), function($sheet) {
-                $persons = Person::orderBy('name', 'asc')
-                    ->orderBy('family_name', 'asc')
-                    ->orderBy('name', 'asc')
-                    ->get();
-                $sheet->setOrientation('landscape');
-                $sheet->freezeFirstRow();
-                $sheet->loadView('people.export',[
-                    'persons' => $persons
-                ]);
-            });
-        })->export('xlsx');
+        $file_name = __('people.people') . ' ' . Carbon::now()->toDateString();
+        return (new PeopleExport)->download($file_name . '.' . 'xlsx');
     }
 
     function import() {
