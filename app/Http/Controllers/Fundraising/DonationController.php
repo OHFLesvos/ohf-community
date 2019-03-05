@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
 use Validator;
 use Illuminate\Validation\Rule;
+use App\Exports\DonationsExport;
 
 class DonationController extends Controller
 {
@@ -191,41 +192,10 @@ class DonationController extends Controller
     {
         $this->authorize('list', Donation::class);
 
-        \Excel::create(Config::get('app.name') . ' ' .__('fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')', function($excel) use($donor) {
-            self::createDonationSheet($excel, Carbon::now()->subYear()->year, $donor);
-            self::createDonationSheet($excel, Carbon::now()->year, $donor);
-        })->export('xlsx');
-    }
+        $file_name = Config::get('app.name') . ' ' .__('fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
 
-    private static function createDonationSheet($excel, $year, $donor) {
-        $donations = $donor->donations()
-            ->whereYear('date', $year)
-            ->orderBy('date', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        if (count($donations) > 0) {
-            $excel->sheet(__('fundraising.donations') . ' ' . $year, function($sheet) use($donations) {
-                $sheet->setOrientation('landscape');
-                $sheet->freezeFirstRow();
-    
-                // Data
-                $sheet->loadView('fundraising.donations.export-single',[
-                    'donations' => $donations,
-                ]);
-    
-                // Currency formats
-                for ($i = 0; $i < sizeof($donations); $i++) {
-                    $sheet->getStyle('E' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('fundraising.currencies_excel_format')[$donations[$i]->currency]);
-                }
-                $sheet->getStyle('F')->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
-    
-                // Sum
-                $sumCell = 'H' . (count($donations) + 2);
-                //$sheet->setCellValue($sumCell, '=SUM(F2:F' . (count($donations) + 1) . ')');
-                $sheet->setCellValue($sumCell, $donations->sum('exchange_amount'));
-                $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
-            });
-        }
+        $export = new DonationsExport($donor);
+        return $export->download($file_name . '.' . 'xlsx');
     }
 
     function import() {
