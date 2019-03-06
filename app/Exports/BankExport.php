@@ -39,7 +39,7 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
      */
     public function title(): string
     {
-        return __('people.people');
+        return __('people.withdrawals');
     }
 
     /**
