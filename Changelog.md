@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.24.0
+
+* Updated spreadsheet export/import library
+
 ## 1.23.9
 
 Badges:
