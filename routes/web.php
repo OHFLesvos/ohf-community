@@ -103,12 +103,6 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('/bank/doExport', 'People\Bank\ImportExportController@doExport')->name('bank.doExport');
         });
 
-        // Import
-        Route::group(['middleware' => ['can:create,App\Person']], function () {
-            Route::get('/bank/import', 'People\Bank\ImportExportController@import')->name('bank.import');
-            Route::post('/bank/doImport', 'People\Bank\ImportExportController@doImport')->name('bank.doImport');
-        });
-
         //
         // People
         //

@@ -20,6 +20,7 @@ class PeopleExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->orderBy('family_name', 'asc')
             ->orderBy('name', 'asc');
     }
+
     /**
      * @return string
      */
