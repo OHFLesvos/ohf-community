@@ -34,17 +34,17 @@ class PeopleExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     public function headings(): array
     {
         return [
-            __('people.family_name'),
-            __('people.name'),
-            __('people.date_of_birth'),
-            __('people.age'),
-            __('people.nationality'),
-            __('people.police_number'),
-            __('people.registration_number'),
-            __('people.section_card_number'),
-            __('people.languages'),
-            __('app.registered'),
-            __('people.remarks'),
+            'Family Name',
+            'Name',
+            'Date of birth',
+            'Age',
+            'Nationality',
+            'Police Number',
+            'Registration Number',
+            'Section Card Number',
+            'Languages',
+            'Registered',
+            'Remarks',
         ];
     }
 

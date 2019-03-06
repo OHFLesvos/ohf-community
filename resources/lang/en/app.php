@@ -186,6 +186,7 @@ return [
     'status' => 'Status',
     'choose_file' => 'Choose file',
     'import_successful' => 'Import successful.',
+    'imported_num_records' => 'Imported :num records.',
     'select_status' => 'Select status...',
     'unspecified' => 'Unspecified',
     'remove_image' => 'Remove image',

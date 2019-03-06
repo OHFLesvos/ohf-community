@@ -186,6 +186,7 @@ return [
     'status' => 'Status',
     'choose_file' => 'Datei wählen',
     'import_successful' => 'Import erfolgreich.',
+    'imported_num_records' => ':num Datensätze importiert.',
     'select_status' => 'Status wählen...',
     'unspecified' => 'Nicht spezifiziert',
     'remove_image' => 'Bild entfernen',

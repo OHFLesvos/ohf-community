@@ -15,6 +15,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use App\Exports\PeopleExport;
+use App\Imports\PeopleImport;
+use App\Http\Requests\UploadSpreadsheet;
 
 class PeopleController extends ParentController
 {
@@ -526,43 +528,14 @@ class PeopleController extends ParentController
         return view('people.import');
     }
 
-    function doImport(Request $request) {
+    function doImport(UploadSpreadsheet $request) {
         $this->authorize('create', Person::class);
 
-        $this->validate($request, [
-            'file' => 'required|file',
-        ]);
-        $file = $request->file('file');
-        
-        \Excel::selectSheets()->load($file, function($reader) {
-            
-            /** TODO */
-            DB::table('transactions')->delete();
-            DB::table('persons')->delete();
+        $import = new PeopleImport();
+        $import->import($request->file('file'));
 
-            $reader->each(function($sheet) {
-            
-                // Loop through all rows
-                $sheet->each(function($row) {
-                    
-                    if (!empty($row->name)) {
-                        $person = Person::create([
-                            'name' => $row->name,
-                            'family_name' => isset($row->surname) ? $row->surname : $row->family_name,
-                            'police_no' => is_numeric($row->police_no) ? $row->police_no : null,
-                            'registration_no' => isset($row->registration_no) ? $row->registration_no : null,
-                            'section_card_no' => isset($row->section_card_no) ? $row->section_card_no : null,
-                            'nationality' => $row->nationality,
-                            'languages' => !empty($row->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $row->languages) : null,
-                            'remarks' => $row->remarks,
-                        ]);
-                    }
-                });
-
-            });
-        });
-		return redirect()->route('people.index')
-				->with('success', _('app.import_successful'));
+        return redirect()->route('people.index')
+				->with('success', __('app.imported_num_records', ['num' => $import->count()]));
     }
 
 }
