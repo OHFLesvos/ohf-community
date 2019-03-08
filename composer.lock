@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "akaunting/language",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/akaunting/language.git",
-                "reference": "ca3aa19b43312d90b6a803175cee829ff4553a99"
+                "reference": "72f28b1794ca10da4fa3d1a5f41f5c9c59d3d727"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akaunting/language/zipball/ca3aa19b43312d90b6a803175cee829ff4553a99",
-                "reference": "ca3aa19b43312d90b6a803175cee829ff4553a99",
+                "url": "https://api.github.com/repos/akaunting/language/zipball/72f28b1794ca10da4fa3d1a5f41f5c9c59d3d727",
+                "reference": "72f28b1794ca10da4fa3d1a5f41f5c9c59d3d727",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
                 "laravel",
                 "switcher"
             ],
-            "time": "2018-12-31T11:46:54+00:00"
+            "time": "2019-03-07T13:16:45+00:00"
         },
         {
             "name": "anlutro/l4-settings",
