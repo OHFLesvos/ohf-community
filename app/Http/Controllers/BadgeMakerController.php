@@ -9,6 +9,7 @@ use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
+use App\Imports\BadgeImport;
 
 class BadgeMakerController extends Controller
 {
@@ -76,20 +77,18 @@ class BadgeMakerController extends Controller
         }
         // Source: File
         else if ($request->source == 'file') {
-            $file = $request->file('file');
-            \Excel::selectSheets()->load($file, function($reader) use(&$persons) {
-                $reader->each(function($sheet) use(&$persons) {
-                    $sheet->each(function($row) use(&$persons) {
-                        if (isset($row->name) && isset($row->position)) {
-                            $persons[] = [
-                                'name' => $row->name,
-                                'position' => $row->position,
-                                'code' => $row->code ?? null,
-                            ];
-                        }
-                    });
-                });
-            });
+            $sheets = (new BadgeImport)->toArray($request->file('file'));
+            foreach ($sheets as $rows) {
+                foreach ($rows as $row) {
+                    if (isset($row['name']) && isset($row['position'])) {
+                        $persons[] = [
+                            'name' => $row['name'],
+                            'position' => $row['position'],
+                            'code' => $row->code ?? null,
+                        ];
+                    }
+                }
+            }
         }
         // Source: List
         else if ($request->source == 'list') {

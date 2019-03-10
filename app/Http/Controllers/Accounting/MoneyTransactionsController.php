@@ -12,9 +12,14 @@ use Illuminate\Support\Facades\Storage;
 use \Gumlet\ImageResize;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
+use App\Exports\MoneyTransactionsExport;
+use App\Exports\MoneyTransactionsMonthsExport;
+use App\Http\Controllers\ExportableActions;
 
 class MoneyTransactionsController extends Controller
 {
+    use ExportableActions;
+
     private static $filterColumns = [
         'type',
         'project',
@@ -435,110 +440,48 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function export()
+    function exportAuthorize()
     {
         $this->authorize('list', MoneyTransaction::class);
-
-        // TODO: Probably define on more general location
-        setlocale(LC_TIME, \App::getLocale());
-
-        $months = MoneyTransaction
-            ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
-            ->groupBy(DB::raw('MONTH(date)'))
-            ->groupBy(DB::raw('YEAR(date)'))
-            ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
-            ->get()
-            ->map(function($e){
-                return (new Carbon($e->year.'-'.$e->month.'-01'))->startOfMonth();
-            })
-            ->toArray();
-
-        \Excel::create(Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')', function($excel) use($months) {
-
-            // All transactions
-            $excel->sheet(__('accounting.all_transactions'), function($sheet) {
-                $transactions = MoneyTransaction
-                    ::orderBy('date', 'ASC')
-                    ->orderBy('created_at', 'ASC')
-                    ->get();
-
-                self::fillTransactionEportSheet($sheet, $transactions);
-            });
-            $excel->getActiveSheet()->setAutoFilter(
-                $excel->getActiveSheet()->calculateWorksheetDimension()
-            );
-
-            // Transactions by month
-            foreach($months as $month) {
-                $excel->sheet($month->formatLocalized('%B %Y'), function($sheet) use ($month) {
-                    $dateFrom = $month;
-                    $dateTo = (clone $dateFrom)->endOfMonth();
-
-                    $transactions = MoneyTransaction
-                        ::orderBy('date', 'ASC')
-                        ->orderBy('created_at', 'ASC')
-                        ->whereDate('date', '>=', $dateFrom)
-                        ->whereDate('date', '<=', $dateTo)                        
-                        ->get();
-
-                    self::fillTransactionEportSheet($sheet, $transactions);
-                });
-                $excel->getActiveSheet()->setAutoFilter(
-                    $excel->getActiveSheet()->calculateWorksheetDimension()
-                );
-
-                for ($col = 'A'; $col !== 'J'; $col++) {
-                    $excel->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
-                }                  
-            }
-
-            // Summary
-            $excel->sheet(__('accounting.summary'), function($sheet) use($months) {
-                $sheet->setOrientation('landscape');
-                $sheet->freezeFirstRow();
-                $sheet->loadView('accounting.transactions.export_summary', [
-                    'months' => $months,
-                ]);
-                $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
-                $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
-                $sheet->getStyle('B2:B'.(count($months) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKGREEN));
-                $sheet->getStyle('C2:C'.(count($months) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKRED));
-                $sheet->getStyle('D')->getNumberFormat()->setFormatCode('#,##0.00');
-                $sheet->getStyle('E')->getNumberFormat()->setFormatCode('#,##0.00');
-
-                //$sheet->getStyle('E2:E'.(count($months) + 1))->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
-
-            });
-
-        })->export('xlsx');
     }
 
-    private static function fillTransactionEportSheet($sheet, $transactions) {
-        $sheet->setOrientation('landscape');
-        $sheet->freezeFirstRow();
-        $sheet->loadView('accounting.transactions.export', [
-            'transactions' => $transactions,
-        ]);
-        $sheet->getStyle('B')->getNumberFormat()->setFormatCode('#,##0.00');
-        $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0.00');
-        $sheet->getStyle('B2:B'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKGREEN));
-        $sheet->getStyle('C2:C'.(count($transactions) + 1))->getFont()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_DARKRED));
+    function exportView(): string
+    {
+        return 'accounting.transactions.export';
+    }
 
-        // $sumCell = 'B' . (count($transactions) + 3);
-        // $sheet->setCellValue($sumCell, '=SUM(B2:B' . (count($transactions) + 1) . ')');
-        // //$sheet->setCellValue($sumCell, $transactions->where('type', 'income')->sum('amount'));
-        // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+    function exportViewArgs(): array
+    {
+        return [ 
+            'groupings' => [
+                'none' => 'None',
+                'monthly' => 'Monthly',
+            ],
+            'grouping' => 'none',
+        ];
+    }
 
-        // $sumCell = 'C' . (count($transactions) + 3);
-        // $sheet->setCellValue($sumCell, '=SUM(C2:C' . (count($transactions) + 1) . ')');
-        // //$sheet->setCellValue($sumCell, $transactions->where('type', 'spending')->sum('amount'));
-        // $sheet->getStyle($sumCell)->getFont()->setUnderline(\PHPExcel_Style_Font::UNDERLINE_DOUBLEACCOUNTING);
+    function exportValidateArgs(): array
+    {
+        return [
+            'grouping' => [
+                'required', 
+                Rule::in(['none', 'monthly']),
+            ],
+        ];
+    }
+
+    function exportFilename(Request $request): string
+    {
+        return Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
+    }
+
+    function exportExportable(Request $request)
+    {
+        if ($request->grouping == 'monthly') {
+            return new MoneyTransactionsMonthsExport();
+        }
+        return new MoneyTransactionsExport();
     }
 
     public function editReceipt(MoneyTransaction $transaction)

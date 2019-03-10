@@ -183,7 +183,7 @@ return [
     'subsidiary_protection' => 'Subsidiary protection',
     'refugee_status' => 'Refugee status',
     'import_helper_data' => 'Import helper data',
-    'exportieren_helper_data' => 'Export helper data',
+    'export_helper_data' => 'Export helper data',
     'has_id_card' => 'Has ID card?',
     'has_passport' => 'Has passport?',
     'notes' => 'Notes',

@@ -77,12 +77,6 @@ class ContextMenuComposer {
                         'authorized' => Auth::user()->can('export', Person::class)
                     ],
                     [
-                        'url' => route('bank.import'),
-                        'caption' => __('app.import'),
-                        'icon' => 'upload',
-                        'authorized' => Auth::user()->can('create', Person::class)
-                    ],
-                    [
                         'url' => route('bank.maintenance'),
                         'caption' => __('app.maintenance'),
                         'icon' => 'eraser',
@@ -587,7 +581,6 @@ class ContextMenuComposer {
                         'authorized' => Gate::allows('do-bank-withdrawals')
                     ]
                 ];
-            case 'bank.import':
             case 'bank.export':
                 return [
                     'back' => [
@@ -1090,6 +1083,7 @@ class ContextMenuComposer {
                     ],
                 ];
             case 'accounting.transactions.create':
+            case 'accounting.transactions.export':
                 return [
                     'back' => [
                         'url' => route('accounting.transactions.index'),

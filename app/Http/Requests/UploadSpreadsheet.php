@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\People;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ExportHelpers extends FormRequest
+class UploadSpreadsheet extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,11 @@ class ExportHelpers extends FormRequest
     public function rules()
     {
         return [
-            'format' => 'required|in:xlsx,csv,tsv',
-            'scope' => 'required',
-            'include_portraits' => 'boolean',
+            'file' => [
+                'required',
+                'file',
+                'mimes:xlsx,xls,ods,csv,tsv,slk,xml,gnumeric,html',
+            ]
         ];
     }
 }

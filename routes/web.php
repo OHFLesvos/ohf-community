@@ -103,12 +103,6 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('/bank/doExport', 'People\Bank\ImportExportController@doExport')->name('bank.doExport');
         });
 
-        // Import
-        Route::group(['middleware' => ['can:create,App\Person']], function () {
-            Route::get('/bank/import', 'People\Bank\ImportExportController@import')->name('bank.import');
-            Route::post('/bank/doImport', 'People\Bank\ImportExportController@doImport')->name('bank.doImport');
-        });
-
         //
         // People
         //
@@ -259,6 +253,7 @@ Route::group(['middleware' => 'language'], function () {
         // Accounting
         Route::namespace('Accounting')->prefix('accounting')->name('accounting.')->group(function(){
             Route::get('transactions/export', 'MoneyTransactionsController@export')->name('transactions.export');
+            Route::post('transactions/doExport', 'MoneyTransactionsController@doExport')->name('transactions.doExport');
             Route::get('transactions/summary', 'MoneyTransactionsController@summary')->name('transactions.summary');
             Route::get('transactions/{transaction}/snippet', 'MoneyTransactionsController@snippet')->name('transactions.snippet');
             Route::get('transactions/{transaction}/receipt', 'MoneyTransactionsController@editReceipt')->name('transactions.editReceipt');

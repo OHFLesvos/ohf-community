@@ -5,7 +5,6 @@ namespace App\Http\Controllers\People\Helpers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\People\ImportHelpers;
-use App\Http\Requests\People\ExportHelpers;
 use App\Helper;
 use App\Person;
 use Carbon\Carbon;
@@ -17,9 +16,14 @@ use JeroenDesloovere\VCard\VCard;
 use Validator;
 use ZipStream\ZipStream;
 use Illuminate\Support\Facades\Gate;
+use App\Exports\HelpersExport;
+use App\Imports\HelpersImport;
+use App\Http\Controllers\ExportableActions;
 
 class HelperListController extends Controller
 {
+    use ExportableActions;
+
     private static $asylum_request_states = [
         'awaiting_interview',
         'waiting_for_decision',
@@ -955,6 +959,43 @@ class HelperListController extends Controller
         ]);
     }
 
+    private function getSorters() {
+        return collect([
+            'first_name' => [
+                'label' => __('app.first_name'),
+                'sorting' => 'person.name',
+            ],
+            'last_name' => [
+                'label' => __('app.last_name'),
+                'sorting' => 'person.family_name',
+            ],
+            'nationality' => [
+                'label' => __('people.nationality'),
+                'sorting' => 'person.nationality',
+            ],
+            'gender' => [
+                'label' => __('people.gender'),
+                'sorting' => 'person.gender',
+            ],
+            'age' => [
+                'label' => __('people.age'),
+                'sorting' => 'person.age',
+            ],
+            'residence' => [
+                'label' => __('people.residence'),
+                'sorting' => 'residence',
+            ],
+            'work_application_date' => [
+                'label' => __('people.application_date'),
+                'sorting' => 'work_application_date',
+            ],
+            'work_starting_date' => [
+                'label' => __('people.starting_date'),
+                'sorting' => 'work_starting_date',
+            ],
+        ]);
+    }
+
     public function index(Request $request) {
         $this->authorize('list', Helper::class);
 
@@ -1287,16 +1328,19 @@ class HelperListController extends Controller
             ->with('success', __('people.helper_deleted'));
     }
 
-    function export() {
+    function exportAuthorize()
+    {
         $this->authorize('export', Helper::class);
+    }
 
-        return view('people.helpers.export', [
-            'formats' => [
-                'xlsx' => __('app.excel_xls'),
-                'csv' => __('app.comma_separated_values_csv'),
-                'tsv' => __('app.tab_separated_values_csv'),
-            ],
-            'format' => 'xlsx',
+    function exportView(): string
+    {
+        return 'people.helpers.export';
+    }
+
+    function exportViewArgs(): array
+    {
+        return [
             'scopes' => $this->getScopes()->mapWithKeys(function($s, $k){
                 return [ $k => $s['label'] ];
             })->toArray(),
@@ -1305,13 +1349,16 @@ class HelperListController extends Controller
                 return [ $k => $s['label'] ];
             })->toArray(),
             'columnt_set' => $this->getColumnSets()->keys()->first(),
-        ]);
+            'sorters' => $this->getSorters()->mapWithKeys(function($s, $k){
+                return [ $k => $s['label'] ];
+            })->toArray(),
+            'sorting' => $this->getSorters()->keys()->first(),
+        ];
     }
 
-    public function doExport(ExportHelpers $request) {
-        $this->authorize('export', Helper::class);
-
-        Validator::make($request->all(), [
+    function exportValidateArgs(): array
+    {
+        return [
             'scope' => [
                 'required', 
                 Rule::in($this->getScopes()->keys()->toArray()),
@@ -1320,30 +1367,44 @@ class HelperListController extends Controller
                 'required', 
                 Rule::in($this->getColumnSets()->keys()->toArray()),
             ],
+            'sorting' => [
+                'required', 
+                Rule::in($this->getSorters()->keys()->toArray()),
+            ],
             'orientation' => [
                 'required',
                 'in:portrait,landscape',
-            ]
-        ])->validate();
+            ],
+            'include_portraits' => 'boolean',
+        ];
+    }
 
+    function exportFilename(Request $request): string
+    {
         $scope = $this->getScopes()[$request->scope];
+        return __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
+    }
 
-        if ($request->format == 'csv') {
-            Config::set('excel.csv.delimiter', ',');
-            $format = 'csv';
-        } else if ($request->format == 'tsv') {
-            Config::set('excel.csv.delimiter', "\t");
-            Config::set('excel.csv.enclosure', "");
-            $format = 'csv';
-        } else {
-            $format = 'xlsx';
-        }
-
+    function exportExportable(Request $request)
+    {
         $columnSet = $this->getColumnSets()[$request->column_set];
-        $fields = collect($this->getFields()) // TODO flexible field selection
+        $fields = self::filterFieldsByColumnSet($this->getFields(), $columnSet);
+        $scope = $this->getScopes()[$request->scope];
+        $sorting = $this->getSorters()[$request->sorting];       
+
+        $export = new HelpersExport($fields, $scope['scope']);
+        $export->setOrientation($request->orientation);
+        $export->setSorting($sorting['sorting']);
+        return $export;
+    }
+
+    private static function filterFieldsByColumnSet(array $fields, array $columnSet) {
+        return collect($fields)
             ->where('overview_only', false)
             ->where('exclude_export', false)
-            ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; })
+            ->filter(function($e){ 
+                return !isset($e['authorized_view']) || $e['authorized_view']; 
+            })
             ->filter(function($e) use($columnSet){
                 if (count($columnSet['columns']) > 0) {
                     if (isset($e['form_name'])) {
@@ -1353,40 +1414,16 @@ class HelperListController extends Controller
                 }
                 return true;
             });
+    }
 
-        $sorting = 'person.name'; // TODO flexible sorting
-        $scope_method = $scope['scope'];
-        $helpers = Helper::$scope_method()
-            ->get()
-            ->load('person')
-            ->sortBy($sorting);
-
-        $orientation = $request->orientation;
-        $file_name = __('people.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
-        $spreadsheet = \Excel::create($file_name, function($excel) use($helpers, $fields, $orientation) {
-            $excel->sheet(__('people.helpers'), function($sheet) use($helpers, $fields, $orientation) {
-                $sheet->setOrientation($orientation);
-                $sheet->setPageMargin(0.25);
-                $sheet->setAllBorders('thin');
-                $sheet->setFitToPage(false);
-                $sheet->setFontSize(10);
-                $sheet->setFreeze('D2');
-                $sheet->loadView('people.helpers.export-table',[
-                    'fields' => $fields,
-                    'helpers' => $helpers,
-                ]);
-            });
-            $excel->getActiveSheet()->setAutoFilter(
-                $excel->getActiveSheet()->calculateWorksheetDimension()
-            );
-            $excel->setActiveSheetIndex(0);
-        });
-
+    protected function exportDownload(Request $request, $export, $file_name, $file_ext) {
         // Download as ZIP with portraits
         if (isset($request->include_portraits)) {
             $zip = new ZipStream($file_name . '.zip');
-            $ext = $format;
-            $zip->addFile($file_name . '.' . $ext, $spreadsheet->string($format));
+            $temp_file = 'temp/' . uniqid() . '.' . $file_ext;
+            $export->store($temp_file);
+            $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
+            Storage::delete($temp_file);
             foreach ($helpers as $helper) {
                 if (isset($helper->person->portrait_picture)) {
                     $picture_path = storage_path('app/'.$helper->person->portrait_picture);
@@ -1400,7 +1437,7 @@ class HelperListController extends Controller
         } 
         // Download as simple spreadsheet
         else {
-            $spreadsheet->export($format);
+            return $export->download($file_name . '.' . $file_ext);
         }
     }
 
@@ -1413,83 +1450,27 @@ class HelperListController extends Controller
     function doImport(ImportHelpers $request) {
         $this->authorize('import', Helper::class);
 
-        $file = $request->file('file');
+        $fields = self::getImportFields($this->getFields());
 
-        Config::set('excel.import.heading', 'original');
-        \Excel::selectSheets()->load($file, function($reader) {
+        $importer = new HelpersImport($fields);
+        $importer->import($request->file('file'));
 
-            $fields = collect($this->getFields())
-                ->where('overview_only', false)
-                ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
-                ->map(function($f){
-                    return [
-                        'labels' => self::getAllTranslations($f['label_key'])
-                            ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
-                            ->map(function($l){ return strtolower($l); }),
-                        'assign' => $f['assign'],
-                    ];
-                });
-
-            $sheet_titles = self::getAllTranslations('people.helpers')->push('Worksheet');
-            $reader->each(function($sheet) use($sheet_titles, $fields) {
-                if ($sheet_titles->contains($sheet->getTitle())) {
-                    $sheet->each(function($row) use($fields) {
-
-                        $person = new Person();
-                        $helper = new Helper();
-
-                        self::assignImportedValues($row, $fields, $helper, $person);
-
-                        if (isset($person->name) && isset($person->family_name)) {
-                            $existing_person = Person::where('name', $person->name)
-                                ->where('family_name', $person->family_name)
-                                ->where('nationality', $person->nationality)
-                                ->where('date_of_birth', $person->date_of_birth)
-                                ->first();
-                            if ($existing_person != null) {
-                                $existing_helper = $existing_person->helper;
-                                $new_helper = false;
-                                if ($existing_helper == null) {
-                                    $existing_helper = new Helper();
-                                    $new_helper = true;
-                                }
-                                self::assignImportedValues($row, $fields, $existing_helper, $existing_person);
-                                $existing_person->save();
-                                if ($new_helper) {
-                                    $existing_person->helper()->save($existing_helper);
-                                } else {
-                                    $existing_helper->save();
-                                }
-                            } else {
-                                $person->save();
-                                $person->helper()->save($helper);
-                            }
-                        }
-                        
-                    });
-                }
-            });
-        });
 		return redirect()->route('people.helpers.index')
 				->with('success', __('app.import_successful'));		
     }
 
-    private static function assignImportedValues($row, $fields, $helper, $person) {
-        $row->each(function($value, $label) use($fields, $helper, $person) {
-            if ($value == 'N/A') {
-                $value = null;
-            }
-            $fields->each(function($f) use($helper, $person, $label, $value) {
-                if ($f['labels']->containsStrict(strtolower($label))) {
-                    try {
-                        $f['assign']($person, $helper, $value);
-                    } catch(\Exception $e) {
-                        // echo "Exception for <b>'$value'</b>: " . $e->getMessage()."<br><br>";
-                        // ignored
-                    }
-                }
+    private static function getImportFields($fields) {
+        return collect($fields)
+            ->where('overview_only', false)
+            ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
+            ->map(function($f){
+                return [
+                    'labels' => self::getAllTranslations($f['label_key'])
+                        ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
+                        ->map(function($l){ return strtolower($l); }),
+                    'assign' => $f['assign'],
+                ];
             });
-        });
     }
 
     private static function getAllTranslations($key) {

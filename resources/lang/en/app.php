@@ -186,6 +186,7 @@ return [
     'status' => 'Status',
     'choose_file' => 'Choose file',
     'import_successful' => 'Import successful.',
+    'imported_num_records' => 'Imported :num records.',
     'select_status' => 'Select status...',
     'unspecified' => 'Unspecified',
     'remove_image' => 'Remove image',
@@ -193,7 +194,8 @@ return [
     'merge' => 'Merge',
     'excel_xls' => 'Excel (.xsls)',
     'comma_separated_values_csv' => 'Comma-separated values (.csv)',
-    'tab_separated_values_csv' => 'Tab-separated values (.csv)',
+    'tab_separated_values_tsv' => 'Tab-separated values (.tsv)',
+    'pdf_pdf' => 'PDF (.pdf)',
     'list' => 'List',
     'grid' => 'Grid',
     'position' => 'Position',
@@ -215,4 +217,5 @@ return [
     'number_of_days' => 'Number of days',
     'google_api_key' => 'Google API key',
     'language' => 'Language',
+    'grouping' => 'Grouping',
  ];
