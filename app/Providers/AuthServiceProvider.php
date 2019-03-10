@@ -2,10 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-class AuthServiceProvider extends ServiceProvider
+class AuthServiceProvider extends BaseAuthServiceProvider
 {
     /**
      * The policy mappings for the application.
@@ -50,7 +47,6 @@ class AuthServiceProvider extends ServiceProvider
         'configure-bank' => 'bank.configure',
         'use-logistics' => 'logistics.use',
         'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
-        'view-accounting-summary' => 'accounting.summary.view',
         'view-kitchen-reports' => 'kitchen.reports.view',
         'view-calendar' => 'calendar.events.view',
         'view-changelogs' => 'app.changelogs.view',
@@ -62,48 +58,4 @@ class AuthServiceProvider extends ServiceProvider
         'manage-helpers-casework' => 'people.helpers.casework.manage',
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->registerPolicies();
-        $this->registerPermissionGateMappings();
-        $this->registerPErmissionGateMappingsNoSuperAdmin();
-    }
-
-    protected function registerPermissionGateMappings() {
-        foreach ($this->permission_gate_mappings as $gate => $permission) {
-            Gate::define($gate, function ($user) use($permission) {
-                if ($user->isSuperAdmin()) {
-                    return true;
-                }
-                if (is_array($permission)) {
-                    $hasPermission = false;
-                    foreach ($permission as $pe) {
-                        $hasPermission |= $user->hasPermission($pe);
-                    }
-                    return $hasPermission;
-                }
-                return $user->hasPermission($permission);
-            });
-        }
-    }
-
-    protected function registerPErmissionGateMappingsNoSuperAdmin() {
-        foreach ($this->permission_gate_mappings_no_super_admin as $gate => $permission) {
-            Gate::define($gate, function ($user) use($permission) {
-                if (is_array($permission)) {
-                    $hasPermission = false;
-                    foreach ($permission as $pe) {
-                        $hasPermission |= $user->hasPermission($pe);
-                    }
-                    return $hasPermission;
-                }
-                return $user->hasPermission($permission);
-            });
-        }
-    }
 }

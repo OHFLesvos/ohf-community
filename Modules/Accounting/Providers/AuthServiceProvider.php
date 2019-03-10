@@ -2,13 +2,12 @@
 
 namespace Modules\Accounting\Providers;
 
+use App\Providers\BaseAuthServiceProvider;
+
 use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Policies\MoneyTransactionPolicy;
 
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-class AuthServiceProvider extends ServiceProvider
+class AuthServiceProvider extends BaseAuthServiceProvider
 {
     /**
      * The policy mappings for the application.
@@ -19,13 +18,8 @@ class AuthServiceProvider extends ServiceProvider
         MoneyTransaction::class => MoneyTransactionPolicy::class,
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->registerPolicies();
-    }
+    protected $permission_gate_mappings = [
+        'view-accounting-summary' => 'accounting.summary.view',
+    ];
+
 }
