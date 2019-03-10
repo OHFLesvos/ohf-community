@@ -31,7 +31,7 @@ class HomeController extends Controller
             \App\Widgets\LibraryWidget::class,
             \App\Widgets\HelpersWidget::class,
             \App\Widgets\WikiArticlesWidget::class,
-            \App\Widgets\AccountingWidget::class,
+            \Modules\Accounting\Widgets\TransactionsWidget::class,
             \App\Widgets\InventoryWidget::class,
             \App\Widgets\DonorsWidget::class,
             \App\Widgets\ReportingWidget::class,

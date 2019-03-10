@@ -9,7 +9,7 @@ use App\Task;
 use App\User;
 use App\Donor;
 use App\WikiArticle;
-use App\MoneyTransaction;
+use Modules\Accounting\Entities\MoneyTransaction;
 use App\InventoryStorage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -88,7 +88,7 @@ class NavigationComposer {
                 ],
                 [
                     'route' => !Auth::user()->can('list', MoneyTransaction::class) && Gate::allows('view-accounting-summary') ? 'accounting.transactions.summary' : 'accounting.transactions.index',
-                    'caption' => __('accounting.accounting'),
+                    'caption' => __('accounting::accounting.accounting'),
                     'icon' => 'money',
                     'active' => 'accounting/*',
                     'authorized' => Auth::user()->can('list', MoneyTransaction::class) || Gate::allows('view-accounting-summary'),

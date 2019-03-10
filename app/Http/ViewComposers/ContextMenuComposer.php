@@ -11,7 +11,7 @@ use App\Donor;
 use App\Donation;
 use App\CouponType;
 use App\WikiArticle;
-use App\MoneyTransaction;
+use Modules\Accounting\Entities\MoneyTransaction;
 use App\InventoryItemTransaction;
 use App\InventoryStorage;
 use Illuminate\Support\Facades\Auth;
@@ -1104,7 +1104,7 @@ class ContextMenuComposer {
                     ],
                     'receipt' => [
                         'url' => route('accounting.transactions.editReceipt', $transaction),
-                        'caption' => __('accounting.receipt'),
+                        'caption' => __('accounting::accounting.receipt'),
                         'icon' => 'list-ol',
                         'authorized' => Auth::user()->can('update', $transaction),
                     ],
@@ -1113,7 +1113,7 @@ class ContextMenuComposer {
                         'caption' => __('app.delete'),
                         'icon' => 'trash',
                         'authorized' => Auth::user()->can('delete', $transaction),
-                        'confirmation' => __('accounting.confirm_delete_transaction')
+                        'confirmation' => __('accounting::accounting.confirm_delete_transaction')
                     ],
                     'back' => [
                         'url' => route('accounting.transactions.index'),
