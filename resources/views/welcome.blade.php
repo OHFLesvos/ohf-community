@@ -12,7 +12,7 @@
         @endcomponent
     @endempty
 
-    @if ( count($widgets) > 0 )
+    @if(count($widgets) > 0 )
         <div class="card-columns">
             @foreach($widgets as $widget)
                 {!! $widget !!}

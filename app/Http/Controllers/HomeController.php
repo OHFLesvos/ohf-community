@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Facades\DashboardWidgets;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,30 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $widgetClasses = [
-            \App\Widgets\BankWidget::class,
-            \App\Widgets\PersonsWidget::class,
-            \App\Widgets\ShopWidget::class,
-            \App\Widgets\BarberShopWidget::class,
-            \App\Widgets\LibraryWidget::class,
-            \App\Widgets\HelpersWidget::class,
-            \App\Widgets\WikiArticlesWidget::class,
-            \Modules\Accounting\Widgets\TransactionsWidget::class,
-            \App\Widgets\InventoryWidget::class,
-            \App\Widgets\DonorsWidget::class,
-            \App\Widgets\ReportingWidget::class,
-            \App\Widgets\ToolsWidget::class,
-            \App\Widgets\UsersWidget::class,
-            \App\Widgets\ChangeLogWidget::class,
-        ];
-        $widgets = [];
-        foreach($widgetClasses as $w) {
-            $widget = new $w();
-            if ($widget->authorize()) { 
-                $view = view($widget->view(), $widget->args());
-                $widgets[] = $view->render();
-            }
-        }
+        $widgets = DashboardWidgets::collection()
+            ->filter(function($w) {
+                return $w->authorize();
+            })
+            ->map(function($w){
+                return view($w->view(), $w->args())->render();
+            });
+
         return view('welcome', [
             'widgets' => $widgets,
         ]);
