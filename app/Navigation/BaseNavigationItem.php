@@ -49,7 +49,7 @@ abstract class BaseNavigationItem implements NavigationItem {
     private function assertDefined($variable)
     {
         if (!isset($this->$variable) || empty($this->$variable)) {
-            throw new Exception('Parameter \'' . $variable . '\' not defined in '. __CLASS__);
+            throw new \Exception('Parameter \'' . $variable . '\' not defined in '. __CLASS__);
         }
     }
 

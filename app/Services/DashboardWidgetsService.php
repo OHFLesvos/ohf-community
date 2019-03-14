@@ -9,16 +9,15 @@ class DashboardWidgetsService {
     public function define($widgetClass, int $position = null)
     {
         $widget = new $widgetClass();
-        if ($position !== null) {
-            array_splice($this->widgets, $position, 0, [$widget]);
-        } else {
-            $this->widgets[] = $widget;
-        }
+        $this->widgets[] = [
+            'widget' => $widget,
+            'position' => $position,
+        ];
     }
 
     public function collection()
     {
-        return collect($this->widgets);
+        return collect($this->widgets)->sortBy('position')->pluck('widget');
     }
 
 }

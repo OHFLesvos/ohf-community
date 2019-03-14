@@ -9,16 +9,15 @@ class NavigationItemsService {
     public function define($itemClass, int $position = null)
     {
         $item = new $itemClass();
-        if ($position !== null) {
-            array_splice($this->items, $position, 0, [$item]);
-        } else {
-            $this->items[] = $item;
-        }
+        $this->items[] = [
+            'item' => $item,
+            'position' => $position,
+        ];
     }
 
     public function items()
     {
-        return $this->items;
+        return collect($this->items)->sortBy('position')->pluck('item')->toArray();
     }
 
 }

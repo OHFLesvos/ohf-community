@@ -2,17 +2,36 @@
 
 namespace Modules\Accounting\Providers;
 
+use App\Providers\RegistersNavigationItems;
+use App\Providers\RegistersDashboardWidgets;
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
 class AccountingServiceProvider extends ServiceProvider
 {
+    use RegistersNavigationItems, RegistersDashboardWidgets;
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = false;
+
+    /**
+     * Navigation items
+     */
+    protected $navigationItems = [
+        \App\Navigation\AccountingNavigationItem::class => 7,
+    ];
+
+    /**
+     * Dashboard widgets
+     */
+    protected $dashboardWidgets = [
+        \Modules\Accounting\Widgets\TransactionsWidget::class => 7,
+    ];
 
     /**
      * Boot the application events.
@@ -37,8 +56,8 @@ class AccountingServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
-        $this->app->register(DashboardWidgetsProvider::class);
-        $this->app->register(NavigationServiceProvider::class);
+        $this->registerNavigationItems();
+        $this->registerDashboardWidgets();
     }
 
     /**

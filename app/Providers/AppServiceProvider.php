@@ -18,6 +18,44 @@ use Illuminate\Support\Facades\Hash;
 
 class AppServiceProvider extends ServiceProvider
 {
+    use RegistersNavigationItems, RegistersDashboardWidgets;
+
+    protected $navigationItems = [
+        \App\Navigation\HomeNavigationItem::class => 0,
+        \App\Navigation\PeopleNavigationItem::class => 1,
+        \App\Navigation\BankNavigationItem::class => 2,
+        \App\Navigation\HelpersNavigationItem::class => 3,
+        \App\Navigation\LogisticsNavigationItem::class => 4,
+        \App\Navigation\FundraisingNavigationItem::class => 5,
+        \App\Navigation\WikiArticlesItem::class => 6,
+        \App\Navigation\InventoryStorageNavigationItem::class => 7,
+        \App\Navigation\ShopNavigationItem::class => 8,
+        \App\Navigation\BarberNavigationItem::class => 9,
+        \App\Navigation\LibraryNavigationItem::class => 10,
+        \App\Navigation\CalendarNavigationItem::class => 11,
+        \App\Navigation\TasksNavigationItem::class => 12,
+        \App\Navigation\BadgesNavigationItem::class => 13,
+        \App\Navigation\ReportingNavigationItem::class => 14,
+        \App\Navigation\UsersNavigationItem::class => 15,
+        \App\Navigation\LogViewerNavigationItem::class => 16,
+    ];
+
+    protected $dashboardWidgets = [
+        \App\Widgets\BankWidget::class => 0,
+        \App\Widgets\PersonsWidget::class  => 1,
+        \App\Widgets\ShopWidget::class => 2,
+        \App\Widgets\BarberShopWidget::class => 3,
+        \App\Widgets\LibraryWidget::class => 4,
+        \App\Widgets\HelpersWidget::class => 5,
+        \App\Widgets\WikiArticlesWidget::class => 6,
+        \App\Widgets\InventoryWidget::class => 7,
+        \App\Widgets\DonorsWidget::class => 8,
+        \App\Widgets\ReportingWidget::class => 9,
+        \App\Widgets\ToolsWidget::class => 10,
+        \App\Widgets\UsersWidget::class => 11,
+        \App\Widgets\ChangeLogWidget::class => 12,
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -85,6 +123,9 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('country_code', CountryCode::class);
         Validator::extend('country_name', CountryName::class);
         Validator::extend('isbn', Isbn::class);
+
+        $this->registerNavigationItems();
+        $this->registerDashboardWidgets();
     }
 
     /**
