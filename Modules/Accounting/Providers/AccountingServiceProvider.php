@@ -23,7 +23,7 @@ class AccountingServiceProvider extends ServiceProvider
      * Navigation items
      */
     protected $navigationItems = [
-        \App\Navigation\AccountingNavigationItem::class => 7,
+        \Modules\Accounting\Navigation\AccountingNavigationItem::class => 7,
     ];
 
     /**

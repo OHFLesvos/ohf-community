@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Navigation;
+namespace Modules\Accounting\Navigation;
 
-use App\MoneyTransaction;
+use App\Navigation\BaseNavigationItem;
+
+use Modules\Accounting\Entities\MoneyTransaction;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
