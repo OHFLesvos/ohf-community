@@ -38,6 +38,7 @@ class AccountingServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
         $this->app->register(DashboardWidgetsProvider::class);
+        $this->app->register(NavigationServiceProvider::class);
     }
 
     /**

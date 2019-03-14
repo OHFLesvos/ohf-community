@@ -10,7 +10,9 @@ class AccountingNavigationItem extends BaseNavigationItem {
 
     public function getRoute(): string
     {
-        return !Auth::user()->can('list', MoneyTransaction::class) && Gate::allows('view-accounting-summary') ? 'accounting.transactions.summary' : 'accounting.transactions.index';
+        return !Auth::user()->can('list', MoneyTransaction::class) && Gate::allows('view-accounting-summary') 
+            ? route('accounting.transactions.summary')
+            : route('accounting.transactions.index');
     }
 
     protected $caption = 'accounting::accounting.accounting';
