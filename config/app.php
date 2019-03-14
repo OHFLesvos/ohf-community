@@ -169,6 +169,7 @@ return [
 		App\Providers\ComposerServiceProvider::class,
         App\Providers\FormServiceProvider::class,
         App\Providers\DashboardWidgetsProvider::class,
+        App\Providers\NavigationServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
 		
