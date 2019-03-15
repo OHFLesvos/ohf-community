@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Navigation;
+namespace App\Navigation\Drawer;
 
 use App\Task;
 use Illuminate\Support\Facades\Auth;

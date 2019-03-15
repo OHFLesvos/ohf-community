@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Accounting\Navigation;
+namespace Modules\Accounting\Navigation\Drawer;
 
-use App\Navigation\BaseNavigationItem;
+use App\Navigation\Drawer\BaseNavigationItem;
 
 use Modules\Accounting\Entities\MoneyTransaction;
 

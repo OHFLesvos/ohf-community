@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Navigation;
+namespace App\Navigation\Drawer;
 
 class HomeNavigationItem extends BaseNavigationItem {
 
