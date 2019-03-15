@@ -8,9 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class UserIndexContextButtons extends BaseContextButtons {
-
-    protected $routeName = 'users.index';
+class UserIndexContextButtons implements ContextButtons {
 
     public function getItems(View $view): array
     {

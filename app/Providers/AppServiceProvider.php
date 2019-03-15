@@ -63,11 +63,11 @@ class AppServiceProvider extends ServiceProvider
     ];
 
     protected $contextButtons = [
-        \App\Navigation\ContextButtons\UserIndexContextButtons::class,
-        \App\Navigation\ContextButtons\UserCreateContextButtons::class,
-        \App\Navigation\ContextButtons\UserShowContextButtons::class,
-        \App\Navigation\ContextButtons\UserEditContextButtons::class,
-        \App\Navigation\ContextButtons\UserPermissionsContextButtons::class,
+        'users.index' => \App\Navigation\ContextButtons\UserIndexContextButtons::class,
+        'users.create' => \App\Navigation\ContextButtons\UserCreateContextButtons::class,
+        'users.show' => \App\Navigation\ContextButtons\UserShowContextButtons::class,
+        'users.edit' => \App\Navigation\ContextButtons\UserEditContextButtons::class,
+        'users.permissions' => \App\Navigation\ContextButtons\UserPermissionsContextButtons::class,
     ];
 
     /**

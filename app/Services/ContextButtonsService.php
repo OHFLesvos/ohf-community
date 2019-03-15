@@ -8,17 +8,18 @@ class ContextButtonsService {
 
     private $buttons = [];
 
-    public function define($buttonsClass)
+    public function define($routeName, $buttonsClass)
     {
-        $buttons = new $buttonsClass();
-        foreach ($buttons->getRouteNames() as $routeName) {
-            $this->buttons[$routeName] = $buttons;
-        }
+        $this->buttons[$routeName] = $buttonsClass;
     }
 
     public function get(string $routeName, View $view)
     {
-        return isset($this->buttons[$routeName]) ? $this->buttons[$routeName]->getItems($view) : [];
+        if (isset($this->buttons[$routeName])) {
+            $buttons = new $this->buttons[$routeName]();
+            return $buttons->getItems($view);
+        }
+        return [];
     }
 
 }

@@ -12,8 +12,8 @@ trait RegisterContextButtons
             throw new \Exception('$contextMenus not defined in ' . __CLASS__);
         }
 
-        foreach ($this->contextButtons as $buttonsClass) {
-            ContextButtons::define($buttonsClass);
+        foreach ($this->contextButtons as $routeName => $buttonsClass) {
+            ContextButtons::define($routeName, $buttonsClass);
         }
     }
 

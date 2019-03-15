@@ -8,9 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class  extends BaseContextButtons {
-
-    protected $routeName = ;
+class  implements ContextButtons {
 
     public function getItems(View $view): array
     {

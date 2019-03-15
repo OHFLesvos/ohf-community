@@ -5,9 +5,7 @@ namespace App\Navigation\ContextButtons;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
-class UserEditContextButtons extends BaseContextButtons {
-
-    protected $routeName = 'users.edit';
+class UserEditContextButtons implements ContextButtons {
 
     public function getItems(View $view): array
     {

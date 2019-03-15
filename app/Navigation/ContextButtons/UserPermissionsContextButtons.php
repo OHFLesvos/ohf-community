@@ -7,9 +7,7 @@ use App\User;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
-class UserPermissionsContextButtons extends BaseContextButtons {
-
-    protected $routeName = 'users.permissions';
+class UserPermissionsContextButtons implements ContextButtons {
 
     public function getItems(View $view): array
     {

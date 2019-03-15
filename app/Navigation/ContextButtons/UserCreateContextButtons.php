@@ -7,9 +7,7 @@ use App\User;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
-class UserCreateContextButtons extends BaseContextButtons {
-
-    protected $routeName = 'users.create';
+class UserCreateContextButtons implements ContextButtons {
 
     public function getItems(View $view): array
     {
