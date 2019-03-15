@@ -168,6 +168,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 		App\Providers\ComposerServiceProvider::class,
         App\Providers\FormServiceProvider::class,
+        App\Providers\NavigationServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
 		
