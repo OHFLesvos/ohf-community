@@ -6,9 +6,7 @@ use App\Helper;
 
 use Illuminate\Support\Facades\Auth;
 
-class HelpersContextMenu extends BaseContextMenu {
-
-    protected $routeName = 'people.helpers.index';
+class HelpersContextMenu implements ContextMenu {
 
     public function getItems(): array
     {

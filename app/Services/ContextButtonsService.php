@@ -8,7 +8,7 @@ class ContextButtonsService {
 
     private $buttons = [];
 
-    public function define($routeName, $buttonsClass)
+    public function define(string $routeName, $buttonsClass)
     {
         $this->buttons[$routeName] = $buttonsClass;
     }

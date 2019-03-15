@@ -12,8 +12,8 @@ trait RegisterContextMenus
             throw new \Exception('$contextMenus not defined in ' . __CLASS__);
         }
 
-        foreach ($this->contextMenus as $menuClass) {
-            ContextMenus::define($menuClass);
+        foreach ($this->contextMenus as $routeName => $menuClass) {
+            ContextMenus::define($routeName, $menuClass);
         }
     }
 

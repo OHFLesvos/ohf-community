@@ -6,9 +6,7 @@ use App\Person;
 
 use Illuminate\Support\Facades\Auth;
 
-class PeopleContextMenu extends BaseContextMenu {
-
-    protected $routeName = 'people.index';
+class PeopleContextMenu implements ContextMenu {
 
     public function getItems(): array
     {

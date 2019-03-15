@@ -6,17 +6,18 @@ class ContextMenusService {
 
     private $menus = [];
 
-    public function define($menuClass)
+    public function define(string $routeName, $menuClass)
     {
-        $menu = new $menuClass();
-        foreach ($menu->getRouteNames() as $routeName) {
-            $this->menus[$routeName] = $menu;
-        }
+        $this->menus[$routeName] = $menuClass;
     }
 
-    public function get($routeName)
+    public function get(string $routeName)
     {
-        return isset($this->menus[$routeName]) ? $this->menus[$routeName]->getItems() : [];
+        if (isset($this->menus[$routeName])) {
+            $menu = new $this->menus[$routeName]();
+            return $menu->getItems();
+        }
+        return [];
     }
 
 }

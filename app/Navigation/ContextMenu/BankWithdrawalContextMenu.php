@@ -7,12 +7,7 @@ use App\Person;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class BankWithdrawalContextMenu extends BaseContextMenu {
-
-    protected $routeNames = [
-        'bank.withdrawal',
-        'bank.withdrawalSearch',
-    ];
+class BankWithdrawalContextMenu implements ContextMenu {
 
     public function getItems(): array
     {
