@@ -156,6 +156,8 @@ class AppServiceProvider extends ServiceProvider
         'inventory.transactions.changes' => \App\Navigation\ContextButtons\InventoryTransactionChangesContextButtons::class,
         'inventory.transactions.ingress' => \App\Navigation\ContextButtons\InventoryReturnToStorageContextButtons::class,
         'inventory.transactions.egress' => \App\Navigation\ContextButtons\InventoryReturnToStorageContextButtons::class,
+
+        'badges.selection' => \App\Navigation\ContextButtons\BadgeSelectionContextButtons::class,
     ];
 
     /**

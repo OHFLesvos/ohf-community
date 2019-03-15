@@ -46,20 +46,6 @@ class ContextMenuComposer {
     private function getButtons(View $view, string $currentRouteName): array
     {
         switch ($currentRouteName) {
-
-            //
-            // Badges
-            //
-            case 'badges.selection':
-                return [
-                    'back' => [
-                        'url' => route('badges.index'),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('create-badges'),
-                    ],
-                ];
-
             //
             // Reporting
             //
