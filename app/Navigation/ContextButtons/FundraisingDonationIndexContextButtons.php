@@ -2,7 +2,7 @@
 
 namespace App\Navigation\ContextButtons;
 
-use Αpp\Donation;
+use App\Donation;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
