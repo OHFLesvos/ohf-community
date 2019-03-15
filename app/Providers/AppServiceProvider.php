@@ -104,7 +104,7 @@ class AppServiceProvider extends ServiceProvider
         'bank.settings.edit' => \App\Navigation\ContextButtons\BankSettingsContextButtons::class,
         'bank.withdrawalTransactions' => \App\Navigation\ContextButtons\BankWithdrawalTransactionsContextButtons::class,
         'bank.depositTransactions' => \App\Navigation\ContextButtons\BankDepositTransactionsContextButtons::class,
-        'bank.depositTransactions' => \App\Navigation\ContextButtons\BankDepositTransactionsContextButtons::class,
+        'bank.maintenance' => \App\Navigation\ContextButtons\BankMaintenanceContextButtons::class,
         'bank.export' => \App\Navigation\ContextButtons\BankExportContextButtons::class,
     ];
 
