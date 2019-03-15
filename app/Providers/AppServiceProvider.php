@@ -148,6 +148,14 @@ class AppServiceProvider extends ServiceProvider
         'wiki.articles.create' => \App\Navigation\ContextButtons\WikiArticleCreateContextButtons::class,
         'wiki.articles.show' => \App\Navigation\ContextButtons\WikiArticleShowContextButtons::class,
         'wiki.articles.edit' => \App\Navigation\ContextButtons\WikiArticleEditContextButtons::class,
+        
+        'inventory.storages.index' => \App\Navigation\ContextButtons\InventoryStorageIndexContextButtons::class,
+        'inventory.storages.create' => \App\Navigation\ContextButtons\InventoryStorageCreateContextButtons::class,
+        'inventory.storages.show' => \App\Navigation\ContextButtons\InventoryStorageShowContextButtons::class,
+        'inventory.storages.edit' => \App\Navigation\ContextButtons\InventoryStorageEditContextButtons::class,
+        'inventory.transactions.changes' => \App\Navigation\ContextButtons\InventoryTransactionChangesContextButtons::class,
+        'inventory.transactions.ingress' => \App\Navigation\ContextButtons\InventoryReturnToStorageContextButtons::class,
+        'inventory.transactions.egress' => \App\Navigation\ContextButtons\InventoryReturnToStorageContextButtons::class,
     ];
 
     /**
