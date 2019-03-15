@@ -117,6 +117,18 @@ class AppServiceProvider extends ServiceProvider
 
         'shop.barber.index' => \App\Navigation\ContextButtons\BarberContextButtons::class,
         'shop.barber.settings.edit' => \App\Navigation\ContextButtons\BarberSettingsContextButtons::class,
+        
+        'library.lending.index' => \App\Navigation\ContextButtons\LibraryLendingIndexContextButtons::class,
+        'library.settings.edit' => \App\Navigation\ContextButtons\LibrarySettingsContextButtons::class,
+        'library.lending.persons' => \App\Navigation\ContextButtons\LibraryReturnToIndexContextButtons::class,
+        'library.lending.books' => \App\Navigation\ContextButtons\LibraryReturnToIndexContextButtons::class,
+        'library.lending.person' => \App\Navigation\ContextButtons\LibraryLendingPersonContextButtons::class,
+        'library.lending.personLog' => \App\Navigation\ContextButtons\LibraryLendingPersonLogContextButtons::class,
+        'library.lending.book' => \App\Navigation\ContextButtons\LibraryLendingBookContextButtons::class,
+        'library.lending.bookLog' => \App\Navigation\ContextButtons\LibraryLendingBookLogContextButtons::class,
+        'library.books.index' => \App\Navigation\ContextButtons\LibraryBookIndexContextButtons::class,
+        'library.books.create' => \App\Navigation\ContextButtons\LibraryBookCreateContextButtons::class,
+        'library.books.edit' => \App\Navigation\ContextButtons\LibraryBookEditContextButtons::class,
     ];
 
     /**
