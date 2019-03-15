@@ -106,6 +106,11 @@ class AppServiceProvider extends ServiceProvider
         'bank.depositTransactions' => \App\Navigation\ContextButtons\BankDepositTransactionsContextButtons::class,
         'bank.maintenance' => \App\Navigation\ContextButtons\BankMaintenanceContextButtons::class,
         'bank.export' => \App\Navigation\ContextButtons\BankExportContextButtons::class,
+
+        'coupons.index' => \App\Navigation\ContextButtons\CouponIndexContextButtons::class,
+        'coupons.create' => \App\Navigation\ContextButtons\CouponCreateContextButtons::class,
+        'coupons.show' => \App\Navigation\ContextButtons\CouponShowContextButtons::class,
+        'coupons.edit' => \App\Navigation\ContextButtons\CouponEditContextButtons::class,
     ];
 
     /**

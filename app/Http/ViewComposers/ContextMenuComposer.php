@@ -50,65 +50,6 @@ class ContextMenuComposer {
             //
             // Bank
             //
-            case 'coupons.index':
-                return [
-                    'action' => [
-                        'url' => route('coupons.create'),
-                        'caption' => __('app.add'),
-                        'icon' => 'plus-circle',
-                        'icon_floating' => 'plus',
-                        'authorized' => Auth::user()->can('create', CouponType::class)
-                    ],
-                    'back' => [
-                        'url' => route('bank.withdrawal'),
-                        'caption' => __('app.close'),
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('do-bank-withdrawals')
-                    ]
-                ];
-            case 'coupons.create':
-                return [
-                    'back' => [
-                        'url' => route('coupons.index'),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', CouponType::class)
-                    ]
-                ];
-            case 'coupons.show':
-                $coupon = $view->getData()['coupon'];
-                return [
-                    'action' => [
-                        'url' => route('coupons.edit', $coupon),
-                        'caption' => __('app.edit'),
-                        'icon' => 'pencil',
-                        'icon_floating' => 'pencil',
-                        'authorized' => Auth::user()->can('update', $coupon)
-                    ],
-                    'delete' => [
-                        'url' => route('coupons.destroy', $coupon),
-                        'caption' => __('app.delete'),
-                        'icon' => 'trash',
-                        'authorized' => Auth::user()->can('delete', $coupon),
-                        'confirmation' => __('people.confirm_delete_coupon')
-                    ],
-                    'back' => [
-                        'url' => route('coupons.index'),
-                        'caption' => __('app.close'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', CouponType::class)
-                    ]
-                ];
-            case 'coupons.edit':
-                $coupon = $view->getData()['coupon'];
-                return [
-                    'back' => [
-                        'url' => route('coupons.show', $coupon),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('view', $coupon)
-                    ]
-                ];
 
             // Shop
             case 'shop.index':
