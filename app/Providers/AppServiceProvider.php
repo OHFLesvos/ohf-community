@@ -132,6 +132,15 @@ class AppServiceProvider extends ServiceProvider
 
         'logistics.articles.index' => \App\Navigation\ContextButtons\LogisticsArticleIndexContextButtons::class,
         'logistics.articles.edit' => \App\Navigation\ContextButtons\LogisticsArticleEditContextButtons::class,
+        
+        'fundraising.donors.index' => \App\Navigation\ContextButtons\FundraisingDonorIndexContextButtons::class,
+        'fundraising.donors.create' => \App\Navigation\ContextButtons\FundraisingDonorCreateContextButtons::class,
+        'fundraising.donors.show' => \App\Navigation\ContextButtons\FundraisingDonorShowContextButtons::class,
+        'fundraising.donors.edit' => \App\Navigation\ContextButtons\FundraisingDonorEditContextButtons::class,
+        'fundraising.donations.index' => \App\Navigation\ContextButtons\FundraisingDonationIndexContextButtons::class,
+        'fundraising.donations.import' => \App\Navigation\ContextButtons\FundraisingDonationImportContextButtons::class,
+        'fundraising.donations.create' => \App\Navigation\ContextButtons\FundraisingDonationCreateContextButtons::class,
+        'fundraising.donations.edit' => \App\Navigation\ContextButtons\FundraisingDonationEditContextButtons::class,
     ];
 
     /**
