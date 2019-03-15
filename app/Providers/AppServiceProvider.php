@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AppServiceProvider extends ServiceProvider
 {
-    use RegistersNavigationItems, RegistersDashboardWidgets, RegisterContextMenus;
+    use RegistersNavigationItems, RegistersDashboardWidgets, RegisterContextMenus, RegisterContextButtons;
 
     protected $navigationItems = [
         \App\Navigation\Drawer\HomeNavigationItem::class => 0,
@@ -60,6 +60,14 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\ToolsWidget::class => 10,
         \App\Widgets\UsersWidget::class => 11,
         \App\Widgets\ChangeLogWidget::class => 12,
+    ];
+
+    protected $contextButtons = [
+        \App\Navigation\ContextButtons\UserIndexContextButtons::class,
+        \App\Navigation\ContextButtons\UserCreateContextButtons::class,
+        \App\Navigation\ContextButtons\UserShowContextButtons::class,
+        \App\Navigation\ContextButtons\UserEditContextButtons::class,
+        \App\Navigation\ContextButtons\UserPermissionsContextButtons::class,
     ];
 
     /**
@@ -133,6 +141,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerNavigationItems();
         $this->registerDashboardWidgets();
         $this->registerContextMenus();
+        $this->registerContextButtons();
     }
 
     /**

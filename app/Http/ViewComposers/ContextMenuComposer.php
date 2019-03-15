@@ -12,6 +12,8 @@ use App\Donation;
 use App\CouponType;
 use App\WikiArticle;
 use App\Support\Facades\ContextMenus;
+use App\Support\Facades\ContextButtons;
+
 use Modules\Accounting\Entities\MoneyTransaction;
 use App\InventoryItemTransaction;
 use App\InventoryStorage;
@@ -34,7 +36,7 @@ class ContextMenuComposer {
         $currentRouteName = Route::currentRouteName();
 
         $view->with('menu', ContextMenus::get($currentRouteName));
-        $view->with('buttons', $this->getButtons($view, $currentRouteName));
+        $view->with('buttons', ContextButtons::get($currentRouteName, $view));
     }
 
     /**
@@ -64,83 +66,6 @@ class ContextMenuComposer {
                     ]
                 ];
 
-            //
-            // Users
-            //
-            case 'users.index':
-                return [
-                    'action' => [
-                        'url' => route('users.create'),
-                        'caption' => __('app.add'),
-                        'icon' => 'plus-circle',
-                        'icon_floating' => 'plus',
-                        'authorized' => Auth::user()->can('create', User::class)
-                    ],
-                    'permissions' => [
-                        'url' => route('users.permissions'),
-                        'caption' => __('app.permissions'),
-                        'icon' => 'key',
-                        'authorized' => Gate::allows('view-usermgmt-reports')
-                    ],
-                    'privacy' => [
-                        'url' => route('reporting.privacy'),
-                        'caption' => __('reporting.privacy'),
-                        'icon' => 'eye',
-                        'authorized' => Gate::allows('view-usermgmt-reports')
-                    ],                    
-                ];
-            case 'users.create':
-                return [
-                    'back' => [
-                        'url' => route('users.index'),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', User::class)
-                    ]
-                ];
-            case 'users.show':
-                $user = $view->getData()['user'];
-                return [
-                    'action' => [
-                        'url' => route('users.edit', $user),
-                        'caption' => __('app.edit'),
-                        'icon' => 'pencil',
-                        'icon_floating' => 'pencil',
-                        'authorized' => Auth::user()->can('update', $user)
-                    ],
-                    'delete' => [
-                        'url' => route('users.destroy', $user),
-                        'caption' => __('app.delete'),
-                        'icon' => 'trash',
-                        'authorized' => Auth::user()->can('delete', $user),
-                        'confirmation' => __('app.confirm_delete_user')
-                    ],
-                    'back' => [
-                        'url' => route('users.index'),
-                        'caption' => __('app.close'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', User::class)
-                    ]
-                ];
-            case 'users.edit':
-                $user = $view->getData()['user'];
-                return [
-                    'back' => [
-                        'url' => route('users.show', $user),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('view', $user)
-                    ]
-                ];
-            case 'users.permissions':
-                return [
-                    'back' => [
-                        'url' => url()->previous(),
-                        'caption' => __('app.close'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', User::class)
-                    ]
-                ];
             //
             // Roles
             //
