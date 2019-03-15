@@ -141,21 +141,11 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Bootstrap services.
+     * Boot the application events.
      *
      * @return void
      */
     public function boot()
-    {
-        //
-    }
-
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
     {
         $this->registerNavigationItems();
         $this->registerContextMenus();
