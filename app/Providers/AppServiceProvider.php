@@ -63,6 +63,10 @@ class AppServiceProvider extends ServiceProvider
     ];
 
     protected $contextButtons = [
+        'changelog' => \App\Navigation\ContextButtons\ChangelogContextButtons::class,
+
+        'userprofile.view2FA' => \App\Navigation\ContextButtons\UserProfile2FAContextButtons::class,
+
         'users.index' => \App\Navigation\ContextButtons\UserIndexContextButtons::class,
         'users.create' => \App\Navigation\ContextButtons\UserCreateContextButtons::class,
         'users.show' => \App\Navigation\ContextButtons\UserShowContextButtons::class,
@@ -82,6 +86,15 @@ class AppServiceProvider extends ServiceProvider
         'people.edit' => \App\Navigation\ContextButtons\PeopleEditContextButtons::class,
         'people.duplicates' => \App\Navigation\ContextButtons\PeopleDuplicatesContextButtons::class,
         'people.import' => \App\Navigation\ContextButtons\PeopleImportContextButtons::class,
+        
+        'people.helpers.index' => \App\Navigation\ContextButtons\HelperIndexContextButtons::class,
+        'people.helpers.show' => \App\Navigation\ContextButtons\HelperShowContextButtons::class,
+        'people.helpers.edit' => \App\Navigation\ContextButtons\HelpersEditContextButtons::class,
+        'people.helpers.create' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.createFrom' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.import' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.export' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.report' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
     ];
 
     /**
