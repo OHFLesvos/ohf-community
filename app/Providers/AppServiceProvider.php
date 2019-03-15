@@ -141,6 +141,13 @@ class AppServiceProvider extends ServiceProvider
         'fundraising.donations.import' => \App\Navigation\ContextButtons\FundraisingDonationImportContextButtons::class,
         'fundraising.donations.create' => \App\Navigation\ContextButtons\FundraisingDonationCreateContextButtons::class,
         'fundraising.donations.edit' => \App\Navigation\ContextButtons\FundraisingDonationEditContextButtons::class,
+
+        'wiki.articles.index' => \App\Navigation\ContextButtons\WikiArticleIndexContextButtons::class,
+        'wiki.articles.tag' => \App\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
+        'wiki.articles.latestChanges' => \App\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
+        'wiki.articles.create' => \App\Navigation\ContextButtons\WikiArticleCreateContextButtons::class,
+        'wiki.articles.show' => \App\Navigation\ContextButtons\WikiArticleShowContextButtons::class,
+        'wiki.articles.edit' => \App\Navigation\ContextButtons\WikiArticleEditContextButtons::class,
     ];
 
     /**
