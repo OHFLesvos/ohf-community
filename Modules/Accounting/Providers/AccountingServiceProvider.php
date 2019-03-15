@@ -4,13 +4,14 @@ namespace Modules\Accounting\Providers;
 
 use App\Providers\RegistersNavigationItems;
 use App\Providers\RegistersDashboardWidgets;
+use App\Providers\RegisterContextButtons;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
 class AccountingServiceProvider extends ServiceProvider
 {
-    use RegistersNavigationItems, RegistersDashboardWidgets;
+    use RegistersNavigationItems, RegistersDashboardWidgets, RegisterContextButtons;
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -31,6 +32,16 @@ class AccountingServiceProvider extends ServiceProvider
      */
     protected $dashboardWidgets = [
         \Modules\Accounting\Widgets\TransactionsWidget::class => 7,
+    ];
+
+    protected $contextButtons = [
+        'accounting.transactions.index' => \Modules\Accounting\Navigation\ContextButtons\TransactionIndexContextButtons::class,
+        'accounting.transactions.summary' => \Modules\Accounting\Navigation\ContextButtons\TransactionSummaryContextButtons::class,
+        'accounting.transactions.create' => \Modules\Accounting\Navigation\ContextButtons\TransactionReturnToIndexContextButtons::class,
+        'accounting.transactions.export' => \Modules\Accounting\Navigation\ContextButtons\TransactionReturnToIndexContextButtons::class,
+        'accounting.transactions.show' => \Modules\Accounting\Navigation\ContextButtons\TransactionShowContextButtons::class,
+        'accounting.transactions.edit' => \Modules\Accounting\Navigation\ContextButtons\TransactionEditContextButtons::class,
+        'accounting.transactions.editReceipt' => \Modules\Accounting\Navigation\ContextButtons\TransactionEditReceiptContextButtons::class,
     ];
 
     /**
@@ -58,6 +69,7 @@ class AccountingServiceProvider extends ServiceProvider
         $this->app->register(AuthServiceProvider::class);
         $this->registerNavigationItems();
         $this->registerDashboardWidgets();
+        $this->registerContextButtons();
     }
 
     /**

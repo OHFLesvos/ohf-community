@@ -14,7 +14,6 @@ use App\WikiArticle;
 use App\Support\Facades\ContextMenus;
 use App\Support\Facades\ContextButtons;
 
-use Modules\Accounting\Entities\MoneyTransaction;
 use App\InventoryItemTransaction;
 use App\InventoryStorage;
 use Illuminate\Support\Facades\Auth;
@@ -47,95 +46,6 @@ class ContextMenuComposer {
     private function getButtons(View $view, string $currentRouteName): array
     {
         switch ($currentRouteName) {
-            //
-            // Accounting: Transactions
-            //
-            case 'accounting.transactions.index':
-                return [
-                    'action' => [
-                        'url' => route('accounting.transactions.create'),
-                        'caption' => __('app.add'),
-                        'icon' => 'plus-circle',
-                        'icon_floating' => 'plus',
-                        'authorized' => Auth::user()->can('create', MoneyTransaction::class)
-                    ],
-                    'export' => [
-                        'url' => route('accounting.transactions.export'),
-                        'caption' => __('app.export'),
-                        'icon' => 'download',
-                        'authorized' => Auth::user()->can('list', MoneyTransaction::class)
-                    ],
-                ];
-            case 'accounting.transactions.summary':
-                return [
-                    'export' => [
-                        'url' => route('accounting.transactions.export'),
-                        'caption' => __('app.export'),
-                        'icon' => 'download',
-                        'authorized' => Auth::user()->can('list', MoneyTransaction::class)
-                    ],
-                ];
-            case 'accounting.transactions.create':
-            case 'accounting.transactions.export':
-                return [
-                    'back' => [
-                        'url' => route('accounting.transactions.index'),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', MoneyTransaction::class)
-                    ]
-                ];
-            case 'accounting.transactions.show':
-                $transaction = $view->getData()['transaction'];
-                return [
-                    'action' => [
-                        'url' => route('accounting.transactions.edit', $transaction),
-                        'caption' => __('app.edit'),
-                        'icon' => 'pencil',
-                        'icon_floating' => 'pencil',
-                        'authorized' => Auth::user()->can('update', $transaction)
-                    ],
-                    'receipt' => [
-                        'url' => route('accounting.transactions.editReceipt', $transaction),
-                        'caption' => __('accounting::accounting.receipt'),
-                        'icon' => 'list-ol',
-                        'authorized' => Auth::user()->can('update', $transaction),
-                    ],
-                    'delete' => [
-                        'url' => route('accounting.transactions.destroy', $transaction),
-                        'caption' => __('app.delete'),
-                        'icon' => 'trash',
-                        'authorized' => Auth::user()->can('delete', $transaction),
-                        'confirmation' => __('accounting::accounting.confirm_delete_transaction')
-                    ],
-                    'back' => [
-                        'url' => route('accounting.transactions.index'),
-                        'caption' => __('app.close'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('list', MoneyTransaction::class)
-                    ]
-                ];
-            case 'accounting.transactions.edit':
-                $transaction = $view->getData()['transaction'];
-                return [
-                    'back' => [
-                        'url' => route('accounting.transactions.show', $transaction),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('view', $transaction)
-                    ]
-                ];
-            case 'accounting.transactions.editReceipt':
-                $transaction = $view->getData()['transaction'];
-                return [
-                    'back' => [
-                        'url' => route('accounting.transactions.show', $transaction),
-                        'caption' => __('app.close'),
-                        'icon' => 'times-circle',
-                        'authorized' => Auth::user()->can('view', $transaction)
-                    ]
-                ];
-
             //
             // Inventory
             //
