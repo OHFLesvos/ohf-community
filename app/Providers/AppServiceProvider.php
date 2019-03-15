@@ -68,6 +68,11 @@ class AppServiceProvider extends ServiceProvider
         'users.show' => \App\Navigation\ContextButtons\UserShowContextButtons::class,
         'users.edit' => \App\Navigation\ContextButtons\UserEditContextButtons::class,
         'users.permissions' => \App\Navigation\ContextButtons\UserPermissionsContextButtons::class,
+        'roles.index' => \App\Navigation\ContextButtons\RoleIndexContextButtons::class,
+        'roles.create' => \App\Navigation\ContextButtons\RoleCreateContextButtons::class,
+        'roles.show' => \App\Navigation\ContextButtons\RoleShowContextButtons::class,
+        'roles.edit' => \App\Navigation\ContextButtons\RoleEditContextButtons::class,
+        'roles.permissions' => \App\Navigation\ContextButtons\RolePermissionsContextButtons::class,
     ];
 
     /**
