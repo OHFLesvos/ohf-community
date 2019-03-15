@@ -95,6 +95,17 @@ class AppServiceProvider extends ServiceProvider
         'people.helpers.import' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
         'people.helpers.export' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
         'people.helpers.report' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
+        
+        'bank.withdrawal' => \App\Navigation\ContextButtons\BankIndexContextButtons::class,
+        'bank.withdrawalSearch' => \App\Navigation\ContextButtons\BankIndexContextButtons::class,
+        'bank.showCard' => \App\Navigation\ContextButtons\BankIndexContextButtons::class,
+        'bank.deposit' => \App\Navigation\ContextButtons\BankDepositContextButtons::class,
+        'bank.prepareCodeCard' => \App\Navigation\ContextButtons\BankCodeCardContextButtons::class,
+        'bank.settings.edit' => \App\Navigation\ContextButtons\BankSettingsContextButtons::class,
+        'bank.withdrawalTransactions' => \App\Navigation\ContextButtons\BankWithdrawalTransactionsContextButtons::class,
+        'bank.depositTransactions' => \App\Navigation\ContextButtons\BankDepositTransactionsContextButtons::class,
+        'bank.depositTransactions' => \App\Navigation\ContextButtons\BankDepositTransactionsContextButtons::class,
+        'bank.export' => \App\Navigation\ContextButtons\BankExportContextButtons::class,
     ];
 
     /**
