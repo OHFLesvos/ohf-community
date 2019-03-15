@@ -11,6 +11,7 @@ use App\Donor;
 use App\Donation;
 use App\CouponType;
 use App\WikiArticle;
+use App\Support\Facades\ContextMenus;
 use Modules\Accounting\Entities\MoneyTransaction;
 use App\InventoryItemTransaction;
 use App\InventoryStorage;
@@ -22,15 +23,6 @@ use Illuminate\Support\Facades\DB;
 
 class ContextMenuComposer {
 
-	/**
-     * Create the composer.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
     /**
      * Bind data to the view.
      *
@@ -40,78 +32,9 @@ class ContextMenuComposer {
     public function compose(View $view)
     {
         $currentRouteName = Route::currentRouteName();
-        $view->with('menu', $this->getMenu($view, $currentRouteName));
-        $view->with('buttons', $this->getButtons($view, $currentRouteName));
-    }
 
-    /**
-     * @param View $view
-     * @param string $currentRouteName
-     * @return array
-     */
-    public function getMenu(View $view, string $currentRouteName): array
-    {
-        switch ($currentRouteName) {
-            case 'people.index':
-                return [
-                    [
-                        'url' => route('people.duplicates'),
-                        'caption' => __('people.find_duplicates'),
-                        'icon' => 'exchange',
-                        'authorized' => Auth::user()->can('cleanup', Person::class)
-                    ],                    
-                    [
-                        'url' => route('people.import'),
-                        'caption' => __('app.import'),
-                        'icon' => 'upload',
-                        'authorized' => Auth::user()->can('create', Person::class)
-                    ],
-                ];
-            case 'bank.withdrawal':
-            case 'bank.withdrawalSearch':
-                return [
-                    [
-                        'url' => route('bank.export'),
-                        'caption' => __('app.export'),
-                        'icon' => 'download',
-                        'authorized' => Auth::user()->can('export', Person::class)
-                    ],
-                    [
-                        'url' => route('bank.maintenance'),
-                        'caption' => __('app.maintenance'),
-                        'icon' => 'eraser',
-                        'authorized' => Auth::user()->can('cleanup', Person::class)
-                    ],
-                    [
-                        'url' => route('coupons.index'),
-                        'caption' => __('people.coupons'),
-                        'icon' => 'ticket',
-                        'authorized' => Gate::allows('configure-bank')
-                    ],
-                    [
-                        'url' => route('bank.settings.edit'),
-                        'caption' => __('app.settings'),
-                        'icon' => 'cogs',
-                        'authorized' => Gate::allows('configure-bank')
-                    ],
-                ];
-            case 'people.helpers.index':
-                return [
-                    'export' => [
-                        'url' => route('people.helpers.export'),
-                        'caption' => __('app.export'),
-                        'icon' => 'download',
-                        'authorized' => Auth::user()->can('export', Helper::class)
-                    ],
-                    'import' => [
-                        'url' => route('people.helpers.import'),
-                        'caption' => __('app.import'),
-                        'icon' => 'upload',
-                        'authorized' => Auth::user()->can('import', Helper::class)
-                    ],
-                ];
-        }
-        return [];
+        $view->with('menu', ContextMenus::get($currentRouteName));
+        $view->with('buttons', $this->getButtons($view, $currentRouteName));
     }
 
     /**

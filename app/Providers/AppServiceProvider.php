@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AppServiceProvider extends ServiceProvider
 {
-    use RegistersNavigationItems, RegistersDashboardWidgets;
+    use RegistersNavigationItems, RegistersDashboardWidgets, RegisterContextMenus;
 
     protected $navigationItems = [
         \App\Navigation\HomeNavigationItem::class => 0,
@@ -38,6 +38,12 @@ class AppServiceProvider extends ServiceProvider
         \App\Navigation\ReportingNavigationItem::class => 14,
         \App\Navigation\UsersNavigationItem::class => 15,
         \App\Navigation\LogViewerNavigationItem::class => 16,
+    ];
+
+    protected $contextMenus = [
+        \App\Navigation\ContextMenu\PeopleContextMenu::class,
+        \App\Navigation\ContextMenu\BankWithdrawalContextMenu::class,
+        \App\Navigation\ContextMenu\HelpersContextMenu::class,
     ];
 
     protected $dashboardWidgets = [
@@ -126,6 +132,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerNavigationItems();
         $this->registerDashboardWidgets();
+        $this->registerContextMenus();
     }
 
     /**
