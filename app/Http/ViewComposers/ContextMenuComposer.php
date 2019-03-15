@@ -48,50 +48,6 @@ class ContextMenuComposer {
     {
         switch ($currentRouteName) {
             //
-            // Bank
-            //
-
-            // Shop
-            case 'shop.index':
-                return [
-                    'settings' => [
-                        'url' => route('shop.settings.edit'),
-                        'caption' => __('app.settings'),
-                        'icon' => 'cogs',
-                        'authorized' => Gate::allows('configure-shop')
-                    ]
-                ];
-            case 'shop.settings.edit':
-                return [
-                    'back' => [
-                        'url' => route('shop.index'),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('validate-shop-coupons')
-                    ]
-                ];
-
-            // Barber
-            case 'shop.barber.index':
-                return [
-                    'settings' => [
-                        'url' => route('shop.barber.settings.edit'),
-                        'caption' => __('app.settings'),
-                        'icon' => 'cogs',
-                        'authorized' => Gate::allows('configure-barber-list')
-                    ]
-                ];
-            case 'shop.barber.settings.edit':
-                return [
-                    'back' => [
-                        'url' => route('shop.barber.index'),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('view-barber-list')
-                    ]
-                ];
-
-            //
             // Library
             //
             case 'library.lending.index':

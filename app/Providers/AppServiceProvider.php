@@ -111,6 +111,12 @@ class AppServiceProvider extends ServiceProvider
         'coupons.create' => \App\Navigation\ContextButtons\CouponCreateContextButtons::class,
         'coupons.show' => \App\Navigation\ContextButtons\CouponShowContextButtons::class,
         'coupons.edit' => \App\Navigation\ContextButtons\CouponEditContextButtons::class,
+        
+        'shop.index' => \App\Navigation\ContextButtons\ShopContextButtons::class,
+        'shop.settings.edit' => \App\Navigation\ContextButtons\ShopSettingsContextButtons::class,
+
+        'shop.barber.index' => \App\Navigation\ContextButtons\BarberContextButtons::class,
+        'shop.barber.settings.edit' => \App\Navigation\ContextButtons\BarberSettingsContextButtons::class,
     ];
 
     /**
