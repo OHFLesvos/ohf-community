@@ -158,6 +158,14 @@ class AppServiceProvider extends ServiceProvider
         'inventory.transactions.egress' => \App\Navigation\ContextButtons\InventoryReturnToStorageContextButtons::class,
 
         'badges.selection' => \App\Navigation\ContextButtons\BadgeSelectionContextButtons::class,
+        
+        'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.people' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.withdrawals' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.deposits' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.privacy' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.articles' => \App\Navigation\ContextButtons\ReportingArticlesContextButtons::class,
+        'reporting.article' => \App\Navigation\ContextButtons\ReportingArticleContextButtons::class,
     ];
 
     /**
