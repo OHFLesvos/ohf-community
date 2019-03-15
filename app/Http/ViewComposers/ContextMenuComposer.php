@@ -48,43 +48,6 @@ class ContextMenuComposer {
     {
         switch ($currentRouteName) {
             //
-            // Logistics
-            //
-            case 'logistics.articles.index':
-                $project = $view->getData()['project'];
-                return [
-                    'report'=> [
-                        'url' => route('reporting.articles', $project),
-                        'caption' => __('app.report'),
-                        'icon' => 'line-chart',
-                        'authorized' => true // TODO
-                    ],
-                    'back' => [
-                        'url' => route('logistics.index'),
-                        'caption' => __('app.close'),
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('use-logistics')
-                    ]
-                ];
-            case 'logistics.articles.edit':
-                $article = $view->getData()['article'];
-                return [
-                    'delete' => [
-                        'url' => route('logistics.articles.destroyArticle', $article),
-                        'caption' => __('app.delete'),
-                        'icon' => 'trash',
-                        'authorized' => Gate::allows('use-logistics'),
-                        'confirmation' => 'Really delete this article?'
-                    ],
-                    'back' => [
-                        'url' => route('logistics.articles.index', $article->project),
-                        'caption' => __('app.cancel'),
-                        'icon' => 'times-circle',
-                        'authorized' => Gate::allows('use-logistics')
-                    ]
-                ];
-
-            //
             // Donations : Donors
             //
             case 'fundraising.donors.index':

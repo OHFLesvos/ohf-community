@@ -129,6 +129,9 @@ class AppServiceProvider extends ServiceProvider
         'library.books.index' => \App\Navigation\ContextButtons\LibraryBookIndexContextButtons::class,
         'library.books.create' => \App\Navigation\ContextButtons\LibraryBookCreateContextButtons::class,
         'library.books.edit' => \App\Navigation\ContextButtons\LibraryBookEditContextButtons::class,
+
+        'logistics.articles.index' => \App\Navigation\ContextButtons\LogisticsArticleIndexContextButtons::class,
+        'logistics.articles.edit' => \App\Navigation\ContextButtons\LogisticsArticleEditContextButtons::class,
     ];
 
     /**
