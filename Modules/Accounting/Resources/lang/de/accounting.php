@@ -27,4 +27,8 @@ return [
     'month' => 'Monat',
     'wallet_owner' => 'Kasseninhaber',
     'confirm_delete_receipt' => 'Diesen Beleg wirklich löschen?',
+    'view_transactions' => 'Buchhaltung: Transaktionen betrachten',
+    'create_transactions' => 'Buchhaltung: Transaktionen erfassen',
+    'update_delete_transactions' => 'Buchhaltung: Transaktionen bearbeiten und löschen',
+    'view_summary' => 'Buchhaltung: Zusammenfassung ansehen',
 ];

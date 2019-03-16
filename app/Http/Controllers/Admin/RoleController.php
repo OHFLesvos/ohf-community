@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\StoreRole;
 use App\Role;
 use App\User;
 use App\RolePermission;
+use App\Support\Facades\PermissionRegistry;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
@@ -129,12 +131,12 @@ class RoleController extends ParentController
                 }
             }
         }
-        foreach (Config::get('auth.permissions') as $k => $v) {
+        foreach (PermissionRegistry::collection() as $k => $v) {
             if (!in_array($k, isset($request->permissions) ? $request->permissions : [])) {
                 RolePermission::where('key', $k)->where('role_id', $role->id)->delete();
             }
         }
-        $valid_keys = array_keys(Config::get('auth.permissions'));
+        $valid_keys = PermissionRegistry::collection()->keys();
         RolePermission::destroy($role->permissions->whereNotIn('key', $valid_keys)->pluck('id')->toArray());
 
         return redirect()->route('roles.show', $role)
@@ -165,11 +167,7 @@ class RoleController extends ParentController
     }
 
     public static function getCategorizedPermissions() {
-        $map = collect(Config::get('auth.permissions'))
-            ->keys()
-            ->mapWithKeys(function($item){
-                return [$item => __('permissions.' . $item)];
-            })
+        $map = PermissionRegistry::collection()
             ->toArray();
         $permissions = [];
         foreach($map as $k => $v) {

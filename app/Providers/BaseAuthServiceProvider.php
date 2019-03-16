@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Support\Facades\PermissionRegistry;
+
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -9,6 +11,7 @@ abstract class BaseAuthServiceProvider extends ServiceProvider
 {
     protected $permission_gate_mappings = [];
     protected $permission_gate_mappings_no_super_admin = [];
+    protected $permissions = [];
 
     /**
      * Register any authentication / authorization services.
@@ -18,8 +21,15 @@ abstract class BaseAuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        $this->registerPermissions();
         $this->registerPermissionGateMappings();
         $this->registerPErmissionGateMappingsNoSuperAdmin();
+    }
+
+    protected function registerPermissions() {
+        foreach ($this->permissions as $key => $permission) {
+            PermissionRegistry::define($key, $permission['label'], $permission['sensitive']);
+        }
     }
 
     protected function registerPermissionGateMappings() {

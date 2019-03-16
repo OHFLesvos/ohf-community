@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
+use App\Role;
 use App\Http\Controllers\ParentController;
 use App\Http\Requests\Admin\StoreUser;
 use App\Http\Requests\Admin\UpdateUser;
+use App\Support\Facades\PermissionRegistry;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Config;
-use App\User;
-use App\Role;
 
 class UserController extends ParentController
 {
@@ -153,14 +155,14 @@ class UserController extends ParentController
      */
     public function sensitiveDataReport()
     {
-        $permissions = Config::get('auth.permissions');
         return view('reporting.privacy', [
-            'permissions' => Config::get('auth.permissions'),
+            'permissions' => PermissionRegistry::collection(),
+            'sensitivePermissions' => PermissionRegistry::collection(true),
             'users' => User::orderBy('name')
                 ->get()
-                ->filter(function($u) use($permissions) {
-                    return $u->isSuperAdmin() || $u->permissions()->contains(function($p) use($permissions) {
-                        return isset($permissions[$p->key]) && $permissions[$p->key]['sensitive'];
+                ->filter(function($u) {
+                    return $u->isSuperAdmin() || $u->permissions()->contains(function($p) {
+                        return PermissionRegistry::hasKey($p->key, true);
                     });
                 })
         ]);

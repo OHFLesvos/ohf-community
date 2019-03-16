@@ -23,16 +23,14 @@
                         <div class="col-sm mt-2 mt-sm-0">
                             <ul class="list-unstyled">
                                 @if($user->isSuperAdmin())
-                                    @foreach(collect($permissions)->filter(function($p) {
-                                        return $p['sensitive'];
-                                    }) as $key => $permission)
-                                        <li class="mt-1 mt-md-0">@lang('permissions.' . $key)</li>
+                                    @foreach($permissions as $key => $permission)
+                                        <li class="mt-1 mt-md-0">{{ $permission }}</li>
                                     @endforeach
                                 @else
-                                    @foreach($user->permissions()->filter(function($p) use($permissions) {
-                                            return isset($permissions[$p->key]) && $permissions[$p->key]['sensitive'];
+                                    @foreach($user->permissions()->filter(function($p) use($sensitivePermissions) {
+                                            return isset($sensitivePermissions[$p->key]);
                                         }) as $permission)
-                                        <li class="mt-1 mt-md-0">@lang('permissions.' . $permission->key)</li>
+                                        <li class="mt-1 mt-md-0">{{ $sensitivePermissions[$permission->key] }}</li>
                                     @endforeach
                                 @endif
                             </ul>
