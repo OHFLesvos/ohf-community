@@ -4,9 +4,6 @@ namespace Modules\Accounting\Providers;
 
 use App\Providers\BaseAuthServiceProvider;
 
-use Modules\Accounting\Entities\MoneyTransaction;
-use Modules\Accounting\Policies\MoneyTransactionPolicy;
-
 class AuthServiceProvider extends BaseAuthServiceProvider
 {
     /**
@@ -15,24 +12,24 @@ class AuthServiceProvider extends BaseAuthServiceProvider
      * @var array
      */
     protected $policies = [
-        MoneyTransaction::class => MoneyTransactionPolicy::class,
+        Modules\Accounting\Entities\MoneyTransaction::class => Modules\Accounting\Policies\MoneyTransactionPolicy::class,
     ];
 
     protected $permissions = [
         'accounting.transactions.view' => [
-            'label' => 'accounting::accounting.view_transactions',
+            'label' => 'accounting::permissions.view_transactions',
             'sensitive' => true,
         ],
         'accounting.transactions.create' => [
-            'label' => 'accounting::accounting.create_transactions',
+            'label' => 'accounting::permissions.create_transactions',
             'sensitive' => true,
         ],
         'accounting.transactions.update_delete' => [
-            'label' => 'accounting::accounting.update_delete_transactions',
+            'label' => 'accounting::permissions.update_delete_transactions',
             'sensitive' => true,
         ],
         'accounting.summary.view' => [
-            'label' => 'accounting::accounting.view_summary',
+            'label' => 'accounting::permissions.view_summary',
             'sensitive' => false,
         ],
     ];

@@ -16,8 +16,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Task::class => \App\Policies\TaskPolicy::class,
         \App\CalendarEvent::class => \App\Policies\CalendarEventPolicy::class,
         \App\CalendarResource::class => \App\Policies\Calendar\ResourcePolicy::class,
-        \App\Donor::class => \App\Policies\Fundraising\DonorPolicy::class,
-        \App\Donation::class => \App\Policies\Fundraising\DonationPolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
         \App\WikiArticle::class => \App\Policies\Wiki\ArticlePolicy::class,
         \App\InventoryItemTransaction::class => \App\Policies\Inventory\ItemTransactionPolicy::class,
@@ -128,30 +126,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.manage_calendar_resources',
             'sensitive' => false,
         ],
-        'fundraising.donors.view' => [
-            'label' => 'permissions.view_fundraising_donors',
-            'sensitive' => true,
-        ],
-        'fundraising.donors.manage' => [
-            'label' => 'permissions.manage_fundraising_donors',
-            'sensitive' => true,
-        ],
-        'fundraising.donations.view' => [
-            'label' => 'permissions.view_fundraising_donations',
-            'sensitive' => true,
-        ],
-        'fundraising.donations.register' => [
-            'label' => 'permissions.register_fundraising_donations',
-            'sensitive' => true,
-        ],
-        'fundraising.donations.edit' => [
-            'label' => 'permissions.edit_fundraising_donations',
-            'sensitive' => true,
-        ],
-        'fundraising.donations.accept_webhooks' => [
-            'label' => 'permissions.accept_fundraising_donations_webhooks',
-            'sensitive' => false,
-        ],        
         'wiki.view' => [
             'label' => 'permissions.view_wiki',
             'sensitive' => false,
@@ -221,7 +195,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'view-usermgmt-reports' => 'app.usermgmt.view',
         'configure-bank' => 'bank.configure',
         'use-logistics' => 'logistics.use',
-        'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
         'view-kitchen-reports' => 'kitchen.reports.view',
         'view-calendar' => 'calendar.events.view',
         'view-changelogs' => 'app.changelogs.view',

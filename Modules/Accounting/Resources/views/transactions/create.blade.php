@@ -12,7 +12,7 @@
             {{ Form::bsRadioInlineList('type', [ 'income' => __('accounting::accounting.income'), 'spending' => __('accounting::accounting.spending') ], 'spending', __('app.type')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('fundraising.write_decimal_point_as_comma')) }}
+                {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('fundraising::fundraising.write_decimal_point_as_comma')) }}
             </div>
             <div class="col-sm">
                 {{ Form::bsText('beneficiary', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($beneficiaries)) ], __('accounting::accounting.beneficiary')) }}

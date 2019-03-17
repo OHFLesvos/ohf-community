@@ -289,23 +289,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/calendar', 'CalendarController@index')->name('calendar');
     });
 
-    // Donors and donations
-    Route::namespace('Fundraising')->middleware(['auth'])->prefix('fundraising')->name('fundraising.')->group(function () {
-        // Donors
-        Route::name('donors.export')->get('donors/export', 'DonorController@export');
-        Route::name('donors.vcard')->get('donors/{donor}/vcard', 'DonorController@vcard');
-        Route::resource('donors', 'DonorController');
-
-        // Donations
-        Route::name('donations.index')->get('donations', 'DonationController@index');
-        Route::name('donations.import')->get('donations/import', 'DonationController@import');//->middleware('can:import,App\Helper');
-        Route::name('donations.doImport')->post('donations/import', 'DonationController@doImport');//->middleware('can:import,App\Helper');
-        Route::prefix('donors/{donor}')->group(function () {
-            Route::name('donations.export')->get('export', 'DonationController@export');
-            Route::resource('donations', 'DonationController')->except('show', 'index');
-        });
-    });
-
     Auth::routes();
     Route::get('/userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
 

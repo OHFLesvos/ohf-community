@@ -14,7 +14,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
         \App\Navigation\Drawer\HelpersNavigationItem::class => 3,
         \App\Navigation\Drawer\LogisticsNavigationItem::class => 4,
-        \App\Navigation\Drawer\FundraisingNavigationItem::class => 5,
         \App\Navigation\Drawer\WikiArticlesItem::class => 6,
         \App\Navigation\Drawer\InventoryStorageNavigationItem::class => 7,
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
@@ -105,15 +104,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'logistics.articles.index' => \App\Navigation\ContextButtons\LogisticsArticleIndexContextButtons::class,
         'logistics.articles.edit' => \App\Navigation\ContextButtons\LogisticsArticleEditContextButtons::class,
-        
-        'fundraising.donors.index' => \App\Navigation\ContextButtons\FundraisingDonorIndexContextButtons::class,
-        'fundraising.donors.create' => \App\Navigation\ContextButtons\FundraisingDonorCreateContextButtons::class,
-        'fundraising.donors.show' => \App\Navigation\ContextButtons\FundraisingDonorShowContextButtons::class,
-        'fundraising.donors.edit' => \App\Navigation\ContextButtons\FundraisingDonorEditContextButtons::class,
-        'fundraising.donations.index' => \App\Navigation\ContextButtons\FundraisingDonationIndexContextButtons::class,
-        'fundraising.donations.import' => \App\Navigation\ContextButtons\FundraisingDonationImportContextButtons::class,
-        'fundraising.donations.create' => \App\Navigation\ContextButtons\FundraisingDonationCreateContextButtons::class,
-        'fundraising.donations.edit' => \App\Navigation\ContextButtons\FundraisingDonationEditContextButtons::class,
 
         'wiki.articles.index' => \App\Navigation\ContextButtons\WikiArticleIndexContextButtons::class,
         'wiki.articles.tag' => \App\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
