@@ -155,7 +155,7 @@
             @can('create', Modules\Fundraising\Entities\Donation::class)
                 <div class="card mb-4">
                     <div class="card-header">
-                        @lang('fundraising.register_new_donation')
+                        @lang('fundraising::fundraising.register_new_donation')
                     </div>
                     <div class="card-body pb-0">
                         {!! Form::open(['route' => ['fundraising.donations.store', $donor ]]) !!}
@@ -201,12 +201,12 @@
                             <thead>
                                 <tr>
                                     <th>@lang('app.date')</th>
-                                    <th class="d-none d-sm-table-cell">@lang('fundraising.channel')</th>
-                                    <th>@lang('fundraising.purpose')</th>
-                                    <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
-                                    <th class="d-none d-sm-table-cell">@lang('fundraising.in_name_of')</th>
+                                    <th class="d-none d-sm-table-cell">@lang('fundraising::fundraising.channel')</th>
+                                    <th>@lang('fundraising::fundraising.purpose')</th>
+                                    <th class="d-none d-sm-table-cell">@lang('fundraising::fundraising.reference')</th>
+                                    <th class="d-none d-sm-table-cell">@lang('fundraising::fundraising.in_name_of')</th>
                                     <th class="text-right">@lang('app.amount')</th>
-                                    <th ckass="fit">@lang('fundraising.thanked')</th>
+                                    <th ckass="fit">@lang('fundraising::fundraising.thanked')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -258,7 +258,7 @@
                 
                 @else
                     @component('components.alert.info')
-                        @lang('fundraising.no_donations_found')
+                        @lang('fundraising::fundraising.no_donations_found')
                     @endcomponent
                 @endif
             

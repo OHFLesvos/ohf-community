@@ -48,8 +48,8 @@
                         <th class="d-none d-sm-table-cell">@lang('app.phone')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.correspondence_language')</th>
                         {{-- @can('list', Modules\Fundraising\Entities\Donation::class)
-                            <th class="text-right d-none d-sm-table-cell">@lang('fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
-                            <th class="text-right">@lang('fundraising.donations') {{ Carbon\Carbon::now()->year }}</th>
+                            <th class="text-right d-none d-sm-table-cell">@lang('fundraising::fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
+                            <th class="text-right">@lang('fundraising::fundraising.donations') {{ Carbon\Carbon::now()->year }}</th>
                         @endcan --}}
                     </tr>
                 </thead>
@@ -111,7 +111,7 @@
         {{ $donors->links() }}
     @else
         @component('components.alert.info')
-            @lang('fundraising.no_donors_found')
+            @lang('fundraising::fundraising.no_donors_found')
         @endcomponent
 	@endif
 	
