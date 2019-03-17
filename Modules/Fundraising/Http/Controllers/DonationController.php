@@ -34,7 +34,7 @@ class DonationController extends Controller
         $this->authorize('list', Donation::class);
 
         $query = Donation::orderBy('created_at', 'desc');
-        return view('fundraising.donations.index', [
+        return view('fundraising::donations.index', [
             'donations' => $query->paginate(100),
         ]);
     }
@@ -49,7 +49,7 @@ class DonationController extends Controller
     {
         $this->authorize('create', Donation::class);
 
-        return view('fundraising.donations.create', [
+        return view('fundraising::donations.create', [
             'donor' => $donor,
             'currencies' => Config::get('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
@@ -116,7 +116,7 @@ class DonationController extends Controller
     {
         $this->authorize('update', $donation);
 
-        return view('fundraising.donations.edit', [
+        return view('fundraising::donations.edit', [
             'donor' => $donor,
             'donation' => $donation,
             'currencies' => Config::get('fundraising.currencies'),
@@ -207,7 +207,7 @@ class DonationController extends Controller
     function import() {
         $this->authorize('create', Donation::class);
 
-        return view('fundraising.donations.import', [
+        return view('fundraising::donations.import', [
             'types' => [ 
                 'stripe' => 'Stripe'
             ],

@@ -91,7 +91,7 @@ class DonorController extends Controller
             $filter = null;
         }
 
-        return view('fundraising.donors.index', [
+        return view('fundraising::donors.index', [
             'donors' => $query
                 ->orderBy('first_name')
                 ->orderBy('last_name')
@@ -112,7 +112,7 @@ class DonorController extends Controller
     {
         $this->authorize('create', Donor::class);
 
-        return view('fundraising.donors.create');
+        return view('fundraising::donors.create');
     }
 
     /**
@@ -171,7 +171,7 @@ class DonorController extends Controller
     {
         $this->authorize('view', $donor);
 
-        return view('fundraising.donors.show', [
+        return view('fundraising::donors.show', [
             'donor' => $donor,
             'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate(),
             'currencies' => Config::get('fundraising.currencies'),
@@ -189,7 +189,7 @@ class DonorController extends Controller
     {
         $this->authorize('update', $donor);
 
-        return view('fundraising.donors.edit', [
+        return view('fundraising::donors.edit', [
             'donor' => $donor,
         ]);
     }
