@@ -2,6 +2,8 @@
 
 namespace Modules\Fundraising\Exports;
 
+use App\Exports\BaseExport;
+
 use Modules\Fundraising\Entities\Donor;
 use Modules\Fundraising\Entities\Donation;
 

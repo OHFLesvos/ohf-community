@@ -3,6 +3,7 @@
 namespace Modules\Fundraising\Database\Seeders;
 
 use Modules\Fundraising\Entities\Donor;
+use Modules\Fundraising\Entities\Donation;
 
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,8 @@ class DonorsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Donor::class, 100)->create();
+        factory(Donor::class, 100)->create()->each(function($d){
+            $d->donations()->saveMany(factory(Donation::class, mt_rand(1, 10))->make());
+        });
     }
 }

@@ -3,9 +3,8 @@
 namespace Modules\Accounting\Exports;
 
 use App\Exports\BaseExport;
-use Modules\Accounting\Entities\MoneyTransaction;
 
-use Illuminate\Support\Collection;
+use Modules\Accounting\Entities\MoneyTransaction;
 
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
