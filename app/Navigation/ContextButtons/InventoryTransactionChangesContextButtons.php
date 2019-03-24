@@ -7,6 +7,7 @@ use App\InventoryItemTransaction;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class InventoryTransactionChangesContextButtons implements ContextButtons {
 

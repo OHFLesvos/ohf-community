@@ -2,6 +2,7 @@
 
 namespace App\Navigation\ContextButtons;
 
+use App\InventoryItemTransaction;
 use App\InventoryStorage;
 
 use Illuminate\View\View;

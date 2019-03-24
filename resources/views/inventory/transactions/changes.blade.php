@@ -38,7 +38,7 @@
                                     echo App\InventoryItemTransaction
                                         ::where('item', $transaction->item)
                                         ->where('created_at', '<=', $transaction->created_at)
-                                        ->select(DB::raw('sum(quantity) as total'))
+                                        ->select(\Illuminate\Support\Facades\DB::raw('sum(quantity) as total'))
                                         ->groupBy('item')
                                         ->first()
                                         ->total;
