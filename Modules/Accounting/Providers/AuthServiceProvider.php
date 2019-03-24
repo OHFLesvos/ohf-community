@@ -12,7 +12,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
      * @var array
      */
     protected $policies = [
-        Modules\Accounting\Entities\MoneyTransaction::class => Modules\Accounting\Policies\MoneyTransactionPolicy::class,
+        \Modules\Accounting\Entities\MoneyTransaction::class => \Modules\Accounting\Policies\MoneyTransactionPolicy::class,
     ];
 
     protected $permissions = [

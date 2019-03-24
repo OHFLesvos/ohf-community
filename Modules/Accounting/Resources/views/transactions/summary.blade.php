@@ -26,9 +26,13 @@
                                 @foreach($projects as $v)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('accounting.transactions.index') }}?filter[type]={{ $key }}&filter[project]={{ $v->project }}&filter[date_start]={{ $monthDate->startOfMonth()->toDateString() }}&filter[date_end]={{ $monthDate->endOfMonth()->toDateString() }}">
+                                            @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
+                                                <a href="{{ route('accounting.transactions.index') }}?filter[type]={{ $key }}&filter[project]={{ $v->project }}&filter[date_start]={{ $monthDate->startOfMonth()->toDateString() }}&filter[date_end]={{ $monthDate->endOfMonth()->toDateString() }}">
+                                            @endcan
                                                 {{ $v->project }}
-                                            </a>
+                                            @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
+                                                </a>
+                                            @endcan
                                         </td>
                                         <td class="text-right">{{ number_format($v->sum, 2) }}</td>
                                     </tr>
