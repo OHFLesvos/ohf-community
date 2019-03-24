@@ -3,7 +3,10 @@
 namespace Modules\Fundraising\Tests\Feature;
 
 use Tests\TestCase;
+
 use App\User;
+use App\Role;
+use App\RolePermission;
 
 use Illuminate\Support\Str;
 
@@ -21,7 +24,7 @@ class DonationWebhookTest extends TestCase
 
     public function testRequireAuthorization()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->make();
 
         $response = $this
             ->actingAs($user)
@@ -33,11 +36,7 @@ class DonationWebhookTest extends TestCase
 
     public function testValidation()
     {
-        $user = $this->createMock(User::class);
-        $user->expects($this->any())
-            ->method('hasPermission')
-            ->with('fundraising.donations.accept_webhooks')
-            ->willReturn(true);
+        $user = $this->makeUserWithPermission('fundraising.donations.accept_webhooks');
 
         $response = $this
             ->withHeaders([
@@ -49,16 +48,10 @@ class DonationWebhookTest extends TestCase
         $this->assertAuthenticated();
         $response->assertStatus(422);
     }
-
     
     public function testNewDonorWithDonation()
     {
-        $user = $this->createMock(User::class);
-        $user->expects($this->any())
-            ->method('hasPermission')
-            ->with('fundraising.donations.accept_webhooks')
-            ->willReturn(true);
-
+        $user = $this->makeUserWithPermission('fundraising.donations.accept_webhooks');
         $purpose = Str::random(40);
 
         $response = $this
@@ -95,5 +88,23 @@ class DonationWebhookTest extends TestCase
             'channel' => 'RaiseNow (MasterCard)',
             'purpose' => $purpose,
         ]);
+    }
+
+    protected function makeUserWithPermission($permission)
+    {
+        // $user = $this->createMock(User::class);
+        // $user->expects($this->any())
+        //     ->method('hasPermission')
+        //     ->with('fundraising.donations.accept_webhooks')
+        //     ->willReturn(true);
+
+        $user = factory(User::class)->make();
+        $role = factory(Role::class)->make();
+        $user->roles[0] = $role;
+        $role->permissions[0] = RolePermission::make([
+            'key' => $permission,
+        ]);
+
+        return $user;
     }
 }
