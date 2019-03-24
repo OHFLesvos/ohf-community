@@ -20,7 +20,7 @@ class DonorsWidget implements Widget
 
     function view(): string
     {
-        return 'dashboard.widgets.donors';
+        return 'fundraising::dashboard.widgets.donors';
     }
 
     function args(): array {

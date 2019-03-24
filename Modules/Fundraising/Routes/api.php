@@ -12,3 +12,11 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+// RaiseNow Webhook
+Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
+    ->prefix('fundraising/donations')
+    ->name('fundraising.')
+    ->group(function () {
+        Route::name('donations.raiseNowWebHookListener')->post('raiseNowWebHookListener', 'DonationController@raiseNowWebHookListener');
+    });

@@ -218,4 +218,5 @@ return [
     'google_api_key' => 'Google API key',
     'language' => 'Language',
     'grouping' => 'Grouping',
+    'write_decimal_point_as_comma' => 'Write decimal point as comma (,)',
  ];

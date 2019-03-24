@@ -55,15 +55,6 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
-// RaiseNow Webhook
-Route::namespace('Fundraising')
-    ->middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
-    ->prefix('fundraising')
-    ->name('fundraising.')
-    ->group(function () {
-        Route::name('donations.raiseNowWebHookListener')->post('donations/raiseNowWebHookListener', 'DonationController@raiseNowWebHookListener');
-    });
-
 // Shop
 Route::namespace('Shop')
     ->prefix('shop')

@@ -218,4 +218,5 @@ return [
     'google_api_key' => 'Google API Schlüssel',
     'language' => 'Sprache',
     'grouping' => 'Gruppierung',
+    'write_decimal_point_as_comma' => 'Dezimalpunkt als Komma (,) schreiben',
 ];

@@ -16,10 +16,10 @@
                         {{ Form::bsSelect('currency', $currencies, Config::get('fundraising::fundraising.base_currency'), [ 'required', 'id' => 'currency' ], __('fundraising::fundraising.currency')) }}
                     </div>
                     <div class="col-md">
-                        {{ Form::bsNumber('amount', null, [ 'required', 'autofocus', 'step' => 'any', 'id' => 'amount' ], __('app.amount'), __('fundraising::fundraising.write_decimal_point_as_comma')) }}
+                        {{ Form::bsNumber('amount', null, [ 'required', 'autofocus', 'step' => 'any', 'id' => 'amount' ], __('app.amount'), __('app.write_decimal_point_as_comma')) }}
                     </div>
                     <div class="col-md">
-                        {{ Form::bsNumber('exchange_rate', null, [ 'step' => 'any' ], __('fundraising::fundraising.exchange_rate'), __('fundraising::fundraising.write_decimal_point_as_comma') . '. ' . __('fundraising::fundraising.leave_empty_for_automatic_calculation')) }}
+                        {{ Form::bsNumber('exchange_rate', null, [ 'step' => 'any' ], __('fundraising::fundraising.exchange_rate'), __('app.write_decimal_point_as_comma') . '. ' . __('fundraising::fundraising.leave_empty_for_automatic_calculation')) }}
                     </div>
                 </div>
                 <div class="form-row">
