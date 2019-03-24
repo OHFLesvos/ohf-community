@@ -2,10 +2,11 @@
 
 namespace Modules\Fundraising\Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Fundraising\Entities\Donor;
 
-class FundraisingDatabaseSeeder extends Seeder
+use Illuminate\Database\Seeder;
+
+class DonorsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +15,6 @@ class FundraisingDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        $this->call(DonorsTableSeeder::class);
+        factory(Donor::class, 100)->create();
     }
 }
