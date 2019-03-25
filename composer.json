@@ -35,6 +35,7 @@
         "mrcage/chf-exchange-rates": "~1.0",
         "nwidart/laravel-modules": "^4.1",
         "owen-it/laravel-auditing": "7.0",
+        "petercoles/multilingual-language-list": "^1.1",
         "scriptotek/google-books": "^0.2.4",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spomky-labs/otphp": "^9.1",

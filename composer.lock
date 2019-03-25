@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dbcf76e5b7937c87b073f0b5f70ed65b",
-    "content-hash": "b1f82049b9b68d38ca13f0ac44753b4d",
+    "hash": "161967061a583bb6e205e17ac9abb892",
+    "content-hash": "bd60c4d2bd624b5971b835568ad71064",
     "packages": [
         {
             "name": "akaunting/language",
@@ -3295,6 +3295,65 @@
                 "random"
             ],
             "time": "2019-01-03 20:59:08"
+        },
+        {
+            "name": "petercoles/multilingual-language-list",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/petercoles/Multilingual-Language-List.git",
+                "reference": "26304354d7892561966e63312884eaa089a3ac24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/petercoles/Multilingual-Language-List/zipball/26304354d7892561966e63312884eaa089a3ac24",
+                "reference": "26304354d7892561966e63312884eaa089a3ac24",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "~5.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "PeterColes\\Languages\\LanguagesServiceProvider"
+                    ],
+                    "aliases": {
+                        "Languages": "PeterColes\\Languages\\LanguagesFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PeterColes\\Languages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Coles",
+                    "email": "peterdcoles@gmail.com",
+                    "homepage": "http://petercoles.com"
+                }
+            ],
+            "description": "Lookup Objects for Language Names and Codes",
+            "homepage": "https://github.com/petercoles/multilingual-language-list",
+            "keywords": [
+                "language codes",
+                "language lists",
+                "language lookup",
+                "laravel"
+            ],
+            "time": "2018-01-02 16:25:28"
         },
         {
             "name": "phenx/php-font-lib",

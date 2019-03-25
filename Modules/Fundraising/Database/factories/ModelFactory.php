@@ -11,9 +11,11 @@ use Faker\Generator as Faker;
 
 $factory->define(Donor::class, function (Faker $faker) {
     $countryCodeValidator = function($cc) {
-        return !in_array($cc, ['HM', 'BV']);
+        return !in_array($cc, ['HM', 'BV']); // not supported by country code library
     };
     $gender = $faker->randomElement(['male', 'female']);
+    $lc = $faker->optional(0.3)->languageCode;
+    $language = $lc != null ? collect(\Languages::lookup([$lc]))->first() : null;
     return [
         'salutation' => $faker->title($gender),
         'first_name' => $faker->firstName($gender),
@@ -25,7 +27,7 @@ $factory->define(Donor::class, function (Faker $faker) {
         'country_code' => $faker->valid($countryCodeValidator)->countryCode,
         'email' => $faker->optional(0.8)->email,
         'phone' => $faker->optional(0.5)->phoneNumber,
-        'language' => $faker->optional(0.3)->languageCode,
+        'language' => $language,
     ];
 });
 
