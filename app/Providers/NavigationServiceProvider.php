@@ -14,7 +14,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
         \App\Navigation\Drawer\HelpersNavigationItem::class => 3,
         \App\Navigation\Drawer\LogisticsNavigationItem::class => 4,
-        \App\Navigation\Drawer\WikiArticlesItem::class => 6,
         \App\Navigation\Drawer\InventoryStorageNavigationItem::class => 7,
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
         \App\Navigation\Drawer\BarberNavigationItem::class => 9,
@@ -104,13 +103,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'logistics.articles.index' => \App\Navigation\ContextButtons\LogisticsArticleIndexContextButtons::class,
         'logistics.articles.edit' => \App\Navigation\ContextButtons\LogisticsArticleEditContextButtons::class,
-
-        'wiki.articles.index' => \App\Navigation\ContextButtons\WikiArticleIndexContextButtons::class,
-        'wiki.articles.tag' => \App\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
-        'wiki.articles.latestChanges' => \App\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
-        'wiki.articles.create' => \App\Navigation\ContextButtons\WikiArticleCreateContextButtons::class,
-        'wiki.articles.show' => \App\Navigation\ContextButtons\WikiArticleShowContextButtons::class,
-        'wiki.articles.edit' => \App\Navigation\ContextButtons\WikiArticleEditContextButtons::class,
         
         'inventory.storages.index' => \App\Navigation\ContextButtons\InventoryStorageIndexContextButtons::class,
         'inventory.storages.create' => \App\Navigation\ContextButtons\InventoryStorageCreateContextButtons::class,

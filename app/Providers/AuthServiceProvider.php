@@ -17,7 +17,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\CalendarEvent::class => \App\Policies\CalendarEventPolicy::class,
         \App\CalendarResource::class => \App\Policies\Calendar\ResourcePolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
-        \App\WikiArticle::class => \App\Policies\Wiki\ArticlePolicy::class,
         \App\InventoryItemTransaction::class => \App\Policies\Inventory\ItemTransactionPolicy::class,
         \App\InventoryStorage::class => \App\Policies\Inventory\StoragePolicy::class,
         \App\Helper::class => \App\Policies\People\HelperPolicy::class,
@@ -124,18 +123,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         ],
         'calendar.resources.manage' => [
             'label' => 'permissions.manage_calendar_resources',
-            'sensitive' => false,
-        ],
-        'wiki.view' => [
-            'label' => 'permissions.view_wiki',
-            'sensitive' => false,
-        ],
-        'wiki.edit' => [
-            'label' => 'permissions.edit_wiki',
-            'sensitive' => false,
-        ],
-        'wiki.delete' => [
-            'label' => 'permissions.delete_wiki',
             'sensitive' => false,
         ],
         'inventory.storage.view' => [

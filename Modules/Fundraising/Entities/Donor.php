@@ -97,7 +97,7 @@ class Donor extends Model
     }
     
     /**
-     * Get all of the tags for the wiki article.
+     * Get all of the tags for the donor.
      */
     public function tags()
     {
