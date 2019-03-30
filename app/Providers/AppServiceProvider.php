@@ -27,7 +27,6 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\BarberShopWidget::class => 3,
         \App\Widgets\LibraryWidget::class => 4,
         \App\Widgets\HelpersWidget::class => 5,
-        \App\Widgets\WikiArticlesWidget::class => 6,
         \App\Widgets\InventoryWidget::class => 7,
         \App\Widgets\ReportingWidget::class => 9,
         \App\Widgets\ToolsWidget::class => 10,

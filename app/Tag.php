@@ -40,7 +40,7 @@ class Tag extends Model
      */
     public function wikiArticles()
     {
-        return $this->morphedByMany('App\WikiArticle', 'taggable');
+        return $this->morphedByMany('Modules\Wiki\Entities\WikiArticle', 'taggable');
     }
 
     /**
