@@ -16,6 +16,6 @@ class WikiDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call(WikiArticleTableSeeder::class);
     }
 }

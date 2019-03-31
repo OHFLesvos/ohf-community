@@ -60,17 +60,7 @@ class ArticleController extends Controller
         $article->content = $request->content;
         $article->save();
 
-        $tags = self::splitTags($request->tags);
-        foreach($tags as $tag_str) {
-            $tag = Tag::where('name', $tag_str)->first();
-            if ($tag != null) {
-                $article->tags()->attach($tag);
-            } else {
-                $tag = new Tag();
-                $tag->name = $tag_str;
-                $article->tags()->save($tag);
-            }
-        }
+        $article->syncTags(self::splitTags($request->tags));
 
         return redirect()->route('wiki.articles.show', $article)
             ->with('info', __('wiki::wiki.article_created'));
@@ -117,20 +107,7 @@ class ArticleController extends Controller
         $article->content = $request->content;
         $article->save();
 
-        $tags = self::splitTags($request->tags);
-        $tag_ids = [];
-        foreach($tags as $tag_str) {
-            $tag = Tag::where('name', $tag_str)->first();
-            if ($tag != null) {
-                $tag_ids[] = $tag->id;
-            } else {
-                $tag = new Tag();
-                $tag->name = $tag_str;
-                $tag->save();
-                $tag_ids[] = $tag->id;
-            }
-        }
-        $article->tags()->sync($tag_ids);
+        $article->syncTags(self::splitTags($request->tags));
 
         return redirect()->route('wiki.articles.show', $article)
             ->with('info', __('wiki::wiki.article_updated'));

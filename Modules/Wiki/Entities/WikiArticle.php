@@ -2,9 +2,14 @@
 
 namespace Modules\Wiki\Entities;
 
+use App\Tag;
+
 use Illuminate\Database\Eloquent\Model;
+
 use Cviebrock\EloquentSluggable\Sluggable;
+
 use AustinHeap\Database\Encryption\Traits\HasEncryptedAttributes;
+
 use OwenIt\Auditing\Contracts\Auditable;
 
 class WikiArticle extends Model implements Auditable
@@ -43,6 +48,23 @@ class WikiArticle extends Model implements Auditable
     public function tags()
     {
         return $this->morphToMany('App\Tag', 'taggable');
+    }
+
+    public function syncTags(array $tags)
+    {
+        $tag_ids = [];
+        foreach($tags as $tag_str) {
+            $tag = Tag::where('name', $tag_str)->first();
+            if ($tag != null) {
+                $tag_ids[] = $tag->id;
+            } else {
+                $tag = new Tag();
+                $tag->name = $tag_str;
+                $tag->save();
+                $tag_ids[] = $tag->id;
+            }
+        }
+        $this->tags()->sync($tag_ids);
     }
 
     /**

@@ -33,3 +33,13 @@ $factory->define(App\Role::class, function (Faker\Generator $faker) {
         'name' => $faker->jobTitle,
     ];
 });
+
+/** 
+ * @var \Illuminate\Database\Eloquent\Factory $factory
+ */
+$factory->define(App\Tag::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+    ];
+});
+

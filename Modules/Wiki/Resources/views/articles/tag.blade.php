@@ -10,7 +10,7 @@
             <a href="{{ route('wiki.articles.show', $article) }}">{{ $article->title }}</a><br>
         @endforeach
         {{ $articles->links() }}
-        <p class="mt-2"><small>{{ trans_choice('wiki.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}</small></p>
+        <p class="mt-2"><small>{{ trans_choice('wiki::wiki.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}</small></p>
     @else
         @component('components.alert.info')
             @lang('wiki::wiki.no_articles_found')
