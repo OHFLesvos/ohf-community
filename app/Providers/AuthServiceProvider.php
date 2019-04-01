@@ -14,8 +14,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Role::class => \App\Policies\RolePolicy::class,
         \App\Person::class => \App\Policies\PersonPolicy::class,
         \App\Task::class => \App\Policies\TaskPolicy::class,
-        \App\CalendarEvent::class => \App\Policies\CalendarEventPolicy::class,
-        \App\CalendarResource::class => \App\Policies\Calendar\ResourcePolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
         \App\InventoryItemTransaction::class => \App\Policies\Inventory\ItemTransactionPolicy::class,
         \App\InventoryStorage::class => \App\Policies\Inventory\StoragePolicy::class,
@@ -109,22 +107,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.view_kitchen_reports',
             'sensitive' => false,
         ],
-        'calendar.events.view' => [
-            'label' => 'permissions.view_calendar_events',
-            'sensitive' => false,
-        ],
-        'calendar.events.create' => [
-            'label' => 'permissions.create_calendar_events',
-            'sensitive' => false,
-        ],
-        'calendar.events.manage' => [
-            'label' => 'permissions.manage_calendar_events',
-            'sensitive' => false,
-        ],
-        'calendar.resources.manage' => [
-            'label' => 'permissions.manage_calendar_resources',
-            'sensitive' => false,
-        ],
         'inventory.storage.view' => [
             'label' => 'permissions.view_inventory_storage',
             'sensitive' => false,
@@ -183,7 +165,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'configure-bank' => 'bank.configure',
         'use-logistics' => 'logistics.use',
         'view-kitchen-reports' => 'kitchen.reports.view',
-        'view-calendar' => 'calendar.events.view',
         'view-changelogs' => 'app.changelogs.view',
         'view-logs' => 'app.logs.view',
     ];

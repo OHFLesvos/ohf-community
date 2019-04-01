@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CouponTypesSeeder::class);
         $this->call(InventoryStorageSeeder::class);
 
-        $this->call(CalendarResourceSeeder::class);
         $this->call(PersonsTableSeeder::class);
         $this->call(InventoryItemTransactionSeeder::class);
         $this->call(LibraryBookSeeder::class);

@@ -277,11 +277,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::view('/tasks', 'tasks.tasklist')->name('tasks');
     });
 
-    // Calendar
-    Route::group(['middleware' => ['auth', 'can:view-calendar']], function () {
-        Route::get('/calendar', 'CalendarController@index')->name('calendar');
-    });
-
     Auth::routes();
     Route::get('/userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
 

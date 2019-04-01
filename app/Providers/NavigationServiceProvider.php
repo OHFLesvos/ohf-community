@@ -18,7 +18,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
         \App\Navigation\Drawer\BarberNavigationItem::class => 9,
         \App\Navigation\Drawer\LibraryNavigationItem::class => 10,
-        \App\Navigation\Drawer\CalendarNavigationItem::class => 11,
         \App\Navigation\Drawer\TasksNavigationItem::class => 12,
         \App\Navigation\Drawer\BadgesNavigationItem::class => 13,
         \App\Navigation\Drawer\ReportingNavigationItem::class => 14,
