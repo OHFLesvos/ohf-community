@@ -242,21 +242,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/reporting/articles/chart/{article}/transactionsPerWeek', 'Reporting\\ArticleReportingController@transactionsPerWeek')->name('reporting.articles.transactionsPerWeek');
         Route::get('/reporting/articles/chart/{article}/transactionsPerMonth', 'Reporting\\ArticleReportingController@transactionsPerMonth')->name('reporting.articles.transactionsPerMonth');
         Route::get('/reporting/articles/chart/{article}/avgTransactionsPerWeekDay', 'Reporting\\ArticleReportingController@avgTransactionsPerWeekDay')->name('reporting.articles.avgTransactionsPerWeekDay');
-
-        // Inventory
-        Route::namespace('Inventory')->prefix('inventory')->name('inventory.')->group(function(){
-            Route::resource('storages', 'StorageController');
-
-            Route::get('transactions/{storage}', 'ItemTransactionController@changes')->name('transactions.changes');
-
-            Route::get('transactions/{storage}/ingress', 'ItemTransactionController@ingress')->name('transactions.ingress');
-            Route::post('transactions/{storage}/ingress', 'ItemTransactionController@storeIngress')->name('transactions.storeIngress');
-
-            Route::get('transactions/{storage}/egress', 'ItemTransactionController@egress')->name('transactions.egress');
-            Route::post('transactions/{storage}/egress', 'ItemTransactionController@storeEgress')->name('transactions.storeEgress');
-
-            Route::delete('transactions/{storage}', 'ItemTransactionController@destroy')->name('transactions.destroy');
-        });
     });
 
     // Logistics

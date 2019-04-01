@@ -14,8 +14,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Role::class => \App\Policies\RolePolicy::class,
         \App\Person::class => \App\Policies\PersonPolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
-        \App\InventoryItemTransaction::class => \App\Policies\Inventory\ItemTransactionPolicy::class,
-        \App\InventoryStorage::class => \App\Policies\Inventory\StoragePolicy::class,
         \App\Helper::class => \App\Policies\People\HelperPolicy::class,
         \App\LibraryBook::class => \App\Policies\Library\LibraryBookPolicy::class,
         \App\LibraryLending::class => \App\Policies\Library\LibraryLendingPolicy::class,
@@ -100,22 +98,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         ],
         'kitchen.reports.view' => [
             'label' => 'permissions.view_kitchen_reports',
-            'sensitive' => false,
-        ],
-        'inventory.storage.view' => [
-            'label' => 'permissions.view_inventory_storage',
-            'sensitive' => false,
-        ],
-        'inventory.storage.manage' => [
-            'label' => 'permissions.manage_inventory_storage',
-            'sensitive' => false,
-        ],
-        'inventory.transactions.create' => [
-            'label' => 'permissions.create_inventory_transactions',
-            'sensitive' => false,
-        ],
-        'inventory.transactions.delete' => [
-            'label' => 'permissions.delete_inventory_transactions',
             'sensitive' => false,
         ],
         'app.usermgmt.view' => [

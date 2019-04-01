@@ -14,10 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesSeeder::class);
         $this->call(ProjectsSeeder::class);
         $this->call(CouponTypesSeeder::class);
-        $this->call(InventoryStorageSeeder::class);
-
         $this->call(PersonsTableSeeder::class);
-        $this->call(InventoryItemTransactionSeeder::class);
         $this->call(LibraryBookSeeder::class);
     }
 }

@@ -14,7 +14,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
         \App\Navigation\Drawer\HelpersNavigationItem::class => 3,
         \App\Navigation\Drawer\LogisticsNavigationItem::class => 4,
-        \App\Navigation\Drawer\InventoryStorageNavigationItem::class => 7,
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
         \App\Navigation\Drawer\BarberNavigationItem::class => 9,
         \App\Navigation\Drawer\LibraryNavigationItem::class => 10,
@@ -101,14 +100,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'logistics.articles.index' => \App\Navigation\ContextButtons\LogisticsArticleIndexContextButtons::class,
         'logistics.articles.edit' => \App\Navigation\ContextButtons\LogisticsArticleEditContextButtons::class,
-        
-        'inventory.storages.index' => \App\Navigation\ContextButtons\InventoryStorageIndexContextButtons::class,
-        'inventory.storages.create' => \App\Navigation\ContextButtons\InventoryStorageCreateContextButtons::class,
-        'inventory.storages.show' => \App\Navigation\ContextButtons\InventoryStorageShowContextButtons::class,
-        'inventory.storages.edit' => \App\Navigation\ContextButtons\InventoryStorageEditContextButtons::class,
-        'inventory.transactions.changes' => \App\Navigation\ContextButtons\InventoryTransactionChangesContextButtons::class,
-        'inventory.transactions.ingress' => \App\Navigation\ContextButtons\InventoryReturnToStorageContextButtons::class,
-        'inventory.transactions.egress' => \App\Navigation\ContextButtons\InventoryReturnToStorageContextButtons::class,
 
         'badges.selection' => \App\Navigation\ContextButtons\BadgeSelectionContextButtons::class,
         
