@@ -4,7 +4,7 @@
         <div v-if='emptyList' class="alert alert-info">There are no tasks yet.</div>
         <ul class="list-group mb-2">
             <!-- List existing tasks -->
-            <li class="list-group-item" v-for="(task, index) in list">
+            <li class="list-group-item" v-for="task in list" :key="task.id">
                 <form v-if="editTask == task" action="#" @submit.prevent="updateTask(task.id)">
                     <div class="form-group">
                         <input v-model="editTask.description" type="text" name="description" class="form-control" autocomplete="off" v-focus>

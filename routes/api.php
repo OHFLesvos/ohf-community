@@ -18,11 +18,7 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['middleware' => ['auth']], function () {
-
-    // Tasks
-    Route::resource('tasks', 'TasksController');
-    Route::put('/tasks/{task}/done', 'TasksController@done');
-   
+ 
     //
     // Bank
     //

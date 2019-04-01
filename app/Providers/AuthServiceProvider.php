@@ -13,7 +13,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\User::class => \App\Policies\UserPolicy::class,
         \App\Role::class => \App\Policies\RolePolicy::class,
         \App\Person::class => \App\Policies\PersonPolicy::class,
-        \App\Task::class => \App\Policies\TaskPolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
         \App\InventoryItemTransaction::class => \App\Policies\Inventory\ItemTransactionPolicy::class,
         \App\InventoryStorage::class => \App\Policies\Inventory\StoragePolicy::class,
@@ -97,10 +96,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         ],
         'logistics.use' => [
             'label' => 'permissions.use_logistics',
-            'sensitive' => false,
-        ],
-        'tasks.use' => [
-            'label' => 'permissions.use_tasks',
             'sensitive' => false,
         ],
         'kitchen.reports.view' => [

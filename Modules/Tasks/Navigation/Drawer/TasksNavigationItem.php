@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Navigation\Drawer;
+namespace Modules\Tasks\Navigation\Drawer;
 
-use App\Task;
+use App\Navigation\Drawer\BaseNavigationItem;
+
+use Modules\Tasks\Entities\Task;
+
 use Illuminate\Support\Facades\Auth;
 
 class TasksNavigationItem extends BaseNavigationItem {
 
     protected $route = 'tasks';
 
-    protected $caption = 'tasks.tasks';
+    protected $caption = 'tasks::tasks.tasks';
 
     protected $icon = 'tasks';
 

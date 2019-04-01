@@ -20,7 +20,6 @@ return [
     'manage_helpers_casework' => 'Helfer: Fallarbeitsdaten bearbeiten',
     'create_badges' => 'Badges: Badges erstellen',
     'use_logistics' => 'Logistikmodul benutzen',
-    'use_tasks' => 'Aufgabenmodul benutzen',
     'view_kitchen_reports' => 'Küche: Berichte betrachten',
     'view_inventory_storage' => 'Inventar: Lager betrachten',
     'manage_inventory_storage' => 'Inventar: Lager verwalten',

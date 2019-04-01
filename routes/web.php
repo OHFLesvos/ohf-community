@@ -271,12 +271,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::delete('/logistics/articles/{article}', 'ArticleController@destroyArticle')->name('logistics.articles.destroyArticle');
     });
 
-    // Tasks
-    Route::group(['middleware' => ['auth']], function () {
-        // TODO Add authorization: Auth::user()->can('list', Task::class)
-        Route::view('/tasks', 'tasks.tasklist')->name('tasks');
-    });
-
     Auth::routes();
     Route::get('/userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
 

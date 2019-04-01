@@ -73,7 +73,8 @@ class User extends Authenticatable
 
     public function tasks()
     {
-        return $this->hasMany('App\Task');
+        // TODO: Modularize
+        return $this->hasMany('Modules\Tasks\Entities\Task');
     }
 
     public function transactions()

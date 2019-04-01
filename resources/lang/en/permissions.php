@@ -20,7 +20,6 @@ return [
     'manage_helpers_casework' => 'Helpers: Manage casework',
     'create_badges' => 'Badges: Create badges',
     'use_logistics' => 'Use logistics',
-    'use_tasks' => 'Use tasks',
     'view_kitchen_reports' => 'Kitchen: View reports',
     'view_inventory_storage' => 'Inventory: View storages',
     'manage_inventory_storage' => 'Inventory: Manage storages',
