@@ -19,8 +19,6 @@ return [
     'view_helpers_casework' => 'Helpers: View casework',
     'manage_helpers_casework' => 'Helpers: Manage casework',
     'create_badges' => 'Badges: Create badges',
-    'use_logistics' => 'Use logistics',
-    'view_kitchen_reports' => 'Kitchen: View reports',
     'view_usermgmt' => 'User management: View users and roles',
     'usermgmt_manage_users' => 'User management: Create, edit and delete users',
     'usermgmt_manage_roles' => 'User management: Create, edit and delete roles',

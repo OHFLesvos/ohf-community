@@ -19,8 +19,6 @@ return [
     'view_helpers_casework' => 'Helfer: Fallarbeitsdaten anzeigen',
     'manage_helpers_casework' => 'Helfer: Fallarbeitsdaten bearbeiten',
     'create_badges' => 'Badges: Badges erstellen',
-    'use_logistics' => 'Logistikmodul benutzen',
-    'view_kitchen_reports' => 'Küche: Berichte betrachten',
     'view_usermgmt' => 'Benutzerverwaltung: Benutzer und Rollen betrachten',
     'usermgmt_manage_users' => 'Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen',
     'usermgmt_manage_roles' => 'Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen',

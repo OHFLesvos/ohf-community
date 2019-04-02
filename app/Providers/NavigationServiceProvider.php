@@ -13,7 +13,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\PeopleNavigationItem::class => 1,
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
         \App\Navigation\Drawer\HelpersNavigationItem::class => 3,
-        \App\Navigation\Drawer\LogisticsNavigationItem::class => 4,
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
         \App\Navigation\Drawer\BarberNavigationItem::class => 9,
         \App\Navigation\Drawer\LibraryNavigationItem::class => 10,
@@ -98,9 +97,6 @@ class NavigationServiceProvider extends ServiceProvider
         'library.books.create' => \App\Navigation\ContextButtons\LibraryBookCreateContextButtons::class,
         'library.books.edit' => \App\Navigation\ContextButtons\LibraryBookEditContextButtons::class,
 
-        'logistics.articles.index' => \App\Navigation\ContextButtons\LogisticsArticleIndexContextButtons::class,
-        'logistics.articles.edit' => \App\Navigation\ContextButtons\LogisticsArticleEditContextButtons::class,
-
         'badges.selection' => \App\Navigation\ContextButtons\BadgeSelectionContextButtons::class,
         
         'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
@@ -108,8 +104,6 @@ class NavigationServiceProvider extends ServiceProvider
         'reporting.bank.withdrawals' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.bank.deposits' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.privacy' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.articles' => \App\Navigation\ContextButtons\ReportingArticlesContextButtons::class,
-        'reporting.article' => \App\Navigation\ContextButtons\ReportingArticleContextButtons::class,
     ];
 
     /**

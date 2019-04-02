@@ -9,10 +9,6 @@ use App\CouponReturn;
 
 class Project extends Model
 {
-    public function articles() {
-        return $this->hasMany('App\Article');
-    }
-
     public function couponReturns() {
         return $this->hasMany('App\CouponReturn');
     }

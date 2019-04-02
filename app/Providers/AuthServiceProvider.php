@@ -92,14 +92,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.create_badges',
             'sensitive' => false,
         ],
-        'logistics.use' => [
-            'label' => 'permissions.use_logistics',
-            'sensitive' => false,
-        ],
-        'kitchen.reports.view' => [
-            'label' => 'permissions.view_kitchen_reports',
-            'sensitive' => false,
-        ],
         'app.usermgmt.view' => [
             'label' => 'permissions.view_usermgmt',
             'sensitive' => true,
@@ -137,11 +129,9 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'configure-library' => 'library.configure',
         'view-bank-reports' => 'bank.statistics.view',
         'view-people-reports' => 'people.reports.view',
-        'view-reports' => ['people.reports.view', 'bank.statistics.view', 'kitchen.reports.view', 'app.usermgmt.view'],
+        'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'],
         'view-usermgmt-reports' => 'app.usermgmt.view',
         'configure-bank' => 'bank.configure',
-        'use-logistics' => 'logistics.use',
-        'view-kitchen-reports' => 'kitchen.reports.view',
         'view-changelogs' => 'app.changelogs.view',
         'view-logs' => 'app.logs.view',
     ];
