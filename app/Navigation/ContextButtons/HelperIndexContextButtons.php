@@ -12,7 +12,7 @@ class HelperIndexContextButtons implements ContextButtons {
 
     public function getItems(View $view): array
     {
-        return [
+        $items = [
             'action' => [
                 'url' => route('people.helpers.createFrom'),
                 'caption' => __('app.register'),
@@ -25,14 +25,17 @@ class HelperIndexContextButtons implements ContextButtons {
                 'caption' => __('app.report'),
                 'icon' => 'bar-chart',
                 'authorized' => Auth::user()->can('list', Helper::class)
-            ],                    
-            'badges' => [
+            ],
+        ];
+        if (in_array('Badges', \Module::allEnabled())) {
+            $items['badges'] = [
                 'url' => route('badges.index', ['source' => 'helpers']),
-                'caption' => __('people.badges'),
+                'caption' => __('badges::badges.badges'),
                 'icon' => 'id-card',
                 'authorized' => Auth::user()->can('list', Helper::class) && Gate::allows('create-badges')
-            ], 
-        ];
+            ];
+        }
+        return $items;      
     }
 
 }

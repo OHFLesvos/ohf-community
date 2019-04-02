@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Navigation\Drawer;
+namespace Modules\Badges\Navigation\Drawer;
+
+use App\Navigation\Drawer\BaseNavigationItem;
 
 use Illuminate\Support\Facades\Gate;
 
@@ -8,7 +10,7 @@ class BadgesNavigationItem extends BaseNavigationItem {
 
     protected $route = 'badges.index';
 
-    protected $caption = 'people.badges';
+    protected $caption = 'badges::badges.badges';
 
     protected $icon = 'id-card';
 

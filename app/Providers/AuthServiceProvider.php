@@ -88,10 +88,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.manage_helpers_casework',
             'sensitive' => true,
         ],
-        'badges.create' => [
-            'label' => 'permissions.create_badges',
-            'sensitive' => false,
-        ],
         'app.usermgmt.view' => [
             'label' => 'permissions.view_usermgmt',
             'sensitive' => true,
@@ -117,7 +113,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     protected $permission_gate_mappings = [
         'manage-people' => 'people.manage',
         'manage-helpers' => 'people.helpers.manage',
-        'create-badges' => 'badges.create',
         'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
         'do-bank-withdrawals' => 'bank.withdrawals.do',
         'do-bank-deposits' => 'bank.deposits.do',

@@ -212,8 +212,6 @@ return [
     'scope' => 'Scope',
     'include_portraits' => 'Include Portraits',
     'image_will_be_croped_resized_to_2_3_aspect_ratio' => 'Image will be cropped/resized to 2:3 aspect ratio if necessary.',
-    'badge' => 'Badge',
-    'badges' => 'Badges',
     'add_helper' => 'Add helper',
     'validity_in_days' => 'Validity in days',
     'file_must_be_excel_cvs_containing_columns_name_position' => 'File must be in Excel or CSV format and contain the columns \'Name\', \'Position\' and optional \'Code\'.',

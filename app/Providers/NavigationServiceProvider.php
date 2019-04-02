@@ -16,7 +16,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
         \App\Navigation\Drawer\BarberNavigationItem::class => 9,
         \App\Navigation\Drawer\LibraryNavigationItem::class => 10,
-        \App\Navigation\Drawer\BadgesNavigationItem::class => 13,
         \App\Navigation\Drawer\ReportingNavigationItem::class => 14,
         \App\Navigation\Drawer\UsersNavigationItem::class => 15,
         \App\Navigation\Drawer\LogViewerNavigationItem::class => 16,
@@ -96,8 +95,6 @@ class NavigationServiceProvider extends ServiceProvider
         'library.books.index' => \App\Navigation\ContextButtons\LibraryBookIndexContextButtons::class,
         'library.books.create' => \App\Navigation\ContextButtons\LibraryBookCreateContextButtons::class,
         'library.books.edit' => \App\Navigation\ContextButtons\LibraryBookEditContextButtons::class,
-
-        'badges.selection' => \App\Navigation\ContextButtons\BadgeSelectionContextButtons::class,
         
         'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.people' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,

@@ -1,0 +1,14 @@
+{
+    "name": "Badges",
+    "alias": "badges",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Badges\\Providers\\BadgesServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

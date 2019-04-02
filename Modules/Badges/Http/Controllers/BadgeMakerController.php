@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Badges\Http\Controllers;
+
+use App\Helper;
+use App\Http\Controllers\Controller;
+
+use Modules\Badges\Util\BadgeCreator;
+use Modules\Badges\Imports\BadgeImport;
 
 use Illuminate\Http\Request;
-use App\Util\BadgeCreator;
-use App\Helper;
-use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
-use App\Imports\BadgeImport;
+
+use Validator;
 
 class BadgeMakerController extends Controller
 {
@@ -44,7 +48,7 @@ class BadgeMakerController extends Controller
             ? $request->source
             : $sources->keys()->first();
 
-        return view('badges.index', [
+        return view('badges::index', [
             'source' => $source,
             'sources' => $sources,
         ]);
@@ -118,7 +122,7 @@ class BadgeMakerController extends Controller
         });
         $request->session()->put(self::BADGE_ITEMS_SESSION_KEY, $data->toArray());
 
-        return view('badges.selection', [
+        return view('badges::selection', [
             'persons' => $data->map(function($e){ 
                 return $e['name'] . ($e['position'] != null ? ' (' . $e['position'] . ')' : '');
             })->toArray(),
@@ -167,7 +171,7 @@ class BadgeMakerController extends Controller
                 ->with('error', __('app.empty_data_source'));
         }    
 
-        $title = __('people.badges');
+        $title = __('badges::badges.badges');
 
         $badgeCreator = new BadgeCreator($persons);
         if ($request->hasFile('alt_logo')) {

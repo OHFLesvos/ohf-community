@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Util;
+namespace Modules\Badges\Util;
 
 use Carbon\Carbon;
+
 use Mpdf\Mpdf;
 use \Mpdf\Output;
 

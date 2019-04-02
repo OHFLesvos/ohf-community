@@ -40,6 +40,7 @@ class Tag extends Model
      */
     public function wikiArticles()
     {
+        // TODO: Modularization
         return $this->morphedByMany('Modules\Wiki\Entities\WikiArticle', 'taggable');
     }
 
