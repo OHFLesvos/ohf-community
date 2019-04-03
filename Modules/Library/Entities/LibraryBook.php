@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 use Iatstuti\Database\Support\NullableFields;
 
-use Biblys\Isbn\Isbn as Isbn;
+use Nicebooks\Isbn\Isbn;
+use Nicebooks\Isbn\InvalidIsbnException;
+use Nicebooks\Isbn\IsbnNotConvertibleException;
 
 class LibraryBook extends Model
 {
@@ -25,12 +27,13 @@ class LibraryBook extends Model
     public function setIsbnAttribute($value) {
         if ($value != null) {
             $val = preg_replace('/[^+0-9x]/i', '', $value);
-            $isbn = new Isbn($val);
-            if ($isbn->isValid()) {
-                $this->attributes['isbn10'] = preg_replace('/[^+0-9x]/i', '', $isbn->format('ISBN-10'));
-                $this->attributes['isbn13'] = preg_replace('/[^+0-9x]/i', '', $isbn->format('ISBN-13'));
+            try {
+                $isbn = Isbn::of($val);
+                $this->attributes['isbn10'] = preg_replace('/[^+0-9x]/i', '', $isbn->to10()->format());
+                $this->attributes['isbn13'] = preg_replace('/[^+0-9x]/i', '', $isbn->to13()->format());
                 return;
-            }
+            } catch (InvalidIsbnException $e) {}
+            catch (IsbnNotConvertibleException $e) {}
         }
         $this->attributes['isbn10'] = null;
         $this->attributes['isbn13'] = null;
@@ -38,10 +41,8 @@ class LibraryBook extends Model
 
     public function getIsbnAttribute() {
         if ($this->isbn13 != null) {
-            $isbn = new Isbn($this->isbn13);
-            if ($isbn->isValid()) {
-                return $isbn->format('ISBN-13');
-            }
+            $isbn = Isbn::of($this->isbn13);
+            return $isbn->format();
         }
         return null;
     }

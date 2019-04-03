@@ -4,6 +4,8 @@ namespace Modules\Library\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
+use Nicebooks\Isbn\IsbnTools;
+
 class Isbn implements Rule
 {
     /**
@@ -30,8 +32,8 @@ class Isbn implements Rule
      */
     public function passes($attribute, $value)
     {
-        $isbn = new \Biblys\Isbn\Isbn($value);
-        return $isbn->isValid();
+        $tools = new IsbnTools();
+        return $tools->isValidIsbn($value);
     }
 
     /**

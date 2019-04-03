@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "161967061a583bb6e205e17ac9abb892",
-    "content-hash": "bd60c4d2bd624b5971b835568ad71064",
+    "hash": "85068cb0aaa242d7de1b13b9c42d3a47",
+    "content-hash": "2761e2feb968cffaac2f4040c55d8dc7",
     "packages": [
         {
             "name": "akaunting/language",
@@ -354,52 +354,6 @@
                 "transliterator"
             ],
             "time": "2017-04-04 11:38:05"
-        },
-        {
-            "name": "biblys/isbn",
-            "version": "2.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/biblys/isbn.git",
-                "reference": "39b4491cace435e388022aa7fbaa20bb73be06c3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/biblys/isbn/zipball/39b4491cace435e388022aa7fbaa20bb73be06c3",
-                "reference": "39b4491cace435e388022aa7fbaa20bb73be06c3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^6.2",
-                "phpunit/phpunit": "^5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Biblys": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Clement Bourgoin",
-                    "email": "cb@nokto.net"
-                }
-            ],
-            "description": "A PHP library to convert and validate ISBNs & EANs",
-            "homepage": "https://github.com/biblys/isbn",
-            "keywords": [
-                "ISBN",
-                "book",
-                "ean"
-            ],
-            "time": "2019-02-07 00:00:00"
         },
         {
             "name": "cocur/slugify",
@@ -2207,16 +2161,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "3.1.10",
+            "version": "3.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "6a66d5af480bd6f46f689b6ebe2e84912694f311"
+                "reference": "8576af60a456bcead31a2d2d9cf03dea0598860e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/6a66d5af480bd6f46f689b6ebe2e84912694f311",
-                "reference": "6a66d5af480bd6f46f689b6ebe2e84912694f311",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/8576af60a456bcead31a2d2d9cf03dea0598860e",
+                "reference": "8576af60a456bcead31a2d2d9cf03dea0598860e",
                 "shasum": ""
             },
             "require": {
@@ -2271,7 +2225,7 @@
                 "php",
                 "phpspreadsheet"
             ],
-            "time": "2019-03-18 15:57:28"
+            "time": "2019-03-19 10:54:38"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -2921,6 +2875,49 @@
                 "time"
             ],
             "time": "2018-03-19 15:50:49"
+        },
+        {
+            "name": "nicebooks/isbn",
+            "version": "0.2.20",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nicebooks-com/isbn.git",
+                "reference": "ba700a428666a4e831c1db04e67eb7397602f4fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nicebooks-com/isbn/zipball/ba700a428666a4e831c1db04e67eb7397602f4fe",
+                "reference": "ba700a428666a4e831c1db04e67eb7397602f4fe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "php-coveralls/php-coveralls": "2.*",
+                "phpunit/phpunit": "7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nicebooks\\Isbn\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "ISBN tools",
+            "keywords": [
+                "ISBN",
+                "ISBN-10",
+                "ISBN-13",
+                "Nicebooks",
+                "book",
+                "books"
+            ],
+            "time": "2019-03-26 13:29:29"
         },
         {
             "name": "nikic/php-parser",
