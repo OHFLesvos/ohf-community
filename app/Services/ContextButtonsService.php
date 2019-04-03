@@ -13,11 +13,11 @@ class ContextButtonsService {
         $this->buttons[$routeName] = $buttonsClass;
     }
 
-    public function get(string $routeName, View $view)
+    public function get(string $routeName, View $view): array
     {
         if (isset($this->buttons[$routeName])) {
             $buttons = new $this->buttons[$routeName]();
-            return $buttons->getItems($view);
+            return collect($buttons->getItems($view))->filter()->toArray();
         }
         return [];
     }

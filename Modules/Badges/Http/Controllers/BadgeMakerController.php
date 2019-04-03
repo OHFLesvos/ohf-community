@@ -20,7 +20,12 @@ class BadgeMakerController extends Controller
     private const BADGE_ITEMS_SESSION_KEY = 'badge_items';
 
     private static function getSources() {
-        $sources =[
+        $sources = [
+            is_module_enabled('Helpers') ? [
+                'key' => 'helpers',
+                'label' => __('helpers::helpers.helpers'),
+                'allowed' => Auth::user()->can('list', Helper::class),
+            ] : null,
             [
                 'key' => 'file',
                 'label' => __('app.file'),
@@ -32,16 +37,7 @@ class BadgeMakerController extends Controller
                 'allowed' => true,
             ],
         ];
-        if (in_array('Helpers', \Module::allEnabled())) {
-            array_unshift($sources, 
-                [
-                    'key' => 'helpers',
-                    'label' => __('helpers::helpers.helpers'),
-                    'allowed' => Auth::user()->can('list', Helper::class),
-                ]
-            );
-        }
-        return collect($sources)->where('allowed', true)->pluck('label', 'key');
+        return collect($sources)->filter()->where('allowed', true)->pluck('label', 'key');
     }
 
     public function index(Request $request) {
@@ -77,7 +73,7 @@ class BadgeMakerController extends Controller
         $persons = [];
         
         // Source: Helpers
-        if (in_array('Helpers', \Module::allEnabled()) && $request->source == 'helpers') {
+        if (is_module_enabled('Helpers') && $request->source == 'helpers') {
             $persons = Helper::active()
                 ->get()
                 ->map(function($helper){ return self::helperToBadgePerson($helper); });

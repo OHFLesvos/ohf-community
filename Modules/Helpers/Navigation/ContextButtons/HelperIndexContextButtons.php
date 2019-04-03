@@ -14,7 +14,7 @@ class HelperIndexContextButtons implements ContextButtons {
 
     public function getItems(View $view): array
     {
-        $items = [
+        return [
             'action' => [
                 'url' => route('people.helpers.createFrom'),
                 'caption' => __('app.register'),
@@ -28,16 +28,13 @@ class HelperIndexContextButtons implements ContextButtons {
                 'icon' => 'bar-chart',
                 'authorized' => Auth::user()->can('list', Helper::class)
             ],
-        ];
-        if (in_array('Badges', \Module::allEnabled())) {
-            $items['badges'] = [
+            'badges' => is_module_enabled('Badges') ? [
                 'url' => route('badges.index', ['source' => 'helpers']),
                 'caption' => __('badges::badges.badges'),
                 'icon' => 'id-card',
                 'authorized' => Auth::user()->can('list', Helper::class) && Gate::allows('create-badges')
-            ];
-        }
-        return $items;      
+            ] : null,
+        ];
     }
 
 }
