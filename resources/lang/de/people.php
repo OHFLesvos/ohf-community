@@ -138,8 +138,6 @@ return [
     'child' => 'Kind',
     'with_qr_code' => 'Coupons mit QR-Code',
     'qr_code' => 'QR-Code',
-    'helper' => 'Helfer',
-    'helpers' => 'Helfer',
     'no_helpers_found' => 'Keine Helfer gefunden.',
     'view_helper' => 'Helfer anzeigen',
     'application_date' => 'Bewerbungsdatum',

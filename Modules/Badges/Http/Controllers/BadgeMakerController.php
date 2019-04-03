@@ -2,15 +2,15 @@
 
 namespace Modules\Badges\Http\Controllers;
 
-use App\Helper;
 use App\Http\Controllers\Controller;
+
+use Modules\Helpers\Entities\Helper;
 
 use Modules\Badges\Util\BadgeCreator;
 use Modules\Badges\Imports\BadgeImport;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
@@ -20,12 +20,7 @@ class BadgeMakerController extends Controller
     private const BADGE_ITEMS_SESSION_KEY = 'badge_items';
 
     private static function getSources() {
-        $sources = [
-            [
-                'key' => 'helpers',
-                'label' => __('people.helpers'),
-                'allowed' => Auth::user()->can('list', Helper::class),
-            ],
+        $sources =[
             [
                 'key' => 'file',
                 'label' => __('app.file'),
@@ -37,6 +32,15 @@ class BadgeMakerController extends Controller
                 'allowed' => true,
             ],
         ];
+        if (in_array('Helpers', \Module::allEnabled())) {
+            array_unshift($sources, 
+                [
+                    'key' => 'helpers',
+                    'label' => __('helpers::helpers.helpers'),
+                    'allowed' => Auth::user()->can('list', Helper::class),
+                ]
+            );
+        }
         return collect($sources)->where('allowed', true)->pluck('label', 'key');
     }
 
@@ -55,7 +59,7 @@ class BadgeMakerController extends Controller
     }
 
     public function selection(Request $request) {
-        $validator = Validator::make($request->all(), [
+        Validator::make($request->all(), [
             'source' => [
                 'required',
                 Rule::in(self::getSources()->keys()),
@@ -71,10 +75,9 @@ class BadgeMakerController extends Controller
         ])->validate();
 
         $persons = [];
-        $title = null;
         
         // Source: Helpers
-        if ($request->source == 'helpers') {
+        if (in_array('Helpers', \Module::allEnabled()) && $request->source == 'helpers') {
             $persons = Helper::active()
                 ->get()
                 ->map(function($helper){ return self::helperToBadgePerson($helper); });

@@ -8,10 +8,10 @@
                 @if(optional($person->helper)->isActive)
                     @can('view', $person->helper)
                         <strong>
-                            <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('people.helper')) }}</a>
+                            <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('helpers::helpers.helper')) }}</a>
                         </strong>
                     @else
-                        <strong class="text-warning">{{ strtoupper(__('people.helper')) }}</strong>
+                        <strong class="text-warning">{{ strtoupper(__('helpers::helpers.helper')) }}</strong>
                     @endcan
                 @endif
                 <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ strtoupper($person->family_name) }} {{ $person->name }}</strong></a>

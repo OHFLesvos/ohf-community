@@ -138,8 +138,6 @@ return [
     'child' => 'Child',
     'with_qr_code' => 'Coupons with QR code',
     'qr_code' => 'QR-Code',
-    'helper' => 'Helper',
-    'helpers' => 'Helpers',
     'no_helpers_found' => 'No helpers found.',
     'view_helper' => 'View helper',
     'application_date' => 'Application Date',

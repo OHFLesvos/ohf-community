@@ -12,7 +12,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\HomeNavigationItem::class => 0,
         \App\Navigation\Drawer\PeopleNavigationItem::class => 1,
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
-        \App\Navigation\Drawer\HelpersNavigationItem::class => 3,
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
         \App\Navigation\Drawer\BarberNavigationItem::class => 9,
         \App\Navigation\Drawer\LibraryNavigationItem::class => 10,
@@ -25,7 +24,6 @@ class NavigationServiceProvider extends ServiceProvider
         'people.index' => \App\Navigation\ContextMenu\PeopleContextMenu::class,
         'bank.withdrawal' => \App\Navigation\ContextMenu\BankWithdrawalContextMenu::class,
         'bank.withdrawalSearch' => \App\Navigation\ContextMenu\BankWithdrawalContextMenu::class,
-        'people.helpers.index' => \App\Navigation\ContextMenu\HelpersContextMenu::class,
     ];
 
     protected $contextButtons = [
@@ -52,15 +50,6 @@ class NavigationServiceProvider extends ServiceProvider
         'people.edit' => \App\Navigation\ContextButtons\PeopleEditContextButtons::class,
         'people.duplicates' => \App\Navigation\ContextButtons\PeopleDuplicatesContextButtons::class,
         'people.import' => \App\Navigation\ContextButtons\PeopleImportContextButtons::class,
-        
-        'people.helpers.index' => \App\Navigation\ContextButtons\HelperIndexContextButtons::class,
-        'people.helpers.show' => \App\Navigation\ContextButtons\HelperShowContextButtons::class,
-        'people.helpers.edit' => \App\Navigation\ContextButtons\HelpersEditContextButtons::class,
-        'people.helpers.create' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
-        'people.helpers.createFrom' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
-        'people.helpers.import' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
-        'people.helpers.export' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
-        'people.helpers.report' => \App\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
         
         'bank.withdrawal' => \App\Navigation\ContextButtons\BankIndexContextButtons::class,
         'bank.withdrawalSearch' => \App\Navigation\ContextButtons\BankIndexContextButtons::class,

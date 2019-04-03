@@ -166,23 +166,6 @@ Route::group(['middleware' => 'language'], function () {
             Route::put('settings', 'LibrarySettingsController@update')->name('settings.update')->middleware(['can:configure-library']);
         });
 
-        // Helpers
-        Route::namespace('People\Helpers')->name('people.')->group(function(){
-            Route::get('helpers/report', 'HelperListController@report')->name('helpers.report')->middleware('can:list,App\Helper');
-            Route::get('helpers/report/ages', 'HelperListController@ages')->name('helpers.report.ages');
-            Route::get('helpers/report/nationalities', 'HelperListController@nationalities')->name('helpers.report.nationalities');
-            Route::get('helpers/report/genderDistribution', 'HelperListController@genderDistribution')->name('helpers.report.genderDistribution');
-            Route::get('helpers/export', 'HelperListController@export')->name('helpers.export')->middleware('can:export,App\Helper');
-            Route::post('helpers/doExport', 'HelperListController@doExport')->name('helpers.doExport')->middleware('can:export,App\Helper');
-            Route::get('helpers/import', 'HelperListController@import')->name('helpers.import')->middleware('can:import,App\Helper');
-            Route::post('helpers/doImport', 'HelperListController@doImport')->name('helpers.doImport')->middleware('can:import,App\Helper');
-            Route::get('helpers/createFrom', 'HelperListController@createFrom')->name('helpers.createFrom')->middleware('can:create,App\Helper');
-            Route::post('helpers/createFrom', 'HelperListController@storeFrom')->name('helpers.storeFrom')->middleware('can:create,App\Helper');
-            Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')->name('helpers.vcard');
-            Route::get('helpers/filterPersons', 'HelperListController@filterPersons')->name('helpers.filterPersons')->middleware('can:list,App\Person');
-            Route::resource('helpers', 'HelperListController');
-        });
-
         //
         // Reporting
         //

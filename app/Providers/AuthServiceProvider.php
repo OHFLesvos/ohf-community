@@ -14,7 +14,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Role::class => \App\Policies\RolePolicy::class,
         \App\Person::class => \App\Policies\PersonPolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
-        \App\Helper::class => \App\Policies\People\HelperPolicy::class,
         \App\LibraryBook::class => \App\Policies\Library\LibraryBookPolicy::class,
         \App\LibraryLending::class => \App\Policies\Library\LibraryLendingPolicy::class,
     ];
@@ -72,22 +71,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.configure_bank',
             'sensitive' => false,
         ],
-        'people.helpers.view' => [
-            'label' => 'permissions.view_helpers',
-            'sensitive' => true,
-        ],
-        'people.helpers.manage' => [
-            'label' => 'permissions.manage_helpers',
-            'sensitive' => true,
-        ],
-        'people.helpers.casework.view' => [
-            'label' => 'permissions.view_helpers_casework',
-            'sensitive' => true,
-        ],
-        'people.helpers.casework.manage' => [
-            'label' => 'permissions.manage_helpers_casework',
-            'sensitive' => true,
-        ],
         'app.usermgmt.view' => [
             'label' => 'permissions.view_usermgmt',
             'sensitive' => true,
@@ -112,7 +95,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
 
     protected $permission_gate_mappings = [
         'manage-people' => 'people.manage',
-        'manage-helpers' => 'people.helpers.manage',
         'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
         'do-bank-withdrawals' => 'bank.withdrawals.do',
         'do-bank-deposits' => 'bank.deposits.do',
@@ -129,11 +111,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'configure-bank' => 'bank.configure',
         'view-changelogs' => 'app.changelogs.view',
         'view-logs' => 'app.logs.view',
-    ];
-   
-    protected $permission_gate_mappings_no_super_admin = [
-        'view-helpers-casework' => 'people.helpers.casework.view',
-        'manage-helpers-casework' => 'people.helpers.casework.manage',
     ];
 
 }
