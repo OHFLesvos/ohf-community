@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
-use App\Rules\Isbn;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -14,7 +13,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\PersonsWidget::class  => 1,
         \App\Widgets\ShopWidget::class => 2,
         \App\Widgets\BarberShopWidget::class => 3,
-        \App\Widgets\LibraryWidget::class => 4,
         \App\Widgets\ReportingWidget::class => 9,
         \App\Widgets\ToolsWidget::class => 10,
         \App\Widgets\UsersWidget::class => 11,
@@ -98,7 +95,6 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('country_code', CountryCode::class);
         Validator::extend('country_name', CountryName::class);
-        Validator::extend('isbn', Isbn::class);
 
         $this->registerDashboardWidgets();
     }

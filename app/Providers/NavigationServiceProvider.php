@@ -14,7 +14,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
         \App\Navigation\Drawer\ShopNavigationItem::class => 8,
         \App\Navigation\Drawer\BarberNavigationItem::class => 9,
-        \App\Navigation\Drawer\LibraryNavigationItem::class => 10,
         \App\Navigation\Drawer\ReportingNavigationItem::class => 14,
         \App\Navigation\Drawer\UsersNavigationItem::class => 15,
         \App\Navigation\Drawer\LogViewerNavigationItem::class => 16,
@@ -72,18 +71,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'shop.barber.index' => \App\Navigation\ContextButtons\BarberContextButtons::class,
         'shop.barber.settings.edit' => \App\Navigation\ContextButtons\BarberSettingsContextButtons::class,
-        
-        'library.lending.index' => \App\Navigation\ContextButtons\LibraryLendingIndexContextButtons::class,
-        'library.settings.edit' => \App\Navigation\ContextButtons\LibrarySettingsContextButtons::class,
-        'library.lending.persons' => \App\Navigation\ContextButtons\LibraryReturnToIndexContextButtons::class,
-        'library.lending.books' => \App\Navigation\ContextButtons\LibraryReturnToIndexContextButtons::class,
-        'library.lending.person' => \App\Navigation\ContextButtons\LibraryLendingPersonContextButtons::class,
-        'library.lending.personLog' => \App\Navigation\ContextButtons\LibraryLendingPersonLogContextButtons::class,
-        'library.lending.book' => \App\Navigation\ContextButtons\LibraryLendingBookContextButtons::class,
-        'library.lending.bookLog' => \App\Navigation\ContextButtons\LibraryLendingBookLogContextButtons::class,
-        'library.books.index' => \App\Navigation\ContextButtons\LibraryBookIndexContextButtons::class,
-        'library.books.create' => \App\Navigation\ContextButtons\LibraryBookCreateContextButtons::class,
-        'library.books.edit' => \App\Navigation\ContextButtons\LibraryBookEditContextButtons::class,
         
         'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.people' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,

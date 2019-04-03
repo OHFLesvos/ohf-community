@@ -12,8 +12,6 @@ return [
     'configure_shop' => 'Markt: Einstellungen bearbeiten',
     'view_barber_shop_list' => 'Frisör: Reservationen anzeigen',
     'configure_barber_shop_list' => 'Frisör: Einstellungen bearbeiten',
-    'operate_library' => 'Bibliothek: Bibliothek betreiben',
-    'configure_library' => 'Bibliothek: Einstellungen bearbeiten',
     'view_usermgmt' => 'Benutzerverwaltung: Benutzer und Rollen betrachten',
     'usermgmt_manage_users' => 'Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen',
     'usermgmt_manage_roles' => 'Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen',

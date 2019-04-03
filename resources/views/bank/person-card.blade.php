@@ -87,13 +87,13 @@
                     <em class="text-info">{{ $person->remarks }}</em>
                 </div>
             @endif
-            @if($person->hasOverdueBookLendings)
+            @if(is_module_enabled('Library') && $person->hasOverdueBookLendings)
                 <div>
                     <em class="text-danger">Needs to bring back book(s) to the 
                     @can('operate-library')
-                        <a href="{{ route('library.lending.person', $person) }}">Library</a>
+                        <a href="{{ route('library.lending.person', $person) }}">@lang('library::library.library')</a>
                     @else
-                        Library
+                        @lang('library::library.library')
                     @endcan
                     </em>
                 </div>

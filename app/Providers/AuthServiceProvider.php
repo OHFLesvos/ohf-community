@@ -14,8 +14,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Role::class => \App\Policies\RolePolicy::class,
         \App\Person::class => \App\Policies\PersonPolicy::class,
         \App\CouponType::class => \App\Policies\People\Bank\CouponTypePolicy::class,
-        \App\LibraryBook::class => \App\Policies\Library\LibraryBookPolicy::class,
-        \App\LibraryLending::class => \App\Policies\Library\LibraryLendingPolicy::class,
     ];
 
     protected $permissions = [
@@ -59,14 +57,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.configure_barber_shop_list',
             'sensitive' => false,
         ],
-        'library.operate' => [
-            'label' => 'permissions.operate_library',
-            'sensitive' => true,
-        ],
-        'library.configure' => [
-            'label' => 'permissions.configure_library',
-            'sensitive' => true,
-        ],        
         'bank.configure' => [
             'label' => 'permissions.configure_bank',
             'sensitive' => false,
@@ -102,8 +92,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'configure-shop' => 'shop.configure',
         'view-barber-list' => 'shop.barber.list.view',
         'configure-barber-list' => 'shop.barber.list.configure',
-        'operate-library' => 'library.operate',
-        'configure-library' => 'library.configure',
         'view-bank-reports' => 'bank.statistics.view',
         'view-people-reports' => 'people.reports.view',
         'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'],

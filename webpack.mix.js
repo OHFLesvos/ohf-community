@@ -20,7 +20,6 @@ mix.options({ processCssUrls: false })
 	.js('resources/assets/js/app.js', 'public/js')
 	.js('resources/assets/js/bank.js', 'public/js')
 	.js('resources/assets/js/people.js', 'public/js')
-		.js('resources/assets/js/library.js', 'public/js')
 	.js('resources/assets/js/imageupload.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.styles([

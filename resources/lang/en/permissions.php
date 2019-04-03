@@ -12,8 +12,6 @@ return [
     'configure_shop' => 'Shop: Configure settings',
     'view_barber_shop_list' => 'Barber: View reservations',
     'configure_barber_shop_list' => 'Barber: Configure settings',
-    'operate_library' => 'Library: Operate library',
-    'configure_library' => 'Library: Configure settings',
     'view_usermgmt' => 'User management: View users and roles',
     'usermgmt_manage_users' => 'User management: Create, edit and delete users',
     'usermgmt_manage_roles' => 'User management: Create, edit and delete roles',

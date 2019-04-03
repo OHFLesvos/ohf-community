@@ -219,4 +219,5 @@ return [
     'language' => 'Language',
     'grouping' => 'Grouping',
     'write_decimal_point_as_comma' => 'Write decimal point as comma (,)',
+    'search' => 'Search',
  ];
