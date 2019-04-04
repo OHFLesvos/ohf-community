@@ -5,14 +5,14 @@ namespace App\Providers;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
 
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\PersonsWidget::class  => 1,
         \App\Widgets\ReportingWidget::class => 9,
         \App\Widgets\ToolsWidget::class => 10,
-        \App\Widgets\UsersWidget::class => 11,
         \App\Widgets\ChangeLogWidget::class => 12,
     ];
 

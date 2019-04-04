@@ -43,4 +43,17 @@ class PermissionRegistryService {
         return isset($this->permissions[$key]);
     }
 
+    public function getCategorizedPermissions() {
+        $map = $this->collection()->toArray();
+        $permissions = [];
+        foreach($map as $k => $v) {
+            if (preg_match('/^(.+): (.+)$/', $v, $m)) {
+                $permissions[$m[1]][$k] = $m[2];
+            } else {
+                $permissions[null][$k] = $v;
+            }
+        }
+        ksort($permissions);
+        return $permissions;
+    }
 }

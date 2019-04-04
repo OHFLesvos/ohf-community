@@ -13,7 +13,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\PeopleNavigationItem::class => 1,
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
         \App\Navigation\Drawer\ReportingNavigationItem::class => 14,
-        \App\Navigation\Drawer\UsersNavigationItem::class => 15,
     ];
 
     protected $contextMenus = [
@@ -24,20 +23,6 @@ class NavigationServiceProvider extends ServiceProvider
 
     protected $contextButtons = [
         'changelog' => \App\Navigation\ContextButtons\ChangelogContextButtons::class,
-
-        'userprofile.view2FA' => \App\Navigation\ContextButtons\UserProfile2FAContextButtons::class,
-
-        'users.index' => \App\Navigation\ContextButtons\UserIndexContextButtons::class,
-        'users.create' => \App\Navigation\ContextButtons\UserCreateContextButtons::class,
-        'users.show' => \App\Navigation\ContextButtons\UserShowContextButtons::class,
-        'users.edit' => \App\Navigation\ContextButtons\UserEditContextButtons::class,
-        'users.permissions' => \App\Navigation\ContextButtons\UserPermissionsContextButtons::class,
-
-        'roles.index' => \App\Navigation\ContextButtons\RoleIndexContextButtons::class,
-        'roles.create' => \App\Navigation\ContextButtons\RoleCreateContextButtons::class,
-        'roles.show' => \App\Navigation\ContextButtons\RoleShowContextButtons::class,
-        'roles.edit' => \App\Navigation\ContextButtons\RoleEditContextButtons::class,
-        'roles.permissions' => \App\Navigation\ContextButtons\RolePermissionsContextButtons::class,
 
         'people.index' => \App\Navigation\ContextButtons\PeopleIndexContextButtons::class,
         'people.create' => \App\Navigation\ContextButtons\PeopleCreateContextButtons::class,

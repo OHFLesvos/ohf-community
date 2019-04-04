@@ -2,8 +2,6 @@
 
 namespace Modules\Calendar\Http\Resources;
 
-use App\Http\Resources\UserResource;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Resources\Json\Resource;
 

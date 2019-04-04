@@ -18,11 +18,11 @@ class AuthServiceProvider extends BaseAuthServiceProvider
 
     protected $permissions = [
         'library.operate' => [
-            'label' => 'permissions.operate_library',
+            'label' => 'library::permissions.operate_library',
             'sensitive' => true,
         ],
         'library.configure' => [
-            'label' => 'permissions.configure_library',
+            'label' => 'library::permissions.configure_library',
             'sensitive' => true,
         ],  
     ];
