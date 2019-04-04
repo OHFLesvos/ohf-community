@@ -31,10 +31,12 @@
     <footer class="side-nav-footer">
 
         <hr>
-        <div class="text-center">
-            <a href="{{ route('userprofile') }}"><h1 class="display-4">@icon(user)</h1></a>
-            {{ Auth::user()->name }}
-        </div>
+        @if(is_module_enabled('UserManagement'))
+            <div class="text-center">
+                <a href="{{ route('userprofile') }}"><h1 class="display-4">@icon(user)</h1></a>
+                {{ Auth::user()->name }}
+            </div>
+        @endif
 
         {{-- Logout --}}
         <div class="px-3 mt-3">

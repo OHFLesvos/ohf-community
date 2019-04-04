@@ -6,11 +6,13 @@
     <h1 class="display-4">@lang('app.hello', [ 'name' => Auth::user()->name ])!</h1>
     <p class="lead">@lang('app.welcome_text', [ 'app_name' => Config::get('app.product_name') ]).</p>
 
-    @empty(Auth::user()->tfa_secret)
-        @component('components.alert.info')
-            @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
-        @endcomponent
-    @endempty
+    @if(is_module_enabled('UserManagement'))
+        @empty(Auth::user()->tfa_secret)
+            @component('components.alert.info')
+                @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
+            @endcomponent
+        @endempty
+    @endif
 
     @if(count($widgets) > 0 )
         <div class="card-columns">
