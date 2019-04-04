@@ -19,13 +19,13 @@
                     }
                     $members = $person->otherFamilyMembers;
                 @endphp
-                @include('bank.person-card', [ 'bottom_margin' => $members->count() > 0 ? 1 : 4 ])
+                @include('bank::person-card', [ 'bottom_margin' => $members->count() > 0 ? 1 : 4 ])
                 @if ($members->count() > 0)
                     @foreach($members as $member)
                         @php
                             $ids[] = $member->id;
                         @endphp
-                        @include('bank.person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 4 : 1, 'border' => 'info' ])
+                        @include('bank::person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 4 : 1, 'border' => 'info' ])
                     @endforeach
                 @endif
             @endforeach
@@ -51,9 +51,9 @@
     var csrfToken = '{{ csrf_token() }}';
     var handoutCouponUrl = '{{ route('bank.handoutCoupon') }}';
     var undoHandoutCouponUrl = '{{ route('bank.undoHandoutCoupon') }}';
-    var updateGenderUrl = '{{ route('bank.updateGender') }}';
-    var updateDateOfBirthUrl = '{{ route('bank.updateDateOfBirth') }}';
-    var updateNationalityUrl = '{{ route('bank.updateNationality') }}';
+    var updateGenderUrl = '{{ route('people.setGender', [':person']) }}';
+    var updateDateOfBirthUrl = '{{ route('people.setDateOfBirth', [':person']) }}';
+    var updateNationalityUrl = '{{ route('people.setNationality', [':person']) }}';
     var registerCardUrl = '{{ route('bank.registerCard') }}';
     var undoLabel = '@lang('app.undo')';
     var scannerDialogTitle = '@lang('people.qr_code_scanner')';

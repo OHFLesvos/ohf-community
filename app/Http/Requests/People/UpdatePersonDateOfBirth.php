@@ -3,6 +3,7 @@
 namespace App\Http\Requests\People;
 
 use Illuminate\Foundation\Http\FormRequest;
+
 use Carbon\Carbon;
 
 class UpdatePersonDateOfBirth extends FormRequest
@@ -25,8 +26,11 @@ class UpdatePersonDateOfBirth extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => 'required|numeric|exists:persons,id',
-            'date_of_birth' => 'required|date|before_or_equal:' . Carbon::today()->toDateString(),
+            'date_of_birth' => [
+                'required',
+                'date',
+                'before_or_equal:' . Carbon::today()->toDateString(),
+            ],
         ];
     }
 }

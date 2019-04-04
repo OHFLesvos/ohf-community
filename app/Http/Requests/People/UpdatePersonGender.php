@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\People;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePersonGender extends FormRequest
@@ -24,8 +25,10 @@ class UpdatePersonGender extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => 'required|numeric|exists:persons,id',
-            'gender' => 'required|in:m,f',
+            'gender' => [
+                'required',
+                Rule::in(['m', 'f']),
+            ],
         ];
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,12 +11,8 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::group(['middleware' => ['auth', 'language']], function () {
-    Route::post('/bank/updateGender', 'API\People\PeopleController@updateGender')->name('bank.updateGender');
-    Route::post('/bank/updateDateOfBirth', 'API\People\PeopleController@updateDateOfBirth')->name('bank.updateDateOfBirth');
-    Route::post('/bank/updateNationality', 'API\People\PeopleController@updateNationality')->name('bank.updateNationality');
+    Route::patch('people/{person}/gender', 'API\People\PeopleController@setGender')->name('people.setGender');
+    Route::patch('people/{person}/date_of_birth', 'API\People\PeopleController@setDateOfBirth')->name('people.setDateOfBirth');
+    Route::patch('people/{person}/nationality', 'API\People\PeopleController@setNationality')->name('people.setNationality');
 });

@@ -258,20 +258,23 @@ function selectGender() {
 	var value = $(this).attr('data-value');
 	var resultElem = $(this).parent();
 	resultElem.html('<i class="fa fa-spinner fa-spin">');
-	$.post( updateGenderUrl, {
-		"_token": csrfToken,
-		"person_id":person,
-		'gender': value
-	}, function(data) {
-		if (value == 'm') {
-			resultElem.html('<i class="fa fa-male">');
-		} else if (value == 'f') {
-			resultElem.html('<i class="fa fa-female">');
-		}
-		showSnackbar(data.message);
-		enableFilterSelect();
-	})
-	.fail(ajaxError);
+	$.ajax( updateGenderUrl.replace(':person', person), {
+			'method': 'PATCH',
+			'data': {
+				"_token": csrfToken,
+				'gender': value
+			}
+		})
+		.done(function(data) {
+			if (value == 'm') {
+				resultElem.html('<i class="fa fa-male">');
+			} else if (value == 'f') {
+				resultElem.html('<i class="fa fa-female">');
+			}
+			showSnackbar(data.message);
+			enableFilterSelect();
+		})
+		.fail(ajaxError);
 }
 
 function selectDateOfBirth() {
@@ -336,30 +339,33 @@ function selectDateOfBirth() {
 }
 
 function storeDateOfBirth(person, dateSelect, resultElem) {
-	$.post(updateDateOfBirthUrl, {
-		"_token": csrfToken,
-		"person_id":person,
-		'date_of_birth': dateSelect.val()
-	}, function(data) {
-		resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
-		// Remove buttons not maching age-restrictions
-		$('button[data-min_age]').each(function(){
-			if ($(this).data('min_age') && data.age < $(this).data('min_age')) {
-				$(this).parent().remove();
+	$.ajax( updateDateOfBirthUrl.replace(':person', person), {
+			'method': 'PATCH',
+			'data': {
+				"_token": csrfToken,
+				'date_of_birth': dateSelect.val()
 			}
-		});
-		$('button[data-max_age]').each(function(){
-			if ($(this).data('max_age') && data.age > $(this).data('max_age')) {
-				$(this).parent().remove();
-			}
-		});
-		showSnackbar(data.message);
-		enableFilterSelect();
-	})
-	.fail(function(jqXHR, textStatus){
-		ajaxError(jqXHR, textStatus);
-		dateSelect.select();
-	});	
+		})
+		.done(function(data) {
+			resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
+			// Remove buttons not maching age-restrictions
+			$('button[data-min_age]').each(function(){
+				if ($(this).data('min_age') && data.age < $(this).data('min_age')) {
+					$(this).parent().remove();
+				}
+			});
+			$('button[data-max_age]').each(function(){
+				if ($(this).data('max_age') && data.age > $(this).data('max_age')) {
+					$(this).parent().remove();
+				}
+			});
+			showSnackbar(data.message);
+			enableFilterSelect();
+		})
+		.fail(function(jqXHR, textStatus){
+			ajaxError(jqXHR, textStatus);
+			dateSelect.select();
+		});	
 }
 
 function getTodayDate() {
@@ -432,19 +438,22 @@ function selectNationality() {
 }
 
 function storeNationality(person, nationalitySelect, resultElem) {
-	$.post(updateNationalityUrl, {
-		"_token": csrfToken,
-		"person_id":person,
-		'nationality': nationalitySelect.val()
-	}, function(data) {
-		resultElem.html(data.nationality);
-		showSnackbar(data.message);
-		enableFilterSelect();
-	})
-	.fail(function(jqXHR, textStatus){
-		ajaxError(jqXHR, textStatus);
-		nationalitySelect.select();
-	});	
+	$.ajax( updateNationalityUrl.replace(':person', person), {
+			'method': 'PATCH',
+			'data': {
+				"_token": csrfToken,
+				'nationality': nationalitySelect.val()
+			}	
+		})
+		.done(function(data) {
+			resultElem.html(data.nationality);
+			showSnackbar(data.message);
+			enableFilterSelect();
+		})
+		.fail(function(jqXHR, textStatus){
+			ajaxError(jqXHR, textStatus);
+			nationalitySelect.select();
+		});
 }
 
 function checkShopCard() {

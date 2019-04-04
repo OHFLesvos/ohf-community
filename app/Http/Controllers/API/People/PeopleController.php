@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers\API\People;
 
-use Illuminate\Http\Request;
+use App\Person;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\People\UpdatePersonDateOfBirth;
 use App\Http\Requests\People\UpdatePersonGender;
 use App\Http\Requests\People\UpdatePersonNationality;
-use Carbon\Carbon;
-use App\Person;
 
 class PeopleController extends Controller
 {
     /**
      * Update gender of person.
      * 
+     * @param  \App\Person $person
      * @param  \App\Http\Requests\People\UpdatePersonGender  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateGender(UpdatePersonGender $request) {
-        $person = Person::findOrFail($request->person_id);
-
+    public function setGender(Person $person, UpdatePersonGender $request) {
         $this->authorize('update', $person);
 
         $person->gender = $request->gender;
@@ -37,12 +34,11 @@ class PeopleController extends Controller
     /**
      * Update date of birth of person.
      * 
+     * @param  \App\Person $person
      * @param  \App\Http\Requests\People\UpdatePersonDateOfBirth  $request
      * @return \Illuminate\Http\Response
      */
-	public function updateDateOfBirth(UpdatePersonDateOfBirth $request) {
-        $person = Person::findOrFail($request->person_id);
-
+	public function setDateOfBirth(Person $person, UpdatePersonDateOfBirth $request) {
         $this->authorize('update', $person);
 
         $person->date_of_birth = $request->date_of_birth;
@@ -61,12 +57,11 @@ class PeopleController extends Controller
     /**
      * Update date of birth of person.
      * 
+     * @param  \App\Person $person
      * @param  \App\Http\Requests\People\UpdatePersonNationality  $request
      * @return \Illuminate\Http\Response
      */
-	public function updateNationality(UpdatePersonNationality $request) {
-        $person = Person::findOrFail($request->person_id);
-
+	public function setNationality(Person $person, UpdatePersonNationality $request) {
         $this->authorize('update', $person);
 
         $person->nationality = $request->nationality;
