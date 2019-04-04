@@ -1180,16 +1180,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.5.6",
+            "version": "3.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "9cc1eaecb9bc670bba82f27b8dfccd4cbed2df2f"
+                "reference": "7823badf59402f31e8f9b33ce1e3161a1ba89866"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/9cc1eaecb9bc670bba82f27b8dfccd4cbed2df2f",
-                "reference": "9cc1eaecb9bc670bba82f27b8dfccd4cbed2df2f",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/7823badf59402f31e8f9b33ce1e3161a1ba89866",
+                "reference": "7823badf59402f31e8f9b33ce1e3161a1ba89866",
                 "shasum": ""
             },
             "require": {
@@ -1239,7 +1239,7 @@
                 "qr",
                 "qrcode"
             ],
-            "time": "2019-03-03 08:34:10"
+            "time": "2019-04-03 21:14:10"
         },
         {
             "name": "erusev/parsedown",
@@ -7217,16 +7217,16 @@
         },
         {
             "name": "theseer/tokenizer",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/theseer/tokenizer.git",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b"
+                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/cb2f008f3f05af2893a87208fe6a6c4985483f8b",
-                "reference": "cb2f008f3f05af2893a87208fe6a6c4985483f8b",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/06b6ce404ee574e9c1787fb67bb9980ca4387c34",
+                "reference": "06b6ce404ee574e9c1787fb67bb9980ca4387c34",
                 "shasum": ""
             },
             "require": {
@@ -7253,7 +7253,7 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
-            "time": "2017-04-07 12:08:54"
+            "time": "2019-04-03 18:37:40"
         },
         {
             "name": "webmozart/assert",
