@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\BankWidget::class => 0,
         \App\Widgets\PersonsWidget::class  => 1,
         \App\Widgets\ReportingWidget::class => 9,
-        \App\Widgets\ToolsWidget::class => 10,
         \App\Widgets\ChangeLogWidget::class => 12,
     ];
 
