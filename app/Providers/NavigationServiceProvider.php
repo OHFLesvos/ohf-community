@@ -12,8 +12,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\HomeNavigationItem::class => 0,
         \App\Navigation\Drawer\PeopleNavigationItem::class => 1,
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
-        \App\Navigation\Drawer\ShopNavigationItem::class => 8,
-        \App\Navigation\Drawer\BarberNavigationItem::class => 9,
         \App\Navigation\Drawer\ReportingNavigationItem::class => 14,
         \App\Navigation\Drawer\UsersNavigationItem::class => 15,
         \App\Navigation\Drawer\LogViewerNavigationItem::class => 16,
@@ -65,12 +63,6 @@ class NavigationServiceProvider extends ServiceProvider
         'coupons.create' => \App\Navigation\ContextButtons\CouponCreateContextButtons::class,
         'coupons.show' => \App\Navigation\ContextButtons\CouponShowContextButtons::class,
         'coupons.edit' => \App\Navigation\ContextButtons\CouponEditContextButtons::class,
-        
-        'shop.index' => \App\Navigation\ContextButtons\ShopContextButtons::class,
-        'shop.settings.edit' => \App\Navigation\ContextButtons\ShopSettingsContextButtons::class,
-
-        'shop.barber.index' => \App\Navigation\ContextButtons\BarberContextButtons::class,
-        'shop.barber.settings.edit' => \App\Navigation\ContextButtons\BarberSettingsContextButtons::class,
         
         'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.people' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,

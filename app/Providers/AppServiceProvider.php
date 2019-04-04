@@ -21,8 +21,6 @@ class AppServiceProvider extends ServiceProvider
     protected $dashboardWidgets = [
         \App\Widgets\BankWidget::class => 0,
         \App\Widgets\PersonsWidget::class  => 1,
-        \App\Widgets\ShopWidget::class => 2,
-        \App\Widgets\BarberShopWidget::class => 3,
         \App\Widgets\ReportingWidget::class => 9,
         \App\Widgets\ToolsWidget::class => 10,
         \App\Widgets\UsersWidget::class => 11,

@@ -123,22 +123,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::post('/people/bulkAction', 'PeopleController@bulkAction')->name('people.bulkAction');
         Route::resource('/people', 'PeopleController');
 
-        // Shop
-        Route::namespace('Shop')->prefix('shop')->name('shop.')->middleware(['can:validate-shop-coupons'])->group(function(){
-            Route::get('/', 'ShopController@index')->name('index');
-            Route::post('/', 'ShopController@redeem')->name('redeem');
-            Route::get('/settings', 'ShopSettingsController@edit')->name('settings.edit')->middleware(['can:configure-shop']);
-            Route::put('/settings', 'ShopSettingsController@update')->name('settings.update')->middleware(['can:configure-shop']);
-        });
-        Route::namespace('Shop')->prefix('barber')->name('shop.barber.')->middleware(['can:view-barber-list'])->group(function(){
-            Route::get('/', 'BarberShopController@index')->name('index');
-            Route::post('/checkin', 'BarberShopController@checkin')->name('checkin');
-            Route::post('/addPerson', 'BarberShopController@addPerson')->name('addPerson');
-            Route::delete('/removePerson', 'BarberShopController@removePerson')->name('removePerson');
-            Route::get('/settings', 'BarberShopSettingsController@edit')->name('settings.edit')->middleware(['can:configure-barber-list']);
-            Route::put('/settings', 'BarberShopSettingsController@update')->name('settings.update')->middleware(['can:configure-barber-list']);
-        });
-
         //
         // Reporting
         //

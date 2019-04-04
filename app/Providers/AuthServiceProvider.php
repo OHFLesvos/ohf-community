@@ -41,22 +41,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.view_bank_statistics',
             'sensitive' => false,
         ],
-        'shop.coupons.validate' => [
-            'label' => 'permissions.validate_shop_coupons',
-            'sensitive' => true,
-        ],
-        'shop.configure' => [
-            'label' => 'permissions.configure_shop',
-            'sensitive' => false,
-        ],
-        'shop.barber.list.view' => [
-            'label' => 'permissions.view_barber_shop_list',
-            'sensitive' => true,
-        ],
-        'shop.barber.list.configure' => [
-            'label' => 'permissions.configure_barber_shop_list',
-            'sensitive' => false,
-        ],
         'bank.configure' => [
             'label' => 'permissions.configure_bank',
             'sensitive' => false,
@@ -88,10 +72,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
         'do-bank-withdrawals' => 'bank.withdrawals.do',
         'do-bank-deposits' => 'bank.deposits.do',
-        'validate-shop-coupons' => 'shop.coupons.validate',
-        'configure-shop' => 'shop.configure',
-        'view-barber-list' => 'shop.barber.list.view',
-        'configure-barber-list' => 'shop.barber.list.configure',
         'view-bank-reports' => 'bank.statistics.view',
         'view-people-reports' => 'people.reports.view',
         'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'],

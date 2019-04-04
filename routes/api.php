@@ -33,14 +33,3 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/bank/updateNationality', 'API\People\PeopleController@updateNationality')->name('bank.updateNationality');
     });
 });
-
-// Shop
-Route::namespace('Shop')
-    ->prefix('shop')
-    ->name('shop.')
-    // TODO: Authentication and authorization
-    //->middleware(['can:validate-shop-coupons'])
-    ->group(function(){
-        Route::get('/', 'ShopController@searchCard')->name('searchCard');
-        Route::post('/', 'ShopController@redeemCard')->name('redeemCard');
-});
