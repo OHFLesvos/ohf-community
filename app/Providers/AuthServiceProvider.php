@@ -45,18 +45,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.configure_bank',
             'sensitive' => false,
         ],
-        'app.usermgmt.view' => [
-            'label' => 'permissions.view_usermgmt',
-            'sensitive' => true,
-        ],
-        'app.usermgmt.users.manage' => [
-            'label' => 'permissions.usermgmt_manage_users',
-            'sensitive' => true,
-        ],
-        'app.usermgmt.roles.manage' => [
-            'label' => 'permissions.usermgmt_manage_roles',
-            'sensitive' => false,
-        ],
         'app.changelogs.view' => [
             'label' => 'permissions.view_changelogs',
             'sensitive' => false,
@@ -71,7 +59,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'view-bank-reports' => 'bank.statistics.view',
         'view-people-reports' => 'people.reports.view',
         'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'],
-        'view-usermgmt-reports' => 'app.usermgmt.view',
         'configure-bank' => 'bank.configure',
         'view-changelogs' => 'app.changelogs.view',
     ];
