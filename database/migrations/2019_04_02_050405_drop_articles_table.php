@@ -36,6 +36,7 @@ class DropArticlesTable extends Migration
             $table->string('type');
             $table->timestamps();
             $table->unique(['name', 'type']);
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade')->onUpdate('cascade');
         });
         Schema::table('projects', function (Blueprint $table) {
             $table->boolean('has_article_mgmt')->default(false)->after('enable_in_bank');
