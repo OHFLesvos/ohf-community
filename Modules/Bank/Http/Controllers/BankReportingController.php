@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Reporting;
+namespace Modules\Bank\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SelectDateRange;
 use App\CouponType;
 use App\CouponHandout;
 use App\Project;
+use App\Http\Requests\SelectDateRange;
+use App\Http\Controllers\Reporting\BaseReportingController;
+
 use Illuminate\Support\Facades\DB;
+
 use Carbon\Carbon;
 
 class BankReportingController extends BaseReportingController

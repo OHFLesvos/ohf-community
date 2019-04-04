@@ -65,15 +65,6 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('/reporting/people/chart/registrationsPerDay', 'Reporting\\PeopleReportingController@registrationsPerDay')->name('reporting.people.registrationsPerDay');
         });
 
-        // Reporting: Bank
-        Route::group(['middleware' => ['can:view-bank-reports']], function () {
-            Route::get('/reporting/bank/withdrawals', 'Reporting\\BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
-            Route::get('/reporting/bank/withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'Reporting\\BankReportingController@couponsHandedOutPerDay')->name('reporting.bank.couponsHandedOutPerDay');
-
-            Route::get('/reporting/bank/deposits', 'Reporting\\BankReportingController@deposits')->name('reporting.bank.deposits');
-            Route::get('/reporting/bank/deposits/chart/stats', 'Reporting\\BankReportingController@depositStats')->name('reporting.bank.depositStats');
-            Route::get('/reporting/bank/deposits/chart/stats/{project}', 'Reporting\\BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
-        });
     });
 
     Auth::routes();

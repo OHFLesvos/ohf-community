@@ -13,46 +13,59 @@
 
 Route::group(['middleware' => ['language', 'auth']], function () {
 
-    Route::get('/bank', function(){
-        return redirect()->route('bank.withdrawal');
-    })->name('bank.index');
+    Route::prefix('bank')->group(function () {
 
-    // Withdrawals
-    Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
-        Route::get('/bank/withdrawal', 'WithdrawalController@index')->name('bank.withdrawal');
-        Route::get('/bank/withdrawal/search', 'WithdrawalController@search')->name('bank.withdrawalSearch');
-        Route::get('/bank/withdrawal/transactions', 'WithdrawalController@transactions')->name('bank.withdrawalTransactions');
-        
-        Route::get('/bank/withdrawal/cards/{card}', 'WithdrawalController@showCard')->name('bank.showCard');
+        Route::get('', function(){
+            return redirect()->route('bank.withdrawal');
+        })->name('bank.index');
 
-        Route::get('/bank/codeCard', 'CodeCardController@create')->name('bank.prepareCodeCard');
-        Route::post('/bank/codeCard', 'CodeCardController@download')->name('bank.createCodeCard');
+        // Withdrawals
+        Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
+            Route::get('withdrawal', 'WithdrawalController@index')->name('bank.withdrawal');
+            Route::get('withdrawal/search', 'WithdrawalController@search')->name('bank.withdrawalSearch');
+            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')->name('bank.withdrawalTransactions');
+            
+            Route::get('withdrawal/cards/{card}', 'WithdrawalController@showCard')->name('bank.showCard');
+
+            Route::get('codeCard', 'CodeCardController@create')->name('bank.prepareCodeCard');
+            Route::post('codeCard', 'CodeCardController@download')->name('bank.createCodeCard');
+        });
+
+        // Deposits
+        Route::group(['middleware' => ['can:do-bank-deposits']], function () {
+            Route::get('deposit', 'DepositController@index')->name('bank.deposit');
+            Route::post('deposit', 'DepositController@store')->name('bank.storeDeposit');
+            Route::get('deposit/transactions', 'DepositController@transactions')->name('bank.depositTransactions');
+        });
+
+        // Settings
+        Route::group(['middleware' => ['can:configure-bank']], function () {
+            Route::get('settings', 'BankSettingsController@edit')->name('bank.settings.edit');
+            Route::put('settings', 'BankSettingsController@update')->name('bank.settings.update');
+            Route::resource('coupons', 'CouponTypesController');
+        });
+
+        // Maintenance
+        Route::group(['middleware' => ['can:cleanup,App\Person']], function () {
+            Route::get('maintenance', 'MaintenanceController@maintenance')->name('bank.maintenance');
+            Route::post('maintenance', 'MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
+        });
+
+        // Export
+        Route::group(['middleware' => ['can:export,App\Person']], function () {
+            Route::get('export', 'ImportExportController@export')->name('bank.export');
+            Route::post('doExport', 'ImportExportController@doExport')->name('bank.doExport');
+        });
     });
+    
+    // Reporting
+    Route::group(['middleware' => ['can:view-bank-reports']], function () {
+        Route::get('reporting/bank/withdrawals', 'BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
+        Route::get('reporting/bank/withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'BankReportingController@couponsHandedOutPerDay')->name('reporting.bank.couponsHandedOutPerDay');
 
-    // Deposits
-    Route::group(['middleware' => ['can:do-bank-deposits']], function () {
-        Route::get('/bank/deposit', 'DepositController@index')->name('bank.deposit');
-        Route::post('/bank/deposit', 'DepositController@store')->name('bank.storeDeposit');
-        Route::get('/bank/deposit/transactions', 'DepositController@transactions')->name('bank.depositTransactions');
-    });
-
-    // Settings
-    Route::group(['middleware' => ['can:configure-bank']], function () {
-        Route::get('/bank/settings', 'BankSettingsController@edit')->name('bank.settings.edit');
-        Route::put('/bank/settings', 'BankSettingsController@update')->name('bank.settings.update');
-        Route::resource('/bank/coupons', 'CouponTypesController');
-    });
-
-    // Maintenance
-    Route::group(['middleware' => ['can:cleanup,App\Person']], function () {
-        Route::get('/bank/maintenance', 'MaintenanceController@maintenance')->name('bank.maintenance');
-        Route::post('/bank/maintenance', 'MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
-    });
-
-    // Export
-    Route::group(['middleware' => ['can:export,App\Person']], function () {
-        Route::get('/bank/export', 'ImportExportController@export')->name('bank.export');
-        Route::post('/bank/doExport', 'ImportExportController@doExport')->name('bank.doExport');
+        Route::get('reporting/bank/deposits', 'BankReportingController@deposits')->name('reporting.bank.deposits');
+        Route::get('reporting/bank/deposits/chart/stats', 'BankReportingController@depositStats')->name('reporting.bank.depositStats');
+        Route::get('reporting/bank/deposits/chart/stats/{project}', 'BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
     });
 
 });
