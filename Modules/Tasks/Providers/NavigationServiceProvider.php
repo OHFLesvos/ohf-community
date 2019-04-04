@@ -2,7 +2,7 @@
 
 namespace Modules\Tasks\Providers;
 
-use App\Providers\RegistersNavigationItems;
+use App\Providers\Traits\RegistersNavigationItems;
 
 use Illuminate\Support\ServiceProvider;
 

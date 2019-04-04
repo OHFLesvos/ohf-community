@@ -2,7 +2,7 @@
 
 namespace Modules\Changelog\Providers;
 
-use App\Providers\RegisterContextButtons;
+use App\Providers\Traits\RegisterContextButtons;
 
 use Illuminate\Support\ServiceProvider;
 

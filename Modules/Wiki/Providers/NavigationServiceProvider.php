@@ -2,8 +2,8 @@
 
 namespace Modules\Wiki\Providers;
 
-use App\Providers\RegistersNavigationItems;
-use App\Providers\RegisterContextButtons;
+use App\Providers\Traits\RegistersNavigationItems;
+use App\Providers\Traits\RegisterContextButtons;
 
 use Illuminate\Support\ServiceProvider;
 

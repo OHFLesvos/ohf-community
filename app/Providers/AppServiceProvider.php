@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
+use App\Providers\Traits\RegistersDashboardWidgets;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;

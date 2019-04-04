@@ -2,7 +2,7 @@
 
 namespace Modules\Library\Providers;
 
-use App\Providers\RegistersDashboardWidgets;
+use App\Providers\Traits\RegistersDashboardWidgets;
 
 use Modules\Library\Rules\Isbn;
 

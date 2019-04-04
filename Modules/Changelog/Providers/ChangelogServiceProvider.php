@@ -2,7 +2,7 @@
 
 namespace Modules\Changelog\Providers;
 
-use App\Providers\RegistersDashboardWidgets;
+use App\Providers\Traits\RegistersDashboardWidgets;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;

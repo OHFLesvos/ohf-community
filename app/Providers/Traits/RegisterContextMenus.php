@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Providers\Traits;
 
 use App\Support\Facades\ContextMenus;
 

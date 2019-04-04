@@ -2,7 +2,7 @@
 
 namespace Modules\Accounting\Providers;
 
-use App\Providers\RegistersDashboardWidgets;
+use App\Providers\Traits\RegistersDashboardWidgets;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;

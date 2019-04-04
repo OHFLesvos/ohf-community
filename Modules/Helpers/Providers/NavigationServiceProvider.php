@@ -2,9 +2,9 @@
 
 namespace Modules\Helpers\Providers;
 
-use App\Providers\RegistersNavigationItems;
-use App\Providers\RegisterContextMenus;
-use App\Providers\RegisterContextButtons;
+use App\Providers\Traits\RegistersNavigationItems;
+use App\Providers\Traits\RegisterContextMenus;
+use App\Providers\Traits\RegisterContextButtons;
 
 use Illuminate\Support\ServiceProvider;
 

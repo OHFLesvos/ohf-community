@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Providers\Traits\RegistersNavigationItems;
+use App\Providers\Traits\RegisterContextMenus;
+use App\Providers\Traits\RegisterContextButtons;
+
 use Illuminate\Support\ServiceProvider;
 
 class NavigationServiceProvider extends ServiceProvider
