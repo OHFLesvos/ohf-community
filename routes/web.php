@@ -19,51 +19,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/', 'HomeController@index')->name('home');
 
         //
-        // Bank
-        //
-        Route::get('/bank', function(){
-            return redirect()->route('bank.withdrawal');
-        })->name('bank.index');
-
-        // Withdrawals
-        Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
-            Route::get('/bank/withdrawal', 'People\Bank\WithdrawalController@index')->name('bank.withdrawal');
-            Route::get('/bank/withdrawal/search', 'People\Bank\WithdrawalController@search')->name('bank.withdrawalSearch');
-            Route::get('/bank/withdrawal/transactions', 'People\Bank\WithdrawalController@transactions')->name('bank.withdrawalTransactions');
-            
-            Route::get('/bank/withdrawal/cards/{card}', 'People\Bank\WithdrawalController@showCard')->name('bank.showCard');
-
-            Route::get('/bank/codeCard', 'People\Bank\CodeCardController@create')->name('bank.prepareCodeCard');
-            Route::post('/bank/codeCard', 'People\Bank\CodeCardController@download')->name('bank.createCodeCard');
-        });
-
-        // Deposits
-        Route::group(['middleware' => ['can:do-bank-deposits']], function () {
-            Route::get('/bank/deposit', 'People\Bank\DepositController@index')->name('bank.deposit');
-            Route::post('/bank/deposit', 'People\Bank\DepositController@store')->name('bank.storeDeposit');
-            Route::get('/bank/deposit/transactions', 'People\Bank\DepositController@transactions')->name('bank.depositTransactions');
-        });
-
-        // Settings
-        Route::group(['middleware' => ['can:configure-bank']], function () {
-            Route::get('/bank/settings', 'People\Bank\BankSettingsController@edit')->name('bank.settings.edit');
-            Route::put('/bank/settings', 'People\Bank\BankSettingsController@update')->name('bank.settings.update');
-            Route::resource('/bank/coupons', 'People\Bank\CouponTypesController');
-        });
-
-        // Maintenance
-        Route::group(['middleware' => ['can:cleanup,App\Person']], function () {
-            Route::get('/bank/maintenance', 'People\Bank\MaintenanceController@maintenance')->name('bank.maintenance');
-            Route::post('/bank/maintenance', 'People\Bank\MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
-        });
-
-        // Export
-        Route::group(['middleware' => ['can:export,App\Person']], function () {
-            Route::get('/bank/export', 'People\Bank\ImportExportController@export')->name('bank.export');
-            Route::post('/bank/doExport', 'People\Bank\ImportExportController@doExport')->name('bank.doExport');
-        });
-
-        //
         // People
         //
         Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');

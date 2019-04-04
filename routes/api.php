@@ -17,19 +17,8 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => ['auth']], function () {
- 
-    //
-    // Bank
-    //
-    Route::group(['middleware' => 'language'], function () {    
-        Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
-            Route::post('/bank/handoutCoupon', 'API\People\BankController@handoutCoupon')->name('bank.handoutCoupon');
-            Route::post('/bank/undoHandoutCoupon', 'API\People\BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');
-            Route::post('/bank/registerCard', 'API\People\BankController@registerCard')->name('bank.registerCard');
-        });
-        Route::post('/bank/updateGender', 'API\People\PeopleController@updateGender')->name('bank.updateGender');
-        Route::post('/bank/updateDateOfBirth', 'API\People\PeopleController@updateDateOfBirth')->name('bank.updateDateOfBirth');
-        Route::post('/bank/updateNationality', 'API\People\PeopleController@updateNationality')->name('bank.updateNationality');
-    });
+Route::group(['middleware' => ['auth', 'language']], function () {
+    Route::post('/bank/updateGender', 'API\People\PeopleController@updateGender')->name('bank.updateGender');
+    Route::post('/bank/updateDateOfBirth', 'API\People\PeopleController@updateDateOfBirth')->name('bank.updateDateOfBirth');
+    Route::post('/bank/updateNationality', 'API\People\PeopleController@updateNationality')->name('bank.updateNationality');
 });

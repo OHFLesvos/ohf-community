@@ -29,33 +29,12 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.view_people_reports',
             'sensitive' => false,
         ],
-        'bank.withdrawals.do' => [
-            'label' => 'permissions.do_bank_withdrawals',
-            'sensitive' => true,
-        ],
-        'bank.deposits.do' => [
-            'label' => 'permissions.do_bank_deposits',
-            'sensitive' => false,
-        ],
-        'bank.statistics.view' => [
-            'label' => 'permissions.view_bank_statistics',
-            'sensitive' => false,
-        ],
-        'bank.configure' => [
-            'label' => 'permissions.configure_bank',
-            'sensitive' => false,
-        ],
     ];
 
     protected $permission_gate_mappings = [
         'manage-people' => 'people.manage',
-        'view-bank-index' => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
-        'do-bank-withdrawals' => 'bank.withdrawals.do',
-        'do-bank-deposits' => 'bank.deposits.do',
-        'view-bank-reports' => 'bank.statistics.view',
         'view-people-reports' => 'people.reports.view',
         'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'],
-        'configure-bank' => 'bank.configure',
     ];
 
 }
