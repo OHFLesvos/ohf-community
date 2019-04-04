@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Navigation\ContextButtons;
+namespace Modules\Changelog\Navigation\ContextButtons;
+
+use App\Navigation\ContextButtons\ContextButtons;
 
 use Illuminate\View\View;
 

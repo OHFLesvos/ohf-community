@@ -8,5 +8,4 @@ return [
     'do_bank_deposits' => 'Bank: Deposit coupons',
     'view_bank_statistics' => 'Bank: View reports',
     'configure_bank' => 'Bank: Configure settings',
-    'view_changelogs' => 'View application changelogs',
 ];

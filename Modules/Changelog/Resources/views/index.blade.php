@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Changelog')
+@section('title', __('changelog::changelog.changelog'))
 
 @section('content')
 

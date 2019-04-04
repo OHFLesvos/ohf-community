@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Widgets;
+namespace Modules\Changelog\Widgets;
+
+use App\Widgets\Widget;
 
 use Illuminate\Support\Facades\Gate;
 
-class ChangeLogWidget implements Widget
+class ChangelogWidget implements Widget
 {
     function authorize(): bool
     {
@@ -13,7 +15,7 @@ class ChangeLogWidget implements Widget
 
     function view(): string
     {
-        return 'dashboard.widgets.changelog';
+        return 'changelog::dashboard.widgets.changelog';
     }
 
     function args(): array {

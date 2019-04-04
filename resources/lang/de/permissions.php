@@ -8,5 +8,4 @@ return [
     'do_bank_deposits' => 'Bank: Einzahlungen durchführen',
     'view_bank_statistics' => 'Bank: Berichte betrachten',
     'configure_bank' => 'Bank: Einstellungen konfigurieren',
-    'view_changelogs' => 'Änderungshistorie betrachten',
 ];

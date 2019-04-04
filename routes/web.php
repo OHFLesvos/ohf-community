@@ -18,11 +18,6 @@ Route::group(['middleware' => 'language'], function () {
         // Home (Dashboard)
         Route::get('/', 'HomeController@index')->name('home');
 
-        // Changelog
-        Route::group(['middleware' => ['can:view-changelogs']], function () {
-            Route::get('/changelog', 'ChangelogController@index')->name('changelog');
-        });
-
         //
         // Bank
         //

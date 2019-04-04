@@ -22,8 +22,6 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     protected $contextButtons = [
-        'changelog' => \App\Navigation\ContextButtons\ChangelogContextButtons::class,
-
         'people.index' => \App\Navigation\ContextButtons\PeopleIndexContextButtons::class,
         'people.create' => \App\Navigation\ContextButtons\PeopleCreateContextButtons::class,
         'people.show' => \App\Navigation\ContextButtons\PeopleShowContextButtons::class,
