@@ -52,7 +52,6 @@ class PeopleController extends Controller
             ]),
         ]);
     }
-
     
     /**
      * Update date of birth of person.
