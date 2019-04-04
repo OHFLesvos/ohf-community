@@ -4,7 +4,7 @@ namespace Modules\Bank\Widgets;
 
 use App\Widgets\Widget;
 
-use Modules\Bank\Http\Controllers\WithdrawalController;
+use Modules\Bank\Util\BankStatistics;
 
 use Illuminate\Support\Facades\Gate;
 
@@ -22,8 +22,8 @@ class BankWidget implements Widget
 
     function args(): array {
         return [
-            'persons' => WithdrawalController::getNumberOfPersonsServedToday(), // TODO util class
-            'coupons' => WithdrawalController::getNumberOfCouponsHandedOut(), // TODO util class
+            'persons' => BankStatistics::getNumberOfPersonsServedToday(),
+            'coupons' => BankStatistics::getNumberOfCouponsHandedOut(),
         ];
     }
 }

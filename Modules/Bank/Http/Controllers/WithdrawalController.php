@@ -3,18 +3,17 @@
 namespace Modules\Bank\Http\Controllers;
 
 use App\CouponType;
-use App\CouponHandout;
 use App\Person;
 use App\RevokedCard;
 use App\Http\Controllers\Controller;
+
+use Modules\Bank\Util\BankStatistics;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
 use OwenIt\Auditing\Models\Audit;
-
-use Carbon\Carbon;
 
 class WithdrawalController extends Controller
 {
@@ -30,26 +29,9 @@ class WithdrawalController extends Controller
         $request->session()->forget('filter');
 
 		return view('bank::withdrawal', [
-            'numberOfPersonsServed' => self::getNumberOfPersonsServedToday(),
-            'numberOfCouponsHandedOut' => self::getNumberOfCouponsHandedOut(),
+            'numberOfPersonsServed' => BankStatistics::getNumberOfPersonsServedToday(),
+            'numberOfCouponsHandedOut' => BankStatistics::getNumberOfCouponsHandedOut(),
 		]);
-    }
-
-    public static function getNumberOfPersonsServedToday() : int {
-        $q = CouponHandout::whereDate('date', Carbon::today())
-                ->groupBy('person_id')
-                ->select('person_id');
-        return DB::table(DB::raw('('.$q->toSql().') as o2'))
-            ->mergeBindings($q->getQuery())
-            ->count();
-    }
-
-    public static function getNumberOfCouponsHandedOut() : int {
-        return (int)CouponHandout::whereDate('date', Carbon::today())
-                ->select(DB::raw('sum(amount) as total'))
-                ->get()
-                ->first()
-                ->total;
     }
 
     /**
