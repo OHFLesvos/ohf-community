@@ -79,7 +79,6 @@ return [
     'enable' => 'Enable',
     'disable' => 'Disable',
     'code' => 'Code',
-    'logviewer' => 'Log Viewer',
     'date' => 'Date',
     'severity' => 'Severity',
     'message' => 'Message',

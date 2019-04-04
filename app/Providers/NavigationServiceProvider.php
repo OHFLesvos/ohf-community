@@ -14,7 +14,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\BankNavigationItem::class => 2,
         \App\Navigation\Drawer\ReportingNavigationItem::class => 14,
         \App\Navigation\Drawer\UsersNavigationItem::class => 15,
-        \App\Navigation\Drawer\LogViewerNavigationItem::class => 16,
     ];
 
     protected $contextMenus = [

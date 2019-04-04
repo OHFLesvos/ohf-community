@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.logviewer'))
+@section('title', __('logviewer::logviewer.logviewer'))
 
 @section('content')
 

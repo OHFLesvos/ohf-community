@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Logviewer\Http\Controllers;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+
 use Jackiedo\LogReader\LogReader;
 
 class LogViewerController extends Controller
@@ -30,7 +33,6 @@ class LogViewerController extends Controller
             'level' => 'array|in:' . implode(',', self::$levels),
         ]);
 
-
         $entries = $this->reader->orderBy('date', 'desc');
         if (!empty($request->level)) {
             $activeLevels = $request->level;
@@ -38,7 +40,7 @@ class LogViewerController extends Controller
         } else {
             $activeLevels = self::$levels;
         }
-        return view('logviewer.index', [
+        return view('logviewer::index', [
             'entries' => $entries->paginate(25, null, [
                 'path' => route('logviewer.index'),
             ]),

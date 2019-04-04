@@ -79,7 +79,6 @@ return [
     'enable' => 'Aktivieren',
     'disable' => 'Deaktivieren',
     'code' => 'Code',
-    'logviewer' => 'Protokolle',
     'date' => 'Datum',
     'severity' => 'Schweregrad',
     'message' => 'Nachricht',

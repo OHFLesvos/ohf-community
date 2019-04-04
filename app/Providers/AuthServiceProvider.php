@@ -61,10 +61,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.view_changelogs',
             'sensitive' => false,
         ],
-        'app.logs.view' => [
-            'label' => 'permissions.view_logs',
-            'sensitive' => true,
-        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -78,7 +74,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'view-usermgmt-reports' => 'app.usermgmt.view',
         'configure-bank' => 'bank.configure',
         'view-changelogs' => 'app.changelogs.view',
-        'view-logs' => 'app.logs.view',
     ];
 
 }

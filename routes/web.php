@@ -23,11 +23,6 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('/changelog', 'ChangelogController@index')->name('changelog');
         });
 
-        // Log viewer
-        Route::group(['middleware' => ['can:view-logs']], function () {
-            Route::get('/logviewer', 'LogViewerController@index')->name('logviewer.index');
-        });
-
         //
         // User and role management
         //

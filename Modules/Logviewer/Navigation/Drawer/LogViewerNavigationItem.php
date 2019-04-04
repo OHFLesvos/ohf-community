@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Navigation\Drawer;
+namespace Modules\Logviewer\Navigation\Drawer;
+
+use App\Navigation\Drawer\BaseNavigationItem;
 
 use Illuminate\Support\Facades\Gate;
 
@@ -8,7 +10,7 @@ class LogViewerNavigationItem extends BaseNavigationItem {
 
     protected $route = 'logviewer.index';
 
-    protected $caption = 'app.logviewer';
+    protected $caption = 'logviewer::logviewer.logviewer';
 
     protected $icon = 'file-text-o';
 
