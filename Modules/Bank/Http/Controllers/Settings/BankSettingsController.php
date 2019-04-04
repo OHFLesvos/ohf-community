@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Bank\Http\Controllers;
+namespace Modules\Bank\Http\Controllers\Settings;
 
 use App\Person;
-use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Reporting\PeopleReportingController;
 
 use Illuminate\Support\Facades\Config;
@@ -34,7 +34,7 @@ class BankSettingsController extends SettingsController
                 'form_validate' => 'required|numeric|min:1',
                 'label_key' => 'people.number_of_weeks',
                 'section' => 'frequent_visitors',
-                'include_pre' => 'bank.settings.frequent_visitors_explanation',
+                'include_pre' => 'bank::settings.frequent_visitors_explanation',
             ],
             'bank.frequent_visitor_threshold' => [
                 'default' => Config::get('bank.frequent_visitor_threshold'),
@@ -43,7 +43,7 @@ class BankSettingsController extends SettingsController
                 'form_validate' => 'required|numeric|min:1',
                 'label_key' => 'people.min_number_of_visits',
                 'section' => 'frequent_visitors',
-                'include_post' => [ 'bank.settings.frequent_visitors_affected', [
+                'include_post' => [ 'bank::settings.frequent_visitors_affected', [
                     'current_num_people' => Person::count(),
                     'current_num_frequent_visitors' => PeopleReportingController::getNumberOfFrequentVisitors(),
                 ] ],

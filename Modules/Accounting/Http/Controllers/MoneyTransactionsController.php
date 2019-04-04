@@ -3,7 +3,7 @@
 namespace Modules\Accounting\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ExportableActions;
+use App\Http\Controllers\Export\ExportableActions;
 
 use Modules\Accounting\Http\Requests\StoreTransaction;
 use Modules\Accounting\Entities\MoneyTransaction;

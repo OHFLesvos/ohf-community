@@ -11,61 +11,65 @@
 |
 */
 
-Route::group(['middleware' => ['language', 'auth']], function () {
-
-    Route::prefix('bank')->group(function () {
-
-        Route::get('', function(){
-            return redirect()->route('bank.withdrawal');
-        })->name('bank.index');
+Route::middleware(['language', 'auth'])->group(function () {
+    
+    Route::prefix('bank')->name('bank.')->group(function () {
 
         // Withdrawals
-        Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
-            Route::get('withdrawal', 'WithdrawalController@index')->name('bank.withdrawal');
-            Route::get('withdrawal/search', 'WithdrawalController@search')->name('bank.withdrawalSearch');
-            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')->name('bank.withdrawalTransactions');
-            
-            Route::get('withdrawal/cards/{card}', 'WithdrawalController@showCard')->name('bank.showCard');
+        Route::middleware('can:do-bank-withdrawals')->group(function () {
+            Route::get('', function(){
+                return redirect()->route('bank.withdrawal');
+            })->name('index');
 
-            Route::get('codeCard', 'CodeCardController@create')->name('bank.prepareCodeCard');
-            Route::post('codeCard', 'CodeCardController@download')->name('bank.createCodeCard');
+            Route::get('withdrawal', 'WithdrawalController@index')->name('withdrawal');
+            Route::get('withdrawal/search', 'WithdrawalController@search')->name('withdrawalSearch');
+            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')->name('withdrawalTransactions');
+            
+            Route::get('withdrawal/cards/{card}', 'WithdrawalController@showCard')->name('showCard');
+
+            Route::get('codeCard', 'CodeCardController@create')->name('prepareCodeCard');
+            Route::post('codeCard', 'CodeCardController@download')->name('createCodeCard');
         });
 
         // Deposits
-        Route::group(['middleware' => ['can:do-bank-deposits']], function () {
-            Route::get('deposit', 'DepositController@index')->name('bank.deposit');
-            Route::post('deposit', 'DepositController@store')->name('bank.storeDeposit');
-            Route::get('deposit/transactions', 'DepositController@transactions')->name('bank.depositTransactions');
+        Route::middleware('can:do-bank-deposits')->group(function () {
+            Route::get('deposit', 'DepositController@index')->name('deposit');
+            Route::post('deposit', 'DepositController@store')->name('storeDeposit');
+            Route::get('deposit/transactions', 'DepositController@transactions')->name('depositTransactions');
         });
 
         // Settings
-        Route::group(['middleware' => ['can:configure-bank']], function () {
-            Route::get('settings', 'BankSettingsController@edit')->name('bank.settings.edit');
-            Route::put('settings', 'BankSettingsController@update')->name('bank.settings.update');
-            Route::resource('coupons', 'CouponTypesController');
+        Route::middleware('can:configure-bank')->namespace('Settings')->name('settings.')->group(function () {
+            Route::get('settings', 'BankSettingsController@edit')->name('edit');
+            Route::put('settings', 'BankSettingsController@update')->name('update');
         });
 
         // Maintenance
-        Route::group(['middleware' => ['can:cleanup,App\Person']], function () {
-            Route::get('maintenance', 'MaintenanceController@maintenance')->name('bank.maintenance');
-            Route::post('maintenance', 'MaintenanceController@updateMaintenance')->name('bank.updateMaintenance');
+        Route::middleware('can:cleanup,App\Person')->group(function () {
+            Route::get('maintenance', 'MaintenanceController@maintenance')->name('maintenance');
+            Route::post('maintenance', 'MaintenanceController@updateMaintenance')->name('updateMaintenance');
         });
 
         // Export
-        Route::group(['middleware' => ['can:export,App\Person']], function () {
-            Route::get('export', 'ImportExportController@export')->name('bank.export');
-            Route::post('doExport', 'ImportExportController@doExport')->name('bank.doExport');
+        Route::middleware('can:export,App\Person')->group(function () {
+            Route::get('export', 'ImportExportController@export')->name('export');
+            Route::post('doExport', 'ImportExportController@doExport')->name('doExport');
         });
+    });
+
+    // Coupons
+    Route::middleware('can:configure-bank')->prefix('bank')->group(function () {
+        Route::resource('coupons', 'CouponTypesController');
     });
     
     // Reporting
-    Route::group(['middleware' => ['can:view-bank-reports']], function () {
-        Route::get('reporting/bank/withdrawals', 'BankReportingController@withdrawals')->name('reporting.bank.withdrawals');
-        Route::get('reporting/bank/withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'BankReportingController@couponsHandedOutPerDay')->name('reporting.bank.couponsHandedOutPerDay');
+    Route::middleware('can:view-bank-reports')->namespace('Reporting')->name('reporting.bank.')->prefix('reporting/bank')->group(function () {
+        Route::get('withdrawals', 'BankReportingController@withdrawals')->name('withdrawals');
+        Route::get('withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'BankReportingController@couponsHandedOutPerDay')->name('couponsHandedOutPerDay');
 
-        Route::get('reporting/bank/deposits', 'BankReportingController@deposits')->name('reporting.bank.deposits');
-        Route::get('reporting/bank/deposits/chart/stats', 'BankReportingController@depositStats')->name('reporting.bank.depositStats');
-        Route::get('reporting/bank/deposits/chart/stats/{project}', 'BankReportingController@projectDepositStats')->name('reporting.bank.projectDepositStats');
+        Route::get('deposits', 'BankReportingController@deposits')->name('deposits');
+        Route::get('deposits/chart/stats', 'BankReportingController@depositStats')->name('depositStats');
+        Route::get('deposits/chart/stats/{project}', 'BankReportingController@projectDepositStats')->name('projectDepositStats');
     });
 
 });

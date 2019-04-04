@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Bank\Http\Controllers;
+namespace Modules\Bank\Http\Controllers\Reporting;
 
 use App\CouponType;
 use App\CouponHandout;

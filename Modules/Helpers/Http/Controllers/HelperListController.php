@@ -4,7 +4,7 @@ namespace Modules\Helpers\Http\Controllers;
 
 use App\Person;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ExportableActions;
+use App\Http\Controllers\Export\ExportableActions;
 
 use Modules\Helpers\Entities\Helper;
 use Modules\Helpers\Http\Requests\ImportHelpers;

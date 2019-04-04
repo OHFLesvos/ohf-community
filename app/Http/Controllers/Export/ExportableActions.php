@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Export;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

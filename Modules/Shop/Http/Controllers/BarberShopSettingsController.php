@@ -3,7 +3,7 @@
 namespace Modules\Shop\Http\Controllers;
 
 use App\CouponType;
-use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\Settings\SettingsController;
 
 class BarberShopSettingsController extends SettingsController
 {

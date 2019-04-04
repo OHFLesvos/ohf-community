@@ -2,7 +2,7 @@
 
 namespace Modules\Library\Http\Controllers;
 
-use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\Settings\SettingsController;
 
 class LibrarySettingsController extends SettingsController
 {
