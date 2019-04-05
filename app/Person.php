@@ -242,7 +242,7 @@ class Person extends Model
     }
 
     function revokedCards() {
-        return $this->hasMany('App\RevokedCard');
+        return $this->hasMany('Modules\People\Entities\RevokedCard');
     }
 
     public function couponHandouts() {

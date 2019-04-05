@@ -3,8 +3,9 @@
 namespace Modules\People\Http\Controllers\Reporting;
 
 use App\Person;
-use App\RevokedCard;
 use App\Http\Controllers\Reporting\BaseReportingController;
+
+use Modules\People\Entities\RevokedCard;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;

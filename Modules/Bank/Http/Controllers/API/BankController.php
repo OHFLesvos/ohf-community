@@ -3,8 +3,9 @@
 namespace Modules\Bank\Http\Controllers\API;
 
 use App\Person;
-use App\RevokedCard;
 use App\Http\Controllers\Controller;
+
+use Modules\People\Entities\RevokedCard;
 
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;
