@@ -31,23 +31,26 @@ Route::group(['middleware' => ['language', 'auth']], function () {
     Route::post('/people/bulkAction', 'PeopleController@bulkAction')->name('people.bulkAction');
     Route::resource('/people', 'PeopleController');
 
-    // Reporting: Monthly summary report
-    Route::group(['middleware' => ['can:view-people-reports']], function () {
-        Route::get('/reporting/monthly-summary', 'Reporting\\MonthlySummaryReportingController@index')->name('reporting.monthly-summary');
+    Route::namespace('Reporting')->prefix('reporting')->group(function(){
+        // Reporting: Monthly summary report
+        Route::group(['middleware' => ['can:view-people-reports']], function () {
+            Route::get('monthly-summary', 'MonthlySummaryReportingController@index')->name('reporting.monthly-summary');
+        });
+
+        // Reporting: People
+        Route::group(['middleware' => ['can:view-people-reports']], function () {
+            Route::get('people', 'PeopleReportingController@index')->name('reporting.people');
+            Route::get('people/chart/nationalities', 'PeopleReportingController@nationalities')->name('reporting.people.nationalities');
+            Route::get('people/chart/genderDistribution', 'PeopleReportingController@genderDistribution')->name('reporting.people.genderDistribution');
+            Route::get('people/chart/demographics', 'PeopleReportingController@demographics')->name('reporting.people.demographics');
+            Route::get('people/chart/numberTypes', 'PeopleReportingController@numberTypes')->name('reporting.people.numberTypes');
+            Route::get('people/chart/visitorsPerDay', 'PeopleReportingController@visitorsPerDay')->name('reporting.people.visitorsPerDay');
+            Route::get('people/chart/visitorsPerWeek', 'PeopleReportingController@visitorsPerWeek')->name('reporting.people.visitorsPerWeek');
+            Route::get('people/chart/visitorsPerMonth', 'PeopleReportingController@visitorsPerMonth')->name('reporting.people.visitorsPerMonth');
+            Route::get('people/chart/visitorsPerYear', 'PeopleReportingController@visitorsPerYear')->name('reporting.people.visitorsPerYear');
+            Route::get('people/chart/avgVisitorsPerDayOfWeek', 'PeopleReportingController@avgVisitorsPerDayOfWeek')->name('reporting.people.avgVisitorsPerDayOfWeek');
+            Route::get('people/chart/registrationsPerDay', 'PeopleReportingController@registrationsPerDay')->name('reporting.people.registrationsPerDay');
+        });
     });
 
-    // Reporting: People
-    Route::group(['middleware' => ['can:view-people-reports']], function () {
-        Route::get('/reporting/people', 'Reporting\\PeopleReportingController@index')->name('reporting.people');
-        Route::get('/reporting/people/chart/nationalities', 'Reporting\\PeopleReportingController@nationalities')->name('reporting.people.nationalities');
-        Route::get('/reporting/people/chart/genderDistribution', 'Reporting\\PeopleReportingController@genderDistribution')->name('reporting.people.genderDistribution');
-        Route::get('/reporting/people/chart/demographics', 'Reporting\\PeopleReportingController@demographics')->name('reporting.people.demographics');
-        Route::get('/reporting/people/chart/numberTypes', 'Reporting\\PeopleReportingController@numberTypes')->name('reporting.people.numberTypes');
-        Route::get('/reporting/people/chart/visitorsPerDay', 'Reporting\\PeopleReportingController@visitorsPerDay')->name('reporting.people.visitorsPerDay');
-        Route::get('/reporting/people/chart/visitorsPerWeek', 'Reporting\\PeopleReportingController@visitorsPerWeek')->name('reporting.people.visitorsPerWeek');
-        Route::get('/reporting/people/chart/visitorsPerMonth', 'Reporting\\PeopleReportingController@visitorsPerMonth')->name('reporting.people.visitorsPerMonth');
-        Route::get('/reporting/people/chart/visitorsPerYear', 'Reporting\\PeopleReportingController@visitorsPerYear')->name('reporting.people.visitorsPerYear');
-        Route::get('/reporting/people/chart/avgVisitorsPerDayOfWeek', 'Reporting\\PeopleReportingController@avgVisitorsPerDayOfWeek')->name('reporting.people.avgVisitorsPerDayOfWeek');
-        Route::get('/reporting/people/chart/registrationsPerDay', 'Reporting\\PeopleReportingController@registrationsPerDay')->name('reporting.people.registrationsPerDay');
-    });
 });
