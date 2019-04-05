@@ -2,12 +2,22 @@
 // Calendar
 //
 
-// import 'moment';
-// import $ from 'jquery';
-// import 'fullcalendar';
-// import 'fullcalendar-scheduler';
-
 var lastResourceGroup = null;
+
+const handleAjaxError = function(err){
+    var msg;
+    if (err.response.data.message) {
+        msg = err.response.data.message;
+    }
+    if (err.response.data.errors) {
+        msg += "\n" + Object.entries(err.response.data.errors).map(([k, v]) => {
+            return v.join('. ');
+        });
+    } else if (err.response.data.error) {
+        msg = err.response.data.error;
+    }
+    alert('Error: ' + msg);
+}
 
 $(document).ready(function() {
 
@@ -129,23 +139,17 @@ $(document).ready(function() {
 
         // Action on submit: Store resource
         resourceModal.parent('form').off().on('submit', function(){
-            $.ajax(storeResourceUrl, {
-                method: 'POST',
-                data: {
-                    _token: csrfToken,
+            axios.post(storeResourceUrl, {
                     title: resourceTitleElem.val(),
                     group: resourceGroupElem.val(),
                     color: resourceColorElem.val(),
-                }
-            })
-            .done(function(resourceData) {
-                lastResourceGroup = resourceGroupElem.val();
-                resourceModal.modal('hide');
-                calendar.fullCalendar('addResource', resourceData, true);
-            })
-            .fail(function(jqXHR, textStatus) {
-                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-            });
+                })
+                .then((res) => {
+                    lastResourceGroup = resourceGroupElem.val();
+                    resourceModal.modal('hide');
+                    calendar.fullCalendar('addResource', res.data, true);
+                })
+                .catch(handleAjaxError);
         });
 
         // Show modal
@@ -171,40 +175,27 @@ $(document).ready(function() {
 
         // Action on submit: Update resource
         resourceModal.parent('form').off().on('submit', function(){
-            $.ajax(resource.url, {
-                method: 'PUT',
-                data: {
-                    _token: csrfToken,
+            axios.put(resource.url, {
                     title: resourceTitleElem.val(),
                     group: resourceGroupElem.val(),
                     color: resourceColorElem.val(),
-                }
-            })
-            .done(function() {
-                resourceModal.modal('hide');
-                calendar.fullCalendar('refetchResources');
-            })
-            .fail(function(jqXHR, textStatus) {
-                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-            });
+                })
+                .then(() => {
+                    resourceModal.modal('hide');
+                    calendar.fullCalendar('refetchResources');
+                })
+                .catch(handleAjaxError);
         });
 
-        // Action on delete button click: Delete event
+        // Action on delete button click: Delete resource
         resourceDeleteButton.off().on('click', function(){
             if (confirm('Are you sure you want to delete thre resource \'' + resource.title + '\'?')) {
-                $.ajax(resource.url, {
-                    method: 'DELETE',
-                    data: {
-                        _token: csrfToken,
-                    },
-                })
-                .done(function() {
-                    resourceModal.modal('hide');
-                    calendar.fullCalendar('removeResource', resource);
-                })
-                .fail(function(jqXHR, textStatus) {
-                    alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-                });
+                axios.delete(resource.url)
+                    .then(() => {
+                        resourceModal.modal('hide');
+                        calendar.fullCalendar('removeResource', resource);
+                    })
+                    .catch(handleAjaxError);
             }
         });
 
@@ -244,24 +235,18 @@ $(document).ready(function() {
 
         // Action on submit: Store event
         modal.parent('form').off().on('submit', function(){
-            $.ajax(storeEventUrl, {
-                method: 'POST',
-                data: {
-                    _token: csrfToken,
+            axios.post(storeEventUrl, {
                     title: titleElem.val(),
                     description: descriptionElem.val(),
                     resourceId: resourceIdInputElem.val(),
                     start: start.format(),
                     end: end ? end.format() : null,
-                }
-            })
-            .done(function(eventData) {
-                modal.modal('hide');
-                calendar.fullCalendar('renderEvent', eventData, true);
-            })
-            .fail(function(jqXHR, textStatus) {
-                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-            });
+                })
+                .then((res) => {
+                    modal.modal('hide');
+                    calendar.fullCalendar('renderEvent', res.data, true);
+                })
+                .catch(handleAjaxError);
         });
 
         // Show modal
@@ -325,43 +310,30 @@ $(document).ready(function() {
 
         // Action on form submit: Update event
         modal.parent('form').off().on('submit', function(){
-            $.ajax(calEvent.url, {
-                method: 'PUT',
-                data: {
-                    _token: csrfToken,
+            axios.put(calEvent.url, {
                     title: titleElem.val(),
                     description: descriptionElem.val(),
                     resourceId: resourceIdInputElem.val(),
-                }
-            })
-            .done(function() {
-                modal.modal('hide');
-                calEvent.title = titleElem.val();
-                calEvent.description = descriptionElem.val();
-                calEvent.resourceId = resourceIdInputElem.val();
-                calendar.fullCalendar('updateEvent', calEvent);
-            })
-            .fail(function(jqXHR, textStatus) {
-                alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-            });
+                })
+                .then(() => {
+                    modal.modal('hide');
+                    calEvent.title = titleElem.val();
+                    calEvent.description = descriptionElem.val();
+                    calEvent.resourceId = resourceIdInputElem.val();
+                    calendar.fullCalendar('updateEvent', calEvent);
+                })
+                .catch(handleAjaxError);
         });
 
         // Action on delete button click: Delete event
         deleteButton.off().on('click', function(){
             if (confirm('Really delete event \'' + calEvent.title + '\'?')) {
-                $.ajax(calEvent.url, {
-                    method: 'DELETE',
-                    data: {
-                        _token: csrfToken,
-                    },
-                })
-                .done(function() {
-                    modal.modal('hide');
-                    calendar.fullCalendar('removeEvents', calEvent.id);
-                })
-                .fail(function(jqXHR, textStatus) {
-                    alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-                });
+                axios.delete(calEvent.url)
+                    .then(() => {
+                        modal.modal('hide');
+                        calendar.fullCalendar('removeEvents', calEvent.id);
+                    })
+                    .catch(handleAjaxError);
             }
         });
 
@@ -379,19 +351,15 @@ $(document).ready(function() {
     * Updates an event after dragging / resizing
     */
     function updateEventDate(calEvent, delta, revertFunc) {
-        $.ajax(calEvent.updateDateUrl, {
-            method: 'PATCH',
-            data : {
-                _token: csrfToken,
+        axios.patch(calEvent.updateDateUrl, {
                 start: calEvent.start.format(),
                 end: calEvent.end ? calEvent.end.format() : null,
                 resourceId: calEvent.resourceId,
-            }
-        })
-        .fail(function(jqXHR, textStatus) {
-            alert('Error: ' + (jqXHR.responseJSON.message ? jqXHR.responseJSON.message : jqXHR.responseText));
-            revertFunc();
-        });
+            })
+            .catch((err) => {
+                handleAjaxError(err);
+                revertFunc();
+            });
     }
 
     /**
@@ -430,7 +398,6 @@ $(document).ready(function() {
             }));
             resourceColors[item.id] = item.eventColor;
         });
-        //console.log(resourceColors);
         resourceIdInputElem.val(resourceId).change().prop("disabled", disabled);            
 
         // Change color of the label next to the resource select
