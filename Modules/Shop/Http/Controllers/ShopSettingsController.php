@@ -18,7 +18,7 @@ class ShopSettingsController extends SettingsController
                 'default' => 1,
                 'form_type' => 'number',
                 'form_validate' => 'required|numeric|min:1',
-                'label_key' => 'people.validity_in_days',
+                'label_key' => 'people::people.validity_in_days',
                 'section' => 'coupons',
             ],
         ];
