@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Person;
 
 class AddCaseNoHashToPersons extends Migration
 {
@@ -20,22 +19,10 @@ class AddCaseNoHashToPersons extends Migration
             $table->index('police_no', 'persons_police_no_index');
             $table->index('registration_no', 'persons_registration_no_index');
             $table->index('section_card_no', 'persons_section_card_no_index');
+            $table->dropColumn('case_no');
         });
         Schema::table('helpers', function (Blueprint $table) {
             $table->string('casework_case_number')->nullable()->after('endorses_casework');
-        });
-        Person::all()->each(function($person) {
-            if ($person->case_no != null) {
-                $person->case_no_hash = hash('sha256', $person->case_no);
-                $person->save();
-                if ($person->helper != null) {
-                    $person->helper->casework_case_number = $person->case_no;
-                    $person->helper->save();
-                }
-            }
-        });
-        Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn('case_no');
         });
     }
 
