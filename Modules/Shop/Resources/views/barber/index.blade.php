@@ -10,7 +10,7 @@
                     <thead>
                         <tr>
                             <th class="fit text-right">#</th>
-                            <th>@lang('people.person')</th>
+                            <th>@lang('people::people.person')</th>
                             <th class="fit"></th>
                         </tr>
                     </thead>
@@ -72,7 +72,7 @@
 
         @can('list', App\Person::class)
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addHelperModal">
-                @icon(plus-circle) @lang('people.add_helper')
+                @icon(plus-circle) @lang('people::people.add_helper')
             </button>
         @endcan
     @else
@@ -85,7 +85,7 @@
 @section('script')
     var csrfToken = '{{ csrf_token() }}';
     var checkinUrl = '{{ route('shop.barber.checkin') }}';
-    var scannerDialogTitle = '@lang('people.qr_code_scanner')';
+    var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
     var checkInConfirmationMessage = '@lang('shop::shop.confirm_checkin_of_person')';
     var delereReservationConfirmMessage = '@lang('shop::shop.confirm_delete_reservation')';
@@ -102,9 +102,9 @@
 @section('content-footer')
     {!! Form::open(['route' => ['shop.barber.addPerson' ], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'addHelperModal' ])
-            @slot('title', __('people.add_helper'))
+            @slot('title', __('people::people.add_helper'))
 
-            {{ Form::bsAutocomplete('person_id', null, route('people.helpers.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
+            {{ Form::bsAutocomplete('person_id', null, route('people.helpers.filterPersons'), ['placeholder' => __('people::people.search_existing_person')], '') }}
 
             @slot('footer')
                 {{ Form::bsSubmitButton(__('app.add')) }}

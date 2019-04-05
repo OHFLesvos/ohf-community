@@ -10,5 +10,7 @@
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [
+        "bank"
+    ]
 }

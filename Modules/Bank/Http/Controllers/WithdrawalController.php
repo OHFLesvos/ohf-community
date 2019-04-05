@@ -141,7 +141,7 @@ class WithdrawalController extends Controller
         $revoked = RevokedCard::where('card_no', $cardNo)->first();
         if ($revoked != null) {
             return view('bank::withdrawal.error', [
-                'message' => __('people.card_revoked', [ 'card_no' => substr($cardNo, 0, 7), 'date' => $revoked->created_at ]),
+                'message' => __('people::people.card_revoked', [ 'card_no' => substr($cardNo, 0, 7), 'date' => $revoked->created_at ]),
             ]);
         }
 

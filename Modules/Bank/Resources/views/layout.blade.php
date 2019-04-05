@@ -2,7 +2,7 @@
     'nav_elements' => [
         [
             'url' => route('bank.withdrawal'),
-            'label' => __('people.withdrawal'),
+            'label' => __('people::people.withdrawal'),
             'icon' => 'id-card',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'bank.withdrawal'
@@ -13,7 +13,7 @@
         ],
         [
             'url' => route('bank.deposit'),
-            'label' => __('people.deposit'),
+            'label' => __('people::people.deposit'),
             'icon' => 'money',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'bank.deposit';

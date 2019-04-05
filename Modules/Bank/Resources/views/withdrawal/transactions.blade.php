@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people.withdrawals'))
+@section('title', __('people::people.withdrawals'))
 
 @section('content')
     @if( ! $transactions->isEmpty() )
@@ -10,7 +10,7 @@
                     <tr>
                         <th>@lang('app.registered')</th>
                         <th>@lang('app.date')</th>
-                        <th>@lang('people.recipient')</th>
+                        <th>@lang('people::people.recipient')</th>
                         <th>@lang('app.amount')</th>
                     </tr>
                 </thead>
@@ -67,7 +67,7 @@
                                 @elseif($person->gender == 'm')@icon(male) 
                                 @endif
                                 @if(isset($person->date_of_birth))
-                                    {{ $person->date_of_birth }} (@lang('people.age_n', [ 'age' => $person->age]))
+                                    {{ $person->date_of_birth }} (@lang('people::people.age_n', [ 'age' => $person->age]))
                                 @endif
                                 @if(isset($person->nationality))
                                     {{ $person->nationality }}
@@ -92,7 +92,7 @@
         </div>
     @else
         @component('components.alert.info')
-            @lang('people.no_transactions_so_far')
+            @lang('people::people.no_transactions_so_far')
         @endcomponent
     @endif
 @endsection

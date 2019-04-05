@@ -4,6 +4,7 @@ namespace App\Policies\People\Bank;
 
 use App\User;
 use App\CouponType;
+
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CouponTypePolicy

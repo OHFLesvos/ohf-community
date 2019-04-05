@@ -12,8 +12,8 @@ class BankSettingsController extends SettingsController
 {
     protected function getSections() {
         return [
-            'display_settings' => __('people.display_settings'),
-            'frequent_visitors' => __('people.frequent_visitors'),
+            'display_settings' => __('people::people.display_settings'),
+            'frequent_visitors' => __('people::people.frequent_visitors'),
         ];
     }
 

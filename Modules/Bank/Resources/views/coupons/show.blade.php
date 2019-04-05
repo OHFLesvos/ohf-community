@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people.view_coupon'))
+@section('title', __('people::people.view_coupon'))
 
 @section('content')
 
@@ -13,14 +13,14 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('people.daily_amount')</strong></div>
+                <div class="col-sm"><strong>@lang('people::people.daily_amount')</strong></div>
                 <div class="col-sm">{{ $coupon->daily_amount }}</div>
             </div>
         </li>
         @isset($coupon->retention_period)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm"><strong>@lang('people.retention_period')</strong></div>
+                    <div class="col-sm"><strong>@lang('people::people.retention_period')</strong></div>
                     <div class="col-sm">{{ $coupon->retention_period }} {{ trans_choice('app.day_days', $coupon->retention_period) }}</div>
                 </div>
             </li>
@@ -28,7 +28,7 @@
         @isset($coupon->min_age)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm"><strong>@lang('people.min_age')</strong></div>
+                    <div class="col-sm"><strong>@lang('people::people.min_age')</strong></div>
                     <div class="col-sm">{{ $coupon->min_age }} {{ trans_choice('app.year_years', $coupon->min_age) }}</div>
                 </div>
             </li>
@@ -36,7 +36,7 @@
         @isset($coupon->max_age)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm"><strong>@lang('people.max_age')</strong></div>
+                    <div class="col-sm"><strong>@lang('people::people.max_age')</strong></div>
                     <div class="col-sm">{{ $coupon->max_age }} {{ trans_choice('app.year_years', $coupon->max_age) }}</div>
                 </div>
             </li>
@@ -44,8 +44,8 @@
         @isset($coupon->daily_spending_limit)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm"><strong>@lang('people.daily_spending_limit')</strong></div>
-                    <div class="col-sm">{{ $coupon->daily_spending_limit }} @lang('people.per_day')</div>
+                    <div class="col-sm"><strong>@lang('people::people.daily_spending_limit')</strong></div>
+                    <div class="col-sm">{{ $coupon->daily_spending_limit }} @lang('people::people.per_day')</div>
                 </div>
             </li>
         @endisset
@@ -63,19 +63,19 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('people.returnable')</strong></div>
+                <div class="col-sm"><strong>@lang('people::people.returnable')</strong></div>
                 <div class="col-sm">@if($coupon->returnable) @icon(check) @else @icon(times) @endif</div>
             </div>
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('people.with_qr_code')</strong></div>
+                <div class="col-sm"><strong>@lang('people::people.with_qr_code')</strong></div>
                 <div class="col-sm">@if($coupon->qr_code_enabled) @icon(check) @else @icon(times) @endif</div>
             </div>
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('people.allow_for_helpers')</strong></div>
+                <div class="col-sm"><strong>@lang('people::people.allow_for_helpers')</strong></div>
                 <div class="col-sm">@if($coupon->allow_for_helpers) @icon(check) @else @icon(times) @endif</div>
             </div>
         </li>

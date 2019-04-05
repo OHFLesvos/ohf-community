@@ -65,7 +65,7 @@ class StoreHandoutCoupon extends FormRequest
             $coupon = CouponType::findOrFail($this->coupon_type_id);
             $person = Person::findOrFail($this->person_id);
             if (!$person->eligibleForCoupon($coupon)) {
-                $validator->errors()->add('coupon_type_id', __('people.person_not_eligible_for_this_coupon'));
+                $validator->errors()->add('coupon_type_id', __('people::people.person_not_eligible_for_this_coupon'));
             }
             $lastHandout = $person->canHandoutCoupon($coupon);
             if ($lastHandout != null) {

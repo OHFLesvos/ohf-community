@@ -42,13 +42,13 @@ class HelperListController extends Controller
 
     function getSections() {
         return [
-            'portrait' => __('people.portrait'),
+            'portrait' => __('people::people.portrait'),
             'general' => __('app.general'),
-            'reachability' => __('people.reachability'),
-            'occupation' => __('people.occupation'),
-            'identification' => __('people.identification'),
-            'casework' => __('people.casework'),
-            'distribution' => __('people.distribution'),
+            'reachability' => __('people::people.reachability'),
+            'occupation' => __('people::people.occupation'),
+            'identification' => __('people::people.identification'),
+            'casework' => __('people::people.casework'),
+            'distribution' => __('people::people.distribution'),
         ];
     }
 
@@ -88,7 +88,7 @@ class HelperListController extends Controller
                 'form_type' => 'image',
                 'form_name' => 'portrait_picture',
                 'form_validate' => [ 'nullable', 'image'],
-                'form_help' => __('people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
+                'form_help' => __('people::people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
                 'label_key' => 'people.name',
@@ -157,7 +157,7 @@ class HelperListController extends Controller
             [
                 'label_key' => 'people.gender',
                 'icon' => null,
-                'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('people.female') : __('people.male')) : null; },
+                'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('people::people.female') : __('people::people.male')) : null; },
                 'value_html' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? icon('female') : icon('male')) : null; },
                 'overview' => true,
                 'section' => 'general',
@@ -168,8 +168,8 @@ class HelperListController extends Controller
                 'form_name' => 'gender',
                 'form_list' => [ 
                     null => __('app.unspecified'),
-                    __('people.male') => __('people.male'),
-                    __('people.female') => __('people.female')
+                    __('people::people.male') => __('people::people.male'),
+                    __('people::people.female') => __('people::people.female')
                 ],
                 'form_validate' => 'required', // TODO better validation |in:m,f
             ],
@@ -494,7 +494,7 @@ class HelperListController extends Controller
                 'label_key' => 'people.asylum_request_status',
                 'icon' => null,
                 'value' => function($helper) { 
-                    return $helper->casework_asylum_request_status != null ? __('people.' . $helper->casework_asylum_request_status) : null; 
+                    return $helper->casework_asylum_request_status != null ? __('people::people.' . $helper->casework_asylum_request_status) : null; 
                 },
                 'overview' => false,
                 'section' => 'casework',
@@ -508,7 +508,7 @@ class HelperListController extends Controller
                 },
                 'form_type' => 'select',
                 'form_name' => 'asylum_request_status',
-                'form_list' => collect(self::$asylum_request_states)->mapWithKeys(function($s){ return [ __('people.' . $s) => __('people.' . $s) ]; })->toArray(),
+                'form_list' => collect(self::$asylum_request_states)->mapWithKeys(function($s){ return [ __('people::people.' . $s) => __('people::people.' . $s) ]; })->toArray(),
                 'form_placeholder' => __('app.select_status'),
                 'form_validate' => 'nullable', // TODO better validation
                 'authorized_view' => Gate::allows('view-helpers-casework'),
@@ -795,23 +795,23 @@ class HelperListController extends Controller
     function getScopes() {
         return collect([
             'active' => [
-                'label' => __('people.active'),
+                'label' => __('people::people.active'),
                 'scope' => 'active',
             ],
             'trial' => [
-                'label' => __('people.trial_period'),
+                'label' => __('people::people.trial_period'),
                 'scope' => 'trial',
             ],
             'regular' => [
-                'label' => __('people.regular'),
+                'label' => __('people::people.regular'),
                 'scope' => 'regular',
             ],
             'applicants' => [
-                'label' => __('people.applicants'),
+                'label' => __('people::people.applicants'),
                 'scope' => 'applicants',
             ],
             'alumni' => [
-                'label' => __('people.alumni'),
+                'label' => __('people::people.alumni'),
                 'scope' => 'alumni',
             ],
         ]);
@@ -820,7 +820,7 @@ class HelperListController extends Controller
     function getGroupings() {
         return collect([
             'nationalities' => [
-                'label' => __('people.nationalities'),
+                'label' => __('people::people.nationalities'),
                 'groups' => function() {
                     return Person::groupBy('nationality')
                         ->orderBy('nationality')
@@ -837,7 +837,7 @@ class HelperListController extends Controller
                 },
             ],
             'languages' => [
-                'label' => __('people.languages'),
+                'label' => __('people::people.languages'),
                 'groups' => function() {
                     return Person::groupBy('languages')
                         ->orderBy('languages')
@@ -857,7 +857,7 @@ class HelperListController extends Controller
                 },
             ],
             'gender' => [
-                'label' => __('people.gender'),
+                'label' => __('people::people.gender'),
                 'groups' => function() {
                     return Person::groupBy('gender')
                         ->orderBy('gender')
@@ -881,9 +881,9 @@ class HelperListController extends Controller
                         ->map(function($s) {
                             switch ($s) {
                                 case 'f':
-                                    return __('people.female');
+                                    return __('people::people.female');
                                 case 'm':
-                                    return __('people.male');
+                                    return __('people::people.male');
                                 default:
                                     return __('app.unspecified');
                             }
@@ -909,7 +909,7 @@ class HelperListController extends Controller
                 },
             ],
             'asylum_request_status' => [
-                'label' => __('people.asylum_request_status'),
+                'label' => __('people::people.asylum_request_status'),
                 'groups' => function() {
                     return Helper::groupBy('casework_asylum_request_status')
                         ->orderBy('casework_asylum_request_status')
@@ -930,7 +930,7 @@ class HelperListController extends Controller
                     return collect($groups)
                         ->map(function($s) {
 
-                            return $s == null ? __('app.unspecified') : __('people.'.$s);
+                            return $s == null ? __('app.unspecified') : __('people::people.'.$s);
                         });
                 },
             ],
@@ -957,11 +957,11 @@ class HelperListController extends Controller
                 'columns' => [],
             ],
             'name_nationality_occupation' => [
-                'label' => __('people.name_nationality_occupation'),
+                'label' => __('people::people.name_nationality_occupation'),
                 'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities'],
             ],
             'contact_info' => [
-                'label' => __('people.contact_info'),
+                'label' => __('people::people.contact_info'),
                 'columns' => ['name', 'family_name', 'nickname', 'local_phone', 'other_phone', 'whatsapp', 'email', 'skype', 'residence'],
             ],
         ]);
@@ -978,27 +978,27 @@ class HelperListController extends Controller
                 'sorting' => 'person.family_name',
             ],
             'nationality' => [
-                'label' => __('people.nationality'),
+                'label' => __('people::people.nationality'),
                 'sorting' => 'person.nationality',
             ],
             'gender' => [
-                'label' => __('people.gender'),
+                'label' => __('people::people.gender'),
                 'sorting' => 'person.gender',
             ],
             'age' => [
-                'label' => __('people.age'),
+                'label' => __('people::people.age'),
                 'sorting' => 'person.age',
             ],
             'residence' => [
-                'label' => __('people.residence'),
+                'label' => __('people::people.residence'),
                 'sorting' => 'residence',
             ],
             'work_application_date' => [
-                'label' => __('people.application_date'),
+                'label' => __('people::people.application_date'),
                 'sorting' => 'work_application_date',
             ],
             'work_starting_date' => [
-                'label' => __('people.starting_date'),
+                'label' => __('people::people.starting_date'),
                 'sorting' => 'work_starting_date',
             ],
         ]);
@@ -1141,7 +1141,7 @@ class HelperListController extends Controller
                 Rule::exists('persons', 'id'),
                 function($attribute, $value, $fail) {
                     if (Person::where('id', $value)->has('helper')->first() != null) {
-                        return $fail(__('people.helper_already_exists'));
+                        return $fail(__('people::people.helper_already_exists'));
                     }
                 },
             ],
@@ -1151,7 +1151,7 @@ class HelperListController extends Controller
         $helper = new Helper();
         $person->helper()->save($helper);
         return redirect()->route('people.helpers.edit', $helper)
-            ->with('success', __('people.helper_registered'));
+            ->with('success', __('people::people.helper_registered'));
     }
 
     public function create(Request $request) {
@@ -1219,7 +1219,7 @@ class HelperListController extends Controller
         $person->helper()->save($helper);
 
         return redirect()->route('people.helpers.show', $helper)
-            ->with('success', __('people.helper_registered'));	
+            ->with('success', __('people::people.helper_registered'));	
     }
 
     private function validateFormData($request) {
@@ -1324,7 +1324,7 @@ class HelperListController extends Controller
         $helper->person->save();
 
 		return redirect()->route('people.helpers.show', $helper)
-				->with('success', __('people.helper_updated'));		
+				->with('success', __('people::people.helper_updated'));		
     }
 
     public function destroy(Helper $helper) {
@@ -1333,7 +1333,7 @@ class HelperListController extends Controller
         $helper->delete();
         
         return redirect()->route('people.helpers.index')
-            ->with('success', __('people.helper_deleted'));
+            ->with('success', __('people::people.helper_deleted'));
     }
 
     function exportAuthorize()
@@ -1657,7 +1657,7 @@ class HelperListController extends Controller
         $nationalities = self::getAges();
         return response()->json([
             'labels' => array_keys($nationalities),
-            'datasets' => [ __('people.persons') => array_values($nationalities)],
+            'datasets' => [ __('people::people.persons') => array_values($nationalities)],
         ]);
     }
 

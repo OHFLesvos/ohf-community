@@ -6,11 +6,11 @@
     <div class="row">
         <div class="col-md">
             <div class="card mb-4">
-                <div class="card-header">{{ ucfirst(__('people.persons')) }}
+                <div class="card-header">{{ ucfirst(__('people::people.persons')) }}
                     <a href="{{ route('library.lending.persons') }}" class="pull-right">@lang('library::library.borrowers') ({{ $num_borrowers }})</a>
                 </div>
                 <div class="card-body pb-2">
-                    {{ Form::bsAutocompleteWithButton('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], __('app.register'), 'button-register-person', 'plus-circle') }}
+                    {{ Form::bsAutocompleteWithButton('person_id', null, route('people.filterPersons'), ['placeholder' => __('people::people.search_existing_person')], __('app.register'), 'button-register-person', 'plus-circle') }}
                 </div>
             </div>
         </div>
@@ -58,13 +58,13 @@
 
     {!! Form::open(['route' => ['library.lending.storePerson'], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'registerPersoModal' ])
-            @slot('title', __('people.register_new_person'))
+            @slot('title', __('people::people.register_new_person'))
             <div class="form-row">
                 <div class="col-md">
-                    {{ Form::bsText('name', '', [ 'placeholder' => __('people.name') ], '') }}
+                    {{ Form::bsText('name', '', [ 'placeholder' => __('people::people.name') ], '') }}
                 </div>
                 <div class="col-md">
-                    {{ Form::bsText('family_name', '', [ 'placeholder' => __('people.family_name') ], '') }}
+                    {{ Form::bsText('family_name', '', [ 'placeholder' => __('people::people.family_name') ], '') }}
                 </div>
             </div>
             <div class="form-row">
@@ -77,10 +77,10 @@
             </div>
             <div class="form-row">
                 <div class="col-md">
-                    {{ Form::bsText('nationality', null, [ 'placeholder' => __('people.nationality') ], '') }}
+                    {{ Form::bsText('nationality', null, [ 'placeholder' => __('people::people.nationality') ], '') }}
                 </div>
                 <div class="col-md">
-                    {{ Form::bsNumber('police_no', null, ['prepend' => '05/', 'placeholder' => __('people.police_number') ], '') }}
+                    {{ Form::bsNumber('police_no', null, ['prepend' => '05/', 'placeholder' => __('people::people.police_number') ], '') }}
                 </div>
             </div>
             @slot('footer')

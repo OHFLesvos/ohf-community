@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', __('people.register_helper'))
+@section('title', __('people::people.register_helper'))
 
 @section('content')
     {!! Form::open(['route' => ['people.helpers.storeFrom']]) !!}
-        {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
+        {{ Form::bsAutocomplete('person_id', null, route('people.filterPersons'), ['placeholder' => __('people::people.search_existing_person')], '') }}
 		<p>
-            {{ Form::bsSubmitButton(__('people.use_existing_person')) }} 
-			<a href="{{ route('people.helpers.create') }}" class="btn btn-primary">@icon(plus-circle) @lang('people.register_new_person')</a>
+            {{ Form::bsSubmitButton(__('people::people.use_existing_person')) }} 
+			<a href="{{ route('people.helpers.create') }}" class="btn btn-primary">@icon(plus-circle) @lang('people::people.register_new_person')</a>
 		</p>
     {!! Form::close() !!}    
 @endsection

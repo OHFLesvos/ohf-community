@@ -3,8 +3,9 @@
 namespace Modules\Library\Http\Controllers;
 
 use App\Person;
-use App\Http\Requests\StorePerson;
 use App\Http\Controllers\Controller;
+
+use Modules\People\Http\Requests\StorePerson;
 
 use Modules\Library\Entities\LibraryLending;
 use Modules\Library\Entities\LibraryBook;
@@ -52,7 +53,7 @@ class LendingController extends Controller
         $person->save();
         
 		return redirect()->route('library.lending.person', $person)
-				->with('success', __('people.person_registered'));		
+				->with('success', __('people::people.person_registered'));		
     }
 
     public function person(Person $person) {
@@ -144,7 +145,7 @@ class LendingController extends Controller
             ->with('success', __('library::library.book_lent'));	
     }
 
-    public function extendBookToPerson(Person $person, StoreReturnBookFromPerson $request) {
+    public function extendBookToPerson(Person $person, StoreExtendBookToPerson $request) {
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
             ->whereNull('returned_date')

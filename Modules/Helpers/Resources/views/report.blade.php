@@ -16,7 +16,7 @@
         <div class="row mb-4">
             <div class="col-sm">
                 <pie-chart
-                    title="@lang('people.gender')"
+                    title="@lang('people::people.gender')"
                     url="{{ route('people.helpers.report.genderDistribution') }}"
                     :height=300
                     :legend=false
@@ -25,7 +25,7 @@
             </div>
             <div class="col-sm">
                 <pie-chart
-                    title="@lang('people.nationalities')"
+                    title="@lang('people::people.nationalities')"
                     url="{{ route('people.helpers.report.nationalities') }}"
                     :height=300
                     :legend=false

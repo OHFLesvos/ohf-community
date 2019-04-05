@@ -268,7 +268,7 @@ class Person extends Model
                 ->select('date')
                 ->first();
             if ($handout != null) {
-                return __('people.already_received');
+                return __('people::people.already_received');
             }
             return $this->checkDailySpendingLimit($couponType);
         }
@@ -283,7 +283,7 @@ class Person extends Model
         if ($handout != null) {
             $date = (new Carbon($handout->date));
             $daysUntil = ((clone $date)->addDays($couponType->retention_period))->diffInDays() + 1;
-            return trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil]);
+            return trans_choice('people::people.in_n_days', $daysUntil, ['days' => $daysUntil]);
         }
         return $this->checkDailySpendingLimit($couponType);
     }
@@ -295,7 +295,7 @@ class Person extends Model
                 ->where('coupon_type_id', $couponType->id)
                 ->count();
             if ($handouts_today >= $couponType->daily_spending_limit) {
-                return __('people.daily_limit_reached');
+                return __('people::people.daily_limit_reached');
             }
         }
     }

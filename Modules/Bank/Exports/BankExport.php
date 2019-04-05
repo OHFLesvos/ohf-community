@@ -38,7 +38,7 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
      */
     public function title(): string
     {
-        return __('people.withdrawals');
+        return __('people::people.withdrawals');
     }
 
     /**
@@ -47,20 +47,20 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
     public function headings(): array
     {
         $headings = [
-            __('people.id'),
-            __('people.family_name'),
-            __('people.name'),
-            __('people.date_of_birth'),
-            __('people.age'),
-            __('people.nationality'),
-            __('people.police_number'),
-            __('people.registration_number'),
-            __('people.section_card_number'),
+            __('people::people.id'),
+            __('people::people.family_name'),
+            __('people::people.name'),
+            __('people::people.date_of_birth'),
+            __('people::people.age'),
+            __('people::people.nationality'),
+            __('people::people.police_number'),
+            __('people::people.registration_number'),
+            __('people::people.section_card_number'),
         ];
         foreach($this->couponTypes as $coupon) {
             $headings[] = $coupon->name;
         }
-        $headings[] = __('people.remarks');
+        $headings[] = __('people::people.remarks');
         return $headings;
     }
 

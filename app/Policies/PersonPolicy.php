@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\User;
 use App\Person;
+
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PersonPolicy

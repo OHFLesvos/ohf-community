@@ -99,7 +99,7 @@ class DepositController extends Controller
         $coupon->save();
 
         return redirect()->route('bank.deposit')
-            ->with('info', __('people.deposited_n_coupons_from_project', [ 
+            ->with('info', __('people::people.deposited_n_coupons_from_project', [ 
                     'amount' => $request->amount, 
                     'coupon' => $couponType->name, 
                     'project' => $project->name 

@@ -103,7 +103,7 @@
 @section('script')
     var csrfToken = '{{ csrf_token() }}';
     var shopUrl = '{{ route('shop.index') }}';
-    var scannerDialogTitle = '@lang('people.qr_code_scanner')';
+    var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
 @endsection
 

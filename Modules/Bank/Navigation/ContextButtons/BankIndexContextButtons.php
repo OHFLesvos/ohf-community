@@ -30,7 +30,7 @@ class BankIndexContextButtons implements ContextButtons {
             ],
             'codecard' => [
                 'url' => route('bank.prepareCodeCard'),
-                'caption' => __('people.code_cards'),
+                'caption' => __('people::people.code_cards'),
                 'icon' => 'qrcode',
                 'authorized' => Gate::allows('do-bank-withdrawals')
             ],

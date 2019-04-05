@@ -85,7 +85,7 @@ class BarberShopController extends Controller
         $coupon->save();
         
         return redirect()->route('shop.barber.index')
-            ->with('success', __('people.person_registered'));
+            ->with('success', __('people::people.person_registered'));
     }
 
     public function removePerson(RemovePerson $request) {

@@ -27,7 +27,7 @@ class BankWithdrawalContextMenu implements ContextMenu {
             ],
             [
                 'url' => route('coupons.index'),
-                'caption' => __('people.coupons'),
+                'caption' => __('people::people.coupons'),
                 'icon' => 'ticket',
                 'authorized' => Gate::allows('configure-bank')
             ],

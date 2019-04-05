@@ -1,17 +1,17 @@
 @extends('bank::layout')
 
-@section('title', __('people.bank'))
+@section('title', __('people::people.bank'))
 
 @section('wrapped-content')
 
     {!! Form::open(['route' => ['bank.storeDeposit']]) !!}
         <div class="card mb-4">
-            <div class="card-header">@lang('people.deposit_coupons')</div>
+            <div class="card-header">@lang('people::people.deposit_coupons')</div>
             <div class="card-body">
                 <div class="form-row">
                     <div class="col-sm mb-2 mb-md-0">
                         <div class="form-group">
-                            {{ Form::select('project', $projects, null, [ 'placeholder' => __('people.select_project'), 'class' => 'form-control'.($errors->has('project') ? ' is-invalid' : ''), 'autofocus', 'required' ]) }}
+                            {{ Form::select('project', $projects, null, [ 'placeholder' => __('people::people.select_project'), 'class' => 'form-control'.($errors->has('project') ? ' is-invalid' : ''), 'autofocus', 'required' ]) }}
                             @if ($errors->has('project'))
                                 <span class="invalid-feedback">{{ $errors->first('project') }}</span>
                             @endif
@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-sm mb-2 mb-md-0">
                         <div class="form-group">
-                            {{ Form::select('coupon_type', $couponTypes, $selectedCouponType, [ 'placeholder' => __('people.select_coupon_type'), 'class' => 'form-control'.($errors->has('coupon_type') ? ' is-invalid' : ''), 'required' ]) }}
+                            {{ Form::select('coupon_type', $couponTypes, $selectedCouponType, [ 'placeholder' => __('people::people.select_coupon_type'), 'class' => 'form-control'.($errors->has('coupon_type') ? ' is-invalid' : ''), 'required' ]) }}
                             @if ($errors->has('coupon_type'))
                                 <span class="invalid-feedback">{{ $errors->first('coupon_type') }}</span>
                             @endif
@@ -44,7 +44,7 @@
         </div>
         <div class="col-md-auto p-4 lead">
             @if(count($audits) > 0)
-                <p class="text-center">@lang('people.todays_transactions'):</p>
+                <p class="text-center">@lang('people::people.todays_transactions'):</p>
                 @foreach($audits as $audit)
                     <p class="mb-3 mb-sm-1">
                         @lang($audit['amount_diff'] > 0 ? 'people.user_added_coupons_from_project' : 'people.user_removed_coupons_from_project', [
@@ -58,7 +58,7 @@
                     </p>
                 @endforeach
             @else
-                @lang('people.no_coupons_registered_so_far')
+                @lang('people::people.no_coupons_registered_so_far')
             @endif
         </div>
         <div class="col col-lg-2">

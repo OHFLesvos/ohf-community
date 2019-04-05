@@ -1,6 +1,6 @@
 @extends('bank::layout')
 
-@section('title', __('people.bank'))
+@section('title', __('people::people.bank'))
 
 @section('wrapped-content')
 
@@ -10,12 +10,12 @@
 
         <div id="stats" class="text-center lead my-5">
             @if($numberOfPersonsServed > 0)
-                {!! __('people.num_persons_served_handing_out_coupons', [
+                {!! __('people::people.num_persons_served_handing_out_coupons', [
                     'persons' => $numberOfPersonsServed,
                     'coupons' => $numberOfCouponsHandedOut,
                 ]) !!}
             @else
-                @lang('people.not_yet_served_any_persons')
+                @lang('people::people.not_yet_served_any_persons')
             @endif
         </div>
 
@@ -25,7 +25,7 @@
 
 @section('script')
     var csrfToken = '{{ csrf_token() }}';
-    var scannerDialogTitle = '@lang('people.qr_code_scanner')';
+    var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
 @endsection
 

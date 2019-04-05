@@ -126,7 +126,7 @@ class MaintenanceController extends Controller
                 ->delete();
         }
          return redirect()->route('bank.withdrawal')
-             ->with('info', __('people.removed_n_persons', [ 'num' => $cnt ]));
+             ->with('info', __('people::people.removed_n_persons', [ 'num' => $cnt ]));
     }
 
 }

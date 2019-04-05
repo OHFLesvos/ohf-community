@@ -32,14 +32,14 @@ class BankController extends Controller
         $revoked = RevokedCard::where('card_no', $request->card_no)->first();
         if ($revoked != null) {
             return response()->json([
-                'message' => __('people.card_revoked', [ 'card_no' => substr($request->card_no, 0, 7), 'date' => $revoked->created_at ]),
+                'message' => __('people::people.card_revoked', [ 'card_no' => substr($request->card_no, 0, 7), 'date' => $revoked->created_at ]),
             ], 400);
         }
 
         // Check for used card number
         if (Person::where('card_no', $request->card_no)->count() > 0) {
             return response()->json([
-                'message' => __('people.card_already_in_use', [ 'card_no' => substr($request->card_no, 0, 7) ]),
+                'message' => __('people::people.card_already_in_use', [ 'card_no' => substr($request->card_no, 0, 7) ]),
             ], 400);
         }
 
@@ -55,7 +55,7 @@ class BankController extends Controller
         $person->card_issued = Carbon::now();
         $person->save();
         return response()->json([
-            'message' => __('people.qr_code_card_has_been_registered'),
+            'message' => __('people::people.qr_code_card_has_been_registered'),
         ]);
     }
 
@@ -79,7 +79,7 @@ class BankController extends Controller
 
         return response()->json([
             'countdown' => $person->canHandoutCoupon($couponType),
-            'message' => trans_choice('people.coupon_has_been_handed_out_to', $coupon->amount, [
+            'message' => trans_choice('people::people.coupon_has_been_handed_out_to', $coupon->amount, [
                 'amount' => $coupon->amount,
                 'coupon' => $couponType->name,
                 'person' => $person->family_name . ' ' . $person->name,
@@ -104,7 +104,7 @@ class BankController extends Controller
             $handout->delete();
         }
         return response()->json([
-            'message' => __('people.coupon_has_been_taken_back_from', [
+            'message' => __('people::people.coupon_has_been_taken_back_from', [
                 'coupon' => $couponType->name,
                 'person' => $person->family_name . ' ' . $person->name,
             ]),

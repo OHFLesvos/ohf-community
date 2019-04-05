@@ -6,6 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UploadSpreadsheet extends FormRequest
 {
+    private const MIMES = [
+        'xlsx',
+        'xls',
+        'ods',
+        'csv',
+        'tsv',
+        'slk',
+        'xml',
+        'gnumeric',
+        'html',
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,7 +39,7 @@ class UploadSpreadsheet extends FormRequest
             'file' => [
                 'required',
                 'file',
-                'mimes:xlsx,xls,ods,csv,tsv,slk,xml,gnumeric,html',
+                'mimes:' . implode(',', self::MIMES),
             ]
         ];
     }

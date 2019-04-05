@@ -60,25 +60,25 @@
         <div class="card-body p-2">
             @if(isset($person->police_no))
                 <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people.police_number'):</small> 
+                    <small class="text-muted">@lang('people::people.police_number'):</small> 
                     <span class="pr-2">05/{{ $person->police_no }}</span>
                 </span>
             @endif
             @if(isset($person->case_no_hash))
                 <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people.case_number'):</small>
+                    <small class="text-muted">@lang('people::people.case_number'):</small>
                     <span class="pr-2">@lang('app.yes')</span>
                 </span>
             @endif
             @if(isset($person->registration_no))
                 <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people.registration_number'):</small>
+                    <small class="text-muted">@lang('people::people.registration_number'):</small>
                     <span class="pr-2">{{ $person->registration_no }}</span>
                 </span>
             @endif
             @if(isset($person->section_card_no))
                 <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people.section_card_number'):</small>
+                    <small class="text-muted">@lang('people::people.section_card_number'):</small>
                     <span class="pr-2">{{ $person->section_card_no }}</span>
                 </span>
             @endif
@@ -122,7 +122,7 @@
                     </div>
                 @endif
             @empty
-                <em class="pb-2 px-2">@lang('people.no_coupons_defined')</em>
+                <em class="pb-2 px-2">@lang('people::people.no_coupons_defined')</em>
             @endforelse
         </div>
     </div>

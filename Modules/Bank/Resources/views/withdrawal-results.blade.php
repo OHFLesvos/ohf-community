@@ -1,6 +1,6 @@
 @extends('bank::layout')
 
-@section('title', __('people.bank'))
+@section('title', __('people::people.bank'))
 
 @section('wrapped-content')
 
@@ -38,7 +38,7 @@
             @else
                 @component('components.alert.info')
                     @lang('app.not_found').
-                    <a href="{{ route('people.create') }}?{{ $register }}">@lang('people.register_a_new_person')</a>
+                    <a href="{{ route('people.create') }}?{{ $register }}">@lang('people::people.register_a_new_person')</a>
                 @endcomponent
             @endif
         @endif
@@ -56,7 +56,7 @@
     var updateNationalityUrl = '{{ route('people.setNationality', [':person']) }}';
     var registerCardUrl = '{{ route('bank.registerCard') }}';
     var undoLabel = '@lang('app.undo')';
-    var scannerDialogTitle = '@lang('people.qr_code_scanner')';
+    var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
 @endsection
 

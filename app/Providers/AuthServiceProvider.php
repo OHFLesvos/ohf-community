@@ -17,23 +17,9 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     ];
 
     protected $permissions = [
-        'people.manage' => [
-            'label' => 'permissions.manage_people',
-            'sensitive' => true,
-        ],
-        'people.export' => [
-            'label' => 'permissions.export_people',
-            'sensitive' => true,
-        ],
-        'people.reports.view' => [
-            'label' => 'permissions.view_people_reports',
-            'sensitive' => false,
-        ],
     ];
 
     protected $permission_gate_mappings = [
-        'manage-people' => 'people.manage',
-        'view-people-reports' => 'people.reports.view',
         'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'],
     ];
 
