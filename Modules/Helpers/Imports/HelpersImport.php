@@ -2,7 +2,7 @@
 
 namespace Modules\Helpers\Imports;
 
-use App\Person;
+use Modules\People\Entities\Person;
 
 use Modules\Helpers\Entities\Helper;
 

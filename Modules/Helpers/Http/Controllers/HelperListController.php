@@ -2,9 +2,10 @@
 
 namespace Modules\Helpers\Http\Controllers;
 
-use App\Person;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
+
+use Modules\People\Entities\Person;
 
 use Modules\Helpers\Entities\Helper;
 use Modules\Helpers\Http\Requests\ImportHelpers;

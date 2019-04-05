@@ -25,7 +25,7 @@ class Helper extends Model implements Auditable
      */
     public function person()
     {
-        return $this->belongsTo('App\Person', 'person_id', 'id');
+        return $this->belongsTo('Modules\People\Entities\Person', 'person_id', 'id');
     }
 
     /**

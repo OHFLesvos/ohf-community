@@ -2,9 +2,9 @@
 
 namespace Modules\Library\Widgets;
 
-use App\Person;
 use App\Widgets\Widget;
 
+use Modules\People\Entities\Person;
 use Modules\Library\Entities\LibraryBook;
 
 use Illuminate\Support\Facades\Auth;

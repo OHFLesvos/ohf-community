@@ -2,8 +2,9 @@
 
 namespace Modules\Bank\Http\Controllers;
 
-use App\Person;
 use App\Http\Controllers\Controller;
+
+use Modules\People\Entities\Person;
 
 use Modules\Bank\Exports\BankExport;
 use Modules\Bank\Http\Requests\DownloadFile;

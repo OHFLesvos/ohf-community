@@ -2,9 +2,9 @@
 
 namespace Modules\People\Http\Controllers\Reporting;
 
-use App\Person;
 use App\Http\Controllers\Reporting\BaseReportingController;
 
+use Modules\People\Entities\Person;
 use Modules\Bank\Entities\CouponHandout;    // TODO: fix circular dependency
 
 use Illuminate\Http\Request;

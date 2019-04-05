@@ -2,9 +2,9 @@
 
 namespace Modules\Library\Http\Controllers;
 
-use App\Person;
 use App\Http\Controllers\Controller;
 
+use Modules\People\Entities\Person;
 use Modules\People\Http\Requests\StorePerson;
 
 use Modules\Library\Entities\LibraryLending;

@@ -2,7 +2,7 @@
 
 namespace Modules\People\Http\Controllers\API;
 
-use App\Person;
+use Modules\People\Entities\Person;
 use App\Http\Controllers\Controller;
 
 use Modules\People\Http\Requests\UpdatePersonDateOfBirth;
@@ -14,7 +14,7 @@ class PeopleController extends Controller
     /**
      * Update gender of person.
      * 
-     * @param  \App\Person $person
+     * @param  \Modules\People\Entities\Person $person
      * @param  \App\Http\Requests\People\UpdatePersonGender  $request
      * @return \Illuminate\Http\Response
      */
@@ -35,7 +35,7 @@ class PeopleController extends Controller
     /**
      * Update date of birth of person.
      * 
-     * @param  \App\Person $person
+     * @param  \Modules\People\Entities\Person $person
      * @param  \App\Http\Requests\People\UpdatePersonDateOfBirth  $request
      * @return \Illuminate\Http\Response
      */
@@ -57,7 +57,7 @@ class PeopleController extends Controller
     /**
      * Update date of birth of person.
      * 
-     * @param  \App\Person $person
+     * @param  \Modules\People\Entities\Person $person
      * @param  \App\Http\Requests\People\UpdatePersonNationality  $request
      * @return \Illuminate\Http\Response
      */

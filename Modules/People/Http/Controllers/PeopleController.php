@@ -2,10 +2,10 @@
 
 namespace Modules\People\Http\Controllers;
 
-use App\Person;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadSpreadsheet;
 
+use Modules\People\Entities\Person;
 use Modules\People\Exports\PeopleExport;
 use Modules\People\Imports\PeopleImport;
 use Modules\People\Http\Requests\StorePerson;

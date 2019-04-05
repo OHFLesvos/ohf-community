@@ -2,7 +2,7 @@
 
 namespace Modules\Bank\Http\Requests;
 
-use App\Person;
+use Modules\People\Entities\Person;
 
 use Modules\Bank\Entities\CouponType;
 

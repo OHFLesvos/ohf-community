@@ -2,8 +2,9 @@
 
 namespace Modules\People\Exports;
 
-use App\Person;
 use App\Exports\BaseExport;
+
+use Modules\People\Entities\Person;
 
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;

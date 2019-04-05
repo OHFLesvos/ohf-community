@@ -2,8 +2,9 @@
 
 namespace Modules\Shop\Http\Controllers;
 
-use App\Person;
 use App\Http\Controllers\Controller;
+
+use Modules\People\Entities\Person;
 
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;

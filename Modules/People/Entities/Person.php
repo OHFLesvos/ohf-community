@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Modules\People\Entities;
 
 use Modules\Bank\Entities\CouponType;   // TODO circular dependency
 
@@ -157,22 +157,22 @@ class Person extends Model
 
     function children() {
         if ($this->gender == 'm') {
-            return $this->hasMany('App\Person', 'father_id');
+            return $this->hasMany('Modules\People\Entities\Person', 'father_id');
         } else {
-            return $this->hasMany('App\Person', 'mother_id');
+            return $this->hasMany('Modules\People\Entities\Person', 'mother_id');
         }
     }
 
     function mother() {
-        return $this->belongsTo('App\Person');
+        return $this->belongsTo('Modules\People\Entities\Person');
     }
 
     function father() {
-        return $this->belongsTo('App\Person');
+        return $this->belongsTo('Modules\People\Entities\Person');
     }
     
     function partner() {
-        return $this->hasOne('App\Person', 'partner_id');
+        return $this->hasOne('Modules\People\Entities\Person', 'partner_id');
     }
 
     function getSiblingsAttribute() {

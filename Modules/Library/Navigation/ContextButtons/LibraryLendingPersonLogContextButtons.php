@@ -4,7 +4,7 @@ namespace Modules\Library\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
-use App\Person;
+use Modules\People\Entities\Person;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;

@@ -26,9 +26,9 @@
 
                         $person = null;
                         if (isset($transaction->getModified()['person_id']['new'])) {
-                            $person = \App\Person::find($transaction->getModified()['person_id']['new']);
+                            $person = \Modules\People\Entities\Person::find($transaction->getModified()['person_id']['new']);
                         } else if (isset($transaction->getModified()['person_id']['old'])) {
-                            $person = \App\Person::find($transaction->getModified()['person_id']['old']);
+                            $person = \Modules\People\Entities\Person::find($transaction->getModified()['person_id']['old']);
                         }
 
                         $amount_diff = 0;

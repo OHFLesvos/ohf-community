@@ -12,6 +12,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
      * @var array
      */
     protected $policies = [
+        \Modules\People\Entities\Person::class => \Modules\People\Policies\PersonPolicy::class,
     ];
 
     protected $permissions = [

@@ -24,7 +24,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::get('helpers/createFrom', 'HelperListController@createFrom')->name('helpers.createFrom')->middleware('can:create,Modules\Helpers\Entities\Helper');
         Route::post('helpers/createFrom', 'HelperListController@storeFrom')->name('helpers.storeFrom')->middleware('can:create,Modules\Helpers\Entities\Helper');
         Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')->name('helpers.vcard');
-        Route::get('helpers/filterPersons', 'HelperListController@filterPersons')->name('helpers.filterPersons')->middleware('can:list,App\Person');
+        Route::get('helpers/filterPersons', 'HelperListController@filterPersons')->name('helpers.filterPersons')->middleware('can:list,Modules\People\Entities\Person');
         Route::resource('helpers', 'HelperListController');
     });
 });

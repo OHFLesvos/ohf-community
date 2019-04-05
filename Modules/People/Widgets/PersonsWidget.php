@@ -2,8 +2,9 @@
 
 namespace Modules\People\Widgets;
 
-use App\Person;
 use App\Widgets\Widget;
+
+use Modules\People\Entities\Person;
 
 use Illuminate\Support\Facades\Gate;
 

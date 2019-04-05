@@ -1,5 +1,7 @@
 <?php
 
+namespace Modules\People\Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class PersonsTableSeeder extends Seeder
@@ -11,6 +13,7 @@ class PersonsTableSeeder extends Seeder
      */
     public function run()
     {
+        // TODO use factory
         $names = [
             'Mohammed',
             'Ahmed',
@@ -129,7 +132,7 @@ class PersonsTableSeeder extends Seeder
 
         $items = [];
         for ($i = 0; $i < 900; $i++) {
-            \App\Person::create([
+            \Modules\People\Entities\Person::create([
                 'name' => $names[array_rand($names)],
                 'family_name' => $family_namnes[array_rand($family_namnes)],
                 'police_no' => rand(0,10) > 5 ? rand(10000,99999) : null,

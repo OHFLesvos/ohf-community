@@ -2,8 +2,9 @@
 
 namespace Modules\Bank\Navigation\ContextMenu;
 
-use App\Person;
 use App\Navigation\ContextMenu\ContextMenu;
+
+use Modules\People\Entities\Person;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;

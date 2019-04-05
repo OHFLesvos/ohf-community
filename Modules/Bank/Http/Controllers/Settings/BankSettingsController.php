@@ -2,9 +2,10 @@
 
 namespace Modules\Bank\Http\Controllers\Settings;
 
-use App\Person;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Reporting\PeopleReportingController;
+
+use Modules\People\Entities\Person;
 
 use Illuminate\Support\Facades\Config;
 

@@ -70,7 +70,7 @@
             @endcomponent
         @endif
 
-        @can('list', App\Person::class)
+        @can('list', Modules\People\Entities\Person::class)
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addHelperModal">
                 @icon(plus-circle) @lang('people::people.add_helper')
             </button>

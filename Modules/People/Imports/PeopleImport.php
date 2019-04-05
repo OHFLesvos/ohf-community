@@ -2,7 +2,7 @@
 
 namespace Modules\People\Imports;
 
-use App\Person;
+use Modules\People\Entities\Person;
 
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;

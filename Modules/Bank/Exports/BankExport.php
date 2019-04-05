@@ -2,8 +2,9 @@
 
 namespace Modules\Bank\Exports;
 
-use App\Person;
 use App\Exports\BaseExport;
+
+use Modules\People\Entities\Person;
 
 use Modules\Bank\Entities\CouponType;
 

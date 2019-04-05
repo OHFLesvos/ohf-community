@@ -6,7 +6,7 @@
     
     {!! Form::open(['route' => 'people.bulkAction']) !!}
 
-        @can('manage-people', App\Person::class)
+        @can('manage-people', Modules\People\Entities\Person::class)
             <div class="card mb-4 bg-light" id="selected_actions_container" style="display:none;">
                 <div class="card-header">@lang('app.bulk_action') (<span id="selected_count">0</span> @lang('people::people.persons'))</div>
                 <div class="card-body">
@@ -34,7 +34,7 @@
             <table class="table table-sm table-striped table-bordered table-hover" id="results-table">
                 <thead>
                     <tr>
-                        {{-- @can('manage-people', App\Person::class) --}}
+                        {{-- @can('manage-people', Modules\People\Entities\Person::class) --}}
                             <th rowspan="2" id="bulk_select_on"></th>
                         {{-- @endcan --}}
                         <th rowspan="2"></th>

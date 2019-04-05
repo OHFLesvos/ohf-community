@@ -30,7 +30,7 @@ class CouponHandout extends Model implements Auditable
     }
 
     public function person() {
-        return $this->belongsTo('App\Person');
+        return $this->belongsTo('Modules\People\Entities\Person');
     }
 
     /**

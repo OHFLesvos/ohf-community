@@ -2,9 +2,9 @@
 
 namespace Modules\People\Http\Controllers\Reporting;
 
-use App\Person;
 use App\Http\Controllers\Reporting\BaseReportingController;
 
+use Modules\People\Entities\Person;
 use Modules\People\Entities\RevokedCard;
 
 use Illuminate\Support\Facades\DB;

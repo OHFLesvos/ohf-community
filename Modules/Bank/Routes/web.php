@@ -45,13 +45,13 @@ Route::middleware(['language', 'auth'])->group(function () {
         });
 
         // Maintenance
-        Route::middleware('can:cleanup,App\Person')->group(function () {
+        Route::middleware('can:cleanup,Modules\People\Entities\Person')->group(function () {
             Route::get('maintenance', 'MaintenanceController@maintenance')->name('maintenance');
             Route::post('maintenance', 'MaintenanceController@updateMaintenance')->name('updateMaintenance');
         });
 
         // Export
-        Route::middleware('can:export,App\Person')->group(function () {
+        Route::middleware('can:export,Modules\People\Entities\Person')->group(function () {
             Route::get('export', 'ImportExportController@export')->name('export');
             Route::post('doExport', 'ImportExportController@doExport')->name('doExport');
         });
