@@ -1,6 +1,6 @@
 @extends('bank::layout')
 
-@section('title', __('people::people.bank'))
+@section('title', __('bank::bank.bank'))
 
 @section('wrapped-content')
     <div id="bank-container">

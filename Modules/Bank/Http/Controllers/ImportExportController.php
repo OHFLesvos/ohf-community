@@ -35,7 +35,7 @@ class ImportExportController extends Controller
 	public function doExport(DownloadFile $request) {
         $this->authorize('export', Person::class);
 
-        $file_name = __('people::people.bank') . '_' . Carbon::now()->toDateString();
+        $file_name = __('bank::bank.bank') . '_' . Carbon::now()->toDateString();
 
         $export = new BankExport();
 

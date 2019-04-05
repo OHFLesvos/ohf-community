@@ -10,7 +10,7 @@ class BankNavigationItem extends BaseNavigationItem {
 
     protected $route = 'bank.index';
 
-    protected $caption = 'people::people.bank';
+    protected $caption = 'bank::bank.bank';
 
     protected $icon = 'bank';
 
