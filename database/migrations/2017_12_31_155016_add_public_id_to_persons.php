@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-use App\Person;
-
 class AddPublicIdToPersons extends Migration
 {
     /**
@@ -17,14 +15,6 @@ class AddPublicIdToPersons extends Migration
     {
         Schema::table('persons', function (Blueprint $table) {
             $table->string('public_id', 32)->after('id');
-        });
-
-        foreach (Person::withTrashed()->get() as $person) {
-            $person->public_id = Person::createUUID();
-            $person->save();
-        }
-
-        Schema::table('persons', function (Blueprint $table) {
             $table->unique('public_id');
         });
 }
