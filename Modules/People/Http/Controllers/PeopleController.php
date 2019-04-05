@@ -488,7 +488,7 @@ class PeopleController extends Controller
         return $q
             ->orderBy('family_name', 'asc')
             ->orderBy('name', 'asc')
-            ->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page')));
+            ->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page'))); // TODO: cyclic dependency
     }
     
     public function bulkAction(Request $request) {
