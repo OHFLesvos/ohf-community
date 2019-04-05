@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @if ( $user == Auth::user() )
+    @if ( $user->id == Auth::id() )
         @component('components.alert.info')
             @lang('app.this_is_your_own_account')
         @endcomponent
