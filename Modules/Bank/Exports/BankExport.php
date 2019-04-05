@@ -3,8 +3,9 @@
 namespace Modules\Bank\Exports;
 
 use App\Person;
-use App\CouponType;
 use App\Exports\BaseExport;
+
+use Modules\Bank\Entities\CouponType;
 
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;

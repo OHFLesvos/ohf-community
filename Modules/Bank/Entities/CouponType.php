@@ -1,12 +1,15 @@
 <?php
 
-namespace App;
+namespace Modules\Bank\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+
 use Iatstuti\Database\Support\NullableFields;
 
 class CouponType extends Model
 {
+    use NullableFields;
+
     protected $fillable = [
         'name',
         'icon',
@@ -29,10 +32,10 @@ class CouponType extends Model
     ];
 
     public function couponHandouts() {
-        return $this->hasMany('App\CouponHandout');
+        return $this->hasMany('Modules\Bank\Entities\CouponHandout');
     }
 
     public function CouponReturns() {
-        return $this->hasMany('App\CouponReturn');
+        return $this->hasMany('Modules\Bank\Entities\CouponReturn');
     }
 }

@@ -2,13 +2,12 @@
 
 namespace Modules\Bank\Http\Controllers\API;
 
-use App\CouponType;
-use App\CouponHandout;
 use App\Person;
 use App\RevokedCard;
-
 use App\Http\Controllers\Controller;
 
+use Modules\Bank\Entities\CouponType;
+use Modules\Bank\Entities\CouponHandout;
 use Modules\Bank\Http\Requests\RegisterCard;
 use Modules\Bank\Http\Requests\StoreHandoutCoupon;
 use Modules\Bank\Http\Requests\StoreUndoHandoutCoupon;

@@ -2,16 +2,18 @@
 
 namespace App;
 
+use Modules\Bank\Entities\CouponType;   // TODO circular dependency
+
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use App\CouponType;
-use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
+
+use Carbon\Carbon;
+
+use Iatstuti\Database\Support\NullableFields;
 
 class Person extends Model
 {
@@ -244,7 +246,7 @@ class Person extends Model
     }
 
     public function couponHandouts() {
-        return $this->hasMany('App\CouponHandout');
+        return $this->hasMany('Modules\Bank\Entities\CouponHandout');   // TODO circular dependency
     }
 
     public function eligibleForCoupon(CouponType $couponType): bool {

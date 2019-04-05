@@ -1,10 +1,11 @@
 <?php
 
-namespace App;
+namespace Modules\Bank\Entities;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+
 use OwenIt\Auditing\Contracts\Auditable;
+
 use Iatstuti\Database\Support\NullableFields;
 
 class CouponHandout extends Model implements Auditable
@@ -25,7 +26,7 @@ class CouponHandout extends Model implements Auditable
     ];
 
     public function couponType() {
-        return $this->belongsTo('App\CouponType');
+        return $this->belongsTo('Modules\Bank\Entities\CouponType');
     }
 
     public function person() {

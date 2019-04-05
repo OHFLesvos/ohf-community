@@ -3,13 +3,14 @@
 namespace Modules\People\Http\Controllers;
 
 use App\Person;
-use App\CouponHandout;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadSpreadsheet;
 
 use Modules\People\Exports\PeopleExport;
 use Modules\People\Imports\PeopleImport;
 use Modules\People\Http\Requests\StorePerson;
+
+use Modules\Bank\Entities\CouponHandout;    // TODO: fix circular dependency
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

@@ -2,11 +2,11 @@
 
 namespace Modules\Bank\Http\Controllers;
 
-use App\CouponType;
 use App\Person;
 use App\RevokedCard;
 use App\Http\Controllers\Controller;
 
+use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Util\BankStatistics;
 
 use Illuminate\Http\Request;
@@ -128,7 +128,7 @@ class WithdrawalController extends Controller
     public function transactions() {
 		return view('bank::withdrawal.transactions', [
             'transactions' => Audit
-                ::where('auditable_type', 'App\CouponHandout')
+                ::where('auditable_type', 'Modules\Bank\Entities\CouponHandout')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(50),
 		]);

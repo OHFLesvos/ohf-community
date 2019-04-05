@@ -18,7 +18,7 @@
                 <tbody>
                 @foreach ($transactions as $transaction)
                     @php
-                        $elem = \App\CouponReturn::find($transaction->auditable_id);
+                        $elem = \Modules\Bank\Entities\CouponReturn::find($transaction->auditable_id);
                         $amount_diff = $transaction->getModified()['amount']['new'] ;
                         if (isset($transaction->getModified()['amount']['old'])) {
                             $amount_diff -= $transaction->getModified()['amount']['old'];

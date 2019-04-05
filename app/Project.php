@@ -4,13 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
-use App\CouponReturn;
 
 class Project extends Model
 {
     public function couponReturns() {
-        return $this->hasMany('App\CouponReturn');
+        return $this->hasMany('Modules\Bank\Entities\CouponReturn');    // TODO: circular dependency
     }
 
     public function dayTransactions($date) {

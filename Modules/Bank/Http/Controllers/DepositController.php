@@ -3,10 +3,10 @@
 namespace Modules\Bank\Http\Controllers;
 
 use App\Project;
-use App\CouponReturn;
-use App\CouponType;
 use App\Http\Controllers\Controller;
 
+use Modules\Bank\Entities\CouponReturn;
+use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Http\Requests\StoreDeposit;
 
 use Carbon\Carbon;
@@ -114,7 +114,7 @@ class DepositController extends Controller
     public function transactions() {
         return view('bank::deposit.transactions', [
             'transactions' => Audit
-                ::where('auditable_type', 'App\CouponReturn')
+                ::where('auditable_type', 'Modules\Bank\Entities\CouponReturn')
                 ->orderBy('created_at', 'DESC')
                 ->paginate(50),
         ]);

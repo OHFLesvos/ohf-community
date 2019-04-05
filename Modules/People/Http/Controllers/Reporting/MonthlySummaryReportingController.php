@@ -3,8 +3,9 @@
 namespace Modules\People\Http\Controllers\Reporting;
 
 use App\Person;
-use App\CouponHandout;
 use App\Http\Controllers\Reporting\BaseReportingController;
+
+use Modules\Bank\Entities\CouponHandout;    // TODO: fix circular dependency
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

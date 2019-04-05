@@ -3,9 +3,10 @@
 namespace Modules\Shop\Http\Controllers;
 
 use App\Person;
-use App\CouponType;
-use App\CouponHandout;
 use App\Http\Controllers\Controller;
+
+use Modules\Bank\Entities\CouponType;
+use Modules\Bank\Entities\CouponHandout;
 
 use Modules\Shop\Http\Requests\DoCheckIn;
 use Modules\Shop\Http\Requests\AddPerson;

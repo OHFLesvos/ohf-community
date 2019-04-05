@@ -39,9 +39,6 @@
         </div>
         <div class="form-row mb-4">
             <div class="col-md">
-                @php
-                    $default_order = optional(App\CouponType::select(DB::raw('MAX(`order`) as max_order'))->first())->max_order + 1;
-                @endphp
                 {{ Form::bsNumber('order', $default_order, [ 'min' => 0 ], __('app.order')) }}
             </div>
             <div class="col-md pt-md-4">

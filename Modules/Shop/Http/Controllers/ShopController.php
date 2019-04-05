@@ -2,8 +2,9 @@
 
 namespace Modules\Shop\Http\Controllers;
 
-use App\CouponHandout;
 use App\Http\Controllers\Controller;
+
+use Modules\Bank\Entities\CouponHandout;
 
 use Modules\Shop\Http\Resources\ShopCardResource;
 

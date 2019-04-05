@@ -2,7 +2,8 @@
 
 namespace Modules\Shop\Http\Controllers;
 
-use App\CouponType;
+use Modules\Bank\Entities\CouponType;
+
 use App\Http\Controllers\Settings\SettingsController;
 
 class BarberShopSettingsController extends SettingsController

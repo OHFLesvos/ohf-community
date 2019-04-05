@@ -1,7 +1,10 @@
 <?php
 
+namespace Modules\Bank\Database\Seeders;
+
+use Modules\Bank\Entities\CouponType;
+
 use Illuminate\Database\Seeder;
-use App\CouponType;
 
 class CouponTypesSeeder extends Seeder
 {
@@ -12,6 +15,7 @@ class CouponTypesSeeder extends Seeder
      */
     public function run()
     {
+        // TODO: use factories
         CouponType::create([
             'name' => 'Kids Drachma',
             'icon' => 'money',

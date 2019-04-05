@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Policies\People\Bank;
+namespace Modules\Bank\Policies;
 
 use App\User;
-use App\CouponType;
+
+use Modules\Bank\Entities\CouponType;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -33,7 +34,7 @@ class CouponTypePolicy
      * Determine whether the user can view the couponType.
      *
      * @param  \App\User  $user
-     * @param  \App\CouponType  $couponType
+     * @param  \Modules\Bank\Entities\CouponType  $couponType
      * @return mixed
      */
     public function view(User $user, CouponType $couponType)
@@ -56,7 +57,7 @@ class CouponTypePolicy
      * Determine whether the user can update the couponType.
      *
      * @param  \App\User  $user
-     * @param  \App\CouponType  $couponType
+     * @param  \Modules\Bank\Entities\CouponType  $couponType
      * @return mixed
      */
     public function update(User $user, CouponType $couponType)
@@ -68,7 +69,7 @@ class CouponTypePolicy
      * Determine whether the user can delete the couponType.
      *
      * @param  \App\User  $user
-     * @param  \App\CouponType  $couponType
+     * @param  \Modules\Bank\Entities\CouponType  $couponType
      * @return mixed
      */
     public function delete(User $user, CouponType $couponType)

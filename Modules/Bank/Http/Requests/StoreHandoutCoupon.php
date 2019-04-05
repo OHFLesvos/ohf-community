@@ -3,7 +3,8 @@
 namespace Modules\Bank\Http\Requests;
 
 use App\Person;
-use App\CouponType;
+
+use Modules\Bank\Entities\CouponType;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;

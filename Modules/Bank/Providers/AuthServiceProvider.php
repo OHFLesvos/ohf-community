@@ -12,7 +12,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
      * @var array
      */
     protected $policies = [
-
+        \Modules\Bank\Entities\CouponType::class => \Modules\Bank\Policies\CouponTypePolicy::class,
     ];
 
     protected $permissions = [

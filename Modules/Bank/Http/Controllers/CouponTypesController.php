@@ -2,10 +2,12 @@
 
 namespace Modules\Bank\Http\Controllers;
 
-use App\CouponType;
 use App\Http\Controllers\Controller;
 
+use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Http\Requests\StoreCouponType;
+
+use Illuminate\Support\Facades\DB;
 
 class CouponTypesController extends Controller
 {
@@ -35,7 +37,9 @@ class CouponTypesController extends Controller
     {
         $this->authorize('create', CouponType::class);
 
-        return view('bank::coupons.create');
+        return view('bank::coupons.create', [
+            'default_order' => optional(CouponType::select(DB::raw('MAX(`order`) as max_order'))->first())->max_order + 1,
+        ]);
     }
 
     /**
@@ -70,7 +74,7 @@ class CouponTypesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\CouponType  $coupon
+     * @param  \Modules\Bank\Entities\CouponType  $coupon
      * @return \Illuminate\Http\Response
      */
     public function show(CouponType $coupon)
@@ -85,7 +89,7 @@ class CouponTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CouponType  $coupon
+     * @param  \Modules\Bank\Entities\CouponType  $coupon
      * @return \Illuminate\Http\Response
      */
     public function edit(CouponType $coupon)
@@ -101,7 +105,7 @@ class CouponTypesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\People\Bank\StoreCouponType  $request
-     * @param  \App\CouponType  $coupon
+     * @param  \Modules\Bank\Entities\CouponType  $coupon
      * @return \Illuminate\Http\Response
      */
     public function update(StoreCouponType $request, CouponType $coupon)
@@ -129,7 +133,7 @@ class CouponTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CouponType  $coupon
+     * @param  \Modules\Bank\Entities\CouponType  $coupon
      * @return \Illuminate\Http\Response
      */
     public function destroy(CouponType $coupon)

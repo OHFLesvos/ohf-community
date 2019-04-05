@@ -1,14 +1,15 @@
 <?php
 
+use App\Transaction;
+
+use Modules\Bank\Entities\CouponReturn; // TODO: circular dependencies
+use Modules\Bank\Entities\CouponType;
+use Modules\Bank\Entities\CouponHandout;
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Transaction;
-use App\CouponReturn;
-use App\CouponType;
-use App\CouponHandout;
-use App\Person;
-use Illuminate\Support\Facades\DB;
 
 class MigratePersonTransactions extends Migration
 {

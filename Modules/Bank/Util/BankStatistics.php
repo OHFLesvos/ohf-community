@@ -2,7 +2,7 @@
 
 namespace Modules\Bank\Util;
 
-use App\CouponHandout;
+use Modules\Bank\Entities\CouponHandout;
 
 use Illuminate\Support\Facades\DB;
 

@@ -41,9 +41,9 @@
 
                         $coupon = null;
                         if (isset($transaction->getModified()['coupon_type_id']['new'])) {
-                            $coupon = \App\CouponType::find($transaction->getModified()['coupon_type_id']['new']);
+                            $coupon = \Modules\Bank\Entities\CouponType::find($transaction->getModified()['coupon_type_id']['new']);
                         } else if (isset($transaction->getModified()['coupon_type_id']['old'])) {
-                            $coupon = \App\CouponType::find($transaction->getModified()['coupon_type_id']['old']);
+                            $coupon = \Modules\Bank\Entities\CouponType::find($transaction->getModified()['coupon_type_id']['old']);
                         }
                     @endphp
                     <tr>

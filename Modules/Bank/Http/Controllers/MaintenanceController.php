@@ -3,8 +3,9 @@
 namespace Modules\Bank\Http\Controllers;
 
 use App\Person;
-use App\CouponHandout;
 use App\Http\Controllers\Controller;
+
+use Modules\Bank\Entities\CouponHandout;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

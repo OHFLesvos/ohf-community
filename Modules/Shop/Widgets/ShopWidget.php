@@ -2,8 +2,9 @@
 
 namespace Modules\Shop\Widgets;
 
-use App\CouponHandout;
 use App\Widgets\Widget;
+
+use Modules\Bank\Entities\CouponHandout;
 
 use Illuminate\Support\Facades\Gate;
 

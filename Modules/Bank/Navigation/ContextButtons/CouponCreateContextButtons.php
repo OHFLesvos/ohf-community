@@ -4,7 +4,7 @@ namespace Modules\Bank\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
-use App\CouponType;
+use Modules\Bank\Entities\CouponType;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;

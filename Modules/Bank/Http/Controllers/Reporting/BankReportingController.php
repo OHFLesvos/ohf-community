@@ -2,11 +2,12 @@
 
 namespace Modules\Bank\Http\Controllers\Reporting;
 
-use App\CouponType;
-use App\CouponHandout;
 use App\Project;
 use App\Http\Requests\SelectDateRange;
 use App\Http\Controllers\Reporting\BaseReportingController;
+
+use Modules\Bank\Entities\CouponType;
+use Modules\Bank\Entities\CouponHandout;
 
 use Illuminate\Support\Facades\DB;
 
@@ -79,7 +80,7 @@ class BankReportingController extends BaseReportingController
     /**
      * Returns chart data for number of coupons handed out per day.
      * 
-     * @param  \App\CouponType $coupon the coupon type
+     * @param  \Modules\Bank\Entities\CouponType $coupon the coupon type
      * @param  \App\Http\Requests\SelectDateRange  $request
      * @return \Illuminate\Http\Response
      */
