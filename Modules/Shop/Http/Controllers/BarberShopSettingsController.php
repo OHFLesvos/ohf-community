@@ -20,7 +20,7 @@ class BarberShopSettingsController extends SettingsController
                 'form_list' => CouponType::orderBy('name')->get()->pluck('name', 'id')->toArray(),
                 'form_placeholder' => __('people::people.select_coupon_type'),
                 'form_validate' => 'nullable|exists:coupon_types,id',
-                'label_key' => 'people.coupon',
+                'label_key' => 'bank::coupons.coupon',
             ],
             'shop.barber.allow_remove' => [
                 'default' => false,

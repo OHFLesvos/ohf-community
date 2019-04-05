@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people::people.edit_coupon'))
+@section('title', __('bank::coupons.edit_coupon'))
 
 @section('content')
 

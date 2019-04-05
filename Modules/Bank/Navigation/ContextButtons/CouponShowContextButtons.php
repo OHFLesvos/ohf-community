@@ -27,7 +27,7 @@ class CouponShowContextButtons implements ContextButtons {
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $coupon),
-                'confirmation' => __('people::people.confirm_delete_coupon')
+                'confirmation' => __('bank::coupons.confirm_delete_coupon')
             ],
             'back' => [
                 'url' => route('coupons.index'),

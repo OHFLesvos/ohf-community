@@ -7,8 +7,8 @@
     <div id="app" class="mb-3">
  
         <line-chart 
-            title="@lang('people::people.coupons_returned_per_day')" 
-            ylabel="# @lang('people::people.coupons')"
+            title="@lang('bank::coupons.coupons_returned_per_day')" 
+            ylabel="# @lang('bank::coupons.coupons')"
             url="{{ route('reporting.bank.depositStats') }}" 
             :height=300>
         </line-chart>
@@ -47,8 +47,8 @@
             </div>
 
             @foreach ($projects as $project)
-                <bar-chart title="@lang('people::people.coupons_returned_per_day_from_project', [ 'project' => $project->name ])" 
-                    ylabel="# @lang('people::people.coupons')"
+                <bar-chart title="@lang('bank::coupons.coupons_returned_per_day_from_project', [ 'project' => $project->name ])" 
+                    ylabel="# @lang('bank::coupons.coupons')"
                     url="{{ route('reporting.bank.projectDepositStats', $project) }}"
                     :legend=false
                     :height=300>

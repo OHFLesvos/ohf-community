@@ -287,7 +287,7 @@
             @if( ! $handouts->isEmpty() )
                 <div class="card mb-4">
                     <div class="card-header">
-                        @lang('people::people.coupons')
+                        @lang('bank::coupons.coupons')
                     </div>
                     <div class="table-responsive">
                         <table class="table table-sm table-hover mb-0">
@@ -319,7 +319,7 @@
                 {{ $handouts->links() }}
             @else
                 @component('components.alert.info')
-                    @lang('people::people.no_coupons_handed_out_so_far')
+                    @lang('bank::coupons.no_coupons_handed_out_so_far')
                 @endcomponent
             @endif            
 

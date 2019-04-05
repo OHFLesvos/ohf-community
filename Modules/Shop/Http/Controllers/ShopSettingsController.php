@@ -8,7 +8,7 @@ class ShopSettingsController extends SettingsController
 {
     protected function getSections() {
         return [
-            'coupons' => __('people::people.coupons'),
+            'coupons' => __('bank::coupons.coupons'),
          ];
     }
 

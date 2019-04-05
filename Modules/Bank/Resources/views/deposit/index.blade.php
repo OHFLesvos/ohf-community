@@ -58,7 +58,7 @@
                     </p>
                 @endforeach
             @else
-                @lang('people::people.no_coupons_registered_so_far')
+                @lang('bank::coupons.no_coupons_registered_so_far')
             @endif
         </div>
         <div class="col col-lg-2">

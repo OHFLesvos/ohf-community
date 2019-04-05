@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('helpers::helpers.coupons'))
+@section('title', __('bank::coupons.coupons'))
 
 @section('content')
 
@@ -19,7 +19,7 @@
                         <th>@lang('app.enabled')</th>
                         <th>@lang('people::people.returnable')</th>
                         <th>@lang('people::people.qr_code')</th>
-                        <th>@lang('people::people.helpers')</th>
+                        <th>@lang('helpers::helpers.helpers')</th>
                     </tr>
                 </thead>
                 <tbody>

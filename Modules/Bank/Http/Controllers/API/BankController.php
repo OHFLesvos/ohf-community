@@ -78,7 +78,7 @@ class BankController extends Controller
 
         return response()->json([
             'countdown' => $person->canHandoutCoupon($couponType),
-            'message' => trans_choice('people::people.coupon_has_been_handed_out_to', $coupon->amount, [
+            'message' => trans_choice('bank::coupons.coupon_has_been_handed_out_to', $coupon->amount, [
                 'amount' => $coupon->amount,
                 'coupon' => $couponType->name,
                 'person' => $person->family_name . ' ' . $person->name,
@@ -103,7 +103,7 @@ class BankController extends Controller
             $handout->delete();
         }
         return response()->json([
-            'message' => __('people::people.coupon_has_been_taken_back_from', [
+            'message' => __('bank::coupons.coupon_has_been_taken_back_from', [
                 'coupon' => $couponType->name,
                 'person' => $person->family_name . ' ' . $person->name,
             ]),
