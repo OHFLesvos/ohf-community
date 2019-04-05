@@ -5,12 +5,12 @@ namespace Modules\UserManagement\Http\Controllers;
 use App\Role;
 use App\User;
 use App\RolePermission;
-use App\Http\Controllers\ParentController;
+use App\Http\Controllers\Controller;
 use App\Support\Facades\PermissionRegistry;
 
 use Modules\UserManagement\Http\Requests\StoreRole;
 
-class RoleController extends ParentController
+class RoleController extends Controller
 {
     public function __construct()
     {

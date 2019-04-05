@@ -20,9 +20,13 @@ use Carbon\Carbon;
 class CalendarEventController extends Controller
 {
     public function __construct() {
-        // TODO authorizeResource seems not to work properly, therefore using explicit approach in each method
-        //$this->authorizeResource(CalendarEvent::class);
+        $this->authorizeResource(CalendarEvent::class, 'event');
         CalendarEventResource::withoutWrapping();
+    }
+
+    protected function resourceAbilityMap()
+    {
+        return array_merge(parent::resourceAbilityMap(), ['updateDate' => 'update']);
     }
 
     /**
@@ -33,8 +37,6 @@ class CalendarEventController extends Controller
      */
     public function index(GetCalendarEvents $request)
     {
-        $this->authorize('list', CalendarEvent::class);
-
         $qry = CalendarEvent::with('user');
         if ($request->start != null) {
             $qry->whereDate('start_date', '>=', new Carbon($request->start, $request->timezone));
@@ -53,8 +55,6 @@ class CalendarEventController extends Controller
      */
     public function store(StoreCalendarEvent $request)
     {
-        $this->authorize('create', CalendarEvent::class);
-
         $event = new CalendarEvent();
         $event->title = $request->title;
         $event->description = $request->description;
@@ -73,8 +73,6 @@ class CalendarEventController extends Controller
      */
     public function show(CalendarEvent $event)
     {
-        $this->authorize('view', $event);
-
         return new CalendarEventResource($event);        
     }
 
@@ -87,8 +85,6 @@ class CalendarEventController extends Controller
      */
     public function update(UpdateCalendarEvent $request, CalendarEvent $event)
     {
-        $this->authorize('update', $event);
-
         $event->title = $request->title;
         $event->description = !empty($request->description) ? $request->description : null;
         self::parseResourceId($request, $event);
@@ -103,9 +99,8 @@ class CalendarEventController extends Controller
      * @param  \Modules\Calendar\Entities\CalendarEvent  $event
      * @return \Illuminate\Http\Response
      */
-    public function updateDate(UpdateCalendarEventDate $request, CalendarEvent $event) {
-        $this->authorize('update', $event);
-
+    public function updateDate(UpdateCalendarEventDate $request, CalendarEvent $event)
+    {
         self::parseDate($request, $event);
         self::parseResourceId($request, $event);
         $event->save();
@@ -135,8 +130,6 @@ class CalendarEventController extends Controller
      */
     public function destroy(CalendarEvent $event)
     {
-        $this->authorize('delete', $event);
-
         $event->delete();
         return response()->json([], 204);
     }

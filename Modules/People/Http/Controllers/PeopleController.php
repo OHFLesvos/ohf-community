@@ -4,7 +4,7 @@ namespace Modules\People\Http\Controllers;
 
 use App\Person;
 use App\CouponHandout;
-use App\Http\Controllers\ParentController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadSpreadsheet;
 
 use Modules\People\Exports\PeopleExport;
@@ -23,7 +23,7 @@ use Carbon\Carbon;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\LabelAlignment;
 
-class PeopleController extends ParentController
+class PeopleController extends Controller
 {
     const filter_fields = [
         'name',
@@ -46,7 +46,6 @@ class PeopleController extends ParentController
     {
         $this->middleware('auth');
         $this->authorizeResource(Person::class);
-
     }
 
     function index(Request $request) {

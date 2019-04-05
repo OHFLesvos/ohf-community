@@ -4,7 +4,7 @@ namespace Modules\UserManagement\Http\Controllers;
 
 use App\User;
 use App\Role;
-use App\Http\Controllers\ParentController;
+use App\Http\Controllers\Controller;
 use App\Support\Facades\PermissionRegistry;
 
 use Modules\UserManagement\Http\Requests\StoreUser;
@@ -12,7 +12,7 @@ use Modules\UserManagement\Http\Requests\UpdateUser;
 
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends ParentController
+class UserController extends Controller
 {
     public function __construct()
     {

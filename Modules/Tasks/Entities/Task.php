@@ -13,6 +13,11 @@ class Task extends Model
         return $query->where('done_date', null);
     }
 
+    public function scopeWithOwner($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User');

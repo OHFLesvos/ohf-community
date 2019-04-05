@@ -12,6 +12,6 @@
 */
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('tasks', 'TasksController');
-    Route::put('/tasks/{task}/done', 'TasksController@done');
+    Route::apiResource('tasks', 'TasksController');
+    Route::put('tasks/{task}/done', 'TasksController@done');
 });
