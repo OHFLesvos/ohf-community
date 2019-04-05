@@ -22,7 +22,7 @@ class PeopleReportingController extends BaseReportingController
         $weekly = array_values(self::getVisitorsPerWeek(Carbon::now()->subWeek()->startOfWeek(), Carbon::now()));
         $monthly = array_values(self::getVisitorsPerMonth(Carbon::now()->subMonth()->startOfMonth(), Carbon::now()));
         $year = array_values(self::getVisitorsPerYear(Carbon::now()->subYear()->startOfYear(), Carbon::now()));
-        return view('reporting.people', [
+        return view('people::reporting.people', [
             'people' => [[
                 'Registered' => Person::count(),
                 'Registered today' => Person::whereDate('created_at', '=', Carbon::today())->count(),

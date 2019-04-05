@@ -20,7 +20,7 @@ class MonthlySummaryReportingController extends BaseReportingController
         $prev_to = (clone $prev_from)->endOfMonth();
         $year_from = (clone $from)->startOfYear();
 
-        return view('reporting.monthly-summary', [
+        return view('people::reporting.monthly-summary', [
             'monthDate' => $from,
             'months' => self::monthsWithData(),
             
