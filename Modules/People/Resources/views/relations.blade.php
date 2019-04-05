@@ -4,7 +4,7 @@
 
 @section('content')
 
-	{{--  <p>Relations of @include('people.person-label'):</p>  --}}
+	{{--  <p>Relations of @include('people::person-label'):</p>  --}}
 
 	@if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
 		<table class="table table-sm">
@@ -21,7 +21,7 @@
 						<td>Mother</th>
 						<td>
 							<a href="{{ route('people.relations', $person->mother) }}">
-								@include('people.person-label', ['person'=> $person->mother])
+								@include('people::person-label', ['person'=> $person->mother])
 							</a>
 						</td>
 						<td class="text-right">
@@ -38,7 +38,7 @@
 						<td>Father</th>
 						<td>
 							<a href="{{ route('people.relations', $person->father) }}">
-								@include('people.person-label', ['person'=> $person->father])
+								@include('people::person-label', ['person'=> $person->father])
 							</a>
 						</td>
 						<td class="text-right">
@@ -55,7 +55,7 @@
 						<td>Partner</td>
 						<td>
 							<a href="{{ route('people.relations', $person->partner) }}">
-								@include('people.person-label', ['person'=> $person->partner])
+								@include('people::person-label', ['person'=> $person->partner])
 							</a>
 						</td>
 						<td class="text-right">
@@ -73,7 +73,7 @@
 							<td>Child</td>
 							<td>
 								<a href="{{ route('people.relations', $child) }}">
-									@include('people.person-label', ['person' => $child])
+									@include('people::person-label', ['person' => $child])
 								</a>
 							</td>
 							<td class="text-right">

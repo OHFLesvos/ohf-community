@@ -28,7 +28,7 @@
                                     @can('view', $person)
                                         <a href="{{ route('people.show', $person) }}" target="_blank">
                                     @endcan
-                                        @include('people.person-label', [ 'person' => $person ])
+                                        @include('people::person-label', [ 'person' => $person ])
                                     @can('view', $person)
                                         </a>
                                     @endcan

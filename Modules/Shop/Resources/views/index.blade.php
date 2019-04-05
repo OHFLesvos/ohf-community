@@ -88,7 +88,7 @@
                 @foreach($redeemed_cards as $rc)
                     <tr @if($rc->code == $code) class="table-info" @endif>
                         <td>
-                            <a href="{{ route('shop.index') }}?code={{ $rc->code }}">@include('people.person-label', ['person' => $rc->person ])</a>
+                            <a href="{{ route('shop.index') }}?code={{ $rc->code }}">@include('people::person-label', ['person' => $rc->person ])</a>
                         </td>
                         <td>{{ $rc->updated_at->diffForHumans() }}</td>
                     </tr>

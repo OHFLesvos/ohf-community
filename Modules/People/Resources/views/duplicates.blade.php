@@ -17,7 +17,7 @@
 					</div>
 					<div class="card-body">
 						@foreach ($persons as $person)
-							<p>@include('people.duplicateDetails')</p>
+							<p>@include('people::duplicateDetails')</p>
 						@endforeach
 					</div>
 					<div class="card-footer text-right">

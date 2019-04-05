@@ -218,30 +218,30 @@
                         <div class="list-group">
                             @if(isset($person->mother))
                                 <a href="{{ route('people.show', $person->mother) }}" class="list-group-item list-group-item-action">
-                                    @include('people.person-label', ['person'=> $person->mother, 'prefix' => __('people::people.mother')])
+                                    @include('ppeople::person-label', ['person'=> $person->mother, 'prefix' => __('people::people.mother')])
                                 </a>
                             @endif
                             @if(isset($person->father))
                                 <a href="{{ route('people.show', $person->father) }}" class="list-group-item list-group-item-action">
-                                    @include('people.person-label', ['person'=> $person->father, 'prefix' => __('people::people.father')])
+                                    @include('people::person-label', ['person'=> $person->father, 'prefix' => __('people::people.father')])
                                 </a>
                             @endif
                             @if(isset($person->partner))
                                 <a href="{{ route('people.show', $person->partner) }}" class="list-group-item list-group-item-action">
-                                    @include('people.person-label', ['person'=> $person->partner, 'prefix' => __('people::people.partner')])
+                                    @include('people::person-label', ['person'=> $person->partner, 'prefix' => __('people::people.partner')])
                                 </a>
                             @endif
                             @if(count($person->siblings) > 0)
                                 @foreach($person->siblings->sortByDesc('age') as $sibling) 
                                     <a href="{{ route('people.show', $sibling) }}" class="list-group-item list-group-item-action">
-                                        @include('people.person-label', ['person' => $sibling, 'prefix' => __('people::people.sibling')])
+                                        @include('people::person-label', ['person' => $sibling, 'prefix' => __('people::people.sibling')])
                                     </a>
                                 @endforeach
                             @endif
                             @if(count($person->children) > 0)
                                 @foreach($person->children->sortByDesc('age') as $child) 
                                     <a href="{{ route('people.show', $child) }}" class="list-group-item list-group-item-action">
-                                        @include('people.person-label', ['person' => $child, 'prefix' => __('people::people.child')])
+                                        @include('people::person-label', ['person' => $child, 'prefix' => __('people::people.child')])
                                     </a>
                                 @endforeach
                             @endif
