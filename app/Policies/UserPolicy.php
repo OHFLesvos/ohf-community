@@ -12,7 +12,7 @@ class UserPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isSuperAdmin() && $ability != 'delete') {
             return true;
         }
     }
@@ -72,8 +72,14 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->hasPermission('app.usermgmt.users.manage')
-            && $user->id != $model->id // Ensure user cannot delete himself
-            && (!$model->isSuperAdmin() || User::where('is_super_admin', true)->count() > 1); // Ensure model user is not admin or not the only admin
+        // Ensure user cannot delete himself
+        if ($user->id != $model->id) {
+            // Permission check
+            if ($user->isSuperAdmin() || $user->hasPermission('app.usermgmt.users.manage')) {
+                // Ensure model user is not admin or not the only admin
+                return !$model->isSuperAdmin() || User::where('is_super_admin', true)->count() > 1; 
+            }
+        }
+        return false;
     }
 }
