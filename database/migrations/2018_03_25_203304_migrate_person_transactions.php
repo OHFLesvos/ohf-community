@@ -98,7 +98,7 @@ class MigratePersonTransactions extends Migration
         });
 
         DB::table('transactions')
-            ->where('transactionable_type', 'App\Project')
+            ->where('transactionable_type', 'Modules\Bank\Entities\Project')
             ->groupBy(DB::raw('date(created_at)'), 'transactionable_id')
             ->select('id', DB::raw('date(created_at) as date'), DB::raw('sum(value) as amount'), 'transactionable_id', 'user_id')
             ->having('amount', '>', 0)
@@ -113,7 +113,7 @@ class MigratePersonTransactions extends Migration
                 ]);
             });
 
-        Transaction::where('transactionable_type', 'App\Project')->delete();
+        Transaction::where('transactionable_type', 'Modules\Bank\Entities\Project')->delete();
     }
 
     /**

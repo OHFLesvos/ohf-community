@@ -32,11 +32,11 @@ class NavigationServiceProvider extends ServiceProvider
         'people.duplicates' => \Modules\People\Navigation\ContextButtons\PeopleDuplicatesContextButtons::class,
         'people.import' => \Modules\People\Navigation\ContextButtons\PeopleImportContextButtons::class,
         
-        'reporting.monthly-summary' => \Modules\People\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.people' => \Modules\People\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.bank.withdrawals' => \Modules\People\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.bank.deposits' => \Modules\People\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.privacy' => \Modules\People\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.people' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.withdrawals' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.deposits' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.privacy' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
     ];
 
     /**

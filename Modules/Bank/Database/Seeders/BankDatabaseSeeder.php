@@ -17,5 +17,6 @@ class BankDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(CouponTypesSeeder::class);
+        $this->call(ProjectsSeeder::class);
     }
 }

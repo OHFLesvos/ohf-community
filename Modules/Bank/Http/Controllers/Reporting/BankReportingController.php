@@ -2,10 +2,10 @@
 
 namespace Modules\Bank\Http\Controllers\Reporting;
 
-use App\Project;
 use App\Http\Requests\SelectDateRange;
 use App\Http\Controllers\Reporting\BaseReportingController;
 
+use Modules\Bank\Entities\Project;
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;
 
@@ -37,7 +37,7 @@ class BankReportingController extends BaseReportingController
                     'today_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
                 ];
             });
-        return view('reporting.bank.withdrawals', [
+        return view('bank::reporting.withdrawals', [
             'coupons' => $coupons,
             'from' => Carbon::today()->subMonth()->toDateString(),
             'to' => Carbon::today()->toDateString(),
@@ -114,7 +114,7 @@ class BankReportingController extends BaseReportingController
      * View for deposit statistics
      */
     function deposits() {
-        return view('reporting.bank.deposits', [
+        return view('bank::reporting.deposits', [
             'projects' => Project::orderBy('name')
                 ->where('enable_in_bank', true)
                 ->get(),

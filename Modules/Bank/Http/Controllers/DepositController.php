@@ -2,9 +2,9 @@
 
 namespace Modules\Bank\Http\Controllers;
 
-use App\Project;
 use App\Http\Controllers\Controller;
 
+use Modules\Bank\Entities\Project;
 use Modules\Bank\Entities\CouponReturn;
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Http\Requests\StoreDeposit;

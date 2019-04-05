@@ -80,8 +80,6 @@ return [
     'card_already_in_use' => 'Card number :card_no is already in use.',
     'card_revoked' => 'Card number :card_no has been revoked on :date.',
     'num_x_handed_out_per_day' => ':name handed out per day',
-    'coupons_returned_per_day' => 'Coupons returned per day',
-    'coupons_returned_per_day_from_project' => 'Coupons returned per day from :project',
     'already_received' => 'already received',
     'scan' => 'Scan',
     'scan_card' => 'Scan card',

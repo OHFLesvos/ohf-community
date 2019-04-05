@@ -80,8 +80,6 @@ return [
     'card_already_in_use' => 'Kartennummer :card_no wird bereits benutzt.',
     'card_revoked' => 'Kartennummer :card_no wurde am :date widerrufen.',
     'num_x_handed_out_per_day' => 'Anzahl täglich herausgegebener :name',
-    'coupons_returned_per_day' => 'Registrierte Coupons pro Tag',
-    'coupons_returned_per_day_from_project' => 'Registrierte Coupons pro Tag vom Projekt :project',
     'already_received' => 'bereits erhalten',
     'scan' => 'Lesen',
     'scan_card' => 'Karte einlesen',

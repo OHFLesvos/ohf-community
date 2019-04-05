@@ -14,4 +14,6 @@ return [
     'edit_coupon' => 'Coupon bearbeiten',
     'create_coupon' => 'Coupon erstellen',
     'confirm_delete_coupon' => 'Diesen Coupon wirklich löschen?',
+    'coupons_returned_per_day' => 'Registrierte Coupons pro Tag',
+    'coupons_returned_per_day_from_project' => 'Registrierte Coupons pro Tag vom Projekt :project',
 ];

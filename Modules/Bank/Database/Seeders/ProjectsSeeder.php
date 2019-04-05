@@ -1,6 +1,9 @@
 <?php
 
-use App\Project;
+namespace Modules\Bank\Database\Seeders;
+
+use Modules\Bank\Entities\Project;
+
 use Illuminate\Database\Seeder;
 
 class ProjectsSeeder extends Seeder

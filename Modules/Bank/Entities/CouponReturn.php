@@ -21,7 +21,7 @@ class CouponReturn extends Model implements Auditable
     }
 
     public function project() {
-        return $this->belongsTo('App\Project');
+        return $this->belongsTo('Modules\Bank\Entities\Project');
     }
 
     /**

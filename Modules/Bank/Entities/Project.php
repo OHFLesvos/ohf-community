@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Modules\Bank\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Project extends Model
 {
     public function couponReturns() {
-        return $this->hasMany('Modules\Bank\Entities\CouponReturn');    // TODO: circular dependency
+        return $this->hasMany('Modules\Bank\Entities\CouponReturn');
     }
 
     public function dayTransactions($date) {
