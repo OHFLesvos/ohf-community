@@ -6,7 +6,6 @@ use App\Support\Facades\PermissionRegistry;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Config;
 
 use Iatstuti\Database\Support\NullableFields;
 
@@ -75,11 +74,6 @@ class User extends Authenticatable
     {
         // TODO: Modularize
         return $this->hasMany('Modules\Tasks\Entities\Task');
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany('App\Transaction');
     }
 
 }

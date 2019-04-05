@@ -17,16 +17,6 @@ class MakeTransactionsPolymorphic extends Migration
             $table->integer('transactionable_id')->unsigned()->after('id');
             $table->string('transactionable_type')->after('transactionable_id');
             $table->index(['transactionable_id', 'transactionable_type']);
-        });
-
-        DB::table('transactions')
-            ->whereNotNull('person_id')
-            ->update([
-                'transactionable_id' => DB::raw( 'person_id' ),
-                'transactionable_type' => 'App\Person'
-            ]);
-
-        Schema::table('transactions', function (Blueprint $table) {
             $table->dropForeign(['person_id']);
             $table->dropColumn('person_id');
         });
@@ -41,16 +31,6 @@ class MakeTransactionsPolymorphic extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             $table->integer('person_id')->unsigned()->after('id');
-        });
-
-        DB::table('transactions')
-            ->whereNotNull('transactionable_id')
-            ->where('transactionable_type', 'App\Person')
-            ->update([
-                'person_id' => DB::raw( 'transactionable_id' )
-            ]);
-
-        Schema::table('transactions', function (Blueprint $table) {
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade')->onUpdate('cascade');
             $table->dropIndex(['transactionable_id', 'transactionable_type']);
             $table->dropColumn('transactionable_type');
