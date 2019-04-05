@@ -50,8 +50,6 @@ return [
     'really_delete_these_persons' => 'Really delete these persons?',
     'really_merge_these_persons' => 'Really merge these persons?',
     'no_transactions_so_far' => 'No transactions so far.',
-    'male' => 'Male',
-    'female' => 'Female',
     'register_person' => 'Register Person',
     'view_person' => 'View Person',
     'edit_person' => 'Edit Person',

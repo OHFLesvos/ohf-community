@@ -50,8 +50,6 @@ return [
     'really_delete_these_persons' => 'Diese Personen wirklich löschen?',
     'really_merge_these_persons' => 'Diese Personen wirklich zusammenführen?',
     'no_transactions_so_far' => 'Bis jetzt wurden noch keine Transaktionen registriert.',
-    'male' => 'männlich',
-    'female' => 'weiblich',
     'register_person' => 'Person registrieren',
     'view_person' => 'Person betrachten',
     'edit_person' => 'Person bearbeiten',

@@ -110,9 +110,9 @@ class PeopleReportingController extends BaseReportingController
                     ->get()
             )->mapWithKeys(function($i){
                 if ($i['gender'] == 'm') {
-                    $label = 'Male';
+                    $label = __('app.male');
                 } else if ($i['gender'] == 'f') {
-                    $label = 'Female';
+                    $label = __('app.female');
                 } else {
                     $label = $i['gender'];
                 }

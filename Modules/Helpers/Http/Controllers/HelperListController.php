@@ -157,7 +157,7 @@ class HelperListController extends Controller
             [
                 'label_key' => 'people.gender',
                 'icon' => null,
-                'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('people::people.female') : __('people::people.male')) : null; },
+                'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('app.female') : __('app.male')) : null; },
                 'value_html' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? icon('female') : icon('male')) : null; },
                 'overview' => true,
                 'section' => 'general',
@@ -168,8 +168,8 @@ class HelperListController extends Controller
                 'form_name' => 'gender',
                 'form_list' => [ 
                     null => __('app.unspecified'),
-                    __('people::people.male') => __('people::people.male'),
-                    __('people::people.female') => __('people::people.female')
+                    __('app.male') => __('app.male'),
+                    __('app.female') => __('app.female')
                 ],
                 'form_validate' => 'required', // TODO better validation |in:m,f
             ],
@@ -881,9 +881,9 @@ class HelperListController extends Controller
                         ->map(function($s) {
                             switch ($s) {
                                 case 'f':
-                                    return __('people::people.female');
+                                    return __('app.female');
                                 case 'm':
-                                    return __('people::people.male');
+                                    return __('app.male');
                                 default:
                                     return __('app.unspecified');
                             }
@@ -1605,9 +1605,9 @@ class HelperListController extends Controller
                 ->get()
             )->mapWithKeys(function($i) {
                 if ($i['gender'] == 'm') {
-                    $label = 'Male';
+                    $label = __('app.male');
                 } else if ($i['gender'] == 'f') {
-                    $label = 'Female';
+                    $label = __('app.female');
                 } else {
                     $label = $i['gender'];
                 }

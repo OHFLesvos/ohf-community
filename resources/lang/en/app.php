@@ -217,4 +217,6 @@ return [
     'grouping' => 'Grouping',
     'write_decimal_point_as_comma' => 'Write decimal point as comma (,)',
     'search' => 'Search',
+    'male' => 'Male',
+    'female' => 'Female',
  ];
