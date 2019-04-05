@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Tasks\Http\Controllers;
+namespace Modules\Tasks\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 

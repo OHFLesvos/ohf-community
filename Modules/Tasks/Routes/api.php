@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth']], function () {
+Route::middleware('auth')->namespace('API')->group(function () {
     Route::apiResource('tasks', 'TasksController');
     Route::patch('tasks/{task}/done', 'TasksController@done')->name('tasks.done');
 });

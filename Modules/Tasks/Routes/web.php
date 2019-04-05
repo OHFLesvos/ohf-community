@@ -11,6 +11,6 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'language']], function () {
+Route::group(['middleware' => ['language', 'auth']], function () {
     Route::view('tasks', 'tasks::tasklist')->name('tasks')->middleware('can:list,Modules\Tasks\Entities\Task');
 });
