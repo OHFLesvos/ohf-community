@@ -12,14 +12,22 @@ use Illuminate\Support\Facades\DB;
 class CouponTypesController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(CouponType::class, 'coupon');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $this->authorize('list', CouponType::class);
-
         return view('bank::coupons.index', [
             'coupons' => CouponType
                 ::orderBy('order')
@@ -35,8 +43,6 @@ class CouponTypesController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', CouponType::class);
-
         return view('bank::coupons.create', [
             'default_order' => optional(CouponType::select(DB::raw('MAX(`order`) as max_order'))->first())->max_order + 1,
         ]);
@@ -50,8 +56,6 @@ class CouponTypesController extends Controller
      */
     public function store(StoreCouponType $request)
     {
-        $this->authorize('create', CouponType::class);
-
         $coupon = new CouponType();
         $coupon->name = $request->name;
         $coupon->icon = $request->icon;
@@ -79,8 +83,6 @@ class CouponTypesController extends Controller
      */
     public function show(CouponType $coupon)
     {
-        $this->authorize('view', $coupon);
-
         return view('bank::coupons.show', [
             'coupon' => $coupon,
         ]);
@@ -94,8 +96,6 @@ class CouponTypesController extends Controller
      */
     public function edit(CouponType $coupon)
     {
-        $this->authorize('update', $coupon);
-
         return view('bank::coupons.edit', [
             'coupon' => $coupon,
         ]);
@@ -110,8 +110,6 @@ class CouponTypesController extends Controller
      */
     public function update(StoreCouponType $request, CouponType $coupon)
     {
-        $this->authorize('update', $coupon);
-
         $coupon->name = $request->name;
         $coupon->icon = $request->icon;
         $coupon->daily_amount = $request->daily_amount;
@@ -138,8 +136,6 @@ class CouponTypesController extends Controller
      */
     public function destroy(CouponType $coupon)
     {
-        $this->authorize('delete', $coupon);
-
         $coupon->delete();
         return redirect()->route('coupons.index')
             ->with('success', __('bank::coupons.coupon_deleted'));
