@@ -380,7 +380,7 @@ $(document).ready(function() {
     */
     function updateEventDate(calEvent, delta, revertFunc) {
         $.ajax(calEvent.updateDateUrl, {
-            method: 'PUT',
+            method: 'PATCH',
             data : {
                 _token: csrfToken,
                 start: calEvent.start.format(),

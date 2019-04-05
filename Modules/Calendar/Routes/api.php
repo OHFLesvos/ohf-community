@@ -13,20 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => ['auth']], function () {
-    Route::apiResource('calendar/events', 'API\CalendarEventController', ['names' => [
-        'index' => 'calendar.events.index',
-        'store' => 'calendar.events.store',
-        'show' => 'calendar.events.show',
-        'update' => 'calendar.events.update',
-        'destroy' => 'calendar.events.destroy',
-    ]]);
-    Route::put('/calendar/events/{event}/date', 'API\CalendarEventController@updateDate')->name('calendar.events.updateDate');
-    Route::apiResource('calendar/resources', 'API\CalendarResourceController', ['names' => [
-        'index' => 'calendar.resources.index',
-        'store' => 'calendar.resources.store',
-        'show' => 'calendar.resources.show',
-        'update' => 'calendar.resources.update',
-        'destroy' => 'calendar.resources.destroy',
-    ]]);
+Route::middleware('auth')->namespace('API')->prefix('calendar')->name('calendar.')->group(function () {
+    Route::apiResource('events', 'CalendarEventController');
+    Route::patch('events/{event}/date', 'CalendarEventController@updateDate')->name('events.updateDate');
+    Route::apiResource('resources', 'CalendarResourceController');
 });

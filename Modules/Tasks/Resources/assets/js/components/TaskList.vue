@@ -134,7 +134,7 @@
             },
 
             doneTask(id) {
-                axios.put('api/tasks/' + id + '/done')
+                axios.patch('api/tasks/' + id + '/done')
                     .then((res) => {
                         this.fetchTaskList()
                     })
