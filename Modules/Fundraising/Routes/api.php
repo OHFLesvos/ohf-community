@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
     ->prefix('fundraising/donations')
     ->name('fundraising.')
+    ->namespace('API')
     ->group(function () {
         Route::name('donations.raiseNowWebHookListener')->post('raiseNowWebHookListener', 'DonationController@raiseNowWebHookListener');
     });

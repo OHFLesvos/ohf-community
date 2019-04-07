@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::prefix('shop')
     ->name('shop.')
+    ->namespace('API')
     // TODO: Authentication and authorization
     //->middleware(['can:validate-shop-coupons'])
     ->group(function(){
