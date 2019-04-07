@@ -2,12 +2,13 @@
 
 namespace Modules\Shop\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
+
 use Modules\Bank\Entities\CouponHandout;
 
 use Modules\Shop\Http\Resources\ShopCardResource;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
