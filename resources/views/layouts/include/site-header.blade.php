@@ -81,6 +81,12 @@
             @endcomponent
         @endif
 
+        @if(is_module_enabled('UserManagement'))
+            <a href="{{ route('userprofile') }}" class="btn text-light d-none d-md-inline-block">
+               <img src="{{ Auth::user()->avatarUrl('site_header') }}" alt="Gravatar" class="bg-white rounded-circle">
+            </a>
+        @endif
+
     </div>
 
 </nav>
