@@ -26,12 +26,6 @@ return [
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],
-        'kitchen' => [
-            'route' => 'reporting.kitchen',
-            'icon' => 'spoon',
-            'gate' => 'view-kitchen-reports',
-            'featured' => true,
-        ],
         'user-privileges' => [
             'route' => 'users.permissions',
             'icon' => 'key',
@@ -51,6 +45,4 @@ return [
             'featured' => true,
         ],
     ],
-
-    'kitchen_project' => env('KITCHEN_PROJECT', 1),
 ];

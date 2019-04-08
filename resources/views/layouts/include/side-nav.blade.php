@@ -12,12 +12,12 @@
         {{-- Navigation --}}
         <ul class="nav flex-column nav-pills my-3 mt-0">
             @foreach ($nav as $n)
-                @if ($n['authorized'])
+                @if ($n->isAuthorized())
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is($n['active']) ? 'active' : '' }}" href="{{ route($n['route']) }}">
-                            <i class="fa fa-{{ $n['icon'] }}" title="{{ $n['caption'] }}"></i> {{ $n['caption'] }}
-                            @if (isset($n['badge']))
-                                <span class="badge badge-secondary ml-2">{{ $n['badge'] }}</span>
+                        <a class="nav-link {{ Request::is($n->getActive()) ? 'active' : '' }}" href="{{ $n->getRoute() }}">
+                            <i class="fa fa-{{ $n->getIcon() }}" title="{{ $n->getCaption() }}"></i> {{ $n->getCaption() }}
+                            @if ($n->getBadge() != null)
+                                <span class="badge badge-secondary ml-2">{{ $n->getBadge() }}</span>
                             @endif
                         </a>
                     </li>
@@ -31,10 +31,12 @@
     <footer class="side-nav-footer">
 
         <hr>
-        <div class="text-center">
-            <a href="{{ route('userprofile') }}"><h1 class="display-4">@icon(user)</h1></a>
-            {{ Auth::user()->name }}
-        </div>
+        @if(is_module_enabled('UserManagement'))
+            <div class="text-center">
+                <a href="{{ route('userprofile') }}"><h1 class="display-4">@icon(user)</h1></a>
+                {{ Auth::user()->name }}
+            </div>
+        @endif
 
         {{-- Logout --}}
         <div class="px-3 mt-3">
@@ -47,7 +49,11 @@
         <hr>
         <p class="copyright text-muted px-3">
             <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }}</a> 
-            <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
+            @if(is_module_enabled('Changelog'))
+                <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
+            @else
+                {{ $app_version }}<br>
+            @endif
             &copy; Nicolas Perrenoud<br>
             Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms
         </p>

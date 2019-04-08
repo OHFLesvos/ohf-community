@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Support\Facades\PermissionRegistry;
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Config;
+
 use Iatstuti\Database\Support\NullableFields;
 
 class User extends Authenticatable
@@ -61,23 +63,17 @@ class User extends Authenticatable
                 $permissions[] = $permission;
             }
         }
-
-        $configuredPermissions = Config::get('auth.permissions');
         return collect($permissions)
-            ->filter(function($permission) use($configuredPermissions) {
-                return isset($configuredPermissions[$permission->key]);
+            ->filter(function($permission) {
+                return PermissionRegistry::hasKey($permission->key);
             })
             ->unique();
     }
 
     public function tasks()
     {
-        return $this->hasMany('App\Task');
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany('App\Transaction');
+        // TODO: Modularize
+        return $this->hasMany('Modules\Tasks\Entities\Task');
     }
 
 }

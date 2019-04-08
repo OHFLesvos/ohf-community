@@ -32,6 +32,10 @@ Create/migrate database tables:
 
     php artisan migrate
 
+Run tests:
+
+    ./vendor/bin/phpunit
+
 For more information see https://laravel.com/docs/installation
 
 Assets

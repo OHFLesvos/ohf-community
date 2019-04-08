@@ -40,7 +40,8 @@ class Tag extends Model
      */
     public function wikiArticles()
     {
-        return $this->morphedByMany('App\WikiArticle', 'taggable');
+        // TODO: Modularization
+        return $this->morphedByMany('Modules\Wiki\Entities\WikiArticle', 'taggable');
     }
 
     /**
@@ -48,6 +49,7 @@ class Tag extends Model
      */
     public function donors()
     {
-        return $this->morphedByMany('App\Donor', 'taggable');
+        // TODO: Modularization
+        return $this->morphedByMany('Modules\Fundraising\Entities\Donor', 'taggable');
     }
 }

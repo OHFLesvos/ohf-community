@@ -2,21 +2,27 @@
 
 namespace App\Providers;
 
+use App\Rules\CountryCode;
+use App\Rules\CountryName;
+use App\Providers\Traits\RegistersDashboardWidgets;
+
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-use App\Rules\CountryCode;
-use App\Rules\CountryName;
-use App\Rules\Isbn;
 
 class AppServiceProvider extends ServiceProvider
 {
+    use RegistersDashboardWidgets;
+
+    protected $dashboardWidgets = [
+        \App\Widgets\ReportingWidget::class => 9,
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -83,7 +89,8 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('country_code', CountryCode::class);
         Validator::extend('country_name', CountryName::class);
-        Validator::extend('isbn', Isbn::class);
+
+        $this->registerDashboardWidgets();
     }
 
     /**
@@ -95,4 +102,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
 }

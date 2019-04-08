@@ -3,8 +3,6 @@
 @endphp
 @extends('layouts.app')
 
-@section('title', __('people.bank'))
-
 @section('content')
     @php
         $currentRouteName = Route::currentRouteName();

@@ -1,126 +1,5 @@
-/*
- * Instascan QR code camera 
- */
-const jsQR = require("jsqr");
-
-$(document.body).append('<div class="modal" id="videoPreviewModal" tabindex="-1" role="dialog" aria-labelledby="videoPreviewModalLabel" aria-hidden="true">' +
-'<div class="modal-dialog" role="document">' +
-	'<div class="modal-content">' +
-		'<div class="modal-header">' +
-			'<h5 class="modal-title" id="videoPreviewModalLabel">' + scannerDialogTitle + '</h5>' +
-			'<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
-			   ' <span aria-hidden="true">&times;</span>' +
-			'</button>' +
-		'</div>' +
-		'<div class="modal-body">' +
-		 '   <canvas id="preview" hidden style="width: 100%; height: 100%"></canvas>' +
-		 '   <span id="videoPreviewMessage">' + scannerDialogWaitMessage + '...</span>' +
-		'</div>' +
-	'</div>' +
-'</div>' +
-'</div>');
-
-var video = document.createElement("video");
-var canvasElement = document.getElementById("preview");
-var canvas = canvasElement.getContext("2d");
-var videoPreviewMessage = $('#videoPreviewMessage');
-
-var localStream;
-var qrCallback;
-
-function drawLine(begin, end, color) {
-	canvas.beginPath();
-	canvas.moveTo(begin.x, begin.y);
-	canvas.lineTo(end.x, end.y);
-	canvas.lineWidth = 4;
-	canvas.strokeStyle = color;
-	canvas.stroke();
-}
-
-function tick() {
-	if (video.readyState === video.HAVE_ENOUGH_DATA) {
-		videoPreviewMessage.hide();
-		canvasElement.hidden = false;
-		canvasElement.height = video.videoHeight;
-		canvasElement.width = video.videoWidth;
-		canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
-		var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-		var code = jsQR(imageData.data, imageData.width, imageData.height, {
-			inversionAttempts: "dontInvert",
-		});
-		if (code) {
-			drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-			drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-			drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-			drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
-			
-			video.pause();
-			localStream.getTracks().forEach(function(track) {
-				track.stop();
-			});
-
-			$('#videoPreviewModal').modal('hide');
-			qrCallback(code.data);
-			return;
-		}
-	}
-	requestAnimationFrame(tick);
-}
-
-function scanQR(callback) {
-	$('#videoPreviewModal').modal('show');
-	// Use facingMode: environment to attemt to get the front camera on phones
-	navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
-		video.srcObject = stream;
-		localStream = stream;
-		video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-		video.play();
-		qrCallback = callback;
-		requestAnimationFrame(tick);
-	});
-	$('#videoPreviewModal').on('hide.bs.modal', function (e) {
-		video.pause();
-		localStream.getTracks().forEach(function(track) {
-		  track.stop();
-		});
-		canvas.clearRect(0, 0, canvasElement.width, canvasElement.height);
-	})	
-}
-
-var Snackbar = require('node-snackbar');
-function showSnackbar(text, actionText, actionClass, callback) {
-	var args = {
-		text: text,
-		duration: 3000,
-		pos: 'bottom-center',
-		actionText: actionText ? actionText : null,
-		actionTextColor: null,
-		customClass: actionClass ? actionClass : null, 
-	};
-	if (callback) {
-		args['onActionClick'] = callback;
-		args['duration'] = 5000;
-	}
-	Snackbar.show(args);
-}
-
-function ajaxError(jqXHR, textStatus) {
-	var message;
-	if (jqXHR.responseJSON.message) {
-		if (jqXHR.responseJSON.errors) {
-			message = "";
-			var errors = jqXHR.responseJSON.errors;
-			Object.keys(errors).forEach(function(key) {
-				message += errors[key] + "\n";
-			});
-		} else {
-			message = jqXHR.responseJSON.message;
-		}
-	} else {
-		message = textStatus + ': ' + jqXHR.responseText;
-	}
-	alert(message);
-}
+import './utils';
+import './qr';
 
 $(function(){
 
@@ -167,9 +46,6 @@ $(function(){
 
 	// Nationality
 	$('.choose-nationality').on('click', selectNationality);
-
-	// Check shop card
-	$('.check-shop-card').on('click', checkShopCard);
 
 	enableFilterSelect();
 });
@@ -258,20 +134,23 @@ function selectGender() {
 	var value = $(this).attr('data-value');
 	var resultElem = $(this).parent();
 	resultElem.html('<i class="fa fa-spinner fa-spin">');
-	$.post( updateGenderUrl, {
-		"_token": csrfToken,
-		"person_id":person,
-		'gender': value
-	}, function(data) {
-		if (value == 'm') {
-			resultElem.html('<i class="fa fa-male">');
-		} else if (value == 'f') {
-			resultElem.html('<i class="fa fa-female">');
-		}
-		showSnackbar(data.message);
-		enableFilterSelect();
-	})
-	.fail(ajaxError);
+	$.ajax( updateGenderUrl.replace(':person', person), {
+			'method': 'PATCH',
+			'data': {
+				"_token": csrfToken,
+				'gender': value
+			}
+		})
+		.done(function(data) {
+			if (value == 'm') {
+				resultElem.html('<i class="fa fa-male">');
+			} else if (value == 'f') {
+				resultElem.html('<i class="fa fa-female">');
+			}
+			showSnackbar(data.message);
+			enableFilterSelect();
+		})
+		.fail(ajaxError);
 }
 
 function selectDateOfBirth() {
@@ -336,30 +215,33 @@ function selectDateOfBirth() {
 }
 
 function storeDateOfBirth(person, dateSelect, resultElem) {
-	$.post(updateDateOfBirthUrl, {
-		"_token": csrfToken,
-		"person_id":person,
-		'date_of_birth': dateSelect.val()
-	}, function(data) {
-		resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
-		// Remove buttons not maching age-restrictions
-		$('button[data-min_age]').each(function(){
-			if ($(this).data('min_age') && data.age < $(this).data('min_age')) {
-				$(this).parent().remove();
+	$.ajax( updateDateOfBirthUrl.replace(':person', person), {
+			'method': 'PATCH',
+			'data': {
+				"_token": csrfToken,
+				'date_of_birth': dateSelect.val()
 			}
-		});
-		$('button[data-max_age]').each(function(){
-			if ($(this).data('max_age') && data.age > $(this).data('max_age')) {
-				$(this).parent().remove();
-			}
-		});
-		showSnackbar(data.message);
-		enableFilterSelect();
-	})
-	.fail(function(jqXHR, textStatus){
-		ajaxError(jqXHR, textStatus);
-		dateSelect.select();
-	});	
+		})
+		.done(function(data) {
+			resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
+			// Remove buttons not maching age-restrictions
+			$('button[data-min_age]').each(function(){
+				if ($(this).data('min_age') && data.age < $(this).data('min_age')) {
+					$(this).parent().remove();
+				}
+			});
+			$('button[data-max_age]').each(function(){
+				if ($(this).data('max_age') && data.age > $(this).data('max_age')) {
+					$(this).parent().remove();
+				}
+			});
+			showSnackbar(data.message);
+			enableFilterSelect();
+		})
+		.fail(function(jqXHR, textStatus){
+			ajaxError(jqXHR, textStatus);
+			dateSelect.select();
+		});	
 }
 
 function getTodayDate() {
@@ -432,62 +314,21 @@ function selectNationality() {
 }
 
 function storeNationality(person, nationalitySelect, resultElem) {
-	$.post(updateNationalityUrl, {
-		"_token": csrfToken,
-		"person_id":person,
-		'nationality': nationalitySelect.val()
-	}, function(data) {
-		resultElem.html(data.nationality);
-		showSnackbar(data.message);
-		enableFilterSelect();
-	})
-	.fail(function(jqXHR, textStatus){
-		ajaxError(jqXHR, textStatus);
-		nationalitySelect.select();
-	});	
-}
-
-function checkShopCard() {
-	scanQR(function(content){
-		// TODO input validation of code
-		$('#shop-container').empty().html('Searching card ...');
-		document.location = shopUrl + '?code=' + content;
-	});
-}
-
-// Barber shop
-$(function(){
-	$('.checkin-button').on('click', function(){
-		var person_name = $(this).data('person-name');
-		if (confirm(checkInConfirmationMessage + ' ' + person_name)) {
-			var person_id = $(this).data('person-id');
-			var btn = $(this);
-			btn.children('i').removeClass('check').addClass('fa-spinner fa-spin');
-			btn.removeClass('btn-primary').addClass('btn-secondary');
-			btn.prop('disabled', true);
-
-			$.post(checkinUrl, {
+	$.ajax( updateNationalityUrl.replace(':person', person), {
+			'method': 'PATCH',
+			'data': {
 				"_token": csrfToken,
-				"person_id": person_id
-			}, function(data) {
-				btn.siblings().remove();
-				btn.parent().append(data.time);
-				btn.remove();
-				showSnackbar(data.message);
-			})
-			.fail(ajaxError)
-			.always(function() {
-				btn.removeAttr('disabled');
-				btn.children('i').addClass('check').removeClass('fa-spinner fa-spin');
-				btn.addClass('btn-primary').removeClass('btn-secondary');
-			});	
-		}
-	});
+				'nationality': nationalitySelect.val()
+			}	
+		})
+		.done(function(data) {
+			resultElem.html(data.nationality);
+			showSnackbar(data.message);
+			enableFilterSelect();
+		})
+		.fail(function(jqXHR, textStatus){
+			ajaxError(jqXHR, textStatus);
+			nationalitySelect.select();
+		});
+}
 
-	$('.delete-reservation-form').on('submit', function(e){
-		var person_name = $(this).find('button[type="submit"]').data('person-name');
-		if (!confirm(delereReservationConfirmMessage + ' ' + person_name)) {
-			e.preventDefault();
-		}
-	});
-});  

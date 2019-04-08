@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Reporting;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
+use Carbon\Carbon;
 
 abstract class BaseReportingController extends Controller
 {

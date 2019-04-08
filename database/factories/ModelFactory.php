@@ -11,7 +11,9 @@
 |
 */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/**
+ * @var \Illuminate\Database\Eloquent\Factory $factory
+ */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
@@ -22,3 +24,22 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+/** 
+ * @var \Illuminate\Database\Eloquent\Factory $factory
+ */
+$factory->define(App\Role::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->jobTitle,
+    ];
+});
+
+/** 
+ * @var \Illuminate\Database\Eloquent\Factory $factory
+ */
+$factory->define(App\Tag::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word,
+    ];
+});
+

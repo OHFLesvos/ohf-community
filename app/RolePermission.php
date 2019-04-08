@@ -13,6 +13,8 @@ class RolePermission extends Model
      */
     protected $touches = ['role'];
 
+    protected $fillable = ['key'];
+
     public function role()
     {
         return $this->belongsTo('App\Role');
