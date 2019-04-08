@@ -56,7 +56,7 @@ class HelperListController extends Controller
     function getFields() {
         return [
             [
-                'label_key' => 'people.portrait_picture',
+                'label_key' => 'people::people.portrait_picture',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->portrait_picture; },
                 'value_html' => function($helper) { 
@@ -92,7 +92,7 @@ class HelperListController extends Controller
                 'form_help' => __('people::people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
-                'label_key' => 'people.name',
+                'label_key' => 'people::people.name',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->name; },
                 'overview' => true,
@@ -104,7 +104,7 @@ class HelperListController extends Controller
                 'form_validate' => 'required|max:255',
             ],
             [
-                'label_key' => 'people.family_name',
+                'label_key' => 'people::people.family_name',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->family_name; },
                 'overview' => true,
@@ -116,7 +116,7 @@ class HelperListController extends Controller
                 'form_validate' => 'required|max:255',
             ],
             [
-                'label_key' => 'people.nickname',
+                'label_key' => 'people::people.nickname',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->nickname; },
                 'overview' => true,
@@ -127,7 +127,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|max:255',
             ],
             // [
-            //     'label_key' => 'people.name',
+            //     'label_key' => 'people::people.name',
             //     'icon' => null,
             //     'value' => function($helper) { return $helper->person->fullName; },
             //     'overview' => true,
@@ -136,7 +136,7 @@ class HelperListController extends Controller
             //     'section' => 'general',
             // ],
             [
-                'label_key' => 'people.nationality',
+                'label_key' => 'people::people.nationality',
                 'icon' => 'globe',
                 'value' => function($helper) { return $helper->person->nationality; },
                 'overview' => true,
@@ -156,7 +156,7 @@ class HelperListController extends Controller
                 },
             ],
             [
-                'label_key' => 'people.gender',
+                'label_key' => 'people::people.gender',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('app.female') : __('app.male')) : null; },
                 'value_html' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? icon('female') : icon('male')) : null; },
@@ -175,7 +175,7 @@ class HelperListController extends Controller
                 'form_validate' => 'required', // TODO better validation |in:m,f
             ],
             [
-                'label_key' => 'people.date_of_birth',
+                'label_key' => 'people::people.date_of_birth',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->date_of_birth; },
                 'overview' => false,
@@ -188,14 +188,14 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people.age',
+                'label_key' => 'people::people.age',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->age; },
                 'overview' => true,
                 'section' => 'general',
             ],
             [
-                'label_key' => 'people.languages',
+                'label_key' => 'people::people.languages',
                 'icon' => 'language',
                 'value' => function($helper) { return $helper->person->languages != null ? implode(", ", $helper->person->languages) : null; },
                 'value_html' => function($helper) { return $helper->person->languages != null ? implode("<br>", $helper->person->languages) : null; },
@@ -276,7 +276,7 @@ class HelperListController extends Controller
                 'form_name' => 'skype',
             ],
             [
-                'label_key' => 'people.residence',
+                'label_key' => 'people::people.residence',
                 'icon' => null,
                 'value' => 'residence',
                 'value_html' => function($helper) { return nl2br($helper->residence); },
@@ -325,7 +325,7 @@ class HelperListController extends Controller
                 },
             ],
             [
-                'label_key' => 'people.trial_period',
+                'label_key' => 'people::people.trial_period',
                 'icon' => 'calendar',
                 'value' => function($helper) { return $helper->work_trial_period !== null ? ($helper->work_trial_period ? __('app.yes') : __('app.no')) : null ; },
                 'overview' => false,
@@ -342,7 +342,7 @@ class HelperListController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people.application_date',
+                'label_key' => 'people::people.application_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_application_date)->toDateString(); },
                 'overview' => false,
@@ -354,7 +354,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people.rejection_date',
+                'label_key' => 'people::people.rejection_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_rejection_date)->toDateString(); },
                 'overview' => false,
@@ -365,7 +365,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people.starting_date',
+                'label_key' => 'people::people.starting_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_starting_date)->toDateString(); },
                 'overview' => false,
@@ -377,7 +377,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people.leaving_date',
+                'label_key' => 'people::people.leaving_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_leaving_date)->toDateString(); },
                 'overview' => false,
@@ -388,7 +388,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people.background',
+                'label_key' => 'people::people.background',
                 'icon' => null,
                 'value' => 'work_background',
                 'value_html' => function($helper) { return nl2br($helper->work_background); },
@@ -400,7 +400,7 @@ class HelperListController extends Controller
                 'form_name' => 'background',
             ],
             [
-                'label_key' => 'people.feedback_wishes',
+                'label_key' => 'people::people.feedback_wishes',
                 'icon' => null,
                 'value' => 'work_feedback_wishes',
                 'value_html' => function($helper) { return nl2br($helper->work_feedback_wishes); },
@@ -412,7 +412,7 @@ class HelperListController extends Controller
                 'form_name' => 'feedback_wishes',
             ],
             [
-                'label_key' => 'people.police_number',
+                'label_key' => 'people::people.police_number',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->person->police_no; },
                 'overview' => false,
@@ -425,7 +425,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people.registration_number',
+                'label_key' => 'people::people.registration_number',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->person->registration_no; },
                 'overview' => false,
@@ -436,7 +436,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people.section_card_number',
+                'label_key' => 'people::people.section_card_number',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->person->section_card_no; },
                 'overview' => false,
@@ -447,7 +447,7 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people.staff_card_no',
+                'label_key' => 'people::people.staff_card_no',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->person->staff_card_no; },
                 'overview' => false,
@@ -458,7 +458,7 @@ class HelperListController extends Controller
                 // 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people.endorses_casework',
+                'label_key' => 'people::people.endorses_casework',
                 'icon' => null,
                 'value' => function($helper) {
                     return $helper->endorses_casework !== null ? ($helper->endorses_casework ? __('app.yes') : __('app.no')) : null; 
@@ -479,7 +479,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.case_number',
+                'label_key' => 'people::people.case_number',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->casework_case_number; },
                 'overview' => false,
@@ -492,7 +492,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.asylum_request_status',
+                'label_key' => 'people::people.asylum_request_status',
                 'icon' => null,
                 'value' => function($helper) { 
                     return $helper->casework_asylum_request_status != null ? __('people::people.' . $helper->casework_asylum_request_status) : null; 
@@ -516,7 +516,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.has_geo_restriction',
+                'label_key' => 'people::people.has_geo_restriction',
                 'icon' => null,
                 'value' => function($helper) { return $helper->casework_has_geo_restriction !== null ? ($helper->casework_has_geo_restriction  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
@@ -536,7 +536,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.has_id_card',
+                'label_key' => 'people::people.has_id_card',
                 'icon' => null,
                 'value' => function($helper) { return $helper->casework_has_id_card !== null ? ($helper->casework_has_id_card  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
@@ -556,7 +556,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.has_passport',
+                'label_key' => 'people::people.has_passport',
                 'icon' => null,
                 'value' => function($helper) { return $helper->casework_has_passport !== null ? ($helper->casework_has_passport  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
@@ -575,7 +575,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.first_interview_date',
+                'label_key' => 'people::people.first_interview_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_first_interview_date)->toDateString(); },
                 'overview' => false,
@@ -589,7 +589,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.second_interview_date',
+                'label_key' => 'people::people.second_interview_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_second_interview_date)->toDateString(); },
                 'overview' => false,
@@ -603,7 +603,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.first_decision_date',
+                'label_key' => 'people::people.first_decision_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_first_decision_date)->toDateString(); },
                 'overview' => false,
@@ -617,7 +617,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.appeal_date',
+                'label_key' => 'people::people.appeal_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_appeal_date)->toDateString(); },
                 'overview' => false,
@@ -631,7 +631,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.second_decision_date',
+                'label_key' => 'people::people.second_decision_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_second_decision_date)->toDateString(); },
                 'overview' => false,
@@ -645,7 +645,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.vulnerability_assessment_date',
+                'label_key' => 'people::people.vulnerability_assessment_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_vulnerability_assessment_date)->toDateString(); },
                 'overview' => false,
@@ -659,7 +659,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.vulnerability',
+                'label_key' => 'people::people.vulnerability',
                 'icon' => null,
                 'value' => 'casework_vulnerability',
                 'overview' => false,
@@ -671,7 +671,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.card_expiry_date',
+                'label_key' => 'people::people.card_expiry_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_card_expiry_date)->toDateString(); },
                 'overview' => false,
@@ -685,7 +685,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.lawyer_name',
+                'label_key' => 'people::people.lawyer_name',
                 'icon' => null,
                 'value' => 'casework_lawyer_name',
                 'overview' => false,
@@ -698,7 +698,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.lawyer_phone',
+                'label_key' => 'people::people.lawyer_phone',
                 'icon' => null,
                 'value' => 'casework_lawyer_phone',
                 'value_html' => function($helper) { return $helper->casework_lawyer_phone != null ? tel_link($helper->casework_lawyer_phone) : null; },
@@ -712,7 +712,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.lawyer_email',
+                'label_key' => 'people::people.lawyer_email',
                 'icon' => null,
                 'value' => 'casework_lawyer_email',
                 'value_html' => function($helper) { return $helper->casework_lawyer_email != null ? email_link($helper->casework_lawyer_email) : null; },
@@ -726,7 +726,7 @@ class HelperListController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.notes',
+                'label_key' => 'people::people.notes',
                 'icon' => null,
                 'value' => function($helper) { return $helper->notes; },
                 'value_html' => function($helper) { return nl2br($helper->notes); },
@@ -738,7 +738,7 @@ class HelperListController extends Controller
                 'form_name' => 'notes',
             ],
             [
-                'label_key' => 'people.shirt_size',
+                'label_key' => 'people::people.shirt_size',
                 'icon' => null,
                 'value' => function($helper) { return $helper->shirt_size; },
                 'overview' => false,
@@ -748,7 +748,7 @@ class HelperListController extends Controller
                 'form_name' => 'shirt_size',
             ],
             [
-                'label_key' => 'people.shoe_size',
+                'label_key' => 'people::people.shoe_size',
                 'icon' => null,
                 'value' => function($helper) { return $helper->shirt_size; },
                 'overview' => false,
@@ -758,7 +758,7 @@ class HelperListController extends Controller
                 'form_name' => 'shoe_size',
             ],
             [
-                'label_key' => 'people.urgent_needs',
+                'label_key' => 'people::people.urgent_needs',
                 'icon' => null,
                 'value' => function($helper) { return $helper->urgent_needs; },
                 'value_html' => function($helper) { return nl2br($helper->urgent_needs); },
@@ -769,7 +769,7 @@ class HelperListController extends Controller
                 'form_name' => 'urgent_needs',
             ],
             [
-                'label_key' => 'people.work_needs',
+                'label_key' => 'people::people.work_needs',
                 'icon' => null,
                 'value' => function($helper) { return $helper->work_needs; },
                 'value_html' => function($helper) { return nl2br($helper->work_needs); },
@@ -780,7 +780,7 @@ class HelperListController extends Controller
                 'form_name' => 'work_needs',
             ],
             [
-                'label_key' => 'people.remarks',
+                'label_key' => 'people::people.remarks',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->remarks; },
                 'value_html' => function($helper) { return nl2br($helper->person->remarks); },
