@@ -3,7 +3,7 @@
         [
             'url' => route('fundraising.donors.index'),
             'title' => __('app.manage'),
-            'icon' => 'pencil',
+            'icon' => 'edit',
             'authorized' => true,
         ],
     ];

@@ -42,7 +42,7 @@
         <div class="px-3 mt-3">
             <form class="form-inline" action="{{ route('logout') }}" method="POST">
                 {{ csrf_field() }}
-                <button type="submit" class="btn btn-block btn-secondary">@icon(sign-out) Logout</button>
+                <button type="submit" class="btn btn-block btn-secondary">@icon(sign-out-alt) Logout</button>
             </form>
         </div>
 

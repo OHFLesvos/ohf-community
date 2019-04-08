@@ -17,7 +17,7 @@ class CouponTypesSeeder extends Seeder
     {
         CouponType::create([
             'name' => 'Drachma',
-            'icon' => 'money',
+            'icon' => 'money-bill-alt',
             'daily_amount' => 2,
             'retention_period' => 1,
             'min_age' => 12,
@@ -41,7 +41,7 @@ class CouponTypesSeeder extends Seeder
         ]);
         CouponType::create([
             'name' => 'Kids Drachma',
-            'icon' => 'money',
+            'icon' => 'money-bill-alt',
             'daily_amount' => 1,
             'retention_period' => 1,
             'max_age' => 11,
@@ -49,7 +49,7 @@ class CouponTypesSeeder extends Seeder
         ]);
         CouponType::create([
             'name' => 'Powerbank',
-            'icon' => 'battery',
+            'icon' => 'battery-full',
             'daily_amount' => 1,
             'retention_period' => null,
             'min_age' => 15,

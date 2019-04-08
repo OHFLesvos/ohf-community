@@ -18,8 +18,8 @@ class CouponShowContextButtons implements ContextButtons {
             'action' => [
                 'url' => route('coupons.edit', $coupon),
                 'caption' => __('app.edit'),
-                'icon' => 'pencil',
-                'icon_floating' => 'pencil',
+                'icon' => 'edit',
+                'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $coupon)
             ],
             'delete' => [

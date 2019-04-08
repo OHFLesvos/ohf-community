@@ -26,7 +26,7 @@ mix.options({ processCssUrls: false })
 	.styles([
 		'node_modules/tags-input/tags-input.css',
 	], 'public/css/styles.css')
-	.copy('node_modules/font-awesome/fonts', 'public/fonts')
+	.copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
 	.copy('node_modules/cropperjs/dist/cropper.min.css', 'public/css')
 	.sourceMaps();
 	

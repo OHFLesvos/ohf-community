@@ -12,7 +12,7 @@ class BarberNavigationItem extends BaseNavigationItem {
 
     protected $caption = 'shop::shop.barber_shop';
 
-    protected $icon = 'scissors';
+    protected $icon = 'cut';
 
     protected $active = 'barber*';
 

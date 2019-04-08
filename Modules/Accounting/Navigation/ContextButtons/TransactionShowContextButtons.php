@@ -18,8 +18,8 @@ class TransactionShowContextButtons implements ContextButtons {
             'action' => [
                 'url' => route('accounting.transactions.edit', $transaction),
                 'caption' => __('app.edit'),
-                'icon' => 'pencil',
-                'icon_floating' => 'pencil',
+                'icon' => 'edit',
+                'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $transaction)
             ],
             'receipt' => [

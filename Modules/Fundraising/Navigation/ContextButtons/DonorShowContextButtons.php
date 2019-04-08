@@ -19,8 +19,8 @@ class DonorShowContextButtons implements ContextButtons {
             'action' => [
                 'url' => route('fundraising.donors.edit', $donor),
                 'caption' => __('app.edit'),
-                'icon' => 'pencil',
-                'icon_floating' => 'pencil',
+                'icon' => 'edit',
+                'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $donor)
             ],
             'export' => [
@@ -32,7 +32,7 @@ class DonorShowContextButtons implements ContextButtons {
             'vcard' => [
                 'url' => route('fundraising.donors.vcard', $donor),
                 'caption' => __('app.vcard'),
-                'icon' => 'vcard',
+                'icon' => 'address-card',
                 'authorized' => Auth::user()->can('view', $donor)
             ],
             'delete' => [

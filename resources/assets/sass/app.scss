@@ -9,7 +9,10 @@
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 
 // Font Awesome
-@import "node_modules/font-awesome/scss/font-awesome";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 
 // Snackbar
 @import "node_modules/node-snackbar/src/sass/snackbar";

@@ -14,7 +14,7 @@ class FundraisingNavigationItem extends BaseNavigationItem {
 
     protected $caption = 'fundraising::fundraising.donation_management';
 
-    protected $icon = 'handshake-o';
+    protected $icon = 'handshake';
 
     protected $active = 'fundraising/*';
 

@@ -20,7 +20,7 @@ class AccountingNavigationItem extends BaseNavigationItem {
 
     protected $caption = 'accounting::accounting.accounting';
 
-    protected $icon = 'money';
+    protected $icon = 'money-bill-alt';
 
     protected $active = 'accounting/*';
 

@@ -16,7 +16,7 @@ class PeopleContextMenu implements ContextMenu {
             [
                 'url' => route('people.duplicates'),
                 'caption' => __('people::people.find_duplicates'),
-                'icon' => 'exchange',
+                'icon' => 'exchange-alt',
                 'authorized' => Auth::user()->can('cleanup', Person::class)
             ],                    
             [

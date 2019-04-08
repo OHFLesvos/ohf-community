@@ -1,3 +1,3 @@
 <div class="alert alert-danger">
-    @icon(warning) {{ $slot }}
+    @icon(exclamation-triangle) {{ $slot }}
 </div>

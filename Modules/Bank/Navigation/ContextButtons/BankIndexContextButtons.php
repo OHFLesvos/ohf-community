@@ -37,7 +37,7 @@ class BankIndexContextButtons implements ContextButtons {
             'report'=> [
                 'url' => route('reporting.bank.withdrawals'),
                 'caption' => __('app.report'),
-                'icon' => 'line-chart',
+                'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-bank-reports')
             ]
         ];

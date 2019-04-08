@@ -42,7 +42,7 @@
                 @if($frequentVisitor)
                     <span class="text-warning" title="Frequent visitor">@icon(star)</span>
                 @endif
-                <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(pencil)</a>
+                <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(edit)</a>
             </div>
             <div class="col-auto">
                 @icon(id-card)

@@ -25,7 +25,7 @@ class HelperIndexContextButtons implements ContextButtons {
             'report' => [
                 'url' => route('people.helpers.report'),
                 'caption' => __('app.report'),
-                'icon' => 'bar-chart',
+                'icon' => 'chart-bar',
                 'authorized' => Auth::user()->can('list', Helper::class)
             ],
             'badges' => is_module_enabled('Badges') ? [

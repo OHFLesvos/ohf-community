@@ -211,8 +211,9 @@
 
             @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
                 <div class="card my-4">
-                    <div class="card-header">@lang('people::people.relationships')
-                        <a href="{{ route('people.relations', $person) }}" class="pull-right btn btn-sm btn-secondary">@icon(pencil) @lang('app.edit')</a>
+                    <div class="card-header d-flex justify-content-between">
+                        @lang('people::people.relationships')
+                        <a href="{{ route('people.relations', $person) }}" class="btn btn-sm btn-secondary">@icon(edit) @lang('app.edit')</a>
                     </div>
                     <div class="card-body">
                         <div class="list-group">

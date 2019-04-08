@@ -10,7 +10,7 @@ class ReportingNavigationItem extends BaseNavigationItem {
 
     protected $caption = 'app.reporting';
 
-    protected $icon = 'bar-chart';
+    protected $icon = 'chart-bar';
 
     protected $active = 'reporting*';
 

@@ -20,9 +20,11 @@
         @if($code != null)
             @if($handout != null)
                 <div class="card mb-4">
-                    <div class="card-header">
-                        @lang('shop::shop.card') {{ substr($code, 0, 7) }}
-                        <span class="pull-right">
+                    <div class="card-header d-flex justify-content-between">
+                        <span>
+                            @lang('shop::shop.card') {{ substr($code, 0, 7) }}
+                        </span>
+                        <span>
                             <span class="d-none d-sm-inline">@lang('shop::shop.registered')</span> {{ $handout->date }}
                         </span>
                     </div>
@@ -56,12 +58,12 @@
                             <div class="col-sm-auto text-center">
                                 @if($handout->code_redeemed != null)
                                     <strong class="text-warning">
-                                        @icon(warning) @lang('shop::shop.card_already_redeemed')<br>
+                                        @icon(exclamation-triangle) @lang('shop::shop.card_already_redeemed')<br>
                                         <small>{{ $handout->updated_at->diffForHumans() }}</small>
                                     </strong>
                                 @elseif($expired)
                                     <strong class="text-warning">
-                                        @icon(warning) @lang('shop::shop.card_expired')<br>
+                                        @icon(exclamation-triangle) @lang('shop::shop.card_expired')<br>
                                     </strong>
                                 @else
                                     {{ Form::open(['route' => 'shop.redeem']) }}
