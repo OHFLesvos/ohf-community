@@ -62,18 +62,20 @@
             <div class="card mb-4">
                 <div class="card-header">@lang('userprofile.language')</div>
                 <div class="card-body p-0">
-                    <div class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush">
                         @foreach (language()->allowed() as $code => $name)
-                            <a href="{{ language()->back($code) }}" class="list-group-item">
+                            <li class="list-group-item">
                                 @if( App::getLocale() == $code )
                                     <span class="text-success">@icon(check)</span>
                                 @else
                                     <span class="d-inline-block" style="width: 1em"></span>
                                 @endif
-                                {{ $name }}
-                            </a>
+                                <a href="{{ language()->back($code) }}">
+                                    {{ $name }}
+                                </a>
+                            </li>
                         @endforeach
-                    </div>
+                    </ul>
                 </div>
             </div>
 
