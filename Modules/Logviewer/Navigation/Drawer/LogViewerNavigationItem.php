@@ -12,7 +12,7 @@ class LogViewerNavigationItem extends BaseNavigationItem {
 
     protected $caption = 'logviewer::logviewer.logviewer';
 
-    protected $icon = 'file-text-o';
+    protected $icon = 'file-alt';
 
     protected $active = 'logviewer*';
 

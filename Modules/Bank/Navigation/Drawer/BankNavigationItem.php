@@ -12,7 +12,7 @@ class BankNavigationItem extends BaseNavigationItem {
 
     protected $caption = 'bank::bank.bank';
 
-    protected $icon = 'bank';
+    protected $icon = 'university';
 
     protected $active = 'bank*';
 

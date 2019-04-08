@@ -170,7 +170,7 @@
                     footer_html += '<a href="' + receipt_url +'" class="btn btn-secondary" data-lity><i class="fa fa-image"></i> Receipt</a>';
                 }
                 if (edit_url) {
-                    footer_html += '<a href="' + edit_url +'" class="btn btn-secondary"><i class="fa fa-pencil"></i> Edit</a>';
+                    footer_html += '<a href="' + edit_url +'" class="btn btn-secondary"><i class="fa fa-edit"></i> Edit</a>';
                 }
                 if (footer_html.length > 0) {
                     container.find('.modal-footer')

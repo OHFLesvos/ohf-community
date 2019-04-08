@@ -6,8 +6,9 @@
     <div class="row">
         <div class="col-md">
             <div class="card mb-4">
-                <div class="card-header">{{ ucfirst(__('people::people.persons')) }}
-                    <a href="{{ route('library.lending.persons') }}" class="pull-right">@lang('library::library.borrowers') ({{ $num_borrowers }})</a>
+                <div class="card-header d-flex justify-content-between">
+                    {{ ucfirst(__('people::people.persons')) }}
+                    <a href="{{ route('library.lending.persons') }}">@lang('library::library.borrowers') ({{ $num_borrowers }})</a>
                 </div>
                 <div class="card-body pb-2">
                     {{ Form::bsAutocompleteWithButton('person_id', null, route('people.filterPersons'), ['placeholder' => __('people::people.search_existing_person')], __('app.register'), 'button-register-person', 'plus-circle') }}
@@ -16,8 +17,9 @@
         </div>
         <div class="col-md">
             <div class="card">
-                <div class="card-header">@lang('library::library.books')
-                    <a href="{{ route('library.lending.books') }}" class="pull-right">@lang('library::library.lent_books') ({{ $num_lent_books }})</a>
+                <div class="card-header d-flex justify-content-between">
+                    @lang('library::library.books')
+                    <a href="{{ route('library.lending.books') }}">@lang('library::library.lent_books') ({{ $num_lent_books }})</a>
                 </div>
                 <div class="card-body pb-2">
                     {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library::library.search_title_author_isbn')], '') }}

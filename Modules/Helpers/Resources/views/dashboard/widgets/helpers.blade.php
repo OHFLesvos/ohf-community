@@ -3,7 +3,7 @@
         [
             'url' => route('people.helpers.index'),
             'title' =>  Auth::user()->can('manage-helpers') ? __('app.manage') : __('app.view'),
-            'icon' => Auth::user()->can('manage-helpers') ? 'pencil' : 'search',
+            'icon' => Auth::user()->can('manage-helpers') ? 'edit' : 'search',
             'authorized' => Auth::user()->can('list', Modules\Helpers\Entities\Helper::class),
         ],
     ];

@@ -26,7 +26,7 @@ class InventoryStorageShowContextButtons implements ContextButtons {
             'edit' => [
                 'url' => route('inventory.storages.edit', $storage),
                 'caption' => __('inventory::inventory.edit_storage'),
-                'icon' => 'pencil',
+                'icon' => 'edit',
                 'authorized' => Auth::user()->can('edit', $storage),
             ],
             'delete' => [

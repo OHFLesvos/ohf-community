@@ -23,7 +23,7 @@ class LibraryLendingBookContextButtons implements ContextButtons {
             'edit' => [
                 'url' => route('library.books.edit', $book),
                 'caption' => __('app.edit'),
-                'icon' => 'pencil',
+                'icon' => 'edit',
                 'authorized' => Auth::user()->can('update', $book),
             ],
             'back' => [

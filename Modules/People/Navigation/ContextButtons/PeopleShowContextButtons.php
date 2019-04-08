@@ -18,8 +18,8 @@ class PeopleShowContextButtons implements ContextButtons {
             'action' => [
                 'url' => route('people.edit', $person),
                 'caption' => __('app.edit'),
-                'icon' => 'pencil',
-                'icon_floating' => 'pencil',
+                'icon' => 'edit',
+                'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $person)
             ],
             'relations' => [

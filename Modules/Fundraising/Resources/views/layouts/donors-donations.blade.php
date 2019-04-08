@@ -3,7 +3,7 @@
         [
             'url' => route('fundraising.donors.index'),
             'label' => __('fundraising::fundraising.donors'),
-            'icon' => 'handshake-o',
+            'icon' => 'handshake',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'fundraising.donors.index';
             },
@@ -12,7 +12,7 @@
         [
             'url' => route('fundraising.donations.index'),
             'label' => __('fundraising::fundraising.donations'),
-            'icon' => 'money',
+            'icon' => 'money-bill-alt',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'fundraising.donations.index';
             },

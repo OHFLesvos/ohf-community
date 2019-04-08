@@ -22,7 +22,7 @@ return [
         ],
         'bank-deposits' => [
             'route' => 'reporting.bank.deposits',
-            'icon' => 'money',
+            'icon' => 'money-bill-alt',
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],

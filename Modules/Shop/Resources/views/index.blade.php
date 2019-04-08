@@ -56,12 +56,12 @@
                             <div class="col-sm-auto text-center">
                                 @if($handout->code_redeemed != null)
                                     <strong class="text-warning">
-                                        @icon(warning) @lang('shop::shop.card_already_redeemed')<br>
+                                        @icon(exclamation-triangle) @lang('shop::shop.card_already_redeemed')<br>
                                         <small>{{ $handout->updated_at->diffForHumans() }}</small>
                                     </strong>
                                 @elseif($expired)
                                     <strong class="text-warning">
-                                        @icon(warning) @lang('shop::shop.card_expired')<br>
+                                        @icon(exclamation-triangle) @lang('shop::shop.card_expired')<br>
                                     </strong>
                                 @else
                                     {{ Form::open(['route' => 'shop.redeem']) }}

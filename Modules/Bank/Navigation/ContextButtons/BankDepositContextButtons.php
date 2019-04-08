@@ -21,7 +21,7 @@ class BankDepositContextButtons implements ContextButtons {
             'report'=> [
                 'url' => route('reporting.bank.deposits'),
                 'caption' => __('app.report'),
-                'icon' => 'line-chart',
+                'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-bank-reports')
             ],                    
         ];

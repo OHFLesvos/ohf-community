@@ -9,7 +9,7 @@
         [
             'url' => route('reporting.bank.withdrawals'),
             'title' => __('bank::bank.view_bank_report'),
-            'icon' => 'line-chart',
+            'icon' => 'chart-line',
             'authorized' => !Gate::allows('do-bank-withdrawals'),
         ],
     ];

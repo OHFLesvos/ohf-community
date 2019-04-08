@@ -17,7 +17,7 @@
                         <th class="d-none d-sm-table-cell">@lang('fundraising::fundraising.reference')</th>
                         <th class="d-none d-sm-table-cell">@lang('fundraising::fundraising.in_name_of')</th>
                         <th class="d-none d-sm-table-cell fit">@lang('app.registered')</th>
-                        <th class="fit" title="@lang('fundraising::fundraising.thanked')">@icon(handshake-o)</th>
+                        <th class="fit" title="@lang('fundraising::fundraising.thanked')">@icon(handshake)</th>
                     </tr>
                 </thead>
                 <tbody>

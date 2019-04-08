@@ -14,7 +14,7 @@
         [
             'url' => route('bank.deposit'),
             'label' => __('people::people.deposit'),
-            'icon' => 'money',
+            'icon' => 'money-bill-alt',
             'active' => function($currentRouteName) {
                 return $currentRouteName == 'bank.deposit';
             },

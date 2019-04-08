@@ -25,7 +25,7 @@ class PeopleIndexContextButtons implements ContextButtons {
             'report'=> [
                 'url' => route('reporting.people'),
                 'caption' => __('app.report'),
-                'icon' => 'line-chart',
+                'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-people-reports')
             ],
             'export' => [
