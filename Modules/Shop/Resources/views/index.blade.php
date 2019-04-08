@@ -20,9 +20,11 @@
         @if($code != null)
             @if($handout != null)
                 <div class="card mb-4">
-                    <div class="card-header">
-                        @lang('shop::shop.card') {{ substr($code, 0, 7) }}
-                        <span class="pull-right">
+                    <div class="card-header d-flex justify-content-between">
+                        <span>
+                            @lang('shop::shop.card') {{ substr($code, 0, 7) }}
+                        </span>
+                        <span>
                             <span class="d-none d-sm-inline">@lang('shop::shop.registered')</span> {{ $handout->date }}
                         </span>
                     </div>

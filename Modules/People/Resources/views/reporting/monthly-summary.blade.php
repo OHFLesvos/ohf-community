@@ -100,8 +100,8 @@
                         @isset($item['list'])
                             <ul class="list-group list-group-flush">
                                 @foreach($item['list'] as $li)
-                                    <li class="list-group-item">
-                                        {{ $li['label'] }}
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>{{ $li['label'] }}</span>
                                         <span class="pull-right">{{ number_format($li['value']) }}</span>
                                     </li>
                                 @endforeach
