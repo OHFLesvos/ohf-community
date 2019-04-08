@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0
+
+* Modularization of functionality
+* Gravatar user profile image added
+* Update icon library (Font awesome 5)
+* Added user profile at top right title bar
+
 ## 1.24.0
 
 * Updated spreadsheet export/import library
