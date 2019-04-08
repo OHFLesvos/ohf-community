@@ -45,6 +45,21 @@
             </div>
 
             <div class="card mb-4">
+                <div class="card-header">@lang('userprofile.avatar')</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-auto">
+                            <img src="{{ Auth::user()->avatarUrl('userprofile') }}" alt="Gravatar" class="img-responsive">
+                        </div>
+                        <div class="col align-self-center">
+                            <p><a href="https://gravatar.com/emails/" target="_blank" class="btn btn-secondary">@icon(sync) @lang('userprofile.change_picture')</a></p>
+                            @lang('userprofile.avatars_provided_by_gravatar')
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
                 <div class="card-header">@lang('userprofile.language')</div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">

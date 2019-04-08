@@ -58,4 +58,7 @@ return [
     'tfa_disabled' => 'Zwei-Faktor-Authentifizierung deaktiviert',
     'tfa_enable_recommendation' => 'Verbessere die Sicherheit deines Accounts, indem du die <a href=":url">Zwei-Faktor-Authentifizierung aktivierst</a>.',
     'tfa_disable_for_user' => 'Soll die Zwei-Faktor-Authentifizierung für :name wirklich deaktiviert werden?',
+    'avatar' => 'Avatar',
+    'change_picture' => 'Bild ändern',
+    'avatars_provided_by_gravatar' => 'Avatare werden von <a href="https://gravatar.com" target="_blank">Gravatar.com</a> angeboten.',
 ];

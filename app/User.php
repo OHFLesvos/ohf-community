@@ -76,4 +76,8 @@ class User extends Authenticatable
         return $this->hasMany('Modules\Tasks\Entities\Task');
     }
 
+    public function avatarUrl($profile = null)
+    {
+        return \Gravatar::get($this->email, $profile);
+    }
 }
