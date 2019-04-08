@@ -219,4 +219,5 @@ return [
     'search' => 'Search',
     'male' => 'Male',
     'female' => 'Female',
+    'logout' => 'Logout',
  ];

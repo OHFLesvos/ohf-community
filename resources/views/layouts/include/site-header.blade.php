@@ -81,11 +81,23 @@
             @endcomponent
         @endif
 
-        @if(is_module_enabled('UserManagement'))
-            <a href="{{ route('userprofile') }}" class="btn text-light d-none d-md-inline-block">
-               <img src="{{ Auth::user()->avatarUrl('site_header') }}" alt="Gravatar" class="bg-white rounded-circle">
-            </a>
-        @endif
+        <div class="position-relative d-none d-md-inline-block">
+            <button class="context-nav-toggle btn btn-link text-light px-3"><img src="{{ Auth::user()->avatarUrl('site_header') }}" alt="Gravatar" class="bg-white rounded-circle"></button>
+            <ul class="context-nav userprofile-nav">
+                @if(is_module_enabled('UserManagement'))
+                    <li>
+                        <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block">
+                            @icon(user mr-1) @lang('userprofile.profile')
+                        </a>
+                    </li>
+                @endif
+                <li>
+                    <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block">
+                        @icon(sign-out-alt mr-1) @lang('app.logout')
+                    </a>
+                </li>
+            </ul>
+        </div>
 
     </div>
 

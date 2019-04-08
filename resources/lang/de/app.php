@@ -219,4 +219,5 @@ return [
     'search' => 'Suchen',
     'male' => 'männlich',
     'female' => 'weiblich',
+    'logout' => 'Abmelden',
 ];
