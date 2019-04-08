@@ -2,10 +2,12 @@
 
 ## 2.0.0
 
-* Modularization of functionality
-* Gravatar user profile image added
-* Update icon library (Font awesome 5)
-* Added user profile at top right title bar
+* Modularization of functionality.
+* Gravatar user profile image added.
+* Update icon library (Font awesome 5).
+* Added user profile at top right title bar.
+* Small layout fixes.
+* Welcome message on dashboard only after login.
 
 ## 1.24.0
 

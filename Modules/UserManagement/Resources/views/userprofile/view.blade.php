@@ -33,6 +33,9 @@
                 <div class="card-header">@lang('userprofile.tfa_authentication')</div>
                 <div class="card-body">
                     @empty($user->tfa_secret)
+                        @component('components.alert.info')
+                            @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
+                        @endcomponent
                         @component('components.alert.warning')
                             @lang('userprofile.tfa_authentication_not_enabled')
                         @endcomponent

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use OTPHP\TOTP;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class LoginController extends Controller
 {
@@ -24,7 +25,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers{
+        redirectPath as laravelRedirectPath;
+    }
 
     /**
      * Where to redirect users after login.
@@ -35,6 +38,21 @@ class LoginController extends Controller
 	{
 		return route('home');
 	}
+
+    /**
+     * Get the post register / login redirect path.
+     *
+     * @return string
+     */
+    public function redirectPath()
+    {
+        // Do your logic to flash data to session...
+        $message = __('app.login_message', [ 'name' => Auth::user()->name, 'app_name' => Config::get('app.product_name') ]);
+        session()->flash('login_message', $message);
+
+        // Return the results of the method we are overriding that we aliased.
+        return $this->laravelRedirectPath();
+    }
 
     /**
      * Create a new controller instance.
