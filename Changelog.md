@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1
+
+* Fix issue in coupon handout.
+
 ## 2.0.0
 
 * Modularization of functionality.

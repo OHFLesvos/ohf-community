@@ -3,6 +3,7 @@
 namespace Modules\People\Entities;
 
 use Modules\Bank\Entities\CouponType;   // TODO circular dependency
+use Modules\Bank\Entities\CouponHandout;   // TODO circular dependency
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -292,8 +293,7 @@ class Person extends Model
 
     private function checkDailySpendingLimit($couponType) {
         if ($couponType->daily_spending_limit != null) {
-            $handouts_today = CouponHandout
-                ::whereDate('date', Carbon::today())
+            $handouts_today = CouponHandout::whereDate('date', Carbon::today())
                 ->where('coupon_type_id', $couponType->id)
                 ->count();
             if ($handouts_today >= $couponType->daily_spending_limit) {
