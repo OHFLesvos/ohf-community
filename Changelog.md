@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+
+* Changed gravatar fallback to identicon
+
 ## 2.0.1
 
 * Fix issue in coupon handout.

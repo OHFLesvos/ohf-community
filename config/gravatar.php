@@ -1,5 +1,8 @@
 <?php
 return array(
+	'default' => array(
+		'fallback' => 'identicon',
+	),
 	'userprofile' => array(
 		'size'   => 120,
     ),
