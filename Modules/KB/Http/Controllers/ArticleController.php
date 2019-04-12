@@ -19,27 +19,6 @@ class ArticleController extends Controller
 
         return view('kb::articles.index', [
             'articles' => WikiArticle::orderBy('title')->paginate(50),
-            'tags' => Tag::orderBy('name')->get(),
-        ]);
-    }
-
-    public function tag(Tag $tag) {
-        $this->authorize('list', WikiArticle::class);
-
-        return view('kb::articles.tag', [
-            'articles' => $tag->wikiArticles()->orderBy('title')->paginate(50),
-            'tag' => $tag,
-        ]);
-    }
-
-    public function latestChanges() {
-        $this->authorize('list', WikiArticle::class);
-
-        return view('kb::articles.latest_changes', [
-            'audits' =>  Audit
-                ::where('auditable_type', 'Modules\KB\Entities\WikiArticle')
-                ->orderBy('created_at', 'DESC')
-                ->paginate(),
         ]);
     }
 
@@ -118,6 +97,38 @@ class ArticleController extends Controller
 
         return redirect()->route('kb.articles.index')
             ->with('info', __('kb::wiki.article_deleted'));
+    }
+    
+    public function tags() {
+        $this->authorize('list', WikiArticle::class);
+
+        return view('kb::articles.tags', [
+            'tags' => Tag::orderBy('name')
+                ->get()
+                ->filter(function($t){
+                    return $t->wikiArticles()->count() > 0;
+                }),
+        ]);
+    }
+
+    public function tag(Tag $tag) {
+        $this->authorize('list', WikiArticle::class);
+
+        return view('kb::articles.tag', [
+            'articles' => $tag->wikiArticles()->orderBy('title')->paginate(50),
+            'tag' => $tag,
+        ]);
+    }
+
+    public function latestChanges() {
+        $this->authorize('list', WikiArticle::class);
+
+        return view('kb::articles.latest_changes', [
+            'audits' =>  Audit
+                ::where('auditable_type', 'Modules\KB\Entities\WikiArticle')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(),
+        ]);
     }
 
 }

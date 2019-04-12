@@ -20,8 +20,9 @@ class NavigationServiceProvider extends ServiceProvider
 
     protected $contextButtons = [
         'kb.articles.index' => \Modules\KB\Navigation\ContextButtons\WikiArticleIndexContextButtons::class,
-        'kb.articles.tag' => \Modules\KB\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
         'kb.articles.latestChanges' => \Modules\KB\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
+        'kb.articles.tags' => \Modules\KB\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
+        'kb.articles.tag' => \Modules\KB\Navigation\ContextButtons\WikiArticleReturnToTagsContextButtons::class,
         'kb.articles.create' => \Modules\KB\Navigation\ContextButtons\WikiArticleCreateContextButtons::class,
         'kb.articles.show' => \Modules\KB\Navigation\ContextButtons\WikiArticleShowContextButtons::class,
         'kb.articles.edit' => \Modules\KB\Navigation\ContextButtons\WikiArticleEditContextButtons::class,

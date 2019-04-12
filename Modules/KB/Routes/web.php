@@ -14,6 +14,7 @@
 Route::group(['middleware' => 'language'], function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::prefix('kb')->name('kb.')->group(function(){
+            Route::get('articles/_tags', 'ArticleController@tags')->name('articles.tags');
             Route::get('articles/_latest_changes', 'ArticleController@latestChanges')->name('articles.latestChanges');
             Route::resource('articles', 'ArticleController');
             Route::get('articles/tag/{tag}', 'ArticleController@tag')->name('articles.tag');
