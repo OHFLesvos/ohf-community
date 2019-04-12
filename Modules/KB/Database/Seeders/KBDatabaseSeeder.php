@@ -5,7 +5,7 @@ namespace Modules\KB\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class WikiDatabaseSeeder extends Seeder
+class KBDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
