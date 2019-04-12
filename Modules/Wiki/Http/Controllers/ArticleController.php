@@ -8,8 +8,6 @@ use App\Http\Controllers\Controller;
 use Modules\Wiki\Entities\WikiArticle;
 use Modules\Wiki\Http\Requests\StoreArticle;
 
-use Illuminate\Http\Request;
-
 use Michelf\MarkdownExtra;
 
 use OwenIt\Auditing\Models\Audit;

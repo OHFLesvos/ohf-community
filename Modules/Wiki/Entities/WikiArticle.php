@@ -8,14 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 
-use AustinHeap\Database\Encryption\Traits\HasEncryptedAttributes;
-
 use OwenIt\Auditing\Contracts\Auditable;
 
 class WikiArticle extends Model implements Auditable
 {
     use Sluggable;
-    use HasEncryptedAttributes;
     use \OwenIt\Auditing\Auditable;
 
     /**
@@ -67,12 +64,4 @@ class WikiArticle extends Model implements Auditable
         $this->tags()->sync($tag_ids);
     }
 
-    /**
-     * The attributes that should be encrypted on save.
-     *
-     * @var array
-     */
-    protected $encrypted = [
-        'content',
-    ];
 }
