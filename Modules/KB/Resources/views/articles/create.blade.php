@@ -6,9 +6,9 @@
 
     {!! Form::open(['route' => ['kb.articles.store']]) !!}
 
-        {{ Form::bsText('title', $title, [ 'autofocus' ], __('app.title')) }}
-        {{ Form::bsTextarea('content', null, [ 'id' => 'editor' ], __('app.content')) }}
-        {{ Form::bsText('tags', null, [], __('app.tags')) }}
+        {{ Form::bsText('title', $title, [ 'autofocus', 'placeholder' => __('app.title') ], '') }}
+        {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
+        {{ Form::bsText('tags', null, [ 'placeholder' => __('app.tags') ], '') }}
         <p>
             {{ Form::bsSubmitButton(__('app.create')) }}
         </p>

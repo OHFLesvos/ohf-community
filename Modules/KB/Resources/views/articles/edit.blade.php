@@ -6,9 +6,9 @@
 
     {!! Form::model($article, ['route' => ['kb.articles.update', $article], 'method' => 'put']) !!}
 
-        {{ Form::bsText('title', null, [], __('app.title')) }}
-        {{ Form::bsTextarea('content', null, [ 'id' => 'editor' ], __('app.content')) }}
-        {{ Form::bsText('tags', $article->tags->sortBy('name')->pluck('name')->implode(', '), [], __('app.tags')) }}
+        {{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}
+        {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
+        {{ Form::bsText('tags', $article->tags->sortBy('name')->pluck('name')->implode(', '), [ 'placeholder' => __('app.tags') ], '') }}
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>
