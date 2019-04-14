@@ -35,8 +35,5 @@
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",
     "vue-template-compiler": "^2.6.10"
-  },
-  "dependencies": {
-    "@ckeditor/ckeditor5-basic-styles": "^11.1.0"
   }
 }

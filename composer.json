@@ -40,6 +40,7 @@
         "scriptotek/google-books": "^0.2.4",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spomky-labs/otphp": "^9.1",
+        "unisharp/laravel-filemanager": "~1.8",
         "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
