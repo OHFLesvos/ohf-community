@@ -7,8 +7,7 @@
     {!! Form::model($article, ['route' => ['kb.articles.update', $article], 'method' => 'put']) !!}
 
         {{ Form::bsText('title', null, [], __('app.title')) }}
-        {{ Form::bsTextarea('content', null, [], __('app.content')) }}
-        @include('markdown-help')
+        {{ Form::bsTextarea('content', null, [ 'id' => 'editor' ], __('app.content')) }}
         {{ Form::bsText('tags', $article->tags->sortBy('name')->pluck('name')->implode(', '), [], __('app.tags')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
@@ -16,4 +15,8 @@
 
     {!! Form::close() !!}
 
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/editor.js') }}?v={{ $app_version }}"></script>
 @endsection

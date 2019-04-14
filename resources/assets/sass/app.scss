@@ -308,3 +308,10 @@
 .tags-input {
   width: 100%;
 }
+
+/**
+* Fix display of media emdeds
+*/
+.media {
+  display: inherit;  
+}

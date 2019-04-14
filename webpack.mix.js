@@ -22,6 +22,7 @@ mix.options({ processCssUrls: false })
 	.js('resources/assets/js/shop.js', 'public/js')
 	.js('resources/assets/js/people.js', 'public/js')
 	.js('resources/assets/js/imageupload.js', 'public/js')
+	.js('resources/assets/js/editor.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.styles([
 		'node_modules/tags-input/tags-input.css',

@@ -6,9 +6,8 @@
 
     {!! Form::open(['route' => ['kb.articles.store']]) !!}
 
-        {{ Form::bsText('title', null, [ 'autofocus' ], __('app.title')) }}
-        {{ Form::bsTextarea('content', null, [], __('app.content')) }}
-        @include('markdown-help')
+        {{ Form::bsText('title', $title, [ 'autofocus' ], __('app.title')) }}
+        {{ Form::bsTextarea('content', null, [ 'id' => 'editor' ], __('app.content')) }}
         {{ Form::bsText('tags', null, [], __('app.tags')) }}
         <p>
             {{ Form::bsSubmitButton(__('app.create')) }}
@@ -16,4 +15,8 @@
 
     {!! Form::close() !!}
 
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/editor.js') }}?v={{ $app_version }}"></script>
 @endsection
