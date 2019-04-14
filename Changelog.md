@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0
+
+* KB articles navigation improved
+* WYSIWYG editor in KB articles
+
 ## 2.0.2
 
 * Changed gravatar fallback to identicon
