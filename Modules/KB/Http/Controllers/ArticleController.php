@@ -86,6 +86,9 @@ class ArticleController extends Controller
         // Open links in new window
         $article->content = preg_replace('/<a /', '<a target="_blank" ', $article->content);
 
+        // Responsive images
+        $article->content = preg_replace('/<img /', '<img class="img-fluid" ', $article->content);
+
         // Replace phone mumber tags
         $article->content = preg_replace('/tel:([0-9+ ]+[0-9])/', '<a href="tel:\1">\1</a>', $article->content);
 

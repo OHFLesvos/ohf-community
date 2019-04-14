@@ -1,9 +1,10 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 class MyUploadAdapter {
-    constructor( loader ) {
+    constructor( loader, uploadUrl ) {
         // The file loader instance to use during the upload.
         this.loader = loader;
+        this.uploadUrl = uploadUrl;
     }
 
     // Starts the upload process.
@@ -31,8 +32,10 @@ class MyUploadAdapter {
         // integration to choose the right communication channel. This example uses
         // a POST request with JSON as a data structure but your configuration
         // could be different.
-        xhr.open( 'POST', 'https://ohf.test/api/kb/images', true ); // TODO make dynamic
+        xhr.open( 'POST', this.uploadUrl, true ); // TODO make dynamic
         xhr.responseType = 'json';
+
+        xhr.setRequestHeader('Accept', 'application/json'); 
     }
 
     // Initializes XMLHttpRequest listeners.
@@ -90,6 +93,11 @@ class MyUploadAdapter {
         // XMLHttpRequest.setRequestHeader() to set the request headers containing
         // the CSRF token generated earlier by your application.
 
+        let token = document.head.querySelector('meta[name="csrf-token"]');
+        if (token) {
+            data.append( '_token', token.content );
+        }
+
         // Send the request.
         this.xhr.send( data );
     }
@@ -97,24 +105,31 @@ class MyUploadAdapter {
 
 // ...
 
-function MyCustomUploadAdapterPlugin( editor ) {
-    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
-        // Configure the URL to the upload script in your back-end here!
-        return new MyUploadAdapter( loader );
-    };
-}
+document.querySelectorAll( '#editor' ).forEach((input) => {
+    var uploadUrl = input.getAttribute('data-upload-url'); 
 
-ClassicEditor
-    .create( document.querySelector( '#editor' ), {
-        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo' ],
-        mediaEmbed: {
-            previewsInData: true,
-        },
-        extraPlugins: [ MyCustomUploadAdapterPlugin ],
-    } )
-    .then( editor => {
-        // console.log(Array.from( editor.ui.componentFactory.names() ));
-    })
-    .catch( error => {
-        console.error( error );
-    } );
+    var MyCustomUploadAdapterPlugin = function( editor ) {
+        if (uploadUrl) {
+            editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+                return new MyUploadAdapter( loader, uploadUrl );
+            };
+        }
+    }
+
+    ClassicEditor
+        .create( input, {
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo' ],
+            mediaEmbed: {
+                previewsInData: true,
+            },
+            extraPlugins: [ MyCustomUploadAdapterPlugin ],
+        } )
+        .then( editor => {
+            // console.log(Array.from( editor.ui.componentFactory.names() ));
+        })
+        .catch( error => {
+            console.error( error );
+        } );
+});
+
+
