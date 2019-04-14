@@ -28,5 +28,8 @@ mix.options({ processCssUrls: false })
 	], 'public/css/styles.css')
 	.copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
 	.copy('node_modules/cropperjs/dist/cropper.min.css', 'public/css')
+	.copy('node_modules/summernote/dist/summernote-bs4.js', 'public/js')
+	.copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')
+	.copy('node_modules/summernote/dist/font', 'public/css/font')
 	.sourceMaps();
 	

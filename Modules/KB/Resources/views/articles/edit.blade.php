@@ -17,6 +17,11 @@
 
 @endsection
 
+@section('head-meta')
+    <link href="{{ asset('css/summernote-bs4.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
+@endsection
+
 @section('footer')
+    <script src="{{ asset('js/summernote-bs4.js') }}?v={{ $app_version }}"></script>
     <script src="{{ asset('js/editor.js') }}?v={{ $app_version }}"></script>
 @endsection

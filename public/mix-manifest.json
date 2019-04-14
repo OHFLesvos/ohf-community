@@ -13,5 +13,7 @@
     "/js/shop.js": "/js/shop.js",
     "/js/shop.js.map": "/js/shop.js.map",
     "/css/styles.css": "/css/styles.css",
-    "/css/cropper.min.css": "/css/cropper.min.css"
+    "/css/cropper.min.css": "/css/cropper.min.css",
+    "/js/summernote-bs4.js": "/js/summernote-bs4.js",
+    "/css/summernote-bs4.css": "/css/summernote-bs4.css"
 }
