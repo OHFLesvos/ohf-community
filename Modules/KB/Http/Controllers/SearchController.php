@@ -67,16 +67,14 @@ class SearchController extends Controller
             'recent_articles' => WikiArticle::orderBy('updated_at', 'desc')
                 ->limit(5)
                 ->get(),
-            'popular_tags' => Tag::orderBy('name')
+            'popular_tags' => Tag::has('wikiArticles')
+                ->orderBy('name')
                 ->get()
                 ->map(function($t){
                     return [
                         'tag' => $t,
                         'count' => $t->wikiArticles()->count(),
                     ];
-                })
-                ->filter(function($t){
-                    return $t['count'] > 0;
                 })
                 ->sortByDesc('count')
                 ->pluck('tag')

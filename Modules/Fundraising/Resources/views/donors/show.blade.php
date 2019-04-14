@@ -129,7 +129,7 @@
                         <div class="row">
                             <div class="col-sm"><strong>@lang('app.tags')</strong></div>
                             <div class="col-sm">
-                                @foreach($donor->tags->sortBy('name') as $tag)
+                                @foreach($donor->tagsSorted as $tag)
                                     <a href="{{ route('fundraising.donors.index', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if(!$loop->last), @endif
                                 @endforeach
                             </div>

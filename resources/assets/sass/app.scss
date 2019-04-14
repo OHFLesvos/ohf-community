@@ -20,6 +20,9 @@
 // Lity Lightbox
 @import "node_modules/lity/dist/lity";
 
+// Tagify
+@import "node_modules/@yaireo/tagify/src/tagify";
+
 /*
 * Side navigation
  */
@@ -302,11 +305,16 @@
   cursor: pointer;
 }
 
-/*
-* Tags input
+/**
+* Tagify
 */
-.tags-input {
-  width: 100%;
+.tagify__tag > div {
+  line-height: 1;
+}
+
+.tagify__input {
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
 }
 
 /**

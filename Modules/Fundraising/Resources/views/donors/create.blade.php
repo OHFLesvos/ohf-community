@@ -50,7 +50,7 @@
                 {{ Form::bsTextarea('remarks', null, [ 'rows' => 2 ], __('app.remarks')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('tags', null, [], __('app.tags')) }}
+                {{ Form::bsTags('tags', null, [ 'data-suggestions' => json_encode($tag_suggestions) ], __('app.tags')) }}
             </div>
         </div>
         

@@ -85,8 +85,7 @@
                     </div>
                     <div class="card-body p-3">
                         @forelse($popular_tags as $tag)
-                            <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a>
-                            <small class="text-muted">({{ $tag->wikiArticles()->count() }})</small>
+                            <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a><small class="text-muted px-1">({{ $tag->wikiArticles()->count() }})</small>
                         @empty
                             <em>@lang('app.no_tags_defined')</em>
                         @endforelse

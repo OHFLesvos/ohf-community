@@ -8,7 +8,7 @@
 
         {{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}
         {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
-        {{ Form::bsText('tags', $article->tags->sortBy('name')->pluck('name')->implode(', '), [ 'placeholder' => __('app.tags') ], '') }}
+        {{ Form::bsTags('tags', $article->tagsSorted->pluck('name'), [ 'placeholder' => __('app.tags'), 'data-suggestions' => json_encode($tag_suggestions) ], '') }}
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>

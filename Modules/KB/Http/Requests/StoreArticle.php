@@ -33,6 +33,10 @@ class StoreArticle extends FormRequest
                     : Rule::unique('kb_articles'),
             ],
             'content' => 'required',
+            'tags' => [
+                'nullable',
+                'json',
+            ]
         ];
     }
 }

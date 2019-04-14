@@ -2,15 +2,16 @@
 
 namespace Modules\Fundraising\Entities;
 
+use App\Support\Traits\HasTags;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
-use Carbon\Carbon;
 
 use Iatstuti\Database\Support\NullableFields;
 
 class Donor extends Model
 {
+    use HasTags;
     use NullableFields;
 
     protected $nullable = [
@@ -95,12 +96,5 @@ class Donor extends Model
     public static function salutations() {
         return self::select('salutation')->groupBy('salutation')->whereNotNull('salutation')->orderBy('salutation')->get()->pluck('salutation')->toArray();
     }
-    
-    /**
-     * Get all of the tags for the donor.
-     */
-    public function tags()
-    {
-        return $this->morphToMany('App\Tag', 'taggable');
-    }
+
 }

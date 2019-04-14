@@ -25,7 +25,6 @@ mix.options({ processCssUrls: false })
 	.js('resources/assets/js/editor.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
 	.styles([
-		'node_modules/tags-input/tags-input.css',
 	], 'public/css/styles.css')
 	.copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
 	.copy('node_modules/cropperjs/dist/cropper.min.css', 'public/css')

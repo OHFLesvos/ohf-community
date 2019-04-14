@@ -38,6 +38,7 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsCountryName', 'components.form.bsCountryName', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsAutocomplete', 'components.form.bsAutocomplete', [ 'name', 'value' => null, 'autocomplete_url', 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsAutocompleteWithButton', 'components.form.bsAutocompleteWithButton', [ 'name', 'value' => null, 'autocomplete_url', 'attributes' => [], 'button_label' => null,  'button_id' => null, 'button_icon' => null ]);
+        Form::component('bsTags', 'components.form.bsTags', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
     }
 
     /**

@@ -11,7 +11,7 @@
     @if(count($article->tags) > 0)
         <p>
             <strong>@lang('app.tags'):</strong>
-            @foreach($article->tags->sortBy('name') as $tag)
+            @foreach($article->tagsSorted as $tag)
                 <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a>@if(!$loop->last), @endif
             @endforeach
         </p>

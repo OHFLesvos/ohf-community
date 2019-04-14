@@ -112,7 +112,9 @@ class DonorController extends Controller
     {
         $this->authorize('create', Donor::class);
 
-        return view('fundraising::donors.create');
+        return view('fundraising::donors.create', [
+            'tag_suggestions' => self::getTagSuggestions(),
+        ]);
     }
 
     /**
@@ -141,24 +143,10 @@ class DonorController extends Controller
         $donor->save();
 
         // Tags
-        $tags = self::splitTags($request->tags);
-        foreach ($tags as $tag_str) {
-            $tag = Tag::where('name', $tag_str)->first();
-            if ($tag != null) {
-                $donor->tags()->attach($tag);
-            } else {
-                $tag = new Tag();
-                $tag->name = $tag_str;
-                $donor->tags()->save($tag);
-            }
-        }
+        $donor->syncTags(self::splitTags($request->tags));
 
         return redirect()->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising::fundraising.donor_added'));
-    }
-
-    private static function splitTags($value) {
-        return array_unique(preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY));
     }
 
     /**
@@ -191,6 +179,7 @@ class DonorController extends Controller
 
         return view('fundraising::donors.edit', [
             'donor' => $donor,
+            'tag_suggestions' => self::getTagSuggestions(),
         ]);
     }
 
@@ -220,20 +209,7 @@ class DonorController extends Controller
         $donor->save();
 
         // Tags
-        $tags = self::splitTags($request->tags);
-        $tag_ids = [];
-        foreach($tags as $tag_str) {
-            $tag = Tag::where('name', $tag_str)->first();
-            if ($tag != null) {
-                $tag_ids[] = $tag->id;
-            } else {
-                $tag = new Tag();
-                $tag->name = $tag_str;
-                $tag->save();
-                $tag_ids[] = $tag->id;
-            }
-        }
-        $donor->tags()->sync($tag_ids);
+        $donor->syncTags(self::splitTags($request->tags));
 
         return redirect()->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising::fundraising.donor_updated'));
@@ -300,4 +276,20 @@ class DonorController extends Controller
         return $vcard->download();
     }
 
+    private static function splitTags($value): array 
+    {
+        return collect(json_decode($value))
+            ->pluck('value')
+            ->unique()
+            ->toArray();
+    }
+
+    private static function getTagSuggestions()
+    {
+        return Tag::has('donors')
+            ->orderBy('name')
+            ->get()
+            ->pluck('name')
+            ->toArray();
+    }
 }

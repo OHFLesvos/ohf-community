@@ -13,11 +13,9 @@ class TagController extends Controller
         $this->authorize('list', WikiArticle::class);
 
         return view('kb::tags', [
-            'tags' => Tag::orderBy('name')
-                ->get()
-                ->filter(function($t){
-                    return $t->wikiArticles()->count() > 0;
-                }),
+            'tags' => Tag::has('wikiArticles')
+                ->orderBy('name')
+                ->get(),
         ]);
     }
 

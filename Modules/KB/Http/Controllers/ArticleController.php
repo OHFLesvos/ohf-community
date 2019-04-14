@@ -2,6 +2,7 @@
 
 namespace Modules\KB\Http\Controllers;
 
+use App\Tag;
 use App\Http\Controllers\Controller;
 
 use Modules\KB\Entities\WikiArticle;
@@ -46,6 +47,7 @@ class ArticleController extends Controller
 
         return view('kb::articles.create', [
             'title' => $request->title,
+            'tag_suggestions' => self::getTagSuggestions(),
         ]);
     }
 
@@ -61,10 +63,6 @@ class ArticleController extends Controller
 
         return redirect()->route('kb.articles.show', $article)
             ->with('info', __('kb::wiki.article_created'));
-    }
-
-    private static function splitTags($value) {
-        return array_unique(preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY));
     }
 
     public function show(WikiArticle $article, Request $request) {
@@ -116,6 +114,7 @@ class ArticleController extends Controller
 
         return view('kb::articles.edit', [
             'article' => $article,
+            'tag_suggestions' => self::getTagSuggestions(),
         ]);
     }
 
@@ -135,10 +134,29 @@ class ArticleController extends Controller
     public function destroy(WikiArticle $article) {
         $this->authorize('delete', $article);
 
+        $article->tags()->detach();
+
         $article->delete();
 
         return redirect()->route('kb.index')
             ->with('info', __('kb::wiki.article_deleted'));
+    }
+    
+    private static function splitTags($value): array 
+    {
+        return collect(json_decode($value))
+            ->pluck('value')
+            ->unique()
+            ->toArray();
+    }
+
+    private static function getTagSuggestions()
+    {
+        return Tag::has('wikiArticles')
+            ->orderBy('name')
+            ->get()
+            ->pluck('name')
+            ->toArray();
     }
 
 }
