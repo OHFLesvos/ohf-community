@@ -8,15 +8,15 @@ use Modules\KB\Entities\WikiArticle;
 
 use Illuminate\Support\Facades\Auth;
 
-class WikiArticlesItem extends BaseNavigationItem {
+class KBItem extends BaseNavigationItem {
 
-    protected $route = 'kb.articles.index';
+    protected $route = 'kb.index';
 
-    protected $caption = 'kb::wiki.wiki';
+    protected $caption = 'kb::kb.knowledge_base';
 
     protected $icon = 'book';
 
-    protected $active = 'wiki/*';
+    protected $active = 'kb*';
 
     public function isAuthorized(): bool
     {

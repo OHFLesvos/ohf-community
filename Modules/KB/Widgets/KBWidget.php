@@ -8,7 +8,7 @@ use Modules\KB\Entities\WikiArticle;
 
 use Illuminate\Support\Facades\Auth;
 
-class WikiArticlesWidget implements Widget
+class KBWidget implements Widget
 {
     function authorize(): bool
     {
@@ -17,7 +17,7 @@ class WikiArticlesWidget implements Widget
 
     function view(): string
     {
-        return 'kb::dashboard.widgets.wiki';
+        return 'kb::dashboard.widgets.kb';
     }
 
     function args(): array {

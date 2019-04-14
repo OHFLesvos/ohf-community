@@ -1,7 +1,7 @@
 @php
     $links = [
         [
-            'url' => route('kb.articles.index'),
+            'url' => route('kb.index'),
             'title' => __('app.view'),
             'icon' => 'search',
             'authorized' => true,
@@ -11,7 +11,7 @@
 
 @extends('dashboard.widgets.base')
 
-@section('widget-title', __('kb::wiki.wiki'))
+@section('widget-title', __('kb::kb.knowledge_base'))
 
 @section('widget-content')
     <div class="card-body pb-2">

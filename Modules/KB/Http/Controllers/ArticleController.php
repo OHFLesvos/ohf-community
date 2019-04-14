@@ -2,23 +2,43 @@
 
 namespace Modules\KB\Http\Controllers;
 
-use App\Tag;
 use App\Http\Controllers\Controller;
 
 use Modules\KB\Entities\WikiArticle;
 use Modules\KB\Http\Requests\StoreArticle;
 
-use Michelf\MarkdownExtra;
+use Illuminate\Http\Request;
 
-use OwenIt\Auditing\Models\Audit;
+use Michelf\MarkdownExtra;
 
 class ArticleController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $this->authorize('list', WikiArticle::class);
 
+        $request->validate([
+            'order' => [
+                'nullable',
+                'in:popularity,recent',
+            ]
+        ]);
+
+        $query = WikiArticle::query();
+        if ($request->order == 'popularity') {
+            $query->leftJoin('kb_article_views', function($join){
+                    $join->on('kb_article_views.viewable_id', '=', 'wiki_articles.id')
+                        ->where('kb_article_views.viewable_type', WikiArticle::class);
+                })
+                ->orderBy('kb_article_views.value', 'desc')
+                ->select('wiki_articles.*');
+        } else if ($request->order == 'recent') {
+            $query->orderBy('updated_at', 'desc');
+        }
+
         return view('kb::articles.index', [
-            'articles' => WikiArticle::orderBy('title')->paginate(50),
+            'articles' => $query->orderBy('title')
+                ->paginate(50),
+            'order' => $request->order,
         ]);
     }
 
@@ -47,9 +67,22 @@ class ArticleController extends Controller
         return array_unique(preg_split('/\s*,\s*/', $value, -1, PREG_SPLIT_NO_EMPTY));
     }
 
-    public function show(WikiArticle $article) {
+    public function show(WikiArticle $article, Request $request) {
         $this->authorize('view', $article);
 
+        // Set articles as viewed, but count only for first time in session
+        if ($request->session()->has('kb.articles_viewed')) {
+            $articles_viewed = $request->session()->get('kb.articles_viewed');
+            if (!(is_array($articles_viewed) && in_array($article->id, $articles_viewed))) {
+                $request->session()->push('kb.articles_viewed', $article->id);
+                $article->setViewed();
+            }
+        } else {
+            $request->session()->push('kb.articles_viewed', $article->id);
+            $article->setViewed();
+        }
+
+        // Format article
         $article->content = MarkdownExtra::defaultTransform($article->content);
         $article->content = preg_replace('/<a /', '<a target="_blank" ', $article->content);
         $article->content = preg_replace("/(\w|<\/a>|<\/em>|<\/strong>)\n/", '\1<br>', $article->content);
@@ -95,40 +128,8 @@ class ArticleController extends Controller
 
         $article->delete();
 
-        return redirect()->route('kb.articles.index')
+        return redirect()->route('kb.index')
             ->with('info', __('kb::wiki.article_deleted'));
-    }
-    
-    public function tags() {
-        $this->authorize('list', WikiArticle::class);
-
-        return view('kb::articles.tags', [
-            'tags' => Tag::orderBy('name')
-                ->get()
-                ->filter(function($t){
-                    return $t->wikiArticles()->count() > 0;
-                }),
-        ]);
-    }
-
-    public function tag(Tag $tag) {
-        $this->authorize('list', WikiArticle::class);
-
-        return view('kb::articles.tag', [
-            'articles' => $tag->wikiArticles()->orderBy('title')->paginate(50),
-            'tag' => $tag,
-        ]);
-    }
-
-    public function latestChanges() {
-        $this->authorize('list', WikiArticle::class);
-
-        return view('kb::articles.latest_changes', [
-            'audits' =>  Audit
-                ::where('auditable_type', 'Modules\KB\Entities\WikiArticle')
-                ->orderBy('created_at', 'DESC')
-                ->paginate(),
-        ]);
     }
 
 }

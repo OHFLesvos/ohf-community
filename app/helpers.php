@@ -70,3 +70,31 @@ if (! function_exists('skype_link')) {
         return '<a href="skype:' . $value . '?chat">' . $value . '</a>';
     }
 }
+
+if (!function_exists('format_number_in_k_notation')) {
+    function format_number_in_k_notation(int $number): string
+    {
+        $suffixByNumber = function () use ($number) {
+            if ($number < 1000) {
+                return sprintf('%d', $number);
+            }
+            if ($number < 1000000) {
+                return sprintf('%d%s', floor($number / 1000), 'K+');
+            }
+            if ($number >= 1000000 && $number < 1000000000) {
+                return sprintf('%d%s', floor($number / 1000000), 'M+');
+            }
+            if ($number >= 1000000000 && $number < 1000000000000) {
+                return sprintf('%d%s', floor($number / 1000000000), 'B+');
+            }
+            return sprintf('%d%s', floor($number / 1000000000000), 'T+');
+        };
+        return $suffixByNumber();
+    }
+}
+
+if (!function_exists('previous_route')) {
+    function previous_route() {
+        return app('router')->getRoutes()->match(app('request')->create(URL::previous()))->getName();
+    }
+}

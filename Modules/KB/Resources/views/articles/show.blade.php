@@ -12,7 +12,7 @@
         <p>
             <strong>@lang('app.tags'):</strong>
             @foreach($article->tags->sortBy('name') as $tag)
-                <a href="{{ route('kb.articles.tag', $tag) }}">{{ $tag->name }}</a>@if(!$loop->last), @endif
+                <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a>@if(!$loop->last), @endif
             @endforeach
         </p>
     @endif
@@ -21,6 +21,11 @@
         $audit = $article->audits()->with('user')->latest()->first();
     @endphp
     @isset($audit)
-        <p><small><span title="{{ $audit->getMetadata()['audit_created_at'] }}">{{ (new Carbon\Carbon($audit->getMetadata()['audit_created_at']))->diffForHumans() }}</span> @lang('app.updated_by') {{ $audit->getMetadata()['user_name'] }}</small></p>
+        <p>
+            <small>
+                @lang('app.updated_by_author_time_ago', ['author' => $audit->getMetadata()['user_name'], 'time' => (new Carbon\Carbon($audit->getMetadata()['audit_created_at']))->diffForHumans() ])
+                @lang('app.viewed_num_times', ['num' => $article->viewCount ])
+            </small>
+        </p>
     @endif
 @endsection

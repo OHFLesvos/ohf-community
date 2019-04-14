@@ -22,7 +22,7 @@ class KBServiceProvider extends ServiceProvider
      * Dashboard widgets
      */
     protected $dashboardWidgets = [
-        \Modules\KB\Widgets\WikiArticlesWidget::class => 6,
+        \Modules\KB\Widgets\KBWidget::class => 6,
     ];
 
     /**

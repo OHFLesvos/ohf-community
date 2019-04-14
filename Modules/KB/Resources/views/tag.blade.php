@@ -1,16 +1,15 @@
 @extends('layouts.app')
 
-@section('title', __('kb::wiki.articles'))
+@section('title', __('app.tag') . ': ' . $tag->name)
 
 @section('content')
 
     @if( ! $articles->isEmpty() )
-        <h2>@lang('app.tag'): {{ $tag->name }}</h2>
+        <p><small>@lang('kb::wiki.found_num_articles_with_tag', ['num' => $articles->total(), 'tag' => $tag->name ])</small></p>
         @foreach ($articles as $article)
             <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a><br>
         @endforeach
         {{ $articles->links() }}
-        <p class="mt-2"><small>{{ trans_choice('kb::wiki.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}</small></p>
     @else
         @component('components.alert.info')
             @lang('kb::wiki.no_articles_found')

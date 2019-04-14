@@ -14,10 +14,13 @@
 Route::group(['middleware' => 'language'], function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::prefix('kb')->name('kb.')->group(function(){
-            Route::get('articles/_tags', 'ArticleController@tags')->name('articles.tags');
-            Route::get('articles/_latest_changes', 'ArticleController@latestChanges')->name('articles.latestChanges');
+            Route::get('', 'SearchController@index')->name('index');
+            Route::get('latest_changes', 'SearchController@latestChanges')->name('latestChanges');
+
+            Route::get('tags', 'TagController@tags')->name('tags');
+            Route::get('tags/{tag}', 'TagController@tag')->name('tag');
+
             Route::resource('articles', 'ArticleController');
-            Route::get('articles/tag/{tag}', 'ArticleController@tag')->name('articles.tag');
         });
     });
 });

@@ -5,15 +5,35 @@
 @section('content')
 
     @if( ! $articles->isEmpty() )
-        <div class="mb-4">
-            <div class="columns-3 mb-3">
-                @foreach ($articles as $article)
-                    <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a><br>
-                @endforeach
-            </div>
-            {{ $articles->links() }}
-            <p class="mt-2"><small>{{ trans_choice('kb::wiki.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}</small></p>
+        @if($order == 'popularity')
+            <p><small>@lang('kb::wiki.showing_articles_by_popularity')</small></p>
+        @elseif($order == 'recent')
+            <p><small>@lang('kb::wiki.showing_articles_by_modification_date')</small></p>
+        @endif
+        <div class="columns-3 mb-3">
+            @foreach ($articles as $article)
+                <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
+                @if($order == 'popularity')
+                    <small class="text-muted d-block d-sm-inline">@lang('app.num_views', ['num' => $article->viewCount ])</small>
+                @elseif($order == 'recent')
+                    <small class="text-muted">{{ $article->updated_at->diffForHumans() }}</small>
+                @endif
+                <br>
+            @endforeach
         </div>
+        <div class="row alisgn-items-center">
+            <div class="col-sm">
+                {{ $articles->appends(['order' => $order])->links() }}
+            </div>
+            <div class="col-sm-auto pt-1">
+                <p>
+                    <small class="text-muted">
+                        {{ trans_choice('kb::wiki.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}
+                    </small>
+                </p>
+            </div>            
+        </div>
+
     @else
         @component('components.alert.info')
             @lang('kb::wiki.no_articles_found')

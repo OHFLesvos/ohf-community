@@ -44,7 +44,7 @@ class WikiArticle extends Model implements Auditable
      */
     public function tags()
     {
-        return $this->morphToMany('App\Tag', 'taggable');
+        return $this->morphToMany(\App\Tag::class, 'taggable');
     }
 
     public function syncTags(array $tags)
@@ -62,6 +62,34 @@ class WikiArticle extends Model implements Auditable
             }
         }
         $this->tags()->sync($tag_ids);
+    }
+
+    /**
+     * Get the article's view counter.
+     */
+    public function views()
+    {
+        return $this->morphOne(ArticleView::class, 'viewable');
+    }
+
+    /**
+     * Gets the number of views, formatted in k-notation
+     */
+    public function getViewCountAttribute()
+    {
+        $views = $this->views;
+        return format_number_in_k_notation($views != null ? $views->value : 0);
+    }
+
+    public function setViewed() {
+        if ($this->views == null) {
+            $this->views()->create([
+                'value' => 1,
+            ]);
+        } else {
+            $this->views->value++;
+            $this->views->save();
+        }
     }
 
 }

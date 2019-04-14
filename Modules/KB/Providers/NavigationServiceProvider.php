@@ -15,17 +15,18 @@ class NavigationServiceProvider extends ServiceProvider
      * Navigation items
      */
     protected $navigationItems = [
-        \Modules\KB\Navigation\Drawer\WikiArticlesItem::class => 6,
+        \Modules\KB\Navigation\Drawer\KBItem::class => 6,
     ];
 
     protected $contextButtons = [
-        'kb.articles.index' => \Modules\KB\Navigation\ContextButtons\WikiArticleIndexContextButtons::class,
-        'kb.articles.latestChanges' => \Modules\KB\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
-        'kb.articles.tags' => \Modules\KB\Navigation\ContextButtons\WikiArticleReturnToIndexContextButtons::class,
-        'kb.articles.tag' => \Modules\KB\Navigation\ContextButtons\WikiArticleReturnToTagsContextButtons::class,
-        'kb.articles.create' => \Modules\KB\Navigation\ContextButtons\WikiArticleCreateContextButtons::class,
-        'kb.articles.show' => \Modules\KB\Navigation\ContextButtons\WikiArticleShowContextButtons::class,
-        'kb.articles.edit' => \Modules\KB\Navigation\ContextButtons\WikiArticleEditContextButtons::class,
+        'kb.index'                  => \Modules\KB\Navigation\ContextButtons\IndexContextButtons::class,
+        'kb.latestChanges'          => \Modules\KB\Navigation\ContextButtons\LatestChangesContextButtons::class,
+        'kb.tags'                   => \Modules\KB\Navigation\ContextButtons\TagsContextButtons::class,
+        'kb.tag'                    => \Modules\KB\Navigation\ContextButtons\TagContextButtons::class,
+        'kb.articles.index'         => \Modules\KB\Navigation\ContextButtons\ArticleIndexContextButtons::class,
+        'kb.articles.create'        => \Modules\KB\Navigation\ContextButtons\ArticleCreateContextButtons::class,
+        'kb.articles.show'          => \Modules\KB\Navigation\ContextButtons\ArticleShowContextButtons::class,
+        'kb.articles.edit'          => \Modules\KB\Navigation\ContextButtons\ArticleEditContextButtons::class,
     ];
 
     /**

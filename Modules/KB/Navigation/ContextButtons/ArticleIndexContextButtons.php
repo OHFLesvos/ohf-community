@@ -9,7 +9,7 @@ use Modules\KB\Entities\WikiArticle;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
-class WikiArticleIndexContextButtons implements ContextButtons {
+class ArticleIndexContextButtons implements ContextButtons {
 
     public function getItems(View $view): array
     {
@@ -19,13 +19,13 @@ class WikiArticleIndexContextButtons implements ContextButtons {
                 'caption' => __('app.add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', WikiArticle::class)
+                'authorized' => Auth::user()->can('create', WikiArticle::class),
             ],
-            'latestChanges' => [
-                'url' => route('kb.articles.latestChanges'),
-                'caption' => __('app.latest_changes'),
-                'icon' => 'history',
-                'authorized' => Auth::user()->can('list', WikiArticle::class)
+            'back' => [
+                'url' => route('kb.index'),
+                'caption' => __('app.overview'),
+                'icon' => 'list',
+                'authorized' => Auth::user()->can('list', WikiArticle::class),
             ],
         ];
     }

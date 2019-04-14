@@ -41,7 +41,7 @@ class Tag extends Model
     public function wikiArticles()
     {
         // TODO: Modularization
-        return $this->morphedByMany('Modules\KB\Entities\WikiArticle', 'taggable');
+        return $this->morphedByMany(\Modules\KB\Entities\WikiArticle::class, 'taggable');
     }
 
     /**
@@ -50,6 +50,6 @@ class Tag extends Model
     public function donors()
     {
         // TODO: Modularization
-        return $this->morphedByMany('Modules\Fundraising\Entities\Donor', 'taggable');
+        return $this->morphedByMany(\Modules\Fundraising\Entities\Donor::class, 'taggable');
     }
 }
