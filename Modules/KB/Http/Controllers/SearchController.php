@@ -57,11 +57,11 @@ class SearchController extends Controller
                 ->paginate(50),
             'search' => $search,
             'popular_articles' => WikiArticle::leftJoin('kb_article_views', function($join){
-                    $join->on('kb_article_views.viewable_id', '=', 'wiki_articles.id')
+                    $join->on('kb_article_views.viewable_id', '=', 'kb_articles.id')
                         ->where('kb_article_views.viewable_type', WikiArticle::class);
                 })
                 ->orderBy('kb_article_views.value', 'desc')
-                ->select('wiki_articles.*')
+                ->select('kb_articles.*')
                 ->limit(5)                
                 ->get(),
             'recent_articles' => WikiArticle::orderBy('updated_at', 'desc')

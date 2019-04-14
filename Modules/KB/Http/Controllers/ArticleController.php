@@ -26,11 +26,11 @@ class ArticleController extends Controller
         $query = WikiArticle::query();
         if ($request->order == 'popularity') {
             $query->leftJoin('kb_article_views', function($join){
-                    $join->on('kb_article_views.viewable_id', '=', 'wiki_articles.id')
+                    $join->on('kb_article_views.viewable_id', '=', 'kb_articles.id')
                         ->where('kb_article_views.viewable_type', WikiArticle::class);
                 })
                 ->orderBy('kb_article_views.value', 'desc')
-                ->select('wiki_articles.*');
+                ->select('kb_articles.*');
         } else if ($request->order == 'recent') {
             $query->orderBy('updated_at', 'desc');
         }

@@ -15,6 +15,8 @@ class WikiArticle extends Model implements Auditable
     use Sluggable;
     use \OwenIt\Auditing\Auditable;
 
+    protected $table = 'kb_articles';
+
     /**
      * Return the sluggable configuration array for this model.
      *
