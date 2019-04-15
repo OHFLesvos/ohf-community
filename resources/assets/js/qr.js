@@ -69,19 +69,17 @@ function tick() {
 }
 
 window.scanQR = function (callback) {
-	navigator.mediaDevices.getUserMedia({ video: true})
+	navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
 		.then(function (stream) {
 			if (stream.getVideoTracks().length > 0) {
 				$('#videoPreviewModal').modal('show');
 				// Use facingMode: environment to attemt to get the front camera on phones
-				navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
-					video.srcObject = stream;
-					localStream = stream;
-					video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
-					video.play();
-					qrCallback = callback;
-					requestAnimationFrame(tick);
-				});
+				video.srcObject = stream;
+				localStream = stream;
+				video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+				video.play();
+				qrCallback = callback;
+				requestAnimationFrame(tick);
 				$('#videoPreviewModal').on('hide.bs.modal', function (e) {
 					video.pause();
 					localStream.getTracks().forEach(function(track) {
