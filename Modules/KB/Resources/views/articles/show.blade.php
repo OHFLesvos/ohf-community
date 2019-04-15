@@ -22,7 +22,7 @@
             $audit = $article->audits()->with('user')->latest()->first();
             $metadata = $audit->getMetadata();
         } catch (\ErrorException $e) {
-            Log::error('Unable to get audit metadata for article: ' . $e->getMessage(), $e->getTrace());
+            Log::error('Unable to get audit metadata for article: ' . $e->getMessage());
         }
     @endphp
     @isset($metadata)
