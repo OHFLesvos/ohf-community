@@ -32,5 +32,5 @@
                 @lang('app.viewed_num_times', ['num' => $article->viewCount ])
             </small>
         </p>
-    @endif
+    @endisset
 @endsection
