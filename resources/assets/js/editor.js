@@ -36,7 +36,7 @@ $(document).ready(function() {
             ['color', ['forecolor']],
             ['para', ['ul', 'ol']],
             ['insert', ['link', 'lfm', /*'picture', */ 'video', 'table']],
-            ['misc', ['undo', 'redo', 'fullscreen']],
+            ['misc', ['undo', 'redo', 'fullscreen', 'codeview']],
         ],
         buttons: {
             lfm: LFMButton
