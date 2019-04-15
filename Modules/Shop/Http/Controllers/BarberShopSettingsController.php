@@ -2,9 +2,11 @@
 
 namespace Modules\Shop\Http\Controllers;
 
+use App\Http\Controllers\Settings\SettingsController;
+
 use Modules\Bank\Entities\CouponType;
 
-use App\Http\Controllers\Settings\SettingsController;
+use Modules\KB\Entities\WikiArticle;
 
 class BarberShopSettingsController extends SettingsController
 {
@@ -27,7 +29,15 @@ class BarberShopSettingsController extends SettingsController
                 'form_type' => 'checkbox',
                 'form_validate' => 'nullable|boolean',
                 'label_key' => 'shop::shop.allow_remove_reservation',
-            ]
+            ],
+            'shop.barber.help_article' => is_module_enabled('KB') ? [
+                'default' => null,
+                'form_type' => 'select',
+                'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),
+                'form_placeholder' => __('kb::wiki.select_article'),
+                'form_validate' => 'nullable|exists:kb_articles,id',
+                'label_key' => 'kb::wiki.help_article',
+            ] : null,
         ];
     }
 
