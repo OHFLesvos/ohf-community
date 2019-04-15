@@ -21,4 +21,6 @@ return [
     'showing_articles_by_popularity' => 'Showing articles sorted by popularity.',
     'showing_articles_by_modification_date' => 'Showing articles sorted by modification date.',
     'found_num_articles_with_tag' => 'Found :num articles with tag <em>:tag</em>.',
+    'help_article' => 'Help article',
+    'select_article' => 'Select article...',
 ];

@@ -19,4 +19,6 @@ return [
     'recenlty_update_articles' => 'Kürzlich aktualisierte Artikel',
     'found_num_articles_containing_word' => 'Fand :num Artikel welche <em>:word</em> beinhalten.',
     'found_num_articles_with_tag' => 'Fand :num Artikel mit dem Stichwort <em>:tag</em>.',
+    'help_article' => 'Hilfeartikel',
+    'select_article' => 'Artikel wählen...',
 ];

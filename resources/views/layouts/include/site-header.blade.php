@@ -55,10 +55,10 @@
                             @icon({{ $button['icon'] }}) {{ $button['caption'] }}
                         </a>
                     @else
-                        <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
+                        <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block" @if($key == 'help') target="_blank"@endif>
                             @icon({{ $button['icon'] }}) {{ $button['caption'] }}
                         </a>
-                        <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}">
+                        <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}" @if($key == 'help') target="_blank"@endif>
                             @icon({{ $button['icon'] }})
                         </a>
                     @endif

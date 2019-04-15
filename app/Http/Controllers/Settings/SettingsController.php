@@ -25,6 +25,7 @@ abstract class SettingsController extends Controller
             'route' => $this->getUpdateRouteName(),
             'sections' => $this->getSections(),
             'fields' => collect($this->getSettings())
+                ->filter()
                 ->mapWithKeys(function($e, $k){ return [ 
                     str_slug($k) => [
                         'value' => \Setting::get($k, $e['default']),

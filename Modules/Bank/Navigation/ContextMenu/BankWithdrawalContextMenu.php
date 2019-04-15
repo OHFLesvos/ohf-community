@@ -15,6 +15,12 @@ class BankWithdrawalContextMenu implements ContextMenu {
     {
         return [
             [
+                'url' => route('bank.prepareCodeCard'),
+                'caption' => __('people::people.code_cards'),
+                'icon' => 'qrcode',
+                'authorized' => Gate::allows('do-bank-withdrawals')
+            ],
+            [
                 'url' => route('bank.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
