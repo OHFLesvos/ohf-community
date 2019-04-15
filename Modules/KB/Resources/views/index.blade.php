@@ -77,21 +77,23 @@
             @endunless
 
             {{-- Popular Tags --}}
-            <div class="col-sm mb-3">
-                <div class="card">
-                    <div class="card-header">
-                        @lang('app.popular_tags')
-                        <a href="{{ route('kb.tags') }}" class="float-right">@lang('app.show_all')</a>
-                    </div>
-                    <div class="card-body p-3">
-                        @forelse($popular_tags as $tag)
-                            <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a><small class="text-muted px-1">({{ $tag->wikiArticles()->count() }})</small>
-                        @empty
-                            <em>@lang('app.no_tags_defined')</em>
-                        @endforelse
+            @unless($popular_tags->isEmpty())
+                <div class="col-sm mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            @lang('app.popular_tags')
+                            <a href="{{ route('kb.tags') }}" class="float-right">@lang('app.show_all')</a>
+                        </div>
+                        <div class="card-body p-3">
+                            @forelse($popular_tags as $tag)
+                                <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a><small class="text-muted px-1">({{ $tag->wikiArticles()->count() }})</small>
+                            @empty
+                                <em>@lang('app.no_tags_defined')</em>
+                            @endforelse
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endunless
 
         </div>
 
