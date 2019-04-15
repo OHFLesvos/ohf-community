@@ -10,11 +10,3 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::group(['middleware' => 'language'], function () {
-    Route::group(['middleware' => ['auth']], function () {
-        Route::prefix('kb')->name('kb.')->namespace('API')->group(function(){
-            Route::resource('images', 'ImageController')->only(['index', 'store', 'destroy']);
-        });
-    });
-});
