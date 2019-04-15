@@ -18,12 +18,17 @@
     @endif
 
     @php
-        $audit = $article->audits()->with('user')->latest()->first();
+        try {
+            $audit = $article->audits()->with('user')->latest()->first();
+            $metadata = $audit->getMetadata();
+        } catch (\ErrorException $e) {
+            Log::error('Unable to get audit metadata for article.', $e);
+        }
     @endphp
-    @isset($audit)
+    @isset($metadata)
         <p>
             <small>
-                @lang('app.updated_by_author_time_ago', ['author' => $audit->getMetadata()['user_name'], 'time' => (new Carbon\Carbon($audit->getMetadata()['audit_created_at']))->diffForHumans() ])
+                @lang('app.updated_by_author_time_ago', ['author' => $metadata['user_name'], 'time' => (new Carbon\Carbon($metadata['audit_created_at']))->diffForHumans() ])
                 @lang('app.viewed_num_times', ['num' => $article->viewCount ])
             </small>
         </p>
