@@ -4,6 +4,8 @@
 
 * KB articles navigation improved
 * WYSIWYG editor in KB articles
+* Small bugfixes due do modularization
+* Library updates
 
 ## 2.0.2
 

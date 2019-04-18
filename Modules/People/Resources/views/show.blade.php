@@ -219,7 +219,7 @@
                         <div class="list-group">
                             @if(isset($person->mother))
                                 <a href="{{ route('people.show', $person->mother) }}" class="list-group-item list-group-item-action">
-                                    @include('ppeople::person-label', ['person'=> $person->mother, 'prefix' => __('people::people.mother')])
+                                    @include('people::person-label', ['person'=> $person->mother, 'prefix' => __('people::people.mother')])
                                 </a>
                             @endif
                             @if(isset($person->father))
