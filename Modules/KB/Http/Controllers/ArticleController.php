@@ -10,6 +10,10 @@ use Modules\KB\Http\Requests\StoreArticle;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
+
+use Mpdf\Mpdf;
+use Mpdf\Output;
 
 class ArticleController extends Controller
 {
@@ -80,32 +84,8 @@ class ArticleController extends Controller
             $article->setViewed();
         }
 
-        //
         // Format article
-        //
-        // Open links in new window
-        $article->content = preg_replace('/<a /', '<a target="_blank" ', $article->content);
-
-        // Responsive images
-        $article->content = preg_replace('/<img /', '<img class="img-fluid" ', $article->content);
-
-        // Replace phone mumber tags
-        $article->content = preg_replace('/tel:([0-9+ ]+[0-9])/', '<a href="tel:\1">\1</a>', $article->content);
-
-        // Create links from e-mail addresses
-        $article->content = emailize($article->content);
-
-        // Create emedded maps
-        $article->content = preg_replace('/map:"(.+)"/', '<iframe style="width: 100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' . env('GOOGLE_MAPS_API_KEY') . '&q=\1" allowfullscreen></iframe>', $article->content);
-
-        // Link to other articles
-        $article->content = preg_replace_callback("/(\[\[([a-z0-9-]+)\]\])/", function($matches){
-            $article = WikiArticle::where('slug', $matches[2])->first();
-            if ($article != null) {
-                return '<a href="' . route('kb.articles.show', $article) . '">' . $article->title . '</a>';
-            }
-            return '<a href="' . route('kb.articles.create', ['title' => Str::title(str_replace('-', ' ', $matches[2])) ]) . '" class="text-danger">' . $matches[2] . '</a>';
-        }, $article->content);
+        $article->content = self::formatContent($article->content);
 
         return view('kb::articles.show', [
             'article' => $article
@@ -162,4 +142,72 @@ class ArticleController extends Controller
             ->toArray();
     }
 
+    private static function formatContent(string $content)
+    {
+        //
+        // Format article
+        //
+        // Open links in new window
+        $content = preg_replace('/<a /', '<a target="_blank" ', $content);
+
+        // Responsive images
+        $content = preg_replace('/<img /', '<img class="img-fluid" ', $content);
+
+        // Replace phone mumber tags
+        $content = preg_replace('/tel:([0-9+ ]+[0-9])/', '<a href="tel:\1">\1</a>', $content);
+
+        // Create links from e-mail addresses
+        $content = emailize($content);
+
+        // Create emedded maps
+        $content = preg_replace('/map:"(.+)"/', '<iframe style="width: 100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' . env('GOOGLE_MAPS_API_KEY') . '&q=\1" allowfullscreen></iframe>', $content);
+
+        // Link to other articles
+        $content = preg_replace_callback("/(\[\[([a-z0-9-]+)\]\])/", function($matches){
+            $article = WikiArticle::where('slug', $matches[2])->first();
+            if ($article != null) {
+                return '<a href="' . route('kb.articles.show', $article) . '">' . $article->title . '</a>';
+            }
+            return '<a href="' . route('kb.articles.create', ['title' => Str::title(str_replace('-', ' ', $matches[2])) ]) . '" class="text-danger">' . $matches[2] . '</a>';
+        }, $content);
+
+        return $content;
+    }
+
+    public function pdf(WikiArticle $article) {
+        $this->authorize('view', $article);
+
+        $mpdf = new Mpdf([
+            'format' => 'A4',
+        ]);
+
+        // Header
+        $mpdf->SetHTMLHeader('
+        <div style="text-align: right; font-weight: bold;">
+            ' . Config::get('app.name') . ' - ' . __('kb::kb.knowledge_base') . '
+        </div>');
+
+        // Footer
+        $mpdf->SetHTMLFooter('
+        <table width="100%">
+            <tr>
+                <td width="33%">{DATE j-m-Y}</td>
+                <td width="33%" align="center">{PAGENO}/{nbpg}</td>
+                <td width="33%" style="text-align: right;">' . $article->title . '</td>
+            </tr>
+        </table>');
+
+        // Style
+        $style = '
+            body { 
+                font-family: Helvetica; 
+            }
+        ';
+        $mpdf->WriteHTML($style, \Mpdf\HTMLParserMode::HEADER_CSS);
+
+        // Content
+        $mpdf->WriteHTML('<h1>' . $article->title . '</h1>' . self::formatContent($article->content));
+        
+        $mpdf->Output($article->title . '.pdf', Output\Destination::DOWNLOAD);
+    }
 }

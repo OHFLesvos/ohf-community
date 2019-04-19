@@ -31,12 +31,11 @@ class ArticleShowContextButtons implements ContextButtons {
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $article),
             ],
-            'delete' => [
-                'url' => route('kb.articles.destroy', $article),
-                'caption' => __('app.delete'),
-                'icon' => 'trash',
-                'authorized' => Auth::user()->can('delete', $article),
-                'confirmation' => __('kb::wiki.confirm_delete_article'),
+            'pdf' => [
+                'url' => route('kb.articles.pdf', $article),
+                'caption' => __('app.pdf'),
+                'icon' => 'file-pdf',
+                'authorized' => Auth::user()->can('view', $article),
             ],
             'back' => [
                 'url' => $back_url,

@@ -20,6 +20,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('tags', 'TagController@tags')->name('tags');
             Route::get('tags/{tag}', 'TagController@tag')->name('tag');
 
+            Route::get('articles/{article}/pdf', 'ArticleController@pdf')->name('articles.pdf');
             Route::resource('articles', 'ArticleController');
         });
     });

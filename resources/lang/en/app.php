@@ -225,4 +225,5 @@ return [
     'found_num_tags' => 'Found :num tags.',
     'popular_tags' => 'Popular tags',
     'viewed_num_times' => 'Viewed :num times.',
+    'pdf' => 'PDF',
  ];
