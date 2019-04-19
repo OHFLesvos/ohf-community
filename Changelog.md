@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+* PDF export of KB articles
+
 ## 2.1.0
 
 * KB articles navigation improved
