@@ -10,6 +10,12 @@ class ArticlePdfExport
     {
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'A4',
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 20,
+            'margin_bottom' => 20,
+            // 'margin_header' => 0,
+            // 'margin_footer' => 0,
         ]);
         $mpdf->showImageErrors = true;
 
