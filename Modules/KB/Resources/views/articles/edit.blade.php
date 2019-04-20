@@ -6,7 +6,10 @@
 
     {!! Form::model($article, ['route' => ['kb.articles.update', $article], 'method' => 'put']) !!}
 
-        {{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}
+        <div class="form-row">
+            <div class="col-8">{{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}</div>
+            <div class="col-4">{{ Form::bsText('slug', null, [ 'placeholder' => __('app.slug') ], '') }}</div>
+        </div>
         {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
         {{ Form::bsTags('tags', $article->tagsSorted->pluck('name'), [ 'placeholder' => __('app.tags'), 'data-suggestions' => json_encode($tag_suggestions) ], '') }}
         <p>

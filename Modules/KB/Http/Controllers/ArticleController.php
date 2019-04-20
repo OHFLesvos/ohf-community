@@ -102,6 +102,7 @@ class ArticleController extends Controller
         $this->authorize('update', $article);
 
         $article->title = $request->title;
+        $article->slug = $request->slug;
         $article->content = $request->content;
         $article->save();
 

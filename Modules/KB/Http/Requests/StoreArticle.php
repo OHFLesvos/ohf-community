@@ -32,6 +32,10 @@ class StoreArticle extends FormRequest
                     ? Rule::unique('kb_articles')->ignore($this->article->id) 
                     : Rule::unique('kb_articles'),
             ],
+            'slug' => [
+                'nullable',
+                'alpha_dash',
+            ],
             'content' => 'required',
             'tags' => [
                 'nullable',

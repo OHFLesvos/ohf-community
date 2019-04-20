@@ -226,4 +226,5 @@ return [
     'popular_tags' => 'Beliebte Stichwörter',
     'viewed_num_times' => ':num mal angeschaut.',
     'pdf' => 'PDF',
+    'slug' => 'Slug',
 ];

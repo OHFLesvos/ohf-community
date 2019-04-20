@@ -226,4 +226,5 @@ return [
     'popular_tags' => 'Popular tags',
     'viewed_num_times' => 'Viewed :num times.',
     'pdf' => 'PDF',
+    'slug' => 'Slug',
  ];
