@@ -11,6 +11,7 @@ class ArticlePdfExport
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'A4',
         ]);
+        $mpdf->showImageErrors = true;
 
         // Header
         $mpdf->SetHTMLHeader('
@@ -37,6 +38,10 @@ class ArticlePdfExport
         $mpdf->WriteHTML($style, \Mpdf\HTMLParserMode::HEADER_CSS);
 
         // Content
+        
+        // Make image paths relative
+        $content = str_replace('src="/', 'src="./', $content);
+        
         $mpdf->WriteHTML($content);
         
         $mpdf->Output($title . '.pdf', \Mpdf\Output\Destination::DOWNLOAD);

@@ -35,11 +35,20 @@ class TagController extends Controller
     public function pdf(Tag $tag) {
         $this->authorize('list', WikiArticle::class);
 
-        $content = '<h1>' . $tag->name . '</h1>' . $tag->wikiArticles()
+        $articles = $tag->wikiArticles()
             ->orderBy('title')
-            ->get()
-            ->map(function($article){
-                return '<h2>' . $article->title . '</h2>' . ArticleFormat::formatContent($article->content);
+            ->get();
+        $routes = $articles->mapWithKeys(function($article){
+            return [route('kb.articles.show', $article) => '#' . $article->slug];
+        })->toArray();
+        $content = '<h1>' . $tag->name . '</h1>' . $articles->map(function($article) use($routes) {
+                // Format content
+                $content = ArticleFormat::formatContent($article->content);
+                // Replace internal links
+                foreach($routes as $k => $v) {
+                    $content = str_replace(' href="' . $k . '"', ' href="' . $v . '"', $content);
+                }
+                return '<a name="' . $article->slug . '"></a><h2>' . $article->title . '</h2>' . $content;
             })
             ->implode('<hr>');
         ArticlePdfExport::createPDF($tag->name, $content);

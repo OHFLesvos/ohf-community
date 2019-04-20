@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.2
+
+* PDF export of articles with support for images and internal links
+
 ## 2.1.1
 
 * PDF export of KB articles
