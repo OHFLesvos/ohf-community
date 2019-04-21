@@ -1,10 +1,11 @@
 # Changelog
 
-## 2.1.2
+## 2.2.0
 
 * PDF export of articles with support for images and internal links
 * Added styles to editor
 * Laravel 5.7 update
+* Articles can be made public
 
 ## 2.1.1
 

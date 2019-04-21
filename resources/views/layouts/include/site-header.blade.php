@@ -1,25 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between row m-0 px-0">
 
-    <div class="col-auto d-block d-md-none pr-1 pr-sm-3">
-        @if( isset($buttons['back']) && $buttons['back']['authorized'] )
-            {{-- Back button --}}
-            <a href="{{ $buttons['back']['url'] }}" class="btn btn-link text-light">
-                @icon(arrow-left)
-            </a>
-        @else
-            {{-- Sidebar navigation toggle --}}
-            <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button">
-                @icon(bars)
-            </a>
-        @endif
-    </div>
+    @auth
+        <div class="col-auto d-block d-md-none pr-1 pr-sm-3">
+            @if( isset($buttons['back']) && $buttons['back']['authorized'] )
+                {{-- Back button --}}
+                <a href="{{ $buttons['back']['url'] }}" class="btn btn-link text-light">
+                    @icon(arrow-left)
+                </a>
+            @else
+                {{-- Sidebar navigation toggle --}}
+                <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button">
+                    @icon(bars)
+                </a>
+            @endif
+        </div>
 
-    <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button d-none d-md-inline-block ml-3">
-        @icon(bars)
-    </a>
+        <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button d-none d-md-inline-block ml-3">
+            @icon(bars)
+        </a>
+    @endauth
 
     {{-- Brand --}}
-    <div class="col-auto px-0 px-sm-3">
+    <div class="col-auto @auth px-0 px-sm-3 @endauth">
 
         {{-- Logo, Name --}}
         <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">
@@ -81,23 +83,28 @@
             @endcomponent
         @endif
 
-        <div class="position-relative d-none d-md-inline-block">
-            <button class="context-nav-toggle btn btn-link text-light px-3"><img src="{{ Auth::user()->avatarUrl('site_header') }}" alt="Gravatar" class="bg-white rounded-circle" style="width: 30px; height: 30px;"></button>
-            <ul class="context-nav userprofile-nav">
-                @if(is_module_enabled('UserManagement'))
+        @auth
+            <div class="position-relative d-none d-md-inline-block">
+                <button class="context-nav-toggle btn btn-link text-light px-3"><img src="{{ Auth::user()->avatarUrl('site_header') }}" alt="Gravatar" class="bg-white rounded-circle" style="width: 30px; height: 30px;"></button>
+                <ul class="context-nav userprofile-nav">
+                    @if(is_module_enabled('UserManagement'))
+                        <li>
+                            <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block">
+                                @icon(user mr-1) @lang('userprofile.profile')
+                            </a>
+                        </li>
+                    @endif
                     <li>
-                        <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block">
-                            @icon(user mr-1) @lang('userprofile.profile')
+                        <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block">
+                            @icon(sign-out-alt mr-1) @lang('app.logout')
                         </a>
                     </li>
-                @endif
-                <li>
-                    <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block">
-                        @icon(sign-out-alt mr-1) @lang('app.logout')
-                    </a>
-                </li>
-            </ul>
-        </div>
+                </ul>
+            </div>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-secondary d-none d-md-inline-block">@icon(sign-in-alt) @lang('app.login')</a>
+            <a href="{{ route('login') }}" class="btn text-light d-md-none">@icon(sign-in-alt)</a>
+        @endauth
 
     </div>
 

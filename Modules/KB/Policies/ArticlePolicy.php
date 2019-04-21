@@ -37,8 +37,11 @@ class ArticlePolicy
      * @param  \Modules\KB\Entities\WikiArticle  $wikiArticle
      * @return mixed
      */
-    public function view(User $user, WikiArticle $wikiArticle)
+    public function view(?User $user, WikiArticle $wikiArticle)
     {
+        if ($user === null) {
+            return $wikiArticle->public;
+        }
         return $user->hasPermission('wiki.view');
     }
 

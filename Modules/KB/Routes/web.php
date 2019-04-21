@@ -12,8 +12,8 @@
 */
 
 Route::group(['middleware' => 'language'], function () {
-    Route::group(['middleware' => ['auth']], function () {
-        Route::prefix('kb')->name('kb.')->group(function(){
+    Route::prefix('kb')->name('kb.')->group(function(){
+        Route::group(['middleware' => ['auth']], function () {
             Route::get('', 'SearchController@index')->name('index');
             Route::get('latest_changes', 'SearchController@latestChanges')->name('latestChanges');
 
@@ -22,7 +22,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('tags/{tag}/pdf', 'TagController@pdf')->name('tags.pdf');
 
             Route::get('articles/{article}/pdf', 'ArticleController@pdf')->name('articles.pdf');
-            Route::resource('articles', 'ArticleController');
         });
+        Route::resource('articles', 'ArticleController');
     });
 });

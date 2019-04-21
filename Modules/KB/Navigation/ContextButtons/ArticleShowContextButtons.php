@@ -29,19 +29,19 @@ class ArticleShowContextButtons implements ContextButtons {
                 'caption' => __('app.edit'),
                 'icon' => 'edit',
                 'icon_floating' => 'pencil-alt',
-                'authorized' => Auth::user()->can('update', $article),
+                'authorized' => Auth::user() != null && Auth::user()->can('update', $article),
             ],
             'pdf' => [
                 'url' => route('kb.articles.pdf', $article),
                 'caption' => __('app.pdf'),
                 'icon' => 'file-pdf',
-                'authorized' => Auth::user()->can('view', $article),
+                'authorized' => Auth::user() != null && Auth::user()->can('view', $article),
             ],
             'back' => [
                 'url' => $back_url,
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', WikiArticle::class),
+                'authorized' => Auth::user() != null && Auth::user()->can('list', WikiArticle::class),
             ]
         ];
     }

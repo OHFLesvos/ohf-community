@@ -125,6 +125,7 @@ return [
     'order' => 'Order',
     'enabled' => 'Enabled',
     'updated_by_author_time_ago' => 'Updated by :author :time.',
+    'updated_time_ago' => 'Updated :time.',
     'num_views' => ':num views',
     'undo' => 'Undo',
     'not_found' => 'Not found',
@@ -219,6 +220,7 @@ return [
     'search' => 'Search',
     'male' => 'Male',
     'female' => 'Female',
+    'login' => 'Login',
     'logout' => 'Logout',
     'show_all' => 'Show all',
     'no_tags_defined' => 'No tags defined.',
@@ -227,4 +229,5 @@ return [
     'viewed_num_times' => 'Viewed :num times.',
     'pdf' => 'PDF',
     'slug' => 'Slug',
+    'allow_public_access' => 'Allow public access',
  ];

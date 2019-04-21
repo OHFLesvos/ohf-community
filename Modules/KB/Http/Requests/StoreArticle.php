@@ -36,6 +36,9 @@ class StoreArticle extends FormRequest
                 'nullable',
                 'alpha_dash',
             ],
+            'public' => [
+                'boolean',
+            ],
             'content' => 'required',
             'tags' => [
                 'nullable',

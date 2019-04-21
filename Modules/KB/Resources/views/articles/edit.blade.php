@@ -7,11 +7,18 @@
     {!! Form::model($article, ['route' => ['kb.articles.update', $article], 'method' => 'put']) !!}
 
         <div class="form-row">
-            <div class="col-8">{{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}</div>
-            <div class="col-4">{{ Form::bsText('slug', null, [ 'placeholder' => __('app.slug') ], '') }}</div>
+            <div class="col-sm-8">{{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}</div>
+            <div class="col-sm-4">{{ Form::bsText('slug', null, [ 'placeholder' => __('app.slug') ], '') }}</div>
         </div>
         {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
-        {{ Form::bsTags('tags', $article->tagsSorted->pluck('name'), [ 'placeholder' => __('app.tags'), 'data-suggestions' => json_encode($tag_suggestions) ], '') }}
+        <div class="form-row">
+            <div class="col">
+                {{ Form::bsTags('tags', $article->tagsSorted->pluck('name'), [ 'placeholder' => __('app.tags'), 'data-suggestions' => json_encode($tag_suggestions) ], '') }}
+            </div>
+            <div class="col-auto pt-2 pb-3">
+                {{ Form::bsCheckbox('public', 1, null, __('app.allow_public_access')) }}
+            </div>
+        </div>
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>

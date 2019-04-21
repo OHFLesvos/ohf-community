@@ -126,6 +126,7 @@ return [
     'order' => 'Reihenfolge',
     'enabled' => 'Aktiviert',
     'updated_by_author_time_ago' => 'Aktualisiert von :author :time.',
+    'updated_time_ago' => 'Aktualisiert :time.',
     'num_views' => ':num Aufrufe',
     'undo' => 'Rückgängig',
     'not_found' => 'Nicht gefunden',
@@ -219,6 +220,7 @@ return [
     'search' => 'Suchen',
     'male' => 'männlich',
     'female' => 'weiblich',
+    'login' => 'Anmelden',
     'logout' => 'Abmelden',
     'show_all' => 'Alle anzeigen',
     'no_tags_defined' => 'Keine Stichwörter definiert.',
@@ -227,4 +229,5 @@ return [
     'viewed_num_times' => ':num mal angeschaut.',
     'pdf' => 'PDF',
     'slug' => 'Slug',
+    'allow_public_access' => 'Erlaube öffentlichen Zugriff',
 ];
