@@ -3,6 +3,7 @@
 ## 2.1.2
 
 * PDF export of articles with support for images and internal links
+* Added styles to editor
 
 ## 2.1.1
 

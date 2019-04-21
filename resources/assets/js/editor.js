@@ -33,11 +33,12 @@ $(document).ready(function() {
             // [groupName, [list of button]]
             // see https://summernote.org/deep-dive/#custom-toolbar-popover
             ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['style', 'ul', 'ol', /*'paragraph', */]],
             ['color', ['forecolor']],
-            ['para', ['ul', 'ol']],
             ['insert', ['link', 'lfm', /*'picture', */ 'video', 'table']],
             ['misc', ['undo', 'redo', 'fullscreen', 'codeview']],
         ],
+        styleTags: ['p', 'h3', 'h4'],
         buttons: {
             lfm: LFMButton
         },
