@@ -17,7 +17,22 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     ];
 
     protected $permissions = [
-
+        'logistics.suppliers.view' => [
+            'label' => 'logistics::permissions.view_suppliers',
+            'sensitive' => false,
+        ],
+        'logistics.suppliers.manage' => [
+            'label' => 'logistics::permissions.manage_suppliers',
+            'sensitive' => false,
+        ],
+        'logistics.products.view' => [
+            'label' => 'logistics::permissions.view_products',
+            'sensitive' => false,
+        ],
+        'logistics.products.manage' => [
+            'label' => 'logistics::permissions.manage_products',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
