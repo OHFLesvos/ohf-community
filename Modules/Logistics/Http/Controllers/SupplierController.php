@@ -23,7 +23,6 @@ class SupplierController extends Controller
     {
         $this->authorize('list', Supplier::class);
 
-
         // Validate request
         Validator::make($request->all(), [
             'display' => [

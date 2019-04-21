@@ -123,7 +123,7 @@
                     map.panToBounds(bounds);
                 }
                 var locations = [
-                    @foreach ($suppliers as $supplier)
+                    @foreach ($suppliers->filter(function($s){ return $s->poi->latitude != null && $s->poi->longitude != null; }) as $supplier)
                         {
                             lat: {{ $supplier->poi->latitude }}, 
                             lng: {{ $supplier->poi->longitude }}, 
