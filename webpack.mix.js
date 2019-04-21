@@ -17,13 +17,13 @@ mix.webpackConfig({
 });
 
 mix.options({ processCssUrls: false })
-	.js('resources/assets/js/app.js', 'public/js')
-	.js('resources/assets/js/bank.js', 'public/js')
-	.js('resources/assets/js/shop.js', 'public/js')
-	.js('resources/assets/js/people.js', 'public/js')
-	.js('resources/assets/js/imageupload.js', 'public/js')
-	.js('resources/assets/js/editor.js', 'public/js')
-	.sass('resources/assets/sass/app.scss', 'public/css')
+	.js('resources/js/app.js', 'public/js')
+	.js('resources/js/bank.js', 'public/js')
+	.js('resources/js/shop.js', 'public/js')
+	.js('resources/js/people.js', 'public/js')
+	.js('resources/js/imageupload.js', 'public/js')
+	.js('resources/js/editor.js', 'public/js')
+	.sass('resources/sass/app.scss', 'public/css')
 	.styles([
 	], 'public/css/styles.css')
 	.copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
