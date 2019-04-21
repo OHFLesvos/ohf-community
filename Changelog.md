@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1
+
+* Fix error while creating article without public flag
+
 ## 2.2.0
 
 * PDF export of articles with support for images and internal links
