@@ -11,8 +11,7 @@
                     <tr>
                         <th>@lang('app.date')</th>
                         <th>@lang('app.author')</th>
-                        <th>@lang('app.type')</th>
-                        <th>@lang('kb::wiki.article')</th>
+                        <th colspan="2">@lang('kb::wiki.article')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,7 +19,15 @@
                         <tr>
                             <td title="{{ $audit->created_at }}">{{ $audit->created_at->diffForHumans() }}</td>
                             <td>{{ optional($audit->user)->name }}</td>
-                            <td>{{ $audit->event }}</td>
+                            <td class="fit">
+                                @if($audit->event == 'created')
+                                    <span class="text-success" title="{{ $audit->event }}">@icon(star-of-life)</span>
+                                @elseif($audit->event == 'updated')
+                                    <span class="text-info" title="{{ $audit->event }}">@icon(pencil-alt)</span>
+                                @elseif($audit->event == 'deleted')
+                                    <span class="text-danger" title="{{ $audit->event }}">@icon(trash-alt)</span>
+                                @endif
+                            </td>
                             <td>
                                 @php
                                     $mod = $audit->getModified();
