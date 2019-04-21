@@ -230,4 +230,11 @@ return [
     'pdf' => 'PDF',
     'slug' => 'Slug',
     'allow_public_access' => 'Erlaube öffentlichen Zugriff',
+    'category' => 'Kategorie',
+    'name_translit' => 'Name (transkribiert)',
+    'address_translit' => 'Adresse (transkribiert)',
+    'latitude' => 'Breitengrad',
+    'longitude' => 'Längengrad',
+    'decimal_number' => 'Dezimalzahl',
+    'website' => 'Webseite',
 ];

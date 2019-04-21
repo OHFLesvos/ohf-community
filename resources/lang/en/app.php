@@ -230,4 +230,11 @@ return [
     'pdf' => 'PDF',
     'slug' => 'Slug',
     'allow_public_access' => 'Allow public access',
+    'category' => 'Category',
+    'name_translit' => 'Name (transliterated)',
+    'address_translit' => 'Address (transliterated)',
+    'latitude' => 'Latitude',
+    'longitude' => 'Longitude',
+    'decimal_number' => 'Decimal number',
+    'website' => 'Website',    
  ];

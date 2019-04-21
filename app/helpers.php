@@ -98,3 +98,37 @@ if (!function_exists('previous_route')) {
         return app('router')->getRoutes()->match(app('request')->create(URL::previous()))->getName();
     }
 }
+
+if (! function_exists('gmaps_link')) {
+    function gmaps_link($label, $value, $classes = []) {
+        $class = count($classes) > 0 ? 'class="'. implode(' ', $classes) .'"' : '';
+        return '<a href="http://maps.google.com/maps?q=' . urlencode($value) . '" target="_blank"' . $class . '>' . $label . '</a>';
+    }
+}
+
+if (! function_exists('gmaps_embedd')) {
+    function gmaps_embedd($query) {
+        return '<iframe style="width: 100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' . env('GOOGLE_MAPS_API_KEY') . '&q=' . urlencode($query) . '" allowfullscreen></iframe>';
+    }
+}
+
+if (! function_exists('array_insert')) {
+    /**
+     * @param array      $array
+     * @param int|string $position
+     * @param mixed      $insert
+     */
+    function array_insert(&$array, $position, $insert)
+    {
+        if (is_int($position)) {
+            array_splice($array, $position, 0, $insert);
+        } else {
+            $pos   = array_search($position, array_keys($array));
+            $array = array_merge(
+                array_slice($array, 0, $pos),
+                $insert,
+                array_slice($array, $pos)
+            );
+        }
+    }
+}
