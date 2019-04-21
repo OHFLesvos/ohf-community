@@ -4,6 +4,7 @@
 
 * PDF export of articles with support for images and internal links
 * Added styles to editor
+* Laravel 5.7 update
 
 ## 2.1.1
 
