@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.2
+
+* Added share button to publicly available articles
+
 ## 2.2.1
 
 * Fix error while creating article without public flag

@@ -23,4 +23,5 @@ return [
     'found_num_articles_with_tag' => 'Found :num articles with tag <em>:tag</em>.',
     'help_article' => 'Help article',
     'select_article' => 'Select article...',
+    'article_publicly_available' => 'This article is publicly available.',
 ];

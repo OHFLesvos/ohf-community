@@ -230,4 +230,5 @@ return [
     'pdf' => 'PDF',
     'slug' => 'Slug',
     'allow_public_access' => 'Erlaube öffentlichen Zugriff',
+    'share' => 'Teilen',
 ];

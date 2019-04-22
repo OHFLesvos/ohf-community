@@ -57,10 +57,17 @@
                             @icon({{ $button['icon'] }}) {{ $button['caption'] }}
                         </a>
                     @else
-                        <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block" @if($key == 'help') target="_blank"@endif>
+                        @php
+                            if (isset($button['attributes'])) {
+                                $attributes = collect($button['attributes'])->map(function($v, $k){ return $k . '="' . $v . '"'; })->implode(' ');
+                            } else {
+                                $attributes = '';
+                            }
+                        @endphp
+                        <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block" @if($key == 'help') target="_blank"@endif {!! $attributes !!}>
                             @icon({{ $button['icon'] }}) {{ $button['caption'] }}
                         </a>
-                        <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}" @if($key == 'help') target="_blank"@endif>
+                        <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}" @if($key == 'help') target="_blank"@endif  {!! $attributes !!}>
                             @icon({{ $button['icon'] }})
                         </a>
                     @endif
