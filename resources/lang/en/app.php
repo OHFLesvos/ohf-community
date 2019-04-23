@@ -237,4 +237,5 @@ return [
     'longitude' => 'Longitude',
     'decimal_number' => 'Decimal number',
     'website' => 'Website',    
+    'share' => 'Share',
  ];

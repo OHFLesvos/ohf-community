@@ -21,4 +21,5 @@ return [
     'found_num_articles_with_tag' => 'Fand :num Artikel mit dem Stichwort <em>:tag</em>.',
     'help_article' => 'Hilfeartikel',
     'select_article' => 'Artikel wählen...',
+    'article_publicly_available' => 'Dieser Artikel ist öffentlich verfügbar.',
 ];

@@ -237,4 +237,5 @@ return [
     'longitude' => 'Längengrad',
     'decimal_number' => 'Dezimalzahl',
     'website' => 'Webseite',
+    'share' => 'Teilen',
 ];

@@ -31,6 +31,16 @@ class ArticleShowContextButtons implements ContextButtons {
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user() != null && Auth::user()->can('update', $article),
             ],
+            'share' => [
+                'url' => 'javascript:;',
+                'caption' => __('app.share'),
+                'icon' => 'share-alt',
+                'authorized' => Auth::user() != null && Auth::user()->can('view', $article) && $article->public,
+                'attributes' => [
+                    'rel' => 'share-url',
+                    'data-url' => route('kb.articles.show', $article),
+                ]
+            ],
             'pdf' => [
                 'url' => route('kb.articles.pdf', $article),
                 'caption' => __('app.pdf'),
