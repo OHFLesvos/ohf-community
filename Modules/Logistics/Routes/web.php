@@ -17,7 +17,7 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/', 'LogisticsController@index')->name('index');
 
         // Suppliers
-        Route::resource('suppliers', 'SupplierController')->except(['show']);
+        Route::resource('suppliers', 'SupplierController'); //->except(['show'])
 
         // Products
         Route::resource('products', 'ProductController');

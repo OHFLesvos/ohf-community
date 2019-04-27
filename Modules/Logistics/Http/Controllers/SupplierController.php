@@ -106,8 +106,38 @@ class SupplierController extends Controller
         $supplier->save();
 
         return redirect()
-            ->route('logistics.suppliers.index')
+            ->route('logistics.suppliers.show', $supplier)
             ->with('success', __('logistics::suppliers.supplier_created'));
+    }
+
+    /**
+     * Show the specified resource.
+     * 
+     * @param Supplier $supplier
+     * @return Response
+     */
+    public function show(Supplier $supplier, Request $request)
+    {
+        $this->authorize('view', $supplier);
+
+        // Validate request
+        Validator::make($request->all(), [
+            'display' => [
+                'nullable', 
+                'in:info,map,products',
+            ],
+        ])->validate();
+
+        // Handle display session persistence
+        if (isset($request->display)) {
+            $request->session()->put('supplier_display', $request->display);
+        }
+        $display = $request->session()->get('supplier_display', 'info');
+
+        return view('logistics::suppliers.show', [
+            'supplier' => $supplier,
+            'display' => $display,
+        ]);
     }
 
     /**
@@ -144,7 +174,7 @@ class SupplierController extends Controller
         $supplier->save();
 
         return redirect()
-            ->route('logistics.suppliers.index')
+            ->route('logistics.suppliers.show', $supplier)
             ->with('success', __('logistics::suppliers.supplier_updated'));
     }
 

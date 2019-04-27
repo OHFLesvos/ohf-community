@@ -37,7 +37,7 @@
                         @can('update', $supplier)
                             <a href="{{ route('logistics.suppliers.edit', $supplier) }}" class="float-right btn-link">@icon(edit)</a>
                         @endcan                    
-                        <h5 class="card-title">{{ $supplier->poi->name_tr }}</h5>
+                        <h5 class="card-title"><a href="{{ route('logistics.suppliers.show', $supplier) }}">{{ $supplier->poi->name_tr }}</a></h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ $supplier->category }}</h6>
                         @isset($supplier->poi->description)
                             <p class="card-text">{{ $supplier->poi->description }}</p>
@@ -63,8 +63,8 @@
                                 </p>
                             </div>
                         </div>
-                        {{-- <a href="#" class="card-link text-dark">@icon(shopping-basket) Products</a>
-                        <a href="#" class="card-link text-dark">@icon(file-text-o) Services</a> --}}
+                        {{-- <a href="#" class="card-link text-dark">@icon(shopping-basket) Products</a> --}}
+                        {{-- <a href="#" class="card-link text-dark">@icon(file-text-o) Services</a> --}}
                         {{-- <p class="card-text"><small class="text-muted"><a href="" class="text-muted">Products: Apples, Pears, Wrenches, ...</a></small></p> --}}
                     </div>
                 </div>

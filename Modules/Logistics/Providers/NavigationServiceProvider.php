@@ -21,6 +21,7 @@ class NavigationServiceProvider extends ServiceProvider
     protected $contextButtons = [
         'logistics.suppliers.index'  => \Modules\Logistics\Navigation\ContextButtons\SuppliersIndexContextButtons::class,
         'logistics.suppliers.create' => \Modules\Logistics\Navigation\ContextButtons\SuppliersCreateContextButtons::class,
+        'logistics.suppliers.show'   => \Modules\Logistics\Navigation\ContextButtons\SuppliersShowContextButtons::class,
         'logistics.suppliers.edit'   => \Modules\Logistics\Navigation\ContextButtons\SuppliersEditContextButtons::class,
         'logistics.products.index'   => \Modules\Logistics\Navigation\ContextButtons\ProductsIndexContextButtons::class,
         'logistics.products.create'  => \Modules\Logistics\Navigation\ContextButtons\ProductsCreateContextButtons::class,

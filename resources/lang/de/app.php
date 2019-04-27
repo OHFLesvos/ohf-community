@@ -238,4 +238,5 @@ return [
     'decimal_number' => 'Dezimalzahl',
     'website' => 'Webseite',
     'share' => 'Teilen',
+    'map' => 'Karte',
 ];
