@@ -17,7 +17,7 @@
                     @foreach ($products as $product)
                         <tr>
                             <td>
-                                <a href="{{ route('logistics.products.show', $product) }}">{{ $product->name_tr }}</a>
+                                <a href="{{ route('logistics.products.show', $product) }}">{{ $product->name }}</a>
                             </td>
                             <td>{{ $product->category }}</td>
                         </tr>

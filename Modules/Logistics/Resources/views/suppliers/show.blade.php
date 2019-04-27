@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <h2>{{ $supplier->poi->name_tr }}</h2>
+    <h2>{{ $supplier->poi->name }}</h2>
     <h6 class="text-muted">{{ $supplier->category }}</h6>
 
     <ul class="nav nav-tabs mt-3 mb-3">
@@ -26,7 +26,7 @@
         @endisset
 
         <p>
-            @icon(map-marker) {!! gmaps_link(str_replace(", ", "<br>", $supplier->poi->address_tr), $supplier->poi->maps_location) !!}
+            @icon(map-marker) {!! gmaps_link(str_replace(", ", "<br>", $supplier->poi->address), $supplier->poi->maps_location) !!}
             @isset($supplier->phone)
                 <br>@icon(phone) {!! tel_link($supplier->phone) !!}<br>
             @endisset
@@ -55,7 +55,7 @@
                     <tbody>
                         @foreach($supplier->products as $product)
                             <tr>
-                                <td>{{ $product->name_tr }}</td>
+                                <td>{{ $product->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>

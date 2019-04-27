@@ -13,13 +13,14 @@ class CreatePoisTable extends Migration
      */
     public function up()
     {
-        Schema::create('pois', function (Blueprint $table) {
+        Schema::create('points_of_interest', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('name_translit')->nullable();
+            $table->string('name_local')->nullable();
             $table->string('address');
-            $table->string('address_translit')->nullable();
-            $table->string('latlong')->nullable();
+            $table->string('address_local')->nullable();
+            $table->decimal('lat')->nullable();
+            $table->decimal('long')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -32,6 +33,6 @@ class CreatePoisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pois');
+        Schema::dropIfExists('points_of_interest');
     }
 }

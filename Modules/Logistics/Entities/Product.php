@@ -4,27 +4,27 @@ namespace Modules\Logistics\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Iatstuti\Database\Support\NullableFields;
+
 class Product extends Model
 {
+    use NullableFields;
+
     protected $table = 'logistics_products';
 
     protected $fillable = [
         'name',
-        'name_translit',
+        'name_local',
         'category',
     ];
 
     protected $nullable = [
-        'name_translit',
+        'name_local',
     ];
-
-    public function getNameTrAttribute() {
-        return $this->name_translit != null ? $this->name_translit : $this->name;
-    }
 
     public function suppliers()
     {
-        return $this->belongsToMany('Modules\Logistics\Entities\Supplier', 'logistics_product_supplier')
+        return $this->belongsToMany(Supplier::class, 'logistics_product_supplier')
             ->withPivot('remarks');
     }
 

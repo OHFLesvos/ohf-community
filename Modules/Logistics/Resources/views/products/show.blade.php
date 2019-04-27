@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <h1>{{ $product->name_tr }}</h1>
+    <h1>{{ $product->name }}</h1>
     <p>{{ $product->category }}</p>
 
     {{-- Remarks --}}
@@ -20,7 +20,7 @@
             <div class="list-group list-group-flush">
                 @foreach($product->suppliers->sortBy('name') as $supplier)
                     <a class="list-group-item" href="{{ route('logistics.suppliers.show', $supplier) }}">
-                        {{ $supplier->name_tr }}
+                        {{ $supplier->name }}
                         <small class="text-muted pull-right">{{ $supplier->category }}</small>
                     </a>
                 @endforeach

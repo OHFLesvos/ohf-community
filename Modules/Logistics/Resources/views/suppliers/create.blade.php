@@ -11,7 +11,7 @@
                 {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('name_translit', null, [ ], __('app.name_translit')) }}
+                {{ Form::bsText('name_local', null, [ ], __('app.name_local')) }}
             </div>
         </div>
         <div class="form-row">
@@ -19,7 +19,7 @@
                 {{ Form::bsText('address', null, [ 'required' ], __('app.address')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('address_translit', null, [  ], __('app.address_translit')) }}
+                {{ Form::bsText('address_local', null, [  ], __('app.address_local')) }}
             </div>
             <div class="col-sm-1">
                 {{ Form::bsText('latitude', null, [ 'pattern' => '-?\d+\.\d+', 'title' => __('app.decimal_number') ], __('app.latitude')) }}

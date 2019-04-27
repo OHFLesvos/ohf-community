@@ -11,7 +11,7 @@
                 {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('name_translit', null, [ ], __('app.name_translit')) }}
+                {{ Form::bsText('name_local', null, [ ], __('app.name_local')) }}
             </div>
         </div>
         <div class="form-row">

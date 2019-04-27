@@ -2,11 +2,16 @@
 
 namespace Modules\Logistics\Entities;
 
+use App\PointOfInterest;
+
 use Illuminate\Database\Eloquent\Model;
+
 use Iatstuti\Database\Support\NullableFields;
 
 class Supplier extends Model
 {
+    use NullableFields;
+
     protected $table = 'logistics_suppliers';
 
     protected $fillable = [
@@ -27,7 +32,7 @@ class Supplier extends Model
      */
     public function poi()
     {
-        return $this->belongsTo('App\Poi');
+        return $this->belongsTo(PointOfInterest::class);
     }
 
     /**
@@ -35,7 +40,7 @@ class Supplier extends Model
      */
     public function products()
     {
-        return $this->belongsToMany('Modules\Logistics\Entities\Product', 'logistics_product_supplier')
+        return $this->belongsToMany(Product::class, 'logistics_product_supplier')
             ->withPivot('remarks');
     }
 

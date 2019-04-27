@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('logistics_products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('name_translit')->nullable();
+            $table->string('name_local')->nullable();
             $table->string('category');
             $table->timestamps();
         });

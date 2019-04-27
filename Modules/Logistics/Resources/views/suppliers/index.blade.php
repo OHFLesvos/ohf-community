@@ -37,7 +37,7 @@
                         @can('update', $supplier)
                             <a href="{{ route('logistics.suppliers.edit', $supplier) }}" class="float-right btn-link">@icon(edit)</a>
                         @endcan                    
-                        <h5 class="card-title"><a href="{{ route('logistics.suppliers.show', $supplier) }}">{{ $supplier->poi->name_tr }}</a></h5>
+                        <h5 class="card-title"><a href="{{ route('logistics.suppliers.show', $supplier) }}">{{ $supplier->poi->name }}</a></h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ $supplier->category }}</h6>
                         @isset($supplier->poi->description)
                             <p class="card-text">{{ $supplier->poi->description }}</p>
@@ -46,7 +46,7 @@
                         <div class="row">
                             <div class="col-sm">
                                 <p class="card-text">
-                                    @icon(map-marker) {!! gmaps_link(str_replace(", ", "<br>", $supplier->poi->address_tr), $supplier->poi->maps_location) !!}
+                                    @icon(map-marker) {!! gmaps_link(str_replace(", ", "<br>", $supplier->poi->address), $supplier->poi->maps_location) !!}
                                     @isset($supplier->phone)
                                         <br>@icon(phone) {!! tel_link($supplier->phone) !!}
                                     @endisset
@@ -127,8 +127,8 @@
                         {
                             lat: {{ $supplier->poi->latitude }}, 
                             lng: {{ $supplier->poi->longitude }}, 
-                            name: '{{ $supplier->poi->name_tr }}', 
-                            address: '{{ $supplier->poi->address_tr }}', 
+                            name: '{{ $supplier->poi->name }}', 
+                            address: '{{ $supplier->poi->address }}', 
                             category: '{{ $supplier->category }}',
                         },
                     @endforeach

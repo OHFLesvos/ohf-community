@@ -11,7 +11,7 @@
                 {{ Form::bsText('name', $supplier->poi->name, [ 'required' ], __('app.name')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('name_translit', $supplier->poi->name_translit, [ ], __('app.name_translit')) }}
+                {{ Form::bsText('name_local', $supplier->poi->name_local, [ ], __('app.name_local')) }}
             </div>
         </div>
         <div class="form-row">
@@ -19,7 +19,7 @@
                 {{ Form::bsText('address', $supplier->poi->address, [ 'required' ], __('app.address')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('address_translit', $supplier->poi->address_translit, [  ], __('app.address_translit')) }}
+                {{ Form::bsText('address_local', $supplier->poi->address_local, [  ], __('app.address_local')) }}
             </div>
             <div class="col-sm-1">
                 {{ Form::bsText('latitude', $supplier->poi->latitude, [ 'pattern' => '-?\d+\.\d+', 'title' => __('app.decimal_number') ], __('app.latitude')) }}
