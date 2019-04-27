@@ -34,10 +34,10 @@
             @foreach ($suppliers as $supplier)
                 <div class="card mb-3">
                     <div class="card-body">
-                        @can('update', $supplier)
+                        {{-- @can('update', $supplier)
                             <a href="{{ route('logistics.suppliers.edit', $supplier) }}" class="float-right btn-link">@icon(edit)</a>
-                        @endcan                    
-                        <h5 class="card-title"><a href="{{ route('logistics.suppliers.show', $supplier) }}">{{ $supplier->poi->name }}</a></h5>
+                        @endcan                     --}}
+                        <h5 class="card-title">@can('view', $supplier)<a href="{{ route('logistics.suppliers.show', $supplier) }}">@endcan{{ $supplier->poi->name }}@can('view', $supplier)</a>@endcan</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ $supplier->category }}</h6>
                         @isset($supplier->poi->description)
                             <p class="card-text">{{ $supplier->poi->description }}</p>
