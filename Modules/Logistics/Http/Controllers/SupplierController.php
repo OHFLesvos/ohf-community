@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Validator;
 
-use App\Poi;
+use App\PointOfInterest;
 use Modules\Logistics\Entities\Supplier;
 use Modules\Logistics\Http\Requests\CreateSupplierRequest;
 use Modules\Logistics\Http\Requests\UpdateSupplierRequest;
@@ -96,7 +96,7 @@ class SupplierController extends Controller
     {
         $this->authorize('create', Supplier::class);
 
-        $poi = new Poi();
+        $poi = new PointOfInterest();
         $poi->fill($request->all());
         $poi->save();
 

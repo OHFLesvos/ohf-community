@@ -19,8 +19,8 @@ class CreatePoisTable extends Migration
             $table->string('name_local')->nullable();
             $table->string('address');
             $table->string('address_local')->nullable();
-            $table->decimal('lat')->nullable();
-            $table->decimal('long')->nullable();
+            $table->decimal('latitude')->nullable();
+            $table->decimal('longitude')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });
