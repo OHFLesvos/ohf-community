@@ -45,7 +45,8 @@ class Supplier extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'logistics_product_supplier')
-            ->withPivot('remarks');
+            ->withPivot('remarks', 'unit', 'price')
+            ->withTimestamps();
     }
 
     public static function boot()
