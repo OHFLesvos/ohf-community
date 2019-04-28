@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePoisTable extends Migration
+class CreatePointsOfInterestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,10 +17,16 @@ class CreatePoisTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('name_local')->nullable();
-            $table->string('address');
-            $table->string('address_local')->nullable();
+            $table->string('street')->nullable();
+            $table->string('street_local')->nullable();
+            $table->string('zip')->nullable();
+            $table->string('city')->nullable();
+            $table->string('city_local')->nullable();
+            $table->string('province')->nullable();
+            $table->string('country_code')->nullable();
             $table->decimal('latitude')->nullable();
             $table->decimal('longitude')->nullable();
+            $table->string('google_places_id')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

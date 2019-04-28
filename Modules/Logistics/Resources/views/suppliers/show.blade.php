@@ -19,8 +19,8 @@
             <a class="nav-link @if($display == 'info') active @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'info']) }}">@lang('app.info')</a>
         </li>
         <li class="nav-item">
-            {{-- @if($supplier->poi->latitude == null || $supplier->poi->longitude == null) disabled @endif --}}
-            <a class="nav-link @if($display == 'map') active @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'map']) }}">@lang('app.map')</a>
+            
+            <a class="nav-link @if($display == 'map') active @endif @if($supplier->poi->maps_location == null) disabled @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'map']) }}">@lang('app.map')</a>
         </li>
         <li class="nav-item">
             <a class="nav-link @if($display == 'products') active @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'products']) }}">@lang('logistics::products.products')</a>
@@ -66,8 +66,8 @@
 
         {{-- Links --}}
         @if (count($links) > 0)
+            <hr class="d-none d-sm-block">
             <div class="d-none d-sm-table">
-                <hr>
                 <table class="d-none d-sm-table">
                     <tbody>
                         @foreach($links as $link)
@@ -104,6 +104,7 @@
 
     @elseif($display == 'map')
         
+        {{-- Map --}}
         {!! gmaps_embedd($supplier->poi->maps_location) !!}
 
     @elseif($display == 'products')

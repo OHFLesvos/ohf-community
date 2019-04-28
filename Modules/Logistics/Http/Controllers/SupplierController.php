@@ -240,7 +240,9 @@ class SupplierController extends Controller
         }
 
         // TODO parse address
-        //$vcard->addAddress(null, null, $supplier->street, $supplier->city, null, $supplier->zip, $supplier->country_name, 'WORK;POSTAL');
+        if (isset($supplier->poi->street) && isset($supplier->poi->city)) {
+            $vcard->addAddress(null, null, $supplier->poi->street, $supplier->poi->city, null, $supplier->poi->zip, $supplier->poi->country_name, 'WORK;POSTAL');
+        }
 
         // return vcard as a download
         return $vcard->download();

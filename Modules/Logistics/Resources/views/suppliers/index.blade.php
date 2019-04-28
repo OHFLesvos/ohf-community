@@ -6,6 +6,12 @@
 {{-- @section('wrapped-content') --}}
 @section('content')
 
+    @php
+        $mapped_suppliers = $suppliers->filter(function($s){ 
+                return $s->poi->latitude != null && $s->poi->longitude != null; 
+            });
+    @endphp
+
     <div class="form-row">
         <div class="col">
             {!! Form::open(['route' => ['logistics.suppliers.index'], 'method' => 'get']) !!}
@@ -23,7 +29,9 @@
         <div class="col-auto">
             <div class="btn-group" role="group">
                 <a href="{{ route('logistics.suppliers.index', ['display' => 'list']) }}" class="btn btn-sm @if($display=='list') btn-dark @else btn-secondary @endif">@icon(list)</a>
-                <a href="{{ route('logistics.suppliers.index', ['display' => 'map']) }}" class="btn btn-sm @if($display=='map') btn-dark @else btn-secondary @endif">@icon(map)</a>
+                @if(!$mapped_suppliers->isEmpty())
+                    <a href="{{ route('logistics.suppliers.index', ['display' => 'map']) }}" class="btn btn-sm @if($display=='map') btn-dark @else btn-secondary @endif">@icon(map)</a>
+                @endif
             </div>
         </div>
     </div>
@@ -82,8 +90,12 @@
                         </h6>
                       
                         {{-- Address --}}
-                        {{ $supplier->poi->address }}
-                        <a href="{{ gmaps_url($supplier->poi->maps_location) }}" target="_blank" class="d-none d-sm-inline">@icon(map)</a>
+                        @isset($supplier->poi->address)
+                            {{ $supplier->poi->address }}
+                            @if($supplier->poi->maps_location != null)
+                                <a href="{{ gmaps_url($supplier->poi->maps_location) }}" target="_blank" class="d-none d-sm-inline">@icon(map)</a>
+                            @endif
+                        @endisset
 
                         {{-- Links (desktop) --}}
                         @if(count($links) > 0)
@@ -95,12 +107,16 @@
                             </div>
                         @endif
                         {{-- Links (mobile) --}}
-                        <div class="d-sm-none mt-3 mb-1 d-flex w-100 justify-content-between">
-                            <a href="{{ gmaps_url($supplier->poi->maps_location) }}" target="_blank" class="btn btn-secondary rounded-circle">@icon(map)</a>
-                            @foreach($links as $link)
-                                <a href="{{ $link['url'] }}" {!! isset($link['attributes']) ? print_html_attributes($link['attributes']) : '' !!} class="btn btn-secondary rounded-circle">@icon({{ $link['icon'] }})</a>
-                            @endforeach
-                        </div>
+                        @if(count($links) > 0 || $supplier->poi->maps_location != null)
+                            <div class="d-sm-none mt-3 mb-1 d-flex w-100 justify-content-between">
+                                @if($supplier->poi->maps_location != null)
+                                    <a href="{{ gmaps_url($supplier->poi->maps_location) }}" target="_blank" class="btn btn-secondary rounded-circle">@icon(map)</a>
+                                @endif
+                                @foreach($links as $link)
+                                    <a href="{{ $link['url'] }}" {!! isset($link['attributes']) ? print_html_attributes($link['attributes']) : '' !!} class="btn btn-secondary rounded-circle">@icon({{ $link['icon'] }})</a>
+                                @endforeach
+                            </div>
+                        @endif
 
                     </li>
                 @endforeach            
@@ -160,7 +176,7 @@
                     map.panToBounds(bounds);
                 }
                 var locations = [
-                    @foreach ($suppliers->filter(function($s){ return $s->poi->latitude != null && $s->poi->longitude != null; }) as $supplier)
+                    @foreach ($mapped_suppliers as $supplier)
                         {
                             lat: {{ $supplier->poi->latitude }}, 
                             lng: {{ $supplier->poi->longitude }}, 

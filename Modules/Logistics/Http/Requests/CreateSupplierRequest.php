@@ -15,8 +15,11 @@ class CreateSupplierRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'address' => 'required',
             'category' => 'required',
+            'country_name' => [
+                'nullable',
+                'country_name',
+            ],
             'latitude' => [
                 'nullable',
                 'regex:/-?\d+\.\d+/',
@@ -34,7 +37,7 @@ class CreateSupplierRequest extends FormRequest
             'website' => [
                 'nullable',
                 'url',
-            ]
+            ],
         ];
     }
 

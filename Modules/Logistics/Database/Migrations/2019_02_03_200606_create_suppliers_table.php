@@ -20,6 +20,8 @@ class CreateSuppliersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
+            $table->string('tax_number')->nullable();
+            $table->text('bank_account')->nullable();
             $table->timestamps();
             $table->foreign('poi_id')->references('id')->on('points_of_interest')->onDelete('cascade')->onUpdate('cascade');
         });
