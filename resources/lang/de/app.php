@@ -247,4 +247,6 @@ return [
     'bank_account' => 'Bankkonto',
     'required' => 'Benötigt',
     'google_places_id' => 'Google Places ID',
+    'unit' => 'Einheit',
+    'price' => 'Preis',
 ];

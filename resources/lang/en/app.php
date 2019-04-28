@@ -247,4 +247,6 @@ return [
     'bank_account' => 'Bank account',
     'required' => 'Required',
     'google_places_id' => 'Google Places ID',
+    'unit' => 'Unit',
+    'price' => 'Price',
  ];

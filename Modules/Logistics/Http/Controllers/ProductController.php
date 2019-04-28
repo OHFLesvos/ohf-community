@@ -126,7 +126,6 @@ class ProductController extends Controller
         return redirect()
             ->route('logistics.products.index')
             ->with('success', __('logistics::products.product_deleted'));
-
     }
 
     private static function getCategories() {
@@ -136,5 +135,22 @@ class ProductController extends Controller
             ->get()
             ->pluck('category')
             ->toArray();
+    }
+
+    public function filter(Request $request) {
+        $qry = Product::limit(10)
+            ->orderBy('name');
+        if (isset($request->query()['query'])) {
+            $qry->where('name', 'LIKE', '%' . $request->query()['query'] . '%');
+        }
+        return response()->json([
+            "suggestions" => $qry->get()
+                ->map(function($e){ 
+                    return [
+                        'value' => $e->name . ' ('. $e->category . ')',
+                        'data' => $e->id,
+                    ]; 
+                })
+        ]);
     }
 }

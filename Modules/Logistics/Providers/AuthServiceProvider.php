@@ -14,6 +14,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     protected $policies = [
         \Modules\Logistics\Entities\Product::class => \Modules\Logistics\Policies\ProductPolicy::class,
         \Modules\Logistics\Entities\Supplier::class => \Modules\Logistics\Policies\SupplierPolicy::class,
+        \Modules\Logistics\Entities\Offer::class => \Modules\Logistics\Policies\OfferPolicy::class,
     ];
 
     protected $permissions = [

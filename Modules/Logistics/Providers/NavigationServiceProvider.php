@@ -27,6 +27,7 @@ class NavigationServiceProvider extends ServiceProvider
         'logistics.products.create'  => \Modules\Logistics\Navigation\ContextButtons\ProductsCreateContextButtons::class,
         'logistics.products.show'    => \Modules\Logistics\Navigation\ContextButtons\ProductsShowContextButtons::class,
         'logistics.products.edit'    => \Modules\Logistics\Navigation\ContextButtons\ProductsEditContextButtons::class,
+        'logistics.offers.edit'      => \Modules\Logistics\Navigation\ContextButtons\OffersEditContextButtons::class,
     ];
 
     /**

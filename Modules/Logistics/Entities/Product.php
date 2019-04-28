@@ -22,10 +22,14 @@ class Product extends Model
         'name_local',
     ];
 
-    public function suppliers()
+    public function offers()
     {
-        return $this->belongsToMany(Supplier::class, 'logistics_product_supplier')
-            ->withPivot('remarks');
+        return $this->hasMany(Offer::class);
     }
+
+    // public function suppliers()
+    // {
+    //     return $this->hasManyThrough(Supplier::class, Offer::class);
+    // }
 
 }

@@ -42,12 +42,18 @@ class Supplier extends Model
     /**
      * The products that belong to the supplier.
      */
-    public function products()
+    public function offers()
     {
-        return $this->belongsToMany(Product::class, 'logistics_product_supplier')
-            ->withPivot('remarks', 'unit', 'price')
-            ->withTimestamps();
+        return $this->hasMany(Offer::class);
     }
+
+    // /**
+    //  * The products that belong to the supplier.
+    //  */
+    // public function products()
+    // {
+    //     return $this->hasManyThrough(Product::class, Offer::class);
+    // }
 
     public static function boot()
     {

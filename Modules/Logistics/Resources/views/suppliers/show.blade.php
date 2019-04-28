@@ -109,18 +109,30 @@
 
     @elseif($display == 'products')
 
-        @if(!$supplier->products->isEmpty())
+        @if(!$supplier->offers->isEmpty())
             <div class="table-responsive">
                 <table class="table table-sm table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>@lang('app.name')</th>
+                            <th class="fit">@lang('app.unit')</th>
+                            <th class="fit text-right">@lang('app.price')</th>
+                            <th class="fit d-none d-sm-table-cell">@lang('app.last_updated')</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($supplier->products as $product)
+                        @foreach($supplier->offers as $offer)
                             <tr>
-                                <td>{{ $product->name }}</td>
+                                <td>
+                                    <a href="{{ route('logistics.offers.edit', $offer) }}">{{ $offer->product->name }}</a>
+                                    <small class="text-muted">{{ $offer->product->category }}</small>
+                                    @isset($offer->remarks)
+                                        <br><em>{{ $offer->remarks }}</em>
+                                    @endisset
+                                </td>
+                                <td class="fit">{{ $offer->unit }}</td>
+                                <td class="fit text-right">{{ $offer->price }}</td>
+                                <td class="fit d-none d-sm-table-cell">{{ (new Carbon\Carbon($offer->updated_at))->toDateString() }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -132,8 +144,13 @@
             @endcomponent
         @endif
 
-    @endif
+        <p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addOfferModal">
+                @icon(plus-circle) @lang('logistics::offers.add_offer')
+            </button>
+        </p>
 
+    @endif
 @endsection
 
 @section('script')
@@ -145,5 +162,31 @@ $(function(){
         $(this).data('replace-content', target.html());
         target.html(replacement);
     });
+
+    @if($errors->get('product_id') != null || $errors->get('price') != null)
+        $('#addOfferModal').modal('show');
+    @endif    
 })
+@endsection
+
+@section('content-footer')
+    {!! Form::open(['route' => ['logistics.offers.store'], 'method' => 'post']) !!}
+        @component('components.modal', [ 'id' => 'addOfferModal' ])
+            @slot('title', __('logistics::offers.add_offer'))
+            {{ Form::hidden('supplier_id', $supplier->id) }}
+            {{ Form::bsAutocomplete('product_id', null, route('logistics.products.filter'), ['placeholder' => __('logistics::products.product')], '') }}
+            <div class="form-row">
+                <div class="col-sm">
+                    {{ Form::bsText('unit', null, [ 'placeholder' => __('app.unit') ], '') }}
+                </div>
+                <div class="col-sm">
+                    {{ Form::bsNumber('price', null, [ 'step' => 'any', 'min' => 0, 'placeholder' => __('app.price')], '', __('app.write_decimal_point_as_comma')) }}
+                </div>
+            </div>
+            {{ Form::bsTextarea('remarks', null, [ 'rows' => 1, 'placeholder' => __('app.remarks') ], '') }}
+            @slot('footer')
+                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('logistics::offers.add_offer')</button>                
+            @endslot
+        @endcomponent
+    {!! Form::close() !!}
 @endsection

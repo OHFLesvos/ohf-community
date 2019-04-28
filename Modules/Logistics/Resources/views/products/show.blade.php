@@ -14,6 +14,7 @@
     @endisset
 
     {{-- Suppliers --}}
+    {{--
     @if(!$product->suppliers->isEmpty())
         <div class="card mb-3">
             <div class="card-header">@lang('logistics::suppliers.suppliers')</div>
@@ -30,6 +31,6 @@
         @component('components.alert.info')
             @lang('logistics::suppliers.no_suppliers_registered')
         @endcomponent
-    @endif
+    @endif --}}
 
 @endsection
