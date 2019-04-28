@@ -69,7 +69,8 @@ class SupplierController extends Controller
                         ->orWhere('street_local', 'LIKE', '%' . $filter . '%')
                         ->orWhere('city', 'LIKE', '%' . $filter . '%')
                         ->orWhere('city_local', 'LIKE', '%' . $filter . '%')
-                        ->orWhere('logistics_suppliers.category', 'LIKE', '%' . $filter . '%');
+                        ->orWhere('logistics_suppliers.category', 'LIKE', '%' . $filter . '%')
+                        ->orWhere('logistics_products.category', 'LIKE', '%' . $filter . '%');
                 })
                 ->select('points_of_interest.*', 'logistics_suppliers.*');
         } else {
