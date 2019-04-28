@@ -15,7 +15,8 @@ class LogisticsController extends Controller
      */
     public function index(Request $request)
     {
-        return view('logistics::index');
+        return redirect(route('logistics.suppliers.index'));
+        // return view('logistics::index');
     }
 
 }
