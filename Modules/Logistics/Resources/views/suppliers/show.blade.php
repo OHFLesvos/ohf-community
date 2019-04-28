@@ -1,10 +1,17 @@
 @extends('layouts.app')
 
-@section('title', __('logistics::suppliers.view_supplier'))
+@section('title', $supplier->poi->name /*__('logistics::suppliers.view_supplier')*/)
 
 @section('content')
 
-    <h2>{{ $supplier->poi->name }}</h2>
+    {{-- Title --}}
+    <h2 class="d-none d-sm-block"><span id="supplier_name">{{ $supplier->poi->name }}</span> 
+        @isset($supplier->poi->name_local)
+            <small><a href="javascript:;" class="replace-content" data-replace-id="supplier_name" data-replace-content="{{ $supplier->poi->name_local }}">@icon(language)</a></small>
+        @endisset
+    </h2>
+    
+    {{-- Category --}}
     <h6 class="text-muted">{{ $supplier->category }}</h6>
 
     <ul class="nav nav-tabs mt-3 mb-3">
@@ -12,7 +19,8 @@
             <a class="nav-link @if($display == 'info') active @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'info']) }}">@lang('app.info')</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @if($display == 'map') active @endif @if($supplier->poi->latitude == null || $supplier->poi->longitude == null) disabled @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'map']) }}">@lang('app.map')</a>
+            {{-- @if($supplier->poi->latitude == null || $supplier->poi->longitude == null) disabled @endif --}}
+            <a class="nav-link @if($display == 'map') active @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'map']) }}">@lang('app.map')</a>
         </li>
         <li class="nav-item">
             <a class="nav-link @if($display == 'products') active @endif" href="{{ route('logistics.suppliers.show', [$supplier, 'display' => 'products']) }}">@lang('logistics::products.products')</a>
@@ -21,22 +29,78 @@
 
     @if($display == 'info')
 
-        @isset($supplier->poi->description)
-            <p>{{ $supplier->poi->description }}</p>
+        {{-- Address --}}
+        <span id="supplier_address">{!! str_replace(", ", "<br>", $supplier->poi->address) !!}</span>
+        @isset($supplier->poi->address_local)
+            <a href="javascript:;" class="replace-content" data-replace-id="supplier_address" data-replace-content="{!! str_replace(", ", "<br>", $supplier->poi->address_local) !!}">@icon(language)</a>
         @endisset
 
-        <p>
-            @icon(map-marker) {!! gmaps_link(str_replace(", ", "<br>", $supplier->poi->address), $supplier->poi->maps_location) !!}
-            @isset($supplier->phone)
-                <br>@icon(phone) {!! tel_link($supplier->phone) !!}<br>
-            @endisset
-            @isset($supplier->email)
-                @icon(envelope) {!! email_link($supplier->email) !!}<br>
-            @endisset
-            @isset($supplier->website)
-                @icon(globe) <a href="{{ $supplier->website }}" target="_blank">{{ $supplier->website }}</a><br>
-            @endisset
-        </p>
+        @php
+            $links = [];
+            if (isset($supplier->phone)) {
+                $links[] = [
+                    'icon' => 'phone',
+                    'label' => __('app.phone'),
+                    'url' => tel_url($supplier->phone),
+                    'text' => $supplier->phone,
+                ];
+            }
+            if (isset($supplier->email)) {
+                $links[] = [
+                    'icon' => 'envelope',
+                    'label' => __('app.email'),
+                    'url' => email_url($supplier->email),
+                    'text' => $supplier->email,
+                ];
+            }
+            if (isset($supplier->website)) {
+                $links[] = [
+                    'icon' => 'globe',
+                    'label' => __('app.website'),
+                    'url' => $supplier->website,
+                    'text' => $supplier->website,
+                    'attributes' => [ 'target' => '_blank' ],
+                ];
+            }
+        @endphp
+
+        {{-- Links --}}
+        @if (count($links) > 0)
+            <div class="d-none d-sm-table">
+                <hr>
+                <table class="d-none d-sm-table">
+                    <tbody>
+                        @foreach($links as $link)
+                            <tr>
+                                <td class="pr-2">
+                                    @icon({{ $link['icon'] }}) {{ $link['label'] }}:
+                                </td>
+                                <td>
+                                    <a href="{{ $link['url'] }}" {!! isset($link['attributes']) ? print_html_attributes($link['attributes']) : '' !!}>
+                                        {{ $link['text'] }}
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-sm-none mt-3 mb-1">
+                @foreach($links as $link)
+                    <p class="mb-2">
+                        <a href="{{ $link['url'] }}" {!! isset($link['attributes']) ? print_html_attributes($link['attributes']) : '' !!} class="btn btn-primary btn-block">
+                            @icon({{ $link['icon'] }}) {{ $link['label'] }}
+                        </a>
+                    </p>
+                @endforeach
+            </div>
+        @endisset
+        
+        {{-- Description --}}
+        @isset($supplier->poi->description)
+            <hr>
+            <p>{!! nl2br($supplier->poi->description) !!}</p>
+        @endisset
 
     @elseif($display == 'map')
         
@@ -69,4 +133,16 @@
 
     @endif
 
+@endsection
+
+@section('script')
+$(function(){
+    $('.replace-content').on('click', function(){
+        var target_id = $(this).data('replace-id');
+        var replacement = $(this).data('replace-content');
+        var target = $('#' + target_id);
+        $(this).data('replace-content', target.html());
+        target.html(replacement);
+    });
+})
 @endsection

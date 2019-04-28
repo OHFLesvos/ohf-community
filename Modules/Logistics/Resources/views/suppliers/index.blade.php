@@ -31,44 +31,81 @@
     @if( ! $suppliers->isEmpty() )
         @if( $display == 'list' )
 
-            @foreach ($suppliers as $supplier)
-                <div class="card mb-3">
-                    <div class="card-body">
-                        {{-- @can('update', $supplier)
-                            <a href="{{ route('logistics.suppliers.edit', $supplier) }}" class="float-right btn-link">@icon(edit)</a>
-                        @endcan                     --}}
-                        <h5 class="card-title">@can('view', $supplier)<a href="{{ route('logistics.suppliers.show', $supplier) }}">@endcan{{ $supplier->poi->name }}@can('view', $supplier)</a>@endcan</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ $supplier->category }}</h6>
-                        @isset($supplier->poi->description)
-                            <p class="card-text">{{ $supplier->poi->description }}</p>
-                        @endisset
-                        {{-- <div class="row mb-3"> --}}
-                        <div class="row">
-                            <div class="col-sm">
-                                <p class="card-text">
-                                    @icon(map-marker) {!! gmaps_link(str_replace(", ", "<br>", $supplier->poi->address), $supplier->poi->maps_location) !!}
-                                    @isset($supplier->phone)
-                                        <br>@icon(phone) {!! tel_link($supplier->phone) !!}
-                                    @endisset
-                                </p>
-                            </div>
-                            <div class="col-sm">
-                                <p class="card-text">
-                                    @isset($supplier->email)
-                                        @icon(envelope) {!! email_link($supplier->email) !!}<br>
-                                    @endisset
-                                    @isset($supplier->website)
-                                        @icon(globe) <a href="{{ $supplier->website }}" target="_blank">{{ $supplier->website }}</a><br>
-                                    @endisset
-                                </p>
-                            </div>
-                        </div>
-                        {{-- <a href="#" class="card-link text-dark">@icon(shopping-basket) Products</a> --}}
-                        {{-- <a href="#" class="card-link text-dark">@icon(file-text-o) Services</a> --}}
-                        {{-- <p class="card-text"><small class="text-muted"><a href="" class="text-muted">Products: Apples, Pears, Wrenches, ...</a></small></p> --}}
+            <ul class="list-group mb-4">
+
+                {{-- <li class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small>{{ $suppliers->count() }} records found</small>
+                        <small>{{ $suppliers->total() }} records in total</small>
                     </div>
-                </div>
-            @endforeach
+                </a> --}}
+
+                @foreach ($suppliers as $supplier)
+                    @php
+                        $links = [];
+                        if (isset($supplier->phone)) {
+                            $links[] = [
+                                'icon' => 'phone',
+                                'url' => tel_url($supplier->phone),
+                                'text' => $supplier->phone,
+                            ];
+                        }
+                        if (isset($supplier->email)) {
+                            $links[] = [
+                                'icon' => 'envelope',
+                                'url' => email_url($supplier->email),
+                                'text' => $supplier->email,
+                            ];
+                        }
+                        if (isset($supplier->website)) {
+                           $links[] = [
+                                'icon' => 'globe',
+                                'url' => $supplier->website,
+                                'text' => simplified_url($supplier->website),
+                                'attributes' => [ 'target' => '_blank' ],
+                            ];
+                        }
+                    @endphp
+
+                    <li class="list-group-item">
+
+                        {{-- Title --}}
+                        <h5 class="mb-1">
+                            @can('view', $supplier)<a href="{{ route('logistics.suppliers.show', $supplier) }}">@endcan
+                                {{ $supplier->poi->name }}
+                            @can('view', $supplier)</a>@endcan
+                        </h5>
+
+                        {{-- Category --}}
+                        <h6 class="mb-2 text-muted">
+                            {{ $supplier->category }}
+                        </h6>
+                      
+                        {{-- Address --}}
+                        {{ $supplier->poi->address }}
+                        <a href="{{ gmaps_url($supplier->poi->maps_location) }}" target="_blank" class="d-none d-sm-inline">@icon(map)</a>
+
+                        {{-- Links (desktop) --}}
+                        @if(count($links) > 0)
+                            <div class="d-none d-sm-block mt-2">
+                                @foreach($links as $link)
+                                    @unless($loop->first) | @endunless
+                                    @icon({{ $link['icon'] }}) <a href="{{ $link['url'] }}" {!! isset($link['attributes']) ? print_html_attributes($link['attributes']) : '' !!}>{{ $link['text'] }}</a>
+                                @endforeach
+                            </div>
+                        @endif
+                        {{-- Links (mobile) --}}
+                        <div class="d-sm-none mt-3 mb-1 d-flex w-100 justify-content-between">
+                            <a href="{{ gmaps_url($supplier->poi->maps_location) }}" target="_blank" class="btn btn-secondary rounded-circle">@icon(map)</a>
+                            @foreach($links as $link)
+                                <a href="{{ $link['url'] }}" {!! isset($link['attributes']) ? print_html_attributes($link['attributes']) : '' !!} class="btn btn-secondary rounded-circle">@icon({{ $link['icon'] }})</a>
+                            @endforeach
+                        </div>
+
+                    </li>
+                @endforeach            
+            </ul>
+
             {{ $suppliers->links() }}
 
         @elseif( $display == 'map' )

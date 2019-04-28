@@ -24,6 +24,16 @@ if (! function_exists('icon')) {
     }
 }
 
+if (! function_exists('simplified_url')) {
+    function simplified_url($value) {
+        $parsed = parse_url($value);
+        if (is_array($parsed) && isset($parsed['host'])) {
+            return $parsed['host'];
+        }
+        return $value;
+    }
+}
+
 if (! function_exists('emailize')) {
     function emailize($text) {
         $regex = '/([a-zA-Z0-9_\-\.]*@\S+\.\w+)/';
@@ -32,15 +42,27 @@ if (! function_exists('emailize')) {
     }
 }
 
+if (! function_exists('email_url')) {
+    function email_url($value) {
+        return 'mailto:' . $value;
+    }
+}
+
 if (! function_exists('email_link')) {
     function email_link($value) {
-        return '<a href="mailto:' . $value . '">' . $value . '</a>';
+        return '<a href="' . email_url($value) . '">' . $value . '</a>';
+    }
+}
+
+if (! function_exists('tel_url')) {
+    function tel_url($value) {
+        return 'tel:' . preg_replace('/[^+0-9]/', '', $value);
     }
 }
 
 if (! function_exists('tel_link')) {
     function tel_link($value) {
-        return '<a href="tel:' . preg_replace('/[^+0-9]/', '', $value) . '">' . $value . '</a>';
+        return '<a href="' . tel_url($value) . '">' . $value . '</a>';
     }
 }
 
@@ -99,16 +121,23 @@ if (!function_exists('previous_route')) {
     }
 }
 
+if (! function_exists('gmaps_url')) {
+    function gmaps_url($value) {
+        return 'http://maps.google.com/maps?q=' . urlencode($value);
+    }
+}
+
 if (! function_exists('gmaps_link')) {
     function gmaps_link($label, $value, $classes = []) {
         $class = count($classes) > 0 ? 'class="'. implode(' ', $classes) .'"' : '';
-        return '<a href="http://maps.google.com/maps?q=' . urlencode($value) . '" target="_blank"' . $class . '>' . $label . '</a>';
+        return '<a href="' . gmaps_url($value) . '" target="_blank"' . $class . '>' . $label . '</a>';
     }
 }
 
 if (! function_exists('gmaps_embedd')) {
     function gmaps_embedd($query) {
-        return '<iframe style="width: 100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' . env('GOOGLE_MAPS_API_KEY') . '&q=' . urlencode($query) . '" allowfullscreen></iframe>';
+        $q = urlencode($query);
+        return '<iframe style="width: 100%; border:0;" height="450" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=' . env('GOOGLE_MAPS_API_KEY') . '&amp;q=' . $q . '" allowfullscreen></iframe>';
     }
 }
 
@@ -130,5 +159,15 @@ if (! function_exists('array_insert')) {
                 array_slice($array, $pos)
             );
         }
+    }
+}
+
+if (! function_exists('print_html_attributes')) {
+    function print_html_attributes(array $value) {
+        return collect($value)
+            ->map(function($v, $k){
+                return $k . '="' . $v .'"';
+            })
+            ->implode(' ');
     }
 }

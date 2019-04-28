@@ -2,15 +2,19 @@
 
 namespace Modules\Logistics\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
-use Validator;
-
 use App\PointOfInterest;
+use App\Http\Controllers\Controller;
+
 use Modules\Logistics\Entities\Supplier;
 use Modules\Logistics\Http\Requests\CreateSupplierRequest;
 use Modules\Logistics\Http\Requests\UpdateSupplierRequest;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+use Validator;
+
+use JeroenDesloovere\VCard\VCard;
 
 class SupplierController extends Controller
 {
@@ -204,4 +208,41 @@ class SupplierController extends Controller
             ->toArray();
     }
 
+    /**
+     * Download vcard
+     * 
+     * @param  \Modules\Logistics\Entities\Supplier  $supplier
+     * @return \Illuminate\Http\Response
+     */
+    function vcard(Supplier $supplier)
+    {
+        $this->authorize('view', $supplier);
+
+        // define vcard
+        $vcard = new VCard();
+        
+        // Company
+        $vcard->addCompany($supplier->poi->name);
+        
+        // E-Mail
+        if ($supplier->email != null) {
+            $vcard->addEmail($supplier->email);
+        }
+
+        // Phone
+        if ($supplier->phone != null) {
+            $vcard->addPhoneNumber($supplier->phone, 'WORK');
+        }
+
+        // Website
+        if ($supplier->website != null) {
+            $vcard->addURL($supplier->website, 'WORK');
+        }
+
+        // TODO parse address
+        //$vcard->addAddress(null, null, $supplier->street, $supplier->city, null, $supplier->zip, $supplier->country_name, 'WORK;POSTAL');
+
+        // return vcard as a download
+        return $vcard->download();
+    }
 }

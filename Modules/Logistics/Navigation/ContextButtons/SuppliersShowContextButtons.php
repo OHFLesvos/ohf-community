@@ -22,9 +22,15 @@ class SuppliersShowContextButtons implements ContextButtons {
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $supplier)
             ],
+            'vcard' => (isset($supplier->phone) || isset($supplier->email)) ? [
+                'url' => route('logistics.suppliers.vcard', $supplier),
+                'caption' => __('app.vcard'),
+                'icon' => 'address-card',
+                'authorized' => Auth::user()->can('view', $supplier)
+            ] : null,
             'back' => [
                 'url' => route('logistics.suppliers.index'),
-                'caption' => __('app.cancel'),
+                'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('list', Supplier::class)
             ]
