@@ -4,7 +4,30 @@ namespace Modules\Logistics\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateOfferRequest extends CreateOfferRequest
+class UpdateOfferRequest extends FormRequest
 {
-    // inherits parent
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'price' => [
+                'nullable',
+                'numeric',
+            ],
+        ];
+    }
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 }

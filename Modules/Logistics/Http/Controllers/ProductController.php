@@ -2,9 +2,7 @@
 
 namespace Modules\Logistics\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\URL;
 
 use App\Http\Controllers\Controller;
 
@@ -38,7 +36,7 @@ class ProductController extends Controller
         $this->authorize('create', Product::class);
 
         return view('logistics::products.create', [
-            'categories' => self::getCategories(),
+            'categories' => Product::getCategories(),
         ]);
     }
 
@@ -88,7 +86,7 @@ class ProductController extends Controller
 
         return view('logistics::products.edit', [
             'product' => $product,
-            'categories' => self::getCategories(),
+            'categories' => Product::getCategories(),
         ]);
     }
 
@@ -128,29 +126,4 @@ class ProductController extends Controller
             ->with('success', __('logistics::products.product_deleted'));
     }
 
-    private static function getCategories() {
-        return Product::select('category')
-            ->orderBy('category')
-            ->distinct()
-            ->get()
-            ->pluck('category')
-            ->toArray();
-    }
-
-    public function filter(Request $request) {
-        $qry = Product::limit(10)
-            ->orderBy('name');
-        if (isset($request->query()['query'])) {
-            $qry->where('name', 'LIKE', '%' . $request->query()['query'] . '%');
-        }
-        return response()->json([
-            "suggestions" => $qry->get()
-                ->map(function($e){ 
-                    return [
-                        'value' => $e->name . ' ('. $e->category . ')',
-                        'data' => $e->id,
-                    ]; 
-                })
-        ]);
-    }
 }

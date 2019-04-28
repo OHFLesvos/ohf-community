@@ -8,7 +8,6 @@ use Modules\Logistics\Entities\Offer;
 use Modules\Logistics\Http\Requests\CreateOfferRequest;
 use Modules\Logistics\Http\Requests\UpdateOfferRequest;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class OfferController extends Controller
@@ -50,11 +49,11 @@ class OfferController extends Controller
     /**
      * Update the specified resource in storage.
      * 
-     * @param Request $request
+     * @param UpdateOfferRequest $request
      * @param Offer $offer
      * @return Response
      */
-    public function update(Request $request, Offer $offer)
+    public function update(UpdateOfferRequest $request, Offer $offer)
     {
         $this->authorize('update', $offer);
 

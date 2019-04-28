@@ -5,6 +5,7 @@ namespace Modules\Logistics\Http\Controllers;
 use App\PointOfInterest;
 use App\Http\Controllers\Controller;
 
+use Modules\Logistics\Entities\Product;
 use Modules\Logistics\Entities\Supplier;
 use Modules\Logistics\Http\Requests\CreateSupplierRequest;
 use Modules\Logistics\Http\Requests\UpdateSupplierRequest;
@@ -88,7 +89,7 @@ class SupplierController extends Controller
         $this->authorize('create', Supplier::class);
 
         return view('logistics::suppliers.create', [
-            'categories' => self::getCategories(),
+            'categories' => Supplier::getCategories(),
         ]);
     }
 
@@ -143,6 +144,7 @@ class SupplierController extends Controller
         return view('logistics::suppliers.show', [
             'supplier' => $supplier,
             'display' => $display,
+            'categories' => Product::getCategories(),
         ]);
     }
 
@@ -158,7 +160,7 @@ class SupplierController extends Controller
 
         return view('logistics::suppliers.edit', [
             'supplier' => $supplier,
-            'categories' => self::getCategories(),
+            'categories' => Supplier::getCategories(),
         ]);
     }
 
@@ -199,15 +201,6 @@ class SupplierController extends Controller
         return redirect()
             ->route('logistics.suppliers.index')
             ->with('success', __('logistics::suppliers.supplier_deleted'));
-    }
-
-    private static function getCategories() {
-        return Supplier::select('category')
-            ->orderBy('category')
-            ->distinct()
-            ->get()
-            ->pluck('category')
-            ->toArray();
     }
 
     /**

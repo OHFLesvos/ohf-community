@@ -21,7 +21,6 @@ Route::group(['middleware' => 'language'], function () {
         Route::resource('suppliers', 'SupplierController');
 
         // Products
-        Route::get('products/filter', 'ProductController@filter')->name('products.filter');
         Route::resource('products', 'ProductController');
 
         // Offers

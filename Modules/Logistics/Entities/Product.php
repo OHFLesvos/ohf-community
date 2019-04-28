@@ -27,9 +27,12 @@ class Product extends Model
         return $this->hasMany(Offer::class);
     }
 
-    // public function suppliers()
-    // {
-    //     return $this->hasManyThrough(Supplier::class, Offer::class);
-    // }
-
+    public static function getCategories() {
+        return self::select('category')
+            ->orderBy('category')
+            ->distinct()
+            ->get()
+            ->pluck('category')
+            ->toArray();
+    }
 }

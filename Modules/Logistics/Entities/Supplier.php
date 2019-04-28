@@ -47,14 +47,6 @@ class Supplier extends Model
         return $this->hasMany(Offer::class);
     }
 
-    // /**
-    //  * The products that belong to the supplier.
-    //  */
-    // public function products()
-    // {
-    //     return $this->hasManyThrough(Product::class, Offer::class);
-    // }
-
     public static function boot()
     {
         static::deleting(function($model) {
@@ -65,4 +57,14 @@ class Supplier extends Model
 
         parent::boot();
     }
+
+    public static function getCategories() {
+        return self::select('category')
+            ->orderBy('category')
+            ->distinct()
+            ->get()
+            ->pluck('category')
+            ->toArray();
+    }
+
 }

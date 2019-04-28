@@ -154,7 +154,29 @@
 @endsection
 
 @section('script')
+function toggleSubmit() {
+    if ($('#product_id').val()) {
+        $('#add-existing-product-button').attr('disabled', false);
+    } else {
+        $('#add-existing-product-button').attr('disabled', true);
+    }
+}
 $(function(){
+    
+    $('#product_id').on('change', toggleSubmit);
+    toggleSubmit();
+
+    $('#addOfferModal').on('shown.bs.modal', function (e) {
+        $('input[name="product_id"]').val('').trigger('change');
+        $('input[name="product_id_search"]').val('').focus();
+    });
+
+    $('#registerProductModal').on('shown.bs.modal', function (e) {
+        $('input[name="name"]').focus();
+        $('input[name="name"]').val('');
+        $('input[name="category"]').val('');
+    });
+
     $('.replace-content').on('click', function(){
         var target_id = $(this).data('replace-id');
         var replacement = $(this).data('replace-content');
@@ -165,7 +187,24 @@ $(function(){
 
     @if($errors->get('product_id') != null || $errors->get('price') != null)
         $('#addOfferModal').modal('show');
-    @endif    
+    @endif
+
+    $('#registerProductModal').parent('form').on('submit', function(e){
+        e.preventDefault();
+        var name = $(this).find('input[name="name"]').val();
+        var category = $(this).find('input[name="category"]').val();
+        axios.post('{{ route('logistics.products.apiStore') }}', {
+                name: name,
+                category: category,
+            })
+            .then((res) => {
+                $('#registerProductModal').modal('hide');
+                $('input[name="product_id"]').val(res.data.id);
+                $('input[name="product_id_search"]').val(res.data.label);
+                toggleSubmit();
+            })
+            .catch(console.error);
+    });
 })
 @endsection
 
@@ -185,7 +224,23 @@ $(function(){
             </div>
             {{ Form::bsTextarea('remarks', null, [ 'rows' => 1, 'placeholder' => __('app.remarks') ], '') }}
             @slot('footer')
-                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('logistics::offers.add_offer')</button>                
+                <button type="submit" class="btn btn-primary" id="add-existing-product-button">@icon(check) @lang('logistics::offers.add_offer')</button>                
+                @can('create', Modules\Logistics\Entities\Product::class)
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerProductModal">
+                        @icon(plus-circle) @lang('logistics::products.new_product')
+                    </button>
+                @endcan                
+            @endslot
+        @endcomponent
+    {!! Form::close() !!}
+
+    {!! Form::open(['route' => ['logistics.offers.store'], 'method' => 'post']) !!}
+        @component('components.modal', [ 'id' => 'registerProductModal' ])
+            @slot('title', __('logistics::products.register_new_product'))
+            {{ Form::bsText('name', '', [ 'required' ,'placeholder' => __('app.name') ], '') }}
+            {{ Form::bsText('category', '', [ 'required', 'placeholder' => __('app.category'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode($categories) ], '') }}
+            @slot('footer')
+                {{ Form::bsSubmitButton(__('logistics::products.register_product')) }}
             @endslot
         @endcomponent
     {!! Form::close() !!}

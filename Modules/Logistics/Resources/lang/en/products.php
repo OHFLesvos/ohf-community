@@ -12,4 +12,6 @@ return [
     'product_updated' => 'Product updated.',
     'product_deleted' => 'Product deleted.',
     'confirm_delete_product' => 'Do you really want to delete this product?',
+    'new_product' => 'New product',
+    'register_new_product' => 'Register new product',
 ];

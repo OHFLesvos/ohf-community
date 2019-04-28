@@ -12,4 +12,6 @@ return [
     'product_updated' => 'Produkt wurde aktualisiert.',
     'product_deleted' => 'Produkt wurde gelöscht.',
     'confirm_delete_product' => 'Soll das Produkt wirklich gelöscht werden?',
+    'new_product' => 'Neues Produkt',
+    'register_new_product' => 'Neues Produkt registrieren',
 ];
