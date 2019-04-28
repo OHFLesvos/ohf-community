@@ -39,7 +39,7 @@
                 {{ Form::bsText('province', $supplier->poi->province, [ ], __('app.state_province')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('country_name', $supplier->poi->country_name, [ ], __('app.country')) }}
+                {{ Form::bsCountryName('country_name', $supplier->poi->country_name, [ ], __('app.country')) }}
             </div>
             <div class="col-sm-1">
                 {{ Form::bsText('latitude', $supplier->poi->latitude, [ 'pattern' => '-?\d+\.\d+', 'title' => __('app.decimal_number') ], __('app.latitude')) }}

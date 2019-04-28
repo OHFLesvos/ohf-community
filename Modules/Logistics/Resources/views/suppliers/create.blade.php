@@ -33,7 +33,7 @@
                 {{ Form::bsText('province', null, [ ], __('app.state_province')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('country_name', null, [ ], __('app.country')) }}
+                {{ Form::bsCountryName('country_name', null, [ ], __('app.country')) }}
             </div>
             <div class="col-sm-1">
                 {{ Form::bsText('latitude', null, [ 'pattern' => '-?\d+\.\d+', 'title' => __('app.decimal_number') ], __('app.latitude')) }}
