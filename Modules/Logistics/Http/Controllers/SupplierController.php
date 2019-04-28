@@ -58,8 +58,10 @@ class SupplierController extends Controller
             $query->where(function($wq) use($filter) {
                 return $wq->where('name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('name_local', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('address', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('address_local', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('street', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('street_local', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('city', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('city_local', 'LIKE', '%' . $filter . '%')
                     ->orWhere('category', 'LIKE', '%' . $filter . '%');
             });
         } else {
@@ -239,7 +241,7 @@ class SupplierController extends Controller
             $vcard->addURL($supplier->website, 'WORK');
         }
 
-        // TODO parse address
+        // Address
         if (isset($supplier->poi->street) && isset($supplier->poi->city)) {
             $vcard->addAddress(null, null, $supplier->poi->street, $supplier->poi->city, null, $supplier->poi->zip, $supplier->poi->country_name, 'WORK;POSTAL');
         }

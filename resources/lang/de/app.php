@@ -246,4 +246,5 @@ return [
     'tax_number' => 'Umsatzsteuernummer',
     'bank_account' => 'Bankkonto',
     'required' => 'Benötigt',
+    'google_places_id' => 'Google Places ID',
 ];

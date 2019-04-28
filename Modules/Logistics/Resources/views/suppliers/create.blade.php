@@ -41,6 +41,9 @@
             <div class="col-sm-1">
                 {{ Form::bsText('longitude', null, [ 'pattern' => '-?\d+\.\d+', 'title' => __('app.decimal_number') ], __('app.longitude')) }}
             </div>
+            <div class="col-md">
+                {{ Form::bsText('google_places_id', null, [ ], __('app.google_places_id')) }}
+            </div>
         </div>
         <div class="form-row">
             <div class="col-md">

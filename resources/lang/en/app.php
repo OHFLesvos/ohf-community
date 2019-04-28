@@ -246,4 +246,5 @@ return [
     'tax_number' => 'Tax number',
     'bank_account' => 'Bank account',
     'required' => 'Required',
+    'google_places_id' => 'Google Places ID',
  ];

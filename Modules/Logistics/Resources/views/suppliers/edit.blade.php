@@ -19,7 +19,7 @@
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('street', $supplier->poi->street, [ 'required' ], __('app.street')) }}
+                {{ Form::bsText('street', $supplier->poi->street, [ ], __('app.street')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('street_local', $supplier->poi->street_local, [  ], __('app.street_local')) }}
@@ -46,6 +46,9 @@
             </div>
             <div class="col-sm-1">
                 {{ Form::bsText('longitude', $supplier->poi->longitude, [ 'pattern' => '-?\d+\.\d+', 'title' => __('app.decimal_number') ], __('app.longitude')) }}
+            </div>
+            <div class="col-md">
+                {{ Form::bsText('google_places_id', $supplier->poi->google_places_id, [ ], __('app.google_places_id')) }}
             </div>
         </div>
         <div class="form-row">
