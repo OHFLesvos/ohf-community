@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.0
+
+* Logistics module added with suppliers
+
 ## 2.2.2
 
 * Added share button to publicly available articles
