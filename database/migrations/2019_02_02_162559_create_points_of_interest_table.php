@@ -24,8 +24,8 @@ class CreatePointsOfInterestTable extends Migration
             $table->string('city_local')->nullable();
             $table->string('province')->nullable();
             $table->string('country_code')->nullable();
-            $table->decimal('latitude')->nullable();
-            $table->decimal('longitude')->nullable();
+            $table->decimal('latitude', 8, 6)->nullable();
+            $table->decimal('longitude', 8, 6)->nullable();
             $table->string('google_places_id')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
