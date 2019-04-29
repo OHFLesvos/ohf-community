@@ -57,20 +57,20 @@ class SupplierController extends Controller
         if ($request->session()->has('suppliers_filter')) {
             $filter = $request->session()->get('suppliers_filter');
 
-            $query->join('logistics_offers', 'logistics_offers.supplier_id', '=', 'logistics_suppliers.id')
+            $query/*->join('logistics_offers', 'logistics_offers.supplier_id', '=', 'logistics_suppliers.id')
                 ->join('logistics_products', 'logistics_offers.product_id', '=', 'logistics_products.id')
-                ->groupBy('logistics_suppliers.id')
+                ->groupBy('logistics_suppliers.id')*/
                 ->where(function($wq) use($filter) {
                     return $wq->where('points_of_interest.name', 'LIKE', '%' . $filter . '%')
                         ->orWhere('points_of_interest.name_local', 'LIKE', '%' . $filter . '%')
-                        ->orWhere('logistics_products.name', 'LIKE', '%' . $filter . '%')
-                        ->orWhere('logistics_products.name_local', 'LIKE', '%' . $filter . '%')                        
                         ->orWhere('street', 'LIKE', '%' . $filter . '%')
                         ->orWhere('street_local', 'LIKE', '%' . $filter . '%')
                         ->orWhere('city', 'LIKE', '%' . $filter . '%')
                         ->orWhere('city_local', 'LIKE', '%' . $filter . '%')
-                        ->orWhere('logistics_suppliers.category', 'LIKE', '%' . $filter . '%')
-                        ->orWhere('logistics_products.category', 'LIKE', '%' . $filter . '%');
+                        ->orWhere('logistics_suppliers.category', 'LIKE', '%' . $filter . '%');
+                        // ->orWhere('logistics_products.name', 'LIKE', '%' . $filter . '%')
+                        // ->orWhere('logistics_products.name_local', 'LIKE', '%' . $filter . '%')                        
+                        // ->orWhere('logistics_products.category', 'LIKE', '%' . $filter . '%');
                 })
                 ->select('points_of_interest.*', 'logistics_suppliers.*');
         } else {
