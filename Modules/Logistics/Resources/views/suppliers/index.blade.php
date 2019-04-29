@@ -160,7 +160,7 @@
                         });
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
                             return function() {
-                                infowindow.setContent('<strong>' + location.name + '</strong><br><small>' + location.category + '</small><br><br>' + location.address);
+                                infowindow.setContent('<strong><a href="' + location.url + '">' + location.name + '</a></strong><br><small>' + location.category + '</small><br><br>' + location.address);
                                 infowindow.open(map, marker);
                             }
                         })(marker, i));
@@ -183,6 +183,7 @@
                             name: '{{ $supplier->poi->name }}', 
                             address: '{{ $supplier->poi->address }}', 
                             category: '{{ $supplier->category }}',
+                            url: '{{ route('logistics.suppliers.show', $supplier) }}',
                         },
                     @endforeach
                 ]
