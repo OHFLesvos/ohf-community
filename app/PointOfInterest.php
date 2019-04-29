@@ -110,7 +110,13 @@ class PointOfInterest extends Model
     }
 
     public function getMapsLocationAttribute() {
-        return isset($this->google_places_id) ? 'place_id:' . $this->google_places_id :  $this->address;
+        if (isset($this->google_places_id)) {
+            return 'place_id:' . $this->google_places_id;
+        }
+        if (isset($this->latitude) && isset($this->longitude)) {
+            return $this->latitude . ',' . $this->longitude;
+        }
+        return $this->address;
     }
 
 }
