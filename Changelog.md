@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.1
+
+* Library update
+
 ## 2.3.0
 
 * Logistics module added with suppliers
