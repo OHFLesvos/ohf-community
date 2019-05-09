@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.2
+
+* Fix public view permission for wiki articles if logged in
+
 ## 2.3.1
 
 * Library update

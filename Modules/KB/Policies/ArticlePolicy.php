@@ -42,7 +42,7 @@ class ArticlePolicy
         if ($user === null) {
             return $wikiArticle->public;
         }
-        return $user->hasPermission('wiki.view');
+        return $wikiArticle->public || $user->hasPermission('wiki.view');
     }
 
     /**
