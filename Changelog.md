@@ -3,6 +3,7 @@
 ## 2.3.3
 
 * Publicly viewable tags if articles are public
+* Login redirect for guests that want access to unauthorized resources
 
 ## 2.3.2
 

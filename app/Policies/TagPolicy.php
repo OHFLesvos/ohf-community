@@ -40,10 +40,16 @@ class TagPolicy
     public function view(?User $user, Tag $tag)
     {
         if ($user === null && is_module_enabled('KB')) {
-            return $tag->wikiArticles()->where('public', true)->count() > 0;
+            return self::hasPublicArticles($tag);
         }        
         return $user->hasPermission('wiki.view')
-            || $user->hasPermission('fundraising.donors.view');
+            || $user->hasPermission('fundraising.donors.view')
+            || self::hasPublicArticles($tag);
+    }
+
+    private static function hasPublicArticles(Tag $tag)
+    {
+        return $tag->wikiArticles()->where('public', true)->count() > 0;
     }
 
     /**

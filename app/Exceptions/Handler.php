@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Illuminate\Auth\Access\AuthorizationException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -44,6 +46,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // If action is unauthorized, but user is not logged in, redirect him to login screen
+        // For routes that require authorization, but are not protected by authentication (guest user authorization)
+        if ($exception instanceof AuthorizationException && $request->user() == null) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => 'Unauthorized.'], 403);
+            }
+            return redirect()->guest(route('login'));
+        }
+
         if ($this->isHttpException($exception)) {
             if (view()->exists('errors.' . $exception->getStatusCode())) {
                 return response()->view('errors.' . $exception->getStatusCode(), [], $exception->getStatusCode());
