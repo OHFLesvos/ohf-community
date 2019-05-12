@@ -9,8 +9,9 @@
             <thead>
                 <tr>
                     <th>@lang('app.name')</th>
-                    <th class="text-right">@lang('app.users')</th>
-                    <th class="text-right d-none d-sm-table-cell">@lang('app.permissions')</th>
+                    <th class="text-right fit">@lang('app.users')</th>
+                    <th class="text-right fit d-none d-sm-table-cell">@lang('app.role_administrators')</th>
+                    <th class="text-right fit d-none d-sm-table-cell">@lang('app.permissions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,11 +20,12 @@
                         <td>
                             <a href="{{ route('roles.show', $role) }}" title="View Role">{{ $role->name }}</a>
                             @if($role->administrators()->find(Auth::id()) != null)
-                                (@lang('app.you_are_administrator'))
+                                <strong>(@lang('app.you_are_administrator'))</strong>
                             @endif
                         </td>
-                        <td class="text-right">{{ $role->users->count() }}</td>
-                        <td class="text-right d-none d-sm-table-cell">{{ $role->permissions->count()  }}</td>
+                        <td class="text-right fit">{{ $role->users->count() }}</td>
+                        <td class="text-right fit d-none d-sm-table-cell">{{ $role->administrators->count() }}</td>
+                        <td class="text-right fit d-none d-sm-table-cell">{{ $role->permissions->count()  }}</td>
                     </tr>
                 @endforeach
             </tbody>
