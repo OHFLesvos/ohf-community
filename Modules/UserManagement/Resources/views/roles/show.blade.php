@@ -68,7 +68,7 @@
         @endphp
         <div class="col-md">
             <div class="card mb-4">
-                <div class="card-header">@lang('app.role_administrators') ({{ $role->users->count() }})</div>
+                <div class="card-header">@lang('app.role_administrators') ({{ $role->administrators->count() }})</div>
                 <div class="card-body p-0">
                     @if($users->count() > 0)
                         <div class="list-group list-group-flush">
