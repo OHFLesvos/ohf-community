@@ -34,9 +34,6 @@
                         <div class="col-sm">
                             @forelse ($user->roles->sortBy('name') as $role)
                                 <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>
-                                    @if($user->administeredRoles()->find($role->id) != null)
-                                        (@lang('app.role_administrator'))
-                                    @endif                                
                                 <br>
                             @empty
                                 <em>@lang('app.no_roles_assigned')</em>
@@ -44,6 +41,21 @@
                         </div>
                     </div>
                 </li>
+                @if($user->administeredRoles->count() > 0)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm"><strong>@lang('app.role_administrator')</strong></div>
+                            <div class="col-sm">
+                                @forelse ($user->administeredRoles->sortBy('name') as $role)
+                                    <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>
+                                    <br>
+                                @empty
+                                    <em>@lang('app.no_roles_assigned')</em>
+                                @endforelse
+                            </div>
+                        </div>
+                    </li>
+                @endif
                 @isset($user->tfa_secret)
                 <li class="list-group-item">
                     <div class="row">

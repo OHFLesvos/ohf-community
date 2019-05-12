@@ -49,8 +49,34 @@
                                     @if($user->isSuperAdmin())
                                         <strong>(@lang('app.administrator'))</strong>
                                     @endif
-                                    @if($role->administrators()->find($user->id) != null)
-                                        <strong>(@lang('app.role_administrator'))</strong>
+                                </a>
+                            @endforeach
+                        </div>
+                    @else
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><em>@lang('app.no_users_assigned')</em></li>
+                        </ul>
+                    @endif
+                </div>
+            </div>
+            {{ $users->links() }}
+        </div>
+
+        {{-- Role administrators --}}
+        @php
+            $users = $role->administrators->sortBy('name')->paginate(50);
+        @endphp
+        <div class="col-md">
+            <div class="card mb-4">
+                <div class="card-header">@lang('app.role_administrators') ({{ $role->users->count() }})</div>
+                <div class="card-body p-0">
+                    @if($users->count() > 0)
+                        <div class="list-group list-group-flush">
+                            @foreach($users as $user)
+                                <a class="list-group-item list-group-item-action" href="{{ route('users.show', $user) }}">
+                                    {{ $user->name }}
+                                    @if($user->isSuperAdmin())
+                                        <strong>(@lang('app.administrator'))</strong>
                                     @endif
                                 </a>
                             @endforeach
