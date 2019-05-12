@@ -11,7 +11,9 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->withPivot('is_admin');
     }
 
     /**

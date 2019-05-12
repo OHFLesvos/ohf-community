@@ -249,4 +249,5 @@ return [
     'google_places_id' => 'Google Places ID',
     'unit' => 'Unit',
     'price' => 'Price',
+    'role_administrator' => 'Role Administrator',
  ];

@@ -24,7 +24,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'is_super_admin'
+        'name',
+        'email',
+        'password',
+        'is_super_admin',
     ];
 
     /**
@@ -33,7 +36,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     public function isSuperAdmin() {
@@ -45,7 +49,9 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany('App\Role')->withTimestamps();
+        return $this->belongsToMany(Role::class)
+            ->withTimestamps()
+            ->withPivot('is_admin');
     }
 
     public function hasPermission($permissionKey) {

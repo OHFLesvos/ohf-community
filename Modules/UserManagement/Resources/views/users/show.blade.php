@@ -33,7 +33,11 @@
                         <div class="col-sm"><strong>@lang('app.roles')</strong></div>
                         <div class="col-sm">
                             @forelse ($user->roles->sortBy('name') as $role)
-                                <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
+                                <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>
+                                    @if($role->pivot->is_admin)
+                                        (@lang('app.role_administrator'))
+                                    @endif                                
+                                <br>
                             @empty
                                 <em>@lang('app.no_roles_assigned')</em>
                             @endforelse

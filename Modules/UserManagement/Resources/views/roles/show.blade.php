@@ -38,7 +38,15 @@
                     @if($users->count() > 0)
                         <div class="list-group list-group-flush">
                             @foreach($users as $user)
-                                <a class="list-group-item" href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
+                                <a class="list-group-item list-group-item-action" href="{{ route('users.show', $user) }}">
+                                    {{ $user->name }}
+                                    @if($user->isSuperAdmin())
+                                        <strong>(@lang('app.administrator'))</strong>
+                                    @endif
+                                    @if($user->pivot->is_admin)
+                                        <strong>(@lang('app.role_administrator'))</strong>
+                                    @endif
+                                </a>
                             @endforeach
                         </div>
                     @else
