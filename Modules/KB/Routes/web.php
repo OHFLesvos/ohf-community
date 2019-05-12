@@ -22,7 +22,8 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('tags/{tag}/pdf', 'TagController@pdf')->name('tags.pdf');
 
             Route::get('articles/{article}/pdf', 'ArticleController@pdf')->name('articles.pdf');
+            Route::resource('articles', 'ArticleController')->except('show');
         });
-        Route::resource('articles', 'ArticleController');
+        Route::resource('articles', 'ArticleController')->only('show');
     });
 });
