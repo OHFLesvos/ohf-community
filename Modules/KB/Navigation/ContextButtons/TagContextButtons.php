@@ -20,13 +20,13 @@ class TagContextButtons implements ContextButtons {
                 'url' => route('kb.tags.pdf', $tag),
                 'caption' => __('app.pdf'),
                 'icon' => 'file-pdf',
-                'authorized' => Auth::user()->can('list', WikiArticle::class),
+                'authorized' => Auth::user() != null && Auth::user()->can('list', WikiArticle::class),
             ],
             'back' => [
                 'url' => route($previous_route == 'kb.tags' ? 'kb.tags' : 'kb.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', WikiArticle::class),
+                'authorized' => Auth::user() != null && Auth::user()->can('list', WikiArticle::class),
             ]
         ];
     }

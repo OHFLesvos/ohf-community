@@ -18,12 +18,12 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('latest_changes', 'SearchController@latestChanges')->name('latestChanges');
 
             Route::get('tags', 'TagController@tags')->name('tags');
-            Route::get('tags/{tag}', 'TagController@tag')->name('tag');
             Route::get('tags/{tag}/pdf', 'TagController@pdf')->name('tags.pdf');
 
             Route::get('articles/{article}/pdf', 'ArticleController@pdf')->name('articles.pdf');
             Route::resource('articles', 'ArticleController')->except('show');
         });
+        Route::get('tags/{tag}', 'TagController@tag')->name('tag');
         Route::resource('articles', 'ArticleController')->only('show');
     });
 });

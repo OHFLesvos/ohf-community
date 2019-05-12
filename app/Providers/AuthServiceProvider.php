@@ -12,6 +12,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     protected $policies = [
         \App\User::class => \App\Policies\UserPolicy::class,
         \App\Role::class => \App\Policies\RolePolicy::class,
+        \App\Tag::class => \App\Policies\TagPolicy::class,
     ];
 
     protected $permissions = [

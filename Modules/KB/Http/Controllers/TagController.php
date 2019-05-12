@@ -5,14 +5,15 @@ namespace Modules\KB\Http\Controllers;
 use App\Tag;
 use App\Http\Controllers\Controller;
 
-use Modules\KB\Entities\WikiArticle;
 use Modules\KB\Util\ArticleFormat;
 use Modules\KB\Util\ArticlePdfExport;
+
+use Illuminate\Support\Facades\Gate;
 
 class TagController extends Controller
 {
     public function tags() {
-        $this->authorize('list', WikiArticle::class);
+        $this->authorize('list', Tag::class);
 
         return view('kb::tags', [
             'tags' => Tag::has('wikiArticles')
@@ -22,18 +23,22 @@ class TagController extends Controller
     }
 
     public function tag(Tag $tag) {
-        $this->authorize('list', WikiArticle::class);
+        $this->authorize('view', $tag);
 
         return view('kb::tag', [
             'articles' => $tag->wikiArticles()
                 ->orderBy('title')
+                ->get()
+                ->filter(function($a){ 
+                    return Gate::allows('view', $a);
+                })
                 ->paginate(50),
             'tag' => $tag,
         ]);
     }
 
     public function pdf(Tag $tag) {
-        $this->authorize('list', WikiArticle::class);
+        $this->authorize('view', $tag);
 
         $articles = $tag->wikiArticles()
             ->orderBy('title')

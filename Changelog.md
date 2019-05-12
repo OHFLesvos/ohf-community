@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.3
+
+* Publicly viewable tags if articles are public
+
 ## 2.3.2
 
 * Fix public view permission for wiki articles if logged in
