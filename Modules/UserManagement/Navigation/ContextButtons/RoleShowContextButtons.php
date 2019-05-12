@@ -21,6 +21,12 @@ class RoleShowContextButtons implements ContextButtons {
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $role)
             ],
+            'members' => [
+                'url' => route('roles.manageMembers', $role),
+                'caption' => __('app.manage_members'),
+                'icon' => 'users',
+                'authorized' => Auth::user()->can('manageMembers', $role) && !Auth::user()->can('update', $role)
+            ],
             'delete' => [
                 'url' => route('roles.destroy', $role),
                 'caption' => __('app.delete'),

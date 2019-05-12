@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-header">@lang('app.users')</div>
                 <div class="card-body columns-2">
-                    {{ Form::bsCheckboxList('users[]', $users, $role_users->keys()->toArray()) }}
+                    {{ Form::bsCheckboxList('users[]', $users, $role->users()->orderBy('name')->get()->pluck('name', 'id')->keys()->toArray()) }}
                 </div>
             </div>
 

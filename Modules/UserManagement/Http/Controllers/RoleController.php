@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Support\Facades\PermissionRegistry;
 
 use Modules\UserManagement\Http\Requests\StoreRole;
+use Modules\UserManagement\Http\Requests\UpdateMembers;
 
 class RoleController extends Controller
 {
@@ -103,7 +104,6 @@ class RoleController extends Controller
         return view('usermanagement::roles.edit', [
             'role' => $role,
             'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
-            'role_users' => $role->users()->orderBy('name')->get()->pluck('name', 'id'),
             'permissions' => PermissionRegistry::getCategorizedPermissions(),
         ]);
     }
@@ -176,5 +176,38 @@ class RoleController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for managing the members the specified role.
+     *
+     * @param  Role $role
+     * @return \Illuminate\Http\Response
+     */
+    public function manageMembers(Role $role)
+    {
+        $this->authorize('manageMembers', $role);
 
+        return view('usermanagement::roles.manageMembers', [
+            'role' => $role,
+            'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
+        ]);
+    }
+
+    /**
+     * Update the members of the specified role.
+     *
+     * @param \Modules\UserManagement\Http\Requests\UpdateMembers $request
+     * @param  Role $role
+     * @return \Illuminate\Http\Response
+     */
+    public function updateMembers(UpdateMembers $request, Role $role)
+    {
+        $this->authorize('manageMembers', $role);
+
+        $role->users()->sync(self::getCheckedUsers($request));
+
+        return redirect()->route('roles.show', $role)
+            ->with('success', __('app.role_updated'));
+    }
+
+    
 }

@@ -4,6 +4,7 @@
 
 * Publicly viewable tags if articles are public
 * Login redirect for guests that want access to unauthorized resources
+* User role member management for role administrators added
 
 ## 2.3.2
 

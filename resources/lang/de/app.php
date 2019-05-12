@@ -251,4 +251,7 @@ return [
     'price' => 'Preis',
     'role_administrator' => 'Rollenadministrator',
     'role_administrators' => 'Rollenadministratoren',
+    'you_are_administrator' => 'du bist Administrator',
+    'you_are_administrator_of_this_role' => 'Du bist Administrator dieser Rolle.',
+    'manage_members' => 'Mitglieder verwalten',
 ];

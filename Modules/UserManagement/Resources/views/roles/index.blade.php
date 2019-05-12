@@ -16,8 +16,13 @@
             <tbody>
                 @foreach ($roles as $role)
                     <tr>
-                        <td><a href="{{ route('roles.show', $role) }}" title="View Role">{{ $role->name }}</a></td>
-                        <td class="text-right">{{ $role->users->count()  }}</td>
+                        <td>
+                            <a href="{{ route('roles.show', $role) }}" title="View Role">{{ $role->name }}</a>
+                            @if($role->administrators()->find(Auth::id()) != null)
+                                (@lang('app.you_are_administrator'))
+                            @endif
+                        </td>
+                        <td class="text-right">{{ $role->users->count() }}</td>
                         <td class="text-right d-none d-sm-table-cell">{{ $role->permissions->count()  }}</td>
                     </tr>
                 @endforeach

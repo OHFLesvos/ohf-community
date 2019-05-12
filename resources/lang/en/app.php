@@ -251,4 +251,7 @@ return [
     'price' => 'Price',
     'role_administrator' => 'Role Administrator',
     'role_administrators' => 'Role Administrators',
+    'you_are_administrator' => 'you are administrator',
+    'you_are_administrator_of_this_role' => 'You are administrator of this role.',
+    'manage_members' => 'Manage members',
  ];

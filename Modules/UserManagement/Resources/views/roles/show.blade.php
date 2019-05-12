@@ -4,6 +4,12 @@
 
 @section('content')
 
+    @if($role->administrators()->find(Auth::id()) != null)
+        @component('components.alert.info')
+            @lang('app.you_are_administrator_of_this_role')
+        @endcomponent
+    @endif
+
     <ul class="list-group list-group-flush mb-4">
         <li class="list-group-item">
             <div class="row">

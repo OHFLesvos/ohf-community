@@ -19,6 +19,8 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::resource('users', 'UserController');
 
         // Roles
+        Route::get('roles/{role}/members', 'RoleController@manageMembers')->name('roles.manageMembers');
+        Route::put('roles/{role}/members', 'RoleController@updateMembers')->name('roles.updateMembers');
         Route::resource('roles', 'RoleController');
 
         // Reporting

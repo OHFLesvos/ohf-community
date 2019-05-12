@@ -61,7 +61,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->hasPermission('app.usermgmt.roles.manage');;
+        return $user->hasPermission('app.usermgmt.roles.manage');
     }
 
     /**
@@ -74,5 +74,17 @@ class RolePolicy
     public function delete(User $user, Role $role)
     {
         return $user->hasPermission('app.usermgmt.roles.manage');;
+    }
+
+    /**
+     * Determine whether the user can manage the members the role.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Role  $role
+     * @return mixed
+     */
+    public function manageMembers(User $user, Role $role)
+    {
+        return $role->administrators()->find($user->id) != null;
     }
 }
