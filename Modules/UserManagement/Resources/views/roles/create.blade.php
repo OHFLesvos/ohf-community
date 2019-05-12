@@ -27,7 +27,7 @@
             {{-- Role administrators --}}
             <div class="card">
                 <div class="card-header">@lang('app.role_administrators')</div>
-                <div class="card-body">
+                <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('role_admins[]', $users, null) }}
                 </div>
             </div>
