@@ -34,7 +34,7 @@
                         <div class="col-sm">
                             @forelse ($user->roles->sortBy('name') as $role)
                                 <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>
-                                    @if($role->pivot->is_admin)
+                                    @if($user->administeredRoles()->find($role->id) != null)
                                         (@lang('app.role_administrator'))
                                     @endif                                
                                 <br>

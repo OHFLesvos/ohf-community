@@ -55,7 +55,8 @@ class RoleController extends Controller
         $role = new Role();
         $role->name = $request->name;
         $role->save();
-        $role->users()->sync(self::getCheckedUsers($request));
+        $role->users()->sync($request->users);
+        $role->administrators()->sync($request->role_admins);
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
@@ -119,7 +120,8 @@ class RoleController extends Controller
     {
         $role->name = $request->name;
         $role->save();
-        $role->users()->sync(self::getCheckedUsers($request));
+        $role->users()->sync($request->users);
+        $role->administrators()->sync($request->role_admins);
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
@@ -140,17 +142,6 @@ class RoleController extends Controller
 
         return redirect()->route('roles.show', $role)
             ->with('success', __('app.role_updated'));
-    }
-
-    private static function getCheckedUsers($request)
-    {
-        return collect($request->users)
-            ->mapWithKeys(function($uid) use ($request) {
-                return [$uid => [
-                    'is_admin' => in_array($uid, $request->input('role_admins', [])), 
-                ]];
-            })
-            ->toArray();
     }
 
     /**
@@ -203,7 +194,7 @@ class RoleController extends Controller
     {
         $this->authorize('manageMembers', $role);
 
-        $role->users()->sync(self::getCheckedUsers($request));
+        $role->users()->sync($request->users);
 
         return redirect()->route('roles.show', $role)
             ->with('success', __('app.role_updated'));

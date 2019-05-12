@@ -12,8 +12,7 @@ class Role extends Model
     public function users()
     {
         return $this->belongsToMany(User::class)
-            ->withTimestamps()
-            ->withPivot('is_admin');
+            ->withTimestamps();
     }
 
     /**
@@ -21,9 +20,8 @@ class Role extends Model
      */
     public function administrators()
     {
-        return $this->belongsToMany(User::class)
-            ->withTimestamps()
-            ->wherePivot('is_admin', 1);
+        return $this->belongsToMany(User::class, 'role_admin')
+            ->withTimestamps();
     }
 
     /**

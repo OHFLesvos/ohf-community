@@ -56,5 +56,3 @@
     {!! Form::close() !!}
 
 @endsection
-
-@include('usermanagement::roles.role_admin_toggle_script')

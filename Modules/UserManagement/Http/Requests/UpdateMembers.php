@@ -18,12 +18,6 @@ class UpdateMembers extends FormRequest
     {
         return [
             'users' => [
-                'required',
-                'array',
-                Rule::in(User::select('id')->get()->pluck('id')),
-            ],
-            'role_admins' => [
-                'required',
                 'array',
                 Rule::in(User::select('id')->get()->pluck('id')),
             ],

@@ -49,7 +49,7 @@
                                     @if($user->isSuperAdmin())
                                         <strong>(@lang('app.administrator'))</strong>
                                     @endif
-                                    @if($user->pivot->is_admin)
+                                    @if($role->administrators()->find($user->id) != null)
                                         <strong>(@lang('app.role_administrator'))</strong>
                                     @endif
                                 </a>

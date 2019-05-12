@@ -24,14 +24,6 @@
                 </div>
             </div>
 
-            {{-- Role administrators --}}
-            <div class="card">
-                <div class="card-header">@lang('app.role_administrators')</div>
-                <div class="card-body columns-3">
-                    {{ Form::bsCheckboxList('role_admins[]', $users, $role->administrators->pluck('id')->toArray()) }}
-                </div>
-            </div>
-
         </div>
 
         <p>
@@ -41,5 +33,3 @@
     {!! Form::close() !!}
 
 @endsection
-
-@include('usermanagement::roles.role_admin_toggle_script')

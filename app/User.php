@@ -50,9 +50,17 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class)
-            ->withTimestamps()
-            ->withPivot('is_admin');
+            ->withTimestamps();
     }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function administeredRoles()
+    {
+        return $this->belongsToMany(Role::class, 'role_admin')
+            ->withTimestamps();
+    }    
 
     public function hasPermission($permissionKey) {
         return $this->roles->contains(function($role) use($permissionKey) { 
