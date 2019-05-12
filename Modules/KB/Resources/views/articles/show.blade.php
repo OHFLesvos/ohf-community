@@ -7,7 +7,7 @@
     <h1>{{ $article->title }}</h1>
     @if($article->public)
         @auth
-            <p><em><small class="text-muted">@lang('kb::wiki.article_publicly_available')</small></em></p>
+            <p><em><small class="text-muted">@icon(eye) @lang('kb::wiki.article_publicly_available')</small></em></p>
         @endauth
     @endif
 

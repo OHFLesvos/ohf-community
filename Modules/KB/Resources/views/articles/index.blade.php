@@ -13,6 +13,9 @@
         <div class="columns-3 mb-3">
             @foreach ($articles as $article)
                 <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
+                @if($article->public)
+                    <small class="text-muted" title="@lang('kb::wiki.article_publicly_available')">@icon(eye)</small>
+                @endif
                 @if($order == 'popularity')
                     <small class="text-muted d-block d-sm-inline">@lang('app.num_views', ['num' => $article->viewCount ])</small>
                 @elseif($order == 'recent')
