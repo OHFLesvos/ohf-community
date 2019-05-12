@@ -54,7 +54,7 @@ class RoleController extends Controller
         $role = new Role();
         $role->name = $request->name;
         $role->save();
-        $role->users()->sync($request->users);
+        $role->users()->sync(self::getCheckedUsers($request));
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
@@ -103,6 +103,7 @@ class RoleController extends Controller
         return view('usermanagement::roles.edit', [
             'role' => $role,
             'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
+            'role_users' => $role->users()->orderBy('name')->get()->pluck('name', 'id'),
             'permissions' => PermissionRegistry::getCategorizedPermissions(),
         ]);
     }
@@ -118,7 +119,7 @@ class RoleController extends Controller
     {
         $role->name = $request->name;
         $role->save();
-        $role->users()->sync($request->users);
+        $role->users()->sync(self::getCheckedUsers($request));
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
@@ -139,6 +140,17 @@ class RoleController extends Controller
 
         return redirect()->route('roles.show', $role)
             ->with('success', __('app.role_updated'));
+    }
+
+    private static function getCheckedUsers($request)
+    {
+        return collect($request->users)
+            ->mapWithKeys(function($uid) use ($request) {
+                return [$uid => [
+                    'is_admin' => in_array($uid, $request->input('role_admins', [])), 
+                ]];
+            })
+            ->toArray();
     }
 
     /**

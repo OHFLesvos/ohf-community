@@ -19,8 +19,16 @@
             {{-- Users --}}
             <div class="card">
                 <div class="card-header">@lang('app.users')</div>
-                <div class="card-body columns-3">
+                <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('users[]', $users, null) }}
+                </div>
+            </div>
+
+            {{-- Role administrators --}}
+            <div class="card">
+                <div class="card-header">@lang('app.role_administrators')</div>
+                <div class="card-body">
+                    {{ Form::bsCheckboxList('role_admins[]', $users, null) }}
                 </div>
             </div>
 
@@ -48,3 +56,5 @@
     {!! Form::close() !!}
 
 @endsection
+
+@include('usermanagement::roles.role_admin_toggle_script')

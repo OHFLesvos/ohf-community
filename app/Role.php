@@ -19,6 +19,16 @@ class Role extends Model
     /**
      * The users that belong to the role.
      */
+    public function administrators()
+    {
+        return $this->belongsToMany(User::class)
+            ->withTimestamps()
+            ->wherePivot('is_admin', 1);
+    }
+
+    /**
+     * The users that belong to the role.
+     */
     public function permissions()
     {
         return $this->hasMany('App\RolePermission');

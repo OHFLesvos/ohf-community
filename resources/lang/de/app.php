@@ -250,4 +250,5 @@ return [
     'unit' => 'Einheit',
     'price' => 'Preis',
     'role_administrator' => 'Rollenadministrator',
+    'role_administrators' => 'Rollenadministratoren',
 ];

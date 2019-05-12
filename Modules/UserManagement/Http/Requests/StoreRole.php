@@ -38,6 +38,10 @@ class StoreRole extends FormRequest
                 'array',
                 Rule::in(User::select('id')->get()->pluck('id')),
             ],
+            'role_admins' => [
+                'array',
+                Rule::in(User::select('id')->get()->pluck('id')),
+            ],            
             'permissions' => [
                 'array',
                 Rule::in(PermissionRegistry::keys()),
