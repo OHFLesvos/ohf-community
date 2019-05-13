@@ -11,14 +11,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 use Carbon\Carbon;
 
-use AustinHeap\Database\Encryption\Traits\HasEncryptedAttributes;
-
 class Helper extends Model implements Auditable
 {
     use SoftDeletes;
     use NullableFields;
     use \OwenIt\Auditing\Auditable;
-    use HasEncryptedAttributes;
 
     /**
      * Get the person record associated with the helper.
@@ -181,16 +178,4 @@ class Helper extends Model implements Auditable
         return $this->is_active && $this->work_trial_period;
     }
 
-    /**
-     * The attributes that should be encrypted on save.
-     *
-     * @var array
-     */
-    protected $encrypted = [
-        'casework_vulnerability',
-        'casework_lawyer_name',
-        'casework_lawyer_phone',
-        'casework_lawyer_email',
-        'notes',
-    ];
 }
