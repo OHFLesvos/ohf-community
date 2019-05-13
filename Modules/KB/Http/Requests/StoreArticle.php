@@ -27,7 +27,7 @@ class StoreArticle extends FormRequest
         return [
             'title' => [
                 'required',
-                'max:255',
+                'max:191',
                 isset($this->article) 
                     ? Rule::unique('kb_articles')->ignore($this->article->id) 
                     : Rule::unique('kb_articles'),

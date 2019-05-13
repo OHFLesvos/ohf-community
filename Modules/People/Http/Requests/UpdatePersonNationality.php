@@ -27,7 +27,7 @@ class UpdatePersonNationality extends FormRequest
         return [
             'nationality' => [
 				'nullable',
-				'max:255',
+				'max:191',
 				Rule::in(\Countries::getList('en'))
 			],
         ];

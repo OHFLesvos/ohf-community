@@ -31,7 +31,7 @@ class StoreRole extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:191',
                 isset($this->role) ? Rule::unique('roles')->ignore($this->role->id) : Rule::unique('roles')
             ],
             'users' => [

@@ -25,19 +25,39 @@ class StorePerson extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'family_name' => 'required|max:255',
-            'gender' => 'required|in:m,f',
+            'name' => [
+                'required',
+                'max:191',
+            ],
+            'family_name' => [
+                'required',
+                'max:191',
+            ],
+            'gender' => [
+                'required',
+                'in:m,f',
+            ],
             'nationality' => [
 				'nullable',
-				'max:255',
-				Rule::in(\Countries::getList('en'))
+				'max:191',
+				Rule::in(\Countries::getList('en')),
 			],
-            'registration_no' => 'max:255',
-            'section_card_no' => 'max:255',
-            'languages' => 'max:255',
-            'remarks' => 'max:255',
-            'date_of_birth' => 'nullable|date',
+            'registration_no' => [
+                'max:191',
+            ],
+            'section_card_no' => [
+                'max:191',
+            ],
+            'languages' => [
+                'max:191',
+            ],
+            'remarks' => [
+                'max:191',
+            ],
+            'date_of_birth' => [
+                'nullable',
+                'date',
+            ],
         ];
     }
 }

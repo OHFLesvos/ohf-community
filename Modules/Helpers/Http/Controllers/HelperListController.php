@@ -101,7 +101,10 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->name = $value; },
                 'form_type' => 'text',
                 'form_name' => 'name',
-                'form_validate' => 'required|max:255',
+                'form_validate' => [
+                    'required',
+                    'max:191',
+                ],
             ],
             [
                 'label_key' => 'people::people.family_name',
@@ -113,7 +116,10 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->family_name = $value; },
                 'form_type' => 'text',
                 'form_name' => 'family_name',
-                'form_validate' => 'required|max:255',
+                'form_validate' => [
+                    'required',
+                    'max:191',
+                ],
             ],
             [
                 'label_key' => 'people::people.nickname',
@@ -124,7 +130,10 @@ class HelperListController extends Controller
                 'assign' => function($person, $helper, $value) { $person->nickname = $value; },
                 'form_type' => 'text',
                 'form_name' => 'nickname',
-                'form_validate' => 'nullable|max:255',
+                'form_validate' => [
+                    'nullable',
+                    'max:191',
+                ],
             ],
             // [
             //     'label_key' => 'people::people.name',
@@ -150,7 +159,7 @@ class HelperListController extends Controller
                 'form_validate' => function(){
                     return [
                         'nullable',
-                        'max:255',
+                        'max:191',
                         Rule::in(\Countries::getList('en'))
                     ];    
                 },
