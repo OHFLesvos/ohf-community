@@ -1,10 +1,11 @@
 # Changelog
 
-## 2.3.3
+## 2.4.0
 
 * Publicly viewable tags if articles are public
 * Login redirect for guests that want access to unauthorized resources
 * User role member management for role administrators added
+* Update to laravel 5.8
 
 ## 2.3.2
 
