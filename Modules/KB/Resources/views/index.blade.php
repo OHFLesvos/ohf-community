@@ -36,6 +36,46 @@
 
         <div class="row">
 
+            {{-- Popular Tags --}}
+            @unless($popular_tags->isEmpty() && $featured_articles->isEmpty())
+                <div class="col-sm mb-3">
+                    @unless($featured_articles->isEmpty())
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                @lang('kb::wiki.featured_articles')
+                            </div>
+                            @unless($featured_articles->isEmpty())
+                                <div class="list-group list-group-flush">
+                                    @foreach($featured_articles as $article)
+                                        <a href="{{ route('kb.articles.show', $article) }}" class="list-group-item list-group-item-action">
+                                            {{ $article->title }}
+                                            <small class="float-right text-muted">{{ $article->updated_at->diffForHumans() }}</small>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="card-body p-3">
+                                    <em>@lang('kb::wiki.no_articles_found')</em>
+                                </div>
+                            @endunless
+                        </div>
+                    @endunless
+                    <div class="card">
+                        <div class="card-header">
+                            @lang('app.popular_tags')
+                            <a href="{{ route('kb.tags') }}" class="float-right">@lang('app.show_all')</a>
+                        </div>
+                        <div class="card-body p-3">
+                            @forelse($popular_tags as $tag)
+                                <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a><small class="text-muted px-1">({{ $tag->wikiArticles()->count() }})</small>
+                            @empty
+                                <em>@lang('app.no_tags_defined')</em>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            @endunless
+
             {{-- Popular articles --}}
             @unless($popular_articles->isEmpty())
                 <div class="col-sm mb-3">
@@ -71,25 +111,6 @@
                                     <small class="float-right text-muted">{{ $article->updated_at->diffForHumans() }}</small>
                                 </a>
                             @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endunless
-
-            {{-- Popular Tags --}}
-            @unless($popular_tags->isEmpty())
-                <div class="col-sm mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            @lang('app.popular_tags')
-                            <a href="{{ route('kb.tags') }}" class="float-right">@lang('app.show_all')</a>
-                        </div>
-                        <div class="card-body p-3">
-                            @forelse($popular_tags as $tag)
-                                <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a><small class="text-muted px-1">({{ $tag->wikiArticles()->count() }})</small>
-                            @empty
-                                <em>@lang('app.no_tags_defined')</em>
-                            @endforelse
                         </div>
                     </div>
                 </div>

@@ -22,4 +22,6 @@ return [
     'help_article' => 'Hilfeartikel',
     'select_article' => 'Artikel wählen...',
     'article_publicly_available' => 'Dieser Artikel ist öffentlich verfügbar.',
+    'featured_article' => 'Ausgewählter Artikel',
+    'featured_articles' => 'Ausgewähle Artikel',
 ];

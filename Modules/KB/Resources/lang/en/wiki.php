@@ -24,4 +24,6 @@ return [
     'help_article' => 'Help article',
     'select_article' => 'Select article...',
     'article_publicly_available' => 'This article is publicly available.',
+    'featured_article' => 'Featured article',
+    'featured_articles' => 'Featured articles',
 ];

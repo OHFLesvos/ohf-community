@@ -58,6 +58,7 @@ class ArticleController extends Controller
         $article = new WikiArticle();
         $article->title = $request->title;
         $article->public = $request->has('public');
+        $article->featured = $request->has('featured');
         $article->content = $request->content;
         $article->save();
 
@@ -105,6 +106,7 @@ class ArticleController extends Controller
         $article->title = $request->title;
         $article->slug = $request->slug;
         $article->public = $request->has('public');
+        $article->featured = $request->has('featured');
         $article->content = $request->content;
         $article->save();
 

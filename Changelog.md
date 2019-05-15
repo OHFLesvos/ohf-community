@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1
+
+* Featured articles
+
 ## 2.4.0
 
 * Publicly viewable tags if articles are public

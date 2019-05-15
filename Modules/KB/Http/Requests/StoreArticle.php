@@ -39,6 +39,9 @@ class StoreArticle extends FormRequest
             'public' => [
                 'boolean',
             ],
+            'featured' => [
+                'boolean',
+            ],
             'content' => 'required',
             'tags' => [
                 'nullable',

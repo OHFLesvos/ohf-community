@@ -15,6 +15,9 @@
             <div class="col-auto pt-2 pb-3">
                 {{ Form::bsCheckbox('public', 1, null, __('app.allow_public_access')) }}
             </div>
+            <div class="col-auto pt-2 pb-3">
+                {{ Form::bsCheckbox('featured', 1, null, __('kb::wiki.featured_article')) }}
+            </div>
         </div>
         <p>
             {{ Form::bsSubmitButton(__('app.create')) }}
