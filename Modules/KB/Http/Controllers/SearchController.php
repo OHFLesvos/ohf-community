@@ -68,7 +68,7 @@ class SearchController extends Controller
                 ->limit(5)
                 ->get(),
             'featured_articles' => WikiArticle::where('featured', true)
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('title', 'asc')
                 ->limit(5)
                 ->get(),
             'popular_tags' => Tag::has('wikiArticles')
