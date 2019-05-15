@@ -43,13 +43,13 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 @lang('kb::wiki.featured_articles')
+                                <a href="{{ route('kb.articles.index') }}" class="float-right">@lang('app.show_all')</a>
                             </div>
                             @unless($featured_articles->isEmpty())
                                 <div class="list-group list-group-flush">
                                     @foreach($featured_articles as $article)
                                         <a href="{{ route('kb.articles.show', $article) }}" class="list-group-item list-group-item-action">
                                             {{ $article->title }}
-                                            <small class="float-right text-muted">{{ $article->updated_at->diffForHumans() }}</small>
                                         </a>
                                     @endforeach
                                 </div>
