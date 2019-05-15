@@ -6,16 +6,27 @@
 
     @if( ! $articles->isEmpty() )
         <p><small>@lang('kb::wiki.found_num_articles_with_tag', ['num' => $articles->total(), 'tag' => $tag->name ])</small></p>
-        @foreach ($articles as $article)
-            <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
-                @auth 
-                    @if($article->public)
-                        <small class="text-muted" title="@lang('kb::wiki.article_publicly_available')">@icon(eye)</small>
-                    @endif
-                @endauth
-            <br>
-        @endforeach
+        <p>
+            @foreach ($articles as $article)
+                <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
+                    @auth 
+                        @if($article->public)
+                            <small class="text-muted" title="@lang('kb::wiki.article_publicly_available')">@icon(eye)</small>
+                        @endif
+                    @endauth
+                <br>
+            @endforeach
+        </p>
         {{ $articles->links() }}
+        @if($has_more_articles)
+            @component('components.alert.info')
+                @guest
+                    @lang('kb::wiki.please_login_to_see_more_articles', ['url' => route('login') ])
+                @else
+                    @lang('kb::wiki.you_do_not_have_sufficient_permissions_to_view_all_articles')
+                @endguest
+            @endcomponent
+        @endif
     @else
         @component('components.alert.info')
             @lang('kb::wiki.no_articles_found')

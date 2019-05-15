@@ -26,4 +26,6 @@ return [
     'article_publicly_available' => 'This article is publicly available.',
     'featured_article' => 'Featured article',
     'featured_articles' => 'Featured articles',
+    'please_login_to_see_more_articles' => 'Please <a href=":url">login</a> to see more articles.',
+    'you_do_not_have_sufficient_permissions_to_view_all_articles' => 'You do not have sufficient permissions to view all articles.',
 ];

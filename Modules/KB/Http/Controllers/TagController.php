@@ -25,15 +25,18 @@ class TagController extends Controller
     public function tag(Tag $tag) {
         $this->authorize('view', $tag);
 
+        $articles = $tag->wikiArticles()
+            ->orderBy('title')
+            ->get()
+            ->filter(function($a){ 
+                return Gate::allows('view', $a);
+            })
+            ->paginate(50);
+
         return view('kb::tag', [
-            'articles' => $tag->wikiArticles()
-                ->orderBy('title')
-                ->get()
-                ->filter(function($a){ 
-                    return Gate::allows('view', $a);
-                })
-                ->paginate(50),
+            'articles' => $articles,
             'tag' => $tag,
+            'has_more_articles' => $tag->wikiArticles()->count() != $articles->total(),
         ]);
     }
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.4
+
+* Show message if not sufficient permissions to see all articles in tag.
+
 ## 2.4.1
 
 * Featured articles

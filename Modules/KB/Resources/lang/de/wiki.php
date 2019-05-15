@@ -24,4 +24,6 @@ return [
     'article_publicly_available' => 'Dieser Artikel ist öffentlich verfügbar.',
     'featured_article' => 'Ausgewählter Artikel',
     'featured_articles' => 'Ausgewähle Artikel',
+    'please_login_to_see_more_articles' => 'Bitte <a href=":url">melde dich an</a>, um mehr Artikel zu sehen.',
+    'you_do_not_have_sufficient_permissions_to_view_all_articles' => 'Du hast hast nicht die nötigen Berechtigungen um alle Artikel zu sehen.',
 ];
