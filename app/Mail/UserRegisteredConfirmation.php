@@ -7,8 +7,9 @@ use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 
-class UserRegistered extends Mailable
+class UserRegisteredConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -37,7 +38,7 @@ class UserRegistered extends Mailable
     public function build()
     {
         return $this
-            ->markdown('emails.users.registered')
-            ->subject('New user registered: ' . $this->user->name);
+            ->markdown('emails.users.registered_confirmation')
+            ->subject('New Account registered at ' . Config::get('app.name'));
     }
 }
