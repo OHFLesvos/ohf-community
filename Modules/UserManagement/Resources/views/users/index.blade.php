@@ -9,11 +9,19 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th colspan="2">@lang('app.name')</th>
+                        <th colspan="2">
+                            @lang('app.name')
+                            @unless($sort == 'name' && $order == 'asc')<a href="{{ route('users.index', ['sort' => 'name', 'order' => 'asc']) }}">@endunless @icon(sort-down)@unless($sort == 'name' && $order == 'asc')</a>@endunless
+                            @unless($sort == 'name' && $order == 'desc')<a href="{{ route('users.index', ['sort' => 'name', 'order' => 'desc']) }}">@endunless @icon(sort-up)@unless($sort == 'name' && $order == 'desc')</a>@endunless
+                        </th>
                         <th class="d-none d-sm-table-cell">@lang('app.email')</th>
                         <th class="d-none d-sm-table-cell">@lang('app.roles')</th>
                         <th class="d-none d-md-table-cell text-center fit">@lang('userprofile.2FA')</th>
-                        <th class="d-none d-md-table-cell fit">@lang('app.registered')</th>
+                        <th class="d-none d-md-table-cell fit">
+                            @lang('app.registered')
+                            @unless($sort == 'created_at' && $order == 'asc')<a href="{{ route('users.index', ['sort' => 'created_at', 'order' => 'asc']) }}">@endunless @icon(sort-down)@unless($sort == 'name' && $order == 'asc')</a>@endunless
+                            @unless($sort == 'created_at' && $order == 'desc')<a href="{{ route('users.index', ['sort' => 'created_at', 'order' => 'desc']) }}">@endunless @icon(sort-up)@unless($sort == 'name' && $order == 'desc')</a>@endunless
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

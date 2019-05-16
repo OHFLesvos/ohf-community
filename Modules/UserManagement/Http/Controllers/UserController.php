@@ -10,6 +10,7 @@ use App\Support\Facades\PermissionRegistry;
 use Modules\UserManagement\Http\Requests\StoreUser;
 use Modules\UserManagement\Http\Requests\UpdateUser;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -24,10 +25,29 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->validate([
+            'sort' => [
+                'in:name,created_at',
+            ],
+            'order' => [
+                'in:asc,desc',
+            ],
+        ]);
+
+        $sort = $request->input('sort', session('usermanagement.users.sort', 'name'));
+        $order = $request->input('order', session('usermanagement.users.order', 'asc'));
+
+        session(['usermanagement.users.sort' => $sort]);
+        session(['usermanagement.users.order' => $order]);
+
         return view('usermanagement::users.index', [
-            'users' => User::with(['roles'])->orderBy('name')->paginate(100)
+            'users' => User::with(['roles'])
+                ->orderBy($sort, $order)
+                ->paginate(100),
+            'sort' => $sort,
+            'order' => $order,
         ]);
     }
 
