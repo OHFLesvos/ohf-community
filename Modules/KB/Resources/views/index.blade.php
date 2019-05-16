@@ -40,7 +40,7 @@
             @unless($popular_tags->isEmpty() && $featured_articles->isEmpty())
                 <div class="col-sm mb-3">
                     @unless($featured_articles->isEmpty())
-                        <div class="card mb-4">
+                        <div class="card mb-3">
                             <div class="card-header">
                                 @lang('kb::wiki.featured_articles')
                                 <a href="{{ route('kb.articles.index') }}" class="float-right">@lang('app.show_all')</a>
