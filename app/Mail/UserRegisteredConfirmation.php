@@ -39,6 +39,6 @@ class UserRegisteredConfirmation extends Mailable
     {
         return $this
             ->markdown('emails.users.registered_confirmation')
-            ->subject('New Account registered at ' . Config::get('app.name'));
+            ->subject(__('userprofile.new_account_registered_at_app_name', ['app_name' => Config::get('app.name')]));
     }
 }

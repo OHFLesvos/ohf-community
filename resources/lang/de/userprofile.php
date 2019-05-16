@@ -61,4 +61,13 @@ return [
     'avatar' => 'Avatar',
     'change_picture' => 'Bild ändern',
     'avatars_provided_by_gravatar' => 'Avatare werden von <a href="https://gravatar.com" target="_blank">Gravatar.com</a> angeboten.',
+    'new_account_registered_at_app_name' => 'Neues Benutzerkonto registriert bei :app_name',
+    'new_user_registered_name' => 'Neuer Benutzer registriert: :name',
+    'registration_message' => 'Hallo :name. Vielen Dank für deine Registrierung bei :app_name. Dein Konto wurde erstellt, und der Administrator wurde informiert, um dir die nötigen Berechtigungen zuzuweisen.',
+    'user_registered' => 'Benutzer registriert',
+    'the_user_email_has_created_a_new_account' => 'Der Benutzer :name (:email) hat ein neues Konto erstellt.',
+    'registration_confirmation' => 'Bestätigung deiner Registration',
+    'dear_name' => 'Hallo :name.',
+    'thanks_for_registering_account_with_mail' => 'Danke für die Registrierung deines Benutzerkontos bei :app_name mit deiner E-Mail Adresse :email.',
+    'view_your_profile' => 'Dein Profil anzeigen',
 ];

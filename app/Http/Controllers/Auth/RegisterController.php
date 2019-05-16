@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class RegisterController extends Controller
 {
@@ -26,7 +27,9 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers{
+        redirectPath as laravelRedirectPath;
+    }
 
     /**
      * Where to redirect users after registration.
@@ -37,6 +40,23 @@ class RegisterController extends Controller
 	{
 		return route('home');
 	}
+
+    /**
+     * Get the post register / login redirect path.
+     *
+     * @return string
+     */
+    public function redirectPath()
+    {
+        // Do your logic to flash data to session...
+        session()->flash('login_message', __('userprofile.registration_message', [
+            'name' => Auth::user()->name,
+            'app_name' => Config::get('app.name')
+        ]));
+
+        // Return the results of the method we are overriding that we aliased.
+        return $this->laravelRedirectPath();
+    }
 
     /**
      * Create a new controller instance.
@@ -91,7 +111,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-			'is_super_admin' => User::count() == 0,
+            'is_super_admin' => User::count() == 0,
+            'locale' => \App::getLocale(),
         ]);
         Log::notice('New user registered.', [
             'user_id' => $user->id,

@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Validator;
-use OTPHP\TOTP;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+
+use OTPHP\TOTP;
 
 class LoginController extends Controller
 {
@@ -47,8 +49,9 @@ class LoginController extends Controller
     public function redirectPath()
     {
         // Do your logic to flash data to session...
-        $message = __('app.login_message', [ 'name' => Auth::user()->name, 'app_name' => Config::get('app.product_name') ]);
-        session()->flash('login_message', $message);
+        session()->flash('login_message', __('app.login_message', [
+            'name' => Auth::user()->name,
+        ]));
 
         // Return the results of the method we are overriding that we aliased.
         return $this->laravelRedirectPath();

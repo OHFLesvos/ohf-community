@@ -61,4 +61,13 @@ return [
     'avatar' => 'Avatar',
     'change_picture' => 'Change picture',
     'avatars_provided_by_gravatar' => 'Avatars are provided by <a href="https://gravatar.com" target="_blank">Gravatar.com</a>.',
+    'new_account_registered_at_app_name' => 'New user account registered at :app_name',
+    'new_user_registered_name' => 'New user registered: :name',
+    'registration_message' => 'Hello :name. Thanks for registering with :app_name. Your account has been created, and the administrator has been informed, in order to grand you the appropriate permissions.',
+    'user_registered' => 'User registered',
+    'the_user_email_has_created_a_new_account' => 'The user :name (:email) has created a new account.',
+    'registration_confirmation' => 'Registration confirmation',
+    'dear_name' => 'Dear :name.',
+    'thanks_for_registering_account_with_mail' => 'Thanks for registering an account at :app_name with your e-mail address :email.',
+    'view_your_profile' => 'View your profile',
 ];

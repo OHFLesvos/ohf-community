@@ -6,10 +6,11 @@ use App\Support\Facades\PermissionRegistry;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
 use Iatstuti\Database\Support\NullableFields;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
     use Notifiable;
     use NullableFields;
@@ -28,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_super_admin',
+        'locale',
     ];
 
     /**
@@ -39,6 +41,16 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * Get the user's preferred locale.
+     *
+     * @return string
+     */
+    public function preferredLocale()
+    {
+        return $this->locale;
+    }
 
     public function isSuperAdmin() {
         return $this->is_super_admin;

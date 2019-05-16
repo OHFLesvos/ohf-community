@@ -54,7 +54,7 @@ return [
     'role_added' => 'Rolle wurde hinzugefügt.',
     'role_updated' => 'Rolle wurde aktualisiert.',
     'role_deleted' => 'Rolle wurde gelöscht.',
-    'login_message' => 'Hallo :name. Willkommen im :app_name.',
+    'login_message' => 'Hallo :name!',
     'manage' => 'Verwalten',
     'users_in_db' => 'Es sind <strong>:num_users</strong> Benutzer in der Datenbank registriert.',
     'newest_user_is' => 'Der neuste Benutzer ist <a href=":link">:name</a>.',
@@ -254,4 +254,5 @@ return [
     'you_are_administrator' => 'du bist Administrator',
     'you_are_administrator_of_this_role' => 'Du bist Administrator dieser Rolle.',
     'manage_members' => 'Mitglieder verwalten',
+    'thanks_name' => "Danke, <br>\n:name",
 ];

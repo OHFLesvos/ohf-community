@@ -1,12 +1,11 @@
 @component('mail::message')
-# User registered
+# @lang('userprofile.user_registered')
 
-The user {{ $user->name }} ({{ $user->email }}) has created a new account.
+@lang('userprofile.the_user_email_has_created_a_new_account', [ 'name' => $user->name, 'email' => $user->email ])
 
 @component('mail::button', ['url' => route('users.show', $user)])
-View User
+@lang('app.view_user')
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+@lang('app.thanks_name', [ 'name' => config('app.name') ])
 @endcomponent

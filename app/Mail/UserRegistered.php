@@ -38,6 +38,6 @@ class UserRegistered extends Mailable
     {
         return $this
             ->markdown('emails.users.registered')
-            ->subject('New user registered: ' . $this->user->name);
+            ->subject(__('userprofile.new_user_registered_name', ['name' => $this->user->name]));
     }
 }
