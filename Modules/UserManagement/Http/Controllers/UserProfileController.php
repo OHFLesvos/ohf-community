@@ -22,11 +22,6 @@ use Endroid\QrCode\QrCode;
 
 class UserProfileController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         return view('usermanagement::userprofile.view', [

@@ -45,7 +45,6 @@ class PeopleController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->authorizeResource(Person::class);
     }
 
