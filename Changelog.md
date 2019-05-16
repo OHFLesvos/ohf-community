@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.5.0
+
+* User list can be sorted by name, registration date
+* Confirmation mail is sent to new users when registering
+
 ## 2.4.4
 
 * Show message if not sufficient permissions to see all articles in tag.
