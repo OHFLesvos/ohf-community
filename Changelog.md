@@ -4,6 +4,7 @@
 
 * User list can be sorted by name, registration date
 * Confirmation mail is sent to new users when registering
+* Localized registration mails
 
 ## 2.4.4
 
