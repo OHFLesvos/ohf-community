@@ -45,7 +45,7 @@ class SearchController extends Controller
             $search = $request->session()->get('kb_search');
             $query->where(function($wq) use($search) {
                 return $wq->where('title', 'LIKE', '%' . $search . '%')
-                    ->orWhere('content', 'LIKE', '%' . $search . '%');
+                    ->orWhere('search', 'LIKE', '%' . $search . '%');
             });
         } else {
             $search = null;

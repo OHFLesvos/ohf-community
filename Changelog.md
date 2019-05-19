@@ -5,6 +5,7 @@
 * User list can be sorted by name, registration date
 * Confirmation mail is sent to new users when registering
 * Localized registration mails
+* Dedicated search index field for articles
 
 ## 2.4.4
 

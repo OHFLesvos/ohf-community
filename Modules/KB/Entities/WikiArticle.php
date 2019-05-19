@@ -4,6 +4,8 @@ namespace Modules\KB\Entities;
 
 use App\Support\Traits\HasTags;
 
+use Modules\KB\Util\ArticleFormat;
+
 use Illuminate\Database\Eloquent\Model;
 
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -40,6 +42,23 @@ class WikiArticle extends Model implements Auditable
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public static function boot()
+    {
+        static::creating(function ($model) {
+            $model->search = self::createSearchString($model);
+        });
+
+        static::updating(function ($model) {
+            $model->search = self::createSearchString($model);
+        });
+        parent::boot();
+    }
+
+    private static function createSearchString($model)
+    {
+        return strip_tags(ArticleFormat::formatContent($model->content));
     }
 
     /**
