@@ -34,7 +34,7 @@
                 <label>@lang('accounting::accounting.receipt')</label>
                 <div class="form-row">
                     <div class="col-sm">
-                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __($transaction->receipt_picture != null ? 'accounting.change_picture_of_receipt' : 'accounting.choose_picture_of_receipt')) }}
+                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __($transaction->receipt_picture != null ? 'accounting::accounting.change_picture_of_receipt' : 'accounting::accounting.choose_picture_of_receipt')) }}
                     </div>
                     @isset($transaction->receipt_picture)
                         <div class="col-sm-auto">
