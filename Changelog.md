@@ -3,6 +3,8 @@
 ## 2.5.1
 
 * Ensure email address of OAuth-based users cannot be changed
+* Social login with facebook added
+
 
 ## 2.5.0
 
