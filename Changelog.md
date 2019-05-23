@@ -6,6 +6,7 @@
 * Confirmation mail is sent to new users when registering
 * Localized registration mails
 * Dedicated search index field for articles
+* Added loginn with Google using Socialite
 
 ## 2.4.4
 
