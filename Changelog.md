@@ -4,7 +4,7 @@
 
 * Ensure email address of OAuth-based users cannot be changed
 * Social login with facebook added
-
+* Added option for admin to unlink user account from OAuth login
 
 ## 2.5.0
 

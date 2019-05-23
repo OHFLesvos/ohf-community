@@ -201,4 +201,23 @@ class UserController extends Controller
         return redirect()->route('users.show', $user)
             ->with('success', __('userprofile.tfa_disabled'));
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function disableOAuth(User $user)
+    {
+        $user->provider_name = null;
+        $user->provider_id = null;
+        $user->avatar = null;
+        $password = str_random(8);
+        $user->password = Hash::make($password);
+        $user->save();
+        return redirect()->route('users.show', $user)
+            ->with('success', __('userprofile.oauth_disabled_new_password_has_been_set'));
+    }
+    
 }

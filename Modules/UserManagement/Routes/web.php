@@ -16,6 +16,7 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     Route::prefix('admin')->group(function(){
         // Users
         Route::put('users/{user}/disable2FA', 'UserController@disable2FA')->name('users.disable2FA');
+        Route::put('users/{user}/disableOAuth', 'UserController@disableOAuth')->name('users.disableOAuth');
         Route::resource('users', 'UserController');
 
         // Roles

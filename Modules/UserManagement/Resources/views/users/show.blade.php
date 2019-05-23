@@ -33,7 +33,10 @@
                         <div class="row">
                             <div class="col-sm"><strong>@lang('app.oauth_provider')</strong></div>
                             <div class="col-sm">
-                                {{ $user->provider_name }}
+                                {!! Form::open(['route' => ['users.disableOAuth', $user], 'method' => 'put']) !!}
+                                    <p>{{ $user->provider_name }}</p>
+                                    <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('userprofile.oauth_disable_for_user', [ 'name' => $user->name ])');">@icon(times) @lang('app.disable')</button>
+                                {!! Form::close() !!}
                             </div>
                         </div>
                     </li>
@@ -67,17 +70,17 @@
                     </li>
                 @endif
                 @isset($user->tfa_secret)
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-sm"><strong>@lang('userprofile.tfa_authentication')</strong></div>
-                        <div class="col-sm">
-                            {!! Form::open(['route' => ['users.disable2FA', $user], 'method' => 'put']) !!}
-                            <p>@lang('userprofile.tfa_authentication_enabled').</p>
-                            <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('userprofile.tfa_disable_for_user', [ 'name' => $user->name ])');">@icon(times) @lang('app.disable')</button>
-                            {!! Form::close() !!}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm"><strong>@lang('userprofile.tfa_authentication')</strong></div>
+                            <div class="col-sm">
+                                {!! Form::open(['route' => ['users.disable2FA', $user], 'method' => 'put']) !!}
+                                <p>@lang('userprofile.tfa_authentication_enabled').</p>
+                                <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('userprofile.tfa_disable_for_user', [ 'name' => $user->name ])');">@icon(times) @lang('app.disable')</button>
+                                {!! Form::close() !!}
+                            </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
                 @endisset
                 <li class="list-group-item">
                     <div class="row">
