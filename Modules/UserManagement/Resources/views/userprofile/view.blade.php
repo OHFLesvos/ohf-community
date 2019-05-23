@@ -17,50 +17,52 @@
                 </div>
             </div>
 
-            <div class="card mb-4">
-                <div class="card-header">@lang('userprofile.change_password')</div>
-                <div class="card-body">
-                    {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
-                        {{ Form::bsPassword('old_password', [ 'required' ], __('userprofile.old_password')) }}
-                        {{ Form::bsPassword('password', [ 'required' ], __('userprofile.new_password')) }}
-                        {{ Form::bsPassword('password_confirmation', [ 'required' ], __('userprofile.confirm_password')) }}
-                        {{ Form::bsSubmitButton(__('userprofile.update_password')) }}
-                    {!! Form::close() !!}
+            @if(empty($user->provider_name))
+                <div class="card mb-4">
+                    <div class="card-header">@lang('userprofile.change_password')</div>
+                    <div class="card-body">
+                        {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
+                            {{ Form::bsPassword('old_password', [ 'required' ], __('userprofile.old_password')) }}
+                            {{ Form::bsPassword('password', [ 'required' ], __('userprofile.new_password')) }}
+                            {{ Form::bsPassword('password_confirmation', [ 'required' ], __('userprofile.confirm_password')) }}
+                            {{ Form::bsSubmitButton(__('userprofile.update_password')) }}
+                        {!! Form::close() !!}
+                    </div>
                 </div>
-            </div>
 
-            <div class="card mb-4">
-                <div class="card-header">@lang('userprofile.tfa_authentication')</div>
-                <div class="card-body">
-                    @empty($user->tfa_secret)
-                        @component('components.alert.info')
-                            @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
-                        @endcomponent
-                        @component('components.alert.warning')
-                            @lang('userprofile.tfa_authentication_not_enabled')
-                        @endcomponent
-                        <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(check) @lang('app.enable')</a>
-                    @else
-                        <p>@lang('userprofile.tfa_authentication_enabled')</p>
-                        <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(times) @lang('app.disable')</a>
-                    @endempty
+                <div class="card mb-4">
+                    <div class="card-header">@lang('userprofile.tfa_authentication')</div>
+                    <div class="card-body">
+                        @empty($user->tfa_secret)
+                            @component('components.alert.info')
+                                @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
+                            @endcomponent
+                            @component('components.alert.warning')
+                                @lang('userprofile.tfa_authentication_not_enabled')
+                            @endcomponent
+                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(check) @lang('app.enable')</a>
+                        @else
+                            <p>@lang('userprofile.tfa_authentication_enabled')</p>
+                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(times) @lang('app.disable')</a>
+                        @endempty
+                    </div>
                 </div>
-            </div>
 
-            <div class="card mb-4">
-                <div class="card-header">@lang('userprofile.avatar')</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-auto">
-                            <img src="{{ Auth::user()->avatarUrl('userprofile') }}" alt="Gravatar" class="img-responsive">
-                        </div>
-                        <div class="col align-self-center">
-                            <p><a href="https://gravatar.com/emails/" target="_blank" class="btn btn-secondary">@icon(sync) @lang('userprofile.change_picture')</a></p>
-                            @lang('userprofile.avatars_provided_by_gravatar')
+                <div class="card mb-4">
+                    <div class="card-header">@lang('userprofile.avatar')</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-auto">
+                                <img src="{{ Auth::user()->avatarUrl('userprofile') }}" alt="Gravatar" class="img-responsive">
+                            </div>
+                            <div class="col align-self-center">
+                                <p><a href="https://gravatar.com/emails/" target="_blank" class="btn btn-secondary">@icon(sync) @lang('userprofile.change_picture')</a></p>
+                                @lang('userprofile.avatars_provided_by_gravatar')
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endunless
 
             <div class="card mb-4">
                 <div class="card-header">@lang('userprofile.language')</div>
@@ -86,7 +88,8 @@
                 <div class="card-header">@lang('userprofile.account_information')</div>
                 <div class="card-body pb-2">
                     <p>@lang('userprofile.account_created_on') <strong>{{ $user->created_at }}</strong> 
-                        @lang('userprofile.account_updated_on') <strong>{{ $user->updated_at }}</strong>.</p>
+                        @lang('userprofile.account_updated_on') <strong>{{ $user->updated_at }}</strong>.
+                    </p>
                     @if ( ! $user->roles->isEmpty() )
                         <p>@lang('userprofile.your_roles'):
                             @foreach ($user->roles->sortBy('name') as $role)
@@ -94,6 +97,9 @@
                             @endforeach
                         </p>
                     @endif
+                    @isset($user->provider_name)
+                        <p>@lang('app.oauth_provider'): {{ $user->provider_name }}</p>
+                    @endisset
                 </div>
             </div>
 
