@@ -26,13 +26,13 @@ Route::middleware('language')->group(function () {
     // Authentication
     Auth::routes();
 
-    $drivers = ['google']; // config('auth.socialite.drivers');
+    $socialite_drivers = config('auth.socialite.drivers');
     Route::get('login/{driver}/redirect', 'Auth\LoginController@redirectToProvider')
         ->name('login.provider')
-        ->where('driver', implode('|', $drivers));
+        ->where('driver', implode('|', $socialite_drivers));
     Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')
         ->name('login.callback')
-        ->where('driver', implode('|', $drivers));
+        ->where('driver', implode('|', $socialite_drivers));
 
     // Privacy policy
     Route::get('userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
