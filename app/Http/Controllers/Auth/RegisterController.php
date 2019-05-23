@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Events\UserSelfRegistered;
 use App\Http\Controllers\Controller;
-use App\Mail\UserRegistered;
-use App\Mail\UserRegisteredConfirmation;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
@@ -114,15 +111,9 @@ class RegisterController extends Controller
             'is_super_admin' => User::count() == 0,
             'locale' => \App::getLocale(),
         ]);
-        Log::notice('New user registered.', [
-            'user_id' => $user->id,
-            'user_name' => $user->name,
-            'email' => $user->email,
-            'client_ip' => request()->ip(),
-        ]);
-        $admins = User::where('is_super_admin', true)->get();
-        Mail::to($admins)->send(new UserRegistered($user));
-        Mail::to($user)->send(new UserRegisteredConfirmation($user));
+
+        event(new UserSelfRegistered($user));
+
         return $user;
     }
 }

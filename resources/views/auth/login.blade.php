@@ -24,11 +24,21 @@
         </div>
 
         {{ Form::bsCheckbox('remember', 1, false, __('userprofile.remember_me')) }}
- 
-        <br>
-        <button type="submit" class="btn btn-primary btn-block">
-            @lang('userprofile.login')
-        </button>
+
+        <p class="mt-4">
+            <button type="submit" class="btn btn-primary btn-block">
+                @lang('userprofile.login')
+            </button>
+        </p>
+
+        <p class="text-center">@lang('app.or')</p>
+        <p class="text-center">
+            @if(array_elements_not_empty(config('services.google'), ['client_id', 'client_secret', 'redirect']))
+                <a href="{{ route('login.provider', 'google') }}" class="btn btn-secondary btn-sm">
+                    <i class="fab fa-google"></i> {{ __('app.google_sign_in') }}
+                </a>
+            @endif
+        </p>
 
         <div class="text-center mt-4">
             <span class="d-none d-sm-inline">@lang('userprofile.new_here') <a href="{{ route('register') }}">@lang('userprofile.crete_an_account')</a></span>

@@ -255,4 +255,6 @@ return [
     'you_are_administrator_of_this_role' => 'You are administrator of this role.',
     'manage_members' => 'Manage members',
     'thanks_name' => "Thanks, <br>\n:name",
+    'or' => 'or',
+    'google_sign_in' => 'Sign in with Google',
  ];

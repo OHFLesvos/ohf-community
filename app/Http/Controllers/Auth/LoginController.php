@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Events\UserSelfRegistered;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 use OTPHP\TOTP;
+
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -140,6 +143,60 @@ class LoginController extends Controller
         ]);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * Redirect the user to the provider authentication page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function redirectToProvider($driver)
+    {
+        return Socialite::driver($driver)->redirect();
+    }
+
+    /**
+     * Obtain the user information from provider.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback($driver)
+    {
+        try {
+            $user = Socialite::driver($driver)->user();
+        } catch (\Exception $e) {
+            return redirect()->route('login');
+        }
+
+        // check if they're an existing user
+        $existingUser = User::where('email', $user->getEmail())->first();
+
+        if ($existingUser) {
+            auth()->login($existingUser, true);
+        } else {
+            $newUser                    = new User;
+            $newUser->provider_name     = $driver;
+            $newUser->provider_id       = $user->getId();
+            $newUser->name              = $user->getName();
+            $newUser->email             = $user->getEmail();
+            $newUser->email_verified_at = now();
+            $newUser->avatar            = $user->getAvatar();
+            $newUser->locale            = \App::getLocale();
+            $newUser->save();
+    
+            event(new UserSelfRegistered($newUser));
+
+            auth()->login($newUser, true);
+
+            session()->flash('login_message', __('userprofile.registration_message', [
+                'name' => Auth::user()->name,
+                'app_name' => Config::get('app.name')
+            ]));
+
+            return redirect($this->laravelRedirectPath());
+        }
+    
+        return redirect($this->redirectPath());
     }
 
 }

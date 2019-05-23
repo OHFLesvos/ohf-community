@@ -255,4 +255,6 @@ return [
     'you_are_administrator_of_this_role' => 'Du bist Administrator dieser Rolle.',
     'manage_members' => 'Mitglieder verwalten',
     'thanks_name' => "Danke, <br>\n:name",
+    'or' => 'oder',
+    'google_sign_in' => 'Mit Google anmelden',
 ];

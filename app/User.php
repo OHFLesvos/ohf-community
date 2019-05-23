@@ -40,6 +40,8 @@ class User extends Authenticatable implements HasLocalePreference
     protected $hidden = [
         'password',
         'remember_token',
+        'provider_name',
+        'provider_id',
     ];
 
     /**
@@ -104,6 +106,6 @@ class User extends Authenticatable implements HasLocalePreference
 
     public function avatarUrl($profile = null)
     {
-        return \Gravatar::get($this->email, $profile);
+        return $this->avatar != null ? $this->avatar : \Gravatar::get($this->email, $profile);
     }
 }

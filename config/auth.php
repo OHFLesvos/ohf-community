@@ -99,4 +99,14 @@ return [
         ],
     ],
 
+    /*
+    * Socialite
+    */
+
+    'socialite' => [
+        'drivers' => [
+            'google',
+        ],
+    ],
+
 ];

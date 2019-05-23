@@ -33,7 +33,9 @@
         <hr>
         @if(is_module_enabled('UserManagement'))
             <div class="text-center">
-                <a href="{{ route('userprofile') }}"><img src="{{ Auth::user()->avatarUrl() }}" alt="Gravatar"></a><br>
+                <a href="{{ route('userprofile') }}">
+                    <img src="{{ Auth::user()->avatarUrl() }}" alt="Gravatar" style="width: 80px; height: 80px;">
+                </a><br>
                 {{ Auth::user()->name }}
             </div>
         @endif

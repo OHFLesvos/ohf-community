@@ -171,3 +171,15 @@ if (! function_exists('print_html_attributes')) {
             ->implode(' ');
     }
 }
+
+if (! function_exists('array_elements_not_empty')) {
+    function array_elements_not_empty(array $array, array $keys)
+    {
+        foreach($keys as $k) {
+            if (!isset($array[$k]) || empty($array[$k])) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

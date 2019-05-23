@@ -24,6 +24,7 @@
         "jackiedo/log-reader": "^2.1",
         "jeroendesloovere/vcard": "^1.6",
         "laravel/framework": "5.8.*",
+        "laravel/socialite": "^4.1",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
         "maatwebsite/excel": "^3.1",
