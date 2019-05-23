@@ -28,7 +28,7 @@
                     @foreach ($users as $user)
                         <tr>
                             <td class="fit align-middle">
-                                <img src="{{ $user->avatarUrl('site_header') }}" alt="Gravatar">
+                                <img src="{{ $user->avatarUrl('site_header') }}" alt="Gravatar" style="width: 30px; height: 30px;">
                             </td>
                             <td class="align-middle">
                                 <a href="{{ route('users.show', $user) }}" title="View user">{{ $user->name }}</a>

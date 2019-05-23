@@ -257,4 +257,5 @@ return [
     'thanks_name' => "Thanks, <br>\n:name",
     'or' => 'or',
     'google_sign_in' => 'Sign in with Google',
+    'oauth_provider' => 'OAuth provider',
  ];

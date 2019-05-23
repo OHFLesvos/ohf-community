@@ -33,7 +33,7 @@ class UpdateUser extends FormRequest
                 'max:191'
             ],
             'email' => [
-                'required',
+                Rule::requiredIf(empty($this->user->provider_name)),
                 'string',
                 'email',
                 'max:191',

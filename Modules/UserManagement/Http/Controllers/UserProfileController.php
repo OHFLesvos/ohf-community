@@ -33,7 +33,9 @@ class UserProfileController extends Controller
     {
         $user = Auth::user();
         $user->name = $request->name;
-        $user->email = $request->email;
+        if (empty($user->provider_name)) {
+            $user->email = $request->email;
+        }
         if ($user->isDirty()) {
             Log::info('Used updated profile.', [
                 'user_id' => $user->id,

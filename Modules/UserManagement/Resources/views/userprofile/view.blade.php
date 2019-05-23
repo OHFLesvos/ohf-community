@@ -11,7 +11,7 @@
                 <div class="card-body">
                     {!! Form::open(['route' => ['userprofile.update']]) !!}
                         {{ Form::bsText('name', $user->name, [ 'required' ], __('userprofile.name')) }}
-                        {{ Form::bsEmail('email', $user->email, [ 'required' ], __('userprofile.email')) }}
+                        {{ Form::bsEmail('email', $user->email, [ !empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
                         {{ Form::bsSubmitButton(__('userprofile.update')) }}
                     {!! Form::close() !!}
                 </div>

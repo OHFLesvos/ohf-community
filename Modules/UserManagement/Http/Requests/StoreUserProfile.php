@@ -32,7 +32,7 @@ class StoreUserProfile extends FormRequest
                 'max:191',
             ],
             'email' => [
-                'required',
+                Rule::requiredIf(empty(Auth::user()->provider_name)),
                 'string',
                 'email',
                 'max:191',

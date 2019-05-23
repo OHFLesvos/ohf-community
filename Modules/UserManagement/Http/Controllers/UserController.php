@@ -130,7 +130,9 @@ class UserController extends Controller
     public function update(UpdateUser $request, User $user)
     {
         $user->name = $request->name;
-        $user->email = $request->email;
+        if (empty($user->provider_name)) {
+            $user->email = $request->email;
+        }
         if (!empty($request->password)) {
             $user->password = Hash::make($request->password);
         }

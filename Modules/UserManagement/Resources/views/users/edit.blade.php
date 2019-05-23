@@ -25,7 +25,7 @@
 
                         <div class="form-row">
                             <div class="col-md">
-                                {{ Form::bsEmail('email', null, [ 'required' ], __('app.email')) }}
+                                {{ Form::bsEmail('email', null, [ !empty($user->provider_name) ? 'disabled' : 'required' ], __('app.email')) }}
                             </div>
                             <div class="col-md">
                                 {{ Form::bsPassword('password', [ ], __('app.password'), __('app.leave_empty_to_keep_current_password')) }}

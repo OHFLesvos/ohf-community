@@ -28,6 +28,16 @@
                         </div>
                     </div>
                 </li>
+                @isset($user->provider_name)
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-sm"><strong>@lang('app.oauth_provider')</strong></div>
+                            <div class="col-sm">
+                                {{ $user->provider_name }}
+                            </div>
+                        </div>
+                    </li>
+                @endisset
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-sm"><strong>@lang('app.roles')</strong></div>

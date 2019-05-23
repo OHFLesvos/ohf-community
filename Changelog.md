@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5.1
+
+* Ensure email address of OAuth-based users cannot be changed
+
 ## 2.5.0
 
 * User list can be sorted by name, registration date
