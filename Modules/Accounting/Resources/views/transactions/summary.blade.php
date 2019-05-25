@@ -16,20 +16,20 @@
     </div>
     
     <div class="row">
-        @foreach([ 'income' => $incomeByProject, 'spending' => $spendingByProject ] as $key => $projects)
+        @foreach([ 'income' => $incomeByCategory, 'spending' => $spendingByCategory ] as $key => $categories)
             <div class="col-sm">
                 <div class="card mb-4">
                     <div class="card-header">@lang('accounting::accounting.' . $key)</div>
                     <table class="table table-strsiped mb-0">
                         <tbody>
-                            @if(count($projects) > 0)
-                                @foreach($projects as $v)
+                            @if(count($categories) > 0)
+                                @foreach($categories as $v)
                                     <tr>
                                         <td>
                                             @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
-                                                <a href="{{ route('accounting.transactions.index') }}?filter[type]={{ $key }}&filter[project]={{ $v->project }}&filter[date_start]={{ $monthDate->startOfMonth()->toDateString() }}&filter[date_end]={{ $monthDate->endOfMonth()->toDateString() }}">
+                                                <a href="{{ route('accounting.transactions.index') }}?filter[type]={{ $key }}&filter[category]={{ $v->category }}&filter[date_start]={{ $monthDate->startOfMonth()->toDateString() }}&filter[date_end]={{ $monthDate->endOfMonth()->toDateString() }}">
                                             @endcan
-                                                {{ $v->project }}
+                                                {{ $v->category }}
                                             @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
                                                 </a>
                                             @endcan
@@ -52,15 +52,15 @@
                     <tbody>
                         <tr>
                             <td>@lang('accounting::accounting.income')</td>
-                            <td class="text-right"><u>{{ number_format($incomeByProject->sum('sum'), 2) }}</u></td>
+                            <td class="text-right"><u>{{ number_format($incomeByCategory->sum('sum'), 2) }}</u></td>
                         </tr>
                         <tr>
                             <td>@lang('accounting::accounting.spending')</td>
-                            <td class="text-right"><u>{{ number_format($spendingByProject->sum('sum'), 2) }}</u></td>
+                            <td class="text-right"><u>{{ number_format($spendingByCategory->sum('sum'), 2) }}</u></td>
                         </tr>
                         <tr>
                             <td>@lang('accounting::accounting.difference')</td>
-                            <td class="text-right"><u>{{ number_format($incomeByProject->sum('sum') - $spendingByProject->sum('sum'), 2) }}</u></td>
+                            <td class="text-right"><u>{{ number_format($incomeByCategory->sum('sum') - $spendingByCategory->sum('sum'), 2) }}</u></td>
                         </tr>
                         <tr>
                             <td>@lang('accounting::accounting.wallet')</td>

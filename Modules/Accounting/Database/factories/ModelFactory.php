@@ -11,7 +11,8 @@ $factory->define(MoneyTransaction::class, function (Faker $faker) {
         'type' => $faker->randomElement(['income', 'spending']),
         'amount' => $faker->randomFloat(2, 1, 2000),
         'beneficiary' => $faker->name,
-        'project' => $faker->catchPhrase,
+        'category' => $faker->catchPhrase,
+        'project' => $faker->optional(0.7)->catchPhrase,
         'description' => $faker->sentence,
     ];
 });

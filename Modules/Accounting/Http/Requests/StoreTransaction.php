@@ -52,8 +52,11 @@ class StoreTransaction extends FormRequest
             'beneficiary' => [
                 'required',
             ],
-            'project' => [
+            'category' => [
                 'required',
+            ],
+            'project' => [
+                'nullable',
             ],
             'description' => [
                 'required',

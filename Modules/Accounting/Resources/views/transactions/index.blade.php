@@ -23,6 +23,7 @@
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting::accounting.income')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting::accounting.spending')</th>
+                        <th class="@isset($filter['category']) text-info @endisset">@lang('app.category')</th>
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting::accounting.beneficiary')</th>
@@ -47,6 +48,7 @@
                             <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
                             <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income'){{ number_format($transaction->amount, 2) }}@endif</td>
                             <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending'){{ number_format($transaction->amount, 2) }}@endif</td>
+                            <td>{{ $transaction->category }}</td>
                             <td>{{ $transaction->project }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
@@ -75,7 +77,7 @@
                                 @if($sum_income > 0)<u class="text-success">{{ number_format($sum_income, 2) }}</u><br>@endif
                                 @if($sum_spending > 0)<u class="text-danger">{{ number_format($sum_spending, 2) }}</u>@endif
                             </td>
-                            <td colspan="5"></td>
+                            <td colspan="6"></td>
                         </tr>
                     @endif
                 @endif
@@ -205,13 +207,20 @@
             </div>
             <div class="form-row">
                 <div class="col-sm">
+                    {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
+                </div>
+                <div class="col-sm">
                     {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
                 </div>
+            </div>
+            <div class="form-row">
                 <div class="col-sm">
                     {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($beneficiaries)) ], __('accounting::accounting.beneficiary')) }}
                 </div>
+                <div class="col-sm">
+                    {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}
+                </div>
             </div>
-            {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}
             <div class="form-row">
                 <div class="col-sm">
                     {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('accounting::accounting.registered_today')) }}

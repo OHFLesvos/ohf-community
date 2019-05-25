@@ -20,6 +20,14 @@
         </li>
         <li class="list-group-item">
             <div class="row">
+                <div class="col-sm-4"><strong>@lang('app.category')</strong></div>
+                <div class="col-sm">
+                    {{ $transaction->category }}
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div class="row">
                 <div class="col-sm-4"><strong>@lang('app.project')</strong></div>
                 <div class="col-sm">
                     {{ $transaction->project }}

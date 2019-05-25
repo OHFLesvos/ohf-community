@@ -19,12 +19,15 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-sm-4">
-                {{ Form::bsText('project', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+            <div class="col-sm-3">
+                {{ Form::bsText('category', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-3">
+                {{ Form::bsText('project', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+            </div>
+            <div class="col-sm">
                 {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
-            </div>
+            </div>        
         </div>
         <div class="form-row">
             <div class="col-sm-auto">

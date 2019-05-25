@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.0
+
+* Added category field to accounting, uses data from project field
+
 ## 2.5.1
 
 * Ensure email address of OAuth-based users cannot be changed

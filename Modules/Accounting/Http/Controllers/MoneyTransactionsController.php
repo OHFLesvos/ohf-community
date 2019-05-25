@@ -26,13 +26,13 @@ class MoneyTransactionsController extends Controller
 
     private static $filterColumns = [
         'type',
+        'category',
         'project',
         'beneficiary',
         'description',
         'receipt_no',
         'today',
         'no_receipt',
-        'category',
         'wallet_owner',
     ];
 
@@ -62,12 +62,13 @@ class MoneyTransactionsController extends Controller
             ],
             'month' => 'nullable|regex:/[0-1]?[1-9]/',
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
-            'sortColumn' => 'nullable|in:date,created_at,project,beneficiary,receipt_no',
+            'sortColumn' => 'nullable|in:date,created_at,category,project,beneficiary,receipt_no',
             'sortOrder' => 'nullable|in:asc,desc',
         ]);
 
         $sortColumns = [
             'date' => __('app.date'),
+            'category' => __('app.category'),
             'project' => __('app.project'),
             'beneficiary'=> __('accounting::accounting.beneficiary'),
             'receipt_no' => __('accounting::accounting.receipt'),
@@ -125,6 +126,7 @@ class MoneyTransactionsController extends Controller
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
             'beneficiaries' => self::getBeneficiaries(),
+            'categories' => self::getCategories(),
             'projects' => self::getProjects(),
         ]);
     }
@@ -169,6 +171,7 @@ class MoneyTransactionsController extends Controller
 
         return view('accounting::transactions.create', [
             'beneficiaries' => self::getBeneficiaries(),
+            'categories' => self::getCategories(),
             'projects' => self::getProjects(),
             'newReceiptNo' => optional(MoneyTransaction
                 ::select(DB::raw('MAX(receipt_no) as val'))
@@ -188,9 +191,21 @@ class MoneyTransactionsController extends Controller
             ->toArray();
     }
 
+    private static function getCategories() {
+        return MoneyTransaction
+            ::select('category')
+            ->groupBy('category')
+            ->orderBy('category')
+            ->get()
+            ->pluck('category')
+            ->unique()
+            ->toArray();
+    }
+
     private static function getProjects() {
         return MoneyTransaction
             ::select('project')
+            ->where('project', '!=', null)
             ->groupBy('project')
             ->orderBy('project')
             ->get()
@@ -215,6 +230,7 @@ class MoneyTransactionsController extends Controller
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
         $transaction->receipt_no = $request->receipt_no;
+        $transaction->category = $request->category;
         $transaction->project = $request->project;
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
@@ -291,6 +307,7 @@ class MoneyTransactionsController extends Controller
         return view('accounting::transactions.edit', [
             'transaction' => $transaction,
             'beneficiaries' => self::getBeneficiaries(),
+            'categories' => self::getCategories(),
             'projects' => self::getProjects(),
         ]);
     }
@@ -311,6 +328,7 @@ class MoneyTransactionsController extends Controller
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
         $transaction->receipt_no = $request->receipt_no;
+        $transaction->category = $request->category;
         $transaction->project = $request->project;
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
@@ -386,22 +404,22 @@ class MoneyTransactionsController extends Controller
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
-        $incomeByProject = MoneyTransaction
-            ::select('project', DB::raw('SUM(amount) as sum'))
+        $incomeByCategory = MoneyTransaction
+            ::select('category', DB::raw('SUM(amount) as sum'))
             ->whereDate('date', '>=', $dateFrom)
             ->whereDate('date', '<=', $dateTo)
             ->where('type', 'income')
-            ->groupBy('project')
-            ->orderBy('project')
+            ->groupBy('category')
+            ->orderBy('category')
             ->get();
 
-        $spendingByProject = MoneyTransaction
-            ::select('project', DB::raw('SUM(amount) as sum'))
+        $spendingByCategory = MoneyTransaction
+            ::select('category', DB::raw('SUM(amount) as sum'))
             ->whereDate('date', '>=', $dateFrom)
             ->whereDate('date', '<=', $dateTo)
             ->where('type', 'spending')
-            ->groupBy('project')
-            ->orderBy('project')
+            ->groupBy('category')
+            ->orderBy('category')
             ->get();
     
         // Calculate wallet
@@ -419,7 +437,7 @@ class MoneyTransactionsController extends Controller
             ->sum;
 
         $previousWallet = $previousIncome - $previousSpending;
-        $wallet = $previousWallet + $incomeByProject->sum('sum') - $spendingByProject->sum('sum');
+        $wallet = $previousWallet + $incomeByCategory->sum('sum') - $spendingByCategory->sum('sum');
 
         $months = MoneyTransaction
             ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
@@ -438,8 +456,8 @@ class MoneyTransactionsController extends Controller
         return view('accounting::transactions.summary', [
             'monthDate' => $dateFrom,
             'months' => $months,
-            'incomeByProject' => $incomeByProject,
-            'spendingByProject' => $spendingByProject,
+            'incomeByCategory' => $incomeByCategory,
+            'spendingByCategory' => $spendingByCategory,
             'wallet' => $wallet,
         ]);
     }
