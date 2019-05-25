@@ -3046,16 +3046,16 @@
         },
         {
             "name": "nicebooks/isbn",
-            "version": "0.2.24",
+            "version": "0.2.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicebooks-com/isbn.git",
-                "reference": "f5ceb662e517b21e30c9dfa53c4d74823849232d"
+                "reference": "4eb8a000878bea58c996e10040dd12150b5b81b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicebooks-com/isbn/zipball/f5ceb662e517b21e30c9dfa53c4d74823849232d",
-                "reference": "f5ceb662e517b21e30c9dfa53c4d74823849232d",
+                "url": "https://api.github.com/repos/nicebooks-com/isbn/zipball/4eb8a000878bea58c996e10040dd12150b5b81b7",
+                "reference": "4eb8a000878bea58c996e10040dd12150b5b81b7",
                 "shasum": ""
             },
             "require": {
@@ -3086,7 +3086,7 @@
                 "book",
                 "books"
             ],
-            "time": "2019-04-30T09:16:46+00:00"
+            "time": "2019-05-24T12:29:23+00:00"
         },
         {
             "name": "nikic/php-parser",

@@ -3,6 +3,7 @@
 ## 2.6.0
 
 * Added category field to accounting, uses data from project field
+* Added db:backup console command
 
 ## 2.5.1
 
