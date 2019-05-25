@@ -40,7 +40,7 @@ class BackupDatabase extends Command
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),
             config('database.connections.mysql.database'),
-            storage_path('backups/backup-' . Carbon::now()->toDateString() . '.sql')
+            storage_path('backups/backup-' . Carbon::now()->toDateString() . '.sql.gz')
         ));
     }
 
