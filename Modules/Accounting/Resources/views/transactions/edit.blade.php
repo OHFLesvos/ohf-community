@@ -9,7 +9,7 @@
                 {{ Form::bsNumber('receipt_no', null, [ 'disabled' ], __('accounting::accounting.receipt_no')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsDate('date', null, [ 'required', 'autofocus' ], __('app.date')) }}
+                {{ Form::bsDate('date', null, [ 'required' ], __('app.date')) }}
             </div>
             <div class="col-sm-auto pb-3">
             {{ Form::bsRadioInlineList('type', [ 'income' => __('accounting::accounting.income'), 'spending' => __('accounting::accounting.spending') ], 'spending', __('app.type')) }}
