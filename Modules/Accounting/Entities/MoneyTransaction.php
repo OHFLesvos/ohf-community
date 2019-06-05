@@ -4,6 +4,7 @@ namespace Modules\Accounting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -15,6 +16,12 @@ class MoneyTransaction extends Model implements Auditable
     {
         static::creating(function ($model) {
             $model->receipt_no = self::getNextFreeReceiptNo();
+        });
+
+        static::deleting(function($model) {
+            if ($model->receipt_picture != null) {
+                Storage::delete($model->receipt_picture);
+            }
         });
 
         parent::boot();

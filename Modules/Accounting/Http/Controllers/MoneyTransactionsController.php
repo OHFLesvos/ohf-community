@@ -243,7 +243,8 @@ class MoneyTransactionsController extends Controller
 
         $transaction->save();
 
-        return redirect()->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index')
+        return redirect()
+            ->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index')
             ->with('info', __('accounting::accounting.transactions_registered'));
     }
 
@@ -330,10 +331,10 @@ class MoneyTransactionsController extends Controller
         $transaction->wallet_owner = $request->wallet_owner;
 
         if (isset($request->remove_receipt_picture)) {
-            $transaction->receipt_picture = null;
             Storage::delete($transaction->receipt_picture);
+            $transaction->receipt_picture = null;
         }
-        if (isset($request->receipt_picture)) {
+        else if (isset($request->receipt_picture)) {
             if ($transaction->receipt_picture != null) {
                 Storage::delete($transaction->receipt_picture);
             }
@@ -363,13 +364,10 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('delete', $transaction);
 
-        if ($transaction->receipt_picture != null) {
-            Storage::delete($transaction->receipt_picture);
-        }
-
         $transaction->delete();
 
-        return redirect()->route('accounting.transactions.index')
+        return redirect()
+            ->route('accounting.transactions.index')
             ->with('info', __('accounting::accounting.transactions_deleted'));
     }
 
