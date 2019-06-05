@@ -5,6 +5,7 @@
 * Added category field to accounting, uses data from project field
 * Added db:backup console command
 * Show wallet amount in dashboard
+* Automatically create transaction receipt number
 
 ## 2.5.1
 

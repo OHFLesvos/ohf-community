@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting::accounting.edit_transaction'))
+@section('title', __('accounting::accounting.edit_transaction_number', ['number' => $transaction->receipt_no]))
 
 @section('content')
     {!! Form::model($transaction, ['route' => ['accounting.transactions.update', $transaction], 'method' => 'put', 'files' => true]) !!}
@@ -30,9 +30,6 @@
             </div>        
         </div>
         <div class="form-row">
-            <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', null, [ 'min' => 1 ], __('accounting::accounting.receipt') . ' #') }}
-            </div>
             <div class="col-sm">
                 <label>@lang('accounting::accounting.receipt')</label>
                 <div class="form-row">

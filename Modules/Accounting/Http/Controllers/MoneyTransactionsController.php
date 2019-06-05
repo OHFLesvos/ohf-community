@@ -173,10 +173,7 @@ class MoneyTransactionsController extends Controller
             'beneficiaries' => self::getBeneficiaries(),
             'categories' => self::getCategories(),
             'projects' => self::getProjects(),
-            'newReceiptNo' => optional(MoneyTransaction
-                ::select(DB::raw('MAX(receipt_no) as val'))
-                ->first())
-                ->val + 1,
+            'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
         ]);
     }
 
@@ -229,7 +226,6 @@ class MoneyTransactionsController extends Controller
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
-        $transaction->receipt_no = $request->receipt_no;
         $transaction->category = $request->category;
         $transaction->project = $request->project;
         $transaction->description = $request->description;
@@ -327,7 +323,6 @@ class MoneyTransactionsController extends Controller
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
-        $transaction->receipt_no = $request->receipt_no;
         $transaction->category = $request->category;
         $transaction->project = $request->project;
         $transaction->description = $request->description;

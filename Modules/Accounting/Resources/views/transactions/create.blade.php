@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting::accounting.register_new_transaction'))
+@section('title', __('accounting::accounting.register_new_transaction_number', ['number' => $newReceiptNo]))
 
 @section('content')
     {!! Form::open(['route' => ['accounting.transactions.store' ], 'files' => true]) !!}
@@ -30,9 +30,6 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', $newReceiptNo, [ 'min' => $newReceiptNo ], __('accounting::accounting.receipt') . ' #') }}
-            </div>
             <div class="col-sm">
                 <label>@lang('accounting::accounting.receipt')</label>
                 {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __('accounting::accounting.choose_picture_of_receipt')) }}

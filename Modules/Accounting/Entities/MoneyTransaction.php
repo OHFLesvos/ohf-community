@@ -11,20 +11,34 @@ class MoneyTransaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
+    public static function boot()
+    {
+        static::creating(function ($model) {
+            $model->receipt_no = self::getNextFreeReceiptNo();
+        });
+
+        parent::boot();
+    }
+
     public static function currentWallet(): float
     {
-        $income = optional(MoneyTransaction
-            ::select(DB::raw('SUM(amount) as sum'))
+        $income = optional(MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
             ->where('type', 'income')
             ->first())
             ->sum;
 
-        $spending = optional(MoneyTransaction
-            ::select(DB::raw('SUM(amount) as sum'))
+        $spending = optional(MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
             ->where('type', 'spending')
             ->first())
             ->sum;
 
         return $income - $spending;
     }
+
+    public static function getNextFreeReceiptNo()
+    {
+        return optional(MoneyTransaction::select(DB::raw('MAX(receipt_no) as val'))
+                ->first())
+                ->val + 1;
+    }    
 }
