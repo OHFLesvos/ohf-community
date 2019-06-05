@@ -18,7 +18,7 @@ return [
     'show_transaction' => 'Show transaction',
     'wallet' => 'Wallet',
     'confirm_delete_transaction' => 'Do you really want to delete this transaction?',
-    'edit_transaction' => 'Edit transaction #:number',
+    'edit_transaction_number' => 'Edit transaction #:number',
     'choose_picture_of_receipt' => 'Choose picture of receipt',
     'change_picture_of_receipt' => 'Change picture of receipt',
     'remove_receipt_picture' => 'Remove picture of receipt',
