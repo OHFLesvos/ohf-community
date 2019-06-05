@@ -348,8 +348,9 @@ class MoneyTransactionsController extends Controller
 
         $transaction->save();
 
-        return redirect()->route('accounting.transactions.show', $transaction)
-        ->with('info', __('accounting::accounting.transactions_updated'));
+        return redirect()
+            ->route('accounting.transactions.index')
+            ->with('info', __('accounting::accounting.transactions_updated'));
     }
 
     /**

@@ -26,14 +26,16 @@
                 </div>
             </div>
         </li>
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm-4"><strong>@lang('app.project')</strong></div>
-                <div class="col-sm">
-                    {{ $transaction->project }}
+        @isset($transaction->project)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('app.project')</strong></div>
+                    <div class="col-sm">
+                        {{ $transaction->project }}
+                    </div>
                 </div>
-            </div>
-        </li>
+            </li>
+        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('app.description')</strong></div>
