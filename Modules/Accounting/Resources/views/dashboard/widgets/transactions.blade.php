@@ -21,6 +21,9 @@
 
 @section('widget-content')
     <table class="table mb-0">
+        @isset($spending)
+            <tr><td>@lang('accounting::accounting.spending') {{ $monthName }}</td><td class="text-right">{{ number_format($spending, 2) }}</td></tr>
+        @endif
         @isset($wallet)
             <tr>
                 <td>
