@@ -11,7 +11,7 @@ class MoneyTransaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    public static function currentWallet(): int
+    public static function currentWallet(): float
     {
         $income = optional(MoneyTransaction
             ::select(DB::raw('SUM(amount) as sum'))
