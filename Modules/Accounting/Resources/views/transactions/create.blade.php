@@ -1,10 +1,13 @@
 @extends('layouts.app')
 
-@section('title', __('accounting::accounting.register_new_transaction_number', ['number' => $newReceiptNo]))
+@section('title', __('accounting::accounting.register_new_transaction'))
 
 @section('content')
     {!! Form::open(['route' => ['accounting.transactions.store' ], 'files' => true]) !!}
         <div class="form-row">
+            <div class="col-sm-auto">
+                {{ Form::bsNumber('receipt_no', $newReceiptNo, [ 'disabled' ], __('accounting::accounting.receipt_no')) }}
+            </div>
             <div class="col-sm">
                 {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required', 'autofocus' ], __('app.date')) }}
             </div>

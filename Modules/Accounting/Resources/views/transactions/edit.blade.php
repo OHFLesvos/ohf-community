@@ -5,6 +5,9 @@
 @section('content')
     {!! Form::model($transaction, ['route' => ['accounting.transactions.update', $transaction], 'method' => 'put', 'files' => true]) !!}
         <div class="form-row">
+            <div class="col-sm-auto">
+                {{ Form::bsNumber('receipt_no', null, [ 'disabled' ], __('accounting::accounting.receipt_no')) }}
+            </div>
             <div class="col-sm">
                 {{ Form::bsDate('date', null, [ 'required', 'autofocus' ], __('app.date')) }}
             </div>
