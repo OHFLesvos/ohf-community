@@ -21,15 +21,15 @@
 
 @section('widget-content')
     <table class="table mb-0">
-        <tr><th colspan="2">{{ $monthName }}:</td></tr>
-        @isset($income)
-            <tr><td>@lang('accounting::accounting.income')</td><td class="text-right">{{ number_format($income, 2) }}</td></tr>
-        @endif
-        @isset($spending)
-            <tr><td>@lang('accounting::accounting.spending')</td><td class="text-right">{{ number_format($spending, 2) }}</td></tr>
-        @endif
-        @if(!isset($income) && !isset($spending))
-            <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+        @isset($wallet)
+            <tr>
+                <td>
+                    @lang('accounting::accounting.wallet')
+                </td>
+                <td class="text-right">
+                    <u>{{ number_format($wallet, 2) }}</u>
+                </td>
+            </tr>
         @endif
     </table>
 @endsection
