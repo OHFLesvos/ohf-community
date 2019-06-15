@@ -197,4 +197,6 @@ return [
     'column_set' => 'Columns',
     'name_nationality_occupation' => 'Nationality, Occupation',
     'contact_info' => 'Contact information',
+    'has_tax_number' => 'Has tax number',
+    'applied' => 'Applied',
 ];

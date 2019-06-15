@@ -41,6 +41,15 @@ class HelperListController extends Controller
         'refugee_status',
     ];
 
+    public static function getTaxNumberStates() {
+        return [
+            null => __('app.unspecified'),
+            'no' => __('app.no'),
+            'applied' => __('people::people.applied'),
+            'yes' => __('app.yes'),
+        ];
+    }
+
     function getSections() {
         return [
             'portrait' => __('people::people.portrait'),
@@ -465,6 +474,24 @@ class HelperListController extends Controller
                 // 'form_type' => 'number',
                 // 'form_name' => 'staff_card_no',
                 // 'form_validate' => 'nullable|numeric',
+            ],
+            [
+                'label_key' => 'people::people.has_tax_number',
+                'icon' => null,
+                'value' => function($helper) { return $helper->has_tax_number; },
+                'value' => function($helper) { 
+                    return $helper->has_tax_number != null ? self::getTaxNumberStates()[$helper->has_tax_number] : null; 
+                },
+                'overview' => false,
+                'section' => 'identification',
+                'import_labels' => [ 'Tax Number' ],
+                'assign' => function($person, $helper, $value) { 
+                    $helper->has_tax_number = $value;
+                },
+                'form_type' => 'radio',
+                'form_name' => 'has_tax_number',
+                'form_list' => collect(self::getTaxNumberStates())->mapWithKeys(function($s, $k){ return [ $k => $s ]; })->toArray(),
+                'form_validate' => [ 'nullable', Rule::in(array_keys(self::getTaxNumberStates())) ]
             ],
             [
                 'label_key' => 'people::people.endorses_casework',

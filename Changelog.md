@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.1
+
+* Added "has tax number field" to helper records
+
 ## 2.6.0
 
 * Added category field to accounting, uses data from project field
