@@ -199,7 +199,9 @@ return [
     'name_nationality_occupation' => 'Nationality, Occupation',
     'contact_info' => 'Contact information',
     'has_tax_number' => 'Has tax number',
+    'tax_numbers' => 'Tax numbers',
     'applied' => 'Applied',
     'monthly_support' => 'Monthly support',
     'pickup_location' => 'Pickup location',
+    'pickup_locations' => 'Pickup locations',
 ];

@@ -199,7 +199,9 @@ return [
     'name_nationality_occupation' => 'Nationalität, Beschäftigung',
     'contact_info' => 'Kontaktinformationen',
     'has_tax_number' => 'Hat eine Steuernummer',
+    'tax_numbers' => 'Steuernummern',
     'applied' => 'Hat sich beworben',
     'monthly_support' => 'Monatliche Unterstützung',
     'pickup_location' => 'Abholort',
+    'pickup_locations' => 'Abholorte',
 ];

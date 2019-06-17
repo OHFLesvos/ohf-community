@@ -978,6 +978,44 @@ class HelperListController extends Controller
                         ->where('responsibilities', "like",'%"'.$v.'"%');
                 },
             ],
+            'pickup_locations' => [
+                'label' => __('people::people.pickup_locations'),
+                'groups' => function() {
+                    return Helper::groupBy('pickup_location')
+                        ->orderBy('pickup_location')
+                        ->whereNotNull('pickup_location')
+                        ->get()
+                        ->pluck('pickup_location')
+                        ->unique()
+                        ->sort()
+                        ->toArray();
+                },
+                'query' => function($q, $v) {
+                    return $q
+                        ->select('helpers.*')
+                        ->join('persons', 'helpers.person_id', '=', 'persons.id')
+                        ->where('pickup_location', $v);
+                },
+            ],
+            'tax_numbers' => [
+                'label' => __('people::people.tax_numbers'),
+                'groups' => function() {
+                    return Helper::groupBy('has_tax_number')
+                        ->orderBy('has_tax_number')
+                        ->whereNotNull('has_tax_number')
+                        ->get()
+                        ->pluck('has_tax_number')
+                        ->unique()
+                        ->sort()
+                        ->toArray();
+                },
+                'query' => function($q, $v) {
+                    return $q
+                        ->select('helpers.*')
+                        ->join('persons', 'helpers.person_id', '=', 'persons.id')
+                        ->where('has_tax_number', $v);
+                },
+            ],
             'asylum_request_status' => [
                 'label' => __('people::people.asylum_request_status'),
                 'groups' => function() {
@@ -1003,6 +1041,7 @@ class HelperListController extends Controller
                             return $s == null ? __('app.unspecified') : __('people::people.'.$s);
                         });
                 },
+                'authorized' => Gate::allows('view-helpers-casework'),
             ],
         ]);
     }
@@ -1101,7 +1140,7 @@ class HelperListController extends Controller
         $scope_method = $scopes->get($scope)['scope'];
 
         // Groupings
-        $groupings = $this->getGroupings();
+        $groupings = $this->getGroupings()->filter(function($e){ return !isset($e['authorized']) || $e['authorized']; });
         if ($request->grouping != null && $groupings->keys()->contains($request->grouping)) {
             $grouping = $request->grouping;
             $request->session()->put('helpers_grouping', $grouping);
