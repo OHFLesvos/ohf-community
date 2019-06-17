@@ -242,6 +242,12 @@ class Person extends Model
                 $members[] = $c;
             });
         }
+        $partnersChildren = $this->partnersChildren;
+        if ($partnersChildren != null && $partnersChildren->count() > 0) {
+            $partnersChildren->each(function($c) use(&$members) {
+                $members[] = $c;
+            });
+        }
         $this->siblings->each(function($c) use(&$members) {
             $members[] = $c;
         });
