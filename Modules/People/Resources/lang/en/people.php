@@ -200,4 +200,5 @@ return [
     'contact_info' => 'Contact information',
     'has_tax_number' => 'Has tax number',
     'applied' => 'Applied',
+    'monthly_support' => 'Monthly support',
 ];

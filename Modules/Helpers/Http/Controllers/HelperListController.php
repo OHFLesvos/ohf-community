@@ -406,6 +406,17 @@ class HelperListController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
+                'label_key' => 'people::people.monthly_support',
+                'icon' => 'euro-sign',
+                'value' => function($helper) { return $helper->work_monthly_support; },
+                'overview' => false,
+                'section' => 'occupation',
+                'assign' => function($person, $helper, $value) { $helper->work_monthly_support = !empty($value) ? $value : null; },
+                'form_type' => 'number',
+                'form_name' => 'monthly_support',
+                'form_validate' => 'nullable|numeric',
+            ],
+            [
                 'label_key' => 'people::people.background',
                 'icon' => null,
                 'value' => 'work_background',
@@ -996,6 +1007,10 @@ class HelperListController extends Controller
             'name_nationality_occupation' => [
                 'label' => __('people::people.name_nationality_occupation'),
                 'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities'],
+            ],
+            'monthly_support' => [
+                'label' => __('people::people.monthly_support'),
+                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities', 'monthly_support'],
             ],
             'contact_info' => [
                 'label' => __('people::people.contact_info'),

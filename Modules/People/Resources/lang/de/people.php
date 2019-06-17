@@ -200,4 +200,5 @@ return [
     'contact_info' => 'Kontaktinformationen',
     'has_tax_number' => 'Hat eine Steuernummer',
     'applied' => 'Hat sich beworben',
+    'monthly_support' => 'Monatliche Unterstützung',
 ];

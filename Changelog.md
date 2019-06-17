@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.2
+
+* Added "monthly support" to helper records
+
 ## 2.6.1
 
 * Added "has tax number field" to helper records
