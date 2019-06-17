@@ -988,6 +988,7 @@ class HelperListController extends Controller
                         ->pluck('pickup_location')
                         ->unique()
                         ->sort()
+                        ->push(null)
                         ->toArray();
                 },
                 'query' => function($q, $v) {
@@ -995,6 +996,12 @@ class HelperListController extends Controller
                         ->select('helpers.*')
                         ->join('persons', 'helpers.person_id', '=', 'persons.id')
                         ->where('pickup_location', $v);
+                },
+                'label_transform'=> function($groups) {
+                    return collect($groups)
+                        ->map(function($s) {
+                            return $s == null ? __('app.unspecified') : $s;
+                        });
                 },
             ],
             'tax_numbers' => [
@@ -1019,7 +1026,7 @@ class HelperListController extends Controller
                 'label_transform'=> function($groups) {
                     return collect($groups)
                         ->map(function($s) {
-                            return $s == null ? self::getTaxNumberStates()[$s] : null;
+                            return self::getTaxNumberStates()[$s];
                         });
                 },
             ],
