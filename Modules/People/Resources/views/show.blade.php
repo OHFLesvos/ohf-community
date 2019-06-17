@@ -246,6 +246,13 @@
                                     </a>
                                 @endforeach
                             @endif
+                            @if(count($person->partnersChildren) > 0)
+                                @foreach($person->partnersChildren->sortByDesc('age') as $child) 
+                                    <a href="{{ route('people.show', $child) }}" class="list-group-item list-group-item-action">
+                                        P @include('people::person-label', ['person' => $child, 'prefix' => __('people::people.child')])
+                                    </a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
