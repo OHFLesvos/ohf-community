@@ -199,17 +199,23 @@ class Person extends Model
             }
         }
 
+        return collect($siblings);
+    }
+
+    function getPartnersChildrenAttribute() {
+        $results = [];
+
         $partner = $this->partner;
         if ($partner != null) {
             $children = $partner->children;
             if ($children != null && $children->count() > 0) {
-                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$siblings) {
-                    $siblings[] = $c;
+                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$results) {
+                    $results[] = $c;
                 });
             }
         }
 
-        return collect($siblings);
+        return collect($results);
     }
 
     function getFamilyAttribute() {
