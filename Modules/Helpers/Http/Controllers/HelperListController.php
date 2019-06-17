@@ -305,6 +305,28 @@ class HelperListController extends Controller
                 'form_name' => 'residence',
             ],
             [
+                'label_key' => 'people::people.pickup_location',
+                'icon' => null,
+                'value' => 'pickup_location',
+                'value_html' => function($helper) { return nl2br($helper->pickup_location); },
+                'overview' => false,
+                'section' => 'reachability',
+                'assign' => function($person, $helper, $value) { $helper->pickup_location = $value; },
+                'form_type' => 'text',
+                'form_name' => 'pickup_location',
+                'form_autocomplete' => function() { 
+                    return Helper::groupBy('pickup_location')
+                        ->orderBy('pickup_location')
+                        ->whereNotNull('pickup_location')
+                        ->get()
+                        ->pluck('pickup_location')
+                        ->flatten()
+                        ->unique()
+                        ->sort()
+                        ->toArray();                        
+                },
+            ],
+            [
                 'label_key' => 'app.responsibilities',
                 'icon' => null,
                 'value' => function($helper) { return $helper->responsibilities != null ? implode(", ", $helper->responsibilities) : null; },
@@ -1044,6 +1066,10 @@ class HelperListController extends Controller
             'residence' => [
                 'label' => __('people::people.residence'),
                 'sorting' => 'residence',
+            ],
+            'pickup_location' => [
+                'label' => __('people::people.pickup_location'),
+                'sorting' => 'pickup_location',
             ],
             'work_application_date' => [
                 'label' => __('people::people.application_date'),

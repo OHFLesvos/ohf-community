@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.3
+
+* Added "pickup location" to helper records
+
 ## 2.6.2
 
 * Added "monthly support" to helper records

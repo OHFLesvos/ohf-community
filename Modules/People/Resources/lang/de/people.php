@@ -201,4 +201,5 @@ return [
     'has_tax_number' => 'Hat eine Steuernummer',
     'applied' => 'Hat sich beworben',
     'monthly_support' => 'Monatliche Unterstützung',
+    'pickup_location' => 'Abholort',
 ];

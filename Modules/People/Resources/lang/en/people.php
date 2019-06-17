@@ -201,4 +201,5 @@ return [
     'has_tax_number' => 'Has tax number',
     'applied' => 'Applied',
     'monthly_support' => 'Monthly support',
+    'pickup_location' => 'Pickup location',
 ];
