@@ -8,13 +8,13 @@
     @php
         $members = $person->otherFamilyMembers;
     @endphp
-    @include('bank::person-card', [ 'bottom_margin' => $members->count() > 0 ? 1 : 4 ])
+    @include('bank::person-card', [ 'bottom_margin' => $members->count() > 0 ? 0 : 4 ])
     @if ($members->count() > 0)
         @foreach($members as $member)
             @php
                 $ids[] = $member->id;
             @endphp
-            @include('bank::person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 4 : 1, 'border' => 'info' ])
+            @include('bank::person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 4 : 0 ])
         @endforeach
     @endif
 

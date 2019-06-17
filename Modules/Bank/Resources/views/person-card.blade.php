@@ -29,7 +29,7 @@
                     @if(isset($person->date_of_birth))
                         {{ $person->date_of_birth }} (age {{ $person->age }})
                     @else
-                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus-o)</button>
+                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus)</button>
                     @endif
                 </span>
                 <span class="form-inline d-inline">
