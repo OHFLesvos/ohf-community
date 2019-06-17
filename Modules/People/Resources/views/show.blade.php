@@ -249,7 +249,7 @@
                             @if(count($person->partnersChildren) > 0)
                                 @foreach($person->partnersChildren->sortByDesc('age') as $child) 
                                     <a href="{{ route('people.show', $child) }}" class="list-group-item list-group-item-action">
-                                        P @include('people::person-label', ['person' => $child, 'prefix' => __('people::people.child')])
+                                        @include('people::person-label', ['person' => $child, 'prefix' => __('people::people.partners_child')])
                                     </a>
                                 @endforeach
                             @endif

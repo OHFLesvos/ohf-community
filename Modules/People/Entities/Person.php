@@ -205,13 +205,17 @@ class Person extends Model
     function getPartnersChildrenAttribute() {
         $results = [];
 
+        $ownChildrenIds = $this->children->pluck('id');
+
         $partner = $this->partner;
         if ($partner != null) {
             $children = $partner->children;
             if ($children != null && $children->count() > 0) {
-                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$results) {
-                    $results[] = $c;
-                });
+                $children->filter(function($m) use ($ownChildrenIds) { 
+                        return $m->id != $this->id && !$ownChildrenIds->contains($m->id); 
+                    })->each(function($c) use(&$results) {
+                        $results[] = $c;
+                    });
             }
         }
 

@@ -116,6 +116,7 @@ return [
     'sister' => 'Sister',
     'children' => 'Children',
     'child' => 'Child',
+    'partners_child' => 'Partners child',
     'with_qr_code' => 'Coupons with QR code',
     'qr_code' => 'QR-Code',
     'no_helpers_found' => 'No helpers found.',
