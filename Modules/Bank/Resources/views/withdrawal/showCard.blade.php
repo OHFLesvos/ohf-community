@@ -10,7 +10,7 @@
     @endphp
     @include('bank::person-card', [ 'bottom_margin' => $members->count() > 0 ? 0 : 4 ])
     @if ($members->count() > 0)
-        @foreach($members as $member)
+        @foreach($members->sortByDesc('age') as $member)
             @php
                 $ids[] = $member->id;
             @endphp
