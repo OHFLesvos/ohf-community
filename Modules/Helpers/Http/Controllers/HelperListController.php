@@ -1007,6 +1007,7 @@ class HelperListController extends Controller
                         ->pluck('has_tax_number')
                         ->unique()
                         ->sort()
+                        ->push(null)
                         ->toArray();
                 },
                 'query' => function($q, $v) {
@@ -1014,6 +1015,12 @@ class HelperListController extends Controller
                         ->select('helpers.*')
                         ->join('persons', 'helpers.person_id', '=', 'persons.id')
                         ->where('has_tax_number', $v);
+                },
+                'label_transform'=> function($groups) {
+                    return collect($groups)
+                        ->map(function($s) {
+                            return $s == null ? self::getTaxNumberStates()[$s] : null;
+                        });
                 },
             ],
             'asylum_request_status' => [
@@ -1037,7 +1044,6 @@ class HelperListController extends Controller
                 'label_transform'=> function($groups) {
                     return collect($groups)
                         ->map(function($s) {
-
                             return $s == null ? __('app.unspecified') : __('people::people.'.$s);
                         });
                 },
