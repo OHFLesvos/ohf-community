@@ -100,7 +100,7 @@
             @endif
         </div>
     @endif
-    <div class="card-footer p-0 px-2 pt-2">
+    <div class="card-body p-0 px-2 pt-2">
         <div class="form-row">
             @forelse($couponTypes as $coupon)
                 @if($person->eligibleForCoupon($coupon))
