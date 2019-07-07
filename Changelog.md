@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.4
+
+* Fixed helper list data fields
+
 ## 2.6.3
 
 * Added "pickup location" to helper records

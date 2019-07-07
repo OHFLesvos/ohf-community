@@ -181,7 +181,7 @@ class HelperListController extends Controller
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function($person, $helper, $value) { 
-                    $person->gender = ($value != null ? (self::getAllTranslations('people.female')->contains($value) ? 'f' : 'm') : null); 
+                    $person->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null); 
                 },
                 'form_type' => 'radio',
                 'form_name' => 'gender',
@@ -570,7 +570,7 @@ class HelperListController extends Controller
                 'section' => 'casework',
                 'assign' => function($person, $helper, $value) {
                     foreach(self::$asylum_request_states as $s) {
-                        if (self::getAllTranslations('people.' . $s)->contains($value)) {
+                        if (self::getAllTranslations('people::people.' . $s)->contains($value)) {
                             $helper->casework_asylum_request_status = $s;
                             break;
                         }
