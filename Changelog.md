@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.5
+
+* Helper list support export with work starting date
+
 ## 2.6.4
 
 * Fixed helper list data fields

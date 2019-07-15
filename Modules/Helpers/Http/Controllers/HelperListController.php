@@ -1084,7 +1084,7 @@ class HelperListController extends Controller
             ],
             'monthly_support' => [
                 'label' => __('people::people.monthly_support'),
-                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities', 'monthly_support'],
+                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities', 'starting_date', 'monthly_support'],
             ],
             'contact_info' => [
                 'label' => __('people::people.contact_info'),
