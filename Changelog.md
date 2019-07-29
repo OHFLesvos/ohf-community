@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.6.6
+
+Accounting:
+
+* Fixed unicode issue in monthly spreadsheet export
+* Added calculation of difference between expenses and spending in filtered view
+* Added option to get export of filtered data
+* Fix unicude issue in summary view
+
 ## 2.6.5
 
 * Helper list support export with work starting date
