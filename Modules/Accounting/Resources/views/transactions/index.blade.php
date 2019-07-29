@@ -66,7 +66,7 @@
                     @endphp
                     @if($sum_income > 0 || $sum_spending > 0)
                         <tr>
-                            <td>@lang('app.total')</td>
+                            <td colspan="2" rowspan="2" class="align-middle">@lang('app.total')</td>
                             <td class="text-right d-none d-sm-table-cell">
                                 <u class="text-success">{{ number_format($sum_income, 2) }}</u>
                             </td>
@@ -76,8 +76,12 @@
                             <td class="text-right d-table-cell d-sm-none">
                                 @if($sum_income > 0)<u class="text-success">{{ number_format($sum_income, 2) }}</u><br>@endif
                                 @if($sum_spending > 0)<u class="text-danger">{{ number_format($sum_spending, 2) }}</u>@endif
+                                <u>{{ number_format($sum_income - $sum_spending, 2) }}</u>
                             </td>
-                            <td colspan="6"></td>
+                            <td colspan="6" rowspan="2"></td>
+                        </tr>
+                        <tr class="d-none d-sm-table-row">
+                            <td colspan="2" class="text-center"><u>{{ number_format($sum_income - $sum_spending, 2) }}</u></td>
                         </tr>
                     @endif
                 @endif
