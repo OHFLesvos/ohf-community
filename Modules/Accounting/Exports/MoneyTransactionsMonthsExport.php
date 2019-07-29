@@ -24,6 +24,11 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
 {
     use Exportable, DefaultFormatting;
 
+    public function __construct()
+    {
+        Carbon::setUtf8(true);
+    }
+
     /**
      * @return array
      */
