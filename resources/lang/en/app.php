@@ -259,4 +259,9 @@ return [
     'google_sign_in' => 'Sign in with Google',
     'facebook_sign_in' => 'Sign in with Facebook',
     'oauth_provider' => 'OAuth provider',
+    'selection' => 'Selection',
+    'all_records' => 'All records',
+    'selected_records_according_to_current_filter' => 'Selected records according to current filter',
+    'none' => 'None',
+    'monthly' => 'Monthly',
  ];

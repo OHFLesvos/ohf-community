@@ -24,18 +24,6 @@ class MoneyTransactionsController extends Controller
 {
     use ExportableActions;
 
-    private static $filterColumns = [
-        'type',
-        'category',
-        'project',
-        'beneficiary',
-        'description',
-        'receipt_no',
-        'today',
-        'no_receipt',
-        'wallet_owner',
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -89,7 +77,7 @@ class MoneyTransactionsController extends Controller
             session(['accounting.filter' => []]);
         }
         $filter = session('accounting.filter', []);
-        foreach (self::$filterColumns as $col) {
+        foreach (Config::get('accounting.filter_columns') as $col) {
             if (!empty($request->filter[$col])) {
                 $filter[$col] = $request->filter[$col];
             } else if (isset($request->filter)) {
@@ -135,7 +123,12 @@ class MoneyTransactionsController extends Controller
         $query = MoneyTransaction
             ::orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
-        foreach (self::$filterColumns as $col) {
+        self::applyFilterToQuery($filter, $query);
+        return $query;
+    }
+
+    public static function applyFilterToQuery($filter, &$query, $skipDates = false) {
+        foreach (Config::get('accounting.filter_columns') as $col) {
             if (!empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today()); 
@@ -151,13 +144,14 @@ class MoneyTransactionsController extends Controller
                 }
             }
         }
-        if (!empty($filter['date_start'])) {
-            $query->whereDate('date', '>=', $filter['date_start']);
+        if (!$skipDates) {
+            if (!empty($filter['date_start'])) {
+                $query->whereDate('date', '>=', $filter['date_start']);
+            }
+            if (!empty($filter['date_end'])) {
+                $query->whereDate('date', '<=', $filter['date_end']);
+            }
         }
-        if (!empty($filter['date_end'])) {
-            $query->whereDate('date', '<=', $filter['date_end']);
-        }
-        return $query;
     }
 
     /**
@@ -468,12 +462,18 @@ class MoneyTransactionsController extends Controller
 
     function exportViewArgs(): array
     {
+        $filter = session('accounting.filter', []);
         return [ 
             'groupings' => [
-                'none' => 'None',
-                'monthly' => 'Monthly',
+                'none' => __('app.none'),
+                'monthly' => __('app.monthly'),
             ],
             'grouping' => 'none',
+            'selections' => !empty($filter) ? [
+                'all' => __('app.all_records'),
+                'filtered' => __('app.selected_records_according_to_current_filter')
+            ] : null,
+            'selection' => 'all',
         ];
     }
 
@@ -483,6 +483,10 @@ class MoneyTransactionsController extends Controller
             'grouping' => [
                 'required', 
                 Rule::in(['none', 'monthly']),
+            ],
+            'selection' => [
+                'required', 
+                Rule::in(['all', 'filtered']),
             ],
         ];
     }
@@ -494,10 +498,11 @@ class MoneyTransactionsController extends Controller
 
     function exportExportable(Request $request)
     {
+        $filter = $request->selection == 'filtered' ? session('accounting.filter', []) : [];
         if ($request->grouping == 'monthly') {
-            return new MoneyTransactionsMonthsExport();
+            return new MoneyTransactionsMonthsExport($filter);
         }
-        return new MoneyTransactionsExport();
+        return new MoneyTransactionsExport($filter);
     }
 
     public function editReceipt(MoneyTransaction $transaction)

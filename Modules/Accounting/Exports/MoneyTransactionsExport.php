@@ -3,19 +3,25 @@
 namespace Modules\Accounting\Exports;
 
 use Modules\Accounting\Entities\MoneyTransaction;
+use Modules\Accounting\Http\Controllers\MoneyTransactionsController;
 
 class MoneyTransactionsExport extends BaseMoneyTransactionsExport
 {
-    public function __construct()
+    private $filter;
+
+    public function __construct($filter = [])
     {
+        $this->filter = $filter;
         $this->setOrientation('landscape');
-    }    
+    }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return MoneyTransaction
+        $qry = MoneyTransaction
                 ::orderBy('date', 'ASC')
                 ->orderBy('created_at', 'ASC');
+        MoneyTransactionsController::applyFilterToQuery($this->filter, $qry);
+        return $qry;
     }
 
     /**

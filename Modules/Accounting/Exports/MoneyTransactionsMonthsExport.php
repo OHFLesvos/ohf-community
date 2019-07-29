@@ -7,6 +7,7 @@ use App\Exports\DefaultFormatting;
 use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Exports\Sheets\MoneyTransactionsMonthSheet;
 use Modules\Accounting\Exports\Sheets\MoneyTransactionsSummarySheet;
+use Modules\Accounting\Http\Controllers\MoneyTransactionsController;
 
 use Illuminate\Support\Facades\DB;
 
@@ -24,9 +25,15 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
 {
     use Exportable, DefaultFormatting;
 
-    public function __construct()
+    private $filter;
+
+    public function __construct($filter = [])
     {
+        $this->filter = $filter;
+
         Carbon::setUtf8(true);
+        // TODO: Probably define on more general location
+        setlocale(LC_TIME, \App::getLocale());
     }
 
     /**
@@ -34,15 +41,14 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
      */
     public function sheets(): array
     {
-        // TODO: Probably define on more general location
-        setlocale(LC_TIME, \App::getLocale());
-
-        $months = MoneyTransaction
+        $qry = MoneyTransaction
             ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
             ->groupBy(DB::raw('MONTH(date)'))
             ->groupBy(DB::raw('YEAR(date)'))
             ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
+            ->orderBy('month', 'asc');
+        MoneyTransactionsController::applyFilterToQuery($this->filter, $qry, true);
+        $months = $qry
             ->get()
             ->map(function($e){
                 return (new Carbon($e->year.'-'.$e->month.'-01'))->startOfMonth();
@@ -53,7 +59,7 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
 
         // Transactions by month
         foreach ($months as $month) {
-            $sheet = new MoneyTransactionsMonthSheet($month);
+            $sheet = new MoneyTransactionsMonthSheet($month, $this->filter);
             $sheet->setOrientation('landscape');
             $sheets[] = $sheet;
         }

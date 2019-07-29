@@ -259,4 +259,9 @@ return [
     'google_sign_in' => 'Mit Google anmelden',
     'facebook_sign_in' => 'Mit Facebook anmelden',
     'oauth_provider' => 'OAuth provider',
+    'selection' => 'Auswahl',
+    'all_records' => 'Alle Datensätze',
+    'selected_records_according_to_current_filter' => 'Ausgewählte Datensätze gemäss aktuellem Filter',
+    'none' => 'Keine',
+    'monthly' => 'Monatlich',
 ];
