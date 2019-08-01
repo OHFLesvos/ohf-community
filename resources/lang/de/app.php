@@ -155,6 +155,7 @@ return [
     'latest_changes' => 'Letzte Änderungen',
     'project' => 'Projekt',
     'projects' => 'Projekte',
+    'no_project' => 'Kein Projekt',
     'description' => 'Beschreibung',
     'no_data_available_in_the_selected_time_range' => 'Keine Daten im ausgewählten Zeitraum vorhanden.',
     'overview' => 'Übersicht',

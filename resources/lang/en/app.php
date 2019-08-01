@@ -154,6 +154,7 @@ return [
     'latest_changes' => 'Latest changes',
     'project' => 'Project',
     'projects' => 'Projects',
+    'no_project' => 'No project',
     'description' => 'Description',
     'no_data_available_in_the_selected_time_range' => 'No data available in the selected time range.',
     'overview' => 'Overview',
