@@ -6,11 +6,16 @@
 
     <div class="row">
         <div class="col-sm">
-            <h2 class="mb-4">{{ $monthDate->formatLocalized('%B %Y') }}</h2>
+            <h2 class="mb-4">{{ $heading }}</h2>
         </div>
         <div class="col-sm-auto">
             @if(sizeof($months) > 0)
-                {{ Form::bsSelect('timerange', $months, $monthDate->format('Y-m'), [ 'id' => 'timerange' ], '') }}
+                {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- by month - ' ], '') }}
+            @endif
+        </div>
+        <div class="col-sm-auto">
+            @if(sizeof($years) > 0)
+                {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- by year- ' ], '') }}
             @endif
         </div>
     </div>
@@ -28,7 +33,7 @@
                                 <tr>
                                     <td>
                                         @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
-                                            <a href="{{ route('accounting.transactions.index') }}?filter[category]={{ $v->category }}&filter[date_start]={{ $monthDate->startOfMonth()->toDateString() }}&filter[date_end]={{ $monthDate->endOfMonth()->toDateString() }}">
+                                            <a href="{{ route('accounting.transactions.index') }}?filter[category]={{ $v->category }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                         @endcan
                                             {{ $v->category }}
                                         @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
@@ -58,7 +63,7 @@
                                     <td>
                                         @isset($v->project)
                                             @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
-                                                <a href="{{ route('accounting.transactions.index') }}?filter[project]={{ $v->project }}&filter[date_start]={{ $monthDate->startOfMonth()->toDateString() }}&filter[date_end]={{ $monthDate->endOfMonth()->toDateString() }}">
+                                                <a href="{{ route('accounting.transactions.index') }}?filter[project]={{ $v->project }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                             @endcan
                                                 {{ $v->project }}
                                             @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
@@ -111,9 +116,13 @@
 
 @section('script')
 $(function(){
-    $('#timerange').on('change', function(){
+    $('#monthrange').on('change', function(){
         var val = $(this).val().split('-');
         document.location = '{{ route('accounting.transactions.summary') }}?year=' + val[0] + '&month=' + val[1];
+    });
+    $('#yearrange').on('change', function(){
+        var val = $(this).val();
+        document.location = '{{ route('accounting.transactions.summary') }}?year=' + val;
     });
 });
 @endsection

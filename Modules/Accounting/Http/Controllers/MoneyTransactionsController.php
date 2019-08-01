@@ -388,12 +388,22 @@ class MoneyTransactionsController extends Controller
             'month' => 'nullable|regex:/[0-1][0-9]/',
             'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
         ]);
-        if (isset($request->month) && isset($request->year)) {
+        if ($request->filled('month') && $request->filled('year')) {
             $dateFrom = (new Carbon($request->year.'-'.$request->month.'-01'))->startOfMonth();
+            $dateTo = (clone $dateFrom)->endOfMonth();
+            $heading = $dateFrom->formatLocalized('%B %Y');
+            $currentRange = $dateFrom->format('Y-m');
+        } else if ($request->filled('year')) {
+            $dateFrom = (new Carbon($request->year.'-01-01'))->startOfYear();
+            $dateTo = (clone $dateFrom)->endOfYear();
+            $heading = $request->year;
+            $currentRange = $request->year;
         } else {
             $dateFrom = $currentMonth;
+            $dateTo = (clone $dateFrom)->endOfMonth();
+            $heading = $dateFrom->formatLocalized('%B %Y');
+            $currentRange = $dateFrom->format('Y-m');
         }
-        $dateTo = (clone $dateFrom)->endOfMonth();
 
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
@@ -453,14 +463,29 @@ class MoneyTransactionsController extends Controller
             ->prepend($currentMonth->formatLocalized('%B %Y'), $currentMonth->format('Y-m'))
             ->toArray();
 
+        $years = MoneyTransaction
+            ::select(DB::raw('YEAR(date) as year'))
+            ->groupBy(DB::raw('YEAR(date)'))
+            ->orderBy('year', 'desc')
+            ->get()
+            ->mapWithKeys(function($e){
+                return [ $e->year => $e->year ];
+            })            
+            ->prepend($currentMonth->format('Y'), $currentMonth->format('Y'))
+            ->toArray();
+
         return view('accounting::transactions.summary', [
-            'monthDate' => $dateFrom,
+            'heading' => $heading,
+            'currentRange' => $currentRange,
             'months' => $months,
+            'years' => $years,
             'revenueByCategory' => $revenueByCategory,
             'revenueByProject' => $revenueByProject,
             'wallet' => $wallet,
             'spending' => $spending,
             'income' => $income,
+            'filterDateStart' => $dateFrom->toDateString(),
+            'filterDateEnd' => $dateTo->toDateString(),
         ]);
     }
 

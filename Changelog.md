@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.6.8
+
+Accounting:
+
+* Year range select in summary
+
 ## 2.6.6
 
 Accounting:
