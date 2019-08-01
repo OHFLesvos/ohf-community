@@ -8,6 +8,7 @@ Accounting:
 * Added calculation of difference between expenses and spending in filtered view
 * Added option to get export of filtered data
 * Fix unicude issue in summary view
+* Combined summary view, with projects and categories
 
 ## 2.6.5
 
