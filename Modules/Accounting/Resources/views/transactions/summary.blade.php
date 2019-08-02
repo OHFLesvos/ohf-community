@@ -10,12 +10,12 @@
         </div>
         <div class="col-sm-auto">
             @if(sizeof($months) > 0)
-                {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- by month - ' ], '') }}
+                {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- ' . __('app.by_month') . ' - ' ], '') }}
             @endif
         </div>
         <div class="col-sm-auto">
             @if(sizeof($years) > 0)
-                {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- by year- ' ], '') }}
+                {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- ' . __('app.by_year') . '- ' ], '') }}
             @endif
         </div>
     </div>
@@ -33,14 +33,14 @@
                                 <tr>
                                     <td>
                                         @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
-                                            <a href="{{ route('accounting.transactions.index') }}?filter[category]={{ $v->category }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                            <a href="{{ route('accounting.transactions.index') }}?filter[category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                         @endcan
-                                            {{ $v->category }}
+                                            {{ $v['name'] }}
                                         @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
                                             </a>
                                         @endcan
                                     </td>
-                                    <td class="text-right {{ $v->sum > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($v->sum, 2) }}</td>
+                                    <td class="text-right {{ $v['amount'] > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($v['amount'], 2) }}</td>
                                 </tr>
                             @endforeach
                         @else
@@ -61,11 +61,11 @@
                             @foreach($revenueByProject as $v)
                                 <tr>
                                     <td>
-                                        @isset($v->project)
+                                        @isset($v['name'])
                                             @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
-                                                <a href="{{ route('accounting.transactions.index') }}?filter[project]={{ $v->project }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                                <a href="{{ route('accounting.transactions.index') }}?filter[project]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                             @endcan
-                                                {{ $v->project }}
+                                                {{ $v['name'] }}
                                             @can('list', Modules\Accounting\Entities\MoneyTransaction::class)
                                                 </a>
                                             @endcan
@@ -73,7 +73,7 @@
                                             <em>@lang('app.no_project')</em>
                                         @endif
                                     </td>
-                                    <td class="text-right {{ $v->sum > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($v->sum, 2) }}</td>
+                                    <td class="text-right {{ $v['amount'] > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($v['amount'], 2) }}</td>
                                 </tr>
                             @endforeach
                         @else
@@ -117,7 +117,12 @@
 @section('script')
 $(function(){
     $('#monthrange').on('change', function(){
-        var val = $(this).val().split('-');
+        var val = $(this).val();
+        if (val == '') {
+            val = ['','']
+        } else {
+            val = val.split('-');
+        }
         document.location = '{{ route('accounting.transactions.summary') }}?year=' + val[0] + '&month=' + val[1];
     });
     $('#yearrange').on('change', function(){

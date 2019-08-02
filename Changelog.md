@@ -5,6 +5,7 @@
 Accounting:
 
 * Year range select in summary
+* All time range in sumary
 
 ## 2.6.6
 

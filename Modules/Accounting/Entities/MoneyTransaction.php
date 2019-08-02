@@ -2,11 +2,16 @@
 
 namespace Modules\Accounting\Entities;
 
+use Modules\Accounting\Entities\SignedMoneyTransaction;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use OwenIt\Auditing\Contracts\Auditable;
+
+use Carbon\Carbon;
 
 class MoneyTransaction extends Model implements Auditable
 {
@@ -27,25 +32,71 @@ class MoneyTransaction extends Model implements Auditable
         parent::boot();
     }
 
-    public static function currentWallet(): float
+    /**
+     * Gets the amount of the wallet
+     * 
+     * @param \Carbon\Carbon $date optional end-date until which transactions should be considered
+     */
+    public static function currentWallet(Carbon $date = null): ?float
     {
-        $income = optional(MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
-            ->where('type', 'income')
-            ->first())
-            ->sum;
+        $qry = SignedMoneyTransaction::select(DB::raw('SUM(amount) as sum'));
 
-        $spending = optional(MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
-            ->where('type', 'spending')
-            ->first())
-            ->sum;
+        self::dateFilter($qry, null, $date);
 
-        return $income - $spending;
+        return optional($qry->first())->sum;
+    }
+
+    public static function revenueByField(string $field, Carbon $dateFrom = null, Carbon $dateTo = null): Collection
+    {
+        $qry = SignedMoneyTransaction::select($field, DB::raw('SUM(amount) as sum'))
+            ->groupBy($field)
+            ->orderBy($field);
+
+        self::dateFilter($qry, $dateFrom, $dateTo);
+
+        return $qry->get()
+            ->map(function($e) use ($field) {
+                return [
+                    'name'   => $e->$field,
+                    'amount' => $e->sum,
+                ];
+            });
+    }
+
+    public static function totalSpending(Carbon $dateFrom = null, Carbon $dateTo = null): ?float
+    {
+        $qry = MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
+            ->where('type', 'spending');
+        
+        self::dateFilter($qry, $dateFrom, $dateTo);
+        
+        return optional($qry->first())->sum;
+    }
+
+    public static function totalIncome(Carbon $dateFrom = null, Carbon $dateTo = null): ?float
+    {
+        $qry = MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
+            ->where('type', 'income');
+        
+        self::dateFilter($qry, $dateFrom, $dateTo);
+        
+        return optional($qry->first())->sum;
+    }
+
+    private static function dateFilter($qry, Carbon $dateFrom = null, Carbon $dateTo = null)
+    {
+        if ($dateFrom != null) {
+            $qry->whereDate('date', '>=', $dateFrom);
+        }
+        if ($dateTo != null) {
+            $qry->whereDate('date', '<=', $dateTo);
+        }
     }
 
     public static function getNextFreeReceiptNo()
     {
         return optional(MoneyTransaction::select(DB::raw('MAX(receipt_no) as val'))
-                ->first())
-                ->val + 1;
+            ->first())
+            ->val + 1;
     }    
 }

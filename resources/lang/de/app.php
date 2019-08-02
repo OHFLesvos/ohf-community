@@ -267,4 +267,7 @@ return [
     'selected_records_according_to_current_filter' => 'Ausgewählte Datensätze gemäss aktuellem Filter',
     'none' => 'Keine',
     'monthly' => 'Monatlich',
+    'by_month' => 'nach Monat',
+    'by_year' => 'nach Jahr',
+    'all_time' => 'Gesamter Zeitraum',
 ];

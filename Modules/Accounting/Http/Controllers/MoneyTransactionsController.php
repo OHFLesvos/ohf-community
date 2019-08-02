@@ -7,7 +7,6 @@ use App\Http\Controllers\Export\ExportableActions;
 
 use Modules\Accounting\Http\Requests\StoreTransaction;
 use Modules\Accounting\Entities\MoneyTransaction;
-use Modules\Accounting\Entities\SignedMoneyTransaction;
 use Modules\Accounting\Exports\MoneyTransactionsExport;
 use Modules\Accounting\Exports\MoneyTransactionsMonthsExport;
 
@@ -398,6 +397,11 @@ class MoneyTransactionsController extends Controller
             $dateTo = (clone $dateFrom)->endOfYear();
             $heading = $request->year;
             $currentRange = $request->year;
+        } else if ($request->has('year')) {
+            $dateFrom = null;
+            $dateTo = null;
+            $heading = __('app.all_time');
+            $currentRange = null;
         } else {
             $dateFrom = $currentMonth;
             $dateTo = (clone $dateFrom)->endOfMonth();
@@ -408,46 +412,12 @@ class MoneyTransactionsController extends Controller
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
-        $revenueByCategory = SignedMoneyTransaction
-            ::select('category', DB::raw('SUM(amount) as sum'))
-            ->whereDate('date', '>=', $dateFrom)
-            ->whereDate('date', '<=', $dateTo)
-            ->groupBy('category')
-            ->orderBy('category')
-            ->get();
+        $revenueByCategory = MoneyTransaction::revenueByField('category', $dateFrom, $dateTo);
+        $revenueByProject = MoneyTransaction::revenueByField('project', $dateFrom, $dateTo);
+        $wallet = MoneyTransaction::currentWallet($dateTo);
 
-        $revenueByProject = SignedMoneyTransaction
-            ::select('project', DB::raw('SUM(amount) as sum'))
-            ->whereDate('date', '>=', $dateFrom)
-            ->whereDate('date', '<=', $dateTo)
-            ->groupBy('project')
-            ->orderBy('project')
-            ->get();
-
-        // Calculate wallet
-        $previousRevenue = optional(SignedMoneyTransaction
-            ::select(DB::raw('SUM(amount) as sum'))
-            ->whereDate('date', '<', $dateFrom)
-            ->first())
-            ->sum;
-
-        $wallet = $previousRevenue + $revenueByCategory->sum('sum');
-
-        $spending = optional(MoneyTransaction
-            ::select(DB::raw('SUM(amount) as sum'))
-            ->whereDate('date', '>=', $dateFrom)
-            ->whereDate('date', '<=', $dateTo)
-            ->where('type', 'spending')
-            ->first())
-            ->sum;
-
-        $income = optional(MoneyTransaction
-            ::select(DB::raw('SUM(amount) as sum'))
-            ->whereDate('date', '>=', $dateFrom)
-            ->whereDate('date', '<=', $dateTo)
-            ->where('type', 'income')
-            ->first())
-            ->sum;
+        $spending = MoneyTransaction::totalSpending($dateFrom, $dateTo);
+        $income = MoneyTransaction::totalIncome($dateFrom, $dateTo);
 
         $months = MoneyTransaction
             ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
@@ -484,8 +454,8 @@ class MoneyTransactionsController extends Controller
             'wallet' => $wallet,
             'spending' => $spending,
             'income' => $income,
-            'filterDateStart' => $dateFrom->toDateString(),
-            'filterDateEnd' => $dateTo->toDateString(),
+            'filterDateStart' => optional($dateFrom)->toDateString(),
+            'filterDateEnd' => optional($dateTo)->toDateString(),
         ]);
     }
 

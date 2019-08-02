@@ -267,4 +267,7 @@ return [
     'selected_records_according_to_current_filter' => 'Selected records according to current filter',
     'none' => 'None',
     'monthly' => 'Monthly',
+    'by_month' => 'by month',
+    'by_year' => 'by year',
+    'all_time' => 'All time',
  ];
