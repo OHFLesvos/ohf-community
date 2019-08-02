@@ -6,6 +6,7 @@ Accounting:
 
 * Year range select in summary
 * All time range in sumary
+* Preserve selected range in session
 
 ## 2.6.6
 

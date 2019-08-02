@@ -387,51 +387,49 @@ class MoneyTransactionsController extends Controller
             'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
         ]);
 
-        if ($request->filled('month') && $request->filled('year')) {
+        if ($request->filled('year') && $request->filled('month')) {
+            $year = $request->year;
             $month = $request->month;
-            $year = $request->year;
         } else if ($request->filled('year')) {
-            $month = '';
             $year = $request->year;
+            $month = null;
         } else if ($request->has('year')) {
-            $month = '';
-            $year = '';
+            $year = null;
+            $month = null;
+        } else if ($request->session()->has('accounting.summary_range.year') && $request->session()->has('accounting.summary_range.month')) {
+            $year = $request->session()->get('accounting.summary_range.year');
+            $month = $request->session()->get('accounting.summary_range.month');
+        } else if ($request->session()->has('accounting.summary_range.year')) {
+            $year = $request->session()->get('accounting.summary_range.year');
+            $month = null;
+        } else if ($request->session()->exists('accounting.summary_range.year')) {
+            $year = null;
+            $month = null;
         } else {
-            $month = $currentMonth->month;
             $year = $currentMonth->year;
-        }
-
-        // session('accounting.summary_range.year')
-        // session('accounting.summary_range.month')
-
-
-        if (!empty($year) && !empty($month)) {
-            $dateFrom = (new Carbon($year.'-'.$month.'-01'))->startOfMonth();
-            $dateTo = (clone $dateFrom)->endOfMonth();
-            $heading = $dateFrom->formatLocalized('%B %Y');
-            $currentRange = $dateFrom->format('Y-m');
-        } else if (!empty($year)) {
-            $dateFrom = (new Carbon($year.'-01-01'))->startOfYear();
-            $dateTo = (clone $dateFrom)->endOfYear();
-            $heading = $year;
-            $currentRange = $year;
-        } else if ($year == '') {
-            $dateFrom = null;
-            $dateTo = null;
-            $heading = __('app.all_time');
-            $currentRange = null;
-        } else {
-            $dateFrom = (new Carbon($year.'-'.$month.'-01'))->startOfMonth();
-            $dateTo = (clone $dateFrom)->endOfMonth();
-            $heading = $dateFrom->formatLocalized('%B %Y');
-            $currentRange = $dateFrom->format('Y-m');
+            $month = $currentMonth->month;
         }
         session([
             'accounting.summary_range.year' => $year,
             'accounting.summary_range.month' => $month,
         ]);
 
-        // echo "Stored year: " . session('accounting.summary_range.year') . "<br>Stored month: ".session('accounting.summary_range.month');
+        if ($year != null && $month != null) {
+            $dateFrom = (new Carbon($year.'-'.$month.'-01'))->startOfMonth();
+            $dateTo = (clone $dateFrom)->endOfMonth();
+            $heading = $dateFrom->formatLocalized('%B %Y');
+            $currentRange = $dateFrom->format('Y-m');
+        } else if ($year != null) {
+            $dateFrom = (new Carbon($year.'-01-01'))->startOfYear();
+            $dateTo = (clone $dateFrom)->endOfYear();
+            $heading = $year;
+            $currentRange = $year;
+        } else {
+            $dateFrom = null;
+            $dateTo = null;
+            $heading = __('app.all_time');
+            $currentRange = null;
+        }
 
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
