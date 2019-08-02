@@ -118,12 +118,14 @@
 $(function(){
     $('#monthrange').on('change', function(){
         var val = $(this).val();
-        if (val == '') {
-            val = ['','']
-        } else {
-            val = val.split('-');
+        var month = ''
+        var year = ''
+        if (val != '') {
+            var arr = val.split('-');
+            month = parseInt(arr[1]);
+            year = arr[0]
         }
-        document.location = '{{ route('accounting.transactions.summary') }}?year=' + val[0] + '&month=' + val[1];
+        document.location = '{{ route('accounting.transactions.summary') }}?month=' + month + '&year=' + year;
     });
     $('#yearrange').on('change', function(){
         var val = $(this).val();
