@@ -157,6 +157,7 @@ return [
     'no_project' => 'No project',
     'description' => 'Description',
     'no_data_available_in_the_selected_time_range' => 'No data available in the selected time range.',
+    'no_data_available' => 'No data available.',
     'overview' => 'Overview',
     'remove' => 'Remove',
     'ascending' => 'Ascending',

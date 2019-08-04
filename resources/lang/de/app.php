@@ -158,6 +158,7 @@ return [
     'no_project' => 'Kein Projekt',
     'description' => 'Beschreibung',
     'no_data_available_in_the_selected_time_range' => 'Keine Daten im ausgewählten Zeitraum vorhanden.',
+    'no_data_available' => 'Keine Daten verfügbar.',
     'overview' => 'Übersicht',
     'remove' => 'Entfernen',
     'ascending' => 'Aufsteigend',

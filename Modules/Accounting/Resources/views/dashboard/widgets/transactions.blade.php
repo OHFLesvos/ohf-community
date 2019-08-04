@@ -33,6 +33,8 @@
                     <u>{{ number_format($wallet, 2) }}</u>
                 </td>
             </tr>
+        @else
+            <tr><td><em>@lang('app.no_data_available')</em></td></tr>
         @endif
     </table>
 @endsection
