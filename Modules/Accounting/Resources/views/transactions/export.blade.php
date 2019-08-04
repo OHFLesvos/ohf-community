@@ -9,6 +9,9 @@
             {{ Form::bsRadioList('format', $formats, $format, __('app.file_format')) }}
         </div>
         <div class="mb-3">
+            {{ Form::bsRadioList('columns', $columnsSelection, $columns, __('app.columns')) }}
+        </div>
+        <div class="mb-3">
             {{ Form::bsRadioList('grouping', $groupings, $grouping, __('app.grouping')) }}
         </div>
         @isset($selections)

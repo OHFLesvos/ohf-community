@@ -7,6 +7,7 @@ Accounting:
 * Year range select in summary
 * All time range in sumary
 * Preserve selected range in session
+* Added column format for Webling to export file
 
 ## 2.6.6
 

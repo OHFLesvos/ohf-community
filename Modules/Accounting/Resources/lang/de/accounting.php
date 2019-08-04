@@ -28,4 +28,5 @@ return [
     'month' => 'Monat',
     'wallet_owner' => 'Kasseninhaber',
     'confirm_delete_receipt' => 'Diesen Beleg wirklich löschen?',
+    'selection_for_webling' => 'Auswal für Webling-Buchhaltung',
 ];

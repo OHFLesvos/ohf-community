@@ -28,4 +28,5 @@ return [
     'month' => 'Month',
     'wallet_owner' => 'Wallet owner',
     'confirm_delete_receipt' => 'Really delete this receipt?',
+    'selection_for_webling' => 'Selection for Webling Accounting',
 ];

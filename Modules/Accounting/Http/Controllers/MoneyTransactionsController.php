@@ -8,6 +8,7 @@ use App\Http\Controllers\Export\ExportableActions;
 use Modules\Accounting\Http\Requests\StoreTransaction;
 use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Exports\MoneyTransactionsExport;
+use Modules\Accounting\Exports\WeblingMoneyTransactionsExport;
 use Modules\Accounting\Exports\MoneyTransactionsMonthsExport;
 
 use Illuminate\Http\Request;
@@ -494,7 +495,12 @@ class MoneyTransactionsController extends Controller
     function exportViewArgs(): array
     {
         $filter = session('accounting.filter', []);
-        return [ 
+        return [
+            'columnsSelection' => [
+                'all' => __('app.all'),
+                'webling' => __('accounting::accounting.selection_for_webling'),
+            ],
+            'columns' => 'all',
             'groupings' => [
                 'none' => __('app.none'),
                 'monthly' => __('app.monthly'),
@@ -511,6 +517,10 @@ class MoneyTransactionsController extends Controller
     function exportValidateArgs(): array
     {
         return [
+            'columns' => [
+                'required', 
+                Rule::in(['all', 'webling']),
+            ],
             'grouping' => [
                 'required', 
                 Rule::in(['none', 'monthly']),
@@ -532,6 +542,9 @@ class MoneyTransactionsController extends Controller
         $filter = $request->selection == 'filtered' ? session('accounting.filter', []) : [];
         if ($request->grouping == 'monthly') {
             return new MoneyTransactionsMonthsExport($filter);
+        }
+        if ($request->columns == 'webling') {
+            return new WeblingMoneyTransactionsExport($filter);
         }
         return new MoneyTransactionsExport($filter);
     }

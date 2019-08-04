@@ -271,4 +271,6 @@ return [
     'by_month' => 'by month',
     'by_year' => 'by year',
     'all_time' => 'All time',
+    'columns' => 'columns',
+    'rows' => 'Rows',
  ];

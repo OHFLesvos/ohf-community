@@ -271,4 +271,6 @@ return [
     'by_month' => 'nach Monat',
     'by_year' => 'nach Jahr',
     'all_time' => 'Gesamter Zeitraum',
+    'columns' => 'Spalten',
+    'rows' => 'Zeilen',
 ];
