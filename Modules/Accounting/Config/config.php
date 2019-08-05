@@ -14,4 +14,11 @@ return [
         'no_receipt',
         'wallet_owner',
     ],
+
+    'webling' => [
+        'api' => [
+            'url' => env('WEBLING_API_URL'),
+            'key' => env('WEBLING_API_KEY'),
+        ],
+    ],
 ];
