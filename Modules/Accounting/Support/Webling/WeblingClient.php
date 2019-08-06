@@ -7,6 +7,7 @@ use Webling\API\Client as WeblingApiClient;
 class WeblingClient
 {
     private $api;
+    private $url;
 
     public function __construct(?string $url, ?string $apiKey)
     {
@@ -17,6 +18,7 @@ class WeblingClient
             throw new \Exception('Webling API key not defined! Please set the env variable WEBLING_API_KEY.');
         }
         $this->api = new WeblingApiClient($url, $apiKey);
+        $this->url = $url;
     }
 
     public function api()
@@ -24,4 +26,8 @@ class WeblingClient
         return $this->api;
     }
 
+    public function createUrl($suffix)
+    {
+        return $this->url . $suffix;
+    }
 }

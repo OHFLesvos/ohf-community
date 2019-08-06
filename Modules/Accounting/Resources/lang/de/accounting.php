@@ -33,6 +33,7 @@ return [
     'debit' => 'Lastschrift',
     'posting_text' => 'Buchungstext',
     'book' => 'Verbuchen',
+    'booked' => 'Verbucht',
     'debit_side' => 'Soll',
     'credit_side' => 'Haben',
     'transactions_will_be_booked_in_period' => 'Die folgenden Transaktionen werden in der Buchungsperiode <strong>:period</strong> (:from - :to) verbucht:',

@@ -82,6 +82,29 @@
                 </div>
             </li>
         @endisset        
+        @isset($transaction->booked)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting::accounting.booked')</strong></div>
+                    <div class="col-sm">
+                        @isset($transaction->external_id)
+                            @php
+                                $url = $transaction->externalUrl;
+                            @endphp
+                            Webling: 
+                            @isset($url)
+                                <a href="{{ $url }}" target="_blank">{{ $transaction->external_id }}</a>
+                            @else
+                                {{ $transaction->external_id }}
+                            @endisset
+                        @else
+                            @lang('app.yes')
+                        @endif
+                    </div>
+                </div>
+            </li>
+        @endisset 
+
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('app.registered')</strong></div>

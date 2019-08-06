@@ -3,6 +3,7 @@
 namespace Modules\Accounting\Entities;
 
 use Modules\Accounting\Entities\SignedMoneyTransaction;
+use Modules\Accounting\Support\Webling\Entities\Entrygroup;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -102,5 +103,14 @@ class MoneyTransaction extends Model implements Auditable
         return optional(MoneyTransaction::select(DB::raw('MAX(receipt_no) as val'))
             ->first())
             ->val + 1;
-    }    
+    }
+
+    public function getExternalUrlAttribute()
+    {
+        if ($this->external_id != null)
+        {
+            return optional(Entrygroup::find($this->external_id))->url();
+        }
+        return null;
+    }
 }

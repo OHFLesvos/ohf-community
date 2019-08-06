@@ -33,6 +33,7 @@ return [
     'debit' => 'Debit',
     'posting_text' => 'Posting text',
     'book' => 'Book',
+    'booked' => 'Booked',
     'debit_side' => 'Debit side',
     'credit_side' => ' Credit side',
     'transactions_will_be_booked_in_period' => 'The following transactions will be booked in booking period <strong>:period</strong> (:from - :to):',

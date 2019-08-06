@@ -122,6 +122,11 @@ abstract class WeblingEntity
         return $obj;
     }
 
+    public function parent()
+    {
+        return count($this->parents) > 0 ? $this->parents[0] : null;
+    }
+
     protected function hasMany($clazz, $childRelation = null) {
         if ($childRelation == null) {
             $childRelation = $clazz::getObjectName();
@@ -147,6 +152,9 @@ abstract class WeblingEntity
         // }
         if ($var == 'id') {
             return $this->id;
+        }
+        if ($var == 'parent') {
+            return $this->parent();
         }
         throw new \Exception('Undefined property: ' . get_called_class().'::$'.$var);
     }
