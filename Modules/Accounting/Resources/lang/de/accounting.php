@@ -37,4 +37,8 @@ return [
     'credit_side' => 'Haben',
     'transactions_will_be_booked_in_period' => 'Die folgenden Transaktionen werden in der Buchungsperiode <strong>:period</strong> (:from - :to) verbucht:',
     'no_open_periods_found' => 'Keine passenden offenen Buchungsperioden gefunden.',
+    'money_to' => 'Geld nach',
+    'paid_for' => 'Bezahlt für',
+    'received_for' => 'Erhalten für',
+    'paid_from' => 'Bezahlt aus',
 ];

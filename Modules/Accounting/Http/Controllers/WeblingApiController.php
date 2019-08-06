@@ -39,7 +39,7 @@ class WeblingApiController extends Controller
             $incomeSelect = $this->getAccountSelectArray($accountGroups, 'income');
             $expenseSelect = $this->getAccountSelectArray($accountGroups, 'expense');
 
-            return view('accounting::webling', [
+            return view('accounting::webling.index', [
                 'period' => $period,
                 'assetsSelect' => $assetsSelect,
                 'incomeSelect' => $incomeSelect,
@@ -51,7 +51,7 @@ class WeblingApiController extends Controller
                 ],
             ]);
         }
-        return view('accounting::webling', [ ]);
+        return view('accounting::webling.index', [ ]);
     }
 
     private function getAccountSelectArray($accountGroups, $type)
@@ -65,4 +65,10 @@ class WeblingApiController extends Controller
                 });
     }
 
+    public function store(Request $request)
+    {
+        echo "<pre>";
+        print_r($request->all());
+        echo "</pre>";
+    }
 }
