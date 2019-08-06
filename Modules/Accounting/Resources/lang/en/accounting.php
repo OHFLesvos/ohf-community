@@ -29,4 +29,12 @@ return [
     'wallet_owner' => 'Wallet owner',
     'confirm_delete_receipt' => 'Really delete this receipt?',
     'selection_for_webling' => 'Selection for Webling Accounting',
+    'credit' => 'Credit',
+    'debit' => 'Debit',
+    'posting_text' => 'Posting text',
+    'book' => 'Book',
+    'debit_side' => 'Debit side',
+    'credit_side' => ' Credit side',
+    'transactions_will_be_booked_in_period' => 'The following transactions will be booked in booking period <strong>:period</strong> (:from - :to):',
+    'no_open_periods_found' => 'No matching open booking periods found.',
 ];

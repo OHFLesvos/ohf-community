@@ -29,4 +29,12 @@ return [
     'wallet_owner' => 'Kasseninhaber',
     'confirm_delete_receipt' => 'Diesen Beleg wirklich löschen?',
     'selection_for_webling' => 'Auswal für Webling-Buchhaltung',
+    'credit' => 'Gutschrift',
+    'debit' => 'Lastschrift',
+    'posting_text' => 'Buchungstext',
+    'book' => 'Verbuchen',
+    'debit_side' => 'Soll',
+    'credit_side' => 'Haben',
+    'transactions_will_be_booked_in_period' => 'Die folgenden Transaktionen werden in der Buchungsperiode <strong>:period</strong> (:from - :to) verbucht:',
+    'no_open_periods_found' => 'Keine passenden offenen Buchungsperioden gefunden.',
 ];

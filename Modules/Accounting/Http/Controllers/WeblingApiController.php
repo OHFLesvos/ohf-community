@@ -2,6 +2,7 @@
 
 namespace Modules\Accounting\Http\Controllers;
 
+use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Support\Webling\Entities\Period;
 use Modules\Accounting\Support\Webling\Entities\AccountGroup;
 
@@ -19,42 +20,49 @@ class WeblingApiController extends Controller
      */
     public function index()
     {
+        // TODO What should be done at end of year?
         $today = Carbon::today()->toDateString();
         $periods = Period::filtered('`from` < "'.$today.'" AND `to` > "'.$today.'"')->where('state', 'open');
 
-        $period = $periods[0];
-        $accountGroups = $period->accountGroups();
+        if (!$periods->isEmpty()) {
+            $period = $periods[0];
 
-        $assetsSelect = $accountGroups->where('type', 'assets')
+            $transactions = MoneyTransaction::whereDate('date', '>=', $period->from)
+                ->whereDate('date', '<=', $period->to)
+                ->where('booked', false)
+                ->orderBy('date', 'asc')
+                ->get();
+
+            $accountGroups = $period->accountGroups();
+    
+            $assetsSelect = $this->getAccountSelectArray($accountGroups, 'assets');
+            $incomeSelect = $this->getAccountSelectArray($accountGroups, 'income');
+            $expenseSelect = $this->getAccountSelectArray($accountGroups, 'expense');
+
+            return view('accounting::webling', [
+                'period' => $period,
+                'assetsSelect' => $assetsSelect,
+                'incomeSelect' => $incomeSelect,
+                'expenseSelect' => $expenseSelect,
+                'transactions' => $transactions,
+                'actions' => [
+                    'book' => __('accounting::accounting.book'),
+                    'ignore' => __('app.ignore')
+                ],
+            ]);
+        }
+        return view('accounting::webling', [ ]);
+    }
+
+    private function getAccountSelectArray($accountGroups, $type)
+    {
+        return $accountGroups->where('type', $type)
             ->mapWithKeys(function($accountGroup){ 
                 return [ $accountGroup->title => $accountGroup->accounts()
                     ->mapWithKeys(function($account){ 
                         return [ $account->id => $account->title]; 
                     })->toArray() ]; 
                 });
-
-        $incomeSelect = $accountGroups->where('type', 'income')
-            ->mapWithKeys(function($accountGroup){ 
-                return [ $accountGroup->title => $accountGroup->accounts()
-                    ->mapWithKeys(function($account){ 
-                        return [ $account->id => $account->title]; 
-                    })->toArray() ]; 
-                });
-
-        $expenseSelect = $accountGroups->where('type', 'expense')
-            ->mapWithKeys(function($accountGroup){ 
-                return [ $accountGroup->title => $accountGroup->accounts()
-                    ->mapWithKeys(function($account){ 
-                        return [ $account->id => $account->title]; 
-                    })->toArray() ]; 
-                });
-
-        return view('accounting::webling', [
-            'periods' => $periods,
-            'assetsSelect' => $assetsSelect,
-            'incomeSelect' => $incomeSelect,
-            'expenseSelect' => $expenseSelect,
-        ]);
     }
 
 }

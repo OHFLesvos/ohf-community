@@ -32,6 +32,10 @@ class MoneyTransaction extends Model implements Auditable
         parent::boot();
     }
 
+    protected $casts = [
+        'booked' => 'boolean',
+    ];
+
     /**
      * Gets the amount of the wallet
      * 

@@ -273,4 +273,7 @@ return [
     'all_time' => 'All time',
     'columns' => 'columns',
     'rows' => 'Rows',
+    'action' => 'Action',
+    'ignore' => 'Ignore',
+    'submit' => 'Submit',
  ];
