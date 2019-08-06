@@ -46,9 +46,10 @@ class WeblingApiController extends Controller
                 'expenseSelect' => $expenseSelect,
                 'transactions' => $transactions,
                 'actions' => [
+                    'ignore' => __('app.ignore'),
                     'book' => __('accounting::accounting.book'),
-                    'ignore' => __('app.ignore')
                 ],
+                'defaultAction' => 'ignore',
             ]);
         }
         return view('accounting::webling.index', [ ]);

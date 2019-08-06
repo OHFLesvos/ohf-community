@@ -58,7 +58,7 @@
                                     </td>
                                     <td class="fit">{{ $transaction->receipt_no }}</td>
                                     <td class="fit">
-                                        {{ Form::bsRadioList('action['.$transaction->id.']', $actions, 'book', '') }}
+                                        {{ Form::bsRadioList('action['.$transaction->id.']', $actions, $defaultAction, '') }}
                                     </td>
                                 </tr>
                             @endforeach
