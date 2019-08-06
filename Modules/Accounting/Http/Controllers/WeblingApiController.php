@@ -20,39 +20,40 @@ class WeblingApiController extends Controller
      */
     public function index()
     {
-        // TODO What should be done at end of year?
-        $today = Carbon::today()->toDateString();
-        $periods = Period::filtered('`from` < "'.$today.'" AND `to` > "'.$today.'"')->where('state', 'open');
+        // $today = Carbon::today()->toDateString();
+        // $periods = Period::filtered('`from` < "'.$today.'" AND `to` > "'.$today.'"')->where('state', 'open');
+        $periods = Period::all()->where('state', 'open')
+            ->mapWithKeys(function($period){
+                $transactions = MoneyTransaction::whereDate('date', '>=', $period->from)
+                    ->whereDate('date', '<=', $period->to)
+                    ->where('booked', false)
+                    ->orderBy('date', 'asc')
+                    ->get();
+                $hasTransactions = !$transactions->isEmpty();
+                if ($hasTransactions) {
+                    $accountGroups = $period->accountGroups();
+                }
+                return [
+                    $period->id => (object) [
+                        'title' => $period->title,
+                        'from' => $period->from,
+                        'to' => $period->to,
+                        'transactions' => $transactions,
+                        'assetsSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'assets') : [],
+                        'incomeSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'income') : [],
+                        'expenseSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'expense') : [],
+                    ]
+                ];
+            });
 
-        if (!$periods->isEmpty()) {
-            $period = $periods[0];
-
-            $transactions = MoneyTransaction::whereDate('date', '>=', $period->from)
-                ->whereDate('date', '<=', $period->to)
-                ->where('booked', false)
-                ->orderBy('date', 'asc')
-                ->get();
-
-            $accountGroups = $period->accountGroups();
-    
-            $assetsSelect = $this->getAccountSelectArray($accountGroups, 'assets');
-            $incomeSelect = $this->getAccountSelectArray($accountGroups, 'income');
-            $expenseSelect = $this->getAccountSelectArray($accountGroups, 'expense');
-
-            return view('accounting::webling.index', [
-                'period' => $period,
-                'assetsSelect' => $assetsSelect,
-                'incomeSelect' => $incomeSelect,
-                'expenseSelect' => $expenseSelect,
-                'transactions' => $transactions,
-                'actions' => [
-                    'ignore' => __('app.ignore'),
-                    'book' => __('accounting::accounting.book'),
-                ],
-                'defaultAction' => 'ignore',
-            ]);
-        }
-        return view('accounting::webling.index', [ ]);
+        return view('accounting::webling.index', [
+            'periods' => $periods,
+            'actions' => [
+                'ignore' => __('app.ignore'),
+                'book' => __('accounting::accounting.book'),
+            ],
+            'defaultAction' => 'ignore',
+        ]);
     }
 
     private function getAccountSelectArray($accountGroups, $type)
