@@ -4,7 +4,7 @@ namespace Modules\Accounting\Http\Controllers;
 
 use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Support\Webling\Entities\Period;
-use Modules\Accounting\Support\Webling\Entities\AccountGroup;
+use Modules\Accounting\Support\Webling\Entities\Entrygroup;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -69,7 +69,7 @@ class WeblingApiController extends Controller
 
     public function store(Request $request)
     {
-        $data = collect($request->input('action', []))
+        $bookedTransactions = collect($request->input('action', []))
             ->mapWithKeys(function($e, $period_id) use ($request) {
                 return [ $period_id => collect($e)
                     ->filter(function($v, $id) use ($request, $period_id){ 
@@ -98,31 +98,34 @@ class WeblingApiController extends Controller
                         $transaction = MoneyTransaction::find($transaction_id);
                         if ($transaction != null) {
                             return [
-                                "properties" => [
-                                    "date" => $transaction->date,
-                                    "title" => $transaction_data['posting_text'],
-                                ],
-                                "children" => [
-                                    "entry" => [
-                                        [
-                                            "properties" => [
-                                                "amount" => $transaction->amount,
-                                                "receipt" => $transaction->receipt_no,
-                                            ],
-                                            "links" => [
-                                                "credit" => [
-                                                    $transaction_data['credit_side'],
+                                'transaction' => $transaction,
+                                'request' => [
+                                    "properties" => [
+                                        "date" => $transaction->date,
+                                        "title" => $transaction_data['posting_text'],
+                                    ],
+                                    "children" => [
+                                        "entry" => [
+                                            [
+                                                "properties" => [
+                                                    "amount" => $transaction->amount,
+                                                    "receipt" => $transaction->receipt_no,
                                                 ],
-                                                "debit" => [
-                                                    $transaction_data['debit_side'],
+                                                "links" => [
+                                                    "credit" => [
+                                                        $transaction_data['credit_side'],
+                                                    ],
+                                                    "debit" => [
+                                                        $transaction_data['debit_side'],
+                                                    ]
                                                 ]
                                             ]
                                         ]
-                                    ]
-                                ],
-                                "parents" => [
-                                    $period_id,
-                                ],
+                                    ],
+                                    "parents" => [
+                                        $period_id,
+                                    ],
+                                ]
                             ];
                         }
                         return null;
@@ -132,9 +135,17 @@ class WeblingApiController extends Controller
                 return null;
             })
             ->filter()
-            ->toArray();
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
+            ->map(function($e){
+                $entrygroup = Entrygroup::createRaw($e['request']);
+                $transaction = $e['transaction'];
+                $transaction->booked = true;
+                $transaction->external_id = $entrygroup->id;
+                $transaction->save();
+                return $transaction->id;
+            });
+
+        return redirect()
+            ->route('accounting.webling.index')
+            ->with('info', __('accounting::accounting.num_transactions_booked', ['num' => $bookedTransactions->count()]));
     }
 }

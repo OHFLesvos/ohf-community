@@ -37,4 +37,6 @@ return [
     'credit_side' => ' Credit side',
     'transactions_will_be_booked_in_period' => 'The following transactions will be booked in booking period <strong>:period</strong> (:from - :to):',
     'no_open_periods_found' => 'No matching open booking periods found.',
+    'num_transactions_booked' => ':num transactions have been booked.',
+    'book_to_webling' => 'Book to Webling',
 ];

@@ -41,4 +41,6 @@ return [
     'paid_for' => 'Bezahlt für',
     'received_for' => 'Erhalten für',
     'paid_from' => 'Bezahlt aus',
+    'num_transactions_booked' => ':num Transaktionen wurden verbucht.',
+    'book_to_webling' => 'Nach Webling verbuchen',
 ];

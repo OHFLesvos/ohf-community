@@ -151,6 +151,17 @@ abstract class WeblingEntity
         throw new \Exception('Undefined property: ' . get_called_class().'::$'.$var);
     }
 
+    public static function createRaw($data)
+    {
+        $webling = resolve(WeblingClient::class);
+        $response = $webling->api()->post(self::getObjectName(), $data);
+        if ($response->getStatusCode() < 400) {
+            $id = $response->getData();
+            return self::find($id);
+        }
+        throw new \Exception('Server responded with code ' . $response->getStatusCode().': ' . $response->getRawData());
+    }
+
     public final function save()
     {
         // TODO

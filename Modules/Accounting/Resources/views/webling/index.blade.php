@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting::accounting.accounting'))
+@section('title', __('accounting::accounting.book_to_webling'))
 
 @section('content')
     @unless($periods->isEmpty())
@@ -83,7 +83,7 @@
 @endsection
 
 @section('script')
-    $(function(){
+    {{-- $(function(){
         $('tbody tr').addClass('table-warning');
 
         $('input[type="radio"]').on('change', function(){
@@ -109,5 +109,5 @@
             var val = $(this).val();
             console.log(val);
         });
-    });
+    }); --}}
 @endsection
