@@ -69,8 +69,72 @@ class WeblingApiController extends Controller
 
     public function store(Request $request)
     {
+        $data = collect($request->input('action', []))
+            ->mapWithKeys(function($e, $period_id) use ($request) {
+                return [ $period_id => collect($e)
+                    ->filter(function($v, $id) use ($request, $period_id){ 
+                        return $v == 'book' 
+                            && !empty($request->get('posting_text')[$period_id][$id]) 
+                            && !empty($request->get('debit_side')[$period_id][$id])
+                            && !empty($request->get('credit_side')[$period_id][$id]); 
+                    })
+                    ->keys()
+                    ->mapWithKeys(function($id) use ($request, $period_id) {
+                        return [ $id => [
+                            'posting_text' => $request->get('posting_text')[$period_id][$id],
+                            'debit_side' => $request->get('debit_side')[$period_id][$id],
+                            'credit_side' => $request->get('credit_side')[$period_id][$id],
+                        ]];
+                    })
+                ];
+            })
+            ->filter(function($e){ 
+                return !$e->isEmpty(); 
+            })
+            ->flatMap(function($transactions, $period_id){
+                $period = Period::find($period_id);
+                if ($period != null) {
+                    return $transactions->map(function($transaction_data, $transaction_id) use($period_id) {
+                        $transaction = MoneyTransaction::find($transaction_id);
+                        if ($transaction != null) {
+                            return [
+                                "properties" => [
+                                    "date" => $transaction->date,
+                                    "title" => $transaction_data['posting_text'],
+                                ],
+                                "children" => [
+                                    "entry" => [
+                                        [
+                                            "properties" => [
+                                                "amount" => $transaction->amount,
+                                                "receipt" => $transaction->receipt_no,
+                                            ],
+                                            "links" => [
+                                                "credit" => [
+                                                    $transaction_data['credit_side'],
+                                                ],
+                                                "debit" => [
+                                                    $transaction_data['debit_side'],
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                "parents" => [
+                                    $period_id,
+                                ],
+                            ];
+                        }
+                        return null;
+                    })
+                    ->filter();
+                }
+                return null;
+            })
+            ->filter()
+            ->toArray();
         echo "<pre>";
-        print_r($request->all());
+        print_r($data);
         echo "</pre>";
     }
 }
