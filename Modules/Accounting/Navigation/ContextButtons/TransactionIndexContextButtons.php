@@ -31,7 +31,7 @@ class TransactionIndexContextButtons implements ContextButtons {
                 'url' => route('accounting.webling.index'),
                 'caption' => __('accounting::accounting.book'),
                 'icon' => 'list-alt',
-                'authorized' => Auth::user()->can('list', MoneyTransaction::class)
+                'authorized' => Auth::user()->can('list', MoneyTransaction::class) // TODO
             ],
         ];
     }

@@ -73,7 +73,51 @@ class WeblingApiController extends Controller
      */
     public function prepare(Request $request)
     {
-        // Valiate request
+        $this->validateRequest($request);
+
+        $period = Period::find($request->period);
+        
+        $transactions = MoneyTransaction::whereDate('date', '>=', $request->from)
+            ->whereDate('date', '<=', $request->to)
+            ->whereDate('date', '>=', $period->from)
+            ->whereDate('date', '<=', $period->to)
+            ->where('booked', false)
+            ->orderBy('date', 'asc')
+            ->get();
+        $hasTransactions = !$transactions->isEmpty();
+        if ($hasTransactions) {
+            $accountGroups = $period->accountGroups();
+        }
+
+        return view('accounting::webling.prepare', [
+            'period' => $period,
+            'from' => new Carbon($request->from),
+            'to' => new Carbon($request->to),
+            'transactions' => $transactions,
+            'assetsSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'assets') : [],
+            'incomeSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'income') : [],
+            'expenseSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'expense') : [],
+            'actions' => [
+                'ignore' => __('app.ignore'),
+                'book' => __('accounting::accounting.book'),
+            ],
+            'defaultAction' => 'ignore',
+        ]);
+    }
+
+    private function getAccountSelectArray($accountGroups, $type)
+    {
+        return $accountGroups->where('type', $type)
+            ->mapWithKeys(function($accountGroup){ 
+                return [ $accountGroup->title => $accountGroup->accounts()
+                    ->mapWithKeys(function($account){ 
+                        return [ $account->id => $account->title]; 
+                    })->toArray() ]; 
+                });
+    }
+
+    private function validateRequest($request)
+    {
         $request->validate([
             'period' => [
                 'required',
@@ -97,131 +141,78 @@ class WeblingApiController extends Controller
                 'date',
             ],
         ]);
-
-        $periods = collect(Period::find([$request->period]))
-            ->mapWithKeys(function($period) use($request) {
-                $transactions = MoneyTransaction::whereDate('date', '>=', $request->from)
-                    ->whereDate('date', '<=', $request->to)
-                    ->where('booked', false)
-                    ->orderBy('date', 'asc')
-                    ->get();
-                $hasTransactions = !$transactions->isEmpty();
-                if ($hasTransactions) {
-                    $accountGroups = $period->accountGroups();
-                }
-                return [
-                    $period->id => (object) [
-                        'title' => $period->title,
-                        'from' => $period->from,
-                        'to' => $period->to,
-                        'transactions' => $transactions,
-                        'assetsSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'assets') : [],
-                        'incomeSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'income') : [],
-                        'expenseSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'expense') : [],
-                    ]
-                ];
-            });
-
-        return view('accounting::webling.prepare', [
-            'periods' => $periods,
-            'actions' => [
-                'ignore' => __('app.ignore'),
-                'book' => __('accounting::accounting.book'),
-            ],
-            'defaultAction' => 'ignore',
-        ]);
-    }
-
-    private function getAccountSelectArray($accountGroups, $type)
-    {
-        return $accountGroups->where('type', $type)
-            ->mapWithKeys(function($accountGroup){ 
-                return [ $accountGroup->title => $accountGroup->accounts()
-                    ->mapWithKeys(function($account){ 
-                        return [ $account->id => $account->title]; 
-                    })->toArray() ]; 
-                });
     }
 
     public function store(Request $request)
     {
-        $bookedTransactions = collect($request->input('action', []))
-            ->mapWithKeys(function($e, $period_id) use ($request) {
-                return [ $period_id => collect($e)
-                    ->filter(function($v, $id) use ($request, $period_id){ 
-                        return $v == 'book' 
-                            && !empty($request->get('posting_text')[$period_id][$id]) 
-                            && !empty($request->get('debit_side')[$period_id][$id])
-                            && !empty($request->get('credit_side')[$period_id][$id]); 
-                    })
-                    ->keys()
-                    ->mapWithKeys(function($id) use ($request, $period_id) {
-                        return [ $id => [
-                            'posting_text' => $request->get('posting_text')[$period_id][$id],
-                            'debit_side' => $request->get('debit_side')[$period_id][$id],
-                            'credit_side' => $request->get('credit_side')[$period_id][$id],
-                        ]];
-                    })
-                ];
+        $this->validateRequest($request);
+
+        $period = Period::find($request->period);
+
+        $preparedTransactions = collect($request->input('action', []))
+            ->filter(function($v, $id) use ($request){ 
+                return $v == 'book'
+                    && !empty($request->get('posting_text')[$id]) 
+                    && !empty($request->get('debit_side')[$id])
+                    && !empty($request->get('credit_side')[$id]); 
             })
-            ->filter(function($e){ 
-                return !$e->isEmpty(); 
-            })
-            ->flatMap(function($transactions, $period_id){
-                $period = Period::find($period_id);
-                if ($period != null) {
-                    return $transactions->map(function($transaction_data, $transaction_id) use($period_id) {
-                        $transaction = MoneyTransaction::find($transaction_id);
-                        if ($transaction != null) {
-                            return [
-                                'transaction' => $transaction,
-                                'request' => [
-                                    "properties" => [
-                                        "date" => $transaction->date,
-                                        "title" => $transaction_data['posting_text'],
-                                    ],
-                                    "children" => [
-                                        "entry" => [
-                                            [
-                                                "properties" => [
-                                                    "amount" => $transaction->amount,
-                                                    "receipt" => $transaction->receipt_no,
-                                                ],
-                                                "links" => [
-                                                    "credit" => [
-                                                        $transaction_data['credit_side'],
-                                                    ],
-                                                    "debit" => [
-                                                        $transaction_data['debit_side'],
-                                                    ]
-                                                ]
+            ->keys()
+            ->map(function($id) use ($request, $period) {
+                $transaction = MoneyTransaction::find($id);
+                if ($transaction != null) {
+                    return [
+                        'transaction' => $transaction,
+                        'request' => [
+                            "properties" => [
+                                "date" => $transaction->date,
+                                "title" => $request->get('posting_text')[$id],
+                            ],
+                            "children" => [
+                                "entry" => [
+                                    [
+                                        "properties" => [
+                                            "amount" => $transaction->amount,
+                                            "receipt" => $transaction->receipt_no,
+                                        ],
+                                        "links" => [
+                                            "credit" => [
+                                                $request->get('credit_side')[$id],
+                                            ],
+                                            "debit" => [
+                                                $request->get('debit_side')[$id],
                                             ]
                                         ]
-                                    ],
-                                    "parents" => [
-                                        $period_id,
-                                    ],
+                                    ]
                                 ]
-                            ];
-                        }
-                        return null;
-                    })
-                    ->filter();
+                            ],
+                            "parents" => [
+                                $period->id,
+                            ],
+                        ]
+                    ];
                 }
                 return null;
             })
-            ->filter()
-            ->map(function($e){
-                $entrygroup = Entrygroup::createRaw($e['request']);
-                $transaction = $e['transaction'];
-                $transaction->booked = true;
-                $transaction->external_id = $entrygroup->id;
-                $transaction->save();
-                return $transaction->id;
-            });
+            ->filter();
+
+            $bookedTransactions = [];
+            foreach ($preparedTransactions as $e) {
+                try {
+                    $entrygroup = Entrygroup::createRaw($e['request']);
+                    $transaction = $e['transaction'];
+                    $transaction->booked = true;
+                    $transaction->external_id = $entrygroup->id;
+                    $transaction->save();
+                    $bookedTransactions[] = $transaction->id;
+                } catch (\Exception $e) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->with('error', $e->getMessage());
+                }
+            }
 
         return redirect()
             ->route('accounting.webling.index')
-            ->with('info', __('accounting::accounting.num_transactions_booked', ['num' => $bookedTransactions->count()]));
+            ->with('info', __('accounting::accounting.num_transactions_booked', ['num' => count($bookedTransactions)]));
     }
 }

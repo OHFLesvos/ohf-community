@@ -20,6 +20,12 @@ class TransactionSummaryContextButtons implements ContextButtons {
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('list', MoneyTransaction::class)
             ],
+            'book' => [
+                'url' => route('accounting.webling.index'),
+                'caption' => __('accounting::accounting.book'),
+                'icon' => 'list-alt',
+                'authorized' => Auth::user()->can('list', MoneyTransaction::class)  // TODO
+            ],            
         ];
     }
 
