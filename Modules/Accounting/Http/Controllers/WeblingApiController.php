@@ -71,8 +71,9 @@ class WeblingApiController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function month(Request $request)
+    public function prepare(Request $request)
     {
+        // Valiate request
         $request->validate([
             'period' => [
                 'required',
@@ -121,7 +122,7 @@ class WeblingApiController extends Controller
                 ];
             });
 
-        return view('accounting::webling.month', [
+        return view('accounting::webling.prepare', [
             'periods' => $periods,
             'actions' => [
                 'ignore' => __('app.ignore'),
