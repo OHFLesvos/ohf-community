@@ -26,6 +26,7 @@ Route::group(['middleware' => 'language'], function () {
 
             // Webling
             Route::get('webling', 'WeblingApiController@index')->name('webling.index');
+            Route::get('webling/month', 'WeblingApiController@month')->name('webling.month');
             Route::post('webling', 'WeblingApiController@store')->name('webling.store');
 
         });

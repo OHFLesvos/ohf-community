@@ -9,23 +9,98 @@ use Modules\Accounting\Support\Webling\Entities\Entrygroup;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
 
 class WeblingApiController extends Controller
 {
+    public function __construct()
+    {
+        // TODO find more generic place
+        Carbon::setUtf8(true);
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
     {
-        // $today = Carbon::today()->toDateString();
-        // $periods = Period::filtered('`from` < "'.$today.'" AND `to` > "'.$today.'"')->where('state', 'open');
-        $periods = Period::all()->where('state', 'open')
+        // TODO: Probably define on more general location
+        setlocale(LC_TIME, \App::getLocale());
+
+        $periods = Period::all()
+            ->where('state', 'open')
             ->mapWithKeys(function($period){
-                $transactions = MoneyTransaction::whereDate('date', '>=', $period->from)
+                $months = MoneyTransaction::whereDate('date', '>=', $period->from)
                     ->whereDate('date', '<=', $period->to)
+                    ->where('booked', false)
+                    ->select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
+                    ->groupBy(DB::raw('MONTH(date)'))
+                    ->groupBy(DB::raw('YEAR(date)'))
+                    ->orderBy('year', 'asc')
+                    ->orderBy('month', 'asc')
+                    ->get()
+                    ->map(function($e){
+                        $date = Carbon::createFromDate($e->year, $e->month, 1);
+                        return (object) [
+                            'transactions' => MoneyTransaction::whereDate('date', '>=', $date)
+                                ->whereDate('date', '<=', (clone $date)->endOfMonth())
+                                ->where('booked', false)
+                                ->count(),
+                            'date' => $date,
+                        ];
+                    });
+                return [
+                    $period->id => (object) [
+                        'title' => $period->title,
+                        'from' => $period->from,
+                        'to' => $period->to,
+                        'months' => $months,
+                    ]
+                ];
+            });
+
+        return view('accounting::webling.index', [
+            'periods' => $periods,
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function month(Request $request)
+    {
+        $request->validate([
+            'period' => [
+                'required',
+                'integer',
+                function($attribute, $value, $fail) {
+                    $period = Period::find($value);
+                    if ($period == null) {
+                        return $fail('Period does not exist.');
+                    }
+                    if ($period->state != 'open') {
+                        return $fail('Period \'' . $period->title . '\' is not open.');
+                    }
+                },                
+            ],
+            'from' => [
+                'required',
+                'date',
+            ],
+            'to' => [
+                'required',
+                'date',
+            ],
+        ]);
+
+        $periods = collect(Period::find([$request->period]))
+            ->mapWithKeys(function($period) use($request) {
+                $transactions = MoneyTransaction::whereDate('date', '>=', $request->from)
+                    ->whereDate('date', '<=', $request->to)
                     ->where('booked', false)
                     ->orderBy('date', 'asc')
                     ->get();
@@ -46,7 +121,7 @@ class WeblingApiController extends Controller
                 ];
             });
 
-        return view('accounting::webling.index', [
+        return view('accounting::webling.month', [
             'periods' => $periods,
             'actions' => [
                 'ignore' => __('app.ignore'),
