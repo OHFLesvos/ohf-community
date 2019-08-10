@@ -63,11 +63,15 @@ abstract class WeblingEntity
     private static function findById(int $id)
     {
         $webling = resolve(WeblingClient::class);
-        $response = $webling->api()->get(self::getObjectName() . '/' . $id);
-        if ($response->getStatusCode() == 404) {
-            return null;
+        try {
+            $response = $webling->api()->get(self::getObjectName() . '/' . $id);
+            if ($response->getStatusCode() == 404) {
+                return null;
+            }
+            return self::createFromResponseData($response->getData(), $id);
+        } catch (ClientException $e) {
+            throw new ConnectionException($e->getMessage());
         }
-        return self::createFromResponseData($response->getData(), $id);
     }
 
     public static function all(): Collection

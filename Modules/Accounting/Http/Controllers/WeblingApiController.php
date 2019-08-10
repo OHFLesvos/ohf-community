@@ -2,6 +2,8 @@
 
 namespace Modules\Accounting\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+
 use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Support\Webling\Entities\Period;
 use Modules\Accounting\Support\Webling\Entities\Entrygroup;
@@ -9,7 +11,6 @@ use Modules\Accounting\Support\Webling\Exceptions\ConnectionException;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
@@ -28,6 +29,8 @@ class WeblingApiController extends Controller
      */
     public function index()
     {
+        $this->authorize('book-accounting-transactions-externally');
+
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
@@ -78,6 +81,8 @@ class WeblingApiController extends Controller
      */
     public function prepare(Request $request)
     {
+        $this->authorize('book-accounting-transactions-externally');
+
         $this->validateRequest($request);
 
         $period = Period::find($request->period);
@@ -150,6 +155,8 @@ class WeblingApiController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('book-accounting-transactions-externally');
+
         $this->validateRequest($request);
 
         $period = Period::find($request->period);

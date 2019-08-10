@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 use OwenIt\Auditing\Contracts\Auditable;
 
+use Modules\Accounting\Support\Webling\Exceptions\ConnectionException;
+
 use Carbon\Carbon;
 
 class MoneyTransaction extends Model implements Auditable
@@ -109,7 +111,9 @@ class MoneyTransaction extends Model implements Auditable
     {
         if ($this->external_id != null)
         {
-            return optional(Entrygroup::find($this->external_id))->url();
+            try {
+                return optional(Entrygroup::find($this->external_id))->url();
+            } catch (ConnectionException $ignored) { }
         }
         return null;
     }

@@ -19,19 +19,19 @@ class TransactionIndexContextButtons implements ContextButtons {
                 'caption' => __('app.add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', MoneyTransaction::class)
+                'authorized' => Auth::user()->can('create', MoneyTransaction::class),
             ],
             'export' => [
                 'url' => route('accounting.transactions.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('list', MoneyTransaction::class)
+                'authorized' => Auth::user()->can('list', MoneyTransaction::class),
             ],
             'book' => [
                 'url' => route('accounting.webling.index'),
                 'caption' => __('accounting::accounting.book'),
                 'icon' => 'list-alt',
-                'authorized' => Auth::user()->can('list', MoneyTransaction::class) // TODO
+                'authorized' => Auth::user()->can('book-accounting-transactions-externally'),
             ],
         ];
     }
