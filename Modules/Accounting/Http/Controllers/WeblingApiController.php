@@ -5,6 +5,7 @@ namespace Modules\Accounting\Http\Controllers;
 use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Support\Webling\Entities\Period;
 use Modules\Accounting\Support\Webling\Entities\Entrygroup;
+use Modules\Accounting\Support\Webling\Exceptions\ConnectionException;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,38 +31,42 @@ class WeblingApiController extends Controller
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
-        $periods = Period::all()
-            ->where('state', 'open')
-            ->mapWithKeys(function($period){
-                $months = MoneyTransaction::whereDate('date', '>=', $period->from)
-                    ->whereDate('date', '<=', $period->to)
-                    ->where('booked', false)
-                    ->select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
-                    ->groupBy(DB::raw('MONTH(date)'))
-                    ->groupBy(DB::raw('YEAR(date)'))
-                    ->orderBy('year', 'asc')
-                    ->orderBy('month', 'asc')
-                    ->get()
-                    ->map(function($e){
-                        $date = Carbon::createFromDate($e->year, $e->month, 1);
-                        return (object) [
-                            'transactions' => MoneyTransaction::whereDate('date', '>=', $date)
-                                ->whereDate('date', '<=', (clone $date)->endOfMonth())
-                                ->where('booked', false)
-                                ->count(),
-                            'date' => $date,
-                        ];
-                    });
-                return [
-                    $period->id => (object) [
-                        'title' => $period->title,
-                        'from' => $period->from,
-                        'to' => $period->to,
-                        'months' => $months,
-                    ]
-                ];
-            });
-
+        try {
+            $periods = Period::all()
+                ->where('state', 'open')
+                ->mapWithKeys(function($period){
+                    $months = MoneyTransaction::whereDate('date', '>=', $period->from)
+                        ->whereDate('date', '<=', $period->to)
+                        ->where('booked', false)
+                        ->select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
+                        ->groupBy(DB::raw('MONTH(date)'))
+                        ->groupBy(DB::raw('YEAR(date)'))
+                        ->orderBy('year', 'asc')
+                        ->orderBy('month', 'asc')
+                        ->get()
+                        ->map(function($e){
+                            $date = Carbon::createFromDate($e->year, $e->month, 1);
+                            return (object) [
+                                'transactions' => MoneyTransaction::whereDate('date', '>=', $date)
+                                    ->whereDate('date', '<=', (clone $date)->endOfMonth())
+                                    ->where('booked', false)
+                                    ->count(),
+                                'date' => $date,
+                            ];
+                        });
+                    return [
+                        $period->id => (object) [
+                            'title' => $period->title,
+                            'from' => $period->from,
+                            'to' => $period->to,
+                            'months' => $months,
+                        ]
+                    ];
+                });
+        } catch (ConnectionException $e) {
+            session()->now('error', $e->getMessage());
+            $periods = collect();
+        }
         return view('accounting::webling.index', [
             'periods' => $periods,
         ]);

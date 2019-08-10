@@ -3,9 +3,12 @@
 namespace Modules\Accounting\Support\Webling\Entities;
 
 use Modules\Accounting\Support\Webling\WeblingClient;
+use Modules\Accounting\Support\Webling\Exceptions\ConnectionException;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+use Webling\API\ClientException;
 
 use Carbon\Carbon;
 
@@ -70,11 +73,15 @@ abstract class WeblingEntity
     public static function all(): Collection
     {
         $webling = resolve(WeblingClient::class);
-        $response = $webling->api()->get(self::getObjectName() . '?format=full');
-        return collect($response->getData())
-            ->map(function($data) {
-                return self::createFromResponseData($data);
-            });
+        try {
+            $response = $webling->api()->get(self::getObjectName() . '?format=full');
+            return collect($response->getData())
+                ->map(function($data) {
+                    return self::createFromResponseData($data);
+                });
+        } catch (ClientException $e) {
+            throw new ConnectionException($e->getMessage());
+        }
     }
 
     public static function filtered($filter): Collection
