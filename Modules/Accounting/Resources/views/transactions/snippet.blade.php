@@ -82,7 +82,7 @@
                 </div>
             </li>
         @endisset        
-        @isset($transaction->booked)
+        @if($transaction->booked)
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-sm-4"><strong>@lang('accounting::accounting.booked')</strong></div>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </li>
-        @endisset 
+        @endif 
 
         <li class="list-group-item">
             <div class="row">
