@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.0
+
+Accounting:
+
+* Booking to Webling added
+
 ## 2.6.8
 
 Accounting:
