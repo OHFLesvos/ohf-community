@@ -4,7 +4,7 @@
 
 @section('content')
     @unless($periods->isEmpty())
-        <p>Bitte wähle eine Monat mit unverbuchten Transaktionen in einer offenen Buchungsperiode:</p>
+        <p>@lang('accounting::accounting.please_choose_month_with_unbooked_transactions_in_open_booking_period')</p>
         @foreach($periods as $period_id => $period)
             <h2>{{ $period->title }}</h2>
             @unless($period->months->isEmpty())

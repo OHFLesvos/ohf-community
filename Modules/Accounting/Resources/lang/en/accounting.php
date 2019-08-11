@@ -36,9 +36,10 @@ return [
     'booked' => 'Booked',
     'debit_side' => 'Debit side',
     'credit_side' => ' Credit side',
-    'transactions_will_be_booked_in_period' => 'The following transactions will be booked in booking period <strong>:period</strong> (:from - :to):',
     'no_open_periods_found' => 'No matching open booking periods found.',
     'num_transactions_booked' => ':num transactions have been booked.',
     'book_to_webling' => 'Book to Webling',
     'no_months_with_unbooked_transactions_found' => 'No months with unbooked transactions found.',
+    'please_choose_month_with_unbooked_transactions_in_open_booking_period' => 'Please choose a month with unbooked transactions in an open booking period:',
+    'the_following_transactions_in_period_can_be_booked' => 'The following transactions from <strong>:from</strong> to <strong>:to</strong> can be booked in the period <strong>:period</strong>:',
 ];

@@ -36,7 +36,6 @@ return [
     'booked' => 'Verbucht',
     'debit_side' => 'Soll',
     'credit_side' => 'Haben',
-    'transactions_will_be_booked_in_period' => 'Die folgenden Transaktionen werden in der Buchungsperiode <strong>:period</strong> (:from - :to) verbucht:',
     'no_open_periods_found' => 'Keine passenden offenen Buchungsperioden gefunden.',
     'money_to' => 'Geld nach',
     'paid_for' => 'Bezahlt für',
@@ -45,4 +44,6 @@ return [
     'num_transactions_booked' => ':num Transaktionen wurden verbucht.',
     'book_to_webling' => 'Nach Webling verbuchen',
     'no_months_with_unbooked_transactions_found' => 'Keine Monate mit unverbuchten Transaktionen gefunden.',
+    'please_choose_month_with_unbooked_transactions_in_open_booking_period' => 'Bitte wähle eine Monat mit unverbuchten Transaktionen in einer offenen Buchungsperiode:',
+    'the_following_transactions_in_period_can_be_booked' => 'Folgende Transaktionen im Zeitraum von <strong>:from</strong> bis <strong>:to</strong> können in der Periode <strong>:period</strong> verbucht werden:',
 ];

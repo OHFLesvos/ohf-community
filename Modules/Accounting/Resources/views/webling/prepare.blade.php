@@ -3,12 +3,7 @@
 @section('title', __('accounting::accounting.book_to_webling'))
 
 @section('content')
-    {{-- <p>@lang('accounting::accounting.transactions_will_be_booked_in_period', [ 'period' => $period->title, 'from' => $period->from->toDateString(), 'to' => $period->to->toDateString() ])</p> --}}
-    {{-- <small>{{ $period->from->toDateString() }} - {{ $period->to->toDateString() }}</small> --}}
-    {{-- <h2>{{ $period->title }}</h2> --}}
-    <p>Folgende Transaktionen im Zeitraum von <strong>{{ $from->toDateString() }}</strong> bis <strong>{{ $to->toDateString() }}</strong> 
-        können in der Periode <strong>{{ $period->title }}</strong> verbucht werden:</p>
-
+    <p>@lang('accounting::accounting.the_following_transactions_in_period_can_be_booked', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ])</p>
     @unless($transactions->isEmpty())
         {!! Form::open(['route' => ['accounting.webling.store' ]]) !!}
             {{ Form::hidden('period', $period->id) }}
