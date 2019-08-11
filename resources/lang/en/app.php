@@ -273,4 +273,8 @@ return [
     'all_time' => 'All time',
     'columns' => 'columns',
     'rows' => 'Rows',
+    'action' => 'Action',
+    'ignore' => 'Ignore',
+    'submit' => 'Submit',
+    'open_in_new_window' => 'Open in new window/tab',
  ];

@@ -28,6 +28,10 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'accounting::permissions.update_delete_transactions',
             'sensitive' => true,
         ],
+        'accounting.transactions.book_externally' => [
+            'label' => 'accounting::permissions.book_externally',
+            'sensitive' => true,
+        ],
         'accounting.summary.view' => [
             'label' => 'accounting::permissions.view_summary',
             'sensitive' => false,
@@ -36,6 +40,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
 
     protected $permission_gate_mappings = [
         'view-accounting-summary' => 'accounting.summary.view',
+        'book-accounting-transactions-externally'=> 'accounting.transactions.book_externally'
     ];
 
 }

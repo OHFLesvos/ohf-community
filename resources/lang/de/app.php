@@ -273,4 +273,8 @@ return [
     'all_time' => 'Gesamter Zeitraum',
     'columns' => 'Spalten',
     'rows' => 'Zeilen',
+    'action' => 'Aktion',
+    'ignore' => 'Ignorieren',
+    'submit' => 'Absenden',
+    'open_in_new_window' => 'In neuem Fenster/Tab öffnen',
 ];

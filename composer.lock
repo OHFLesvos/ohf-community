@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d676d1872f5fd50308b7627fb8d10c4",
+    "content-hash": "c4cc66d093dee3d84da60a232cc1a121",
     "packages": [
         {
             "name": "akaunting/language",
@@ -6205,6 +6205,47 @@
                 "upload"
             ],
             "time": "2018-07-05T11:36:08+00:00"
+        },
+        {
+            "name": "usystems/webling-api-php",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/usystems/webling-api-php.git",
+                "reference": "ff3f65f8b944998d116f666af4b0b707a5b4b92d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/usystems/webling-api-php/zipball/ff3f65f8b944998d116f666af4b0b707a5b4b92d",
+                "reference": "ff3f65f8b944998d116f666af4b0b707a5b4b92d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=4.8 <6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Webling": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Demian Holderegger",
+                    "email": "support@webling.ch"
+                }
+            ],
+            "description": "Lightweight Webling API Wrapper",
+            "time": "2019-04-05T12:16:46+00:00"
         },
         {
             "name": "valorin/pwned-validator",

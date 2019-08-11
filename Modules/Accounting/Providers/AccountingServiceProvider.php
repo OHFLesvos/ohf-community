@@ -50,6 +50,7 @@ class AccountingServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
         $this->app->register(NavigationServiceProvider::class);
+        $this->app->register(WeblingServiceProvider::class);
     }
 
     /**

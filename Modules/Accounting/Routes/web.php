@@ -24,6 +24,11 @@ Route::group(['middleware' => 'language'], function () {
             Route::delete('transactions/{transaction}/receipt', 'MoneyTransactionsController@deleteReceipt')->name('transactions.deleteReceipt');
             Route::resource('transactions', 'MoneyTransactionsController');
 
+            // Webling
+            Route::get('webling', 'WeblingApiController@index')->name('webling.index');
+            Route::get('webling/prepare', 'WeblingApiController@prepare')->name('webling.prepare');
+            Route::post('webling', 'WeblingApiController@store')->name('webling.store');
+
         });
     });
 });

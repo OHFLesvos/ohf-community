@@ -3,6 +3,7 @@
 namespace Modules\Accounting\Entities;
 
 use Modules\Accounting\Entities\SignedMoneyTransaction;
+use Modules\Accounting\Support\Webling\Entities\Entrygroup;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use OwenIt\Auditing\Contracts\Auditable;
+
+use Modules\Accounting\Support\Webling\Exceptions\ConnectionException;
 
 use Carbon\Carbon;
 
@@ -31,6 +34,10 @@ class MoneyTransaction extends Model implements Auditable
 
         parent::boot();
     }
+
+    protected $casts = [
+        'booked' => 'boolean',
+    ];
 
     /**
      * Gets the amount of the wallet
@@ -98,5 +105,16 @@ class MoneyTransaction extends Model implements Auditable
         return optional(MoneyTransaction::select(DB::raw('MAX(receipt_no) as val'))
             ->first())
             ->val + 1;
-    }    
+    }
+
+    public function getExternalUrlAttribute()
+    {
+        if ($this->external_id != null)
+        {
+            try {
+                return optional(Entrygroup::find($this->external_id))->url();
+            } catch (ConnectionException $ignored) { }
+        }
+        return null;
+    }
 }

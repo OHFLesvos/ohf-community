@@ -41,6 +41,7 @@
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spomky-labs/otphp": "^9.1",
         "unisharp/laravel-filemanager": "~1.8",
+        "usystems/webling-api-php": "^1.2",
         "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
