@@ -227,4 +227,57 @@ class WeblingApiController extends Controller
             ->route('accounting.webling.index')
             ->with('info', __('accounting::accounting.num_transactions_booked', ['num' => count($bookedTransactions)]));
     }
+
+    public function sync(Request $request)
+    {
+        $this->authorize('book-accounting-transactions-externally');
+
+        $request->validate([
+            'period' => [
+                'required',
+                'integer',
+                function($attribute, $value, $fail) {
+                    $period = Period::find($value);
+                    if ($period == null) {
+                        return $fail('Period does not exist.');
+                    }
+                },
+            ],
+        ]);
+
+        $synced = 0;
+        try {
+            $period = Period::find($request->period);
+            $entryGroups = $period->entryGroups();
+            $entryGroups = collect($entryGroups)
+                // ->slice(0, 3)
+                ->map(function($entryGroup){
+                    $entryGroup->entries = $entryGroup->entries();
+                    return $entryGroup;
+                });
+
+            foreach($entryGroups as $entryGroup) {
+                foreach($entryGroup->entries as $entry) {
+                    $transaction = MoneyTransaction::whereDate('date', $entryGroup->date)
+                        ->where('booked', false)
+                        ->where('receipt_no', $entry->receipt)
+                        ->first();
+                    if ($transaction != null) {
+                        $transaction->booked = true;
+                        $transaction->external_id = $entryGroup->id;
+                        $transaction->save();
+                        $synced++;
+                    }
+                }
+            }
+
+        } catch (ConnectionException $e) {
+            session()->now('error', $e->getMessage());
+            $transactions = [];
+        }
+
+        return redirect()
+            ->route('accounting.webling.index')
+            ->with('info', __('accounting::accounting.num_transactions_synced', ['num' => $synced]));
+    }
 }

@@ -42,6 +42,7 @@ return [
     'received_for' => 'Received for',
     'paid_from' => 'Paid from',
     'num_transactions_booked' => ':num transactions have been booked.',
+    'num_transactions_synced' => ':num transactions have been synchronized.',
     'book_to_webling' => 'Book to Webling',
     'no_months_with_unbooked_transactions_found' => 'No months with unbooked transactions found.',
     'please_choose_month_with_unbooked_transactions_in_open_booking_period' => 'Please choose a month with unbooked transactions in an open booking period:',

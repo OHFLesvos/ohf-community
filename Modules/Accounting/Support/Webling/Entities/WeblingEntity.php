@@ -41,8 +41,14 @@ abstract class WeblingEntity
                 return [self::findById($id[0])];
             } else {
                 $webling = resolve(WeblingClient::class);
-                $response = $webling->api()->get(self::getObjectName() . '/' . implode(',', $id));
-                return collect($response->getData())
+                $data = [];
+                for ($offset = 0; $offset < count($id); $offset += 250) {
+                    $id_slice = array_slice($id, $offset, 250);
+                    // TODO error handling
+                    $response = $webling->api()->get(self::getObjectName() . '/' . implode(',', $id_slice));
+                    $data = array_merge($data, $response->getData());
+                }
+                return collect($data)
                     ->map(function($data) {
                         return self::createFromResponseData($data);
                     });   

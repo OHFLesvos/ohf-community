@@ -6,6 +6,11 @@ use Modules\Accounting\Support\Webling\WeblingClient;
 
 class Entrygroup extends WeblingEntity
 {
+    public function entries()
+    {
+        return $this->hasMany(Entry::class);
+    }
+
     public function url()
     {
         $webling = resolve(WeblingClient::class);
