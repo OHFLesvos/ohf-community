@@ -40,4 +40,5 @@ return [
     'no_open_periods_found' => 'No matching open booking periods found.',
     'num_transactions_booked' => ':num transactions have been booked.',
     'book_to_webling' => 'Book to Webling',
+    'no_months_with_unbooked_transactions_found' => 'No months with unbooked transactions found.',
 ];

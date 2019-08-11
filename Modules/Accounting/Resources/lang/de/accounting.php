@@ -44,4 +44,5 @@ return [
     'paid_from' => 'Bezahlt aus',
     'num_transactions_booked' => ':num Transaktionen wurden verbucht.',
     'book_to_webling' => 'Nach Webling verbuchen',
+    'no_months_with_unbooked_transactions_found' => 'Keine Monate mit unverbuchten Transaktionen gefunden.',
 ];
