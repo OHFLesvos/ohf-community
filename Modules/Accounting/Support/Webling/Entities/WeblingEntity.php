@@ -27,32 +27,15 @@ abstract class WeblingEntity
         return strtolower(class_basename(static::class));
     }
 
-    public static function ids(): array
-    {
-        $webling = resolve(WeblingClient::class);
-        $response = $webling->api()->get(self::getObjectName());
-        return collect($response->getData())->first();
-    }
-
     public static function find($id)
     {
         if (is_array($id)) {
-            if (count($id) == 1) {
-                return [self::findById($id[0])];
-            } else {
-                $webling = resolve(WeblingClient::class);
-                $data = [];
-                for ($offset = 0; $offset < count($id); $offset += 250) {
-                    $id_slice = array_slice($id, $offset, 250);
-                    // TODO error handling
-                    $response = $webling->api()->get(self::getObjectName() . '/' . implode(',', $id_slice));
-                    $data = array_merge($data, $response->getData());
-                }
-                return collect($data)
-                    ->map(function($data) {
-                        return self::createFromResponseData($data);
-                    });   
-            }
+            $webling = resolve(WeblingClient::class);
+            $data = $webling->getObjects(self::getObjectName(), $id);
+            return collect($data)
+                ->map(function($data) {
+                    return self::createFromResponseData($data);
+                });
         }
         return self::findById($id);
     }
@@ -70,11 +53,11 @@ abstract class WeblingEntity
     {
         $webling = resolve(WeblingClient::class);
         try {
-            $response = $webling->api()->get(self::getObjectName() . '/' . $id);
-            if ($response->getStatusCode() == 404) {
-                return null;
+            $data = $webling->getObject(self::getObjectName(), $id);
+            if ($data != null) {
+                return self::createFromResponseData($data);
             }
-            return self::createFromResponseData($response->getData(), $id);
+            return null;
         } catch (ClientException $e) {
             throw new ConnectionException($e->getMessage());
         }
@@ -84,11 +67,17 @@ abstract class WeblingEntity
     {
         $webling = resolve(WeblingClient::class);
         try {
-            $response = $webling->api()->get(self::getObjectName() . '?format=full');
-            return collect($response->getData())
-                ->map(function($data) {
-                    return self::createFromResponseData($data);
-                });
+            $ids = $webling->listObjectIds(self::getObjectName());
+            if ($ids != null) {
+                $data = $webling->getObjects(self::getObjectName(), $ids);
+                if ($data != null) {
+                    return collect($data)
+                        ->map(function($data) {
+                            return self::createFromResponseData($data);
+                        });
+                }
+            }
+            throw new ModelNotFoundException('Objects of type \'' . self::getObjectName() . '\' not found.');
         } catch (ClientException $e) {
             throw new ConnectionException($e->getMessage());
         }
@@ -97,20 +86,27 @@ abstract class WeblingEntity
     public static function filtered($filter): Collection
     {
         $webling = resolve(WeblingClient::class);
-        $response = $webling->api()->get(self::getObjectName() . '?format=full&filter=' . $filter);
-        return collect($response->getData())
-            ->map(function($data) {
-                return self::createFromResponseData($data);
-            });
+        try {
+            $data = $webling->listObjectsUncached(self::getObjectName(), true,  $filter);
+            if ($data != null) {
+                return collect($data)
+                    ->map(function($data) {
+                        return self::createFromResponseData($data);
+                    });
+            }
+            throw new ModelNotFoundException('Objects of type \'' . self::getObjectName() . '\' not found.');
+        } catch (ClientException $e) {
+            throw new ConnectionException($e->getMessage());
+        }
     }
 
-    private static function createFromResponseData(array $data, int $id = null)
+    private static function createFromResponseData(array $data)
     {
         $clazz = static::class;
         $obj = new $clazz();
 
         // ID
-        $obj->id = $id != null ? $id : (isset($data['id']) ? $data['id'] : null);
+        $obj->id = isset($data['id']) ? $data['id'] : null;
 
         // Properties
         if (isset($data['properties'])) {
@@ -179,12 +175,8 @@ abstract class WeblingEntity
     public static function createRaw($data)
     {
         $webling = resolve(WeblingClient::class);
-        $response = $webling->api()->post(self::getObjectName(), $data);
-        if ($response->getStatusCode() < 400) {
-            $id = $response->getData();
-            return self::find($id);
-        }
-        throw new \Exception('Server responded with code ' . $response->getStatusCode().': ' . $response->getRawData());
+        $id = $webling->storeObject(self::getObjectName(), $data);
+        return self::find($id);
     }
 
     public final function save()
