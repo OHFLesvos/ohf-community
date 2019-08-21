@@ -25,7 +25,18 @@
             @endcomponent
         @endif
         @component('components.alert.info')
-            @lang('library::library.book_is_lent_to_person_until', [ 'route' => route('library.lending.person', $lending->person), 'person' => $lending->person->fullName, 'until' => $lending->return_date->toDateString() ])
+            @isset($lending->person)
+                @lang('library::library.book_is_lent_to_person_until', [ 'route' => route('library.lending.person', $lending->person), 'person' => $lending->person->fullName, 'until' => $lending->return_date->toDateString() ])
+            @else
+                @php
+                    $thrashedPerson = $lending->person()->withTrashed()->first();
+                @endphp
+                @isset($thrashedPerson)
+                    @lang('library::library.book_is_lent_to_soft_deleted_person_until', [ 'person' => $thrashedPerson->fullName, 'until' => $lending->return_date->toDateString() ])
+                @else
+                    @lang('library::library.book_is_lent_to_deleted_person_until', [ 'until' => $lending->return_date->toDateString() ])
+                @endisset
+            @endisset
         @endcomponent
         {!! Form::open(['route' => ['library.lending.returnBook', $book], 'method' => 'post']) !!}
             <p>

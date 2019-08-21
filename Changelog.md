@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.1
+
+Library:
+
+* Fixed error in book lending view with deleted person.
+
 ## 2.7.0
 
 Accounting:
