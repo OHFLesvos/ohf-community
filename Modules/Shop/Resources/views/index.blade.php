@@ -67,10 +67,16 @@
                                     </strong>
                                 @else
                                     {{ Form::open(['route' => 'shop.redeem']) }}
-                                    {{ Form::hidden('code', $code) }}
-                                    <button type="submit" class="btn btn-lg btn-block btn-success">
-                                        @icon(check) @lang('shop::shop.redeem')
-                                    </button>
+                                        {{ Form::hidden('code', $code) }}
+                                        <button type="submit" class="btn btn-lg btn-block btn-success">
+                                            @icon(check) @lang('shop::shop.redeem')
+                                        </button>
+                                    {{ Form::close() }}
+                                    {{ Form::open(['route' => 'shop.cancelCard']) }}
+                                        {{ Form::hidden('code', $code) }}
+                                        <button type="submit" class="btn btn-sm btn-block btn-outline-danger mt-3" onclick="return confirm('@lang('shop::shop.should_card_be_cancelled')');">
+                                            @icon(undo) @lang('shop::shop.cancel_card')
+                                        </button>
                                     {{ Form::close() }}
                                 @endif
                             </div>

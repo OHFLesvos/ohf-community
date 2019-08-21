@@ -55,6 +55,16 @@ class CouponTypesSeeder extends Seeder
             'min_age' => 15,
             'order' => 4,
             'returnable' => false,
-        ]);        
+        ]);
+        CouponType::create([
+            'name' => 'Shop Coupon',
+            'icon' => 'shopping-basket',
+            'daily_amount' => 1,
+            'retention_period' => 14,
+            'min_age' => 15,
+            'order' => 5,
+            'returnable' => false,
+            'qr_code_enabled' => true,
+        ]);
     }
 }

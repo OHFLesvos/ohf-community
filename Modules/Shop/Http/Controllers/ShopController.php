@@ -117,5 +117,46 @@ class ShopController extends Controller
         return redirect()->route('shop.index');
     }
 
+    // Cancel card
+    public function cancelCard(Request $request) {
+
+        // code_redeemed
+        $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
+        $code = $request->code;
+        $handout = CouponHandout
+            ::where(function($q) use ($code) {
+                return $q->where('code', $code)
+                    ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+            })
+            ->whereDate('date', '>=', $acceptDate)
+            ->orderBy('date', 'desc')
+            ->first();
+        if ($handout == null) {
+            $handout = CouponHandout
+                ::where(function($q) use ($code) {
+                    return $q->where('code', $code)
+                        ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
+                })            
+                ->whereNull('code_redeemed')
+                ->orderBy('date', 'desc')
+                ->first();
+        }
+
+        if ($handout != null && $handout->code_redeemed == null) {
+            
+            $handout->delete();
+
+            Log::notice('Shop: Card has been cancelled.', [
+                'code' => $code,
+                'handout' => $handout != null ? $handout->date : null,
+            ]);
+        
+            return redirect()->route('shop.index')
+                ->with('success', __('shop::shop.card_has_been_cancelled'));
+        }
+
+        return redirect()->route('shop.index');
+    }    
+
 }
 

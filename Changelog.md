@@ -6,6 +6,10 @@ Accounting:
 
 * Booking to Webling added
 
+Shop:
+
+* Added option to cancel card
+
 ## 2.6.8
 
 Accounting:
