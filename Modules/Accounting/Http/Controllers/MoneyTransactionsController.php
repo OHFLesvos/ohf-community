@@ -10,6 +10,7 @@ use Modules\Accounting\Entities\MoneyTransaction;
 use Modules\Accounting\Exports\MoneyTransactionsExport;
 use Modules\Accounting\Exports\WeblingMoneyTransactionsExport;
 use Modules\Accounting\Exports\MoneyTransactionsMonthsExport;
+use Modules\Accounting\Support\Webling\Entities\Entrygroup;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -588,6 +589,12 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('undoBooking', $transaction);
         
+        if ($transaction->external_id != null && Entrygroup::find($transaction->external_id) != null) {
+            return redirect()
+                ->route('accounting.transactions.show', $transaction)
+                ->with('error', __('accounting::accounting.transaction_not_updated_external_record_still_exists'));
+        }
+
         $transaction->booked = false;
         $transaction->external_id = null;
         $transaction->save();

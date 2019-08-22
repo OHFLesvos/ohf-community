@@ -49,4 +49,5 @@ return [
     'the_following_transactions_in_period_can_be_booked' => 'The following transactions from <strong>:from</strong> to <strong>:to</strong> can be booked in the period <strong>:period</strong>:',
     'undo_booking' => 'Undo booking',
     'really_undo_booking' => 'Really undo booking?',
+    'transaction_not_updated_external_record_still_exists' => 'Transaction not updated; the external record still exists and has to be deleted beforehand.',
 ];

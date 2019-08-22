@@ -49,4 +49,5 @@ return [
     'the_following_transactions_in_period_can_be_booked' => 'Folgende Transaktionen im Zeitraum von <strong>:from</strong> bis <strong>:to</strong> können in der Periode <strong>:period</strong> verbucht werden:',
     'undo_booking' => 'Verbuchen rückgängig machen',
     'really_undo_booking' => 'Verbuchen wirklich rückgängig machen?',
+    'transaction_not_updated_external_record_still_exists' => 'Transaction nicht aktualisiert; der externe Datensatz existiert noch und muss zuerst gelöscht werden.',
 ];
