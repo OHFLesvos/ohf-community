@@ -47,4 +47,6 @@ return [
     'no_months_with_unbooked_transactions_found' => 'Keine Monate mit unverbuchten Transaktionen gefunden.',
     'please_choose_month_with_unbooked_transactions_in_open_booking_period' => 'Bitte wähle eine Monat mit unverbuchten Transaktionen in einer offenen Buchungsperiode:',
     'the_following_transactions_in_period_can_be_booked' => 'Folgende Transaktionen im Zeitraum von <strong>:from</strong> bis <strong>:to</strong> können in der Periode <strong>:period</strong> verbucht werden:',
+    'undo_booking' => 'Verbuchen rückgängig machen',
+    'really_undo_booking' => 'Verbuchen wirklich rückgängig machen?',
 ];

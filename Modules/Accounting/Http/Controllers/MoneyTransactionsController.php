@@ -584,4 +584,16 @@ class MoneyTransactionsController extends Controller
         return response(null, 204);
     }
 
+    public function undoBooking(Request $request, MoneyTransaction $transaction)
+    {
+        $this->authorize('undoBooking', $transaction);
+        
+        $transaction->booked = false;
+        $transaction->external_id = null;
+        $transaction->save();
+
+        return redirect()
+            ->route('accounting.transactions.show', $transaction)
+            ->with('info', __('accounting::accounting.transactions_updated'));
+    }
 }

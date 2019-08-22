@@ -104,6 +104,11 @@
                         @else
                             @lang('app.yes')
                         @endcan
+                        @can('undoBooking', $transaction)
+                            {!! Form::model($transaction, ['route' => ['accounting.transactions.undoBooking', $transaction], 'method' => 'put']) !!}
+                                <p class="mb-0 mt-2">{{ Form::button('<i class="fa fa-undo"></i> '.__('accounting::accounting.undo_booking'), [ 'type' => 'submit', 'class' => 'btn btn-sm btn-outline-danger', 'onclick' => "return confirm('".__('accounting::accounting.really_undo_booking')."')" ] ) }}</p>
+                            {!! Form::close() !!}
+                        @endcan
                     </div>
                 </div>
             </li>

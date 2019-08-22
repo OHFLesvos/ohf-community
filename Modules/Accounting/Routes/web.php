@@ -22,6 +22,7 @@ Route::group(['middleware' => 'language'], function () {
             Route::get('transactions/{transaction}/receipt', 'MoneyTransactionsController@editReceipt')->name('transactions.editReceipt');
             Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')->name('transactions.updateReceipt');
             Route::delete('transactions/{transaction}/receipt', 'MoneyTransactionsController@deleteReceipt')->name('transactions.deleteReceipt');
+            Route::put('transactions/{transaction}/undoBooking', 'MoneyTransactionsController@undoBooking')->name('transactions.undoBooking');
             Route::resource('transactions', 'MoneyTransactionsController');
 
             // Webling

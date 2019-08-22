@@ -6,6 +6,7 @@ Accounting:
 
 * Separate permissions for edit and delete transactions
 * Also admin cannot edit/delete booked transactions
+* Unbooking of booked transactions
 
 ## 2.7.1
 

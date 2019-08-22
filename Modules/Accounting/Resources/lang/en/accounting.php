@@ -47,4 +47,6 @@ return [
     'no_months_with_unbooked_transactions_found' => 'No months with unbooked transactions found.',
     'please_choose_month_with_unbooked_transactions_in_open_booking_period' => 'Please choose a month with unbooked transactions in an open booking period:',
     'the_following_transactions_in_period_can_be_booked' => 'The following transactions from <strong>:from</strong> to <strong>:to</strong> can be booked in the period <strong>:period</strong>:',
+    'undo_booking' => 'Undo booking',
+    'really_undo_booking' => 'Really undo booking?',
 ];

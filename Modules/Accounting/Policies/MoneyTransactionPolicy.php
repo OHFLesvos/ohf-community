@@ -14,7 +14,7 @@ class MoneyTransactionPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete'])) {
+        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete', 'undoBooking'])) {
             return true;
         }
     }
@@ -82,4 +82,20 @@ class MoneyTransactionPolicy
         }
         return false;
     }
+
+    /**
+     * Determine whether the user can mark a booked transaction as unbooked again.
+     *
+     * @param  \App\User  $user
+     * @param  \Modules\Accounting\Entities\MoneyTransaction  $moneyTransaction
+     * @return mixed
+     */
+    public function undoBooking(User $user, MoneyTransaction $moneyTransaction)
+    {
+        if ($moneyTransaction->booked) {
+            return $user->isSuperAdmin() || $user->hasPermission('book-accounting-transactions-externally');
+        }
+        return false;
+    }
+    
 }
