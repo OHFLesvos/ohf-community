@@ -14,7 +14,7 @@ class MoneyTransactionPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete'])) {
             return true;
         }
     }
@@ -62,7 +62,10 @@ class MoneyTransactionPolicy
      */
     public function update(User $user, MoneyTransaction $moneyTransaction)
     {
-        return $user->hasPermission('accounting.transactions.update_delete') && !$moneyTransaction->booked;
+        if (!$moneyTransaction->booked) {
+            return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
+        }
+        return false;
     }
 
     /**
@@ -74,6 +77,9 @@ class MoneyTransactionPolicy
      */
     public function delete(User $user, MoneyTransaction $moneyTransaction)
     {
-        return $user->hasPermission('accounting.transactions.update_delete') && !$moneyTransaction->booked;
+        if (!$moneyTransaction->booked) {
+            return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.delete');
+        }
+        return false;
     }
 }

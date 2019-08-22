@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.7.2
+
+Accounting:
+
+* Separate permissions for edit and delete transactions
+* Also admin cannot edit/delete booked transactions
+
 ## 2.7.1
 
 Library:

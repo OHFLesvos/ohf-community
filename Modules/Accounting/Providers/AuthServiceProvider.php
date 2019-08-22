@@ -24,8 +24,12 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'accounting::permissions.create_transactions',
             'sensitive' => true,
         ],
-        'accounting.transactions.update_delete' => [
-            'label' => 'accounting::permissions.update_delete_transactions',
+        'accounting.transactions.update' => [
+            'label' => 'accounting::permissions.update_transactions',
+            'sensitive' => true,
+        ],
+        'accounting.transactions.delete' => [
+            'label' => 'accounting::permissions.delete_transactions',
             'sensitive' => true,
         ],
         'accounting.transactions.book_externally' => [
