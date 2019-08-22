@@ -93,7 +93,7 @@ class MoneyTransactionPolicy
     public function undoBooking(User $user, MoneyTransaction $moneyTransaction)
     {
         if ($moneyTransaction->booked) {
-            return $user->isSuperAdmin() || $user->hasPermission('book-accounting-transactions-externally');
+            return $user->isSuperAdmin() || $user->can('book-accounting-transactions-externally');
         }
         return false;
     }
