@@ -162,16 +162,16 @@
         },
         {
             "name": "beberlei/assert",
-            "version": "v3.2.1",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beberlei/assert.git",
-                "reference": "ce139b6bf8f07fb8389d2c8e15b98dc24fdd93c7"
+                "reference": "5547e7d03f8c6be121b8b9db6d6ed5a22ffdcb01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/assert/zipball/ce139b6bf8f07fb8389d2c8e15b98dc24fdd93c7",
-                "reference": "ce139b6bf8f07fb8389d2c8e15b98dc24fdd93c7",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/5547e7d03f8c6be121b8b9db6d6ed5a22ffdcb01",
+                "reference": "5547e7d03f8c6be121b8b9db6d6ed5a22ffdcb01",
                 "shasum": ""
             },
             "require": {
@@ -198,13 +198,13 @@
             "authors": [
                 {
                     "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de",
-                    "role": "Lead Developer"
+                    "role": "Lead Developer",
+                    "email": "kontakt@beberlei.de"
                 },
                 {
                     "name": "Richard Quadling",
-                    "email": "rquadling@gmail.com",
-                    "role": "Collaborator"
+                    "role": "Collaborator",
+                    "email": "rquadling@gmail.com"
                 }
             ],
             "description": "Thin assertion library for input validation in business models.",
@@ -213,7 +213,7 @@
                 "assertion",
                 "validation"
             ],
-            "time": "2019-05-28T15:18:28+00:00"
+            "time": "2019-08-23T16:04:58+00:00"
         },
         {
             "name": "behat/transliterator",
