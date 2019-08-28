@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.3
+
+Fundraising:
+
+* Add currency total donations column to excel export
+
 ## 2.7.2
 
 Accounting:

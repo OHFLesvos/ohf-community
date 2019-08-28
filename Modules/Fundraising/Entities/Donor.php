@@ -82,6 +82,15 @@ class Donor extends Model
             ->first();
     }
 
+    function amountPerYearByCurrencies($year) {
+        return $this->donations()
+            ->whereYear('date', $year)
+            ->select(DB::raw('sum(exchange_amount) as total'), 'currency')
+            ->groupBy('currency')
+            ->get()
+            ->pluck('total', 'currency');
+    }
+
     function donationsPerYear() {
         return $this->donations()
             ->groupBy(DB::raw('YEAR(date)'))
