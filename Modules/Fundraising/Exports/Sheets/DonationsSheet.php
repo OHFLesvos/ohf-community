@@ -21,6 +21,9 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
     private $donations;
     private $year;
 
+    protected $currencyColumn = 'G';
+    protected $exchangedCurrencyColumn = 'H';
+
     public function __construct(Collection $donations, ?int $year = null)
     {
         $this->donations = $donations;
@@ -87,17 +90,17 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
         // Set exchange currency format
         for ($i = 0; $i < $cnt; $i++) {
-            $sheet->getStyle('G' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
+            $sheet->getStyle($this->currencyColumn . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
         }
 
         if ($cnt > 0) {
-            $sumCell = 'H' . ($cnt + 2);
+            $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);
             
             // Set currency format
-            $sheet->getStyle('H1:' . $sumCell)->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
+            $sheet->getStyle($this->exchangedCurrencyColumn . '1:' . $sumCell)->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
 
             // Total sum cell value
-            $sumCell = 'H' . ($cnt + 2);
+            $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);
             // $sheet->setCellValue($sumCell, '=SUM(H2:H' . ($cnt + 1) . ')');
             $sheet->setCellValue($sumCell, $this->donations->sum('exchange_amount'));
             $sheet->getStyle($sumCell)->getFont()->setUnderline(Font::UNDERLINE_DOUBLEACCOUNTING);

@@ -6,22 +6,19 @@ use Modules\Fundraising\Entities\Donation;
 
 class DonationsWithDonorSheet extends DonationsSheet
 {
+    protected $currencyColumn = 'H';
+    protected $exchangedCurrencyColumn = 'I';
+
     /**
      * @return array
      */
     public function headings(): array
     {
-        return array_merge(
-            parent::headings(),
-            [
-                __('app.first_name'),
-                __('app.last_name'),
-                __('app.company'),
-                __('app.city'),
-                __('app.country'),
-                __('app.email'),
-            ]
-        );
+        $headings = collect(parent::headings());
+        $headings->splice(1, 0, [
+                __('fundraising::fundraising.donor')
+            ]);
+        return $headings ->toArray();
     }
 
     /**
@@ -29,17 +26,11 @@ class DonationsWithDonorSheet extends DonationsSheet
     */
     public function map($donation): array
     {
-        return array_merge(
-            parent::map($donation),
-            [
-                $donation->donor->first_name,
-                $donation->donor->last_name,
-                $donation->donor->company,
-                $donation->donor->city,
-                $donation->donor->country_name,
-                $donation->donor->email,
-            ]            
-        );
+        $map = collect(parent::map($donation));
+        $map->splice(1, 0, [
+            $donation->donor->full_name,
+        ]);
+        return $map->toArray();
     }
 
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.5
+
+Fundraising:
+
+* Simplified donations export sheet
+
 ## 2.7.4
 
 Fundraising:
