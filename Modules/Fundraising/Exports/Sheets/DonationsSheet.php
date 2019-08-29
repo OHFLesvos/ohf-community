@@ -4,7 +4,6 @@ namespace Modules\Fundraising\Exports\Sheets;
 
 use App\Exports\BaseExport;
 
-use Modules\Fundraising\Entities\Donor;
 use Modules\Fundraising\Entities\Donation;
 
 use Illuminate\Support\Collection;
@@ -19,15 +18,13 @@ use PhpOffice\PhpSpreadsheet\Style\Font;
 
 class DonationsSheet extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
-    private $year;
-    private $donor;
-
     private $donations;
+    private $year;
 
-    public function __construct(int $year, Donor $donor)
+    public function __construct(Collection $donations, ?int $year = null)
     {
+        $this->donations = $donations;
         $this->year = $year;
-        $this->donor = $donor;
 
         $this->setOrientation('landscape');
     }
@@ -37,12 +34,6 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
     */
     public function collection(): Collection
     {
-        $this->donations = $this->donor->donations()
-            ->whereYear('date', $this->year)
-            ->orderBy('date', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
         return $this->donations;
     }
 
@@ -51,7 +42,7 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
      */
     public function title(): string
     {
-        return __('fundraising::fundraising.donations') . ' ' . $this->year;
+        return __('fundraising::fundraising.donations') . ($this->year != null ? ' ' . $this->year : '');
     }
 
     /**
@@ -92,10 +83,10 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
     {
         parent::applyStyles($sheet);
 
-        $cnt = count($this->donations);
+        $cnt = $this->donations->count();
 
         // Set exchange currency format
-        for ($i = 0; $i < sizeof($this->donations); $i++) {
+        for ($i = 0; $i < $cnt; $i++) {
             $sheet->getStyle('G' . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
         }
 

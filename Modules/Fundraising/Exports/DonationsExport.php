@@ -5,9 +5,10 @@ namespace Modules\Fundraising\Exports;
 use App\Exports\DefaultFormatting;
 
 use Modules\Fundraising\Entities\Donor;
+use Modules\Fundraising\Entities\Donation;
 use Modules\Fundraising\Exports\Sheets\DonationsSheet;
 
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -21,9 +22,18 @@ class DonationsExport implements WithMultipleSheets, WithEvents
 
     private $donor;
 
-    public function __construct(Donor $donor)
+    public function __construct(?Donor $donor = null)
     {
         $this->donor = $donor;
+    }
+
+    private function getDonationsQuery(?int $year = null)
+    {
+        $qry = $this->donor != null ? $this->donor->donations() : Donation::query();
+        if ($year != null) {
+            $qry->whereYear('date', $year);
+        }
+        return $qry;
     }
 
     /**
@@ -33,14 +43,19 @@ class DonationsExport implements WithMultipleSheets, WithEvents
     {
         $sheets = [];
 
-        $last_year = Carbon::now()->subYear()->year;
-        if ($this->donor->donations()->whereYear('date', $last_year)->count() > 0) {
-            $sheets[] = new DonationsSheet($last_year, $this->donor);
-        }
-
-        $this_year = Carbon::now()->year;
-        if ($this->donor->donations()->whereYear('date', $this_year)->count() > 0) {
-            $sheets[] = new DonationsSheet($this_year, $this->donor);
+        $years = Donation::select(DB::raw('YEAR(date) as year'))
+            ->groupBy('year')
+            ->orderBy('year')
+            ->get()
+            ->pluck('year');
+        foreach ($years as $year) {
+            if ($this->getDonationsQuery($year)->count() > 0) {
+                $data = $this->getDonationsQuery($year)
+                    ->orderBy('date', 'asc')
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+                $sheets[] = new DonationsSheet($data, $year);
+            }
         }
 
         return $sheets;
