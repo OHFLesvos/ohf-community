@@ -19,7 +19,13 @@ class DonationIndexContextButtons implements ContextButtons {
                 'caption' => __('app.import'),
                 'icon' => 'upload',
                 'authorized' => Auth::user()->can('create', Donation::class)
-            ]
+            ],
+            'export' => [
+                'url' => route('fundraising.donations.export'),
+                'caption' => __('app.export'),
+                'icon' => 'download',
+                'authorized' => Auth::user()->can('list', Donation::class)
+            ],
         ];
     }
 

@@ -24,7 +24,7 @@ class DonorShowContextButtons implements ContextButtons {
                 'authorized' => Auth::user()->can('update', $donor)
             ],
             'export' => [
-                'url' => route('fundraising.donations.export', $donor),
+                'url' => route('fundraising.donations.exportDonor', $donor),
                 'caption' => __('app.export'),
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('list', Donation::class) && $donor->donations()->count() > 0

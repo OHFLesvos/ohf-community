@@ -21,9 +21,10 @@ Route::group(['middleware' => ['language', 'auth']], function () {
         // Donations
         Route::name('donations.index')->get('donations', 'DonationController@index');
         Route::name('donations.import')->get('donations/import', 'DonationController@import');
+        Route::name('donations.export')->get('donations/export', 'DonationController@export');
         Route::name('donations.doImport')->post('donations/import', 'DonationController@doImport');
         Route::prefix('donors/{donor}')->group(function () {
-            Route::name('donations.export')->get('export', 'DonationController@export');
+            Route::name('donations.exportDonor')->get('export', 'DonationController@exportDonor');
             Route::resource('donations', 'DonationController')->except('show', 'index');
         });
     });

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.4
+
+Fundraising:
+
+* Add export of all donations
+
 ## 2.7.3
 
 Fundraising:

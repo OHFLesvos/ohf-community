@@ -7,6 +7,7 @@ use App\Exports\DefaultFormatting;
 use Modules\Fundraising\Entities\Donor;
 use Modules\Fundraising\Entities\Donation;
 use Modules\Fundraising\Exports\Sheets\DonationsSheet;
+use Modules\Fundraising\Exports\Sheets\DonationsWithDonorSheet;
 
 use Illuminate\Support\Facades\DB;
 
@@ -54,7 +55,7 @@ class DonationsExport implements WithMultipleSheets, WithEvents
                     ->orderBy('date', 'asc')
                     ->orderBy('created_at', 'asc')
                     ->get();
-                $sheets[] = new DonationsSheet($data, $year);
+                $sheets[] = $this->donor != null ? new DonationsSheet($data, $year) : new DonationsWithDonorSheet($data, $year);
             }
         }
 

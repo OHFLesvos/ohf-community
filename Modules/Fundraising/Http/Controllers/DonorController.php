@@ -241,7 +241,7 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        $file_name = Config::get('app.name') . ' ' . __('fundraising::fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')';
+        $file_name = Config::get('app.name') . ' - ' . __('fundraising::fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')';
 
         return (new DonorsExport)->download($file_name . '.' . 'xlsx');
     }

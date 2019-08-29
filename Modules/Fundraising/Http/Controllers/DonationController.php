@@ -190,16 +190,30 @@ class DonationController extends Controller
     }
 
     /**
+     * Exports all donations
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        $this->authorize('list', Donation::class);
+
+        $file_name = Config::get('app.name') . ' - ' .__('fundraising::fundraising.donations') . ' (' . Carbon::now()->toDateString() . ')';
+
+        return (new DonationsExport())->download($file_name . '.' . 'xlsx');
+    }
+
+    /**
      * Exports the donations of a donor
      *
      * @param  \Modules\Fundraising\Entities\Donor  $donor
      * @return \Illuminate\Http\Response
      */
-    public function export(Donor $donor)
+    public function exportDonor(Donor $donor)
     {
         $this->authorize('list', Donation::class);
 
-        $file_name = Config::get('app.name') . ' ' .__('fundraising::fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
+        $file_name = Config::get('app.name') . ' - ' .__('fundraising::fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
 
         return (new DonationsExport($donor))->download($file_name . '.' . 'xlsx');
     }
