@@ -92,13 +92,6 @@ class DonorController extends Controller
         }
 
         return view('fundraising::donors.index', [
-            'donors' => $query
-                ->orderBy('first_name')
-                ->orderBy('last_name')
-                ->orderBy('company')
-                ->limit(5)
-                ->get(),
-                // ->paginate(100),
             'filter' => $filter,
             'tag' => $tag,
             'tags' => Tag::has('donors')->orderBy('name')->get(),

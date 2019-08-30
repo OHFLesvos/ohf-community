@@ -31,73 +31,62 @@
         </p>
     @endisset
 
-    @if( ! $donors->isEmpty() )
-       <div id="app">
-            @php
-                $fields = [
-                    'first_name' => [
-                        'label' => __('app.first_name'),
-                        'sortable' => true,
-                    ],
-                    'last_name' => [
-                        'label' => __('app.last_name'),
-                        'sortable' => true,
-                    ],
-                    'company' => [
-                        'label' => __('app.company'),
-                        'sortable' => true,
-                    ],
-                    'street' =>  [
-                        'label' => __('app.street'),
-                        'class' => 'd-none d-sm-table-cell',
-                    ],
-                    'zip' =>  [
-                        'label' => __('app.zip'),
-                        'class' => 'd-none d-sm-table-cell',
-                    ],
-                    'city' => [
-                        'label' => __('app.city'),
-                        'class' => 'd-none d-sm-table-cell',
-                        'sortable' => true,
-                    ],
-                    'country' => [
-                        'label' => __('app.country'),
-                        'class' => 'd-none d-sm-table-cell',
-                        'sortable' => true,
-                    ],
-                    'email' => [
-                        'label' => __('app.email'),
-                        'class' => 'd-none d-sm-table-cell',
-                    ],
-                    'phone' => [
-                        'label' => __('app.phone'),
-                        'class' => 'd-none d-sm-table-cell',
-                        'type' => 'tel',
-                    ],
-                    'language' => [
-                        'label' => __('app.correspondence_language'),
-                        'class' => 'd-none d-sm-table-cell',
-                        'sortable' => true,
-                    ],
-                ];
-                $items = $donors->map(function ($donor) {
-                    $donor['url'] = route('fundraising.donors.show', $donor);
-                    $donor['country'] = $donor->country_name;
-                    return $donor;
-                });
-            @endphp
-            <donors-table 
-                id="donorsTable" 
-                :items='@json($items)' 
-                :fields='@json($fields)' 
-                sortby="first_name"
-                apiurl="{{ route('api.fundraising.donors.index') }}"
-            ></donors-table>
-        </div>
-    @else
-        @component('components.alert.info')
-            @lang('fundraising::fundraising.no_donors_found')
-        @endcomponent
-	@endif
+    <div id="app">
+        @php
+            $fields = [
+                'first_name' => [
+                    'label' => __('app.first_name'),
+                    'sortable' => true,
+                ],
+                'last_name' => [
+                    'label' => __('app.last_name'),
+                    'sortable' => true,
+                ],
+                'company' => [
+                    'label' => __('app.company'),
+                    'sortable' => true,
+                ],
+                'street' =>  [
+                    'label' => __('app.street'),
+                    'class' => 'd-none d-sm-table-cell',
+                ],
+                'zip' =>  [
+                    'label' => __('app.zip'),
+                    'class' => 'd-none d-sm-table-cell',
+                ],
+                'city' => [
+                    'label' => __('app.city'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                'country' => [
+                    'label' => __('app.country'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                'email' => [
+                    'label' => __('app.email'),
+                    'class' => 'd-none d-sm-table-cell',
+                ],
+                'phone' => [
+                    'label' => __('app.phone'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'type' => 'tel',
+                ],
+                'language' => [
+                    'label' => __('app.correspondence_language'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+            ];
+        @endphp
+        <donors-table 
+            id="donorsTable"
+            :fields='@json($fields)'
+            apiurl="{{ route('api.fundraising.donors.index') }}"
+            sortby="first_name"
+            empty-text="@lang('fundraising::fundraising.no_donors_found')"
+        ></donors-table>
+    </div>
 	
 @endsection

@@ -24,7 +24,7 @@
         small
         bordered
         responsive
-        :items="myProvider"
+        :items="itemProvider"
         :fields="fields"
         :primary-key="'id'"
         :busy.sync="isBusy"
@@ -34,6 +34,7 @@
         :current-page="currentPage"
         :api-url="apiUrl"
         :show-empty="true"
+        :empty-text="emptyText"
     >
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
         <div slot="table-busy" class="text-center my-2">
@@ -68,21 +69,26 @@
             required: true,
             type: String,
         },
-        items: {
-            required: true,
-        },
         fields: {
             required: true,
+            type: Object,
         },
+        apiurl: {
+            required: true,
+            type: String
+        },  
         sortby: {
-            required: false,
+            required: true,
+            type: String
         },
         sortdesc: {
             required: false,
+            type: Boolean,
             default: false,
         },
-        apiurl: {
+        emptyText: {
             required: false,
+            type: String
         }
     },
     data() {
@@ -105,7 +111,7 @@
         telHref(val) {
             return `tel:${val}`;
         },
-        myProvider(ctx, callback) {
+        itemProvider(ctx, callback) {
             this.isBusy = true
             this.errorText = null
             this.totalRows = 0
