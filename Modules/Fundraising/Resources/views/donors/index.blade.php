@@ -86,7 +86,13 @@
                     return $donor;
                 });
             @endphp
-            <donors-table :items='@json($items)' :fields='@json($fields)' :sortby="'first_name'" :apiurl="'{{ route('api.fundraising.donors.index') }}'"></donors-table>
+            <donors-table 
+                id="donorsTable" 
+                :items='@json($items)' 
+                :fields='@json($fields)' 
+                sortby="first_name"
+                apiurl="{{ route('api.fundraising.donors.index') }}"
+            ></donors-table>
         </div>
     @else
         @component('components.alert.info')

@@ -44,8 +44,9 @@ class DonorController extends Controller
         // Sorting
         $sortBy = $request->input('sortBy', 'first_name');
         $sortDirection = $request->input('sortDirection', 'asc');
+
+        // TODO: Only country-code sorting possible, tricky to resolve localized names
         if ($sortBy == 'country') {
-            // TODO: Only country-code sorting possible, tricky to resolve localized names
             $sortBy = 'country_code';
         }
 
