@@ -75,7 +75,7 @@
             const promise = axios.get(this.apiUrl + '?page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc'))
             return promise.then(data => {
                 this.isBusy = false
-                const items = data.data
+                const items = data.data.data
                 return items || []
             })
         }        

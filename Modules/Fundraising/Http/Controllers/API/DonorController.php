@@ -5,6 +5,7 @@ namespace Modules\Fundraising\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use Modules\Fundraising\Entities\Donor;
+use Modules\Fundraising\Transformers\DonorCollection;
 
 use Illuminate\Http\Request;
 
@@ -54,7 +55,7 @@ class DonorController extends Controller
             $sortBy = 'country_code';
         }
 
-        return Donor::query()
+        $donors = Donor::query()
             ->orderBy($sortBy, $sortDirection)
             ->skip($skip)
             ->take($take)
@@ -64,5 +65,6 @@ class DonorController extends Controller
                 $donor['country'] = $donor->country_name;
                 return $donor;
             });
+        return new DonorCollection($donors);            
     }
 }
