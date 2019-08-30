@@ -34,6 +34,7 @@ class DonorController extends Controller
             'sortBy' => [
                 'nullable',
                 'alpha_dash',
+                'filled',
             ],
             'sortDirection' => [
                 'nullable',

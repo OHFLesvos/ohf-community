@@ -83,7 +83,7 @@
         <donors-table 
             id="donorsTable"
             :fields='@json($fields)'
-            apiurl="{{ route('api.fundraising.donors.index') }}"
+            api-url="{{ route('api.fundraising.donors.index') }}"
             sortby="first_name"
             empty-text="@lang('fundraising::fundraising.no_donors_found')"
         ></donors-table>

@@ -35,6 +35,7 @@
         :api-url="apiUrl"
         :show-empty="true"
         :empty-text="emptyText"
+        :no-sort-reset="true"
     >
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
         <div slot="table-busy" class="text-center my-2">
@@ -73,7 +74,7 @@
             required: true,
             type: Object,
         },
-        apiurl: {
+        apiUrl: {
             required: true,
             type: String
         },  
@@ -97,7 +98,6 @@
         isBusy: false,
         sortBy: this.sortby,
         sortDesc: this.sortdesc,
-        apiUrl: this.apiurl,
         perPage: 25,
         currentPage: 1,
         totalRows: 0,
