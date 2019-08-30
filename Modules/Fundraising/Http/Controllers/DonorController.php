@@ -96,6 +96,7 @@ class DonorController extends Controller
                 ->orderBy('first_name')
                 ->orderBy('last_name')
                 ->orderBy('company')
+                ->limit(5)
                 ->get(),
                 // ->paginate(100),
             'filter' => $filter,

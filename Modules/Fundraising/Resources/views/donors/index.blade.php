@@ -4,65 +4,6 @@
 
 @section('wrapped-content')
 
-    <div id="app">
-        @php
-            $fields = [
-                'first_name' => [
-                    'label' => __('app.first_name'),
-                    'class' => 'd-none d-sm-table-cell',
-                    'sortable' => true,
-                ],
-                'last_name' => [
-                    'label' => __('app.last_name'),
-                    'class' => 'd-none d-sm-table-cell',
-                    'sortable' => true,
-                ],
-                'company' => [
-                    'label' => __('app.company'),
-                    'class' => 'd-none d-sm-table-cell',
-                    'sortable' => true,
-                ],
-                'street' =>  [
-                    'label' => __('app.street'),
-                    'class' => 'd-none d-sm-table-cell',
-                ],
-                'zip' =>  [
-                    'label' => __('app.zip'),
-                    'class' => 'd-none d-sm-table-cell',
-                ],
-                'city' => [
-                    'label' => __('app.city'),
-                    'class' => 'd-none d-sm-table-cell',
-                    'sortable' => true,
-                ],
-                'country' => [
-                    'label' => __('app.country'),
-                    'class' => 'd-none d-sm-table-cell',
-                    'sortable' => true,
-                ],
-                'email' => [
-                    'label' => __('app.email'),
-                    'class' => 'd-none d-sm-table-cell',
-                ],
-                'phone' => [
-                    'label' => __('app.phone'),
-                    'class' => 'd-none d-sm-table-cell',
-                ],
-                'language' => [
-                    'label' => __('app.correspondence_language'),
-                    'class' => 'd-none d-sm-table-cell',
-                    'sortable' => true,
-                ],
-            ];
-            $items = $donors->map(function ($donor) {
-                $donor['url'] = route('fundraising.donors.show', $donor);
-                $donor['country'] = $donor->country_name;
-                return $donor;
-            });
-        @endphp
-        <test-table :items='@json($items)' :fields='@json($fields)'></test-table>
-    </div>
-
     {!! Form::open(['route' => ['fundraising.donors.index'], 'method' => 'get']) !!}
         <div class="input-group mb-3">
             {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('fundraising::fundraising.search_for_name_address_email_phone') . '...' ]) }}
@@ -92,6 +33,64 @@
     @endisset
 
     @if( ! $donors->isEmpty() )
+       <div id="app">
+            @php
+                $fields = [
+                    'first_name' => [
+                        'label' => __('app.first_name'),
+                        'class' => 'd-none d-sm-table-cell',
+                        'sortable' => true,
+                    ],
+                    'last_name' => [
+                        'label' => __('app.last_name'),
+                        'class' => 'd-none d-sm-table-cell',
+                        'sortable' => true,
+                    ],
+                    'company' => [
+                        'label' => __('app.company'),
+                        'class' => 'd-none d-sm-table-cell',
+                        'sortable' => true,
+                    ],
+                    'street' =>  [
+                        'label' => __('app.street'),
+                        'class' => 'd-none d-sm-table-cell',
+                    ],
+                    'zip' =>  [
+                        'label' => __('app.zip'),
+                        'class' => 'd-none d-sm-table-cell',
+                    ],
+                    'city' => [
+                        'label' => __('app.city'),
+                        'class' => 'd-none d-sm-table-cell',
+                        'sortable' => true,
+                    ],
+                    'country' => [
+                        'label' => __('app.country'),
+                        'class' => 'd-none d-sm-table-cell',
+                        'sortable' => true,
+                    ],
+                    'email' => [
+                        'label' => __('app.email'),
+                        'class' => 'd-none d-sm-table-cell',
+                    ],
+                    'phone' => [
+                        'label' => __('app.phone'),
+                        'class' => 'd-none d-sm-table-cell',
+                    ],
+                    'language' => [
+                        'label' => __('app.correspondence_language'),
+                        'class' => 'd-none d-sm-table-cell',
+                        'sortable' => true,
+                    ],
+                ];
+                $items = $donors->map(function ($donor) {
+                    $donor['url'] = route('fundraising.donors.show', $donor);
+                    $donor['country'] = $donor->country_name;
+                    return $donor;
+                });
+            @endphp
+            <test-table :items='@json($items)' :fields='@json($fields)' :sortby="'first_name'"></test-table>
+        </div>
 
         {{-- <div class="float-right"><small>@lang('app.total'): {{ $donors->total() }}</small></div>
         {{ $donors->links() }} --}}

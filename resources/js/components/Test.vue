@@ -1,7 +1,18 @@
 <template>
   <div>
-    <b-table striped hover small bordered responsive :items="items" :fields="fields" :primary-key="'id'" :busy="isBusy">
-        <!--:fields="fields"-->
+    <b-table 
+        striped
+        hover
+        small
+        bordered
+        responsive
+        :items="items"
+        :fields="fields"
+        :primary-key="'id'"
+        :busy="isBusy"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"        
+    >
         <!-- <template slot="table-caption">There are {{ items.length }} records.</template> -->
         <div slot="table-busy" class="text-center text-danger my-2">
             <b-spinner class="align-middle"></b-spinner>
@@ -27,44 +38,27 @@
 </template>
 
 <script>
-// :fields="fields"
   export default {
-    props: [
-        'items',
-        'fields',
-    ],
-    mounted () {
-    },      
+    props: {
+        items: {
+            required: true,
+        },
+        fields: {
+            required: true,
+        },
+        sortby: {
+            required: false,
+        },
+        sortdesc: {
+            required: false,
+            default: false,
+        }
+    },
     data() {
       return {
         isBusy: false,
-        // fields: {
-        //     email: {
-        //         label: 'E-Mail',
-        //     }
-        // }
-        // // Note 'isActive' is left out and will not appear in the rendered table
-        // fields: [
-        //   {
-        //     key: 'last_name',
-        //     sortable: true
-        //   },
-        //   {
-        //     key: 'first_name',
-        //     sortable: false
-        //   },
-        //   {
-        //     key: 'age',
-        //     label: 'Person age',
-        //     sortable: true,
-        //   }
-        // ],          
-        // items: [
-        //   { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        //   { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        //   { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        //   { age: 38, first_name: 'Jami', last_name: 'Carney' }
-        // ]
+        sortBy: this.sortby,
+        sortDesc: this.sortdesc,
       }
     },
     methods: {
