@@ -41,18 +41,22 @@ class DonorController extends Controller
             ],
         ]);
 
-        // Sorting
+        // Sorting and pagination
         $sortBy = $request->input('sortBy', 'first_name');
         $sortDirection = $request->input('sortDirection', 'asc');
+        $pageSize = $request->input('pageSize', 10);
 
-        // TODO: Only country-code sorting possible, tricky to resolve localized names
         if ($sortBy == 'country') {
-            $sortBy = 'country_code';
+            $sortMethod = $sortDirection == 'desc' ? 'sortByDesc' : 'sortBy';
+            $donors = Donor::query()
+                ->get()
+                ->$sortMethod('country_name')
+                ->paginate($pageSize);
+        } else {
+            $donors = Donor::query()
+                ->orderBy($sortBy, $sortDirection)
+                ->paginate($pageSize);
         }
-
-        $donors = Donor::query()
-            ->orderBy($sortBy, $sortDirection)
-            ->paginate($request->input('pageSize', 10));
         return new DonorCollection($donors);            
     }
 }
