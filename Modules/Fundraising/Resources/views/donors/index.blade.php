@@ -3,7 +3,6 @@
 @section('title', __('fundraising::fundraising.donation_management'))
 
 @section('wrapped-content')
-
     {!! Form::open(['route' => ['fundraising.donors.index'], 'method' => 'get']) !!}
         <div class="input-group mb-3">
             {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('fundraising::fundraising.search_for_name_address_email_phone') . '...' ]) }}
@@ -90,7 +89,7 @@
                     return $donor;
                 });
             @endphp
-            <donors-table :items='@json($items)' :fields='@json($fields)' :sortby="'first_name'"></donors-table>
+            <donors-table :items='@json($items)' :fields='@json($fields)' :sortby="'first_name'" :apiurl="'{{ route('api.fundraising.donors.index') }}'"></donors-table>
         </div>
 
         {{-- <div class="float-right"><small>@lang('app.total'): {{ $donors->total() }}</small></div>
