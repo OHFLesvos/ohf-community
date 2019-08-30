@@ -25,24 +25,39 @@ class DonorController extends Controller
                 'integer',
                 'min:1',
             ],
-            'size' => [
+            'pageSize' => [
                 'nullable',
                 'integer',
                 'min:1',
             ],
+            'sortBy' => [
+                'nullable',
+                'alpha_dash',
+            ],
+            'sortDirection' => [
+                'nullable',
+                'in:asc,desc'
+            ],
         ]);
 
+        // Limit & offset
         $page = $request->input('page', 1);
-        $size = $request->input('size', 10);
-        $offset = ($page - 1) * $size;
-        $limit = $size;
+        $size = $request->input('pageSize', 10);
+        $skip = ($page - 1) * $size;
+        $take = $size;
+
+        // Sorting
+        $sortBy = $request->input('sortBy', 'first_name');
+        $sortDirection = $request->input('sortDirection', 'asc');
+        if ($sortBy == 'country') {
+            // TODO: Only country-code sorting possible, tricky to resolve localized names
+            $sortBy = 'country_code';
+        }
 
         return Donor::query()
-            ->orderBy('first_name')
-            ->orderBy('last_name')
-            ->orderBy('company')
-            ->offset($offset)
-            ->limit($limit)
+            ->orderBy($sortBy, $sortDirection)
+            ->skip($skip)
+            ->take($take)
             ->get()
             ->map(function ($donor) {
                 $donor['url'] = route('fundraising.donors.show', $donor);

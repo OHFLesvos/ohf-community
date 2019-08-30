@@ -18,7 +18,7 @@
         :api-url="apiUrl"
     >
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
-        <div slot="table-busy" class="text-center text-danger my-2">
+        <div slot="table-busy" class="text-center my-2">
             <b-spinner class="align-middle"></b-spinner>
             <strong>Loading...</strong>
         </div>
@@ -72,7 +72,7 @@
         },
         myProvider(ctx, callback) {
             this.isBusy = true
-            const promise = axios.get(this.apiUrl + '?page=' + ctx.currentPage + '&size=' + ctx.perPage)
+            const promise = axios.get(this.apiUrl + '?page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc'))
             return promise.then(data => {
                 this.isBusy = false
                 const items = data.data
