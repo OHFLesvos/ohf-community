@@ -174,6 +174,9 @@ $(function(){
 //
 window.Vue = require('vue');
 
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+
 import LineChart from './components/LineChart.vue';
 Vue.component('line-chart', LineChart);
 import BarChart from './components/BarChart.vue';
@@ -182,6 +185,9 @@ import HorizontalBarChart from './components/HorizontalBarChart.vue';
 Vue.component('horizontal-bar-chart', HorizontalBarChart);
 import PieChart from './components/PieChart.vue';
 Vue.component('pie-chart', PieChart);
+
+import TestTable from './components/Test.vue';
+Vue.component('test-table', TestTable);
 
 const app = new Vue({
     el: '#app'

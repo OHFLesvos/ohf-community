@@ -4,6 +4,65 @@
 
 @section('wrapped-content')
 
+    <div id="app">
+        @php
+            $fields = [
+                'first_name' => [
+                    'label' => __('app.first_name'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                'last_name' => [
+                    'label' => __('app.last_name'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                'company' => [
+                    'label' => __('app.company'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                'street' =>  [
+                    'label' => __('app.street'),
+                    'class' => 'd-none d-sm-table-cell',
+                ],
+                'zip' =>  [
+                    'label' => __('app.zip'),
+                    'class' => 'd-none d-sm-table-cell',
+                ],
+                'city' => [
+                    'label' => __('app.city'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                'country' => [
+                    'label' => __('app.country'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                'email' => [
+                    'label' => __('app.email'),
+                    'class' => 'd-none d-sm-table-cell',
+                ],
+                'phone' => [
+                    'label' => __('app.phone'),
+                    'class' => 'd-none d-sm-table-cell',
+                ],
+                'language' => [
+                    'label' => __('app.correspondence_language'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+            ];
+            $items = $donors->map(function ($donor) {
+                $donor['url'] = route('fundraising.donors.show', $donor);
+                $donor['country'] = $donor->country_name;
+                return $donor;
+            });
+        @endphp
+        <test-table :items='@json($items)' :fields='@json($fields)'></test-table>
+    </div>
+
     {!! Form::open(['route' => ['fundraising.donors.index'], 'method' => 'get']) !!}
         <div class="input-group mb-3">
             {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('fundraising::fundraising.search_for_name_address_email_phone') . '...' ]) }}
@@ -33,82 +92,9 @@
     @endisset
 
     @if( ! $donors->isEmpty() )
-        <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>@lang('app.first_name')</th>
-                        <th>@lang('app.last_name')</th>
-                        <th>@lang('app.company')</th>
-                        <th class="d-none d-md-table-cell">@lang('app.street')</th>
-                        <th class="d-none d-md-table-cell">@lang('app.zip')</th>
-                        <th class="d-none d-md-table-cell">@lang('app.city')</th>
-                        <th class="d-none d-md-table-cell">@lang('app.country')</th>
-                        <th class="d-none d-sm-table-cell">@lang('app.email')</th>
-                        <th class="d-none d-sm-table-cell">@lang('app.phone')</th>
-                        <th class="d-none d-sm-table-cell">@lang('app.correspondence_language')</th>
-                        {{-- @can('list', Modules\Fundraising\Entities\Donation::class)
-                            <th class="text-right d-none d-sm-table-cell">@lang('fundraising::fundraising.donations') {{ Carbon\Carbon::now()->subYear()->year }}</th>
-                            <th class="text-right">@lang('fundraising::fundraising.donations') {{ Carbon\Carbon::now()->year }}</th>
-                        @endcan --}}
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($donors as $donor)
-                        <tr>
-                            <td>
-                                @isset($donor->first_name)
-                                    <a href="{{ route('fundraising.donors.show', $donor) }}">
-                                        {{ $donor->first_name }}
-                                    </a>
-                                @endisset
-                            </td>
-                            <td>
-                                @isset($donor->last_name)
-                                    <a href="{{ route('fundraising.donors.show', $donor) }}">
-                                        {{ $donor->last_name }}
-                                    </a>
-                                @endisset
-                            </td>
-                            <td>
-                                @isset($donor->company)
-                                    <a href="{{ route('fundraising.donors.show', $donor) }}">
-                                        {{ $donor->company }}
-                                    </a>
-                                @endisset
-                            </td>
-                            <td class="d-none d-md-table-cell">{{ $donor->street }}</td>
-                            <td class="d-none d-md-table-cell">{{ $donor->zip }}</td>
-                            <td class="d-none d-md-table-cell">{{ $donor->city }}</td>
-                            <td class="d-none d-md-table-cell">{{ $donor->country_name }}</td>
-                            <td class="d-none d-sm-table-cell">
-                                @isset($donor->email)
-                                    <a href="mailto:{{ $donor->email }}">{{ $donor->email }}</a>
-                                @endisset
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                @isset($donor->phone)
-                                    <a href="tel:{{ $donor->phone }}">{{ $donor->phone }}</a>
-                                @endisset
-                            </td>
-                            <td class="d-none d-md-table-cell">{{ $donor->language }}</td>
-                            {{-- @can('list', Modules\Fundraising\Entities\Donation::class)
-                                <td class="text-right d-none d-sm-table-cell">
-                                    {{ Config::get('fundraising.base_currency') }}
-                                    {{ $donor->amountPerYear(Carbon\Carbon::now()->subYear()->year) ?? 0 }}
-                                </td>
-                                <td class="text-right">
-                                    {{ Config::get('fundraising.base_currency') }}
-                                    {{ $donor->amountPerYear(Carbon\Carbon::now()->year) ?? 0 }}
-                                </td>
-                            @endcan --}}
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="float-right"><small>@lang('app.total'): {{ $donors->total() }}</small></div>
-        {{ $donors->links() }}
+
+        {{-- <div class="float-right"><small>@lang('app.total'): {{ $donors->total() }}</small></div>
+        {{ $donors->links() }} --}}
     @else
         @component('components.alert.info')
             @lang('fundraising::fundraising.no_donors_found')

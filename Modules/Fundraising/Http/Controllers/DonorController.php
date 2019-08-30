@@ -96,7 +96,8 @@ class DonorController extends Controller
                 ->orderBy('first_name')
                 ->orderBy('last_name')
                 ->orderBy('company')
-                ->paginate(100),
+                ->get(),
+                // ->paginate(100),
             'filter' => $filter,
             'tag' => $tag,
             'tags' => Tag::has('donors')->orderBy('name')->get(),
