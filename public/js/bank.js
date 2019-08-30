@@ -149,7 +149,7 @@ eval("var Snackbar = __webpack_require__(/*! node-snackbar */ \"./node_modules/n
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Entwicklung\Webs\ohf\ohf-community\resources\js\bank.js */"./resources/js/bank.js");
+module.exports = __webpack_require__(/*! C:\devel\web\ohf-community\resources\js\bank.js */"./resources/js/bank.js");
 
 
 /***/ })

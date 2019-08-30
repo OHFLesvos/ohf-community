@@ -126,7 +126,7 @@ eval("var Cropper = __webpack_require__(/*! cropperjs */ \"./node_modules/croppe
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Entwicklung\Webs\ohf\ohf-community\resources\js\imageupload.js */"./resources/js/imageupload.js");
+module.exports = __webpack_require__(/*! C:\devel\web\ohf-community\resources\js\imageupload.js */"./resources/js/imageupload.js");
 
 
 /***/ })

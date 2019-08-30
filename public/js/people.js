@@ -115,7 +115,7 @@ eval("pagination = __webpack_require__(/*! ./pagination.js */ \"./resources/js/p
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\Entwicklung\Webs\ohf\ohf-community\resources\js\people.js */"./resources/js/people.js");
+module.exports = __webpack_require__(/*! C:\devel\web\ohf-community\resources\js\people.js */"./resources/js/people.js");
 
 
 /***/ })
