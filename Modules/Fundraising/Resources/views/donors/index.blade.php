@@ -84,8 +84,9 @@
             id="donorsTable"
             :fields='@json($fields)'
             api-url="{{ route('api.fundraising.donors.index') }}"
-            sortby="first_name"
+            default-sort-by="first_name"
             empty-text="@lang('fundraising::fundraising.no_donors_found')"
+            :items-per-page="50"
         ></donors-table>
     </div>
 	

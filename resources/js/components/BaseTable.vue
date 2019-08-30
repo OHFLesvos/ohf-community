@@ -78,11 +78,11 @@
             required: true,
             type: String
         },  
-        sortby: {
+        defaultSortBy: {
             required: true,
             type: String
         },
-        sortdesc: {
+        defaultSortDesc: {
             required: false,
             type: Boolean,
             default: false,
@@ -90,15 +90,20 @@
         emptyText: {
             required: false,
             type: String
+        },
+        itemsPerPage: {
+            required: false,
+            type: Number,
+            default: 25
         }
     },
     data() {
       return {
         tableId: this.id,
         isBusy: false,
-        sortBy: this.sortby,
-        sortDesc: this.sortdesc,
-        perPage: 25,
+        sortBy: this.defaultSortBy,
+        sortDesc: this.defaultSortDesc,
+        perPage: this.itemsPerPage,
         currentPage: 1,
         totalRows: 0,
         errorText: null,
