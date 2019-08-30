@@ -23,10 +23,11 @@
             <strong>Loading...</strong>
         </div>
     </b-table>
+    <div class="float-right"><small>Total: {{ totalRows }}</small></div>
     <b-pagination
         size="sm"
         v-model="currentPage"
-        :total-rows="rows"
+        :total-rows="totalRows"
         :per-page="perPage"
         aria-controls="my-table"
     ></b-pagination>    
@@ -59,8 +60,9 @@
         sortBy: this.sortby,
         sortDesc: this.sortdesc,
         apiUrl: this.apiurl,
-        perPage: 3,
+        perPage: 25,
         currentPage: 1,
+        totalRows: 0,
       }
     },
     methods: {
@@ -76,14 +78,10 @@
             return promise.then(data => {
                 this.isBusy = false
                 const items = data.data.data
+                this.totalRows = data.data.meta.total
                 return items || []
             })
         }        
-    },
-    computed: {
-      rows() {
-        return this.items.length
-      }
     }    
   }
 </script>

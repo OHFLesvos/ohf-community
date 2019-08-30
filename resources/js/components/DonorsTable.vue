@@ -1,6 +1,5 @@
 <template>
   <base-table v-bind="$props">
-    <!-- <template slot="table-caption">There are {{ items.length }} donors in the database.</template> -->
     <template slot="[first_name]" slot-scope="data">
         <a :href="data.item.url">{{ data.value }}</a>
     </template>

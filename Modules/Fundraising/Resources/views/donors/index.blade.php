@@ -37,17 +37,14 @@
                 $fields = [
                     'first_name' => [
                         'label' => __('app.first_name'),
-                        'class' => 'd-none d-sm-table-cell',
                         'sortable' => true,
                     ],
                     'last_name' => [
                         'label' => __('app.last_name'),
-                        'class' => 'd-none d-sm-table-cell',
                         'sortable' => true,
                     ],
                     'company' => [
                         'label' => __('app.company'),
-                        'class' => 'd-none d-sm-table-cell',
                         'sortable' => true,
                     ],
                     'street' =>  [
@@ -91,9 +88,6 @@
             @endphp
             <donors-table :items='@json($items)' :fields='@json($fields)' :sortby="'first_name'" :apiurl="'{{ route('api.fundraising.donors.index') }}'"></donors-table>
         </div>
-
-        {{-- <div class="float-right"><small>@lang('app.total'): {{ $donors->total() }}</small></div>
-        {{ $donors->links() }} --}}
     @else
         @component('components.alert.info')
             @lang('fundraising::fundraising.no_donors_found')

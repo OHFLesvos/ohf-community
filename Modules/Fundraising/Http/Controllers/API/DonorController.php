@@ -41,12 +41,6 @@ class DonorController extends Controller
             ],
         ]);
 
-        // Limit & offset
-        $page = $request->input('page', 1);
-        $size = $request->input('pageSize', 10);
-        $skip = ($page - 1) * $size;
-        $take = $size;
-
         // Sorting
         $sortBy = $request->input('sortBy', 'first_name');
         $sortDirection = $request->input('sortDirection', 'asc');
@@ -57,14 +51,7 @@ class DonorController extends Controller
 
         $donors = Donor::query()
             ->orderBy($sortBy, $sortDirection)
-            ->skip($skip)
-            ->take($take)
-            ->get()
-            ->map(function ($donor) {
-                $donor['url'] = route('fundraising.donors.show', $donor);
-                $donor['country'] = $donor->country_name;
-                return $donor;
-            });
+            ->paginate($request->input('pageSize', 10));
         return new DonorCollection($donors);            
     }
 }
