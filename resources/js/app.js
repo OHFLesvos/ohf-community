@@ -186,8 +186,11 @@ Vue.component('horizontal-bar-chart', HorizontalBarChart);
 import PieChart from './components/PieChart.vue';
 Vue.component('pie-chart', PieChart);
 
-import TestTable from './components/Test.vue';
-Vue.component('test-table', TestTable);
+import BaseTable from './components/BaseTable.vue';
+Vue.component('base-table', BaseTable);
+
+import DonorsTable from './components/DonorsTable.vue';
+Vue.component('donors-table', DonorsTable);
 
 const app = new Vue({
     el: '#app'

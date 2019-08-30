@@ -76,6 +76,7 @@
                     'phone' => [
                         'label' => __('app.phone'),
                         'class' => 'd-none d-sm-table-cell',
+                        'type' => 'tel',
                     ],
                     'language' => [
                         'label' => __('app.correspondence_language'),
@@ -89,7 +90,7 @@
                     return $donor;
                 });
             @endphp
-            <test-table :items='@json($items)' :fields='@json($fields)' :sortby="'first_name'"></test-table>
+            <donors-table :items='@json($items)' :fields='@json($fields)' :sortby="'first_name'"></donors-table>
         </div>
 
         {{-- <div class="float-right"><small>@lang('app.total'): {{ $donors->total() }}</small></div>
