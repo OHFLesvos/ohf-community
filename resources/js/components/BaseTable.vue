@@ -1,6 +1,7 @@
 <template>
   <div>
-    <b-table 
+    <b-table
+        id="my-table"
         striped
         hover
         small
@@ -12,6 +13,8 @@
         :busy="isBusy"
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
+        :per-page="perPage"
+        :current-page="currentPage"
     >
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
         <div slot="table-busy" class="text-center text-danger my-2">
@@ -19,6 +22,13 @@
             <strong>Loading...</strong>
         </div>
     </b-table>
+    <b-pagination
+        size="sm"
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+    ></b-pagination>    
   </div>
 </template>
 
@@ -44,6 +54,8 @@
         isBusy: false,
         sortBy: this.sortby,
         sortDesc: this.sortdesc,
+        perPage: 3,
+        currentPage: 1,
       }
     },
     methods: {
@@ -53,6 +65,11 @@
         telHref(val) {
             return `tel:${val}`;
         },
-    }
+    },
+    computed: {
+      rows() {
+        return this.items.length
+      }
+    }    
   }
 </script>
