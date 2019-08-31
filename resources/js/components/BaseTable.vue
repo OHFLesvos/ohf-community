@@ -36,6 +36,7 @@
         :show-empty="true"
         :empty-text="emptyText"
         :no-sort-reset="true"
+        :filter="filter"
     >
     <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
         <div slot="table-busy" class="text-center my-2">
@@ -101,11 +102,12 @@
       return {
         isBusy: false,
         sortBy: localStorage.getItem(this.id + '.sortBy') ? localStorage.getItem(this.id + '.sortBy') : this.defaultSortBy,
-        sortDesc: localStorage.getItem(this.id + '.sortDesc') ? localStorage.getItem(this.id + '.sortDesc') : this.defaultSortDesc,
+        sortDesc: localStorage.getItem(this.id + '.sortDesc') ? localStorage.getItem(this.id + '.sortDesc') == 'true' : this.defaultSortDesc,
         currentPage: localStorage.getItem(this.id + '.currentPage') ? localStorage.getItem(this.id + '.currentPage') : 1,
         perPage: this.itemsPerPage,
         totalRows: 0,
         errorText: null,
+        filter: null,
       }
     },
     methods: {
@@ -119,7 +121,8 @@
             this.isBusy = true
             this.errorText = null
             this.totalRows = 0
-            const promise = axios.get(this.apiUrl + '?page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc'))
+            let url = this.apiUrl + '?filter=' + ctx.filter + '&page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc')
+            const promise = axios.get(url)
             return promise.then(data => {
                 this.isBusy = false
                 this.totalRows = data.data.meta.total

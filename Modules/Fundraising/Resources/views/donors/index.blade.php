@@ -3,7 +3,7 @@
 @section('title', __('fundraising::fundraising.donation_management'))
 
 @section('wrapped-content')
-    {!! Form::open(['route' => ['fundraising.donors.index'], 'method' => 'get']) !!}
+    <!-- {!! Form::open(['route' => ['fundraising.donors.index'], 'method' => 'get']) !!}
         <div class="input-group mb-3">
             {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('fundraising::fundraising.search_for_name_address_email_phone') . '...' ]) }}
             <div class="input-group-append">
@@ -13,7 +13,7 @@
                 @endif
             </div>
         </div>
-    {!! Form::close() !!}
+    {!! Form::close() !!} -->
 
     @isset($tag)
         <p>

@@ -21,6 +21,9 @@ class DonorController extends Controller
         $this->authorize('list', Donor::class);
 
         $request->validate([
+            'filter' => [
+                'nullable',
+            ],
             'page' => [
                 'nullable',
                 'integer',
