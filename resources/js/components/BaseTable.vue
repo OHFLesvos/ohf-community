@@ -9,7 +9,7 @@
                 <b-button
                     variant="danger"
                     size="sm"
-                    @click="$root.$emit('bv::refresh::table', tableId)"
+                    @click="$root.$emit('bv::refresh::table', id)"
                     class="float-right"
                 >
                     <i class="fa fa-redo"></i> Reload
@@ -18,7 +18,7 @@
         </b-row>
     </b-alert>
     <b-table
-        :id="tableId"
+        :id="id"
         striped
         hover
         small
@@ -58,7 +58,7 @@
         v-model="currentPage"
         :total-rows="totalRows"
         :per-page="perPage"
-        :aria-controls="tableId"
+        :aria-controls="id"
     ></b-pagination>    
   </div>
 </template>
@@ -99,10 +99,9 @@
     },
     data() {
       return {
-        tableId: this.id,
         isBusy: false,
-        sortBy: this.defaultSortBy,
-        sortDesc: this.defaultSortDesc,
+        sortBy: localStorage.getItem(this.id + '.sortBy') ? localStorage.getItem(this.id + '.sortBy') : this.defaultSortBy,
+        sortDesc: localStorage.getItem(this.id + '.sortDesc') ? localStorage.getItem(this.id + '.sortDesc') : this.defaultSortDesc,
         perPage: this.itemsPerPage,
         currentPage: 1,
         totalRows: 0,
@@ -123,9 +122,10 @@
             const promise = axios.get(this.apiUrl + '?page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc'))
             return promise.then(data => {
                 this.isBusy = false
-                const items = data.data.data
                 this.totalRows = data.data.meta.total
-                return items || []
+                localStorage.setItem(this.id + '.sortBy', ctx.sortBy)
+                localStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
+                return data.data.data || []
             }).catch(this.handleAjaxError)
         },
         handleAjaxError(err){
