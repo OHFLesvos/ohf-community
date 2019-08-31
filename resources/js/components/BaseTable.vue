@@ -102,8 +102,8 @@
         isBusy: false,
         sortBy: localStorage.getItem(this.id + '.sortBy') ? localStorage.getItem(this.id + '.sortBy') : this.defaultSortBy,
         sortDesc: localStorage.getItem(this.id + '.sortDesc') ? localStorage.getItem(this.id + '.sortDesc') : this.defaultSortDesc,
+        currentPage: localStorage.getItem(this.id + '.currentPage') ? localStorage.getItem(this.id + '.currentPage') : 1,
         perPage: this.itemsPerPage,
-        currentPage: 1,
         totalRows: 0,
         errorText: null,
       }
@@ -125,6 +125,7 @@
                 this.totalRows = data.data.meta.total
                 localStorage.setItem(this.id + '.sortBy', ctx.sortBy)
                 localStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
+                localStorage.setItem(this.id + '.currentPage', ctx.currentPage)
                 return data.data.data || []
             }).catch(this.handleAjaxError)
         },
