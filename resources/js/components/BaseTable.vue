@@ -141,7 +141,7 @@
         perPage: this.itemsPerPage,
         totalRows: 0,
         errorText: null,
-        filter: null,
+        filter: '',
         filterText: '',
       }
     },
@@ -154,10 +154,12 @@
         },
         applyFilter() {
             this.filter = this.filterText
+            this.currentPage = 1
         },
         clearFilter() {
             this.filterText = ''
-            this.filter = null
+            this.filter = ''
+            this.currentPage = 1
         },
         itemProvider(ctx, callback) {
             this.isBusy = true

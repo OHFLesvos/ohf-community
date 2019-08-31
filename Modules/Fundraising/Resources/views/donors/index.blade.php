@@ -3,17 +3,6 @@
 @section('title', __('fundraising::fundraising.donation_management'))
 
 @section('wrapped-content')
-    <!-- {!! Form::open(['route' => ['fundraising.donors.index'], 'method' => 'get']) !!}
-        <div class="input-group mb-3">
-            {{ Form::search('filter', isset($filter) ? $filter : null, [ 'class' => 'form-control focus-tail', 'autofocus', 'placeholder' => __('fundraising::fundraising.search_for_name_address_email_phone') . '...' ]) }}
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">@icon(search)</button> 
-                @if(isset($filter))
-                    <a class="btn btn-secondary" href="{{ route('fundraising.donors.index', ['reset_filter']) }}">@icon(eraser)</a> 
-                @endif
-            </div>
-        </div>
-    {!! Form::close() !!} -->
 
     @isset($tag)
         <p>
