@@ -23,7 +23,7 @@
             v-model="filterText"
             :trim="true"
             type="search"
-            placeholder="Type to Search"
+            :placeholder="filterPlaceholder"
             @keyup.enter="applyFilter"
             @keyup.esc="clearFilter"
         ></b-form-input>
@@ -125,7 +125,12 @@
             required: false,
             type: Number,
             default: 25
-        }
+        },
+        filterPlaceholder: {
+            require: false,
+            type: String,
+            default: 'Type to Search'
+        },
     },
     data() {
       return {
