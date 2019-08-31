@@ -21,8 +21,11 @@
     <b-input-group size="sm" class="mb-3">
         <b-form-input
             v-model="filterText"
+            :trim="true"
             type="search"
             placeholder="Type to Search"
+            @keyup.enter="applyFilter"
+            @keyup.esc="clearFilter"
         ></b-form-input>
         <b-input-group-append>
             <b-button :disabled="!filterText" variant="primary" @click="applyFilter">
