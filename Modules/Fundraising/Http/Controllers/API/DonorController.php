@@ -93,6 +93,7 @@ class DonorController extends Controller
                 ->orWhere('city', 'LIKE', '%' . $filter . '%')
                 ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%' . $filter . '%')
                 ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                // Note: Countries filter only works for complete country code or country name
                 ->orWhere('country_code', $countries[strtolower($filter)] ?? $filter)
                 ->orWhere('email', 'LIKE', '%' . $filter . '%')
                 ->orWhere('phone', 'LIKE', '%' . $filter . '%');
