@@ -44,6 +44,10 @@ class DonorController extends Controller
                 'nullable',
                 'in:asc,desc'
             ],
+            'tags' => [
+                'nullable',
+                'array',
+            ]
         ]);
 
         // Sorting, pagination and filter
@@ -51,27 +55,38 @@ class DonorController extends Controller
         $sortDirection = $request->input('sortDirection', 'asc');
         $pageSize = $request->input('pageSize', 10);
         $filter = trim($request->input('filter', ''));
+        $tags = $request->input('tags', []);
             
         if ($sortBy == 'country') {
             $sortMethod = $sortDirection == 'desc' ? 'sortByDesc' : 'sortBy';
-            $donors = self::createQuery($filter)
+            $donors = self::createQuery($filter, $tags)
                 ->get()
                 ->$sortMethod('country_name')
                 ->paginate($pageSize);
         } else {
-            $donors = self::createQuery($filter)
+            $donors = self::createQuery($filter, $tags)
                 ->orderBy($sortBy, $sortDirection)
                 ->paginate($pageSize);
         }
         return new DonorCollection($donors);            
     }
 
-    private static function createQuery($filter)
+    private static function createQuery(String $filter, Array $tags = [])
     {
         $query = Donor::query();
+
+        // Filter by tags
+        if (count($tags) > 0) {
+            $query->whereHas('tags', function($query) use($tags) {
+                $query->whereIn('name', $tags);
+            });
+        }
+
+        // Filter by filter string
         if (!empty($filter)) {
             self::applyFilter($query, $filter);
         }
+
         return $query;
     }
 

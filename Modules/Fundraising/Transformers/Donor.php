@@ -26,6 +26,7 @@ class Donor extends Resource
             'email' => $this->email,
             'phone' => $this->phone,
             'language' => $this->language,
+            'tags' => $this->tags->pluck('name'),
             'url' => route('fundraising.donors.show', $this),
         ];
     }
