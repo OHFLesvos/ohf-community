@@ -17,6 +17,25 @@
             </b-col>
         </b-row>
     </b-alert>
+
+    <b-input-group size="sm" class="mb-3">
+        <b-form-input
+            v-model="filterText"
+            type="search"
+            placeholder="Type to Search"
+        ></b-form-input>
+        <b-input-group-append>
+            <b-button :disabled="!filterText" variant="primary" @click="applyFilter">
+                <i class="fa fa-search"></i>
+            </b-button>
+        </b-input-group-append>
+        <b-input-group-append>
+            <b-button :disabled="!filterText" @click="clearFilter">
+                <i class="fa fa-times"></i>
+            </b-button>
+        </b-input-group-append>
+    </b-input-group>
+
     <b-table
         :id="id"
         striped
@@ -38,7 +57,7 @@
         :no-sort-reset="true"
         :filter="filter"
     >
-    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
+        <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
         <div slot="table-busy" class="text-center my-2">
             <b-spinner class="align-middle"></b-spinner>
             <strong>Loading...</strong>
@@ -50,17 +69,24 @@
             <em>{{ scope.emptyFilteredText }}</em>
         </template>
     </b-table>
-    <div class="float-right">
-        <small>Total: {{ totalRows }}</small>
-    </div>
-    <b-pagination
-        v-if="totalRows > 0"
-        size="sm"
-        v-model="currentPage"
-        :total-rows="totalRows"
-        :per-page="perPage"
-        :aria-controls="id"
-    ></b-pagination>    
+
+    <b-row align-v="center" class="mb-2">
+        <b-col>
+            <b-pagination
+                v-if="totalRows > 0"
+                size="sm"
+                v-model="currentPage"
+                :total-rows="totalRows"
+                :per-page="perPage"
+                :aria-controls="id"
+                class="mb-0"
+            ></b-pagination>
+        </b-col>
+        <b-col sm="auto" class="text-right">
+            <small>{{ ((currentPage - 1) * perPage) + 1 }} - {{ Math.min(currentPage * perPage, totalRows) }}, Total: {{ totalRows }}</small>
+        </b-col>
+    </b-row>
+
   </div>
 </template>
 
@@ -108,6 +134,7 @@
         totalRows: 0,
         errorText: null,
         filter: null,
+        filterText: '',
       }
     },
     methods: {
@@ -116,6 +143,13 @@
         },
         telHref(val) {
             return `tel:${val}`;
+        },
+        applyFilter() {
+            this.filter = this.filterText
+        },
+        clearFilter() {
+            this.filterText = ''
+            this.filter = null
         },
         itemProvider(ctx, callback) {
             this.isBusy = true

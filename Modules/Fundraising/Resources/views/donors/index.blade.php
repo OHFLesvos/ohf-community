@@ -86,7 +86,7 @@
             api-url="{{ route('api.fundraising.donors.index') }}"
             default-sort-by="first_name"
             empty-text="@lang('fundraising::fundraising.no_donors_found')"
-            :items-per-page="50"
+            :items-per-page="10"
         ></donors-table>
     </div>
 	
