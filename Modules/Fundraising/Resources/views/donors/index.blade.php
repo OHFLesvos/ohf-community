@@ -4,22 +4,6 @@
 
 @section('wrapped-content')
 
-    @isset($tag)
-        <p>
-            @lang('app.tag'): 
-            <span class="badge badge-primary">{{ $tag->name }} 
-                <a href="{{ route('fundraising.donors.index', ['reset_tag']) }}" class="text-light">@icon(times)</a>
-            </span>
-        </p>
-    @elseif(count($tags) > 0)
-        <p>
-            @lang('app.tags'): 
-            @foreach($tags as $tag)
-                <a href="{{ route('fundraising.donors.index', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if(!$loop->last), @endif
-            @endforeach
-        </p>
-    @endisset
-
     <div id="app">
         @php
             $fields = [
@@ -77,6 +61,7 @@
             empty-text="@lang('fundraising::fundraising.no_donors_found')"
             filter-placeholder="@lang('fundraising::fundraising.search_for_name_address_email_phone')..."
             :items-per-page="10"
+            :tags='@json($tags)'
         ></donors-table>
     </div>
 	

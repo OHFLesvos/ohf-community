@@ -47,6 +47,7 @@ class DonorController extends Controller
             'tags' => [
                 'nullable',
                 'array',
+                //                 'alpha_dash', TODO
             ]
         ]);
 
@@ -78,7 +79,7 @@ class DonorController extends Controller
         // Filter by tags
         if (count($tags) > 0) {
             $query->whereHas('tags', function($query) use($tags) {
-                $query->whereIn('name', $tags);
+                $query->whereIn('slug', $tags);
             });
         }
 

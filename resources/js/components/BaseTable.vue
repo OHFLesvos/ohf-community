@@ -18,6 +18,12 @@
         </b-row>
     </b-alert>
 
+    <ul>
+        <li v-for="(tag_name, tag_key) in tags" :key="tag_key">
+            {{ tag_name }}<br>
+        </li>
+    </ul>
+
     <b-input-group size="sm" class="mb-3">
         <b-form-input
             v-model="filterText"
@@ -131,6 +137,11 @@
             type: String,
             default: 'Type to Search'
         },
+        tags: {
+            require: false,
+            type: Object,
+            default: { }
+        }
     },
     data() {
       return {

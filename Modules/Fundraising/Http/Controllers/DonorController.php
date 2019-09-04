@@ -31,34 +31,8 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        // Validate request
-        Validator::make($request->all(), [
-            'tag' => [
-                'nullable', 
-                'alpha_dash',
-            ],
-        ])->validate();
-
-        // Handle tag session persistence
-        if ($request->has('reset_tag')) {
-            $request->session()->forget('donors_tag');
-        }
-        if (isset($request->tag)) {
-            $request->session()->put('donors_tag', $request->tag);
-        }
-
-        // Init query
-        if ($request->session()->has('donors_tag')) {
-            $tag = Tag::where('slug', $request->session()->get('donors_tag'))->firstOrFail();
-            $query = $tag->donors();
-        } else {
-            $tag = null;
-            $query = Donor::query();
-        }
-
         return view('fundraising::donors.index', [
-            'tag' => $tag,
-            'tags' => Tag::has('donors')->orderBy('name')->get(),
+            'tags' => Tag::has('donors')->orderBy('name')->get()->pluck('name', 'slug'),
         ]);
     }
 
