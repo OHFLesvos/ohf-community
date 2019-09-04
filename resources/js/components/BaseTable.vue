@@ -18,11 +18,15 @@
         </b-row>
     </b-alert>
 
-    <ul>
-        <li v-for="(tag_name, tag_key) in tags" :key="tag_key">
-            {{ tag_name }}<br>
-        </li>
-    </ul>
+    <p v-if="tags" class="mb-3">
+        Tags:
+        <tag-select-button 
+            :label="tag_name" 
+            :value="tag_key"
+            @toggled="toggleTag"
+            v-for="(tag_name, tag_key) in tags" :key="tag_key"
+        ></tag-select-button>
+    </p>
 
     <b-input-group size="sm" class="mb-3">
         <b-form-input
@@ -100,7 +104,11 @@
 </template>
 
 <script>
+  import TagSelectButton from './TagSelectButton'
   export default {
+    components: {
+        'tag-select-button': TagSelectButton,
+    },
     props: {
         id: {
             required: true,
@@ -154,6 +162,7 @@
         errorText: null,
         filter: '',
         filterText: '',
+        selectedTags: [], 
       }
     },
     methods: {
@@ -177,6 +186,9 @@
             this.errorText = null
             this.totalRows = 0
             let url = this.apiUrl + '?filter=' + ctx.filter + '&page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc')
+            for (let i = 0; i < this.selectedTags.length; i++) {
+                url += '&tags[]=' + this.selectedTags[i]
+            }
             const promise = axios.get(url)
             return promise.then(data => {
                 this.isBusy = false
@@ -201,8 +213,15 @@
             }
             this.errorText = msg;
             return [];
+        },
+        toggleTag(value, toggled) {
+            this.selectedTags = this.selectedTags.filter((v) => v != value)
+            if (toggled) {
+                this.selectedTags.push(value)
+            }
+            console.log(this.selectedTags)
+            this.$root.$emit('bv::refresh::table', this.id)
         }
-
     }    
   }
 </script>
