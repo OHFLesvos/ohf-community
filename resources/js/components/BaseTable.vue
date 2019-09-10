@@ -23,7 +23,7 @@
         <tag-select-button 
             :label="tag_name" 
             :value="tag_key"
-            :toggled="selectedTags.indexOf(tag_key) > 0"
+            :toggled="selectedTags.indexOf(tag_key) >= 0"
             @toggled="toggleTag"
             v-for="(tag_name, tag_key) in tags" :key="tag_key"
         ></tag-select-button>
@@ -155,15 +155,15 @@
     data() {
       return {
         isBusy: false,
-        sortBy: localStorage.getItem(this.id + '.sortBy') ? localStorage.getItem(this.id + '.sortBy') : this.defaultSortBy,
-        sortDesc: localStorage.getItem(this.id + '.sortDesc') ? localStorage.getItem(this.id + '.sortDesc') == 'true' : this.defaultSortDesc,
-        currentPage: localStorage.getItem(this.id + '.currentPage') ? localStorage.getItem(this.id + '.currentPage') : 1,
+        sortBy: sessionStorage.getItem(this.id + '.sortBy') ? sessionStorage.getItem(this.id + '.sortBy') : this.defaultSortBy,
+        sortDesc: sessionStorage.getItem(this.id + '.sortDesc') ? sessionStorage.getItem(this.id + '.sortDesc') == 'true' : this.defaultSortDesc,
+        currentPage: sessionStorage.getItem(this.id + '.currentPage') ? sessionStorage.getItem(this.id + '.currentPage') : 1,
         perPage: this.itemsPerPage,
         totalRows: 0,
         errorText: null,
         filter: '',
         filterText: '',
-        selectedTags: [], 
+        selectedTags: sessionStorage.getItem(this.id + '.selectedTags') ? JSON.parse(sessionStorage.getItem(this.id + '.selectedTags')) : [], 
       }
     },
     methods: {
@@ -188,9 +188,9 @@
             return promise.then(data => {
                 this.isBusy = false
                 this.totalRows = data.data.meta.total
-                localStorage.setItem(this.id + '.sortBy', ctx.sortBy)
-                localStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
-                localStorage.setItem(this.id + '.currentPage', ctx.currentPage)
+                sessionStorage.setItem(this.id + '.sortBy', ctx.sortBy)
+                sessionStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
+                sessionStorage.setItem(this.id + '.currentPage', ctx.currentPage)
                 return data.data.data || []
             }).catch(this.handleAjaxError)
         },
@@ -214,7 +214,7 @@
             if (toggled) {
                 this.selectedTags.push(value)
             }
-            console.log(this.selectedTags)
+            sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(this.selectedTags))
             this.$root.$emit('bv::refresh::table', this.id)
         }
     }    
