@@ -23,6 +23,7 @@
         <tag-select-button 
             :label="tag_name" 
             :value="tag_key"
+            :toggled="selectedTags.indexOf(tag_key) > 0"
             @toggled="toggleTag"
             v-for="(tag_name, tag_key) in tags" :key="tag_key"
         ></tag-select-button>
@@ -166,12 +167,6 @@
       }
     },
     methods: {
-        mailtoHref(val) {
-            return `mailto:${val}`;
-        },
-        telHref(val) {
-            return `tel:${val}`;
-        },
         applyFilter() {
             this.filter = this.filterText
             this.currentPage = 1

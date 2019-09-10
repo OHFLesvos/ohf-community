@@ -12,10 +12,15 @@ export default {
             type: String,
             required: true,
         },
+        toggled: {
+            type: Boolean,
+            required: false,
+            default: false,
+        }
     },
     data() {
         return {
-            pressed: false
+           pressed: this.toggled
         }
     },
     watch: {
