@@ -18,7 +18,7 @@
         </b-row>
     </b-alert>
 
-    <p v-if="tags" class="mb-3">
+    <p v-if="Object.keys(tags).length > 0" class="mb-3">
         Tags:
         <tag-select-button 
             :label="tag_name" 
@@ -149,7 +149,9 @@
         tags: {
             require: false,
             type: Object,
-            default: { }
+            default: () => {
+                return {}
+            }
         }
     },
     data() {
