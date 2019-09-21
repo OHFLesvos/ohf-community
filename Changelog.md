@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.6
+
+Fundraising:
+
+* Improved donors table
+
 ## 2.7.5
 
 Fundraising:
