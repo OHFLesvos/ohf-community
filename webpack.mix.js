@@ -16,6 +16,10 @@ mix.webpackConfig({
 	}
 });
 
+/* Allow multiple Laravel Mix applications*/
+require('laravel-mix-merge-manifest');
+mix.mergeManifest();
+
 mix.options({ processCssUrls: false })
 	.js('resources/js/app.js', 'public/js')
 	.js('resources/js/bank.js', 'public/js')

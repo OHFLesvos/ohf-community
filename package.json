@@ -26,6 +26,7 @@
     "jquery.session": "^1.0.0",
     "jsqr": "^1.2.0",
     "laravel-mix": "^4.1.2",
+    "laravel-mix-merge-manifest": "^0.1.2",
     "lity": "^2.4.0",
     "lodash": "^4.17.15",
     "node-snackbar": "^0.1.15",
