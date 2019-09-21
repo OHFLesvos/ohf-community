@@ -4,7 +4,7 @@
 
 @section('wrapped-content')
 
-    <div id="app">
+    <div id="fundraising-app">
         @php
             $fields = [
                 'first_name' => [
@@ -60,9 +60,13 @@
             default-sort-by="first_name"
             empty-text="@lang('fundraising::fundraising.no_donors_found')"
             filter-placeholder="@lang('fundraising::fundraising.search_for_name_address_email_phone')..."
-            :items-per-page="10"
+            :items-per-page="25"
             :tags='@json($tags)'
         ></donors-table>
     </div>
 	
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/fundraising.js') }}?v={{ $app_version }}"></script>
 @endsection

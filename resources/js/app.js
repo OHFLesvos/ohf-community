@@ -174,9 +174,6 @@ $(function(){
 //
 window.Vue = require('vue');
 
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue)
-
 import LineChart from './components/LineChart.vue';
 Vue.component('line-chart', LineChart);
 import BarChart from './components/BarChart.vue';
@@ -185,17 +182,6 @@ import HorizontalBarChart from './components/HorizontalBarChart.vue';
 Vue.component('horizontal-bar-chart', HorizontalBarChart);
 import PieChart from './components/PieChart.vue';
 Vue.component('pie-chart', PieChart);
-
-import PhoneLink from './components/PhoneLink.vue';
-Vue.component('phone-link', PhoneLink);
-import EmailLink from './components/EmailLink.vue';
-Vue.component('email-link', EmailLink);
-
-import BaseTable from './components/BaseTable.vue';
-Vue.component('base-table', BaseTable);
-
-import DonorsTable from './components/DonorsTable.vue';
-Vue.component('donors-table', DonorsTable);
 
 const app = new Vue({
     el: '#app'
