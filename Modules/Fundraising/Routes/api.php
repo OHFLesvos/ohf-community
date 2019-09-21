@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::middleware(['language', 'auth'])
+    ->prefix('fundraising')
+    ->name('api.fundraising.')
+    ->namespace('API')
+    ->group(function () {
+        Route::apiResource('donors', 'DonorController');
+    });  
+
 // RaiseNow Webhook
 Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
     ->prefix('fundraising/donations')

@@ -16,7 +16,7 @@ class DonorsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Donor::class, 100)->create()->each(function($d){
+        factory(Donor::class, 250)->create()->each(function($d){
             $d->donations()->saveMany(factory(Donation::class, mt_rand(1, 10))->make());
         });
     }
