@@ -27,4 +27,10 @@ class SchoolClassStudentsController extends Controller
         ]);
     }
 
+    public function export(SchoolClass $class)
+    {
+        $this->authorize('list', Student::class);
+
+        // TODO
+    }
 }

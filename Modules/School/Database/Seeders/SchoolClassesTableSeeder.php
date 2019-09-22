@@ -2,6 +2,7 @@
 
 namespace Modules\School\Database\Seeders;
 
+use Modules\People\Entities\Person;
 use Modules\School\Entities\SchoolClass;
 
 use Illuminate\Database\Seeder;
@@ -15,6 +16,9 @@ class SchoolClassesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(SchoolClass::class, 25)->create();
+        $persons = factory(Person::class, 500)->create();
+        factory(SchoolClass::class, 25)->create()->each(function($class) use($persons) {
+            $class->students()->sync($persons->random(mt_rand(0, $class->capacity)));
+        });
     }
 }

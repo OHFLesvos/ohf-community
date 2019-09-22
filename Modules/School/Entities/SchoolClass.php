@@ -20,11 +20,11 @@ class SchoolClass extends Model
     ];
 
     public function students() {
-        return $this->belongsToMany(\Modules\People\Entities\Person::class, 'school_students', 'class_id', 'id')
-            ->as('student')
-            ->withTimestamps()
+        return $this->belongsToMany(\Modules\People\Entities\Person::class, 'school_students', 'class_id', 'person_id')
+            // ->as('student')
+            ->withTimestamps();
             // ->withPivot('')
-            ->using(Student::class);
+            // ->using(Student::class);
     }
 
 }

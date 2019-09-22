@@ -11,11 +11,4 @@ class Student extends Pivot
     protected $fillable = [
     ];
 
-    // public function classes() {
-    //     return $this->belongsToMany(SchoolClass::class, 'school_students');
-    // }
-
-    // public function person() {
-    //     return $this->belongsTo(\Modules\People\Entities\Person::class);
-    // }
 }

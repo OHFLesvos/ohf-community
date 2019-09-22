@@ -21,12 +21,6 @@ class SchoolClassIndexContextButtons implements ContextButtons {
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', SchoolClass::class)
             ],
-            // 'export' => [
-            //     'url' => route('school.classes.export'),
-            //     'caption' => __('app.export'),
-            //     'icon' => 'download',
-            //     'authorized' => Auth::user()->can('list', SchoolClass::class)
-            // ]
         ];
     }
 
