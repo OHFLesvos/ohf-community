@@ -1,5 +1,7 @@
 <?php
 
+use Modules\People\Entities\Person;
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -14,7 +16,7 @@ class ChangePublicIdLengthToFiveForPersonsTable extends Migration
      */
     public function up()
     {
-        DB::table('persons')->update(['public_id' => DB::raw('UPPER(SUBSTR(public_id, 1, 6))')]);
+        DB::table('persons')->update(['public_id' => DB::raw('SUBSTR(public_id, 1, ' . Person::PUBLIC_ID_LENGTH . ')')]);
     }
 
     /**
@@ -24,6 +26,6 @@ class ChangePublicIdLengthToFiveForPersonsTable extends Migration
      */
     public function down()
     {
-        DB::table('persons')->update(['public_id' => DB::raw('LOWER(public_id)')]);
+
     }
 }

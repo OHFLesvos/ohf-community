@@ -9,8 +9,11 @@ Bank:
 * Only offer to create new person in bank if search results negative
 * Removed section card and registration number fields from person
 * Highlight search terms in results
+
+People:
+
 * Store police number as integer
-* Shorter public id number
+* Use of public id number as unique identifier of person, shortened id length
 
 ## 2.7.6
 

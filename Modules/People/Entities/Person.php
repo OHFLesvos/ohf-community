@@ -19,6 +19,8 @@ use Iatstuti\Database\Support\NullableFields;
 
 class Person extends Model
 {
+    const PUBLIC_ID_LENGTH = 10;
+
     use SoftDeletes;
     use NullableFields;
     
@@ -47,7 +49,7 @@ class Person extends Model
     {
         static::creating(function ($model) {
             $model->search = self::createSearchString($model);
-            $model->public_id = strtoupper(Str::random(6));
+            $model->public_id = strtolower(Str::random(self::PUBLIC_ID_LENGTH));
         });
 
         static::updating(function ($model) {
