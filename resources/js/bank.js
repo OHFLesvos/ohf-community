@@ -343,6 +343,8 @@ function highlightText(text) {
 		}
 	});
 }
-$(function(){
-	highlightTerms.forEach(t => highlightText(t))
-})
+if (typeof highlightTerms !== 'undefined') {
+	$(function(){
+		highlightTerms.forEach(t => highlightText(t))
+	})
+}
