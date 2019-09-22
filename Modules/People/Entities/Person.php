@@ -280,6 +280,14 @@ class Person extends Model
     }
 
     public function canHandoutCoupon(CouponType $couponType) {
+        if ($couponType->newly_registered_block_days != null) {
+            $registeredDay = $this->created_at->copy()->startOfDay();
+            $thresholdDay = Carbon::today()->subDays($couponType->newly_registered_block_days);
+            if ($registeredDay > $thresholdDay) {
+                return trans_choice('people::people.recently_registerd_wait_n_days', $registeredDay->diffInDays($thresholdDay), ['days' => $registeredDay->diffInDays($thresholdDay)]);
+            }
+        }
+
         if ($couponType->retention_period == null) {
             $handout = $this->couponHandouts()
                 ->where('coupon_type_id', $couponType->id)

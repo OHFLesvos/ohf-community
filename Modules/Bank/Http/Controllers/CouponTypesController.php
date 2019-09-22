@@ -64,6 +64,7 @@ class CouponTypesController extends Controller
         $coupon->min_age = $request->min_age;
         $coupon->max_age = $request->max_age;
         $coupon->daily_spending_limit = $request->daily_spending_limit;
+        $coupon->newly_registered_block_days = $request->newly_registered_block_days;
         $coupon->order = $request->order;
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);
@@ -117,6 +118,7 @@ class CouponTypesController extends Controller
         $coupon->min_age = $request->min_age;
         $coupon->max_age = $request->max_age;
         $coupon->daily_spending_limit = $request->daily_spending_limit;
+        $coupon->newly_registered_block_days = $request->newly_registered_block_days;
         $coupon->order = $request->order;
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);

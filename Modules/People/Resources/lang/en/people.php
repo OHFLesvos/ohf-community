@@ -91,6 +91,8 @@ return [
     'min_age' => 'Min. age',
     'max_age' => 'Max. age',
     'daily_spending_limit' => 'Spending limit',
+    'block_for_newly_registered' => 'Block for newly registered',
+    'recently_registerd_wait_n_days' => 'recently registerd, wait one day|recently registerd, wait :days days',
     'per_day' => 'per day',
     'daily_limit_reached' => 'Daily limit reached',
     'register_a_new_person' => 'Register a new person',

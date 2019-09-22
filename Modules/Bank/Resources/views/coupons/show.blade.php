@@ -49,6 +49,14 @@
                 </div>
             </li>
         @endisset
+        @isset($coupon->newly_registered_block_days)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm"><strong>@lang('people::people.block_for_newly_registered')</strong></div>
+                    <div class="col-sm">{{ $coupon->newly_registered_block_days }} {{ trans_choice('app.day_days', $coupon->newly_registered_block_days) }}</div>
+                </div>
+            </li>
+        @endisset        
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('app.order')</strong></div>

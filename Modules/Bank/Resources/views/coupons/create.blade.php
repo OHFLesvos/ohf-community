@@ -36,6 +36,9 @@
             <div class="col-md">
                 {{ Form::bsNumber('daily_spending_limit', null, [ ], __('people::people.daily_spending_limit'), __('people::people.per_day')) }}
             </div>
+            <div class="col-md">
+                {{ Form::bsNumber('newly_registered_block_days', null, [ ], __('people::people.block_for_newly_registered'), __('app.days')) }}
+            </div>
         </div>
         <div class="form-row mb-4">
             <div class="col-md">

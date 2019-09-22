@@ -15,6 +15,7 @@
                         <th>@lang('people::people.min_age')</th>
                         <th>@lang('people::people.max_age')</th>
                         <th>@lang('people::people.daily_spending_limit')</th>
+                        <th>@lang('people::people.block_for_newly_registered')</th>
                         <th>@lang('app.order')</th>
                         <th>@lang('app.enabled')</th>
                         <th>@lang('people::people.returnable')</th>
@@ -34,6 +35,7 @@
                             <td>@isset($coupon->min_age) {{ $coupon->min_age }} {{ trans_choice('app.year_years', $coupon->min_age) }} @endisset</td>
                             <td>@isset($coupon->max_age) {{ $coupon->max_age }} {{ trans_choice('app.year_years', $coupon->max_age) }} @endisset</td>
                             <td>@isset($coupon->daily_spending_limit) {{ $coupon->daily_spending_limit }} @lang('people::people.per_day') @endisset</td>
+                            <td>@isset($coupon->newly_registered_block_days) {{ $coupon->newly_registered_block_days }} {{ trans_choice('app.day_days', $coupon->newly_registered_block_days) }} @endisset</td>
                             <td>{{ $coupon->order }}</td>
                             <td>@if($coupon->enabled) @icon(check) @else @icon(times) @endif</td>
                             <td>@if($coupon->returnable) @icon(check) @else @icon(times) @endif</td>

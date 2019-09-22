@@ -54,6 +54,11 @@ class StoreCouponType extends FormRequest
                 'numeric',
                 'min:1',
             ],
+            'newly_registered_block_days' => [
+                'nullable',
+                'numeric',
+                'min:1',
+            ],
             'order' => [
                 'required',
                 'numeric',

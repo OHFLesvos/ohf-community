@@ -91,6 +91,8 @@ return [
     'min_age' => 'Min. Alter',
     'max_age' => 'Max. Alter',
     'daily_spending_limit' => 'Ausgabelimite',
+    'block_for_newly_registered' => 'Für Neuregistrierte blockieren',
+    'recently_registerd_wait_n_days' => 'kürzlich registriert, warte einen Tag|kürzlich registriert, warte :days Tage',
     'per_day' => 'pro Tag',
     'daily_limit_reached' => 'Tageslimite erreicht',
     'register_a_new_person' => 'Eine neue Person registrieren',

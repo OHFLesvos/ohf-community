@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.8.0
+
+Bank:
+
+* Added feature to block coupon types for newly registered users
+
 ## 2.7.6
 
 Fundraising:
