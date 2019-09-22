@@ -62,6 +62,7 @@ class CouponTypesSeeder extends Seeder
             'daily_amount' => 1,
             'retention_period' => 14,
             'min_age' => 15,
+            'daily_spending_limit' => 25,
             'newly_registered_block_days' => 7,
             'order' => 5,
             'returnable' => false,

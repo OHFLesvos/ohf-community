@@ -32,7 +32,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
  */
 $factory->define(App\Role::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->jobTitle,
+        'name' => $faker->unique()->jobTitle,
     ];
 });
 
