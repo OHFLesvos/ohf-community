@@ -20,7 +20,7 @@ class SchoolClass extends Model
     ];
 
     public function students() {
-        return $this->belongsToMany(Student::class, 'school_students');
+        return $this->belongsToMany(\Modules\People\Entities\Person::class, 'school_students', 'class_id', 'id');
     }
 
 }

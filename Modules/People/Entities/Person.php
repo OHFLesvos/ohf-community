@@ -270,12 +270,8 @@ class Person extends Model
         return $this->hasMany('Modules\Bank\Entities\CouponHandout');   // TODO circular dependency
     }
 
-    public function student() {
-        return $this->hasOne(\Modules\School\Entities\Student::class); // , 'person_id', 'id'
-    }
-
     public function schoolClasses() {
-        return $this->hasManyThrough(\Modules\School\Entities\SchoolClass::class, \Modules\School\Entities\Student::class);
+        return $this->belongsToMany(\Modules\School\Entities\SchoolClass::class, 'school_students', 'person_id', 'id');  // TODO circular dependency
     }
 
     public function eligibleForCoupon(CouponType $couponType): bool {

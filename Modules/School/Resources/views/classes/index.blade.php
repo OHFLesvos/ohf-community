@@ -12,10 +12,10 @@
                     <thead>
                         <tr>
                             <th class="">@lang('app.name')</th>
-                            <th class="">@lang('app.start_date')</th>
-                            <th class="">@lang('app.end_date')</th>
                             <th class="">@lang('school::classes.teacher')</th>
-                            {{-- <th class="">@lang('school::students.students')</th> --}}
+                            <th class="fit">@lang('app.start_date')</th>
+                            <th class="fit">@lang('app.end_date')</th>
+                            <th class="text-right fit">@lang('school::students.students')</th>
                             <th class="text-right fit">@lang('app.capacity')</th>
                         </tr>
                     </thead>
@@ -31,11 +31,11 @@
                                         </a>
                                     @endcan
                                 </td>
-                                <td>{{ $schoolClass->start_date->toDateString() }}</td>
-                                <td>{{ $schoolClass->end_date->toDateString() }}</td>
                                 <td>{{ $schoolClass->teacher_name }}</td>
-                                {{-- <td>{{ $schoolClass->students->count() }}</td> --}}
-                                <td>{{ $schoolClass->capacity }}</td>
+                                <td class="fit">{{ $schoolClass->start_date->toDateString() }}</td>
+                                <td class="fit">{{ $schoolClass->end_date->toDateString() }}</td>
+                                <td class="text-right fit">{{ $schoolClass->students->count() }}</td>
+                                <td class="text-right fit">{{ $schoolClass->capacity }}</td>
                             </tr>
                         @endforeach
                     </tbody>

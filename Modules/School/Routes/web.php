@@ -13,6 +13,7 @@
 
 Route::group(['middleware' => ['language', 'auth']], function () {
     Route::prefix('school')->name('school.')->group(function () {
+        // Route::get('classes.export', 'SchoolClassesController@export')->name('classes.export');
         Route::resource('classes', 'SchoolClassesController')->except('show');
     });
 });
