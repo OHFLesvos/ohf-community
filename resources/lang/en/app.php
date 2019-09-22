@@ -277,4 +277,7 @@ return [
     'ignore' => 'Ignore',
     'submit' => 'Submit',
     'open_in_new_window' => 'Open in new window/tab',
+    'capacity' => 'Capacity',
+    'start_date' => 'Start date',
+    'end_date' => 'End date',
  ];

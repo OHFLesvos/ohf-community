@@ -1,0 +1,5 @@
+<?php
+
+return [
+    'school' => 'Schule',
+];
