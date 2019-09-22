@@ -56,8 +56,6 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
             __('people::people.age'),
             __('people::people.nationality'),
             __('people::people.police_number'),
-            __('people::people.registration_number'),
-            __('people::people.section_card_number'),
         ];
         foreach($this->couponTypes as $coupon) {
             $headings[] = $coupon->name;
@@ -72,7 +70,7 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
     public function map($person): array
     {
         $mapping = [
-            $person->id,
+            $person->public_id,
             $person->family_name,
             $person->name,
             $person->date_of_birth,
