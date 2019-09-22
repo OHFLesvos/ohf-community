@@ -55,7 +55,6 @@
     var storeEventUrl = '{{ route('calendar.events.store') }}';
     var listResourcesUrl = '{{ route('calendar.resources.index') }}';
     var storeResourceUrl = '{{ route('calendar.resources.store') }}';
-    var csrfToken = '{{ csrf_token() }}';
     var createEventAllowed = @can('create', Modules\Calendar\Entities\CalendarEvent::class) true @else false @endcan;
     var manageResourcesAllowed = @can('create', Modules\Calendar\Entities\CalendarResource::class) true @else false @endcan;
     var currentUserId = {{ Auth::id() }};
