@@ -30,7 +30,6 @@
 @endsection
 
 @section('script')
-    var csrfToken = '{{ csrf_token() }}';
     var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
 @endsection

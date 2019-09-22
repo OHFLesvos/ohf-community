@@ -21,4 +21,12 @@ Route::prefix('shop')
     ->group(function(){
         Route::get('/', 'ShopController@searchCard')->name('searchCard');
         Route::post('/', 'ShopController@redeemCard')->name('redeemCard');
-});
+    });
+
+Route::prefix('barber')
+    ->name('shop.barber.')
+    ->namespace('API')
+    ->middleware(['can:view-barber-list'])
+    ->group(function(){
+        Route::post('/person/{person}/checkin', 'BarberShopController@checkin')->name('checkin');
+    });

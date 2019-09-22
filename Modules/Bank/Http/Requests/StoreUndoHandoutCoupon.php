@@ -24,14 +24,6 @@ class StoreUndoHandoutCoupon extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => [
-                'required',
-                'exists:persons,id',
-            ],
-            'coupon_type_id' => [
-                'required',
-                'exists:coupon_types,id',
-            ],
         ];
     }
 }

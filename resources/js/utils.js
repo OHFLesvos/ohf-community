@@ -33,3 +33,18 @@ window.ajaxError = function(jqXHR, textStatus) {
 	}
 	alert(message);
 }
+
+window.handleAjaxError = function(err){
+    var msg;
+    if (err.response.data.message) {
+        msg = err.response.data.message;
+    }
+    if (err.response.data.errors) {
+        msg += "\n" + Object.entries(err.response.data.errors).map(([k, v]) => {
+            return v.join('. ');
+        });
+    } else if (err.response.data.error) {
+        msg = err.response.data.error;
+    }
+    alert('Error: ' + msg);
+}

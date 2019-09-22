@@ -24,11 +24,6 @@ class DoCheckIn extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => [
-                'required',
-                'numeric',
-                'exists:persons,id'
-            ],
         ];
     }
 }

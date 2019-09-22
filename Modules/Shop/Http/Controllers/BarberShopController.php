@@ -40,27 +40,6 @@ class BarberShopController extends Controller
         ]);
     }
 
-    public function checkin(DoCheckIn $request) {
-        if (\Setting::has('shop.barber.coupon_type')) {
-            $id = $request->person_id;
-            $handout = CouponHandout::whereDate('date', Carbon::today())
-                ->where('coupon_type_id', \Setting::get('shop.barber.coupon_type'))
-                ->where('person_id', $id)
-                ->first();
-            if ($handout != null) {
-                $now = Carbon::now();
-                $handout->code_redeemed = $now;
-                $handout->save();
-                return response()->json([
-                    'time' => $now->format('H:i'),
-                    'message' => __('shop::shop.checked_in_person', [ 'person' => $handout->person->fullName ]),
-                ]);
-            }
-            return response()->json([], 404);
-        }
-        return response()->json([], 405);
-    }
-
     public function addPerson(AddPerson $request) {
         $request->validate([
             'person_id' => [

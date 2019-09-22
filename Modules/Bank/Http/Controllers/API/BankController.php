@@ -23,8 +23,7 @@ class BankController extends Controller
      * @param  \App\Http\Requests\People\Bank\RegisterCard  $request
      * @return \Illuminate\Http\Response
      */
-	public function registerCard(RegisterCard $request) {
-        $person = Person::findOrFail($request->person_id);
+	public function registerCard(Person $person, RegisterCard $request) {
         
         $this->authorize('update', $person);
 
@@ -65,10 +64,7 @@ class BankController extends Controller
      * @param  \App\Http\Requests\People\Bank\StoreHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
-    public function handoutCoupon(StoreHandoutCoupon $request) {
-        $person = Person::findOrFail($request->person_id);
-        $couponType = CouponType::find($request->coupon_type_id);
-
+    public function handoutCoupon(Person $person, CouponType $couponType, StoreHandoutCoupon $request) {
         $coupon = new CouponHandout();
         $coupon->date = Carbon::today();
         $coupon->amount = $request->amount;
@@ -93,9 +89,7 @@ class BankController extends Controller
      * @param  \App\Http\Requests\People\Bank\StoreUndoHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
-    public function undoHandoutCoupon(StoreUndoHandoutCoupon $request) {
-        $person = Person::findOrFail($request->person_id);
-        $couponType = CouponType::find($request->coupon_type_id);
+    public function undoHandoutCoupon(Person $person, CouponType $couponType, StoreUndoHandoutCoupon $request) {
         $handout = $person->couponHandouts()
             ->where('coupon_type_id', $couponType->id)
             ->whereDate('date', Carbon::today())

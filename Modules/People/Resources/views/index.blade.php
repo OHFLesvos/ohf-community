@@ -80,7 +80,6 @@
 @endsection
 
 @section('script')
-    var csrfToken = '{{ csrf_token() }}';
     var filterUrl = '{{ route('people.filter') }}';
 @endsection
 

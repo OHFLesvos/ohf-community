@@ -21,24 +21,25 @@
                         @elseif($person->gender == 'm')@icon(male) 
                         @endif
                     @else
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-person="{{ $person->id }}" title="Male">@icon(male)</button>
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-person="{{ $person->id }}" title="Female">@icon(female)</button>
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-url="{{ route('people.setGender', $person) }}" title="Male">@icon(male)</button>
+                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-url="{{ route('people.setGender', $person) }}" title="Female">@icon(female)</button>
                     @endif
                 </span>
                 <span class="form-inline d-inline">
                     @if(isset($person->date_of_birth))
                         {{ $person->date_of_birth }} (age {{ $person->age }})
                     @else
-                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-person="{{ $person->id }}" title="Set date of birth">@icon(calendar-plus)</button>
+                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-url="{{ route('people.setDateOfBirth', $person) }}" title="Set date of birth">@icon(calendar-plus)</button>
                     @endif
                 </span>
                 <span class="form-inline d-inline">
                     @if(isset($person->nationality))
                         {{ $person->nationality }}
                     @else
-                        <button class="btn btn-warning btn-sm choose-nationality" data-person="{{ $person->id }}" title="Set nationality">@icon(globe)</button>
+                        <button class="btn btn-warning btn-sm choose-nationality" data-url="{{ route('people.setNationality', $person) }}" title="Set nationality">@icon(globe)</button>
                     @endif
                 </span>
+                {{-- @icon(id-card) {{ $person->public_id }} --}}
                 @if($frequentVisitor)
                     <span class="text-warning" title="Frequent visitor">@icon(star)</span>
                 @endif
@@ -46,7 +47,7 @@
             </div>
             <div class="col-auto">
                 @icon(id-card)
-                <a href="javascript:;" class="register-card" data-person="{{ $person->id }}" data-card="{{ $person->card_no }}">
+                <a href="javascript:;" class="register-card" data-url="{{ route('bank.registerCard', $person) }}" data-card="{{ $person->card_no }}">
                     @if(isset($person->card_no))
                         <strong>{{ substr($person->card_no, 0, 7) }}</strong>
                     @else
@@ -98,11 +99,11 @@
                                 $lastHandout = $person->canHandoutCoupon($coupon);
                             @endphp
                             @isset($lastHandout)
-                                <button type="button" class="btn btn-secondary btn-sm btn-block" disabled data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}">
+                                <button type="button" class="btn btn-secondary btn-sm btn-block" disabled data-url="{{ route('bank.handoutCoupon', [$person, $coupon]) }}">
                                     {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ $lastHandout }})
                                 </button>
                             @else
-                                <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-coupon="{{ $coupon->id }}" data-person="{{ $person->id }}" data-amount="{{ $coupon->daily_amount }}" data-min_age="{{ $coupon->min_age }}"  data-max_age="{{ $coupon->max_age }}" data-qr-code-enabled="{{ $coupon->qr_code_enabled }}">
+                                <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-url="{{ route('bank.handoutCoupon', [$person, $coupon]) }}" data-amount="{{ $coupon->daily_amount }}" data-min_age="{{ $coupon->min_age }}"  data-max_age="{{ $coupon->max_age }}" data-qr-code-enabled="{{ $coupon->qr_code_enabled }}">
                                     {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }}@if($coupon->qr_code_enabled) @icon(qrcode)@endif
                                 </button>
                             @endempty

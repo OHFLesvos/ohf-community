@@ -82,15 +82,15 @@ class Person extends Model
         return $this->hasOne('Modules\Helpers\Entities\Helper', 'person_id', 'id');
     }
 
-    // /**
-    //  * Get the route key for the model.
-    //  *
-    //  * @return string
-    //  */
-    // public function getRouteKeyName()
-    // {
-    //     return 'public_id';
-    // }
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'public_id';
+    }
 
     /**
      * The attributes that should be cast to native types.

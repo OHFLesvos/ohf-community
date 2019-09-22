@@ -23,27 +23,26 @@ $(function(){
 	$('.checkin-button').on('click', function(){
 		var person_name = $(this).data('person-name');
 		if (confirm(checkInConfirmationMessage + ' ' + person_name)) {
-			var person_id = $(this).data('person-id');
+			var url = $(this).data('url');
 			var btn = $(this);
 			btn.children('i').removeClass('check').addClass('fa-spinner fa-spin');
 			btn.removeClass('btn-primary').addClass('btn-secondary');
 			btn.prop('disabled', true);
 
-			$.post(checkinUrl, {
-				"_token": csrfToken,
-				"person_id": person_id
-			}, function(data) {
-				btn.siblings().remove();
-				btn.parent().append(data.time);
-				btn.remove();
-				showSnackbar(data.message);
-			})
-			.fail(ajaxError)
-			.always(function() {
-				btn.removeAttr('disabled');
-				btn.children('i').addClass('check').removeClass('fa-spinner fa-spin');
-				btn.addClass('btn-primary').removeClass('btn-secondary');
-			});	
+			axios.post(url, { })
+				.then((response) => {
+					var data = response.data
+					btn.siblings().remove();
+					btn.parent().append(data.time);
+					btn.remove();
+					showSnackbar(data.message);
+				})
+				.catch(handleAjaxError)
+				.then(() => {
+					btn.removeAttr('disabled');
+					btn.children('i').addClass('check').removeClass('fa-spinner fa-spin');
+					btn.addClass('btn-primary').removeClass('btn-secondary');
+				});	
 		}
 	});
 

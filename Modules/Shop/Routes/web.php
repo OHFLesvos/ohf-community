@@ -21,7 +21,6 @@ Route::group(['middleware' => ['auth', 'language']], function () {
     });
     Route::prefix('barber')->name('shop.barber.')->middleware(['can:view-barber-list'])->group(function(){
         Route::get('/', 'BarberShopController@index')->name('index');
-        Route::post('/checkin', 'BarberShopController@checkin')->name('checkin');
         Route::post('/addPerson', 'BarberShopController@addPerson')->name('addPerson');
         Route::delete('/removePerson', 'BarberShopController@removePerson')->name('removePerson');
         Route::get('/settings', 'BarberShopSettingsController@edit')->name('settings.edit')->middleware(['can:configure-barber-list']);

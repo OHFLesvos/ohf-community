@@ -23,13 +23,6 @@
 @endsection
 
 @section('script')
-    var csrfToken = '{{ csrf_token() }}';
-    var handoutCouponUrl = '{{ route('bank.handoutCoupon') }}';
-    var undoHandoutCouponUrl = '{{ route('bank.undoHandoutCoupon') }}';
-    var updateGenderUrl = '{{ route('people.setGender', [':person']) }}';
-    var updateDateOfBirthUrl = '{{ route('people.setDateOfBirth', [':person']) }}';
-    var updateNationalityUrl = '{{ route('people.setNationality', [':person']) }}';
-    var registerCardUrl = '{{ route('bank.registerCard') }}';
     var undoLabel = '@lang('app.undo')';
     var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';

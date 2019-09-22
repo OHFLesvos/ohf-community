@@ -68,5 +68,15 @@ class CouponTypesSeeder extends Seeder
             'returnable' => false,
             'qr_code_enabled' => true,
         ]);
+        CouponType::create([
+            'name' => 'Barber ticket',
+            'icon' => 'hand-scissors',
+            'daily_amount' => 1,
+            'retention_period' => 30,
+            'daily_spending_limit' => 10,
+            'order' => 6,
+            'returnable' => false,
+            'allow_for_helpers' => true,
+        ]);
     }
 }

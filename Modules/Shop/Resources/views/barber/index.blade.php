@@ -39,7 +39,7 @@
                                     @else
                                         <button type="button" 
                                             class="btn btn-primary btn-sm checkin-button" 
-                                            data-person-id="{{ $person->id }}"
+                                            data-url="{{ route('shop.barber.checkin', $person) }}"
                                             data-person-name="{{ $person->fullName }}">
                                                 @icon(check)<span class="d-none d-sm-inline"> @lang('shop::shop.check_in')</span>
                                         </button>
@@ -83,8 +83,6 @@
 @endsection
 
 @section('script')
-    var csrfToken = '{{ csrf_token() }}';
-    var checkinUrl = '{{ route('shop.barber.checkin') }}';
     var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
     var checkInConfirmationMessage = '@lang('shop::shop.confirm_checkin_of_person')';

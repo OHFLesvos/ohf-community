@@ -73,36 +73,37 @@ function filterTable(page) {
 
     var paginationInfo = $( '#paginator-info' );
     paginationInfo.empty();
-    $.post( filterUrl, {
-        "_token": csrfToken,
-        "family_name": $('#filter input[name="family_name"]').val(),
-        "name": $('#filter input[name="name"]').val(),
-        "date_of_birth": $('#filter input[name="date_of_birth"]').val(),
-        "nationality": $('#filter input[name="nationality"]').val(),
-        "police_no": $('#filter input[name="police_no"]').val(),
-        "languages": $('#filter input[name="languages"]').val(),
-        "remarks": $('#filter input[name="remarks"]').val(),
-        "page": page,
-        'orderByField': orderByField,
-        'orderByDirection': orderByDirection,
-    }, function(result) {
-        tbody.empty();
-        if (result.data.length > 0) {
-            $.each(result.data, function(k, v){
-                tbody.append(writeRow(v));
-            });
-            pagination.updatePagination(paginator, result, filterTable);
-            paginationInfo.html( result.from + ' - ' + result.to + ' of ' + result.total );
-        } else {
-            tbody.append($('<tr>')
-                .addClass('warning')
-                .append($('<td>')
-                    .text('No results')
-                    .attr('colspan', 13))
-            );
-        }
-    })
-        .fail(function(jqXHR, textStatus) {
+    axios.post( filterUrl, {
+            "family_name": $('#filter input[name="family_name"]').val(),
+            "name": $('#filter input[name="name"]').val(),
+            "date_of_birth": $('#filter input[name="date_of_birth"]').val(),
+            "nationality": $('#filter input[name="nationality"]').val(),
+            "police_no": $('#filter input[name="police_no"]').val(),
+            "languages": $('#filter input[name="languages"]').val(),
+            "remarks": $('#filter input[name="remarks"]').val(),
+            "page": page,
+            'orderByField': orderByField,
+            'orderByDirection': orderByDirection,
+        })
+        .then(response => {
+            result = response.data
+            tbody.empty();
+            if (result.data.length > 0) {
+                $.each(result.data, function(k, v){
+                    tbody.append(writeRow(v));
+                });
+                pagination.updatePagination(paginator, result, filterTable);
+                paginationInfo.html( result.from + ' - ' + result.to + ' of ' + result.total );
+            } else {
+                tbody.append($('<tr>')
+                    .addClass('warning')
+                    .append($('<td>')
+                        .text('No results')
+                        .attr('colspan', 13))
+                );
+            }
+        })
+        .catch(err => {
             tbody.empty();
             tbody.append($('<tr>')
                 .addClass('danger')

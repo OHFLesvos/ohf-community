@@ -15,8 +15,8 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => ['language', 'auth']], function () {
     Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
-        Route::post('/bank/handoutCoupon', 'API\BankController@handoutCoupon')->name('bank.handoutCoupon');
-        Route::post('/bank/undoHandoutCoupon', 'API\BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');
-        Route::post('/bank/registerCard', 'API\BankController@registerCard')->name('bank.registerCard');
+        Route::post('/bank/person/{person}/couponType/{couponType}/handout', 'API\BankController@handoutCoupon')->name('bank.handoutCoupon');
+        Route::delete('/bank/person/{person}/couponType/{couponType}/handout', 'API\BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');
+        Route::patch('/bank/person/{person}/card', 'API\BankController@registerCard')->name('bank.registerCard');
     });
 });

@@ -14,7 +14,7 @@ $(function(){
 
 	// Register QR code card
 	$('.register-card').on('click', function(){
-		var person = $(this).attr('data-person');
+		var url = $(this).data('url');
 		var card = $(this).attr('data-card');
 		if (card && !confirm('Do you really want to replace the card ' + card.substr(0, 7) + ' with a new one?')) {
 			return;
@@ -22,16 +22,16 @@ $(function(){
 		var resultElem = $(this);
 		scanQR(function(content){
 			// TODO input validation of code
-			$.post( registerCardUrl, {
-				"_token": csrfToken,
-				"person_id": person,
-				"card_no": content,
-			}, function(data) {
-				resultElem.html('<strong>' + content.substr(0,7) + '</strong>');
-				showSnackbar(data.message);
-				document.location = '/bank/withdrawal/cards/' + content;
-			})
-			.fail(ajaxError);
+			axios.patch( url, {
+					"card_no": content,
+				})
+				.then(response => {
+					var data = response.data
+					resultElem.html('<strong>' + content.substr(0,7) + '</strong>');
+					showSnackbar(data.message);
+					document.location = '/bank/withdrawal/cards/' + content;
+				})
+				.catch(handleAjaxError);
 		});
 	});
 
@@ -59,89 +59,76 @@ function enableFilterSelect() {
 
 function handoutCoupon(){
 	var btn = $(this);
-	var person = btn.data('person');
-	var couponType = btn.data('coupon');
+	var url = btn.data('url');
 	var amount = btn.data('amount');
 	var qrCodeEnabled = btn.data('qr-code-enabled');
-	var label = $(this).html();
 	if (qrCodeEnabled) {
 		scanQR(function(content){
 			// TODO input validation of code
-			sendHandoutRequest(btn, {
-				"_token": csrfToken,
-				"person_id": person,
-				"coupon_type_id": couponType,
+			sendHandoutRequest(btn, url, {
 				"amount": amount,
 				'code': content,
 			});
 		});
 	} else {
-		sendHandoutRequest(btn, {
-			"_token": csrfToken,
-			"person_id": person,
-			"coupon_type_id": couponType,
+		sendHandoutRequest(btn, url, {
 			"amount": amount
 		});
 	}
 }
 
-function sendHandoutRequest(btn, postData) {
+function sendHandoutRequest(btn, url, postData) {
 	btn.attr('disabled', 'disabled');
-	$.post(handoutCouponUrl, postData, function(data) {
-		btn.append(' (' + data.countdown + ')');
-		btn.off('click').on('click', undoHandoutCoupon);
-		showSnackbar(data.message, undoLabel, 'warning', function(element){
-			$(element).css('opacity', 0);
-			btn.click();
-			enableFilterSelect();
-		});
+	axios.post(url, postData)
+		.then(response => {
+			var data = response.data
+			btn.append(' (' + data.countdown + ')');
+			btn.off('click').on('click', undoHandoutCoupon);
+			showSnackbar(data.message, undoLabel, 'warning', function(element){
+				$(element).css('opacity', 0);
+				btn.click();
+				enableFilterSelect();
+			});
 
-		btn.removeClass('btn-primary').addClass('btn-secondary');
-		enableFilterSelect();
-	})
-	.fail(ajaxError)
-	.always(function() {
-		btn.removeAttr('disabled');
-	});	
+			btn.removeClass('btn-primary').addClass('btn-secondary');
+			enableFilterSelect();
+		})
+		.catch(handleAjaxError)
+		.then(() => {
+			btn.removeAttr('disabled');
+		});	
 }
 
 function undoHandoutCoupon(){
 	var btn = $(this);
-	var person = btn.data('person');
-	var couponType = btn.data('coupon');
-	var label = $(this).html();
+	var url = btn.data('url');
 	btn.attr('disabled', 'disabled');
-	$.post(undoHandoutCouponUrl, {
-		"_token": csrfToken,
-		"person_id": person,
-		"coupon_type_id": couponType
-	}, function(data) {
-		btn.html(btn.html().substring(0, btn.html().lastIndexOf(" (")));
-		btn.off('click').on('click', handoutCoupon);
-		showSnackbar(data.message);
+	axios.delete(url)
+		.then(resonse => {
+			var data = resonse.data
+			btn.html(btn.html().substring(0, btn.html().lastIndexOf(" (")));
+			btn.off('click').on('click', handoutCoupon);
+			showSnackbar(data.message);
 
-		btn.removeClass('btn-secondary').addClass('btn-primary');
-		enableFilterSelect();
-	})
-	.fail(ajaxError)
-	.always(function() {
-		btn.removeAttr('disabled');
-	});	
+			btn.removeClass('btn-secondary').addClass('btn-primary');
+			enableFilterSelect();
+		})
+		.catch(handleAjaxError)
+		.then(() => {
+			btn.removeAttr('disabled');
+		});	
 }
 
 function selectGender() {
-	var person = $(this).attr('data-person');
-	var value = $(this).attr('data-value');
+	var url = $(this).data('url');
+	var value = $(this).data('value');
 	var resultElem = $(this).parent();
 	resultElem.html('<i class="fa fa-spinner fa-spin">');
-	$.ajax( updateGenderUrl.replace(':person', person), {
-			'method': 'PATCH',
-			'data': {
-				"_token": csrfToken,
-				'gender': value
-			}
+	axios.patch( url, {
+			'gender': value
 		})
-		.done(function(data) {
+		.then(response => {
+			var data = response.data
 			if (value == 'm') {
 				resultElem.html('<i class="fa fa-male">');
 			} else if (value == 'f') {
@@ -150,11 +137,11 @@ function selectGender() {
 			showSnackbar(data.message);
 			enableFilterSelect();
 		})
-		.fail(ajaxError);
+		.catch(handleAjaxError);
 }
 
 function selectDateOfBirth() {
-	var person = $(this).attr('data-person');
+	var url = $(this).data('url');
 	var resultElem = $(this).parent();
 	var dateSelect = $('<input>')
 		.attr('type', 'text')
@@ -171,7 +158,7 @@ function selectDateOfBirth() {
 				isEnter = (evt.keyCode == 13);
 			}
 			if (isEnter && dateSelect.val().match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) {
-				storeDateOfBirth(person, dateSelect, resultElem);
+				storeDateOfBirth(url, dateSelect, resultElem);
 			}
 		});
 	resultElem.empty()
@@ -182,7 +169,7 @@ function selectDateOfBirth() {
 			.addClass('btn btn-primary btn-sm')
 			.on('click', function(){
 				if (dateSelect.val().match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) {
-					storeDateOfBirth(person, dateSelect, resultElem);
+					storeDateOfBirth(url, dateSelect, resultElem);
 				} else {
 					dateSelect.focus();
 				}
@@ -199,7 +186,7 @@ function selectDateOfBirth() {
 				resultElem.empty().
 					append($('<button>')
 						.addClass('btn btn-warning btn-sm choose-date-of-birth')
-						.attr('data-person', person)
+						.attr('data-url', url)
 						.attr('title', 'Set date of birth')
 						.on('click', selectDateOfBirth)
 						.append(
@@ -214,15 +201,12 @@ function selectDateOfBirth() {
 	dateSelect.focus();
 }
 
-function storeDateOfBirth(person, dateSelect, resultElem) {
-	$.ajax( updateDateOfBirthUrl.replace(':person', person), {
-			'method': 'PATCH',
-			'data': {
-				"_token": csrfToken,
-				'date_of_birth': dateSelect.val()
-			}
+function storeDateOfBirth(url, dateSelect, resultElem) {
+	axios.patch(url, {
+			'date_of_birth': dateSelect.val()
 		})
-		.done(function(data) {
+		.then(response => {
+			var data = response.data
 			resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
 			// Remove buttons not maching age-restrictions
 			$('button[data-min_age]').each(function(){
@@ -238,8 +222,8 @@ function storeDateOfBirth(person, dateSelect, resultElem) {
 			showSnackbar(data.message);
 			enableFilterSelect();
 		})
-		.fail(function(jqXHR, textStatus){
-			ajaxError(jqXHR, textStatus);
+		.catch(err => {
+			handleAjaxError(err);
 			dateSelect.select();
 		});	
 }
@@ -260,7 +244,7 @@ function getTodayDate() {
 }
 
 function selectNationality() {
-	var person = $(this).attr('data-person');
+	var url = $(this).data('url');
 	var resultElem = $(this).parent();
 	var nationalitySelect = $('<input>')
 		.attr('type', 'text')
@@ -274,7 +258,7 @@ function selectNationality() {
 				isEnter = (evt.keyCode == 13);
 			}
 			if (isEnter) {
-				storeNationality(person, nationalitySelect, resultElem);
+				storeNationality(url, nationalitySelect, resultElem);
 			}
 		});
 	resultElem.empty()
@@ -284,7 +268,7 @@ function selectNationality() {
 			.attr('type', 'button')
 			.addClass('btn btn-primary btn-sm')
 			.on('click', function(){
-				storeNationality(person, nationalitySelect, resultElem);
+				storeNationality(url, nationalitySelect, resultElem);
 			})
 			.append(
 				$('<i>').addClass("fa fa-check")
@@ -298,7 +282,7 @@ function selectNationality() {
 				resultElem.empty().
 					append($('<button>')
 						.addClass('btn btn-warning btn-sm choose-nationality')
-						.attr('data-person', person)
+						.attr('data-url', url)
 						.attr('title', 'Set nationality')
 						.on('click', selectNationality)
 						.append(
@@ -313,21 +297,18 @@ function selectNationality() {
 	nationalitySelect.focus();
 }
 
-function storeNationality(person, nationalitySelect, resultElem) {
-	$.ajax( updateNationalityUrl.replace(':person', person), {
-			'method': 'PATCH',
-			'data': {
-				"_token": csrfToken,
-				'nationality': nationalitySelect.val()
-			}	
+function storeNationality(url, nationalitySelect, resultElem) {
+	axios.patch(url, {
+			'nationality': nationalitySelect.val()
 		})
-		.done(function(data) {
+		.then(response => {
+			var data = response.data
 			resultElem.html(data.nationality);
 			showSnackbar(data.message);
 			enableFilterSelect();
 		})
-		.fail(function(jqXHR, textStatus){
-			ajaxError(jqXHR, textStatus);
+		.catch(err => {
+			handleAjaxError(err);
 			nationalitySelect.select();
 		});
 }

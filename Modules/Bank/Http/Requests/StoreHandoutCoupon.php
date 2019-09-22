@@ -31,19 +31,11 @@ class StoreHandoutCoupon extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => [
-                'required',
-                'exists:persons,id',
-            ],
-            'coupon_type_id' => [
-                'required',
-                'exists:coupon_types,id',
-            ],
             'amount' => [
                 'required',
                 'numeric',
                 'min:1',
-                'max:' . CouponType::findOrFail($this->coupon_type_id)->daily_amount,
+                'max:' . $this->couponType->daily_amount,
             ],
             'code' => [
                 'nullable',
@@ -63,8 +55,8 @@ class StoreHandoutCoupon extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $coupon = CouponType::findOrFail($this->coupon_type_id);
-            $person = Person::findOrFail($this->person_id);
+            $coupon = $this->couponType;
+            $person = $this->person;
             if (!$person->eligibleForCoupon($coupon)) {
                 $validator->errors()->add('coupon_type_id', __('people::people.person_not_eligible_for_this_coupon'));
             }
