@@ -280,4 +280,5 @@ return [
     'capacity' => 'Capacity',
     'start_date' => 'Start date',
     'end_date' => 'End date',
+    'period' => 'Period',
  ];

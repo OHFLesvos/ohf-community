@@ -34,7 +34,15 @@
                                 <td>{{ $schoolClass->teacher_name }}</td>
                                 <td class="fit">{{ $schoolClass->start_date->toDateString() }}</td>
                                 <td class="fit">{{ $schoolClass->end_date->toDateString() }}</td>
-                                <td class="text-right fit">{{ $schoolClass->students->count() }}</td>
+                                <td class="text-right fit">
+                                    @can('list', \Modules\School\Entities\Student::class)
+                                        <a href="{{ route('school.classes.students.index', $schoolClass) }}">
+                                    @endcan
+                                        {{ $schoolClass->students()->count() }}
+                                    @can('list', \Modules\School\Entities\Student::class)
+                                        </a>
+                                    @endcan
+                                </td>
                                 <td class="text-right fit">{{ $schoolClass->capacity }}</td>
                             </tr>
                         @endforeach
