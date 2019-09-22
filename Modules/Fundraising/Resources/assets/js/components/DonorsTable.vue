@@ -1,18 +1,18 @@
 <template>
   <base-table v-bind="$props">
-    <template slot="[first_name]" slot-scope="data">
+    <template v-slot:cell(first_name)="data">
         <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
     </template>
-    <template slot="[last_name]" slot-scope="data">
+    <template v-slot:cell(last_name)="data">
         <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
     </template>
-    <template slot="[company]" slot-scope="data">
+    <template v-slot:cell(company)="data">
         <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
     </template>
-    <template slot="[email]" slot-scope="data">
+    <template v-slot:cell(email)="data">
         <email-link :value="data.value"></email-link>
     </template>
-    <template slot="[phone]" slot-scope="data">
+    <template v-slot:cell(phone)="data">
         <phone-link :value="data.value"></phone-link>
     </template>
   </base-table>

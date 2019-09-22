@@ -7,46 +7,56 @@
     <div id="fundraising-app">
         @php
             $fields = [
-                'first_name' => [
+                [
+                    'key' => 'first_name',
                     'label' => __('app.first_name'),
                     'sortable' => true,
                 ],
-                'last_name' => [
+                [
+                    'key' => 'last_name',
                     'label' => __('app.last_name'),
                     'sortable' => true,
                 ],
-                'company' => [
+                [
+                    'key' => 'company',
                     'label' => __('app.company'),
                     'sortable' => true,
                 ],
-                'street' =>  [
+                [
+                    'key' => 'street',
                     'label' => __('app.street'),
                     'class' => 'd-none d-sm-table-cell',
                 ],
-                'zip' =>  [
+                [
+                    'key' => 'zip',
                     'label' => __('app.zip'),
                     'class' => 'd-none d-sm-table-cell',
                 ],
-                'city' => [
+                [
+                    'key' => 'city',
                     'label' => __('app.city'),
                     'class' => 'd-none d-sm-table-cell',
                     'sortable' => true,
                 ],
-                'country' => [
+                [
+                    'key' => 'country',
                     'label' => __('app.country'),
                     'class' => 'd-none d-sm-table-cell',
                     'sortable' => true,
                 ],
-                'email' => [
+                [
+                    'key' => 'email',
                     'label' => __('app.email'),
                     'class' => 'd-none d-sm-table-cell',
                 ],
-                'phone' => [
+                [
+                    'key' => 'phone',
                     'label' => __('app.phone'),
                     'class' => 'd-none d-sm-table-cell',
                     'type' => 'tel',
                 ],
-                'language' => [
+                [
+                    'key' => 'language',
                     'label' => __('app.correspondence_language'),
                     'class' => 'd-none d-sm-table-cell',
                     'sortable' => true,

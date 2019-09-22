@@ -23,7 +23,7 @@
         <tag-select-button 
             :label="tag_name" 
             :value="tag_key"
-            :toggled="selectedTags.indexOf(tag_key) >= 0"
+            :toggled="tagSelected(tag_key)"
             @toggled="toggleTag"
             v-for="(tag_name, tag_key) in tags" :key="tag_key"
         ></tag-select-button>
@@ -117,7 +117,7 @@
         },
         fields: {
             required: true,
-            type: Object,
+            type: Array,
         },
         apiUrl: {
             required: true,
@@ -165,7 +165,7 @@
         errorText: null,
         filter: '',
         filterText: '',
-        selectedTags: sessionStorage.getItem(this.id + '.selectedTags') ? JSON.parse(sessionStorage.getItem(this.id + '.selectedTags')) : [], 
+        selectedTags: (sessionStorage.getItem(this.id + '.selectedTags') ? JSON.parse(sessionStorage.getItem(this.id + '.selectedTags')) : []).filter(e => Object.keys(this.tags).indexOf(e) >= 0),
       }
     },
     methods: {
@@ -218,7 +218,10 @@
             }
             sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(this.selectedTags))
             this.$root.$emit('bv::refresh::table', this.id)
+        },
+        tagSelected(key) {
+            return this.selectedTags.indexOf(key) >= 0
         }
-    }    
+    }
   }
 </script>
