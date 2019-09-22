@@ -6,47 +6,44 @@
 
     {!! Form::open(['route' => 'people.store']) !!}
 
-		<div class="card mb-4">
-			<div class="card-body">
-				<div class="form-row">
-					<div class="col-md">
-                        {{ Form::bsText('family_name', request()->query('family_name'), [ 'required', 'autofocus' ], __('people::people.family_name'), 'Greek: επώνυμο') }}
-					</div>
-					<div class="col-md">
-                        {{ Form::bsText('name', request()->query('name'), [ 'required' ], __('people::people.name'), 'Greek: όνομα') }}
-                    </div>
-					<div class="col-md-auto">
-                        {{ Form::genderSelect('gender', null, __('people::people.gender')) }}
-                    </div>
-                    <div class="col-md-auto">
-                        {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people::people.date_of_birth'), 'Greek: ημερομηνία γέννησης ') }}
-                    </div>
-					<div class="col-md-auto">
-                        <p>@lang('people::people.age')</p>
-                        <span id="age">?</span>
-                    </div>
-                </div>
-				<div class="form-row">
-					<div class="col-md">
-                        {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people::people.police_number'), 'Greek: Δ.Κ.Α.') }}
-					</div>
-					<div class="col-md">
-                        {{ Form::bsText('case_no', request()->query('case_no'), [ ], __('people::people.case_number'), 'Greek: Aριθ. Υπ.') }}
-					</div>
-=				</div>
-				<div class="form-row">
-                    <div class="col-md">
-                        {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people::people.nationality'), 'Greek: Υπηκοότητα') }}
-                    </div>
-					<div class="col-md">
-                        {{ Form::bsText('remarks', null, [], __('people::people.remarks')) }}
-                    </div>
-				</div>
+        <div class="form-row">
+            <div class="col-md">
+                {{ Form::bsText('family_name', request()->query('family_name'), [ 'required', 'autofocus' ], __('people::people.family_name'), 'Greek: επώνυμο') }}
+            </div>
+            <div class="col-md">
+                {{ Form::bsText('name', request()->query('name'), [ 'required' ], __('people::people.name'), 'Greek: όνομα') }}
+            </div>
+            <div class="col-md-auto">
+                {{ Form::genderSelect('gender', null, __('people::people.gender')) }}
+            </div>
+            <div class="col-md-auto">
+                {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people::people.date_of_birth'), 'Greek: ημερομηνία γέννησης ') }}
+            </div>
+            <div class="col-md-auto">
+                <p>@lang('people::people.age')</p>
+                <span id="age">?</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md">
+                {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people::people.police_number'), __('people::people.leading_zeros_added_automatically')) }}
+            </div>
+            <div class="col-md">
+                {{ Form::bsText('case_no', request()->query('case_no'), [ ], __('people::people.case_number')) }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md">
+                {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people::people.nationality'), 'Greek: Υπηκοότητα') }}
+            </div>
+            <div class="col-md">
+                {{ Form::bsText('remarks', null, [], __('people::people.remarks')) }}
             </div>
         </div>
 
-        <div class="card mb-4 d-none" id="children-container">
-            <div class="card-body">
+        <div class="mb-4 d-none" id="children-container">
+            <hr>
+            <div>
                 <template id="child-form-row-template">
                     <div class="form-row">
                         <div class="col-md">

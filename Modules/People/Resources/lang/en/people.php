@@ -202,4 +202,6 @@ return [
     'monthly_support' => 'Monthly support',
     'pickup_location' => 'Pickup location',
     'pickup_locations' => 'Pickup locations',
+    'leading_zeros_added_automatically' => 'Leading zeros will be added automatically',
+    'case_number_encrypted_now_shown' => 'Case number is stored in encrypted form and can therefore not be shown',
 ];
