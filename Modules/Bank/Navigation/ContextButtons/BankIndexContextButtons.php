@@ -19,13 +19,6 @@ class BankIndexContextButtons implements ContextButtons {
         $help_article_id = \Setting::get('bank.help_article');
         $help_article = $help_article_id != null ? WikiArticle::find($help_article_id) : null;
         return [
-            'action' => [
-                'url' => route('people.create'),
-                'caption' => __('app.register'),
-                'icon' => 'plus-circle',
-                'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', Person::class)
-            ],
             'transactions' => [
                 'url' => route('bank.withdrawalTransactions'),
                 'caption' => __('app.transactions'),

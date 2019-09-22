@@ -38,8 +38,15 @@
             @else
                 @component('components.alert.info')
                     @lang('app.not_found').
-                    <a href="{{ route('people.create') }}?{{ $register }}">@lang('people::people.register_a_new_person')</a>
                 @endcomponent
+                @can('create', Modules\People\Entities\Person::class)
+                <p>
+                    <a href="{{ route('people.create') }}?{{ $register }}" class="btn btn-primary">
+                        @icon(plus-circle)
+                        @lang('people::people.register_a_new_person')
+                    </a>
+                </p>
+                @endcan
             @endif
         @endif
 
