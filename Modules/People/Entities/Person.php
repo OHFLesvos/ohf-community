@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 use Carbon\Carbon;
 
@@ -46,7 +47,7 @@ class Person extends Model
     {
         static::creating(function ($model) {
             $model->search = self::createSearchString($model);
-            $model->public_id = self::createUUID();
+            $model->public_id = strtoupper(Str::random(6));
         });
 
         static::updating(function ($model) {
@@ -67,10 +68,6 @@ class Person extends Model
         parent::boot();
     }
 
-    public static function createUUID() {
-        return bin2hex(random_bytes(16));
-    }
-    
     private static function createSearchString($model) {
         $str = $model->family_name . ' ' . $model->name;
         return preg_replace('/\s+/', ' ', trim($str));

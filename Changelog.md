@@ -10,6 +10,7 @@ Bank:
 * Removed section card and registration number fields from person
 * Highlight search terms in results
 * Store police number as integer
+* Shorter public id number
 
 ## 2.7.6
 
