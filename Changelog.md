@@ -8,6 +8,7 @@ Bank:
 * Show daily limited coupons statistics in main bank screen
 * Only offer to create new person in bank if search results negative
 * Removed section card and registration number fields from person
+* Highlight search terms in results
 
 ## 2.7.6
 

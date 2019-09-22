@@ -328,3 +328,11 @@
 .media {
   display: inherit;  
 }
+
+/**
+* Highlight marker tag
+*/
+mark {
+  background: #ffe660;
+  padding: 0.2em 0;
+}

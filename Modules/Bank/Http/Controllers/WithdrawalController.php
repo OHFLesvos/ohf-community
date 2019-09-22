@@ -62,6 +62,7 @@ class WithdrawalController extends Controller
             ->orderBy('name', 'asc');
 
         // Handle OR keyword
+        $terms = [];
         foreach(preg_split('/\s+OR\s+/', $filter) as $orTerm) {
             $terms = preg_split('/\s+/', $orTerm);
             $q->orWhere(function($aq) use ($terms){
@@ -84,6 +85,7 @@ class WithdrawalController extends Controller
 
 		return view('bank::withdrawal-results', [
             'filter' => $request->filter,
+            'terms' => $terms,
             'results' => $results,
             'register' => self::createRegisterStringFromFilter($filter),
             'message' => $message,

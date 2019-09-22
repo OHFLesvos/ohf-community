@@ -14,7 +14,7 @@
                         <strong class="text-warning">{{ strtoupper(__('helpers::helpers.helper')) }}</strong>
                     @endcan
                 @endif
-                <a href="{{ route('people.show', $person) }}" alt="View"><strong>{{ strtoupper($person->family_name) }} {{ $person->name }}</strong></a>
+                <a href="{{ route('people.show', $person) }}" alt="View"><strong class="mark-text">{{ strtoupper($person->family_name) }} {{ $person->name }}</strong></a>
                 <span>
                     @if(isset($person->gender))
                         @if($person->gender == 'f')@icon(female) 
@@ -61,7 +61,7 @@
             @if(isset($person->police_no))
                 <span class="d-block d-sm-inline">
                     <small class="text-muted">@lang('people::people.police_number'):</small> 
-                    <span class="pr-2">05/{{ $person->police_no }}</span>
+                    <span class="pr-2 mark-text">05/{{ $person->police_no }}</span>
                 </span>
             @endif
             @if(isset($person->case_no_hash))

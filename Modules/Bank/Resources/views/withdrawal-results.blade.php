@@ -65,6 +65,9 @@
     var undoLabel = '@lang('app.undo')';
     var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
     var scannerDialogWaitMessage = '@lang('app.please_wait')';
+    @if(count($results) > 0 && count($terms) > 0)
+        var highlightTerms = @json($terms)
+    @endif
 @endsection
 
 @section('footer')

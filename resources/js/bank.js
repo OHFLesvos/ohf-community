@@ -332,3 +332,17 @@ function storeNationality(person, nationalitySelect, resultElem) {
 		});
 }
 
+// Highlighting of search results
+function highlightText(text) {
+	$(".mark-text").each(function(idx) {
+		var innerHTML = $( this ).html();
+		var index = innerHTML.toLowerCase().indexOf(text.toLowerCase());
+		if (index >= 0) { 
+			innerHTML = innerHTML.substring(0,index) + "<mark>" + innerHTML.substring(index,index+text.length) + "</mark>" + innerHTML.substring(index + text.length);
+			$( this ).html(innerHTML);
+		}
+	});
+}
+$(function(){
+	highlightTerms.forEach(t => highlightText(t))
+})
