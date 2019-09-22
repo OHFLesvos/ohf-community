@@ -132,13 +132,20 @@ class Person extends Model
 
     public function setCaseNoAttribute($value) {
         if ($value !== null && $value != '') {
-            $value = preg_replace("/[^0-9]/", "", $value);
+            $value = intval(preg_replace("/[^0-9]/", "", $value));
             if ($value <= 0) {
                 $this->case_no_hash = null;
             } else {
                 $this->case_no_hash = hash('sha256', $value);
             }
         }
+    }
+
+    public function getPoliceNoFormattedAttribute() {
+        if ($this->police_no !== null && $this->police_no > 0) {
+            return '05/' . sprintf("%09d", $this->police_no);
+        }
+        return null;
     }
 
     public function getFrequentVisitorAttribute() {

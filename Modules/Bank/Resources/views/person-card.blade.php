@@ -61,7 +61,7 @@
             @if(isset($person->police_no))
                 <span class="d-block d-sm-inline">
                     <small class="text-muted">@lang('people::people.police_number'):</small> 
-                    <span class="pr-2 mark-text">05/{{ $person->police_no }}</span>
+                    <span class="pr-2 mark-text">{{ $person->police_no_formatted }}</span>
                 </span>
             @endif
             @if(isset($person->case_no_hash))

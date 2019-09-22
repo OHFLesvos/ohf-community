@@ -94,7 +94,7 @@
                                 </strong>
                             </div>
                             <div class="col-sm">
-                                05/{{ $person->police_no }}
+                                {{ $person->police_no_formatted }}
                             </div>
                         </div>
                     </li>
