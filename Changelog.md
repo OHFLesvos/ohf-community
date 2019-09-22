@@ -5,6 +5,7 @@
 Bank:
 
 * Added feature to block coupon types for newly registered users
+* Show daily limited coupons statistics in main bank screen
 
 ## 2.7.6
 

@@ -3,6 +3,7 @@
 namespace Modules\Bank\Util;
 
 use Modules\Bank\Entities\CouponHandout;
+use Modules\Bank\Entities\CouponType;
 
 use Illuminate\Support\Facades\DB;
 
@@ -25,5 +26,17 @@ class BankStatistics
                 ->get()
                 ->first()
                 ->total;
+    }
+
+    public static function getTodaysDailySpendingLimitedCoupons() {
+        return CouponType::select('name', DB::raw('SUM(amount) as total'), 'daily_spending_limit')
+            ->where('daily_spending_limit', '>', 0)
+            ->join('coupon_handouts', 'coupon_handouts.coupon_type_id', '=', 'coupon_types.id')
+            ->groupBy('coupon_types.id')
+            ->get()
+            ->mapWithKeys(function($e) {
+                return [ $e->name => [ 'count' => (int)$e->total, 'limit' => $e->daily_spending_limit ] ];
+            })
+            ->toArray();
     }
 }

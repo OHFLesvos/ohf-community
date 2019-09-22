@@ -10,10 +10,16 @@
 
         <div id="stats" class="text-center lead my-5">
             @if($numberOfPersonsServed > 0)
-                {!! __('people::people.num_persons_served_handing_out_coupons', [
+                <p>{!! __('people::people.num_persons_served_handing_out_coupons', [
                     'persons' => $numberOfPersonsServed,
                     'coupons' => $numberOfCouponsHandedOut,
                 ]) !!}
+                </p>
+                @if(count($todaysDailySpendingLimitedCoupons) > 0)
+                    @foreach($todaysDailySpendingLimitedCoupons as $couponName => $coupon)
+                        <p>@lang('bank::coupons.coupons_handed_out_n_t', [ 'coupon' => $couponName, 'count' => $coupon['count'], 'limit' => $coupon['limit'] ])</p>
+                    @endforeach
+                @endif
             @else
                 @lang('people::people.not_yet_served_any_persons')
             @endif

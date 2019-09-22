@@ -16,4 +16,6 @@ return [
     'confirm_delete_coupon' => 'Diesen Coupon wirklich löschen?',
     'coupons_returned_per_day' => 'Registrierte Coupons pro Tag',
     'coupons_returned_per_day_from_project' => 'Registrierte Coupons pro Tag vom Projekt :project',
+    'no_coupons_found' => 'Keine Coupons gefunden.',
+    'coupons_handed_out_n_t' => ':coupon ausgehändigt: <strong>:count</strong> / <strong>:limit</strong>',
 ];

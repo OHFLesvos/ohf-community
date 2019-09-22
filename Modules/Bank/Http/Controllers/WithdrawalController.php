@@ -32,6 +32,7 @@ class WithdrawalController extends Controller
 		return view('bank::withdrawal', [
             'numberOfPersonsServed' => BankStatistics::getNumberOfPersonsServedToday(),
             'numberOfCouponsHandedOut' => BankStatistics::getNumberOfCouponsHandedOut(),
+            'todaysDailySpendingLimitedCoupons' => BankStatistics::getTodaysDailySpendingLimitedCoupons(),
 		]);
     }
 

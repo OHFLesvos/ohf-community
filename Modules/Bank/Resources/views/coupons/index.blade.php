@@ -48,7 +48,7 @@
         </div>
     @else
         @component('components.alert.info')
-            @lang('app.no_coupons_found')
+            @lang('bank::coupons.no_coupons_found')
         @endcomponent
 	@endif
 	

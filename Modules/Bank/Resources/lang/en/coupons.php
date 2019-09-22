@@ -16,4 +16,6 @@ return [
     'confirm_delete_coupon' => 'Really delete this coupon?',
     'coupons_returned_per_day' => 'Coupons returned per day',
     'coupons_returned_per_day_from_project' => 'Coupons returned per day from :project',
+    'no_coupons_found' => 'No coupons found.',
+    'coupons_handed_out_n_t' => ':coupon handed out: <strong>:count</strong> / <strong>:limit</strong>',
 ];
