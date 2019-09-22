@@ -163,8 +163,8 @@
         perPage: this.itemsPerPage,
         totalRows: 0,
         errorText: null,
-        filter: '',
-        filterText: '',
+        filter: sessionStorage.getItem(this.id + '.filter') ? sessionStorage.getItem(this.id + '.filter') : '',
+        filterText: sessionStorage.getItem(this.id + '.filter') ? sessionStorage.getItem(this.id + '.filter') : '',
         selectedTags: (sessionStorage.getItem(this.id + '.selectedTags') ? JSON.parse(sessionStorage.getItem(this.id + '.selectedTags')) : []).filter(e => Object.keys(this.tags).indexOf(e) >= 0),
       }
     },
@@ -221,6 +221,11 @@
         },
         tagSelected(key) {
             return this.selectedTags.indexOf(key) >= 0
+        }
+    },
+    watch: {
+        filter(val, oldVal) {
+            sessionStorage.setItem(this.id + '.filter', val)
         }
     }
   }
