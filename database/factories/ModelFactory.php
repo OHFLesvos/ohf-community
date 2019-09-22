@@ -11,6 +11,8 @@
 |
 */
 
+use App\Support\Facades\PermissionRegistry;
+
 /**
  * @var \Illuminate\Database\Eloquent\Factory $factory
  */
@@ -31,6 +33,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Role::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->jobTitle,
+    ];
+});
+
+$factory->define(App\RolePermission::class, function (Faker\Generator $faker) {
+    $keys = PermissionRegistry::keys();
+    return [
+        'key' => $keys[array_rand($keys)],
     ];
 });
 

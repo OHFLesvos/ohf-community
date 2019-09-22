@@ -108,7 +108,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'is_super_admin' => User::count() == 0,
+            'is_super_admin' => User::where('is_super_admin', true)->count() == 0,
             'locale' => \App::getLocale(),
         ]);
 

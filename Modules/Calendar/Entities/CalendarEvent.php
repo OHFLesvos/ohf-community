@@ -2,6 +2,8 @@
 
 namespace Modules\Calendar\Entities;
 
+use App\User;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,11 +22,11 @@ class CalendarEvent extends Model
 
     public function resource()
     {
-        return $this->belongsTo('Modules\Calendar\Entities\CalendarResource', 'resource_id');
+        return $this->belongsTo(CalendarResource::class, 'resource_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }

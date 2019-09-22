@@ -10,6 +10,6 @@ class CalendarResource extends Model
 
     public function events()
     {
-        return $this->hasMany('Modules\Calendar\Entities\CalendarEvent', 'resource_id');
+        return $this->hasMany(CalendarEvent::class, 'resource_id');
     }
 }
