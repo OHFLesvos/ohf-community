@@ -30,6 +30,7 @@
     "lity": "^2.4.0",
     "lodash": "^4.17.15",
     "node-snackbar": "^0.1.15",
+    "nprogress": "^0.2.0",
     "popper.js": "^1.15.0",
     "sass": "^1.22.12",
     "sass-loader": "^7.3.1",

@@ -1,0 +1,9 @@
+{
+    "search.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/vendor": true,
+        "**/public/css": true,
+        "**/public/js": true
+    },    
+}

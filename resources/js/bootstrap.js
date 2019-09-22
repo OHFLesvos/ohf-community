@@ -37,6 +37,30 @@ if (token) {
 }
 
 /**
+ * Nprogress progress bar during axios callbacks
+ */
+import NProgress from 'nprogress'
+
+NProgress.configure({ 
+    showSpinner: false
+});
+
+// before a request is made start the nprogress
+window.axios.interceptors.request.use(config => {
+    NProgress.start()
+    return config
+  })
+  
+// before a response is returned stop nprogress
+window.axios.interceptors.response.use(response => {
+    NProgress.done()
+    return response
+  }, error => {
+    NProgress.done()
+    return Promise.reject(error);
+  })
+
+/**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
