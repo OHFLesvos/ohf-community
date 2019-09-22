@@ -30,8 +30,6 @@ class Person extends Model
         'family_name',
         'date_of_birth',
         'police_no',
-        'registration_no',
-        'section_card_no',
         'case_no',
         'nationality',
         'languages',

@@ -42,12 +42,6 @@ class StorePerson extends FormRequest
 				'max:191',
 				Rule::in(\Countries::getList('en')),
 			],
-            'registration_no' => [
-                'max:191',
-            ],
-            'section_card_no' => [
-                'max:191',
-            ],
             'languages' => [
                 'max:191',
             ],

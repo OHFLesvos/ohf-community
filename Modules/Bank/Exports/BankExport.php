@@ -79,8 +79,6 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
             $person->age,
             $person->nationality,
             $person->police_no,
-            $person->registration_no,
-            $person->section_card_no,
         ];
         foreach($this->couponTypes as $coupon) {
             if ($person->eligibleForCoupon($coupon)) {

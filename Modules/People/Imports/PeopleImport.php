@@ -45,8 +45,6 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
             'date_of_birth' => isset($row['Date of birth']) ? self::parseDate($row['Date of birth']) : null,
             'nationality' => $row['Nationality'],
             'police_no' => $row['Police Number'],
-            'registration_no' => $row['Registration Number'] ?? null,
-            'section_card_no' => $row['Section Card Number'] ?? null,
             'languages' => !empty($row['Languages']) ? self::parseToArray($row['Languages']) : null,
             'remarks' => $row['Remarks'],
         ]);
@@ -80,12 +78,6 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
             'Police Number' => [
                 'nullable',
                 'numeric'
-            ],
-            'Registration Number' => [
-                'nullable',
-            ],
-            'Section Card Number' => [
-                'nullable',
             ],
             'Languages' => [
                 'nullable',

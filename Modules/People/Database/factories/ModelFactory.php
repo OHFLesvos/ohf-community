@@ -24,8 +24,6 @@ $factory->define(Person::class, function (Faker $faker) {
         'family_name' => $faker->lastName,
         'police_no' => $faker->optional(0.6)->numberBetween(10000,99999),
         'case_no' => $faker->optional(0.6)->numberBetween(10000,99999),
-        'registration_no' => $faker->optional(0.15)->numberBetween(10000,99999),
-        'section_card_no' => $faker->optional(0.05)->numberBetween(10000,99999),
         'nationality' => $nationality,
         'languages' => $language,
         'gender' => $gender == 'female' ? 'f' : 'm',

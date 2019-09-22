@@ -172,8 +172,6 @@ class PeopleReportingController extends BaseReportingController
         return collect([
             __('people::people.police_number') . ' (05/...)' => Person::whereNotNull('police_no')->count(),          
             __('people::people.case_number') => Person::whereNotNull('case_no_hash')->count(),          
-            __('people::people.registration_number') => Person::whereNotNull('registration_no')->count(),          
-            __('people::people.section_card_number') => Person::whereNotNull('section_card_no')->count(),          
         ])
         ->sort()
         ->reverse();

@@ -30,8 +30,6 @@ class PeopleController extends Controller
         'name',
         'family_name',
         'police_no',
-        'registration_no',
-        'section_card_no',
         'remarks',
         'nationality',
         'languages',
@@ -80,8 +78,6 @@ class PeopleController extends Controller
 		$person->date_of_birth = $request->date_of_birth;
 		$person->police_no = !empty($request->police_no) ? $request->police_no : null;
 		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
-        $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
 		$person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
@@ -101,8 +97,6 @@ class PeopleController extends Controller
 
                     $child->police_no = !empty($request->police_no) ? $request->police_no : null;
                     $child->case_no = !empty($request->case_no) ? $request->case_no : null;
-                    $child->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
-                    $child->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
                     $child->nationality = !empty($request->nationality) ? $request->nationality : null;
                     if ($person->gender == 'f') {
                         $child->mother()->associate($person);
@@ -153,8 +147,6 @@ class PeopleController extends Controller
         $person->date_of_birth = $request->date_of_birth;
         $person->police_no = !empty($request->police_no) ? $request->police_no : null;
         $person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->registration_no = !empty($request->registration_no) ? $request->registration_no : null;
-        $person->section_card_no = !empty($request->section_card_no) ? $request->section_card_no : null;
         $person->remarks = !empty($request->remarks) ? $request->remarks : null;
         $person->nationality = !empty($request->nationality) ? $request->nationality : null;
         $person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
@@ -195,8 +187,6 @@ class PeopleController extends Controller
                 $qry->where(function($wq) use ($term) {
                     $wq->where('search', 'LIKE', '%' . $term  . '%');
                     $wq->orWhere('police_no', $term);
-                    $wq->orWhere('registration_no', $term);
-                    $wq->orWhere('section_card_no', $term);
                     $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
                 });
             }
@@ -372,8 +362,6 @@ class PeopleController extends Controller
                 'languages',
                 'police_no',
                 'case_no_hash',
-                'registration_no',
-                'section_card_no',
                 'card_no',
                 'card_issued'
             ] as $attr) {

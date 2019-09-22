@@ -33,12 +33,6 @@
 					<div class="col-md">
                         {{ Form::bsText('case_no', null, [ 'placeholder' => $person->case_no_hash != null ? '('. __('app.leave_unchanged') .')' : null  ], __('people::people.case_number')) }}
 					</div>
-					<div class="col-md">
-                        {{ Form::bsText('registration_no', null, [], __('people::people.registration_number')) }}
-					</div>
-					<div class="col-md">
-                        {{ Form::bsText('section_card_no', null, [], __('people::people.section_card_number')) }}
-					</div>
 				</div>
 				<div class="form-row">
 					<div class="col-md">

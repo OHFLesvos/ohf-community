@@ -33,13 +33,7 @@
 					<div class="col-md">
                         {{ Form::bsText('case_no', request()->query('case_no'), [ ], __('people::people.case_number'), 'Greek: Aριθ. Υπ.') }}
 					</div>
-                    <div class="col-md">
-                        {{ Form::bsText('registration_no', null, [], __('people::people.registration_number')) }}
-                    </div>
-                    <div class="col-md">
-                        {{ Form::bsText('section_card_no', null, [], __('people::people.section_card_number')) }}
-                    </div>
-				</div>
+=				</div>
 				<div class="form-row">
                     <div class="col-md">
                         {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people::people.nationality'), 'Greek: Υπηκοότητα') }}

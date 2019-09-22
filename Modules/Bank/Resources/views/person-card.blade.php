@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-    @if (isset($person->police_no) || isset($person->case_no_hash) || isset($person->registration_no) || isset($person->section_card_no) || isset($person->remarks) || $person->hasOverdueBookLendings)
+    @if (isset($person->police_no) || isset($person->case_no_hash) || isset($person->remarks) || $person->hasOverdueBookLendings)
         <div class="card-body p-2">
             @if(isset($person->police_no))
                 <span class="d-block d-sm-inline">
@@ -68,18 +68,6 @@
                 <span class="d-block d-sm-inline">
                     <small class="text-muted">@lang('people::people.case_number'):</small>
                     <span class="pr-2">@lang('app.yes')</span>
-                </span>
-            @endif
-            @if(isset($person->registration_no))
-                <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people::people.registration_number'):</small>
-                    <span class="pr-2">{{ $person->registration_no }}</span>
-                </span>
-            @endif
-            @if(isset($person->section_card_no))
-                <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people::people.section_card_number'):</small>
-                    <span class="pr-2">{{ $person->section_card_no }}</span>
                 </span>
             @endif
             @if(isset($person->remarks))
