@@ -14,7 +14,7 @@ class SchoolClassPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isSuperAdmin() && $ability != 'delete') {
             return true;
         }
     }
@@ -74,7 +74,9 @@ class SchoolClassPolicy
      */
     public function delete(User $user, SchoolClass $schoolClass)
     {
-        // TODO only allow if it has no students
-        return $user->hasPermission('school.classes.manage');
+        if ($schoolClass->students()->count() == 0) {
+            return $user->isSuperAdmin() || $user->hasPermission('school.classes.manage');
+        }
+        return false;
     }
 }
