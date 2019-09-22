@@ -202,7 +202,7 @@ class PeopleController extends Controller
                 }
                 return [
                     'value' => $val,
-                    'data' => $e->id,
+                    'data' => $e->getRouteKey(),
                 ]; 
             });
         return response()->json(["suggestions" => $persons]);
@@ -213,8 +213,8 @@ class PeopleController extends Controller
             'type' => 'required|in:father,mother,partner,child',
             'relative' => [
                 'required',
-                Rule::exists('persons', 'id')
-                    ->whereNot('id', $person->id)
+                Rule::exists('persons', $person->getRouteKeyName())
+                    ->whereNot($person->getRouteKeyName(), $person->getRouteKey())
                     ->whereNull(function ($query) use ($request) {
                         if ($request->type == 'father') {
                             $query->whereNull('father_id');
@@ -229,7 +229,7 @@ class PeopleController extends Controller
             ],
         ])->validate();
 
-        $relative = Person::find($request->relative);
+        $relative = Person::where('public_id', $request->relative)->first();
         $label = '';
         if ($request->type == 'father') {
             $person->father()->associate($relative);

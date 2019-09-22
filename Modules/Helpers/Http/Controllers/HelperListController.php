@@ -1678,7 +1678,7 @@ class HelperListController extends Controller
                 }
                 return [
                     'value' => $val,
-                    'data' => $e->id,
+                    'data' => $e->getRouteKey(),
                 ]; 
             });
         return response()->json(["suggestions" => $persons]);
