@@ -33,7 +33,12 @@
                 <table class="table table-sm table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th class="">@lang('app.name')</th>
+                            <th>@lang('app.name')</th>
+                            <th>@lang('people::people.nationality')</th>
+                            <th>@lang('people::people.date_of_birth')</th>
+                            <th>@lang('people::people.age')</th>
+                            <th>@lang('people::people.police_no')</th>
+                            <th>@lang('app.remarks')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,11 +48,16 @@
                                     @can('view', $student)
                                         <a href="{{ route('school.classes.students.show', [$class, $student]) }}">
                                     @endcan
-                                    @include('people::person-label', ['person'=> $student])
+                                    {{ $student->fullName }}
                                     @can('view', $student)
                                         </a>
                                     @endcan
                                 </td>
+                                <td>{{ $student->nationality }}</td>
+                                <td>{{ $student->date_of_birth }}</td>
+                                <td>{{ $student->age }}</td>
+                                <td>{{ $student->police_no_formatted }}</td>
+                                <td>{{ $student->participation->remarks }}</td>
                             </tr>
                         @endforeach
                     </tbody>

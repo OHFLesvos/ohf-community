@@ -118,7 +118,7 @@ class Person extends Model
             $str .= $this->name;
         }
         if ($this->family_name != null) {
-            $str .= ' ' . $this->family_name;
+            $str .= ' ' . strtoupper($this->family_name);
         }
         if ($this->nickname != null) {
             if (!empty($str)) {

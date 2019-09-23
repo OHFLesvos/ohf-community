@@ -24,8 +24,9 @@
         </thead>
         <tbody>
             @foreach($student->schoolClasses->sortByDesc('end_date') as $studentsClass)
-                <tr>
+                <tr @if($studentsClass->id == $class->id) class="table-info" @endif>
                     <td>
+                        {{-- <a href="{{ route('school.classes.students.show', [$studentsClass, $student]) }}"> --}}
                         <a href="{{ route('school.classes.students.index', $studentsClass) }}">
                             {{ $studentsClass->name }}
                         </a>

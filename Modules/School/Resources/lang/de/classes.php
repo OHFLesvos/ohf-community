@@ -3,6 +3,7 @@
 return [
     'class' => 'Klasse',
     'classes' => 'Klassen',
+    'other_classes' => 'Andere Klassen',
     'no_classes_found' => 'Keine Klassen gefunden.',
     'teacher' => 'Lehrer',    
     'create_class' => 'Klasse erstellen',
