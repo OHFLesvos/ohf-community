@@ -30,6 +30,7 @@
                 {{ Form::bsNumber('capacity', null, [ 'required' ], __('app.capacity')) }}
             </div>
         </div>
+        {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
 
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}

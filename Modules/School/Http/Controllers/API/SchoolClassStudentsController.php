@@ -24,6 +24,6 @@ class SchoolClassStudentsController extends Controller
         $person = Person::where('public_id', $request->person)->firstOrFail();
         $class->students()->save($person);
         
-        return response()->json([], 204);
+        return response()->json([], 201);
     }
 }

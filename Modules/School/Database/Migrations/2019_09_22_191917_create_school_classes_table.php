@@ -21,6 +21,7 @@ class CreateSchoolClassesTable extends Migration
             $table->string('teacher_name');
             $table->string('room_name');
             $table->unsignedSmallInteger('capacity');
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

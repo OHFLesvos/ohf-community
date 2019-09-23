@@ -13,6 +13,7 @@ class SchoolClass extends Model
         'teacher_name',
         'room_name',
         'capacity',
+        'remarks',
     ];
 
     protected $dates = [
@@ -22,10 +23,10 @@ class SchoolClass extends Model
 
     public function students() {
         return $this->belongsToMany(\Modules\People\Entities\Person::class, 'school_students', 'class_id', 'person_id')
-            // ->as('student')
-            ->withTimestamps();
-            // ->withPivot('')
-            // ->using(Student::class);
+            ->as('student')
+            ->withPivot('remarks')
+            ->withTimestamps()
+            ->using(Student::class);
     }
 
 }

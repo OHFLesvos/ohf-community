@@ -4,6 +4,7 @@ namespace Modules\School\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
+use Modules\People\Entities\Person;
 use Modules\School\Entities\SchoolClass;
 use Modules\School\Entities\Student;
 use Modules\School\Exports\StudentsExport;
@@ -27,6 +28,16 @@ class SchoolClassStudentsController extends Controller
 
         return view('school::classes.students.index', [
             'class' => $class,
+        ]);
+    }
+
+    public function show(SchoolClass $class, Person $student)
+    {
+        $this->authorize('view', Student::class);
+
+        return view('school::classes.students.show', [
+            'class' => $class,
+            'student' => $student,
         ]);
     }
 

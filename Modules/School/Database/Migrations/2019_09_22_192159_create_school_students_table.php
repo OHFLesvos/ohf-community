@@ -17,9 +17,11 @@ class CreateSchoolStudentsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('class_id');
             $table->unsignedInteger('person_id');
+            $table->string('remarks')->nullable();
             $table->timestamps();
             $table->foreign('class_id')->references('id')->on('school_classes')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade')->onUpdate('cascade');
+            $table->unique(['class_id', 'person_id']);
         });
     }
 

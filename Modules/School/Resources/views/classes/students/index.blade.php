@@ -34,7 +34,7 @@
                             <tr>
                                 <td>
                                     @can('view', $student)
-                                        <a href="{{ route('people.show', $student) }}">
+                                        <a href="{{ route('school.classes.students.show', [$class, $student]) }}">
                                     @endcan
                                     @include('people::person-label', ['person'=> $student])
                                     @can('view', $student)

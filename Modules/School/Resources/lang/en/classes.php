@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'class' => 'Class',
     'classes' => 'Classes',
     'no_classes_found' => 'No classes found.',
     'teacher' => 'Teacher',
