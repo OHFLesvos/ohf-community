@@ -8,7 +8,7 @@
 
        <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('name', null, [ 'required' ], __('app.name')) }}
+                {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('teacher_name', null, [ 'required' ], __('school::classes.teacher')) }}

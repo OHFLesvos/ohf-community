@@ -7,18 +7,19 @@ use App\Exports\BaseExport;
 use Modules\School\Entities\Student;
 use Modules\School\Entities\SchoolClass;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
-class StudentsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping
+class StudentsExport extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
     private $students;
 
@@ -29,11 +30,14 @@ class StudentsExport extends BaseExport implements FromQuery, WithHeadings, With
         $this->students = $students;
     }
 
-    public function query(): \Illuminate\Database\Eloquent\Builder
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function collection(): Collection
     {
         return $this->students->orderBy('name')
             ->orderBy('family_name')
-            ->getQuery();
+            ->get(); 
     }
 
     /**
@@ -50,11 +54,14 @@ class StudentsExport extends BaseExport implements FromQuery, WithHeadings, With
     public function headings(): array
     {
         return [
-            __('app.first_name'),
-            __('app.last_name'),
+            __('app.id'),
+            __('app.name'),
+            __('people::people.family_name'),
             __('people::people.nationality'),
             __('people::people.date_of_birth'),
-            __('people::people.age')
+            __('people::people.age'),
+            __('people::people.police_no'),
+            __('app.remarks'),
         ];
     }
 
@@ -64,11 +71,14 @@ class StudentsExport extends BaseExport implements FromQuery, WithHeadings, With
     public function map($student): array
     {
         return [
+            $student->getRouteKey(),
             $student->name,
             $student->family_name,
             $student->nationality,
             $student->date_of_birth,
             $student->age,
+            $student->police_no_formatted,
+            $student->participation->remarks,
         ];
     }
 
