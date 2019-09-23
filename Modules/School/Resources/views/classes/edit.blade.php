@@ -24,6 +24,9 @@
         </div>
         <div class="form-row">
             <div class="col-md">
+                {{ Form::bsText('room_name', null, [ 'required' ], __('school::classes.room')) }}
+            </div>
+            <div class="col-md">
                 {{ Form::bsNumber('capacity', null, [ 'required' ], __('app.capacity')) }}
             </div>
         </div>

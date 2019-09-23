@@ -9,5 +9,6 @@ return [
     'edit_class' => 'Klasse bearbeiten',
     'class_updated' => 'Klasse wurde aktualisiert.',
     'class_deleted' => 'Klasse wurde gelöscht',
-    'confirm_delete_class' => 'Soll die Klasse wirklich gelöscht werden?',    
+    'confirm_delete_class' => 'Soll die Klasse wirklich gelöscht werden?',
+    'room' => 'Raum',
 ];

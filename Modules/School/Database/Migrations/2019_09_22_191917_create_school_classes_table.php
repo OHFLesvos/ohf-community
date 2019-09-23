@@ -19,6 +19,7 @@ class CreateSchoolClassesTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('teacher_name');
+            $table->string('room_name');
             $table->unsignedSmallInteger('capacity');
             $table->timestamps();
         });

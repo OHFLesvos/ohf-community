@@ -28,6 +28,9 @@ class StoreClass extends FormRequest
             'teacher_name' => [
                 'required',
             ],
+            'room_name' => [
+                'required',
+            ],
             'capacity' => [
                 'required',
                 'numeric',

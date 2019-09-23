@@ -8,6 +8,7 @@
     <p>
         @lang('school::classes.teacher'): {{ $class->teacher_name }}<br>
         @lang('app.period'): {{ $class->start_date->toDateString() }} - {{ $class->end_date->toDateString() }}<br>
+        @lang('school::classes.room'): {{ $class->room_name }}<br>
         @lang('app.capacity'):  {{ $class->students()->count() }} / {{ $class->capacity }}
     </p>
     @if( ! $class->students->isEmpty() )

@@ -10,4 +10,5 @@ return [
     'class_updated' => 'Class updated',
     'class_deleted' => 'Class deleted',
     'confirm_delete_class' => 'Should this class really be deleted?',
+    'room' => 'Room',
 ];

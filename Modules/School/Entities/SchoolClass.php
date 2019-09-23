@@ -11,6 +11,7 @@ class SchoolClass extends Model
         'start_date',
         'end_date',
         'teacher_name',
+        'room_name',
         'capacity',
     ];
 

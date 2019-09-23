@@ -15,6 +15,7 @@
                             <th class="">@lang('school::classes.teacher')</th>
                             <th class="fit">@lang('app.start_date')</th>
                             <th class="fit">@lang('app.end_date')</th>
+                            <th class="text-right fit">@lang('school::classes.room')</th>
                             <th class="text-right fit">@lang('school::students.students')</th>
                             <th class="text-right fit">@lang('app.capacity')</th>
                         </tr>
@@ -34,6 +35,7 @@
                                 <td>{{ $schoolClass->teacher_name }}</td>
                                 <td class="fit">{{ $schoolClass->start_date->toDateString() }}</td>
                                 <td class="fit">{{ $schoolClass->end_date->toDateString() }}</td>
+                                <td>{{ $schoolClass->room_name }}</td>
                                 <td class="text-right fit">
                                     @can('list', \Modules\School\Entities\Student::class)
                                         <a href="{{ route('school.classes.students.index', $schoolClass) }}">

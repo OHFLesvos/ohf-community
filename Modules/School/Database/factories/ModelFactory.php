@@ -14,6 +14,7 @@ $factory->define(SchoolClass::class, function (Faker $faker) {
         'start_date' => $start_date,
         'end_date' => $end_date,
         'teacher_name' => $faker->name,
+        'room_name' => $faker->streetName,
         'capacity' => $faker->numberBetween(5, 30),
     ];
 });
