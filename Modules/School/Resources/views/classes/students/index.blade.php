@@ -6,10 +6,10 @@
 
     <h3>{{ $class->name }}</h3>
     <p>
-        @lang('school::classes.teacher'): {{ $class->teacher_name }}<br>
-        @lang('app.period'): {{ $class->start_date->toDateString() }} - {{ $class->end_date->toDateString() }}<br>
-        @lang('school::classes.room'): {{ $class->room_name }}<br>
-        @lang('app.capacity'):  {{ $class->students()->count() }} / {{ $class->capacity }}
+        <strong>@lang('school::classes.teacher'):</strong> {{ $class->teacher_name }}<br>
+        <strong>@lang('app.period'):</strong> {{ $class->start_date->toDateString() }} - {{ $class->end_date->toDateString() }}<br>
+        <strong>@lang('school::classes.room'):</strong> {{ $class->room_name }}<br>
+        <strong>@lang('app.capacity'):</strong> {{ $class->students()->count() }} / {{ $class->capacity }}
     </p>
     @if( ! $class->students->isEmpty() )
         <div class="table-responsive">
