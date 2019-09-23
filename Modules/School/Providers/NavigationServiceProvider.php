@@ -23,6 +23,7 @@ class NavigationServiceProvider extends ServiceProvider
         'school.classes.create' => \Modules\School\Navigation\ContextButtons\SchoolClassCreateContextButtons::class,
         'school.classes.edit' => \Modules\School\Navigation\ContextButtons\SchoolClassEditContextButtons::class,
         'school.classes.students.index' => \Modules\School\Navigation\ContextButtons\SchoolClassStudentsIndexContextButtons::class,
+        'school.classes.students.show' => \Modules\School\Navigation\ContextButtons\SchoolClassStudentsShowContextButtons::class,
     ];
 
     /**

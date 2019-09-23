@@ -16,6 +16,7 @@ Route::group(['middleware' => ['language', 'auth']], function () {
         Route::resource('classes', 'SchoolClassesController')->except('show');
         Route::get('classes/{class}/students', 'SchoolClassStudentsController@index')->name('classes.students.index');
         Route::get('classes/{class}/students/{student}', 'SchoolClassStudentsController@show')->name('classes.students.show');
+        Route::delete('classes/{class}/students/{student}', 'SchoolClassStudentsController@destroy')->name('classes.students.destroy');
         Route::get('classes/{class}/students/export', 'SchoolClassStudentsController@export')->name('classes.students.export');
     });
 });

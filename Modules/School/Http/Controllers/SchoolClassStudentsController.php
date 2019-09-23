@@ -41,6 +41,17 @@ class SchoolClassStudentsController extends Controller
         ]);
     }
 
+    public function destroy(SchoolClass $class, Person $student)
+    {
+        //$this->authorize('delete', $student);
+
+        $class->students()->detach($student);
+
+        return redirect()
+            ->route('school.classes.students.index', $class)
+            ->with('success', __('school::students.student_deleted'));
+    }
+
     public function export(SchoolClass $class)
     {
         $this->authorize('list', Student::class);

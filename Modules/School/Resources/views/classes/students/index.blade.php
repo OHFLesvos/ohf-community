@@ -14,12 +14,14 @@
             <strong>@lang('app.capacity'):</strong> {{ $class->students()->count() }} / {{ $class->capacity }}
         </p>
 
-        <school-class-register-student 
-            filter-persons-url="{{ route('people.filterPersons') }}"
-            add-student-url="{{ route('school.classes.students.add', $class) }}"
-            redirect-url="{{ route('school.classes.students.index', $class) }}"
-        >
-        </school-class-register-student>
+        @if($class->students()->count() < $class->capacity)
+            <school-class-register-student 
+                filter-persons-url="{{ route('people.filterPersons') }}"
+                add-student-url="{{ route('school.classes.students.add', $class) }}"
+                redirect-url="{{ route('school.classes.students.index', $class) }}"
+            >
+            </school-class-register-student>
+        @endif
 
         @if( ! $class->students->isEmpty() )
             <div class="table-responsive">
