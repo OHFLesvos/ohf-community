@@ -29,6 +29,8 @@ class RemoveSectionRegistrationNoFromPersons extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->string('registration_no')->nullable();
             $table->string('section_card_no')->nullable();
+            $table->index('registration_no', 'persons_registration_no_index');
+            $table->index('section_card_no', 'persons_section_card_no_index');
         });
     }
 
