@@ -5,7 +5,7 @@
                 <i class="fa fa-plus-circle"></i> Add student
             </b-button>
         </p>
-        <b-modal id="search-person-modal" title="Search person" hide-footer>
+        <b-modal id="search-person-modal" title="Search person" hide-footer @hidden="search.name = ''">
             <b-input-group>
                 <b-form-input
                     v-model.trim="search.name"
