@@ -271,7 +271,11 @@ class Person extends Model
     }
 
     public function schoolClasses() {
-        return $this->belongsToMany(\Modules\School\Entities\SchoolClass::class, 'school_students', 'person_id', 'id');  // TODO circular dependency
+        return $this->belongsToMany(\Modules\School\Entities\SchoolClass::class, 'school_students', 'person_id', 'class_id')
+            ->as('participation')
+            ->withPivot('remarks')
+            ->withTimestamps()
+            ->using(\Modules\School\Entities\Student::class);
     }
 
     public function eligibleForCoupon(CouponType $couponType): bool {

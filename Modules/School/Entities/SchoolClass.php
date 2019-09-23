@@ -23,7 +23,7 @@ class SchoolClass extends Model
 
     public function students() {
         return $this->belongsToMany(\Modules\People\Entities\Person::class, 'school_students', 'class_id', 'person_id')
-            ->as('student')
+            ->as('participation')
             ->withPivot('remarks')
             ->withTimestamps()
             ->using(Student::class);

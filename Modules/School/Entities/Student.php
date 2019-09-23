@@ -12,11 +12,11 @@ class Student extends Pivot
         'remarks',
     ];
 
-    public function person() {
-        return $this->belongsTo(\Modules\People\Entities\Person::class);
-    }
+    // public function person() {
+    //     return $this->belongsTo(\Modules\People\Entities\Person::class);
+    // }
 
-    public function class() {
-        return $this->belongsTo(SchoolClass::class);
-    }
+    // public function class() {
+    //     return $this->belongsTo(SchoolClass::class);
+    // }
 }
