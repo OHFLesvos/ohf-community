@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/school', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['language', 'auth']], function () {
+    Route::prefix('school')->name('school.')->namespace('API')->group(function () {
+        Route::post('classes/{class}/students', 'SchoolClassStudentsController@addStudentToClass')->name('classes.students.add');
+    });
 });

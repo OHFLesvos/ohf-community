@@ -13,6 +13,14 @@
             <strong>@lang('school::classes.room'):</strong> {{ $class->room_name }}<br>
             <strong>@lang('app.capacity'):</strong> {{ $class->students()->count() }} / {{ $class->capacity }}
         </p>
+
+        <school-class-register-student 
+            filter-persons-url="{{ route('people.filterPersons') }}"
+            add-student-url="{{ route('school.classes.students.add', $class) }}"
+            redirect-url="{{ route('school.classes.students.index', $class) }}"
+        >
+        </school-class-register-student>
+
         @if( ! $class->students->isEmpty() )
             <div class="table-responsive">
                 <table class="table table-sm table-bordered table-striped table-hover">
@@ -22,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($class->students as $student)
+                        @foreach ($class->students->sortBy('family_name') as $student)
                             <tr>
                                 <td>
                                     @can('view', $student)
