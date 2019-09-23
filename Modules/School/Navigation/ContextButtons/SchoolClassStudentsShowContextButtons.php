@@ -17,6 +17,12 @@ class SchoolClassStudentsShowContextButtons implements ContextButtons {
         $class = $view->getData()['class'];
         $student = $view->getData()['student'];
         return [
+            'person' => [
+                'url' => route('people.show', $student),
+                'caption' => __('people::people.view_person'),
+                'icon' => 'users',
+                'authorized' => Auth::user()->can('view', $student),
+            ],
             'delete' => [
                 'url' => route('school.classes.students.destroy', [$class, $student]),
                 'caption' => __('app.delete'),

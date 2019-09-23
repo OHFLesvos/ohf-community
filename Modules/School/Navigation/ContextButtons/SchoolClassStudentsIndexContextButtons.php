@@ -21,7 +21,7 @@ class SchoolClassStudentsIndexContextButtons implements ContextButtons {
                 'caption' => __('app.export'),
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('list', Student::class)
-            ],       
+            ], 
             'back' => [
                 'url' => route('school.classes.index'),
                 'caption' => __('app.close'),

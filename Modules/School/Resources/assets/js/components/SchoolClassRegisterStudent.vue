@@ -5,14 +5,14 @@
                 <i class="fa fa-plus-circle"></i> Add student
             </b-button>
         </p>
-        <b-modal id="search-person-modal" title="Search person" hide-footer @hidden="search.name = ''">
+        <b-modal id="search-person-modal" title="Search person" hide-footer @hidden="resetModal">
             <b-input-group>
                 <b-form-input
                     v-model.trim="search.name"
                     type="text"
                     required
                     autofocus
-                    placeholder="Person name"
+                    :placeholder="placeholderText"
                     @keyup.enter="searchPersons"
                 ></b-form-input>
                 <b-input-group-append>
@@ -41,6 +41,10 @@ export default {
         },
         redirectUrl: {
             required: true
+        },
+        placeholderText: {
+            required: false,
+            default: 'Person name',
         }
     },
     data () {
@@ -68,7 +72,6 @@ export default {
                 })
                 .catch(error => {
                     this.searching = false
-                    console.log(error)
                     this.$bvModal.msgBoxOk(error.response.data.message, {
                         okVariant: 'danger',
                     })                    
@@ -84,11 +87,16 @@ export default {
                     window.location = this.redirectUrl
                 })
                 .catch(error => {
-                    console.log(error)
                     this.$bvModal.msgBoxOk(error.response.data.message, {
                         okVariant: 'danger',
                     })
                 })
+        },
+        resetModal() {
+            this.search.name = ''
+            this.suggestions = []
+            this.notFound = false
+            this.searching = false
         }
     }
 }

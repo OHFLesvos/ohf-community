@@ -4,14 +4,14 @@
 
 @section('content')
 
-    <h3>{{ $student->fullName }}</h3>
+    <h1>{{ $student->fullName }}</h1>
     <p>
         <strong>@lang('school::classes.class'):</strong> {{ $class->name }}<br>
         <strong>@lang('school::classes.teacher'):</strong> {{ $class->teacher_name }}<br>
         <strong>@lang('app.period'):</strong> {{ $class->start_date->toDateString() }} - {{ $class->end_date->toDateString() }}<br>
     </p>
 
-    <h4>@lang('school::classes.classes')</h4>
+    <h2>@lang('school::classes.classes')</h2>
     <table class="table table-sm table-bordered table-striped table-hover">
         <thead>
             <tr>
