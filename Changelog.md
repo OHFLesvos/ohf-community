@@ -15,6 +15,10 @@ People:
 * Store police number as integer
 * Use of public id number as unique identifier of person, shortened id length
 
+School:
+
+* Added basic school module
+
 ## 2.7.6
 
 Fundraising:
