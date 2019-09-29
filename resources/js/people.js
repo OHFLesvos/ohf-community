@@ -92,8 +92,8 @@ function filterTable(page) {
                 $.each(result.data, function(k, v){
                     tbody.append(writeRow(v));
                 });
-                pagination.updatePagination(paginator, result, filterTable);
-                paginationInfo.html( result.from + ' - ' + result.to + ' of ' + result.total );
+                pagination.updatePagination(paginator, result.meta, filterTable);
+                paginationInfo.html( result.meta.from + ' - ' + result.meta.to + ' of ' + result.meta.total );
             } else {
                 tbody.append($('<tr>')
                     .addClass('warning')
@@ -162,15 +162,15 @@ function writeRow(person) {
         .append(bulk_select_elem)
         .append($('<td>').html(icon != '' ? '<i class="fa fa-' + icon + '"></i>' : ''))
         .append($('<td>')
-            .append($('<a>')
-                .attr('href', 'people/' + person.public_id)
-                .text(person.family_name)
+            .append(person.url != null ? $('<a>')
+                .attr('href', person.url)
+                .text(person.family_name) : person.family_name
             )
         )
         .append($('<td>')
-            .append($('<a>')
-                .attr('href', 'people/' + person.public_id)
-                .text(person.name)
+            .append(person.url != null ? $('<a>')
+                .attr('href', person.url)
+                .text(person.name) : person.name
             )
         )
         .append($('<td>').text(person.date_of_birth))

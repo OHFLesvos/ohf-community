@@ -15,12 +15,12 @@ Route::group(['middleware' => ['language', 'auth']], function () {
 
     // People
     Route::post('/people/filter', 'PeopleController@filter')->name('people.filter')->middleware('can:list,Modules\People\Entities\Person');
-    Route::get('/people/export', 'PeopleController@export')->name('people.export');
-    Route::get('/people/import', 'PeopleController@import')->name('people.import');
-    Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
+    Route::get('/people/export', 'PeopleController@export')->name('people.export')->middleware('can:export,Modules\People\Entities\Person');
+    Route::get('/people/import', 'PeopleController@import')->name('people.import')->middleware('can:create,Modules\People\Entities\Person');
+    Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport')->middleware('can:create,Modules\People\Entities\Person');
     Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')->name('people.qrCode');
     Route::get('/people/{person}/relations', 'PeopleController@relations')->name('people.relations');
-    Route::get('/people/filterPersons', 'PeopleController@filterPersons')->name('people.filterPersons');
+    Route::get('/people/filterPersons', 'PeopleController@filterPersons')->name('people.filterPersons')->middleware('can:list,Modules\People\Entities\Person');
     Route::post('/people/{person}/relations', 'PeopleController@addRelation')->name('people.addRelation');
     Route::delete('/people/{person}/children/{child}', 'PeopleController@removeChild')->name('people.removeChild');
     Route::delete('/people/{person}/partner', 'PeopleController@removePartner')->name('people.removePartner');

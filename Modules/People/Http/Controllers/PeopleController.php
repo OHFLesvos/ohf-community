@@ -9,6 +9,7 @@ use Modules\People\Entities\Person;
 use Modules\People\Exports\PeopleExport;
 use Modules\People\Imports\PeopleImport;
 use Modules\People\Http\Requests\StorePerson;
+use Modules\People\Transformers\PersonCollection;
 
 use Modules\Bank\Entities\CouponHandout;    // TODO: fix circular dependency
 
@@ -174,8 +175,6 @@ class PeopleController extends Controller
     }
 
     public function filterPersons(Request $request) {
-        $this->authorize('list', Person::class);
-
         $qry = Person::limit(10)
             ->orderBy('family_name')
             ->orderBy('name');
@@ -468,10 +467,12 @@ class PeopleController extends Controller
         if (isset($request->orderByField) && isset($request->orderByDirection)) {
             $q->orderBy($request->orderByField, $request->orderByDirection);
         }
-        return $q
+
+        // TODO: cyclic module dependency to bank module
+        return new PersonCollection($q
             ->orderBy('family_name', 'asc')
             ->orderBy('name', 'asc')
-            ->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page'))); // TODO: cyclic dependency
+            ->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page'))));
     }
     
     public function bulkAction(Request $request) {
@@ -502,21 +503,15 @@ class PeopleController extends Controller
     }
 
     public function export() {
-        $this->authorize('export', Person::class);
-
         $file_name = __('people::people.people') . ' ' . Carbon::now()->toDateString();
         return (new PeopleExport)->download($file_name . '.' . 'xlsx');
     }
 
     function import() {
-        $this->authorize('create', Person::class);
-
         return view('people::import');
     }
 
     function doImport(UploadSpreadsheet $request) {
-        $this->authorize('create', Person::class);
-
         $import = new PeopleImport();
         $import->import($request->file('file'));
 
