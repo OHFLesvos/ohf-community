@@ -27,23 +27,29 @@
                         @elseif($person->gender == 'm')@icon(male) 
                         @endif
                     @else
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-url="{{ route('people.setGender', $person) }}" title="Male">@icon(male)</button>
-                        <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-url="{{ route('people.setGender', $person) }}" title="Female">@icon(female)</button>
+                        @can('update', $person)
+                            <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-url="{{ route('people.setGender', $person) }}" title="Male">@icon(male)</button>
+                            <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-url="{{ route('people.setGender', $person) }}" title="Female">@icon(female)</button>
+                        @endcan
                     @endif
                 </span>
                 <span class="form-inline d-inline">
                     @if(isset($person->date_of_birth))
                         {{ $person->date_of_birth }} (age {{ $person->age }})
                     @else
-                        <button class="btn btn-warning btn-sm choose-date-of-birth" data-url="{{ route('people.setDateOfBirth', $person) }}" title="Set date of birth">@icon(calendar-plus)</button>
+                        @can('update', $person)
+                            <button class="btn btn-warning btn-sm choose-date-of-birth" data-url="{{ route('people.setDateOfBirth', $person) }}" title="Set date of birth">@icon(calendar-plus)</button>
+                        @endcan
                     @endif
                 </span>
                 <span class="form-inline d-inline">
                     @if(isset($person->nationality))
                         {{ $person->nationality }}
                     @else
-                        <button class="btn btn-warning btn-sm choose-nationality" data-url="{{ route('people.setNationality', $person) }}" title="Set nationality">@icon(globe)</button>
-                    @endif
+                        @can('update', $person)
+                            <button class="btn btn-warning btn-sm choose-nationality" data-url="{{ route('people.setNationality', $person) }}" title="Set nationality">@icon(globe)</button>
+                        @endcan
+                @endif
                 </span>
                 {{-- @icon(id-card) {{ $person->public_id }} --}}
                 @if($frequentVisitor)
