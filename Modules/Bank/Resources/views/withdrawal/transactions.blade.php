@@ -62,7 +62,11 @@
                         </td>
                         <td>
                             @isset($person)
-                                <a href="{{ route('people.show', $person) }}">{{ $person->family_name }} {{ $person->name }}</a>
+                                @can('view', $person)
+                                <a href="{{ route('people.show', $person) }}">{{ $person->full_name }}</a>
+                                @else
+                                    {{ $person->full_name }}
+                                @endcan
                                 @if($person->gender == 'f')@icon(female) 
                                 @elseif($person->gender == 'm')@icon(male) 
                                 @endif

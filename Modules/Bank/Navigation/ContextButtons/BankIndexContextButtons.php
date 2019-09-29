@@ -23,7 +23,7 @@ class BankIndexContextButtons implements ContextButtons {
                 'url' => route('bank.withdrawalTransactions'),
                 'caption' => __('app.transactions'),
                 'icon' => 'list',
-                'authorized' => Gate::allows('do-bank-withdrawals')
+                'authorized' => Gate::allows('do-bank-withdrawals') && Auth::user()->can('list', Person::class)
             ],
             'report'=> [
                 'url' => route('reporting.bank.withdrawals'),

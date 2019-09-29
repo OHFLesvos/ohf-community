@@ -23,7 +23,8 @@ Route::middleware(['language', 'auth'])->group(function () {
 
             Route::get('withdrawal', 'WithdrawalController@index')->name('withdrawal');
             Route::get('withdrawal/search', 'WithdrawalController@search')->name('withdrawalSearch');
-            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')->name('withdrawalTransactions');
+            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')->name('withdrawalTransactions')
+                ->middleware('can:list,Modules\People\Entities\Person');
             
             Route::get('withdrawal/cards/{card}', 'WithdrawalController@showCard')->name('showCard');
 
