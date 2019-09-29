@@ -14,7 +14,7 @@
 Route::group(['middleware' => ['language', 'auth']], function () {
 
     // People
-    Route::post('/people/filter', 'PeopleController@filter')->name('people.filter');
+    Route::post('/people/filter', 'PeopleController@filter')->name('people.filter')->middleware('can:list,Modules\People\Entities\Person');
     Route::get('/people/export', 'PeopleController@export')->name('people.export');
     Route::get('/people/import', 'PeopleController@import')->name('people.import');
     Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport');
@@ -28,7 +28,7 @@ Route::group(['middleware' => ['language', 'auth']], function () {
     Route::delete('/people/{person}/father', 'PeopleController@removeFather')->name('people.removeFather');
     Route::get('/people/duplicates', 'PeopleController@duplicates')->name('people.duplicates');
     Route::post('/people/duplicates', 'PeopleController@applyDuplicates')->name('people.applyDuplicates');
-    Route::post('/people/bulkAction', 'PeopleController@bulkAction')->name('people.bulkAction');
+    Route::post('/people/bulkAction', 'PeopleController@bulkAction')->name('people.bulkAction')->middleware('can:manage-people');
     Route::resource('/people', 'PeopleController');
 
     Route::namespace('Reporting')->prefix('reporting')->group(function(){

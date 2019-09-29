@@ -4,7 +4,9 @@ namespace Modules\People\Navigation\Drawer;
 
 use App\Navigation\Drawer\BaseNavigationItem;
 
-use Illuminate\Support\Facades\Gate;
+use Modules\People\Entities\Person;
+
+use Illuminate\Support\Facades\Auth;
 
 class PeopleNavigationItem extends BaseNavigationItem {
 
@@ -18,7 +20,7 @@ class PeopleNavigationItem extends BaseNavigationItem {
 
     public function isAuthorized(): bool
     {
-        return Gate::allows('manage-people');
+        return Auth::user()->can('list', Person::class);
     }
 
 }

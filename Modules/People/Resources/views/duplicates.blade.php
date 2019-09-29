@@ -31,7 +31,7 @@
 								|| collect($persons)->pluck('nationality')->filter(function($e){return $e != null;})->unique()->count() > 1
 								? 'nothing' :'merge'
 						@endphp
-						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('id', ',') . ']', $actions, $action) }}
+						{{ Form::bsRadioInlineList('action[' . collect($persons)->implode('public_id', ',') . ']', $actions, $action) }}
 					</div>
 				</div>
 			@endforeach

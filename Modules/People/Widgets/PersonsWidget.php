@@ -6,7 +6,7 @@ use App\Widgets\Widget;
 
 use Modules\People\Entities\Person;
 
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
 
@@ -14,7 +14,7 @@ class PersonsWidget implements Widget
 {
     function authorize(): bool
     {
-        return Gate::allows('manage-people');
+        return Auth::user()->can('list', Person::class);
     }
 
     function view(): string

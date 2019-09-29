@@ -16,6 +16,14 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     ];
 
     protected $permissions = [
+        'people.list' => [
+            'label' => 'people::permissions.list_people',
+            'sensitive' => true,
+        ],
+        'people.view' => [
+            'label' => 'people::permissions.view_people',
+            'sensitive' => true,
+        ],
         'people.manage' => [
             'label' => 'people::permissions.manage_people',
             'sensitive' => true,

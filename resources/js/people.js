@@ -130,7 +130,7 @@ function writeRow(person) {
             .append($('<input>')
                 .attr('type', 'checkbox')
                 .attr('name', 'selected_people[]')
-                .val(person.id)
+                .val(person.public_id)
                 .on('change', function() {
                     if ($(this).prop('checked')) {
                         $(this).parents('tr').addClass('table-secondary');
@@ -158,18 +158,18 @@ function writeRow(person) {
     }
 
     return $('<tr>')
-        .attr('id', 'person-' + person.id)
+        .attr('id', 'person-' + person.public_id)
         .append(bulk_select_elem)
         .append($('<td>').html(icon != '' ? '<i class="fa fa-' + icon + '"></i>' : ''))
         .append($('<td>')
             .append($('<a>')
-                .attr('href', 'people/' + person.id)
+                .attr('href', 'people/' + person.public_id)
                 .text(person.family_name)
             )
         )
         .append($('<td>')
             .append($('<a>')
-                .attr('href', 'people/' + person.id)
+                .attr('href', 'people/' + person.public_id)
                 .text(person.name)
             )
         )

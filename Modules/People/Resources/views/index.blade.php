@@ -34,9 +34,9 @@
             <table class="table table-sm table-striped table-bordered table-hover" id="results-table">
                 <thead>
                     <tr>
-                        {{-- @can('manage-people', Modules\People\Entities\Person::class) --}}
+                        @can('manage-people', Modules\People\Entities\Person::class)
                             <th rowspan="2" id="bulk_select_on"></th>
-                        {{-- @endcan --}}
+                        @endcan
                         <th rowspan="2"></th>
                         <th class="text-nowrap">@lang('people::people.family_name') <a href="javascript:;" class="sort" data-field="family_name">@icon(sort)</a></th>
                         <th>@lang('people::people.name') <a href="javascript:;" class="sort" data-field="name">@icon(sort)</a></th>

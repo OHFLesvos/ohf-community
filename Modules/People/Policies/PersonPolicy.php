@@ -27,7 +27,7 @@ class PersonPolicy
      */
     public function list(User $user)
     {
-        return $user->hasPermission('people.manage')
+        return $user->hasPermission('people.list')
             || $user->hasPermission('library.operate');
     }
 
@@ -51,7 +51,7 @@ class PersonPolicy
      */
     public function view(User $user, Person $person)
     {
-        return $user->hasPermission('people.manage');
+        return $user->hasPermission('people.view');
     }
 
     /**

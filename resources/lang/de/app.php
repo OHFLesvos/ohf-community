@@ -281,4 +281,5 @@ return [
     'start_date' => 'Startdatum',
     'end_date' => 'Enddatum',
     'period' => 'Periode',
+    'encrypted' => 'Verschlüsselt',
 ];

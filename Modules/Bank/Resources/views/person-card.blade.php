@@ -11,10 +11,16 @@
                             <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('helpers::helpers.helper')) }}</a>
                         </strong>
                     @else
-                        <strong class="text-warning">{{ strtoupper(__('helpers::helpers.helper')) }}</strong>
+                        <strong class="text-warning">
+                            {{ strtoupper(__('helpers::helpers.helper')) }}
+                        </strong>
                     @endcan
                 @endif
-                <a href="{{ route('people.show', $person) }}" alt="View"><strong class="mark-text">{{ strtoupper($person->family_name) }} {{ $person->name }}</strong></a>
+                @can('view', $person)
+                    <a href="{{ route('people.show', $person) }}" alt="View"><strong class="mark-text">{{ $person->full_name }}</strong></a>
+                @else
+                    <strong class="mark-text">{{ $person->full_name }}</strong>
+                @endcan
                 <span>
                     @if(isset($person->gender))
                         @if($person->gender == 'f')@icon(female) 
@@ -43,7 +49,9 @@
                 @if($frequentVisitor)
                     <span class="text-warning" title="Frequent visitor">@icon(star)</span>
                 @endif
-                <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(edit)</a>
+                @can('update', $person)
+                    <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(edit)</a>
+                @endcan
             </div>
             <div class="col-auto">
                 @icon(id-card)

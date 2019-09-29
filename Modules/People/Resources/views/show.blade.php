@@ -108,7 +108,7 @@
                                 </strong>
                             </div>
                             <div class="col-sm">
-                                @lang('app.yes')
+                                <em>@lang('app.encrypted')</em>
                             </div>
                         </div>
                     </li>

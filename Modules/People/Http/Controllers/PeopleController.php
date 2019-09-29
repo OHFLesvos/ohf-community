@@ -47,8 +47,6 @@ class PeopleController extends Controller
     }
 
     function index(Request $request) {
-        $this->authorize('manage-people');
-
         // Remember this screen for back button on person details screen
         session(['peopleOverviewRouteName' => 'people.index']);
 
@@ -349,7 +347,7 @@ class PeopleController extends Controller
     private static function mergePersons($ids) {
 
         // Get master and related persons
-        $persons = Person::whereIn('id', $ids)
+        $persons = Person::whereIn('public_id', $ids)
             ->orderBy('created_at', 'desc')
             ->get();
         $master = $persons->shift();
@@ -455,8 +453,6 @@ class PeopleController extends Controller
     }
 
 	public function filter(Request $request) {
-        $this->authorize('list', Person::class);
-
         $condition = [];
         $filter = [];
         foreach (self::filter_fields as $k) {
@@ -479,8 +475,6 @@ class PeopleController extends Controller
     }
     
     public function bulkAction(Request $request) {
-        $this->authorize('manage-people');
-
         Validator::make($request->all(), [
             'selected_action' => 'required|in:delete,merge',
             'selected_people' => 'array',
@@ -491,7 +485,7 @@ class PeopleController extends Controller
         // Bulk delete
         if ($action == 'delete') {
 
-            $n = Person::destroy($ids);
+            $n = Person::whereIn('public_id', $ids)->delete();
 
             return redirect()->route('people.index')
                 ->with('success', trans_choice('people::people.deleted_n_persons', $n, [ 'num' => $n ]));

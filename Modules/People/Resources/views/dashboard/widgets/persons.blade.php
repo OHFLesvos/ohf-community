@@ -2,8 +2,8 @@
     $links = [
         [
             'url' => route('people.index'),
-            'title' => __('app.manage'),
-            'icon' => 'edit',
+            'title' => Gate::allows('manage-people') ? __('app.manage') : __('app.view'),
+            'icon' => Gate::allows('manage-people') ? 'edit' : 'search',
             'authorized' => true,
         ],
     ];
