@@ -9,7 +9,7 @@ use Carbon\Carbon;
 $factory->define(Person::class, function (Faker $faker) {
     // $faker = \Faker\Factory::create('ar_JO');
 
-    $gender = $faker->randomElement(['male', 'female']);
+    $gender = $faker->optional(0.9)->randomElement(['male', 'female']);
 
     $lc = $faker->optional(0.3)->languageCode;
     $language = $lc != null ? collect(\Languages::lookup([$lc]))->first() : null;
@@ -26,7 +26,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'case_no' => $faker->optional(0.6)->numberBetween(10000,99999),
         'nationality' => $nationality,
         'languages' => $language,
-        'gender' => $gender == 'female' ? 'f' : 'm',
+        'gender' => $gender != null ? ($gender == 'female' ? 'f' : 'm') : null,
         'date_of_birth' => $dob != null ? Carbon::instance($dob) : null,
     ];
 });

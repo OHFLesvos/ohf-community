@@ -11,8 +11,22 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'language']], function () {
-    Route::patch('people/{person}/gender', 'API\PeopleController@setGender')->name('people.setGender');
-    Route::patch('people/{person}/date_of_birth', 'API\PeopleController@setDateOfBirth')->name('people.setDateOfBirth');
-    Route::patch('people/{person}/nationality', 'API\PeopleController@setNationality')->name('people.setNationality');
-});
+Route::middleware(['auth', 'language'])
+    ->namespace('API')
+    ->group(function () {
+        Route::post('/people/filter', 'PeopleController@filter')
+            ->name('people.filter')
+            ->middleware('can:list,Modules\People\Entities\Person');
+        Route::get('/people/filterPersons', 'PeopleController@filterPersons')
+            ->name('people.filterPersons')
+            ->middleware('can:list,Modules\People\Entities\Person');
+        Route::patch('people/{person}/gender', 'PeopleController@setGender')
+            ->name('people.setGender')
+            ->middleware('can:update,person');
+        Route::patch('people/{person}/date_of_birth', 'PeopleController@setDateOfBirth')
+            ->name('people.setDateOfBirth')
+            ->middleware('can:update,person');
+        Route::patch('people/{person}/nationality', 'PeopleController@setNationality')
+            ->name('people.setNationality')
+            ->middleware('can:update,person');
+    });
