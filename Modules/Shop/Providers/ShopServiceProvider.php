@@ -20,7 +20,6 @@ class ShopServiceProvider extends ServiceProvider
 
     protected $dashboardWidgets = [
         \Modules\Shop\Widgets\ShopWidget::class => 2,
-        \Modules\Shop\Widgets\BarberShopWidget::class => 3,
     ];
 
     /**

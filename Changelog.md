@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.8.1
+
+* Removed unused barber shop functionality
+* Fixed authorization permission checks in people and bank module
+
 ## 2.8.0
 
 Bank:

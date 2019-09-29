@@ -16,12 +16,12 @@ class ProjectsSeeder extends Seeder
     public function run()
     {
         foreach ([
-                    'Boutique',
                     'Café',
-                    'Shop',
+                    'NFI Shop',
                     'Shisha Lounge',
-                    'Barber',
-                    'Tailor'
+                    'Barber Shop',
+                    'Cyber Cafe',
+                    'Makerspace',
                  ] as $name) {
             Project::create([
                 'name' => $name,
