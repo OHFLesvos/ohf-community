@@ -31,6 +31,7 @@ class BankStatistics
     public static function getTodaysDailySpendingLimitedCoupons() {
         return CouponType::select('name', DB::raw('SUM(amount) as total'), 'daily_spending_limit')
             ->where('daily_spending_limit', '>', 0)
+            ->whereDate('date', Carbon::today())
             ->join('coupon_handouts', 'coupon_handouts.coupon_type_id', '=', 'coupon_types.id')
             ->groupBy('coupon_types.id')
             ->get()
