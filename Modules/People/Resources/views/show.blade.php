@@ -18,12 +18,7 @@
 
     <div class="row mb-3">
         <div class="col-md">
-            @include('people::snippets.properties')
-
-            @if(isset($person->mother) || isset($person->father) || isset($person->partner) || count($person->children) > 0)
-                @include('people::snippets.relationships', ['showRouteName' => 'people.show', 'editRouteName' => 'people.relations'])
-            @endif
-
+            @include('people::snippets.properties', [ 'showRouteName' => 'people.show' ])
         </div>
         <div class="col-md">
 

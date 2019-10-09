@@ -204,4 +204,5 @@ return [
     'pickup_locations' => 'Abholorte',
     'leading_zeros_added_automatically' => 'Führende Nullen werden automatisch hinzugefügt',
     'case_number_encrypted_now_shown' => 'Die Fallnummer ist verschlüsselt gespeichert und kann daher nicht angezeigt werden',
+    'family' => 'Familie',
 ];

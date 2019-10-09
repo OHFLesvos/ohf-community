@@ -207,4 +207,5 @@ return [
     'person_updated' => 'Person has been updated.',
     'person_deleted' => 'Person has been deleted.',
     'confirm_delete_person' => 'Really delete this person?',
+    'family' => 'Family',
 ];
