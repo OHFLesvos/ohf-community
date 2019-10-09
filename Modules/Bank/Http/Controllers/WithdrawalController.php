@@ -25,8 +25,6 @@ class WithdrawalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        // Remember this screen for back button on person details screen
-        session(['peopleOverviewRouteName' => 'bank.withdrawal']);
         $request->session()->forget('filter');
 
 		return view('bank::withdrawal', [
@@ -53,9 +51,6 @@ class WithdrawalController extends Controller
             return redirect()->route('bank.withdrawal');
         }
         $request->session()->put('filter', $request->filter);
-
-        // Remember this screen for back button on person details screen
-        session(['peopleOverviewRouteName' => 'bank.withdrawalSearch']);
     
         // Create query
         $q = Person::orderBy('family_name', 'asc')

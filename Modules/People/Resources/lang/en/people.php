@@ -33,7 +33,6 @@ return [
     'code_cards' => 'Code Cards',
     'not_yet_served_any_persons' => 'We did not yet serve any persons today.',
     'num_persons_served_handing_out_coupons' => 'Today, we served <strong>:persons</strong> persons, handing out <strong>:coupons</strong> coupons.',
-    'person_deleted' => 'Person deleted',
     'deleted_n_persons' => 'Deleted one person.|Deleted :num persons.',
     'merged_n_persons' => 'Merged :num persons.',
     'really_delete_these_persons' => 'Really delete these persons?',
@@ -204,4 +203,8 @@ return [
     'pickup_locations' => 'Pickup locations',
     'leading_zeros_added_automatically' => 'Leading zeros will be added automatically',
     'case_number_encrypted_now_shown' => 'Case number is stored in encrypted form and can therefore not be shown',
+    'person_added' => 'Person has been added.',
+    'person_updated' => 'Person has been updated.',
+    'person_deleted' => 'Person has been deleted.',
+    'confirm_delete_person' => 'Really delete this person?',
 ];

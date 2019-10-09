@@ -17,7 +17,7 @@
                     @endcan
                 @endif
                 @can('view', $person)
-                    <a href="{{ route('people.show', $person) }}" alt="View"><strong class="mark-text">{{ $person->full_name }}</strong></a>
+                    <a href="{{ route('bank.people.show', $person) }}" alt="View"><strong class="mark-text">{{ $person->full_name }}</strong></a>
                 @else
                     <strong class="mark-text">{{ $person->full_name }}</strong>
                 @endcan
@@ -56,7 +56,7 @@
                     <span class="text-warning" title="Frequent visitor">@icon(star)</span>
                 @endif
                 @can('update', $person)
-                    <a href="{{ route('people.edit', $person) }}" title="Edit">@icon(edit)</a>
+                    <a href="{{ route('bank.people.edit', $person) }}" title="Edit">@icon(edit)</a>
                 @endcan
             </div>
             <div class="col-auto">

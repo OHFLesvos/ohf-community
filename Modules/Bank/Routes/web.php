@@ -32,6 +32,9 @@ Route::middleware(['language', 'auth'])->group(function () {
             Route::post('codeCard', 'CodeCardController@download')->name('createCodeCard');
         });
 
+        // People
+        Route::resource('people', 'PeopleController')->except(['index']);
+
         // Deposits
         Route::middleware('can:do-bank-deposits')->group(function () {
             Route::get('deposit', 'DepositController@index')->name('deposit');

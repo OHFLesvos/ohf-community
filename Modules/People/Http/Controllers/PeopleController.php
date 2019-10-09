@@ -23,6 +23,8 @@ use Carbon\Carbon;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\LabelAlignment;
 
+use Countries;
+
 class PeopleController extends Controller
 {
     /**
@@ -36,22 +38,13 @@ class PeopleController extends Controller
     }
 
     function index(Request $request) {
-        // Remember this screen for back button on person details screen
-        session(['peopleOverviewRouteName' => 'people.index']);
-
-		return view('people::index', [
+    	return view('people::index', [
             'filter' => session('people.filter', [])
         ]);
     }
 
     public function create() {
-        $usedInBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
-        $countries = \Countries::getList('en');
-        if ($usedInBank) {
-            return view('people::create_in_bank', [
-                'countries' => $countries,
-            ]);
-        }
+        $countries = Countries::getList('en');
         return view('people::create', [
             'countries' => $countries,
         ]);
@@ -71,8 +64,6 @@ class PeopleController extends Controller
         $person->card_no = $request->card_no;
 		$person->save();
 
-        $redirectFilter[] = $person->search;
-
         if (isset($request->child_family_name) && is_array($request->child_family_name)) {
             for ($i = 0; $i < count($request->child_family_name); $i++) {
                 if (!empty($request->child_family_name[$i]) && !empty($request->child_name[$i]) && !empty($request->child_gender[$i])) {
@@ -91,20 +82,12 @@ class PeopleController extends Controller
                         $child->father()->associate($person);
                     }
                     $child->save();
-                    $redirectFilter[] = $child->search;
                 }
             }
         }
 
-        $isBank = preg_match('/^bank./', session('peopleOverviewRouteName', 'people.index'));
-		if ( $isBank ) {
-            $request->session()->put('filter', implode(' OR ', $redirectFilter));
-            return redirect()->route('bank.withdrawalSearch')
-                ->with('success', 'Person has been added!');
-        }
-
-		return redirect()->route(session('peopleOverviewRouteName', 'people.index'))
-				->with('success', 'Person has been added!');		
+		return redirect()->route('people.index')
+				->with('success', __('people::people.person_added'));		
 	}
 
     public function show(Person $person) {
@@ -123,7 +106,7 @@ class PeopleController extends Controller
     public function edit(Person $person) {
         return view('people::edit', [
             'person' => $person,
-            'countries' => \Countries::getList('en')
+            'countries' => Countries::getList('en')
 		]);
 	}
 
@@ -139,7 +122,7 @@ class PeopleController extends Controller
         $person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
         $person->save();
         return redirect()->route('people.show', $person)
-                ->with('success', 'Person has been updated!');
+                ->with('success', __('people::people.person_updated'));
 	}
 
     public function relations(Person $person) {
@@ -255,8 +238,8 @@ class PeopleController extends Controller
     public function destroy(Person $person) {
         $person->delete();
 
-        return redirect()->route(session('peopleOverviewRouteName', 'people.index'))
-            ->with('success', 'Person has been deleted!');
+        return redirect()->route('people.index')
+            ->with('success', __('people::people.person_deleted'));
     }
 
     public function duplicates() {

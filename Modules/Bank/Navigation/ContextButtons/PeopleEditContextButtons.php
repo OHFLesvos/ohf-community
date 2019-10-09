@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\People\Navigation\ContextButtons;
+namespace Modules\Bank\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
@@ -14,7 +14,7 @@ class PeopleEditContextButtons implements ContextButtons {
         $person = $view->getData()['person'];
         return [
             'back' => [
-                'url' => route('people.show', $person),
+                'url' => route('bank.people.show', $person),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('view', $person)

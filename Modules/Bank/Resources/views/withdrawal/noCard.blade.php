@@ -11,7 +11,7 @@
 
         <div class="row">
             <div class="col-md">
-                <a class="btn btn-primary btn" href="{{ route('people.create') }}?card_no={{ $cardNo }}">@icon(plus-circle) @lang('people::people.register_person')</a>
+                <a class="btn btn-primary btn" href="{{ route('bank.people.create') }}?card_no={{ $cardNo }}">@icon(plus-circle) @lang('people::people.register_person')</a>
             </div>
             <div class="col-md text-right">
                 <button class="btn btn-secondary btn" type="button" id="scan-id-button">@icon(qrcode)<span class="d-none d-sm-inline"> @lang('people::people.scan_another_card')</span></button> 

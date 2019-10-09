@@ -40,6 +40,10 @@ class NavigationServiceProvider extends ServiceProvider
         'coupons.create' => \Modules\Bank\Navigation\ContextButtons\CouponCreateContextButtons::class,
         'coupons.show' => \Modules\Bank\Navigation\ContextButtons\CouponShowContextButtons::class,
         'coupons.edit' => \Modules\Bank\Navigation\ContextButtons\CouponEditContextButtons::class,
+
+        'bank.people.create' => \Modules\Bank\Navigation\ContextButtons\PeopleCreateContextButtons::class,
+        'bank.people.show' => \Modules\Bank\Navigation\ContextButtons\PeopleShowContextButtons::class,
+        'bank.people.edit' => \Modules\Bank\Navigation\ContextButtons\PeopleEditContextButtons::class,
     ];
 
     /**

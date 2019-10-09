@@ -63,7 +63,7 @@
                         <td>
                             @isset($person)
                                 @can('view', $person)
-                                <a href="{{ route('people.show', $person) }}">{{ $person->full_name }}</a>
+                                    <a href="{{ route('bank.people.show', $person) }}">{{ $person->full_name }}</a>
                                 @else
                                     {{ $person->full_name }}
                                 @endcan

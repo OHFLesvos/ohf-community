@@ -1,13 +1,11 @@
 <?php
 
-namespace Modules\People\Navigation\ContextButtons;
+namespace Modules\Bank\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
-use Modules\People\Entities\Person;
-
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PeopleCreateContextButtons implements ContextButtons {
 
@@ -15,10 +13,10 @@ class PeopleCreateContextButtons implements ContextButtons {
     {
         return [
             'back' => [
-                'url' => route('people.index'),
+                'url' => route('bank.withdrawalSearch'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Person::class)
+                'authorized' => Gate::allows('do-bank-withdrawals')
             ]
         ];
 

@@ -41,7 +41,7 @@
                 @endcomponent
                 @can('create', Modules\People\Entities\Person::class)
                 <p>
-                    <a href="{{ route('people.create') }}?{{ $register }}" class="btn btn-primary">
+                    <a href="{{ route('bank.people.create') }}?{{ $register }}" class="btn btn-primary">
                         @icon(plus-circle)
                         @lang('people::people.register_a_new_person')
                     </a>

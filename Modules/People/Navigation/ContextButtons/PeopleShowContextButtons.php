@@ -39,7 +39,7 @@ class PeopleShowContextButtons implements ContextButtons {
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $person),
-                'confirmation' => 'Really delete this person?'
+                'confirmation' => __('people::people.confirm_delete_person')
             ],
             'back' => [
                 'url' => route(session('peopleOverviewRouteName', 'people.index')),
