@@ -18,14 +18,12 @@
 
     <div class="row mb-3">
         <div class="col-md">
+            {{-- Properties --}}
             @include('people::snippets.properties', [ 'showRouteName' => 'people.show' ])
         </div>
         <div class="col-md">
-
-            @isset($person->card_no)
-                @include('people::snippets.card')
-            @endisset
-
+            {{-- Card --}}
+            @include('people::snippets.card')
         </div>
     </div>
 

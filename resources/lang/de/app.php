@@ -283,4 +283,9 @@ return [
     'period' => 'Periode',
     'encrypted' => 'Verschlüsselt',
     'last_n_transactions_shown' => 'Die letzten :num Transaktionen werden gezeigt.',
+    'card' => 'Karte',
+    'cards' => 'Karten',
+    'card_number' => 'Kartennummer',
+    'no_cards_registered' => 'Keine Karten registriert.',
+    'revoked' => 'Zurückgezogen',
 ];

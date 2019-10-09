@@ -53,8 +53,8 @@ class WithdrawalController extends Controller
         $request->session()->put('filter', $request->filter);
     
         // Create query
-        $q = Person::orderBy('family_name', 'asc')
-            ->orderBy('name', 'asc');
+        $q = Person::orderBy('name', 'asc')
+            ->orderBy('family_name', 'asc');
 
         // Handle OR keyword
         $terms = [];

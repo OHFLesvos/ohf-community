@@ -18,16 +18,16 @@
 
     <div class="row mb-3">
         <div class="col-md">
+            {{-- Properties --}}
             @include('people::snippets.properties', [ 'showRouteName' => 'bank.people.show' ])
         </div>
         <div class="col-md">
 
-            @isset($person->card_no)
-                @include('people::snippets.card')
-            @endisset
+            {{-- Card --}}
+            @include('people::snippets.card')
 
+            {{-- Coupons --}}
             <h4>@lang('bank::coupons.coupons')</h4>
-
             @php
                 $showHandoutLimit = 15;
                 $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->limit($showHandoutLimit)->get();

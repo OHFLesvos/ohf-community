@@ -26,7 +26,10 @@ class Person extends Model
     
     protected $table = 'persons';
 
-    protected $dates = ['deleted_at'];
+    protected $dates = [
+        'deleted_at',
+        'card_issued',
+    ];
     
     protected $fillable = [
         'name',
