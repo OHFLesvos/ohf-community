@@ -22,7 +22,7 @@
         </div>
         <div class="col-md">
 
-            @isset($person->card_no))
+            @isset($person->card_no)
                 @include('people::snippets.card')
             @endisset
 
