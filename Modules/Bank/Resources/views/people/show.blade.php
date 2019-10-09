@@ -31,45 +31,46 @@
                 @include('people::snippets.card')
             @endisset
 
+            <h4>@lang('bank::coupons.coupons')</h4>
+
             @php
-                $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->paginate(25);
+                $showHandoutLimit = 2;
+                $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->limit($showHandoutLimit)->get();
             @endphp
             @if( ! $handouts->isEmpty() )
-                <div class="card mb-4">
-                    <div class="card-header">
-                        @lang('bank::coupons.coupons')
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-sm table-hover mb-0">
-                            <thead>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>@lang('app.date')</th>
+                                <th>@lang('app.type')</th>
+                                <th>@lang('app.registered')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($handouts as $handout)
                                 <tr>
-                                    <th>@lang('app.date')</th>
-                                    <th>@lang('app.type')</th>
-                                    <th>@lang('app.registered')</th>
-                                    <th>@lang('app.author')</th>
+                                    <td>{{ $handout->date }}</td>
+                                    <td>{{ $handout->couponType->daily_amount }} {{ $handout->couponType->name }}</td>
+                                    <td>{{ $handout->created_at->diffForHumans() }} <small class="text-muted">{{ $handout->created_at }}</small></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($handouts as $handout)
-                                    <tr>
-                                        <td>{{ $handout->date }}</td>
-                                        <td>{{ $handout->couponType->daily_amount }} {{ $handout->couponType->name }}</td>
-                                        <td>{{ (new Carbon\Carbon($handout->created_at))->diffForHumans() }} <small class="text-muted">{{ $handout->created_at }}</small></td>
-                                        <td>
-                                            @if(isset($handout->user))
-                                                {{ $handout->user->name }}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                {{ $handouts->links() }}
+                <p><small>
+                    @php
+                        $numHandouts = $person->couponHandouts()->count();
+                        $firstHandout = $person->couponHandouts()->orderBy('created_at', 'asc')->first();
+                    @endphp
+                    @if ($showHandoutLimit < $numHandouts)
+                        @lang('app.last_n_transactions_shown', [ 'num' => $showHandoutLimit ])
+                    @endif
+                    @lang('bank::coupons.n_coupons_received_total_since_date', [ 'num' => $numHandouts, 'date' => $firstHandout->created_at->toDateString(), 'date_diff' => $firstHandout->created_at->diffForHumans() ])
+                </small></p>
             @else
                 @component('components.alert.info')
-                    @lang('bank::coupons.no_coupons_handed_out_so_far')
+                    @lang('bank::coupons.no_coupons_received_so_far')
                 @endcomponent
             @endif            
 

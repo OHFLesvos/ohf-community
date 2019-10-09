@@ -143,7 +143,7 @@
                 </strong>
             </div>
             <div class="col-sm">
-                {{ $person->created_at }}
+                {{ $person->created_at->diffForHumans() }} <small class="text-muted">{{ $person->created_at }}</small>
             </div>
         </div>
     </li>
@@ -155,7 +155,7 @@
                 </strong>
             </div>
             <div class="col-sm">
-                {{ $person->updated_at }}
+                {{ $person->updated_at->diffForHumans() }} <small class="text-muted">{{ $person->updated_at }}</small>
             </div>
         </div>
     </li>

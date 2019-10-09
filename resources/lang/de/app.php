@@ -282,4 +282,5 @@ return [
     'end_date' => 'Enddatum',
     'period' => 'Periode',
     'encrypted' => 'Verschlüsselt',
+    'last_n_transactions_shown' => 'Die letzten :num Transaktionen werden gezeigt.',
 ];
