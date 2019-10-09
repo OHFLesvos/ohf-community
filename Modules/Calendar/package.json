@@ -10,10 +10,10 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "cross-env": "^5.1.4",
-        "fullcalendar": "^3.10.0",
-        "fullcalendar-scheduler": "^1.9.4",
-        "laravel-mix": "^4.1.2",
+        "cross-env": "^5.2.1",
+        "fullcalendar": "^3.10.1",
+        "fullcalendar-scheduler": "^1.10.0",
+        "laravel-mix": "^4.1.4",
         "laravel-mix-merge-manifest": "^0.1.2",
         "moment": "^2.24.0",
         "resolve-url-loader": "^2.3.2"
