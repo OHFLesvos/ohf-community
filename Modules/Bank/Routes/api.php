@@ -17,6 +17,5 @@ Route::group(['middleware' => ['language', 'auth']], function () {
     Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
         Route::post('/bank/person/{person}/couponType/{couponType}/handout', 'API\BankController@handoutCoupon')->name('bank.handoutCoupon');
         Route::delete('/bank/person/{person}/couponType/{couponType}/handout', 'API\BankController@undoHandoutCoupon')->name('bank.undoHandoutCoupon');
-        Route::patch('/bank/person/{person}/card', 'API\BankController@registerCard')->name('bank.registerCard');
     });
 });

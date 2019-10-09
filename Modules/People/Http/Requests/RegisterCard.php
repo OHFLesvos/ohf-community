@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Bank\Http\Requests;
+namespace Modules\People\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

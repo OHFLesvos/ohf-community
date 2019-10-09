@@ -5,11 +5,9 @@ namespace Modules\Bank\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use Modules\People\Entities\Person;
-use Modules\People\Entities\RevokedCard;
 
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;
-use Modules\Bank\Http\Requests\RegisterCard;
 use Modules\Bank\Http\Requests\StoreHandoutCoupon;
 use Modules\Bank\Http\Requests\StoreUndoHandoutCoupon;
 
@@ -17,47 +15,6 @@ use Carbon\Carbon;
 
 class BankController extends Controller
 {
-    /**
-     * Register code card with person.
-     * 
-     * @param  \App\Http\Requests\People\Bank\RegisterCard  $request
-     * @return \Illuminate\Http\Response
-     */
-	public function registerCard(Person $person, RegisterCard $request) {
-        
-        $this->authorize('update', $person);
-
-        // Check for revoked card number
-        $revoked = RevokedCard::where('card_no', $request->card_no)->first();
-        if ($revoked != null) {
-            return response()->json([
-                'message' => __('people::people.card_revoked', [ 'card_no' => substr($request->card_no, 0, 7), 'date' => $revoked->created_at ]),
-            ], 400);
-        }
-
-        // Check for used card number
-        if (Person::where('card_no', $request->card_no)->count() > 0) {
-            return response()->json([
-                'message' => __('people::people.card_already_in_use', [ 'card_no' => substr($request->card_no, 0, 7) ]),
-            ], 400);
-        }
-
-        // If person already has a card number, revoke it
-        if ($person->card_no != null) {
-            $revoked = new RevokedCard();
-            $revoked->card_no = $person->card_no;
-            $person->revokedCards()->save($revoked);
-        }
-
-        // Issue new card
-        $person->card_no = $request->card_no;
-        $person->card_issued = Carbon::now();
-        $person->save();
-        return response()->json([
-            'message' => __('people::people.qr_code_card_has_been_registered'),
-        ]);
-    }
-
     /**
      * Handout coupon to person.
      * 

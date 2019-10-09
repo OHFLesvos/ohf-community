@@ -2,17 +2,21 @@
 
 namespace Modules\People\Http\Controllers\API;
 
-use Modules\People\Entities\Person;
 use App\Http\Controllers\Controller;
 
+use Modules\People\Entities\Person;
+use Modules\People\Entities\RevokedCard;
 use Modules\People\Http\Requests\UpdatePersonDateOfBirth;
 use Modules\People\Http\Requests\UpdatePersonGender;
 use Modules\People\Http\Requests\UpdatePersonNationality;
+use Modules\People\Http\Requests\RegisterCard;
 use Modules\People\Transformers\PersonCollection;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+
+use Carbon\Carbon;
 
 class PeopleController extends Controller
 {
@@ -97,7 +101,7 @@ class PeopleController extends Controller
      * Update gender of person.
      * 
      * @param  \Modules\People\Entities\Person $person
-     * @param  \App\Http\Requests\People\UpdatePersonGender  $request
+     * @param  \Modules\People\Http\Requests\UpdatePersonGender  $request
      * @return \Illuminate\Http\Response
      */
     public function setGender(Person $person, UpdatePersonGender $request) {
@@ -116,7 +120,7 @@ class PeopleController extends Controller
      * Update date of birth of person.
      * 
      * @param  \Modules\People\Entities\Person $person
-     * @param  \App\Http\Requests\People\UpdatePersonDateOfBirth  $request
+     * @param  \Modules\People\Http\Requests\UpdatePersonDateOfBirth  $request
      * @return \Illuminate\Http\Response
      */
 	public function setDateOfBirth(Person $person, UpdatePersonDateOfBirth $request) {
@@ -136,7 +140,7 @@ class PeopleController extends Controller
      * Update date of birth of person.
      * 
      * @param  \Modules\People\Entities\Person $person
-     * @param  \App\Http\Requests\People\UpdatePersonNationality  $request
+     * @param  \Modules\People\Http\Requests\UpdatePersonNationality  $request
      * @return \Illuminate\Http\Response
      */
 	public function setNationality(Person $person, UpdatePersonNationality $request) {
@@ -151,4 +155,44 @@ class PeopleController extends Controller
         ]);
     }
 
+    /**
+     * Register code card with person.
+     * 
+     * @param  \Modules\People\Http\Requests\RegisterCard  $request
+     * @return \Illuminate\Http\Response
+     */
+	public function registerCard(Person $person, RegisterCard $request) {
+        
+        $this->authorize('update', $person);
+
+        // Check for revoked card number
+        $revoked = RevokedCard::where('card_no', $request->card_no)->first();
+        if ($revoked != null) {
+            return response()->json([
+                'message' => __('people::people.card_revoked', [ 'card_no' => substr($request->card_no, 0, 7), 'date' => $revoked->created_at ]),
+            ], 400);
+        }
+
+        // Check for used card number
+        if (Person::where('card_no', $request->card_no)->count() > 0) {
+            return response()->json([
+                'message' => __('people::people.card_already_in_use', [ 'card_no' => substr($request->card_no, 0, 7) ]),
+            ], 400);
+        }
+
+        // If person already has a card number, revoke it
+        if ($person->card_no != null) {
+            $revoked = new RevokedCard();
+            $revoked->card_no = $person->card_no;
+            $person->revokedCards()->save($revoked);
+        }
+
+        // Issue new card
+        $person->card_no = $request->card_no;
+        $person->card_issued = Carbon::now();
+        $person->save();
+        return response()->json([
+            'message' => __('people::people.qr_code_card_has_been_registered'),
+        ]);
+    }
 }

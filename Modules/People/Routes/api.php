@@ -14,10 +14,10 @@
 Route::middleware(['auth', 'language'])
     ->namespace('API')
     ->group(function () {
-        Route::post('/people/filter', 'PeopleController@filter')
+        Route::post('people/filter', 'PeopleController@filter')
             ->name('people.filter')
             ->middleware('can:list,Modules\People\Entities\Person');
-        Route::get('/people/filterPersons', 'PeopleController@filterPersons')
+        Route::get('people/filterPersons', 'PeopleController@filterPersons')
             ->name('people.filterPersons')
             ->middleware('can:list,Modules\People\Entities\Person');
         Route::patch('people/{person}/gender', 'PeopleController@setGender')
@@ -28,5 +28,8 @@ Route::middleware(['auth', 'language'])
             ->middleware('can:update,person');
         Route::patch('people/{person}/nationality', 'PeopleController@setNationality')
             ->name('people.setNationality')
+            ->middleware('can:update,person');
+        Route::patch('people/{person}/card', 'PeopleController@registerCard')
+            ->name('people.registerCard')
             ->middleware('can:update,person');
     });

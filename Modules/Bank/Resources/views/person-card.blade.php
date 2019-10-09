@@ -60,14 +60,21 @@
                 @endcan
             </div>
             <div class="col-auto">
-                @icon(id-card)
-                <a href="javascript:;" class="register-card" data-url="{{ route('bank.registerCard', $person) }}" data-card="{{ $person->card_no }}">
+                @can('update', $person)
+                    @icon(id-card)
+                    <a href="javascript:;" class="register-card" data-url="{{ route('people.registerCard', $person) }}" data-card="{{ $person->card_no }}">
+                        @if(isset($person->card_no))
+                            <strong>{{ substr($person->card_no, 0, 7) }}</strong>
+                        @else
+                            @lang('app.register')
+                        @endif
+                    </a>
+                @else
                     @if(isset($person->card_no))
+                        @icon(id-card)
                         <strong>{{ substr($person->card_no, 0, 7) }}</strong>
-                    @else
-                        @lang('app.register')
                     @endif
-                </a>
+                @endcan
             </div>
         </div>
     </div>
