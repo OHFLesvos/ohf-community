@@ -29,7 +29,7 @@
             <h4>@lang('bank::coupons.coupons')</h4>
 
             @php
-                $showHandoutLimit = 2;
+                $showHandoutLimit = 15;
                 $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->limit($showHandoutLimit)->get();
             @endphp
             @if( ! $handouts->isEmpty() )
