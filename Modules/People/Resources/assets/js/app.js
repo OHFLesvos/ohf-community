@@ -55,7 +55,9 @@ $(function(){
         filterTable(1);
     });
 
-    filterTable(1);
+    if ($('#results-table').length > 0) {
+        filterTable(1);
+    }
 });
 
 function filterTable(page) {
