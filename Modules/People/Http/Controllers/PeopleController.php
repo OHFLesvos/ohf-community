@@ -37,18 +37,21 @@ class PeopleController extends Controller
         $this->authorizeResource(Person::class);
     }
 
-    function index(Request $request) {
+    function index(Request $request)
+    {
     	return view('people::index');
     }
 
-    public function create() {
+    public function create()
+    {
         $countries = Countries::getList('en');
         return view('people::create', [
             'countries' => $countries,
         ]);
     }
 
-	public function store(StorePerson $request) {
+    public function store(StorePerson $request)
+    {
         $person = new Person();
 		$person->name = $request->name;
         $person->family_name = $request->family_name;
@@ -88,27 +91,31 @@ class PeopleController extends Controller
 				->with('success', __('people::people.person_added'));		
 	}
 
-    public function show(Person $person) {
+    public function show(Person $person)
+    {
         return view('people::show', [
             'person' => $person,
         ]);
     }
 
-    public function qrCode(Person $person) {
+    public function qrCode(Person $person)
+    {
         $qrCode = new QrCode($person->public_id);
         $qrCode->setLabel($person->family_name . ' ' . $person->name, 16, null, LabelAlignment::CENTER);   
         return response($qrCode->writeString())
             ->header('Content-Type', $qrCode->getContentType());
     }
 
-    public function edit(Person $person) {
+    public function edit(Person $person)
+    {
         return view('people::edit', [
             'person' => $person,
             'countries' => Countries::getList('en')
 		]);
 	}
 
-	public function update(StorePerson $request, Person $person) {
+    public function update(StorePerson $request, Person $person)
+    {
         $person->name = $request->name;
         $person->family_name = $request->family_name;
         $person->gender = $request->gender;
@@ -123,7 +130,8 @@ class PeopleController extends Controller
                 ->with('success', __('people::people.person_updated'));
 	}
 
-    public function relations(Person $person) {
+    public function relations(Person $person)
+    {
         $types = [];
         if ($person->father == null) {
             $types['father'] = 'Father';
@@ -143,7 +151,8 @@ class PeopleController extends Controller
 		]);
     }
 
-    public function addRelation(Person $person, Request $request) {
+    public function addRelation(Person $person, Request $request)
+    {
         Validator::make($request->all(), [
             'type' => 'required|in:father,mother,partner,child',
             'relative' => [
@@ -195,7 +204,8 @@ class PeopleController extends Controller
             ->with('success', $label . ' "' . $relative->family_name . ' ' . $relative->name . '" has been added!');
     }
 
-    public function removeChild(Person $person, Person $child) {
+    public function removeChild(Person $person, Person $child)
+    {
         if ($person->gender == 'm') {
             $child->father()->dissociate();
         }
@@ -207,7 +217,8 @@ class PeopleController extends Controller
             ->with('success', 'Child "' . $child->family_name . ' ' . $child->name . '" has been removed!');
     }
 
-    public function removePartner(Person $person) {
+    public function removePartner(Person $person)
+    {
         $partner = $person->partner;
         $partner->partner_id = null;
         $partner->save();
@@ -217,7 +228,8 @@ class PeopleController extends Controller
             ->with('success', 'Partner "' . $partner->family_name . ' ' . $partner->name . '" has been removed!');
     }
 
-    public function removeFather(Person $person) {
+    public function removeFather(Person $person)
+    {
         $father = $person->father;
         $person->father()->dissociate();
         $person->save();
@@ -225,7 +237,8 @@ class PeopleController extends Controller
             ->with('success', 'Father "' . $father->family_name . ' ' . $father->name . '" has been removed!');
     }
 
-    public function removeMother(Person $person) {
+    public function removeMother(Person $person)
+    {
         $mother = $person->mother;
         $person->mother()->dissociate();
         $person->save();
@@ -233,14 +246,16 @@ class PeopleController extends Controller
             ->with('success', 'Mother "' . $mother->family_name . ' ' . $mother->name . '" has been removed!');
     }
     
-    public function destroy(Person $person) {
+    public function destroy(Person $person)
+    {
         $person->delete();
 
         return redirect()->route('people.index')
             ->with('success', __('people::people.person_deleted'));
     }
 
-    public function duplicates() {
+    public function duplicates()
+    {
         $names = [];
         Person::orderBy('family_name')
             ->orderBy('name')
@@ -264,7 +279,8 @@ class PeopleController extends Controller
 		]);
     }
     
-    public function applyDuplicates(Request $request) {
+    public function applyDuplicates(Request $request)
+    {
         Validator::make($request->all(), [
             'action' => 'required|array',
         ])->validate();
@@ -281,8 +297,8 @@ class PeopleController extends Controller
             ->with('success', 'Done (merged ' . $merged . ' persons).');
     }
 
-    private static function mergePersons($ids) {
-
+    private static function mergePersons($ids)
+    {
         // Get master and related persons
         $persons = Person::whereIn('public_id', $ids)
             ->orderBy('created_at', 'desc')
@@ -381,7 +397,8 @@ class PeopleController extends Controller
         return count($ids);
     }
 
-    private static function getFirstNonEmptyAttributeFromCollection($collection, $attributeName) {
+    private static function getFirstNonEmptyAttributeFromCollection($collection, $attributeName)
+    {
         return $collection->pluck($attributeName)
             ->filter(function($e) {
                 return $e != null;
@@ -389,7 +406,8 @@ class PeopleController extends Controller
             ->first();
     }
   
-    public function bulkAction(Request $request) {
+    public function bulkAction(Request $request)
+    {
         Validator::make($request->all(), [
             'selected_action' => 'required|in:delete,merge',
             'selected_people' => 'array',
@@ -416,16 +434,19 @@ class PeopleController extends Controller
         }
     }
 
-    public function export() {
+    public function export()
+    {
         $file_name = __('people::people.people') . ' ' . Carbon::now()->toDateString();
         return (new PeopleExport)->download($file_name . '.' . 'xlsx');
     }
 
-    function import() {
+    function import()
+    {
         return view('people::import');
     }
 
-    function doImport(UploadSpreadsheet $request) {
+    function doImport(UploadSpreadsheet $request)
+    {
         $import = new PeopleImport();
         $import->import($request->file('file'));
 

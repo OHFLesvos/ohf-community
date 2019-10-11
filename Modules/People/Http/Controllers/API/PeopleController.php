@@ -26,7 +26,8 @@ class PeopleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-	public function index(Request $request) {
+    public function index(Request $request)
+    {
         $request->validate([
             'filter' => [
                 'nullable',
@@ -92,7 +93,8 @@ class PeopleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function filterPersons(Request $request) {
+    public function filterPersons(Request $request)
+    {
         $qry = Person::limit(10)
             ->orderBy('family_name')
             ->orderBy('name');
@@ -130,7 +132,8 @@ class PeopleController extends Controller
      * @param  \Modules\People\Http\Requests\UpdatePersonGender  $request
      * @return \Illuminate\Http\Response
      */
-    public function setGender(Person $person, UpdatePersonGender $request) {
+    public function setGender(Person $person, UpdatePersonGender $request)
+    {
         $person->gender = $request->gender;
         $person->save();
 
@@ -149,7 +152,8 @@ class PeopleController extends Controller
      * @param  \Modules\People\Http\Requests\UpdatePersonDateOfBirth  $request
      * @return \Illuminate\Http\Response
      */
-	public function setDateOfBirth(Person $person, UpdatePersonDateOfBirth $request) {
+    public function setDateOfBirth(Person $person, UpdatePersonDateOfBirth $request)
+    {
         $person->date_of_birth = $request->date_of_birth;
         $person->save();
 
@@ -169,7 +173,8 @@ class PeopleController extends Controller
      * @param  \Modules\People\Http\Requests\UpdatePersonNationality  $request
      * @return \Illuminate\Http\Response
      */
-	public function setNationality(Person $person, UpdatePersonNationality $request) {
+    public function setNationality(Person $person, UpdatePersonNationality $request)
+    {
         $person->nationality = $request->nationality;
         $person->save();
 
@@ -187,7 +192,8 @@ class PeopleController extends Controller
      * @param  \Modules\People\Http\Requests\RegisterCard  $request
      * @return \Illuminate\Http\Response
      */
-	public function registerCard(Person $person, RegisterCard $request) {
+    public function registerCard(Person $person, RegisterCard $request)
+    {
         
         // Check for revoked card number
         $revoked = RevokedCard::where('card_no', $request->card_no)->first();
