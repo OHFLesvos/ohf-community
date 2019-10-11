@@ -4,6 +4,7 @@ return [
     'people' => 'Personen',
     'person' => 'Person',
     'persons' => 'Personen',
+    'no_persons_found' => 'Keine Personen gefunden.',
     'there_are_n_people_registered' => 'Es sind <strong>:num</strong> Personen in der Datenbank registriert',
     'n_new_today' => '<strong>:num</strong> heute',
     'served_n_persons_and_handed_out_n_today' => 'Heute <strong>:persons</strong> Personen bedient und <strong>:coupons</strong> Coupons ausgegeben.',

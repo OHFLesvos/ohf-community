@@ -73,7 +73,7 @@ class WithdrawalController extends Controller
                 }
             });
         }
-        $limit = \Setting::get('people.results_per_page', Config::get('bank.results_per_page'));
+        $limit = Config::get('bank.results_per_page');
         $results = $q->paginate($limit);
 
         $message = null;

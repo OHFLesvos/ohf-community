@@ -14,8 +14,8 @@
 Route::middleware(['auth', 'language'])
     ->namespace('API')
     ->group(function () {
-        Route::post('people/filter', 'PeopleController@filter')
-            ->name('people.filter')
+        Route::get('people', 'PeopleController@index')
+            ->name('api.people.index')
             ->middleware('can:list,Modules\People\Entities\Person');
         Route::get('people/filterPersons', 'PeopleController@filterPersons')
             ->name('people.filterPersons')

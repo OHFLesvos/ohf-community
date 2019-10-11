@@ -38,9 +38,7 @@ class PeopleController extends Controller
     }
 
     function index(Request $request) {
-    	return view('people::index', [
-            'filter' => session('people.filter', [])
-        ]);
+    	return view('people::index');
     }
 
     public function create() {

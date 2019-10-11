@@ -23,14 +23,6 @@ class BankSettingsController extends SettingsController
 
     protected function getSettings() {
         return [
-            'people.results_per_page' => [
-                'default' => Config::get('bank.results_per_page'),
-                'form_type' => 'number',
-                'form_args' => [ 'min' => 1 ],
-                'form_validate' => 'required|numeric|min:1',
-                'label_key' => 'app.number_results_per_page',
-                'section' => 'display_settings',
-            ],
             'bank.frequent_visitor_weeks' => [
                 'default' => Config::get('bank.frequent_visitor_weeks'),
                 'form_type' => 'number',

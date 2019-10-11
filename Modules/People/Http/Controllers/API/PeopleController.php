@@ -20,44 +20,70 @@ use Carbon\Carbon;
 
 class PeopleController extends Controller
 {
-    const filter_fields = [
-        'name',
-        'family_name',
-        'police_no',
-        'remarks',
-        'nationality',
-        'languages',
-        'date_of_birth'
-    ];
-
     /**
      * Returns a list of people according to filter criteria.
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-	public function filter(Request $request) {
-        $condition = [];
-        $filter = [];
-        foreach (self::filter_fields as $k) {
-            if (!empty($request->$k)) {
-                $condition[] = [$k, 'LIKE', '%' . $request->$k . '%'];
-                $filter[$k] = $request->$k;
-            }
-        }
-        $request->session()->put('people.filter', $filter);
+	public function index(Request $request) {
+        $request->validate([
+            'filter' => [
+                'nullable',
+            ],
+            'page' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'pageSize' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'sortBy' => [
+                'nullable',
+                'alpha_dash',
+                'filled',
+                'in:name,family_name,date_of_birth,nationality,languages,remarks'
+            ],
+            'sortDirection' => [
+                'nullable',
+                'in:asc,desc'
+            ],
+        ]);
 
-        $q = $persons = Person::where($condition);
-        // TODO: validator
-        if (isset($request->orderByField) && isset($request->orderByDirection)) {
-            $q->orderBy($request->orderByField, $request->orderByDirection);
-        }
+        $sortBy = $request->input('sortBy', 'name');
+        $sortDirection = $request->input('sortDirection', 'asc');
+        $pageSize = $request->input('pageSize', 10);
+        $filter = trim($request->input('filter', ''));
+            
+        return new PersonCollection(self::createQuery($filter)
+            ->orderBy($sortBy, $sortDirection)
+            ->paginate($pageSize));   
+    }
 
-        // TODO: cyclic module dependency to bank module
-        return new PersonCollection($q
-            ->orderBy('family_name', 'asc')
-            ->orderBy('name', 'asc')
-            ->paginate(\Setting::get('people.results_per_page', Config::get('bank.results_per_page'))));
+    private static function createQuery(String $filter)
+    {
+        $query = Person::query();
+        if (!empty($filter)) {
+            self::applyFilter($query, $filter);
+        }
+        return $query;
+    }
+
+    private static function applyFilter(&$query, $filter)
+    {
+        $query->where(function($wq) use($filter) {
+            return $wq->where(DB::raw('CONCAT(name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
+                ->orWhere(DB::raw('CONCAT(family_name, \' \', name)'), 'LIKE', '%' . $filter . '%')
+                ->orWhere('name', 'LIKE', '%' . $filter . '%')
+                ->orWhere('family_name', 'LIKE', '%' . $filter . '%')
+                ->orWhere('date_of_birth', $filter)
+                ->orWhere('nationality', 'LIKE', '%' . $filter . '%')
+                ->orWhere('police_no', $filter)
+                ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+        });
     }
 
     /**
@@ -163,8 +189,6 @@ class PeopleController extends Controller
      */
 	public function registerCard(Person $person, RegisterCard $request) {
         
-        $this->authorize('update', $person);
-
         // Check for revoked card number
         $revoked = RevokedCard::where('card_no', $request->card_no)->first();
         if ($revoked != null) {
