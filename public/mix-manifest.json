@@ -7,5 +7,16 @@
     "/js/bank.js.map": "/js/bank.js.map?id=c7cbc1904d1f4033d45c",
     "/js/shop.js": "/js/shop.js?id=6e5a6f689da577d5f713",
     "/css/shop.css": "/css/shop.css?id=d41d8cd98f00b204e980",
-    "/js/shop.js.map": "/js/shop.js.map?id=0890e319b1845f08ccee"
+    "/js/shop.js.map": "/js/shop.js.map?id=0890e319b1845f08ccee",
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/app.js.map": "/js/app.js.map",
+    "/js/editor.js": "/js/editor.js",
+    "/js/editor.js.map": "/js/editor.js.map",
+    "/js/imageupload.js": "/js/imageupload.js",
+    "/js/imageupload.js.map": "/js/imageupload.js.map",
+    "/css/styles.css": "/css/styles.css",
+    "/css/cropper.min.css": "/css/cropper.min.css",
+    "/js/summernote-bs4.js": "/js/summernote-bs4.js",
+    "/css/summernote-bs4.css": "/css/summernote-bs4.css"
 }
