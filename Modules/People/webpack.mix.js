@@ -5,7 +5,7 @@ mix.setPublicPath('../../public').mergeManifest();
 
 mix.js(__dirname + '/Resources/assets/js/app.js', 'js/people.js')
     .sass( __dirname + '/Resources/assets/sass/app.scss', 'css/people.css')
-    .sourceMaps();;
+    .sourceMaps();
 
 if (mix.inProduction()) {
     mix.version();
