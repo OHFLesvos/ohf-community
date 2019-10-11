@@ -4,12 +4,14 @@
 
 @section('content')
 
+    {{-- Helper --}}
     @if(optional($person->helper)->isActive)
         @component('components.alert.info')
             @lang('people::people.person_registered_as_helper')
         @endcomponent
     @endif
 
+    {{-- Remarks --}}
     @isset($person->remarks)
         @component('components.alert.info')
             @lang('people::people.remarks'): {{ $person->remarks }}
@@ -22,13 +24,9 @@
             @include('people::snippets.properties', [ 'showRouteName' => 'people.show' ])
         </div>
         <div class="col-md">
-            {{-- Card --}}
+            {{-- Cards --}}
             @include('people::snippets.card')
         </div>
     </div>
 
-@endsection
-
-@section('footer')
-    <script src="{{ asset('js/people.js') }}?v={{ $app_version }}"></script>
 @endsection
