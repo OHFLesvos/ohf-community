@@ -7,10 +7,10 @@
     <div id="app">
         <div class="row mb-0 mb-sm-2">
             <div class="col-xl-6">
-            
-                {{-- People --}}
+
+                {{-- Registrations --}}
                 <div class="card mb-4">
-                    <div class="card-header">People</div>
+                    <div class="card-header">@lang('people::people.registrations')</div>
                     <div class="card-body">
 
                         {{-- Important figues --}}
@@ -28,17 +28,82 @@
                             </div>
                         @endforeach
 
-                        {{-- Nationalities --}}
-                        @if(count($nationalities) > 0)
-                            <h5 class="text-center pt-2"><small>@lang('people::people.nationalities')</small></h5>
-                            <table class="table table-sm mt-2 mb-5 colorize">
-                                @foreach ($nationalities as $k => $v)
+                        {{-- Registrations per day --}}
+                        <bar-chart
+                            title="New registrations per day"
+                            ylabel="# Registrations"
+                            url="{{ route('reporting.people.registrationsPerDay') }}"
+                            :height=350
+                            :legend=false
+                            class="mb-0">
+                        </bar-chart>
+
+                    </div>
+                </div>
+
+                {{-- Gender --}}
+                @if(count($gender) > 0)
+                    <div class="card mb-4">
+                        <div class="card-header">@lang('people::people.gender')</div>
+                        <div class="card-body">
+                            <pie-chart
+                                title="@lang('people::people.gender')"
+                                url="{{ route('reporting.people.genderDistribution') }}"
+                                :height=300
+                                :legend=false
+                                class="mb-2">
+                            </pie-chart>
+                            <table class="table table-sm mb-0 colorize">
+                                @foreach ($gender as $k => $v)
+                                    <tr>
+                                        <td class="colorize-background" style="width: 2em">&nbsp;</td>
+                                        <td>{{ $k }}</td>
+                                        <td class="text-right">{{ round($v / array_sum(array_values($gender)) * 100) }} %</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Demographics --}}
+                @if(array_sum(array_values($demographics)) > 0)
+                    <div class="card mb-4">
+                        <div class="card-header">@lang('people::people.demographics')</div>
+                        <div class="card-body">
+                            <pie-chart
+                                title="@lang('people::people.demographics')"
+                                url="{{ route('reporting.people.demographics') }}"
+                                :height=300
+                                :legend=false
+                                class="mb-2">
+                            </pie-chart>
+                            <table class="table table-sm mb-0 colorize">
+                                @foreach ($demographics as $k => $v)
+                                    <tr>
+                                        <td class="colorize-background" style="width: 2em">&nbsp;</td>
+                                        <td>{{ $k }}</td>
+                                        <td class="text-right">{{ round($v / array_sum(array_values($demographics)) * 100) }} %</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Nationalities --}}
+                @if(count($nationalities) > 0)
+                    <div class="card mb-4">
+                        <div class="card-header">@lang('people::people.nationalities')</div>
+                        <div class="table-responsive mb-0">
+                            <table class="table table-sm my-0 colorize">
+                                @foreach ($nationalities as $nationality => $v)
                                     @php
-                                        $percent = round($v / array_sum(array_values($nationalities)) * 100);
+                                        $percent = round($v / array_sum(array_values($nationalities)) * 100, 1);
                                     @endphp
                                     <tr>
-                                        <td class="fit">{{ $k }}</td>
-                                        <td class="align-middle">
+                                        <td class="fit">{{ $nationality }}</td>
+                                        <td class="align-middle d-none d-sm-table-cell">
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: {{ $percent }}%" aria-valuenow="{{ $percent }}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
@@ -47,101 +112,9 @@
                                     </tr>
                                 @endforeach
                             </table>
-                        @endif
-
-                        <div class="row">
-
-                            {{-- Gender --}}
-                            @if(count($gender) > 0)
-                                <div class="col-md-6">
-                                    <pie-chart
-                                        title="Gender"
-                                        url="{{ route('reporting.people.genderDistribution') }}"
-                                        :height=300
-                                        :legend=false
-                                        class="mb-2">
-                                    </pie-chart>
-                                    <div class="row colorize mb-5">
-                                        @foreach ($gender as $k => $v)
-                                            <div class="col">
-                                                <span  class="colorize-background d-inline-block" style="width: 1.5em">&nbsp;</span> {{ $k }}: 
-                                                {{ $v }} ({{ round($v / array_sum(array_values($gender)) * 100) }} %)
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-        
-                            {{-- Demographics --}}
-                            @if(array_sum(array_values($demographics)) > 0)
-                                <div class="col-md-6">
-                                    <pie-chart
-                                        title="Demographics"
-                                        url="{{ route('reporting.people.demographics') }}"
-                                        :height=300
-                                        :legend=false
-                                        class="mb-2">
-                                    </pie-chart>
-                                    <table class="table table-sm mt-2 mb-5 colorize">
-                                        @foreach ($demographics as $k => $v)
-                                            <tr>
-                                                <td class="colorize-background">&nbsp;</td>
-                                                <td>{{ $k }}</td>
-                                                <td class="text-right">{{ round($v / array_sum(array_values($demographics)) * 100) }} %</td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-                            @endif
                         </div>
-
-                        {{-- Number Types --}}
-                        @if(array_sum(array_values($numberTypes)) > 0)
-                            <h5 class="text-center pt-2"><small>@lang('people::people.registered_number_types')</small></h5>
-                            <table class="table table-sm mt-2 colorize">
-                                @foreach ($numberTypes as $k => $v)
-                                    @php
-                                        $percent = round($v / array_sum(array_values($numberTypes)) * 100);
-                                    @endphp
-                                    <tr>
-                                        <td class="fit">{{ $k }}</td>
-                                        <td class="align-middle">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: {{ $percent }}%" aria-valuenow="{{ $percent }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                        <td class="fit text-right">{{ $percent }} %</td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        @endif
-
-                        {{-- @if(count($top_names) > 0)
-                            <h5 class="text-center"><small>Popular names</small></h5>
-                            <table class="table table-sm mt-2">
-                                <tbody>
-                                    @foreach ($top_names as $v)
-                                        <tr>
-                                            <td>{{ $v->name }}</td>
-                                            <td class="text-right">{{ $v->count }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        @endif --}}
-
-                        {{-- Registrations per day --}}
-                        <bar-chart
-                            title="New registrations per day"
-                            ylabel="# Registrations"
-                            url="{{ route('reporting.people.registrationsPerDay') }}"
-                            :height=350
-                            :legend=false
-                            class="mb-2">
-                        </bar-chart>
-
                     </div>
-                </div>
+                @endif
 
             </div>
             <div class="col-xl-6">

@@ -14,6 +14,7 @@ return [
     'name' => 'Name',
     'family_name' => 'Familienname',
     'gender' => 'Geschlecht',
+    'demographics' => 'Demographie',
     'date_of_birth' => 'Geburtsdatum',
     'age' => 'Alter',
     'nationality' => 'Nationalität',
@@ -206,4 +207,5 @@ return [
     'leading_zeros_added_automatically' => 'Führende Nullen werden automatisch hinzugefügt',
     'case_number_encrypted_now_shown' => 'Die Fallnummer ist verschlüsselt gespeichert und kann daher nicht angezeigt werden',
     'family' => 'Familie',
+    'registrations' => 'Registrierungen',
 ];

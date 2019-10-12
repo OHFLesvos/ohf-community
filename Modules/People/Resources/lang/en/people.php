@@ -14,6 +14,7 @@ return [
     'name' => 'Name',
     'family_name' => 'Family Name',
     'gender' => 'Gender',
+    'demographics' => 'Demographics',
     'date_of_birth' => 'Date of birth',
     'age' => 'Age',
     'nationality' => 'Nationality',
@@ -209,4 +210,5 @@ return [
     'person_deleted' => 'Person has been deleted.',
     'confirm_delete_person' => 'Really delete this person?',
     'family' => 'Family',
+    'registrations' => 'Registrations',
 ];

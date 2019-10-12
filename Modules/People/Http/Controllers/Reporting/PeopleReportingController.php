@@ -30,7 +30,6 @@ class PeopleReportingController extends BaseReportingController
             'nationalities' => self::getNationalities(),
             'gender' => self::getGenderDistribution(),
             'demographics' => self::getDemographics(),
-            'numberTypes' => self::getNumberTypes()->toArray(),
             'visitors' => [
                 [
                     'Today' => $daily[1] ?? 0,
@@ -52,11 +51,6 @@ class PeopleReportingController extends BaseReportingController
                     'Cards revoked' => RevokedCard::count(),
                 ]
             ],
-            'top_names' => Person::select('name', DB::raw('COUNT(name) as count'))
-                ->groupBy('name')
-                ->orderBy('count', 'desc')
-                ->limit(10)
-                ->get(),
 		]);
     }
 
@@ -72,24 +66,16 @@ class PeopleReportingController extends BaseReportingController
         ]);
     }
 
-    private static function getNationalities($limit = 10) {
-        $nationalities = collect(
+    private static function getNationalities() {
+        return collect(
             Person::select('nationality', \DB::raw('count(*) as total'))
                     ->groupBy('nationality')
                     ->whereNotNull('nationality')
                     ->orderBy('total', 'DESC')
                     ->get()
-            )->mapWithKeys(function($i){
-                return [$i['nationality'] =>  $i['total']];
-            });
-        $data = $nationalities->slice(0, $limit)->toArray();
-        $other = $nationalities->slice($limit)->reduce(function ($carry, $item) {
-                 return $carry + $item;
-            });
-        if ($other > 0) {
-            $data['Other'] = $other;
-        }
-        return $data;
+            )
+            ->pluck('total', 'nationality')
+            ->toArray();
     }
 
     /**
@@ -154,27 +140,6 @@ class PeopleReportingController extends BaseReportingController
                 ->select('date_of_birth')
                 ->count(),            
         ];
-    }
-
-    /**
-     * Number types
-     */
-    function numberTypes() {
-        return response()->json([
-            'labels' => null,
-            'datasets' => self::getNumberTypes()
-                ->map(function($e){ return [$e]; })
-                ->toArray()
-        ]);
-    }
-
-    private static function getNumberTypes() {
-        return collect([
-            __('people::people.police_number') . ' (05/...)' => Person::whereNotNull('police_no')->count(),          
-            __('people::people.case_number') => Person::whereNotNull('case_no_hash')->count(),          
-        ])
-        ->sort()
-        ->reverse();
     }
 
     /**
