@@ -20,7 +20,7 @@
 
         @if($class->students()->count() < $class->capacity)
             <school-class-register-student 
-                filter-persons-url="{{ route('people.filterPersons') }}"
+                filter-persons-url="{{ route('api.people.filterPersons') }}"
                 add-student-url="{{ route('school.classes.students.add', $class) }}"
                 redirect-url="{{ route('school.classes.students.index', $class) }}"
                 placeholder-text="@lang('people::people.bank_search_text')"

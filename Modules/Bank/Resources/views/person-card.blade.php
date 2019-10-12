@@ -28,8 +28,8 @@
                         @endif
                     @else
                         @can('update', $person)
-                            <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-url="{{ route('people.setGender', $person) }}" title="Male">@icon(male)</button>
-                            <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-url="{{ route('people.setGender', $person) }}" title="Female">@icon(female)</button>
+                            <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-url="{{ route('api.people.setGender', $person) }}" title="Male">@icon(male)</button>
+                            <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-url="{{ route('api.people.setGender', $person) }}" title="Female">@icon(female)</button>
                         @endcan
                     @endif
                 </span>
@@ -38,7 +38,7 @@
                         {{ $person->date_of_birth }} (age {{ $person->age }})
                     @else
                         @can('update', $person)
-                            <button class="btn btn-warning btn-sm choose-date-of-birth" data-url="{{ route('people.setDateOfBirth', $person) }}" title="Set date of birth">@icon(calendar-plus)</button>
+                            <button class="btn btn-warning btn-sm choose-date-of-birth" data-url="{{ route('api.people.setDateOfBirth', $person) }}" title="Set date of birth">@icon(calendar-plus)</button>
                         @endcan
                     @endif
                 </span>
@@ -47,7 +47,7 @@
                         {{ $person->nationality }}
                     @else
                         @can('update', $person)
-                            <button class="btn btn-warning btn-sm choose-nationality" data-url="{{ route('people.setNationality', $person) }}" title="Set nationality">@icon(globe)</button>
+                            <button class="btn btn-warning btn-sm choose-nationality" data-url="{{ route('api.people.setNationality', $person) }}" title="Set nationality">@icon(globe)</button>
                         @endcan
                 @endif
                 </span>
@@ -62,7 +62,7 @@
             <div class="col-auto">
                 @can('update', $person)
                     @icon(id-card)
-                    <a href="javascript:;" class="register-card" data-url="{{ route('people.registerCard', $person) }}" data-card="{{ $person->card_no }}">
+                    <a href="javascript:;" class="register-card" data-url="{{ route('api.people.registerCard', $person) }}" data-card="{{ $person->card_no }}">
                         @if(isset($person->card_no))
                             <strong>{{ substr($person->card_no, 0, 7) }}</strong>
                         @else

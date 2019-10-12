@@ -11,7 +11,7 @@
                     <a href="{{ route('library.lending.persons') }}">@lang('library::library.borrowers') ({{ $num_borrowers }})</a>
                 </div>
                 <div class="card-body pb-2">
-                    {{ Form::bsAutocompleteWithButton('person_id', null, route('people.filterPersons'), ['placeholder' => __('people::people.search_existing_person')], __('app.register'), 'button-register-person', 'plus-circle') }}
+                    {{ Form::bsAutocompleteWithButton('person_id', null, route('api.people.filterPersons'), ['placeholder' => __('people::people.search_existing_person')], __('app.register'), 'button-register-person', 'plus-circle') }}
                 </div>
             </div>
         </div>
