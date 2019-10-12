@@ -29,4 +29,10 @@
         </div>
     </div>
 
+    <hr>
+    <p class="text-right">
+        <small>@lang('app.created'): {{ $person->created_at->diffForHumans() }} <small class="text-muted">{{ $person->created_at }}</small></small><br>
+        <small>@lang('app.last_updated'): {{ $person->updated_at->diffForHumans() }} <small class="text-muted">{{ $person->updated_at }}</small></small></small>
+    </p>
+
 @endsection

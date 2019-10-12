@@ -19,7 +19,7 @@
                 </strong>
             </div>
             <div class="col-sm">
-                {{ strtoupper($person->family_name) }}
+                {{ $person->family_name }}
             </div>
         </div>
     </li>
@@ -190,28 +190,4 @@
     @endif
     
     {{-- Created / updated --}}
-    <li class="list-group-item">
-        <div class="row">
-            <div class="col-sm-5">
-                <strong>
-                    @lang('app.created')
-                </strong>
-            </div>
-            <div class="col-sm">
-                {{ $person->created_at->diffForHumans() }} <small class="text-muted">{{ $person->created_at }}</small>
-            </div>
-        </div>
-    </li>
-    <li class="list-group-item">
-        <div class="row">
-            <div class="col-sm-5">
-                <strong>
-                    @lang('app.last_updated')
-                </strong>
-            </div>
-            <div class="col-sm">
-                {{ $person->updated_at->diffForHumans() }} <small class="text-muted">{{ $person->updated_at }}</small>
-            </div>
-        </div>
-    </li>
 </ul>

@@ -8,10 +8,10 @@
 
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('family_name', null, [ 'required', 'autofocus' ], __('people::people.family_name')) }}
+                {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('people::people.name')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('name', null, [ 'required' ], __('people::people.name')) }}
+                {{ Form::bsText('family_name', null, [ 'required' ], __('people::people.family_name')) }}
             </div>
             <div class="col-md-auto">
                 {{ Form::genderSelect('gender', null, __('people::people.gender')) }}
