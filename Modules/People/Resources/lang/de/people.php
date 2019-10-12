@@ -14,7 +14,7 @@ return [
     'name' => 'Name',
     'family_name' => 'Familienname',
     'gender' => 'Geschlecht',
-    'demographics' => 'Demographie',
+    'ageDistribution' => 'Altersverteilung',
     'date_of_birth' => 'Geburtsdatum',
     'age' => 'Alter',
     'nationality' => 'Nationalität',

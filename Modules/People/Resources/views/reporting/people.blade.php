@@ -66,24 +66,24 @@
                     </div>
                 @endif
 
-                {{-- Demographics --}}
-                @if(array_sum(array_values($demographics)) > 0)
+                {{-- Age distribution --}}
+                @if(array_sum(array_values($ageDistribution)) > 0)
                     <div class="card mb-4">
-                        <div class="card-header">@lang('people::people.demographics')</div>
+                        <div class="card-header">@lang('people::people.ageDistribution')</div>
                         <div class="card-body">
                             <pie-chart
-                                title="@lang('people::people.demographics')"
-                                url="{{ route('reporting.people.demographics') }}"
+                                title="@lang('people::people.ageDistribution')"
+                                url="{{ route('reporting.people.ageDistribution') }}"
                                 :height=300
                                 :legend=false
                                 class="mb-2">
                             </pie-chart>
                             <table class="table table-sm mb-0 colorize">
-                                @foreach ($demographics as $k => $v)
+                                @foreach ($ageDistribution as $k => $v)
                                     <tr>
                                         <td class="colorize-background" style="width: 2em">&nbsp;</td>
                                         <td>{{ $k }}</td>
-                                        <td class="text-right">{{ round($v / array_sum(array_values($demographics)) * 100) }} %</td>
+                                        <td class="text-right">{{ round($v / array_sum(array_values($ageDistribution)) * 100, 1) }} %</td>
                                     </tr>
                                 @endforeach
                             </table>

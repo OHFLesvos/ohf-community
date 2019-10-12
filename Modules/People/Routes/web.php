@@ -40,7 +40,7 @@ Route::group(['middleware' => ['language', 'auth']], function () {
             Route::get('people', 'PeopleReportingController@index')->name('reporting.people');
             Route::get('people/chart/nationalities', 'PeopleReportingController@nationalities')->name('reporting.people.nationalities');
             Route::get('people/chart/genderDistribution', 'PeopleReportingController@genderDistribution')->name('reporting.people.genderDistribution');
-            Route::get('people/chart/demographics', 'PeopleReportingController@demographics')->name('reporting.people.demographics');
+            Route::get('people/chart/ageDistribution', 'PeopleReportingController@ageDistribution')->name('reporting.people.ageDistribution');
             Route::get('people/chart/visitorsPerDay', 'PeopleReportingController@visitorsPerDay')->name('reporting.people.visitorsPerDay');
             Route::get('people/chart/visitorsPerWeek', 'PeopleReportingController@visitorsPerWeek')->name('reporting.people.visitorsPerWeek');
             Route::get('people/chart/visitorsPerMonth', 'PeopleReportingController@visitorsPerMonth')->name('reporting.people.visitorsPerMonth');
