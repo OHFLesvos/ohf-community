@@ -61,6 +61,8 @@ class PeopleController extends Controller
             
         return new PersonCollection(self::createQuery($filter)
             ->orderBy($sortBy, $sortDirection)
+            ->orderBy('name')
+            ->orderBy('family_name')
             ->paginate($pageSize));   
     }
 
