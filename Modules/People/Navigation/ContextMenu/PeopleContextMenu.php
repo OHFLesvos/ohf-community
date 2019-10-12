@@ -20,6 +20,12 @@ class PeopleContextMenu implements ContextMenu {
                 'authorized' => Auth::user()->can('cleanup', Person::class)
             ],                    
             [
+                'url' => route('people.export'),
+                'caption' => __('app.export'),
+                'icon' => 'download',
+                'authorized' => Auth::user()->can('export', Person::class)
+            ],            
+            [
                 'url' => route('people.import'),
                 'caption' => __('app.import'),
                 'icon' => 'upload',

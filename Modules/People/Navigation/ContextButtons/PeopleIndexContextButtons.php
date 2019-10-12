@@ -28,12 +28,6 @@ class PeopleIndexContextButtons implements ContextButtons {
                 'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-people-reports')
             ],
-            'export' => [
-                'url' => route('people.export'),
-                'caption' => __('app.export'),
-                'icon' => 'download',
-                'authorized' => Auth::user()->can('export', Person::class)
-            ],
         ];
 
     }
