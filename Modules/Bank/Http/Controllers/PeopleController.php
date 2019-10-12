@@ -17,23 +17,18 @@ class PeopleController extends Controller
         $this->authorizeResource(Person::class);
     }
     
-    public function create() {
+    public function create()
+    {
         $countries = Countries::getList('en');
         return view('bank::people.create', [
             'countries' => $countries,
         ]);
     }
 
-	public function store(StorePerson $request) {
+    public function store(StorePerson $request)
+    {
         $person = new Person();
-		$person->name = $request->name;
-        $person->family_name = $request->family_name;
-        $person->gender = $request->gender;
-		$person->date_of_birth = $request->date_of_birth;
-		$person->police_no = !empty($request->police_no) ? $request->police_no : null;
-		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->remarks = !empty($request->remarks) ? $request->remarks : null;
-        $person->nationality = !empty($request->nationality) ? $request->nationality : null;
+        $person->fill($request->all());
         $person->card_no = $request->card_no;
 		$person->save();
 
@@ -43,20 +38,23 @@ class PeopleController extends Controller
             ->with('success', __('people::people.person_added'));
     }
 
-    public function show(Person $person) {
+    public function show(Person $person)
+    {
         return view('bank::people.show', [
             'person' => $person,
         ]);
     }
 
-    public function edit(Person $person) {
+    public function edit(Person $person)
+    {
         return view('bank::people.edit', [
             'person' => $person,
             'countries' => Countries::getList('en')
 		]);
 	}
 
-	public function update(StorePerson $request, Person $person) {
+    public function update(StorePerson $request, Person $person)
+    {
         $person->fill($request->all());
         $person->save();
 
@@ -64,7 +62,8 @@ class PeopleController extends Controller
                 ->with('success', __('people::people.person_updated'));
     }
 
-    public function destroy(Person $person) {
+    public function destroy(Person $person)
+    {
         $person->delete();
 
         return redirect()->route('bank.withdrawalSearch')

@@ -34,11 +34,13 @@ class Person extends Model
     protected $fillable = [
         'name',
         'family_name',
+        'gender',
         'date_of_birth',
         'police_no',
         'case_no',
         'nationality',
         'languages',
+        'languages_string',
         'remarks'
     ];
     
@@ -106,7 +108,8 @@ class Person extends Model
         'languages' => 'array',
     ];    
 
-    public function getAgeAttribute() {
+    public function getAgeAttribute()
+    {
         try {
             return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
         } catch (\Exception $e) {
@@ -115,7 +118,18 @@ class Person extends Model
         }
     }
 
-    function getFullNameAttribute() {
+    public function getLanguagesStringAttribute()
+    {
+        return is_array($this->languages) ? implode(', ', $this->languages) : $this->languages;
+    }
+
+    public function setLanguagesStringAttribute($value)
+    {
+        $this->languages = !empty($value) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) : null;
+    }
+
+    function getFullNameAttribute()
+    {
         $str = '';
         if ($this->name != null) {
             $str .= $this->name;
@@ -132,7 +146,8 @@ class Person extends Model
         return trim($str);
     }
 
-    public function setCaseNoAttribute($value) {
+    public function setCaseNoAttribute($value)
+    {
         if ($value !== null && $value != '') {
             $value = intval(preg_replace("/[^0-9]/", "", $value));
             if ($value <= 0) {
@@ -143,14 +158,16 @@ class Person extends Model
         }
     }
 
-    public function getPoliceNoFormattedAttribute() {
+    public function getPoliceNoFormattedAttribute()
+    {
         if ($this->police_no !== null && $this->police_no > 0) {
             return '05/' . sprintf("%09d", $this->police_no);
         }
         return null;
     }
 
-    public function getFrequentVisitorAttribute() {
+    public function getFrequentVisitorAttribute()
+    {
         $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
         $date = Carbon::today()->subWeek($weeks)->toDateString();
         $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
@@ -163,27 +180,32 @@ class Person extends Model
             return $count >= $threshold;
     }
 
-    function children() {
+    function children()
+    {
         if ($this->gender == 'm') {
-            return $this->hasMany('Modules\People\Entities\Person', 'father_id');
+            return $this->hasMany(Person::class, 'father_id');
         } else {
-            return $this->hasMany('Modules\People\Entities\Person', 'mother_id');
+            return $this->hasMany(Person::class, 'mother_id');
         }
     }
 
-    function mother() {
-        return $this->belongsTo('Modules\People\Entities\Person');
+    function mother()
+    {
+        return $this->belongsTo(Person::class);
     }
 
-    function father() {
-        return $this->belongsTo('Modules\People\Entities\Person');
+    function father()
+    {
+        return $this->belongsTo(Person::class);
     }
     
-    function partner() {
-        return $this->hasOne('Modules\People\Entities\Person', 'partner_id');
+    function partner()
+    {
+        return $this->hasOne(Person::class, 'partner_id');
     }
 
-    function getSiblingsAttribute() {
+    function getSiblingsAttribute()
+    {
         $siblings = [];
 
         $mother = $this->mother;
@@ -209,7 +231,8 @@ class Person extends Model
         return collect($siblings);
     }
 
-    function getPartnersChildrenAttribute() {
+    function getPartnersChildrenAttribute()
+    {
         $results = [];
 
         $ownChildrenIds = $this->children->pluck('id');
@@ -229,7 +252,8 @@ class Person extends Model
         return collect($results);
     }
 
-    function getFamilyAttribute() {
+    function getFamilyAttribute()
+    {
         $members = [$this];
         $mother = $this->mother;
         if ($mother != null) {
@@ -261,19 +285,25 @@ class Person extends Model
         return collect($members);
     }
 
-    function getOtherFamilyMembersAttribute() {
+    function getOtherFamilyMembersAttribute()
+    {
         return $this->family->filter(function($m) { return $m->id != $this->id; });
     }
 
-    function revokedCards() {
-        return $this->hasMany('Modules\People\Entities\RevokedCard');
+    function revokedCards()
+    {
+        return $this->hasMany(RevokedCard::class);
     }
 
-    public function couponHandouts() {
-        return $this->hasMany('Modules\Bank\Entities\CouponHandout');   // TODO circular dependency
+    public function couponHandouts()
+    {
+        // TODO This is a circular module dependency
+        return $this->hasMany(\Modules\Bank\Entities\CouponHandout::class);
     }
 
-    public function schoolClasses() {
+    public function schoolClasses()
+    {
+        // TODO This is a circular module dependency
         return $this->belongsToMany(\Modules\School\Entities\SchoolClass::class, 'school_students', 'person_id', 'class_id')
             ->as('participation')
             ->withPivot('remarks')
@@ -281,7 +311,8 @@ class Person extends Model
             ->using(\Modules\School\Entities\Student::class);
     }
 
-    public function eligibleForCoupon(CouponType $couponType): bool {
+    public function eligibleForCoupon(CouponType $couponType): bool
+    {
         $age = $this->age;
         if ($age !== null) {
             if ($couponType->max_age != null && $age > $couponType->max_age) {
@@ -294,7 +325,8 @@ class Person extends Model
         return $couponType->allow_for_helpers || !optional($this->helper)->isActive;
     }
 
-    public function canHandoutCoupon(CouponType $couponType) {
+    public function canHandoutCoupon(CouponType $couponType)
+    {
         if ($couponType->newly_registered_block_days != null) {
             $registeredDay = $this->created_at->copy()->startOfDay();
             $thresholdDay = Carbon::today()->subDays($couponType->newly_registered_block_days);
@@ -330,7 +362,8 @@ class Person extends Model
         return $this->checkDailySpendingLimit($couponType);
     }
 
-    private function checkDailySpendingLimit($couponType) {
+    private function checkDailySpendingLimit($couponType)
+    {
         if ($couponType->daily_spending_limit != null) {
             $handouts_today = CouponHandout::whereDate('date', Carbon::today())
                 ->where('coupon_type_id', $couponType->id)
@@ -341,7 +374,8 @@ class Person extends Model
         }
     }
 
-    public function lastCouponHandout(CouponType $couponType) {
+    public function lastCouponHandout(CouponType $couponType)
+    {
         $handout = $this->couponHandouts()
             ->where('coupon_type_id', $couponType->id)
             ->orderBy('date', 'desc')
@@ -353,12 +387,14 @@ class Person extends Model
         return null;
     }
 
-    public function bookLendings() {
+    public function bookLendings()
+    {
         // TODO Modularization
         return $this->hasMany('Modules\Library\Entities\LibraryLending', 'person_id');
     }
 
-    public function getHasOverdueBookLendingsAttribute() {
+    public function getHasOverdueBookLendingsAttribute()
+    {
         return $this->bookLendings()->whereNull('returned_date')->whereDate('return_date', '<', Carbon::today())->count();
     }
 }

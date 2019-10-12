@@ -37,7 +37,7 @@
                 {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people::people.nationality')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('languages', null, [], __('people::people.languages')) }}
+                {{ Form::bsText('languages_string', null, [], __('people::people.languages')) }}
             </div>
         </div>
         {{ Form::bsText('remarks', null, [], __('people::people.remarks')) }}

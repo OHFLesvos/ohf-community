@@ -53,16 +53,7 @@ class PeopleController extends Controller
     public function store(StorePerson $request)
     {
         $person = new Person();
-		$person->name = $request->name;
-        $person->family_name = $request->family_name;
-        $person->gender = $request->gender;
-		$person->date_of_birth = $request->date_of_birth;
-		$person->police_no = !empty($request->police_no) ? $request->police_no : null;
-		$person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->remarks = !empty($request->remarks) ? $request->remarks : null;
-        $person->nationality = !empty($request->nationality) ? $request->nationality : null;
-		$person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
-        $person->card_no = $request->card_no;
+        $person->fill($request->all());
 		$person->save();
 
         if (isset($request->child_family_name) && is_array($request->child_family_name)) {
@@ -116,15 +107,7 @@ class PeopleController extends Controller
 
     public function update(StorePerson $request, Person $person)
     {
-        $person->name = $request->name;
-        $person->family_name = $request->family_name;
-        $person->gender = $request->gender;
-        $person->date_of_birth = $request->date_of_birth;
-        $person->police_no = !empty($request->police_no) ? $request->police_no : null;
-        $person->case_no = !empty($request->case_no) ? $request->case_no : null;
-        $person->remarks = !empty($request->remarks) ? $request->remarks : null;
-        $person->nationality = !empty($request->nationality) ? $request->nationality : null;
-        $person->languages = !empty($request->languages) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $request->languages) : null;
+        $person->fill($request->all());
         $person->save();
         return redirect()->route('people.show', $person)
                 ->with('success', __('people::people.person_updated'));
