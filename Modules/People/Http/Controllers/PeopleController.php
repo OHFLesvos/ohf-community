@@ -92,7 +92,7 @@ class PeopleController extends Controller
     public function qrCode(Person $person)
     {
         $qrCode = new QrCode($person->public_id);
-        $qrCode->setLabel($person->family_name . ' ' . $person->name, 16, null, LabelAlignment::CENTER);   
+        $qrCode->setLabel($person->fullName, 16, null, LabelAlignment::CENTER);   
         return response($qrCode->writeString())
             ->header('Content-Type', $qrCode->getContentType());
     }
