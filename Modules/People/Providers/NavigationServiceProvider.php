@@ -34,6 +34,7 @@ class NavigationServiceProvider extends ServiceProvider
         
         'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.people' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.visitors' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.bank.withdrawals' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.bank.deposits' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.privacy' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,

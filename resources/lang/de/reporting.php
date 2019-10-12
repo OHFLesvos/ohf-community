@@ -3,6 +3,7 @@
 return [
     'monthly_summary' => 'Monatliche Zusammenfassung',
     'people' => 'Personen',
+    'bank-visitors' => 'Bank: Besucher',
     'bank-withdrawals' => 'Bank: Auszahlungen',
     'bank-deposits' => 'Bank: Einzahlungen',
     'user-privileges' => 'Benutzerberechtigungen',

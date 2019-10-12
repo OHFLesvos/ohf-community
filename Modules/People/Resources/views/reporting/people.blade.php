@@ -91,6 +91,9 @@
                     </div>
                 @endif
 
+            </div>
+            <div class="col-xl-6">
+
                 {{-- Nationalities --}}
                 @if(count($nationalities) > 0)
                     <div class="card mb-4">
@@ -117,78 +120,7 @@
                 @endif
 
             </div>
-            <div class="col-xl-6">
-
-                <div class="card mb-4">
-                    <div class="card-header">Visitors <small class="text-muted">based on check-ins at the Bank</small></div>
-                    <div class="card-body">
-
-                        {{-- Important figues --}}
-                        @foreach($visitors as $row)
-                            <div class="row mb-4 align-items-center">
-                                @foreach($row as $k => $v)
-                                    <div class="col">
-                                        <div class="row align-items-center">
-                                            <div class="col text-secondary">{{ $k }}:</div>
-                                            <div class="col display-4">{{ $v }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="w-100 d-block d-sm-none"></div>
-                                @endforeach
-                            </div>
-                        @endforeach
-
-                        {{-- Visitors per week --}}
-                        <bar-chart
-                            title="Visitors per day"
-                            ylabel="# Visitors"
-                            url="{{ route('reporting.people.visitorsPerDay') }}"
-                            :height=270
-                            :legend=false>
-                        </bar-chart>
-
-                        {{-- Visitors per week --}}
-                        <bar-chart
-                            title="Visitors per week"
-                            ylabel="# Visitors"
-                            url="{{ route('reporting.people.visitorsPerWeek') }}"
-                            :height=270
-                            :legend=false>
-                        </bar-chart>
-        
-                        {{-- Visitors per month --}}
-                        <bar-chart
-                            title="Visitors per month"
-                            ylabel="# Visitors"
-                            url="{{ route('reporting.people.visitorsPerMonth') }}"
-                            :height=270
-                            :legend=false>
-                        </bar-chart>
-
-                        {{-- Visitors per year --}}
-                        <bar-chart
-                            title="Visitors per year"
-                            ylabel="# Visitors"
-                            url="{{ route('reporting.people.visitorsPerYear') }}"
-                            :height=270
-                            :legend=false>
-                        </bar-chart>
-
-                        {{-- Average visitors per day of week --}}
-                        <bar-chart
-                            title="Average visitors per day of week"
-                            ylabel="Avg. # Visitors"
-                            url="{{ route('reporting.people.avgVisitorsPerDayOfWeek') }}"
-                            :height=270
-                            :legend=false>
-                        </bar-chart>
-
-                    </div>
-                </div>
-            
-            </div>
         </div>
-
     </div>
 
 @endsection
