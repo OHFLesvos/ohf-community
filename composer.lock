@@ -6311,21 +6311,21 @@
         },
         {
             "name": "valorin/pwned-validator",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/valorin/pwned-validator.git",
-                "reference": "dc5b5fb42205ad0005eba729ee8bb5bb6934270d"
+                "reference": "49e9cade1e1f52a6e130f195b073cf10e7e349aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/valorin/pwned-validator/zipball/dc5b5fb42205ad0005eba729ee8bb5bb6934270d",
-                "reference": "dc5b5fb42205ad0005eba729ee8bb5bb6934270d",
+                "url": "https://api.github.com/repos/valorin/pwned-validator/zipball/49e9cade1e1f52a6e130f195b073cf10e7e349aa",
+                "reference": "49e9cade1e1f52a6e130f195b073cf10e7e349aa",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "illuminate/support": "~5.5.0||~5.6.0||~5.7.0||~5.8.0||~6.0.0",
+                "illuminate/support": "^5.5||^6.0",
                 "php": ">=7.2"
             },
             "type": "library",
@@ -6352,7 +6352,7 @@
                 }
             ],
             "description": "Super simple Laravel Validator for checking password via the Pwned Passwords service of Have I Been Pwned",
-            "time": "2019-09-06T22:03:35+00:00"
+            "time": "2019-10-12T20:36:31+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
