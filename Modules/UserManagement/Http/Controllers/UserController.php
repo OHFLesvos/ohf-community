@@ -12,6 +12,7 @@ use Modules\UserManagement\Http\Requests\UpdateUser;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -213,7 +214,7 @@ class UserController extends Controller
         $user->provider_name = null;
         $user->provider_id = null;
         $user->avatar = null;
-        $password = str_random(8);
+        $password = Str::random(8);
         $user->password = Hash::make($password);
         $user->save();
         return redirect()->route('users.show', $user)

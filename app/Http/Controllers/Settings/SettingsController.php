@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Settings;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 abstract class SettingsController extends Controller
 {
@@ -27,7 +29,7 @@ abstract class SettingsController extends Controller
             'fields' => collect($this->getSettings())
                 ->filter()
                 ->mapWithKeys(function($e, $k){ return [ 
-                    str_slug($k) => [
+                    Str::slug($k) => [
                         'value' => \Setting::get($k, $e['default']),
                         'type' => $e['form_type'],
                         'label' => __($e['label_key']),
@@ -59,14 +61,14 @@ abstract class SettingsController extends Controller
                 })
                 ->mapWithKeys(function($f, $k) {
                     $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
-                    return [str_slug($k) => $rules];
+                    return [Str::slug($k) => $rules];
                 })
                 ->toArray()
         );
 
         // Update
         foreach($this->getSettings() as $field_key => $field) {
-            $value = $request->{str_slug($field_key)};
+            $value = $request->{Str::slug($field_key)};
             if ($value !== null) {
                 \Setting::set($field_key, $value);
             } else {
