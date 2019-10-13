@@ -208,4 +208,11 @@ return [
     'case_number_encrypted_now_shown' => 'Die Fallnummer ist verschlüsselt gespeichert und kann daher nicht angezeigt werden',
     'family' => 'Familie',
     'registrations' => 'Registrierungen',
+    'new_registrations_today' => 'Neuregistrierungen heute',
+    'new_registrations_yesterday' => 'Neuregistrierungen gestern',
+    'new_registrations_in_time_period' => 'Neuregistrierungen in der gewählten Periode',
+    'total_persons_in_database' => 'Anzahl personen in der datenbank',
+    'average_new_registrations_per_day' => 'Durchschnittliche Neuregistrierungen pro Tag',
+    'cards_issued' => 'Karten ausgestellt',
+    'cards_revoked' => 'Karten zurückgezogen',
 ];

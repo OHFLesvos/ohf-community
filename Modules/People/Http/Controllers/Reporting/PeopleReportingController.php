@@ -25,22 +25,22 @@ class PeopleReportingController extends BaseReportingController
             'dateTo' => $dateTo,
             'people' => [
                 [
-                    'Registered today' => Person::whereDate('created_at', '=', Carbon::today())
+                    __('people::people.new_registrations_today') => Person::whereDate('created_at', '=', Carbon::today())
                         ->withTrashed()
                         ->count(),
-                    'Registered yesterday' => Person::whereDate('created_at', '=', Carbon::today()->subDay())
+                    __('people::people.new_registrations_yesterday') => Person::whereDate('created_at', '=', Carbon::today()->subDay())
                         ->withTrashed()
                         ->count(),
                 ],
                 [
-                    'Registered in time period' => Person::whereDate('created_at', '>=', $dateFrom)
+                    __('people::people.new_registrations_in_time_period') => Person::whereDate('created_at', '>=', $dateFrom)
                         ->whereDate('created_at', '<=', $dateTo)
                         ->withTrashed()
                         ->count(),
-                    'Total persons in database' => Person::count(),
+                    __('people::people.total_persons_in_database') => Person::count(),
                 ],
                 [
-                    'Average registrations per day' => Person::getAvgRegistrationsPerDay($dateFrom, $dateTo),
+                    __('people::people.average_new_registrations_per_day') => Person::getAvgRegistrationsPerDay($dateFrom, $dateTo),
                 ],
             ],
             'nationalities' => Person::getNationalities(),
@@ -48,8 +48,8 @@ class PeopleReportingController extends BaseReportingController
             'ageDistribution' => Person::getAgeDistribution(),
             'cards' => [
                 [
-                    'Cards issued' => Person::whereNotNull('card_no')->count(),
-                    'Cards revoked' => RevokedCard::count(),
+                    __('people::people.cards_issued') => Person::whereNotNull('card_no')->count(),
+                    __('people::people.cards_revoked') => RevokedCard::count(),
                 ]            
             ]
 		]);

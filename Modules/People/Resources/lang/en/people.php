@@ -211,4 +211,11 @@ return [
     'confirm_delete_person' => 'Really delete this person?',
     'family' => 'Family',
     'registrations' => 'Registrations',
+    'new_registrations_today' => 'New registrations today',
+    'new_registrations_yesterday' => 'New registrations yesterday',
+    'new_registrations_in_time_period' => 'New registrations in time period',
+    'total_persons_in_database' => 'Total persons in database',
+    'average_new_registrations_per_day' => 'Average new registrations per day',
+    'cards_issued' => 'Cards issued',
+    'cards_revoked' => 'Cards revoked',
 ];
