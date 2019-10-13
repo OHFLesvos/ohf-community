@@ -8,8 +8,12 @@
         {
             "type": "vcs",
             "url": "git://github.com/mrcage/chf-exchange-rates-php.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/xeno010/Laravel-Log-Reader"
         }
-    ],    
+    ],   
     "require": {
         "php": ">=7.1.0",
         "akaunting/language": "^1.0",
@@ -21,7 +25,7 @@
         "endroid/qr-code": "^3.1",
         "gumlet/php-image-resize": "1.8.*",
         "iatstuti/laravel-nullable-fields": "~1.0",
-        "jackiedo/log-reader": "^2.1",
+        "jackiedo/log-reader": "dev-dev-laravel-6",
         "jeroendesloovere/vcard": "^1.6",
         "laravel/framework": "5.8.*",
         "laravel/socialite": "^4.1",

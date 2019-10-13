@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a75c5572a9f01f56ff8695806664ac9",
+    "content-hash": "2f222cb3d7214d8c24586ac4516fc496",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1614,26 +1614,26 @@
         },
         {
             "name": "jackiedo/log-reader",
-            "version": "2.1.1",
+            "version": "dev-dev-laravel-6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/JackieDo/Laravel-Log-Reader.git",
-                "reference": "10c6b52b52cde4250e40bae83d7a17f0532adfc2"
+                "url": "https://github.com/xeno010/Laravel-Log-Reader.git",
+                "reference": "8a033050a2b9635a825d60c0bf99f640c6de01e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JackieDo/Laravel-Log-Reader/zipball/10c6b52b52cde4250e40bae83d7a17f0532adfc2",
-                "reference": "10c6b52b52cde4250e40bae83d7a17f0532adfc2",
+                "url": "https://api.github.com/repos/xeno010/Laravel-Log-Reader/zipball/8a033050a2b9635a825d60c0bf99f640c6de01e8",
+                "reference": "8a033050a2b9635a825d60c0bf99f640c6de01e8",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cache": "5.*",
-                "illuminate/config": "5.*",
-                "illuminate/console": "5.*",
-                "illuminate/http": "5.*",
-                "illuminate/pagination": "5.*",
-                "illuminate/support": "5.*",
-                "nesbot/carbon": "~1.20"
+                "illuminate/cache": "^6.0|5.*",
+                "illuminate/config": "^6.0|5.*",
+                "illuminate/console": "^6.0|5.*",
+                "illuminate/http": "^6.0|5.*",
+                "illuminate/pagination": "^6.0|5.*",
+                "illuminate/support": "^6.0|5.*",
+                "nesbot/carbon": "^2.0|~1.20"
             },
             "type": "library",
             "autoload": {
@@ -1641,7 +1641,6 @@
                     "Jackiedo\\LogReader\\": "src/Jackiedo/LogReader"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1653,16 +1652,19 @@
             ],
             "description": "An easy log reader and management tool for Laravel",
             "keywords": [
-                "Viewer",
                 "laravel",
                 "log",
                 "log-manager",
                 "log-reader",
                 "log-viewer",
                 "logs",
-                "reader"
+                "reader",
+                "viewer"
             ],
-            "time": "2018-12-10T00:39:04+00:00"
+            "support": {
+                "source": "https://github.com/xeno010/Laravel-Log-Reader/tree/dev-laravel-6"
+            },
+            "time": "2019-09-18T12:51:52+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -10350,7 +10352,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "jackiedo/log-reader": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
