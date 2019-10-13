@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9.0
+
+* Use Laravel 6.x
+
 ## 2.8.1
 
 * Removed unused barber shop functionality
