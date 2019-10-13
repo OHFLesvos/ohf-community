@@ -13,7 +13,7 @@ abstract class BaseReportingController extends Controller
 {
     protected static function createDateCollectionEmpty($from, $to) {
         $dates = [];
-        $date = (clone $to);
+        $date = $to->clone();
         do {
             $dates[$date->toDateString()] = null;
         } while ($date->subDay()->gt($from));
@@ -22,7 +22,7 @@ abstract class BaseReportingController extends Controller
 
     protected static function createWeekCollectionEmpty($from, $to) {
         $dates = [];
-        $date = (clone $to);
+        $date = $to->clone();
         do {
             // PHP date format: http://php.net/manual/en/function.date.php
             $dates[$date->format('W / Y')] = null;
@@ -32,7 +32,7 @@ abstract class BaseReportingController extends Controller
 
     protected static function createMonthCollectionEmpty($from, $to) {
         $dates = [];
-        $date = (clone $to);
+        $date = $to->clone();
         do {
             // PHP date format: http://php.net/manual/en/function.date.php
             $dates[$date->format('F Y')] = null;
@@ -42,7 +42,7 @@ abstract class BaseReportingController extends Controller
 
     protected static function createYearCollectionEmpty($from, $to) {
         $dates = [];
-        $date = (clone $to);
+        $date = $to->clone();
         do {
             $dates["Year " . $date->year] = null;
         } while ($date->subYear()->gt($from));
@@ -60,25 +60,11 @@ abstract class BaseReportingController extends Controller
     }
 
     /**
-     * Parses optional date boundaries from a request
+     * Parses optional date boundaries (year-month-day) from a request
      */
-    protected static function getDatesFromRequest(Request $request) {
-        // Validate request data
-        Validator::make($request->all(), [
-            'from' => 'date',
-            'to' => 'date',
-        ])->validate();
-
-        // Parse dates from request
-        $from = isset($request->from) ? new Carbon($request->from) : Carbon::today()->subDays(30);
-        $to = isset($request->to) ? new Carbon($request->to) : Carbon::today();
-
-        // Return as array
-        return [$from, $to];
-    }
-
-    protected static function getDatePeriodFromRequest(Request $request, $defaultDays = 30)
+    protected static function getDatePeriodFromRequest(Request $request, $defaultDays = 30): array
     {
+        // Validate request data
         $request->validate([
             'from' => [
                 'nullable',
@@ -91,6 +77,8 @@ abstract class BaseReportingController extends Controller
                 'after_or_equal:from'
             ],
         ]);
+
+        // Return as array (from, to)
         return [
             $request->filled('from') ? new Carbon($request->input('from')) : Carbon::today()->subDays($defaultDays),
             $request->filled('to') ? new Carbon($request->input('to')) : Carbon::today(),
@@ -98,24 +86,34 @@ abstract class BaseReportingController extends Controller
     }
 
     /**
-     * Parses optional date boundaries from a request
+     * Parses optional date boundaries (year-month) from a request
      */
-    protected static function getMonthRangeDatesFromRequest(Request $request) {
+    protected static function getMonthRangeDatesFromRequest(Request $request): array
+    {
         // Validate request data
-        Validator::make($request->all(), [
-            'year' => 'numeric|required_with:month',
-            'month' => 'numeric|min:1|max:12|required_with:year',
-        ])->validate();
+        $request->validate([
+            'year' => [
+                'numeric',
+                'required_with:month'
+            ],
+            'month' => [
+                'numeric',
+                'min:1',
+                'max:12',
+                'required_with:year'
+            ],
+        ]);
 
         // Parse dates from request
         $now = Carbon::now();
-        $year = $request->year != null ? $request->year : $now->year;
-        $month = $request->month != null ? $request->month : $now->month;
-
+        $year = $request->input('year', $now->year);
+        $month = $request->input('month', $now->month);
         $from = Carbon::createFromDate($year, $month, 1)->startOfMonth();
-        $to = (clone $from)->endOfMonth();
 
-        // Return as array
-        return [$from, $to];
+        // Return as array (from, to)
+        return [
+            $from,
+            $from->clone()->endOfMonth(),
+        ];
     }
 }
