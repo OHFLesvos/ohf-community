@@ -397,4 +397,116 @@ class Person extends Model
     {
         return $this->bookLendings()->whereNull('returned_date')->whereDate('return_date', '<', Carbon::today())->count();
     }
+
+    public static function getNationalities(): array
+    {
+        return collect(
+            Person::select('nationality', DB::raw('count(*) as total'))
+                ->groupBy('nationality')
+                ->whereNotNull('nationality')
+                ->orderBy('total', 'DESC')
+                ->get()
+            )
+            ->pluck('total', 'nationality')
+            ->toArray();
+    }
+
+    public static function getGenderDistribution(): array
+    {
+        return collect(
+            Person::select('gender', DB::raw('count(*) as total'))
+                ->groupBy('gender')
+                ->whereNotNull('gender')
+                ->get()
+            )
+            ->map(function($i){
+                if ($i['gender'] == 'm') {
+                    $i['gender'] = __('app.male');
+                } else if ($i['gender'] == 'f') {
+                    $i['gender'] = __('app.female');
+                }
+                return $i;
+            })
+            ->pluck('total', 'gender')
+            ->toArray();
+    }
+
+    public static function getAgeDistribution(): array
+    {
+        return [
+            '0 - 4' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(5))
+                ->select('date_of_birth')
+                ->count(),
+            '5 - 11' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(12))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(5))
+                ->select('date_of_birth')
+                ->count(),
+            '12 - 17' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(18))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(12))
+                ->select('date_of_birth')
+                ->count(),
+            '18 - 24' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(25))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(18))
+                ->select('date_of_birth')
+                ->count(),
+            '25 - 34' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(35))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(25))
+                ->select('date_of_birth')
+                ->count(),
+            '35 - 44' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(45))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(35))
+                ->select('date_of_birth')
+                ->count(),
+            '45 - 54' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(55))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(45))
+                ->select('date_of_birth')
+                ->count(),
+            '55 - 64' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(65))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(55))
+                ->select('date_of_birth')
+                ->count(),
+            '65 - 74' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(75))
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(65))
+                ->select('date_of_birth')
+                ->count(),
+            '75+' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(75))
+                ->select('date_of_birth')
+                ->count(),            
+        ];
+    }
+
+    public static function getRegistrationsPerDay(int $numDays = 30): array
+    {
+		$registrations = Person::where('created_at', '>=', Carbon::now()->subDays($numDays))
+            ->withTrashed()
+			->groupBy('date')
+			->orderBy('date', 'DESC')
+			->get(array(
+				DB::raw('Date(created_at) as date'),
+				DB::raw('COUNT(*) as "count"')
+			))
+			->mapWithKeys(function ($item) {
+				return [$item['date'] => $item['count']];
+			})
+			->reverse()
+			->all();
+		for ($i=1; $i < $numDays; $i++) {
+			$dateKey = Carbon::now()->subDays($i)->toDateString();
+			if (!isset($registrations[$dateKey])) {
+				$registrations[$dateKey] = 0;
+			}
+		}
+		ksort($registrations);
+		return $registrations;
+	}
 }
