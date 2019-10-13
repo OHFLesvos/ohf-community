@@ -401,7 +401,8 @@ class Person extends Model
     public static function getNationalities(): array
     {
         return collect(
-            Person::select('nationality', DB::raw('count(*) as total'))
+            Person::select('nationality')
+                ->selectRaw('COUNT(*) AS total')
                 ->groupBy('nationality')
                 ->whereNotNull('nationality')
                 ->orderBy('total', 'DESC')
@@ -414,7 +415,8 @@ class Person extends Model
     public static function getGenderDistribution(): array
     {
         return collect(
-            Person::select('gender', DB::raw('count(*) as total'))
+            Person::select('gender')
+                ->selectRaw('COUNT(*) AS total')
                 ->groupBy('gender')
                 ->whereNotNull('gender')
                 ->get()
