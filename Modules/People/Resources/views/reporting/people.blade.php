@@ -24,7 +24,7 @@
                                     <div class="col">
                                         <div class="row align-items-center">
                                             <div class="col text-secondary">{{ $k }}:</div>
-                                            <div class="col display-4">{{ $v }}</div>
+                                            <div class="col display-4">{{ number_format($v) }}</div>
                                         </div>
                                     </div>
                                     <div class="w-100 d-block d-sm-none"></div>
@@ -104,7 +104,7 @@
                                     <div class="col">
                                         <div class="row align-items-center">
                                             <div class="col text-secondary">{{ $k }}:</div>
-                                            <div class="col display-4">{{ $v }}</div>
+                                            <div class="col display-4">{{ number_format($v) }}</div>
                                         </div>
                                     </div>
                                     <div class="w-100 d-block d-sm-none"></div>
