@@ -32,7 +32,7 @@
                         <bar-chart
                             title="New registrations per day"
                             ylabel="# Registrations"
-                            url="{{ route('reporting.people.registrationsPerDay') }}"
+                            url="{{ route('api.people.reporting.registrationsPerDay') }}"
                             :height=350
                             :legend=false
                             class="mb-0">
@@ -48,7 +48,7 @@
                         <div class="card-body">
                             <pie-chart
                                 title="@lang('people::people.gender')"
-                                url="{{ route('reporting.people.genderDistribution') }}"
+                                url="{{ route('api.people.reporting.genderDistribution') }}"
                                 :height=300
                                 :legend=false
                                 class="mb-2">
@@ -73,7 +73,7 @@
                         <div class="card-body">
                             <pie-chart
                                 title="@lang('people::people.ageDistribution')"
-                                url="{{ route('reporting.people.ageDistribution') }}"
+                                url="{{ route('api.people.reporting.ageDistribution') }}"
                                 :height=300
                                 :legend=false
                                 class="mb-2">
