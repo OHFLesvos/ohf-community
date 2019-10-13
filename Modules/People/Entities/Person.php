@@ -487,28 +487,48 @@ class Person extends Model
         ];
     }
 
-    public static function getRegistrationsPerDay(int $numDays = 30): array
+    public static function getRegistrationsPerDay(Carbon $dateFrom, Carbon $dateTo = null): array
     {
-		$registrations = Person::where('created_at', '>=', Carbon::now()->subDays($numDays))
+        if ($dateTo == null) {
+            $dateTo = Carbon::today();
+        }
+        $registrations = Person::selectRaw('Date(created_at) as date')
+            ->selectRaw('COUNT(*) as amount')
+            ->where('created_at', '>=', $dateFrom->startOfDay())
+            ->where('created_at', '<=', $dateTo->endOfDay())
             ->withTrashed()
 			->groupBy('date')
 			->orderBy('date', 'DESC')
-			->get(array(
-				DB::raw('Date(created_at) as date'),
-				DB::raw('COUNT(*) as "count"')
-			))
-			->mapWithKeys(function ($item) {
-				return [$item['date'] => $item['count']];
-			})
+            ->get()
+            ->pluck('amount', 'date')
 			->reverse()
-			->all();
-		for ($i=1; $i < $numDays; $i++) {
-			$dateKey = Carbon::now()->subDays($i)->toDateString();
+            ->all();
+        $date = $dateFrom->clone();
+        do {
+            $dateKey = $date->toDateString();
 			if (!isset($registrations[$dateKey])) {
 				$registrations[$dateKey] = 0;
 			}
-		}
+        } while ($date->addDay() <= $dateTo);
 		ksort($registrations);
 		return $registrations;
-	}
+    }
+    
+    public static function getAvgRegistrationsPerDay(Carbon $dateFrom = null, Carbon $dateTo = null): int
+    {
+        $avg = DB::table(function ($query) use ($dateFrom, $dateTo) {
+                $query->selectRaw('COUNT(*) AS total')
+                    ->selectRaw('DATE(created_at) AS date')
+                    ->from('persons')
+                    ->groupBy('date');
+                if ($dateFrom != null) {
+                    $query->whereDate('created_at', '>=', $dateFrom->startOfDay());
+                }
+                if ($dateTo != null) {
+                    $query->whereDate('created_at', '<=', $dateTo->endOfDay());
+                }
+            })
+            ->avg('total');
+        return round($avg);
+    }
 }

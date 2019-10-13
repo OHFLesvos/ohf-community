@@ -29,5 +29,6 @@ $factory->define(Person::class, function (Faker $faker) {
         'gender' => $gender != null ? ($gender == 'female' ? 'f' : 'm') : null,
         'date_of_birth' => $dob != null ? Carbon::instance($dob) : null,
         'remarks' => $faker->optional(0.05)->sentence,
+        'created_at' => $faker->dateTimeBetween('-3 months', 'now'),
     ];
 });

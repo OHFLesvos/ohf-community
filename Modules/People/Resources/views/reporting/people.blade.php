@@ -27,19 +27,6 @@
                                 @endforeach
                             </div>
                         @endforeach
-                        @foreach($cards as $row)
-                            <div class="row mb-4 align-items-center">
-                                @foreach($row as $k => $v)
-                                    <div class="col">
-                                        <div class="row align-items-center">
-                                            <div class="col text-secondary">{{ $k }}:</div>
-                                            <div class="col display-4">{{ $v }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="w-100 d-block d-sm-none"></div>
-                                @endforeach
-                            </div>
-                        @endforeach                        
 
                         {{-- Registrations per day --}}
                         <bar-chart
@@ -50,7 +37,6 @@
                             :legend=false
                             class="mb-0">
                         </bar-chart>
-
                     </div>
                 </div>
 
@@ -103,6 +89,26 @@
                         </div>
                     </div>
                 @endif
+
+                {{-- Cards --}}
+                <div class="card mb-4">
+                    <div class="card-header">@lang('app.cards')</div>
+                    <div class="card-body">
+                        @foreach($cards as $row)
+                            <div class="row mb-4 align-items-center">
+                                @foreach($row as $k => $v)
+                                    <div class="col">
+                                        <div class="row align-items-center">
+                                            <div class="col text-secondary">{{ $k }}:</div>
+                                            <div class="col display-4">{{ $v }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 d-block d-sm-none"></div>
+                                @endforeach
+                            </div>
+                        @endforeach                        
+                    </div>
+                </div>
 
             </div>
             <div class="col-xl-6">

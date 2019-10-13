@@ -77,6 +77,26 @@ abstract class BaseReportingController extends Controller
         return [$from, $to];
     }
 
+    protected static function getDatePeriodFromRequest(Request $request, $defaultDays = 30)
+    {
+        $request->validate([
+            'from' => [
+                'nullable',
+                'date',
+                'before_or_equal:to'
+            ],
+            'to' => [
+                'nullable',
+                'date',
+                'after_or_equal:from'
+            ],
+        ]);
+        return [
+            new Carbon($request->input('from', Carbon::today()->subDays($defaultDays)->toDateString())),
+            new Carbon($request->input('to', Carbon::today()->toDateString())),
+        ];
+    }
+
     /**
      * Parses optional date boundaries from a request
      */

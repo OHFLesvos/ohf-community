@@ -6,6 +6,8 @@ use App\Http\Controllers\Reporting\BaseReportingController;
 
 use Modules\People\Entities\Person;
 
+use Carbon\Carbon;
+
 class ReportingController extends BaseReportingController
 {
     /**
@@ -50,7 +52,8 @@ class ReportingController extends BaseReportingController
      */
     function registrationsPerDay()
     {
-        $data = Person::getRegistrationsPerDay(60);
+        $fromDate = Carbon::now()->subDays(30); // TODO
+        $data = Person::getRegistrationsPerDay($fromDate);
         return response()->json([
             'labels' => array_keys($data),
             'datasets' => [
