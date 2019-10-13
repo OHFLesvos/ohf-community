@@ -4,16 +4,9 @@
 
 @section('content')
 
-    {{ Form::open(['route' => 'reporting.people', 'method' => 'get']) }}
-        <div class="form-row">
-            <div class="col">
-                <h2 class="display-4 mb-4">{{ $dateFrom->isoFormat('D. MMMM YYYY') }} - {{ $dateTo->isoFormat('D. MMMM YYYY') }}</h2>
-            </div>
-            <div class="col-auto">{{ Form::bsDate('from', $dateFrom->toDateString(), [], '') }}</div>
-            <div class="col-auto">{{ Form::bsDate('to', $dateTo->toDateString(), [], '') }}</div>
-            <div class="col-auto"><button type="submit" class="btn btn-primary">@icon(sync)</button></div>
-        </div>
-    {{ Form::close() }}
+    @component('components.date-range-selector', [ 'route' => 'reporting.people', 'dateFrom' => $dateFrom, 'dateTo' => $dateTo ])
+        <h2 class="display-4 mb-4">{{ $dateFrom->isoFormat('D. MMMM YYYY') }} - {{ $dateTo->isoFormat('D. MMMM YYYY') }}</h2>
+    @endcomponent
 
     <div id="app">
         <div class="row mb-0 mb-sm-2">
