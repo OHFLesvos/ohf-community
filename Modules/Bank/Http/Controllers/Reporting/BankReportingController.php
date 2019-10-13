@@ -5,9 +5,6 @@ namespace Modules\Bank\Http\Controllers\Reporting;
 use App\Http\Requests\SelectDateRange;
 use App\Http\Controllers\Reporting\BaseReportingController;
 
-use Modules\People\Entities\Person;
-use Modules\People\Entities\RevokedCard;
-
 use Modules\Bank\Entities\Project;
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;
@@ -144,11 +141,9 @@ class BankReportingController extends BaseReportingController
                     'Last year' => $year[0] ?? 0,
                 ], 
                 [
-                    // TODO peak visitors per day
                     'Daily average' => round(self::getAvgVisitorsPerDay( Carbon::now()->subMonth(3)->startOfWeek(), Carbon::now())),
                     'Frequent' => self::getNumberOfFrequentVisitors(),
-                    'Cards issued' => Person::whereNotNull('card_no')->count(),
-                    'Cards revoked' => RevokedCard::count(),
+                    // TODO peak visitors per day
                 ]
             ]
 		]);

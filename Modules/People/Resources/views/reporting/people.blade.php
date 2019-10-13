@@ -27,6 +27,19 @@
                                 @endforeach
                             </div>
                         @endforeach
+                        @foreach($cards as $row)
+                            <div class="row mb-4 align-items-center">
+                                @foreach($row as $k => $v)
+                                    <div class="col">
+                                        <div class="row align-items-center">
+                                            <div class="col text-secondary">{{ $k }}:</div>
+                                            <div class="col display-4">{{ $v }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 d-block d-sm-none"></div>
+                                @endforeach
+                            </div>
+                        @endforeach                        
 
                         {{-- Registrations per day --}}
                         <bar-chart
