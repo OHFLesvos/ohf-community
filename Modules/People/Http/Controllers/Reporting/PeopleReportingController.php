@@ -25,18 +25,19 @@ class PeopleReportingController extends BaseReportingController
             'dateTo' => $dateTo,
             'people' => [
                 [
-                    'Total persons registered' => Person::count(),
-                    'Registered in time period' => Person::whereDate('created_at', '>=', $dateFrom)
-                        ->whereDate('created_at', '<=', $dateTo)
-                        ->count(),
-                ],
-                [
                     'Registered today' => Person::whereDate('created_at', '=', Carbon::today())
                         ->withTrashed()
                         ->count(),
                     'Registered yesterday' => Person::whereDate('created_at', '=', Carbon::today()->subDay())
                         ->withTrashed()
                         ->count(),
+                ],
+                [
+                    'Registered in time period' => Person::whereDate('created_at', '>=', $dateFrom)
+                        ->whereDate('created_at', '<=', $dateTo)
+                        ->withTrashed()
+                        ->count(),
+                    'Total persons in database' => Person::count(),
                 ],
                 [
                     'Average registrations per day' => Person::getAvgRegistrationsPerDay($dateFrom, $dateTo),

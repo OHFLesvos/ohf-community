@@ -92,8 +92,8 @@ abstract class BaseReportingController extends Controller
             ],
         ]);
         return [
-            new Carbon($request->input('from', Carbon::today()->subDays($defaultDays)->toDateString())),
-            new Carbon($request->input('to', Carbon::today()->toDateString())),
+            $request->filled('from') ? new Carbon($request->input('from')) : Carbon::today()->subDays($defaultDays),
+            $request->filled('to') ? new Carbon($request->input('to')) : Carbon::today(),
         ];
     }
 

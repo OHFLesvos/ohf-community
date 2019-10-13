@@ -4,6 +4,17 @@
 
 @section('content')
 
+    {{ Form::open(['route' => 'reporting.people', 'method' => 'get']) }}
+        <div class="form-row">
+            <div class="col">
+                <h2 class="display-4 mb-4">{{ $dateFrom->isoFormat('D. MMMM YYYY') }} - {{ $dateTo->isoFormat('D. MMMM YYYY') }}</h2>
+            </div>
+            <div class="col-auto">{{ Form::bsDate('from', $dateFrom->toDateString(), [], '') }}</div>
+            <div class="col-auto">{{ Form::bsDate('to', $dateTo->toDateString(), [], '') }}</div>
+            <div class="col-auto"><button type="submit" class="btn btn-primary">@icon(sync)</button></div>
+        </div>
+    {{ Form::close() }}
+
     <div id="app">
         <div class="row mb-0 mb-sm-2">
             <div class="col-xl-6">
@@ -32,7 +43,7 @@
                         <bar-chart
                             title="New registrations per day"
                             ylabel="# Registrations"
-                            url="{{ route('api.people.reporting.registrationsPerDay') }}"
+                            url="{{ route('api.people.reporting.registrationsPerDay', [ 'from' => $dateFrom->toDateString(), 'to' => $dateTo->toDateString() ]) }}"
                             :height=350
                             :legend=false
                             class="mb-0">

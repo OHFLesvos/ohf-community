@@ -6,6 +6,8 @@ use App\Http\Controllers\Reporting\BaseReportingController;
 
 use Modules\People\Entities\Person;
 
+use Illuminate\Http\Request;
+
 use Carbon\Carbon;
 
 class ReportingController extends BaseReportingController
@@ -50,10 +52,11 @@ class ReportingController extends BaseReportingController
     /**
      * Registrations per day
      */
-    function registrationsPerDay()
+    function registrationsPerDay(Request $request)
     {
-        $fromDate = Carbon::now()->subDays(30); // TODO
-        $data = Person::getRegistrationsPerDay($fromDate);
+        list($dateFrom, $dateTo) = parent::getDatePeriodFromRequest($request, 30);
+
+        $data = Person::getRegistrationsPerDay($dateFrom, $dateTo);
         return response()->json([
             'labels' => array_keys($data),
             'datasets' => [
