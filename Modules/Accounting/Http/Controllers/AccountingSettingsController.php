@@ -14,11 +14,11 @@ class AccountingSettingsController extends SettingsController
         return [
             'accounting.transactions.categories' => [
                 'default' => '',
-                'form_type' => 'text',
+                'form_type' => 'textarea',
                 'label_key' => 'app.categories',
-                'form_help' => 'Separate by comma',
-                'setter' => function($value){ return preg_split('/(\s*[,\/|]\s*)/', $value); },
-                'getter' => function($value) { return implode(', ', $value); },
+                'form_help' => 'Separate items by newline',
+                'setter' => function($value){ return preg_split('/(\s*[,\/|]\s*)|(\s+\n\s+)/', $value); },
+                'getter' => function($value) { return implode("\n", $value); },
             ]
         ];
     }
