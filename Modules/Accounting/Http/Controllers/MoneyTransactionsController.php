@@ -22,9 +22,13 @@ use Carbon\Carbon;
 
 use \Gumlet\ImageResize;
 
+use Setting;
+
 class MoneyTransactionsController extends Controller
 {
     use ExportableActions;
+
+    const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
 
     public function __construct()
     {
@@ -121,7 +125,8 @@ class MoneyTransactionsController extends Controller
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
             'beneficiaries' => self::getBeneficiaries(),
-            'categories' => self::getCategories(),
+            'categories' => self::getCategories(true),
+            'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
         ]);
     }
@@ -173,6 +178,7 @@ class MoneyTransactionsController extends Controller
         return view('accounting::transactions.create', [
             'beneficiaries' => self::getBeneficiaries(),
             'categories' => self::getCategories(),
+            'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
             'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
         ]);
@@ -189,13 +195,20 @@ class MoneyTransactionsController extends Controller
             ->toArray();
     }
 
-    private static function getCategories() {
-        return MoneyTransaction
-            ::select('category')
+    private static function getCategories($onlyExisting = false) {
+        if (!$onlyExisting && Setting::has(self::CATEGORIES_SETTING_KEY)) {
+            return collect(Setting::get(self::CATEGORIES_SETTING_KEY))
+                ->mapWithKeys(function($e){
+                    return [ $e => $e ];
+                })
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::select('category')
             ->groupBy('category')
             ->orderBy('category')
             ->get()
-            ->pluck('category')
+            ->pluck('category', 'category')
             ->unique()
             ->toArray();
     }
@@ -306,6 +319,7 @@ class MoneyTransactionsController extends Controller
             'transaction' => $transaction,
             'beneficiaries' => self::getBeneficiaries(),
             'categories' => self::getCategories(),
+            'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
         ]);
     }

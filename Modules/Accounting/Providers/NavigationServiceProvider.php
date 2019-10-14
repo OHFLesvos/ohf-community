@@ -28,6 +28,7 @@ class NavigationServiceProvider extends ServiceProvider
         'accounting.transactions.editReceipt' => \Modules\Accounting\Navigation\ContextButtons\TransactionEditReceiptContextButtons::class,
         'accounting.webling.index' => \Modules\Accounting\Navigation\ContextButtons\WeblingIndexContextButtons::class,
         'accounting.webling.prepare' => \Modules\Accounting\Navigation\ContextButtons\WeblingPrepareContextButtons::class,
+        'accounting.settings.edit' => \Modules\Accounting\Navigation\ContextButtons\SettingsContextButtons::class,
     ];
 
     /**

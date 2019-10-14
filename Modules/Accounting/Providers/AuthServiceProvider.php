@@ -40,11 +40,16 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'accounting::permissions.view_summary',
             'sensitive' => false,
         ],
+        'accounting.configure' => [
+            'label' => 'accounting::permissions.configure',
+            'sensitive' => false,
+        ],        
     ];
 
     protected $permission_gate_mappings = [
         'view-accounting-summary' => 'accounting.summary.view',
-        'book-accounting-transactions-externally'=> 'accounting.transactions.book_externally'
+        'book-accounting-transactions-externally'=> 'accounting.transactions.book_externally',
+        'configure-accounting' => 'accounting.configure',
     ];
 
 }

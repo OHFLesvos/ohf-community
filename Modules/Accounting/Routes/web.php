@@ -31,6 +31,9 @@ Route::group(['middleware' => 'language'], function () {
             Route::post('webling', 'WeblingApiController@store')->name('webling.store');
             Route::get('webling/sync', 'WeblingApiController@sync')->name('webling.sync');
 
+            // Settings
+            Route::get('settings', 'AccountingSettingsController@edit')->name('settings.edit')->middleware(['can:configure-accounting']);
+            Route::put('settings', 'AccountingSettingsController@update')->name('settings.update')->middleware(['can:configure-accounting']);
         });
     });
 });

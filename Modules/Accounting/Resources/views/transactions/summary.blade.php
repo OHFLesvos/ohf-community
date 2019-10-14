@@ -10,12 +10,12 @@
         </div>
         <div class="col-sm-auto">
             @if(sizeof($months) > 0)
-                {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- ' . __('app.by_month') . ' - ' ], '') }}
+                {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- ' . __('app.by_month') . ' -' ], '') }}
             @endif
         </div>
         <div class="col-sm-auto">
             @if(sizeof($years) > 0)
-                {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- ' . __('app.by_year') . '- ' ], '') }}
+                {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- ' . __('app.by_year') . ' -' ], '') }}
             @endif
         </div>
     </div>

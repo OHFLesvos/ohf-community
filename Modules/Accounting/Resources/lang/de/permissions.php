@@ -7,4 +7,5 @@ return [
     'delete_transactions' => 'Buchhaltung: Transaktionen löschen',
     'book_externally' => 'Buchhaltung: Transaktionen extern verbuchen',
     'view_summary' => 'Buchhaltung: Zusammenfassung ansehen',
+    'configure'  => 'Buchhaltung: Einstellungen bearbeiten',
 ];

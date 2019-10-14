@@ -28,4 +28,9 @@
             {{ $help }}
         </small>
     @endif
+    @if (isset($attributes['error']) && !empty($attributes['error']))
+        <small class="form-text text-danger">
+            {{ $attributes['error'] }}
+        </small>
+    @endif
 </div>

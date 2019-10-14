@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+use Setting;
+
 abstract class SettingsController extends Controller
 {
     protected abstract function getSections();
@@ -28,21 +30,26 @@ abstract class SettingsController extends Controller
             'sections' => $this->getSections(),
             'fields' => collect($this->getSettings())
                 ->filter()
-                ->mapWithKeys(function($e, $k){ return [ 
-                    Str::slug($k) => [
-                        'value' => \Setting::get($k, $e['default']),
-                        'type' => $e['form_type'],
-                        'label' => __($e['label_key']),
-                        'section' => $e['section'] ?? null,
-                        'args' => $e['form_args'] ?? null,
-                        'include_pre' => $e['include_pre'] ?? null,
-                        'include_post' => $e['include_post'] ?? null,
-                        'list' => $e['form_list'] ?? null,
-                        'help' => $e['form_help'] ?? null,
-                        'placeholder' => $e['form_placeholder'] ?? null,
-                    ]
-                ]; }),
-        ]);
+                ->mapWithKeys(function($e, $k){ 
+                    $value = Setting::get($k, $e['default']);
+                    if ($value != null && isset($e['getter']) && is_callable($e['getter'])) {
+                        $value = $e['getter']($value);
+                    }
+                    return [
+                        Str::slug($k) => [
+                            'value' => $value,
+                            'type' => $e['form_type'],
+                            'label' => __($e['label_key']),
+                            'section' => $e['section'] ?? null,
+                            'args' => $e['form_args'] ?? null,
+                            'include_pre' => $e['include_pre'] ?? null,
+                            'include_post' => $e['include_post'] ?? null,
+                            'list' => $e['form_list'] ?? null,
+                            'help' => $e['form_help'] ?? null,
+                            'placeholder' => $e['form_placeholder'] ?? null,
+                        ]
+                    ]; }),
+            ]);
     }
 
     /**
@@ -70,12 +77,15 @@ abstract class SettingsController extends Controller
         foreach($this->getSettings() as $field_key => $field) {
             $value = $request->{Str::slug($field_key)};
             if ($value !== null) {
-                \Setting::set($field_key, $value);
+                if (isset($field['setter']) && is_callable($field['setter'])) {
+                    $value = $field['setter']($value);
+                }
+                Setting::set($field_key, $value);
             } else {
-                \Setting::forget($field_key);
+                Setting::forget($field_key);
             }
         }
-        \Setting::save();
+        Setting::save();
         
         // Redirect
         return redirect()->route($this->getRedirectRouteName())

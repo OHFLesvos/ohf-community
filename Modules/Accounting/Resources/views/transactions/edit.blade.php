@@ -23,7 +23,11 @@
         </div>
         <div class="form-row">
             <div class="col-sm-3">
-                {{ Form::bsText('category', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
+                @if($fixed_categories)
+                    {{ Form::bsSelect('category', $categories, null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' - ', 'error' => !in_array($transaction->category, $categories) ? 'Invalid category \''.$transaction->category.'\'' : null ], __('app.category')) }}
+                @else
+                    {{ Form::bsText('category', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
+                @endif
             </div>
             <div class="col-sm-3">
                 {{ Form::bsText('project', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}

@@ -8,6 +8,7 @@ use Modules\Accounting\Entities\MoneyTransaction;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TransactionSummaryContextButtons implements ContextButtons {
 
@@ -20,6 +21,12 @@ class TransactionSummaryContextButtons implements ContextButtons {
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('list', MoneyTransaction::class)
             ],
+            'settings' => [
+                'url' => route('accounting.settings.edit'),
+                'caption' => __('app.settings'),
+                'icon' => 'cogs',
+                'authorized' => Gate::allows('configure-accounting')
+            ],            
             'book' => [
                 'url' => route('accounting.webling.index'),
                 'caption' => __('accounting::accounting.book'),

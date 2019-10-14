@@ -7,8 +7,12 @@ use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
 
+use Setting;
+
 class StoreTransaction extends FormRequest
 {
+    const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -49,6 +53,7 @@ class StoreTransaction extends FormRequest
             ],
             'category' => [
                 'required',
+                Setting::has(self::CATEGORIES_SETTING_KEY) ? Rule::in(Setting::get(self::CATEGORIES_SETTING_KEY)) : null,
             ],
             'project' => [
                 'nullable',
