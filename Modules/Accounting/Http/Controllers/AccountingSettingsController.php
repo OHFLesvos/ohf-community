@@ -17,9 +17,17 @@ class AccountingSettingsController extends SettingsController
                 'form_type' => 'textarea',
                 'label_key' => 'app.categories',
                 'form_help' => 'Separate items by newline',
-                'setter' => function($value){ return preg_split('/(\s*[,\/|]\s*)|(\s+\n\s+)/', $value); },
+                'setter' => function($value){ return preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value); },
                 'getter' => function($value) { return implode("\n", $value); },
-            ]
+            ],
+            'accounting.transactions.projects' => [
+                'default' => '',
+                'form_type' => 'textarea',
+                'label_key' => 'app.projects',
+                'form_help' => 'Separate items by newline',
+                'setter' => function($value){ return preg_split("/(\s*[,\/|]\s*)|(\s*\n\s*)/", $value); },
+                'getter' => function($value) { return implode("\n", $value); },
+            ],
         ];
     }
 

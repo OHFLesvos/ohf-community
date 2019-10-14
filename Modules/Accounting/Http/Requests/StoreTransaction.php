@@ -12,6 +12,7 @@ use Setting;
 class StoreTransaction extends FormRequest
 {
     const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
+    const PROJECTS_SETTING_KEY = 'accounting.transactions.projects';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -57,6 +58,7 @@ class StoreTransaction extends FormRequest
             ],
             'project' => [
                 'nullable',
+                Setting::has(self::PROJECTS_SETTING_KEY) ? Rule::in(Setting::get(self::PROJECTS_SETTING_KEY)) : null,
             ],
             'description' => [
                 'required',

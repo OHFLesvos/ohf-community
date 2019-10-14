@@ -29,6 +29,7 @@ class MoneyTransactionsController extends Controller
     use ExportableActions;
 
     const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
+    const PROJECTS_SETTING_KEY = 'accounting.transactions.projects';
 
     public function __construct()
     {
@@ -127,7 +128,8 @@ class MoneyTransactionsController extends Controller
             'beneficiaries' => self::getBeneficiaries(),
             'categories' => self::getCategories(true),
             'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
-            'projects' => self::getProjects(),
+            'projects' => self::getProjects(true),
+            'fixed_projects' => Setting::has(self::PROJECTS_SETTING_KEY),
         ]);
     }
 
@@ -180,13 +182,13 @@ class MoneyTransactionsController extends Controller
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
+            'fixed_projects' => Setting::has(self::PROJECTS_SETTING_KEY),
             'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
         ]);
     }
 
     private static function getBeneficiaries() {
-        return MoneyTransaction
-            ::select('beneficiary')
+        return MoneyTransaction::select('beneficiary')
             ->groupBy('beneficiary')
             ->orderBy('beneficiary')
             ->get()
@@ -213,14 +215,21 @@ class MoneyTransactionsController extends Controller
             ->toArray();
     }
 
-    private static function getProjects() {
-        return MoneyTransaction
-            ::select('project')
+    private static function getProjects($onlyExisting = false) {
+        if (!$onlyExisting && Setting::has(self::PROJECTS_SETTING_KEY)) {
+            return collect(Setting::get(self::PROJECTS_SETTING_KEY))
+                ->mapWithKeys(function($e){
+                    return [ $e => $e ];
+                })
+                ->sort()
+                ->toArray();
+        }        
+        return MoneyTransaction::select('project')
             ->where('project', '!=', null)
             ->groupBy('project')
             ->orderBy('project')
             ->get()
-            ->pluck('project')
+            ->pluck('project', 'project')
             ->unique()
             ->toArray();
     }
@@ -321,6 +330,7 @@ class MoneyTransactionsController extends Controller
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
+            'fixed_projects' => Setting::has(self::PROJECTS_SETTING_KEY),
         ]);
     }
 

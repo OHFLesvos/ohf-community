@@ -218,7 +218,11 @@
                     @endif
                 </div>
                 <div class="col-sm">
-                    {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+                    @if($fixed_projects)
+                        {{ Form::bsSelect('filter[project]', $projects, $filter['project'] ?? null, [ 'placeholder' => '- ' . __('app.project') . ' - ' ], __('app.project')) }}
+                    @else
+                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+                    @endif
                 </div>
             </div>
             <div class="form-row">

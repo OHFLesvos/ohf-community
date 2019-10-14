@@ -30,7 +30,11 @@
                 @endif
             </div>
             <div class="col-sm-3">
-                {{ Form::bsText('project', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+                @if($fixed_projects)
+                    {{ Form::bsSelect('project', $projects, null, [ 'placeholder' => '- ' . __('app.project') . ' - ' ], __('app.project')) }}
+                @else
+                    {{ Form::bsText('project', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+                @endif
             </div>
             <div class="col-sm">
                 {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
