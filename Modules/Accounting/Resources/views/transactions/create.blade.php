@@ -24,14 +24,14 @@
         <div class="form-row">
             <div class="col-sm-3">
                 @if($fixed_categories)
-                    {{ Form::bsSelect('category', $categories, null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' - ' ], __('app.category')) }}
+                    {{ Form::bsSelect('category', $categories, null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
                 @else
                     {{ Form::bsText('category', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
                 @endif
             </div>
             <div class="col-sm-3">
                 @if($fixed_projects)
-                    {{ Form::bsSelect('project', $projects, null, [ 'placeholder' => '- ' . __('app.project') . ' - ' ], __('app.project')) }}
+                    {{ Form::bsSelect('project', $projects, null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
                 @else
                     {{ Form::bsText('project', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
                 @endif

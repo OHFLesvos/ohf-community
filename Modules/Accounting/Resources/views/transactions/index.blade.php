@@ -212,14 +212,14 @@
             <div class="form-row">
                 <div class="col-sm">
                     @if($fixed_categories)
-                        {{ Form::bsSelect('filter[category]', $categories, $filter['category'] ?? null, [ 'placeholder' => '- ' . __('app.category') . ' - ' ], __('app.category')) }}
+                        {{ Form::bsSelect('filter[category]', $categories, $filter['category'] ?? null, [ 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
                     @else
                         {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
                     @endif
                 </div>
                 <div class="col-sm">
                     @if($fixed_projects)
-                        {{ Form::bsSelect('filter[project]', $projects, $filter['project'] ?? null, [ 'placeholder' => '- ' . __('app.project') . ' - ' ], __('app.project')) }}
+                        {{ Form::bsSelect('filter[project]', $projects, $filter['project'] ?? null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
                     @else
                         {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
                     @endif
