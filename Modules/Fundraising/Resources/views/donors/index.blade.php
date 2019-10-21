@@ -71,7 +71,7 @@
             empty-text="@lang('fundraising::fundraising.no_donors_found')"
             filter-placeholder="@lang('fundraising::fundraising.search_for_name_address_email_phone')..."
             :items-per-page="25"
-            :tags='@json($tags)'
+            :tags='@json((object)$tags->toArray())'
         ></donors-table>
     </div>
 	
