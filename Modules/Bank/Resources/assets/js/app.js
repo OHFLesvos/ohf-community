@@ -1,11 +1,11 @@
 import '../../../../../resources/js/utils'
-import '../../../../../resources/js/qr'
+import scanQR from '../../../../../resources/js/qr'
 
 $(function(){
 
 	// Scan QR code card and search for the number
-	$('#scan-id-button').on('click', function(){
-		scanQR(function(content){
+	$('#scan-id-button').on('click', () => {
+		scanQR((content) => {
 			// TODO input validation of code
 			$('#bank-container').empty().html('Searching card ...');
 			document.location = '/bank/withdrawal/cards/' + content;
@@ -13,14 +13,14 @@ $(function(){
 	});
 
 	// Register QR code card
-	$('.register-card').on('click', function(){
+	$('.register-card').on('click', () => {
 		var url = $(this).data('url');
 		var card = $(this).attr('data-card');
 		if (card && !confirm('Do you really want to replace the card ' + card.substr(0, 7) + ' with a new one?')) {
 			return;
 		}
 		var resultElem = $(this);
-		scanQR(function(content){
+		scanQR((content) => {
 			// TODO input validation of code
 			axios.patch( url, {
 					"card_no": content,
@@ -52,7 +52,7 @@ $(function(){
 
 function enableFilterSelect() {
 	$('#filter').off('click');
-	$('#filter').on('focus', function(){
+	$('#filter').on('focus', () => {
 		$(this).select();
 	});
 }
@@ -63,7 +63,7 @@ function handoutCoupon(){
 	var amount = btn.data('amount');
 	var qrCodeEnabled = btn.data('qr-code-enabled');
 	if (qrCodeEnabled) {
-		scanQR(function(content){
+		scanQR((content) => {
 			// TODO input validation of code
 			sendHandoutRequest(btn, url, {
 				"amount": amount,
@@ -84,7 +84,7 @@ function sendHandoutRequest(btn, url, postData) {
 			var data = response.data
 			btn.append(' (' + data.countdown + ')');
 			btn.off('click').on('click', undoHandoutCoupon);
-			showSnackbar(data.message, undoLabel, 'warning', function(element){
+			showSnackbar(data.message, undoLabel, 'warning', (element) => {
 				$(element).css('opacity', 0);
 				btn.click();
 				enableFilterSelect();
@@ -150,7 +150,7 @@ function selectDateOfBirth() {
 		.attr('title', 'YYYY-MM-DD')
 		.attr('placeholder', 'YYYY-MM-DD')
 		.addClass('form-control form-control-sm')
-		.on('keydown', function(evt){
+		.on('keydown', (evt) => {
 			var isEnter = false;
 			if ("key" in evt) {
 				isEnter = (evt.key == "Enter");
@@ -167,7 +167,7 @@ function selectDateOfBirth() {
 		.append($('<button>')
 			.attr('type', 'button')
 			.addClass('btn btn-primary btn-sm')
-			.on('click', function(){
+			.on('click', () => {
 				if (dateSelect.val().match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) {
 					storeDateOfBirth(url, dateSelect, resultElem);
 				} else {
@@ -182,7 +182,7 @@ function selectDateOfBirth() {
 		.append($('<button>')
 			.attr('type', 'button')
 			.addClass('btn btn-secondary btn-sm')
-			.on('click', function(){
+			.on('click', () => {
 				resultElem.empty().
 					append($('<button>')
 						.addClass('btn btn-warning btn-sm choose-date-of-birth')
@@ -209,12 +209,12 @@ function storeDateOfBirth(url, dateSelect, resultElem) {
 			var data = response.data
 			resultElem.html(data.date_of_birth + ' (age ' + data.age + ')');
 			// Remove buttons not maching age-restrictions
-			$('button[data-min_age]').each(function(){
+			$('button[data-min_age]').each(() => {
 				if ($(this).data('min_age') && data.age < $(this).data('min_age')) {
 					$(this).parent().remove();
 				}
 			});
-			$('button[data-max_age]').each(function(){
+			$('button[data-max_age]').each(() => {
 				if ($(this).data('max_age') && data.age > $(this).data('max_age')) {
 					$(this).parent().remove();
 				}
@@ -250,7 +250,7 @@ function selectNationality() {
 		.attr('type', 'text')
 		.attr('placeholder', 'Choose nationality')
 		.addClass('form-control form-control-sm')
-		.on('keydown', function(evt){
+		.on('keydown', (evt) => {
 			var isEnter = false;
 			if ("key" in evt) {
 				isEnter = (evt.key == "Enter");
@@ -267,7 +267,7 @@ function selectNationality() {
 		.append($('<button>')
 			.attr('type', 'button')
 			.addClass('btn btn-primary btn-sm')
-			.on('click', function(){
+			.on('click', () => {
 				storeNationality(url, nationalitySelect, resultElem);
 			})
 			.append(
@@ -278,7 +278,7 @@ function selectNationality() {
 		.append($('<button>')
 			.attr('type', 'button')
 			.addClass('btn btn-secondary btn-sm')
-			.on('click', function(){
+			.on('click', () => {
 				resultElem.empty().
 					append($('<button>')
 						.addClass('btn btn-warning btn-sm choose-nationality')

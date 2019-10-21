@@ -68,7 +68,7 @@ function tick() {
 	requestAnimationFrame(tick);
 }
 
-window.scanQR = function (callback) {
+export default function (callback) {
 	navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
 		.then(function (stream) {
 			if (stream.getVideoTracks().length > 0) {

@@ -1,4 +1,4 @@
-import '../../../../../resources/js/qr'
+import scanQR from '../../../../../resources/js/qr'
 
 $(function(){
 	// Check shop card
