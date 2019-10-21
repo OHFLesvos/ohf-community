@@ -144,7 +144,7 @@
         filterPlaceholder: {
             require: false,
             type: String,
-            default: 'Type to Search'
+            default: 'Type to search...'
         },
         tags: {
             require: false,
