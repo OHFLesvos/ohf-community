@@ -2,24 +2,11 @@
 // Calendar
 //
 
+import { handleAjaxError } from '../../../../../resources/js/utils'
+
 var lastResourceGroup = null;
 
-const handleAjaxError = function(err){
-    var msg;
-    if (err.response.data.message) {
-        msg = err.response.data.message;
-    }
-    if (err.response.data.errors) {
-        msg += "\n" + Object.entries(err.response.data.errors).map(([k, v]) => {
-            return v.join('. ');
-        });
-    } else if (err.response.data.error) {
-        msg = err.response.data.error;
-    }
-    alert('Error: ' + msg);
-}
-
-$(document).ready(function() {
+$(document).ready(() => {
 
     var calendar = $('#calendar');
     var modal = $('#eventModal');
@@ -41,11 +28,11 @@ $(document).ready(function() {
     var resourceDeleteButton = $('#resource_editor_delete');
     var resourceSubmitButton = resourceModal.find('button[type="submit"]');
 
-    modal.on('shown.bs.modal', function (e) {
+    modal.on('shown.bs.modal', (e) => {
         titleElem.focus();
     });
 
-    resourceModal.on('shown.bs.modal', function (e) {
+    resourceModal.on('shown.bs.modal', (e) => {
         resourceTitleElem.focus();
     });
 
@@ -68,9 +55,9 @@ $(document).ready(function() {
             }
         },
         resourceLabelText: 'Resources',
-        resourceRender: function(resource, cellEls) {
+        resourceRender: (resource, cellEls) => {
             if (manageResourcesAllowed) {
-                cellEls.on('click', function() {
+                cellEls.on('click', () => {
                     editResource(resource);
                 });
             }
@@ -93,7 +80,7 @@ $(document).ready(function() {
             }
         },
         defaultView: localStorage.getItem('calendar-view-name') ? localStorage.getItem('calendar-view-name') : 'agendaWeek',
-        viewRender: function(view, element){
+        viewRender(view, element) {
             localStorage.setItem('calendar-view-name', view.name)
         },
         firstDay: 1,
@@ -138,7 +125,7 @@ $(document).ready(function() {
         resourceSubmitButton.show();
 
         // Action on submit: Store resource
-        resourceModal.parent('form').off().on('submit', function(){
+        resourceModal.parent('form').off().on('submit', () => {
             axios.post(storeResourceUrl, {
                     title: resourceTitleElem.val(),
                     group: resourceGroupElem.val(),
@@ -174,7 +161,7 @@ $(document).ready(function() {
         resourceSubmitButton.show();
 
         // Action on submit: Update resource
-        resourceModal.parent('form').off().on('submit', function(){
+        resourceModal.parent('form').off().on('submit', () => {
             axios.put(resource.url, {
                     title: resourceTitleElem.val(),
                     group: resourceGroupElem.val(),
@@ -188,7 +175,7 @@ $(document).ready(function() {
         });
 
         // Action on delete button click: Delete resource
-        resourceDeleteButton.off().on('click', function(){
+        resourceDeleteButton.off().on('click',  () => {
             if (confirm('Are you sure you want to delete thre resource \'' + resource.title + '\'?')) {
                 axios.delete(resource.url)
                     .then(() => {
@@ -229,12 +216,12 @@ $(document).ready(function() {
         creditsElement.hide();
 
         // Action on cancel: Hide modal dialog
-        modal.on('hide.bs.modal', function (e) {
+        modal.on('hide.bs.modal', (e) => {
             calendar.fullCalendar('unselect');
         });
 
         // Action on submit: Store event
-        modal.parent('form').off().on('submit', function(){
+        modal.parent('form').off().on('submit', () => {
             axios.post(storeEventUrl, {
                     title: titleElem.val(),
                     description: descriptionElem.val(),
@@ -309,7 +296,7 @@ $(document).ready(function() {
         }
 
         // Action on form submit: Update event
-        modal.parent('form').off().on('submit', function(){
+        modal.parent('form').off().on('submit', () => {
             axios.put(calEvent.url, {
                     title: titleElem.val(),
                     description: descriptionElem.val(),
@@ -326,7 +313,7 @@ $(document).ready(function() {
         });
 
         // Action on delete button click: Delete event
-        deleteButton.off().on('click', function(){
+        deleteButton.off().on('click', () => {
             if (confirm('Really delete event \'' + calEvent.title + '\'?')) {
                 axios.delete(calEvent.url)
                     .then(() => {
@@ -391,7 +378,7 @@ $(document).ready(function() {
         var resources = calendar.fullCalendar('getResources');
         resourceIdInputElem.empty();
         var resourceColors = {};
-        $.each(resources, function (i, item) {
+        $.each(resources, (i, item) => {
             resourceIdInputElem.append($('<option>', { 
                 value: item.id,
                 text : item.title 
@@ -401,7 +388,7 @@ $(document).ready(function() {
         resourceIdInputElem.val(resourceId).change().prop("disabled", disabled);            
 
         // Change color of the label next to the resource select
-        var setresourceIdInputElemColor = function() {
+        var setresourceIdInputElemColor = () => {
             var color = resourceColors[resourceIdInputElem.val()];
             resourceIdInputElem.siblings().find('label').css('color', color ? color : 'inherit');
         }

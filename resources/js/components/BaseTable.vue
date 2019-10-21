@@ -106,6 +106,7 @@
 
 <script>
   import TagSelectButton from './TagSelectButton'
+  import { getAjaxErrorMessage } from '../utils'
   export default {
     components: {
         'tag-select-button': TagSelectButton,
@@ -197,18 +198,7 @@
             }).catch(this.handleAjaxError)
         },
         handleAjaxError(err){
-            var msg;
-            if (err.response.data.message) {
-                msg = err.response.data.message;
-            }
-            if (err.response.data.errors) {
-                msg += "\n" + Object.entries(err.response.data.errors).map(([k, v]) => {
-                    return v.join('. ');
-                });
-            } else if (err.response.data.error) {
-                msg = err.response.data.error;
-            }
-            this.errorText = msg;
+            this.errorText = getAjaxErrorMessage(err);
             return [];
         },
         toggleTag(value, toggled) {
