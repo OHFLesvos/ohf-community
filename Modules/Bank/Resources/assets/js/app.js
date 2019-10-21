@@ -1,4 +1,4 @@
-import '../../../../../resources/js/utils'
+import { showSnackbar, handleAjaxError } from '../../../../../resources/js/utils'
 import scanQR from '../../../../../resources/js/qr'
 
 $(function(){
