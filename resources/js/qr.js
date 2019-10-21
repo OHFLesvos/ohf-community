@@ -2,7 +2,7 @@
 /*
  * Instascan QR code camera 
  */
-const jsQR = require("jsqr");
+import jsQR from 'jsqr'
 
 $(document.body).append('<div class="modal" id="videoPreviewModal" tabindex="-1" role="dialog" aria-labelledby="videoPreviewModalLabel" aria-hidden="true">' +
 '<div class="modal-dialog" role="document">' +
@@ -56,7 +56,7 @@ function tick() {
 			drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
 			
 			video.pause();
-			localStream.getTracks().forEach(function(track) {
+			localStream.getTracks().forEach((track) => {
 				track.stop();
 			});
 
@@ -70,7 +70,7 @@ function tick() {
 
 export default function (callback) {
 	navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-		.then(function (stream) {
+		.then((stream) => {
 			if (stream.getVideoTracks().length > 0) {
 				$('#videoPreviewModal').modal('show');
 				// Use facingMode: environment to attemt to get the front camera on phones
@@ -80,10 +80,10 @@ export default function (callback) {
 				video.play();
 				qrCallback = callback;
 				requestAnimationFrame(tick);
-				$('#videoPreviewModal').on('hide.bs.modal', function (e) {
+				$('#videoPreviewModal').on('hide.bs.modal', (e) => {
 					video.pause();
-					localStream.getTracks().forEach(function(track) {
-					track.stop();
+					localStream.getTracks().forEach((track) => {
+						track.stop();
 					});
 					canvas.clearRect(0, 0, canvasElement.width, canvasElement.height);
 				})			
@@ -91,7 +91,7 @@ export default function (callback) {
 				alert('No camera stream available!');
 			}
 		})
-		.catch(function(err) {
+		.catch((err) => {
 			alert('No camera available: ' + err);
 		});
 }
