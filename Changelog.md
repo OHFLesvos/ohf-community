@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9.1
+
+Bank:
+
+* Fixed card registration
+
 ## 2.9.0
 
 * Use Laravel 6.x

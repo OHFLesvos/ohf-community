@@ -13,9 +13,9 @@ $(function(){
 	});
 
 	// Register QR code card
-	$('.register-card').on('click', () => {
+	$('.register-card').on('click', function() {
 		var url = $(this).data('url');
-		var card = $(this).attr('data-card');
+		var card = $(this).data('card');
 		if (card && !confirm('Do you really want to replace the card ' + card.substr(0, 7) + ' with a new one?')) {
 			return;
 		}
