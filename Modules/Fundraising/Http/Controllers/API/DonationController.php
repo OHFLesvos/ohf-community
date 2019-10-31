@@ -22,7 +22,7 @@ class DonationController extends Controller
      */
     public function raiseNowWebHookListener(Request $request) {
         $data = $request->all();
-        Log::info("Donation webhook", $data);
+        // Log::info("Donation webhook", $data);
 
         $request->validate([
             'stored_customer_firstname' => [
