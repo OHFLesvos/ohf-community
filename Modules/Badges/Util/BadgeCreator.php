@@ -35,7 +35,7 @@ class BadgeCreator {
             ->all();
 
         $punch_hole_size = 6;
-        $punch_hole_distance_center = 12;
+        $punch_hole_distance_center = 9;
 
         $mpdf = new Mpdf([
             'format' => $this->pageFormat,
@@ -55,7 +55,12 @@ class BadgeCreator {
         }
         .logo {
             text-align: center;
-            margin-top: 6mm;
+            margin-top: 3mm;
+        }
+        .portrait {
+            text-align:center;
+            padding-top:2mm;
+            padding-bottom:2mm;
         }
         .name {
             text-align: center;
@@ -71,7 +76,7 @@ class BadgeCreator {
         }
         .issued {
             text-align: right;
-            font-size: 8pt;
+            font-size: 6pt;
         }
         .code_no {
             font-size: 8pt;
@@ -81,6 +86,7 @@ class BadgeCreator {
         $pageWidth = $mpdf->w;
         $pageHeight = $mpdf->h;
 
+        // Validate badge dimensions
         if ($this->badgeWidth > $pageWidth) {
             throw new \Exception('Badge width (' . $this->badgeWidth . ') greater than page width (' . $pageWidth . ')');
         }
@@ -88,14 +94,17 @@ class BadgeCreator {
             throw new \Exception('Badge height (' . $this->badgeHeight . ') greater than page height (' . $pageHeight . ')');
         }
 
-        $badgesX = floor($pageWidth / $this->badgeWidth);
+        // Calculate badges per dimension and page
+        $badgeFrontAndBackWidth = $this->badgeWidth * 2;
+        $badgesX = floor($pageWidth / $badgeFrontAndBackWidth);
         $badgesY = floor($pageHeight / $this->badgeHeight);
         $badgesPerPage = $badgesX * $badgesY;
 
+        // Iterate over all persons
         for ($i = 0; $i < count($persons); $i++) {
 
             // Badge container starting position
-            $x = $this->badgeWidth * ($i % $badgesX);
+            $x = $badgeFrontAndBackWidth * ($i % $badgesX);
             $y = $this->badgeHeight * floor(($i % $badgesPerPage) / $badgesX);
 
             // Decide if new page should be added
@@ -103,25 +112,36 @@ class BadgeCreator {
                 $mpdf->AddPage('L');
             }
 
+            // Calculate starting positions and dimensions including padding
             $xp = $x + $this->padding;
             $yp = $y + $this->padding;
             $wp = $this->badgeWidth - (2 * $this->padding);
             $hp = $this->badgeHeight - (2 * $this->padding);
+            $xpb = $x + $this->badgeWidth + $this->padding;
+            $ypb = $pageHeight - $yp - $hp;
 
             // Page number
             $page = floor($i / $badgesPerPage) + 1;
 
             // Line on the right
-            $mpdf->Line($x + $this->badgeWidth, $y, $x + $this->badgeWidth, $y + $this->badgeHeight);
+            $mpdf->Line($x + $badgeFrontAndBackWidth, $y, $x + $badgeFrontAndBackWidth, $y + $this->badgeHeight);
             
             // Line on the bottom
-            $mpdf->Line($x, $y + $this->badgeHeight, $x + $this->badgeWidth, $y + $this->badgeHeight);
+            $mpdf->Line($x, $y + $this->badgeHeight, $x + $badgeFrontAndBackWidth, $y + $this->badgeHeight);
+
+            // Divider between front and back side
+            $mpdf->SetLineWidth(0.05);
+            $mpdf->SetDrawColor(192);
+            $mpdf->Line($x + $this->badgeWidth, $y, $x + $this->badgeWidth, $y + $this->badgeHeight);
+            $mpdf->SetLineWidth(0.2);
+            $mpdf->SetDrawColor(0);
 
             // DEBUG: Padding rectangle
-            $mpdf->Rect($xp, $yp, $wp, $hp);
+            // $mpdf->Rect($xp, $yp, $wp, $hp);
+            // $mpdf->Rect($xpb, $yp, $wp, $hp);
 
-            // DEBUG: Info
-            $mpdf->WriteFixedPosHTML("$i: ($x,$y)<br>".$persons[$i]['name']."<br>".$persons[$i]['position']."<br>Page: ".$page, $xp, $yp, $wp, $hp);
+            // // DEBUG: Info
+            // $mpdf->WriteFixedPosHTML("$i: ($x,$y)<br>".$persons[$i]['name']."<br>".$persons[$i]['position']."<br>Page: ".$page, $xp, $yp, $wp, $hp);
 
             // // Line around the block (front and back)
             // $mpdf->Rect($x, $y, $bw, $bh);
@@ -138,9 +158,33 @@ class BadgeCreator {
             //     self::fitImage($mpdf, $persons[$i]['picture'], $x + $padding, $y + $padding, ($bw / 2) - (2 * $padding), $bh - (2 * $padding));
             // }
 
-            // // Name
-            // $mpdf->WriteFixedPosHTML('<h1 class="name">' . $persons[$i]['name'] . '</h1>
-            // <h2 class="position">' . $persons[$i]['position'] . '</h2>', $x, $y, $bw / 2, $bh, 'auto');
+            if (isset($persons[$i]['picture'])) {
+                $portrait = '<div class="portrait"><img src="'. $persons[$i]['picture'] .'" style="height: 50mm;"></div>';
+                // $mpdf->WriteFixedPosHTML('<img src="'. \Storage::path($persons[$i]['picture']) .'" style="width: 30mm">', $x + $padding, $y + $padding, 100, 100, 'hidden');
+            } else {
+                $portrait = '';
+            }
+
+            $content = '
+                <div class="logo">
+                    <img src="'. $this->logo .'" style="height: 15mm;">
+                </div>
+                '.$portrait.'
+                <h1 class="name">' . $persons[$i]['name'] . '</h1>
+                <h2 class="position">' . $persons[$i]['position'] . '</h2>';
+
+            // Name
+            $mpdf->WriteFixedPosHTML($content, $xp, $yp, $wp, $hp, 'auto');
+
+            // $mpdf->writeHTML('<div class="issued" style="background: cyan; position: absolute; bottom: '.($yp).'mm; right: '.($pageWidth-$xp).'">Issued: ' . Carbon::today()->toDateString() . '</div>');
+            // $mpdf->WriteFixedPosHTML('<div class="issued" style="position: absolute; height: '.$hp.'mm; bottom: 0; right: 0">Issued: ' . Carbon::today()->toDateString() . '</div>', $xp, $yp, $wp, $hp, 'auto');
+
+            // Issued
+            // $mpdf->writeHTML('<div class="issued" style="position: absolute; width: '.$wp.'mm; left:'.$xp.'mm; bottom: '.$ypb.'mm;">Issued: ' . Carbon::today()->toDateString() . '</div>');
+            $mpdf->writeHTML('<div class="issued" style="position: absolute; width: '.$wp.'mm; left:'.$xp.'mm; top: '.($yp + $hp).'mm;">Issued: ' . Carbon::today()->toDateString() . '</div>');
+
+            // Punch hole
+            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($this->badgeWidth / 2) - ($punch_hole_size / 2)) .'mm; top: '. ($y + $punch_hole_distance_center - ($punch_hole_size / 2)) .'mm; width: '. $punch_hole_size .'mm; height: ' . $punch_hole_size . 'mm; border-radius: ' . ($punch_hole_size / 2) .'mm; border: 1px dotted black;"></div>');
 
             // $content = '
             // <div class="logo">
