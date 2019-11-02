@@ -30,7 +30,7 @@ class BadgeCreator {
 
     public function createPdf($title) {
         $persons = collect($this->persons)
-            ->sortBy('name')
+            ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE)
             ->values()
             ->all();
 

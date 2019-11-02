@@ -116,10 +116,12 @@ class BadgeMakerController extends Controller
             })
             ->validate();
 
-        $data = collect($persons)->sortBy('name')->mapWithKeys(function($e){
-            $id = md5(uniqid(null, true));
-            return [ $id => $e ];
-        });
+        $data = collect($persons)
+            ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE)
+            ->mapWithKeys(function($e){
+                $id = md5(uniqid(null, true));
+                return [ $id => $e ];
+            });
         $request->session()->put(self::BADGE_ITEMS_SESSION_KEY, $data->toArray());
 
         return view('badges::selection', [
