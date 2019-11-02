@@ -12,6 +12,7 @@ use Modules\Badges\Imports\BadgeImport;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use Validator;
 
@@ -158,6 +159,7 @@ class BadgeMakerController extends Controller
                     $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
                     $helper->person->save();
                     $person['code'] = $helper->person->staff_card_no;
+                    $person['picture'] = $helper->person->portrait_picture != null ? Storage::path($helper->person->portrait_picture) : null;
                 }
             }
 
@@ -176,7 +178,12 @@ class BadgeMakerController extends Controller
         if ($request->hasFile('alt_logo')) {
             $badgeCreator->setLogo($request->file('alt_logo'));
         }
-        $badgeCreator->createPdf($title);
+        try {
+            $badgeCreator->createPdf($title);
+        } catch (\Exception $e) {
+            return redirect()->route('badges.index')
+                ->with('error', $e->getMessage());
+        }
     }
 
     private static function helperToBadgePerson($helper) {
