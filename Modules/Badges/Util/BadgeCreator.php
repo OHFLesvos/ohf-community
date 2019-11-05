@@ -18,7 +18,12 @@ class BadgeCreator {
     public $badgeWidth = 74;
     public $badgeHeight = 105;
 
+    public $addIssuedDate = true;
+
     public $padding = 5;
+
+    public $punchHoleSize = 6;
+    public $punchHoleDistanceCenter = 9;
 
     public $mirror = true;
 
@@ -37,9 +42,6 @@ class BadgeCreator {
             ->values()
             ->all();
 
-        $punch_hole_size = 6;
-        $punch_hole_distance_center = 9;
-
         $mpdf = new Mpdf([
             'format' => $this->pageFormat,
             'orientation' => $this->orientation,
@@ -55,27 +57,6 @@ class BadgeCreator {
         // Style
         $mpdf->writeHTML('body { 
             font-family: Helvetica; 
-        }
-        .logo {
-            text-align: center;
-            margin-top: 3mm;
-        }
-        .portrait {
-            text-align:center;
-            padding-top:2mm;
-            padding-bottom:2mm;
-        }
-        .name {
-            text-align: center;
-            font-size: 270%;
-            padding: 0;
-            margin: 0;
-        }
-        .position {
-            text-align: center;
-            font-weight: normal;
-            padding: 0;
-            margin: 0;
         }
         .issued {
             text-align: right;
@@ -141,42 +122,40 @@ class BadgeCreator {
             $mpdf->SetLineWidth(0.2);
             $mpdf->SetDrawColor(0);
 
-            // DEBUG: Padding rectangle & info
-            // $mpdf->Rect($xp, $yp, $wp, $hp);
-            // $mpdf->Rect($xpb, $yp, $wp, $hp);
-            // $mpdf->WriteFixedPosHTML("$i: ($x,$y)<br>".$persons[$i]['name']."<br>".$persons[$i]['position']."<br>Page: ".$page, $xp, $yp, $wp, $hp);
+            $content = '';
 
+            // Logo
+            $content.= '<img src="'. $this->logo .'" style="height: 15mm; margin-top: 3mm; text-align: center;">';
+
+            // Picture
             if (isset($persons[$i]['picture'])) {
-                $portrait = '<div class="portrait"><img src="'. $persons[$i]['picture'] .'" style="height: 50mm;"></div>';
-            } else {
-                $portrait = '';
+                $content.= '<div style="text-align:center; padding-top:2mm; padding-bottom:2mm;"><img src="'. $persons[$i]['picture'] .'" style="height: 50mm;"></div>';
             }
 
-            $content = '
-                <div class="logo">
-                    <img src="'. $this->logo .'" style="height: 15mm;">
-                </div>
-                '.$portrait.'
-                <h1 class="name">' . $persons[$i]['name'] . '</h1>
-                <h2 class="position">' . $persons[$i]['position'] . '</h2>';
+            // Name
+            $content.= '<h1 style="font-size: 270%; text-align: center; padding: 0; margin: 0; text-align: center;">' . $persons[$i]['name'] . '</h1>';
 
-            // Content
+            // Position
+            $content.= '<h2 style="text-align: center; font-weight: normal; padding: 0; margin: 0;">' . $persons[$i]['position'] . '</h2>';
+
+            // Write content
             $mpdf->WriteFixedPosHTML($content, $xp, $yp, $wp, $hp, 'auto');
             if ($this->mirror) {
                 $mpdf->WriteFixedPosHTML($content, $xp + $this->badgeWidth, $yp, $wp, $hp, 'auto');
             }
 
             // Issued
-            $mpdf->writeHTML('<div class="issued" style="position: absolute; width: '.$wp.'mm; left:'.$xp.'mm; top: '.($yp + $hp).'mm;">Issued: ' . Carbon::today()->toDateString() . '</div>');
+            if ($this->addIssuedDate) {
+                $mpdf->writeHTML('<div class="issued" style="position: absolute; width: '.$wp.'mm; left:'.$xp.'mm; top: '.($yp + $hp).'mm;">Issued: ' . Carbon::today()->toDateString() . '</div>');
+            }
 
             // Punch hole
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($this->badgeWidth / 2) - ($punch_hole_size / 2)) .'mm; top: '. ($y + $punch_hole_distance_center - ($punch_hole_size / 2)) .'mm; width: '. $punch_hole_size .'mm; height: ' . $punch_hole_size . 'mm; border-radius: ' . ($punch_hole_size / 2) .'mm; border: 1px dotted black;"></div>');
+            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($this->badgeWidth / 2) - ($this->punchHoleSize / 2)) .'mm; top: '. ($y + $this->punchHoleDistanceCenter - ($this->punchHoleSize / 2)) .'mm; width: '. $this->punchHoleSize .'mm; height: ' . $this->punchHoleSize . 'mm; border-radius: ' . ($this->punchHoleSize / 2) .'mm; border: 1px dotted black;"></div>');
 
             // // QR Code of ID
             // if (!empty($persons[$i]['code'])) {
             //     $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['code'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['code'].'</small>', $x + $padding - 3, $y + $padding + 43, 30, 30, 'auto');
             // }
-
         }
 
         $mpdf->Output($title . ' ' .Carbon::now()->toDateString() . '.pdf', Output\Destination::DOWNLOAD);
