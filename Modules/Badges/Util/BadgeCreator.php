@@ -176,6 +176,8 @@ class BadgeCreator {
             // Name
             $mpdf->WriteFixedPosHTML($content, $xp, $yp, $wp, $hp, 'auto');
 
+            $mpdf->WriteFixedPosHTML($content, $xp + $this->badgeWidth, $yp, $wp, $hp, 'auto');
+
             // $mpdf->writeHTML('<div class="issued" style="background: cyan; position: absolute; bottom: '.($yp).'mm; right: '.($pageWidth-$xp).'">Issued: ' . Carbon::today()->toDateString() . '</div>');
             // $mpdf->WriteFixedPosHTML('<div class="issued" style="position: absolute; height: '.$hp.'mm; bottom: 0; right: 0">Issued: ' . Carbon::today()->toDateString() . '</div>', $xp, $yp, $wp, $hp, 'auto');
 
