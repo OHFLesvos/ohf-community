@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9.2
+
+Shop:
+
+* Added null pointer check if person assigned to card has been deleted.
+
 ## 2.9.1
 
 Bank:
