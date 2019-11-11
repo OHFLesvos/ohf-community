@@ -11,3 +11,4 @@ npm-debug.log
 .env
 /nbproject/private/
 Modules/*/node_modules
+modules_statuses.json
