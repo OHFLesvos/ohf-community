@@ -130,10 +130,13 @@ class BadgeCreator {
             // Picture
             if (isset($persons[$i]['picture'])) {
                 $content.= '<div style="text-align:center; padding-top:2mm; padding-bottom:2mm;"><img src="'. $persons[$i]['picture'] .'" style="height: 50mm;"></div>';
+                $nameTopMargin = 0;
+            } else {
+                $nameTopMargin = 22;
             }
 
             // Name
-            $content.= '<h1 style="font-size: 270%; text-align: center; padding: 0; margin: 0; text-align: center;">' . $persons[$i]['name'] . '</h1>';
+            $content.= '<h1 style="font-size: 270%; text-align: center; padding: 0; margin: 0; text-align: center; margin-top: '.$nameTopMargin.'mm">' . $persons[$i]['name'] . '</h1>';
 
             // Position
             $content.= '<h2 style="text-align: center; font-weight: normal; padding: 0; margin: 0;">' . $persons[$i]['position'] . '</h2>';
