@@ -14,6 +14,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use \Gumlet\ImageResize;
+
 use Validator;
 
 class BadgeMakerController extends Controller
@@ -98,9 +100,17 @@ class BadgeMakerController extends Controller
         else if ($request->source == 'list') {
             for ($i = 0; $i < count($request->name); $i++) {
                 if (!empty($request->name[$i])) {
+                    if ($request->hasFile('picture.'.$i)) {
+                        $image = new ImageResize($request->file('picture.'.$i), IMAGETYPE_JPEG);
+                        $image->resizeToBestFit(800, 800, true);
+                        $picture = 'data:image/jpeg;base64,' . base64_encode((string)$image);
+                    } else {
+                        $picture = null;
+                    }
                     $persons[] = [
                         'name' => $request->name[$i],
                         'position' => $request->position[$i] ?? null,
+                        'picture' => $picture,
                         'code' => null
                     ];
                 }

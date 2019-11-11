@@ -290,4 +290,5 @@ return [
     'card_number' => 'Kartennummer',
     'no_cards_registered' => 'Keine Karten registriert.',
     'revoked' => 'Zurückgezogen',
+    'picture' => 'Bild',
 ];
