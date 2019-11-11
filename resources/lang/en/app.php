@@ -291,4 +291,5 @@ return [
     'no_cards_registered' => 'No cards registered.',
     'revoked' => 'Revoked',
     'picture' => 'Picture',
+    'available' => 'Available',
  ];

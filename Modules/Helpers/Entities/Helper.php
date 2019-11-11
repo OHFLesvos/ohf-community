@@ -91,6 +91,11 @@ class Helper extends Model implements Auditable
         'notes',
     ];
 
+    function responsibilities()
+    {
+        return $this->belongsToMany(Responsibility::class, 'helpers_helper_responsibility', 'helper_id', 'responsibility_id');
+    }
+
     /**
      * Scope a query to only include applicants.
      *
