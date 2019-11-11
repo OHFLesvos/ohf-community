@@ -12,6 +12,9 @@ use Modules\Badges\Imports\BadgeImport;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+use \Gumlet\ImageResize;
 
 use Validator;
 
@@ -97,9 +100,17 @@ class BadgeMakerController extends Controller
         else if ($request->source == 'list') {
             for ($i = 0; $i < count($request->name); $i++) {
                 if (!empty($request->name[$i])) {
+                    if ($request->hasFile('picture.'.$i)) {
+                        $image = new ImageResize($request->file('picture.'.$i), IMAGETYPE_JPEG);
+                        $image->resizeToBestFit(800, 800, true);
+                        $picture = 'data:image/jpeg;base64,' . base64_encode((string)$image);
+                    } else {
+                        $picture = null;
+                    }
                     $persons[] = [
                         'name' => $request->name[$i],
                         'position' => $request->position[$i] ?? null,
+                        'picture' => $picture,
                         'code' => null
                     ];
                 }
@@ -115,10 +126,12 @@ class BadgeMakerController extends Controller
             })
             ->validate();
 
-        $data = collect($persons)->sortBy('name')->mapWithKeys(function($e){
-            $id = md5(uniqid(null, true));
-            return [ $id => $e ];
-        });
+        $data = collect($persons)
+            ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE)
+            ->mapWithKeys(function($e){
+                $id = md5(uniqid(null, true));
+                return [ $id => $e ];
+            });
         $request->session()->put(self::BADGE_ITEMS_SESSION_KEY, $data->toArray());
 
         return view('badges::selection', [
@@ -158,6 +171,7 @@ class BadgeMakerController extends Controller
                     $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
                     $helper->person->save();
                     $person['code'] = $helper->person->staff_card_no;
+                    $person['picture'] = $helper->person->portrait_picture != null ? Storage::path($helper->person->portrait_picture) : null;
                 }
             }
 
@@ -176,7 +190,12 @@ class BadgeMakerController extends Controller
         if ($request->hasFile('alt_logo')) {
             $badgeCreator->setLogo($request->file('alt_logo'));
         }
-        $badgeCreator->createPdf($title);
+        try {
+            $badgeCreator->createPdf($title);
+        } catch (\Exception $e) {
+            return redirect()->route('badges.index')
+                ->with('error', $e->getMessage());
+        }
     }
 
     private static function helperToBadgePerson($helper) {

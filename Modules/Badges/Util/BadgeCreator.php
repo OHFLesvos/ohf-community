@@ -12,6 +12,21 @@ class BadgeCreator {
     private $persons;
     private $logo;
 
+    public $pageFormat = 'A4';
+    public $orientation = 'landscape';
+
+    public $badgeWidth = 74;
+    public $badgeHeight = 105;
+
+    public $addIssuedDate = true;
+
+    public $padding = 5;
+
+    public $punchHoleSize = 6;
+    public $punchHoleDistanceCenter = 9;
+
+    public $mirror = true;
+
     public function __construct($persons) {
         $this->persons = $persons;
         $this->logo = public_path('img/logo_card.png');
@@ -23,17 +38,13 @@ class BadgeCreator {
 
     public function createPdf($title) {
         $persons = collect($this->persons)
-            ->sortBy('name')
+            ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE)
             ->values()
             ->all();
 
-        $padding = 10;
-
-        $punch_hole_size = 6;
-        $punch_hole_distance_center = 12;
-
         $mpdf = new Mpdf([
-            'format' => 'A4',
+            'format' => $this->pageFormat,
+            'orientation' => $this->orientation,
             'margin_left' => 0,
             'margin_right' => 0,
             'margin_top' => 0,
@@ -47,89 +58,141 @@ class BadgeCreator {
         $mpdf->writeHTML('body { 
             font-family: Helvetica; 
         }
-
-        .logo {
-            text-align: center;
-            margin-top: 6mm;
-        }
-
-        .name {
-            text-align: center;
-            font-size: 30pt;
-            padding: 0;
-            margin: 0;
-            margin-top: 1mm;
-        }
-
-        .position {
-            text-align: center;
-            font-weight: normal;
-            padding: 0;
-            margin: 0;
-        }
-
         .issued {
             text-align: right;
-            font-size: 8pt;
+            font-size: 6pt;
         }
         .code_no {
             font-size: 8pt;
         }
         ', 1);
 
-        $h = $mpdf->h;
-        $w = $mpdf->w;
+        $pageWidth = $mpdf->w;
+        $pageHeight = $mpdf->h;
 
-        $bw = $w / 2;
-        $bh = $h / 2;
-        $bsh = $bh / 2;
+        // Validate badge dimensions
+        if ($this->badgeWidth > $pageWidth) {
+            throw new \Exception('Badge width (' . $this->badgeWidth . ') greater than page width (' . $pageWidth . ')');
+        }
+        if ($this->badgeHeight > $pageHeight) {
+            throw new \Exception('Badge height (' . $this->badgeHeight . ') greater than page height (' . $pageHeight . ')');
+        }
 
+        // Calculate badges per dimension and page
+        $badgeFrontAndBackWidth = $this->badgeWidth * 2;
+        $badgesX = floor($pageWidth / $badgeFrontAndBackWidth);
+        $badgesY = floor($pageHeight / $this->badgeHeight);
+        $badgesPerPage = $badgesX * $badgesY;
+
+        // Iterate over all persons
         for ($i = 0; $i < count($persons); $i++) {
-            
-            $x = $i % 2 == 0 ? 0 : $w / 2;
-            $y = $i % 4 == 0 || $i % 4 == 1 ? 0 : $h / 2;
 
-            if ($i % 4 == 0) {
+            // Badge container starting position
+            $x = $badgeFrontAndBackWidth * ($i % $badgesX);
+            $y = $this->badgeHeight * floor(($i % $badgesPerPage) / $badgesX);
+
+            // Decide if new page should be added
+            if ($i % $badgesPerPage == 0) {
                 $mpdf->AddPage();
             }
 
-            $content = '
-            <div class="logo">
-                <img src="'. $this->logo .'" style="height: 15mm;">
-            </div>
-            <h1 class="name">' . $persons[$i]['name'] . '</h1>
-            <h2 class="position">' . $persons[$i]['position'] . '</h2>';
+            // Calculate starting positions and dimensions including padding
+            $xp = $x + $this->padding;
+            $yp = $y + $this->padding;
+            $wp = $this->badgeWidth - (2 * $this->padding);
+            $hp = $this->badgeHeight - (2 * $this->padding);
+            $xpb = $x + $this->badgeWidth + $this->padding;
+            $ypb = $pageHeight - $yp - $hp;
+            $rx0 = $pageWidth - ($this->badgeWidth * 2 * $badgesX);
+            $rx = $rx0 + ($badgeFrontAndBackWidth * ($badgesX - 1- ($i % $badgesX)));
 
-            // TODO image <img src="{{ Storage::path($helper->person->portrait_picture) }}">
+            // Page number
+            $page = floor($i / $badgesPerPage) + 1;
 
-            // Borders
-            $mpdf->writeHTML('<div style="position: absolute; left: '.$x.'mm; top: '.$y.'mm; width: '.$bw.'mm; height: '.$bh.'mm; border: 1px dotted black;"></div>');
-            $mpdf->writeHTML('<div style="position: absolute; left: '.$x.'mm; top: '.($y+ ($bh/2)).'mm; width: '.$bw.'mm; border-top: 1px dotted black;"></div>');
-
-            // Front-side content
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + $padding) . 'mm; top: '. ($y + $padding).'mm; width: '. ($bw - (2 * $padding)) .'mm; height: '. ($bsh - (2 * $padding)) .'mm;">
-            ' . $content . '
-            </div>');
-
-            // Back-side content
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + $padding) . 'mm; top: '. ($y + $bsh + $padding).'mm; width: '. ($bw - (2 * $padding)) .'mm; height: '. ($bsh - (2 * $padding)) .'mm; rotate: 180;">
-            ' . $content . '
-            </div>');
-
-            // Issued
-            $mpdf->WriteFixedPosHTML('<div class="issued">Issued: ' . Carbon::today()->toDateString() . '</div>', $x + $padding, $y + $bsh - $padding - 3, $bw - (2 * $padding), 10, 'auto');
-
-            // Punch hole
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($bw / 2) - ($punch_hole_size / 2)) .'mm; top: '. ($y + $punch_hole_distance_center - ($punch_hole_size / 2)) .'mm; width: '. $punch_hole_size .'mm; height: ' . $punch_hole_size . 'mm; border-radius: ' . ($punch_hole_size / 2) .'mm; border: 1px dotted black;"></div>');
+            // Line on the right
+            $mpdf->Line($x + $badgeFrontAndBackWidth, $y, $x + $badgeFrontAndBackWidth, $y + $this->badgeHeight);
             
-            // QR Code of ID
-            if (!empty($persons[$i]['code'])) {
-                $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['code'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['code'].'</small>', $x + $padding - 3, $y + $padding + 43, 30, 30, 'auto');
+            // Line on the bottom
+            $mpdf->Line($x, $y + $this->badgeHeight, $x + $badgeFrontAndBackWidth, $y + $this->badgeHeight);
+
+            // Divider between front and back side
+            $mpdf->SetLineWidth(0.05);
+            $mpdf->SetDrawColor(192);
+            $mpdf->Line($x + $this->badgeWidth, $y, $x + $this->badgeWidth, $y + $this->badgeHeight);
+            $mpdf->SetLineWidth(0.2);
+            $mpdf->SetDrawColor(0);
+
+            $content = '';
+
+            // Logo
+            $content.= '<img src="'. $this->logo .'" style="height: 15mm; margin-top: 3mm; text-align: center;">';
+
+            // Picture
+            if (isset($persons[$i]['picture'])) {
+                $content.= '<div style="text-align:center; padding-top:2mm; padding-bottom:2mm;"><img src="'. $persons[$i]['picture'] .'" style="height: 50mm;"></div>';
+                $nameTopMargin = 0;
+            } else {
+                $nameTopMargin = 22;
             }
 
+            // Name
+            $content.= '<h1 style="font-size: 270%; text-align: center; padding: 0; margin: 0; text-align: center; margin-top: '.$nameTopMargin.'mm">' . $persons[$i]['name'] . '</h1>';
+
+            // Position
+            $content.= '<h2 style="text-align: center; font-weight: normal; padding: 0; margin: 0;">' . $persons[$i]['position'] . '</h2>';
+
+            // Write content
+            $mpdf->WriteFixedPosHTML($content, $xp, $yp, $wp, $hp, 'auto');
+            if ($this->mirror) {
+                $mpdf->WriteFixedPosHTML($content, $xp + $this->badgeWidth, $yp, $wp, $hp, 'auto');
+            }
+
+            // Issued
+            if ($this->addIssuedDate) {
+                $mpdf->writeHTML('<div class="issued" style="position: absolute; width: '.$wp.'mm; left:'.$xp.'mm; top: '.($yp + $hp).'mm;">Issued: ' . Carbon::today()->toDateString() . '</div>');
+            }
+
+            // Punch hole
+            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($this->badgeWidth / 2) - ($this->punchHoleSize / 2)) .'mm; top: '. ($y + $this->punchHoleDistanceCenter - ($this->punchHoleSize / 2)) .'mm; width: '. $this->punchHoleSize .'mm; height: ' . $this->punchHoleSize . 'mm; border-radius: ' . ($this->punchHoleSize / 2) .'mm; border: 1px dotted black;"></div>');
+
+            // // QR Code of ID
+            // if (!empty($persons[$i]['code'])) {
+            //     $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['code'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['code'].'</small>', $x + $padding - 3, $y + $padding + 43, 30, 30, 'auto');
+            // }
         }
 
         $mpdf->Output($title . ' ' .Carbon::now()->toDateString() . '.pdf', Output\Destination::DOWNLOAD);
+    }
+
+    private static function fitImage($mpdf, $imageSource, $x, $y, $containerWidth, $containerHeight)
+    {
+        // Get image width
+        $imageWidth				= getimagesize($imageSource)[0];
+        // Get image height
+        $imageHeight			= getimagesize($imageSource)[1];
+        // Get image aspect ratio
+        $imageRatio				= $imageWidth / $imageHeight;
+        // Get container aspect ratio
+        $containerRatio			= $containerWidth / $containerHeight;
+        
+        // Decide if image should increase in height or width
+        if ($imageRatio > $containerRatio) {
+            $width = $containerWidth;
+            $height = $containerWidth / $imageRatio;
+        } else if ($imageRatio < $containerRatio) {
+            $width = $containerHeight * $imageRatio;
+            $height = $containerHeight;
+        } else {
+            $width = $containerWidth;
+            $height = $containerHeight;
+        }
+
+        // Center image
+        $offsetX = ($containerWidth / 2) - ($width / 2);
+        $offsetY = ($containerHeight / 2) - ($height / 2);
+
+        // Write image to PDF
+        $mpdf->Image($imageSource, $x + $offsetX, $y + $offsetY, $width, $height);
     }
 
 }
