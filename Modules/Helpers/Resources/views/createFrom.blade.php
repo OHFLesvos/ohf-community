@@ -3,25 +3,24 @@
 @section('title', __('people::people.register_helper'))
 
 @section('content')
-    {!! Form::open(['route' => ['people.helpers.storeFrom']]) !!}
-        {{ Form::bsAutocomplete('person_id', null, route('api.people.filterPersons'), ['placeholder' => __('people::people.search_existing_person')], '') }}
-		<p>
-            {{ Form::bsSubmitButton(__('people::people.use_existing_person')) }} 
-			<a href="{{ route('people.helpers.create') }}" class="btn btn-primary">@icon(plus-circle) @lang('people::people.register_new_person')</a>
-		</p>
-    {!! Form::close() !!}    
+
+    <div id="helper-app">
+        {!! Form::open(['route' => ['people.helpers.storeFrom']]) !!}
+            <person-search
+                name="person_id"
+                api-url="{{ route('api.people.filterPersons') }}"
+                placeholder="@lang('people::people.search_existing_person')"
+            >
+                {{ Form::bsSubmitButton(__('people::people.use_existing_person')) }}
+                <template v-slot:not-found>
+                    <a href="{{ route('people.helpers.create') }}" class="btn btn-secondary">@icon(plus-circle) @lang('people::people.register_new_person')</a>
+                </template>
+            </person-search>
+        {!! Form::close() !!}
+    </div>
+
 @endsection
 
-@section('script')
-    function toggleSubmit() {
-        if ($('#person_id').val()) {
-            $('button[type="submit"]').attr('disabled', false);
-        } else {
-            $('button[type="submit"]').attr('disabled', true);
-        }
-    }
-    $(function(){
-        $('#person_id').on('change', toggleSubmit);
-        toggleSubmit();
-    });
+@section('footer')
+    <script src="{{ asset('js/helpers.js') }}?v={{ $app_version }}"></script>
 @endsection
