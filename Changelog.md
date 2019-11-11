@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.9.3
+
+Badges:
+
+* Added possibility to upload pictures in list mode
+
+Helpers:
+
+* Enforce to search person first before registering new helper
+
 ## 2.9.2
 
 Shop:
