@@ -215,8 +215,8 @@ class HelperListController extends Controller
             [
                 'label_key' => 'people::people.languages',
                 'icon' => 'language',
-                'value' => function($helper) { return $helper->person->languages != null ? implode(", ", $helper->person->languages) : null; },
-                'value_html' => function($helper) { return $helper->person->languages != null ? implode("<br>", $helper->person->languages) : null; },
+                'value' => function($helper) { return $helper->person->languages != null ? (is_array($helper->person->languages) ? implode(", ", $helper->person->languages) : $helper->person->languages) : null; },
+                'value_html' => function($helper) { return $helper->person->languages != null ? (is_array($helper->person->languages) ? implode("<br>", $helper->person->languages) : $helper->person->languages) : null; },
                 'overview' => false,
                 'section' => 'general',
                 'assign' => function($person, $helper, $value) { $person->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value)) : null); },
