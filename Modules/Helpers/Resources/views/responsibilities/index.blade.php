@@ -10,8 +10,8 @@
                 <thead>
                     <tr>
                         <th>@lang('app.name')</th>
-                        <th>@lang('app.capacity')</th>
-                        <th>@lang('app.available')</th>
+                        <th class="text-right fit">@lang('app.capacity')</th>
+                        <th class="text-center fit">@lang('app.available')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,8 +20,8 @@
                             <td>
                                 <a href="{{ route('people.helpers.responsibilities.edit', $responsibility) }}">{{ $responsibility->name }}</a>
                             </td>
-                            <td>{{ $responsibility->capacity }}</td>
-                            <td>@if($responsibility->available) @icon(check) @else @icon(times) @endif</td>
+                            <td class="text-right fit">{{ $responsibility->capacity }}</td>
+                            <td class="text-center fit">@if($responsibility->available) @icon(check) @else @icon(times) @endif</td>
                         </tr>
                     @endforeach
                 </tbody>

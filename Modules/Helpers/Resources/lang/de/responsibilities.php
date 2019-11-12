@@ -9,4 +9,5 @@ return [
     'responsibility_added' => 'Verantwortung hinzugefügt.',
     'responsibility_updated' => 'Verantwortung aktualisiert.',
     'responsibility_deleted' => 'Verantwortung gelöscht.',
+    'confirm_delete_responsibility' => 'Diese Verantwortung wirklich löschen?',
 ];

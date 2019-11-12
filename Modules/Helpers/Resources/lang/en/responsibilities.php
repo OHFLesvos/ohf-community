@@ -9,4 +9,5 @@ return [
     'responsibility_added' => 'Responsibility added.',
     'responsibility_updated' => 'Responsibility updated.',
     'responsibility_deleted' => 'Responsibility deleted.',
+    'confirm_delete_responsibility' => 'Really delete this responsibility?',
 ];
