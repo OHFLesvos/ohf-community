@@ -351,7 +351,6 @@ class HelperListController extends Controller
                             $value = array_map('trim', $values);
                         }
                         $selected = Responsibility::whereIn('name', $value)
-                            ->where('available', true)
                             ->get()
                             ->pluck('id')
                             ->all();
@@ -361,11 +360,13 @@ class HelperListController extends Controller
                 'form_type' => 'checkboxes',
                 'form_name' => 'responsibilities',
                 'form_list' => Responsibility::select('name')
-                        ->where('available', true)
                         ->orderBy('name')
                         ->get()
                         ->pluck('name', 'name')
                         ->toArray(),
+                'form_validate' => [
+                    Rule::in(Responsibility::select('name')->get()->pluck('name')->all())
+                ] 
             ],
             [
                 'label_key' => 'people::people.trial_period',
@@ -1353,6 +1354,12 @@ class HelperListController extends Controller
                 })
                 ->mapWithKeys(function($f){
                     $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
+                    if ($f['form_type'] == 'checkboxes') {
+                        return [
+                            $f['form_name'] = 'array',
+                            $f['form_name'].'.*' => $rules,
+                        ];
+                    }
                     return [$f['form_name'] => $rules];
                 })
                 ->toArray()
