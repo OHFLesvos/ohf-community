@@ -13,6 +13,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
      */
     protected $policies = [
         \Modules\Helpers\Entities\Helper::class => \Modules\Helpers\Policies\HelperPolicy::class,
+        \Modules\Helpers\Entities\Responsibility::class => \Modules\Helpers\Policies\ResponsibilityPolicy::class,
     ];
 
     protected $permissions = [

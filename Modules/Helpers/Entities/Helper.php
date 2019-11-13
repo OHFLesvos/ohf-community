@@ -51,11 +51,9 @@ class Helper extends Model implements Auditable
      * @var array
      */
     protected $casts = [
-        'responsibilities' => 'array',
     ];
 
     protected $nullable = [
-        'responsibilities',
         'local_phone',
         'other_phone',
         'whatsapp',
@@ -90,6 +88,11 @@ class Helper extends Model implements Auditable
         'work_needs',
         'notes',
     ];
+
+    function responsibilities()
+    {
+        return $this->belongsToMany(Responsibility::class, 'helpers_helper_responsibility', 'helper_id', 'responsibility_id');
+    }
 
     /**
      * Scope a query to only include applicants.

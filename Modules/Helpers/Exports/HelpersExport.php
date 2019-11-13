@@ -51,7 +51,7 @@ class HelpersExport extends BaseExport implements FromCollection, WithHeadings, 
                 } else {
                     $value = $field['value']($helper);
                 }
-                return $value != null ? (($field['prefix'] ?? '') . $value) : null;
+                return $value != null ? (($field['prefix'] ?? '') . (is_array($value) ? implode(', ', $value) : $value)) : null;
             })
             ->toArray();
     }

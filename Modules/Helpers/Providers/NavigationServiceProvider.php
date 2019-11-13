@@ -32,6 +32,9 @@ class NavigationServiceProvider extends ServiceProvider
         'people.helpers.import' => \Modules\Helpers\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
         'people.helpers.export' => \Modules\Helpers\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
         'people.helpers.report' => \Modules\Helpers\Navigation\ContextButtons\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.responsibilities.index' => \Modules\Helpers\Navigation\ContextButtons\ResponsibilitiesIndexContextButtons::class,
+        'people.helpers.responsibilities.create' => \Modules\Helpers\Navigation\ContextButtons\ResponsibilitiesCreateContextButtons::class,
+        'people.helpers.responsibilities.edit' => \Modules\Helpers\Navigation\ContextButtons\ResponsibilitiesEditContextButtons::class,
     ];
 
     /**

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9.4
+
+Helpers:
+
+* Responsibilities can now defined separately.
+
 ## 2.9.3
 
 Badges:

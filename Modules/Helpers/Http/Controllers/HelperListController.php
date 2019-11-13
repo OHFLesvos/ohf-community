@@ -8,6 +8,7 @@ use App\Http\Controllers\Export\ExportableActions;
 use Modules\People\Entities\Person;
 
 use Modules\Helpers\Entities\Helper;
+use Modules\Helpers\Entities\Responsibility;
 use Modules\Helpers\Http\Requests\ImportHelpers;
 use Modules\Helpers\Exports\HelpersExport;
 use Modules\Helpers\Imports\HelpersImport;
@@ -17,6 +18,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 
 use \Gumlet\ImageResize;
 
@@ -329,40 +331,42 @@ class HelperListController extends Controller
             [
                 'label_key' => 'app.responsibilities',
                 'icon' => null,
-                'value' => function($helper) { return $helper->responsibilities != null ? implode(", ", $helper->responsibilities) : null; },
-                'value_html' => function($helper) { return $helper->responsibilities != null ? implode("<br>", $helper->responsibilities) : null; },
+                'value' => function($helper) { return $helper->responsibilities->pluck('name')->all(); },
+                'value_html' => function($helper) { return $helper->responsibilities->implode('name', '<br>'); },
                 'overview' => true,
                 'section' => 'occupation',
                 'import_labels' => [ 'Project' ],
-                'assign' => function($person, $helper, $value) { 
-                    $values = null;
+                'assign' => function($person, $helper, $value) {
+                    $selected = [];
                     if ($value != null) {
-                        $values = [];
-                        foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
-                            if (preg_match('/^trial$|^trial\\s+|\\s+trial$/i', $v)) {
-                                $helper->work_trial_period = true;
-                            } else {
-                                $values[] = $v;
+                        if (!is_array($value)) {
+                            $values = [];
+                            foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
+                                if (preg_match('/^trial$|^trial\\s+|\\s+trial$/i', $v)) {
+                                    $helper->work_trial_period = true;
+                                } else {
+                                    $values[] = $v;
+                                }
                             }
+                            $value = array_map('trim', $values);
                         }
-                        $values = array_map('trim', $values);
+                        $selected = Responsibility::whereIn('name', $value)
+                            ->get()
+                            ->pluck('id')
+                            ->all();
                     }
-                    $helper->responsibilities = $values;
+                    $helper->responsibilities()->sync($selected);
                 },
-                'form_type' => 'text',
+                'form_type' => 'checkboxes',
                 'form_name' => 'responsibilities',
-                'form_help' => __('app.separate_by_comma'),
-                'form_autocomplete' => function() { 
-                    return Helper::groupBy('responsibilities')
-                        ->orderBy('responsibilities')
-                        ->whereNotNull('responsibilities')
+                'form_list' => Responsibility::select('name')
+                        ->orderBy('name')
                         ->get()
-                        ->pluck('responsibilities')
-                        ->flatten()
-                        ->unique()
-                        ->sort()
-                        ->toArray();
-                },
+                        ->pluck('name', 'name')
+                        ->toArray(),
+                'form_validate' => [
+                    Rule::in(Responsibility::select('name')->get()->pluck('name')->all())
+                ] 
             ],
             [
                 'label_key' => 'people::people.trial_period',
@@ -941,20 +945,30 @@ class HelperListController extends Controller
             'responsibilities' => [
                 'label' => __('app.responsibilities'),
                 'groups' => function() {
-                    return Helper::groupBy('responsibilities')
-                        ->orderBy('responsibilities')
-                        ->whereNotNull('responsibilities')
+                    return Responsibility::has('helpers')
+                        ->orderBy('name')
                         ->get()
-                        ->pluck('responsibilities')
-                        ->flatten()
-                        ->unique()
-                        ->sort()
+                        ->pluck('name')
                         ->toArray();
                 },
                 'query' => function($q, $v) {
-                    return $q
-                        ->where('responsibilities', "like",'%"'.$v.'"%');
+                    return $q->whereHas('responsibilities', function (Builder $query) use ($v) {
+                        $query->where('name', $v);
+                    });
                 },
+                'label_transform'=> function($groups) {
+                    return collect($groups)
+                        ->map(function($s) {
+                            if (Responsibility::where('name', $s)->where('available', false)->count() > 0) {
+                                return $s . ' (NOT AVAILABLE)';
+                            }
+                            $responsibility = Responsibility::where('name', $s)->first();
+                            if ($responsibility != null && $responsibility->capacity != null && $responsibility->capacity < $responsibility->helpers()->count()) {
+                                return $s . ' (OVER CAPACITY)';
+                            }
+                            return $s;
+                        });
+                },                
             ],
             'pickup_locations' => [
                 'label' => __('people::people.pickup_locations'),
@@ -1340,6 +1354,12 @@ class HelperListController extends Controller
                 })
                 ->mapWithKeys(function($f){
                     $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
+                    if ($f['form_type'] == 'checkboxes') {
+                        return [
+                            $f['form_name'] = 'array',
+                            $f['form_name'].'.*' => $rules,
+                        ];
+                    }
                     return [$f['form_name'] => $rules];
                 })
                 ->toArray()
