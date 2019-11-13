@@ -203,7 +203,7 @@ class BadgeMakerController extends Controller
             'type' => 'helper',
             'id' => $helper->id,
             'name' => $helper->person->nickname ?? $helper->person->name,
-            'position' => is_array($helper->responsibilities) ? implode(', ', $helper->responsibilities) : '',
+            'position' => $helper->responsibilities->implode('name', ', '),
         ];
     }
 }
