@@ -2,6 +2,8 @@
 
 namespace Modules\Helpers\Policies;
 
+use App\User;
+
 use Modules\Helpers\Entities\Responsibility;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -12,7 +14,7 @@ class ResponsibilityPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isSuperAdmin() && $ability != 'delete') {
             return true;
         }
     }
@@ -72,7 +74,10 @@ class ResponsibilityPolicy
      */
     public function delete(User $user, Responsibility $responsibility)
     {
-        return $user->hasPermission('people.helpers.manage');
+        if ($responsibility->helpers()->count() > 0) {
+            return false;
+        }
+        return $user->isSuperAdmin() || $user->hasPermission('people.helpers.manage');
     }
 
 }

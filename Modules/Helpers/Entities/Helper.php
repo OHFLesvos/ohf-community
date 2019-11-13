@@ -51,11 +51,9 @@ class Helper extends Model implements Auditable
      * @var array
      */
     protected $casts = [
-        'responsibilities' => 'array',
     ];
 
     protected $nullable = [
-        'responsibilities',
         'local_phone',
         'other_phone',
         'whatsapp',

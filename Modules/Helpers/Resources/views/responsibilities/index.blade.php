@@ -16,11 +16,15 @@
                 </thead>
                 <tbody>
                     @foreach ($responsibilities as $responsibility)
-                        <tr>
+                        @php
+                            $numHelpers = $responsibility->helpers()->count();
+                            $warning = ($responsibility->capacity != null && $responsibility->capacity < $numHelpers) || (!$responsibility->available && $numHelpers > 0);
+                        @endphp
+                        <tr class="@if($warning) table-warning @endif">
                             <td>
                                 <a href="{{ route('people.helpers.responsibilities.edit', $responsibility) }}">{{ $responsibility->name }}</a>
                             </td>
-                            <td class="text-right fit">{{ $responsibility->capacity }}</td>
+                            <td class="text-right fit">{{ $numHelpers }} / {{ $responsibility->capacity ?? '∞'}}</td>
                             <td class="text-center fit">@if($responsibility->available) @icon(check) @else @icon(times) @endif</td>
                         </tr>
                     @endforeach

@@ -51,6 +51,7 @@ class ResponsibilitiesController extends Controller
     {
         $responsibility = new Responsibility();
         $responsibility->fill($request->all());
+        $responsibility->available = $request->has('available');
         $responsibility->save();
     
         return redirect()->route('people.helpers.responsibilities.index')
@@ -78,6 +79,7 @@ class ResponsibilitiesController extends Controller
     public function update(StoreResponsibility $request, Responsibility $responsibility)
     {
         $responsibility->fill($request->all());
+        $responsibility->available = $request->has('available');
         $responsibility->save();
 
         return redirect()->route('people.helpers.responsibilities.index')
