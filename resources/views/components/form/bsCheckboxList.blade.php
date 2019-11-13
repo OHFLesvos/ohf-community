@@ -7,6 +7,16 @@
         <label class="custom-control-label" for="{{ form_id_string($name, $k) }}">{{ $v }}</label>
     </div>
 @endforeach
+@if($value != null)
+    @foreach($value as $v)
+        @if(!isset($entries[$v]))
+            <div class="custom-control custom-checkbox">
+                {{ Form::checkbox($name, $v, true, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, $k) ]) }}
+                <label class="custom-control-label text-danger" for="{{ form_id_string($name, $v) }}">{{ $v }}</label>
+            </div>
+        @endif
+    @endforeach
+@endif
 @if ($errors->has($name))
     <div><small class="text-danger">{{ $errors->first($name) }}</small></div>
 @endif

@@ -360,6 +360,7 @@ class HelperListController extends Controller
                 'form_type' => 'checkboxes',
                 'form_name' => 'responsibilities',
                 'form_list' => Responsibility::select('name')
+                        ->where('available', true)
                         ->orderBy('name')
                         ->get()
                         ->pluck('name', 'name')
