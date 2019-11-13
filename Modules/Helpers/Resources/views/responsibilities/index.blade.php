@@ -17,7 +17,7 @@
                 <tbody>
                     @foreach ($responsibilities as $responsibility)
                         @php
-                            $numHelpers = $responsibility->helpers()->count();
+                            $numHelpers = $responsibility->helpers()->active()->count();
                             $warning = ($responsibility->capacity != null && $responsibility->capacity < $numHelpers) || (!$responsibility->available && $numHelpers > 0);
                         @endphp
                         <tr class="@if($warning) table-warning @endif">

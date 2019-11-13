@@ -963,7 +963,7 @@ class HelperListController extends Controller
                                 return $s . ' (NOT AVAILABLE)';
                             }
                             $responsibility = Responsibility::where('name', $s)->first();
-                            if ($responsibility != null && $responsibility->capacity != null && $responsibility->capacity < $responsibility->helpers()->count()) {
+                            if ($responsibility != null && $responsibility->capacity != null && $responsibility->capacity < $responsibility->helpers()->active()->count()) {
                                 return $s . ' (OVER CAPACITY)';
                             }
                             return $s;

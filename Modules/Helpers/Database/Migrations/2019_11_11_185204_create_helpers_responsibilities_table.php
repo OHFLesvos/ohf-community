@@ -35,7 +35,7 @@ class CreateHelpersResponsibilitiesTable extends Migration
             ->select('id', 'responsibilities')
             ->get()
             ->each(function($h) {
-                if ($h->responsibilities != null) {
+                if ($h->responsibilities != null && !empty($h->responsibilities)) {
                     collect(json_decode($h->responsibilities))
                         ->each(function($r) use($h) {
                             $responsibility = Responsibility::firstOrCreate(['name' => $r]);
