@@ -32,17 +32,13 @@
     <b-input-group size="sm" class="mb-3">
         <b-form-input
             v-model="filterText"
+            debounce="400"
             :trim="true"
             type="search"
             :placeholder="filterPlaceholder"
             @keyup.enter="applyFilter"
             @keyup.esc="clearFilter"
         ></b-form-input>
-        <b-input-group-append>
-            <b-button :disabled="!filterText" variant="primary" @click="applyFilter">
-                <i class="fa fa-search"></i>
-            </b-button>
-        </b-input-group-append>
         <b-input-group-append>
             <b-button :disabled="!filterText" @click="clearFilter">
                 <i class="fa fa-times"></i>
@@ -216,6 +212,9 @@
     watch: {
         filter(val, oldVal) {
             sessionStorage.setItem(this.id + '.filter', val)
+        },
+        filterText(val, oldVal) {
+            this.applyFilter()
         }
     }
   }

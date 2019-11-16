@@ -76,6 +76,7 @@
             api-url="{{ route('api.people.index') }}"
             default-sort-by="name"
             empty-text="@lang('people::people.no_persons_found')"
+            filter-placeholder="@lang('people::people.bank_search_text')"
             :items-per-page="10"
         ></people-table>
     </div>
