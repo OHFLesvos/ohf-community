@@ -70,7 +70,7 @@
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
         <div slot="table-busy" class="text-center my-2">
             <b-spinner class="align-middle"></b-spinner>
-            <strong>Loading...</strong>
+            <strong>{{ loadingLabel }}</strong>
         </div>
         <template slot="empty" slot-scope="scope">
             <em>{{ scope.emptyText }}</em>
@@ -149,7 +149,12 @@
             default: () => {
                 return {}
             }
-        }
+        },
+        loadingLabel: {
+            type: String,
+            required: false,
+            default: 'Loading...'
+        },
     },
     data() {
       return {

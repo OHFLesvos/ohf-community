@@ -77,7 +77,8 @@
             default-sort-by="name"
             empty-text="@lang('people::people.no_persons_found')"
             filter-placeholder="@lang('people::people.bank_search_text')"
-            :items-per-page="10"
+            :items-per-page="15"
+            loading-label="@lang('app.loading')"
         ></people-table>
     </div>
 

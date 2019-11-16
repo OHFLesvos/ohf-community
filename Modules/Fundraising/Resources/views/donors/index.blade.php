@@ -72,6 +72,7 @@
             filter-placeholder="@lang('fundraising::fundraising.search_for_name_address_email_phone')..."
             :items-per-page="25"
             :tags='@json((object)$tags->toArray())'
+            loading-label="@lang('app.loading')"
         ></donors-table>
     </div>
 	
