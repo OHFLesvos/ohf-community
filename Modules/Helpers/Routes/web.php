@@ -44,10 +44,6 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         // Download vCard
         Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')
             ->name('helpers.vcard');
-        // Filter persons
-        Route::get('helpers/filterPersons', 'HelperListController@filterPersons')
-            ->name('helpers.filterPersons')
-            ->middleware('can:list,Modules\People\Entities\Person');
         // Responsibilities resource
         Route::name('helpers.')->group(function () {
             Route::resource('helpers/responsibilities', 'ResponsibilitiesController')

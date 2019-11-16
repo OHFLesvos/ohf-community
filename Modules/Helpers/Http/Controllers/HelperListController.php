@@ -1672,37 +1672,5 @@ class HelperListController extends Controller
         // return vcard as a download
         return $vcard->download();
     }
-    
-    public function filterPersons(Request $request) {
-        $qry = Person::limit(10)
-            ->whereHas('helper', function ($query) {
-                $query->whereNotNull('work_starting_date')
-                ->whereDate('work_starting_date', '<=', Carbon::today())
-                ->where(function($q){
-                    return $q->whereNull('work_leaving_date')
-                        ->orWhereDate('work_leaving_date', '>=', Carbon::today());
-                });
-            })
-            ->orderBy('name')
-            ->orderBy('family_name');
-        if (isset($request->query()['query'])) {
-            $qry->where('search', 'LIKE', '%' . $request->query()['query'] . '%');
-        }
-        $persons = $qry->get()
-            ->map(function($e){ 
-                $val = $e->full_name;
-                if (!empty($e->date_of_birth)) {
-                    $val.= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
-                }
-                if (!empty($e->nationality)) {
-                    $val.= ', ' . $e->nationality;
-                }
-                return [
-                    'value' => $val,
-                    'data' => $e->getRouteKey(),
-                ]; 
-            });
-        return response()->json(["suggestions" => $persons]);
-    }
 
 }
