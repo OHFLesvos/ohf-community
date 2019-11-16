@@ -15,14 +15,20 @@
                 @keydown.enter.prevent="applyFilter"
                 @keydown.esc="clearFilter"
                 autocomplete="off"
+                autofocus
             ></b-form-input>
-            <b-input-group-append>
+            <b-input-group-append v-if="processing">
+                <b-button variant="primary" :disabled="true">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </b-button>
+            </b-input-group-append>
+            <b-input-group-append v-if="!processing">
                 <b-button :disabled="!filterText" variant="primary" @click="applyFilter">
                     <i class="fa fa-search"></i>
                 </b-button>
             </b-input-group-append>
             <b-input-group-append>
-                <b-button :disabled="!filterText" @click="clearFilter">
+                <b-button :disabled="!filterText || processing" @click="clearFilter">
                     <i class="fa fa-times"></i>
                 </b-button>
             </b-input-group-append>
@@ -82,7 +88,8 @@ export default {
             errorText: null,
             suggestions: [],
             searched: false,
-            selected: ''
+            selected: '',
+            processing: false
         }
     },
     methods: {
@@ -93,11 +100,17 @@ export default {
             }
             this.errorText = null
             this.selected = ''
+            this.processing = true
             let url = this.apiUrl + '?query=' + this.filterText;
-            axios.get(url).then(data => {
-                this.suggestions = data.data.suggestions;
-                this.searched = true
-            }).catch(this.handleAjaxError)
+            axios.get(url)
+                .then(data => {
+                    this.suggestions = data.data.suggestions;
+                    this.searched = true
+                })
+                .catch(this.handleAjaxError)
+                .then(() => {
+                    this.processing = false
+                })
         },
         clearFilter() {
             this.filterText = ''
