@@ -98,8 +98,8 @@ class PeopleController extends Controller
     public function filterPersons(Request $request)
     {
         $qry = Person::limit(10)
-            ->orderBy('family_name')
-            ->orderBy('name');
+            ->orderBy('name')
+            ->orderBy('family_name');
         if (isset($request->query()['query'])) {
             $terms = preg_split('/\s+/', $request->query()['query']);
             foreach ($terms as $term) {

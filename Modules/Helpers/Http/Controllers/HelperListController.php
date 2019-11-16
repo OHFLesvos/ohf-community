@@ -1683,8 +1683,8 @@ class HelperListController extends Controller
                         ->orWhereDate('work_leaving_date', '>=', Carbon::today());
                 });
             })
-            ->orderBy('family_name')
-            ->orderBy('name');
+            ->orderBy('name')
+            ->orderBy('family_name');
         if (isset($request->query()['query'])) {
             $qry->where('search', 'LIKE', '%' . $request->query()['query'] . '%');
         }

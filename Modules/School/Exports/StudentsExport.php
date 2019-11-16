@@ -35,7 +35,8 @@ class StudentsExport extends BaseExport implements FromCollection, WithHeadings,
     */
     public function collection(): Collection
     {
-        return $this->students->orderBy('name')
+        return $this->students
+            ->orderBy('name')
             ->orderBy('family_name')
             ->get(); 
     }
