@@ -10,6 +10,7 @@
                 name="person_id"
                 api-url="{{ route('api.people.filterPersons') }}"
                 placeholder="@lang('people::people.search_existing_person')"
+                @if($errors->has('person_id')) invalid="{{$errors->first('person_id')}}" @endif
             >
                 {{ Form::bsSubmitButton(__('people::people.use_existing_person')) }}
                 <template v-slot:not-found>

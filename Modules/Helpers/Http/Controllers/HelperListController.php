@@ -1261,16 +1261,16 @@ class HelperListController extends Controller
         Validator::make($request->all(), [
             'person_id' => [
                 'required',
-                Rule::exists('persons', 'id'),
+                Rule::exists('persons', 'public_id'),
                 function($attribute, $value, $fail) {
-                    if (Person::where('id', $value)->has('helper')->first() != null) {
+                    if (Person::where('public_id', $value)->has('helper')->first() != null) {
                         return $fail(__('people::people.helper_already_exists'));
                     }
                 },
             ],
         ])->validate();
 
-        $person = Person::find($request->person_id);
+        $person = Person::where('public_id', $request->person_id)->firstOrFail();
         $helper = new Helper();
         $person->helper()->save($helper);
         return redirect()->route('people.helpers.edit', $helper)

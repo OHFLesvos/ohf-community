@@ -30,6 +30,6 @@
     "/css/fundraising.css": "/css/fundraising.css?id=d41d8cd98f00b204e980",
     "/js/fundraising.js.map": "/js/fundraising.js.map?id=393fd613e600af495188",
     "/js/calendar.js.map": "/js/calendar.js.map?id=1add16ce8d7386866a0e",
-    "/js/helpers.js": "/js/helpers.js?id=c54baa09d6e02df55461",
-    "/css/helpers.css": "/css/helpers.css?id=d41d8cd98f00b204e980"
+    "/js/helpers.js": "/js/helpers.js",
+    "/css/helpers.css": "/css/helpers.css"
 }

@@ -16,6 +16,7 @@
                 @keydown.esc="clearFilter"
                 autocomplete="off"
                 autofocus
+                :state="invalidMessage != null ? false : null"
             ></b-form-input>
             <b-input-group-append v-if="processing">
                 <b-button variant="primary" :disabled="true">
@@ -32,6 +33,7 @@
                     <i class="fa fa-times"></i>
                 </b-button>
             </b-input-group-append>
+            <b-form-invalid-feedback v-if="invalidMessage != null">{{ invalidMessage }}</b-form-invalid-feedback>
         </b-input-group>
 
         <!-- Results -->
@@ -80,7 +82,12 @@ export default {
             type: String,
             required: false,
             default: 'No person found.'
-        }
+        },
+        invalid: {
+            type: String,
+            required: false,
+            default: null
+        }        
     },
     data() {
         return {
@@ -89,11 +96,13 @@ export default {
             suggestions: [],
             searched: false,
             selected: '',
-            processing: false
+            processing: false,
+            invalidMessage: this.invalid
         }
     },
     methods: {
         applyFilter() {
+            this.invalidMessage = null
             if (this.filterText.length == '') {
                 this.clearFilter()
                 return
