@@ -112,7 +112,7 @@ class PeopleController extends Controller
         }
         $persons = $qry->get()
             ->map(function($e){ 
-                $val = $e->family_name . ' '. $e->name;
+                $val = $e->full_name;
                 if (!empty($e->date_of_birth)) {
                     $val.= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
                 }
@@ -142,7 +142,7 @@ class PeopleController extends Controller
         return response()->json([
             'gender' => $person->gender,
             'message' => __('people::people.gender_has_been_registered', [
-                'person' => $person->family_name . ' ' . $person->name,
+                'person' => $person->full_name,
             ]),
         ]);
     }
@@ -163,7 +163,7 @@ class PeopleController extends Controller
             'date_of_birth' => $person->date_of_birth,
             'age' => $person->age,
             'message' => __('people::people.date_of_birth_has_been_registered', [
-                'person' => $person->family_name . ' ' . $person->name,
+                'person' => $person->full_name,
             ]),
         ]);
     }
@@ -183,7 +183,7 @@ class PeopleController extends Controller
         return response()->json([
             'nationality' => $person->nationality,
             'message' => __('people::people.nationality_has_been_registered', [
-                'person' => $person->family_name . ' ' . $person->name,
+                'person' => $person->full_name,
             ]),
         ]);
     }

@@ -76,7 +76,7 @@ class Person extends Model
     }
 
     private static function createSearchString($model) {
-        $str = $model->family_name . ' ' . $model->name;
+        $str = $model->name . ' ' . $model->family_name;
         return preg_replace('/\s+/', ' ', trim($str));
     }
     
@@ -113,7 +113,7 @@ class Person extends Model
         try {
             return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
         } catch (\Exception $e) {
-            Log::error('Error calculating age of ' . $this->family_name . ' ' . $this->name . ' ('. $this->date_of_birth . '): ' . $e->getMessage());
+            Log::error('Error calculating age of ' . $this->full_name . ' ('. $this->date_of_birth . '): ' . $e->getMessage());
             return null;
         }
     }

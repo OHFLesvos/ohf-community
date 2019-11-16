@@ -35,7 +35,7 @@ class BankController extends Controller
             'message' => trans_choice('bank::coupons.coupon_has_been_handed_out_to', $coupon->amount, [
                 'amount' => $coupon->amount,
                 'coupon' => $couponType->name,
-                'person' => $person->family_name . ' ' . $person->name,
+                'person' => $person->full_name,
             ])
         ]);
     }
@@ -57,7 +57,7 @@ class BankController extends Controller
         return response()->json([
             'message' => __('bank::coupons.coupon_has_been_taken_back_from', [
                 'coupon' => $couponType->name,
-                'person' => $person->family_name . ' ' . $person->name,
+                'person' => $person->full_name,
             ]),
         ]);
     }

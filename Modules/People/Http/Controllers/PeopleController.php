@@ -184,7 +184,7 @@ class PeopleController extends Controller
         $person->save();
 
         return redirect()->route('people.relations', $person)
-            ->with('success', $label . ' "' . $relative->family_name . ' ' . $relative->name . '" has been added!');
+            ->with('success', $label . ' "' . $relative->full_name . '" has been added!');
     }
 
     public function removeChild(Person $person, Person $child)
@@ -197,7 +197,7 @@ class PeopleController extends Controller
         }
         $child->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Child "' . $child->family_name . ' ' . $child->name . '" has been removed!');
+            ->with('success', 'Child "' . $child->full_name . '" has been removed!');
     }
 
     public function removePartner(Person $person)
@@ -208,7 +208,7 @@ class PeopleController extends Controller
         $person->partner_id = null;
         $person->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Partner "' . $partner->family_name . ' ' . $partner->name . '" has been removed!');
+            ->with('success', 'Partner "' . $partner->full_name . '" has been removed!');
     }
 
     public function removeFather(Person $person)
@@ -217,7 +217,7 @@ class PeopleController extends Controller
         $person->father()->dissociate();
         $person->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Father "' . $father->family_name . ' ' . $father->name . '" has been removed!');
+            ->with('success', 'Father "' . $father->full_name . '" has been removed!');
     }
 
     public function removeMother(Person $person)
@@ -226,7 +226,7 @@ class PeopleController extends Controller
         $person->mother()->dissociate();
         $person->save();
         return redirect()->route('people.relations', $person)
-            ->with('success', 'Mother "' . $mother->family_name . ' ' . $mother->name . '" has been removed!');
+            ->with('success', 'Mother "' . $mother->full_name . '" has been removed!');
     }
     
     public function destroy(Person $person)
@@ -245,7 +245,7 @@ class PeopleController extends Controller
             ->with(['father', 'mother', 'partner'])
             ->get()
             ->each(function($e) use (&$names) {
-                $names[$e->family_name. ' ' . $e->name][$e->id] = $e;
+                $names[$e->name . ' ' . $e->family_name][$e->id] = $e;
             });
         $duplicates = collect($names)
             ->filter(function($e){

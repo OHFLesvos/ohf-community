@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people::people.view_person'))  {{-- $person->family_name . ' ' . $person->name --}}
+@section('title', __('people::people.view_person'))
 
 @section('content')
 

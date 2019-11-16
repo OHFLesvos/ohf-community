@@ -1690,7 +1690,7 @@ class HelperListController extends Controller
         }
         $persons = $qry->get()
             ->map(function($e){ 
-                $val = $e->family_name . ' '. $e->name;
+                $val = $e->full_name;
                 if (!empty($e->date_of_birth)) {
                     $val.= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
                 }
