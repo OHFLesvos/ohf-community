@@ -180,6 +180,7 @@ return [
     'use_existing_person' => 'Use existing person',
     'register_new_person' => 'Register new person',
     'search_existing_person' => 'Search existing person...',
+    'select_existing_person_or_register_new_one' => 'Select an existing person or register a new one:',
     'helper_already_exists' => 'Helper already exists.',
     'active' => 'Active',
     'applicants' => 'Applicants',

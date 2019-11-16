@@ -128,7 +128,7 @@ return [
     'updated_time_ago' => 'Updated :time.',
     'num_views' => ':num views',
     'undo' => 'Undo',
-    'not_found' => 'Not found',
+    'not_found' => 'Not found.',
     'miscellaneous' => 'Miscellaneous',
     'general' => 'General',
     'vcard' => 'vCard',
@@ -292,4 +292,6 @@ return [
     'revoked' => 'Revoked',
     'picture' => 'Picture',
     'available' => 'Available',
+    'loading' => 'Loading...',
+    'searching' => 'Searching...',
  ];

@@ -9,6 +9,7 @@
         <b-input-group class="mb-3">
             <b-form-input
                 v-model="filterText"
+                debounce="400"
                 :trim="true"
                 type="search"
                 :placeholder="placeholder"
@@ -17,42 +18,42 @@
                 autocomplete="off"
                 autofocus
                 :state="invalidMessage != null ? false : null"
+                ref="person_search"
             ></b-form-input>
-            <b-input-group-append v-if="processing">
-                <b-button variant="primary" :disabled="true">
-                    <i class="fa fa-spinner fa-spin"></i>
-                </b-button>
-            </b-input-group-append>
-            <b-input-group-append v-if="!processing">
-                <b-button :disabled="!filterText" variant="primary" @click="applyFilter">
-                    <i class="fa fa-search"></i>
-                </b-button>
-            </b-input-group-append>
             <b-input-group-append>
-                <b-button :disabled="!filterText || processing" @click="clearFilter">
+                <b-button :disabled="filterText.length == 0 || processing" @click="clearFilter">
                     <i class="fa fa-times"></i>
                 </b-button>
             </b-input-group-append>
             <b-form-invalid-feedback v-if="invalidMessage != null">{{ invalidMessage }}</b-form-invalid-feedback>
         </b-input-group>
+        
+        <p v-if="processing">
+            <i class="fa fa-spinner fa-spin"></i> {{ searchingLabel }}
+        </p>
 
-        <!-- Results -->
-        <template v-if="suggestions.length > 0">
-            <b-form-group :label="foundLabel">
-                <b-form-radio v-model="selected" v-for="sug in suggestions" :key="sug.data" name="some-radios" :value="sug.data">{{ sug.value }}</b-form-radio>
-            </b-form-group>
-            <input type="hidden" :name="name" :id="name" v-model="selected">
-            <slot v-if="selected != ''"></slot>
-            <slot name="not-found"></slot>
+        <template v-else>
+
+            <!-- Results -->
+            <template v-if="suggestions.length > 0">
+                <b-form-group :label="foundLabel">
+                    <b-form-radio v-model="selected" v-for="sug in suggestions" :key="sug.data" name="some-radios" :value="sug.data">{{ sug.value }}</b-form-radio>
+                </b-form-group>
+                <input type="hidden" :name="name" :id="name" v-model="selected">
+                <slot name="found" v-if="selected != ''"></slot>
+                <slot name="not-found"></slot>
+            </template>
+
+            <!-- No results found -->
+            <template v-else-if="searched">
+                <b-alert variant="warning" :show="true">
+                    <i class="fa fa-exclamation-circle"></i> {{ notFoundLabel }}
+                </b-alert>
+                <slot name="not-found"></slot>
+            </template>
+
         </template>
 
-        <!-- No results found -->
-        <template v-else-if="searched">
-            <b-alert variant="warning" :show="true">
-                <i class="fa fa-exclamation-circle"></i> {{ notFoundLabel }}
-            </b-alert>
-            <slot name="not-found"></slot>
-        </template>
     </div>
 </template>
 <script>
@@ -82,6 +83,11 @@ export default {
             type: String,
             required: false,
             default: 'No person found.'
+        },
+        searchingLabel: {
+            type: String,
+            required: false,
+            default: 'Searching...'
         },
         invalid: {
             type: String,
@@ -126,6 +132,7 @@ export default {
             this.suggestions = []
             this.searched = false
             this.selected = ''
+            this.$refs.person_search.focus();
         },
         handleAjaxError(err){
             this.errorText = getAjaxErrorMessage(err);
@@ -135,6 +142,9 @@ export default {
     watch: {
         selected(value, oldValue) {
             this.$emit('selected', value)
+        },
+        filterText(value) {
+            this.applyFilter()
         }
     }    
 }

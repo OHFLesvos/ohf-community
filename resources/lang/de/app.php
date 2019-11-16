@@ -129,7 +129,7 @@ return [
     'updated_time_ago' => 'Aktualisiert :time.',
     'num_views' => ':num Aufrufe',
     'undo' => 'Rückgängig',
-    'not_found' => 'Nicht gefunden',
+    'not_found' => 'Nicht gefunden.',
     'miscellaneous' => 'Sonstiges',
     'general' => 'Allgemein',
     'vcard' => 'vCard',
@@ -292,4 +292,6 @@ return [
     'revoked' => 'Zurückgezogen',
     'picture' => 'Bild',
     'available' => 'Verfügbar',
+    'loading' => 'Wird geladen...',
+    'searching' => 'Wird gesucht...',
 ];
