@@ -53,6 +53,7 @@ class Responsibility extends Model
 
     function helpers()
     {
-        return $this->belongsToMany(Helper::class, 'helpers_helper_responsibility', 'responsibility_id', 'helper_id');
+        return $this->belongsToMany(Helper::class, 'helpers_helper_responsibility', 'responsibility_id', 'helper_id')
+            ->withTimestamps();;
     }
 }

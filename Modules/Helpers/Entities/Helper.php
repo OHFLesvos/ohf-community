@@ -91,7 +91,8 @@ class Helper extends Model implements Auditable
 
     function responsibilities()
     {
-        return $this->belongsToMany(Responsibility::class, 'helpers_helper_responsibility', 'helper_id', 'responsibility_id');
+        return $this->belongsToMany(Responsibility::class, 'helpers_helper_responsibility', 'helper_id', 'responsibility_id')
+            ->withTimestamps();;
     }
 
     /**
