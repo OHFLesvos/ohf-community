@@ -157,7 +157,7 @@ class BadgeCreator {
 
             // // QR Code of ID
             // if (!empty($persons[$i]['code'])) {
-            //     $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['code'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['code'].'</small>', $x + $padding - 3, $y + $padding + 43, 30, 30, 'auto');
+            //     $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['code'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['code'].'</small>', $xpb - 2, $yp + $hp - 13, 30, 30, 'auto');
             // }
         }
 
