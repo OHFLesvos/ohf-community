@@ -8,18 +8,19 @@ use Modules\Helpers\Entities\Helper;
 use Modules\Helpers\Entities\Responsibility;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class HelpersContextMenu implements ContextMenu {
 
     public function getItems(): array
     {
         return [
-            'export' => [
-                'url' => route('people.helpers.export'),
-                'caption' => __('app.export'),
-                'icon' => 'download',
-                'authorized' => Auth::user()->can('export', Helper::class)
-            ],
+            'badges' => is_module_enabled('Badges') ? [
+                'url' => route('badges.index', ['source' => 'helpers']),
+                'caption' => __('badges::badges.badges'),
+                'icon' => 'id-card',
+                'authorized' => Auth::user()->can('list', Helper::class) && Gate::allows('create-badges')
+            ] : null,            
             'import' => [
                 'url' => route('people.helpers.import'),
                 'caption' => __('app.import'),
