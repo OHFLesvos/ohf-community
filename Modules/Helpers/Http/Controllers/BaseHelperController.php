@@ -401,6 +401,14 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
+                'label_key' => 'helpers::helpers.working_since_days',
+                'icon' => null,
+                'value' => function($helper) { return $helper->working_since_days; },
+                'overview' => false,
+                'section' => 'occupation',
+                'form_name' => 'working_since_days',
+            ],            
+            [
                 'label_key' => 'people::people.leaving_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_leaving_date)->toDateString(); },
@@ -1056,7 +1064,7 @@ abstract class BaseHelperController extends Controller
             ],
             'monthly_support' => [
                 'label' => __('people::people.monthly_support'),
-                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities', 'starting_date', 'monthly_support'],
+                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities', 'working_since_days', 'monthly_support'],
             ],
             'contact_info' => [
                 'label' => __('people::people.contact_info'),

@@ -6,6 +6,7 @@ Helpers:
 
 * Added 'fit-to-page' option for exports
 * Export button on main screen
+* Added 'working since days' field
 
 ## 2.9.4
 

@@ -181,4 +181,14 @@ class Helper extends Model implements Auditable
         return $this->is_active && $this->work_trial_period;
     }
 
+    public function getWorkingSinceDaysAttribute() {
+        $start = $this->work_starting_date != null ? new Carbon($this->work_starting_date) : null;
+        $end = $this->work_leaving_date != null ? new Carbon($this->work_leaving_date) : null;
+        if ($start != null && $end != null && $end->lte(Carbon::today())) {
+            return $start->diffInDays($end);
+        } else if ($start != null) {
+            return $start->diffInDays(Carbon::today());
+        }
+        return 0;
+    }
 }
