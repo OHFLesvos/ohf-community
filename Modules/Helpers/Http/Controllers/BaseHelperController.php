@@ -354,10 +354,12 @@ abstract class BaseHelperController extends Controller
                 },
                 'form_type' => 'checkboxes',
                 'form_name' => 'responsibilities',
-                'form_list' => Responsibility::select('name')
-                        ->where('available', true)
+                'form_list' => Responsibility::where('available', true)
                         ->orderBy('name')
                         ->get()
+                        ->filter(function($r) {
+                            return !$r->isCapacityExhausted;
+                        })
                         ->pluck('name', 'name')
                         ->toArray(),
                 'form_validate' => [

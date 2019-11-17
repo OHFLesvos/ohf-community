@@ -9,6 +9,7 @@ Helpers:
 * Added 'working since days' field
 * Edit helpers data per section
 * Improved capacity warning message
+* Don't allow to select exhausted capacity (for new persons)
 
 ## 2.9.4
 
