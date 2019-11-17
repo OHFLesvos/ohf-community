@@ -65,7 +65,7 @@ abstract class BaseHelperController extends Controller
                 },
                 'overview' => false,
                 'exclude_export' => true,
-                'exclude_show' => true,
+                'exclude_show' => false,
                 'section' => 'portrait',
                 'assign' => function($person, $helper, $value) {
                     if (isset($value)) {
@@ -87,7 +87,10 @@ abstract class BaseHelperController extends Controller
                 },
                 'form_type' => 'image',
                 'form_name' => 'portrait_picture',
-                'form_validate' => [ 'nullable', 'image'],
+                'form_validate' => [
+                    'nullable',
+                    'image'
+                ],
                 'form_help' => __('people::people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
@@ -184,7 +187,7 @@ abstract class BaseHelperController extends Controller
                 'form_type' => 'text',
                 'form_name' => 'date_of_birth',
                 'form_placeholder' => 'YYYY-MM-DD',
-                'form_validate' => 'nullable|date',
+                'form_validate' => 'required|date',
             ],
             [
                 'label_key' => 'people::people.age',

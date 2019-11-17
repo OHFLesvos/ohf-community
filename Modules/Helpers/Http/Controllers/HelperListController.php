@@ -157,7 +157,7 @@ class HelperListController extends BaseHelperController
         $person = Person::where('public_id', $request->person_id)->firstOrFail();
         $helper = new Helper();
         $person->helper()->save($helper);
-        return redirect()->route('people.helpers.edit', $helper)
+        return redirect()->route('people.helpers.show', $helper)
             ->with('success', __('people::people.helper_registered'));
     }
 
@@ -168,21 +168,15 @@ class HelperListController extends BaseHelperController
         $fields = collect($this->getFields());
 
         return view('helpers::create', [
-            'data' => collect(array_keys($sections))
-                ->mapWithKeys(function($section) use($fields, $sections) {
-                    return [ 
-                        $sections[$section] => $fields
-                            ->where('section', $section)
-                            ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
-                            ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
-                            ->map(function($f) {
-                                $value = null;
-                                return self::createFormField($f, $value);
-                            })
-                            ->toArray()
-                    ];
+            'fields' => $fields
+                ->filter(function($f){ return self::isRequiredField($f); })
+                ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
+                ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
+                ->map(function($f) {
+                    $value = null;
+                    return self::createFormField($f, $value);
                 })
-                ->toArray(),
+                ->toArray()
         ]);
     }
 
@@ -229,13 +223,26 @@ class HelperListController extends BaseHelperController
             ->with('success', __('people::people.helper_registered'));	
     }
 
-    private function validateFormData($request) {
+    private static function isRequiredField($f)
+    {
+        return isset($f['form_validate']) && (
+            (
+                is_array($f['form_validate']) && in_array('required', $f['form_validate'])
+            ) || (
+                is_string($f['form_validate']) && in_array('required', explode('|', $f['form_validate']))
+            )
+        );
+    }
+
+    private function validateFormData($request)
+    {
         $request->validate(
             collect($this->getFields())
-                ->filter(function($f){ 
+                ->filter(function($f) use($request) { 
                     return isset($f['form_name']) && isset($f['form_type']) 
                         && isset($f['assign']) && is_callable($f['assign'])
-                        && isset($f['form_validate']);
+                        && isset($f['form_validate'])
+                        && (!$request->has('section') || $f['section'] == $request->section);
                 })
                 ->mapWithKeys(function($f){
                     $rules = is_callable($f['form_validate']) ? $f['form_validate']() : $f['form_validate'];
@@ -254,9 +261,10 @@ class HelperListController extends BaseHelperController
     private function applyFormData($request, $person, $helper) {
         collect($this->getFields())
             ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
-            ->filter(function($f){ 
+            ->filter(function($f) use($request) { 
                 return isset($f['form_name']) && isset($f['form_type']) 
-                    && isset($f['assign']) && is_callable($f['assign']);
+                    && isset($f['assign']) && is_callable($f['assign'])
+                    && (!$request->has('section') || $f['section'] == $request->section);
             })
             ->each(function($f) use($person, $helper, $request) {
                 if (isset($request->{$f['form_name'].'_delete'}) && isset($f['cleanup']) && is_callable($f['cleanup'])) {
@@ -266,59 +274,37 @@ class HelperListController extends BaseHelperController
             });        
     }
 
-    public function show(Helper $helper, Request $request) {
+    public function show(Helper $helper) {
         $this->authorize('view', $helper);
 
         $sections = $this->getSections();
         $fields = collect($this->getFields());
-        $with_empty_fields = $request->has('empty_fields');
 
         return view('helpers::show', [
             'helper' => $helper,
+            'sections' => $sections,
             'data' => collect(array_keys($sections))
-                ->mapWithKeys(function($section) use($fields, $sections, $helper, $with_empty_fields) {
-                    $collection = $fields
-                        ->where('section', $section)
+                ->filter(function($section) use($fields) {
+                    return $fields->where('section', $section)
                         ->where('overview_only', false)
                         ->where('exclude_show', false)
                         ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; })
-                        ->map(function($f) use($helper) { 
-                            return [
-                                'label' => __($f['label_key']),
-                                'icon' => $f['icon'],
-                                'value' => self::getFieldValue($f, $helper),
-                            ];
-                        });
-                    if (!$with_empty_fields) {
-                        $collection = $collection->whereNotIn('value', [null]);
-                    }
-                    return [ 
-                        $sections[$section] => $collection->toArray()
-                    ];
+                        ->count() > 0;
                 })
-                ->toArray(),
-        ]);
-    }
-
-    public function edit(Helper $helper) {
-        $this->authorize('update', $helper);
-
-        $sections = $this->getSections();
-        $fields = collect($this->getFields());
-
-        return view('helpers::edit', [
-            'helper' => $helper,
-            'data' => collect(array_keys($sections))
-                ->mapWithKeys(function($section) use($fields, $sections, $helper) {
+                ->mapWithKeys(function($section) use($fields, $helper) {
                     return [ 
-                        $sections[$section] => $fields
-                            ->where('section', $section)
-                            ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
-                            ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
-                            ->map(function($f) use($helper) {
-                                $value = is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']};
-                                return self::createFormField($f, $value);
+                        $section => $fields->where('section', $section)
+                            ->where('overview_only', false)
+                            ->where('exclude_show', false)
+                            ->filter(function($e){ return !isset($e['authorized_view']) || $e['authorized_view']; })
+                            ->map(function($f) use($helper) { 
+                                return [
+                                    'label' => __($f['label_key']),
+                                    'icon' => $f['icon'],
+                                    'value' => self::getFieldValue($f, $helper),
+                                ];
                             })
+                            ->whereNotIn('value', [null])
                             ->toArray()
                     ];
                 })
@@ -326,8 +312,64 @@ class HelperListController extends BaseHelperController
         ]);
     }
 
+    public function edit(Helper $helper, Request $request) {
+        $this->authorize('update', $helper);
+
+        $sections = $this->getSections();
+        $fields = collect($this->getFields());
+
+        $request->validate([
+            'section' => [
+                'nullable',
+                Rule::in(array_keys($sections)),
+            ]
+        ]);
+        if ($request->has('section')) {
+            return view('helpers::edit_section', [
+                'helper' => $helper,
+                'fields' => $fields->where('section', $request->section)
+                    ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
+                    ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
+                    ->map(function($f) use($helper) {
+                        $value = is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']};
+                        return self::createFormField($f, $value);
+                    })
+                    ->toArray(),
+                'section' => $request->section,
+                'section_label' => $sections[$request->section],
+            ]);
+        } else {
+            return view('helpers::edit', [
+                'helper' => $helper,
+                'data' => collect(array_keys($sections))
+                    ->mapWithKeys(function($section) use($fields, $sections, $helper) {
+                        return [ 
+                            $sections[$section] => $fields
+                                ->where('section', $section)
+                                ->filter(function($e){ return !isset($e['authorized_change']) || $e['authorized_change']; })
+                                ->filter(function($f){ return isset($f['form_name']) && isset($f['form_type']); })
+                                ->map(function($f) use($helper) {
+                                    $value = is_callable($f['value']) ? $f['value']($helper) : $helper->{$f['value']};
+                                    return self::createFormField($f, $value);
+                                })
+                                ->toArray()
+                        ];
+                    })
+                    ->toArray(),
+            ]);
+        }
+    }
+
     public function update(Helper $helper, Request $request) {
         $this->authorize('update', $helper);
+
+        $sections = $this->getSections();
+        $request->validate([
+            'section' => [
+                'nullable',
+                Rule::in(array_keys($sections)),
+            ]
+        ]);
 
         $this->validateFormData($request);
         

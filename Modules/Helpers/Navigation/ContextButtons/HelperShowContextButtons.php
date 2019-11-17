@@ -15,13 +15,6 @@ class HelperShowContextButtons implements ContextButtons {
     {
         $helper = $view->getData()['helper'];
         return [
-            'action' => [
-                'url' => route('people.helpers.edit', $helper),
-                'caption' => __('app.edit'),
-                'icon' => 'edit',
-                'icon_floating' => 'pencil-alt',
-                'authorized' => Auth::user()->can('update', $helper)
-            ],
             'person' => [
                 'url' => route('people.show', $helper->person),
                 'caption' => __('people::people.view_person'),

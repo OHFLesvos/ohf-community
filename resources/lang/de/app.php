@@ -295,4 +295,5 @@ return [
     'loading' => 'Wird geladen...',
     'searching' => 'Wird gesucht...',
     'fit_to_page' => 'An Seite anpassen',
+    'no_data_registered' => 'Keine Daten registriert.',
 ];

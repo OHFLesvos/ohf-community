@@ -6,7 +6,10 @@
 
     {!! Form::open(['route' => ['people.helpers.store'], 'files' => true]) !!}
 
-        @include('helpers::form')
+        <div class="columns-2 mb-4">
+            @include('helpers::form')
+        </div>
+
 		<p>
 			{{ Form::bsSubmitButton(__('app.register')) }}
 		</p>

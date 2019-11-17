@@ -34,15 +34,15 @@
         @endif
     @endif
 
-    <div class="@isset($helper->person->portrait_picture)columns-3 @else columns-2 @endisset">
-        @isset($helper->person->portrait_picture)
-            <img src="{{ Storage::url($helper->person->portrait_picture) }}" class="img-fluid mb-4">
-        @endisset
-        @foreach($data as $section_label => $fields)
-            @if(!empty($fields))
-                <div class="card mb-4 column-break-avoid">
-                    <div class="card-header">{{ $section_label }}</div>
-                    <ul class="list-group list-group-flush">
+    <div class="columns-3">
+        @foreach($data as $section => $fields)
+            <div class="card mb-4 column-break-avoid">
+                <div class="card-header">
+                    {{ $sections[$section] }}
+                    <a href="{{ route('people.helpers.edit', [$helper, 'section' => $section]) }}" class="float-right">@icon(edit)</a>                        
+                </div>
+                <ul class="list-group list-group-flush">
+                    @if(!empty($fields))
                         @foreach($fields as $field)
                             <li class="list-group-item">
                                 <div class="row">
@@ -56,9 +56,13 @@
                                 </div>
                             </li>
                         @endforeach
-                    </ul>
-                </div>
-            @endif
+                    @else
+                        <li class="list-group-item">
+                            <em>@lang('app.no_data_registered')</em>
+                        </li>
+                    @endif
+                </ul>
+            </div>
         @endforeach
     </div>
 
