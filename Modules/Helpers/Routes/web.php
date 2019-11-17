@@ -18,21 +18,24 @@ Route::group(['middleware' => ['auth', 'language']], function () {
             ->name('helpers.report')
             ->middleware('can:list,Modules\Helpers\Entities\Helper');
         // Export view
-        Route::get('helpers/export', 'HelperListController@export')
+        Route::get('helpers/export', 'HelperExportImportController@export')
             ->name('helpers.export')
             ->middleware('can:export,Modules\Helpers\Entities\Helper');
         // Export download
-        Route::post('helpers/doExport', 'HelperListController@doExport')
+        Route::post('helpers/doExport', 'HelperExportImportController@doExport')
             ->name('helpers.doExport')
             ->middleware('can:export,Modules\Helpers\Entities\Helper');
         // Import view
-        Route::get('helpers/import', 'HelperListController@import')
+        Route::get('helpers/import', 'HelperExportImportController@import')
             ->name('helpers.import')
             ->middleware('can:import,Modules\Helpers\Entities\Helper');
         // Import upload
-        Route::post('helpers/doImport', 'HelperListController@doImport')
+        Route::post('helpers/doImport', 'HelperExportImportController@doImport')
             ->name('helpers.doImport')
             ->middleware('can:import,Modules\Helpers\Entities\Helper');
+        // Download vCard
+        Route::get('helpers/{helper}/vcard', 'HelperExportImportController@vcard')
+            ->name('helpers.vcard');
         // Create helper (decide what way)
         Route::get('helpers/createFrom', 'HelperListController@createFrom')
             ->name('helpers.createFrom')
@@ -41,9 +44,6 @@ Route::group(['middleware' => ['auth', 'language']], function () {
         Route::post('helpers/createFrom', 'HelperListController@storeFrom')
             ->name('helpers.storeFrom')
             ->middleware('can:create,Modules\Helpers\Entities\Helper');
-        // Download vCard
-        Route::get('helpers/{helper}/vcard', 'HelperListController@vcard')
-            ->name('helpers.vcard');
         // Responsibilities resource
         Route::name('helpers.')->group(function () {
             Route::resource('helpers/responsibilities', 'ResponsibilitiesController')

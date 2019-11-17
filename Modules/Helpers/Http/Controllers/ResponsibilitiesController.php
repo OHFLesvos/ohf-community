@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Modules\Helpers\Entities\Responsibility;
 use  Modules\Helpers\Http\Requests\StoreResponsibility;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ResponsibilitiesController extends Controller
