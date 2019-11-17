@@ -294,4 +294,5 @@ return [
     'available' => 'Available',
     'loading' => 'Loading...',
     'searching' => 'Searching...',
+    'fit_to_page' => 'Fit to page',
  ];

@@ -24,7 +24,8 @@
                 <div class="mb-3">
                     {{ Form::bsRadioList('orientation', ['portrait' => __('app.portrait'), 'landscape' => __('app.landscape')], 'portrait', __('app.orientation')) }}
                 </div>
-                {{ Form::bsCheckbox('include_portraits', 1, null, __('people::people.include_portraits')) }}            
+                <p>{{ Form::bsCheckbox('fit_to_page', 1, null, __('app.fit_to_page')) }}</p>
+                <p>{{ Form::bsCheckbox('include_portraits', 1, null, __('people::people.include_portraits')) }}</p>
             </div>        
         </div>
         <p>

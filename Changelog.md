@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.9.5
+
+Helpers:
+
+* Added 'fit-to-page' option for exports
+* Export button on main screen
+
 ## 2.9.4
 
 Helpers:

@@ -71,6 +71,7 @@ class HelperExportImportController extends BaseHelperController
                 'required',
                 'in:portrait,landscape',
             ],
+            'fit_to_page' => 'boolean',
             'include_portraits' => 'boolean',
         ];
     }
@@ -91,6 +92,10 @@ class HelperExportImportController extends BaseHelperController
         $export = new HelpersExport($fields, $scope['scope']);
         $export->setOrientation($request->orientation);
         $export->setSorting($sorting['sorting']);
+        if ($request->has('fit_to_page')) {
+            $export->setFitToWidth(1);
+            $export->setFitToHeight(1);
+        }
         return $export;
     }
 
@@ -114,7 +119,7 @@ class HelperExportImportController extends BaseHelperController
 
     protected function exportDownload(Request $request, $export, $file_name, $file_ext) {
         // Download as ZIP with portraits
-        if (isset($request->include_portraits)) {
+        if ($request->has('include_portraits')) {            
             $zip = new ZipStream($file_name . '.zip');
             $temp_file = 'temp/' . uniqid() . '.' . $file_ext;
             $export->store($temp_file);

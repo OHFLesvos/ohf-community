@@ -37,8 +37,8 @@ trait DefaultFormatting
         }
 
         // Fit to page width
-        // $sheet->getPageSetup()->setFitToWidth(1);
-        // $sheet->getPageSetup()->setFitToHeight(0);
+        $sheet->getPageSetup()->setFitToWidth($this->fitToWidth);
+        $sheet->getPageSetup()->setFitToHeight($this->fitToHeight);
 
         // Centering
         //$sheet->getPageSetup()->setHorizontalCentered(true);

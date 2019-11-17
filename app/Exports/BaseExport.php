@@ -15,6 +15,8 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
 
     private $orientation = 'portrait';
     private $margins = null;
+    private $fitToWidth = 0;
+    private $fitToHeight = 0;
 
     public function setOrientation(string $orientation) {
         $this->orientation = $orientation;
@@ -22,6 +24,14 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
 
     public function setMargins(float $margins) {
         $this->margins = $margins;
+    }
+
+    public function setFitToWidth(float $fitToWidth) {
+        $this->fitToWidth = $fitToWidth;
+    }
+
+    public function setFitToHeight(float $fitToHeight) {
+        $this->fitToHeight = $fitToHeight;
     }
 
     /**
