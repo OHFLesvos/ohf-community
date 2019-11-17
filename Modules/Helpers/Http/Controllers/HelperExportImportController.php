@@ -40,15 +40,15 @@ class HelperExportImportController extends BaseHelperController
             'scopes' => $this->getScopes()->mapWithKeys(function($s, $k){
                 return [ $k => $s['label'] ];
             })->toArray(),
-            'scope' => $this->getScopes()->keys()->first(),
+            'scope' => session('helpers.export.scope', $this->getScopes()->keys()->first()),
             'columnt_sets' => $this->getColumnSets()->mapWithKeys(function($s, $k){
                 return [ $k => $s['label'] ];
             })->toArray(),
-            'columnt_set' => $this->getColumnSets()->keys()->first(),
+            'columnt_set' => session('helpers.export.columnt_set', $this->getColumnSets()->keys()->first()),
             'sorters' => $this->getSorters()->mapWithKeys(function($s, $k){
                 return [ $k => $s['label'] ];
             })->toArray(),
-            'sorting' => $this->getSorters()->keys()->first(),
+            'sorting' => session('helpers.export.sorting', $this->getSorters()->keys()->first()),
         ];
     }
 
@@ -87,7 +87,7 @@ class HelperExportImportController extends BaseHelperController
         $columnSet = $this->getColumnSets()[$request->column_set];
         $fields = self::filterFieldsByColumnSet($this->getFields(), $columnSet);
         $scope = $this->getScopes()[$request->scope];
-        $sorting = $this->getSorters()[$request->sorting];       
+        $sorting = $this->getSorters()[$request->sorting];
 
         $export = new HelpersExport($fields, $scope['scope']);
         $export->setOrientation($request->orientation);
@@ -99,7 +99,8 @@ class HelperExportImportController extends BaseHelperController
         return $export;
     }
 
-    private static function filterFieldsByColumnSet(array $fields, array $columnSet) {
+    private static function filterFieldsByColumnSet(array $fields, array $columnSet)
+    {
         return collect($fields)
             ->where('overview_only', false)
             ->where('exclude_export', false)
@@ -117,7 +118,13 @@ class HelperExportImportController extends BaseHelperController
             });
     }
 
-    protected function exportDownload(Request $request, $export, $file_name, $file_ext) {
+    protected function exportDownload(Request $request, $export, $file_name, $file_ext)
+    {
+        // Remember parameters in session
+        session(['helpers.export.scope' => $request->scope]);
+        session(['helpers.export.columnt_set' => $request->column_set]);
+        session(['helpers.export.sorting' => $request->sorting]);
+        
         // Download as ZIP with portraits
         if ($request->has('include_portraits')) {            
             $zip = new ZipStream($file_name . '.zip');
@@ -146,13 +153,15 @@ class HelperExportImportController extends BaseHelperController
         }
     }
 
-    function import() {
+    function import()
+    {
         $this->authorize('import', Helper::class);
 
         return view('helpers::import');
     }
 
-    function doImport(ImportHelpers $request) {
+    function doImport(ImportHelpers $request)
+    {
         $this->authorize('import', Helper::class);
 
         $fields = self::getImportFields($this->getFields());
@@ -164,7 +173,8 @@ class HelperExportImportController extends BaseHelperController
 				->with('success', __('app.import_successful'));		
     }
 
-    private static function getImportFields($fields) {
+    private static function getImportFields($fields)
+    {
         return collect($fields)
             ->where('overview_only', false)
             ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
