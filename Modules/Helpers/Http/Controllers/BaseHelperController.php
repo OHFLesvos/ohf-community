@@ -314,7 +314,20 @@ abstract class BaseHelperController extends Controller
                 'label_key' => 'app.responsibilities',
                 'icon' => null,
                 'value' => function($helper) { return $helper->responsibilities->pluck('name')->all(); },
-                'value_html' => function($helper) { return $helper->responsibilities->implode('name', '<br>'); },
+                'value_html' => function($helper) { 
+                    return $helper->responsibilities
+                        ->map(function($r){
+                            $str = $r->name;
+                            if ($r->hasHelpersAltoughNotAvailable) {
+                                $str.= ' <span class="text-danger">(' . __('app.not_available') . ')</span>';
+                            }
+                            if ($r->isCapacityExhausted) {
+                                $str.= ' <span class="text-danger">(' . __('app.capacity_exhausted') . ')</span>';
+                            }                            
+                            return $str;
+                        })
+                        ->implode('<br>'); 
+                },
                 'overview' => true,
                 'section' => 'occupation',
                 'import_labels' => [ 'Project' ],
@@ -947,19 +960,6 @@ abstract class BaseHelperController extends Controller
                         $query->where('name', $v);
                     });
                 },
-                'label_transform'=> function($groups) {
-                    return collect($groups)
-                        ->map(function($s) {
-                            if (Responsibility::where('name', $s)->where('available', false)->count() > 0) {
-                                return $s . ' (NOT AVAILABLE)';
-                            }
-                            $responsibility = Responsibility::where('name', $s)->first();
-                            if ($responsibility != null && $responsibility->capacity != null && $responsibility->capacity < $responsibility->helpers()->active()->count()) {
-                                return $s . ' (OVER CAPACITY)';
-                            }
-                            return $s;
-                        });
-                },                
             ],
             'pickup_locations' => [
                 'label' => __('people::people.pickup_locations'),

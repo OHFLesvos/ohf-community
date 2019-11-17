@@ -296,4 +296,6 @@ return [
     'searching' => 'Searching...',
     'fit_to_page' => 'Fit to page',
     'no_data_registered' => 'No data registered.',
+    'not_available' => 'not available',
+    'capacity_exhausted' => 'capacity exhausted',
  ];

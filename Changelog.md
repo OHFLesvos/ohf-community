@@ -7,6 +7,8 @@ Helpers:
 * Added 'fit-to-page' option for exports
 * Export button on main screen
 * Added 'working since days' field
+* Edit helpers data per section
+* Improved capacity warning message
 
 ## 2.9.4
 

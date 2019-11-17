@@ -56,4 +56,19 @@ class Responsibility extends Model
         return $this->belongsToMany(Helper::class, 'helpers_helper_responsibility', 'responsibility_id', 'helper_id')
             ->withTimestamps();;
     }
+
+    function getIsCapacityExhaustedAttribute()
+    {
+        return $this->capacity != null && $this->capacity < $this->numberOfActiveHelpers;
+    }
+
+    function getHasHelpersAltoughNotAvailableAttribute()
+    {
+        return !$this->available && $this->numberOfActiveHelpers > 0;
+    }
+
+    function getNumberOfActiveHelpersAttribute()
+    {
+        return $this->helpers()->active()->count();
+    }
 }
