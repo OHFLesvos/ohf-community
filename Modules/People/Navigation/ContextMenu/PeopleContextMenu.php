@@ -31,6 +31,12 @@ class PeopleContextMenu implements ContextMenu {
                 'icon' => 'upload',
                 'authorized' => Auth::user()->can('create', Person::class)
             ],
+            [
+                'url' => route('people.bulkSearch'),
+                'caption' => __('app.bulk_search'),
+                'icon' => 'search',
+                'authorized' => Auth::user()->can('list', Person::class)
+            ],            
         ];
     }
 

@@ -31,6 +31,8 @@ class NavigationServiceProvider extends ServiceProvider
         'people.edit' => \Modules\People\Navigation\ContextButtons\PeopleEditContextButtons::class,
         'people.duplicates' => \Modules\People\Navigation\ContextButtons\PeopleDuplicatesContextButtons::class,
         'people.import' => \Modules\People\Navigation\ContextButtons\PeopleImportContextButtons::class,
+        'people.bulkSearch' => \Modules\People\Navigation\ContextButtons\PeopleCreateContextButtons::class,
+        'people.doBulkSearch' => \Modules\People\Navigation\ContextButtons\PeopleCreateContextButtons::class,
         
         'reporting.monthly-summary' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.people' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,

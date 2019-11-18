@@ -456,13 +456,15 @@ class PeopleController extends Controller
             ->orderBy('family_name');
         foreach ($lines as $line) {
             $terms = preg_split('/\s+/', $line);
-            foreach ($terms as $term) {
-                $qry->where(function($wq) use ($term) {
-                    $wq->where('search', 'LIKE', '%' . $term  . '%');
-                    $wq->orWhere('police_no', $term);
-                    $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
-                });
-            }
+            $qry->orWhere(function($qp) use ($terms) {
+                foreach ($terms as $term) {
+                    $qp->where(function($wq) use ($term) {
+                        $wq->where('search', 'LIKE', '%' . $term  . '%');
+                        $wq->orWhere('police_no', $term);
+                        $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
+                    });
+                }
+            });
         }
         $persons = $qry->get();
         return view('people::bulkSearchResults', [
