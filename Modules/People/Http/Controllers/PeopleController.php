@@ -451,8 +451,7 @@ class PeopleController extends Controller
         ]);
 
         $lines = preg_split("/[\s]*(\r\n|\n|\r)[\s]*/", $request->input('data'));
-        $qry = Person::limit(10)
-            ->orderBy('name')
+        $qry = Person::orderBy('name')
             ->orderBy('family_name');
         foreach ($lines as $line) {
             $terms = preg_split('/\s+/', $line);
