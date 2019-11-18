@@ -15,6 +15,12 @@ Route::middleware(['auth', 'language'])
     ->group(function () {
 
         // People
+        Route::get('/people/bulkSearch', 'PeopleController@bulkSearch')
+            ->name('people.bulkSearch')
+            ->middleware('can:list,Modules\People\Entities\Person');
+        Route::post('/people/bulkSearch', 'PeopleController@doBulkSearch')
+            ->name('people.doBulkSearch')
+            ->middleware('can:list,Modules\People\Entities\Person');
         Route::get('/people/export', 'PeopleController@export')->name('people.export')->middleware('can:export,Modules\People\Entities\Person');
         Route::get('/people/import', 'PeopleController@import')->name('people.import')->middleware('can:create,Modules\People\Entities\Person');
         Route::post('/people/doImport', 'PeopleController@doImport')->name('people.doImport')->middleware('can:create,Modules\People\Entities\Person');

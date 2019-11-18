@@ -437,4 +437,37 @@ class PeopleController extends Controller
 				->with('success', __('app.imported_num_records', ['num' => $import->count()]));
     }
 
+    function bulkSearch(Request $request)
+    {
+        return view('people::bulkSearch');
+    }
+
+    function doBulkSearch(Request $request)
+    {
+        $request->validate([
+            'data' => [
+                'filled',
+            ]
+        ]);
+
+        $lines = preg_split("/[\s]*(\r\n|\n|\r)[\s]*/", $request->input('data'));
+        $qry = Person::limit(10)
+            ->orderBy('name')
+            ->orderBy('family_name');
+        foreach ($lines as $line) {
+            $terms = preg_split('/\s+/', $line);
+            foreach ($terms as $term) {
+                $qry->where(function($wq) use ($term) {
+                    $wq->where('search', 'LIKE', '%' . $term  . '%');
+                    $wq->orWhere('police_no', $term);
+                    $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
+                });
+            }
+        }
+        $persons = $qry->get();
+        return view('people::bulkSearchResults', [
+            'persons' => $persons,
+        ]);
+    }
+
 }

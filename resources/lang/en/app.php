@@ -298,4 +298,7 @@ return [
     'no_data_registered' => 'No data registered.',
     'not_available' => 'not available',
     'capacity_exhausted' => 'capacity exhausted',
+    'new_query' => 'New query',
+    'bulk_search' => 'Bulk search',
+    'data' => 'Data',
  ];

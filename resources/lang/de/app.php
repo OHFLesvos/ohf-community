@@ -298,4 +298,7 @@ return [
     'no_data_registered' => 'Keine Daten registriert.',
     'not_available' => 'nicht verfügbar',
     'capacity_exhausted' => 'Kapazität erschöpft',
+    'new_query' => 'Neue Anfrage',
+    'bulk_search' => 'Massensuche',
+    'data' => 'Daten',
 ];
