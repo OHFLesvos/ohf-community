@@ -14,6 +14,7 @@
                         <th class="">@lang('people::people.date_of_birth')</th>
                         <th class=" text-right">@lang('people::people.age')</th>
                         <th class=" text-center">@lang('people::people.gender')</th>
+                        <th>@lang('app.remarks')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +29,7 @@
                                 @elseif($person->gender == 'm')@icon(male)
                                 @endif    
                             </td>
+                            <td>{{ $person->remarks}}</td>
                         </tr>
                     @endforeach
                 </tbody>

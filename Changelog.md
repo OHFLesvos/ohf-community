@@ -2,6 +2,10 @@
 
 ## 2.9.5
 
+People:
+
+* Added bulk-search
+
 Helpers:
 
 * Added 'fit-to-page' option for exports

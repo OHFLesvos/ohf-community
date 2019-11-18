@@ -439,7 +439,15 @@ class PeopleController extends Controller
 
     function bulkSearch(Request $request)
     {
-        return view('people::bulkSearch');
+        $orders = [
+            'name' => __('app.name'),
+            'age' => __('people::people.age'),
+            'nationality' => __('people::people.nationality'),
+        ];
+        return view('people::bulkSearch', [
+            'orders' => $orders,
+            'order' => collect($orders)->keys()->first(),
+        ]);
     }
 
     function doBulkSearch(Request $request)
@@ -447,6 +455,10 @@ class PeopleController extends Controller
         $request->validate([
             'data' => [
                 'filled',
+            ],
+            'order' => [
+                'required',
+                Rule::in(['name', 'age', 'nationality']),
             ]
         ]);
 
@@ -467,8 +479,8 @@ class PeopleController extends Controller
                 }
             });
         }
-        $persons = $qry->get()->sortBy('age')
-            ->sortByDesc('age');
+        $persons = $qry->get()
+            ->sortBy($request->input('order'));
         return view('people::bulkSearchResults', [
             'persons' => $persons,
         ]);
