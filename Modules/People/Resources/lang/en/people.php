@@ -219,4 +219,5 @@ return [
     'average_new_registrations_per_day' => 'Average new registrations per day',
     'cards_issued' => 'Cards issued',
     'cards_revoked' => 'Cards revoked',
+    'no_permission_to_search_existing_persons' => 'You don\'t have permission to search for existing person records.',
 ];

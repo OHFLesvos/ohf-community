@@ -216,4 +216,5 @@ return [
     'average_new_registrations_per_day' => 'Durchschnittliche Neuregistrierungen pro Tag',
     'cards_issued' => 'Karten ausgestellt',
     'cards_revoked' => 'Karten zurückgezogen',
+    'no_permission_to_search_existing_persons' => 'Du hast keine Erlaubnis um nach existierenden Persondendatensätzen zu suchen.',
 ];
