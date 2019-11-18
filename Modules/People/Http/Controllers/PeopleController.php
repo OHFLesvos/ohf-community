@@ -457,6 +457,8 @@ class PeopleController extends Controller
             $terms = preg_split('/\s+/', $line);
             $qry->orWhere(function($qp) use ($terms) {
                 foreach ($terms as $term) {
+                    // Remove dash "-" from term
+                    $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
                     $qp->where(function($wq) use ($term) {
                         $wq->where('search', 'LIKE', '%' . $term  . '%');
                         $wq->orWhere('police_no', $term);
@@ -465,7 +467,8 @@ class PeopleController extends Controller
                 }
             });
         }
-        $persons = $qry->get();
+        $persons = $qry->get()->sortBy('age')
+            ->sortByDesc('age');
         return view('people::bulkSearchResults', [
             'persons' => $persons,
         ]);
