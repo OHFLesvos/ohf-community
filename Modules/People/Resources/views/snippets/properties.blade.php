@@ -130,7 +130,7 @@
                     </strong>
                 </div>
                 <div class="col-sm">
-                    <img src="{{ Storage::url($person->portrait_picture) }}" class="img-fluid">
+                    <img src="{{ Storage::url($person->portrait_picture) }}" class="img-fluid img-thumbnail">
                 </div>
             </div>
         </li>

@@ -14,7 +14,7 @@
     @isset($transaction->receipt_picture)
         </div>
         <div class="col-md-4 mb-3">
-            <a href="{{ Storage::url($transaction->receipt_picture) }}" data-lity><img src="{{ Storage::url($transaction->receipt_picture) }}" class="img-fluid"></a>
+            <a href="{{ Storage::url($transaction->receipt_picture) }}" data-lity><img src="{{ Storage::url($transaction->receipt_picture) }}" class="img-fluid img-thumbnail"></a>
         </div>
     </div>
     @endisset
