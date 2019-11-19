@@ -60,7 +60,7 @@ abstract class BaseHelperController extends Controller
                 'value' => function($helper) { return $helper->person->portrait_picture; },
                 'value_html' => function($helper) { 
                     return isset($helper->person->portrait_picture) 
-                        ? '<img src="' . Storage::url($helper->person->portrait_picture) . '" class="img-fluid">'
+                        ? '<img src="' . Storage::url($helper->person->portrait_picture) . '" class="img-fluid img-thumbnail">'
                         : null;
                 },
                 'overview' => false,
