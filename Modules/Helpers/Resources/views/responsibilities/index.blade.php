@@ -6,7 +6,7 @@
 
     @if(count($responsibilities) > 0)
         <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
+            <table class="table table-sm table-bordered table- table-hover">
                 <thead>
                     <tr>
                         <th>@lang('app.name')</th>
@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                     @foreach ($responsibilities as $responsibility)
-                        <tr class="@if($responsibility->isCapacityExhausted || $responsibility->hasHelpersAltoughNotAvailable) table-warning @endif">
+                        <tr class="@if($responsibility->isCapacityExhausted || $responsibility->hasHelpersAltoughNotAvailable) table-danger @elseif(!$responsibility->available) table-secondary @elseif($responsibility->capacity != null && $responsibility->capacity == $responsibility->numberOfActiveHelpers) table-success @elseif($responsibility->capacity != null && $responsibility->capacity > $responsibility->numberOfActiveHelpers) table-warning @endif">
                             <td>
                                 <a href="{{ route('people.helpers.responsibilities.edit', $responsibility) }}">{{ $responsibility->name }}</a>
                             </td>

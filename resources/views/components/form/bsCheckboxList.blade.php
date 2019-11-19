@@ -11,7 +11,7 @@
     @foreach($value as $v)
         @if(!isset($entries[$v]))
             <div class="custom-control custom-checkbox">
-                {{ Form::checkbox($name, $v, true, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, $k) ]) }}
+                {{ Form::checkbox($name, $v, true, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, $v) ]) }}
                 <label class="custom-control-label text-danger" for="{{ form_id_string($name, $v) }}">{{ $v }}</label>
             </div>
         @endif
