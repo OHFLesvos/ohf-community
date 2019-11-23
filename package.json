@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
-    "@yaireo/tagify": "^2.31.4",
+    "@yaireo/tagify": "^2.31.6",
     "axios": "^0.18.1",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.1.0",
@@ -31,7 +31,7 @@
     "node-snackbar": "^0.1.16",
     "nprogress": "^0.2.0",
     "popper.js": "^1.16.0",
-    "sass": "^1.23.6",
+    "sass": "^1.23.7",
     "sass-loader": "^7.3.1",
     "summernote": "^0.8.12",
     "vue": "^2.6.10",
