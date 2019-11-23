@@ -25,8 +25,6 @@ Route::group(['middleware' => 'language'], function () {
                     ->name('transactions.summary');
                 Route::get('transactions/{transaction}/snippet', 'MoneyTransactionsController@snippet')
                     ->name('transactions.snippet');
-                Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')
-                    ->name('transactions.updateReceipt');
                 Route::put('transactions/{transaction}/undoBooking', 'MoneyTransactionsController@undoBooking')
                     ->name('transactions.undoBooking');
                 Route::resource('transactions', 'MoneyTransactionsController');

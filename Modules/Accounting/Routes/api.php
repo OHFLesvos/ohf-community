@@ -12,3 +12,16 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware' => 'language'], function () {
+    Route::group(['middleware' => ['auth']], function () {
+        Route::prefix('accounting')
+            ->name('accounting.')
+            ->namespace('API')
+            ->group(function(){
+
+                Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')
+                    ->name('transactions.updateReceipt');
+
+            });
+    });
+});

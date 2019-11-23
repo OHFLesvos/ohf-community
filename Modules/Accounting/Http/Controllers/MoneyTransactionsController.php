@@ -14,7 +14,6 @@ use Modules\Accounting\Support\Webling\Entities\Entrygroup;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
@@ -556,17 +555,6 @@ class MoneyTransactionsController extends Controller
             return new WeblingMoneyTransactionsExport($filter);
         }
         return new MoneyTransactionsExport($filter);
-    }
-    
-    public function updateReceipt(Request $request, MoneyTransaction $transaction)
-    {
-        $this->authorize('update', $transaction);
-
-        $transaction->deleteReceiptPictures(); // TODO no need to clear pictures for multi picture support
-        $transaction->addReceiptPicture($request->file('img'));
-        $transaction->save();
-
-        return response(null, 204);
     }
 
     public function undoBooking(MoneyTransaction $transaction)
