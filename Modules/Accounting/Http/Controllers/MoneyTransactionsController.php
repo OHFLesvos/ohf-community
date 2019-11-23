@@ -573,15 +573,6 @@ class MoneyTransactionsController extends Controller
         }
         return new MoneyTransactionsExport($filter);
     }
-
-    public function editReceipt(MoneyTransaction $transaction)
-    {
-        $this->authorize('update', $transaction);
-
-        return view('accounting::transactions.editReceipt', [
-            'transaction' => $transaction,
-        ]);
-    }
     
     public function updateReceipt(Request $request, MoneyTransaction $transaction)
     {
@@ -591,19 +582,6 @@ class MoneyTransactionsController extends Controller
             Storage::delete($transaction->receipt_picture);
         }
         $transaction->receipt_picture = $request->file('img')->store('public/accounting/receipts');
-        $transaction->save();
-
-        return response(null, 204);
-    }
-
-    function deleteReceipt(MoneyTransaction $transaction) 
-    {
-        $this->authorize('update', $transaction);
-
-        if ($transaction->receipt_picture != null) {
-            Storage::delete($transaction->receipt_picture);
-        }
-        $transaction->receipt_picture = null;
         $transaction->save();
 
         return response(null, 204);
