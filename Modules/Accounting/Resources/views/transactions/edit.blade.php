@@ -45,13 +45,13 @@
                 <label>@lang('accounting::accounting.receipt')</label>
                 <div class="form-row">
                     <div class="col-sm">
-                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __($transaction->receipt_picture != null ? 'accounting::accounting.change_picture_of_receipt' : 'accounting::accounting.choose_picture_of_receipt')) }}
+                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __(!empty($transaction->receipt_pictures) ? 'accounting::accounting.change_picture_of_receipt' : 'accounting::accounting.choose_picture_of_receipt')) }}
                     </div>
-                    @isset($transaction->receipt_picture)
+                    @if(!empty($transaction->receipt_pictures))
                         <div class="col-sm-auto">
                             {{ Form::bsCheckbox('remove_receipt_picture', 1, null, __('accounting::accounting.remove_receipt_picture')) }}<br>
                         </div>
-                    @endisset
+                    @endif
                 </div>
             </div>
         </div>    

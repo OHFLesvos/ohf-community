@@ -33,14 +33,14 @@
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
-                            <td class="@unless($transaction->receipt_picture)@isset($transaction->receipt_no) table-warning receipt-picture-missing @endisset @endunless text-center" data-transaction-id="{{ $transaction->id }}">
+                            <td class="@if(empty($transaction->receipt_pictures) && isset($transaction->receipt_no)) table-warning receipt-picture-missing @endif text-center" data-transaction-id="{{ $transaction->id }}">
                                 {{ $transaction->receipt_no }}
                             </td>
                             <td class="fit">
                                 <a href="{{ route('accounting.transactions.show', $transaction) }}" 
                                     data-url="{{ route('accounting.transactions.snippet', $transaction) }}" 
                                     @can('update', $transaction) data-edit-url="{{ route('accounting.transactions.edit', $transaction) }}"@endcan 
-                                    @isset($transaction->receipt_picture) data-receipt-url="{{ Storage::url($transaction->receipt_picture) }}" @endisset
+                                    @unless(empty($transaction->receipt_pictures)) data-receipt-url="{{ Storage::url($transaction->receipt_pictures[0]) }}" @endunless
                                     class="details-link">
                                     {{ $transaction->date }}
                                 </a>
@@ -90,7 +90,7 @@
         <div style="overflow-x: auto">
             {{ $transactions->appends($filter)->links() }}
         </div>
-        @foreach ($transactions->filter(function($e){ return $e->receipt_no != null && $e->receipt_picture == null; }) as $transaction)
+        @foreach ($transactions->filter(function($e){ return $e->receipt_no != null && empty($e->receipt_pictures); }) as $transaction)
             <form action="{{ route('accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-none upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
                 {{ csrf_field() }}
                 {{ Form::file('img', [ 'accept' => 'image/*', 'class' => 'd-none' ]) }}

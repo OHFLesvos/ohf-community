@@ -4,20 +4,20 @@
 
 @section('content')
 
-    @isset($transaction->receipt_picture)
+    @if($transaction->receipt_pictures)
         <div class="row">
             <div class="col-md-8">
-    @endisset
+    @endif
     
     @include('accounting::transactions.snippet')
 
-    @isset($transaction->receipt_picture)
+    @if(!empty($transaction->receipt_pictures))
         </div>
         <div class="col-md-4 mb-3">
-            <a href="{{ Storage::url($transaction->receipt_picture) }}" data-lity><img src="{{ Storage::url($transaction->receipt_picture) }}" class="img-fluid img-thumbnail"></a>
+            <a href="{{ Storage::url($transaction->receipt_pictures[0]) }}" data-lity><img src="{{ Storage::url($transaction->receipt_pictures[0]) }}" class="img-fluid img-thumbnail"></a>
         </div>
     </div>
-    @endisset
+    @endif
 
     <p class="mt-3">
         @isset($prev_id)

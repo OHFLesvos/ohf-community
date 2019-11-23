@@ -16,9 +16,13 @@ use Modules\Accounting\Support\Webling\Exceptions\ConnectionException;
 
 use Carbon\Carbon;
 
+use Gumlet\ImageResize;
+
 class MoneyTransaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+
+    const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 
     public static function boot()
     {
@@ -27,9 +31,7 @@ class MoneyTransaction extends Model implements Auditable
         });
 
         static::deleting(function($model) {
-            if ($model->receipt_picture != null) {
-                Storage::delete($model->receipt_picture);
-            }
+            $model->deleteReceiptPictures();
         });
 
         parent::boot();
@@ -37,6 +39,7 @@ class MoneyTransaction extends Model implements Auditable
 
     protected $casts = [
         'booked' => 'boolean',
+        'receipt_pictures' => 'array',
     ];
 
     /**
@@ -116,5 +119,27 @@ class MoneyTransaction extends Model implements Auditable
             } catch (ConnectionException $ignored) { }
         }
         return null;
+    }
+
+    public function addReceiptPicture($file)
+    {
+        // Resize image
+        $image = new ImageResize($file->getRealPath());
+        $image->resizeToBestFit(1024, 1024);
+        $image->save($file->getRealPath());
+
+        $pictures = $this->receipt_pictures ?? [];
+        $pictures[] = $file->store(self::RECEIPT_PICTURE_PATH);
+        $this->receipt_pictures = $pictures;
+    }
+
+    public function deleteReceiptPictures()
+    {
+        if (!empty($this->receipt_pictures)) {
+            foreach($this->receipt_pictures as $file) {
+                Storage::delete($file);
+            }
+        }
+        $this->receipt_pictures = [];
     }
 }

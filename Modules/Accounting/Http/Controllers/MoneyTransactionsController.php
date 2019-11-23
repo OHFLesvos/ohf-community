@@ -20,8 +20,6 @@ use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
 
-use \Gumlet\ImageResize;
-
 use Setting;
 
 class MoneyTransactionsController extends Controller
@@ -149,7 +147,8 @@ class MoneyTransactionsController extends Controller
                 } else if ($col == 'no_receipt') {  
                     $query->where(function($query){
                         $query->whereNull('receipt_no');
-                        $query->orWhereNull('receipt_picture');
+                        $query->orWhereNull('receipt_pictures');
+                        $query->orWhere('receipt_pictures', '[]');
                     }); 
                 } else if ($col == 'beneficiary' || $col == 'description') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
@@ -256,12 +255,7 @@ class MoneyTransactionsController extends Controller
         $transaction->wallet_owner = $request->wallet_owner;
         
         if (isset($request->receipt_picture)) {
-            // Resize image
-            $image = new ImageResize($request->file('receipt_picture')->getRealPath());
-            $image->resizeToBestFit(800, 800);
-            $image->save($request->file('receipt_picture')->getRealPath());
-
-            $transaction->receipt_picture = $request->file('receipt_picture')->store('public/accounting/receipts');
+            $transaction->addReceiptPicture($request->file('receipt_picture'));
         }
 
         $transaction->save();
@@ -356,20 +350,11 @@ class MoneyTransactionsController extends Controller
         $transaction->wallet_owner = $request->wallet_owner;
 
         if (isset($request->remove_receipt_picture)) {
-            Storage::delete($transaction->receipt_picture);
-            $transaction->receipt_picture = null;
+            $transaction->deleteReceiptPictures();
         }
         else if (isset($request->receipt_picture)) {
-            if ($transaction->receipt_picture != null) {
-                Storage::delete($transaction->receipt_picture);
-            }
-
-            // Resize image
-            $image = new ImageResize($request->file('receipt_picture')->getRealPath());
-            $image->resizeToBestFit(800, 800);
-            $image->save($request->file('receipt_picture')->getRealPath());
-
-            $transaction->receipt_picture = $request->file('receipt_picture')->store('public/accounting/receipts');
+            $transaction->deleteReceiptPictures(); // TODO no need to clear pictures for multi picture support
+            $transaction->addReceiptPicture($request->file('receipt_picture'));
         }
 
         $transaction->save();
@@ -578,10 +563,8 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('update', $transaction);
 
-        if ($transaction->receipt_picture != null) {
-            Storage::delete($transaction->receipt_picture);
-        }
-        $transaction->receipt_picture = $request->file('img')->store('public/accounting/receipts');
+        $transaction->deleteReceiptPictures(); // TODO no need to clear pictures for multi picture support
+        $transaction->addReceiptPicture($request->file('img'));
         $transaction->save();
 
         return response(null, 204);
