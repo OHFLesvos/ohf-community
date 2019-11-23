@@ -7,7 +7,6 @@ use Modules\Accounting\Support\Webling\Entities\Entrygroup;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use OwenIt\Auditing\Contracts\Auditable;
@@ -49,7 +48,7 @@ class MoneyTransaction extends Model implements Auditable
      */
     public static function currentWallet(Carbon $date = null): ?float
     {
-        $qry = SignedMoneyTransaction::select(DB::raw('SUM(amount) as sum'));
+        $qry = SignedMoneyTransaction::selectRaw('SUM(amount) as sum');
 
         self::dateFilter($qry, null, $date);
 
@@ -58,7 +57,8 @@ class MoneyTransaction extends Model implements Auditable
 
     public static function revenueByField(string $field, Carbon $dateFrom = null, Carbon $dateTo = null): Collection
     {
-        $qry = SignedMoneyTransaction::select($field, DB::raw('SUM(amount) as sum'))
+        $qry = SignedMoneyTransaction::select($field)
+            ->selectRaw('SUM(amount) as sum')
             ->groupBy($field)
             ->orderBy($field);
 
@@ -75,7 +75,7 @@ class MoneyTransaction extends Model implements Auditable
 
     public static function totalSpending(Carbon $dateFrom = null, Carbon $dateTo = null): ?float
     {
-        $qry = MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
+        $qry = MoneyTransaction::selectRaw('SUM(amount) as sum')
             ->where('type', 'spending');
         
         self::dateFilter($qry, $dateFrom, $dateTo);
@@ -85,7 +85,7 @@ class MoneyTransaction extends Model implements Auditable
 
     public static function totalIncome(Carbon $dateFrom = null, Carbon $dateTo = null): ?float
     {
-        $qry = MoneyTransaction::select(DB::raw('SUM(amount) as sum'))
+        $qry = MoneyTransaction::selectRaw('SUM(amount) as sum')
             ->where('type', 'income');
         
         self::dateFilter($qry, $dateFrom, $dateTo);
@@ -105,7 +105,7 @@ class MoneyTransaction extends Model implements Auditable
 
     public static function getNextFreeReceiptNo()
     {
-        return optional(MoneyTransaction::select(DB::raw('MAX(receipt_no) as val'))
+        return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
             ->first())
             ->val + 1;
     }

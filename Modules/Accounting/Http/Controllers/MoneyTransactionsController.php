@@ -43,7 +43,7 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('list', MoneyTransaction::class);
 
-        $validatedData = $request->validate([
+        $request->validate([
             'date_start' => [
                 'nullable',
                 'date',
@@ -452,8 +452,8 @@ class MoneyTransactionsController extends Controller
         $spending = MoneyTransaction::totalSpending($dateFrom, $dateTo);
         $income = MoneyTransaction::totalIncome($dateFrom, $dateTo);
 
-        $months = MoneyTransaction
-            ::select(DB::raw('MONTH(date) as month'), DB::raw('YEAR(date) as year'))
+        $months = MoneyTransaction::selectRaw('MONTH(date) as month')
+            ->selectRaw('YEAR(date) as year')
             ->groupBy(DB::raw('MONTH(date)'))
             ->groupBy(DB::raw('YEAR(date)'))
             ->orderBy('year', 'desc')
@@ -466,8 +466,7 @@ class MoneyTransactionsController extends Controller
             ->prepend($currentMonth->formatLocalized('%B %Y'), $currentMonth->format('Y-m'))
             ->toArray();
 
-        $years = MoneyTransaction
-            ::select(DB::raw('YEAR(date) as year'))
+        $years = MoneyTransaction::selectRaw('YEAR(date) as year')
             ->groupBy(DB::raw('YEAR(date)'))
             ->orderBy('year', 'desc')
             ->get()
@@ -570,7 +569,7 @@ class MoneyTransactionsController extends Controller
         return response(null, 204);
     }
 
-    public function undoBooking(Request $request, MoneyTransaction $transaction)
+    public function undoBooking(MoneyTransaction $transaction)
     {
         $this->authorize('undoBooking', $transaction);
         
