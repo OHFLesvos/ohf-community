@@ -40,7 +40,6 @@
                                 <a href="{{ route('accounting.transactions.show', $transaction) }}" 
                                     data-url="{{ route('accounting.transactions.snippet', $transaction) }}" 
                                     @can('update', $transaction) data-edit-url="{{ route('accounting.transactions.edit', $transaction) }}"@endcan 
-                                    @unless(empty($transaction->receipt_pictures)) data-receipt-url="{{ Storage::url($transaction->receipt_pictures[0]) }}" @endunless
                                     class="details-link">
                                     {{ $transaction->date }}
                                 </a>
@@ -155,7 +154,6 @@
             e.preventDefault();
             var container = $('#detailsModal');
             var edit_url =  $(this).data('edit-url');
-            var receipt_url =  $(this).data('receipt-url');
             container.modal('show');
             container.find('.modal-header')
                 .hide();
@@ -172,9 +170,6 @@
                     .addClass('p-0')
                     .html(result);
                 var footer_html = '';
-                if (receipt_url) {
-                    footer_html += '<a href="' + receipt_url +'" class="btn btn-secondary" data-lity><i class="fa fa-image"></i> Receipt</a>';
-                }
                 if (edit_url) {
                     footer_html += '<a href="' + edit_url +'" class="btn btn-secondary"><i class="fa fa-edit"></i> Edit</a>';
                 }

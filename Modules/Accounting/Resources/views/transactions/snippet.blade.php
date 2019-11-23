@@ -81,7 +81,23 @@
                     </div>
                 </div>
             </li>
-        @endisset        
+        @endisset
+        @unless(empty($transaction->receipt_pictures))
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting::accounting.receipt')</strong></div>
+                    <div class="col-sm">
+                        @foreach($transaction->receipt_pictures as $picture)
+                            <a href="{{ Storage::url($picture) }}" data-lity>
+                                @component('components.thumbnail', ['size' => 150])
+                                    {{ Storage::url($picture) }}
+                                @endcomponent
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </li>
+        @endunless
         @if($transaction->booked)
             <li class="list-group-item">
                 <div class="row">

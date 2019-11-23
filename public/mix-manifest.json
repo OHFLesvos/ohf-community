@@ -1,12 +1,12 @@
 {
-    "/js/app.js": "/js/app.js?id=1b21190242d56ce70683",
-    "/css/app.css": "/css/app.css?id=d7fa1018d3d39729afbe",
-    "/js/app.js.map": "/js/app.js.map?id=7d5181b4669c39823e82",
-    "/js/editor.js": "/js/editor.js?id=e11e5e6c369269d99adb",
-    "/js/editor.js.map": "/js/editor.js.map?id=9cff21a6bd1ebd99f324",
-    "/css/styles.css": "/css/styles.css?id=81051bcc2cf1bedf3782",
-    "/js/summernote-bs4.js": "/js/summernote-bs4.js?id=0314a9afd737bc56f7f8",
-    "/css/summernote-bs4.css": "/css/summernote-bs4.css?id=549b762da219736cc3a8",
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/app.js.map": "/js/app.js.map",
+    "/js/editor.js": "/js/editor.js",
+    "/js/editor.js.map": "/js/editor.js.map",
+    "/css/styles.css": "/css/styles.css",
+    "/js/summernote-bs4.js": "/js/summernote-bs4.js",
+    "/css/summernote-bs4.css": "/css/summernote-bs4.css",
     "/js/accounting.js": "/js/accounting.js?id=9cab63fd74da9c31c188",
     "/css/accounting.css": "/css/accounting.css?id=d41d8cd98f00b204e980"
 }
