@@ -4,7 +4,7 @@ namespace Modules\Bank\Http\Controllers\Settings;
 
 use App\Http\Controllers\Settings\SettingsController;
 
-use Modules\People\Http\Controllers\Reporting\PeopleReportingController;
+use Modules\Bank\Http\Controllers\Reporting\BankReportingController;
 
 use Modules\People\Entities\Person;
 
@@ -41,7 +41,7 @@ class BankSettingsController extends SettingsController
                 'section' => 'frequent_visitors',
                 'include_post' => [ 'bank::settings.frequent_visitors_affected', [
                     'current_num_people' => Person::count(),
-                    'current_num_frequent_visitors' => PeopleReportingController::getNumberOfFrequentVisitors(),
+                    'current_num_frequent_visitors' => BankReportingController::getNumberOfFrequentVisitors(),
                 ] ],
             ],
             'bank.help_article' => is_module_enabled('KB') ? [
