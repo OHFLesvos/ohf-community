@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.9.6
+
+Shop:
+
+* Short code / text input support for QR code sanner
+
 ## 2.9.5
 
 People:

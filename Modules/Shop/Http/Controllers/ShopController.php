@@ -33,6 +33,14 @@ class ShopController extends Controller
 
         if ($code != null) {
 
+            // Check for shortcode
+            if (strlen($code) == 7) {
+                $handout = CouponHandout::where(DB::raw("SUBSTR(code, 1, 7)"), $code)->first();
+                if ($handout != null) {
+                    return redirect()->route('shop.index', ['code' => $handout->code]);
+                }
+            }
+
             // code_redeemed
             $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
             $handout = CouponHandout
