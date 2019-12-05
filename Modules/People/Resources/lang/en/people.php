@@ -220,4 +220,5 @@ return [
     'cards_issued' => 'Cards issued',
     'cards_revoked' => 'Cards revoked',
     'no_permission_to_search_existing_persons' => 'You don\'t have permission to search for existing person records.',
+    'code_expiry' => 'Code expiry',
 ];

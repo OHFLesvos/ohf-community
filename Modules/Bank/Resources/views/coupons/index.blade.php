@@ -20,6 +20,7 @@
                         <th>@lang('app.enabled')</th>
                         <th>@lang('people::people.returnable')</th>
                         <th>@lang('people::people.qr_code')</th>
+                        <th>@lang('people::people.code_expiry')</th>
                         <th>@lang('helpers::helpers.helpers')</th>
                     </tr>
                 </thead>
@@ -40,6 +41,7 @@
                             <td>@if($coupon->enabled) @icon(check) @else @icon(times) @endif</td>
                             <td>@if($coupon->returnable) @icon(check) @else @icon(times) @endif</td>
                             <td>@if($coupon->qr_code_enabled) @icon(check) @else @icon(times) @endif</td>
+                            <td>@if($coupon->qr_code_enabled)@isset($coupon->code_expiry_days) {{ $coupon->code_expiry_days }} {{ trans_choice('app.day_days', $coupon->code_expiry_days) }} @endisset @endif</td>
                             <td>@if($coupon->allow_for_helpers) @icon(check) @else @icon(times) @endif</td>
                         </tr>
                     @endforeach

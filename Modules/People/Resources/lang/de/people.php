@@ -217,4 +217,5 @@ return [
     'cards_issued' => 'Karten ausgestellt',
     'cards_revoked' => 'Karten zurückgezogen',
     'no_permission_to_search_existing_persons' => 'Du hast keine Erlaubnis um nach existierenden Persondendatensätzen zu suchen.',
+    'code_expiry' => 'Code Ablaufdatum',
 ];

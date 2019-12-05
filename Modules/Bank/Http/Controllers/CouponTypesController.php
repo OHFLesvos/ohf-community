@@ -57,15 +57,7 @@ class CouponTypesController extends Controller
     public function store(StoreCouponType $request)
     {
         $coupon = new CouponType();
-        $coupon->name = $request->name;
-        $coupon->icon = $request->icon;
-        $coupon->daily_amount = $request->daily_amount;
-        $coupon->retention_period = $request->retention_period;
-        $coupon->min_age = $request->min_age;
-        $coupon->max_age = $request->max_age;
-        $coupon->daily_spending_limit = $request->daily_spending_limit;
-        $coupon->newly_registered_block_days = $request->newly_registered_block_days;
-        $coupon->order = $request->order;
+        $coupon->fill($request->all());
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);
         $coupon->qr_code_enabled = isset($request->qr_code_enabled);
@@ -111,15 +103,7 @@ class CouponTypesController extends Controller
      */
     public function update(StoreCouponType $request, CouponType $coupon)
     {
-        $coupon->name = $request->name;
-        $coupon->icon = $request->icon;
-        $coupon->daily_amount = $request->daily_amount;
-        $coupon->retention_period = $request->retention_period;
-        $coupon->min_age = $request->min_age;
-        $coupon->max_age = $request->max_age;
-        $coupon->daily_spending_limit = $request->daily_spending_limit;
-        $coupon->newly_registered_block_days = $request->newly_registered_block_days;
-        $coupon->order = $request->order;
+        $coupon->fill($request->all());
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);
         $coupon->qr_code_enabled = isset($request->qr_code_enabled);

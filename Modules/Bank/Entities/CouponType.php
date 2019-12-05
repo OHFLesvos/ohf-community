@@ -18,9 +18,13 @@ class CouponType extends Model
         'min_age',
         'max_age',
         'daily_spending_limit',
+        'newly_registered_block_days',
         'order',
         'returnable',
-        'enabled'
+        'enabled',
+        'qr_code_enabled',
+        'code_expiry_days',
+        'allow_for_helpers'
     ];
 
     protected $nullable = [
@@ -29,6 +33,14 @@ class CouponType extends Model
 		'min_age',
         'max_age',
         'daily_spending_limit',
+        'code_expiry_days'
+    ];
+
+    protected $casts = [
+        'enabled' => 'boolean',
+        'returnable' => 'boolean',
+        'qr_code_enabled' => 'boolean',
+        'allow_for_helpers' => 'boolean',
     ];
 
     public function couponHandouts() {

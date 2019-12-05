@@ -59,6 +59,11 @@ class StoreCouponType extends FormRequest
                 'numeric',
                 'min:1',
             ],
+            'code_expiry_days' => [
+                'nullable',
+                'numeric',
+                'min:1',
+            ],
             'order' => [
                 'required',
                 'numeric',

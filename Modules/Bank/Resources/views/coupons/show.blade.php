@@ -81,6 +81,16 @@
                 <div class="col-sm">@if($coupon->qr_code_enabled) @icon(check) @else @icon(times) @endif</div>
             </div>
         </li>
+        @if($coupon->qr_code_enabled)
+            @isset($coupon->code_expiry_days)
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-sm"><strong>@lang('people::people.code_expiry')</strong></div>
+                        <div class="col-sm">{{ $coupon->code_expiry_days }} {{ trans_choice('app.day_days', $coupon->code_expiry_days) }}</div>
+                    </div>
+                </li>
+            @endisset
+        @endif
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('people::people.allow_for_helpers')</strong></div>
