@@ -11,5 +11,8 @@
     "/css/accounting.css": "/css/accounting.css?id=d41d8cd98f00b204e980",
     "/js/shop.js": "/js/shop.js?id=069b464429da4ed68ad0",
     "/css/shop.css": "/css/shop.css?id=d41d8cd98f00b204e980",
-    "/js/shop.js.map": "/js/shop.js.map?id=262796880c5a714fa57b"
+    "/js/shop.js.map": "/js/shop.js.map?id=262796880c5a714fa57b",
+    "/js/bank.js": "/js/bank.js?id=5d1a94f5a44fe5819792",
+    "/css/bank.css": "/css/bank.css?id=d41d8cd98f00b204e980",
+    "/js/bank.js.map": "/js/bank.js.map?id=0640340efff0f9c1c51a"
 }
