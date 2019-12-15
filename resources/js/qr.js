@@ -1,6 +1,6 @@
 
 /*
- * Instascan QR code camera 
+ * Instascan QR code camera
  */
 import jsQR from 'jsqr'
 
@@ -69,7 +69,7 @@ function tick() {
 			drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
 			drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
 			drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
-			
+
 			video.pause();
 			localStream.getTracks().forEach((track) => {
 				track.stop();
@@ -105,7 +105,7 @@ function enableCamera() {
 				localStream = stream;
 				video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
 				video.play();
-				requestAnimationFrame(tick);		
+				requestAnimationFrame(tick);
 			} else {
 				alert('No camera stream available!');
 			}
@@ -138,11 +138,15 @@ function useKeyboard() {
 }
 
 function useCamera() {
+	if (typeof navigator.mediaDevices === 'undefined') {
+		alert('Cannot access media devices. Make sure you are using HTTPS.')
+		return;
+	}
 	$('#qrcode-input').hide();
 	$('#keyboard-input').show();
 	videoPreviewMessage.show();
 	enableCamera();
-	sessionStorage.setItem('qr.inputmethod', 'camera');	
+	sessionStorage.setItem('qr.inputmethod', 'camera');
 }
 
 export default function (callback) {
