@@ -47,7 +47,7 @@
                 <p class="text-center">@lang('people::people.todays_transactions'):</p>
                 @foreach($audits as $audit)
                     <p class="mb-3 mb-sm-1">
-                        @lang($audit['amount_diff'] > 0 ? 'people.user_added_coupons_from_project' : 'people.user_removed_coupons_from_project', [
+                        @lang($audit['amount_diff'] > 0 ? 'people::people.user_added_coupons_from_project' : 'people::people.user_removed_coupons_from_project', [
                             'user' => $audit['user'],
                             'amount' => abs($audit['amount_diff']),
                             'coupons' => $audit['coupon'],

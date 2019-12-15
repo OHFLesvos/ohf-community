@@ -18,10 +18,13 @@
                 @foreach($transactions as $transaction)
                     @php
                         $date = null;
-                        if (isset($transaction->getModified()['date']['new'])) {
-                            $date = new Carbon\Carbon($transaction->getModified()['date']['new']['date'], $transaction->getModified()['date']['new']['timezone']);
-                        } else if (isset($transaction->getModified()['date']['old'])) {
-                            $date = new Carbon\Carbon($transaction->getModified()['date']['old']);
+                        if (isset($transaction->getModified()['date'])) {
+                            $mdate = $transaction->getModified()['date'];
+                            if (isset($mdate['new'])) {
+                                $date = new Carbon\Carbon($mdate['new']);
+                            } else if (isset($mdate['old'])) {
+                                $date = new Carbon\Carbon($mdate['old']);
+                            }
                         }
 
                         $person = null;
@@ -67,8 +70,8 @@
                                 @else
                                     {{ $person->full_name }}
                                 @endcan
-                                @if($person->gender == 'f')@icon(female) 
-                                @elseif($person->gender == 'm')@icon(male) 
+                                @if($person->gender == 'f')@icon(female)
+                                @elseif($person->gender == 'm')@icon(male)
                                 @endif
                                 @if(isset($person->date_of_birth))
                                     {{ $person->date_of_birth }} (@lang('people::people.age_n', [ 'age' => $person->age]))
