@@ -31,7 +31,7 @@
                 @php
                     try {
                         $audit = $article->audits()->with('user')->latest()->first();
-                        $metadata = $audit->getMetadata();
+                        $metadata = optional($audit)->getMetadata();
                     } catch (\ErrorException $e) {
                         Log::error('Unable to get audit metadata for article \'' . $article->title .'\' (ID: '.$article->id.'): ' . $e->getMessage());
                     }
