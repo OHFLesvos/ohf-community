@@ -163,11 +163,11 @@ export default function (callback) {
 		stopCamera();
 	})
 
-	$('#keyboard-input').on('click', useKeyboard);
-	$('#qrcode-input').on('click', useCamera);
+	$('#keyboard-input').off('click').on('click', useKeyboard);
+	$('#qrcode-input').off('click').on('click', useCamera);
 
-	codeInput.find('button').on('click', buttonClick)
-	codeInput.find('input').on('keypress',function(e) {
+	codeInput.find('button').off('click').on('click', buttonClick)
+	codeInput.find('input').off('keypress').on('keypress', function(e) {
 		if(e.which == 13) {
 			buttonClick()
 		}
