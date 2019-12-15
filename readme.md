@@ -36,6 +36,11 @@ Run tests:
 
     ./vendor/bin/phpunit
 
+Create assets (development)
+
+    npm install && npm run dev
+    for d in Modules/*; do (cd $d && npm install && npm run dev); done
+
 For more information see https://laravel.com/docs/installation
 
 Assets
@@ -43,7 +48,8 @@ Assets
 
 Compile assets (CSS/JavaScript) using npm:
 
-    npm run prod
+    npm install && npm run prod
+    for d in Modules/*; do (cd $d && npm install && npm run prod); done
 
 License
 -------
