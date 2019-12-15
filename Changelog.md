@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.10.0
+
+Shop:
+
+* Added code expirty days to coupon type
+
 ## 2.9.6
 
 Shop:

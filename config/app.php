@@ -18,7 +18,7 @@ return [
 
 	'product_url' => 'https://github.com/mrcage/ohf-community',
 
-    'version' => 'v2.9.6',
+    'version' => 'v2.10.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -170,7 +170,7 @@ return [
         App\Providers\NavigationServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
-		
+
 		anlutro\LaravelSettings\ServiceProvider::class,
 
         Monarobase\CountryList\CountryListServiceProvider::class,
@@ -222,10 +222,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        
+
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-		
+
 		'Setting' => anlutro\LaravelSettings\Facade::class,
 
         'Countries' => Monarobase\CountryList\CountryListFacade::class,

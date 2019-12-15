@@ -41,7 +41,7 @@
                                             </span>
                                         </div>
                                         <div class="col">
-                                            {{ $handout->person->family_name }} {{ $handout->person->name }} 
+                                            {{ $handout->person->family_name }} {{ $handout->person->name }}
                                             <a href="{{ route('people.show', $handout->person) }}" target="_blank">@icon(search)</a><br>
                                             @if(isset($handout->person->date_of_birth)){{ $handout->person->date_of_birth }} (age {{ $handout->person->age }})@endif<br>
                                             @if($handout->person->nationality != null){{ $handout->person->nationality }}@endif
@@ -65,16 +65,15 @@
                                     @elseif($expired)
                                         <strong class="text-warning">
                                             @icon(exclamation-triangle) @lang('shop::shop.card_expired')<br>
+                                            <small>{{ trans_choice('app.valid_for_n_days', $handout->couponType->code_expiry_days, ['days' => $handout->couponType->code_expiry_days]) }}</small>
                                         </strong>
                                     @else
-                                        {{ Form::open(['route' => 'shop.redeem']) }}
-                                            {{ Form::hidden('code', $code) }}
+                                        {{ Form::open(['route' => ['shop.redeem', $handout], 'method' => 'patch']) }}
                                             <button type="submit" class="btn btn-lg btn-block btn-success">
                                                 @icon(check) @lang('shop::shop.redeem')
                                             </button>
                                         {{ Form::close() }}
-                                        {{ Form::open(['route' => 'shop.cancelCard']) }}
-                                            {{ Form::hidden('code', $code) }}
+                                        {{ Form::open(['route' => ['shop.cancelCard', $handout], 'method' => 'delete']) }}
                                             <button type="submit" class="btn btn-sm btn-block btn-outline-danger mt-3" onclick="return confirm('@lang('shop::shop.should_card_be_cancelled')');">
                                                 @icon(undo) @lang('shop::shop.cancel_card')
                                             </button>
@@ -88,7 +87,7 @@
                     @component('components.alert.warning')
                         @lang('shop::shop.person_assigned_to_card_has_been_deleted')
                     @endcomponent
-                @endif                
+                @endif
             @else
                 @component('components.alert.warning')
                     @lang('shop::shop.card_not_registered')

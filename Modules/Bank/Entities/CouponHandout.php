@@ -8,6 +8,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 use Iatstuti\Database\Support\NullableFields;
 
+use Carbon\Carbon;
+
 class CouponHandout extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -25,12 +27,14 @@ class CouponHandout extends Model implements Auditable
         'code_redeemed',
     ];
 
-    public function couponType() {
-        return $this->belongsTo('Modules\Bank\Entities\CouponType');
+    public function couponType()
+    {
+        return $this->belongsTo(CouponType::class);
     }
 
-    public function person() {
-        return $this->belongsTo('Modules\People\Entities\Person');
+    public function person()
+    {
+        return $this->belongsTo(\Modules\People\Entities\Person::class);
     }
 
     /**
@@ -41,5 +45,16 @@ class CouponHandout extends Model implements Auditable
         return [
             $this->couponType->name,
         ];
+    }
+
+    public function isCodeExpired(): bool
+    {
+        if ($this->code_redeemed == null && $this->couponType->code_expiry_days != null) {
+            $acceptDate = Carbon::today()->subDays($this->couponType->code_expiry_days - 1);
+            if ($acceptDate->gt(new Carbon($this->date))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

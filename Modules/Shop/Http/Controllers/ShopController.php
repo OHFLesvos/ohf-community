@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 
 use Modules\Bank\Entities\CouponHandout;
 
-use Modules\Shop\Http\Resources\ShopCardResource;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -16,155 +14,122 @@ use Carbon\Carbon;
 
 class ShopController extends Controller
 {
-    public function __construct() {
-        ShopCardResource::withoutWrapping();
-    }
+    /**
+     * Search card
+     */
+    public function index(Request $request)
+    {
+        // Validate code (if given)
+        $request->validate([
+            'code' => [
+                'nullable',
+                'alpha_num'
+            ]
+        ]);
 
-    private static function getCouponValidity() {
-        return \Setting::get('shop.coupon_valid_days', 1);
-    }
-
-    // Search card
-    public function index(Request $request) {
-
-        $code = $request->code;
         $handout = null;
         $expired = false;
 
-        if ($code != null) {
+        if ($request->code != null) {
 
             // Check for shortcode
-            if (strlen($code) == 7) {
-                $handout = CouponHandout::where(DB::raw("SUBSTR(code, 1, 7)"), $code)->first();
+            if (strlen($request->code) == 7) {
+                $handout = CouponHandout::where(DB::raw("SUBSTR(code, 1, 7)"), $request->code)->first();
                 if ($handout != null) {
                     return redirect()->route('shop.index', ['code' => $handout->code]);
                 }
             }
 
-            // code_redeemed
-            $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
-            $handout = CouponHandout
-                ::where(function($q) use ($code) {
-                    return $q->where('code', $code)
-                        ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
-                })
-                ->whereDate('date', '>=', $acceptDate)
+            // Search handout
+            $handout = CouponHandout::where('code', $request->code)
                 ->orderBy('date', 'desc')
+                ->with('couponType')
                 ->first();
-            if ($handout == null) {
-                $handout = CouponHandout
-                    ::where(function($q) use ($code) {
-                        return $q->where('code', $code)
-                            ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
-                    })
-                    ->whereNull('code_redeemed')
-                    ->orderBy('date', 'desc')
-                    ->first();
-                $expired = true;
+
+            if ($handout != null) {
+                Log::notice('Shop: Show card.', [
+                    'code' => $handout->code,
+                    'handout' => $handout->date,
+                ]);
             }
 
-            Log::notice('Shop: Search code.', [
-                'code' => $code,
-                'handout' => $handout != null ? $handout->date : null,
-            ]);
+            // Check expiry
+            if ($handout != null && $handout->isCodeExpired()) {
+                $expired = true;
+                Log::notice('Shop: Card expired.', [
+                    'code' => $handout->code,
+                    'handout' => $handout->date,
+                ]);
+            }
+
         }
 
-        $redeemed_cards = CouponHandout
-            ::whereDate('code_redeemed', Carbon::today())
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
         return view('shop::index', [
-            'code' => $code,
+            'code' => $request->code,
             'handout' => $handout,
-            'redeemed_cards' => $redeemed_cards,
             'expired' => $expired,
+            'redeemed_cards' => self::getTodaysRedemedCards(),
         ]);
     }
 
-    // Redeem card
-    public function redeem(Request $request) {
-
-        // code_redeemed
-        $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
-        $code = $request->code;
-        $handout = CouponHandout
-            ::where(function($q) use ($code) {
-                return $q->where('code', $code)
-                    ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
-            })
-            ->whereDate('date', '>=', $acceptDate)
-            ->orderBy('date', 'desc')
-            ->first();
-        if ($handout == null) {
-            $handout = CouponHandout
-                ::where(function($q) use ($code) {
-                    return $q->where('code', $code)
-                        ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
-                })            
-                ->whereNull('code_redeemed')
-                ->orderBy('date', 'desc')
-                ->first();
-        }
-
-        if ($handout != null) {
-            $redeemed = $handout->code_redeemed;
-            if ($redeemed == null) {
-                $handout->code_redeemed = Carbon::now();
-                $handout->save();
-
-                Log::notice('Shop: Redeem code.', [
-                    'code' => $request->code,
-                ]);
-
-                return redirect()->route('shop.index')
-                    ->with('success', __('shop::shop.card_redeemed'));
-            }
-        }
-
-        return redirect()->route('shop.index');
+    private static function getTodaysRedemedCards()
+    {
+        return CouponHandout::whereDate('code_redeemed', Carbon::today())
+            ->orderBy('updated_at', 'desc')
+            ->get();
     }
 
-    // Cancel card
-    public function cancelCard(Request $request) {
-
-        // code_redeemed
-        $acceptDate = Carbon::today()->subDays(self::getCouponValidity() - 1);
-        $code = $request->code;
-        $handout = CouponHandout
-            ::where(function($q) use ($code) {
-                return $q->where('code', $code)
-                    ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
-            })
-            ->whereDate('date', '>=', $acceptDate)
-            ->orderBy('date', 'desc')
-            ->first();
-        if ($handout == null) {
-            $handout = CouponHandout
-                ::where(function($q) use ($code) {
-                    return $q->where('code', $code)
-                        ->orWhere('code', DB::raw("SHA2('". $code ."', 256)"));
-                })            
-                ->whereNull('code_redeemed')
-                ->orderBy('date', 'desc')
-                ->first();
-        }
-
-        if ($handout != null && $handout->code_redeemed == null) {
-            
-            $handout->delete();
-
-            Log::notice('Shop: Card has been cancelled.', [
-                'code' => $code,
-                'handout' => $handout != null ? $handout->date : null,
-            ]);
-        
+    /**
+     * Redeem card
+     */
+    public function redeem(CouponHandout $handout)
+    {
+        if ($error = self::checkHandoutValidity($handout)) {
             return redirect()->route('shop.index')
-                ->with('success', __('shop::shop.card_has_been_cancelled'));
+                ->with('error', $error);
         }
 
-        return redirect()->route('shop.index');
-    }    
+        $handout->code_redeemed = Carbon::now();
+        $handout->save();
+
+        Log::notice('Shop: Redeem code.', [
+            'code' => $handout->code,
+        ]);
+
+        return redirect()->route('shop.index')
+            ->with('success', __('shop::shop.card_redeemed'));
+    }
+
+    /**
+     * Cancel card
+     */
+    public function cancelCard(CouponHandout $handout)
+    {
+        if ($error = self::checkHandoutValidity($handout)) {
+            return redirect()->route('shop.index')
+                ->with('error', $error);
+        }
+
+        $handout->delete();
+
+        Log::notice('Shop: Card has been cancelled.', [
+            'code' => $handout->handout,
+            'handout' => $handout != null ? $handout->date : null,
+        ]);
+
+        return redirect()->route('shop.index')
+            ->with('success', __('shop::shop.card_has_been_cancelled'));
+    }
+
+    private static function checkHandoutValidity(CouponHandout $handout)
+    {
+        if ($handout->code_redeemed != null) {
+            return __('shop::shop.card_already_redeemed');
+        }
+        if ($handout->isCodeExpired()) {
+            return __('shop::shop.card_expired');
+        }
+        return null;
+    }
 
 }
-

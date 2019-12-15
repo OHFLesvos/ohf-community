@@ -15,12 +15,6 @@ class ShopSettingsController extends SettingsController
 
     protected function getSettings() {
         return [
-            'shop.coupon_valid_days' => [
-                'default' => 1,
-                'form_type' => 'number',
-                'form_validate' => 'required|numeric|min:1',
-                'label_key' => 'people::people.validity_in_days',
-            ],
             'shop.help_article' => is_module_enabled('KB') ? [
                 'default' => null,
                 'form_type' => 'select',

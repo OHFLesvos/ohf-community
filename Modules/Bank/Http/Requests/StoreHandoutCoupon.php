@@ -40,7 +40,11 @@ class StoreHandoutCoupon extends FormRequest
             'code' => [
                 'nullable',
                 Rule::unique('coupon_handouts')->where(function ($query) {
-                    return $query->where('date', Carbon::today());
+                    $expiry = $this->couponType->code_expiry_days;
+                    if ($expiry != null) {
+                        return $query->whereDate('date', '>=', Carbon::today()->subDays($expiry - 1));
+                    }
+                    return $query;
                 })
             ]
         ];

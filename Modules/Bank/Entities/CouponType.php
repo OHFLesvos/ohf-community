@@ -43,11 +43,13 @@ class CouponType extends Model
         'allow_for_helpers' => 'boolean',
     ];
 
-    public function couponHandouts() {
-        return $this->hasMany('Modules\Bank\Entities\CouponHandout');
+    public function couponHandouts()
+    {
+        return $this->hasMany(CouponHandout::class);
     }
 
-    public function CouponReturns() {
-        return $this->hasMany('Modules\Bank\Entities\CouponReturn');
+    public function CouponReturns()
+    {
+        return $this->hasMany(CouponReturn::class);
     }
 }

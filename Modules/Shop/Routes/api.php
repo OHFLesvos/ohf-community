@@ -13,12 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::prefix('shop')
+Route::middleware(['auth', 'language'])
+    ->prefix('shop')
     ->name('shop.')
     ->namespace('API')
-    // TODO: Authentication and authorization
-    //->middleware(['can:validate-shop-coupons'])
     ->group(function(){
-        Route::get('/', 'ShopController@searchCard')->name('searchCard');
-        Route::post('/', 'ShopController@redeemCard')->name('redeemCard');
+        // ...
     });

@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class Project extends Model
 {
-    public function couponReturns() {
-        return $this->hasMany('Modules\Bank\Entities\CouponReturn');
+    public function couponReturns()
+    {
+        return $this->hasMany(CouponReturn::class);
     }
 
-    public function dayTransactions($date) {
+    public function dayTransactions($date)
+    {
         $sum = $this->couponReturns()
             ->whereDate('date', $date->toDateString())
             ->select(DB::raw('SUM(amount) as sum'))
@@ -21,7 +23,8 @@ class Project extends Model
         return $sum != 0 ? $sum : null;
     }
 
-    public function avgNumTransactions() {
+    public function avgNumTransactions()
+    {
         // TODO: Date from/to selection
         $avg = $this->couponReturns()
             ->select(DB::raw('AVG(amount) as avg'))
@@ -31,7 +34,8 @@ class Project extends Model
         return $avg != null ? round($avg, 1) : null;
     }
 
-    public function maxNumTransactions() {
+    public function maxNumTransactions()
+    {
         // TODO Date from/to selection
         return $this->couponReturns()
             ->select(DB::raw('MAX(amount) as max'))
@@ -40,7 +44,8 @@ class Project extends Model
             ->first();
     }
 
-    public function weekTransactions($date) {
+    public function weekTransactions($date)
+    {
         $sum = $this->couponReturns()
             ->whereDate('date', '>=', (clone $date)->startOfWeek()->toDateString())
             ->whereDate('date', '<=', (clone $date)->endOfWeek()->toDateString())
@@ -51,7 +56,8 @@ class Project extends Model
         return $sum != 0 ? $sum : null;
     }
 
-    public function monthTransactions($date) {
+    public function monthTransactions($date)
+    {
         $sum = $this->couponReturns()
             ->whereDate('date', '>=', (clone $date)->startOfMonth()->toDateString())
             ->whereDate('date', '<=', (clone $date)->endOfMonth()->toDateString())

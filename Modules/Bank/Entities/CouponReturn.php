@@ -16,12 +16,14 @@ class CouponReturn extends Model implements Auditable
         'amount',
     ];
 
-    public function couponType() {
-        return $this->belongsTo('Modules\Bank\Entities\CouponType');
+    public function couponType()
+    {
+        return $this->belongsTo(CouponType::class);
     }
 
-    public function project() {
-        return $this->belongsTo('Modules\Bank\Entities\Project');
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     /**

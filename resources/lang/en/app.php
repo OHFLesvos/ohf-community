@@ -301,4 +301,5 @@ return [
     'new_query' => 'New query',
     'bulk_search' => 'Bulk search',
     'data' => 'Data',
+    'valid_for_n_days' => 'Valid for one day.|Valid for :days days.',
  ];
