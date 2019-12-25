@@ -67,6 +67,7 @@ class CouponTypesSeeder extends Seeder
             'order' => 5,
             'returnable' => false,
             'qr_code_enabled' => true,
+            'code_expiry_days' => 1
         ]);
         CouponType::create([
             'name' => 'Barber ticket',
