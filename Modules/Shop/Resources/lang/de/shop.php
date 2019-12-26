@@ -27,5 +27,5 @@ return [
     'confirm_delete_reservation' => 'Please confirm to remove the reservation the following person:',
     'num_reservations_today' => '<strong>Eine</strong> Reservation heute.|<strong>:num</strong> reservationen heute.',
     'allow_remove_reservation' => 'Erlaube, Registrationen zu entfernen?',
-    'person_assigned_to_card_has_been_deleted' => 'Die Person welche diese Karte zugeordern ist wurde gelöscht.',
+    'person_assigned_to_card_has_been_deleted' => 'Die Person welche dieser Karte zugeordnet ist wurde gelöscht.',
 ];

@@ -1,12 +1,8 @@
-import scanQR from '../../../../../resources/js/qr'
+import Vue from 'vue'
 
-$(function(){
-	// Check shop card
-	$('.check-shop-card').on('click', () => {
-        scanQR((content) => {
-            // TODO input validation of code
-            $('#shop-container').empty().html('Searching card ...');
-            document.location = shopUrl + '?code=' + content;
-        });
-    });
+import ShopApp from './components/ShopApp.vue'
+Vue.component('shop-app', ShopApp);
+
+new Vue({
+    el: '#shop-app'
 });
