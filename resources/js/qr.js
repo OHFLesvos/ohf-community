@@ -118,6 +118,7 @@ function buttonClick() {
 	var value = codeInput.find('input').val()
 	if (value.trim().length > 0) {
 		$('#videoPreviewModal').modal('hide');
+		codeInput.find('input').val('')
 		qrCallback(value);
 	} else {
 		codeInput.find('input').focus()
