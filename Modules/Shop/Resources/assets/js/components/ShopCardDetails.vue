@@ -51,11 +51,11 @@
                         <small>{{ handout.validity_formatted }}</small>
                     </strong>
                     <template v-else>
-                        <button type="submit" class="btn btn-lg btn-block btn-success" @click="$emit('redeem')" :disabled="busy">
-                            <icon name="check"></icon> {{ lang['shop::shop.redeem'] }}
+                        <button type="submit" class="btn btn-lg btn-block btn-success" @click="redeemCard" :disabled="busy">
+                            <icon :name="redeemButtonIcon" :spin="this.redeeming"></icon> {{ lang['shop::shop.redeem'] }}
                         </button>
-                        <button type="submit" class="btn btn-sm btn-block btn-outline-danger mt-3" @click="$emit('cancel')" :disabled="busy">
-                            <icon name="undo"></icon> {{ lang['shop::shop.cancel_card'] }}
+                        <button type="submit" class="btn btn-sm btn-block btn-outline-danger mt-3" @click="cancelCard" :disabled="busy">
+                            <icon :name="cancelButtonIcon" :spin="this.cancelling"></icon> {{ lang['shop::shop.cancel_card'] }}
                         </button>
                     </template>
                 </div>
@@ -84,6 +84,44 @@
         },
         components: {
             Icon
+        },
+        data() {
+            return {
+                redeeming: false,
+                cancelling: false,
+            }
+        },
+        computed: {
+            redeemButtonIcon() {
+                if (this.redeeming) {
+                    return 'spinner'
+                }
+                return 'check'
+            },
+            cancelButtonIcon() {
+                if (this.cancelling) {
+                    return 'spinner'
+                }
+                return 'undo'
+            }
+        },
+        methods: {
+            redeemCard() {
+                this.redeeming = true
+                this.$emit('redeem')
+            },
+            cancelCard() {
+                this.cancelling = true
+                this.$emit('cancel')
+            }
+        },
+        watch: {
+            busy(val, oldVal) {
+                if (val == false && oldVal == true) {
+                    this.redeeming = false
+                    this.cancelling = false
+                }
+            }
         }
     }
 </script>

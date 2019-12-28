@@ -8,12 +8,13 @@
         <!-- Search button -->
         <p>
             <button type="button" class="btn btn-lg btn-block btn-primary" @click="requestCode" :disabled="busy">
-                <icon :name="code && busy ? 'spinner' : 'qrcode'" :spin="code && busy"></icon>
-                {{ lang['shop::shop.scan_card'] }}
+                <icon :name="searchButtonIcon" :spin="searching"></icon>
+                {{ searchButtonLabel }}
             </button>
         </p>
 
-        <template v-if="code != null && !busy">
+        <!-- Shop card details -->
+        <template v-if="code != null && !searching">
             <template v-if="handout != null">
                 <template v-if="handout.person != null">
                     <shop-card-details
@@ -60,7 +61,22 @@
                 code: null,
                 error: null,
                 handout: null,
+                searching: false,
                 busy: false
+            }
+        },
+        computed: {
+            searchButtonIcon() {
+                return this.searching ? 'spinner' : 'qrcode'
+            },
+            searchButtonLabel() {
+                if (this.searching) {
+                    return this.lang['app.searching']
+                }
+                if (this.code != null) {
+                    return this.lang['shop::shop.scan_another_card']
+                }
+                return this.lang['shop::shop.scan_card']
             }
         },
         methods: {
@@ -72,7 +88,8 @@
                     if (code.length > 0) {
                         if (/^[a-zA-Z0-9]+$/.test(code)) {
                             this.code = code
-                            this.busy = true;
+                            this.busy = true
+                            this.searching = true
                             axios.get(`${this.getCardUrl}?code=${code}`)
                                 .then(res => {
                                     this.handout = res.data.data
@@ -84,6 +101,7 @@
                                 })
                                 .then(() => {
                                     this.busy = false
+                                    this.searching = false
                                 });
                         } else {
                             this.error = 'Invalid code.'

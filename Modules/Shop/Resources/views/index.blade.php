@@ -7,11 +7,13 @@
     <div id="shop-app">
         @php
             $lang_arr = lang_arr([
+                'app.searching',
                 'shop::shop.card_not_registered',
                 'shop::shop.person_assigned_to_card_has_been_deleted',
                 'shop::shop.cancel_card',
                 'shop::shop.redeem',
                 'shop::shop.scan_card',
+                'shop::shop.scan_another_card',
                 'shop::shop.card',
                 'shop::shop.registered',
                 'shop::shop.should_card_be_cancelled',

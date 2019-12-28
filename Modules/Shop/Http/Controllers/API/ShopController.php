@@ -43,6 +43,8 @@ class ShopController extends Controller
             'handout' => $handout->date,
         ]);
 
+        sleep(2);
+
         return new ShopCard($handout);
     }
 
@@ -64,6 +66,8 @@ class ShopController extends Controller
             'code' => $handout->code,
         ]);
 
+        sleep(2);
+        return response(null, 500);
         return response()->json([
             'message' => __('shop::shop.card_redeemed')
         ]);
@@ -84,6 +88,8 @@ class ShopController extends Controller
             'handout' => $handout != null ? $handout->date : null,
         ]);
 
+        sleep(2);
+        return response(null, 500);
         return response()->json([
             'message' => __('shop::shop.card_has_been_cancelled')
         ]);
