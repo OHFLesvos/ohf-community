@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.10.1
+
+* Added support for QR code scanner functioning when camera is not available.
+
 ## 2.10.0
 
 Shop:
