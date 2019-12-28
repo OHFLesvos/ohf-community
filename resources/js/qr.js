@@ -86,7 +86,6 @@ function tick() {
 function stopCamera() {
 	video.pause();
 	if (localStream) {
-		console.log('stop local stream')
 		localStream.getTracks().forEach((track) => {
 			track.stop();
 		});
@@ -149,15 +148,36 @@ function useCamera() {
 	sessionStorage.setItem('qr.inputmethod', 'camera');
 }
 
+async function checkForCamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+        console.log("enumerateDevices() not supported.");
+        return false;
+    }
+    return await navigator.mediaDevices.enumerateDevices()
+        .then(function(devices) {
+            return devices.filter(e => e.kind == 'videoinput').length > 0
+        })
+        .catch(function(err) {
+            console.log(err.name + ": " + err.message);
+            return false;
+        });
+}
+
 export default function (callback) {
 	qrCallback = callback;
 
-	let inputmethod = sessionStorage.getItem('qr.inputmethod');
-	if (inputmethod && inputmethod == 'keyboard') {
-		useKeyboard()
-	} else {
-		useCamera()
-	}
+	checkForCamera().then(hasCamera => {
+		let inputmethod = sessionStorage.getItem('qr.inputmethod');
+		if (!hasCamera || (inputmethod && inputmethod == 'keyboard')) {
+			useKeyboard()
+		} else {
+			useCamera()
+		}
+		if (!hasCamera) {
+			$('#keyboard-input').hide();
+			$('#qrcode-input').hide();
+		}
+	})
 
 	$('#videoPreviewModal').on('hide.bs.modal', (e) => {
 		stopCamera();
