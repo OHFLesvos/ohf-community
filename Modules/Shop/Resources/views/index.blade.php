@@ -18,29 +18,16 @@
                 'shop::shop.registered',
                 'shop::shop.should_card_be_cancelled',
                 'shop::shop.card_already_redeemed',
-                'shop::shop.card_expired'
+                'shop::shop.card_expired',
+                'shop::shop.redeemed_cards'
             ]);
         @endphp
         <shop-app
+            list-cards-url="{{ route('shop.listCards') }}"
             get-card-url="{{ route('shop.getCard') }}"
             :lang='@json($lang_arr)'
         ></shop-app>
     </div>
-
-    @if(count($redeemed_cards) > 0)
-        <h4 class="mb-3">@lang('shop::shop.redeemed_cards') (@lang('shop::shop.num_today', [ 'num' => count($redeemed_cards) ]))</h4>
-        <table class="table table-sm table-striped mb-4">
-            @foreach($redeemed_cards as $rc)
-                {{-- @if($rc->code == $code) class="table-info" @endif --}}
-                <tr>
-                    <td>
-                        <a href="{{ route('shop.index') }}?code={{ $rc->code }}">@include('people::person-label', ['person' => $rc->person ])</a>
-                    </td>
-                    <td>{{ $rc->updated_at->diffForHumans() }}</td>
-                </tr>
-            @endforeach
-        </table>
-    @endif
 
 @endsection
 

@@ -16,6 +16,18 @@ use Carbon\Carbon;
 class ShopController extends Controller
 {
     /**
+     * List cards handed out today
+     */
+    public function listCards()
+    {
+        $handout = CouponHandout::whereDate('code_redeemed', Carbon::today())
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return ShopCard::collection($handout);
+    }
+
+    /**
      * Search card
      */
     public function getCard(Request $request)

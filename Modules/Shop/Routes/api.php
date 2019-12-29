@@ -19,6 +19,7 @@ Route::middleware(['auth', 'language'])
     ->namespace('API')
     ->group(function(){
         Route::middleware(['can:validate-shop-coupons'])->group(function() {
+            Route::get('/', 'ShopController@listCards')->name('listCards');
             Route::get('card', 'ShopController@getCard')->name('getCard');
             Route::patch('card/{handout}/redeem', 'ShopController@redeemCard')->name('redeemCard');
             Route::delete('card/{handout}', 'ShopController@cancelCard')->name('cancelCard');

@@ -31,18 +31,31 @@
                 {{ lang['shop::shop.card_not_registered'] }}
             </div>
         </template>
+
+        <!-- List of redeemed cards -->
+        <shop-cards-list
+            :lang="lang"
+            :handouts="handouts"
+            v-if="handouts.length > 0 && handout == null"
+        ></shop-cards-list>
+
     </div>
 </template>
 
 <script>
     import scanQR from '../../../../../../resources/js/qr'
     import showSnackbar from '../../../../../../resources/js/snackbar'
+    import ShopCardsList from './ShopCardsList'
     import ShopCardDetails from './ShopCardDetails'
     import Icon from './Icon'
     import ErrorAlert from './ErrorAlert'
     import { getAjaxErrorMessage } from '../../../../../../resources/js/utils'
     export default {
         props: {
+            listCardsUrl: {
+                type: String,
+                required: true,
+            },
             getCardUrl: {
                 type: String,
                 required: true,
@@ -53,6 +66,7 @@
             }
         },
         components: {
+            ShopCardsList,
             ShopCardDetails,
             Icon,
             ErrorAlert
@@ -63,7 +77,8 @@
                 error: null,
                 handout: null,
                 searching: false,
-                busy: false
+                busy: false,
+                handouts: []
             }
         },
         computed: {
@@ -81,6 +96,15 @@
             }
         },
         methods: {
+            loadHandouts() {
+                axios.get(this.listCardsUrl)
+                    .then(res => {
+                        this.handouts = res.data.data
+                    })
+                    .catch(err => {
+                        this.error = getAjaxErrorMessage(err)
+                    })
+            },
             requestCode() {
                 scanQR(content => {
                     this.error = null
@@ -145,6 +169,16 @@
                         .then(() => {
                             this.busy = false
                         });
+                }
+            }
+        },
+        mounted() {
+            this.loadHandouts()
+        },
+        watch: {
+            handout(val, oldVal) {
+                if (val == null && oldVal != null) {
+                    this.loadHandouts()
                 }
             }
         }

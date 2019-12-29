@@ -16,7 +16,7 @@ Route::middleware(['auth', 'language'])
     ->name('shop.')
     ->group(function () {
         Route::middleware(['can:validate-shop-coupons'])->group(function() {
-            Route::get('/', 'ShopController@index')->name('index');
+            Route::view('/', 'shop::index')->name('index');
         });
         Route::middleware(['can:configure-shop'])->group(function() {
             Route::get('/settings', 'ShopSettingsController@edit')->name('settings.edit');

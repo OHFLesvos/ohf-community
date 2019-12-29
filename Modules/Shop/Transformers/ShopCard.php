@@ -38,7 +38,7 @@ class ShopCard extends Resource
             $data['date_of_birth'] = $this->person->date_of_birth;
             $data['age_formatted'] = __('people::people.age_n', ['age' => $this->person->age]);
             $data['nationality'] = $this->person->nationality;
-            $data['url'] = route('people.show', $this->person);
+            $data['url'] = route('bank.people.show', $this->person);
 
             $data['children'] = [];
             $children = $this->person->children;
