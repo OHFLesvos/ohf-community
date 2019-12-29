@@ -43,8 +43,6 @@ class ShopController extends Controller
             'handout' => $handout->date,
         ]);
 
-        sleep(2);
-
         return new ShopCard($handout);
     }
 

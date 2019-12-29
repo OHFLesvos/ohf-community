@@ -1,9 +1,7 @@
 <template>
     <div>
         <!-- Error message -->
-        <div class="alert alert-danger" v-if="error">
-            {{ error }}
-        </div>
+        <error-alert :message="error" v-if="error"></error-alert>
 
         <!-- Search button -->
         <p>
@@ -40,7 +38,9 @@
     import scanQR from '../../../../../../resources/js/qr'
     import showSnackbar from '../../../../../../resources/js/snackbar'
     import ShopCardDetails from './ShopCardDetails'
-    import Icon from './icon'
+    import Icon from './Icon'
+    import ErrorAlert from './ErrorAlert'
+    import { getAjaxErrorMessage } from '../../../../../../resources/js/utils'
     export default {
         props: {
             getCardUrl: {
@@ -54,7 +54,8 @@
         },
         components: {
             ShopCardDetails,
-            Icon
+            Icon,
+            ErrorAlert
         },
         data() {
             return {
@@ -96,7 +97,8 @@
                                 })
                                 .catch(err => {
                                     if (err.response.status != 404) {
-                                        console.log(err.response)
+                                        this.error = getAjaxErrorMessage(err)
+                                        console.error(err)
                                     }
                                 })
                                 .then(() => {
@@ -120,7 +122,8 @@
                         showSnackbar(res.data.message)
                     })
                     .catch(err => {
-                        console.log(err.response)
+                        this.error = getAjaxErrorMessage(err)
+                        console.error(err)
                     })
                     .then(() => {
                         this.busy = false
@@ -136,7 +139,8 @@
                             showSnackbar(res.data.message)
                         })
                         .catch(err => {
-                            console.log(err.response)
+                            this.error = getAjaxErrorMessage(err)
+                            console.error(err)
                         })
                         .then(() => {
                             this.busy = false
