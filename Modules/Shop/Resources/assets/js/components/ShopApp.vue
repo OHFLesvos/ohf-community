@@ -3,41 +3,50 @@
         <!-- Error message -->
         <error-alert :message="error" v-if="error"></error-alert>
 
-        <!-- Search button -->
-        <p>
-            <button type="button" class="btn btn-lg btn-block btn-primary" @click="requestCode" :disabled="busy">
-                <icon :name="searchButtonIcon" :spin="searching"></icon>
-                {{ searchButtonLabel }}
-            </button>
-        </p>
+        <div class="row">
+            <div class="col-lg">
 
-        <!-- Shop card details -->
-        <template v-if="code != null && !searching">
-            <template v-if="handout != null">
-                <template v-if="handout.person != null">
-                    <shop-card-details
-                        :handout="handout"
-                        :lang="lang"
-                        :busy="busy"
-                        @redeem="redeemCard"
-                        @cancel="cancelCard"
-                    ></shop-card-details>
+                <!-- Search button -->
+                <p>
+                    <button type="button" class="btn btn-lg btn-block btn-primary" @click="requestCode" :disabled="busy">
+                        <icon :name="searchButtonIcon" :spin="searching"></icon>
+                        {{ searchButtonLabel }}
+                    </button>
+                </p>
+
+                <!-- Shop card details -->
+                <template v-if="code != null && !searching">
+                    <template v-if="handout != null">
+                        <template v-if="handout.person != null">
+                            <shop-card-details
+                                :handout="handout"
+                                :lang="lang"
+                                :busy="busy"
+                                @redeem="redeemCard"
+                                @cancel="cancelCard"
+                            ></shop-card-details>
+                        </template>
+                        <div v-else class="alert alert-warning">
+                            {{ lang['shop::shop.person_assigned_to_card_has_been_deleted'] }}
+                        </div>
+                    </template>
+                    <div v-else-if="!error" class="alert alert-warning">
+                        {{ lang['shop::shop.card_not_registered'] }}
+                    </div>
                 </template>
-                <div v-else class="alert alert-warning">
-                    {{ lang['shop::shop.person_assigned_to_card_has_been_deleted'] }}
-                </div>
-            </template>
-            <div v-else-if="!error" class="alert alert-warning">
-                {{ lang['shop::shop.card_not_registered'] }}
-            </div>
-        </template>
 
-        <!-- List of redeemed cards -->
-        <shop-cards-list
-            :lang="lang"
-            :handouts="handouts"
-            v-if="handouts.length > 0 && handout == null"
-        ></shop-cards-list>
+            </div>
+            <div class="col-lg">
+
+                <!-- List of redeemed cards -->
+                <shop-cards-list
+                    :lang="lang"
+                    :handouts="handouts"
+                    v-if="handouts.length"
+                ></shop-cards-list>
+
+            </div>
+        </div>
 
     </div>
 </template>
@@ -142,6 +151,7 @@
                 axios.patch(this.handout.redeem_url)
                     .then(res => {
                         this.code = null
+                        this.handouts.unshift(this.handout)
                         this.handout = null
                         showSnackbar(res.data.message)
                     })
