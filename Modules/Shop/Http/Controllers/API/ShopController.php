@@ -57,15 +57,12 @@ class ShopController extends Controller
         }
 
         $handout->code_redeemed = Carbon::now();
-        // TODO
-        // $handout->save();
+        $handout->save();
 
         Log::notice('Shop: Redeem code.', [
             'code' => $handout->code,
         ]);
 
-        sleep(2);
-        return response(null, 500);
         return response()->json([
             'message' => __('shop::shop.card_redeemed')
         ]);
@@ -78,16 +75,13 @@ class ShopController extends Controller
                 ->json(['error' => $error], 422);
         }
 
-        // TODO
-        // $handout->delete();
+        $handout->delete();
 
         Log::notice('Shop: Card has been cancelled.', [
             'code' => $handout->handout,
             'handout' => $handout != null ? $handout->date : null,
         ]);
 
-        sleep(2);
-        return response(null, 500);
         return response()->json([
             'message' => __('shop::shop.card_has_been_cancelled')
         ]);

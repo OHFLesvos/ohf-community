@@ -28,7 +28,8 @@ export function getAjaxErrorMessage(err) {
 			});
 		} else if (err.response.data.error) {
 			msg = err.response.data.error;
-		} else {
+		}
+		if (!msg) {
 			msg = `Error ${err.response.status}: ${err.response.statusText}`
 		}
 	} else {

@@ -27,7 +27,7 @@
                     {{ lang['shop::shop.person_assigned_to_card_has_been_deleted'] }}
                 </div>
             </template>
-            <div v-else class="alert alert-warning">
+            <div v-else-if="!error" class="alert alert-warning">
                 {{ lang['shop::shop.card_not_registered'] }}
             </div>
         </template>
@@ -87,29 +87,29 @@
                     this.handout = null
                     let code = content.trim()
                     if (code.length > 0) {
-                        if (/^[a-zA-Z0-9]+$/.test(code)) {
-                            this.code = code
-                            this.busy = true
-                            this.searching = true
-                            axios.get(`${this.getCardUrl}?code=${code}`)
-                                .then(res => {
-                                    this.handout = res.data.data
-                                })
-                                .catch(err => {
-                                    if (err.response.status != 404) {
-                                        this.error = getAjaxErrorMessage(err)
-                                        console.error(err)
-                                    }
-                                })
-                                .then(() => {
-                                    this.busy = false
-                                    this.searching = false
-                                });
-                        } else {
-                            this.error = 'Invalid code.'
-                        }
+                        this.code = code
+                        this.busy = true
+                        this.searching = true
+                        axios.get(`${this.getCardUrl}?code=${code}`)
+                            .then(res => {
+                                this.handout = res.data.data
+                            })
+                            .catch(err => {
+                                if (!err.response || err.response.status != 404) {
+                                    this.error = getAjaxErrorMessage(err)
+                                    console.error(err)
+                                }
+                            })
+                            .then(() => {
+                                this.busy = false
+                                this.searching = false
+                            });
                     } else {
                         this.code = null
+                    }
+                }, value => {
+                    if (!/^[a-zA-Z0-9]+$/.test(value)) {
+                        throw 'Only letters and numbers are allowed!'
                     }
                 });
             },
