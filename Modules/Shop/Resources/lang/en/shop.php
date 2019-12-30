@@ -29,4 +29,9 @@ return [
     'allow_remove_reservation' => 'Allow to remove reservations?',
     'person_assigned_to_card_has_been_deleted' => 'The person assigned to that card has been deleted.',
     'no_cards_redeemed_so_far_today' => 'No cards have been redeemed so far today.',
+    'cards_removed' => 'Cards have been removed.',
+    'no_suitable_cards_found' => 'No suitable cards have been found.',
+    'delete_cards' => 'Delete cards',
+    'non_redeemed_cards' => 'Non-redeemed cards',
+    'manage_cards' => 'Manage cards',
 ];

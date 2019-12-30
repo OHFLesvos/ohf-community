@@ -20,6 +20,7 @@ class NavigationServiceProvider extends ServiceProvider
 
     protected $contextButtons = [
         'shop.index' => \Modules\Shop\Navigation\ContextButtons\ShopContextButtons::class,
+        'shop.manageCards' => \Modules\Shop\Navigation\ContextButtons\ShopManageCardsContextButtons::class,
         'shop.settings.edit' => \Modules\Shop\Navigation\ContextButtons\ShopSettingsContextButtons::class,
     ];
 

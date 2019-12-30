@@ -17,6 +17,12 @@ class ShopContextButtons implements ContextButtons {
         $help_article_id = \Setting::get('shop.help_article');
         $help_article = $help_article_id != null ? WikiArticle::find($help_article_id) : null;
         return [
+            'manageCards' => [
+                'url' => route('shop.manageCards'),
+                'caption' => __('shop::shop.manage_cards'),
+                'icon' => 'ticket-alt',
+                'authorized' => Gate::allows('validate-shop-coupons')
+            ],
             'settings' => [
                 'url' => route('shop.settings.edit'),
                 'caption' => __('app.settings'),

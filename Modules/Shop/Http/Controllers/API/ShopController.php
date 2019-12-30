@@ -109,4 +109,35 @@ class ShopController extends Controller
         }
         return null;
     }
+
+    public function summary()
+    {
+        $data = CouponHandout::whereDate('date', '>=', Carbon::today()->subDays(7))
+            ->where('code_redeemed', null)
+            ->groupBy('date')
+            ->select('date')
+            ->selectRaw('COUNT(id) as total')
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return response()->json($data);
+    }
+
+    public function deleteNonRedeemed(Request $request)
+    {
+        $request->validate([
+            'date' => [
+                'required',
+                'date'
+            ]
+        ]);
+
+        CouponHandout::whereDate('date', $request->date)
+            ->where('code_redeemed', null)
+            ->delete();
+
+        return response()->json([
+            'message' => __('shop::shop.cards_removed')
+        ]);
+    }
 }
