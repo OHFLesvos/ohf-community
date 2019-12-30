@@ -27,5 +27,11 @@ return [
     'confirm_delete_reservation' => 'Please confirm to remove the reservation the following person:',
     'num_reservations_today' => '<strong>Eine</strong> Reservation heute.|<strong>:num</strong> reservationen heute.',
     'allow_remove_reservation' => 'Erlaube, Registrationen zu entfernen?',
-    'person_assigned_to_card_has_been_deleted' => 'Die Person welche diese Karte zugeordern ist wurde gelöscht.',
+    'person_assigned_to_card_has_been_deleted' => 'Die Person welche dieser Karte zugeordnet ist wurde gelöscht.',
+    'no_cards_redeemed_so_far_today' => 'Heute wurden noch keine Karten eingelöst.',
+    'cards_removed' => 'Karten wurden entfernt.',
+    'no_suitable_cards_found' => 'Es wurden keine passenden Karten gefunden.',
+    'delete_cards' => 'Karten löschen',
+    'non_redeemed_cards' => 'Nicht eingelöste Karten',
+    'manage_cards' => 'Karten verwalten',
 ];

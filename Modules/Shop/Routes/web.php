@@ -16,9 +16,8 @@ Route::middleware(['auth', 'language'])
     ->name('shop.')
     ->group(function () {
         Route::middleware(['can:validate-shop-coupons'])->group(function() {
-            Route::get('/', 'ShopController@index')->name('index');
-            Route::patch('/card/{handout}/redeem', 'ShopController@redeem')->name('redeem');
-            Route::delete('/card/{handout}', 'ShopController@cancelCard')->name('cancelCard');
+            Route::view('/', 'shop::index')->name('index');
+            Route::view('/manageCards', 'shop::manageCards')->name('manageCards');
         });
         Route::middleware(['can:configure-shop'])->group(function() {
             Route::get('/settings', 'ShopSettingsController@edit')->name('settings.edit');

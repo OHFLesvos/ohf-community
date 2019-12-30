@@ -29,7 +29,10 @@ $(document.body).append('<div class="modal" id="videoPreviewModal" tabindex="-1"
 		 '     <div class="input-group-append">' +
 	     '       <button class="btn btn-outline-secondary" type="button"><i class="fa fa-check"></i></button>' +
 		 '     </div>' +
-	     '   </div>' +
+		 '     <div class="invalid-feedback">' +
+		 '       Invalid input.' +
+	     '     </div>' +
+		 '  </div>' +
 		'</div>' +
 	'</div>' +
 '</div>' +
@@ -43,6 +46,7 @@ var codeInput = $('#codeInput')
 
 var localStream;
 var qrCallback;
+var validatorCallback;
 
 function drawLine(begin, end, color) {
 	canvas.beginPath();
@@ -86,7 +90,6 @@ function tick() {
 function stopCamera() {
 	video.pause();
 	if (localStream) {
-		console.log('stop local stream')
 		localStream.getTracks().forEach((track) => {
 			track.stop();
 		});
@@ -116,10 +119,20 @@ function enableCamera() {
 }
 
 function buttonClick() {
-	var value = codeInput.find('input').val()
-	if (value.trim().length > 0) {
-		$('#videoPreviewModal').modal('hide');
-		qrCallback(value);
+	var value = codeInput.find('input').val().trim()
+	if (value.length > 0) {
+		try {
+			if (validatorCallback != null) {
+				validatorCallback(value)
+			}
+			$('#videoPreviewModal').modal('hide');
+			codeInput.find('input').val('')
+			qrCallback(value);
+		} catch (e) {
+			codeInput.find('input').focus()
+			codeInput.find('input').addClass('is-invalid')
+			codeInput.find('.invalid-feedback').text(e)
+		}
 	} else {
 		codeInput.find('input').focus()
 	}
@@ -149,15 +162,37 @@ function useCamera() {
 	sessionStorage.setItem('qr.inputmethod', 'camera');
 }
 
-export default function (callback) {
-	qrCallback = callback;
+async function checkForCamera() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+        console.log("enumerateDevices() not supported.");
+        return false;
+    }
+    return await navigator.mediaDevices.enumerateDevices()
+        .then(function(devices) {
+            return devices.filter(e => e.kind == 'videoinput').length > 0
+        })
+        .catch(function(err) {
+            console.log(err.name + ": " + err.message);
+            return false;
+        });
+}
 
-	let inputmethod = sessionStorage.getItem('qr.inputmethod');
-	if (inputmethod && inputmethod == 'keyboard') {
-		useKeyboard()
-	} else {
-		useCamera()
-	}
+export default function (callback, validator = null) {
+	qrCallback = callback;
+	validatorCallback = validator
+
+	checkForCamera().then(hasCamera => {
+		let inputmethod = sessionStorage.getItem('qr.inputmethod');
+		if (!hasCamera || (inputmethod && inputmethod == 'keyboard')) {
+			useKeyboard()
+		} else {
+			useCamera()
+		}
+		if (!hasCamera) {
+			$('#keyboard-input').hide();
+			$('#qrcode-input').hide();
+		}
+	})
 
 	$('#videoPreviewModal').on('hide.bs.modal', (e) => {
 		stopCamera();
@@ -170,6 +205,8 @@ export default function (callback) {
 	codeInput.find('input').off('keypress').on('keypress', function(e) {
 		if(e.which == 13) {
 			buttonClick()
+		} else {
+			codeInput.find('input').removeClass('is-invalid')
 		}
 	});
 

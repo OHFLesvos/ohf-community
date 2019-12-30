@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.10.1
+
+* Added support for QR code scanner functioning when camera is not available.
+* Added shop card manager to remove non-redeemed cards
+
 ## 2.10.0
 
 Shop:
