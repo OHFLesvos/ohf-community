@@ -19,7 +19,8 @@
                 'shop::shop.should_card_be_cancelled',
                 'shop::shop.card_already_redeemed',
                 'shop::shop.card_expired',
-                'shop::shop.redeemed_cards'
+                'shop::shop.redeemed_cards',
+                'shop::shop.no_cards_redeemed_so_far_today'
             ]);
         @endphp
         <shop-app

@@ -42,7 +42,6 @@
                 <shop-cards-list
                     :lang="lang"
                     :handouts="handouts"
-                    v-if="handouts.length"
                 ></shop-cards-list>
 
             </div>

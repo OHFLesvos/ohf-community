@@ -28,4 +28,5 @@ return [
     'num_reservations_today' => '<strong>One</strong> reservation today.|<strong>:num</strong> reservations today.',
     'allow_remove_reservation' => 'Allow to remove reservations?',
     'person_assigned_to_card_has_been_deleted' => 'The person assigned to that card has been deleted.',
+    'no_cards_redeemed_so_far_today' => 'No cards have been redeemed so far today.',
 ];

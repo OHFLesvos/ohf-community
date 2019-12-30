@@ -28,4 +28,5 @@ return [
     'num_reservations_today' => '<strong>Eine</strong> Reservation heute.|<strong>:num</strong> reservationen heute.',
     'allow_remove_reservation' => 'Erlaube, Registrationen zu entfernen?',
     'person_assigned_to_card_has_been_deleted' => 'Die Person welche dieser Karte zugeordnet ist wurde gelöscht.',
+    'no_cards_redeemed_so_far_today' => 'Heute wurden noch keine Karten eingelöst.',
 ];
