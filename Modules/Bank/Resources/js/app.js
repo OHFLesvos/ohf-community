@@ -1,5 +1,5 @@
-import { showSnackbar, handleAjaxError } from '../../../../../resources/js/utils'
-import scanQR from '../../../../../resources/js/qr'
+import { showSnackbar, handleAjaxError } from '@app/utils'
+import scanQR from '@app/qr'
 
 $(function(){
 
@@ -37,7 +37,7 @@ $(function(){
 
 	// Coupon
 	$('.give-coupon').on('click', handoutCoupon);
-	
+
 	// Gender
 	$('.choose-gender').on('click', selectGender);
 
@@ -96,7 +96,7 @@ function sendHandoutRequest(btn, url, postData) {
 		.catch(handleAjaxError)
 		.then(() => {
 			btn.removeAttr('disabled');
-		});	
+		});
 }
 
 function undoHandoutCoupon(){
@@ -116,7 +116,7 @@ function undoHandoutCoupon(){
 		.catch(handleAjaxError)
 		.then(() => {
 			btn.removeAttr('disabled');
-		});	
+		});
 }
 
 function selectGender() {
@@ -225,7 +225,7 @@ function storeDateOfBirth(url, dateSelect, resultElem) {
 		.catch(err => {
 			handleAjaxError(err);
 			dateSelect.select();
-		});	
+		});
 }
 
 function getTodayDate() {
@@ -236,10 +236,10 @@ function getTodayDate() {
 	var yyyy = today.getFullYear();
 	if(dd<10){
 		dd='0'+dd;
-	} 
+	}
 	if(mm<10){
 		mm='0'+mm;
-	} 
+	}
 	return yyyy + '-' + mm + '-' + dd;
 }
 
@@ -318,7 +318,7 @@ function highlightText(text) {
 	$(".mark-text").each(function(idx) {
 		var innerHTML = $( this ).html();
 		var index = innerHTML.toLowerCase().indexOf(text.toLowerCase());
-		if (index >= 0) { 
+		if (index >= 0) {
 			innerHTML = innerHTML.substring(0,index) + "<mark>" + innerHTML.substring(index,index+text.length) + "</mark>" + innerHTML.substring(index + text.length);
 			$( this ).html(innerHTML);
 		}
