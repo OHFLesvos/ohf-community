@@ -8,6 +8,7 @@
         @php
             $lang_arr = lang_arr([
                 'app.searching',
+                'app.loading',
                 'shop::shop.card_not_registered',
                 'shop::shop.person_assigned_to_card_has_been_deleted',
                 'shop::shop.cancel_card',
@@ -24,8 +25,8 @@
             ]);
         @endphp
         <shop-app
-            list-cards-url="{{ route('shop.listCards') }}"
-            get-card-url="{{ route('shop.getCard') }}"
+            list-cards-url="{{ route('shop.cards.listRedeemedToday') }}"
+            get-card-url="{{ route('shop.cards.searchByCode') }}"
             :lang='@json($lang_arr)'
         ></shop-app>
     </div>

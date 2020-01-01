@@ -22,8 +22,8 @@ class ShopCard extends Resource
         $data['expired'] = $this->isCodeExpired();
         $data['updated_diff_formatted'] = $this->updated_at->diffForHumans();
         $data['validity_formatted'] = $this->couponType->code_expiry_days != null ? trans_choice('app.valid_for_n_days', $this->couponType->code_expiry_days, ['days' => $this->couponType->code_expiry_days]) : null;
-        $data['redeem_url'] = route('shop.redeemCard', $this);
-        $data['cancel_url'] = route('shop.cancelCard', $this);
+        $data['redeem_url'] = route('shop.cards.redeem', $this);
+        $data['cancel_url'] = route('shop.cards.cancel', $this);
         $data['person'] = $this->getPersonData();
 
         return $data;

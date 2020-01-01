@@ -9,14 +9,16 @@
             $lang_arr = lang_arr([
                 'app.date',
                 'app.actions',
+                'app.loading',
                 'shop::shop.no_suitable_cards_found',
                 'shop::shop.delete_cards',
-                'shop::shop.non_redeemed_cards'
+                'shop::shop.non_redeemed_cards',
+                'shop::shop.expired'
             ]);
         @endphp
         <shop-card-manager
-            summary-url="{{ route('shop.summary') }}"
-            delete-url="{{ route('shop.deleteNonRedeemed') }}"
+            summary-url="{{ route('shop.cards.listNonRedeemedByDay') }}"
+            delete-url="{{ route('shop.cards.deleteNonRedeemedByDay') }}"
             :lang='@json($lang_arr)'
         ></shop-card-manager>
     </div>

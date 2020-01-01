@@ -10,6 +10,7 @@ return [
     'cancel_card' => 'Karte zurückziehen',
     'card_already_redeemed' => 'Karte bereits eingelöst.',
     'card_expired' => 'Gültigkeit der Karte abgelaufen.',
+    'expired' => 'Abgelaufen',
     'card' => 'Karte',
     'redeemed_cards' => 'Eingelöste Karten',
     'num_today' => ':num heute',
@@ -34,4 +35,6 @@ return [
     'delete_cards' => 'Karten löschen',
     'non_redeemed_cards' => 'Nicht eingelöste Karten',
     'manage_cards' => 'Karten verwalten',
+    'coupon_type_not_configured_yet' => 'Es wurde noch kein Kartentyp konfiguriert.',
+    'configured_coupon_type_does_not_exist' => 'Der konfigurierte Kartentyp existiert nicht.',
 ];

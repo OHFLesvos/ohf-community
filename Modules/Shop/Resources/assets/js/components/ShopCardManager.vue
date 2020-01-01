@@ -8,13 +8,15 @@
                 <tr>
                     <th>{{ lang['app.date'] }}</th>
                     <th>{{ lang['shop::shop.non_redeemed_cards'] }}</th>
+                    <th>{{ lang['shop::shop.expired'] }}</th>
                     <th class="fit">{{ lang['app.actions'] }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in items" :key="item.date">
-                    <td>{{ item.date }}</td>
-                    <td>{{ item.total }}</td>
+                <tr v-for="item in items" :key="item.date" :class="{'table-warning': item.expired}">
+                    <td class="align-middle">{{ item.date }}</td>
+                    <td class="align-middle">{{ item.total }}</td>
+                    <td class="align-middle"><icon :name="item.expired ? 'check' : 'times'"></icon></td>
                     <td class="fit">
                         <button class="btn btn-danger btn-sm" @click="deleteCards(item.date)" :disabled="busy">
                             {{ lang['shop::shop.delete_cards'] }}
@@ -26,6 +28,9 @@
         <p v-else-if="!busy">
             <em>{{ lang['shop::shop.no_suitable_cards_found'] }}</em>
         </p>
+        <p v-else>
+            <icon name="spinner" :spin="true"></icon> {{ lang['app.loading'] }}
+        </p>
     </div>
 </template>
 
@@ -33,6 +38,7 @@
     import { getAjaxErrorMessage } from '../../../../../../resources/js/utils'
     import showSnackbar from '../../../../../../resources/js/snackbar'
     import ErrorAlert from './ErrorAlert'
+    import Icon from './Icon'
     export default {
         props: {
             lang: {
@@ -49,7 +55,8 @@
             }
         },
         components: {
-            ErrorAlert
+            ErrorAlert,
+            Icon
         },
         data() {
             return {
@@ -80,6 +87,7 @@
                             date: date
                         })
                         .then(res => {
+                            this.items = this.items.filter(i => i.date != date)
                             this.loadSummary()
                             showSnackbar(res.data.message)
                         })

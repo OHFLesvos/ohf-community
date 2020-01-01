@@ -10,6 +10,7 @@ return [
     'cancel_card' => 'Cancel card',
     'card_already_redeemed' => 'Card already redeemed.',
     'card_expired' => 'Card expired.',
+    'expired' => 'Expired',
     'card' => 'Card',
     'redeemed_cards' => 'Redeemed cards',
     'num_today' => ':num today',
@@ -34,4 +35,6 @@ return [
     'delete_cards' => 'Delete cards',
     'non_redeemed_cards' => 'Non-redeemed cards',
     'manage_cards' => 'Manage cards',
+    'coupon_type_not_configured_yet' => 'Coupon type has not been configured yet.',
+    'configured_coupon_type_does_not_exist' => 'Configured coupon type does not exist.',
 ];

@@ -18,12 +18,15 @@ Route::middleware(['auth', 'language'])
     ->name('shop.')
     ->namespace('API')
     ->group(function(){
-        Route::middleware(['can:validate-shop-coupons'])->group(function() {
-            Route::get('/', 'ShopController@listCards')->name('listCards');
-            Route::get('card', 'ShopController@getCard')->name('getCard');
-            Route::patch('card/{handout}/redeem', 'ShopController@redeemCard')->name('redeemCard');
-            Route::delete('card/{handout}', 'ShopController@cancelCard')->name('cancelCard');
-            Route::get('/summary', 'ShopController@summary')->name('summary');
-            Route::post('/deleteNonRedeemed', 'ShopController@deleteNonRedeemed')->name('deleteNonRedeemed');
-        });
+        Route::middleware(['can:validate-shop-coupons'])
+            ->prefix('cards')
+            ->name('cards.')
+            ->group(function() {
+                Route::get('listRedeemedToday', 'CardsController@listRedeemedToday')->name('listRedeemedToday');
+                Route::get('searchByCode', 'CardsController@searchByCode')->name('searchByCode');
+                Route::patch('redeem/{handout}', 'CardsController@redeem')->name('redeem');
+                Route::delete('cancel/{handout}', 'CardsController@cancel')->name('cancel');
+                Route::get('listNonRedeemedByDay', 'CardsController@listNonRedeemedByDay')->name('listNonRedeemedByDay');
+                Route::post('deleteNonRedeemedByDay', 'CardsController@deleteNonRedeemedByDay')->name('deleteNonRedeemedByDay');
+            });
     });

@@ -3,6 +3,7 @@
 namespace Modules\Bank\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -56,5 +57,14 @@ class CouponHandout extends Model implements Auditable
             }
         }
         return false;
+    }
+
+    public function scopeWithCode($query, $code)
+    {
+        if (strlen($code) == 7) {
+            return $query->where(DB::raw("SUBSTR(code, 1, 7)"), $code);
+        } else {
+            return $query->where('code', $code);
+        }
     }
 }
