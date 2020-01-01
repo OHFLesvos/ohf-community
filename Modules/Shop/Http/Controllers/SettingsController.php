@@ -2,12 +2,12 @@
 
 namespace Modules\Shop\Http\Controllers;
 
-use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Settings\SettingsController as BaseSettingsController;
 
 use Modules\Bank\Entities\CouponType;
 use Modules\KB\Entities\WikiArticle;
 
-class ShopSettingsController extends SettingsController
+class SettingsController extends BaseSettingsController
 {
     protected function getSections() {
         return [
