@@ -4,11 +4,13 @@ import scanQR from '@app/qr'
 import Vue from 'vue'
 
 import GenderSelector from './components/GenderSelector.vue'
+import NationalitySelector from './components/NationalitySelector.vue'
 
 new Vue({
 	el: '#bank-app',
 	components: {
-		GenderSelector
+		GenderSelector,
+		NationalitySelector
 	}
 });
 
@@ -51,9 +53,6 @@ $(function(){
 
 	// Date of birth
 	$('.choose-date-of-birth').on('click', selectDateOfBirth);
-
-	// Nationality
-	$('.choose-nationality').on('click', selectNationality);
 
 	enableFilterSelect();
 });
@@ -228,76 +227,6 @@ function getTodayDate() {
 		mm='0'+mm;
 	}
 	return yyyy + '-' + mm + '-' + dd;
-}
-
-function selectNationality() {
-	var url = $(this).data('url');
-	var resultElem = $(this).parent();
-	var nationalitySelect = $('<input>')
-		.attr('type', 'text')
-		.attr('placeholder', 'Choose nationality')
-		.addClass('form-control form-control-sm')
-		.on('keydown', (evt) => {
-			var isEnter = false;
-			if ("key" in evt) {
-				isEnter = (evt.key == "Enter");
-			} else {
-				isEnter = (evt.keyCode == 13);
-			}
-			if (isEnter) {
-				storeNationality(url, nationalitySelect, resultElem);
-			}
-		});
-	resultElem.empty()
-		.append(nationalitySelect)
-		.append(' ')
-		.append($('<button>')
-			.attr('type', 'button')
-			.addClass('btn btn-primary btn-sm')
-			.on('click', () => {
-				storeNationality(url, nationalitySelect, resultElem);
-			})
-			.append(
-				$('<i>').addClass("fa fa-check")
-			)
-		)
-		.append(' ')
-		.append($('<button>')
-			.attr('type', 'button')
-			.addClass('btn btn-secondary btn-sm')
-			.on('click', () => {
-				resultElem.empty().
-					append($('<button>')
-						.addClass('btn btn-warning btn-sm choose-nationality')
-						.attr('data-url', url)
-						.attr('title', 'Set nationality')
-						.on('click', selectNationality)
-						.append(
-							$('<i>').addClass("fa fa-globe")
-						)
-					);
-			})
-			.append(
-				$('<i>').addClass("fa fa-times")
-			)
-		);
-	nationalitySelect.focus();
-}
-
-function storeNationality(url, nationalitySelect, resultElem) {
-	axios.patch(url, {
-			'nationality': nationalitySelect.val()
-		})
-		.then(response => {
-			var data = response.data
-			resultElem.html(data.nationality);
-			showSnackbar(data.message);
-			enableFilterSelect();
-		})
-		.catch(err => {
-			handleAjaxError(err);
-			nationalitySelect.select();
-		});
 }
 
 // Highlighting of search results

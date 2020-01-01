@@ -24,7 +24,7 @@
                 <gender-selector
                     update-url="{{ route('api.people.setGender', $person) }}"
                     value="{{ $person->gender }}"
-                    @can('update', $person)can-update @endcan
+                    @can('update', $person) can-update @endcan
                 ></gender-selector>
                 <span class="form-inline d-inline">
                     @if(isset($person->date_of_birth))
@@ -35,15 +35,11 @@
                         @endcan
                     @endif
                 </span>
-                <span class="form-inline d-inline">
-                    @if(isset($person->nationality))
-                        {{ $person->nationality }}
-                    @else
-                        @can('update', $person)
-                            <button class="btn btn-warning btn-sm choose-nationality" data-url="{{ route('api.people.setNationality', $person) }}" title="Set nationality">@icon(globe)</button>
-                        @endcan
-                @endif
-                </span>
+                <nationality-selector
+                    update-url="{{ route('api.people.setNationality', $person) }}"
+                    value="{{ $person->nationality }}"
+                    @can('update', $person) can-update @endcan
+                ></nationality-selector>
                 {{-- @icon(id-card) {{ $person->public_id }} --}}
                 @if($frequentVisitor)
                     <span class="text-warning" title="Frequent visitor">@icon(star)</span>
