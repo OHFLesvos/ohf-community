@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import PersonLabel from '../../../../../../resources/js/components/PersonLabel'
-import Icon from '../../../../../../resources/js/components/Icon'
+import PersonLabel from '../../../../../resources/js/components/PersonLabel'
+import Icon from '../../../../../resources/js/components/Icon'
 export default {
     props: {
         handouts: {

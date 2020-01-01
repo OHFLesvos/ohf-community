@@ -52,13 +52,13 @@
 </template>
 
 <script>
-    import scanQR from '../../../../../../resources/js/qr'
-    import showSnackbar from '../../../../../../resources/js/snackbar'
+    import scanQR from '../../../../../resources/js/qr'
+    import showSnackbar from '../../../../../resources/js/snackbar'
+    import Icon from '../../../../../resources/js/components/Icon'
+    import ErrorAlert from '../../../../../resources/js/components/ErrorAlert'
+    import { getAjaxErrorMessage } from '../../../../../resources/js/utils'
     import ShopCardsList from './ShopCardsList'
     import ShopCardDetails from './ShopCardDetails'
-    import Icon from '../../../../../../resources/js/components/Icon'
-    import ErrorAlert from '../../../../../../resources/js/components/ErrorAlert'
-    import { getAjaxErrorMessage } from '../../../../../../resources/js/utils'
     export default {
         props: {
             listCardsUrl: {
