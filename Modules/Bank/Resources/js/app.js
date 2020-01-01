@@ -1,6 +1,17 @@
 import { showSnackbar, handleAjaxError } from '@app/utils'
 import scanQR from '@app/qr'
 
+import Vue from 'vue'
+
+import GenderSelector from './components/GenderSelector.vue'
+
+new Vue({
+	el: '#bank-app',
+	components: {
+		GenderSelector
+	}
+});
+
 $(function(){
 
 	// Scan QR code card and search for the number
@@ -37,9 +48,6 @@ $(function(){
 
 	// Coupon
 	$('.give-coupon').on('click', handoutCoupon);
-
-	// Gender
-	$('.choose-gender').on('click', selectGender);
 
 	// Date of birth
 	$('.choose-date-of-birth').on('click', selectDateOfBirth);
@@ -117,27 +125,6 @@ function undoHandoutCoupon(){
 		.then(() => {
 			btn.removeAttr('disabled');
 		});
-}
-
-function selectGender() {
-	var url = $(this).data('url');
-	var value = $(this).data('value');
-	var resultElem = $(this).parent();
-	resultElem.html('<i class="fa fa-spinner fa-spin">');
-	axios.patch( url, {
-			'gender': value
-		})
-		.then(response => {
-			var data = response.data
-			if (value == 'm') {
-				resultElem.html('<i class="fa fa-male">');
-			} else if (value == 'f') {
-				resultElem.html('<i class="fa fa-female">');
-			}
-			showSnackbar(data.message);
-			enableFilterSelect();
-		})
-		.catch(handleAjaxError);
 }
 
 function selectDateOfBirth() {

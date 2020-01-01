@@ -22,7 +22,7 @@ class PeopleController extends Controller
 {
     /**
      * Returns a list of people according to filter criteria.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -58,12 +58,12 @@ class PeopleController extends Controller
         $sortDirection = $request->input('sortDirection', 'asc');
         $pageSize = $request->input('pageSize', 10);
         $filter = trim($request->input('filter', ''));
-            
+
         return new PersonCollection(self::createQuery($filter)
             ->orderBy($sortBy, $sortDirection)
             ->orderBy('name')
             ->orderBy('family_name')
-            ->paginate($pageSize));   
+            ->paginate($pageSize));
     }
 
     private static function createQuery(String $filter)
@@ -91,7 +91,7 @@ class PeopleController extends Controller
 
     /**
      * Returns a list of people according to filter criteria for auto-suggestion fields.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -111,7 +111,7 @@ class PeopleController extends Controller
             }
         }
         $persons = $qry->get()
-            ->map(function($e){ 
+            ->map(function($e){
                 $val = $e->full_name;
                 if (!empty($e->date_of_birth)) {
                     $val.= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
@@ -122,14 +122,14 @@ class PeopleController extends Controller
                 return [
                     'value' => $val,
                     'data' => $e->getRouteKey(),
-                ]; 
+                ];
             });
         return response()->json(["suggestions" => $persons]);
     }
 
     /**
      * Update gender of person.
-     * 
+     *
      * @param  \Modules\People\Entities\Person $person
      * @param  \Modules\People\Http\Requests\UpdatePersonGender  $request
      * @return \Illuminate\Http\Response
@@ -149,7 +149,7 @@ class PeopleController extends Controller
 
     /**
      * Update date of birth of person.
-     * 
+     *
      * @param  \Modules\People\Entities\Person $person
      * @param  \Modules\People\Http\Requests\UpdatePersonDateOfBirth  $request
      * @return \Illuminate\Http\Response
@@ -167,10 +167,10 @@ class PeopleController extends Controller
             ]),
         ]);
     }
-    
+
     /**
      * Update date of birth of person.
-     * 
+     *
      * @param  \Modules\People\Entities\Person $person
      * @param  \Modules\People\Http\Requests\UpdatePersonNationality  $request
      * @return \Illuminate\Http\Response
@@ -190,13 +190,13 @@ class PeopleController extends Controller
 
     /**
      * Register code card with person.
-     * 
+     *
      * @param  \Modules\People\Http\Requests\RegisterCard  $request
      * @return \Illuminate\Http\Response
      */
     public function registerCard(Person $person, RegisterCard $request)
     {
-        
+
         // Check for revoked card number
         $revoked = RevokedCard::where('card_no', $request->card_no)->first();
         if ($revoked != null) {

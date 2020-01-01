@@ -21,18 +21,11 @@
                 @else
                     <strong class="mark-text">{{ $person->full_name }}</strong>
                 @endcan
-                <span>
-                    @if(isset($person->gender))
-                        @if($person->gender == 'f')@icon(female) 
-                        @elseif($person->gender == 'm')@icon(male) 
-                        @endif
-                    @else
-                        @can('update', $person)
-                            <button class="btn btn-warning btn-sm choose-gender" data-value="m" data-url="{{ route('api.people.setGender', $person) }}" title="Male">@icon(male)</button>
-                            <button class="btn btn-warning btn-sm choose-gender" data-value="f" data-url="{{ route('api.people.setGender', $person) }}" title="Female">@icon(female)</button>
-                        @endcan
-                    @endif
-                </span>
+                <gender-selector
+                    update-url="{{ route('api.people.setGender', $person) }}"
+                    value="{{ $person->gender }}"
+                    @can('update', $person)can-update @endcan
+                ></gender-selector>
                 <span class="form-inline d-inline">
                     @if(isset($person->date_of_birth))
                         {{ $person->date_of_birth }} (age {{ $person->age }})
@@ -82,7 +75,7 @@
         <div class="card-body p-2">
             @if(isset($person->police_no))
                 <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people::people.police_number'):</small> 
+                    <small class="text-muted">@lang('people::people.police_number'):</small>
                     <span class="pr-2 mark-text">{{ $person->police_no_formatted }}</span>
                 </span>
             @endif
@@ -99,7 +92,7 @@
             @endif
             @if(is_module_enabled('Library') && $person->hasOverdueBookLendings)
                 <div>
-                    <em class="text-danger">Needs to bring back book(s) to the 
+                    <em class="text-danger">Needs to bring back book(s) to the
                     @can('operate-library')
                         <a href="{{ route('library.lending.person', $person) }}">@lang('library::library.library')</a>
                     @else

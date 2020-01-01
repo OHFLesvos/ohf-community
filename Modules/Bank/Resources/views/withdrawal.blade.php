@@ -4,7 +4,7 @@
 
 @section('wrapped-content')
 
-    <div id="bank-container">
+    <div id="bank-container"><div id="bank-app">
 
         @include('bank::person-search')
 
@@ -25,7 +25,7 @@
             @endif
         </div>
 
-    </div>
+    </div></div>
 
 @endsection
 

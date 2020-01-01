@@ -1,0 +1,62 @@
+<template>
+    <span>
+        <icon name="spinner" :spin="true" v-if="busy"></icon>
+        <icon name="male" v-else-if="gender == 'm'"></icon>
+        <icon name="female" v-else-if="gender == 'f'"></icon>
+        <template v-else-if="canUpdate">
+            <button class="btn btn-warning btn-sm" @click="setGender('m')" title="Male">
+                <icon name="male"></icon>
+            </button>
+            <button class="btn btn-warning btn-sm" @click="setGender('f')" title="Female">
+                <icon name="female"></icon>
+            </button>
+        </template>
+    </span>
+</template>
+
+<script>
+    import Icon from '@app/components/Icon'
+    import showSnackbar from '@app/snackbar'
+    import { handleAjaxError } from '@app/utils'
+    export default {
+        components: {
+            Icon
+        },
+        props: {
+            updateUrl: {
+                type: String,
+                required: true
+            },
+            value: {
+                type: String,
+                required: false,
+                defaul: null
+            },
+            canUpdate: Boolean
+        },
+        data() {
+            return {
+                busy: false,
+                gender: this.value
+            }
+        },
+        methods: {
+            setGender(value) {
+                this.busy = true
+                axios.patch(this.updateUrl, {
+                        'gender': value
+                    })
+                    .then(response => {
+                        var data = response.data
+                        this.gender = value
+                        showSnackbar(data.message);
+                        // enableFilterSelect(); // TODO
+                    })
+                    .catch(handleAjaxError)
+                    .then(() => {
+                        this.busy = false
+                    })
+            }
+        }
+    }
+</script>
