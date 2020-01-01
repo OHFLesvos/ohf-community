@@ -52,11 +52,11 @@
 </template>
 
 <script>
-    import scanQR from '../../../../../resources/js/qr'
-    import showSnackbar from '../../../../../resources/js/snackbar'
-    import Icon from '../../../../../resources/js/components/Icon'
-    import ErrorAlert from '../../../../../resources/js/components/ErrorAlert'
-    import { getAjaxErrorMessage } from '../../../../../resources/js/utils'
+    import scanQR from '@app/qr'
+    import showSnackbar from '@app/snackbar'
+    import Icon from '@app/components/Icon'
+    import ErrorAlert from '@app/components/ErrorAlert'
+    import { getAjaxErrorMessage } from '@app/utils'
     import ShopCardsList from './ShopCardsList'
     import ShopCardDetails from './ShopCardDetails'
     export default {

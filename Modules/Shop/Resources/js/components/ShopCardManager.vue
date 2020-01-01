@@ -35,10 +35,10 @@
 </template>
 
 <script>
-    import { getAjaxErrorMessage } from '../../../../../resources/js/utils'
-    import showSnackbar from '../../../../../resources/js/snackbar'
-    import ErrorAlert from '../../../../../resources/js/components/ErrorAlert'
-    import Icon from '../../../../../resources/js/components/Icon'
+    import { getAjaxErrorMessage } from '@app/utils'
+    import showSnackbar from '@app/snackbar'
+    import ErrorAlert from '@app/components/ErrorAlert'
+    import Icon from '@app/components/Icon'
     export default {
         props: {
             lang: {

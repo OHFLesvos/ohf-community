@@ -65,7 +65,7 @@
 </template>
 
 <script>
-    import Icon from '../../../../../resources/js/components/Icon'
+    import Icon from '@app/components/Icon'
     export default {
         props: {
             handout: {
