@@ -84,8 +84,11 @@
             form(val, oldVal) {
                 if (val && !oldVal) {
                     this.$nextTick(() => {
-                        this.$refs.input.select();
+                        this.$refs.input.focus();
                     })
+                }
+                if (!val && oldVal) {
+                    this.newNationality = null
                 }
             }
         }

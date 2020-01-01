@@ -26,15 +26,11 @@
                     value="{{ $person->gender }}"
                     @can('update', $person) can-update @endcan
                 ></gender-selector>
-                <span class="form-inline d-inline">
-                    @if(isset($person->date_of_birth))
-                        {{ $person->date_of_birth }} (age {{ $person->age }})
-                    @else
-                        @can('update', $person)
-                            <button class="btn btn-warning btn-sm choose-date-of-birth" data-url="{{ route('api.people.setDateOfBirth', $person) }}" title="Set date of birth">@icon(calendar-plus)</button>
-                        @endcan
-                    @endif
-                </span>
+                <date-of-birth-selector
+                    update-url="{{ route('api.people.setDateOfBirth', $person) }}"
+                    value="{{ $person->date_of_birth }}"
+                    @can('update', $person) can-update @endcan
+                ></date-of-birth-selector>
                 <nationality-selector
                     update-url="{{ route('api.people.setNationality', $person) }}"
                     value="{{ $person->nationality }}"
