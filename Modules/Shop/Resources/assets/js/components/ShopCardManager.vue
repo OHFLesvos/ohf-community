@@ -37,8 +37,8 @@
 <script>
     import { getAjaxErrorMessage } from '../../../../../../resources/js/utils'
     import showSnackbar from '../../../../../../resources/js/snackbar'
-    import ErrorAlert from './ErrorAlert'
-    import Icon from './Icon'
+    import ErrorAlert from '../../../../../../resources/js/components/ErrorAlert'
+    import Icon from '../../../../../../resources/js/components/Icon'
     export default {
         props: {
             lang: {

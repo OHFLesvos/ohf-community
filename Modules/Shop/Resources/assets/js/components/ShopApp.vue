@@ -56,8 +56,8 @@
     import showSnackbar from '../../../../../../resources/js/snackbar'
     import ShopCardsList from './ShopCardsList'
     import ShopCardDetails from './ShopCardDetails'
-    import Icon from './Icon'
-    import ErrorAlert from './ErrorAlert'
+    import Icon from '../../../../../../resources/js/components/Icon'
+    import ErrorAlert from '../../../../../../resources/js/components/ErrorAlert'
     import { getAjaxErrorMessage } from '../../../../../../resources/js/utils'
     export default {
         props: {
