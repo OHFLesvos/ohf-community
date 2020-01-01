@@ -4,7 +4,10 @@
             {{ lang['shop::shop.redeemed_cards'] }}
             <template v-if="handouts.length > 0">({{ handouts.length }})</template>
         </h4>
-        <table class="table table-sm table-striped mb-4" v-if="handouts.length > 0">
+        <p v-if="loading">
+            <icon name="spinner" :spin="true"></icon> {{ lang['app.loading'] }}
+        </p>
+        <table class="table table-sm table-striped mb-4" v-else-if="handouts.length > 0">
             <tbody>
                 <tr v-for="handout in handouts" :key="handout.id">
                     <td>
@@ -27,6 +30,7 @@
 
 <script>
 import PersonLabel from './PersonLabel'
+import Icon from './Icon'
 export default {
     props: {
         handouts: {
@@ -36,10 +40,16 @@ export default {
         lang: {
             type: Object,
             required: true
+        },
+        loading: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     components: {
-        PersonLabel
+        PersonLabel,
+        Icon
     }
 }
 </script>

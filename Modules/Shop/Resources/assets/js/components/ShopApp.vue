@@ -42,6 +42,7 @@
                 <shop-cards-list
                     :lang="lang"
                     :handouts="handouts"
+                    :loading="loading"
                 ></shop-cards-list>
 
             </div>
@@ -81,6 +82,7 @@
         },
         data() {
             return {
+                loading: true,
                 code: null,
                 error: null,
                 handout: null,
@@ -111,6 +113,9 @@
                     })
                     .catch(err => {
                         this.error = getAjaxErrorMessage(err)
+                    })
+                    .then(() => {
+                        this.loading = false
                     })
             },
             requestCode() {
