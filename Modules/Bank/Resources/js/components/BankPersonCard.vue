@@ -74,42 +74,10 @@
 
         <!-- Card footer -->
         <div class="card-body p-0 px-2 pt-2">
-            <div class="form-row">
-                <template v-if="currentPerson.coupon_types.length > 0">
-                    <div class="col-sm-auto mb-2" v-for="coupon in currentPerson.coupon_types.filter(c => c.person_eligible_for_coupon)" :key="coupon.id">
-                        <button
-                            type="button"
-                            class="btn btn-secondary btn-sm btn-block"
-                            disabled
-                            :data-url="coupon.handout_url"
-                            v-if="coupon.last_handout"
-                        >
-                            {{ coupon.daily_amount }}
-                            <icon :name="coupon.icon"></icon>
-                            {{ coupon.name }}
-                            ({{ coupon.last_handout }})
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-primary btn-sm btn-block give-coupon"
-                            :data-url="coupon.handout_url"
-                            :data-amount="coupon.daily_amount"
-                            :data-min_age="coupon.min_age"
-                            :data-max_age="coupon.max_age"
-                            :data-qr-code-enabled="coupon.qr_code_enabled"
-                            v-else
-                        >
-                            {{ coupon.daily_amount }}
-                            <icon :name="coupon.icon"></icon>
-                            {{ coupon.name }}
-                            <icon name="qrcode" v-if="coupon.qr_code_enabled"></icon>
-                        </button>
-                    </div>
-                </template>
-                <em class="pb-2 px-2" v-else>
-                    {{ lang['people::people.no_coupons_defined'] }}
-                </em>
-            </div>
+            <coupon-handout-buttons
+                :couponTypes="currentPerson.coupon_types"
+                :lang="lang"
+            ></coupon-handout-buttons>
         </div>
 
     </div>
@@ -127,6 +95,7 @@
     import CaseNoLabel from './CaseNoLabel'
     import PersonRemarks from './PersonRemarks'
     import OverdueBookLendings from './OverdueBookLendings'
+    import CouponHandoutButtons from './CouponHandoutButtons'
     export default {
         props: {
             person: {
@@ -149,7 +118,8 @@
             PoliceNoLabel,
             CaseNoLabel,
             PersonRemarks,
-            OverdueBookLendings
+            OverdueBookLendings,
+            CouponHandoutButtons
         },
         data() {
             return {

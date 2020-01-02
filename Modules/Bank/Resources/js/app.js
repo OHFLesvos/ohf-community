@@ -27,9 +27,6 @@ $(function(){
 		});
 	});
 
-	// Coupon
-	$('.give-coupon').on('click', handoutCoupon);
-
 	enableFilterSelect();
 });
 
@@ -38,68 +35,6 @@ function enableFilterSelect() {
 	$('#filter').on('focus', () => {
 		$(this).select();
 	});
-}
-
-function handoutCoupon(){
-	var btn = $(this);
-	var url = btn.data('url');
-	var amount = btn.data('amount');
-	var qrCodeEnabled = btn.data('qr-code-enabled');
-	if (qrCodeEnabled) {
-		scanQR((content) => {
-			// TODO input validation of code
-			sendHandoutRequest(btn, url, {
-				"amount": amount,
-				'code': content,
-			});
-		});
-	} else {
-		sendHandoutRequest(btn, url, {
-			"amount": amount
-		});
-	}
-}
-
-function sendHandoutRequest(btn, url, postData) {
-	btn.attr('disabled', 'disabled');
-	axios.post(url, postData)
-		.then(response => {
-			var data = response.data
-			btn.append(' (' + data.countdown + ')');
-			btn.off('click').on('click', undoHandoutCoupon);
-			showSnackbar(data.message, undoLabel, 'warning', (element) => {
-				$(element).css('opacity', 0);
-				btn.click();
-				enableFilterSelect();
-			});
-
-			btn.removeClass('btn-primary').addClass('btn-secondary');
-			enableFilterSelect();
-		})
-		.catch(handleAjaxError)
-		.then(() => {
-			btn.removeAttr('disabled');
-		});
-}
-
-function undoHandoutCoupon(){
-	var btn = $(this);
-	var url = btn.data('url');
-	btn.attr('disabled', 'disabled');
-	axios.delete(url)
-		.then(resonse => {
-			var data = resonse.data
-			btn.html(btn.html().substring(0, btn.html().lastIndexOf(" (")));
-			btn.off('click').on('click', handoutCoupon);
-			showSnackbar(data.message);
-
-			btn.removeClass('btn-secondary').addClass('btn-primary');
-			enableFilterSelect();
-		})
-		.catch(handleAjaxError)
-		.then(() => {
-			btn.removeAttr('disabled');
-		});
 }
 
 // Highlighting of search results

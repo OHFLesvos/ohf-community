@@ -48,7 +48,8 @@
         'app.yes',
         'library::library.library',
         'people::people.no_coupons_defined',
-        'helpers::helpers.helper'
+        'helpers::helpers.helper',
+        'app.undo'
     ]);
 @endphp
 <bank-person-card
