@@ -6,16 +6,17 @@
         <div class="card-header p-2" :style="headerStyle">
             <div class="form-row">
                 <div class="col">
-                    <template v-if="currentPerson.is_helper">
-                        <strong v-if="currentPerson.can_view_helper">
-                            <a :href="currentPerson.show_helper_url" class="text-warning">{{ lang['helpers::helpers.helper'].toUpperCase() }}</a>
-                        </strong>
-                        <strong class="text-warning" v-else>
-                            {{ lang['helpers::helpers.helper'].toUpperCase() }}
-                        </strong>
-                    </template>
-                    <a :href="currentPerson.show_url" alt="View" v-if="currentPerson.can_view"><strong class="mark-text">{{ currentPerson.full_name }}</strong></a>
-                    <strong class="mark-text" v-else>{{ currentPerson.full_name }}</strong>
+                    <helper-marker
+                        v-if="currentPerson.is_helper"
+                        :lang="lang"
+                        :url="currentPerson.show_helper_url"
+                        :canView="currentPerson.can_view_helper"
+                    ></helper-marker>
+                    <person-name
+                        :url="currentPerson.show_url"
+                        :can-view="currentPerson.can_view"
+                        :name="currentPerson.full_name"
+                    ></person-name>
                     <gender-selector
                         :api-url="currentPerson.gender_update_url"
                         :value="currentPerson.gender"
@@ -31,9 +32,7 @@
                         :value="currentPerson.nationality"
                         :can-update="currentPerson.can_update"
                     ></nationality-selector>
-                    <span class="text-warning" title="Frequent visitor" v-if="currentPerson.frequent_visitor">
-                        <icon name="star"></icon>
-                    </span>
+                    <frequent-visitor-marker v-if="currentPerson.frequent_visitor"></frequent-visitor-marker>
                     <a :href="currentPerson.edit_url" title="Edit" v-if="currentPerson.can_update">
                         <icon name="edit"></icon>
                     </a>
@@ -122,6 +121,9 @@
     import NationalitySelector from './NationalitySelector'
     import DateOfBirthSelector from './DateOfBirthSelector'
     import RegisterCard from './RegisterCard'
+    import FrequentVisitorMarker from './FrequentVisitorMarker'
+    import HelperMarker from './HelperMarker'
+    import PersonName from './PersonName'
     export default {
         props: {
             person: {
@@ -137,7 +139,10 @@
             GenderSelector,
             NationalitySelector,
             DateOfBirthSelector,
-            RegisterCard
+            RegisterCard,
+            FrequentVisitorMarker,
+            HelperMarker,
+            PersonName
         },
         data() {
             return {
