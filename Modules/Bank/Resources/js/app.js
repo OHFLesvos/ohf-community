@@ -6,13 +6,15 @@ import Vue from 'vue'
 import GenderSelector from './components/GenderSelector.vue'
 import NationalitySelector from './components/NationalitySelector.vue'
 import DateOfBirthSelector from './components/DateOfBirthSelector.vue'
+import BankPersonCard from './components/BankPersonCard.vue'
 
 new Vue({
 	el: '#bank-app',
 	components: {
 		GenderSelector,
 		NationalitySelector,
-		DateOfBirthSelector
+		DateOfBirthSelector,
+		BankPersonCard
 	}
 });
 

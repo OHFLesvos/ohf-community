@@ -1,124 +1,58 @@
-<div class="card @if(isset($bottom_margin))mb-{{ $bottom_margin }}@else mb-4 @endif bg-light @isset($border)border-{{ $border }}@endisset">
-    @php
-        $frequentVisitor = $person->frequentVisitor;
-    @endphp
-    <div class="card-header p-2" @if($frequentVisitor) style="background:lightgoldenrodyellow;" @endif >
-        <div class="form-row">
-            <div class="col">
-                @if(is_module_enabled('Helpers') && optional($person->helper)->isActive)
-                    @can('view', $person->helper)
-                        <strong>
-                            <a href="{{ route('people.helpers.show', $person->helper) }}" class="text-warning">{{ strtoupper(__('helpers::helpers.helper')) }}</a>
-                        </strong>
-                    @else
-                        <strong class="text-warning">
-                            {{ strtoupper(__('helpers::helpers.helper')) }}
-                        </strong>
-                    @endcan
-                @endif
-                @can('view', $person)
-                    <a href="{{ route('bank.people.show', $person) }}" alt="View"><strong class="mark-text">{{ $person->full_name }}</strong></a>
-                @else
-                    <strong class="mark-text">{{ $person->full_name }}</strong>
-                @endcan
-                <gender-selector
-                    update-url="{{ route('api.people.setGender', $person) }}"
-                    value="{{ $person->gender }}"
-                    @can('update', $person) can-update @endcan
-                ></gender-selector>
-                <date-of-birth-selector
-                    update-url="{{ route('api.people.setDateOfBirth', $person) }}"
-                    value="{{ $person->date_of_birth }}"
-                    @can('update', $person) can-update @endcan
-                ></date-of-birth-selector>
-                <nationality-selector
-                    update-url="{{ route('api.people.setNationality', $person) }}"
-                    value="{{ $person->nationality }}"
-                    @can('update', $person) can-update @endcan
-                ></nationality-selector>
-                {{-- @icon(id-card) {{ $person->public_id }} --}}
-                @if($frequentVisitor)
-                    <span class="text-warning" title="Frequent visitor">@icon(star)</span>
-                @endif
-                @can('update', $person)
-                    <a href="{{ route('bank.people.edit', $person) }}" title="Edit">@icon(edit)</a>
-                @endcan
-            </div>
-            <div class="col-auto">
-                @can('update', $person)
-                    @icon(id-card)
-                    <a href="javascript:;" class="register-card" data-url="{{ route('api.people.registerCard', $person) }}" data-card="{{ $person->card_no }}">
-                        @if(isset($person->card_no))
-                            <strong>{{ substr($person->card_no, 0, 7) }}</strong>
-                        @else
-                            @lang('app.register')
-                        @endif
-                    </a>
-                @else
-                    @if(isset($person->card_no))
-                        @icon(id-card)
-                        <strong>{{ substr($person->card_no, 0, 7) }}</strong>
-                    @endif
-                @endcan
-            </div>
-        </div>
-    </div>
-    @if (isset($person->police_no) || isset($person->case_no_hash) || isset($person->remarks) || $person->hasOverdueBookLendings)
-        <div class="card-body p-2">
-            @if(isset($person->police_no))
-                <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people::people.police_number'):</small>
-                    <span class="pr-2 mark-text">{{ $person->police_no_formatted }}</span>
-                </span>
-            @endif
-            @if(isset($person->case_no_hash))
-                <span class="d-block d-sm-inline">
-                    <small class="text-muted">@lang('people::people.case_number'):</small>
-                    <span class="pr-2">@lang('app.yes')</span>
-                </span>
-            @endif
-            @if(isset($person->remarks))
-                <div>
-                    <em class="text-info">{{ $person->remarks }}</em>
-                </div>
-            @endif
-            @if(is_module_enabled('Library') && $person->hasOverdueBookLendings)
-                <div>
-                    <em class="text-danger">Needs to bring back book(s) to the
-                    @can('operate-library')
-                        <a href="{{ route('library.lending.person', $person) }}">@lang('library::library.library')</a>
-                    @else
-                        @lang('library::library.library')
-                    @endcan
-                    </em>
-                </div>
-            @endif
-        </div>
-    @endif
-    <div class="card-body p-0 px-2 pt-2">
-        <div class="form-row">
-            @forelse($couponTypes as $coupon)
-                @if($person->eligibleForCoupon($coupon))
-                    <div class="col-sm-auto mb-2">
-                        @if($person->eligibleForCoupon($coupon))
-                            @php
-                                $lastHandout = $person->canHandoutCoupon($coupon);
-                            @endphp
-                            @isset($lastHandout)
-                                <button type="button" class="btn btn-secondary btn-sm btn-block" disabled data-url="{{ route('bank.handoutCoupon', [$person, $coupon]) }}">
-                                    {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }} ({{ $lastHandout }})
-                                </button>
-                            @else
-                                <button type="button" class="btn btn-primary btn-sm btn-block give-coupon" data-url="{{ route('bank.handoutCoupon', [$person, $coupon]) }}" data-amount="{{ $coupon->daily_amount }}" data-min_age="{{ $coupon->min_age }}"  data-max_age="{{ $coupon->max_age }}" data-qr-code-enabled="{{ $coupon->qr_code_enabled }}">
-                                    {{ $coupon->daily_amount }} @icon({{ $coupon->icon }}) {{ $coupon->name }}@if($coupon->qr_code_enabled) @icon(qrcode)@endif
-                                </button>
-                            @endempty
-                        @endif
-                    </div>
-                @endif
-            @empty
-                <em class="pb-2 px-2">@lang('people::people.no_coupons_defined')</em>
-            @endforelse
-        </div>
-    </div>
-</div>
+@php
+    $vue_person = [
+        'full_name' => $person->full_name,
+        'gender' => $person->gender,
+        'date_of_birth' => $person->date_of_birth,
+        'nationality' => $person->nationality,
+        'frequent_visitor' => $person->frequentVisitor,
+        'can_view' => Auth::user()->can('view', $person),
+        'can_update' => Auth::user()->can('update', $person),
+        'show_url' => route('bank.people.show', $person),
+        'edit_url' => route('bank.people.edit', $person),
+        'gender_update_url' => route('api.people.setGender', $person),
+        'date_of_birth_update_url' => route('api.people.setDateOfBirth', $person),
+        'nationality_update_url' => route('api.people.setNationality', $person),
+        'card_no' => $person->card_no,
+        'card_no_short' => $person->card_no != null ? substr($person->card_no, 0, 7) : null,
+        'register_card_url' => route('api.people.registerCard', $person),
+        'is_helper' => is_module_enabled('Helpers') && optional($person->helper)->isActive,
+        'can_view_helper' => $person->helper != null && Auth::user()->can('view', $person->helper),
+        'show_helper_url' => $person->helper != null ? route('people.helpers.show', $person->helper) : null,
+        'police_no' => $person->police_no,
+        'police_no_formatted' => $person->police_no_formatted,
+        'case_no_hash' => $person->case_no_hash,
+        'remarks' => $person->remarks,
+        'has_overdue_book_lendings' => is_module_enabled('Library') && $person->hasOverdueBookLendings,
+        'can_operate_library' => Gate::allows('operate-library'),
+        'library_lending_person_url' => is_module_enabled('Library') ? route('library.lending.person', $person) : null,
+        'coupon_types' => collect($couponTypes)
+            ->map(function($coupon) use($person) {
+                return [
+                    'id' => $coupon->id,
+                    'daily_amount' => $coupon->daily_amount,
+                    'icon' => $coupon->icon,
+                    'name' => $coupon->name,
+                    'min_age' => $coupon->min_age,
+                    'max_age' => $coupon->max_age,
+                    'qr_code_enabled' => $coupon->qr_code_enabled,
+                    'person_eligible_for_coupon' => $person->eligibleForCoupon($coupon),
+                    'last_handout' => $person->canHandoutCoupon($coupon),
+                    'handout_url' => route('bank.handoutCoupon', [$person, $coupon]),
+                ];
+            })
+            ->toArray()
+    ];
+    $lang_arr = lang_arr([
+        'app.register',
+        'people::people.police_number',
+        'people::people.case_number',
+        'app.yes',
+        'library::library.library',
+        'people::people.no_coupons_defined',
+        'helpers::helpers.helper'
+    ]);
+@endphp
+<bank-person-card
+    :person='@json($vue_person)'
+    :lang='@json($lang_arr)'
+></bank-person-card>
