@@ -28,15 +28,11 @@
 </template>
 
 <script>
-    import Icon from '@app/components/Icon'
     import showSnackbar from '@app/snackbar'
     import { handleAjaxError } from '@app/utils'
     export default {
-        components: {
-            Icon
-        },
         props: {
-            updateUrl: {
+            apiUrl: {
                 type: String,
                 required: true
             },
@@ -58,7 +54,7 @@
         methods: {
             setNationality() {
                 this.busy = true
-                axios.patch(this.updateUrl, {
+                axios.patch(this.apiUrl, {
                         'nationality': this.newNationality
                     })
                     .then(response => {

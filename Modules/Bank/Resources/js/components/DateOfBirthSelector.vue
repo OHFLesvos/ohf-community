@@ -31,15 +31,11 @@
 </template>
 
 <script>
-    import Icon from '@app/components/Icon'
     import showSnackbar from '@app/snackbar'
     import { handleAjaxError } from '@app/utils'
     export default {
-        components: {
-            Icon
-        },
         props: {
-            updateUrl: {
+            apiUrl: {
                 type: String,
                 required: true
             },
@@ -91,7 +87,7 @@
                     return;
                 }
                 this.busy = true
-                axios.patch(this.updateUrl, {
+                axios.patch(this.apiUrl, {
                         'date_of_birth': this.newDateOfBirth
                     })
                     .then(response => {

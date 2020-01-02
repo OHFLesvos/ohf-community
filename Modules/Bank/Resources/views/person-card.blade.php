@@ -13,7 +13,6 @@
         'date_of_birth_update_url' => route('api.people.setDateOfBirth', $person),
         'nationality_update_url' => route('api.people.setNationality', $person),
         'card_no' => $person->card_no,
-        'card_no_short' => $person->card_no != null ? substr($person->card_no, 0, 7) : null,
         'register_card_url' => route('api.people.registerCard', $person),
         'is_helper' => is_module_enabled('Helpers') && optional($person->helper)->isActive,
         'can_view_helper' => $person->helper != null && Auth::user()->can('view', $person->helper),

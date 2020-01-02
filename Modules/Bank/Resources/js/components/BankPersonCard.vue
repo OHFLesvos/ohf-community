@@ -17,17 +17,17 @@
                     <a :href="currentPerson.show_url" alt="View" v-if="currentPerson.can_view"><strong class="mark-text">{{ currentPerson.full_name }}</strong></a>
                     <strong class="mark-text" v-else>{{ currentPerson.full_name }}</strong>
                     <gender-selector
-                        :update-url="currentPerson.gender_update_url"
+                        :api-url="currentPerson.gender_update_url"
                         :value="currentPerson.gender"
                         :can-update="currentPerson.can_update"
                     ></gender-selector>
                     <date-of-birth-selector
-                        :update-url="currentPerson.date_of_birth_update_url"
+                        :api-url="currentPerson.date_of_birth_update_url"
                         :value="currentPerson.date_of_birth"
                         :can-update="currentPerson.can_update"
                     ></date-of-birth-selector>
                     <nationality-selector
-                        :update-url="currentPerson.nationality_update_url"
+                        :api-url="currentPerson.nationality_update_url"
                         :value="currentPerson.nationality"
                         :can-update="currentPerson.can_update"
                     ></nationality-selector>
@@ -39,19 +39,12 @@
                     </a>
                 </div>
                 <div class="col-auto">
-                    <template v-if="currentPerson.can_update">
-                        <icon name="id-card"></icon>
-                        <a href="javascript:;"
-                            @click="registerCard"
-                        >
-                            <strong v-if="currentPerson.card_no">{{ currentPerson.card_no_short }}</strong>
-                            <template v-else>{{ lang['app.register'] }}</template>
-                        </a>
-                    </template>
-                    <template v-else-if="currentPerson.card_no">
-                        <icon name="id-card"></icon>
-                        <strong>{{ currentPerson.card_no_short}}</strong>
-                    </template>
+                    <register-card
+                        :api-url="currentPerson.register_card_url"
+                        :value="currentPerson.card_no"
+                        :can-update="currentPerson.can_update"
+                        :lang="lang"
+                    ></register-card>
                 </div>
             </div>
         </div>
@@ -125,12 +118,10 @@
 </template>
 
 <script>
-    import Icon from '@app/components/Icon'
     import GenderSelector from './GenderSelector'
     import NationalitySelector from './NationalitySelector'
     import DateOfBirthSelector from './DateOfBirthSelector'
-    import scanQR from '@app/qr'
-    import { showSnackbar, handleAjaxError } from '@app/utils'
+    import RegisterCard from './RegisterCard'
     export default {
         props: {
             person: {
@@ -143,10 +134,10 @@
             }
         },
         components: {
-            Icon,
             GenderSelector,
             NationalitySelector,
-            DateOfBirthSelector
+            DateOfBirthSelector,
+            RegisterCard
         },
         data() {
             return {
@@ -162,25 +153,6 @@
             }
         },
         methods: {
-            // Register QR code card
-            registerCard() {
-                if (this.currentPerson.card_no && !confirm('Do you really want to replace the card ' + this.currentPerson.card_no_short + ' with a new one?')) {
-                    return;
-                }
-                scanQR((content) => {
-                    // TODO input validation of code
-                    axios.patch(this.currentPerson.register_card_url, {
-                            "card_no": content,
-                        })
-                        .then(response => {
-                            this.currentPerson.card_no = content
-                            this.currentPerson.card_no_short = content.substr(0,7)
-                            showSnackbar(response.data.message);
-                            // TODO document.location = '/bank/withdrawal/cards/' + content;
-                        })
-                        .catch(handleAjaxError);
-                });
-            }
         }
     }
 </script>

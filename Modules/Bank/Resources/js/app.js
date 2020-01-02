@@ -3,17 +3,15 @@ import scanQR from '@app/qr'
 
 import Vue from 'vue'
 
-import GenderSelector from './components/GenderSelector.vue'
-import NationalitySelector from './components/NationalitySelector.vue'
-import DateOfBirthSelector from './components/DateOfBirthSelector.vue'
+import Icon from '@app/components/Icon'
 import BankPersonCard from './components/BankPersonCard.vue'
+
+Vue.component('icon', Icon);
 
 new Vue({
 	el: '#bank-app',
 	components: {
-		GenderSelector,
-		NationalitySelector,
-		DateOfBirthSelector,
+		Icon,
 		BankPersonCard
 	}
 });
