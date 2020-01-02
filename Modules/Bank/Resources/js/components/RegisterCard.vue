@@ -2,16 +2,15 @@
     <span>
         <template v-if="canUpdate">
             <icon name="id-card"></icon>
-            <a href="javascript:;"
-                @click="registerCard"
-                >
-                <strong v-if="value">{{ valueShort }}</strong>
+            <icon name="spinner" :spin="true" v-if="busy"></icon>
+            <a href="javascript:;" @click="registerCard" v-else>
+                <strong v-if="cardNo">{{ cardNoShort }}</strong>
                 <template v-else>{{ lang['app.register'] }}</template>
             </a>
         </template>
-        <template v-else-if="value">
+        <template v-else-if="cardNo">
             <icon name="id-card"></icon>
-            <strong>{{ valueShort }}</strong>
+            <strong>{{ cardNoShort }}</strong>
         </template>
     </span>
 </template>
@@ -36,27 +35,35 @@
                 required: true
             }
         },
+        data() {
+            return {
+                busy: false,
+                cardNo: this.value
+            }
+        },
         computed: {
-            valueShort() {
-                return this.value != null ? this.value.substr(0,7) : null
+            cardNoShort() {
+                return this.cardNo != null ? this.cardNo.substr(0,7) : null
             }
         },
         methods: {
             registerCard() {
-                if (this.value && !confirm('Do you really want to replace the card ' + this.valueShort + ' with a new one?')) {
+                if (this.cardNo && !confirm('Do you really want to replace the card ' + this.cardNoShort + ' with a new one?')) {
                     return;
                 }
                 scanQR((content) => {
                     // TODO input validation of code
+                    this.busy = true
                     axios.patch(this.apiUrl, {
                             "card_no": content,
                         })
                         .then(response => {
-                            this.value= content
+                            this.cardNo = content
                             showSnackbar(response.data.message);
                             // TODO document.location = '/bank/withdrawal/cards/' + content;
                         })
-                        .catch(handleAjaxError);
+                        .catch(handleAjaxError)
+                        .then(() => this.busy = false);
                 });
             }
         }
