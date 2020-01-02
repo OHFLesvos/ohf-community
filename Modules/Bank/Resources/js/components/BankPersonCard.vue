@@ -50,27 +50,26 @@
 
         <!-- Card body -->
         <div class="card-body p-2" v-if="currentPerson.police_no || currentPerson.case_no_hash || currentPerson.remarks || currentPerson.has_overdue_book_lendings">
-            <span class="d-block d-sm-inline" v-if="currentPerson.police_no">
-                <small class="text-muted">{{ lang['people::people.police_number'] }}:</small>
-                <span class="pr-2 mark-text">{{ currentPerson.police_no_formatted }}</span>
-            </span>
-            <span class="d-block d-sm-inline" v-if="currentPerson.case_no_hash">
-                <small class="text-muted">{{lang['people::people.case_number'] }}:</small>
-                <span class="pr-2">{{ lang['app.yes'] }}</span>
-            </span>
-            <div v-if="currentPerson.remarks">
-                <em class="text-info">{{ currentPerson.remarks }}</em>
-            </div>
-            <div v-if="currentPerson.has_overdue_book_lendings">
-                <em class="text-danger">Needs to bring back book(s) to the
-                    <a :href="currentPerson.library_lending_person_url" v-if="currentPerson.can_operate_library">
-                        {{ lang['library::library.library'] }}
-                    </a>
-                    <template v-else>
-                        {{ lang['library::library.library'] }}
-                    </template>
-                </em>
-            </div>
+            <police-no-label
+                v-if="currentPerson.police_no"
+                :value="currentPerson.police_no_formatted"
+                :lang="lang"
+            ></police-no-label>
+            <case-no-label
+                v-if="currentPerson.case_no_hash"
+                :value="currentPerson.case_no_hash"
+                :lang="lang"
+            ></case-no-label>
+            <person-remarks
+                v-if="currentPerson.remarks"
+                :value="currentPerson.remarks"
+            ></person-remarks>
+            <overdue-book-lendings
+                v-if="currentPerson.has_overdue_book_lendings"
+                :canOperateLibrary="currentPerson.can_operate_library"
+                :url="currentPerson.library_lending_person_url"
+                :lang="lang"
+            ></overdue-book-lendings>
         </div>
 
         <!-- Card footer -->
@@ -124,6 +123,10 @@
     import FrequentVisitorMarker from './FrequentVisitorMarker'
     import HelperMarker from './HelperMarker'
     import PersonName from './PersonName'
+    import PoliceNoLabel from './PoliceNoLabel'
+    import CaseNoLabel from './CaseNoLabel'
+    import PersonRemarks from './PersonRemarks'
+    import OverdueBookLendings from './OverdueBookLendings'
     export default {
         props: {
             person: {
@@ -142,7 +145,11 @@
             RegisterCard,
             FrequentVisitorMarker,
             HelperMarker,
-            PersonName
+            PersonName,
+            PoliceNoLabel,
+            CaseNoLabel,
+            PersonRemarks,
+            OverdueBookLendings
         },
         data() {
             return {
