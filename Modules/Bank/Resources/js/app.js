@@ -29,29 +29,6 @@ $(function(){
 		});
 	});
 
-	// Register QR code card
-	$('.register-card').on('click', function() {
-		var url = $(this).data('url');
-		var card = $(this).data('card');
-		if (card && !confirm('Do you really want to replace the card ' + card.substr(0, 7) + ' with a new one?')) {
-			return;
-		}
-		var resultElem = $(this);
-		scanQR((content) => {
-			// TODO input validation of code
-			axios.patch( url, {
-					"card_no": content,
-				})
-				.then(response => {
-					var data = response.data
-					resultElem.html('<strong>' + content.substr(0,7) + '</strong>');
-					showSnackbar(data.message);
-					document.location = '/bank/withdrawal/cards/' + content;
-				})
-				.catch(handleAjaxError);
-		});
-	});
-
 	// Coupon
 	$('.give-coupon').on('click', handoutCoupon);
 
