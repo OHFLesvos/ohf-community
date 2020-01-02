@@ -7,41 +7,41 @@
             <div class="form-row">
                 <div class="col">
                     <helper-marker
-                        v-if="currentPerson.is_helper"
+                        v-if="person.is_helper"
                         :lang="lang"
-                        :url="currentPerson.show_helper_url"
-                        :canView="currentPerson.can_view_helper"
+                        :url="person.show_helper_url"
+                        :canView="person.can_view_helper"
                     ></helper-marker>
                     <person-name
-                        :url="currentPerson.show_url"
-                        :can-view="currentPerson.can_view"
-                        :name="currentPerson.full_name"
+                        :url="person.show_url"
+                        :can-view="person.can_view"
+                        :name="person.full_name"
                     ></person-name>
                     <gender-selector
-                        :api-url="currentPerson.gender_update_url"
-                        :value="currentPerson.gender"
-                        :can-update="currentPerson.can_update"
+                        :api-url="person.gender_update_url"
+                        :value="person.gender"
+                        :can-update="person.can_update"
                     ></gender-selector>
                     <date-of-birth-selector
-                        :api-url="currentPerson.date_of_birth_update_url"
-                        :value="currentPerson.date_of_birth"
-                        :can-update="currentPerson.can_update"
+                        :api-url="person.date_of_birth_update_url"
+                        :value="person.date_of_birth"
+                        :can-update="person.can_update"
                     ></date-of-birth-selector>
                     <nationality-selector
-                        :api-url="currentPerson.nationality_update_url"
-                        :value="currentPerson.nationality"
-                        :can-update="currentPerson.can_update"
+                        :api-url="person.nationality_update_url"
+                        :value="person.nationality"
+                        :can-update="person.can_update"
                     ></nationality-selector>
-                    <frequent-visitor-marker v-if="currentPerson.frequent_visitor"></frequent-visitor-marker>
-                    <a :href="currentPerson.edit_url" title="Edit" v-if="currentPerson.can_update">
+                    <frequent-visitor-marker v-if="person.frequent_visitor"></frequent-visitor-marker>
+                    <a :href="person.edit_url" title="Edit" v-if="person.can_update">
                         <icon name="edit"></icon>
                     </a>
                 </div>
                 <div class="col-auto">
                     <register-card
-                        :api-url="currentPerson.register_card_url"
-                        :value="currentPerson.card_no"
-                        :can-update="currentPerson.can_update"
+                        :api-url="person.register_card_url"
+                        :value="person.card_no"
+                        :can-update="person.can_update"
                         :lang="lang"
                     ></register-card>
                 </div>
@@ -49,25 +49,25 @@
         </div>
 
         <!-- Card body -->
-        <div class="card-body p-2" v-if="currentPerson.police_no || currentPerson.case_no_hash || currentPerson.remarks || currentPerson.has_overdue_book_lendings">
+        <div class="card-body p-2" v-if="person.police_no || person.case_no_hash || person.remarks || person.has_overdue_book_lendings">
             <police-no-label
-                v-if="currentPerson.police_no"
-                :value="currentPerson.police_no_formatted"
+                v-if="person.police_no"
+                :value="person.police_no_formatted"
                 :lang="lang"
             ></police-no-label>
             <case-no-label
-                v-if="currentPerson.case_no_hash"
-                :value="currentPerson.case_no_hash"
+                v-if="person.case_no_hash"
+                :value="person.case_no_hash"
                 :lang="lang"
             ></case-no-label>
             <person-remarks
-                v-if="currentPerson.remarks"
-                :value="currentPerson.remarks"
+                v-if="person.remarks"
+                :value="person.remarks"
             ></person-remarks>
             <overdue-book-lendings
-                v-if="currentPerson.has_overdue_book_lendings"
-                :canOperateLibrary="currentPerson.can_operate_library"
-                :url="currentPerson.library_lending_person_url"
+                v-if="person.has_overdue_book_lendings"
+                :canOperateLibrary="person.can_operate_library"
+                :url="person.library_lending_person_url"
                 :lang="lang"
             ></overdue-book-lendings>
         </div>
@@ -75,7 +75,7 @@
         <!-- Card footer -->
         <div class="card-body p-0 px-2 pt-2">
             <coupon-handout-buttons
-                :couponTypes="currentPerson.coupon_types"
+                :couponTypes="person.coupon_types"
                 :lang="lang"
             ></coupon-handout-buttons>
         </div>
@@ -121,14 +121,9 @@
             OverdueBookLendings,
             CouponHandoutButtons
         },
-        data() {
-            return {
-                currentPerson:  JSON.parse(JSON.stringify(this.person))
-            }
-        },
         computed: {
             headerStyle() {
-                if (this.currentPerson.frequent_visitor) {
+                if (this.person.frequent_visitor) {
                     return 'background: lightgoldenrodyellow;'
                 }
                 return null
