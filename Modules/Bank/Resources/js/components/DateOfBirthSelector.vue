@@ -95,18 +95,7 @@
                         this.dateOfBirth = this.newDateOfBirth
                         this.form = false
                         showSnackbar(data.message);
-                        // enableFilterSelect(); // TODO
-                        // Remove buttons not maching age-restrictions
-                        // $('button[data-min_age]').each(() => {
-                        //     if ($(this).data('min_age') && data.age < $(this).data('min_age')) {
-                        //         $(this).parent().remove();
-                        //     }
-                        // });
-                        // $('button[data-max_age]').each(() => {
-                        //     if ($(this).data('max_age') && data.age > $(this).data('max_age')) {
-                        //         $(this).parent().remove();
-                        //     }
-                        // });
+                        this.$emit('setAge', this.age)
                     })
                     .catch(err => {
                         handleAjaxError(err);

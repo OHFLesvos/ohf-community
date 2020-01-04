@@ -16,8 +16,6 @@
         class="btn btn-primary btn-sm btn-block"
         @click="handoutCoupon"
         :disabled="busy"
-        :data-min_age="min_age"
-        :data-max_age="max_age"
         v-else
     >
         {{ daily_amount }}
@@ -42,9 +40,7 @@ export default {
                     'last_handout' in obj &&
                     'returning_possible' in obj &&
                     'icon' in obj &&
-                    'name' in obj &&
-                    'min_age' in obj && // TODO show button based on persons age
-                    'max_age' in obj // TODO show button based on persons age
+                    'name' in obj
             }
         },
         lang: {

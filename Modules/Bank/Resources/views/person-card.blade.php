@@ -3,6 +3,7 @@
         'full_name' => $person->full_name,
         'gender' => $person->gender,
         'date_of_birth' => $person->date_of_birth,
+        'age' => $person->age,
         'nationality' => $person->nationality,
         'frequent_visitor' => $person->frequentVisitor,
         'can_view' => Auth::user()->can('view', $person),

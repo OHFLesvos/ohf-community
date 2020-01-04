@@ -26,6 +26,7 @@
                         :api-url="person.date_of_birth_update_url"
                         :value="person.date_of_birth"
                         :can-update="person.can_update"
+                        @setAge="updateAge"
                     ></date-of-birth-selector>
                     <nationality-selector
                         :api-url="person.nationality_update_url"
@@ -78,7 +79,7 @@
         <!-- Card footer -->
         <div class="card-body p-0 px-2 pt-2">
             <coupon-handout-buttons
-                :couponTypes="person.coupon_types"
+                :couponTypes="eligibleCouponTypes"
                 :lang="lang"
             ></coupon-handout-buttons>
         </div>
@@ -126,15 +127,37 @@
             CouponHandoutButtons,
             PersonEditLink
         },
+        data() {
+            return {
+                age: this.person.age
+            }
+        },
         computed: {
             headerStyle() {
                 if (this.person.frequent_visitor) {
                     return 'background: lightgoldenrodyellow;'
                 }
                 return null
+            },
+            eligibleCouponTypes() {
+                return this.person.coupon_types.filter(this.isEligibleByAge).filter(c => c.person_eligible_for_coupon)
             }
         },
         methods: {
+            updateAge(age) {
+                this.age = age
+            },
+            isEligibleByAge(couponType) {
+                if (this.age) {
+                    if (couponType.max_age != null && this.age > couponType.max_age) {
+                        return false
+                    }
+                    if (couponType.min_age != null && this.age < couponType.min_age) {
+                        return false
+                    }
+                }
+                return true
+            }
         }
     }
 </script>

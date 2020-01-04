@@ -1,7 +1,7 @@
 <template>
     <div class="form-row">
         <template v-if="couponTypes.length > 0">
-            <div class="col-sm-auto mb-2" v-for="coupon in couponTypes.filter(c => c.person_eligible_for_coupon)" :key="coupon.id">
+            <div class="col-sm-auto mb-2" v-for="coupon in couponTypes" :key="coupon.id">
                 <coupon-handout-button
                     :coupon="coupon"
                     :lang="lang"
