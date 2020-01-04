@@ -32,10 +32,13 @@
                         :value="person.nationality"
                         :can-update="person.can_update"
                     ></nationality-selector>
-                    <frequent-visitor-marker v-if="person.frequent_visitor"></frequent-visitor-marker>
-                    <a :href="person.edit_url" title="Edit" v-if="person.can_update">
-                        <icon name="edit"></icon>
-                    </a>
+                    <frequent-visitor-marker
+                        v-if="person.frequent_visitor"
+                    ></frequent-visitor-marker>
+                    <person-edit-link
+                        v-if="person.can_update"
+                        :url="person.edit_url"
+                    ></person-edit-link>
                 </div>
                 <div class="col-auto">
                     <register-card
@@ -96,6 +99,7 @@
     import PersonRemarks from './PersonRemarks'
     import OverdueBookLendings from './OverdueBookLendings'
     import CouponHandoutButtons from './CouponHandoutButtons'
+    import PersonEditLink from './PersonEditLink'
     export default {
         props: {
             person: {
@@ -119,7 +123,8 @@
             CaseNoLabel,
             PersonRemarks,
             OverdueBookLendings,
-            CouponHandoutButtons
+            CouponHandoutButtons,
+            PersonEditLink
         },
         computed: {
             headerStyle() {

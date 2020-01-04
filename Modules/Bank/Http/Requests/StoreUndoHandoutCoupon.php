@@ -4,8 +4,6 @@ namespace Modules\Bank\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-use Carbon\Carbon;
-
 class StoreUndoHandoutCoupon extends FormRequest
 {
     /**
@@ -42,15 +40,14 @@ class StoreUndoHandoutCoupon extends FormRequest
             $person = $this->person;
             $handout = $person->couponHandouts()
                 ->where('coupon_type_id', $coupon->id)
-                ->whereDate('date', Carbon::today())
+                ->orderBy('date', 'desc')
                 ->first();
             if ($handout != null) {
-                if ($handout->created_at->diffInSeconds(Carbon::now()) > 60) {
-                    $validator->errors()->add('coupon_type_id', 'Time is up');
+                if (!$handout->isReturningPossible) {
+                    $validator->errors()->add('coupon_type_id', __('bank::coupons.only_allowed_within_n_seconds_after_handout', ['seconds' => $handout::returningPossibleGracePeriod()]));
                 }
             } else {
-                $validator->errors()->add('coupon_type_id', 'Handout not found!');
-                // TODO __('people::people.person_not_eligible_for_this_coupon')
+                $validator->errors()->add('coupon_type_id', __('app.not_found'));
             }
         });
     }

@@ -19,4 +19,6 @@ return [
     'no_coupons_found' => 'No coupons found.',
     'coupons_handed_out_n_t' => ':coupon handed out: <strong>:count</strong> / <strong>:limit</strong>',
     'n_coupons_received_total_since_date' => ':num coupons received in total since :date (:date_diff).',
+    'undo_coupon_handout_grace_period_seconds' => 'Grace time (in seconds) for undoing a handout of a coupon',
+    'only_allowed_within_n_seconds_after_handout' => 'Only allowed within :seconds seconds after handout.',
 ];

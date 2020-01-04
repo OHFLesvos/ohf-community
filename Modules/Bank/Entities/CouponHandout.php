@@ -4,6 +4,7 @@ namespace Modules\Bank\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -66,5 +67,20 @@ class CouponHandout extends Model implements Auditable
         } else {
             return $query->where('code', $code);
         }
+    }
+
+    public static function returningPossibleGracePeriod()
+    {
+        return \Setting::get('bank.undo_coupon_handout_grace_period', Config::get('bank.undo_coupon_handout_grace_period'));
+    }
+
+    public function getIsReturningPossibleAttribute()
+    {
+        return $this->created_at->diffInSeconds(Carbon::now()) < self::returningPossibleGracePeriod();
+    }
+
+    public function getReturGracePeriodAttribute()
+    {
+        return max(0, self::returningPossibleGracePeriod() - $this->created_at->diffInSeconds(Carbon::now()));
     }
 }

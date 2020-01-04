@@ -26,6 +26,10 @@
         'library_lending_person_url' => is_module_enabled('Library') ? route('library.lending.person', $person) : null,
         'coupon_types' => collect($couponTypes)
             ->map(function($coupon) use($person) {
+                $returning_possible = optional($person->couponHandouts()
+                    ->where('coupon_type_id', $coupon->id)
+                    ->orderBy('date', 'desc')
+                    ->first())->isReturningPossible;
                 return [
                     'id' => $coupon->id,
                     'daily_amount' => $coupon->daily_amount,
@@ -37,6 +41,7 @@
                     'person_eligible_for_coupon' => $person->eligibleForCoupon($coupon),
                     'last_handout' => $person->canHandoutCoupon($coupon),
                     'handout_url' => route('bank.handoutCoupon', [$person, $coupon]),
+                    'returning_possible' => $returning_possible,
                 ];
             })
             ->toArray()

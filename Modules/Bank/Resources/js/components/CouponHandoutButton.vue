@@ -3,28 +3,27 @@
         type="button"
         class="btn btn-secondary btn-sm btn-block"
         @click="undoHandoutCoupon"
-        :disabled="busy"
-        v-if="coupon.last_handout"
+        :disabled="busy || !returning_possible"
+        v-if="last_handout"
     >
-        <!-- TODO disabled -->
-        {{ coupon.daily_amount }}
-        <icon :name="coupon.icon"></icon>
-        {{ coupon.name }}
-        ({{ coupon.last_handout }})
+        {{ daily_amount }}
+        <icon :name="icon"></icon>
+        {{ name }}
+        ({{ last_handout }})
     </button>
     <button
         type="button"
         class="btn btn-primary btn-sm btn-block"
         @click="handoutCoupon"
         :disabled="busy"
-        :data-min_age="coupon.min_age"
-        :data-max_age="coupon.max_age"
+        :data-min_age="min_age"
+        :data-max_age="max_age"
         v-else
     >
-        {{ coupon.daily_amount }}
-        <icon :name="coupon.icon"></icon>
-        {{ coupon.name }}
-        <icon name="qrcode" v-if="coupon.qr_code_enabled"></icon>
+        {{ daily_amount }}
+        <icon :name="icon"></icon>
+        {{ name }}
+        <icon name="qrcode" v-if="qr_code_enabled"></icon>
     </button>
 </template>
 
@@ -35,7 +34,18 @@ export default {
     props: {
         coupon: {
             type: Object,
-            required: true
+            required: true,
+            validator: function (obj) {
+                return 'qr_code_enabled' in obj &&
+                    'daily_amount' in obj &&
+                    'handout_url' in obj &&
+                    'last_handout' in obj &&
+                    'returning_possible' in obj &&
+                    'icon' in obj &&
+                    'name' in obj &&
+                    'min_age' in obj && // TODO show button based on persons age
+                    'max_age' in obj // TODO show button based on persons age
+            }
         },
         lang: {
             type: Object,
@@ -45,30 +55,33 @@ export default {
     data() {
         return {
             busy: false,
+            ...this.coupon
         }
     },
     methods: {
         handoutCoupon(){
-            if (this.coupon.qr_code_enabled) {
+            if (this.qr_code_enabled) {
                 scanQR((content) => {
                     // TODO input validation of code
                     this.sendHandoutRequest({
-                        "amount": this.coupon.daily_amount,
+                        "amount": this.daily_amount,
                         'code': content,
                     });
                 });
             } else {
                 this.sendHandoutRequest({
-                    "amount": this.coupon.daily_amount
+                    "amount": this.daily_amount
                 });
             }
         },
         sendHandoutRequest(postData) {
             this.busy = true
-            axios.post(this.coupon.handout_url, postData)
+            axios.post(this.handout_url, postData)
                 .then(response => {
                     const data = response.data
-                    this.coupon.last_handout = data.countdown
+                    this.last_handout = data.countdown
+                    this.returning_possible = true
+                    setTimeout(this.disableCouponReturn, data.return_grace_period * 1000)
                     showSnackbar(data.message, this.lang['app.undo'], 'warning', (element) => {
                         element.style.opacity = 0
                         this.undoHandoutCoupon()
@@ -79,12 +92,17 @@ export default {
                 .catch(handleAjaxError)
                 .then(() => this.busy = false);
         },
+        disableCouponReturn() {
+            if (this.last_handout) {
+                this.returning_possible = false
+            }
+        },
         undoHandoutCoupon(){
             this.busy = true
-            axios.delete(this.coupon.handout_url)
+            axios.delete(this.handout_url)
                 .then(resonse => {
                     const data = resonse.data
-                    this.coupon.last_handout = null
+                    this.last_handout = null
                     showSnackbar(data.message);
                     // TODO enableFilterSelect();
                 })

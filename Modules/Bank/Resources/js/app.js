@@ -1,4 +1,3 @@
-import { showSnackbar, handleAjaxError } from '@app/utils'
 import scanQR from '@app/qr'
 
 import Vue from 'vue'

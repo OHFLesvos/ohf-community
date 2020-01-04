@@ -20,7 +20,7 @@ class WithdrawalController extends Controller
 {
     /**
      * View for searching persons.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -36,7 +36,7 @@ class WithdrawalController extends Controller
 
     /**
      * View for showing search results.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -51,7 +51,7 @@ class WithdrawalController extends Controller
             return redirect()->route('bank.withdrawal');
         }
         $request->session()->put('filter', $request->filter);
-    
+
         // Create query
         $q = Person::orderBy('name', 'asc')
             ->orderBy('family_name', 'asc');
@@ -66,7 +66,7 @@ class WithdrawalController extends Controller
                     $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
                     // Create like condition
                     $aq->where(function($wq) use ($term) {
-                       $wq->where('search', 'LIKE', '%' . $term . '%'); 
+                       $wq->where('search', 'LIKE', '%' . $term . '%');
                        $wq->orWhere('police_no', $term);
                        $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
                     });
@@ -84,7 +84,6 @@ class WithdrawalController extends Controller
             'results' => $results,
             'register' => self::createRegisterStringFromFilter($filter),
             'message' => $message,
-            'undoGraceTime' => Config::get('bank.undo_grace_time'),
             'couponTypes' => CouponType
                 ::where('enabled', true)
                 ->orderBy('order')
@@ -119,7 +118,7 @@ class WithdrawalController extends Controller
 
     /**
      * View for showing coupon transactions.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function transactions() {
@@ -146,7 +145,6 @@ class WithdrawalController extends Controller
         if ($person != null) {
             return view('bank::withdrawal.showCard', [
                 'person' => $person,
-                'undoGraceTime' => Config::get('bank.undo_grace_time'),
                 'couponTypes' => CouponType
                     ::where('enabled', true)
                     ->orderBy('order')

@@ -17,7 +17,7 @@ class BankController extends Controller
 {
     /**
      * Handout coupon to person.
-     * 
+     *
      * @param  \App\Http\Requests\People\Bank\StoreHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
@@ -32,6 +32,7 @@ class BankController extends Controller
 
         return response()->json([
             'countdown' => $person->canHandoutCoupon($couponType),
+            'return_grace_period' => $coupon->returGracePeriod,
             'message' => trans_choice('bank::coupons.coupon_has_been_handed_out_to', $coupon->amount, [
                 'amount' => $coupon->amount,
                 'coupon' => $couponType->name,
@@ -42,14 +43,14 @@ class BankController extends Controller
 
     /**
      * Undo handing out coupon to person.
-     * 
+     *
      * @param  \App\Http\Requests\People\Bank\StoreUndoHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
     public function undoHandoutCoupon(Person $person, CouponType $couponType, StoreUndoHandoutCoupon $request) {
         $handout = $person->couponHandouts()
             ->where('coupon_type_id', $couponType->id)
-            ->whereDate('date', Carbon::today())
+            ->orderBy('date', 'desc')
             ->first();
         if ($handout != null) {
             $handout->delete();

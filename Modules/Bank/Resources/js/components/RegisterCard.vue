@@ -27,7 +27,7 @@
             value: {
                 type: String,
                 required: false,
-                defaul: null
+                default: null
             },
             canUpdate: Boolean,
             lang: {

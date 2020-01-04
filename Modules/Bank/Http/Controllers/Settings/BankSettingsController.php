@@ -16,6 +16,7 @@ class BankSettingsController extends SettingsController
 {
     protected function getSections() {
         return [
+            'coupons' => __('bank::coupons.coupons'),
             'display_settings' => __('people::people.display_settings'),
             'frequent_visitors' => __('people::people.frequent_visitors'),
         ];
@@ -23,6 +24,14 @@ class BankSettingsController extends SettingsController
 
     protected function getSettings() {
         return [
+            'bank.undo_coupon_handout_grace_period' => [
+                'default' => Config::get('bank.undo_coupon_handout_grace_period'),
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'required|numeric|min:1',
+                'label_key' => 'bank::coupons.undo_coupon_handout_grace_period_seconds',
+                'section' => 'coupons',
+            ],
             'bank.frequent_visitor_weeks' => [
                 'default' => Config::get('bank.frequent_visitor_weeks'),
                 'form_type' => 'number',
