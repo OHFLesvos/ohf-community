@@ -1,6 +1,6 @@
 <template>
     <span>
-        <template v-if="canUpdate">
+        <template v-if="canUpdate && !disabled">
             <icon name="id-card"></icon>
             <icon name="spinner" :spin="true" v-if="busy"></icon>
             <a href="javascript:;" @click="registerCard" v-else>
@@ -33,7 +33,8 @@
             lang: {
                 type: Object,
                 required: true
-            }
+            },
+            disabled: Boolean
         },
         data() {
             return {

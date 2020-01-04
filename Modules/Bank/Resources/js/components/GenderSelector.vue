@@ -4,10 +4,10 @@
         <icon name="male" v-else-if="gender == 'm'"></icon>
         <icon name="female" v-else-if="gender == 'f'"></icon>
         <template v-else-if="canUpdate">
-            <button class="btn btn-warning btn-sm" @click="setGender('m')" title="Male">
+            <button class="btn btn-warning btn-sm" @click="setGender('m')" title="Male" :disabled="disabled">
                 <icon name="male"></icon>
             </button>
-            <button class="btn btn-warning btn-sm" @click="setGender('f')" title="Female">
+            <button class="btn btn-warning btn-sm" @click="setGender('f')" title="Female" :disabled="disabled">
                 <icon name="female"></icon>
             </button>
         </template>
@@ -28,7 +28,8 @@
                 required: false,
                 default: null
             },
-            canUpdate: Boolean
+            canUpdate: Boolean,
+            disabled: Boolean
         },
         data() {
             return {

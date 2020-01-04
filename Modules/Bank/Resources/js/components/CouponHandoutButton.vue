@@ -3,7 +3,7 @@
         type="button"
         class="btn btn-secondary btn-sm btn-block"
         @click="undoHandoutCoupon"
-        :disabled="busy || !returning_possible"
+        :disabled="busy || !returning_possible || disabled"
         v-if="last_handout"
     >
         {{ daily_amount }}
@@ -15,7 +15,7 @@
         type="button"
         class="btn btn-primary btn-sm btn-block"
         @click="handoutCoupon"
-        :disabled="busy"
+        :disabled="busy || disabled"
         v-else
     >
         {{ daily_amount }}
@@ -46,7 +46,8 @@ export default {
         lang: {
             type: Object,
             required: true
-        }
+        },
+        disabled: Boolean
     },
     data() {
         return {

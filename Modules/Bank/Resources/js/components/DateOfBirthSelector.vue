@@ -23,7 +23,13 @@
                     <icon name="times"></icon>
                 </button>
             </template>
-            <button class="btn btn-warning btn-sm" title="Set date of birth" v-else @click="form = true">
+            <button
+                class="btn btn-warning btn-sm"
+                title="Set date of birth"
+                v-else
+                @click="form = true"
+                :disabled="disabled"
+            >
                 <icon name="calendar-plus"></icon>
             </button>
         </template>
@@ -44,7 +50,8 @@
                 required: false,
                 default: null
             },
-            canUpdate: Boolean
+            canUpdate: Boolean,
+            disabled: Boolean
         },
         data() {
             return {

@@ -5,6 +5,7 @@
                 <coupon-handout-button
                     :coupon="coupon"
                     :lang="lang"
+                    :disabled="disabled"
                 ></coupon-handout-button>
             </div>
         </template>
@@ -25,7 +26,8 @@ export default {
         lang: {
             type: Object,
             required: true
-        }
+        },
+        disabled: Boolean
     },
     components: {
         CouponHandoutButton

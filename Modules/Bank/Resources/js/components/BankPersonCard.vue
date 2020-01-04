@@ -21,17 +21,20 @@
                         :api-url="person.gender_update_url"
                         :value="person.gender"
                         :can-update="person.can_update"
+                        :disabled="disabled"
                     ></gender-selector>
                     <date-of-birth-selector
                         :api-url="person.date_of_birth_update_url"
                         :value="person.date_of_birth"
                         :can-update="person.can_update"
-                        @setAge="updateAge"
+                        @setAge="$emit('change')"
+                        :disabled="disabled"
                     ></date-of-birth-selector>
                     <nationality-selector
                         :api-url="person.nationality_update_url"
                         :value="person.nationality"
                         :can-update="person.can_update"
+                        :disabled="disabled"
                     ></nationality-selector>
                     <frequent-visitor-marker
                         v-if="person.frequent_visitor"
@@ -47,6 +50,7 @@
                         :value="person.card_no"
                         :can-update="person.can_update"
                         :lang="lang"
+                        :disabled="disabled"
                     ></register-card>
                 </div>
             </div>
@@ -81,6 +85,7 @@
             <coupon-handout-buttons
                 :couponTypes="eligibleCouponTypes"
                 :lang="lang"
+                :disabled="disabled"
             ></coupon-handout-buttons>
         </div>
 
@@ -110,7 +115,8 @@
             lang: {
                 type: Object,
                 required: true
-            }
+            },
+            disabled: Boolean
         },
         components: {
             GenderSelector,
@@ -127,11 +133,6 @@
             CouponHandoutButtons,
             PersonEditLink
         },
-        data() {
-            return {
-                age: this.person.age
-            }
-        },
         computed: {
             headerStyle() {
                 if (this.person.frequent_visitor) {
@@ -140,23 +141,7 @@
                 return null
             },
             eligibleCouponTypes() {
-                return this.person.coupon_types.filter(this.isEligibleByAge).filter(c => c.person_eligible_for_coupon)
-            }
-        },
-        methods: {
-            updateAge(age) {
-                this.age = age
-            },
-            isEligibleByAge(couponType) {
-                if (this.age) {
-                    if (couponType.max_age != null && this.age > couponType.max_age) {
-                        return false
-                    }
-                    if (couponType.min_age != null && this.age < couponType.min_age) {
-                        return false
-                    }
-                }
-                return true
+                return this.person.coupon_types.filter(c => c.person_eligible_for_coupon)
             }
         }
     }

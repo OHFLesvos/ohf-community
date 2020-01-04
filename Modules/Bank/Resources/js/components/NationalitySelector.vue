@@ -20,7 +20,13 @@
                     <icon name="times"></icon>
                 </button>
             </template>
-            <button class="btn btn-warning btn-sm" title="Set nationality" v-else @click="form = true">
+            <button
+                class="btn btn-warning btn-sm"
+                title="Set nationality"
+                v-else
+                @click="form = true"
+                :disabled="disabled"
+            >
                 <icon name="globe"></icon>
             </button>
         </template>
@@ -41,7 +47,8 @@
                 required: false,
                 default: null
             },
-            canUpdate: Boolean
+            canUpdate: Boolean,
+            disabled: Boolean
         },
         data() {
             return {

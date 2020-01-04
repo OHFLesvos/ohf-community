@@ -61,4 +61,6 @@
 <bank-person-card
     :person='@json($vue_person)'
     :lang='@json($lang_arr)'
+    {{-- :disabled="true" --}}
+    {{-- @change="reload" TODO --}}
 ></bank-person-card>
