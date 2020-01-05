@@ -57,7 +57,7 @@
         </div>
 
         <!-- Card body -->
-        <div class="card-body p-2" v-if="person.police_no || person.case_no_hash || person.remarks || person.has_overdue_book_lendings">
+        <div class="card-body p-2">
             <police-no-label
                 v-if="person.police_no"
                 :value="person.police_no_formatted"

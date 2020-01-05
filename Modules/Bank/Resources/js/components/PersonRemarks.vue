@@ -2,55 +2,38 @@
     <div>
         <template v-if="busy">
             <icon name="spinner" :spin="true"></icon>
-            <em class="text-info">{{ newRemarks }}</em>
+            <em class="text-info">{{ editValue }}</em>
         </template>
         <template v-else>
-            <template v-if="form">
-                <div class="input-group">
-                    <input
-                        type="text"
-                        :placeholder="lang['people::people.remarks']"
-                        v-model="newRemarks"
-                        class="form-control form-control-sm"
-                        ref="input"
-                        @keydown.enter="saveEdit"
-                        @keydown.esc="cancelEdit"
-                        :disabled="busy"
-                    />
-                    <div class="input-group-append">
-                        <button
-                            type="button"
-                            class="btn btn-primary btn-sm"
-                            @click="saveEdit"
-                            :disabled="busy"
-                        >
-                            <icon name="check"></icon>
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-secondary btn-sm"
-                            @click="cancelEdit"
-                            :disabled="busy"
-                        >
-                            <icon name="times"></icon>
-                        </button>
-                    </div>
-                </div>
+            <inline-value-editor
+                v-if="form"
+                :value="editValue"
+                :placeholder="lang['people::people.remarks']"
+                :disabled="disabled"
+                @submit="saveEdit"
+                @cancel="cancelEdit"
+            >
+            </inline-value-editor>
+            <template v-else>
+                <em class="text-info clickable" v-if="remarks" @click="startEdit">
+                    {{ remarks }}
+                </em>
+                <em class="text-muted clickable" v-else @click="startEdit">
+                    {{ lang['people::people.click_to_add_remarks'] }}
+                </em>
             </template>
-            <em class="text-info clickable" v-else-if="remarks" @click="startEdit">
-                {{ remarks }}
-            </em>
-            <em class="text-muted clickable" v-else @click="startEdit">
-                {{ lang['people::people.click_to_add_remarks'] }}
-            </em>
         </template>
     </div>
 </template>
 
 <script>
+    import InlineValueEditor from './InlineValueEditor'
     import showSnackbar from '@app/snackbar'
     import { handleAjaxError } from '@app/utils'
     export default {
+        components: {
+            InlineValueEditor
+        },
         props: {
             apiUrl: {
                 type: String,
@@ -71,36 +54,30 @@
                 busy: false,
                 form: false,
                 remarks: this.value != null && this.value.length > 0 ? this.value : null,
-                newRemarks: ''
+                editValue: ''
             }
         },
         methods: {
             startEdit() {
-                this.newRemarks = this.remarks
                 this.form = true
-                this.$nextTick(() => {
-                    this.$refs.input.focus()
-                })
+                this.editValue = this.remarks
             },
             cancelEdit() {
                 this.form = false
             },
-            saveEdit() {
+            saveEdit(val) {
                 this.busy = true
+                this.editValue = val
                 axios.patch(this.apiUrl, {
-                        'remarks': this.newRemarks
+                        'remarks': val
                     })
                     .then(response => {
                         var data = response.data
-                        this.remarks = this.newRemarks
+                        this.remarks = data.remarks
                         this.form = false
                         showSnackbar(data.message)
                     })
-                    .catch(err => {
-                        handleAjaxError(err);
-                        this.busy = false
-                        this.$nextTick(() => this.$refs.input.select())
-                    })
+                    .catch(err => handleAjaxError(err))
                     .then(() => this.busy = false)
             }
         }
