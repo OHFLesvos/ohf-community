@@ -8,25 +8,30 @@
             ref="input"
             @keydown.enter="saveEdit"
             @keydown.esc="cancelEdit"
-            :disabled="disabled"
+            :disabled="disabled || busy"
         />
         <div class="input-group-append">
-            <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                @click="saveEdit"
-                :disabled="disabled"
-            >
-                <icon name="check"></icon>
-            </button>
-            <button
-                type="button"
-                class="btn btn-secondary btn-sm"
-                @click="cancelEdit"
-                :disabled="disabled"
-            >
-                <icon name="times"></icon>
-            </button>
+            <span class="input-group-text" v-if="busy">
+                <icon name="spinner" :spin="true"></icon>
+            </span>
+            <template v-else>
+                <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    @click="saveEdit"
+                    :disabled="disabled || busy"
+                >
+                    <icon name="check"></icon>
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-sm"
+                    @click="cancelEdit"
+                    :disabled="disabled || busy"
+                >
+                    <icon name="times"></icon>
+                </button>
+            </template>
         </div>
     </div>
 </template>
@@ -42,7 +47,8 @@ export default {
             required: false,
             default: ''
         },
-        disabled: Boolean
+        disabled: Boolean,
+        busy: Boolean
     },
     data() {
         return {
@@ -56,6 +62,15 @@ export default {
         cancelEdit() {
             this.modelValue = this.value
             this.$emit('cancel')
+        }
+    },
+    watch: {
+        busy(val, oldVal) {
+            if (!val && oldVal) {
+                this.$nextTick(() => {
+                    this.$refs.input.focus()
+                })
+            }
         }
     },
     mounted() {

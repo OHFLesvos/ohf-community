@@ -1,28 +1,23 @@
 <template>
     <div>
-        <template v-if="busy">
-            <icon name="spinner" :spin="true"></icon>
-            <em class="text-info">{{ editValue }}</em>
-        </template>
+        <inline-value-editor
+            v-if="form"
+            :value="editValue"
+            :placeholder="lang['people::people.remarks']"
+            :disabled="disabled"
+            :busy="busy"
+            @submit="saveEdit"
+            @cancel="cancelEdit"
+        >
+        </inline-value-editor>
         <template v-else>
-            <inline-value-editor
-                v-if="form"
-                :value="editValue"
-                :placeholder="lang['people::people.remarks']"
-                :disabled="disabled"
-                @submit="saveEdit"
-                @cancel="cancelEdit"
-            >
-            </inline-value-editor>
-            <template v-else>
-                <icon name="comment-dots"></icon>
-                <em class="text-info clickable" v-if="remarks" @click="startEdit">
-                    {{ remarks }}
-                </em>
-                <em class="text-muted clickable" v-else @click="startEdit">
-                    {{ lang['people::people.click_to_add_remarks'] }}
-                </em>
-            </template>
+            <icon name="comment-dots"></icon>
+            <span class="text-info clickable" v-if="remarks" @click="startEdit">
+                {{ remarks }}
+            </span>
+            <em class="text-muted clickable" v-else @click="startEdit">
+                {{ lang['people::people.click_to_add_remarks'] }}
+            </em>
         </template>
     </div>
 </template>
