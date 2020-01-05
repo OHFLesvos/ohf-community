@@ -9,6 +9,7 @@ use Modules\People\Entities\RevokedCard;
 use Modules\People\Http\Requests\UpdatePersonDateOfBirth;
 use Modules\People\Http\Requests\UpdatePersonGender;
 use Modules\People\Http\Requests\UpdatePersonNationality;
+use Modules\People\Http\Requests\UpdatePersonRemarks;
 use Modules\People\Http\Requests\RegisterCard;
 use Modules\People\Transformers\PersonCollection;
 
@@ -183,6 +184,26 @@ class PeopleController extends Controller
         return response()->json([
             'nationality' => $person->nationality,
             'message' => __('people::people.nationality_has_been_registered', [
+                'person' => $person->full_name,
+            ]),
+        ]);
+    }
+
+    /**
+     * Update remarks of person.
+     *
+     * @param  \Modules\People\Entities\Person $person
+     * @param  \Modules\People\Http\Requests\UpdatePersonRemarks  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRemarks(Person $person, UpdatePersonRemarks $request)
+    {
+        $person->remarks = $request->remarks;
+        $person->save();
+
+        return response()->json([
+            'remarks' => $person->remarks,
+            'message' => __('people::people.remarks_have_been_updated', [
                 'person' => $person->full_name,
             ]),
         ]);

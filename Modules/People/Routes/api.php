@@ -21,7 +21,7 @@ Route::middleware(['auth', 'language'])
         Route::get('', 'PeopleController@index')
             ->name('index')
             ->middleware('can:list,Modules\People\Entities\Person');
-        
+
         // Filter persons
         Route::get('filterPersons', 'PeopleController@filterPersons')
             ->name('filterPersons')
@@ -40,6 +40,11 @@ Route::middleware(['auth', 'language'])
         // Set nationality
         Route::patch('{person}/nationality', 'PeopleController@setNationality')
             ->name('setNationality')
+            ->middleware('can:update,person');
+
+        // Update remarks
+        Route::patch('{person}/remarks', 'PeopleController@updateRemarks')
+            ->name('updateRemarks')
             ->middleware('can:update,person');
 
         // Register code card

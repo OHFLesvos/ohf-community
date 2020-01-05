@@ -99,6 +99,8 @@ return [
     'gender_has_been_registered' => 'Gender of :person has been registered.',
     'date_of_birth_has_been_registered' => 'Date of birth of :person has been registered.',
     'nationality_has_been_registered' => 'Nationality of :person has been registered.',
+    'click_to_add_remarks' => 'Click to add remarks...',
+    'remarks_have_been_updated' => 'Remarks have been updated.',
     'nationalities' => 'Nationalities',
     'registered_number_types' => 'Registered number types',
     'todays_transactions' => 'Todays transactions',

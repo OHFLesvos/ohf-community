@@ -69,8 +69,10 @@
                 :lang="lang"
             ></case-no-label>
             <person-remarks
-                v-if="person.remarks"
                 :value="person.remarks"
+                :api-url="person.remarks_update_url"
+                :can-update="person.can_update"
+                :lang="lang"
             ></person-remarks>
             <overdue-book-lendings
                 v-if="person.has_overdue_book_lendings"

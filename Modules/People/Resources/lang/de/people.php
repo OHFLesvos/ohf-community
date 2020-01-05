@@ -100,6 +100,8 @@ return [
     'gender_has_been_registered' => 'Geschlecht von :person wurde registriert.',
     'date_of_birth_has_been_registered' => 'Geburtsdatum von :person wurde registriert.',
     'nationality_has_been_registered' => 'Nationalität von :person wurde registriert.',
+    'click_to_add_remarks' => 'Klicke um Bemerkungen hinzuzufügen...',
+    'remarks_have_been_updated' => 'Bemerkungen wurden aktualisiert.',
     'nationalities' => 'Nationalitäten',
     'registered_number_types' => 'Registered Nummertypen',
     'todays_transactions' => 'Heutige Transaktionen',

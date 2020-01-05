@@ -13,6 +13,7 @@
         'gender_update_url' => route('api.people.setGender', $person),
         'date_of_birth_update_url' => route('api.people.setDateOfBirth', $person),
         'nationality_update_url' => route('api.people.setNationality', $person),
+        'remarks_update_url' => route('api.people.updateRemarks', $person),
         'card_no' => $person->card_no,
         'register_card_url' => route('api.people.registerCard', $person),
         'is_helper' => is_module_enabled('Helpers') && optional($person->helper)->isActive,
@@ -55,7 +56,9 @@
         'library::library.library',
         'people::people.no_coupons_defined',
         'helpers::helpers.helper',
-        'app.undo'
+        'app.undo',
+        'people::people.remarks',
+        'people::people.click_to_add_remarks',
     ]);
 @endphp
 <bank-person-card
