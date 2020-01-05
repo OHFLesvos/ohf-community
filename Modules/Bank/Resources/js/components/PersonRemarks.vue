@@ -15,6 +15,7 @@
             >
             </inline-value-editor>
             <template v-else>
+                <icon name="comment-dots"></icon>
                 <em class="text-info clickable" v-if="remarks" @click="startEdit">
                     {{ remarks }}
                 </em>
