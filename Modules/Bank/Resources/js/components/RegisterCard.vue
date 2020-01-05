@@ -61,7 +61,6 @@
                         .then(response => {
                             this.cardNo = content
                             showSnackbar(response.data.message);
-                            // TODO document.location = '/bank/withdrawal/cards/' + content;
                         })
                         .catch(handleAjaxError)
                         .then(() => this.busy = false);

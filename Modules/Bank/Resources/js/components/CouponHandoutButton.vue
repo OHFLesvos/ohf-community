@@ -82,9 +82,7 @@ export default {
                     showSnackbar(data.message, this.lang['app.undo'], 'warning', (element) => {
                         element.style.opacity = 0
                         this.undoHandoutCoupon()
-                        // TODO enableFilterSelect();
                     });
-                    // TODO enableFilterSelect();
                 })
                 .catch(handleAjaxError)
                 .then(() => this.busy = false);
@@ -101,7 +99,6 @@ export default {
                     const data = resonse.data
                     this.last_handout = null
                     showSnackbar(data.message);
-                    // TODO enableFilterSelect();
                 })
                 .catch(handleAjaxError)
                 .then(() => this.busy = false);

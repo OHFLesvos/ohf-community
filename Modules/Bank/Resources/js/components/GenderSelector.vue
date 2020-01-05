@@ -47,7 +47,6 @@
                         var data = response.data
                         this.gender = value
                         showSnackbar(data.message);
-                        // enableFilterSelect(); // TODO
                     })
                     .catch(handleAjaxError)
                     .then(() => {

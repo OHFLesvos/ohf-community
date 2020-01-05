@@ -69,7 +69,6 @@
                         this.nationality = this.newNationality
                         this.form = false
                         showSnackbar(data.message);
-                        // enableFilterSelect(); // TODO
                     })
                     .catch(err => {
                         handleAjaxError(err);
