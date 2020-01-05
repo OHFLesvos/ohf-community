@@ -13,22 +13,36 @@
                         v-model="newRemarks"
                         class="form-control form-control-sm"
                         ref="input"
-                        @keydown.enter="setRemarks"
+                        @keydown.enter="saveEdit"
                         @keydown.esc="cancelEdit"
                         :disabled="busy"
                     />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-primary btn-sm" @click="setRemarks" :disabled="busy">
+                        <button
+                            type="button"
+                            class="btn btn-primary btn-sm"
+                            @click="saveEdit"
+                            :disabled="busy"
+                        >
                             <icon name="check"></icon>
                         </button>
-                        <button type="button" class="btn btn-secondary btn-sm" @click="cancelEdit" :disabled="busy">
+                        <button
+                            type="button"
+                            class="btn btn-secondary btn-sm"
+                            @click="cancelEdit"
+                            :disabled="busy"
+                        >
                             <icon name="times"></icon>
                         </button>
                     </div>
                 </div>
             </template>
-            <em class="text-info clickable" v-else-if="remarks" @click="startEdit">{{ remarks }}</em>
-            <em class="text-muted clickable" v-else @click="startEdit">{{ lang['people::people.click_to_add_remarks'] }}</em>
+            <em class="text-info clickable" v-else-if="remarks" @click="startEdit">
+                {{ remarks }}
+            </em>
+            <em class="text-muted clickable" v-else @click="startEdit">
+                {{ lang['people::people.click_to_add_remarks'] }}
+            </em>
         </template>
     </div>
 </template>
@@ -65,13 +79,13 @@
                 this.newRemarks = this.remarks
                 this.form = true
                 this.$nextTick(() => {
-                    this.$refs.input.focus();
+                    this.$refs.input.focus()
                 })
             },
             cancelEdit() {
                 this.form = false
             },
-            setRemarks() {
+            saveEdit() {
                 this.busy = true
                 axios.patch(this.apiUrl, {
                         'remarks': this.newRemarks
@@ -80,18 +94,14 @@
                         var data = response.data
                         this.remarks = this.newRemarks
                         this.form = false
-                        showSnackbar(data.message);
+                        showSnackbar(data.message)
                     })
                     .catch(err => {
                         handleAjaxError(err);
                         this.busy = false
-                        this.$nextTick(() => {
-                            this.$refs.input.select();
-                        })
+                        this.$nextTick(() => this.$refs.input.select())
                     })
-                    .then(() => {
-                        this.busy = false
-                    })
+                    .then(() => this.busy = false)
             }
         }
     }
