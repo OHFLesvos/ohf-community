@@ -126,7 +126,6 @@ export default {
             // TODO reset page if filter changes
             this.busy = true
             this.message = null
-            this.loaded = false
             axios.get(`${this.apiUrl}?filter=${filter}&page=${this.currentPage}`)
                 .then((res) => {
                     this.filter = filter
@@ -145,7 +144,6 @@ export default {
         searchCode(code) {
             this.busy = true
             this.message = null
-            this.loaded = false
             axios.get(`${this.apiUrl}?card_no=${code}`)
                 .then((res) => {
                     this.loaded = true

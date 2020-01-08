@@ -14,14 +14,18 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => ['language', 'auth']], function () {
-    Route::group(['middleware' => ['can:do-bank-withdrawals']], function () {
-        Route::get('bank/withdrawal/dailyStats', 'API\BankController@dailyStats')
-            ->name('api.bank.withdrawal.dailyStats');
-        Route::get('bank/withdrawal/search', 'API\BankController@search')
-            ->name('api.bank.withdrawal.search');
-        Route::post('bank/person/{person}/couponType/{couponType}/handout', 'API\BankController@handoutCoupon')
-            ->name('bank.handoutCoupon');
-        Route::delete('bank/person/{person}/couponType/{couponType}/handout', 'API\BankController@undoHandoutCoupon')
-            ->name('bank.undoHandoutCoupon');
+    Route::middleware('can:do-bank-withdrawals')
+        ->prefix('bank')
+        ->name('api.bank.withdrawal.')
+        ->namespace('API')
+        ->group(function () {
+            Route::get('withdrawal/dailyStats', 'BankController@dailyStats')
+                ->name('dailyStats');
+            Route::get('withdrawal/search', 'BankController@search')
+                ->name('search');
+            Route::post('person/{person}/couponType/{couponType}/handout', 'BankController@handoutCoupon')
+                ->name('handoutCoupon');
+            Route::delete('person/{person}/couponType/{couponType}/handout', 'BankController@undoHandoutCoupon')
+                ->name('undoHandoutCoupon');
     });
 });

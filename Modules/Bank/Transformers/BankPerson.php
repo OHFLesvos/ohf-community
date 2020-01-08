@@ -68,7 +68,7 @@ class BankPerson extends Resource
                         'max_age' => $coupon->max_age,
                         'qr_code_enabled' => $coupon->qr_code_enabled,
                         'last_handout' => $this->canHandoutCoupon($coupon),
-                        'handout_url' => route('bank.handoutCoupon', [$this, $coupon]),
+                        'handout_url' => route('api.bank.withdrawal.handoutCoupon', [$this, $coupon]),
                         'returning_possible' => $returning_possible,
                     ];
                 })
