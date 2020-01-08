@@ -29,7 +29,7 @@ class PeopleShowContextButtons implements ContextButtons {
                 'confirmation' => __('people::people.confirm_delete_person')
             ],
             'back' => [
-                'url' => route('bank.withdrawalSearch'),
+                'url' => route('bank.withdrawal'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Gate::allows('do-bank-withdrawals')

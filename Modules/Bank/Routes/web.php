@@ -12,24 +12,28 @@
 */
 
 Route::middleware(['language', 'auth'])->group(function () {
-    
+
     Route::prefix('bank')->name('bank.')->group(function () {
 
         // Withdrawals
         Route::middleware('can:do-bank-withdrawals')->group(function () {
+
             Route::get('', function(){
                 return redirect()->route('bank.withdrawal');
             })->name('index');
 
-            Route::get('withdrawal', 'WithdrawalController@index')->name('withdrawal');
-            Route::get('withdrawal/search', 'WithdrawalController@search')->name('withdrawalSearch');
-            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')->name('withdrawalTransactions')
-                ->middleware('can:list,Modules\People\Entities\Person');
-            
-            Route::get('withdrawal/cards/{card}', 'WithdrawalController@showCard')->name('showCard');
+            Route::view('withdrawal', 'bank::withdrawal')
+                ->name('withdrawal');
 
-            Route::get('codeCard', 'CodeCardController@create')->name('prepareCodeCard');
-            Route::post('codeCard', 'CodeCardController@download')->name('createCodeCard');
+            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')
+                ->name('withdrawalTransactions')
+                ->middleware('can:list,Modules\People\Entities\Person');
+
+            Route::get('codeCard', 'CodeCardController@create')
+                ->name('prepareCodeCard');
+
+            Route::post('codeCard', 'CodeCardController@download')
+                ->name('createCodeCard');
         });
 
         // People
@@ -65,7 +69,7 @@ Route::middleware(['language', 'auth'])->group(function () {
     Route::middleware('can:configure-bank')->prefix('bank')->group(function () {
         Route::resource('coupons', 'CouponTypesController');
     });
-    
+
     // Reporting
     Route::middleware('can:view-bank-reports')->namespace('Reporting')->name('reporting.bank.')->prefix('reporting/bank')->group(function () {
         Route::get('withdrawals', 'BankReportingController@withdrawals')->name('withdrawals');

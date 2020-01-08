@@ -2,6 +2,7 @@
     <div>
         <person-filter-input
             @submit="search"
+            @scan="searchCode"
             @reset="reset"
             :lang="lang"
             :busy="busy"
@@ -16,7 +17,7 @@
                     :lang="lang"
                 ></bank-person-card>
                 <b-pagination
-                    v-if="totalRows > 0"
+                    v-if="totalRows > 0 && perPage > 0"
                     size="sm"
                     v-model="currentPage"
                     :total-rows="totalRows"
@@ -25,7 +26,8 @@
                 ></b-pagination>
             </template>
             <template v-else>
-                <info-alert :message="lang['app.not_found']"></info-alert>
+                <info-alert v-if="message" :message="message"></info-alert>
+                <info-alert v-else :message="lang['app.not_found']"></info-alert>
                 <p v-if="canRegisterPerson != null">
                     <a :href="registerPersonUrlWithQuery" class="btn btn-primary">
                         <icon name="plus-circle"></icon>
@@ -45,6 +47,23 @@
 </template>
 
 <script>
+
+// TODO code cards search / view
+// TODO family connections
+
+function highlightText(text) {
+    // TODO fix highlighting
+    console.log(`Highlight ${text}`)
+	$(".mark-text").each(function(idx) {
+		var innerHTML = $( this ).html();
+		var index = innerHTML.toLowerCase().indexOf(text.toLowerCase());
+		if (index >= 0) {
+			innerHTML = innerHTML.substring(0,index) + "<mark>" + innerHTML.substring(index,index+text.length) + "</mark>" + innerHTML.substring(index + text.length);
+			$( this ).html(innerHTML);
+		}
+	});
+}
+
 const RELOAD_STATS_INTERVAL = 1
 import PersonFilterInput from './PersonFilterInput'
 import BankPersonCard from './BankPersonCard'
@@ -82,14 +101,15 @@ export default {
         return {
             persons: [],
             loaded: false,
-            total: 0,
+            totalRows: 0,
             registerQuery: '',
             perPage: 0,
             currentPage: 1,
             filter: '',
             busy: false,
             stats: {},
-            statsLoaded: false
+            statsLoaded: false,
+            message: null
         }
     },
     computed: {
@@ -105,6 +125,8 @@ export default {
         search(filter) {
             // TODO reset page if filter changes
             this.busy = true
+            this.message = null
+            this.loaded = false
             axios.get(`${this.apiUrl}?filter=${filter}&page=${this.currentPage}`)
                 .then((res) => {
                     this.filter = filter
@@ -113,6 +135,34 @@ export default {
                     this.perPage = res.data.meta.per_page
                     this.registerQuery = res.data.meta.register_query
                     this.loaded = true
+                    if (res.data.meta.terms.length > 0) {
+                        res.data.meta.terms.forEach(t => highlightText(t))
+                    }
+                })
+                .catch(err => handleAjaxError(err))
+                .then(() => this.busy = false)
+        },
+        searchCode(code) {
+            this.busy = true
+            this.message = null
+            this.loaded = false
+            axios.get(`${this.apiUrl}?card_no=${code}`)
+                .then((res) => {
+                    this.loaded = true
+                    this.filter = ''
+                    this.perPage = 0
+                    this.registerQuery = ''
+                    if (res.data.data) {
+                        this.persons = [ res.data.data ]
+                        this.totalRows = 1
+                        // TODO highlight term -> code
+                    } else {
+                        this.persons = []
+                        this.totalRows = 0
+                        if (res.data.message) {
+                            this.message = res.data.message
+                        }
+                    }
                 })
                 .catch(err => handleAjaxError(err))
                 .then(() => this.busy = false)
@@ -122,6 +172,7 @@ export default {
             this.persons = []
             this.totalRows = 0
             this.loaded = false
+            this.message = null
             this.loadStats()
         },
         loadStats() {

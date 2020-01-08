@@ -16,7 +16,7 @@ class PeopleController extends Controller
     {
         $this->authorizeResource(Person::class);
     }
-    
+
     public function create()
     {
         $countries = Countries::getList('en');
@@ -34,7 +34,7 @@ class PeopleController extends Controller
 
         $request->session()->put('filter', $person->search);
 
-        return redirect()->route('bank.withdrawalSearch')
+        return redirect()->route('bank.withdrawal')
             ->with('success', __('people::people.person_added'));
     }
 
@@ -66,7 +66,7 @@ class PeopleController extends Controller
     {
         $person->delete();
 
-        return redirect()->route('bank.withdrawalSearch')
+        return redirect()->route('bank.withdrawal')
             ->with('success', __('people::people.person_deleted'));
     }
 }

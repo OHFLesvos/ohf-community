@@ -5,6 +5,7 @@ namespace Modules\Bank\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use Modules\People\Entities\Person;
+use Modules\People\Entities\RevokedCard;
 
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;
@@ -29,16 +30,19 @@ class BankController extends Controller
         $todaysDailySpendingLimitedCoupons = BankStatistics::getTodaysDailySpendingLimitedCoupons();
 
 		return response()->json([
-            // 'numberOfPersonsServed' => $numberOfPersonsServed,
-            // 'numberOfCouponsHandedOut' => $numberOfCouponsHandedOut,
             'numbers' => __('people::people.num_persons_served_handing_out_coupons', [
                 'persons' => $numberOfPersonsServed,
                 'coupons' => $numberOfCouponsHandedOut,
             ]),
-            // 'todaysDailySpendingLimitedCoupons' => BankStatistics::getTodaysDailySpendingLimitedCoupons(),
-            'limitedCoupons' => collect($todaysDailySpendingLimitedCoupons)->map(function($coupon, $couponName){
-                return __('bank::coupons.coupons_handed_out_n_t', [ 'coupon' => $couponName, 'count' => $coupon['count'], 'limit' => $coupon['limit'] ]);
-            })->values()
+            'limitedCoupons' => collect($todaysDailySpendingLimitedCoupons)
+                ->map(function($coupon, $couponName){
+                    return __('bank::coupons.coupons_handed_out_n_t', [
+                        'coupon' => $couponName,
+                        'count' => $coupon['count'],
+                        'limit' => $coupon['limit']
+                    ]);
+                })
+                ->values()
 		]);
     }
 
@@ -50,51 +54,74 @@ class BankController extends Controller
      */
     public function search(Request $request)
     {
-
         $request->validate([
             'filter' => [
-                'required'
+                'required_without:card_no'
+            ],
+            'card_no' => [
+                'required_without:filter'
             ]
         ]);
-
-        $filter = $request->filter;
-
-        // Create query
-        $q = Person::orderBy('name', 'asc')
-            ->orderBy('family_name', 'asc');
-
-        // Handle OR keyword
-        $terms = [];
-        foreach(preg_split('/\s+OR\s+/', $filter) as $orTerm) {
-            $terms = preg_split('/\s+/', $orTerm);
-            $q->orWhere(function($aq) use ($terms){
-                foreach ($terms as $term) {
-                    // Remove dash "-" from term
-                    $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
-                    // Create like condition
-                    $aq->where(function($wq) use ($term) {
-                       $wq->where('search', 'LIKE', '%' . $term . '%');
-                       $wq->orWhere('police_no', $term);
-                       $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
-                    });
-                }
-            });
-        }
-        $limit = Config::get('bank.results_per_page');
-        $results = $q->paginate($limit);
-
-        $registerQuery = self::createRegisterStringFromFilter($filter);
 
         $couponTypes = CouponType::where('enabled', true)
             ->orderBy('order')
             ->orderBy('name')
             ->get();
 
+        if ($request->filled('card_no')) {
+            return $this->getPersonByCardNo($request->card_no, $couponTypes);
+        } else {
+            return $this->getPersonsByFilter($request->filter, $couponTypes);
+        }
+    }
 
-        return (new BankPersonCollection($results))
+    private function getPersonByCardNo($cardNo, $couponTypes)
+    {
+        // Check for revoked card number
+        $revoked = RevokedCard::where('card_no', $cardNo)->first();
+        if ($revoked != null) {
+            return response()->json([
+                'message' => __('people::people.card_revoked', [
+                    'card_no' => substr($cardNo, 0, 7),
+                    'date' => $revoked->created_at
+                ]),
+            ]);
+        }
+
+        $person = Person::where('card_no', $cardNo)->first();
+        if ($person != null) {
+            return (new BankPerson($person))
+                ->withCouponTypes($couponTypes);
+        } else {
+            return response()->json([]);
+        }
+    }
+
+    private function getPersonsByFilter($filter, $couponTypes)
+    {
+        $q = Person::orderBy('name', 'asc')
+            ->orderBy('family_name', 'asc');
+
+        $terms = preg_split('/\s+/', $filter);
+        $q->orWhere(function($aq) use ($terms){
+            foreach ($terms as $term) {
+                // Remove dash "-" from term
+                $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
+                // Create like condition
+                $aq->where(function($wq) use ($term) {
+                    $wq->where('search', 'LIKE', '%' . $term . '%');
+                    $wq->orWhere('police_no', $term);
+                    $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
+                });
+            }
+        });
+
+        $perPage = Config::get('bank.results_per_page');
+        return (new BankPersonCollection($q->paginate($perPage)))
             ->withCouponTypes($couponTypes)
             ->additional(['meta' => [
-                'register_query' => $registerQuery,
+                'register_query' => self::createRegisterStringFromFilter($filter),
+                'terms' => $terms,
             ]]);
     }
 
@@ -129,7 +156,8 @@ class BankController extends Controller
      * @param  \App\Http\Requests\People\Bank\StoreHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
-    public function handoutCoupon(Person $person, CouponType $couponType, StoreHandoutCoupon $request) {
+    public function handoutCoupon(Person $person, CouponType $couponType, StoreHandoutCoupon $request)
+    {
         $coupon = new CouponHandout();
         $coupon->date = Carbon::today();
         $coupon->amount = $request->amount;
@@ -155,7 +183,8 @@ class BankController extends Controller
      * @param  \App\Http\Requests\People\Bank\StoreUndoHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
-    public function undoHandoutCoupon(Person $person, CouponType $couponType, StoreUndoHandoutCoupon $request) {
+    public function undoHandoutCoupon(Person $person, CouponType $couponType, StoreUndoHandoutCoupon $request)
+    {
         $handout = $person->couponHandouts()
             ->where('coupon_type_id', $couponType->id)
             ->orderBy('date', 'desc')

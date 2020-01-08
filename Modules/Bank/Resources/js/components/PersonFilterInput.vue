@@ -64,14 +64,11 @@ export default {
             this.filter = ''
             this.$emit('reset')
         },
-        // Scan QR code card and search for the number
         scanCard() {
             scanQR((content) => {
                 // TODO input validation of code
-                this.filter = content
-                this.submit()
-                // $('#bank-container').empty().html('Searching card ...');
-                // document.location = '/bank/withdrawal/cards/' + content;
+                this.filter = ''
+                this.$emit('scan', content)
             });
         }
     },

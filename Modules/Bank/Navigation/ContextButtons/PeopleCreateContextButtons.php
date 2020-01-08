@@ -13,7 +13,7 @@ class PeopleCreateContextButtons implements ContextButtons {
     {
         return [
             'back' => [
-                'url' => route('bank.withdrawalSearch'),
+                'url' => route('bank.withdrawal'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Gate::allows('do-bank-withdrawals')

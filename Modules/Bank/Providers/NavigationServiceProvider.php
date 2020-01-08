@@ -21,13 +21,10 @@ class NavigationServiceProvider extends ServiceProvider
 
     protected $contextMenus = [
         'bank.withdrawal' => \Modules\Bank\Navigation\ContextMenu\BankWithdrawalContextMenu::class,
-        'bank.withdrawalSearch' => \Modules\Bank\Navigation\ContextMenu\BankWithdrawalContextMenu::class,
     ];
 
     protected $contextButtons = [
         'bank.withdrawal' => \Modules\Bank\Navigation\ContextButtons\BankIndexContextButtons::class,
-        'bank.withdrawalSearch' => \Modules\Bank\Navigation\ContextButtons\BankIndexContextButtons::class,
-        'bank.showCard' => \Modules\Bank\Navigation\ContextButtons\BankIndexContextButtons::class,
         'bank.deposit' => \Modules\Bank\Navigation\ContextButtons\BankDepositContextButtons::class,
         'bank.prepareCodeCard' => \Modules\Bank\Navigation\ContextButtons\BankCodeCardContextButtons::class,
         'bank.settings.edit' => \Modules\Bank\Navigation\ContextButtons\BankSettingsContextButtons::class,

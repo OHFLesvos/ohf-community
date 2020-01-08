@@ -5,7 +5,7 @@
 @section('content')
     @if( ! $transactions->isEmpty() )
         <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
+            <table class="table table-sm table-bordered table-striped table-hover mb-4">
                 <thead>
                     <tr>
                         <th>@lang('app.registered')</th>
