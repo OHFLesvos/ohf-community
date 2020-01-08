@@ -4,53 +4,35 @@
 
 @section('wrapped-content')
 
-    <div id="bank-container"><div id="bank-app">
+    @php
+        $lang_arr = lang_arr([
+            'app.register',
+            'people::people.police_number',
+            'people::people.case_number',
+            'app.yes',
+            'library::library.library',
+            'people::people.no_coupons_defined',
+            'helpers::helpers.helper',
+            'app.undo',
+            'people::people.remarks',
+            'people::people.click_to_add_remarks',
+            'people::people.bank_search_text',
+            'people::people.scan_card',
+            'app.not_found',
+            'people::people.register_a_new_person',
+            'people::people.not_yet_served_any_persons'
+        ]);
+    @endphp
 
-        @include('bank::person-search')
-
-        @if(count($results) > 0)
-            @php
-                $ids = [];
-            @endphp
-            @foreach ($results as $person)
-                @php
-                    if (in_array($person->id, $ids)) {
-                        continue;
-                    }
-                    $members = $person->otherFamilyMembers;
-                @endphp
-                @include('bank::person-card', [ 'bottom_margin' => $members->count() > 0 ? 0 : 5 ])
-                @if ($members->count() > 0)
-                    @foreach($members->sortByDesc('age') as $member)
-                        @php
-                            $ids[] = $member->id;
-                        @endphp
-                        @include('bank::person-card', [ 'person' => $member, 'bottom_margin' => $loop->last ? 5 : 0 ])
-                    @endforeach
-                @endif
-            @endforeach
-            {{ $results->appends(['filter' => $filter])->links() }}
-        @else
-            @if(isset($message))
-                @component('components.alert.error')
-                    {{ $message }}
-                @endcomponent
-            @else
-                @component('components.alert.info')
-                    @lang('app.not_found').
-                @endcomponent
-                @can('create', Modules\People\Entities\Person::class)
-                <p>
-                    <a href="{{ route('bank.people.create') }}?{{ $register }}" class="btn btn-primary">
-                        @icon(plus-circle)
-                        @lang('people::people.register_a_new_person')
-                    </a>
-                </p>
-                @endcan
-            @endif
-        @endif
-
-    </div></div>
+    <div id="bank-app">
+        <withdrawal-results
+            api-url="{{ route('api.bank.withdrawal.search') }}"
+            stats-api-url="{{ route('api.bank.withdrawal.dailyStats') }}"
+            :lang='@json($lang_arr)'
+            @can('create', Modules\People\Entities\Person::class)can-register-person
+            register-person-url="{{ route('bank.people.create') }}" @endcan
+        ></withdrawal-results>
+    </div>
 
 @endsection
 

@@ -85,7 +85,7 @@
         <!-- Card footer -->
         <div class="card-body p-0 px-2 pt-2">
             <coupon-handout-buttons
-                :couponTypes="eligibleCouponTypes"
+                :couponTypes="person.coupon_types"
                 :lang="lang"
                 :disabled="disabled"
             ></coupon-handout-buttons>
@@ -141,9 +141,6 @@
                     return 'background: lightgoldenrodyellow;'
                 }
                 return null
-            },
-            eligibleCouponTypes() {
-                return this.person.coupon_types.filter(c => c.person_eligible_for_coupon)
             }
         }
     }

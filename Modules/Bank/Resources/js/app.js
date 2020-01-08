@@ -4,37 +4,21 @@ import Vue from 'vue'
 
 import Icon from '@app/components/Icon'
 import BankPersonCard from './components/BankPersonCard.vue'
+import WithdrawalResults from './components/WithdrawalResults.vue'
 
 Vue.component('icon', Icon);
+
+// import BootstrapVue from 'bootstrap-vue'
+// Vue.use(BootstrapVue)
 
 new Vue({
 	el: '#bank-app',
 	components: {
 		Icon,
-		BankPersonCard
+		BankPersonCard,
+		WithdrawalResults
 	}
 });
-
-$(function(){
-
-	// Scan QR code card and search for the number
-	$('#scan-id-button').on('click', () => {
-		scanQR((content) => {
-			// TODO input validation of code
-			$('#bank-container').empty().html('Searching card ...');
-			document.location = '/bank/withdrawal/cards/' + content;
-		});
-	});
-
-	enableFilterSelect();
-});
-
-function enableFilterSelect() {
-	$('#filter').off('click');
-	$('#filter').on('focus', () => {
-		$(this).select();
-	});
-}
 
 // Highlighting of search results
 function highlightText(text) {

@@ -27,6 +27,9 @@
         'can_operate_library' => Gate::allows('operate-library'),
         'library_lending_person_url' => is_module_enabled('Library') ? route('library.lending.person', $person) : null,
         'coupon_types' => collect($couponTypes)
+            ->filter(function($coupon) use($person)  {
+                return $person->eligibleForCoupon($coupon);
+            })
             ->map(function($coupon) use($person) {
                 $returning_possible = optional($person->couponHandouts()
                     ->where('coupon_type_id', $coupon->id)
@@ -40,13 +43,12 @@
                     'min_age' => $coupon->min_age,
                     'max_age' => $coupon->max_age,
                     'qr_code_enabled' => $coupon->qr_code_enabled,
-                    'person_eligible_for_coupon' => $person->eligibleForCoupon($coupon),
                     'last_handout' => $person->canHandoutCoupon($coupon),
                     'handout_url' => route('bank.handoutCoupon', [$person, $coupon]),
                     'returning_possible' => $returning_possible,
                 ];
             })
-            ->toArray()
+            ->values()
     ];
     $lang_arr = lang_arr([
         'app.register',
