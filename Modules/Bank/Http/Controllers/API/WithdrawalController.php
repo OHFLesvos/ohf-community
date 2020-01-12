@@ -17,24 +17,25 @@ use Modules\Bank\Transformers\BankPersonCollection;
 use Modules\Bank\Transformers\WithdrawalTransaction;
 use Modules\Bank\Util\BankStatisticsProvider;
 use Modules\Bank\Repositories\CouponTypeRepository;
+use Modules\Bank\Repositories\CouponHandoutRepository;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
-
-use OwenIt\Auditing\Models\Audit;
-use Illuminate\Database\Eloquent\Builder;
 
 class WithdrawalController extends Controller
 {
     private $revokedCards;
     private $persons;
     private $couponTypes;
+    private $couponHandouts;
 
-    public function __construct(RevokedCardRepository $revokedCards, PersonRepository $persons, CouponTypeRepository $couponTypes)
+    public function __construct(RevokedCardRepository $revokedCards, PersonRepository $persons,
+        CouponTypeRepository $couponTypes, CouponHandoutRepository $couponHandouts)
     {
         $this->revokedCards = $revokedCards;
         $this->persons = $persons;
         $this->couponTypes = $couponTypes;
+        $this->couponHandouts = $couponHandouts;
     }
 
     /**
@@ -79,34 +80,15 @@ class WithdrawalController extends Controller
         ]);
 
         $perPage = $request->input('perPage');
+
         if ($request->filled('filter')) {
-            $data = self::getTransactionsByFilter($request->input('filter'), $perPage);
+            $terms = split_by_whitespace($request->input('filter'));
+            $data = $this->couponHandouts->getAuditsFilteredByPerson($terms, $perPage);
         } else {
-            $data = self::getTransactions($perPage);
+            $data = $this->couponHandouts->getAudits($perPage);
         }
 
         return WithdrawalTransaction::collection($data);
-    }
-
-    private static function getTransactionsByFilter(?string $filter, ?int $perPage)
-    {
-        return CouponHandout::whereHas('person', function (Builder $query) use ($filter) {
-                $query->where(function(Builder $innerQuery) use ($filter) {
-                    $terms = split_by_whitespace($filter);
-                    $innerQuery->filterByTerms($terms);
-                });
-            })
-            ->orderBy('created_at', 'DESC')
-            ->paginate($perPage)
-            ->map(function($e){ return optional($e->audits()->latest())->first(); })
-            ->filter();
-    }
-
-    private static function getTransactions(?int $perPage)
-    {
-        return Audit::where('auditable_type', CouponHandout::class)
-            ->orderBy('created_at', 'DESC')
-            ->paginate($perPage);
     }
 
     /**
