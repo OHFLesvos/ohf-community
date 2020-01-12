@@ -13,7 +13,7 @@ use Modules\Bank\Http\Requests\StoreHandoutCoupon;
 use Modules\Bank\Http\Requests\StoreUndoHandoutCoupon;
 use Modules\Bank\Transformers\BankPerson;
 use Modules\Bank\Transformers\BankPersonCollection;
-use Modules\Bank\Util\BankStatistics;
+use Modules\Bank\Util\BankStatisticsProvider;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,11 +23,11 @@ use Carbon\Carbon;
 
 class BankController extends Controller
 {
-    public function dailyStats()
+    public function dailyStats(BankStatisticsProvider $stats)
     {
-        $numberOfPersonsServed = BankStatistics::getNumberOfPersonsServedToday();
-        $numberOfCouponsHandedOut = BankStatistics::getNumberOfCouponsHandedOut();
-        $todaysDailySpendingLimitedCoupons = BankStatistics::getTodaysDailySpendingLimitedCoupons();
+        $numberOfPersonsServed = $stats->getNumberOfPersonsServed();
+        $numberOfCouponsHandedOut = $stats->getNumberOfCouponsHandedOut();
+        $todaysDailySpendingLimitedCoupons = $stats->getCouponsWithSpendingLimit();
 
 		return response()->json([
             'numbers' => __('people::people.num_persons_served_handing_out_coupons', [
