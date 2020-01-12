@@ -26,7 +26,7 @@ Route::middleware(['language', 'auth'])->group(function () {
                 ->name('withdrawal');
 
             Route::view('withdrawal/transactions', 'bank::withdrawal.transactions')
-                ->name('withdrawalTransactions')
+                ->name('withdrawal.transactions')
                 ->middleware('can:list,Modules\People\Entities\Person');
 
             Route::get('codeCard', 'CodeCardController@create')

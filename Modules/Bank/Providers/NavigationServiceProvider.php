@@ -28,7 +28,7 @@ class NavigationServiceProvider extends ServiceProvider
         'bank.deposit' => \Modules\Bank\Navigation\ContextButtons\BankDepositContextButtons::class,
         'bank.prepareCodeCard' => \Modules\Bank\Navigation\ContextButtons\BankCodeCardContextButtons::class,
         'bank.settings.edit' => \Modules\Bank\Navigation\ContextButtons\BankSettingsContextButtons::class,
-        'bank.withdrawalTransactions' => \Modules\Bank\Navigation\ContextButtons\BankWithdrawalTransactionsContextButtons::class,
+        'bank.withdrawal.transactions' => \Modules\Bank\Navigation\ContextButtons\BankWithdrawalTransactionsContextButtons::class,
         'bank.depositTransactions' => \Modules\Bank\Navigation\ContextButtons\BankDepositTransactionsContextButtons::class,
         'bank.maintenance' => \Modules\Bank\Navigation\ContextButtons\BankMaintenanceContextButtons::class,
         'bank.export' => \Modules\Bank\Navigation\ContextButtons\BankExportContextButtons::class,

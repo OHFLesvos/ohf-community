@@ -20,7 +20,7 @@ class BankIndexContextButtons implements ContextButtons {
         $help_article = $help_article_id != null ? WikiArticle::find($help_article_id) : null;
         return [
             'transactions' => [
-                'url' => route('bank.withdrawalTransactions'),
+                'url' => route('bank.withdrawal.transactions'),
                 'caption' => __('app.transactions'),
                 'icon' => 'list',
                 'authorized' => Gate::allows('do-bank-withdrawals') && Auth::user()->can('list', Person::class)
