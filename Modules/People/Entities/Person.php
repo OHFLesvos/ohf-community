@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 use Carbon\Carbon;
 
@@ -23,14 +24,14 @@ class Person extends Model
 
     use SoftDeletes;
     use NullableFields;
-    
+
     protected $table = 'persons';
 
     protected $dates = [
         'deleted_at',
         'card_issued',
     ];
-    
+
     protected $fillable = [
         'name',
         'family_name',
@@ -43,7 +44,7 @@ class Person extends Model
         'languages_string',
         'remarks'
     ];
-    
+
     protected $nullable = [
         'date_of_birth',
         'nickname',
@@ -60,7 +61,7 @@ class Person extends Model
         static::updating(function ($model) {
             $model->search = self::createSearchString($model);
         });
-        
+
         static::deleting(function($model) {
             if ($model->helper != null) {
                 $model->helper->delete();
@@ -79,7 +80,7 @@ class Person extends Model
         $str = $model->name . ' ' . $model->family_name;
         return preg_replace('/\s+/', ' ', trim($str));
     }
-    
+
     /**
      * Get the helper record associated with the person.
      */
@@ -106,7 +107,7 @@ class Person extends Model
      */
     protected $casts = [
         'languages' => 'array',
-    ];    
+    ];
 
     public function getAgeAttribute()
     {
@@ -198,7 +199,7 @@ class Person extends Model
     {
         return $this->belongsTo(Person::class);
     }
-    
+
     function partner()
     {
         return $this->hasOne(Person::class, 'partner_id');
@@ -241,8 +242,8 @@ class Person extends Model
         if ($partner != null) {
             $children = $partner->children;
             if ($children != null && $children->count() > 0) {
-                $children->filter(function($m) use ($ownChildrenIds) { 
-                        return $m->id != $this->id && !$ownChildrenIds->contains($m->id); 
+                $children->filter(function($m) use ($ownChildrenIds) {
+                        return $m->id != $this->id && !$ownChildrenIds->contains($m->id);
                     })->each(function($c) use(&$results) {
                         $results[] = $c;
                     });
@@ -483,7 +484,7 @@ class Person extends Model
             '75+' => Person::whereNotNull('date_of_birth')
                 ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(75))
                 ->select('date_of_birth')
-                ->count(),            
+                ->count(),
         ];
     }
 
@@ -513,7 +514,7 @@ class Person extends Model
 		ksort($registrations);
 		return $registrations;
     }
-    
+
     public static function getAvgRegistrationsPerDay(Carbon $dateFrom = null, Carbon $dateTo = null): int
     {
         $avg = DB::table(function ($query) use ($dateFrom, $dateTo) {
@@ -530,5 +531,28 @@ class Person extends Model
             })
             ->avg('total');
         return round($avg);
+    }
+
+    /**
+     * Scope to filter persons by name or ID numbers.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array $terms
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFilterByTerms(Builder $query, array $terms)
+    {
+        return $query->orWhere(function($aq) use ($terms) {
+            foreach ($terms as $term) {
+                // Remove dash "-" from term
+                $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
+                // Create like condition
+                $aq->where(function($wq) use ($term) {
+                    $wq->where('search', 'LIKE', '%' . $term . '%');
+                    $wq->orWhere('police_no', $term);
+                    $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
+                });
+            }
+        });
     }
 }

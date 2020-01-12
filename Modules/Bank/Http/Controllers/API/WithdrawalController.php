@@ -5,7 +5,8 @@ namespace Modules\Bank\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use Modules\People\Entities\Person;
-use Modules\People\Entities\RevokedCard;
+use Modules\People\Repositories\RevokedCardRepository;
+use Modules\People\Repositories\PersonRepository;
 
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;
@@ -15,9 +16,9 @@ use Modules\Bank\Transformers\BankPerson;
 use Modules\Bank\Transformers\BankPersonCollection;
 use Modules\Bank\Transformers\WithdrawalTransaction;
 use Modules\Bank\Util\BankStatisticsProvider;
+use Modules\Bank\Repositories\CouponTypeRepository;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
 use OwenIt\Auditing\Models\Audit;
@@ -25,6 +26,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 class WithdrawalController extends Controller
 {
+    private $revokedCards;
+    private $persons;
+    private $couponTypes;
+
+    public function __construct(RevokedCardRepository $revokedCards, PersonRepository $persons, CouponTypeRepository $couponTypes)
+    {
+        $this->revokedCards = $revokedCards;
+        $this->persons = $persons;
+        $this->couponTypes = $couponTypes;
+    }
+
     /**
      * Provides statistics from the current day
      *
@@ -65,28 +77,36 @@ class WithdrawalController extends Controller
                 'min:1'
             ]
         ]);
+
         $perPage = $request->input('perPage');
         if ($request->filled('filter')) {
-            $data = self::getTransactionDataByFilter($request->input('filter'), $perPage);
+            $data = self::getTransactionsByFilter($request->input('filter'), $perPage);
         } else {
-            $data = Audit::where('auditable_type', CouponHandout::class)
-                ->orderBy('created_at', 'DESC')
-                ->paginate($perPage);
+            $data = self::getTransactions($perPage);
         }
+
         return WithdrawalTransaction::collection($data);
     }
 
-    private static function getTransactionDataByFilter(?string $filter, ?int $perPage)
+    private static function getTransactionsByFilter(?string $filter, ?int $perPage)
     {
         return CouponHandout::whereHas('person', function (Builder $query) use ($filter) {
-                $query->where(function(Builder $q) use ($filter) {
-                    self::personFilterQuery($q, $filter);
+                $query->where(function(Builder $innerQuery) use ($filter) {
+                    $terms = split_by_whitespace($filter);
+                    $innerQuery->filterByTerms($terms);
                 });
             })
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage)
             ->map(function($e){ return optional($e->audits()->latest())->first(); })
             ->filter();
+    }
+
+    private static function getTransactions(?int $perPage)
+    {
+        return Audit::where('auditable_type', CouponHandout::class)
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage);
     }
 
     /**
@@ -106,23 +126,16 @@ class WithdrawalController extends Controller
             ]
         ]);
 
-        $couponTypes = CouponType::where('enabled', true)
-            ->orderBy('order')
-            ->orderBy('name')
-            ->get();
-
         if ($request->filled('card_no')) {
-            return $this->getPersonByCardNo($request->card_no, $couponTypes);
+            return $this->getPersonByCardNo($request->card_no);
         } else {
-            return $this->getPersonsByFilter($request->filter, $couponTypes);
+            return $this->getPersonsByFilter($request->filter);
         }
     }
 
-    private function getPersonByCardNo($cardNo, $couponTypes)
+    private function getPersonByCardNo($cardNo)
     {
-        // Check for revoked card number
-        $revoked = RevokedCard::where('card_no', $cardNo)->first();
-        if ($revoked != null) {
+        if (($revoked = $this->revokedCards->findByCardNumber($cardNo)) !== null) {
             return response()->json([
                 'message' => __('people::people.card_revoked', [
                     'card_no' => substr($cardNo, 0, 7),
@@ -131,54 +144,34 @@ class WithdrawalController extends Controller
             ]);
         }
 
-        $person = Person::where('card_no', $cardNo)->first();
-        if ($person != null) {
+        if (($person = $this->persons->findByCardNumber($cardNo)) !== null) {
             return (new BankPerson($person))
-                ->withCouponTypes($couponTypes);
+                ->withCouponTypes($this->couponTypes->getEnabled());
         } else {
             return response()->json([]);
         }
     }
 
-    private function getPersonsByFilter($filter, $couponTypes)
+    private function getPersonsByFilter($filter)
     {
-        $q = Person::orderBy('name', 'asc')
-            ->orderBy('family_name', 'asc');
-
-        $terms = self::personFilterQuery($q, $filter);
-
+        $terms = split_by_whitespace($filter);
         $perPage = Config::get('bank.results_per_page');
-        return (new BankPersonCollection($q->paginate($perPage)))
-            ->withCouponTypes($couponTypes)
+
+        $data = $this->persons->filterByTerms($terms, $perPage);
+
+        return (new BankPersonCollection($data))
+            ->withCouponTypes($this->couponTypes->getEnabled())
             ->additional(['meta' => [
                 'register_query' => self::createRegisterStringFromFilter($filter),
                 'terms' => $terms,
             ]]);
     }
 
-    private static function personFilterQuery(&$query, $filter)
-    {
-        $terms = preg_split('/\s+/', $filter);
-        $query->orWhere(function($aq) use ($terms){
-            foreach ($terms as $term) {
-                // Remove dash "-" from term
-                $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
-                // Create like condition
-                $aq->where(function($wq) use ($term) {
-                    $wq->where('search', 'LIKE', '%' . $term . '%');
-                    $wq->orWhere('police_no', $term);
-                    $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
-                });
-            }
-        });
-        return $terms;
-    }
-
     private static function createRegisterStringFromFilter($filter)
     {
         $register = [];
         $names = [];
-        foreach (preg_split('/\s+/', $filter) as $q) {
+        foreach (split_by_whitespace($filter) as $q) {
             if (is_numeric($q)) {
                 $register['case_no'] = $q;
             } else {

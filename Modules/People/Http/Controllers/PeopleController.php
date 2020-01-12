@@ -79,7 +79,7 @@ class PeopleController extends Controller
         }
 
 		return redirect()->route('people.index')
-				->with('success', __('people::people.person_added'));		
+				->with('success', __('people::people.person_added'));
 	}
 
     public function show(Person $person)
@@ -92,7 +92,7 @@ class PeopleController extends Controller
     public function qrCode(Person $person)
     {
         $qrCode = new QrCode($person->public_id);
-        $qrCode->setLabel($person->fullName, 16, null, LabelAlignment::CENTER);   
+        $qrCode->setLabel($person->fullName, 16, null, LabelAlignment::CENTER);
         return response($qrCode->writeString())
             ->header('Content-Type', $qrCode->getContentType());
     }
@@ -148,10 +148,10 @@ class PeopleController extends Controller
                         }
                         if ($request->type == 'mother') {
                             $query->whereNull('mother_id');
-                        }                        
+                        }
                         if ($request->type == 'partner') {
                             $query->whereNull('partner_id');
-                        }                        
+                        }
                     }),
             ],
         ])->validate();
@@ -228,7 +228,7 @@ class PeopleController extends Controller
         return redirect()->route('people.relations', $person)
             ->with('success', 'Mother "' . $mother->full_name . '" has been removed!');
     }
-    
+
     public function destroy(Person $person)
     {
         $person->delete();
@@ -261,7 +261,7 @@ class PeopleController extends Controller
             ],
 		]);
     }
-    
+
     public function applyDuplicates(Request $request)
     {
         Validator::make($request->all(), [
@@ -353,7 +353,7 @@ class PeopleController extends Controller
                 $e->person_id = $master->id;
                 try {
                     $e->save();
-                } catch(\Illuminate\Database\QueryException $ex){ 
+                } catch(\Illuminate\Database\QueryException $ex){
                     // Ignore
                     Log::notice('Skip adapting coupon handout during merge: ' . $ex->getMessage());
                 }
@@ -388,7 +388,7 @@ class PeopleController extends Controller
             })
             ->first();
     }
-  
+
     public function bulkAction(Request $request)
     {
         Validator::make($request->all(), [
@@ -409,7 +409,7 @@ class PeopleController extends Controller
 
         // Merge
         if ($action == 'merge') {
-            
+
             $n = self::mergePersons($ids);
 
             return redirect()->route('people.index')
@@ -466,7 +466,7 @@ class PeopleController extends Controller
         $qry = Person::orderBy('name')
             ->orderBy('family_name');
         foreach ($lines as $line) {
-            $terms = preg_split('/\s+/', $line);
+            $terms = split_by_whitespace($line);
             $qry->orWhere(function($qp) use ($terms) {
                 foreach ($terms as $term) {
                     // Remove dash "-" from term

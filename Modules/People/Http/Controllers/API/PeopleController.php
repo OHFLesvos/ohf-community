@@ -102,7 +102,7 @@ class PeopleController extends Controller
             ->orderBy('name')
             ->orderBy('family_name');
         if (isset($request->query()['query'])) {
-            $terms = preg_split('/\s+/', $request->query()['query']);
+            $terms = split_by_whitespace($request->query()['query']);
             foreach ($terms as $term) {
                 $qry->where(function($wq) use ($term) {
                     $wq->where('search', 'LIKE', '%' . $term  . '%');
