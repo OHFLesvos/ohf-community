@@ -21,6 +21,8 @@ Route::group(['middleware' => ['language', 'auth']], function () {
         ->group(function () {
             Route::get('withdrawal/dailyStats', 'BankController@dailyStats')
                 ->name('dailyStats');
+            Route::get('withdrawal/transactions', 'BankController@transactions')
+                ->name('transactions');
             Route::get('withdrawal/search', 'BankController@search')
                 ->name('search');
             Route::post('person/{person}/couponType/{couponType}/handout', 'BankController@handoutCoupon')

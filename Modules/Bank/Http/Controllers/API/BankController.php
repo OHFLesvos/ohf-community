@@ -13,14 +13,23 @@ use Modules\Bank\Http\Requests\StoreHandoutCoupon;
 use Modules\Bank\Http\Requests\StoreUndoHandoutCoupon;
 use Modules\Bank\Transformers\BankPerson;
 use Modules\Bank\Transformers\BankPersonCollection;
+use Modules\Bank\Transformers\WithdrawalTransaction;
 use Modules\Bank\Util\BankStatisticsProvider;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
+use OwenIt\Auditing\Models\Audit;
+
 class BankController extends Controller
 {
+    /**
+     * Provides statistics from the current day
+     *
+     * @param \Modules\Bank\Util\BankStatisticsProvider $stats
+     * @return \Illuminate\Http\Response
+     */
     public function dailyStats(BankStatisticsProvider $stats)
     {
 		return response()->json([
@@ -38,6 +47,26 @@ class BankController extends Controller
                 })
                 ->values()
 		]);
+    }
+
+    /**
+     * Returns withdrawal transactions ordered by date (latest first)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function transactions(Request $request) {
+        $request->validate([
+            'perPage' => [
+                'nullable',
+                'integer',
+                'min:1'
+            ]
+        ]);
+        $data = Audit::where('auditable_type', CouponHandout::class)
+            ->orderBy('created_at', 'DESC')
+            ->paginate($request->input('perPage'));
+        return WithdrawalTransaction::collection($data);
     }
 
     /**
@@ -147,7 +176,9 @@ class BankController extends Controller
     /**
      * Handout coupon to person.
      *
-     * @param  \App\Http\Requests\People\Bank\StoreHandoutCoupon  $request
+     * @param \Modules\People\Entities\Person $person
+     * @param \Modules\Bank\Entities\CouponType $couponType
+     * @param \Modules\Bank\Http\Requests\StoreHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
     public function handoutCoupon(Person $person, CouponType $couponType, StoreHandoutCoupon $request)
@@ -174,7 +205,9 @@ class BankController extends Controller
     /**
      * Undo handing out coupon to person.
      *
-     * @param  \App\Http\Requests\People\Bank\StoreUndoHandoutCoupon  $request
+     * @param \Modules\People\Entities\Person $person
+     * @param \Modules\Bank\Entities\CouponType $couponType
+     * @param  \Modules\Bank\Http\Requests\StoreUndoHandoutCoupon  $request
      * @return \Illuminate\Http\Response
      */
     public function undoHandoutCoupon(Person $person, CouponType $couponType, StoreUndoHandoutCoupon $request)

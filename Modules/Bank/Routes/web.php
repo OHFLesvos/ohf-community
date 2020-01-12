@@ -25,7 +25,7 @@ Route::middleware(['language', 'auth'])->group(function () {
             Route::view('withdrawal', 'bank::withdrawal')
                 ->name('withdrawal');
 
-            Route::get('withdrawal/transactions', 'WithdrawalController@transactions')
+            Route::view('withdrawal/transactions', 'bank::withdrawal.transactions')
                 ->name('withdrawalTransactions')
                 ->middleware('can:list,Modules\People\Entities\Person');
 
