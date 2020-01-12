@@ -22,7 +22,7 @@ Route::middleware(['language', 'auth'])->group(function () {
                 return redirect()->route('bank.withdrawal');
             })->name('index');
 
-            Route::view('withdrawal', 'bank::withdrawal')
+            Route::view('withdrawal', 'bank::withdrawal.search')
                 ->name('withdrawal');
 
             Route::view('withdrawal/transactions', 'bank::withdrawal.transactions')
