@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- Filter input field -->
         <b-form-input
             type="search"
             v-model="filter"
@@ -8,6 +9,8 @@
             class="mb-3"
             size="sm"
         ></b-form-input>
+
+        <!-- Table of audit records -->
         <b-table
             striped small hover responsive bordered
             primary-key="id"
@@ -23,21 +26,28 @@
             ref="table"
             :filter="filter"
         >
+            <!-- Busy state -->
             <template v-slot:table-busy v-if="!initialized">
                 <div class="text-center my-2">
                     <icon name="spinner" :spin="true"></icon> {{ lang['app.loading'] }}
                 </div>
             </template>
+
+            <!-- Created at column -->
             <template v-slot:cell(created_at)="data">
                 <span :title="data.value">{{ data.item.created_at_diff }}</span>
                 <small class="text-muted" v-if="data.item.user">
                     <icon name="user"></icon> {{ data.item.user }}
                 </small>
             </template>
+
+            <!-- Date column -->
             <template v-slot:cell(date)="data">
                 <template v-if="data.value">{{ data.value }}</template>
                 <em v-else>{{ lang['app.not_found'] }}</em>
             </template>
+
+            <!-- Recipient column -->
             <template v-slot:cell(person)="data">
                 <template v-if="data.value">
                     <icon name="female" v-if="data.value.gender == 'f'"></icon>
@@ -54,6 +64,8 @@
                 </template>
                 <em v-else>{{ lang['app.not_found'] }}</em>
             </template>
+
+            <!-- Amount column -->
             <template v-slot:cell(coupon)="data">
                 <template v-if="data.value">
                     {{ data.value.amount_diff }}
@@ -62,8 +74,11 @@
                 <em v-else>{{ lang['app.not_found'] }}</em>
             </template>
         </b-table>
+
+        <!-- Footer -->
         <b-row>
             <b-col>
+                <!-- Pagination -->
                 <b-pagination
                     v-if="totalRows > 0 && perPage > 0"
                     size="sm"
@@ -73,6 +88,7 @@
                 ></b-pagination>
             </b-col>
             <b-col cols="auto">
+                <!-- Refresh button -->
                 <b-button
                     v-if="initialized"
                     variant="primary"
