@@ -1,5 +1,13 @@
 <template>
     <div>
+        <b-form-input
+            type="search"
+            v-model="filter"
+            debounce="500"
+            :placeholder="lang['app.filter']"
+            class="mb-3"
+            size="sm"
+        ></b-form-input>
         <b-table
             striped small hover responsive bordered
             primary-key="id"
@@ -10,12 +18,14 @@
             :per-page="perPage"
             :api-url="apiUrl"
             :show-empty="initialized"
-            :emptyText="lang['people::people.no_transactions_so_far']"
+            :empty-text="lang['people::people.no_transactions_so_far']"
+            :empty-filtered-text="lang['app.no_records_matching_your_request']"
             ref="table"
+            :filter="filter"
         >
             <template v-slot:table-busy v-if="!initialized">
                 <div class="text-center my-2">
-                    {{ lang['app.loading'] }}
+                    <icon name="spinner" :spin="true"></icon> {{ lang['app.loading'] }}
                 </div>
             </template>
             <template v-slot:cell(created_at)="data">
@@ -79,7 +89,7 @@
 
 <script>
 const ITEMS_PER_PAGE = 100
-import { BTable, BPagination, BButton, BRow, BCol } from 'bootstrap-vue'
+import { BTable, BPagination, BButton, BRow, BCol, BFormInput } from 'bootstrap-vue'
 import { handleAjaxError } from '@app/utils'
 export default {
     components: {
@@ -87,7 +97,8 @@ export default {
         BPagination,
         BButton,
         BRow,
-        BCol
+        BCol,
+        BFormInput
     },
     props: {
         apiUrl: {
@@ -123,7 +134,8 @@ export default {
             perPage: ITEMS_PER_PAGE,
             currentPage: 1,
             isBusy: false,
-            initialized: false
+            initialized: false,
+            filter: ''
         }
     },
     methods: {
@@ -132,10 +144,10 @@ export default {
         },
         itemProvider(ctx) {
             this.isBusy = true
-            return axios.get(`${ctx.apiUrl}?page=${ctx.currentPage}&perPage=${ctx.perPage}`)
+            return axios.get(`${ctx.apiUrl}?page=${ctx.currentPage}&perPage=${ctx.perPage}&filter=${ctx.filter}`)
                 .then(res => {
                     const items = res.data.data
-                    this.totalRows = res.data.meta.total
+                    this.totalRows = res.data.meta && res.data.meta ? res.data.meta.total : 0
                     this.isBusy = false
                     this.initialized = true
                     return items || []

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
 use OwenIt\Auditing\Models\Audit;
+use Illuminate\Database\Eloquent\Builder;
 
 class BankController extends Controller
 {
@@ -63,10 +64,28 @@ class BankController extends Controller
                 'min:1'
             ]
         ]);
-        $data = Audit::where('auditable_type', CouponHandout::class)
-            ->orderBy('created_at', 'DESC')
-            ->paginate($request->input('perPage'));
+        $perPage = $request->input('perPage');
+        if ($request->filled('filter')) {
+            $data = self::getTransactionDataByFilter($request->input('filter'), $perPage);
+        } else {
+            $data = Audit::where('auditable_type', CouponHandout::class)
+                ->orderBy('created_at', 'DESC')
+                ->paginate($perPage);
+        }
         return WithdrawalTransaction::collection($data);
+    }
+
+    private static function getTransactionDataByFilter(?string $filter, ?int $perPage)
+    {
+        return CouponHandout::whereHas('person', function (Builder $query) use ($filter) {
+                $query->where(function(Builder $q) use ($filter) {
+                    self::personFilterQuery($q, $filter);
+                });
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage)
+            ->map(function($e){ return optional($e->audits()->latest())->first(); })
+            ->filter();
     }
 
     /**
@@ -125,8 +144,21 @@ class BankController extends Controller
         $q = Person::orderBy('name', 'asc')
             ->orderBy('family_name', 'asc');
 
+        $terms = self::personFilterQuery($q, $filter);
+
+        $perPage = Config::get('bank.results_per_page');
+        return (new BankPersonCollection($q->paginate($perPage)))
+            ->withCouponTypes($couponTypes)
+            ->additional(['meta' => [
+                'register_query' => self::createRegisterStringFromFilter($filter),
+                'terms' => $terms,
+            ]]);
+    }
+
+    private static function personFilterQuery(&$query, $filter)
+    {
         $terms = preg_split('/\s+/', $filter);
-        $q->orWhere(function($aq) use ($terms){
+        $query->orWhere(function($aq) use ($terms){
             foreach ($terms as $term) {
                 // Remove dash "-" from term
                 $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
@@ -138,14 +170,7 @@ class BankController extends Controller
                 });
             }
         });
-
-        $perPage = Config::get('bank.results_per_page');
-        return (new BankPersonCollection($q->paginate($perPage)))
-            ->withCouponTypes($couponTypes)
-            ->additional(['meta' => [
-                'register_query' => self::createRegisterStringFromFilter($filter),
-                'terms' => $terms,
-            ]]);
+        return $terms;
     }
 
     private static function createRegisterStringFromFilter($filter)

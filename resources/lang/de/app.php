@@ -303,4 +303,5 @@ return [
     'bulk_search' => 'Massensuche',
     'data' => 'Daten',
     'valid_for_n_days' => 'Gültig für einen Tag.|Gültig für :days Tage.',
+    'no_records_matching_your_request' => 'Keine Datensätze entsprechen deiner Anfrage.',
 ];
