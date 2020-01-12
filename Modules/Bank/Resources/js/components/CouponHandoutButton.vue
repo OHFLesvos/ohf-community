@@ -59,7 +59,6 @@ export default {
         handoutCoupon(){
             if (this.qr_code_enabled) {
                 scanQR((content) => {
-                    // TODO input validation of code
                     this.sendHandoutRequest({
                         "amount": this.daily_amount,
                         'code': content,

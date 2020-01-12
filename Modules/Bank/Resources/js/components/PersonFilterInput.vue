@@ -66,7 +66,6 @@ export default {
         },
         scanCard() {
             scanQR((content) => {
-                // TODO input validation of code
                 this.filter = ''
                 this.$emit('scan', content)
             });

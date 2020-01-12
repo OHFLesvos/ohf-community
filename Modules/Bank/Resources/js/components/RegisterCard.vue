@@ -53,7 +53,6 @@
                     return;
                 }
                 scanQR((content) => {
-                    // TODO input validation of code
                     this.busy = true
                     axios.patch(this.apiUrl, {
                             "card_no": content,
