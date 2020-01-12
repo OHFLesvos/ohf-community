@@ -33,7 +33,7 @@ class BankStatisticsProvider
             ->total;
     }
 
-    public function getCouponsWithSpendingLimit() {
+    public function getCouponsWithSpendingLimit() : \Illuminate\Support\Collection {
         return CouponType::select('name', 'daily_spending_limit')
             ->selectRaw('SUM(amount) as total')
             ->where('daily_spending_limit', '>', 0)
@@ -46,7 +46,6 @@ class BankStatisticsProvider
                     'count' => (int)$e->total,
                     'limit' => $e->daily_spending_limit
                 ] ];
-            })
-            ->toArray();
+            });
     }
 }

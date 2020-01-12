@@ -19,22 +19,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 
-use Carbon\Carbon;
-
 class BankController extends Controller
 {
     public function dailyStats(BankStatisticsProvider $stats)
     {
-        $numberOfPersonsServed = $stats->getNumberOfPersonsServed();
-        $numberOfCouponsHandedOut = $stats->getNumberOfCouponsHandedOut();
-        $todaysDailySpendingLimitedCoupons = $stats->getCouponsWithSpendingLimit();
-
 		return response()->json([
             'numbers' => __('people::people.num_persons_served_handing_out_coupons', [
-                'persons' => $numberOfPersonsServed,
-                'coupons' => $numberOfCouponsHandedOut,
+                'persons' => $stats->getNumberOfPersonsServed(),
+                'coupons' => $stats->getNumberOfCouponsHandedOut(),
             ]),
-            'limitedCoupons' => collect($todaysDailySpendingLimitedCoupons)
+            'limitedCoupons' => $stats->getCouponsWithSpendingLimit()
                 ->map(function($coupon, $couponName){
                     return __('bank::coupons.coupons_handed_out_n_t', [
                         'coupon' => $couponName,
@@ -159,7 +153,7 @@ class BankController extends Controller
     public function handoutCoupon(Person $person, CouponType $couponType, StoreHandoutCoupon $request)
     {
         $coupon = new CouponHandout();
-        $coupon->date = Carbon::today();
+        $coupon->date = today();
         $coupon->amount = $request->amount;
         $coupon->code = $request->code;
         $coupon->person()->associate($person);
@@ -185,13 +179,12 @@ class BankController extends Controller
      */
     public function undoHandoutCoupon(Person $person, CouponType $couponType, StoreUndoHandoutCoupon $request)
     {
-        $handout = $person->couponHandouts()
+        $person->couponHandouts()
             ->where('coupon_type_id', $couponType->id)
             ->orderBy('date', 'desc')
-            ->first();
-        if ($handout != null) {
-            $handout->delete();
-        }
+            ->limit(1)
+            ->delete();
+
         return response()->json([
             'message' => __('bank::coupons.coupon_has_been_taken_back_from', [
                 'coupon' => $couponType->name,
