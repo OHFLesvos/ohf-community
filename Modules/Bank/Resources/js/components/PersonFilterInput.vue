@@ -43,6 +43,7 @@
 
 <script>
 import scanQR from '@app/qr'
+import { EventBus } from '@app/event-bus.js';
 export default {
     props: {
         lang: {
@@ -75,6 +76,9 @@ export default {
         this.$nextTick(() => {
             this.$refs.input.focus()
         })
+        EventBus.$on('zero-results', () => {
+            this.$refs.input.select()
+        });
     }
 }
 </script>

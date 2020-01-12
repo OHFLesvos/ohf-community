@@ -49,7 +49,6 @@
 
 <script>
 
-// TODO select text in filter if zero results
 // TODO Show Family connections
 // TODO reset page if filter changes
 // TODO handle reset always the same
@@ -61,6 +60,7 @@ import BankPersonCard from './BankPersonCard'
 import { handleAjaxError } from '@app/utils'
 import InfoAlert from '@app/components/InfoAlert'
 import { BPagination } from 'bootstrap-vue'
+import { EventBus } from '@app/event-bus.js';
 export default {
     components: {
         PersonFilterInput,
@@ -132,6 +132,11 @@ export default {
                 })
                 .catch(err => handleAjaxError(err))
                 .then(() => this.busy = false)
+                .then(() => {
+                    if (this.totalRows == 0) {
+                        EventBus.$emit('zero-results');
+                    }
+                })
         },
         searchCode(code) {
             this.busy = true
