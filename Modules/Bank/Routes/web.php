@@ -19,11 +19,11 @@ Route::middleware(['language', 'auth'])->group(function () {
         Route::middleware('can:do-bank-withdrawals')->group(function () {
 
             Route::get('', function(){
-                return redirect()->route('bank.withdrawal');
+                return redirect()->route('bank.withdrawal.search');
             })->name('index');
 
             Route::view('withdrawal', 'bank::withdrawal.search')
-                ->name('withdrawal');
+                ->name('withdrawal.search');
 
             Route::view('withdrawal/transactions', 'bank::withdrawal.transactions')
                 ->name('withdrawal.transactions')

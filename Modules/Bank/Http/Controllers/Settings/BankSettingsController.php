@@ -70,7 +70,7 @@ class BankSettingsController extends SettingsController
     }
 
     protected function getRedirectRouteName() {
-        return 'bank.withdrawal';
+        return 'bank.withdrawal.search';
     }
 
 }

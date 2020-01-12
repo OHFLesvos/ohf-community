@@ -1,11 +1,11 @@
 @extends('layouts.tabbed_view', [
     'nav_elements' => [
         [
-            'url' => route('bank.withdrawal'),
+            'url' => route('bank.withdrawal.search'),
             'label' => __('people::people.withdrawal'),
             'icon' => 'id-card',
             'active' => function($currentRouteName) {
-                return $currentRouteName == 'bank.withdrawal';
+                return $currentRouteName == 'bank.withdrawal.search';
             },
             'authorized' => Gate::allows('do-bank-withdrawals'),
         ],

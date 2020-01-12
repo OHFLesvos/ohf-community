@@ -13,7 +13,7 @@ class BankWithdrawalTransactionsContextButtons implements ContextButtons {
     {
         return [
             'back' => [
-                'url' => route('bank.withdrawal'),
+                'url' => route('bank.withdrawal.search'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Gate::allows('do-bank-withdrawals')

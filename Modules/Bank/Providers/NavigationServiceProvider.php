@@ -20,11 +20,11 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     protected $contextMenus = [
-        'bank.withdrawal' => \Modules\Bank\Navigation\ContextMenu\BankWithdrawalContextMenu::class,
+        'bank.withdrawal.search' => \Modules\Bank\Navigation\ContextMenu\BankWithdrawalContextMenu::class,
     ];
 
     protected $contextButtons = [
-        'bank.withdrawal' => \Modules\Bank\Navigation\ContextButtons\BankIndexContextButtons::class,
+        'bank.withdrawal.search' => \Modules\Bank\Navigation\ContextButtons\BankIndexContextButtons::class,
         'bank.deposit' => \Modules\Bank\Navigation\ContextButtons\BankDepositContextButtons::class,
         'bank.prepareCodeCard' => \Modules\Bank\Navigation\ContextButtons\BankCodeCardContextButtons::class,
         'bank.settings.edit' => \Modules\Bank\Navigation\ContextButtons\BankSettingsContextButtons::class,

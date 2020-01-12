@@ -19,7 +19,7 @@ class MaintenanceController extends Controller
 
     /**
      * View for preparing person records cleanup.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     function maintenance() {
@@ -34,7 +34,7 @@ class MaintenanceController extends Controller
 
     /**
      * Gets the number of persons withn coupons since given number of months.
-     * 
+     *
      * @param int $months number of months
      * @return int
      */
@@ -53,7 +53,7 @@ class MaintenanceController extends Controller
 
     /**
      * Gets the number of persons which never received any coupons.
-     * 
+     *
      * @return int
      */
     private function getPersonsWithoutCouponsEver(): int
@@ -70,7 +70,7 @@ class MaintenanceController extends Controller
 
     /**
      * Gets the number of persons which do not have any number registered.
-     * 
+     *
      * @return int
      */
     private function getPersonsWithoutNumber(): int
@@ -83,7 +83,7 @@ class MaintenanceController extends Controller
 
     /**
      * Cleanup person records.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -114,7 +114,7 @@ class MaintenanceController extends Controller
                 ->select('persons.id')
                 ->get()
                 ->pluck('id')
-                ->toArray();       
+                ->toArray();
             $cnt += Person::destroy($ids);
         }
         if (isset($request->cleanup_no_number)) {
@@ -123,7 +123,7 @@ class MaintenanceController extends Controller
                 ->doesntHave('helper')
                 ->delete();
         }
-         return redirect()->route('bank.withdrawal')
+         return redirect()->route('bank.withdrawal.search')
              ->with('info', __('people::people.removed_n_persons', [ 'num' => $cnt ]));
     }
 

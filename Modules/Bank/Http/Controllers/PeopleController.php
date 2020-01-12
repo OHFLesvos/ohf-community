@@ -34,7 +34,7 @@ class PeopleController extends Controller
 
         $request->session()->put('filter', $person->search);
 
-        return redirect()->route('bank.withdrawal')
+        return redirect()->route('bank.withdrawal.search')
             ->with('success', __('people::people.person_added'));
     }
 
@@ -66,7 +66,7 @@ class PeopleController extends Controller
     {
         $person->delete();
 
-        return redirect()->route('bank.withdrawal')
+        return redirect()->route('bank.withdrawal.search')
             ->with('success', __('people::people.person_deleted'));
     }
 }
