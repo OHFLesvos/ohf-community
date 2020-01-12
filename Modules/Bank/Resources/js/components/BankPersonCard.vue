@@ -1,5 +1,4 @@
 <template>
-    <!-- TODO <div class="card @if(isset($bottom_margin))mb-{{ $bottom_margin }}@else mb-4 @endif bg-light @isset($border)border-{{ $border }}@endisset"> -->
     <div class="card mb-4 bg-light">
 
         <!-- Card header -->
@@ -15,7 +14,8 @@
                     <person-name
                         :url="person.show_url"
                         :can-view="person.can_view"
-                        :name="person.full_name"
+                        :value="person.full_name"
+                        :highlight-terms="highlightTerms"
                     ></person-name>
                     <gender-selector
                         :api-url="person.gender_update_url"
@@ -62,6 +62,7 @@
                 v-if="person.police_no"
                 :value="person.police_no_formatted"
                 :lang="lang"
+                :highlight-terms="highlightTerms"
             ></police-no-label>
             <case-no-label
                 v-if="person.case_no_hash"
@@ -118,7 +119,12 @@
                 type: Object,
                 required: true
             },
-            disabled: Boolean
+            disabled: Boolean,
+            highlightTerms: {
+                type: Array,
+                required: false,
+                default: []
+            }
         },
         components: {
             GenderSelector,

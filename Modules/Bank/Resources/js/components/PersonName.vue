@@ -1,10 +1,20 @@
 <template>
-    <a :href="url" alt="View" v-if="canView"><strong class="mark-text">{{ name }}</strong></a>
-    <strong class="mark-text" v-else>{{ name }}</strong>
+    <a :href="url" alt="View" v-if="canView">
+        <strong>
+            <text-highlight :queries="highlightTerms">{{ value }}</text-highlight>
+        </strong>
+    </a>
+    <strong v-else>
+        <text-highlight :queries="highlightTerms">{{ value }}</text-highlight>
+    </strong>
 </template>
 
 <script>
+    import TextHighlight from 'vue-text-highlight';
     export default {
+        components: {
+            TextHighlight
+        },
         props: {
             canView: Boolean,
             url: {
@@ -12,10 +22,15 @@
                 required: false,
                 default: null
             },
-            name: {
+            value: {
                 type: String,
                 required: true,
+            },
+            highlightTerms: {
+                type: Array,
+                required: false,
+                default: []
             }
-        },
+        }
     }
 </script>

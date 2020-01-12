@@ -15,6 +15,7 @@
                     :key="person.id"
                     :person="person"
                     :lang="lang"
+                    :highlight-terms="searchTerms"
                 ></bank-person-card>
                 <b-pagination
                     v-if="totalRows > 0 && perPage > 0"
@@ -48,21 +49,11 @@
 
 <script>
 
-// TODO code cards search / view
-// TODO family connections
-
-function highlightText(text) {
-    // TODO fix highlighting
-    console.log(`Highlight ${text}`)
-	$(".mark-text").each(function(idx) {
-		var innerHTML = $( this ).html();
-		var index = innerHTML.toLowerCase().indexOf(text.toLowerCase());
-		if (index >= 0) {
-			innerHTML = innerHTML.substring(0,index) + "<mark>" + innerHTML.substring(index,index+text.length) + "</mark>" + innerHTML.substring(index + text.length);
-			$( this ).html(innerHTML);
-		}
-	});
-}
+// TODO select text in filter if zero results
+// TODO Show Family connections
+// TODO reset page if filter changes
+// TODO handle reset always the same
+// TODO remember filter
 
 const RELOAD_STATS_INTERVAL = 1
 import PersonFilterInput from './PersonFilterInput'
@@ -109,7 +100,8 @@ export default {
             busy: false,
             stats: {},
             statsLoaded: false,
-            message: null
+            message: null,
+            searchTerms: []
         }
     },
     computed: {
@@ -123,9 +115,9 @@ export default {
     },
     methods: {
         search(filter) {
-            // TODO reset page if filter changes
             this.busy = true
             this.message = null
+            this.searchTerms = []
             axios.get(`${this.apiUrl}?filter=${filter}&page=${this.currentPage}`)
                 .then((res) => {
                     this.filter = filter
@@ -135,7 +127,7 @@ export default {
                     this.registerQuery = res.data.meta.register_query
                     this.loaded = true
                     if (res.data.meta.terms.length > 0) {
-                        res.data.meta.terms.forEach(t => highlightText(t))
+                        this.searchTerms = res.data.meta.terms
                     }
                 })
                 .catch(err => handleAjaxError(err))
@@ -144,6 +136,7 @@ export default {
         searchCode(code) {
             this.busy = true
             this.message = null
+            this.searchTerms = []
             axios.get(`${this.apiUrl}?card_no=${code}`)
                 .then((res) => {
                     this.loaded = true
@@ -153,7 +146,6 @@ export default {
                     if (res.data.data) {
                         this.persons = [ res.data.data ]
                         this.totalRows = 1
-                        // TODO highlight term -> code
                     } else {
                         this.persons = []
                         this.totalRows = 0
@@ -166,7 +158,6 @@ export default {
                 .then(() => this.busy = false)
         },
         reset() {
-            // TODO handle reset always the same
             this.persons = []
             this.totalRows = 0
             this.loaded = false

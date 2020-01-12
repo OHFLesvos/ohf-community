@@ -143,7 +143,7 @@ class WithdrawalController extends Controller
             ->withCouponTypes($this->couponTypes->getEnabled())
             ->additional(['meta' => [
                 'register_query' => self::createRegisterStringFromFilter($filter),
-                'terms' => $terms,
+                'terms' => collect($terms)->unique()->values(),
             ]]);
     }
 
