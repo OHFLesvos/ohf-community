@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Config;
 use OwenIt\Auditing\Models\Audit;
 use Illuminate\Database\Eloquent\Builder;
 
-class BankController extends Controller
+class WithdrawalController extends Controller
 {
     /**
      * Provides statistics from the current day
@@ -56,7 +56,8 @@ class BankController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function transactions(Request $request) {
+    public function transactions(Request $request)
+    {
         $request->validate([
             'perPage' => [
                 'nullable',
