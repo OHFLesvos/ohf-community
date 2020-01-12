@@ -27,15 +27,12 @@ class WithdrawalController extends Controller
     private $revokedCards;
     private $persons;
     private $couponTypes;
-    private $couponHandouts;
 
-    public function __construct(RevokedCardRepository $revokedCards, PersonRepository $persons,
-        CouponTypeRepository $couponTypes, CouponHandoutRepository $couponHandouts)
+    public function __construct(RevokedCardRepository $revokedCards, PersonRepository $persons, CouponTypeRepository $couponTypes)
     {
         $this->revokedCards = $revokedCards;
         $this->persons = $persons;
         $this->couponTypes = $couponTypes;
-        $this->couponHandouts = $couponHandouts;
     }
 
     /**
@@ -67,9 +64,10 @@ class WithdrawalController extends Controller
      * Returns withdrawal transactions ordered by date (latest first)
      *
      * @param \Illuminate\Http\Request $request
+     * @param \Modules\Bank\Repositories\CouponHandoutRepository $couponHandouts
      * @return \Illuminate\Http\Response
      */
-    public function transactions(Request $request)
+    public function transactions(Request $request, CouponHandoutRepository $couponHandouts)
     {
         $request->validate([
             'perPage' => [
@@ -83,9 +81,9 @@ class WithdrawalController extends Controller
 
         if ($request->filled('filter')) {
             $terms = split_by_whitespace($request->input('filter'));
-            $data = $this->couponHandouts->getAuditsFilteredByPerson($terms, $perPage);
+            $data = $couponHandouts->getAuditsFilteredByPerson($terms, $perPage);
         } else {
-            $data = $this->couponHandouts->getAudits($perPage);
+            $data = $couponHandouts->getAudits($perPage);
         }
 
         return WithdrawalTransaction::collection($data);
