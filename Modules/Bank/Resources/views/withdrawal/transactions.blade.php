@@ -7,6 +7,7 @@
     @php
         $lang_arr = lang_arr([
             'app.not_found',
+            'app.loading',
             'app.registered',
             'app.date',
             'people::people.recipient',

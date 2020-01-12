@@ -13,6 +13,11 @@
             :emptyText="lang['people::people.no_transactions_so_far']"
             ref="table"
         >
+            <template v-slot:table-busy v-if="!initialized">
+                <div class="text-center my-2">
+                    {{ lang['app.loading'] }}
+                </div>
+            </template>
             <template v-slot:cell(created_at)="data">
                 <span :title="data.value">{{ data.item.created_at_diff }}</span>
                 <small class="text-muted" v-if="data.item.user">
