@@ -89,7 +89,7 @@ String.prototype.hashCode = function() {
 };
 
 /**
- * Remember open tab position of bootstrap 4 nav tabs 
+ * Remember open tab position of bootstrap 4 nav tabs
  * having the class "tab-remember". The container needs to have an id.
  */
 $(function(){
@@ -174,6 +174,8 @@ $(function(){
 //
 window.Vue = require('vue');
 
+Vue.config.productionTip = false
+
 import LineChart from './components/LineChart.vue';
 Vue.component('line-chart', LineChart);
 import BarChart from './components/BarChart.vue';
@@ -227,16 +229,16 @@ $(function(){
 var Snackbar = require('node-snackbar')
 
 $(function(){
-    $('.snack-message').each(function() { 
+    $('.snack-message').each(function() {
         Snackbar.show({
             text: $(this).html(),
             duration: $(this).data('duration') ? $(this).data('duration') : 2500,
             pos: 'bottom-center',
             actionText: $(this).data('action') ? $(this).data('action') : null,
             actionTextColor: null,
-            customClass: $(this).data('class'), 
-        }); 
-    }); 
+            customClass: $(this).data('class'),
+        });
+    });
 });
 
 // Lity Lightbox
@@ -283,17 +285,17 @@ $(document).ready(function () {
         var tagify = new Tagify(input, {
             whitelist: suggestions
         });
-        
+
         var suggestionsUrl = input.getAttribute('data-suggestions-url');
         if (suggestionsUrl) {
             tagify.on('input', function(e){
                 var value = e.detail;
                 tagify.settings.whitelist.length = 0; // reset the whitelist
-        
+
                 // https://developer.mozilla.org/en-US/docs/Web/API/AbortController/abort
                 tagifyAjaxController && tagifyAjaxController.abort();
                 tagifyAjaxController = new AbortController();
-        
+
                 fetch(suggestionsUrl + value, {
                         signal: tagifyAjaxController.signal
                     })
@@ -302,10 +304,10 @@ $(document).ready(function () {
                         tagify.settings.whitelist = whitelist;
                         tagify.dropdown.show.call(tagify, value); // render the suggestions dropdown
                     })
-        
+
             });
         }
-     
+
     });
 });
 
@@ -362,8 +364,8 @@ $(function(){
             Snackbar.show({
                 text: 'Copied URL to clipboard.',
                 duration: 2500,
-                pos: 'bottom-center', 
-            }); 
+                pos: 'bottom-center',
+            });
         }
     });
 });
