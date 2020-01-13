@@ -3,11 +3,12 @@
         <div class="col">
             <div class="input-group">
                 <input
-                    type="search"
+                    type="text"
                     class="form-control"
                     v-model="filter"
                     :placeholder="lang['people::people.bank_search_text']"
                     @keydown.enter="submit"
+                    @keydown.esc="reset"
                     @focus="$refs.input.select()"
                     ref="input"
                     :disabled="busy"
@@ -17,10 +18,10 @@
                         <icon name="spinner" :spin="true"></icon>
                     </span>
                     <template v-else>
-                        <button class="btn btn-primary" type="button" @click="submit">
+                        <button class="btn btn-primary" type="button" :disabled="!filter" @click="submit">
                             <icon name="search"></icon>
                         </button>
-                        <button class="btn btn-secondary" v-if="filter" @click="reset">
+                        <button class="btn btn-secondary" type="button" :disabled="!filter" @click="reset">
                             <icon name="eraser"></icon>
                         </button>
                     </template>
@@ -64,6 +65,7 @@ export default {
         reset() {
             this.filter = ''
             this.$emit('reset')
+            this.$refs.input.focus()
         },
         scanCard() {
             scanQR((content) => {

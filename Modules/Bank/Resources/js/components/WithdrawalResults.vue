@@ -50,8 +50,7 @@
 <script>
 
 // TODO Show Family connections
-// TODO reset page if filter changes
-// TODO handle reset always the same
+// TODO reset currentPage if filter changes
 // TODO remember filter
 
 const RELOAD_STATS_INTERVAL = 1
@@ -170,12 +169,14 @@ export default {
             this.loadStats()
         },
         loadStats() {
-            axios.get(this.statsApiUrl)
-                .then(res => {
-                    this.stats = res.data
-                    this.statsLoaded = true
-                })
-                .catch(console.error);
+            if (!this.loaded) {
+                axios.get(this.statsApiUrl)
+                    .then(res => {
+                        this.stats = res.data
+                        this.statsLoaded = true
+                    })
+                    .catch(console.error);
+            }
         }
     },
     watch: {
