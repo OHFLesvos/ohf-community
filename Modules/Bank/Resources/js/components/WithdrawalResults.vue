@@ -1,9 +1,8 @@
 <template>
     <div>
         <person-filter-input
-            @submit="search"
             @scan="searchCode"
-            @reset="reset"
+            v-model="filter"
             :lang="lang"
             :busy="busy"
         ></person-filter-input>
@@ -51,9 +50,10 @@
 
 // TODO Show Family connections
 // TODO reset currentPage if filter changes
-// TODO remember filter
 
 const RELOAD_STATS_INTERVAL = 1
+const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
+
 import PersonFilterInput from './PersonFilterInput'
 import BankPersonCard from './BankPersonCard'
 import { handleAjaxError } from '@app/utils'
@@ -95,7 +95,7 @@ export default {
             registerQuery: '',
             perPage: 0,
             currentPage: 1,
-            filter: '',
+            filter: this.defaultFilter(),
             busy: false,
             stats: {},
             statsLoaded: false,
@@ -113,18 +113,28 @@ export default {
         }
     },
     methods: {
+        defaultFilter() {
+            let filter = sessionStorage.getItem(FILTER_SESSION_KEY)
+            if (filter !== undefined && filter != null && filter.length > 0) {
+                return filter
+            }
+            return ''
+        },
         search(filter) {
             this.busy = true
             this.message = null
             this.searchTerms = []
+            sessionStorage.removeItem(FILTER_SESSION_KEY)
             axios.get(`${this.apiUrl}?filter=${filter}&page=${this.currentPage}`)
                 .then((res) => {
-                    this.filter = filter
                     this.persons = res.data.data
                     this.totalRows = res.data.meta.total
                     this.perPage = res.data.meta.per_page
                     this.registerQuery = res.data.meta.register_query
                     this.loaded = true
+                    if (this.persons.length > 0) {
+                        sessionStorage.setItem(FILTER_SESSION_KEY, filter)
+                    }
                     if (res.data.meta.terms.length > 0) {
                         this.searchTerms = res.data.meta.terms
                     }
@@ -141,10 +151,10 @@ export default {
             this.busy = true
             this.message = null
             this.searchTerms = []
+            sessionStorage.removeItem(FILTER_SESSION_KEY)
             axios.get(`${this.apiUrl}?card_no=${code}`)
                 .then((res) => {
                     this.loaded = true
-                    this.filter = ''
                     this.perPage = 0
                     this.registerQuery = ''
                     if (res.data.data) {
@@ -166,6 +176,7 @@ export default {
             this.totalRows = 0
             this.loaded = false
             this.message = null
+            sessionStorage.removeItem(FILTER_SESSION_KEY)
             this.loadStats()
         },
         loadStats() {
@@ -182,10 +193,21 @@ export default {
     watch: {
         currentPage(val) {
             this.search(this.filter)
+        },
+        filter(val, oldVal) {
+            if (val.length > 0) {
+                this.search(val)
+            } else if (oldVal.length > 0) {
+                this.reset()
+            }
         }
     },
     mounted() {
-        this.loadStats()
+        if (this.filter.length > 0) {
+            this.search(this.filter)
+        } else {
+            this.loadStats()
+        }
         setInterval(this.loadStats, RELOAD_STATS_INTERVAL * 60 * 1000)
     }
 }

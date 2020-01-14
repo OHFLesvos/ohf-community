@@ -51,20 +51,25 @@ export default {
             type: Object,
             required: true
         },
-        busy: Boolean
+        busy: Boolean,
+        value: {
+            type: String,
+            required: false,
+            default: ''
+        }
     },
     data() {
         return {
-            filter: ''
+            filter: this.value
         }
     },
     methods: {
         submit() {
-            this.$emit('submit', this.filter)
+            this.$emit('input', this.filter)
         },
         reset() {
             this.filter = ''
-            this.$emit('reset')
+            this.$emit('input', this.filter)
             this.$refs.input.focus()
         },
         scanCard() {
