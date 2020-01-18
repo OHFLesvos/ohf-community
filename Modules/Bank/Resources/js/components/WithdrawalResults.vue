@@ -28,21 +28,18 @@
             <template v-else>
                 <info-alert v-if="message" :message="message"></info-alert>
                 <info-alert v-else :message="lang['app.not_found']"></info-alert>
-                <p v-if="canRegisterPerson != null">
-                    <a :href="registerPersonUrlWithQuery" class="btn btn-primary">
-                        <icon name="plus-circle"></icon>
-                        {{ lang['people::people.register_a_new_person'] }}
-                    </a>
-                </p>
+                <register-person-button
+                    v-if="canRegisterPerson != null"
+                    :url="registerPersonUrlWithQuery"
+                    :lang="lang"
+                ></register-person-button>
             </template>
         </div>
-        <div id="stats" class="text-center lead my-5" v-else-if="statsLoaded">
-            <p v-if="stats.numbers" v-html="stats.numbers"></p>
-            <template v-else>{{ lang['people::people.not_yet_served_any_persons'] }}</template>
-            <template v-if="stats.limitedCoupons">
-                <p v-for="(v, k) in stats.limitedCoupons" v-html="v" :key="k"></p>
-            </template>
-        </div>
+        <bank-stats
+            v-else-if="statsLoaded"
+            :stats="stats"
+            :lang="lang"
+        ></bank-stats>
     </div>
 </template>
 
@@ -56,6 +53,8 @@ const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
 
 import PersonFilterInput from './PersonFilterInput'
 import BankPersonCard from './BankPersonCard'
+import RegisterPersonButton from './RegisterPersonButton'
+import BankStats from './BankStats'
 import { handleAjaxError } from '@app/utils'
 import InfoAlert from '@app/components/InfoAlert'
 import { BPagination } from 'bootstrap-vue'
@@ -64,6 +63,8 @@ export default {
     components: {
         PersonFilterInput,
         BankPersonCard,
+        RegisterPersonButton,
+        BankStats,
         InfoAlert,
         BPagination
     },
