@@ -88,11 +88,25 @@
 
         <!-- Card footer -->
         <div class="card-body p-0 px-2 pt-2">
-            <coupon-handout-buttons
-                :couponTypes="person.coupon_types"
-                :disabled="disabled"
-                :lang="lang"
-            />
+            <div class="form-row" v-if="person.coupon_types.length > 0">
+                <div
+                    v-for="coupon in person.coupon_types"
+                    :key="coupon.id"
+                    class="col-sm-auto mb-2"
+                >
+                    <coupon-handout-button
+                        :coupon="coupon"
+                        :disabled="disabled"
+                        :lang="lang"
+                    />
+                </div>
+            </div>
+            <div
+                v-else
+                class="pb-2 px-2"
+            >
+                <em>{{ lang['people::people.no_coupons_defined'] }}</em>
+            </div>
         </div>
 
     </div>
@@ -111,7 +125,7 @@ import PoliceNoLabel from '../people/PoliceNoLabel'
 import CaseNoLabel from '../people/CaseNoLabel'
 import RemarksLabel from '../people/RemarksLabel'
 import OverdueBookLendingsLabel from '../people/OverdueBookLendingsLabel'
-import CouponHandoutButtons from './CouponHandoutButtons'
+import CouponHandoutButton from './CouponHandoutButton'
 
 export default {
     props: {
@@ -143,7 +157,7 @@ export default {
         CaseNoLabel,
         RemarksLabel,
         OverdueBookLendingsLabel,
-        CouponHandoutButtons
+        CouponHandoutButton
     },
     computed: {
         headerStyle() {
