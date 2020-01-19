@@ -1,35 +1,41 @@
 <template>
     <div class="input-group">
         <input
+            ref="input"
+            v-model="modelValue"
             type="text"
             :placeholder="placeholder"
-            v-model="modelValue"
             class="form-control form-control-sm"
-            ref="input"
+            :disabled="disabled || busy"
             @keydown.enter="saveEdit"
             @keydown.esc="cancelEdit"
-            :disabled="disabled || busy"
         />
         <div class="input-group-append">
-            <span class="input-group-text" v-if="busy">
-                <icon name="spinner" :spin="true"></icon>
+            <span
+                v-if="busy"
+                class="input-group-text"
+            >
+                <icon
+                    name="spinner"
+                    :spin="true"
+                />
             </span>
             <template v-else>
                 <button
                     type="button"
                     class="btn btn-primary btn-sm"
-                    @click="saveEdit"
                     :disabled="disabled || busy"
+                    @click="saveEdit"
                 >
-                    <icon name="check"></icon>
+                    <icon name="check"/>
                 </button>
                 <button
                     type="button"
                     class="btn btn-secondary btn-sm"
-                    @click="cancelEdit"
                     :disabled="disabled || busy"
+                    @click="cancelEdit"
                 >
-                    <icon name="times"></icon>
+                    <icon name="times"/>
                 </button>
             </template>
         </div>
@@ -55,15 +61,6 @@ export default {
             modelValue: this.value
         }
     },
-    methods: {
-        saveEdit() {
-            this.$emit('submit', this.modelValue)
-        },
-        cancelEdit() {
-            this.modelValue = this.value
-            this.$emit('cancel')
-        }
-    },
     watch: {
         busy(val, oldVal) {
             if (!val && oldVal) {
@@ -77,6 +74,15 @@ export default {
         this.$nextTick(() => {
             this.$refs.input.focus()
         })
+    },
+    methods: {
+        saveEdit() {
+            this.$emit('submit', this.modelValue)
+        },
+        cancelEdit() {
+            this.modelValue = this.value
+            this.$emit('cancel')
+        }
     }
 }
 </script>

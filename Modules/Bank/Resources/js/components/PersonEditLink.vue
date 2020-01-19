@@ -1,6 +1,9 @@
 <template>
-    <a :href="url" title="Edit">
-        <icon name="edit"></icon>
+    <a
+        :href="url"
+        title="Edit"
+    >
+        <icon name="edit"/>
     </a>
 </template>
 

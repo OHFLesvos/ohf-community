@@ -6,16 +6,16 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            value: {
-                type: String,
-                required: true
-            },
-            lang: {
-                type: Object,
-                required: true
-            }
+export default {
+    props: {
+        value: {
+            type: String,
+            required: true
         },
-    }
+        lang: {
+            type: Object,
+            required: true
+        }
+    },
+}
 </script>

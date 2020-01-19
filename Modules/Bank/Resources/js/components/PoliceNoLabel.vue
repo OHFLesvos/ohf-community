@@ -8,25 +8,25 @@
 </template>
 
 <script>
-    import TextHighlight from 'vue-text-highlight';
-    export default {
-        components: {
-            TextHighlight
+import TextHighlight from 'vue-text-highlight';
+export default {
+    components: {
+        TextHighlight
+    },
+    props: {
+        value: {
+            type: String,
+            required: true
         },
-        props: {
-            value: {
-                type: String,
-                required: true
-            },
-            lang: {
-                type: Object,
-                required: true
-            },
-            highlightTerms: {
-                type: Array,
-                required: false,
-                default: []
-            }
+        highlightTerms: {
+            type: Array,
+            required: false,
+            default: []
+        },
+        lang: {
+            type: Object,
+            required: true
         }
     }
+}
 </script>

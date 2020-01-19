@@ -42,3 +42,33 @@ export function handleAjaxError(err) {
 	console.log(err)
     alert('Error: ' + getAjaxErrorMessage(err));
 }
+
+export function isDateString(value) {
+	return value.match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+}
+
+export function dateOfBirthToAge(dateOfBirth) {
+	var today = new Date();
+	var birthDate = new Date(dateOfBirth);
+	var age = today.getFullYear() - birthDate.getFullYear();
+	var m = today.getMonth() - birthDate.getMonth();
+	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+		age--;
+	}
+	return age;
+}
+
+export function todayDate() {
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if(dd < 10) {
+		dd='0' + dd;
+	}
+	if(mm < 10) {
+		mm='0' + mm;
+	}
+	return yyyy + '-' + mm + '-' + dd;
+}

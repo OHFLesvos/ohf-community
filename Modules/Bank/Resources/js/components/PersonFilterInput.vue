@@ -3,26 +3,39 @@
         <div class="col">
             <div class="input-group">
                 <input
+                    ref="input"
+                    v-model="filter"
                     type="text"
                     class="form-control"
-                    v-model="filter"
                     :placeholder="lang['people::people.bank_search_text']"
+                    :disabled="busy"
                     @keydown.enter="submit"
                     @keydown.esc="reset"
                     @focus="$refs.input.select()"
-                    ref="input"
-                    :disabled="busy"
                 />
                 <div class="input-group-append">
-                    <span class="input-group-text" v-if="busy">
-                        <icon name="spinner" :spin="true"></icon>
+                    <span
+                        v-if="busy"
+                        class="input-group-text"
+                    >
+                        <icon name="spinner" :spin="true"/>
                     </span>
                     <template v-else>
-                        <button class="btn btn-primary" type="button" :disabled="!filter" @click="submit">
-                            <icon name="search"></icon>
+                        <button
+                            class="btn btn-primary"
+                            type="button"
+                            :disabled="!filter"
+                            @click="submit"
+                        >
+                            <icon name="search"/>
                         </button>
-                        <button class="btn btn-secondary" type="button" :disabled="!filter" @click="reset">
-                            <icon name="eraser"></icon>
+                        <button
+                            class="btn btn-secondary"
+                            type="button"
+                            :disabled="!filter"
+                            @click="reset"
+                        >
+                            <icon name="eraser"/>
                         </button>
                     </template>
                 </div>
@@ -32,11 +45,13 @@
             <button
                 class="btn btn-primary"
                 type="button"
-                @click="scanCard"
                 :disabled="busy"
+                @click="scanCard"
             >
-                <icon name="qrcode"></icon>
-                <span class="d-none d-sm-inline"> {{ lang['people::people.scan_card'] }}</span>
+                <icon name="qrcode"/>
+                <span class="d-none d-sm-inline">
+                    {{ lang['people::people.scan_card'] }}
+                </span>
             </button>
         </div>
     </div>
@@ -63,6 +78,14 @@ export default {
             filter: this.value
         }
     },
+    mounted() {
+        this.$nextTick(() => {
+            this.$refs.input.focus()
+        })
+        EventBus.$on('zero-results', () => {
+            this.$refs.input.select()
+        });
+    },
     methods: {
         submit() {
             this.$emit('input', this.filter)
@@ -78,14 +101,6 @@ export default {
                 this.$emit('scan', content)
             });
         }
-    },
-    mounted() {
-        this.$nextTick(() => {
-            this.$refs.input.focus()
-        })
-        EventBus.$on('zero-results', () => {
-            this.$refs.input.select()
-        });
     }
 }
 </script>

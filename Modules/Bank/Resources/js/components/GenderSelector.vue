@@ -1,58 +1,78 @@
 <template>
     <span>
-        <icon name="spinner" :spin="true" v-if="busy"></icon>
-        <icon name="male" v-else-if="gender == 'm'"></icon>
-        <icon name="female" v-else-if="gender == 'f'"></icon>
+        <icon
+            v-if="busy"
+            name="spinner"
+            :spin="true"
+        />
+        <icon
+            v-else-if="gender == 'm'"
+            name="male"
+        />
+        <icon
+            v-else-if="gender == 'f'"
+            name="female"
+        />
         <template v-else-if="canUpdate">
-            <button class="btn btn-warning btn-sm" @click="setGender('m')" title="Male" :disabled="disabled">
-                <icon name="male"></icon>
+            <button
+                class="btn btn-warning btn-sm"
+                title="Male"
+                :disabled="disabled"
+                @click="setGender('m')"
+            >
+                <icon name="male"/>
             </button>
-            <button class="btn btn-warning btn-sm" @click="setGender('f')" title="Female" :disabled="disabled">
-                <icon name="female"></icon>
+            <button
+                class="btn btn-warning btn-sm"
+                title="Female"
+                :disabled="disabled"
+                @click="setGender('f')"
+            >
+                <icon name="female"/>
             </button>
         </template>
     </span>
 </template>
 
 <script>
-    import showSnackbar from '@app/snackbar'
-    import { handleAjaxError } from '@app/utils'
-    export default {
-        props: {
-            apiUrl: {
-                type: String,
-                required: true
-            },
-            value: {
-                type: String,
-                required: false,
-                default: null
-            },
-            canUpdate: Boolean,
-            disabled: Boolean
+import showSnackbar from '@app/snackbar'
+import { handleAjaxError } from '@app/utils'
+export default {
+    props: {
+        apiUrl: {
+            type: String,
+            required: true
         },
-        data() {
-            return {
-                busy: false,
-                gender: this.value
-            }
+        value: {
+            type: String,
+            required: false,
+            default: null
         },
-        methods: {
-            setGender(value) {
-                this.busy = true
-                axios.patch(this.apiUrl, {
-                        'gender': value
-                    })
-                    .then(response => {
-                        var data = response.data
-                        this.gender = value
-                        showSnackbar(data.message);
-                    })
-                    .catch(handleAjaxError)
-                    .then(() => {
-                        this.busy = false
-                    })
-            }
+        canUpdate: Boolean,
+        disabled: Boolean
+    },
+    data() {
+        return {
+            busy: false,
+            gender: this.value
+        }
+    },
+    methods: {
+        setGender(value) {
+            this.busy = true
+            axios.patch(this.apiUrl, {
+                    'gender': value
+                })
+                .then(response => {
+                    var data = response.data
+                    this.gender = value
+                    showSnackbar(data.message);
+                })
+                .catch(handleAjaxError)
+                .then(() => {
+                    this.busy = false
+                })
         }
     }
+}
 </script>

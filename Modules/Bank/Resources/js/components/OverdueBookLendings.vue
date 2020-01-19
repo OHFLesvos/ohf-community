@@ -1,7 +1,11 @@
 <template>
     <div>
-        <em class="text-danger">Needs to bring back book(s) to the
-            <a :href="url" v-if="canOperateLibrary">
+        <em class="text-danger">
+            Needs to bring back book(s) to the
+            <a
+                v-if="canOperateLibrary"
+                :href="url"
+            >
                 {{ lang['library::library.library'] }}
             </a>
             <template v-else>

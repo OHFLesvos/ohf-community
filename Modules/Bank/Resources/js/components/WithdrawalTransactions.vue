@@ -2,8 +2,8 @@
     <div>
         <!-- Filter input field -->
         <b-form-input
-            type="search"
             v-model="filter"
+            type="search"
             debounce="500"
             :placeholder="lang['app.filter']"
             class="mb-3"
@@ -12,6 +12,7 @@
 
         <!-- Table of audit records -->
         <b-table
+            ref="table"
             striped small hover responsive bordered
             primary-key="id"
             :busy.sync="isBusy"
@@ -23,46 +24,77 @@
             :show-empty="initialized"
             :empty-text="lang['people::people.no_transactions_so_far']"
             :empty-filtered-text="lang['app.no_records_matching_your_request']"
-            ref="table"
             :filter="filter"
         >
             <!-- Busy state -->
-            <template v-slot:table-busy v-if="!initialized">
+            <template
+                v-if="!initialized"
+                v-slot:table-busy
+            >
                 <div class="text-center my-2">
-                    <icon name="spinner" :spin="true"></icon> {{ lang['app.loading'] }}
+                    <icon
+                        name="spinner"
+                        :spin="true"
+                    />
+                    {{ lang['app.loading'] }}
                 </div>
             </template>
 
             <!-- Created at column -->
             <template v-slot:cell(created_at)="data">
-                <span :title="data.value">{{ data.item.created_at_diff }}</span>
-                <small class="text-muted" v-if="data.item.user">
-                    <icon name="user"></icon> {{ data.item.user }}
+                <span :title="data.value">
+                    {{ data.item.created_at_diff }}
+                </span>
+                <small
+                    v-if="data.item.user"
+                    class="text-muted"
+                >
+                    <icon name="user"/>
+                    {{ data.item.user }}
                 </small>
             </template>
 
             <!-- Date column -->
             <template v-slot:cell(date)="data">
-                <template v-if="data.value">{{ data.value }}</template>
-                <em v-else>{{ lang['app.not_found'] }}</em>
+                <template v-if="data.value">
+                    {{ data.value }}
+                </template>
+                <em v-else>
+                    {{ lang['app.not_found'] }}
+                </em>
             </template>
 
             <!-- Recipient column -->
             <template v-slot:cell(person)="data">
                 <template v-if="data.value">
-                    <icon name="female" v-if="data.value.gender == 'f'"></icon>
-                    <icon name="male" v-if="data.value.gender == 'm'"></icon>
-                    <a :href="data.value.url" v-if="data.value.url" target="_blank">{{ data.value.name }}</a>
-                    <template v-else>{{ data.value.name }}</template>
+                    <icon
+                        v-if="data.value.gender == 'f'"
+                        name="female"
+                    />
+                    <icon
+                        v-if="data.value.gender == 'm'"
+                        name="male"
+                    />
+                    <a
+                        v-if="data.value.url"
+                        :href="data.value.url"
+                        target="_blank"
+                    >{{ data.value.name }}</a>
+                    <template v-else>
+                        {{ data.value.name }}
+                    </template>
                     <template v-if="data.value.date_of_birth">
-                        {{ data.value.date_of_birth }} ({{ data.value.age }})
+                        {{ data.value.date_of_birth }}
+                        ({{ data.value.age }})
                     </template>
                     <template v-if="data.value.nationality">
-                        <icon name="globe"></icon>
+                        <icon name="globe"/>
                         {{ data.value.nationality }}
                     </template>
                 </template>
-                <em v-else>{{ lang['app.not_found'] }}</em>
+                <em v-else>
+                    {{ lang['app.not_found'] }}
+                </em>
             </template>
 
             <!-- Amount column -->
@@ -71,33 +103,42 @@
                     {{ data.value.amount_diff }}
                     {{ data.value.name }}
                 </template>
-                <em v-else>{{ lang['app.not_found'] }}</em>
+                <em v-else>
+                    {{ lang['app.not_found'] }}
+                </em>
             </template>
         </b-table>
 
         <!-- Footer -->
         <b-row>
             <b-col>
+
                 <!-- Pagination -->
                 <b-pagination
                     v-if="totalRows > 0 && perPage > 0"
-                    size="sm"
                     v-model="currentPage"
+                    size="sm"
                     :total-rows="totalRows"
                     :per-page="perPage"
-                ></b-pagination>
+                />
+
             </b-col>
             <b-col cols="auto">
+
                 <!-- Refresh button -->
                 <b-button
                     v-if="initialized"
                     variant="primary"
                     size="sm"
-                    @click="refresh"
                     :disabled="isBusy"
+                    @click="refresh"
                 >
-                    <icon name="sync" :spin="isBusy"></icon>
+                    <icon
+                        name="sync"
+                        :spin="isBusy"
+                    />
                 </b-button>
+
             </b-col>
         </b-row>
     </div>

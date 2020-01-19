@@ -1,45 +1,56 @@
 <template>
     <div>
         <person-filter-input
-            @scan="searchCode"
             v-model="filter"
             :lang="lang"
             :busy="busy"
-        ></person-filter-input>
-        <div v-if="loaded" class="mt-3">
+            @scan="searchCode"
+        />
+        <div
+            v-if="loaded"
+            class="mt-3"
+        >
             <template v-if="totalRows > 0">
-                <p>Found {{ totalRows }} results.</p>
+                <p>
+                    Found {{ totalRows }} results.
+                </p>
                 <bank-person-card
                     v-for="person in persons"
                     :key="person.id"
                     :person="person"
                     :lang="lang"
                     :highlight-terms="searchTerms"
-                ></bank-person-card>
+                />
                 <b-pagination
                     v-if="totalRows > 0 && perPage > 0"
-                    size="sm"
                     v-model="currentPage"
+                    size="sm"
                     :total-rows="totalRows"
                     :per-page="perPage"
                     class="mb-0"
-                ></b-pagination>
+                />
             </template>
             <template v-else>
-                <info-alert v-if="message" :message="message"></info-alert>
-                <info-alert v-else :message="lang['app.not_found']"></info-alert>
+                <info-alert
+                    v-if="message"
+                    :message="message"
+                />
+                <info-alert
+                    v-else
+                    :message="lang['app.not_found']"
+                />
                 <register-person-button
                     v-if="canRegisterPerson != null"
                     :url="registerPersonUrlWithQuery"
                     :lang="lang"
-                ></register-person-button>
+                />
             </template>
         </div>
         <bank-stats
             v-else-if="filter.length == 0"
             :api-url="statsApiUrl"
             :lang="lang"
-        ></bank-stats>
+        />
     </div>
 </template>
 
@@ -50,14 +61,17 @@
 
 const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
 
+import { handleAjaxError } from '@app/utils'
+
 import PersonFilterInput from './PersonFilterInput'
 import BankPersonCard from './BankPersonCard'
 import RegisterPersonButton from './RegisterPersonButton'
 import BankStats from './BankStats'
-import { handleAjaxError } from '@app/utils'
 import InfoAlert from '@app/components/InfoAlert'
 import { BPagination } from 'bootstrap-vue'
+
 import { EventBus } from '@app/event-bus.js';
+
 export default {
     components: {
         PersonFilterInput,
@@ -108,6 +122,23 @@ export default {
                 str += `?${this.registerQuery}`
             }
             return str
+        }
+    },
+    watch: {
+        currentPage(val) {
+            this.search(this.filter)
+        },
+        filter(val, oldVal) {
+            if (val.length > 0) {
+                this.search(val)
+            } else if (oldVal.length > 0) {
+                this.reset()
+            }
+        }
+    },
+    mounted() {
+        if (this.filter.length > 0) {
+            this.search(this.filter)
         }
     },
     methods: {
@@ -175,23 +206,6 @@ export default {
             this.loaded = false
             this.message = null
             sessionStorage.removeItem(FILTER_SESSION_KEY)
-        }
-    },
-    watch: {
-        currentPage(val) {
-            this.search(this.filter)
-        },
-        filter(val, oldVal) {
-            if (val.length > 0) {
-                this.search(val)
-            } else if (oldVal.length > 0) {
-                this.reset()
-            }
-        }
-    },
-    mounted() {
-        if (this.filter.length > 0) {
-            this.search(this.filter)
         }
     }
 }

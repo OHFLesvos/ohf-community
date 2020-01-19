@@ -1,7 +1,10 @@
 <template>
     <p>
-        <a :href="url" class="btn btn-primary">
-            <icon name="plus-circle"></icon>
+        <a
+            :href="url"
+            class="btn btn-primary"
+        >
+            <icon name="plus-circle"/>
             {{ lang['people::people.register_a_new_person'] }}
         </a>
     </p>

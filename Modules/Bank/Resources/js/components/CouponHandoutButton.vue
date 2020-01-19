@@ -1,27 +1,30 @@
 <template>
     <button
+        v-if="last_handout"
         type="button"
         class="btn btn-secondary btn-sm btn-block"
-        @click="undoHandoutCoupon"
         :disabled="busy || !returning_possible || disabled"
-        v-if="last_handout"
+        @click="undoHandoutCoupon"
     >
         {{ daily_amount }}
-        <icon :name="icon"></icon>
+        <icon :name="icon"/>
         {{ name }}
         ({{ last_handout }})
     </button>
     <button
+        v-else
         type="button"
         class="btn btn-primary btn-sm btn-block"
-        @click="handoutCoupon"
         :disabled="busy || disabled"
-        v-else
+        @click="handoutCoupon"
     >
         {{ daily_amount }}
-        <icon :name="icon"></icon>
+        <icon :name="icon"/>
         {{ name }}
-        <icon name="qrcode" v-if="qr_code_enabled"></icon>
+        <icon
+            v-if="qr_code_enabled"
+            name="qrcode"
+        />
     </button>
 </template>
 
@@ -43,11 +46,11 @@ export default {
                     'name' in obj
             }
         },
+        disabled: Boolean,
         lang: {
             type: Object,
             required: true
-        },
-        disabled: Boolean
+        }
     },
     data() {
         return {

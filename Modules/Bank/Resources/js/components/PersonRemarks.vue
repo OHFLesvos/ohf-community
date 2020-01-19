@@ -8,14 +8,20 @@
             :busy="busy"
             @submit="saveEdit"
             @cancel="cancelEdit"
-        >
-        </inline-value-editor>
+        />
         <template v-else>
-            <icon name="comment-dots"></icon>
-            <span class="text-info clickable" v-if="remarks" @click="startEdit">
+            <icon name="comment-dots"/>
+            <span
+                v-if="remarks"
+                class="text-info clickable"
+                @click="startEdit"
+            >
                 {{ remarks }}
             </span>
-            <em class="text-muted clickable" v-else @click="startEdit">
+            <em
+                v-else @click="startEdit"
+                class="text-muted clickable"
+            >
                 {{ lang['people::people.click_to_add_remarks'] }}
             </em>
         </template>
@@ -23,65 +29,65 @@
 </template>
 
 <script>
-    import InlineValueEditor from './InlineValueEditor'
-    import showSnackbar from '@app/snackbar'
-    import { handleAjaxError } from '@app/utils'
-    export default {
-        components: {
-            InlineValueEditor
+import InlineValueEditor from './InlineValueEditor'
+import showSnackbar from '@app/snackbar'
+import { handleAjaxError } from '@app/utils'
+export default {
+    components: {
+        InlineValueEditor
+    },
+    props: {
+        apiUrl: {
+            type: String,
+            required: true
         },
-        props: {
-            apiUrl: {
-                type: String,
-                required: true
-            },
-            value: {
-                required: true
-            },
-            canUpdate: Boolean,
-            disabled: Boolean,
-            lang: {
-                type: Object,
-                required: true
-            },
+        value: {
+            required: true
         },
-        data() {
-            return {
-                busy: false,
-                form: false,
-                remarks: this.value != null && this.value.length > 0 ? this.value : null,
-                editValue: ''
-            }
+        canUpdate: Boolean,
+        disabled: Boolean,
+        lang: {
+            type: Object,
+            required: true
         },
-        methods: {
-            startEdit() {
-                this.form = true
-                this.editValue = this.remarks
-            },
-            cancelEdit() {
-                this.form = false
-            },
-            saveEdit(val) {
-                this.busy = true
-                this.editValue = val
-                axios.patch(this.apiUrl, {
-                        'remarks': val
-                    })
-                    .then(response => {
-                        var data = response.data
-                        this.remarks = data.remarks
-                        this.form = false
-                        showSnackbar(data.message)
-                    })
-                    .catch(err => handleAjaxError(err))
-                    .then(() => this.busy = false)
-            }
+    },
+    data() {
+        return {
+            busy: false,
+            form: false,
+            remarks: this.value != null && this.value.length > 0 ? this.value : null,
+            editValue: ''
+        }
+    },
+    methods: {
+        startEdit() {
+            this.form = true
+            this.editValue = this.remarks
+        },
+        cancelEdit() {
+            this.form = false
+        },
+        saveEdit(val) {
+            this.busy = true
+            this.editValue = val
+            axios.patch(this.apiUrl, {
+                    'remarks': val
+                })
+                .then(response => {
+                    var data = response.data
+                    this.remarks = data.remarks
+                    this.form = false
+                    showSnackbar(data.message)
+                })
+                .catch(err => handleAjaxError(err))
+                .then(() => this.busy = false)
         }
     }
+}
 </script>
 
 <style scoped>
-    .clickable {
-        cursor: pointer;
-    }
+.clickable {
+    cursor: pointer;
+}
 </style>
