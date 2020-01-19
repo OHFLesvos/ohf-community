@@ -66,32 +66,10 @@
 
             <!-- Recipient column -->
             <template v-slot:cell(person)="data">
-                <template v-if="data.value">
-                    <icon
-                        v-if="data.value.gender == 'f'"
-                        name="female"
-                    />
-                    <icon
-                        v-if="data.value.gender == 'm'"
-                        name="male"
-                    />
-                    <a
-                        v-if="data.value.url"
-                        :href="data.value.url"
-                        target="_blank"
-                    >{{ data.value.name }}</a>
-                    <template v-else>
-                        {{ data.value.name }}
-                    </template>
-                    <template v-if="data.value.date_of_birth">
-                        {{ data.value.date_of_birth }}
-                        ({{ data.value.age }})
-                    </template>
-                    <template v-if="data.value.nationality">
-                        <icon name="globe"/>
-                        {{ data.value.nationality }}
-                    </template>
-                </template>
+                <person-label
+                    v-if="data.value"
+                    :person="data.value"
+                />
                 <em v-else>
                     {{ lang['app.not_found'] }}
                 </em>
@@ -147,6 +125,7 @@
 <script>
 const ITEMS_PER_PAGE = 100
 import { BTable, BPagination, BButton, BRow, BCol, BFormInput } from 'bootstrap-vue'
+import PersonLabel from './PersonLabel'
 import { handleAjaxError } from '@app/utils'
 export default {
     components: {
@@ -155,7 +134,8 @@ export default {
         BButton,
         BRow,
         BCol,
-        BFormInput
+        BFormInput,
+        PersonLabel
     },
     props: {
         apiUrl: {
