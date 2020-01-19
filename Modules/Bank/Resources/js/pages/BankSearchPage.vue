@@ -59,6 +59,7 @@
 
 // TODO Show Family connections
 // TODO reset currentPage if filter changes
+// TODO react to age change
 
 const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
 

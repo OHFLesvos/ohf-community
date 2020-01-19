@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="apiUrl != null || remarks">
         <inline-value-editor
             v-if="form"
             :value="editValue"
@@ -11,19 +11,27 @@
         />
         <template v-else>
             <font-awesome-icon icon="comment-dots"/>
+            <template v-if="apiUrl != null">
+                <span
+                    v-if="remarks"
+                    class="text-info clickable"
+                    @click="startEdit"
+                >
+                    {{ remarks }}
+                </span>
+                <em
+                    v-else @click="startEdit"
+                    class="text-muted clickable"
+                >
+                    {{ lang['people::people.click_to_add_remarks'] }}
+                </em>
+            </template>
             <span
-                v-if="remarks"
-                class="text-info clickable"
-                @click="startEdit"
+                v-else-if="remarks"
+                class="text-info"
             >
                 {{ remarks }}
             </span>
-            <em
-                v-else @click="startEdit"
-                class="text-muted clickable"
-            >
-                {{ lang['people::people.click_to_add_remarks'] }}
-            </em>
         </template>
     </div>
 </template>
@@ -39,12 +47,12 @@ export default {
     props: {
         apiUrl: {
             type: String,
-            required: true
+            required: false,
+            default: null
         },
         value: {
             required: true
         },
-        canUpdate: Boolean,
         disabled: Boolean,
         lang: {
             type: Object,

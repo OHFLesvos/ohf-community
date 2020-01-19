@@ -1,5 +1,5 @@
 <template>
-    <strong v-if="canView">
+    <strong v-if="url != null">
         <a
             :href="url"
             class="text-warning"
@@ -16,7 +16,6 @@
 <script>
 export default {
     props: {
-        canView: Boolean,
         url: {
             type: String,
             required: false,

@@ -3,12 +3,12 @@
         <font-awesome-icon
             v-if="busy"
             icon="spinner"
-            :spin="true"
+            spin
         />
         <template v-else-if="nationality != null">
             {{ nationality }}
         </template>
-        <template v-else-if="canUpdate">
+        <template v-else-if="apiUrl != null">
             <template v-if="form">
                 <input
                     ref="input"
@@ -54,14 +54,14 @@ export default {
     props: {
         apiUrl: {
             type: String,
-            required: true
+            required: false,
+            default: null
         },
         value: {
             type: String,
             required: false,
             default: null
         },
-        canUpdate: Boolean,
         disabled: Boolean
     },
     data() {

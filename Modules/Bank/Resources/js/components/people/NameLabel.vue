@@ -1,6 +1,6 @@
 <template>
     <a
-        v-if="canView"
+        v-if="url != null"
         :href="url"
     >
         <strong>
@@ -19,7 +19,6 @@ export default {
         TextHighlight
     },
     props: {
-        canView: Boolean,
         url: {
             type: String,
             required: false,

@@ -10,33 +10,28 @@
                 <div class="col">
                     <helper-marker
                         v-if="person.is_helper"
-                        :url="person.show_helper_url"
-                        :canView="person.can_view_helper"
+                        :url="person.can_view_helper ? person.show_helper_url : null"
                         :lang="lang"
                     />
                     <name-label
-                        :url="person.show_url"
-                        :can-view="person.can_view"
+                        :url="person.can_view ? person.show_url : null"
                         :value="person.full_name"
                         :highlight-terms="highlightTerms"
                     />
                     <gender-selector
-                        :api-url="person.gender_update_url"
+                        :api-url="person.can_update ? person.gender_update_url : null"
                         :value="person.gender"
-                        :can-update="person.can_update"
                         :disabled="disabled"
                     />
                     <date-of-birth-selector
-                        :api-url="person.date_of_birth_update_url"
+                        :api-url="person.can_update ? person.date_of_birth_update_url : null"
                         :value="person.date_of_birth"
-                        :can-update="person.can_update"
                         :disabled="disabled"
                         @setAge="$emit('change')"
                     />
                     <nationality-selector
-                        :api-url="person.nationality_update_url"
+                        :api-url="person.can_update ? person.nationality_update_url : null"
                         :value="person.nationality"
-                        :can-update="person.can_update"
                         :disabled="disabled"
                     />
                     <frequent-visitor-marker
@@ -49,9 +44,8 @@
                 </div>
                 <div class="col-auto">
                     <card-number-label
-                        :api-url="person.register_card_url"
+                        :api-url="person.can_update ? person.register_card_url : null"
                         :value="person.card_no"
-                        :can-update="person.can_update"
                         :disabled="disabled"
                         :lang="lang"
                     />
@@ -74,14 +68,12 @@
             />
             <remarks-label
                 :value="person.remarks"
-                :api-url="person.remarks_update_url"
-                :can-update="person.can_update"
+                :api-url="person.can_update ? person.remarks_update_url : null"
                 :lang="lang"
             />
             <overdue-book-lendings-label
                 v-if="person.has_overdue_book_lendings"
-                :canOperateLibrary="person.can_operate_library"
-                :url="person.library_lending_person_url"
+                :url="person.can_operate_library ? person.library_lending_person_url : null"
                 :lang="lang"
             />
         </div>

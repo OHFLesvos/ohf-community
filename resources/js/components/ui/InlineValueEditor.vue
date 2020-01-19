@@ -17,7 +17,7 @@
             >
                 <font-awesome-icon
                     icon="spinner"
-                    :spin="true"
+                    spin
                 />
             </span>
             <template v-else>

@@ -3,7 +3,7 @@
         <font-awesome-icon
             v-if="busy"
             icon="spinner"
-            :spin="true"
+            spin
         />
         <font-awesome-icon
             v-else-if="gender == 'm'"
@@ -13,7 +13,7 @@
             v-else-if="gender == 'f'"
             icon="female"
         />
-        <template v-else-if="canUpdate">
+        <template v-else-if="apiUrl != null">
             <button
                 class="btn btn-warning btn-sm"
                 title="Male"
@@ -41,14 +41,14 @@ export default {
     props: {
         apiUrl: {
             type: String,
-            required: true
+            required: false,
+            default: null
         },
         value: {
             type: String,
             required: false,
             default: null
         },
-        canUpdate: Boolean,
         disabled: Boolean
     },
     data() {

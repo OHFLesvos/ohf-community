@@ -1,9 +1,10 @@
 <template>
     <div>
+        <font-awesome-icon icon="book"/>
         <em class="text-danger">
             Needs to bring back book(s) to the
             <a
-                v-if="canOperateLibrary"
+                v-if="url != null"
                 :href="url"
             >
                 {{ lang['library::library.library'] }}
@@ -18,7 +19,6 @@
 <script>
 export default {
     props: {
-        canOperateLibrary: Boolean,
         url: {
             type: String,
             required: false,

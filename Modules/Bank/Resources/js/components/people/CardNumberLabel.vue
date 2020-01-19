@@ -1,6 +1,6 @@
 <template>
     <span>
-        <template v-if="canUpdate && !disabled">
+        <template v-if="apiUrl != null && !disabled">
             <font-awesome-icon icon="id-card"/>
             <font-awesome-icon
                 v-if="busy"
@@ -30,14 +30,14 @@ export default {
     props: {
         apiUrl: {
             type: String,
-            required: true
+            required: false,
+            default: null
         },
         value: {
             type: String,
             required: false,
             default: null
         },
-        canUpdate: Boolean,
         disabled: Boolean,
         lang: {
             type: Object,
