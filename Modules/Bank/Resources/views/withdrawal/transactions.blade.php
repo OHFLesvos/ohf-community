@@ -19,10 +19,10 @@
     @endphp
 
     <div id="bank-app">
-        <withdrawal-transactions
+        <bank-transactions-page
             api-url="{{ route('api.bank.withdrawal.transactions') }}"
             :lang='@json($lang_arr)'
-        ></withdrawal-transactions>
+        ></bank-transactions-page>
     </div>
 
 @endsection

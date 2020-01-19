@@ -125,7 +125,7 @@
 <script>
 const ITEMS_PER_PAGE = 100
 import { BTable, BPagination, BButton, BRow, BCol, BFormInput } from 'bootstrap-vue'
-import PersonLabel from './PersonLabel'
+import PersonLabel from '../components/PersonLabel'
 import { handleAjaxError } from '@app/utils'
 export default {
     components: {

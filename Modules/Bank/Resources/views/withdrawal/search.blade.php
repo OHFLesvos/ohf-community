@@ -25,13 +25,13 @@
     @endphp
 
     <div id="bank-app">
-        <withdrawal-results
+        <bank-search-page
             api-url="{{ route('api.bank.withdrawal.search') }}"
             stats-api-url="{{ route('api.bank.withdrawal.dailyStats') }}"
             :lang='@json($lang_arr)'
             @can('create', Modules\People\Entities\Person::class)can-register-person
             register-person-url="{{ route('bank.people.create') }}" @endcan
-        ></withdrawal-results>
+        ></bank-search-page>
     </div>
 
 @endsection
