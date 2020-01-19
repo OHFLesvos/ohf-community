@@ -1,11 +1,14 @@
 import Vue from 'vue'
 
 import ShopApp from './components/ShopApp.vue'
-Vue.component('shop-app', ShopApp);
-
 import ShopCardManager from './components/ShopCardManager.vue'
-Vue.component('shop-card-manager', ShopCardManager);
+
+Vue.config.productionTip = false
 
 new Vue({
-    el: '#shop-app'
+    el: '#shop-app',
+    components: {
+        ShopApp,
+        ShopCardManager
+    }
 });

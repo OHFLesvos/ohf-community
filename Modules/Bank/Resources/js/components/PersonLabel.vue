@@ -1,12 +1,12 @@
 <template>
     <span>
-        <icon
+        <font-awesome-icon
             v-if="person.gender == 'f'"
-            name="female"
+            icon="female"
         />
-        <icon
+        <font-awesome-icon
             v-if="person.gender == 'm'"
-            name="male"
+            icon="male"
         />
         <a
             v-if="person.url"
@@ -21,7 +21,7 @@
             ({{ person.age }})
         </template>
         <template v-if="person.nationality">
-            <icon name="globe"/>
+            <font-awesome-icon icon="globe"/>
             {{ person.nationality }}
         </template>
     </span>

@@ -3,7 +3,7 @@
         :href="url"
         title="Edit"
     >
-        <icon name="edit"/>
+        <font-awesome-icon icon="edit"/>
     </a>
 </template>
 

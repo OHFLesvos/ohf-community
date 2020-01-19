@@ -1,11 +1,11 @@
 <template>
     <span>
         <template v-if="canUpdate && !disabled">
-            <icon name="id-card"/>
-            <icon
+            <font-awesome-icon icon="id-card"/>
+            <font-awesome-icon
                 v-if="busy"
-                name="spinner"
-                :spin="true"
+                icon="spinner"
+                spin
             />
             <a
                 v-else
@@ -17,7 +17,7 @@
             </a>
         </template>
         <template v-else-if="cardNo">
-            <icon name="id-card"/>
+            <font-awesome-icon icon="id-card"/>
             <strong>{{ cardNoShort }}</strong>
         </template>
     </span>

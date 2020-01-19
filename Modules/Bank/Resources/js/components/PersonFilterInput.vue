@@ -18,7 +18,10 @@
                         v-if="busy"
                         class="input-group-text"
                     >
-                        <icon name="spinner" :spin="true"/>
+                        <font-awesome-icon
+                            icon="spinner"
+                            spin
+                        />
                     </span>
                     <template v-else>
                         <button
@@ -27,7 +30,7 @@
                             :disabled="!filter"
                             @click="submit"
                         >
-                            <icon name="search"/>
+                            <font-awesome-icon icon="search"/>
                         </button>
                         <button
                             class="btn btn-secondary"
@@ -35,7 +38,7 @@
                             :disabled="!filter"
                             @click="reset"
                         >
-                            <icon name="eraser"/>
+                            <font-awesome-icon icon="eraser"/>
                         </button>
                     </template>
                 </div>
@@ -48,7 +51,7 @@
                 :disabled="busy"
                 @click="scanCard"
             >
-                <icon name="qrcode"/>
+                <font-awesome-icon icon="qrcode"/>
                 <span class="d-none d-sm-inline">
                     {{ lang['people::people.scan_card'] }}
                 </span>

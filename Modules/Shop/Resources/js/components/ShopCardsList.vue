@@ -2,16 +2,31 @@
     <div>
         <h4 class="mb-3">
             {{ lang['shop::shop.redeemed_cards'] }}
-            <template v-if="handouts.length > 0">({{ handouts.length }})</template>
+            <template v-if="handouts.length > 0">
+                ({{ handouts.length }})
+            </template>
         </h4>
         <p v-if="loading">
-            <icon name="spinner" :spin="true"></icon> {{ lang['app.loading'] }}
+            <font-awesome-icon
+                icon="spinner"
+                spin
+            />
+            {{ lang['app.loading'] }}
         </p>
-        <table class="table table-sm table-striped mb-4" v-else-if="handouts.length > 0">
+        <table
+            v-else-if="handouts.length > 0"
+            class="table table-sm table-striped mb-4"
+        >
             <tbody>
-                <tr v-for="handout in handouts" :key="handout.id">
+                <tr
+                    v-for="handout in handouts"
+                    :key="handout.id"
+                >
                     <td>
-                        <a :href="handout.person.url" target="_blank">
+                        <a
+                            :href="handout.person.url"
+                            target="_blank"
+                        >
                             <person-label :person="handout.person"></person-label>
                         </a>
                     </td>
@@ -30,8 +45,12 @@
 
 <script>
 import PersonLabel from '@app/components/PersonLabel'
-import Icon from '@app/components/Icon'
+import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
 export default {
+    components: {
+        PersonLabel,
+        FontAwesomeIcon
+    },
     props: {
         handouts: {
             type: Array,
@@ -46,10 +65,6 @@ export default {
             required: false,
             default: false
         }
-    },
-    components: {
-        PersonLabel,
-        Icon
     }
 }
 </script>

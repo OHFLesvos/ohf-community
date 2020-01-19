@@ -1,17 +1,17 @@
 <template>
     <span>
-        <icon
+        <font-awesome-icon
             v-if="busy"
-            name="spinner"
+            icon="spinner"
             :spin="true"
         />
-        <icon
+        <font-awesome-icon
             v-else-if="gender == 'm'"
-            name="male"
+            icon="male"
         />
-        <icon
+        <font-awesome-icon
             v-else-if="gender == 'f'"
-            name="female"
+            icon="female"
         />
         <template v-else-if="canUpdate">
             <button
@@ -20,7 +20,7 @@
                 :disabled="disabled"
                 @click="setGender('m')"
             >
-                <icon name="male"/>
+                <font-awesome-icon icon="male"/>
             </button>
             <button
                 class="btn btn-warning btn-sm"
@@ -28,7 +28,7 @@
                 :disabled="disabled"
                 @click="setGender('f')"
             >
-                <icon name="female"/>
+                <font-awesome-icon icon="female"/>
             </button>
         </template>
     </span>

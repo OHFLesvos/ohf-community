@@ -3,6 +3,6 @@
         class="text-warning"
         title="Frequent visitor"
     >
-        <icon name="star"/>
+        <font-awesome-icon icon="star"/>
     </span>
 </template>

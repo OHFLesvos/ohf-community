@@ -1,9 +1,15 @@
 <template>
     <div>
         <!-- Error message -->
-        <error-alert :message="error" v-if="error"></error-alert>
+        <error-alert
+            v-if="error"
+            :message="error"
+        />
 
-        <table class="table table-sm table-striped mb-4" v-if="items.length > 0">
+        <table
+            v-if="items.length > 0"
+            class="table table-sm table-striped mb-4"
+        >
             <thead>
                 <tr>
                     <th>{{ lang['app.date'] }}</th>
@@ -13,12 +19,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in items" :key="item.date" :class="{'table-warning': item.expired}">
+                <tr
+                    v-for="item in items"
+                    :key="item.date"
+                    :class="{'table-warning': item.expired}"
+                >
                     <td class="align-middle">{{ item.date }}</td>
                     <td class="align-middle">{{ item.total }}</td>
-                    <td class="align-middle"><icon :name="item.expired ? 'check' : 'times'"></icon></td>
+                    <td class="align-middle">
+                        <font-awesome-icon :icon="item.expired ? 'check' : 'times'"/>
+                    </td>
                     <td class="fit">
-                        <button class="btn btn-danger btn-sm" @click="deleteCards(item.date)" :disabled="busy">
+                        <button
+                            class="btn btn-danger btn-sm"
+                            :disabled="busy"
+                            @click="deleteCards(item.date)"
+                        >
                             {{ lang['shop::shop.delete_cards'] }}
                         </button>
                     </td>
@@ -29,7 +45,11 @@
             <em>{{ lang['shop::shop.no_suitable_cards_found'] }}</em>
         </p>
         <p v-else>
-            <icon name="spinner" :spin="true"></icon> {{ lang['app.loading'] }}
+            <font-awesome-icon
+                icon="spinner"
+                spin
+            />
+            {{ lang['app.loading'] }}
         </p>
     </div>
 </template>
@@ -37,9 +57,13 @@
 <script>
     import { getAjaxErrorMessage } from '@app/utils'
     import showSnackbar from '@app/snackbar'
-    import ErrorAlert from '@app/components/ErrorAlert'
-    import Icon from '@app/components/Icon'
+    import ErrorAlert from '@app/components/alerts/ErrorAlert'
+    import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
     export default {
+        components: {
+            ErrorAlert,
+            FontAwesomeIcon
+        },
         props: {
             lang: {
                 type: Object,
@@ -54,16 +78,15 @@
                 required: true
             }
         },
-        components: {
-            ErrorAlert,
-            Icon
-        },
         data() {
             return {
                 items: [],
                 error: null,
                 busy: false,
             }
+        },
+        mounted() {
+            this.loadSummary()
         },
         methods: {
             loadSummary() {
@@ -100,9 +123,6 @@
                         });
                 }
             }
-        },
-        mounted() {
-            this.loadSummary()
         }
     }
 </script>

@@ -15,8 +15,8 @@
                 v-if="busy"
                 class="input-group-text"
             >
-                <icon
-                    name="spinner"
+                <font-awesome-icon
+                    icon="spinner"
                     :spin="true"
                 />
             </span>
@@ -27,7 +27,7 @@
                     :disabled="disabled || busy"
                     @click="saveEdit"
                 >
-                    <icon name="check"/>
+                    <font-awesome-icon icon="check"/>
                 </button>
                 <button
                     type="button"
@@ -35,7 +35,7 @@
                     :disabled="disabled || busy"
                     @click="cancelEdit"
                 >
-                    <icon name="times"/>
+                    <font-awesome-icon icon="times"/>
                 </button>
             </template>
         </div>

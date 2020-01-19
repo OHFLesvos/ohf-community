@@ -4,7 +4,7 @@
             :href="url"
             class="btn btn-primary"
         >
-            <icon name="plus-circle"/>
+            <font-awesome-icon icon="plus-circle"/>
             {{ lang['people::people.register_a_new_person'] }}
         </a>
     </p>

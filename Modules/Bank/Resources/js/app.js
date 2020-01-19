@@ -1,17 +1,17 @@
 import Vue from 'vue'
 
-import Icon from '@app/components/Icon'
+import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 import WithdrawalResults from './components/WithdrawalResults.vue'
 import WithdrawalTransactions from './components/WithdrawalTransactions.vue'
-
-Vue.component('icon', Icon);
 
 Vue.config.productionTip = false
 
 new Vue({
 	el: '#bank-app',
 	components: {
-		Icon,
+		FontAwesomeIcon,
 		WithdrawalResults,
 		WithdrawalTransactions
 	}

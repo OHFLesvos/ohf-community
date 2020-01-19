@@ -10,7 +10,7 @@
             @cancel="cancelEdit"
         />
         <template v-else>
-            <icon name="comment-dots"/>
+            <font-awesome-icon icon="comment-dots"/>
             <span
                 v-if="remarks"
                 class="text-info clickable"

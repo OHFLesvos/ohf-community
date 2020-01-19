@@ -7,7 +7,7 @@
         @click="undoHandoutCoupon"
     >
         {{ daily_amount }}
-        <icon :name="icon"/>
+        <font-awesome-icon :icon="icon"/>
         {{ name }}
         ({{ last_handout }})
     </button>
@@ -19,11 +19,11 @@
         @click="handoutCoupon"
     >
         {{ daily_amount }}
-        <icon :name="icon"/>
+        <font-awesome-icon :icon="icon"/>
         {{ name }}
-        <icon
+        <font-awesome-icon
             v-if="qr_code_enabled"
-            name="qrcode"
+            icon="qrcode"
         />
     </button>
 </template>

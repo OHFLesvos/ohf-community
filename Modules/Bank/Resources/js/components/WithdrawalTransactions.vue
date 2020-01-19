@@ -32,9 +32,9 @@
                 v-slot:table-busy
             >
                 <div class="text-center my-2">
-                    <icon
-                        name="spinner"
-                        :spin="true"
+                    <font-awesome-icon
+                        icon="spinner"
+                        spin
                     />
                     {{ lang['app.loading'] }}
                 </div>
@@ -49,7 +49,7 @@
                     v-if="data.item.user"
                     class="text-muted"
                 >
-                    <icon name="user"/>
+                    <font-awesome-icon icon="user"/>
                     {{ data.item.user }}
                 </small>
             </template>
@@ -111,8 +111,8 @@
                     :disabled="isBusy"
                     @click="refresh"
                 >
-                    <icon
-                        name="sync"
+                    <font-awesome-icon
+                        icon="sync"
                         :spin="isBusy"
                     />
                 </b-button>

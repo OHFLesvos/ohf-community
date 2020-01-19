@@ -1,8 +1,8 @@
 <template>
     <span class="form-inline d-inline">
-        <icon
+        <font-awesome-icon
             v-if="busy"
-            name="spinner"
+            icon="spinner"
             :spin="true"
         />
         <template v-else-if="nationality != null">
@@ -24,14 +24,14 @@
                     class="btn btn-primary btn-sm"
                     @click="setNationality"
                 >
-                    <icon name="check"/>
+                    <font-awesome-icon icon="check"/>
                 </button>
                 <button
                     type="button"
                     class="btn btn-secondary btn-sm"
                     @click="form = false"
                 >
-                    <icon name="times"/>
+                    <font-awesome-icon icon="times"/>
                 </button>
             </template>
             <button
@@ -41,7 +41,7 @@
                 :disabled="disabled"
                 @click="form = true"
             >
-                <icon name="globe"/>
+                <font-awesome-icon icon="globe"/>
             </button>
         </template>
     </span>

@@ -5,7 +5,7 @@
 <script>
     export default {
         props: {
-            name: {
+            icon: {
                 type: String,
                 required: true
             },
@@ -13,13 +13,21 @@
                 type: Boolean,
                 required: false,
                 default: false
+            },
+            pulse: {
+                type: Boolean,
+                required: false,
+                default: false
             }
         },
         computed: {
             classes() {
-                let classes = [`fa-${this.name}`]
+                let classes = [`fa-${this.icon}`]
                 if (this.spin) {
                     classes.push('fa-spin')
+                }
+                if (this.pulse) {
+                    classes.push('fa-pulse')
                 }
                 return classes
             }

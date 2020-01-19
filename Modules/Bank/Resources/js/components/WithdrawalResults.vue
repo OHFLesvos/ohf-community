@@ -67,7 +67,7 @@ import PersonFilterInput from './PersonFilterInput'
 import BankPersonCard from './BankPersonCard'
 import RegisterPersonButton from './RegisterPersonButton'
 import BankStats from './BankStats'
-import InfoAlert from '@app/components/InfoAlert'
+import InfoAlert from '@app/components/alerts/InfoAlert'
 import { BPagination } from 'bootstrap-vue'
 
 import { EventBus } from '@app/event-bus.js';

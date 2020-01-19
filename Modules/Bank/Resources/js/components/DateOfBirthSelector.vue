@@ -1,8 +1,8 @@
 <template>
     <span class="form-inline d-inline">
-        <icon
+        <font-awesome-icon
             v-if="busy"
-            name="spinner"
+            icon="spinner"
             :spin="true"
         />
         <template v-else-if="dateOfBirth != null">
@@ -27,14 +27,14 @@
                     class="btn btn-primary btn-sm"
                     @click="setDateOfBirth"
                 >
-                    <icon name="check"/>
+                    <font-awesome-icon icon="check"/>
                 </button>
                 <button
                     type="button"
                     class="btn btn-secondary btn-sm"
                     @click="form = false"
                 >
-                    <icon name="times"/>
+                    <font-awesome-icon icon="times"/>
                 </button>
             </template>
             <button
@@ -44,7 +44,7 @@
                 :disabled="disabled"
                 @click="form = true"
             >
-                <icon name="calendar-plus"/>
+                <font-awesome-icon icon="calendar-plus"/>
             </button>
         </template>
     </span>
