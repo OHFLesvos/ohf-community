@@ -63,10 +63,10 @@ const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
 
 import { handleAjaxError } from '@app/utils'
 
-import PersonFilterInput from '../components/PersonFilterInput'
-import BankPersonCard from '../components/BankPersonCard'
-import RegisterPersonButton from '../components/RegisterPersonButton'
-import BankStats from '../components/BankStats'
+import PersonFilterInput from '../components/bank/PersonFilterInput'
+import BankPersonCard from '../components/bank/BankPersonCard'
+import RegisterPersonButton from '../components/people/RegisterPersonButton'
+import BankStats from '../components/bank/BankStats'
 
 import InfoAlert from '@app/components/alerts/InfoAlert'
 import { BPagination } from 'bootstrap-vue'

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import InlineValueEditor from './InlineValueEditor'
+import InlineValueEditor from '@app/components/ui/InlineValueEditor'
 import showSnackbar from '@app/snackbar'
 import { handleAjaxError } from '@app/utils'
 export default {
