@@ -4,6 +4,7 @@
             v-model="filter"
             :lang="lang"
             :busy="busy"
+            :placeholder="lang['people::people.bank_search_text']"
             @scan="searchCode"
         />
         <div
@@ -63,7 +64,7 @@ const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
 
 import { handleAjaxError } from '@app/utils'
 
-import PersonFilterInput from '../components/bank/PersonFilterInput'
+import PersonFilterInput from '../components/people/PersonFilterInput'
 import BankPersonCard from '../components/bank/BankPersonCard'
 import RegisterPersonButton from '../components/people/RegisterPersonButton'
 import BankStats from '../components/bank/BankStats'

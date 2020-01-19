@@ -7,7 +7,7 @@
                     v-model="filter"
                     type="text"
                     class="form-control"
-                    :placeholder="lang['people::people.bank_search_text']"
+                    :placeholder="placeholder"
                     :disabled="busy"
                     @keydown.enter="submit"
                     @keydown.esc="reset"
@@ -65,15 +65,20 @@ import scanQR from '@app/qr'
 import { EventBus } from '@app/event-bus.js';
 export default {
     props: {
-        lang: {
-            type: Object,
-            required: true
-        },
-        busy: Boolean,
         value: {
             type: String,
             required: false,
             default: ''
+        },
+        placeholder: {
+            type: String,
+            required: false,
+            default: 'Search...'
+        },
+        busy: Boolean,
+        lang: {
+            type: Object,
+            required: true
         }
     },
     data() {
