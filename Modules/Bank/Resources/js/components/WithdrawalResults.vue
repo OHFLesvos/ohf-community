@@ -36,8 +36,8 @@
             </template>
         </div>
         <bank-stats
-            v-else-if="statsLoaded"
-            :stats="stats"
+            v-else-if="filter.length == 0"
+            :api-url="statsApiUrl"
             :lang="lang"
         ></bank-stats>
     </div>
@@ -48,7 +48,6 @@
 // TODO Show Family connections
 // TODO reset currentPage if filter changes
 
-const RELOAD_STATS_INTERVAL = 1
 const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
 
 import PersonFilterInput from './PersonFilterInput'
@@ -98,8 +97,6 @@ export default {
             currentPage: 1,
             filter: this.defaultFilter(),
             busy: false,
-            stats: {},
-            statsLoaded: false,
             message: null,
             searchTerms: []
         }
@@ -178,17 +175,6 @@ export default {
             this.loaded = false
             this.message = null
             sessionStorage.removeItem(FILTER_SESSION_KEY)
-            this.loadStats()
-        },
-        loadStats() {
-            if (!this.loaded) {
-                axios.get(this.statsApiUrl)
-                    .then(res => {
-                        this.stats = res.data
-                        this.statsLoaded = true
-                    })
-                    .catch(console.error);
-            }
         }
     },
     watch: {
@@ -206,10 +192,7 @@ export default {
     mounted() {
         if (this.filter.length > 0) {
             this.search(this.filter)
-        } else {
-            this.loadStats()
         }
-        setInterval(this.loadStats, RELOAD_STATS_INTERVAL * 60 * 1000)
     }
 }
 </script>
