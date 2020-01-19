@@ -62,6 +62,7 @@
 
 <script>
 import scanQR from '@app/qr'
+import { isAlphaNumeric } from '@app/utils'
 import { EventBus } from '@app/event-bus.js';
 export default {
     props: {
@@ -105,9 +106,13 @@ export default {
             this.$refs.input.focus()
         },
         scanCard() {
-            scanQR((content) => {
+            scanQR(content => {
                 this.filter = content
                 this.submit()
+            }, value => {
+                if (!isAlphaNumeric(value)) {
+                    throw 'Only letters and numbers are allowed!'
+                }
             });
         }
     }

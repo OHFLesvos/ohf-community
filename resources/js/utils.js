@@ -72,3 +72,7 @@ export function todayDate() {
 	}
 	return yyyy + '-' + mm + '-' + dd;
 }
+
+export function isAlphaNumeric(value) {
+	return /^[a-zA-Z0-9]+$/.test(value)
+}
