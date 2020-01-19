@@ -21,6 +21,8 @@
                     :person="person"
                     :lang="lang"
                     :highlight-terms="searchTerms"
+                    @change="refreshCard(person.id)"
+                    :disabled="disabledCards.indexOf(person.id) >= 0"
                 />
                 <b-pagination
                     v-if="totalRows > 0 && perPage > 0"
@@ -59,7 +61,6 @@
 
 // TODO Show Family connections
 // TODO reset currentPage if filter changes
-// TODO react to age change
 
 const FILTER_SESSION_KEY = 'bank.withdrawal.filter'
 
@@ -115,7 +116,8 @@ export default {
             filter: this.defaultFilter(),
             busy: false,
             message: null,
-            searchTerms: []
+            searchTerms: [],
+            disabledCards: []
         }
     },
     computed: {
@@ -199,6 +201,20 @@ export default {
                             this.message = res.data.message
                         }
                     }
+                })
+                .catch(err => handleAjaxError(err))
+                .then(() => this.busy = false)
+        },
+        refreshCard(personId) {
+            this.busy = true
+            this.disabledCards.push(personId)
+            axios.get(`${this.apiUrl}?id=${personId}`)
+                .then((res) => {
+                    if (res.data.data) {
+                        const idx = this.persons.findIndex(p => p.id == personId)
+                        this.persons[idx] = res.data.data
+                    }
+                    this.disabledCards.splice(this.disabledCards.indexOf(personId))
                 })
                 .catch(err => handleAjaxError(err))
                 .then(() => this.busy = false)

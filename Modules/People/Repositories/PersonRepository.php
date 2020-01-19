@@ -11,6 +11,11 @@ class PersonRepository
         return Person::where('card_no', $cardNo)->first();
     }
 
+    public function findByPublicId($id)
+    {
+        return Person::where('public_id', $id)->first();
+    }
+
     public function filterByTerms(array $terms, ?int $perPage = null)
     {
         $query = Person::filterByTerms($terms)
