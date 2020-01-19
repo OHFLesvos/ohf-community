@@ -8,7 +8,7 @@
                     type="text"
                     class="form-control"
                     :placeholder="placeholder"
-                    :disabled="busy"
+                    :disabled="busy || disabled"
                     @keydown.enter="submit"
                     @keydown.esc="reset"
                     @focus="$refs.input.select()"
@@ -27,7 +27,7 @@
                         <button
                             class="btn btn-primary"
                             type="button"
-                            :disabled="!filter"
+                            :disabled="!filter || disabled"
                             @click="submit"
                         >
                             <font-awesome-icon icon="search"/>
@@ -35,7 +35,7 @@
                         <button
                             class="btn btn-secondary"
                             type="button"
-                            :disabled="!filter"
+                            :disabled="!filter || disabled"
                             @click="reset"
                         >
                             <font-awesome-icon icon="eraser"/>
@@ -48,7 +48,7 @@
             <button
                 class="btn btn-primary"
                 type="button"
-                :disabled="busy"
+                :disabled="busy || disabled"
                 @click="scanCard"
             >
                 <font-awesome-icon icon="qrcode"/>
@@ -79,7 +79,8 @@ export default {
         lang: {
             type: Object,
             required: true
-        }
+        },
+        disabled: Boolean
     },
     data() {
         return {
@@ -96,17 +97,17 @@ export default {
     },
     methods: {
         submit() {
-            this.$emit('input', this.filter)
+            this.$emit('submit', this.filter)
         },
         reset() {
             this.filter = ''
-            this.$emit('input', this.filter)
+            this.$emit('reset')
             this.$refs.input.focus()
         },
         scanCard() {
             scanQR((content) => {
-                this.filter = ''
-                this.$emit('scan', content)
+                this.filter = content
+                this.submit()
             });
         }
     }

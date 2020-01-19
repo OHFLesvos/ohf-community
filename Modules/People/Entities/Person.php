@@ -551,6 +551,7 @@ class Person extends Model
                     $wq->where('search', 'LIKE', '%' . $term . '%');
                     $wq->orWhere('police_no', $term);
                     $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
+                    $wq->orWhere('card_no', $term);
                 });
             }
         });
