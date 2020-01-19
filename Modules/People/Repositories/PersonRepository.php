@@ -8,12 +8,8 @@ class PersonRepository
 {
     public function findByCardNumber($cardNo)
     {
-        return Person::where('card_no', $cardNo)->first();
-    }
-
-    public function findByPublicId($id)
-    {
-        return Person::where('public_id', $id)->first();
+        return Person::where('card_no', $cardNo)
+            ->first();
     }
 
     public function filterByTerms(array $terms, ?int $perPage = null)

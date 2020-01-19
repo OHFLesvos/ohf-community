@@ -26,6 +26,8 @@ Route::group(['middleware' => ['language', 'auth']], function () {
                 ->middleware('can:list,Modules\People\Entities\Person');
             Route::get('withdrawal/search', 'WithdrawalController@search')
                 ->name('search');
+            Route::get('withdrawal/persons/{person}', 'WithdrawalController@person')
+                ->name('person');
             Route::post('person/{person}/couponType/{couponType}/handout', 'WithdrawalController@handoutCoupon')
                 ->name('handoutCoupon');
             Route::delete('person/{person}/couponType/{couponType}/handout', 'WithdrawalController@undoHandoutCoupon')

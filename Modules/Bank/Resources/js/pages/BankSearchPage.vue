@@ -20,7 +20,7 @@
                     :person="person"
                     :lang="lang"
                     :highlight-terms="searchTerms"
-                    @change="refreshCard(person.id)"
+                    @change="reloadPerson(person)"
                     :disabled="disabledCards.indexOf(person.id) >= 0"
                 />
                 <div class="row align-items-center">
@@ -178,19 +178,21 @@ export default {
                     }
                 })
         },
-        refreshCard(personId) {
-            this.disableSearch = true
-            this.disabledCards.push(personId)
-            axios.get(`${this.apiUrl}?id=${personId}`)
-                .then((res) => {
-                    if (res.data.data) {
-                        const idx = this.persons.findIndex(p => p.id == personId)
-                        this.persons[idx] = res.data.data
-                    }
-                    this.disabledCards.splice(this.disabledCards.indexOf(personId))
-                })
-                .catch(err => handleAjaxError(err))
-                .then(() => this.disableSearch = false)
+        reloadPerson(person) {
+            if (person.url) {
+                this.disableSearch = true
+                this.disabledCards.push(person.id)
+                axios.get(person.url)
+                    .then((res) => {
+                        if (res.data.data) {
+                            const idx = this.persons.findIndex(p => p.id == person.id)
+                            this.persons[idx] = res.data.data
+                        }
+                        this.disabledCards.splice(this.disabledCards.indexOf(person.id))
+                    })
+                    .catch(err => handleAjaxError(err))
+                    .then(() => this.disableSearch = false)
+            }
         },
         reset() {
             this.persons = []

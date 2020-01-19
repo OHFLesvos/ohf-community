@@ -24,6 +24,7 @@ class BankPerson extends Resource
     {
         return [
             'id' => $this->{$this->getRouteKeyName()},
+            'url' => route('api.bank.withdrawal.person', $this->resource),
             'full_name' => $this->full_name,
             'gender' => $this->gender,
             'date_of_birth' => $this->date_of_birth,

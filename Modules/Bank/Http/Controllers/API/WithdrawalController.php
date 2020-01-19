@@ -99,32 +99,17 @@ class WithdrawalController extends Controller
     {
         $request->validate([
             'filter' => [
-                'required_without_all:card_no,id'
+                'required_without_all:card_no'
             ],
             'card_no' => [
-                'required_without_all:filter,id'
-            ],
-            'id' => [
-                'required_without_all:filter,card_no'
+                'required_without_all:filter'
             ]
         ]);
 
         if ($request->filled('card_no')) {
             return $this->getPersonByCardNo($request->card_no);
-        } else if ($request->filled('id')) {
-            return $this->getPersonById($request->id);
         } else {
             return $this->getPersonsByFilter($request->filter);
-        }
-    }
-
-    private function getPersonById($id)
-    {
-        if (($person = $this->persons->findByPublicId($id)) !== null) {
-            return (new BankPerson($person))
-                ->withCouponTypes($this->couponTypes->getEnabled());
-        } else {
-            return response()->json([]);
         }
     }
 
@@ -185,6 +170,18 @@ class WithdrawalController extends Controller
             return implode('&', $register);
         }
         return null;
+    }
+
+    /**
+     * Single person
+     *
+     * @param Person $person
+     * @return \Illuminate\Http\Response
+     */
+    public function person(Person $person)
+    {
+        return (new BankPerson($person))
+            ->withCouponTypes($this->couponTypes->getEnabled());
     }
 
     /**
