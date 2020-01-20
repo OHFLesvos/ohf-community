@@ -172,7 +172,7 @@ return [
     'edit_filter' => 'Filter bearbeiten',
     'save' => 'Speichern',
     'save_and_continue' => 'Speichern und weiter',
-    'please_wait' => 'Bitte warten',
+    'please_wait' => 'Bitte warten...',
     'upload' => 'Heraufladen',
     'crop' => 'Zuschneiden',
     'crop_the_image' => 'Bild zuschneiden',

@@ -57,14 +57,27 @@
                 </span>
             </button>
         </div>
+
+        <scanner-dialog
+            :lang="lang"
+            ref="scanner"
+            :validator="validateScannedValue"
+            validator-message="Only letters and numbers are allowed!"
+            @submit="submitScannedCard"
+        />
+
     </div>
 </template>
 
 <script>
 import scanQR from '@app/qr'
 import { isAlphaNumeric } from '@app/utils'
-import { EventBus } from '@app/event-bus.js';
+import { EventBus } from '@app/event-bus';
+import ScannerDialog from '../ui/ScannerDialog'
 export default {
+    components: {
+        ScannerDialog
+    },
     props: {
         value: {
             type: String,
@@ -106,14 +119,14 @@ export default {
             this.$refs.input.focus()
         },
         scanCard() {
-            scanQR(content => {
-                this.filter = content
-                this.submit()
-            }, value => {
-                if (!isAlphaNumeric(value)) {
-                    throw 'Only letters and numbers are allowed!'
-                }
-            });
+            this.$refs.scanner.open()
+        },
+        validateScannedValue(val) {
+            return isAlphaNumeric(val)
+        },
+        submitScannedCard(value) {
+            this.filter = value
+            this.submit()
         }
     }
 }

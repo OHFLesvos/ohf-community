@@ -6,6 +6,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 import BankSearchPage from './pages/BankSearchPage.vue'
 import BankTransactionsPage from './pages/BankTransactionsPage.vue'
 
+import { ModalPlugin } from 'bootstrap-vue'
+Vue.use(ModalPlugin)
+
 Vue.config.productionTip = false
 
 new Vue({

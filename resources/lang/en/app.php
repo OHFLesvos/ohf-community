@@ -172,7 +172,7 @@ return [
     'edit_filter' => 'Edit filter',
     'save' => 'Save',
     'save_and_continue' => 'Save and continue',
-    'please_wait' => 'Please wait',
+    'please_wait' => 'Please wait...',
     'upload' => 'Upload',
     'crop' => 'Crop',
     'crop_the_image' => 'Crop the image',
