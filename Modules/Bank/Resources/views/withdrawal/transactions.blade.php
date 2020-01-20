@@ -30,9 +30,3 @@
 @section('footer')
     <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}" defer></script>
 @endsection
-
-@section('script')
-    {{-- // TODO not really needed, find a way to exclude this --}}
-    var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
-    var scannerDialogWaitMessage = '@lang('app.please_wait')';
-@endsection
