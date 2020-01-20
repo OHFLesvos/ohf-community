@@ -43,6 +43,8 @@ import KeyboardInput from './KeyboardInput'
 import jsQR from 'jsqr'
 import CanvasCamera from '@app/utils/canvasCamera'
 
+import { isAlphaNumeric } from '@app/utils'
+
 export default {
     components: {
         BModal,
@@ -57,7 +59,8 @@ export default {
         },
         validator: {
             type: Function,
-            required: false
+            required: false,
+            default: val => isAlphaNumeric(val)
         },
         validatorMessage: {
             type: String,

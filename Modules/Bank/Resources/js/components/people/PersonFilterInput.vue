@@ -59,20 +59,16 @@
         </div>
 
         <code-scanner-modal
-            :lang="lang"
             ref="codeScanner"
-            :validator="validateScannedValue"
             :title="lang['people::people.qr_code_scanner']"
             :validator-message="lang['app.only_letters_and_numbers_allowed']"
             :wait-message="lang['app.please_wait']"
             @submit="submitScannedCard"
         />
-
     </div>
 </template>
 
 <script>
-import { isAlphaNumeric } from '@app/utils'
 import { EventBus } from '@app/event-bus';
 import CodeScannerModal from '../ui/CodeScanner'
 export default {
@@ -121,9 +117,6 @@ export default {
         },
         scanCard() {
             this.$refs.codeScanner.open()
-        },
-        validateScannedValue(val) {
-            return isAlphaNumeric(val)
         },
         submitScannedCard(value) {
             this.filter = value
