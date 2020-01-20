@@ -8,7 +8,7 @@
     >
         <template v-slot:modal-header="{ close }">
             <modal-header
-                :title="lang['people::people.qr_code_scanner']"
+                :title="title"
                 v-model="mode"
                 @close="close()"
             />
@@ -20,7 +20,7 @@
                 style="width: 100%; height: 100%; background: red"
             ></canvas>
             <span v-if="!videoLoaded">
-                {{ lang['app.please_wait'] }}
+                {{ waitMessage }}
             </span>
         </template>
         <keyboard-input
@@ -50,6 +50,11 @@ export default {
         KeyboardInput
     },
     props: {
+        title: {
+            type: String,
+            required: false,
+            default: 'QR Code Scanner'
+        },
         validator: {
             type: Function,
             required: false
@@ -59,9 +64,10 @@ export default {
             required: false,
             default: 'Invalid input.'
         },
-        lang: {
-            type: Object,
-            required: true
+        waitMessage: {
+            type: String,
+            required: false,
+            default: 'Please wait...'
         }
     },
     data() {

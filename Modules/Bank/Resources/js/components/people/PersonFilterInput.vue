@@ -62,7 +62,9 @@
             :lang="lang"
             ref="codeScanner"
             :validator="validateScannedValue"
-            validator-message="Only letters and numbers are allowed!"
+            :title="lang['people::people.qr_code_scanner']"
+            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            :wait-message="lang['app.please_wait']"
             @submit="submitScannedCard"
         />
 

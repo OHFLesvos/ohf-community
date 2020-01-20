@@ -304,4 +304,5 @@ return [
     'data' => 'Daten',
     'valid_for_n_days' => 'Gültig für einen Tag.|Gültig für :days Tage.',
     'no_records_matching_your_request' => 'Keine Datensätze entsprechen deiner Anfrage.',
+    'only_letters_and_numbers_allowed' => 'Nur Zahlen und Nummern erlaubt!',
 ];

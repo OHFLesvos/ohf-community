@@ -22,7 +22,8 @@
             'people::people.register_a_new_person',
             'people::people.not_yet_served_any_persons',
             'people::people.qr_code_scanner',
-            'app.please_wait'
+            'app.please_wait',
+            'app.only_letters_and_numbers_allowed'
         ]);
     @endphp
 
