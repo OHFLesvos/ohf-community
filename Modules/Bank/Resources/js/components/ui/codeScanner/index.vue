@@ -40,7 +40,6 @@ import { BModal } from 'bootstrap-vue'
 import ModalHeader from './ModalHeader'
 import KeyboardInput from './KeyboardInput'
 
-import jsQR from 'jsqr'
 import { readQRcodeFromImage } from '@app/utils/media'
 import CanvasCamera from '@app/utils/canvasCamera'
 

@@ -10,6 +10,7 @@
         </button>
         <button
             v-if="isCameraMode"
+            ref="cameraButton"
             type="button"
             class="close"
             @click="setKeyboardMode"
@@ -62,6 +63,9 @@ export default {
         },
         setCameraMode() {
             this.mode = 'camera'
+            this.$nextTick(() => {
+                this.$refs.cameraButton.blur()
+            })
         },
         close() {
             this.$emit('close')

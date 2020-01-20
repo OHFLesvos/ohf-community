@@ -60,7 +60,7 @@
 
         <code-scanner-modal
             :lang="lang"
-            ref="scanner"
+            ref="codeScanner"
             :validator="validateScannedValue"
             validator-message="Only letters and numbers are allowed!"
             @submit="submitScannedCard"
@@ -70,7 +70,6 @@
 </template>
 
 <script>
-import scanQR from '@app/qr'
 import { isAlphaNumeric } from '@app/utils'
 import { EventBus } from '@app/event-bus';
 import CodeScannerModal from '../ui/codeScanner'
@@ -119,7 +118,7 @@ export default {
             this.$refs.input.focus()
         },
         scanCard() {
-            this.$refs.scanner.open()
+            this.$refs.codeScanner.open()
         },
         validateScannedValue(val) {
             return isAlphaNumeric(val)
