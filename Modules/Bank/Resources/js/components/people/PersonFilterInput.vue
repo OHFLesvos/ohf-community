@@ -69,8 +69,8 @@
 </template>
 
 <script>
-import { isAlphaNumeric } from '@app/utils'
 import { EventBus } from '@app/event-bus';
+import { isAlphaNumeric } from '@app/utils'
 import CodeScannerModal from '../ui/CodeScannerModal'
 export default {
     components: {

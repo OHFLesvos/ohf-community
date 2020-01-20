@@ -1,6 +1,6 @@
 <template>
     <b-modal
-        :id="id"
+        ref="modal"
         :title="title"
         no-fade
         hide-footer
@@ -42,11 +42,6 @@ export default {
         QrcodeStream
     },
     props: {
-        id: {
-            type: String,
-            required: false,
-            default: 'scanner-modal'
-        },
         title: {
             type: String,
             required: false,
@@ -83,7 +78,7 @@ export default {
     },
     methods: {
         open() {
-            this.$bvModal.show(this.id)
+            this.$refs.modal.show()
             this.turnCameraOn()
         },
         onInit (promise) {
@@ -109,7 +104,7 @@ export default {
                 await this.timeout(1000)
                 this.$emit('decode', content)
                 this.resetValidationState()
-                this.$bvModal.hide(this.id)
+                this.$refs.modal.hide()
                 return
             }
 

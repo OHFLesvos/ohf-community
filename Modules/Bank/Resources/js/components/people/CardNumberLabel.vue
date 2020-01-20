@@ -20,13 +20,25 @@
             <font-awesome-icon icon="id-card"/>
             <strong>{{ cardNoShort }}</strong>
         </template>
+
+        <code-scanner-modal
+            ref="codeScanner"
+            :title="lang['people::people.qr_code_scanner']"
+            :validator="validateCode"
+            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            @decode="submitScannedCard"
+        />
     </span>
 </template>
 
 <script>
-import scanQR from '@app/qr'
 import { showSnackbar, handleAjaxError } from '@app/utils'
+import { isAlphaNumeric } from '@app/utils'
+import CodeScannerModal from '../ui/CodeScannerModal'
 export default {
+    components: {
+        CodeScannerModal
+    },
     props: {
         apiUrl: {
             type: String,
@@ -60,7 +72,10 @@ export default {
             if (this.cardNo && !confirm('Do you really want to replace the card ' + this.cardNoShort + ' with a new one?')) {
                 return;
             }
-            scanQR(this.submitScannedCard);
+            this.$refs.codeScanner.open()
+        },
+        validateCode(val) {
+            return isAlphaNumeric(val)
         },
         submitScannedCard(value) {
             this.busy = true
