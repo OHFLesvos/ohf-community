@@ -1,15 +1,15 @@
 <script>
-import ScannerDialogHeaderTitle from './ScannerDialogHeaderTitle';
-import ScannerDialogHeaderButtons from './ScannerDialogHeaderButtons';
+import ModalHeaderTitle from './ModalHeaderTitle';
+import ModalHeaderButtons from './ModalHeaderButtons';
 
 export default {
     functional: true,
     props: ['title', 'value'],
     render(createElement, context) {
-        const title = createElement(ScannerDialogHeaderTitle, {
+        const title = createElement(ModalHeaderTitle, {
             props: context.props
         })
-        const buttons = createElement(ScannerDialogHeaderButtons, {
+        const buttons = createElement(ModalHeaderButtons, {
             props: context.props,
             on: {
                 close: context.listeners.close,

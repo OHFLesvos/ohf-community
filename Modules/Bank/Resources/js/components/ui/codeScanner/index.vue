@@ -6,16 +6,13 @@
         @hide="stopCamera"
         @hidden="value = ''"
     >
-
-        <!-- Header -->
         <template v-slot:modal-header="{ close }">
-            <scanner-dialog-header
+            <modal-header
                 :title="lang['people::people.qr_code_scanner']"
                 v-model="mode"
                 @close="close()"
             />
         </template>
-
         <template v-if="isCameraMode">
             <canvas
                 ref="canvas"
@@ -26,35 +23,32 @@
                 {{ lang['app.please_wait'] }}
             </span>
         </template>
-
-        <!-- Keyboard mode -->
-        <scanner-dialog-keyboard-input
+        <keyboard-input
             v-if="isKeyboardMode"
             v-model="value"
             :validator="validator"
             :validator-message="validatorMessage"
             @submit="submit"
         />
-
     </b-modal>
 </template>
 <script>
-const MODAL_ID = 'scanner-modal'
-
 import LocalVariable from '@app/LocalVariable'
 const rememberMode = new LocalVariable('scanner-dialog.mode')
 
-import jsQR from 'jsqr'
 import { BModal } from 'bootstrap-vue'
-import ScannerDialogHeader from './ScannerDialogHeader'
-import ScannerDialogKeyboardInput from './ScannerDialogKeyboardInput'
+import ModalHeader from './ModalHeader'
+import KeyboardInput from './KeyboardInput'
+
+import jsQR from 'jsqr'
 import { readQRcodeFromImage } from '@app/utils/media'
 import CanvasCamera from '@app/utils/canvasCamera'
+
 export default {
     components: {
         BModal,
-        ScannerDialogHeader,
-        ScannerDialogKeyboardInput
+        ModalHeader,
+        KeyboardInput
     },
     props: {
         validator: {
@@ -77,7 +71,7 @@ export default {
             isInvalidValue: false,
             mode: this.defaultMode(),
             videoLoaded: false,
-            id: MODAL_ID
+            id: 'scanner-modal'
         }
     },
     computed: {

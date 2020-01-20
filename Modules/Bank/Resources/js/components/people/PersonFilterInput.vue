@@ -58,7 +58,7 @@
             </button>
         </div>
 
-        <scanner-dialog
+        <code-scanner-modal
             :lang="lang"
             ref="scanner"
             :validator="validateScannedValue"
@@ -73,10 +73,10 @@
 import scanQR from '@app/qr'
 import { isAlphaNumeric } from '@app/utils'
 import { EventBus } from '@app/event-bus';
-import ScannerDialog from '../ui/ScannerDialog'
+import CodeScannerModal from '../ui/codeScanner'
 export default {
     components: {
-        ScannerDialog
+        CodeScannerModal
     },
     props: {
         value: {
