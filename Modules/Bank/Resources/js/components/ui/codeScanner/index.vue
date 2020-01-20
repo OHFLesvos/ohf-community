@@ -40,7 +40,7 @@ import { BModal } from 'bootstrap-vue'
 import ModalHeader from './ModalHeader'
 import KeyboardInput from './KeyboardInput'
 
-import { readQRcodeFromImage } from '@app/utils/media'
+import jsQR from 'jsqr'
 import CanvasCamera from '@app/utils/canvasCamera'
 
 export default {
@@ -131,12 +131,21 @@ export default {
             })
         },
         handleImageData(imageData) {
-            const code = readQRcodeFromImage(imageData)
+            const code = this.readQRcodeFromImage(imageData)
             if (code != null) {
                 this.value = code
                 this.submit()
                 return
             }
+        },
+        readQRcodeFromImage(imageData) {
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                inversionAttempts: "dontInvert"
+            });
+            if (code && code.data.trim().length > 0) {
+                return code.data
+            }
+            return null
         },
         stopCamera() {
             if (this.camera) {
