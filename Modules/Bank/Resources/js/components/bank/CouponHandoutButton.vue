@@ -25,13 +25,27 @@
             v-if="qr_code_enabled"
             icon="qrcode"
         />
+
+        <code-scanner-modal
+            v-if="qr_code_enabled"
+            ref="codeScanner"
+            :title="lang['people::people.qr_code_scanner']"
+            :validator="validateCode"
+            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            @decode="submitScannedCode"
+        />
+
     </button>
 </template>
 
 <script>
 import { showSnackbar, handleAjaxError } from '@app/utils'
-import scanQR from '@app/qr'
+import { isAlphaNumeric } from '@app/utils'
+import CodeScannerModal from '../ui/CodeScannerModal'
 export default {
+    components: {
+        CodeScannerModal
+    },
     props: {
         coupon: {
             type: Object,
@@ -55,18 +69,23 @@ export default {
     data() {
         return {
             busy: false,
+            scannedCode: null,
             ...this.coupon
         }
     },
     methods: {
+        validateCode(val) {
+            return isAlphaNumeric(val)
+        },
+        submitScannedCode(value) {
+            this.sendHandoutRequest({
+                "amount": this.daily_amount,
+                'code': value,
+            });
+        },
         handoutCoupon(){
             if (this.qr_code_enabled) {
-                scanQR(value => {
-                    this.sendHandoutRequest({
-                        "amount": this.daily_amount,
-                        'code': value,
-                    });
-                });
+                this.$refs.codeScanner.open()
             } else {
                 this.sendHandoutRequest({
                     "amount": this.daily_amount
