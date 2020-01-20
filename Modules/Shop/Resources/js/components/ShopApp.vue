@@ -9,21 +9,42 @@
         <div class="row">
             <div class="col-lg">
 
-                <!-- Search button -->
+                <!-- Scanner toggle button -->
                 <p>
                     <button
+                        v-if="!isScannerEnabled"
                         type="button"
                         class="btn btn-lg btn-block btn-primary"
-                        :disabled="busy"
-                        @click="requestCode"
+                        @click="isScannerEnabled = true"
                     >
-                        <font-awesome-icon
-                            :icon="searchButtonIcon"
-                            :spin="searching"
-                        />
-                        {{ searchButtonLabel }}
+                        <font-awesome-icon icon="qrcode"/>
+                        Enable scanner
+                    </button>
+                    <button
+                        v-if="isScannerEnabled"
+                        type="button"
+                        class="btn btn-lg btn-block btn-warning"
+                        @click="isScannerEnabled = false"
+                    >
+                        <font-awesome-icon icon="times"/>
+                        Stop scanner
                     </button>
                 </p>
+
+                <!-- QR Code Scanner -->
+                <div
+                    v-if="isScannerEnabled"
+                    class="mb-2"
+                >
+                    <qrcode-stream
+                        style="width: 100%; height: 100%"
+                        :camera="camera"
+                        @decode="onDecode"
+                    ></qrcode-stream>
+                </div>
+
+            </div>
+            <div class="col-lg">
 
                 <!-- Shop card details -->
                 <template v-if="code != null && !searching">
@@ -48,9 +69,6 @@
                     />
                 </template>
 
-            </div>
-            <div class="col-lg">
-
                 <!-- List of redeemed cards -->
                 <shop-cards-list
                     :handouts="handouts"
@@ -65,7 +83,6 @@
 </template>
 
 <script>
-import scanQR from '@app/qr'
 import showSnackbar from '@app/snackbar'
 import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
 import ErrorAlert from '@app/components/alerts/ErrorAlert'
@@ -73,13 +90,16 @@ import WarningAlert from '@app/components/alerts/WarningAlert'
 import { getAjaxErrorMessage } from '@app/utils'
 import ShopCardsList from './ShopCardsList'
 import ShopCardDetails from './ShopCardDetails'
+import { isAlphaNumeric } from '@app/utils'
+import { QrcodeStream } from 'vue-qrcode-reader'
 export default {
     components: {
         ShopCardsList,
         ShopCardDetails,
         FontAwesomeIcon,
         ErrorAlert,
-        WarningAlert
+        WarningAlert,
+        QrcodeStream
     },
     props: {
         listCardsUrl: {
@@ -103,22 +123,24 @@ export default {
             handout: null,
             searching: false,
             busy: false,
-            handouts: []
+            handouts: [],
+            isScannerEnabled: false,
+            camera: 'auto',
         }
     },
     computed: {
-        searchButtonIcon() {
-            return this.searching ? 'spinner' : 'qrcode'
-        },
-        searchButtonLabel() {
-            if (this.searching) {
-                return this.lang['app.searching']
-            }
-            if (this.code != null) {
-                return this.lang['shop::shop.scan_another_card']
-            }
-            return this.lang['shop::shop.scan_card']
-        }
+        // searchButtonIcon() {
+        //     return this.searching ? 'spinner' : 'qrcode'
+        // },
+        // searchButtonLabel() {
+        //     if (this.searching) {
+        //         return this.lang['app.searching']
+        //     }
+        //     if (this.code != null) {
+        //         return this.lang['shop::shop.scan_another_card']
+        //     }
+        //     return this.lang['shop::shop.scan_card']
+        // }
     },
     watch: {
         handout(val, oldVal) {
@@ -143,37 +165,47 @@ export default {
                     this.loading = false
                 })
         },
-        requestCode() {
-            scanQR(content => {
-                this.error = null
-                this.handout = null
-                let code = content.trim()
-                if (code.length > 0) {
-                    this.code = code
-                    this.busy = true
-                    this.searching = true
-                    axios.get(`${this.getCardUrl}?code=${code}`)
-                        .then(res => {
-                            this.handout = res.data.data
-                        })
-                        .catch(err => {
-                            if (!err.response || err.response.status != 404) {
-                                this.error = getAjaxErrorMessage(err)
-                                console.error(err)
-                            }
-                        })
-                        .then(() => {
-                            this.busy = false
-                            this.searching = false
-                        });
-                } else {
-                    this.code = null
-                }
-            }, value => {
-                if (!/^[a-zA-Z0-9]+$/.test(value)) {
-                    throw 'Only letters and numbers are allowed!'
-                }
-            });
+        async onDecode(value) {
+            this.error = null
+            this.handout = null
+            let code = value.trim()
+            if (code.length > 0) {
+                this.code = code
+                this.turnCameraOff()
+                this.searchCode(code)
+                    .then(() => this.turnCameraOn())
+            } else {
+                this.code = null
+            }
+        },
+        turnCameraOn() {
+            this.camera = 'auto'
+        },
+        turnCameraOff() {
+            this.camera = 'off'
+        },
+        timeout(ms) {
+            return new Promise(resolve => {
+                window.setTimeout(resolve, ms)
+            })
+        },
+        searchCode(code) {
+            this.busy = true
+            this.searching = true
+            return axios.get(`${this.getCardUrl}?code=${code}`)
+                .then(res => {
+                    this.handout = res.data.data
+                })
+                .catch(err => {
+                    if (!err.response || err.response.status != 404) {
+                        this.error = getAjaxErrorMessage(err)
+                        console.error(err)
+                    }
+                })
+                .then(() => {
+                    this.busy = false
+                    this.searching = false
+                });
         },
         redeemCard() {
             this.busy = true

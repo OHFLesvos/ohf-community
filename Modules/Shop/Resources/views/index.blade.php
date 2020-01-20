@@ -33,11 +33,6 @@
 
 @endsection
 
-@section('script')
-    var scannerDialogTitle = '@lang('people::people.qr_code_scanner')';
-    var scannerDialogWaitMessage = '@lang('app.please_wait')';
-@endsection
-
 @section('footer')
     <script src="{{ asset('js/shop.js') }}?v={{ $app_version }}"></script>
 @endsection
