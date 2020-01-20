@@ -3,7 +3,7 @@
         :id="id"
         no-fade
         hide-footer
-        @hide="stopCamera"
+        @hide="stopScanner"
         @hidden="value = ''"
     >
         <template v-slot:modal-header="{ close }">
@@ -52,6 +52,11 @@ export default {
         KeyboardInput
     },
     props: {
+        id: {
+            type: String,
+            required: false,
+            default: 'scanner-modal'
+        },
         title: {
             type: String,
             required: false,
@@ -78,8 +83,7 @@ export default {
             value: '',
             isInvalidValue: false,
             mode: this.defaultMode(),
-            videoLoaded: false,
-            id: 'scanner-modal'
+            videoLoaded: false
         }
     },
     computed: {
@@ -95,7 +99,7 @@ export default {
             if (val == 'keyboard') {
                 this.enableKeyboard()
             } else if (val == 'camera') {
-                this.enableCamera()
+                this.enableScanner()
             }
             rememberMode.set(val)
         }
@@ -104,7 +108,7 @@ export default {
         open() {
             this.$bvModal.show(this.id)
             if (this.mode == 'camera') {
-                this.enableCamera()
+                this.enableScanner()
             }
         },
         defaultMode() {
@@ -120,10 +124,10 @@ export default {
             this.$bvModal.hide(this.id)
         },
         enableKeyboard() {
-            this.stopCamera()
+            this.stopScanner()
             this.value = ''
         },
-        enableCamera() {
+        enableScanner() {
             this.value = ''
             this.$nextTick(() => {
                 this.camera = new CanvasCamera(() => this.$refs.canvas)
@@ -150,7 +154,7 @@ export default {
             }
             return null
         },
-        stopCamera() {
+        stopScanner() {
             if (this.camera) {
                 this.camera.stopCamera()
             }
