@@ -61,10 +61,10 @@ export default {
     methods: {
         handoutCoupon(){
             if (this.qr_code_enabled) {
-                scanQR((content) => {
+                scanQR(value => {
                     this.sendHandoutRequest({
                         "amount": this.daily_amount,
-                        'code': content,
+                        'code': value,
                     });
                 });
             } else {

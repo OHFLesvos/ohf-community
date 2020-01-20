@@ -60,18 +60,19 @@ export default {
             if (this.cardNo && !confirm('Do you really want to replace the card ' + this.cardNoShort + ' with a new one?')) {
                 return;
             }
-            scanQR(content => {
-                this.busy = true
-                axios.patch(this.apiUrl, {
-                        "card_no": content,
-                    })
-                    .then(response => {
-                        this.cardNo = content
-                        showSnackbar(response.data.message);
-                    })
-                    .catch(handleAjaxError)
-                    .then(() => this.busy = false);
-            });
+            scanQR(this.submitScannedCard);
+        },
+        submitScannedCard(value) {
+            this.busy = true
+            axios.patch(this.apiUrl, {
+                    "card_no": value,
+                })
+                .then(response => {
+                    this.cardNo = value
+                    showSnackbar(response.data.message);
+                })
+                .catch(handleAjaxError)
+                .then(() => this.busy = false)
         }
     }
 }
