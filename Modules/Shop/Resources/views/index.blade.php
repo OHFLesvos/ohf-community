@@ -24,11 +24,11 @@
                 'shop::shop.no_cards_redeemed_so_far_today'
             ]);
         @endphp
-        <shop-app
+        <shop-scanner-page
             list-cards-url="{{ route('shop.cards.listRedeemedToday') }}"
             get-card-url="{{ route('shop.cards.searchByCode') }}"
             :lang='@json($lang_arr)'
-        ></shop-app>
+        ></shop-scanner-page>
     </div>
 
 @endsection

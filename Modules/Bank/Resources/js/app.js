@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import BankSearchPage from './pages/BankSearchPage.vue'
 import BankTransactionsPage from './pages/BankTransactionsPage.vue'

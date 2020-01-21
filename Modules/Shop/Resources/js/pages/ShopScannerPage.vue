@@ -9,44 +9,21 @@
         <div class="row">
             <div class="col-lg">
 
-                <!-- Scanner toggle button -->
-                <p>
-                    <button
-                        v-if="!isScannerEnabled"
-                        type="button"
-                        class="btn btn-lg btn-block btn-primary"
-                        @click="isScannerEnabled = true"
-                    >
-                        <font-awesome-icon icon="qrcode"/>
-                        Enable scanner
-                    </button>
-                    <button
-                        v-if="isScannerEnabled"
-                        type="button"
-                        class="btn btn-lg btn-block btn-warning"
-                        @click="isScannerEnabled = false"
-                    >
-                        <font-awesome-icon icon="times"/>
-                        Stop scanner
-                    </button>
-                </p>
-
-                <!-- QR Code Scanner -->
-                <div
-                    v-if="isScannerEnabled"
-                    class="mb-2"
-                >
-                    <qrcode-stream
-                        style="width: 100%; height: 100%"
-                        :camera="camera"
-                        @decode="onDecode"
-                    ></qrcode-stream>
-                </div>
+                <!-- Card scanner -->
+                <card-scanner-area
+                    :busy="searching"
+                    :validator="validateCode"
+                    @decode="onDecode"
+                />
 
             </div>
             <div class="col-lg">
 
                 <!-- Shop card details -->
+                <info-alert
+                    v-if="code != null &&
+                    searching" :message="this.lang['app.searching']"
+                />
                 <template v-if="code != null && !searching">
                     <template v-if="handout != null">
                         <template v-if="handout.person != null">
@@ -87,11 +64,12 @@ import showSnackbar from '@app/snackbar'
 import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
 import ErrorAlert from '@app/components/alerts/ErrorAlert'
 import WarningAlert from '@app/components/alerts/WarningAlert'
+import InfoAlert from '@app/components/alerts/InfoAlert'
 import { getAjaxErrorMessage } from '@app/utils'
-import ShopCardsList from './ShopCardsList'
-import ShopCardDetails from './ShopCardDetails'
+import ShopCardsList from '../components/ShopCardsList'
+import ShopCardDetails from '../components/ShopCardDetails'
+import CardScannerArea from '../components/CardScannerArea'
 import { isAlphaNumeric } from '@app/utils'
-import { QrcodeStream } from 'vue-qrcode-reader'
 export default {
     components: {
         ShopCardsList,
@@ -99,7 +77,8 @@ export default {
         FontAwesomeIcon,
         ErrorAlert,
         WarningAlert,
-        QrcodeStream
+        InfoAlert,
+        CardScannerArea
     },
     props: {
         listCardsUrl: {
@@ -124,28 +103,17 @@ export default {
             searching: false,
             busy: false,
             handouts: [],
-            isScannerEnabled: false,
-            camera: 'auto',
         }
-    },
-    computed: {
-        // searchButtonIcon() {
-        //     return this.searching ? 'spinner' : 'qrcode'
-        // },
-        // searchButtonLabel() {
-        //     if (this.searching) {
-        //         return this.lang['app.searching']
-        //     }
-        //     if (this.code != null) {
-        //         return this.lang['shop::shop.scan_another_card']
-        //     }
-        //     return this.lang['shop::shop.scan_card']
-        // }
     },
     watch: {
         handout(val, oldVal) {
             if (val == null && oldVal != null) {
                 this.loadHandouts()
+            }
+        },
+        code(val, oldVal) {
+            if (val != null && oldVal != val) {
+                this.searchCode(val)
             }
         }
     },
@@ -155,47 +123,24 @@ export default {
     methods: {
         loadHandouts() {
             axios.get(this.listCardsUrl)
-                .then(res => {
-                    this.handouts = res.data.data
-                })
-                .catch(err => {
-                    this.error = getAjaxErrorMessage(err)
-                })
-                .then(() => {
-                    this.loading = false
-                })
+                .then(res => this.handouts = res.data.data)
+                .catch(err => this.error = getAjaxErrorMessage(err))
+                .then(() => this.loading = false)
         },
-        async onDecode(value) {
-            this.error = null
-            this.handout = null
-            let code = value.trim()
+        onDecode(value) {
+            const code = value.trim()
             if (code.length > 0) {
                 this.code = code
-                this.turnCameraOff()
-                this.searchCode(code)
-                    .then(() => this.turnCameraOn())
-            } else {
-                this.code = null
             }
         },
-        turnCameraOn() {
-            this.camera = 'auto'
-        },
-        turnCameraOff() {
-            this.camera = 'off'
-        },
-        timeout(ms) {
-            return new Promise(resolve => {
-                window.setTimeout(resolve, ms)
-            })
-        },
         searchCode(code) {
+            this.error = null
+            this.handout = null
             this.busy = true
             this.searching = true
-            return axios.get(`${this.getCardUrl}?code=${code}`)
-                .then(res => {
-                    this.handout = res.data.data
-                })
+            const url = `${this.getCardUrl}?code=${code}`
+            return axios.get(url)
+                .then(res => this.handout = res.data.data)
                 .catch(err => {
                     if (!err.response || err.response.status != 404) {
                         this.error = getAjaxErrorMessage(err)
@@ -220,9 +165,7 @@ export default {
                     this.error = getAjaxErrorMessage(err)
                     console.error(err)
                 })
-                .then(() => {
-                    this.busy = false
-                });
+                .then(() => this.busy = false)
         },
         cancelCard() {
             if (window.confirm(this.lang['shop::shop.should_card_be_cancelled'])) {
@@ -237,10 +180,11 @@ export default {
                         this.error = getAjaxErrorMessage(err)
                         console.error(err)
                     })
-                    .then(() => {
-                        this.busy = false
-                    });
+                    .then(() => this.busy = false)
             }
+        },
+        validateCode(val) {
+            return isAlphaNumeric(val)
         }
     }
 }
