@@ -16,11 +16,11 @@
                 'shop::shop.expired'
             ]);
         @endphp
-        <shop-card-manager
+        <shop-card-manager-page
             summary-url="{{ route('shop.cards.listNonRedeemedByDay') }}"
             delete-url="{{ route('shop.cards.deleteNonRedeemedByDay') }}"
             :lang='@json($lang_arr)'
-        ></shop-card-manager>
+        ></shop-card-manager-page>
     </div>
 
 @endsection
