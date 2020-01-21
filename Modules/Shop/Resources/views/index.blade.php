@@ -20,12 +20,12 @@
                 'shop::shop.should_card_be_cancelled',
                 'shop::shop.card_already_redeemed',
                 'shop::shop.card_expired',
-                'shop::shop.redeemed_cards',
-                'shop::shop.no_cards_redeemed_so_far_today'
+                'shop::shop.please_scan_next_card',
+                'shop::shop.please_enable_scanner_to_scan_cards',
+                'app.only_letters_and_numbers_allowed'
             ]);
         @endphp
         <shop-scanner-page
-            list-cards-url="{{ route('shop.cards.listRedeemedToday') }}"
             get-card-url="{{ route('shop.cards.searchByCode') }}"
             :lang='@json($lang_arr)'
         ></shop-scanner-page>

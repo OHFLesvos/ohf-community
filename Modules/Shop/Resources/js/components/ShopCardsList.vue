@@ -45,11 +45,9 @@
 
 <script>
 import PersonLabel from '@app/components/PersonLabel'
-import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
 export default {
     components: {
-        PersonLabel,
-        FontAwesomeIcon
+        PersonLabel
     },
     props: {
         handouts: {

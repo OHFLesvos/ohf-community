@@ -10,13 +10,18 @@
                 'app.date',
                 'app.actions',
                 'app.loading',
+                'shop::shop.cards',
                 'shop::shop.no_suitable_cards_found',
                 'shop::shop.delete_cards',
                 'shop::shop.non_redeemed_cards',
-                'shop::shop.expired'
+                'shop::shop.expired',
+                'shop::shop.redeemed_cards',
+                'shop::shop.no_cards_redeemed_so_far_today'
             ]);
         @endphp
+
         <shop-card-manager-page
+            list-cards-url="{{ route('shop.cards.listRedeemedToday') }}"
             summary-url="{{ route('shop.cards.listNonRedeemedByDay') }}"
             delete-url="{{ route('shop.cards.deleteNonRedeemedByDay') }}"
             :lang='@json($lang_arr)'

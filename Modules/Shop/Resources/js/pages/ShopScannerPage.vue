@@ -13,17 +13,23 @@
                 <card-scanner-area
                     :busy="searching"
                     :validator="validateCode"
+                    :validator-message="lang['app.only_letters_and_numbers_allowed']"
+                    :enabled="scannerEnabled"
                     @decode="onDecode"
+                    @enable="scannerEnabled = true"
+                    @disable="scannerEnabled = false"
                 />
 
             </div>
             <div class="col-lg">
 
-                <!-- Shop card details -->
+                <!-- Searching card message -->
                 <info-alert
-                    v-if="code != null &&
-                    searching" :message="this.lang['app.searching']"
+                    v-if="code != null && searching"
+                    :message="this.lang['app.searching']"
                 />
+
+                <!-- Shop card details -->
                 <template v-if="code != null && !searching">
                     <template v-if="handout != null">
                         <template v-if="handout.person != null">
@@ -46,12 +52,11 @@
                     />
                 </template>
 
-                <!-- List of redeemed cards -->
-                <shop-cards-list
-                    :handouts="handouts"
-                    :loading="loading"
-                    :lang="lang"
-                ></shop-cards-list>
+                <!-- Idle message -->
+                <info-alert
+                    v-if="code == null || (handout && handout.code_redeemed != null)"
+                    :message="idleMessage"
+                />
 
             </div>
         </div>
@@ -61,30 +66,22 @@
 
 <script>
 import showSnackbar from '@app/snackbar'
-import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
 import ErrorAlert from '@app/components/alerts/ErrorAlert'
 import WarningAlert from '@app/components/alerts/WarningAlert'
 import InfoAlert from '@app/components/alerts/InfoAlert'
 import { getAjaxErrorMessage } from '@app/utils'
-import ShopCardsList from '../components/ShopCardsList'
 import ShopCardDetails from '../components/ShopCardDetails'
 import CardScannerArea from '../components/CardScannerArea'
 import { isAlphaNumeric } from '@app/utils'
 export default {
     components: {
-        ShopCardsList,
         ShopCardDetails,
-        FontAwesomeIcon,
         ErrorAlert,
         WarningAlert,
         InfoAlert,
         CardScannerArea
     },
     props: {
-        listCardsUrl: {
-            type: String,
-            required: true,
-        },
         getCardUrl: {
             type: String,
             required: true,
@@ -102,31 +99,24 @@ export default {
             handout: null,
             searching: false,
             busy: false,
-            handouts: [],
+            scannerEnabled: false
+        }
+    },
+    computed: {
+        idleMessage() {
+            return this.scannerEnabled
+                ? this.lang['shop::shop.please_scan_next_card']
+                : this.lang['shop::shop.please_enable_scanner_to_scan_cards']
         }
     },
     watch: {
-        handout(val, oldVal) {
-            if (val == null && oldVal != null) {
-                this.loadHandouts()
-            }
-        },
         code(val, oldVal) {
             if (val != null && oldVal != val) {
                 this.searchCode(val)
             }
         }
     },
-    mounted() {
-        this.loadHandouts()
-    },
     methods: {
-        loadHandouts() {
-            axios.get(this.listCardsUrl)
-                .then(res => this.handouts = res.data.data)
-                .catch(err => this.error = getAjaxErrorMessage(err))
-                .then(() => this.loading = false)
-        },
         onDecode(value) {
             const code = value.trim()
             if (code.length > 0) {
@@ -157,7 +147,6 @@ export default {
             axios.patch(this.handout.redeem_url)
                 .then(res => {
                     this.code = null
-                    this.handouts.unshift(this.handout)
                     this.handout = null
                     showSnackbar(res.data.message)
                 })

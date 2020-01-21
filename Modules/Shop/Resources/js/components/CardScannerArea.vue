@@ -5,14 +5,14 @@
                 :variant="buttonVariant"
                 block
                 :disabled="busy"
-                @click="enabled = !enabled"
+                @click="isEnabled = !isEnabled"
             >
                 <font-awesome-icon :icon="buttonIcon"/>
                 {{ buttonLabel }}
             </b-button>
         </p>
         <div
-            v-if="enabled"
+            v-if="isEnabled"
             class="mb-2"
         >
             <qrcode-stream
@@ -64,6 +64,7 @@ export default {
     },
     props: {
         busy: Boolean,
+        enabled: Boolean,
         validator: {
             type: Function,
             required: false,
@@ -78,7 +79,7 @@ export default {
         return {
             errorMessage: undefined,
             loading: false,
-            enabled: false,
+            isEnabled: this.enabled,
             camera: 'auto',
             foo: null,
             isValid: undefined
@@ -86,13 +87,13 @@ export default {
     },
     computed: {
         buttonVariant() {
-            return this.enabled ? 'warning' : 'primary'
+            return this.isEnabled ? 'warning' : 'primary'
         },
         buttonIcon() {
-            return this.enabled ? 'times' : 'qrcode'
+            return this.isEnabled ? 'times' : 'qrcode'
         },
         buttonLabel() {
-            return this.enabled ? 'Stop scanner' : 'Enable scanner'
+            return this.isEnabled ? 'Stop scanner' : 'Enable scanner'
         },
         validationSuccess() {
             return this.isValid === true
@@ -101,6 +102,16 @@ export default {
             return this.isValid === false
         },
 
+    },
+    watch: {
+        isEnabled(val, oldVal) {
+            if (val && !oldVal) {
+                this.$emit('enable')
+            }
+            if (!val && oldVal) {
+                this.$emit('disable')
+            }
+        }
     },
     methods: {
         onInit(promise) {

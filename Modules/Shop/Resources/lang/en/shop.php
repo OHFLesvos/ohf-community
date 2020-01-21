@@ -12,6 +12,7 @@ return [
     'card_expired' => 'Card expired.',
     'expired' => 'Expired',
     'card' => 'Card',
+    'cards' => 'Cards',
     'redeemed_cards' => 'Redeemed cards',
     'num_today' => ':num today',
     'card_redeemed' => 'Card has been redeemed.',
@@ -37,4 +38,6 @@ return [
     'manage_cards' => 'Manage cards',
     'coupon_type_not_configured_yet' => 'Coupon type has not been configured yet.',
     'configured_coupon_type_does_not_exist' => 'Configured coupon type does not exist.',
+    'please_enable_scanner_to_scan_cards' => 'Please enable the scanner to scan cards.',
+    'please_scan_next_card' => 'Please scan the next card.',
 ];

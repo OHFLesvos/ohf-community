@@ -12,6 +12,7 @@ return [
     'card_expired' => 'Gültigkeit der Karte abgelaufen.',
     'expired' => 'Abgelaufen',
     'card' => 'Karte',
+    'cards' => 'Karten',
     'redeemed_cards' => 'Eingelöste Karten',
     'num_today' => ':num heute',
     'card_redeemed' => 'Karte wurde eingelöst.',
@@ -37,4 +38,6 @@ return [
     'manage_cards' => 'Karten verwalten',
     'coupon_type_not_configured_yet' => 'Es wurde noch kein Kartentyp konfiguriert.',
     'configured_coupon_type_does_not_exist' => 'Der konfigurierte Kartentyp existiert nicht.',
+    'please_enable_scanner_to_scan_cards' => 'Bitte schalte den Scanner ein um Karten einzulesen.',
+    'please_scan_next_card' => 'Bitte scanne die nächste Karte.',
 ];
