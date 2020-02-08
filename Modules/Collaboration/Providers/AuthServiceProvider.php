@@ -14,6 +14,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     protected $policies = [
         \Modules\Collaboration\Entities\CalendarEvent::class    => \Modules\Collaboration\Policies\CalendarEventPolicy::class,
         \Modules\Collaboration\Entities\CalendarResource::class => \Modules\Collaboration\Policies\ResourcePolicy::class,
+        \Modules\Collaboration\Entities\Task::class => \Modules\Collaboration\Policies\TaskPolicy::class,
     ];
 
     protected $permissions = [
@@ -31,6 +32,10 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         ],
         'calendar.resources.manage' => [
             'label' => 'collaboration::permissions.manage_calendar_resources',
+            'sensitive' => false,
+        ],
+        'tasks.use' => [
+            'label' => 'collaboration::permissions.use_tasks',
             'sensitive' => false,
         ],
     ];

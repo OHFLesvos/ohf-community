@@ -5,4 +5,5 @@ return [
     'create_calendar_events' => 'Calendar: Create events',
     'manage_calendar_events' => 'Calendar: Edit and delete all events',
     'manage_calendar_resources' => 'Calendar: Manage resources',
+    'use_tasks' => 'Use tasks',
 ];

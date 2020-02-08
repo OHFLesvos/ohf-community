@@ -6,6 +6,7 @@ mix.setPublicPath('../../public').mergeManifest();
 mix.js(__dirname + '/Resources/assets/js/app.js', 'js/collaboration.js')
     .sass( __dirname + '/Resources/assets/sass/app.scss', 'css/collaboration.css')
     .js(__dirname + '/Resources/assets/js/calendar.js', 'js/calendar.js')
+    .js(__dirname + '/Resources/assets/js/tasks.js', 'js/tasks.js')
     .copy('node_modules/fullcalendar/dist/fullcalendar.min.css', '../../public/css')
 	.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', '../../public/js')
     .copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.css', '../../public/css')

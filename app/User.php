@@ -101,7 +101,7 @@ class User extends Authenticatable implements HasLocalePreference
     public function tasks()
     {
         // TODO: Modularize
-        return $this->hasMany('Modules\Tasks\Entities\Task');
+        return $this->hasMany('Modules\Collaboration\Entities\Task');
     }
 
     public function avatarUrl($profile = null)

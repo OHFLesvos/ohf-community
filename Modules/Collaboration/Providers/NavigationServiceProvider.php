@@ -16,6 +16,7 @@ class NavigationServiceProvider extends ServiceProvider
      */
     protected $navigationItems = [
         \Modules\Collaboration\Navigation\Drawer\CalendarNavigationItem::class => 11,
+        \Modules\Collaboration\Navigation\Drawer\TasksNavigationItem::class => 12,
     ];
 
     protected $contextButtons = [

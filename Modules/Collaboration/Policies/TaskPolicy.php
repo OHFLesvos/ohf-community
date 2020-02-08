@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Tasks\Policies;
+namespace Modules\Collaboration\Policies;
 
 use App\User;
 
-use Modules\Tasks\Entities\Task;
+use Modules\Collaboration\Entities\Task;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -34,7 +34,7 @@ class TaskPolicy
      * Determine whether the user can view the task.
      *
      * @param  \App\User  $user
-     * @param  \Modules\Tasks\Entities\Task  $task
+     * @param  \Modules\Collaboration\Entities\Task  $task
      * @return mixed
      */
     public function view(User $user, Task $task)
@@ -57,7 +57,7 @@ class TaskPolicy
      * Determine whether the user can update the task.
      *
      * @param  \App\User  $user
-     * @param  \Modules\Tasks\Entities\Task  $task
+     * @param  \Modules\Collaboration\Entities\Task  $task
      * @return mixed
      */
     public function update(User $user, Task $task)
@@ -69,7 +69,7 @@ class TaskPolicy
      * Determine whether the user can delete the task.
      *
      * @param  \App\User  $user
-     * @param  \Modules\Tasks\Entities\Task  $task
+     * @param  \Modules\Collaboration\Entities\Task  $task
      * @return mixed
      */
     public function delete(User $user, Task $task)

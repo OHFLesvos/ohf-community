@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Tasks\Entities;
+namespace Modules\Collaboration\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 

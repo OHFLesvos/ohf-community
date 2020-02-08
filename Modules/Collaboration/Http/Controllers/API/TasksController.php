@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Tasks\Http\Controllers\API;
+namespace Modules\Collaboration\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 
-use Modules\Tasks\Entities\Task;
-use Modules\Tasks\Http\Resources\TaskResource;
-use Modules\Tasks\Http\Requests\StoreTask;
+use Modules\Collaboration\Entities\Task;
+use Modules\Collaboration\Transformers\TaskResource;
+use Modules\Collaboration\Http\Requests\StoreTask;
 
 use Illuminate\Support\Facades\Auth;
 

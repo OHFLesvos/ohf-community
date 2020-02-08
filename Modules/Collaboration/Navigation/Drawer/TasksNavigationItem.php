@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Tasks\Navigation\Drawer;
+namespace Modules\Collaboration\Navigation\Drawer;
 
 use App\Navigation\Drawer\BaseNavigationItem;
 
-use Modules\Tasks\Entities\Task;
+use Modules\Collaboration\Entities\Task;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +12,7 @@ class TasksNavigationItem extends BaseNavigationItem {
 
     protected $route = 'tasks';
 
-    protected $caption = 'tasks::tasks.tasks';
+    protected $caption = 'collaboration::tasks.tasks';
 
     protected $icon = 'tasks';
 

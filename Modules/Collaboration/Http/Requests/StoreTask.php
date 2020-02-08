@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Tasks\Http\Requests;
+namespace Modules\Collaboration\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,10 @@ class StoreTask extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required|max:191',
+            'description' => [
+                'required',
+                'max:191',
+            ]
         ];
     }
 }

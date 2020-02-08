@@ -12,5 +12,13 @@
 */
 
 Route::group(['middleware' => ['language', 'auth']], function () {
-    Route::view('calendar', 'collaboration::calendar')->name('calendar')->middleware('can:view-calendar');
+
+    Route::view('calendar', 'collaboration::calendar')
+        ->name('calendar')
+        ->middleware('can:view-calendar');
+
+    Route::view('tasks', 'collaboration::tasklist')
+        ->name('tasks')
+        ->middleware('can:list,Modules\Collaboration\Entities\Task');
+
 });
