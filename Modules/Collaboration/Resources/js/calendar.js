@@ -2,7 +2,7 @@
 // Calendar
 //
 
-import { handleAjaxError } from '../../../../../resources/js/utils'
+import { handleAjaxError } from '../../../../resources/js/utils'
 
 var lastResourceGroup = null;
 

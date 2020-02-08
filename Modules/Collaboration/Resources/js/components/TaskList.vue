@@ -10,15 +10,15 @@
                         <input v-model="editTask.description" type="text" name="description" class="form-control" autocomplete="off" v-focus>
                     </div>
                     <div class="mt-3">
-                        <button type="submit" class="btn btn-primary">Update task</button> &nbsp; 
+                        <button type="submit" class="btn btn-primary">Update task</button> &nbsp;
                         <a href="#" @click.prevent="editTask = null">Cancel</a>
                     </div>
                 </form>
                 <div v-else class="d-flex justify-content-between">
                     <span>
                         <a class="mr-2" href="#">
-                            <i class="far" 
-                                v-on:mouseover="hoveredCircle = task.id" 
+                            <i class="far"
+                                v-on:mouseover="hoveredCircle = task.id"
                                 v-on:mouseout="hoveredCircle = 0"
                                 v-bind:class="[hoveredCircle == task.id ? 'fa-check-circle' : 'fa-circle' ]"
                                 @click.prevent="doneTask(task.id)"></i>
@@ -35,18 +35,18 @@
             <li class="list-group-item">
                 <form v-if="addNewTask" action="#" @submit.prevent="createTask()">
                     <div class="form-group">
-                        <input v-model="task.description" 
-                            type="text" 
-                            name="description" 
-                            class="form-control" 
+                        <input v-model="task.description"
+                            type="text"
+                            name="description"
+                            class="form-control"
                             v-bind:class="{ 'is-invalid': newTaskInvalidDescription }"
-                            autocomplete="off" 
+                            autocomplete="off"
                             ref="description"
                             v-focus>
                         <span v-if="newTaskInvalidDescription" class="invalid-feedback">{{ newTaskInvalidDescription }}</span>
                     </div>
                     <div class="mt-3">
-                        <button type="submit" class="btn btn-primary">Add task</button> &nbsp; 
+                        <button type="submit" class="btn btn-primary">Add task</button> &nbsp;
                         <a href="#" @click.prevent="addNewTask = false">Cancel</a>
                     </div>
                 </form>
@@ -82,11 +82,11 @@
                 newTaskInvalidDescription: null,
             };
         },
-        
+
         created() {
             this.fetchTaskList();
         },
-        
+
         methods: {
             refresh() {
                 this.addNewTask = false,
@@ -103,7 +103,7 @@
                         this.emptyList = this.list.length === 0
                     });
             },
- 
+
             createTask() {
                 this.errorMessage = null;
                 axios.post('api/tasks', this.task)
@@ -117,7 +117,7 @@
                         this.$nextTick(() => this.$refs.description.focus());
                     });
             },
- 
+
             updateTask(id) {
                 axios.put('api/tasks/' + id, this.editTask)
                     .then((res) => {
@@ -145,8 +145,8 @@
 
         },
 
-        directives: { 
-            focus 
+        directives: {
+            focus
         },
     }
 </script>
