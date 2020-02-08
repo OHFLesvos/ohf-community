@@ -17,5 +17,6 @@ class CollaborationDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(CalendarResourceSeeder::class);
+        $this->call(WikiArticleTableSeeder::class);
     }
 }

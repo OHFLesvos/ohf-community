@@ -8,7 +8,7 @@ use Modules\Bank\Http\Controllers\Reporting\BankReportingController;
 
 use Modules\People\Entities\Person;
 
-use Modules\KB\Entities\WikiArticle;
+use Modules\Collaboration\Entities\WikiArticle;
 
 use Illuminate\Support\Facades\Config;
 
@@ -57,9 +57,9 @@ class BankSettingsController extends SettingsController
                 'default' => null,
                 'form_type' => 'select',
                 'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),
-                'form_placeholder' => __('kb::wiki.select_article'),
+                'form_placeholder' => __('collaboration::wiki.select_article'),
                 'form_validate' => 'nullable|exists:kb_articles,id',
-                'label_key' => 'kb::wiki.help_article',
+                'label_key' => 'collaboration::wiki.help_article',
                 'section' => 'display_settings',
             ] : null,
         ];

@@ -4,7 +4,7 @@ namespace Modules\Shop\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
-use Modules\KB\Entities\WikiArticle;
+use Modules\Collaboration\Entities\WikiArticle;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;

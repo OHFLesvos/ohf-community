@@ -2,6 +2,7 @@
 
 use Modules\Collaboration\Entities\CalendarResource;
 use Modules\Collaboration\Entities\CalendarEvent;
+use Modules\Collaboration\Entities\WikiArticle;
 
 use Carbon\Carbon;
 
@@ -46,4 +47,11 @@ $factory->define(CalendarEvent::class, function (Faker\Generator $faker) {
 
 $factory->afterCreating(CalendarResource::class, function ($resource, $faker) {
     $resource->events()->saveMany(factory(CalendarEvent::class, mt_rand(0, 150))->make());
+});
+
+$factory->define(WikiArticle::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->unique()->catchPhrase,
+        'content' => implode("\n\n", $faker->paragraphs(4)),
+    ];
 });

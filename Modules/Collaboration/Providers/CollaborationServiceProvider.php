@@ -2,17 +2,28 @@
 
 namespace Modules\Collaboration\Providers;
 
+use App\Providers\Traits\RegistersDashboardWidgets;
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
 class CollaborationServiceProvider extends ServiceProvider
 {
+    use RegistersDashboardWidgets;
+
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = false;
+
+    /**
+     * Dashboard widgets
+     */
+    protected $dashboardWidgets = [
+        \Modules\Collaboration\Widgets\KBWidget::class => 6,
+    ];
 
     /**
      * Boot the application events.
@@ -26,6 +37,7 @@ class CollaborationServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path('Collaboration', 'Database/Migrations'));
+        $this->registerDashboardWidgets();
     }
 
     /**

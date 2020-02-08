@@ -6,7 +6,7 @@ use App\Navigation\ContextButtons\ContextButtons;
 
 use Modules\People\Entities\Person;
 
-use Modules\KB\Entities\WikiArticle;
+use Modules\Collaboration\Entities\WikiArticle;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
