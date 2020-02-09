@@ -100,3 +100,10 @@ Route::middleware(['language', 'auth', 'can:view-changelogs'])
         Route::get('changelog', 'ChangelogController@index')
             ->name('changelog');
     });
+
+Route::middleware(['language', 'auth', 'can:view-logs'])
+    ->namespace('Logviewer')
+    ->group(function () {
+        Route::get('logviewer', 'LogViewerController@index')
+            ->name('logviewer.index');
+    });

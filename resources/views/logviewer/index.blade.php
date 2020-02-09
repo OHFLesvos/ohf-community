@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('logviewer::logviewer.logviewer'))
+@section('title', __('logviewer.logviewer'))
 
 @section('content')
 
@@ -80,5 +80,5 @@
             @lang('app.no_log_entries_found')
         @endcomponent
 	@endif
-	
+
 @endsection

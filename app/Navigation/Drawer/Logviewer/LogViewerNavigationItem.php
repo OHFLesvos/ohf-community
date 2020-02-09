@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Logviewer\Navigation\Drawer;
+namespace App\Navigation\Drawer\Logviewer;
 
 use App\Navigation\Drawer\BaseNavigationItem;
 
@@ -10,7 +10,7 @@ class LogViewerNavigationItem extends BaseNavigationItem {
 
     protected $route = 'logviewer.index';
 
-    protected $caption = 'logviewer::logviewer.logviewer';
+    protected $caption = 'logviewer.logviewer';
 
     protected $icon = 'file-alt';
 

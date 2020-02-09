@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Logviewer\Http\Controllers;
+namespace App\Http\Controllers\Logviewer;
 
 use App\Http\Controllers\Controller;
 
@@ -14,11 +14,11 @@ class LogViewerController extends Controller
 
     private static $levels = [
         'emergency',
-        'alert', 
-        'critical', 
-        'error', 
-        'warning', 
-        'notice', 
+        'alert',
+        'critical',
+        'error',
+        'warning',
+        'notice',
         'info',
         'debug'
     ];
@@ -40,7 +40,7 @@ class LogViewerController extends Controller
         } else {
             $activeLevels = self::$levels;
         }
-        return view('logviewer::index', [
+        return view('logviewer.index', [
             'entries' => $entries->paginate(25, null, [
                 'path' => route('logviewer.index'),
             ]),
