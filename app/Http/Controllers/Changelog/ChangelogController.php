@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Changelog\Http\Controllers;
+namespace App\Http\Controllers\Changelog;
 
 use App\Http\Controllers\Controller;
 
@@ -12,7 +12,7 @@ class ChangelogController extends Controller
         $markdown = file_get_contents(base_path().'/Changelog.md');
         $content = MarkdownExtra::defaultTransform($markdown);
         $content = preg_replace('/^<h1>.+<\/h1>/', '', $content);
-        return view('changelog::index', [
+        return view('changelog.index', [
             'changelog'=> $content,
         ]);
     }

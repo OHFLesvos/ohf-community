@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Changelog\Navigation\ContextButtons;
+namespace App\Navigation\ContextButtons\Changelog;
 
 use App\Navigation\ContextButtons\ContextButtons;
 

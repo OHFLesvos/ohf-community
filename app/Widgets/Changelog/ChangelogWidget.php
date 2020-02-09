@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Changelog\Widgets;
+namespace App\Widgets\Changelog;
 
 use App\Widgets\Widget;
 
@@ -15,7 +15,7 @@ class ChangelogWidget implements Widget
 
     function view(): string
     {
-        return 'changelog::dashboard.widgets.changelog';
+        return 'changelog.dashboard.widgets.changelog';
     }
 
     function args(): array {

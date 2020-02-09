@@ -28,11 +28,16 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.usermgmt_manage_roles',
             'sensitive' => false,
         ],
+        'app.changelogs.view' => [
+            'label' => 'permissions.view_changelogs',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
         'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'], // TODO
         'view-usermgmt-reports' => 'app.usermgmt.view',
+        'view-changelogs' => 'app.changelogs.view',
     ];
 
 }

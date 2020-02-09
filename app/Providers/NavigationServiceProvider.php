@@ -35,6 +35,8 @@ class NavigationServiceProvider extends ServiceProvider
         'roles.show' => \App\Navigation\ContextButtons\UserManagement\RoleShowContextButtons::class,
         'roles.edit' => \App\Navigation\ContextButtons\UserManagement\RoleEditContextButtons::class,
         'roles.permissions' => \App\Navigation\ContextButtons\UserManagement\RolePermissionsContextButtons::class,
+
+        'changelog' => \App\Navigation\ContextButtons\Changelog\ChangelogContextButtons::class,
     ];
 
     /**
