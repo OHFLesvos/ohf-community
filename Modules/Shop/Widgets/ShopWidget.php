@@ -4,7 +4,7 @@ namespace Modules\Shop\Widgets;
 
 use App\Widgets\Widget;
 
-use Modules\Bank\Entities\CouponHandout;
+use App\Models\Bank\CouponHandout;
 
 use Illuminate\Support\Facades\Gate;
 

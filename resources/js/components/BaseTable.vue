@@ -20,8 +20,8 @@
 
     <p v-if="Object.keys(tags).length > 0" class="mb-3">
         Tags:
-        <tag-select-button 
-            :label="tag_name" 
+        <tag-select-button
+            :label="tag_name"
             :value="tag_key"
             :toggled="tagSelected(tag_key)"
             @toggled="toggleTag"
@@ -102,7 +102,7 @@
 
 <script>
   import TagSelectButton from './TagSelectButton'
-  import { getAjaxErrorMessage } from '../utils'
+  import { getAjaxErrorMessage } from '@/utils'
   export default {
     components: {
         'tag-select-button': TagSelectButton,
@@ -119,7 +119,7 @@
         apiUrl: {
             required: true,
             type: String
-        },  
+        },
         defaultSortBy: {
             required: true,
             type: String

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
+import FontAwesomeIcon from '@/components/common/FontAwesomeIcon'
 export default {
     components: {
         FontAwesomeIcon

@@ -10,7 +10,7 @@ use App\Exports\People\PeopleExport;
 use App\Imports\People\PeopleImport;
 use App\Http\Requests\People\StorePerson;
 
-use Modules\Bank\Entities\CouponHandout;    // TODO: fix circular dependency
+use App\Models\Bank\CouponHandout;    // TODO: fix circular dependency
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

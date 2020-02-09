@@ -2,8 +2,8 @@
 
 namespace App\Models\People;
 
-use Modules\Bank\Entities\CouponType;   // TODO circular dependency
-use Modules\Bank\Entities\CouponHandout;   // TODO circular dependency
+use App\Models\Bank\CouponType;   // TODO circular dependency
+use App\Models\Bank\CouponHandout;   // TODO circular dependency
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -299,7 +299,7 @@ class Person extends Model
     public function couponHandouts()
     {
         // TODO This is a circular module dependency
-        return $this->hasMany(\Modules\Bank\Entities\CouponHandout::class);
+        return $this->hasMany(\App\Models\Bank\CouponHandout::class);
     }
 
     public function eligibleForCoupon(CouponType $couponType): bool

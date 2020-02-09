@@ -128,3 +128,31 @@ Route::middleware(['auth', 'language'])
                     ->name('registrationsPerDay');
             });
     });
+
+//
+// Bank
+//
+
+Route::middleware(['auth', 'language'])
+    ->namespace('Bank')
+    ->group(function () {
+        Route::middleware('can:do-bank-withdrawals')
+            ->prefix('bank')
+            ->name('api.bank.withdrawal.')
+            ->namespace('API')
+            ->group(function () {
+                Route::get('withdrawal/dailyStats', 'WithdrawalController@dailyStats')
+                    ->name('dailyStats');
+                Route::get('withdrawal/transactions', 'WithdrawalController@transactions')
+                    ->name('transactions')
+                    ->middleware('can:list,App\Models\People\Person');
+                Route::get('withdrawal/search', 'WithdrawalController@search')
+                    ->name('search');
+                Route::get('withdrawal/persons/{person}', 'WithdrawalController@person')
+                    ->name('person');
+                Route::post('person/{person}/couponType/{couponType}/handout', 'WithdrawalController@handoutCoupon')
+                    ->name('handoutCoupon');
+                Route::delete('person/{person}/couponType/{couponType}/handout', 'WithdrawalController@undoHandoutCoupon')
+                    ->name('undoHandoutCoupon');
+            });
+    });

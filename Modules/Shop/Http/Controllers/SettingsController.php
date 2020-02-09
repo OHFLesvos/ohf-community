@@ -4,7 +4,7 @@ namespace Modules\Shop\Http\Controllers;
 
 use App\Http\Controllers\Settings\SettingsController as BaseSettingsController;
 
-use Modules\Bank\Entities\CouponType;
+use App\Models\Bank\CouponType;
 use App\Models\Collaboration\WikiArticle;
 
 class SettingsController extends BaseSettingsController
@@ -22,7 +22,7 @@ class SettingsController extends BaseSettingsController
                 'form_list' => CouponType::orderBy('name')->where('qr_code_enabled', true)->get()->pluck('name', 'id')->toArray(),
                 'form_placeholder' => __('people.select_coupon_type'),
                 'form_validate' => 'nullable|exists:coupon_types,id',
-                'label_key' => 'bank::coupons.coupon',
+                'label_key' => 'coupons.coupon',
             ],
             'shop.help_article' => [
                 'default' => null,

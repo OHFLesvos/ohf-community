@@ -24,10 +24,12 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Collaboration\CalendarNavigationItem::class  => 11,
         \App\Navigation\Drawer\Collaboration\TasksNavigationItem::class     => 12,
         \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
+        \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,
     ];
 
     protected $contextMenus = [
-        'people.index' => \App\Navigation\ContextMenu\People\PeopleContextMenu::class,
+        'people.index'           => \App\Navigation\ContextMenu\People\PeopleContextMenu::class,
+        'bank.withdrawal.search' => \App\Navigation\ContextMenu\Bank\BankWithdrawalContextMenu::class,
     ];
 
     protected $contextButtons = [
@@ -94,6 +96,23 @@ class NavigationServiceProvider extends ServiceProvider
         'reporting.bank.deposits'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.privacy'               => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
 
+        'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
+        'bank.deposit'                    => \App\Navigation\ContextButtons\Bank\BankDepositContextButtons::class,
+        'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
+        'bank.settings.edit'              => \App\Navigation\ContextButtons\Bank\BankSettingsContextButtons::class,
+        'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
+        'bank.depositTransactions'        => \App\Navigation\ContextButtons\Bank\BankDepositTransactionsContextButtons::class,
+        'bank.maintenance'                => \App\Navigation\ContextButtons\Bank\BankMaintenanceContextButtons::class,
+        'bank.export'                     => \App\Navigation\ContextButtons\Bank\BankExportContextButtons::class,
+
+        'coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,
+        'coupons.create'                  => \App\Navigation\ContextButtons\Bank\CouponCreateContextButtons::class,
+        'coupons.show'                    => \App\Navigation\ContextButtons\Bank\CouponShowContextButtons::class,
+        'coupons.edit'                    => \App\Navigation\ContextButtons\Bank\CouponEditContextButtons::class,
+
+        'bank.people.create'              => \App\Navigation\ContextButtons\Bank\PeopleCreateContextButtons::class,
+        'bank.people.show'                => \App\Navigation\ContextButtons\Bank\PeopleShowContextButtons::class,
+        'bank.people.edit'                => \App\Navigation\ContextButtons\Bank\PeopleEditContextButtons::class,
     ];
 
     /**

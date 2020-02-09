@@ -5,7 +5,7 @@ namespace App\Http\Controllers\People\Reporting;
 use App\Http\Controllers\Reporting\BaseReportingController;
 
 use App\Models\People\Person;
-use Modules\Bank\Entities\CouponHandout;    // TODO: fix circular dependency
+use App\Models\Bank\CouponHandout;    // TODO: fix circular dependency
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

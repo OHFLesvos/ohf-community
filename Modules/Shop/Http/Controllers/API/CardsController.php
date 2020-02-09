@@ -4,8 +4,8 @@ namespace Modules\Shop\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 
-use Modules\Bank\Entities\CouponHandout;
-use Modules\Bank\Entities\CouponType;
+use App\Models\Bank\CouponHandout;
+use App\Models\Bank\CouponType;
 
 use Modules\Shop\ConfigurationException;
 use Modules\Shop\Transformers\ShopCard;

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@app/components/common/FontAwesomeIcon'
+import FontAwesomeIcon from './common/FontAwesomeIcon'
 export default {
     components: {
         FontAwesomeIcon

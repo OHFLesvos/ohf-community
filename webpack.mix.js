@@ -13,7 +13,12 @@ let mix = require('laravel-mix');
 mix.webpackConfig({
     node: {
       fs: "empty"
-	}
+	},
+	resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'resources/js/')
+        }
+    }
 });
 
 /* Allow multiple Laravel Mix applications*/
@@ -26,6 +31,7 @@ mix.options({ processCssUrls: false })
 	.js('resources/js/calendar.js', 'public/js')
 	.js('resources/js/tasks.js', 'public/js')
 	.js('resources/js/people.js', 'public/js')
+	.js('resources/js/bank.js', 'public/js')
 	.js('resources/js/editor.js', 'public/js')
 	.sass('resources/sass/app.scss', 'public/css')
 	.styles([

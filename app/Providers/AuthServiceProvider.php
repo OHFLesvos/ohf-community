@@ -21,6 +21,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Models\Collaboration\Task::class             => \App\Policies\Collaboration\TaskPolicy::class,
         \App\Models\Collaboration\WikiArticle::class      => \App\Policies\Collaboration\ArticlePolicy::class,
         \App\Models\People\Person::class                  => \App\Policies\People\PersonPolicy::class,
+        \App\Models\Bank\CouponType::class                => \App\Policies\Bank\CouponTypePolicy::class,
     ];
 
     protected $permissions = [
@@ -159,6 +160,23 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.view_people_reports',
             'sensitive' => false,
         ],
+
+        'bank.withdrawals.do' => [
+            'label' => 'permissions.do_bank_withdrawals',
+            'sensitive' => true,
+        ],
+        'bank.deposits.do' => [
+            'label' => 'permissions.do_bank_deposits',
+            'sensitive' => false,
+        ],
+        'bank.statistics.view' => [
+            'label' => 'permissions.view_bank_statistics',
+            'sensitive' => false,
+        ],
+        'bank.configure' => [
+            'label' => 'permissions.configure_bank',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -182,6 +200,12 @@ class AuthServiceProvider extends BaseAuthServiceProvider
 
         'manage-people'               => 'people.manage',
         'view-people-reports'         => 'people.reports.view',
+
+        'view-bank-index'             => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
+        'do-bank-withdrawals'         => 'bank.withdrawals.do',
+        'do-bank-deposits'            => 'bank.deposits.do',
+        'view-bank-reports'           => 'bank.statistics.view',
+        'configure-bank'              => 'bank.configure',
     ];
 
 }
