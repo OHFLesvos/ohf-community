@@ -4,9 +4,9 @@ namespace Modules\Bank\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 
-use Modules\People\Entities\Person;
-use Modules\People\Repositories\RevokedCardRepository;
-use Modules\People\Repositories\PersonRepository;
+use App\Models\People\Person;
+use App\Repositories\People\RevokedCardRepository;
+use App\Repositories\People\PersonRepository;
 
 use Modules\Bank\Entities\CouponType;
 use Modules\Bank\Entities\CouponHandout;
@@ -44,7 +44,7 @@ class WithdrawalController extends Controller
     public function dailyStats(BankStatisticsProvider $stats)
     {
 		return response()->json([
-            'numbers' => __('people::people.num_persons_served_handing_out_coupons', [
+            'numbers' => __('people.num_persons_served_handing_out_coupons', [
                 'persons' => $stats->getNumberOfPersonsServed(),
                 'coupons' => $stats->getNumberOfCouponsHandedOut(),
             ]),
@@ -117,7 +117,7 @@ class WithdrawalController extends Controller
     {
         if (($revoked = $this->revokedCards->findByCardNumber($cardNo)) !== null) {
             return response()->json([
-                'message' => __('people::people.card_revoked', [
+                'message' => __('people.card_revoked', [
                     'card_no' => substr($cardNo, 0, 7),
                     'date' => $revoked->created_at
                 ]),
@@ -187,7 +187,7 @@ class WithdrawalController extends Controller
     /**
      * Handout coupon to person.
      *
-     * @param \Modules\People\Entities\Person $person
+     * @param \App\Models\People\Person $person
      * @param \Modules\Bank\Entities\CouponType $couponType
      * @param \Modules\Bank\Http\Requests\StoreHandoutCoupon  $request
      * @return \Illuminate\Http\Response
@@ -216,7 +216,7 @@ class WithdrawalController extends Controller
     /**
      * Undo handing out coupon to person.
      *
-     * @param \Modules\People\Entities\Person $person
+     * @param \App\Models\People\Person $person
      * @param \Modules\Bank\Entities\CouponType $couponType
      * @param  \Modules\Bank\Http\Requests\StoreUndoHandoutCoupon  $request
      * @return \Illuminate\Http\Response

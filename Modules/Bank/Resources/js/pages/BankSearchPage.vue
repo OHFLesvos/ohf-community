@@ -5,7 +5,7 @@
             :lang="lang"
             :busy="busy"
             :disabled="disableSearch"
-            :placeholder="lang['people::people.bank_search_text']"
+            :placeholder="lang['people.bank_search_text']"
             @submit="search"
             @reset="reset"
         />

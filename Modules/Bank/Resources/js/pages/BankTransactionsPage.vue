@@ -22,7 +22,7 @@
             :per-page="perPage"
             :api-url="apiUrl"
             :show-empty="initialized"
-            :empty-text="lang['people::people.no_transactions_so_far']"
+            :empty-text="lang['people.no_transactions_so_far']"
             :empty-filtered-text="lang['app.no_records_matching_your_request']"
             :filter="filter"
         >
@@ -160,7 +160,7 @@ export default {
                 },
                 {
                     key: 'person',
-                    label: this.lang['people::people.recipient']
+                    label: this.lang['people.recipient']
                 },
                 {
                     key: 'coupon',

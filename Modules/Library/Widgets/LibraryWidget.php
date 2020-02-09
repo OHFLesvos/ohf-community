@@ -4,7 +4,7 @@ namespace Modules\Library\Widgets;
 
 use App\Widgets\Widget;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 use Modules\Library\Entities\LibraryBook;
 
 use Illuminate\Support\Facades\Auth;

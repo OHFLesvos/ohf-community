@@ -19,7 +19,7 @@
                 <table class="table table-sm table-bordered table-striped table-hover my-5">
                     <thead>
                         <tr>
-                            <th>@lang('people::people.project')</th>
+                            <th>@lang('people.project')</th>
                             <th class="text-right">@lang('app.daily_average')</th>
                             <th class="text-right">@lang('app.highest')</th>
                             <th class="text-right">@lang('app.last_month')</th>

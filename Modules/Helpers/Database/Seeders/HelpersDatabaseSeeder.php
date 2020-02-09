@@ -2,7 +2,7 @@
 
 namespace Modules\Helpers\Database\Seeders;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 use Modules\Helpers\Entities\Helper;
 use Modules\Helpers\Entities\Responsibility;
 

@@ -5,7 +5,7 @@
             class="btn btn-primary"
         >
             <font-awesome-icon icon="plus-circle"/>
-            {{ lang['people::people.register_a_new_person'] }}
+            {{ lang['people.register_a_new_person'] }}
         </a>
     </p>
 </template>

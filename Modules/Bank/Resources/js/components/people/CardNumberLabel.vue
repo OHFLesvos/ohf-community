@@ -23,7 +23,7 @@
 
         <code-scanner-modal
             ref="codeScanner"
-            :title="lang['people::people.qr_code_scanner']"
+            :title="lang['people.qr_code_scanner']"
             :validator="validateCode"
             :validator-message="lang['app.only_letters_and_numbers_allowed']"
             @decode="submitScannedCard"

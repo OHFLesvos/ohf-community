@@ -23,7 +23,7 @@ Route::group(['middleware' => ['language', 'auth']], function () {
                 ->name('dailyStats');
             Route::get('withdrawal/transactions', 'WithdrawalController@transactions')
                 ->name('transactions')
-                ->middleware('can:list,Modules\People\Entities\Person');
+                ->middleware('can:list,App\Models\People\Person');
             Route::get('withdrawal/search', 'WithdrawalController@search')
                 ->name('search');
             Route::get('withdrawal/persons/{person}', 'WithdrawalController@person')

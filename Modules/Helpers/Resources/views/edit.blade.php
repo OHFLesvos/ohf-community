@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people::people.edit_helper'))
+@section('title', __('people.edit_helper'))
 
 @section('content')
 

@@ -16,11 +16,11 @@
 @section('widget-content')
     <div class="card-body pb-2">
         <p>
-            @lang('people::people.we_have_n_helpers', [ 
+            @lang('people.we_have_n_helpers', [ 
                 'active' => $active,
                 'trial' => $trial,
             ])<br>
-            @lang('people::people.n_helpers_on_waiting_list', [ 
+            @lang('people.n_helpers_on_waiting_list', [ 
                 'num' => $applicants,
             ])<br>
         </p>

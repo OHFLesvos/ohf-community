@@ -6,7 +6,7 @@ use App\Http\Controllers\Settings\SettingsController;
 
 use Modules\Bank\Http\Controllers\Reporting\BankReportingController;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use App\Models\Collaboration\WikiArticle;
 
@@ -17,8 +17,8 @@ class BankSettingsController extends SettingsController
     protected function getSections() {
         return [
             'coupons' => __('bank::coupons.coupons'),
-            'display_settings' => __('people::people.display_settings'),
-            'frequent_visitors' => __('people::people.frequent_visitors'),
+            'display_settings' => __('people.display_settings'),
+            'frequent_visitors' => __('people.frequent_visitors'),
         ];
     }
 
@@ -37,7 +37,7 @@ class BankSettingsController extends SettingsController
                 'form_type' => 'number',
                 'form_args' => [ 'min' => 1 ],
                 'form_validate' => 'required|numeric|min:1',
-                'label_key' => 'people::people.number_of_weeks',
+                'label_key' => 'people.number_of_weeks',
                 'section' => 'frequent_visitors',
                 'include_pre' => 'bank::settings.frequent_visitors_explanation',
             ],
@@ -46,7 +46,7 @@ class BankSettingsController extends SettingsController
                 'form_type' => 'number',
                 'form_args' => [ 'min' => 1 ],
                 'form_validate' => 'required|numeric|min:1',
-                'label_key' => 'people::people.min_number_of_visits',
+                'label_key' => 'people.min_number_of_visits',
                 'section' => 'frequent_visitors',
                 'include_post' => [ 'bank::settings.frequent_visitors_affected', [
                     'current_num_people' => Person::count(),

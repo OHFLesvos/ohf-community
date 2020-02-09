@@ -3,7 +3,7 @@
         <inline-value-editor
             v-if="form"
             :value="editValue"
-            :placeholder="lang['people::people.remarks']"
+            :placeholder="lang['people.remarks']"
             :disabled="disabled"
             :busy="busy"
             @submit="saveEdit"
@@ -23,7 +23,7 @@
                     v-else @click="startEdit"
                     class="text-muted clickable"
                 >
-                    {{ lang['people::people.click_to_add_remarks'] }}
+                    {{ lang['people.click_to_add_remarks'] }}
                 </em>
             </template>
             <span

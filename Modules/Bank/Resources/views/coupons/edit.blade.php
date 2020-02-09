@@ -24,22 +24,22 @@
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsNumber('daily_amount', null, [ ], __('people::people.daily_amount')) }}
+                {{ Form::bsNumber('daily_amount', null, [ ], __('people.daily_amount')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsNumber('retention_period', null, [ ], __('people::people.retention_period'), __('app.in_days')) }}
+                {{ Form::bsNumber('retention_period', null, [ ], __('people.retention_period'), __('app.in_days')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsNumber('min_age', null, [ ], __('people::people.min_age'), __('app.in_years')) }}
+                {{ Form::bsNumber('min_age', null, [ ], __('people.min_age'), __('app.in_years')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsNumber('max_age', null, [ ], __('people::people.max_age'), __('app.in_years')) }}
+                {{ Form::bsNumber('max_age', null, [ ], __('people.max_age'), __('app.in_years')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsNumber('daily_spending_limit', null, [ ], __('people::people.daily_spending_limit'), __('people::people.per_day')) }}
+                {{ Form::bsNumber('daily_spending_limit', null, [ ], __('people.daily_spending_limit'), __('people.per_day')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsNumber('newly_registered_block_days', null, [ ], __('people::people.block_for_newly_registered'), __('app.days')) }}
+                {{ Form::bsNumber('newly_registered_block_days', null, [ ], __('people.block_for_newly_registered'), __('app.days')) }}
             </div>
         </div>
         <div class="form-row mb-4">
@@ -48,12 +48,12 @@
             </div>
             <div class="col-md pt-md-4">
                 {{ Form::bsCheckbox('enabled', 1, null, __('app.enabled')) }}
-                {{ Form::bsCheckbox('returnable', 1, null, __('people::people.returnable')) }}
-                {{ Form::bsCheckbox('qr_code_enabled', 1, null, __('people::people.with_qr_code')) }}
-                {{ Form::bsCheckbox('allow_for_helpers', 1, null, __('people::people.allow_for_helpers')) }}
+                {{ Form::bsCheckbox('returnable', 1, null, __('people.returnable')) }}
+                {{ Form::bsCheckbox('qr_code_enabled', 1, null, __('people.with_qr_code')) }}
+                {{ Form::bsCheckbox('allow_for_helpers', 1, null, __('people.allow_for_helpers')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsNumber('code_expiry_days', null, [ ], __('people::people.code_expiry'), __('app.days')) }}
+                {{ Form::bsNumber('code_expiry_days', null, [ ], __('people.code_expiry'), __('app.days')) }}
             </div>
         </div>
 

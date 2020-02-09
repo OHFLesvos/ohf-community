@@ -2,7 +2,7 @@
 
 namespace Modules\Bank\Http\Requests;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Modules\Bank\Entities\CouponType;
 
@@ -62,7 +62,7 @@ class StoreHandoutCoupon extends FormRequest
             $coupon = $this->couponType;
             $person = $this->person;
             if (!$person->eligibleForCoupon($coupon)) {
-                $validator->errors()->add('coupon_type_id', __('people::people.person_not_eligible_for_this_coupon'));
+                $validator->errors()->add('coupon_type_id', __('people.person_not_eligible_for_this_coupon'));
             }
             $lastHandout = $person->canHandoutCoupon($coupon);
             if ($lastHandout != null) {

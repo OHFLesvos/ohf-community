@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people::people.deposits'))
+@section('title', __('people.deposits'))
 
 @section('content')
 
@@ -11,7 +11,7 @@
                     <tr>
                         <th>@lang('app.registered')</th>
                         <th>@lang('app.date')</th>
-                        <th>@lang('people::people.project')</th>
+                        <th>@lang('people.project')</th>
                         <th>@lang('app.amount')</th>
                     </tr>
                 </thead>
@@ -51,7 +51,7 @@
         {{ $transactions->links() }}
     @else
         @component('components.alert.info')
-            @lang('people::people.no_transactions_so_far')
+            @lang('people.no_transactions_so_far')
         @endcomponent
     @endif
 

@@ -23,9 +23,11 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Collaboration\KBItem::class                  => 6,
         \App\Navigation\Drawer\Collaboration\CalendarNavigationItem::class  => 11,
         \App\Navigation\Drawer\Collaboration\TasksNavigationItem::class     => 12,
+        \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
     ];
 
     protected $contextMenus = [
+        'people.index' => \App\Navigation\ContextMenu\People\PeopleContextMenu::class,
     ];
 
     protected $contextButtons = [
@@ -74,6 +76,24 @@ class NavigationServiceProvider extends ServiceProvider
         'kb.articles.create'              => \App\Navigation\ContextButtons\Collaboration\ArticleCreateContextButtons::class,
         'kb.articles.show'                => \App\Navigation\ContextButtons\Collaboration\ArticleShowContextButtons::class,
         'kb.articles.edit'                => \App\Navigation\ContextButtons\Collaboration\ArticleEditContextButtons::class,
+
+        'people.index'                    => \App\Navigation\ContextButtons\People\PeopleIndexContextButtons::class,
+        'people.create'                   => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
+        'people.show'                     => \App\Navigation\ContextButtons\People\PeopleShowContextButtons::class,
+        'people.relations'                => \App\Navigation\ContextButtons\People\PeopleRelationsContextButtons::class,
+        'people.edit'                     => \App\Navigation\ContextButtons\People\PeopleEditContextButtons::class,
+        'people.duplicates'               => \App\Navigation\ContextButtons\People\PeopleDuplicatesContextButtons::class,
+        'people.import'                   => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
+        'people.bulkSearch'               => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
+        'people.doBulkSearch'             => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
+
+        'reporting.monthly-summary'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.people'                => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.visitors'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.withdrawals'      => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.bank.deposits'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reporting.privacy'               => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+
     ];
 
     /**

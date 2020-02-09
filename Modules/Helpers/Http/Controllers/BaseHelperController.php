@@ -4,7 +4,7 @@ namespace Modules\Helpers\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Modules\Helpers\Entities\Helper;
 use Modules\Helpers\Entities\Responsibility;
@@ -35,27 +35,27 @@ abstract class BaseHelperController extends Controller
         return [
             null => __('app.unspecified'),
             'no' => __('app.no'),
-            'applied' => __('people::people.applied'),
+            'applied' => __('people.applied'),
             'yes' => __('app.yes'),
         ];
     }
 
     protected function getSections() {
         return [
-            'portrait' => __('people::people.portrait'),
+            'portrait' => __('people.portrait'),
             'general' => __('app.general'),
-            'reachability' => __('people::people.reachability'),
-            'occupation' => __('people::people.occupation'),
-            'identification' => __('people::people.identification'),
-            'casework' => __('people::people.casework'),
-            'distribution' => __('people::people.distribution'),
+            'reachability' => __('people.reachability'),
+            'occupation' => __('people.occupation'),
+            'identification' => __('people.identification'),
+            'casework' => __('people.casework'),
+            'distribution' => __('people.distribution'),
         ];
     }
 
     protected function getFields() {
         return [
             [
-                'label_key' => 'people::people.portrait_picture',
+                'label_key' => 'people.portrait_picture',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->portrait_picture; },
                 'value_html' => function($helper) { 
@@ -91,10 +91,10 @@ abstract class BaseHelperController extends Controller
                     'nullable',
                     'image'
                 ],
-                'form_help' => __('people::people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
+                'form_help' => __('people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
-                'label_key' => 'people::people.name',
+                'label_key' => 'people.name',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->name; },
                 'overview' => true,
@@ -109,7 +109,7 @@ abstract class BaseHelperController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people::people.family_name',
+                'label_key' => 'people.family_name',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->family_name; },
                 'overview' => true,
@@ -124,7 +124,7 @@ abstract class BaseHelperController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people::people.nickname',
+                'label_key' => 'people.nickname',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->nickname; },
                 'overview' => true,
@@ -138,7 +138,7 @@ abstract class BaseHelperController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people::people.nationality',
+                'label_key' => 'people.nationality',
                 'icon' => 'globe',
                 'value' => function($helper) { return $helper->person->nationality; },
                 'overview' => true,
@@ -158,7 +158,7 @@ abstract class BaseHelperController extends Controller
                 },
             ],
             [
-                'label_key' => 'people::people.gender',
+                'label_key' => 'people.gender',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? __('app.female') : __('app.male')) : null; },
                 'value_html' => function($helper) { return $helper->person->gender != null ? ($helper->person->gender == 'f' ? icon('female') : icon('male')) : null; },
@@ -177,7 +177,7 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'required', // TODO better validation |in:m,f
             ],
             [
-                'label_key' => 'people::people.date_of_birth',
+                'label_key' => 'people.date_of_birth',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->date_of_birth; },
                 'overview' => false,
@@ -190,14 +190,14 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'required|date',
             ],
             [
-                'label_key' => 'people::people.age',
+                'label_key' => 'people.age',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->age; },
                 'overview' => true,
                 'section' => 'general',
             ],
             [
-                'label_key' => 'people::people.languages',
+                'label_key' => 'people.languages',
                 'icon' => 'language',
                 'value' => function($helper) { return $helper->person->languages != null ? (is_array($helper->person->languages) ? implode(", ", $helper->person->languages) : $helper->person->languages) : null; },
                 'value_html' => function($helper) { return $helper->person->languages != null ? (is_array($helper->person->languages) ? implode("<br>", $helper->person->languages) : $helper->person->languages) : null; },
@@ -278,7 +278,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'skype',
             ],
             [
-                'label_key' => 'people::people.residence',
+                'label_key' => 'people.residence',
                 'icon' => null,
                 'value' => 'residence',
                 'value_html' => function($helper) { return nl2br($helper->residence); },
@@ -289,7 +289,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'residence',
             ],
             [
-                'label_key' => 'people::people.pickup_location',
+                'label_key' => 'people.pickup_location',
                 'icon' => null,
                 'value' => 'pickup_location',
                 'value_html' => function($helper) { return nl2br($helper->pickup_location); },
@@ -367,7 +367,7 @@ abstract class BaseHelperController extends Controller
                 ] 
             ],
             [
-                'label_key' => 'people::people.trial_period',
+                'label_key' => 'people.trial_period',
                 'icon' => 'calendar',
                 'value' => function($helper) { return $helper->work_trial_period !== null ? ($helper->work_trial_period ? __('app.yes') : __('app.no')) : null ; },
                 'overview' => false,
@@ -384,7 +384,7 @@ abstract class BaseHelperController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people::people.application_date',
+                'label_key' => 'people.application_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_application_date)->toDateString(); },
                 'overview' => false,
@@ -396,7 +396,7 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people::people.rejection_date',
+                'label_key' => 'people.rejection_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_rejection_date)->toDateString(); },
                 'overview' => false,
@@ -407,7 +407,7 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people::people.starting_date',
+                'label_key' => 'people.starting_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_starting_date)->toDateString(); },
                 'overview' => false,
@@ -427,7 +427,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'working_since_days',
             ],            
             [
-                'label_key' => 'people::people.leaving_date',
+                'label_key' => 'people.leaving_date',
                 'icon' => 'calendar',
                 'value' => function($helper) { return optional($helper->work_leaving_date)->toDateString(); },
                 'overview' => false,
@@ -438,7 +438,7 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people::people.monthly_support',
+                'label_key' => 'people.monthly_support',
                 'icon' => 'euro-sign',
                 'value' => function($helper) { return $helper->work_monthly_support; },
                 'overview' => false,
@@ -449,7 +449,7 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people::people.background',
+                'label_key' => 'people.background',
                 'icon' => null,
                 'value' => 'work_background',
                 'value_html' => function($helper) { return nl2br($helper->work_background); },
@@ -461,7 +461,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'background',
             ],
             [
-                'label_key' => 'people::people.feedback_wishes',
+                'label_key' => 'people.feedback_wishes',
                 'icon' => null,
                 'value' => 'work_feedback_wishes',
                 'value_html' => function($helper) { return nl2br($helper->work_feedback_wishes); },
@@ -473,7 +473,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'feedback_wishes',
             ],
             [
-                'label_key' => 'people::people.police_number',
+                'label_key' => 'people.police_number',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->person->police_no; },
                 'overview' => false,
@@ -486,7 +486,7 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people::people.staff_card_no',
+                'label_key' => 'people.staff_card_no',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->person->staff_card_no; },
                 'overview' => false,
@@ -497,7 +497,7 @@ abstract class BaseHelperController extends Controller
                 // 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people::people.has_tax_number',
+                'label_key' => 'people.has_tax_number',
                 'icon' => null,
                 'value' => function($helper) { return $helper->has_tax_number; },
                 'value' => function($helper) { 
@@ -515,7 +515,7 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => [ 'nullable', Rule::in(array_keys(self::getTaxNumberStates())) ]
             ],
             [
-                'label_key' => 'people::people.endorses_casework',
+                'label_key' => 'people.endorses_casework',
                 'icon' => null,
                 'value' => function($helper) {
                     return $helper->endorses_casework !== null ? ($helper->endorses_casework ? __('app.yes') : __('app.no')) : null; 
@@ -536,7 +536,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.case_number',
+                'label_key' => 'people.case_number',
                 'icon' => 'id-card',
                 'value' => function($helper) { return $helper->casework_case_number; },
                 'overview' => false,
@@ -549,16 +549,16 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.asylum_request_status',
+                'label_key' => 'people.asylum_request_status',
                 'icon' => null,
                 'value' => function($helper) { 
-                    return $helper->casework_asylum_request_status != null ? __('people::people.' . $helper->casework_asylum_request_status) : null; 
+                    return $helper->casework_asylum_request_status != null ? __('people.' . $helper->casework_asylum_request_status) : null; 
                 },
                 'overview' => false,
                 'section' => 'casework',
                 'assign' => function($person, $helper, $value) {
                     foreach(self::$asylum_request_states as $s) {
-                        if (self::getAllTranslations('people::people.' . $s)->contains($value)) {
+                        if (self::getAllTranslations('people.' . $s)->contains($value)) {
                             $helper->casework_asylum_request_status = $s;
                             break;
                         }
@@ -566,14 +566,14 @@ abstract class BaseHelperController extends Controller
                 },
                 'form_type' => 'select',
                 'form_name' => 'asylum_request_status',
-                'form_list' => collect(self::$asylum_request_states)->mapWithKeys(function($s){ return [ __('people::people.' . $s) => __('people::people.' . $s) ]; })->toArray(),
+                'form_list' => collect(self::$asylum_request_states)->mapWithKeys(function($s){ return [ __('people.' . $s) => __('people.' . $s) ]; })->toArray(),
                 'form_placeholder' => __('app.select_status'),
                 'form_validate' => 'nullable', // TODO better validation
                 'authorized_view' => Gate::allows('view-helpers-casework'),
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.has_geo_restriction',
+                'label_key' => 'people.has_geo_restriction',
                 'icon' => null,
                 'value' => function($helper) { return $helper->casework_has_geo_restriction !== null ? ($helper->casework_has_geo_restriction  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
@@ -593,7 +593,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.has_id_card',
+                'label_key' => 'people.has_id_card',
                 'icon' => null,
                 'value' => function($helper) { return $helper->casework_has_id_card !== null ? ($helper->casework_has_id_card  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
@@ -613,7 +613,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.has_passport',
+                'label_key' => 'people.has_passport',
                 'icon' => null,
                 'value' => function($helper) { return $helper->casework_has_passport !== null ? ($helper->casework_has_passport  ? __('app.yes') : __('app.no')) : null; },
                 'overview' => false,
@@ -632,7 +632,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.first_interview_date',
+                'label_key' => 'people.first_interview_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_first_interview_date)->toDateString(); },
                 'overview' => false,
@@ -646,7 +646,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.second_interview_date',
+                'label_key' => 'people.second_interview_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_second_interview_date)->toDateString(); },
                 'overview' => false,
@@ -660,7 +660,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.first_decision_date',
+                'label_key' => 'people.first_decision_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_first_decision_date)->toDateString(); },
                 'overview' => false,
@@ -674,7 +674,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.appeal_date',
+                'label_key' => 'people.appeal_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_appeal_date)->toDateString(); },
                 'overview' => false,
@@ -688,7 +688,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.second_decision_date',
+                'label_key' => 'people.second_decision_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_second_decision_date)->toDateString(); },
                 'overview' => false,
@@ -702,7 +702,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.vulnerability_assessment_date',
+                'label_key' => 'people.vulnerability_assessment_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_vulnerability_assessment_date)->toDateString(); },
                 'overview' => false,
@@ -716,7 +716,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.vulnerability',
+                'label_key' => 'people.vulnerability',
                 'icon' => null,
                 'value' => 'casework_vulnerability',
                 'overview' => false,
@@ -728,7 +728,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.card_expiry_date',
+                'label_key' => 'people.card_expiry_date',
                 'icon' => null,
                 'value' => function($helper) { return optional($helper->casework_card_expiry_date)->toDateString(); },
                 'overview' => false,
@@ -742,7 +742,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.lawyer_name',
+                'label_key' => 'people.lawyer_name',
                 'icon' => null,
                 'value' => 'casework_lawyer_name',
                 'overview' => false,
@@ -755,7 +755,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.lawyer_phone',
+                'label_key' => 'people.lawyer_phone',
                 'icon' => null,
                 'value' => 'casework_lawyer_phone',
                 'value_html' => function($helper) { return $helper->casework_lawyer_phone != null ? tel_link($helper->casework_lawyer_phone) : null; },
@@ -769,7 +769,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.lawyer_email',
+                'label_key' => 'people.lawyer_email',
                 'icon' => null,
                 'value' => 'casework_lawyer_email',
                 'value_html' => function($helper) { return $helper->casework_lawyer_email != null ? email_link($helper->casework_lawyer_email) : null; },
@@ -783,7 +783,7 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people::people.notes',
+                'label_key' => 'people.notes',
                 'icon' => null,
                 'value' => function($helper) { return $helper->notes; },
                 'value_html' => function($helper) { return nl2br($helper->notes); },
@@ -795,7 +795,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'notes',
             ],
             [
-                'label_key' => 'people::people.shirt_size',
+                'label_key' => 'people.shirt_size',
                 'icon' => null,
                 'value' => function($helper) { return $helper->shirt_size; },
                 'overview' => false,
@@ -805,7 +805,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'shirt_size',
             ],
             [
-                'label_key' => 'people::people.shoe_size',
+                'label_key' => 'people.shoe_size',
                 'icon' => null,
                 'value' => function($helper) { return $helper->shirt_size; },
                 'overview' => false,
@@ -815,7 +815,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'shoe_size',
             ],
             [
-                'label_key' => 'people::people.urgent_needs',
+                'label_key' => 'people.urgent_needs',
                 'icon' => null,
                 'value' => function($helper) { return $helper->urgent_needs; },
                 'value_html' => function($helper) { return nl2br($helper->urgent_needs); },
@@ -826,7 +826,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'urgent_needs',
             ],
             [
-                'label_key' => 'people::people.work_needs',
+                'label_key' => 'people.work_needs',
                 'icon' => null,
                 'value' => function($helper) { return $helper->work_needs; },
                 'value_html' => function($helper) { return nl2br($helper->work_needs); },
@@ -837,7 +837,7 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'work_needs',
             ],
             [
-                'label_key' => 'people::people.remarks',
+                'label_key' => 'people.remarks',
                 'icon' => null,
                 'value' => function($helper) { return $helper->person->remarks; },
                 'value_html' => function($helper) { return nl2br($helper->person->remarks); },
@@ -853,23 +853,23 @@ abstract class BaseHelperController extends Controller
     protected function getScopes() {
         return collect([
             'active' => [
-                'label' => __('people::people.active'),
+                'label' => __('people.active'),
                 'scope' => 'active',
             ],
             'trial' => [
-                'label' => __('people::people.trial_period'),
+                'label' => __('people.trial_period'),
                 'scope' => 'trial',
             ],
             'regular' => [
-                'label' => __('people::people.regular'),
+                'label' => __('people.regular'),
                 'scope' => 'regular',
             ],
             'applicants' => [
-                'label' => __('people::people.applicants'),
+                'label' => __('people.applicants'),
                 'scope' => 'applicants',
             ],
             'alumni' => [
-                'label' => __('people::people.alumni'),
+                'label' => __('people.alumni'),
                 'scope' => 'alumni',
             ],
         ]);
@@ -878,7 +878,7 @@ abstract class BaseHelperController extends Controller
     protected function getGroupings() {
         return collect([
             'nationalities' => [
-                'label' => __('people::people.nationalities'),
+                'label' => __('people.nationalities'),
                 'groups' => function() {
                     return Person::groupBy('nationality')
                         ->orderBy('nationality')
@@ -895,7 +895,7 @@ abstract class BaseHelperController extends Controller
                 },
             ],
             'languages' => [
-                'label' => __('people::people.languages'),
+                'label' => __('people.languages'),
                 'groups' => function() {
                     return Person::groupBy('languages')
                         ->orderBy('languages')
@@ -915,7 +915,7 @@ abstract class BaseHelperController extends Controller
                 },
             ],
             'gender' => [
-                'label' => __('people::people.gender'),
+                'label' => __('people.gender'),
                 'groups' => function() {
                     return Person::groupBy('gender')
                         ->orderBy('gender')
@@ -964,7 +964,7 @@ abstract class BaseHelperController extends Controller
                 },
             ],
             'pickup_locations' => [
-                'label' => __('people::people.pickup_locations'),
+                'label' => __('people.pickup_locations'),
                 'groups' => function() {
                     return Helper::groupBy('pickup_location')
                         ->orderBy('pickup_location')
@@ -990,7 +990,7 @@ abstract class BaseHelperController extends Controller
                 },
             ],
             'tax_numbers' => [
-                'label' => __('people::people.tax_numbers'),
+                'label' => __('people.tax_numbers'),
                 'groups' => function() {
                     return Helper::groupBy('has_tax_number')
                         ->orderBy('has_tax_number')
@@ -1016,7 +1016,7 @@ abstract class BaseHelperController extends Controller
                 },
             ],
             'asylum_request_status' => [
-                'label' => __('people::people.asylum_request_status'),
+                'label' => __('people.asylum_request_status'),
                 'groups' => function() {
                     return Helper::groupBy('casework_asylum_request_status')
                         ->orderBy('casework_asylum_request_status')
@@ -1036,7 +1036,7 @@ abstract class BaseHelperController extends Controller
                 'label_transform'=> function($groups) {
                     return collect($groups)
                         ->map(function($s) {
-                            return $s == null ? __('app.unspecified') : __('people::people.'.$s);
+                            return $s == null ? __('app.unspecified') : __('people.'.$s);
                         });
                 },
                 'authorized' => Gate::allows('view-helpers-casework'),
@@ -1064,15 +1064,15 @@ abstract class BaseHelperController extends Controller
                 'columns' => [],
             ],
             'name_nationality_occupation' => [
-                'label' => __('people::people.name_nationality_occupation'),
+                'label' => __('people.name_nationality_occupation'),
                 'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities'],
             ],
             'monthly_support' => [
-                'label' => __('people::people.monthly_support'),
+                'label' => __('people.monthly_support'),
                 'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities', 'working_since_days', 'monthly_support'],
             ],
             'contact_info' => [
-                'label' => __('people::people.contact_info'),
+                'label' => __('people.contact_info'),
                 'columns' => ['name', 'family_name', 'nickname', 'local_phone', 'other_phone', 'whatsapp', 'email', 'skype', 'residence'],
             ],
         ]);
@@ -1089,31 +1089,31 @@ abstract class BaseHelperController extends Controller
                 'sorting' => 'person.family_name',
             ],
             'nationality' => [
-                'label' => __('people::people.nationality'),
+                'label' => __('people.nationality'),
                 'sorting' => 'person.nationality',
             ],
             'gender' => [
-                'label' => __('people::people.gender'),
+                'label' => __('people.gender'),
                 'sorting' => 'person.gender',
             ],
             'age' => [
-                'label' => __('people::people.age'),
+                'label' => __('people.age'),
                 'sorting' => 'person.age',
             ],
             'residence' => [
-                'label' => __('people::people.residence'),
+                'label' => __('people.residence'),
                 'sorting' => 'residence',
             ],
             'pickup_location' => [
-                'label' => __('people::people.pickup_location'),
+                'label' => __('people.pickup_location'),
                 'sorting' => 'pickup_location',
             ],
             'work_application_date' => [
-                'label' => __('people::people.application_date'),
+                'label' => __('people.application_date'),
                 'sorting' => 'work_application_date',
             ],
             'work_starting_date' => [
-                'label' => __('people::people.starting_date'),
+                'label' => __('people.starting_date'),
                 'sorting' => 'work_starting_date',
             ],
         ]);

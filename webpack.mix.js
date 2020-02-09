@@ -25,6 +25,7 @@ mix.options({ processCssUrls: false })
 	.js('resources/js/fundraising.js', 'public/js')
 	.js('resources/js/calendar.js', 'public/js')
 	.js('resources/js/tasks.js', 'public/js')
+	.js('resources/js/people.js', 'public/js')
 	.js('resources/js/editor.js', 'public/js')
 	.sass('resources/sass/app.scss', 'public/css')
 	.styles([

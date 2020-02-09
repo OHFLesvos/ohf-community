@@ -4,7 +4,7 @@ namespace Modules\Library\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +24,7 @@ class LibraryLendingPersonContextButtons implements ContextButtons {
             ],
             'person' => [
                 'url' => route('people.show', $person),
-                'caption' => __('people::people.view_person'),
+                'caption' => __('people.view_person'),
                 'icon' => 'users',
                 'authorized' => Auth::user()->can('view', $person),
             ],

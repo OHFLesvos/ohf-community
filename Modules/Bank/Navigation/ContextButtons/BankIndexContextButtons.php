@@ -4,7 +4,7 @@ namespace Modules\Bank\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use App\Models\Collaboration\WikiArticle;
 

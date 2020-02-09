@@ -20,7 +20,7 @@ class SettingsController extends BaseSettingsController
                 'default' => null,
                 'form_type' => 'select',
                 'form_list' => CouponType::orderBy('name')->where('qr_code_enabled', true)->get()->pluck('name', 'id')->toArray(),
-                'form_placeholder' => __('people::people.select_coupon_type'),
+                'form_placeholder' => __('people.select_coupon_type'),
                 'form_validate' => 'nullable|exists:coupon_types,id',
                 'label_key' => 'bank::coupons.coupon',
             ],

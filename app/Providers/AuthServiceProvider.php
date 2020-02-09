@@ -20,6 +20,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Models\Collaboration\CalendarResource::class => \App\Policies\Collaboration\ResourcePolicy::class,
         \App\Models\Collaboration\Task::class             => \App\Policies\Collaboration\TaskPolicy::class,
         \App\Models\Collaboration\WikiArticle::class      => \App\Policies\Collaboration\ArticlePolicy::class,
+        \App\Models\People\Person::class                  => \App\Policies\People\PersonPolicy::class,
     ];
 
     protected $permissions = [
@@ -137,6 +138,27 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.delete_wiki',
             'sensitive' => false,
         ],
+
+        'people.list' => [
+            'label' => 'permissions.list_people',
+            'sensitive' => true,
+        ],
+        'people.view' => [
+            'label' => 'permissions.view_people',
+            'sensitive' => true,
+        ],
+        'people.manage' => [
+            'label' => 'permissions.manage_people',
+            'sensitive' => true,
+        ],
+        'people.export' => [
+            'label' => 'permissions.export_people',
+            'sensitive' => true,
+        ],
+        'people.reports.view' => [
+            'label' => 'permissions.view_people_reports',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -157,6 +179,9 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'configure-accounting'        => 'accounting.configure',
 
         'view-calendar'               => 'calendar.events.view',
+
+        'manage-people'               => 'people.manage',
+        'view-people-reports'         => 'people.reports.view',
     ];
 
 }

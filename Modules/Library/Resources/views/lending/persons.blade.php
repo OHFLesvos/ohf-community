@@ -9,7 +9,7 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('people::people.person')</th>
+                        <th>@lang('people.person')</th>
                         <th>@lang('library::library.books')</th>
                     </tr>
                 </thead>

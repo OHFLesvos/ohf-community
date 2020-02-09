@@ -2,7 +2,7 @@
 
 namespace Modules\Bank\Transformers;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Modules\Bank\Entities\CouponType;
 
@@ -58,7 +58,7 @@ class WithdrawalTransaction extends Resource
                 'name' => $person->full_name,
                 'gender' => $person->gender,
                 'date_of_birth' => $person->date_of_birth,
-                'age' => $person->age != null ? __('people::people.age_n', [ 'age' => $person->age]) : null,
+                'age' => $person->age != null ? __('people.age_n', [ 'age' => $person->age]) : null,
                 'nationality' => $person->nationality,
             ];
         }

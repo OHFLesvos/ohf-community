@@ -2,11 +2,11 @@
 
 namespace Modules\Bank\Http\Controllers;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use App\Http\Controllers\Controller;
 
-use Modules\People\Http\Requests\StorePerson;
+use App\Http\Requests\People\StorePerson;
 
 use Countries;
 
@@ -35,7 +35,7 @@ class PeopleController extends Controller
         $request->session()->put('filter', $person->search);
 
         return redirect()->route('bank.withdrawal.search')
-            ->with('success', __('people::people.person_added'));
+            ->with('success', __('people.person_added'));
     }
 
     public function show(Person $person)
@@ -59,7 +59,7 @@ class PeopleController extends Controller
         $person->save();
 
         return redirect()->route('bank.people.show', $person)
-                ->with('success', __('people::people.person_updated'));
+                ->with('success', __('people.person_updated'));
     }
 
     public function destroy(Person $person)
@@ -67,6 +67,6 @@ class PeopleController extends Controller
         $person->delete();
 
         return redirect()->route('bank.withdrawal.search')
-            ->with('success', __('people::people.person_deleted'));
+            ->with('success', __('people.person_deleted'));
     }
 }

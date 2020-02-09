@@ -39,7 +39,7 @@
 
         @foreach($coupons as $v)
             <bar-chart
-                title="@lang('people::people.num_x_handed_out_per_day', [ 'name' => $v['coupon']->name ])"
+                title="@lang('people.num_x_handed_out_per_day', [ 'name' => $v['coupon']->name ])"
                 ylabel="# {{ $v['coupon']->name }}"
                 url="{{ route('reporting.bank.couponsHandedOutPerDay', $v['coupon']) }}?from={{ $from }}&to={{ $to }}"
                 :height=300

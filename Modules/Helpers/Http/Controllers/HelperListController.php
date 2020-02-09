@@ -2,7 +2,7 @@
 
 namespace Modules\Helpers\Http\Controllers;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Modules\Helpers\Entities\Helper;
 
@@ -148,7 +148,7 @@ class HelperListController extends BaseHelperController
                 Rule::exists('persons', 'public_id'),
                 function($attribute, $value, $fail) {
                     if (Person::where('public_id', $value)->has('helper')->first() != null) {
-                        return $fail(__('people::people.helper_already_exists'));
+                        return $fail(__('people.helper_already_exists'));
                     }
                 },
             ],
@@ -158,7 +158,7 @@ class HelperListController extends BaseHelperController
         $helper = new Helper();
         $person->helper()->save($helper);
         return redirect()->route('people.helpers.show', $helper)
-            ->with('success', __('people::people.helper_registered'));
+            ->with('success', __('people.helper_registered'));
     }
 
     public function create(Request $request) {
@@ -220,7 +220,7 @@ class HelperListController extends BaseHelperController
         $person->helper()->save($helper);
 
         return redirect()->route('people.helpers.show', $helper)
-            ->with('success', __('people::people.helper_registered'));	
+            ->with('success', __('people.helper_registered'));	
     }
 
     private static function isRequiredField($f)
@@ -379,7 +379,7 @@ class HelperListController extends BaseHelperController
         $helper->person->save();
 
 		return redirect()->route('people.helpers.show', $helper)
-				->with('success', __('people::people.helper_updated'));		
+				->with('success', __('people.helper_updated'));		
     }
 
     public function destroy(Helper $helper) {
@@ -388,7 +388,7 @@ class HelperListController extends BaseHelperController
         $helper->delete();
         
         return redirect()->route('people.helpers.index')
-            ->with('success', __('people::people.helper_deleted'));
+            ->with('success', __('people.helper_deleted'));
     }
 
     private static function getFieldValue($field, $helper, $with_html = true) {

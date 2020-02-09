@@ -1,30 +1,30 @@
 @extends('layouts.app')
 
-@section('title', __('people::people.view_person'))
+@section('title', __('people.view_person'))
 
 @section('content')
 
     @if(optional($person->helper)->isActive)
         @component('components.alert.info')
-            @lang('people::people.person_registered_as_helper')
+            @lang('people.person_registered_as_helper')
         @endcomponent
     @endif
 
     @isset($person->remarks)
         @component('components.alert.info')
-            @lang('people::people.remarks'): {{ $person->remarks }}
+            @lang('people.remarks'): {{ $person->remarks }}
         @endcomponent
     @endisset
 
     <div class="row mb-3">
         <div class="col-md">
             {{-- Properties --}}
-            @include('people::snippets.properties', [ 'showRouteName' => 'bank.people.show' ])
+            @include('people.snippets.properties', [ 'showRouteName' => 'bank.people.show' ])
         </div>
         <div class="col-md">
 
             {{-- Card --}}
-            @include('people::snippets.card')
+            @include('people.snippets.card')
 
             {{-- Coupons --}}
             <h4>@lang('bank::coupons.coupons')</h4>
@@ -67,7 +67,7 @@
                 @component('components.alert.info')
                     @lang('bank::coupons.no_coupons_received_so_far')
                 @endcomponent
-            @endif            
+            @endif
 
         </div>
     </div>

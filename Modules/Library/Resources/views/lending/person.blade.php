@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('library::library.library') . ': ' .__('people::people.person'))
+@section('title', __('library::library.library') . ': ' .__('people.person'))
 
 @section('content')
 

@@ -69,7 +69,7 @@
         <p><small>@lang('app.n_results_found', [ 'num' => $data->count() ])</small></p>
     @else
         @component('components.alert.info')
-            @lang('people::people.no_helpers_found')
+            @lang('people.no_helpers_found')
         @endcomponent
     @endif
 

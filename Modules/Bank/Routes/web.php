@@ -27,7 +27,7 @@ Route::middleware(['language', 'auth'])->group(function () {
 
             Route::view('withdrawal/transactions', 'bank::withdrawal.transactions')
                 ->name('withdrawal.transactions')
-                ->middleware('can:list,Modules\People\Entities\Person');
+                ->middleware('can:list,App\Models\People\Person');
 
             Route::get('codeCard', 'CodeCardController@create')
                 ->name('prepareCodeCard');
@@ -53,13 +53,13 @@ Route::middleware(['language', 'auth'])->group(function () {
         });
 
         // Maintenance
-        Route::middleware('can:cleanup,Modules\People\Entities\Person')->group(function () {
+        Route::middleware('can:cleanup,App\Models\People\Person')->group(function () {
             Route::get('maintenance', 'MaintenanceController@maintenance')->name('maintenance');
             Route::post('maintenance', 'MaintenanceController@updateMaintenance')->name('updateMaintenance');
         });
 
         // Export
-        Route::middleware('can:export,Modules\People\Entities\Person')->group(function () {
+        Route::middleware('can:export,App\Models\People\Person')->group(function () {
             Route::get('export', 'ImportExportController@export')->name('export');
             Route::post('doExport', 'ImportExportController@doExport')->name('doExport');
         });

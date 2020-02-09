@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FundraisingDatabaseSeeder::class);
         $this->call(CalendarResourceSeeder::class);
         $this->call(WikiArticleTableSeeder::class);
+        $this->call(PeopleDatabaseSeeder::class);
     }
 }

@@ -19,6 +19,6 @@ class LibraryLending extends Model
 
     public function person()
     {
-        return $this->belongsTo('Modules\People\Entities\Person', 'person_id');
+        return $this->belongsTo('App\Models\People\Person', 'person_id');
     }
 }

@@ -4,7 +4,7 @@ namespace Modules\Bank\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Modules\Bank\Exports\BankExport;
 use Modules\Bank\Http\Requests\DownloadFile;

@@ -4,7 +4,7 @@ namespace Modules\Bank\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Modules\Bank\Entities\CouponHandout;
 
@@ -124,7 +124,7 @@ class MaintenanceController extends Controller
                 ->delete();
         }
          return redirect()->route('bank.withdrawal.search')
-             ->with('info', __('people::people.removed_n_persons', [ 'num' => $cnt ]));
+             ->with('info', __('people.removed_n_persons', [ 'num' => $cnt ]));
     }
 
 }

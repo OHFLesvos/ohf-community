@@ -36,7 +36,7 @@ class ShopCard extends Resource
             $data['fullName'] = $this->person->fullName;
             $data['gender'] = $this->person->gender;
             $data['date_of_birth'] = $this->person->date_of_birth;
-            $data['age_formatted'] = __('people::people.age_n', ['age' => $this->person->age]);
+            $data['age_formatted'] = __('people.age_n', ['age' => $this->person->age]);
             $data['nationality'] = $this->person->nationality;
             $data['url'] = route('bank.people.show', $this->person);
 
@@ -46,7 +46,7 @@ class ShopCard extends Resource
                 foreach($children as $child) {
                     $data['children'][] = [
                         'fullName' => $child->fullName,
-                        'age_formatted' => __('people::people.age_n', ['age' => $child->age]),
+                        'age_formatted' => __('people.age_n', ['age' => $child->age]),
                     ];
                 }
             }

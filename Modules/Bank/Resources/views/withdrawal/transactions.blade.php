@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('people::people.withdrawals'))
+@section('title', __('people.withdrawals'))
 
 @section('content')
 
@@ -11,9 +11,9 @@
             'app.loading',
             'app.registered',
             'app.date',
-            'people::people.recipient',
+            'people.recipient',
             'app.amount',
-            'people::people.no_transactions_so_far',
+            'people.no_transactions_so_far',
             'app.no_records_matching_your_request'
         ]);
     @endphp

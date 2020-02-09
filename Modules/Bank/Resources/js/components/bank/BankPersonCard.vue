@@ -97,7 +97,7 @@
                 v-else
                 class="pb-2 px-2"
             >
-                <em>{{ lang['people::people.no_coupons_defined'] }}</em>
+                <em>{{ lang['people.no_coupons_defined'] }}</em>
             </div>
         </div>
 

@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         <th>@lang('library::library.book')</th>
-                        <th class="d-none d-sm-table-cell">@lang('people::people.person')</th>
+                        <th class="d-none d-sm-table-cell">@lang('people.person')</th>
                         <th>@lang('library::library.return')</th>
                     </tr>
                 </thead>

@@ -4,7 +4,7 @@ namespace Modules\Helpers\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Carbon\Carbon;
 
@@ -106,7 +106,7 @@ class HelperReportController extends Controller
         $nationalities = self::getAges();
         return response()->json([
             'labels' => array_keys($nationalities),
-            'datasets' => [ __('people::people.persons') => array_values($nationalities)],
+            'datasets' => [ __('people.persons') => array_values($nationalities)],
         ]);
     }
 

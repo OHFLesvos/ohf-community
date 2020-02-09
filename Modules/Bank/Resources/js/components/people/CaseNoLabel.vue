@@ -1,7 +1,7 @@
 <template>
     <div >
         <font-awesome-icon icon="gavel"/>
-        <small class="text-muted">{{ lang['people::people.case_number'] }}:</small>
+        <small class="text-muted">{{ lang['people.case_number'] }}:</small>
         <span class="pr-2">{{ lang['app.yes'] }}</span>
     </div>
 </template>

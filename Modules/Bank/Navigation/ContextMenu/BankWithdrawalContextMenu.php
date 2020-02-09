@@ -4,7 +4,7 @@ namespace Modules\Bank\Navigation\ContextMenu;
 
 use App\Navigation\ContextMenu\ContextMenu;
 
-use Modules\People\Entities\Person;
+use App\Models\People\Person;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -16,7 +16,7 @@ class BankWithdrawalContextMenu implements ContextMenu {
         return [
             [
                 'url' => route('bank.prepareCodeCard'),
-                'caption' => __('people::people.code_cards'),
+                'caption' => __('people.code_cards'),
                 'icon' => 'qrcode',
                 'authorized' => Gate::allows('do-bank-withdrawals')
             ],

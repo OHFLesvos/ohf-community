@@ -9,7 +9,7 @@
             v-html="stats.numbers"
         ></p>
         <template v-else>
-            {{ lang['people::people.not_yet_served_any_persons'] }}
+            {{ lang['people.not_yet_served_any_persons'] }}
         </template>
         <template v-if="stats.limitedCoupons">
             <p

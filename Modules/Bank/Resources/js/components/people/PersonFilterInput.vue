@@ -53,14 +53,14 @@
             >
                 <font-awesome-icon icon="qrcode"/>
                 <span class="d-none d-sm-inline">
-                    {{ lang['people::people.scan_card'] }}
+                    {{ lang['people.scan_card'] }}
                 </span>
             </button>
         </div>
 
         <code-scanner-modal
             ref="codeScanner"
-            :title="lang['people::people.qr_code_scanner']"
+            :title="lang['people.qr_code_scanner']"
             :validator="validateCode"
             :validator-message="lang['app.only_letters_and_numbers_allowed']"
             @decode="submitScannedCode"

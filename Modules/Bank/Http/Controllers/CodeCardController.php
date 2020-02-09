@@ -58,7 +58,7 @@ class CodeCardController extends Controller
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        return $dompdf->stream(__('people::people.code_cards') . ' ' . substr($firstCode, 0, 7));
+        return $dompdf->stream(__('people.code_cards') . ' ' . substr($firstCode, 0, 7));
     }
 
     /**

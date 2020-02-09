@@ -26,7 +26,7 @@ class PeopleShowContextButtons implements ContextButtons {
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $person),
-                'confirmation' => __('people::people.confirm_delete_person')
+                'confirmation' => __('people.confirm_delete_person')
             ],
             'back' => [
                 'url' => route('bank.withdrawal.search'),

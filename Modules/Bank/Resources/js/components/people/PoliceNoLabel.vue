@@ -1,7 +1,7 @@
 <template>
     <div>
         <font-awesome-icon icon="hashtag"/>
-        <small class="text-muted">{{ lang['people::people.police_number'] }}:</small>
+        <small class="text-muted">{{ lang['people.police_number'] }}:</small>
         <span class="pr-2">
             <text-highlight :queries="highlightTerms">{{ value }}</text-highlight>
         </span>
