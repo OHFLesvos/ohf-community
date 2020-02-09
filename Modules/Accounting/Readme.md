@@ -1,4 +1,0 @@
-Accounting Module
-=================
-
-Dependencies: none

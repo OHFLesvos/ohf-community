@@ -169,6 +169,8 @@ return [
         App\Providers\FormServiceProvider::class,
         App\Providers\NavigationServiceProvider::class,
 
+        App\Providers\Accounting\WeblingServiceProvider::class,
+
         Collective\Html\HtmlServiceProvider::class,
 
 		anlutro\LaravelSettings\ServiceProvider::class,

@@ -31,3 +31,16 @@ Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
     ->group(function () {
         Route::name('donations.raiseNowWebHookListener')->post('raiseNowWebHookListener', 'DonationController@raiseNowWebHookListener');
     });
+
+//
+// Accounting
+//
+
+Route::middleware(['language', 'auth'])
+    ->prefix('accounting')
+    ->name('accounting.')
+    ->namespace('Accounting\API')
+    ->group(function () {
+        Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')
+            ->name('transactions.updateReceipt');
+    });

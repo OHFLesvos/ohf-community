@@ -17,4 +17,12 @@ return [
     'register_fundraising_donations' => 'Donation management: Register donations',
     'edit_fundraising_donations' => 'Donation management: Edit donations',
     'accept_fundraising_donations_webhooks' => 'Donation management: Accept Webhooks',
+
+    'view_transactions' => 'Accounting: View transactions',
+    'create_transactions' => 'Accounting: Register transactions',
+    'update_transactions' => 'Accounting: Edit transactions',
+    'delete_transactions' => 'Accounting: Delete transactions',
+    'book_externally' => 'Accounting: Book transactions externally',
+    'view_summary' => 'Accounting: View summary',
+    'configure'  => 'Accounting: Configure settings',
 ];
