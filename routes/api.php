@@ -44,3 +44,26 @@ Route::middleware(['language', 'auth'])
         Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')
             ->name('transactions.updateReceipt');
     });
+
+//
+// Collaboration
+//
+
+Route::middleware('auth')
+    ->namespace('Collaboration\API')
+    ->prefix('calendar')
+    ->name('calendar.')
+    ->group(function () {
+        Route::apiResource('events', 'CalendarEventController');
+        Route::patch('events/{event}/date', 'CalendarEventController@updateDate')
+            ->name('events.updateDate');
+        Route::apiResource('resources', 'CalendarResourceController');
+    });
+
+Route::middleware('auth')
+    ->namespace('Collaboration\API')
+    ->group(function () {
+        Route::apiResource('tasks', 'TasksController');
+        Route::patch('tasks/{task}/done', 'TasksController@done')
+            ->name('tasks.done');
+    });

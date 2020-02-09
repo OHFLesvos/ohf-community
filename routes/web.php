@@ -205,3 +205,48 @@ Route::middleware(['language', 'auth'])
             ->name('settings.update')
             ->middleware(['can:configure-accounting']);
     });
+
+//
+// Collaboration
+//
+
+Route::middleware(['language', 'auth'])
+    ->namespace('Collaboration')
+    ->group(function () {
+
+        Route::view('calendar', 'collaboration.calendar')
+            ->name('calendar')
+            ->middleware('can:view-calendar');
+
+        Route::view('tasks', 'collaboration.tasklist')
+            ->name('tasks')
+            ->middleware('can:list,App\Models\Collaboration\Task');
+
+    });
+
+Route::middleware(['language'])
+    ->namespace('Collaboration')
+    ->prefix('kb')
+    ->name('kb.')
+    ->group(function(){
+        Route::group(['middleware' => ['auth']], function () {
+            Route::get('', 'SearchController@index')
+                ->name('index');
+            Route::get('latest_changes', 'SearchController@latestChanges')
+                ->name('latestChanges');
+
+            Route::get('tags', 'TagController@tags')
+                ->name('tags');
+            Route::get('tags/{tag}/pdf', 'TagController@pdf')
+                ->name('tags.pdf');
+
+            Route::get('articles/{article}/pdf', 'ArticleController@pdf')
+                ->name('articles.pdf');
+            Route::resource('articles', 'ArticleController')
+                ->except('show');
+        });
+        Route::get('tags/{tag}', 'TagController@tag')
+            ->name('tag');
+        Route::resource('articles', 'ArticleController')
+            ->only('show');
+    });

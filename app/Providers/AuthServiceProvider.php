@@ -10,12 +10,16 @@ class AuthServiceProvider extends BaseAuthServiceProvider
      * @var array
      */
     protected $policies = [
-        \App\User::class                               => \App\Policies\UserPolicy::class,
-        \App\Role::class                               => \App\Policies\RolePolicy::class,
-        \App\Tag::class                                => \App\Policies\TagPolicy::class,
-        \App\Models\Fundraising\Donor::class           => \App\Policies\Fundraising\DonorPolicy::class,
-        \App\Models\Fundraising\Donation::class        => \App\Policies\Fundraising\DonationPolicy::class,
-        \App\Models\Accounting\MoneyTransaction::class => \App\Policies\Accounting\MoneyTransactionPolicy::class,
+        \App\User::class                                  => \App\Policies\UserPolicy::class,
+        \App\Role::class                                  => \App\Policies\RolePolicy::class,
+        \App\Tag::class                                   => \App\Policies\TagPolicy::class,
+        \App\Models\Fundraising\Donor::class              => \App\Policies\Fundraising\DonorPolicy::class,
+        \App\Models\Fundraising\Donation::class           => \App\Policies\Fundraising\DonationPolicy::class,
+        \App\Models\Accounting\MoneyTransaction::class    => \App\Policies\Accounting\MoneyTransactionPolicy::class,
+        \App\Models\Collaboration\CalendarEvent::class    => \App\Policies\Collaboration\CalendarEventPolicy::class,
+        \App\Models\Collaboration\CalendarResource::class => \App\Policies\Collaboration\ResourcePolicy::class,
+        \App\Models\Collaboration\Task::class             => \App\Policies\Collaboration\TaskPolicy::class,
+        \App\Models\Collaboration\WikiArticle::class      => \App\Policies\Collaboration\ArticlePolicy::class,
     ];
 
     protected $permissions = [
@@ -100,6 +104,39 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.configure',
             'sensitive' => false,
         ],
+
+        'calendar.events.view' => [
+            'label' => 'permissions.view_calendar_events',
+            'sensitive' => false,
+        ],
+        'calendar.events.create' => [
+            'label' => 'permissions.create_calendar_events',
+            'sensitive' => false,
+        ],
+        'calendar.events.manage' => [
+            'label' => 'permissions.manage_calendar_events',
+            'sensitive' => false,
+        ],
+        'calendar.resources.manage' => [
+            'label' => 'permissions.manage_calendar_resources',
+            'sensitive' => false,
+        ],
+        'tasks.use' => [
+            'label' => 'permissions.use_tasks',
+            'sensitive' => false,
+        ],
+        'wiki.view' => [
+            'label' => 'permissions.view_wiki',
+            'sensitive' => false,
+        ],
+        'wiki.edit' => [
+            'label' => 'permissions.edit_wiki',
+            'sensitive' => false,
+        ],
+        'wiki.delete' => [
+            'label' => 'permissions.delete_wiki',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -118,6 +155,8 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'view-accounting-summary'     => 'accounting.summary.view',
         'book-accounting-transactions-externally'=> 'accounting.transactions.book_externally',
         'configure-accounting'        => 'accounting.configure',
+
+        'view-calendar'               => 'calendar.events.view',
     ];
 
 }

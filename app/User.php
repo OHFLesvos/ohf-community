@@ -14,7 +14,7 @@ class User extends Authenticatable implements HasLocalePreference
 {
     use Notifiable;
     use NullableFields;
-   
+
     protected $nullable = [
 		'tfa_secret',
     ];
@@ -74,13 +74,13 @@ class User extends Authenticatable implements HasLocalePreference
     {
         return $this->belongsToMany(Role::class, 'role_admin')
             ->withTimestamps();
-    }    
+    }
 
     public function hasPermission($permissionKey) {
-        return $this->roles->contains(function($role) use($permissionKey) { 
+        return $this->roles->contains(function($role) use($permissionKey) {
             return $role->permissions->contains(function($value) use($permissionKey) {
-                return $value->key == $permissionKey; 
-            }); 
+                return $value->key == $permissionKey;
+            });
         });
     }
 
@@ -100,8 +100,7 @@ class User extends Authenticatable implements HasLocalePreference
 
     public function tasks()
     {
-        // TODO: Modularize
-        return $this->hasMany('Modules\Collaboration\Entities\Task');
+        return $this->hasMany('App\Models\Collaboration\Task');
     }
 
     public function avatarUrl($profile = null)

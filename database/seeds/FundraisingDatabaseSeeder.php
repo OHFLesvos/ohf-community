@@ -5,7 +5,7 @@ use App\Models\Fundraising\Donation;
 
 use Illuminate\Database\Seeder;
 
-class DonorsTableSeeder extends Seeder
+class FundraisingDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

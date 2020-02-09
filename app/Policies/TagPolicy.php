@@ -39,7 +39,7 @@ class TagPolicy
      */
     public function view(?User $user, Tag $tag)
     {
-        if ($user === null && is_module_enabled('Collaboration')) {
+        if ($user === null) {
             return self::hasPublicArticles($tag);
         }
         return $user->hasPermission('wiki.view')

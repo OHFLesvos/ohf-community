@@ -8,7 +8,7 @@ use Modules\Bank\Http\Controllers\Reporting\BankReportingController;
 
 use Modules\People\Entities\Person;
 
-use Modules\Collaboration\Entities\WikiArticle;
+use App\Models\Collaboration\WikiArticle;
 
 use Illuminate\Support\Facades\Config;
 
@@ -53,15 +53,15 @@ class BankSettingsController extends SettingsController
                     'current_num_frequent_visitors' => BankReportingController::getNumberOfFrequentVisitors(),
                 ] ],
             ],
-            'bank.help_article' => is_module_enabled('Collaboration') ? [
+            'bank.help_article' => [
                 'default' => null,
                 'form_type' => 'select',
                 'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),
-                'form_placeholder' => __('collaboration::wiki.select_article'),
+                'form_placeholder' => __('wiki.select_article'),
                 'form_validate' => 'nullable|exists:kb_articles,id',
-                'label_key' => 'collaboration::wiki.help_article',
+                'label_key' => 'wiki.help_article',
                 'section' => 'display_settings',
-            ] : null,
+            ],
         ];
     }
 

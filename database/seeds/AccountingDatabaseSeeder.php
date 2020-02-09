@@ -4,7 +4,7 @@ use App\Models\Accounting\MoneyTransaction;
 
 use Illuminate\Database\Seeder;
 
-class MoneyTransactionSeeder extends Seeder
+class AccountingDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

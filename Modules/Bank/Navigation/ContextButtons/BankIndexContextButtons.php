@@ -6,7 +6,7 @@ use App\Navigation\ContextButtons\ContextButtons;
 
 use Modules\People\Entities\Person;
 
-use Modules\Collaboration\Entities\WikiArticle;
+use App\Models\Collaboration\WikiArticle;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +31,7 @@ class BankIndexContextButtons implements ContextButtons {
                 'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-bank-reports')
             ],
-            'help'=> is_module_enabled('Collaboration') && $help_article != null ? [
+            'help'=> $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),
                 'caption' => null,
                 'icon' => 'question-circle',

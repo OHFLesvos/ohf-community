@@ -4,7 +4,7 @@ namespace Modules\Shop\Navigation\ContextButtons;
 
 use App\Navigation\ContextButtons\ContextButtons;
 
-use Modules\Collaboration\Entities\WikiArticle;
+use App\Models\Collaboration\WikiArticle;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;
@@ -29,7 +29,7 @@ class ShopContextButtons implements ContextButtons {
                 'icon' => 'cogs',
                 'authorized' => Gate::allows('configure-shop')
             ],
-            'help'=> is_module_enabled('Collaboration') && $help_article != null ? [
+            'help'=> $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),
                 'caption' => null,
                 'icon' => 'question-circle',

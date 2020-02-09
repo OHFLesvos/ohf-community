@@ -23,6 +23,8 @@ mix.mergeManifest();
 mix.options({ processCssUrls: false })
 	.js('resources/js/app.js', 'public/js')
 	.js('resources/js/fundraising.js', 'public/js')
+	.js('resources/js/calendar.js', 'public/js')
+	.js('resources/js/tasks.js', 'public/js')
 	.js('resources/js/editor.js', 'public/js')
 	.sass('resources/sass/app.scss', 'public/css')
 	.styles([
@@ -31,4 +33,9 @@ mix.options({ processCssUrls: false })
 	.copy('node_modules/summernote/dist/summernote-bs4.js', 'public/js')
 	.copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')
 	.copy('node_modules/summernote/dist/font', 'public/css/font')
+	.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', '../../public/css')
+	.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', '../../public/js')
+    .copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.css', '../../public/css')
+    .copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.js', '../../public/js')
+    .copy('node_modules/moment/min/moment-with-locales.min.js', '../../public/js')
 	.sourceMaps();
