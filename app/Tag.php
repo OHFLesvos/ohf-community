@@ -40,7 +40,6 @@ class Tag extends Model
      */
     public function wikiArticles()
     {
-        // TODO: Modularization
         return $this->morphedByMany(\App\Models\Collaboration\WikiArticle::class, 'taggable');
     }
 
@@ -49,7 +48,6 @@ class Tag extends Model
      */
     public function donors()
     {
-        // TODO: Modularization
         return $this->morphedByMany(\App\Models\Fundraising\Donor::class, 'taggable');
     }
 }
