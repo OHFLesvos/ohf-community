@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\ReportingWidget::class => 9,
         \App\Widgets\UserManagement\UsersWidget::class => 11,
         \App\Widgets\Changelog\ChangelogWidget::class => 12,
+        \App\Widgets\Fundraising\DonorsWidget::class => 8,
     ];
 
     /**

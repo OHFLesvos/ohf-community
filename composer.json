@@ -13,7 +13,7 @@
             "type": "vcs",
             "url": "https://github.com/xeno010/Laravel-Log-Reader"
         }
-    ],   
+    ],
     "require": {
         "php": ">=7.1.0",
         "akaunting/language": "^1.0",

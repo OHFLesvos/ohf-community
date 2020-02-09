@@ -50,6 +50,6 @@ class Tag extends Model
     public function donors()
     {
         // TODO: Modularization
-        return $this->morphedByMany(\Modules\Fundraising\Entities\Donor::class, 'taggable');
+        return $this->morphedByMany(\App\Models\Fundraising\Donor::class, 'taggable');
     }
 }

@@ -5,7 +5,6 @@ use App\RolePermission;
 use App\User;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Config;
 
 class UserRolesSeeder extends Seeder
 {

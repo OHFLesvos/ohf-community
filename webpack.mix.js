@@ -22,6 +22,7 @@ mix.mergeManifest();
 
 mix.options({ processCssUrls: false })
 	.js('resources/js/app.js', 'public/js')
+	.js('resources/js/fundraising.js', 'public/js')
 	.js('resources/js/editor.js', 'public/js')
 	.sass('resources/sass/app.scss', 'public/css')
 	.styles([
@@ -31,4 +32,3 @@ mix.options({ processCssUrls: false })
 	.copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')
 	.copy('node_modules/summernote/dist/font', 'public/css/font')
 	.sourceMaps();
-	
