@@ -49,11 +49,7 @@
         <hr>
         <p class="copyright text-muted px-3">
             <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }}</a>
-            @if(is_module_enabled('Changelog'))
-                <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
-            @else
-                {{ $app_version }}<br>
-            @endif
+            <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
             &copy; Nicolas Perrenoud<br>
             Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms
         </p>
