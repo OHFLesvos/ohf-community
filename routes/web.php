@@ -101,9 +101,31 @@ Route::middleware(['language', 'auth', 'can:view-changelogs'])
             ->name('changelog');
     });
 
+//
+// Logviewer
+//
 Route::middleware(['language', 'auth', 'can:view-logs'])
     ->namespace('Logviewer')
     ->group(function () {
         Route::get('logviewer', 'LogViewerController@index')
             ->name('logviewer.index');
+    });
+
+//
+// Badges
+//
+Route::middleware(['language', 'auth'])
+    ->namespace('Badges')
+    ->name('badges.')
+    ->prefix('badges')
+    ->group(function () {
+        Route::middleware(['can:create-badges'])
+            ->group(function(){
+                Route::get('/', 'BadgeMakerController@index')
+                    ->name('index');
+                Route::post('/selection', 'BadgeMakerController@selection')
+                    ->name('selection');
+                Route::post('/make', 'BadgeMakerController@make')
+                    ->name('make');
+            });
     });

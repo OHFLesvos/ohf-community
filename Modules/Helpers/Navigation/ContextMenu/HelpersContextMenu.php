@@ -15,12 +15,12 @@ class HelpersContextMenu implements ContextMenu {
     public function getItems(): array
     {
         return [
-            'badges' => is_module_enabled('Badges') ? [
+            'badges' => [
                 'url' => route('badges.index', ['source' => 'helpers']),
-                'caption' => __('badges::badges.badges'),
+                'caption' => __('badges.badges'),
                 'icon' => 'id-card',
                 'authorized' => Auth::user()->can('list', Helper::class) && Gate::allows('create-badges')
-            ] : null,            
+            ],
             'import' => [
                 'url' => route('people.helpers.import'),
                 'caption' => __('app.import'),
@@ -32,7 +32,7 @@ class HelpersContextMenu implements ContextMenu {
                 'caption' => __('helpers::responsibilities.responsibilities'),
                 'icon' => 'tasks',
                 'authorized' => Auth::user()->can('list', Responsibility::class)
-            ],            
+            ],
         ];
     }
 

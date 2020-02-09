@@ -1,8 +1,6 @@
 <?php
 
-namespace Modules\Badges\Imports;
-
-use Illuminate\Support\Collection;
+namespace App\Imports\Badges;
 
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Badges\Navigation\ContextButtons;
+namespace App\Navigation\ContextButtons\Badges;
 
 use App\Navigation\ContextButtons\ContextButtons;
 

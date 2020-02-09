@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Badges\Navigation\Drawer;
+namespace App\Navigation\Drawer\Badges;
 
 use App\Navigation\Drawer\BaseNavigationItem;
 
@@ -10,7 +10,7 @@ class BadgesNavigationItem extends BaseNavigationItem {
 
     protected $route = 'badges.index';
 
-    protected $caption = 'badges::badges.badges';
+    protected $caption = 'badges.badges';
 
     protected $icon = 'id-card';
 

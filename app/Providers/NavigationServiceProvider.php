@@ -17,6 +17,7 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\ReportingNavigationItem::class => 14,
         \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class => 15,
         \App\Navigation\Drawer\Logviewer\LogViewerNavigationItem::class => 16,
+        \App\Navigation\Drawer\Badges\BadgesNavigationItem::class => 13,
     ];
 
     protected $contextMenus = [
@@ -38,6 +39,8 @@ class NavigationServiceProvider extends ServiceProvider
         'roles.permissions' => \App\Navigation\ContextButtons\UserManagement\RolePermissionsContextButtons::class,
 
         'changelog' => \App\Navigation\ContextButtons\Changelog\ChangelogContextButtons::class,
+
+        'badges.selection' => \App\Navigation\ContextButtons\Badges\BadgeSelectionContextButtons::class,
     ];
 
     /**

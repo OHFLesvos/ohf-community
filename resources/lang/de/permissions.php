@@ -6,4 +6,5 @@ return [
     'usermgmt_manage_roles' => 'Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen',
     'view_changelogs' => 'Änderungshistorie betrachten',
     'view_logs' => 'Logeinträge betrachten',
+    'create_badges' => 'Badges: Badges erstellen',
 ];

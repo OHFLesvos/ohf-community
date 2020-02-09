@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Badges\Http\Controllers;
+namespace App\Http\Controllers\Badges;
 
 use App\Http\Controllers\Controller;
 
 use Modules\Helpers\Entities\Helper;
 
-use Modules\Badges\Util\BadgeCreator;
-use Modules\Badges\Imports\BadgeImport;
+use App\Util\Badges\BadgeCreator;
+use App\Imports\Badges\BadgeImport;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -47,11 +47,11 @@ class BadgeMakerController extends Controller
         $request->session()->forget(self::BADGE_ITEMS_SESSION_KEY);
 
         $sources = self::getSources();
-        $source = $request->has('source') && $sources->keys()->contains($request->source) 
+        $source = $request->has('source') && $sources->keys()->contains($request->source)
             ? $request->source
             : $sources->keys()->first();
 
-        return view('badges::index', [
+        return view('badges.index', [
             'source' => $source,
             'sources' => $sources,
         ]);
@@ -74,7 +74,7 @@ class BadgeMakerController extends Controller
         ])->validate();
 
         $persons = [];
-        
+
         // Source: Helpers
         if (is_module_enabled('Helpers') && $request->source == 'helpers') {
             $persons = Helper::active()
@@ -134,8 +134,8 @@ class BadgeMakerController extends Controller
             });
         $request->session()->put(self::BADGE_ITEMS_SESSION_KEY, $data->toArray());
 
-        return view('badges::selection', [
-            'persons' => $data->map(function($e){ 
+        return view('badges.selection', [
+            'persons' => $data->map(function($e){
                 return $e['name'] . ($e['position'] != null ? ' (' . $e['position'] . ')' : '');
             })->toArray(),
         ]);
@@ -162,7 +162,7 @@ class BadgeMakerController extends Controller
 
         // Retrieve data
         $data = $request->session()->get(self::BADGE_ITEMS_SESSION_KEY, []);
-        $persons = collect($request->persons)->map(function($e) use($data) { 
+        $persons = collect($request->persons)->map(function($e) use($data) {
             $person = $data[$e];
 
             if (isset($person['type']) && $person['type'] == 'helper' && isset($person['id'])) {
@@ -182,9 +182,9 @@ class BadgeMakerController extends Controller
         if (count($persons) == 0) {
             return redirect()->route('badges.index')
                 ->with('error', __('app.empty_data_source'));
-        }    
+        }
 
-        $title = __('badges::badges.badges');
+        $title = __('badges.badges');
 
         $badgeCreator = new BadgeCreator($persons);
         if ($request->hasFile('alt_logo')) {

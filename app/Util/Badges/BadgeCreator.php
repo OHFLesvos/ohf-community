@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Badges\Util;
+namespace App\Util\Badges;
 
 use Carbon\Carbon;
 
@@ -55,8 +55,8 @@ class BadgeCreator {
         $mpdf->SetDisplayMode('fullpage');
 
         // Style
-        $mpdf->writeHTML('body { 
-            font-family: Helvetica; 
+        $mpdf->writeHTML('body {
+            font-family: Helvetica;
         }
         .issued {
             text-align: right;
@@ -111,7 +111,7 @@ class BadgeCreator {
 
             // Line on the right
             $mpdf->Line($x + $badgeFrontAndBackWidth, $y, $x + $badgeFrontAndBackWidth, $y + $this->badgeHeight);
-            
+
             // Line on the bottom
             $mpdf->Line($x, $y + $this->badgeHeight, $x + $badgeFrontAndBackWidth, $y + $this->badgeHeight);
 
@@ -174,7 +174,7 @@ class BadgeCreator {
         $imageRatio				= $imageWidth / $imageHeight;
         // Get container aspect ratio
         $containerRatio			= $containerWidth / $containerHeight;
-        
+
         // Decide if image should increase in height or width
         if ($imageRatio > $containerRatio) {
             $width = $containerWidth;

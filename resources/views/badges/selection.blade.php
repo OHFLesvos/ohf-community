@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('badges::badges.badges'))
+@section('title', __('badges.badges'))
 
 @section('content')
     {!! Form::open(['route' => [ 'badges.make' ], 'method' => 'post', 'files' => true]) !!}

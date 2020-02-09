@@ -36,6 +36,10 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.view_logs',
             'sensitive' => true,
         ],
+        'badges.create' => [
+            'label' => 'permissions.create_badges',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -43,6 +47,7 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'view-usermgmt-reports' => 'app.usermgmt.view',
         'view-changelogs' => 'app.changelogs.view',
         'view-logs' => 'app.logs.view',
+        'create-badges' => 'badges.create',
     ];
 
 }
