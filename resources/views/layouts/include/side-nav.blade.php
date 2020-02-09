@@ -31,14 +31,12 @@
     <footer class="side-nav-footer">
 
         <hr>
-        @if(is_module_enabled('UserManagement'))
-            <div class="text-center">
-                <a href="{{ route('userprofile') }}">
-                    <img src="{{ Auth::user()->avatarUrl() }}" alt="Gravatar" style="width: 80px; height: 80px;">
-                </a><br>
-                {{ Auth::user()->name }}
-            </div>
-        @endif
+        <div class="text-center">
+            <a href="{{ route('userprofile') }}">
+                <img src="{{ Auth::user()->avatarUrl() }}" alt="Gravatar" style="width: 80px; height: 80px;">
+            </a><br>
+            {{ Auth::user()->name }}
+        </div>
 
         {{-- Logout --}}
         <div class="px-3 mt-3">
@@ -50,7 +48,7 @@
 
         <hr>
         <p class="copyright text-muted px-3">
-            <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }}</a> 
+            <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }}</a>
             @if(is_module_enabled('Changelog'))
                 <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
             @else

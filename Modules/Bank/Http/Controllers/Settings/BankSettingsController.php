@@ -53,7 +53,7 @@ class BankSettingsController extends SettingsController
                     'current_num_frequent_visitors' => BankReportingController::getNumberOfFrequentVisitors(),
                 ] ],
             ],
-            'bank.help_article' => is_module_enabled('KB') ? [
+            'bank.help_article' => is_module_enabled('Collaboration') ? [
                 'default' => null,
                 'form_type' => 'select',
                 'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),

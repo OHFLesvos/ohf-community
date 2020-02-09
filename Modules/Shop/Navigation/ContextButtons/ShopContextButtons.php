@@ -29,7 +29,7 @@ class ShopContextButtons implements ContextButtons {
                 'icon' => 'cogs',
                 'authorized' => Gate::allows('configure-shop')
             ],
-            'help'=> is_module_enabled('KB') && $help_article != null ? [
+            'help'=> is_module_enabled('Collaboration') && $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),
                 'caption' => null,
                 'icon' => 'question-circle',

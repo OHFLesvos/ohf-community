@@ -31,7 +31,7 @@ class BankIndexContextButtons implements ContextButtons {
                 'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-bank-reports')
             ],
-            'help'=> is_module_enabled('KB') && $help_article != null ? [
+            'help'=> is_module_enabled('Collaboration') && $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),
                 'caption' => null,
                 'icon' => 'question-circle',

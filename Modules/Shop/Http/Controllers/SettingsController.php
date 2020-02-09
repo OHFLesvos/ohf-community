@@ -24,7 +24,7 @@ class SettingsController extends BaseSettingsController
                 'form_validate' => 'nullable|exists:coupon_types,id',
                 'label_key' => 'bank::coupons.coupon',
             ],
-            'shop.help_article' => is_module_enabled('KB') ? [
+            'shop.help_article' => is_module_enabled('Collaboration') ? [
                 'default' => null,
                 'form_type' => 'select',
                 'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),

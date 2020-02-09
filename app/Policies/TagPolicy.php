@@ -39,9 +39,9 @@ class TagPolicy
      */
     public function view(?User $user, Tag $tag)
     {
-        if ($user === null && is_module_enabled('KB')) {
+        if ($user === null && is_module_enabled('Collaboration')) {
             return self::hasPublicArticles($tag);
-        }        
+        }
         return $user->hasPermission('wiki.view')
             || $user->hasPermission('fundraising.donors.view')
             || self::hasPublicArticles($tag);
