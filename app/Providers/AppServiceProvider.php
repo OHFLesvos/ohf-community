@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
 
     protected $dashboardWidgets = [
         \App\Widgets\ReportingWidget::class => 9,
+        \App\Widgets\UserManagement\UsersWidget::class => 11,
     ];
 
     /**

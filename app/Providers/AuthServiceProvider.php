@@ -16,10 +16,23 @@ class AuthServiceProvider extends BaseAuthServiceProvider
     ];
 
     protected $permissions = [
+        'app.usermgmt.view' => [
+            'label' => 'permissions.view_usermgmt',
+            'sensitive' => true,
+        ],
+        'app.usermgmt.users.manage' => [
+            'label' => 'permissions.usermgmt_manage_users',
+            'sensitive' => true,
+        ],
+        'app.usermgmt.roles.manage' => [
+            'label' => 'permissions.usermgmt_manage_roles',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
         'view-reports' => ['people.reports.view', 'bank.statistics.view', 'app.usermgmt.view'], // TODO
+        'view-usermgmt-reports' => 'app.usermgmt.view',
     ];
 
 }
