@@ -1,11 +1,5 @@
 <?php
 
-if (! function_exists('is_module_enabled')) {
-    function is_module_enabled($name) {
-        return in_array($name, \Module::allEnabled());
-    }
-}
-
 if (! function_exists('form_id_string')) {
     function form_id_string($value, $suffix = null) {
         return trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', $value . ($suffix != null ? '_' . $suffix : '')));

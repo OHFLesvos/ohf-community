@@ -48,9 +48,9 @@ class BankPerson extends Resource
             'police_no_formatted' => $this->police_no_formatted,
             'case_no_hash' => $this->case_no_hash,
             'remarks' => $this->remarks,
-            'has_overdue_book_lendings' => is_module_enabled('Library') && $this->hasOverdueBookLendings,
+            'has_overdue_book_lendings' => $this->hasOverdueBookLendings,
             'can_operate_library' => Gate::allows('operate-library'),
-            'library_lending_person_url' => is_module_enabled('Library') ? route('library.lending.person', $this) : null,
+            'library_lending_person_url' => route('library.lending.person', $this),
             'coupon_types' => collect($this->couponTypes)
                 ->filter(function($coupon) {
                     return $this->eligibleForCoupon($coupon);
