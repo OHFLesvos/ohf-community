@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
+use App\Rules\Library\Isbn;
 use App\Providers\Traits\RegistersDashboardWidgets;
 
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\People\PersonsWidget::class          => 1,
         \App\Widgets\Bank\BankWidget::class               => 0,
         \App\Widgets\Helpers\HelpersWidget::class         => 5,
+        \App\Widgets\Library\LibraryWidget::class         => 4,
     ];
 
     /**
@@ -95,10 +97,15 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo skype_link($expression); ?>";
         });
 
+        $this->registerRules();
+        $this->registerDashboardWidgets();
+    }
+
+    private function registerRules()
+    {
         Validator::extend('country_code', CountryCode::class);
         Validator::extend('country_name', CountryName::class);
-
-        $this->registerDashboardWidgets();
+        Validator::extend('isbn', Isbn::class);
     }
 
     /**

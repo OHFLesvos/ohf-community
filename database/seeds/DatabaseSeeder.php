@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CouponTypesSeeder::class);
         $this->call(ProjectsSeeder::class);
         $this->call(HelpersDatabaseSeeder::class);
+        $this->call(LibraryDatabaseSeeder::class);
     }
 }

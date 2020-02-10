@@ -26,6 +26,7 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
         \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,
         \App\Navigation\Drawer\Helpers\HelpersNavigationItem::class         => 3,
+        \App\Navigation\Drawer\Library\LibraryNavigationItem::class         => 10,
     ];
 
     protected $contextMenus = [
@@ -128,6 +129,17 @@ class NavigationServiceProvider extends ServiceProvider
         'people.helpers.responsibilities.create' => \App\Navigation\ContextButtons\Helpers\ResponsibilitiesCreateContextButtons::class,
         'people.helpers.responsibilities.edit'   => \App\Navigation\ContextButtons\Helpers\ResponsibilitiesEditContextButtons::class,
 
+        'library.lending.index'           => \App\Navigation\ContextButtons\Library\LibraryLendingIndexContextButtons::class,
+        'library.settings.edit'           => \App\Navigation\ContextButtons\Library\LibrarySettingsContextButtons::class,
+        'library.lending.persons'         => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
+        'library.lending.books'           => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
+        'library.lending.person'          => \App\Navigation\ContextButtons\Library\LibraryLendingPersonContextButtons::class,
+        'library.lending.personLog'       => \App\Navigation\ContextButtons\Library\LibraryLendingPersonLogContextButtons::class,
+        'library.lending.book'            => \App\Navigation\ContextButtons\Library\LibraryLendingBookContextButtons::class,
+        'library.lending.bookLog'         => \App\Navigation\ContextButtons\Library\LibraryLendingBookLogContextButtons::class,
+        'library.books.index'             => \App\Navigation\ContextButtons\Library\LibraryBookIndexContextButtons::class,
+        'library.books.create'            => \App\Navigation\ContextButtons\Library\LibraryBookCreateContextButtons::class,
+        'library.books.edit'              => \App\Navigation\ContextButtons\Library\LibraryBookEditContextButtons::class,
     ];
 
     /**

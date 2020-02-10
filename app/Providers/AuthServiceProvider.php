@@ -24,6 +24,8 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Models\Bank\CouponType::class                => \App\Policies\Bank\CouponTypePolicy::class,
         \App\Models\Helpers\Helper::class                 => \App\Policies\Helpers\HelperPolicy::class,
         \App\Models\Helpers\Responsibility::class         => \App\Policies\Helpers\ResponsibilityPolicy::class,
+        \App\Models\Library\LibraryBook::class            => \App\Policies\Library\LibraryBookPolicy::class,
+        \App\Models\Library\LibraryLending::class         => \App\Policies\Library\LibraryLendingPolicy::class,
     ];
 
     protected $permissions = [
@@ -196,6 +198,15 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.manage_helpers_casework',
             'sensitive' => true,
         ],
+
+        'library.operate' => [
+            'label' => 'permissions.operate_library',
+            'sensitive' => true,
+        ],
+        'library.configure' => [
+            'label' => 'permissions.configure_library',
+            'sensitive' => true,
+        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -226,7 +237,10 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'view-bank-reports'           => 'bank.statistics.view',
         'configure-bank'              => 'bank.configure',
 
-        'manage-helpers' => 'people.helpers.manage',
+        'manage-helpers'              => 'people.helpers.manage',
+
+        'operate-library'             => 'library.operate',
+        'configure-library'           => 'library.configure',
     ];
 
     protected $permission_gate_mappings_no_super_admin = [

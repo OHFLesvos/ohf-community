@@ -50,4 +50,7 @@ return [
     'manage_helpers' => 'Helpers: Manage helpers',
     'view_helpers_casework' => 'Helpers: View casework',
     'manage_helpers_casework' => 'Helpers: Manage casework',
+
+    'operate_library' => 'Library: Operate library',
+    'configure_library' => 'Library: Configure settings',
 ];

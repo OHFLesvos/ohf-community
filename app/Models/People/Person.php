@@ -381,7 +381,7 @@ class Person extends Model
     public function bookLendings()
     {
         // TODO Modularization
-        return $this->hasMany(\Modules\Library\Entities\LibraryLending::class, 'person_id');
+        return $this->hasMany(\App\Models\Library\LibraryLending::class, 'person_id');
     }
 
     public function getHasOverdueBookLendingsAttribute()
