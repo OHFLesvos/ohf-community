@@ -18,7 +18,8 @@ use Carbon\Carbon;
 
 class CalendarEventController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->authorizeResource(CalendarEvent::class, 'event');
         CalendarEventResource::withoutWrapping();
     }
@@ -106,7 +107,8 @@ class CalendarEventController extends Controller
         return response()->json([], 204);
     }
 
-    private static function parseDate(Request $request, CalendarEvent $event) {
+    private static function parseDate(Request $request, CalendarEvent $event)
+    {
         $startDate = new Carbon($request->start);
         $endDate = $request->end != null ? new Carbon($request->end) : (clone $startDate)->addDay()->startOfDay();
         $event->start_date = $startDate;
@@ -114,7 +116,8 @@ class CalendarEventController extends Controller
         $event->all_day = $startDate->toTimeString() == '00:00:00' && $endDate->toTimeString() == '00:00:00';
     }
 
-    private static function parseResourceId(Request $request, CalendarEvent $event) {
+    private static function parseResourceId(Request $request, CalendarEvent $event)
+    {
         if ($request->resourceId != null && $request->resourceId != $event->resource->id) {
             $event->resource()->dissociate();
             $event->resource()->associate(CalendarResource::find($request->resourceId));

@@ -16,6 +16,7 @@ class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index(Request $request)
@@ -86,7 +87,8 @@ class SearchController extends Controller
         ]);
     }
 
-    public function latestChanges() {
+    public function latestChanges()
+    {
         $this->authorize('list', WikiArticle::class);
 
         return view('collaboration.kb.latest_changes', [

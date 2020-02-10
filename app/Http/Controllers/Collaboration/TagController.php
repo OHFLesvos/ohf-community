@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Gate;
 
 class TagController extends Controller
 {
-    public function tags() {
+    public function tags()
+    {
         $this->authorize('list', Tag::class);
 
         return view('collaboration.kb.tags', [
@@ -21,13 +22,14 @@ class TagController extends Controller
         ]);
     }
 
-    public function tag(Tag $tag) {
+    public function tag(Tag $tag)
+    {
         $this->authorize('view', $tag);
 
         $articles = $tag->wikiArticles()
             ->orderBy('title')
             ->get()
-            ->filter(function($a){
+            ->filter(function($a) {
                 return Gate::allows('view', $a);
             })
             ->paginate(50);
@@ -39,13 +41,14 @@ class TagController extends Controller
         ]);
     }
 
-    public function pdf(Tag $tag) {
+    public function pdf(Tag $tag)
+    {
         $this->authorize('view', $tag);
 
         $articles = $tag->wikiArticles()
             ->orderBy('title')
             ->get();
-        $routes = $articles->mapWithKeys(function($article){
+        $routes = $articles->mapWithKeys(function($article) {
             return [route('kb.articles.show', $article) => '#' . $article->slug];
         })->toArray();
         $content = '<h1>' . $tag->name . '</h1>' . $articles->map(function($article) use($routes) {

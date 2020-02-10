@@ -11,7 +11,8 @@ use App\Http\Resources\Collaboration\CalendarResourceResource;
 
 class CalendarResourceController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         CalendarResourceResource::withoutWrapping();
     }
 

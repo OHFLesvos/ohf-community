@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $this->authorize('list', WikiArticle::class);
 
         $request->validate([
@@ -42,7 +43,8 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         $this->authorize('create', WikiArticle::class);
 
         return view('collaboration.kb.articles.create', [
@@ -51,7 +53,8 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function store(StoreArticle $request) {
+    public function store(StoreArticle $request)
+    {
         $this->authorize('create', WikiArticle::class);
 
         $article = new WikiArticle();
@@ -67,7 +70,8 @@ class ArticleController extends Controller
             ->with('info', __('wiki.article_created'));
     }
 
-    public function show(WikiArticle $article, Request $request) {
+    public function show(WikiArticle $article, Request $request)
+    {
         $this->authorize('view', $article);
 
         // Set articles as viewed, but count only for first time in session
@@ -90,7 +94,8 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function edit(WikiArticle $article) {
+    public function edit(WikiArticle $article)
+    {
         $this->authorize('update', $article);
 
         return view('collaboration.kb.articles.edit', [
@@ -99,7 +104,8 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function update(WikiArticle $article, StoreArticle $request) {
+    public function update(WikiArticle $article, StoreArticle $request)
+    {
         $this->authorize('update', $article);
 
         $article->title = $request->title;
@@ -115,7 +121,8 @@ class ArticleController extends Controller
             ->with('info', __('wiki.article_updated'));
     }
 
-    public function destroy(WikiArticle $article) {
+    public function destroy(WikiArticle $article)
+    {
         $this->authorize('delete', $article);
 
         $article->tags()->detach();
@@ -143,7 +150,8 @@ class ArticleController extends Controller
             ->toArray();
     }
 
-    public function pdf(WikiArticle $article) {
+    public function pdf(WikiArticle $article)
+    {
         $this->authorize('view', $article);
 
         $content = '<h1>' . $article->title . '</h1>' . ArticleFormat::formatContent($article->content);
