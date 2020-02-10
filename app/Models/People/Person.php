@@ -87,7 +87,7 @@ class Person extends Model
     public function helper()
     {
         // TODO Modularization
-        return $this->hasOne(\Modules\Helpers\Entities\Helper::class, 'person_id', 'id');
+        return $this->hasOne(\App\Models\Helpers\Helper::class, 'person_id', 'id');
     }
 
     /**

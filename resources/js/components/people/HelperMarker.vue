@@ -28,7 +28,7 @@ export default {
     },
     computed: {
         label() {
-            return this.lang['helpers::helpers.helper'].toUpperCase()
+            return this.lang['helpers.helper'].toUpperCase()
         }
     }
 }

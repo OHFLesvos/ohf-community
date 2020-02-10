@@ -45,4 +45,9 @@ return [
     'do_bank_deposits' => 'Bank: Einzahlungen durchführen',
     'view_bank_statistics' => 'Bank: Berichte betrachten',
     'configure_bank' => 'Bank: Einstellungen konfigurieren',
+
+    'view_helpers' => 'Helfer: Helfer betrachten',
+    'manage_helpers' => 'Helfer: Helfer verwalten',
+    'view_helpers_casework' => 'Helfer: Fallarbeitsdaten anzeigen',
+    'manage_helpers_casework' => 'Helfer: Fallarbeitsdaten bearbeiten',
 ];

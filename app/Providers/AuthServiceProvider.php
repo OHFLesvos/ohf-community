@@ -22,6 +22,8 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         \App\Models\Collaboration\WikiArticle::class      => \App\Policies\Collaboration\ArticlePolicy::class,
         \App\Models\People\Person::class                  => \App\Policies\People\PersonPolicy::class,
         \App\Models\Bank\CouponType::class                => \App\Policies\Bank\CouponTypePolicy::class,
+        \App\Models\Helpers\Helper::class                 => \App\Policies\Helpers\HelperPolicy::class,
+        \App\Models\Helpers\Responsibility::class         => \App\Policies\Helpers\ResponsibilityPolicy::class,
     ];
 
     protected $permissions = [
@@ -177,6 +179,23 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.configure_bank',
             'sensitive' => false,
         ],
+
+        'people.helpers.view' => [
+            'label' => 'permissions.view_helpers',
+            'sensitive' => true,
+        ],
+        'people.helpers.manage' => [
+            'label' => 'permissions.manage_helpers',
+            'sensitive' => true,
+        ],
+        'people.helpers.casework.view' => [
+            'label' => 'permissions.view_helpers_casework',
+            'sensitive' => true,
+        ],
+        'people.helpers.casework.manage' => [
+            'label' => 'permissions.manage_helpers_casework',
+            'sensitive' => true,
+        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -206,6 +225,12 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'do-bank-deposits'            => 'bank.deposits.do',
         'view-bank-reports'           => 'bank.statistics.view',
         'configure-bank'              => 'bank.configure',
+
+        'manage-helpers' => 'people.helpers.manage',
     ];
 
+    protected $permission_gate_mappings_no_super_admin = [
+        'view-helpers-casework'       => 'people.helpers.casework.view',
+        'manage-helpers-casework'     => 'people.helpers.casework.manage',
+    ];
 }

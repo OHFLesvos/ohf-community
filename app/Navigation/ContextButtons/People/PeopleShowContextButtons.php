@@ -28,7 +28,7 @@ class PeopleShowContextButtons implements ContextButtons {
                 'icon' => 'users',
                 'authorized' => Auth::user()->can('update', $person)
             ],
-            'helper' => is_module_enabled('Helpers') && $person->helper != null ? [
+            'helper' => $person->helper != null ? [
                 'url' => route('people.helpers.show', $person->helper),
                 'caption' => __('people.view_helper'),
                 'icon' => 'id-badge',

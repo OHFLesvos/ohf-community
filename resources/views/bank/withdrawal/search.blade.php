@@ -12,7 +12,7 @@
             'app.yes',
             'library::library.library',
             'people.no_coupons_defined',
-            'helpers::helpers.helper',
+            'helpers.helper',
             'app.undo',
             'people.remarks',
             'people.click_to_add_remarks',

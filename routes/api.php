@@ -156,3 +156,26 @@ Route::middleware(['auth', 'language'])
                     ->name('undoHandoutCoupon');
             });
     });
+
+//
+// Helpers
+//
+
+Route::middleware(['auth', 'language'])
+    ->name('people.helpers.')
+    ->prefix('helpers')
+    ->namespace('Helpers\API')
+    ->group(function(){
+        // Age distribution
+        Route::get('report/ages', 'HelperReportController@ages')
+            ->name('report.ages')
+            ->middleware('can:list,App\Models\Helpers\Helper');
+        // Nationality distribution
+        Route::get('report/nationalities', 'HelperReportController@nationalities')
+            ->name('report.nationalities')
+            ->middleware('can:list,App\Models\Helpers\Helper');
+        // Gender distribution
+        Route::get('report/genders', 'HelperReportController@genders')
+            ->name('report.genders')
+            ->middleware('can:list,App\Models\Helpers\Helper');
+    });

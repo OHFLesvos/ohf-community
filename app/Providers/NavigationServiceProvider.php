@@ -25,11 +25,13 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Collaboration\TasksNavigationItem::class     => 12,
         \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
         \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,
+        \App\Navigation\Drawer\Helpers\HelpersNavigationItem::class         => 3,
     ];
 
     protected $contextMenus = [
         'people.index'           => \App\Navigation\ContextMenu\People\PeopleContextMenu::class,
         'bank.withdrawal.search' => \App\Navigation\ContextMenu\Bank\BankWithdrawalContextMenu::class,
+        'people.helpers.index'   => \App\Navigation\ContextMenu\Helpers\HelpersContextMenu::class,
     ];
 
     protected $contextButtons = [
@@ -113,6 +115,19 @@ class NavigationServiceProvider extends ServiceProvider
         'bank.people.create'              => \App\Navigation\ContextButtons\Bank\PeopleCreateContextButtons::class,
         'bank.people.show'                => \App\Navigation\ContextButtons\Bank\PeopleShowContextButtons::class,
         'bank.people.edit'                => \App\Navigation\ContextButtons\Bank\PeopleEditContextButtons::class,
+
+        'people.helpers.index'            => \App\Navigation\ContextButtons\Helpers\HelperIndexContextButtons::class,
+        'people.helpers.show'             => \App\Navigation\ContextButtons\Helpers\HelperShowContextButtons::class,
+        'people.helpers.edit'             => \App\Navigation\ContextButtons\Helpers\HelpersEditContextButtons::class,
+        'people.helpers.create'           => \App\Navigation\ContextButtons\Helpers\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.createFrom'       => \App\Navigation\ContextButtons\Helpers\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.import'           => \App\Navigation\ContextButtons\Helpers\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.export'           => \App\Navigation\ContextButtons\Helpers\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.report'           => \App\Navigation\ContextButtons\Helpers\HelpersReturnToIndexContextButtons::class,
+        'people.helpers.responsibilities.index'  => \App\Navigation\ContextButtons\Helpers\ResponsibilitiesIndexContextButtons::class,
+        'people.helpers.responsibilities.create' => \App\Navigation\ContextButtons\Helpers\ResponsibilitiesCreateContextButtons::class,
+        'people.helpers.responsibilities.edit'   => \App\Navigation\ContextButtons\Helpers\ResponsibilitiesEditContextButtons::class,
+
     ];
 
     /**

@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\Collaboration\KBWidget::class        => 6,
         \App\Widgets\People\PersonsWidget::class          => 1,
         \App\Widgets\Bank\BankWidget::class               => 0,
+        \App\Widgets\Helpers\HelpersWidget::class         => 5,
     ];
 
     /**

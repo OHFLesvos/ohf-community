@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Badges;
 
 use App\Http\Controllers\Controller;
 
-use Modules\Helpers\Entities\Helper;
+use App\Models\Helpers\Helper;
 
 use App\Util\Badges\BadgeCreator;
 use App\Imports\Badges\BadgeImport;
@@ -24,11 +24,11 @@ class BadgeMakerController extends Controller
 
     private static function getSources() {
         $sources = [
-            is_module_enabled('Helpers') ? [
+            [
                 'key' => 'helpers',
-                'label' => __('helpers::helpers.helpers'),
+                'label' => __('helpers.helpers'),
                 'allowed' => Auth::user()->can('list', Helper::class),
-            ] : null,
+            ],
             [
                 'key' => 'file',
                 'label' => __('app.file'),
@@ -76,7 +76,7 @@ class BadgeMakerController extends Controller
         $persons = [];
 
         // Source: Helpers
-        if (is_module_enabled('Helpers') && $request->source == 'helpers') {
+        if ($request->source == 'helpers') {
             $persons = Helper::active()
                 ->get()
                 ->map(function($helper){ return self::helperToBadgePerson($helper); });

@@ -21,7 +21,7 @@
                         <th>@lang('people.returnable')</th>
                         <th>@lang('people.qr_code')</th>
                         <th>@lang('people.code_expiry')</th>
-                        <th>@lang('helpers::helpers.helpers')</th>
+                        <th>@lang('helpers.helpers')</th>
                     </tr>
                 </thead>
                 <tbody>

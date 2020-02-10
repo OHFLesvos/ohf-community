@@ -434,3 +434,53 @@ Route::middleware(['auth', 'language'])
             });
 
     });
+
+//
+// Helpers
+//
+
+Route::middleware(['auth', 'language'])
+    ->namespace('Helpers')
+    ->group(function () {
+        Route::name('people.')
+            ->group(function(){
+                // Report view
+                Route::view('helpers/report', 'helpers.report')
+                    ->name('helpers.report')
+                    ->middleware('can:list,App\Models\Helpers\Helper');
+                // Export view
+                Route::get('helpers/export', 'HelperExportImportController@export')
+                    ->name('helpers.export')
+                    ->middleware('can:export,App\Models\Helpers\Helper');
+                // Export download
+                Route::post('helpers/doExport', 'HelperExportImportController@doExport')
+                    ->name('helpers.doExport')
+                    ->middleware('can:export,App\Models\Helpers\Helper');
+                // Import view
+                Route::get('helpers/import', 'HelperExportImportController@import')
+                    ->name('helpers.import')
+                    ->middleware('can:import,App\Models\Helpers\Helper');
+                // Import upload
+                Route::post('helpers/doImport', 'HelperExportImportController@doImport')
+                    ->name('helpers.doImport')
+                    ->middleware('can:import,App\Models\Helpers\Helper');
+                // Download vCard
+                Route::get('helpers/{helper}/vcard', 'HelperExportImportController@vcard')
+                    ->name('helpers.vcard');
+                // Create helper (decide what way)
+                Route::get('helpers/createFrom', 'HelperListController@createFrom')
+                    ->name('helpers.createFrom')
+                    ->middleware('can:create,App\Models\Helpers\Helper');
+                // Store helper (decide what way)
+                Route::post('helpers/createFrom', 'HelperListController@storeFrom')
+                    ->name('helpers.storeFrom')
+                    ->middleware('can:create,App\Models\Helpers\Helper');
+                // Responsibilities resource
+                Route::name('helpers.')->group(function () {
+                    Route::resource('helpers/responsibilities', 'ResponsibilitiesController')
+                        ->except('show');
+                });
+                // Helpers resource
+                Route::resource('helpers', 'HelperListController');
+            });
+    });

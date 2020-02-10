@@ -41,7 +41,7 @@ class BankPerson extends Resource
             'remarks_update_url' => route('api.people.updateRemarks', $this),
             'card_no' => $this->card_no,
             'register_card_url' => route('api.people.registerCard', $this),
-            'is_helper' => is_module_enabled('Helpers') && optional($this->helper)->isActive,
+            'is_helper' => optional($this->helper)->isActive,
             'can_view_helper' => $this->helper != null && $request->user()->can('view', $this->helper),
             'show_helper_url' => $this->helper != null ? route('people.helpers.show', $this->helper) : null,
             'police_no' => $this->police_no,
