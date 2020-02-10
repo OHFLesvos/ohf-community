@@ -17,7 +17,7 @@ class LibraryWidget implements Widget
 
     function view(): string
     {
-        return 'library::dashboard.widgets.library';
+        return 'library.dashboard.widgets.library';
     }
 
     function args(): array {

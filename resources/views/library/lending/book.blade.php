@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('library::library.library') . ': ' .__('library::library.book'))
+@section('title', __('library.library') . ': ' .__('library.book'))
 
 @section('content')
 
@@ -17,44 +17,44 @@
     @isset($lending)
         @if($lending->return_date->lt(Carbon\Carbon::today()))
             @component('components.alert.error')
-                @lang('library::library.book_is_overdue')
+                @lang('library.book_is_overdue')
             @endcomponent
         @elseif($lending->return_date->eq(Carbon\Carbon::today()))
             @component('components.alert.warning')
-                @lang('library::library.book_is_overdue_soon')
+                @lang('library.book_is_overdue_soon')
             @endcomponent
         @endif
         @component('components.alert.info')
             @isset($lending->person)
-                @lang('library::library.book_is_lent_to_person_until', [ 'route' => route('library.lending.person', $lending->person), 'person' => $lending->person->fullName, 'until' => $lending->return_date->toDateString() ])
+                @lang('library.book_is_lent_to_person_until', [ 'route' => route('library.lending.person', $lending->person), 'person' => $lending->person->fullName, 'until' => $lending->return_date->toDateString() ])
             @else
                 @php
                     $thrashedPerson = $lending->person()->withTrashed()->first();
                 @endphp
                 @isset($thrashedPerson)
-                    @lang('library::library.book_is_lent_to_soft_deleted_person_until', [ 'person' => $thrashedPerson->fullName, 'until' => $lending->return_date->toDateString() ])
+                    @lang('library.book_is_lent_to_soft_deleted_person_until', [ 'person' => $thrashedPerson->fullName, 'until' => $lending->return_date->toDateString() ])
                 @else
-                    @lang('library::library.book_is_lent_to_deleted_person_until', [ 'until' => $lending->return_date->toDateString() ])
+                    @lang('library.book_is_lent_to_deleted_person_until', [ 'until' => $lending->return_date->toDateString() ])
                 @endisset
             @endisset
         @endcomponent
         {!! Form::open(['route' => ['library.lending.returnBook', $book], 'method' => 'post']) !!}
             <p>
                 <button type="submit" class="btn btn-success">
-                    @icon(inbox) @lang('library::library.return')
+                    @icon(inbox) @lang('library.return')
                 </button>
                 <button type="button" class="btn btn-primary extend-lending-button">
-                    @icon(calendar-plus-o) @lang('library::library.extend')
+                    @icon(calendar-plus-o) @lang('library.extend')
                 </button>
             </p>
         {!! Form::close() !!}
     @else
         @component('components.alert.success')
-            @lang('library::library.book_is_available')
+            @lang('library.book_is_available')
         @endcomponent
         <p>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lendBookModal">
-                @icon(plus-circle) @lang('library::library.lend_book')
+                @icon(plus-circle) @lang('library.lend_book')
             </button>
         </p>
     @endisset
@@ -93,10 +93,10 @@
 @section('content-footer')
     {!! Form::open(['route' => ['library.lending.lendBook', $book], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'lendBookModal' ])
-            @slot('title', __('library::library.lend_book'))
+            @slot('title', __('library.lend_book'))
             {{ Form::bsAutocomplete('person_id', null, route('api.people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
             @slot('footer')
-                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library::library.lend_book')</button>                
+                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>                
             @endslot
         @endcomponent
     {!! Form::close() !!}

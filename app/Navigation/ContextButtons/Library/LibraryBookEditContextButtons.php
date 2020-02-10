@@ -18,7 +18,7 @@ class LibraryBookEditContextButtons implements ContextButtons {
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $book),
-                'confirmation' => __('library::library.confirm_delete_book')
+                'confirmation' => __('library.confirm_delete_book')
             ],
             'back' => [
                 'url' => route('library.lending.book', $book),

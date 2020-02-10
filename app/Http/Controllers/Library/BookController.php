@@ -15,7 +15,7 @@ class BookController extends Controller
     public function index() {
         $this->authorize('list', LibraryBook::class);
 
-        return view('library::books.index', [
+        return view('library.books.index', [
             'books' => LibraryBook::orderBy('title')->paginate(100),
             'num_books' => LibraryBook::count(),
         ]);
@@ -24,7 +24,7 @@ class BookController extends Controller
     public function create() {
         $this->authorize('create', LibraryBook::class);
 
-        return view('library::books.create', [
+        return view('library.books.create', [
         ]);
     }
 
@@ -45,7 +45,7 @@ class BookController extends Controller
     public function edit(LibraryBook $book) {
         $this->authorize('update', $book);
 
-        return view('library::books.edit', [
+        return view('library.books.edit', [
             'book' => $book,
         ]);
     }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('library::library.library') . ': ' . ucfirst(__('library::library.lent_books')))
+@section('title', __('library.library') . ': ' . ucfirst(__('library.lent_books')))
 
 @section('content')
 
@@ -9,9 +9,9 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('library::library.book')</th>
+                        <th>@lang('library.book')</th>
                         <th class="d-none d-sm-table-cell">@lang('people.person')</th>
-                        <th>@lang('library::library.return')</th>
+                        <th>@lang('library.return')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
         </div>
     @else
         @component('components.alert.info')
-            @lang('library::library.no_books_lent')
+            @lang('library.no_books_lent')
         @endcomponent
     @endif
 

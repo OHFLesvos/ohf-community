@@ -207,6 +207,15 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.configure_library',
             'sensitive' => true,
         ],
+
+        'shop.coupons.validate' => [
+            'label' => 'permissions.validate_shop_coupons',
+            'sensitive' => true,
+        ],
+        'shop.configure' => [
+            'label' => 'permissions.configure_shop',
+            'sensitive' => false,
+        ],
     ];
 
     protected $permission_gate_mappings = [
@@ -241,6 +250,9 @@ class AuthServiceProvider extends BaseAuthServiceProvider
 
         'operate-library'             => 'library.operate',
         'configure-library'           => 'library.configure',
+
+        'validate-shop-coupons'       => 'shop.coupons.validate',
+        'configure-shop'              => 'shop.configure',
     ];
 
     protected $permission_gate_mappings_no_super_admin = [

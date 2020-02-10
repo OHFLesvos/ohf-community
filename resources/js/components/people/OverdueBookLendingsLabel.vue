@@ -7,10 +7,10 @@
                 v-if="url != null"
                 :href="url"
             >
-                {{ lang['library::library.library'] }}
+                {{ lang['library.library'] }}
             </a>
             <template v-else>
-                {{ lang['library::library.library'] }}
+                {{ lang['library.library'] }}
             </template>
         </em>
     </div>

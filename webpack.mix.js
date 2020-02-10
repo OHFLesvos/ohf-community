@@ -34,6 +34,7 @@ mix.options({ processCssUrls: false })
 	.js('resources/js/bank.js', 'public/js')
 	.js('resources/js/library.js', 'public/js')
 	.js('resources/js/helpers.js', 'public/js')
+	.js('resources/js/shop.js', 'public/js')
 	.js('resources/js/editor.js', 'public/js')
 	.sass('resources/sass/app.scss', 'public/css')
 	.styles([

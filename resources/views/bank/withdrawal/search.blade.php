@@ -10,7 +10,7 @@
             'people.police_number',
             'people.case_number',
             'app.yes',
-            'library::library.library',
+            'library.library',
             'people.no_coupons_defined',
             'helpers.helper',
             'app.undo',

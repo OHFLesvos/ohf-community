@@ -53,4 +53,7 @@ return [
 
     'operate_library' => 'Bibliothek: Bibliothek betreiben',
     'configure_library' => 'Bibliothek: Einstellungen bearbeiten',
+
+    'validate_shop_coupons' => 'Markt: Coupons validieren',
+    'configure_shop' => 'Markt: Einstellungen bearbeiten',
 ];

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('library::library.library') . ': ' . ucfirst(__('library::library.borrowers')))
+@section('title', __('library.library') . ': ' . ucfirst(__('library.borrowers')))
 
 @section('content')
 
@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         <th>@lang('people.person')</th>
-                        <th>@lang('library::library.books')</th>
+                        <th>@lang('library.books')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,7 +27,7 @@
         </div>
     @else
         @component('components.alert.info')
-            @lang('library::library.no_books_lent')
+            @lang('library.no_books_lent')
         @endcomponent
     @endif
 

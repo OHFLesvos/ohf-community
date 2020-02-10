@@ -43,6 +43,6 @@ class Isbn implements Rule
      */
     public function message()
     {
-        return __('library::library.invalid_isbn');
+        return __('library.invalid_isbn');
     }
 }

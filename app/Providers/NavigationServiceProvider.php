@@ -27,6 +27,7 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,
         \App\Navigation\Drawer\Helpers\HelpersNavigationItem::class         => 3,
         \App\Navigation\Drawer\Library\LibraryNavigationItem::class         => 10,
+        \App\Navigation\Drawer\Shop\ShopNavigationItem::class               => 8,
     ];
 
     protected $contextMenus = [
@@ -140,6 +141,10 @@ class NavigationServiceProvider extends ServiceProvider
         'library.books.index'             => \App\Navigation\ContextButtons\Library\LibraryBookIndexContextButtons::class,
         'library.books.create'            => \App\Navigation\ContextButtons\Library\LibraryBookCreateContextButtons::class,
         'library.books.edit'              => \App\Navigation\ContextButtons\Library\LibraryBookEditContextButtons::class,
+
+        'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,
+        'shop.manageCards'                => \App\Navigation\ContextButtons\Shop\ShopManageCardsContextButtons::class,
+        'shop.settings.edit'              => \App\Navigation\ContextButtons\Shop\ShopSettingsContextButtons::class,
     ];
 
     /**

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('library::library.library') . ': ' .__('people.person'))
+@section('title', __('library.library') . ': ' .__('people.person'))
 
 @section('content')
 
@@ -16,9 +16,9 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('library::library.book')</th>
-                        <th class="d-none d-sm-table-cell">@lang('library::library.lent')</th>
-                        <th>@lang('library::library.return')</th>
+                        <th>@lang('library.book')</th>
+                        <th class="d-none d-sm-table-cell">@lang('library.lent')</th>
+                        <th>@lang('library.return')</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -39,11 +39,11 @@
                                     {{ csrf_field() }}
                                     {{ Form::hidden('book_id', $lending->book->id) }}
                                     <button type="submit" class="btn btn-sm btn-success">
-                                        @icon(inbox)<span class="d-none d-sm-inline"> @lang('library::library.return')</span>
+                                        @icon(inbox)<span class="d-none d-sm-inline"> @lang('library.return')</span>
                                     </button>
                                 </form>
                                 <button type="button" class="btn btn-sm btn-primary extend-lending-button" data-book="{{ $lending->book->id }}">
-                                    @icon(calendar-plus-o)<span class="d-none d-sm-inline"> @lang('library::library.extend')</span>
+                                    @icon(calendar-plus-o)<span class="d-none d-sm-inline"> @lang('library.extend')</span>
                                 </button>
                             </td>
                         </tr>
@@ -53,13 +53,13 @@
         </div>
     @else
         @component('components.alert.info')
-            @lang('library::library.no_books_lent')
+            @lang('library.no_books_lent')
         @endcomponent
     @endif
     @if(!Setting::has('library.max_books_per_person') || Setting::get('library.max_books_per_person') > $lendings->count())
         <p>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lendBookModal">
-                @icon(plus-circle) @lang('library::library.lend_a_book')
+                @icon(plus-circle) @lang('library.lend_a_book')
             </button>
         </p>
     @endif
@@ -103,15 +103,15 @@
 
     {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'lendBookModal' ])
-            @slot('title', __('library::library.lend_a_book'))
-            {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library::library.search_title_author_isbn')], '') }}
+            @slot('title', __('library.lend_a_book'))
+            {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
             @slot('footer')
                 <button type="submit" class="btn btn-primary" id="lend-existing-book-button">
-                    @icon(check) @lang('library::library.lend_book')
+                    @icon(check) @lang('library.lend_book')
                 </button>
                 @can('create', App\Models\Library\LibraryBook::class)
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#registerBookModal">
-                        @icon(plus-circle) @lang('library::library.new_book')
+                        @icon(plus-circle) @lang('library.new_book')
                     </button>
                 @endcan
             @endslot
@@ -120,13 +120,13 @@
 
     {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'registerBookModal' ])
-            @slot('title', __('library::library.register_new_book'))
-            {{ Form::bsText('isbn', '', [ 'placeholder' => __('library::library.isbn') ], '') }}
+            @slot('title', __('library.register_new_book'))
+            {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
             {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
-            {{ Form::bsText('author', '', [ 'placeholder' => __('library::library.author') ], '') }}
+            {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
             {{ Form::bsText('language', '', [ 'placeholder' => __('app.language') ], '') }}
             @slot('footer')
-                {{ Form::bsSubmitButton(__('library::library.register_and_lend_book')) }}
+                {{ Form::bsSubmitButton(__('library.register_and_lend_book')) }}
             @endslot
         @endcomponent
     {!! Form::close() !!}

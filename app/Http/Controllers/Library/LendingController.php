@@ -20,7 +20,7 @@ use Carbon\Carbon;
 class LendingController extends Controller
 {
     public function index() {
-        return view('library::lending.index', [
+        return view('library.lending.index', [
             'num_borrowers' => Person::whereHas('bookLendings', function ($query) {
                     $query->whereNull('returned_date');
                 })->count(),
@@ -33,7 +33,7 @@ class LendingController extends Controller
     public function persons() {
         $this->authorize('list', Person::class);
 
-        return view('library::lending.persons', [
+        return view('library.lending.persons', [
             'persons' => Person::whereHas('bookLendings', function ($query) {
                 $query->whereNull('returned_date');
             })->get()->sortBy('fullName'),
@@ -59,7 +59,7 @@ class LendingController extends Controller
     public function person(Person $person) {
         $this->authorize('list', Person::class);
 
-        return view('library::lending.person', [
+        return view('library.lending.person', [
             'person' => $person,
             'lendings' => $person->bookLendings()->whereNull('returned_date')->orderBy('return_date', 'asc')->get(),
             'default_extend_duration' => \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS),
@@ -69,7 +69,7 @@ class LendingController extends Controller
     public function personLog(Person $person) {
         $this->authorize('list', Person::class);
 
-        return view('library::lending.personLog', [
+        return view('library.lending.personLog', [
             'person' => $person,
             'lendings' => $person->bookLendings()->orderBy('lending_date', 'desc')->paginate(25),
         ]);
@@ -78,7 +78,7 @@ class LendingController extends Controller
     public function books() {
         $this->authorize('list', LibraryBook::class);
 
-        return view('library::lending.books', [
+        return view('library.lending.books', [
             'books' => LibraryBook::whereHas('lendings', function ($query) {
                 $query->whereNull('returned_date');
             })->get()->sortBy('title'),
@@ -88,7 +88,7 @@ class LendingController extends Controller
     public function book(LibraryBook $book) {
         $this->authorize('view', $book);
 
-        return view('library::lending.book', [
+        return view('library.lending.book', [
             'book' => $book,
             'default_extend_duration' => \Setting::get('library.default_lening_duration_days', LibrarySettingsController::DEFAULT_LENING_DURATION_DAYS),
         ]);
@@ -97,7 +97,7 @@ class LendingController extends Controller
     public function bookLog(LibraryBook $book) {
         $this->authorize('view', $book);
 
-        return view('library::lending.bookLog', [
+        return view('library.lending.bookLog', [
             'book' => $book,
             'lendings' => $book->lendings()->orderBy('lending_date', 'desc')->paginate(25),
         ]);
@@ -125,7 +125,7 @@ class LendingController extends Controller
         $lending->save();
 
         return redirect()->route('library.lending.person', $person)
-            ->with('success', __('library::library.book_lent'));
+            ->with('success', __('library.book_lent'));
     }
 
     public function lendBook(LibraryBook $book, StoreLendBook $request) {
@@ -142,7 +142,7 @@ class LendingController extends Controller
         $lending->save();
 
         return redirect()->route('library.lending.book', $book)
-            ->with('success', __('library::library.book_lent'));
+            ->with('success', __('library.book_lent'));
     }
 
     public function extendBookToPerson(Person $person, StoreExtendBookToPerson $request) {
@@ -155,7 +155,7 @@ class LendingController extends Controller
         $lending->save();
 
         return redirect()->route('library.lending.person', $person)
-            ->with('success', __('library::library.book_extended'));
+            ->with('success', __('library.book_extended'));
     }
 
     public function extendBook(LibraryBook $book, StoreExtendBook $request) {
@@ -167,7 +167,7 @@ class LendingController extends Controller
         $lending->save();
 
         return redirect()->route('library.lending.book', $book)
-            ->with('success', __('library::library.book_extended'));
+            ->with('success', __('library.book_extended'));
     }
 
     public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request) {
@@ -180,7 +180,7 @@ class LendingController extends Controller
         $lending->save();
 
         return redirect()->route('library.lending.person', $person)
-            ->with('success', __('library::library.book_returned'));
+            ->with('success', __('library.book_returned'));
     }
 
     public function returnBook(LibraryBook $book) {
@@ -192,7 +192,7 @@ class LendingController extends Controller
         $lending->save();
 
         return redirect()->route('library.lending.book', $book)
-            ->with('success', __('library::library.book_returned'));
+            ->with('success', __('library.book_returned'));
     }
 
 }

@@ -515,3 +515,22 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::get('settings', 'LibrarySettingsController@edit')->name('settings.edit')->middleware(['can:configure-library']);
         Route::put('settings', 'LibrarySettingsController@update')->name('settings.update')->middleware(['can:configure-library']);
     });
+
+//
+// Shop
+//
+
+Route::middleware(['auth', 'language'])
+    ->namespace('Shop')
+    ->prefix('shop')
+    ->name('shop.')
+    ->group(function () {
+        Route::middleware(['can:validate-shop-coupons'])->group(function() {
+            Route::view('/', 'shop.index')->name('index');
+            Route::view('manageCards', 'shop.manageCards')->name('manageCards');
+        });
+        Route::middleware(['can:configure-shop'])->group(function() {
+            Route::get('settings', 'SettingsController@edit')->name('settings.edit');
+            Route::put('settings', 'SettingsController@update')->name('settings.update');
+        });
+});

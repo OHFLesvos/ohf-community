@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\Bank\BankWidget::class               => 0,
         \App\Widgets\Helpers\HelpersWidget::class         => 5,
         \App\Widgets\Library\LibraryWidget::class         => 4,
+        \App\Widgets\Shop\ShopWidget::class               => 2,
     ];
 
     /**

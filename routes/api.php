@@ -179,3 +179,25 @@ Route::middleware(['auth', 'language'])
             ->name('report.genders')
             ->middleware('can:list,App\Models\Helpers\Helper');
     });
+
+//
+// Shop
+//
+
+Route::middleware(['auth', 'language'])
+    ->prefix('shop')
+    ->name('shop.')
+    ->namespace('Shop\API')
+    ->group(function(){
+        Route::middleware(['can:validate-shop-coupons'])
+            ->prefix('cards')
+            ->name('cards.')
+            ->group(function() {
+                Route::get('listRedeemedToday', 'CardsController@listRedeemedToday')->name('listRedeemedToday');
+                Route::get('searchByCode', 'CardsController@searchByCode')->name('searchByCode');
+                Route::patch('redeem/{handout}', 'CardsController@redeem')->name('redeem');
+                Route::delete('cancel/{handout}', 'CardsController@cancel')->name('cancel');
+                Route::get('listNonRedeemedByDay', 'CardsController@listNonRedeemedByDay')->name('listNonRedeemedByDay');
+                Route::post('deleteNonRedeemedByDay', 'CardsController@deleteNonRedeemedByDay')->name('deleteNonRedeemedByDay');
+            });
+    });

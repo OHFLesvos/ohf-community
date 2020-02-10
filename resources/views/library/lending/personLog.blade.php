@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('library::library.library') . ': ' .__('library::library.person_lending_log'))
+@section('title', __('library.library') . ': ' .__('library.person_lending_log'))
 
 @section('content')
 
@@ -16,9 +16,9 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('library::library.book')</th>
-                        <th>@lang('library::library.lent')</th>
-                        <th>@lang('library::library.returned')</th>
+                        <th>@lang('library.book')</th>
+                        <th>@lang('library.lent')</th>
+                        <th>@lang('library.returned')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,7 +41,7 @@
         {{ $lendings->links() }}
     @else
         @component('components.alert.info')
-            @lang('library::library.no_books_lent_so_far')
+            @lang('library.no_books_lent_so_far')
         @endcomponent
     @endif
 

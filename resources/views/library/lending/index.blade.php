@@ -1,6 +1,6 @@
-@extends('library::layouts.library')
+@extends('library.layouts.library')
 
-@section('title', __('library::library.library'))
+@section('title', __('library.library'))
 
 @section('wrapped-content')
     <div class="row">
@@ -8,7 +8,7 @@
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between">
                     {{ ucfirst(__('people.persons')) }}
-                    <a href="{{ route('library.lending.persons') }}">@lang('library::library.borrowers') ({{ $num_borrowers }})</a>
+                    <a href="{{ route('library.lending.persons') }}">@lang('library.borrowers') ({{ $num_borrowers }})</a>
                 </div>
                 <div class="card-body pb-2">
                     {{ Form::bsAutocompleteWithButton('person_id', null, route('api.people.filterPersons'), ['placeholder' => __('people.search_existing_person')], __('app.register'), 'button-register-person', 'plus-circle') }}
@@ -18,11 +18,11 @@
         <div class="col-md">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    @lang('library::library.books')
-                    <a href="{{ route('library.lending.books') }}">@lang('library::library.lent_books') ({{ $num_lent_books }})</a>
+                    @lang('library.books')
+                    <a href="{{ route('library.lending.books') }}">@lang('library.lent_books') ({{ $num_lent_books }})</a>
                 </div>
                 <div class="card-body pb-2">
-                    {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library::library.search_title_author_isbn')], '') }}
+                    {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
         });
         @if($errors->get('name') != null || $errors->get('family_name') != null || $errors->get('gender') != null || $errors->get('date_of_birth') != null  || $errors->get('nationality') != null || $errors->get('police_no') != null)
             $('#registerPersoModal').modal('show');
-        @endif        
+        @endif
     });
 @endsection
 
