@@ -20,7 +20,8 @@ class LibraryWidget implements Widget
         return 'library.dashboard.widgets.library';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [
             'num_borrowers' => Person::whereHas('bookLendings', function ($query) {
                     $query->whereNull('returned_date');

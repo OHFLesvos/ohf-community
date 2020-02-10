@@ -23,7 +23,8 @@ class DonorsWidget implements Widget
         return 'fundraising.dashboard.widgets.donors';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [
             'num_donors' => Donor::count(),
             'num_donations_month' => Donation::whereDate('date', '>', Carbon::now()->startOfMonth())->count(),

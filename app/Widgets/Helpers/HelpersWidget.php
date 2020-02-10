@@ -20,7 +20,8 @@ class HelpersWidget implements Widget
         return 'helpers.dashboard.widgets.helpers';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [
             'active' => Helper::active()->count(),
             'trial' => Helper::trial()->count(),

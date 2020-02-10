@@ -19,7 +19,8 @@ class UsersWidget implements Widget
         return 'user_management.dashboard.widgets.users';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [
             'num_users' => User::count(),
 			'latest_user' => User::orderBy('created_at', 'desc')->first(),

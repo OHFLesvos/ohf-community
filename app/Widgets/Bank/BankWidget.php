@@ -27,7 +27,8 @@ class BankWidget implements Widget
         return 'bank.dashboard.widgets.bank';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [
             'persons' => $this->stats->getNumberOfPersonsServed(),
             'coupons' => $this->stats->getNumberOfCouponsHandedOut(),

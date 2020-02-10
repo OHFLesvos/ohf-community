@@ -22,7 +22,8 @@ class PersonsWidget implements Widget
         return 'people.dashboard.widgets.persons';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [
             'num_people' => Person::count(),
 			'num_people_added_today' => Person::whereDate('created_at', '=', Carbon::today())->count(),

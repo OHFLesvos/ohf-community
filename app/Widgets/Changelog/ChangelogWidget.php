@@ -18,7 +18,8 @@ class ChangelogWidget implements Widget
         return 'changelog.dashboard.widgets.changelog';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [ ];
     }
 }

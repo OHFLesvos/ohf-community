@@ -3,7 +3,6 @@
 namespace App\Widgets\Shop;
 
 use App\Widgets\Widget;
-
 use App\Models\Bank\CouponHandout;
 
 use Illuminate\Support\Facades\Gate;
@@ -22,7 +21,8 @@ class ShopWidget implements Widget
         return 'shop.dashboard.widgets.shop';
     }
 
-    function args(): array {
+    function args(): array
+    {
         $redeemed_cards = CouponHandout::whereDate('code_redeemed', Carbon::today())
             ->orderBy('updated_at', 'desc')
             ->count();

@@ -16,9 +16,7 @@
 @section('widget-content')
     <div class="card-body">
         @foreach($reports as $report)
-            <a href="{{ $report->url }}">
-                {{ $report->name }}
-            </a><br>
-        @endforeach                    
+            <a href="{{ $report->url }}">{{ $report->name }}</a><br>
+        @endforeach
     </div>
 @endsection

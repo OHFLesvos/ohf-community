@@ -19,7 +19,8 @@ class KBWidget implements Widget
         return 'collaboration.dashboard.widgets.kb';
     }
 
-    function args(): array {
+    function args(): array
+    {
         return [
             'num_articles' => WikiArticle::count(),
             'latest_article' => WikiArticle::orderBy('updated_at', 'DESC')->first(),

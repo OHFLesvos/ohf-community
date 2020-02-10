@@ -17,19 +17,21 @@ class ReportingWidget implements Widget
         return 'dashboard.widgets.reports';
     }
 
-    function args(): array {
-        return [ 
+    function args(): array
+    {
+        return [
             'reports' => $this->getAvailableReports()->toArray(),
         ];
     }
 
-    private function getAvailableReports() {
+    private function getAvailableReports()
+    {
         return collect(Config::get('reporting.reports'))
             ->filter(function($e){
                 return $e['featured'] && Gate::allows($e['gate']);
             })
             ->map(function($item, $key){
-                return (object)[    
+                return (object)[
                     'url' => route($item['route']),
                     'name' => __('reporting.' . $key),
                 ];
