@@ -38,7 +38,6 @@
         "mpdf/mpdf": "^7.1",
         "mrcage/chf-exchange-rates": "~1.0",
         "nicebooks/isbn": "^0.2.20",
-        "nwidart/laravel-modules": "^6.0",
         "owen-it/laravel-auditing": "^9.0",
         "petercoles/multilingual-language-list": "^1.1",
         "scriptotek/google-books": "^0.2.4",
@@ -64,8 +63,7 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/",
-            "Modules\\": "Modules/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
