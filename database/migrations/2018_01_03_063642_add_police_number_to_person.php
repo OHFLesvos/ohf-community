@@ -14,7 +14,7 @@ class AddPoliceNumberToPerson extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->string('police_no')->nullable()->after('gender');
+            $table->unsignedInteger('police_no')->nullable()->after('gender');
         });
     }
 

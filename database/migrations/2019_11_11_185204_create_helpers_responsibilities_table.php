@@ -56,9 +56,15 @@ class CreateHelpersResponsibilitiesTable extends Migration
      */
     public function down()
     {
+        Schema::table('helpers_helper_responsibility', function (Blueprint $table) {
+            $table->timestamps();
+        });
         $map = Helper::all()->mapWithKeys(function($helper){
             $arr = $helper->responsibilities->pluck('name')->toArray();
             return [$helper->id => count($arr) > 0 ? json_encode($arr) : null];
+        });
+        Schema::table('helpers_helper_responsibility', function (Blueprint $table) {
+            $table->dropTimestamps();
         });
         Schema::table('helpers', function (Blueprint $table) {
             $table->text('responsibilities')
