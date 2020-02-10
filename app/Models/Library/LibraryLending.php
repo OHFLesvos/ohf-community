@@ -2,6 +2,8 @@
 
 namespace App\Models\Library;
 
+use App\Models\People\Person;
+
 use Illuminate\Database\Eloquent\Model;
 
 class LibraryLending extends Model
@@ -14,11 +16,11 @@ class LibraryLending extends Model
 
     public function book()
     {
-        return $this->belongsTo('App\Models\Library\LibraryBook', 'book_id');
+        return $this->belongsTo(LibraryBook::class, 'book_id');
     }
 
     public function person()
     {
-        return $this->belongsTo('App\Models\People\Person', 'person_id');
+        return $this->belongsTo(Person::class, 'person_id');
     }
 }

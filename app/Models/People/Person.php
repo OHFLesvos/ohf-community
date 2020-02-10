@@ -2,8 +2,10 @@
 
 namespace App\Models\People;
 
-use App\Models\Bank\CouponType;   // TODO circular dependency
-use App\Models\Bank\CouponHandout;   // TODO circular dependency
+use App\Models\Bank\CouponType;
+use App\Models\Bank\CouponHandout;
+use App\Models\Library\LibraryLending;
+use App\Models\Helpers\Helper;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -86,8 +88,7 @@ class Person extends Model
      */
     public function helper()
     {
-        // TODO Modularization
-        return $this->hasOne(\App\Models\Helpers\Helper::class, 'person_id', 'id');
+        return $this->hasOne(Helper::class, 'person_id', 'id');
     }
 
     /**
@@ -380,8 +381,7 @@ class Person extends Model
 
     public function bookLendings()
     {
-        // TODO Modularization
-        return $this->hasMany(\App\Models\Library\LibraryLending::class, 'person_id');
+        return $this->hasMany(LibraryLending::class, 'person_id');
     }
 
     public function getHasOverdueBookLendingsAttribute()

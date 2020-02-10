@@ -43,7 +43,7 @@ class MoneyTransaction extends Model implements Auditable
 
     /**
      * Gets the amount of the wallet
-     * 
+     *
      * @param \Carbon\Carbon $date optional end-date until which transactions should be considered
      */
     public static function currentWallet(Carbon $date = null): ?float
@@ -77,9 +77,9 @@ class MoneyTransaction extends Model implements Auditable
     {
         $qry = MoneyTransaction::selectRaw('SUM(amount) as sum')
             ->where('type', 'spending');
-        
+
         self::dateFilter($qry, $dateFrom, $dateTo);
-        
+
         return optional($qry->first())->sum;
     }
 
@@ -87,9 +87,9 @@ class MoneyTransaction extends Model implements Auditable
     {
         $qry = MoneyTransaction::selectRaw('SUM(amount) as sum')
             ->where('type', 'income');
-        
+
         self::dateFilter($qry, $dateFrom, $dateTo);
-        
+
         return optional($qry->first())->sum;
     }
 

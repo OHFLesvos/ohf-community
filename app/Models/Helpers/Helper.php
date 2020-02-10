@@ -2,6 +2,8 @@
 
 namespace App\Models\Helpers;
 
+use App\Models\People\Person;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,7 +24,7 @@ class Helper extends Model implements Auditable
      */
     public function person()
     {
-        return $this->belongsTo('App\Models\People\Person', 'person_id', 'id');
+        return $this->belongsTo(Person::class, 'person_id', 'id');
     }
 
     /**

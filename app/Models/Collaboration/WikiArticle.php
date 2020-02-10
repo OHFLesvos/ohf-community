@@ -3,7 +3,6 @@
 namespace App\Models\Collaboration;
 
 use App\Support\Traits\HasTags;
-
 use App\Util\Collaboration\ArticleFormat;
 
 use Illuminate\Database\Eloquent\Model;

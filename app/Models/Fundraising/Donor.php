@@ -29,7 +29,8 @@ class Donor extends Model
         'remarks',
     ];
 
-    function getFullNameAttribute() {
+    function getFullNameAttribute()
+    {
         $str = '';
         if ($this->first_name != null) {
             $str .= $this->first_name;
@@ -51,7 +52,8 @@ class Donor extends Model
      *
      * @return string
      */
-    public function getCountryNameAttribute() {
+    public function getCountryNameAttribute()
+    {
         if ($this->country_code != null) {
             return \Countries::getOne($this->country_code, \App::getLocale());
         }
@@ -69,11 +71,13 @@ class Donor extends Model
         $this->attributes['country_code'] = $value != null ? array_flip(\Countries::getList(\App::getLocale()))[$value] ?? null : null;
     }
 
-    function donations() {
-        return $this->hasMany('App\Models\Fundraising\Donation');
+    function donations()
+    {
+        return $this->hasMany(Donation::class);
     }
 
-    function amountPerYear($year) {
+    function amountPerYear($year)
+    {
         return $this->donations()
             ->whereYear('date', $year)
             ->select(DB::raw('sum(exchange_amount) as total'))
@@ -82,7 +86,8 @@ class Donor extends Model
             ->first();
     }
 
-    function amountPerYearByCurrencies($year) {
+    function amountPerYearByCurrencies($year)
+    {
         return $this->donations()
             ->whereYear('date', $year)
             ->select(DB::raw('sum(amount) as total'), 'currency')
@@ -91,19 +96,34 @@ class Donor extends Model
             ->pluck('total', 'currency');
     }
 
-    function donationsPerYear() {
+    function donationsPerYear()
+    {
         return $this->donations()
             ->groupBy(DB::raw('YEAR(date)'))
             ->select(DB::raw('YEAR(date) as year'), DB::raw('sum(exchange_amount) as total'))
             ->get();
     }
 
-    public static function languages() {
-        return self::select('language')->groupBy('language')->whereNotNull('language')->orderBy('language')->get()->pluck('language')->toArray();
+    public static function languages()
+    {
+        return self::select('language')
+            ->groupBy('language')
+            ->whereNotNull('language')
+            ->orderBy('language')
+            ->get()
+            ->pluck('language')
+            ->toArray();
     }
 
-    public static function salutations() {
-        return self::select('salutation')->groupBy('salutation')->whereNotNull('salutation')->orderBy('salutation')->get()->pluck('salutation')->toArray();
+    public static function salutations()
+    {
+        return self::select('salutation')
+            ->groupBy('salutation')
+            ->whereNotNull('salutation')
+            ->orderBy('salutation')
+            ->get()
+            ->pluck('salutation')
+            ->toArray();
     }
 
 }

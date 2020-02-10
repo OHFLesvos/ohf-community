@@ -21,8 +21,9 @@ class Donation extends Model
         'thanked',
     ];
 
-    function donor() {
-        return $this->belongsTo('App\Models\Fundraising\Donor');
+    function donor()
+    {
+        return $this->belongsTo(Donor::class);
     }
 
 }

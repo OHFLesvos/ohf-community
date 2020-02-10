@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Iatstuti\Database\Support\NullableFields;
 
 use Nicebooks\Isbn\Isbn;
-use Nicebooks\Isbn\InvalidIsbnException;
-use Nicebooks\Isbn\IsbnNotConvertibleException;
+use Nicebooks\Isbn\Exception\InvalidIsbnException;
+use Nicebooks\Isbn\Exception\IsbnNotConvertibleException;
 
 class LibraryBook extends Model
 {
@@ -21,7 +21,7 @@ class LibraryBook extends Model
     ];
 
     public function lendings() {
-        return $this->hasMany('App\Models\Library\LibraryLending', 'book_id');
+        return $this->hasMany(LibraryLending::class, 'book_id');
     }
 
     public function setIsbnAttribute($value) {

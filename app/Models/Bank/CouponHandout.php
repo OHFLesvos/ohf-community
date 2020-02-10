@@ -2,6 +2,8 @@
 
 namespace App\Models\Bank;
 
+use App\Models\People\Person;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
@@ -36,7 +38,7 @@ class CouponHandout extends Model implements Auditable
 
     public function person()
     {
-        return $this->belongsTo(\App\Models\People\Person::class);
+        return $this->belongsTo(Person::class);
     }
 
     /**
