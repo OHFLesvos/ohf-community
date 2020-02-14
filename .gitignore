@@ -18,3 +18,4 @@ modules_statuses.json
 /public/
 /public/webfonts
 _ide_helper.php
+.phpstorm.meta.php
