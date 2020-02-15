@@ -353,17 +353,6 @@ Route::middleware(['auth', 'language'])
                 Route::resource('people', 'PeopleController')
                     ->except(['index']);
 
-                // Deposits
-                Route::middleware('can:do-bank-deposits')
-                    ->group(function () {
-                        Route::get('deposit', 'DepositController@index')
-                            ->name('deposit');
-                        Route::post('deposit', 'DepositController@store')
-                            ->name('storeDeposit');
-                        Route::get('deposit/transactions', 'DepositController@transactions')
-                            ->name('depositTransactions');
-                    });
-
                 // Settings
                 Route::middleware('can:configure-bank')
                     ->namespace('Settings')
@@ -425,12 +414,6 @@ Route::middleware(['auth', 'language'])
                 Route::get('visitors/chart/avgVisitorsPerDayOfWeek', 'BankReportingController@avgVisitorsPerDayOfWeek')
                     ->name('avgVisitorsPerDayOfWeek');
 
-                Route::get('deposits', 'BankReportingController@deposits')
-                    ->name('deposits');
-                Route::get('deposits/chart/stats', 'BankReportingController@depositStats')
-                    ->name('depositStats');
-                Route::get('deposits/chart/stats/{project}', 'BankReportingController@projectDepositStats')
-                    ->name('projectDepositStats');
             });
 
     });

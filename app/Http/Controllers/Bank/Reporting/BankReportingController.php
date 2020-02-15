@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Bank\Reporting;
 use App\Http\Requests\SelectDateRange;
 use App\Http\Controllers\Reporting\BaseReportingController;
 
-use App\Models\Bank\Project;
 use App\Models\Bank\CouponType;
 use App\Models\Bank\CouponHandout;
 
@@ -18,7 +17,7 @@ class BankReportingController extends BaseReportingController
 {
     /**
      * View for withdtawal statistics
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     function withdrawals()
@@ -84,7 +83,7 @@ class BankReportingController extends BaseReportingController
 
     /**
      * Returns chart data for number of coupons handed out per day.
-     * 
+     *
      * @param  \App\Models\Bank\CouponType $coupon the coupon type
      * @param  \App\Http\Requests\SelectDateRange  $request
      * @return \Illuminate\Http\Response
@@ -133,13 +132,13 @@ class BankReportingController extends BaseReportingController
                     'This week' => $weekly[1] ?? 0,
                     'This month' => $monthly[1] ?? 0,
                     'This year' => $year[1] ?? 0,
-                ], 
+                ],
                 [
                     'Yesterday' => $daily[0] ?? 0,
                     'Last week' => $weekly[0] ?? 0,
                     'Last month' => $monthly[0] ?? 0,
                     'Last year' => $year[0] ?? 0,
-                ], 
+                ],
                 [
                     'Daily average' => round(self::getAvgVisitorsPerDay( Carbon::now()->subMonth(3)->startOfWeek(), Carbon::now())),
                     'Frequent' => self::getNumberOfFrequentVisitors(),
@@ -304,7 +303,7 @@ class BankReportingController extends BaseReportingController
         $visitsPerDayQuery = self::getVisitorsPerDayQuery($from, $to);
         return self::createDayOfWeekCollectionEmpty()
             ->merge(
-                // MySQL day name and day of week formats: 
+                // MySQL day name and day of week formats:
                 //    https://www.w3resource.com/mysql/date-and-time-functions/mysql-dayname-function.php
                 //    https://www.w3resource.com/mysql/date-and-time-functions/mysql-dayofweek-function.php
                 DB::table(DB::raw('('.$visitsPerDayQuery->toSql().') as o2'))
@@ -371,74 +370,4 @@ class BankReportingController extends BaseReportingController
         return $q3->first()->num;
     }
 
-    /**
-     * View for deposit statistics
-     */
-    function deposits()
-    {
-        return view('bank.reporting.deposits', [
-            'projects' => Project::orderBy('name')
-                ->where('enable_in_bank', true)
-                ->get(),
-        ]);
-    }
-
-    /**
-     * Deposit statistics over all projects
-     */
-    public function depositStats()
-    {
-        $days = 30;
-
-        // Labels
-        $lables = [];
-        for ($i = $days; $i >= 0; $i--) {
-            $lables[] = Carbon::today()->subDays($i)->format('D j. M');
-        }
-        $datasets = [];
-
-        // Projects
-        $projects = Project::orderBy('name')
-            ->where('enable_in_bank', true)
-            ->get();
-        foreach ($projects as $project) {
-            $transactions = [];
-            for ($i = $days; $i >= 0; $i--) { 
-                $transactions[] = $project->dayTransactions(Carbon::today()->subDays($i));
-            }
-            $datasets[$project->name] = $transactions;
-        }
-
-        return response()->json([
-            'labels' => $lables,
-            'datasets' => $datasets,
-        ]);
-    }
-
-    /**
-     * Deposit statistics per project
-     */
-    public function projectDepositStats(Project $project)
-    {
-        $days = 30;
-
-        // Labels
-        $lables = [];
-        for ($i = $days; $i >= 0; $i--) {
-            $lables[] = Carbon::today()->subDays($i)->format('D j. M');
-        }
-
-        // Projects
-        $datasets = [];
-        $transactions = [];
-        for ($i = $days; $i >= 0; $i--) { 
-            $transactions[] = $project->dayTransactions(Carbon::today()->subDays($i));
-        }
-        $datasets[$project->name] = $transactions;
-
-        return response()->json([
-            'labels' => $lables,
-            'datasets' => $datasets,
-        ]);
-    }
 }

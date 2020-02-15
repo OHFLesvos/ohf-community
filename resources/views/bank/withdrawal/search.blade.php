@@ -1,8 +1,8 @@
-@extends('bank.layout')
+@extends('layouts.app')
 
 @section('title', __('bank.bank'))
 
-@section('wrapped-content')
+@section('content')
 
     @php
         $lang_arr = lang_arr([

@@ -97,15 +97,12 @@ class NavigationServiceProvider extends ServiceProvider
         'reporting.people'                => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.bank.visitors'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.bank.withdrawals'      => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.bank.deposits'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.privacy'               => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
 
         'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
-        'bank.deposit'                    => \App\Navigation\ContextButtons\Bank\BankDepositContextButtons::class,
         'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
         'bank.settings.edit'              => \App\Navigation\ContextButtons\Bank\BankSettingsContextButtons::class,
         'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
-        'bank.depositTransactions'        => \App\Navigation\ContextButtons\Bank\BankDepositTransactionsContextButtons::class,
         'bank.maintenance'                => \App\Navigation\ContextButtons\Bank\BankMaintenanceContextButtons::class,
         'bank.export'                     => \App\Navigation\ContextButtons\Bank\BankExportContextButtons::class,
 

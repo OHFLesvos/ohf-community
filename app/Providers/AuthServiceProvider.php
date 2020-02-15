@@ -169,10 +169,6 @@ class AuthServiceProvider extends BaseAuthServiceProvider
             'label' => 'permissions.do_bank_withdrawals',
             'sensitive' => true,
         ],
-        'bank.deposits.do' => [
-            'label' => 'permissions.do_bank_deposits',
-            'sensitive' => false,
-        ],
         'bank.statistics.view' => [
             'label' => 'permissions.view_bank_statistics',
             'sensitive' => false,
@@ -240,9 +236,8 @@ class AuthServiceProvider extends BaseAuthServiceProvider
         'manage-people'               => 'people.manage',
         'view-people-reports'         => 'people.reports.view',
 
-        'view-bank-index'             => ['bank.withdrawals.do', 'bank.deposits.do', 'bank.configure'],
+        'view-bank-index'             => ['bank.withdrawals.do', 'bank.configure'],
         'do-bank-withdrawals'         => 'bank.withdrawals.do',
-        'do-bank-deposits'            => 'bank.deposits.do',
         'view-bank-reports'           => 'bank.statistics.view',
         'configure-bank'              => 'bank.configure',
 

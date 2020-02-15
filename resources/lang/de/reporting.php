@@ -5,7 +5,6 @@ return [
     'people' => 'Personen',
     'bank-visitors' => 'Bank: Besucher',
     'bank-withdrawals' => 'Bank: Auszahlungen',
-    'bank-deposits' => 'Bank: Einzahlungen',
     'user-privileges' => 'Benutzerberechtigungen',
     'role-privileges' => ' Rollenberechtigungen',
     'privacy' => 'Datenschutzbericht',

@@ -7,7 +7,7 @@ return [
             'icon' => 'book',
             'gate' => 'view-people-reports',
             'featured' => true,
-        ], 
+        ],
         'people' => [
             'route' => 'reporting.people',
             'icon' => 'users',
@@ -23,12 +23,6 @@ return [
         'bank-visitors' => [
             'route' => 'reporting.bank.visitors',
             'icon' => 'users',
-            'gate' => 'view-bank-reports',
-            'featured' => true,
-        ],
-        'bank-deposits' => [
-            'route' => 'reporting.bank.deposits',
-            'icon' => 'money-bill-alt',
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],

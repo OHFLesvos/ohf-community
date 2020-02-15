@@ -47,9 +47,4 @@ class CouponType extends Model
     {
         return $this->hasMany(CouponHandout::class);
     }
-
-    public function couponReturns()
-    {
-        return $this->hasMany(CouponReturn::class);
-    }
 }
