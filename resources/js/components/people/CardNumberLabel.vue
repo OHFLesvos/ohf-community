@@ -13,7 +13,7 @@
                 @click="registerCard"
             >
                 <strong v-if="cardNo">{{ cardNoShort }}</strong>
-                <template v-else>{{ lang['app.register'] }}</template>
+                <template v-else>{{ $t('app.register') }}</template>
             </a>
         </template>
         <template v-else-if="cardNo">
@@ -23,9 +23,9 @@
 
         <code-scanner-modal
             ref="codeScanner"
-            :title="lang['people.qr_code_scanner']"
+            :title="$t('people.qr_code_scanner')"
             :validator="validateCode"
-            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            :validator-message="$t('app.only_letters_and_numbers_allowed')"
             @decode="submitScannedCard"
         />
     </span>
@@ -50,11 +50,7 @@ export default {
             required: false,
             default: null
         },
-        disabled: Boolean,
-        lang: {
-            type: Object,
-            required: true
-        }
+        disabled: Boolean
     },
     data() {
         return {

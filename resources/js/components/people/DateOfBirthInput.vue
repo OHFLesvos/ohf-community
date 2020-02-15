@@ -1,5 +1,5 @@
 <template>
-    <b-form-group :label="lang['people.date_of_birth']">
+    <b-form-group :label="$t('people.date_of_birth')">
         <b-input-group :append="ageString">
             <b-form-input
                 v-model="date_of_birth"
@@ -20,10 +20,6 @@ export default {
         BFormInput
     },
     props: {
-        lang: {
-            type: Object,
-            required: true,
-        },
         value: {
             type: String,
         }
@@ -39,7 +35,7 @@ export default {
             if (dob && isDateString(dob)) {
                 const age = dateOfBirthToAge(dob)
                 if (!isNaN(age) && age >= 0) {
-                    return `${this.lang['people.age']}: ${age}`
+                    return `${this.$t('people.age')}: ${age}`
                 }
             }
             return null

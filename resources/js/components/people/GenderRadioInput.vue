@@ -1,17 +1,17 @@
 <template>
     <span>
-        <p>{{ lang['people.gender'] }}</p>
+        <p>{{ $t('people.gender') }}</p>
         <b-form-radio-group
             v-model="gender"
             required
         >
             <b-form-radio value="m">
                 <font-awesome-icon icon="male"/>
-                {{ lang['app.male'] }}
+                {{ $t('app.male') }}
             </b-form-radio>
             <b-form-radio value="f">
                 <font-awesome-icon icon="female"/>
-                {{ lang['app.female'] }}
+                {{ $t('app.female') }}
             </b-form-radio>
         </b-form-radio-group>
     </span>
@@ -25,10 +25,6 @@ export default {
         BFormRadioGroup
     },
     props: {
-        lang: {
-            type: Object,
-            required: true,
-        },
         value: {
             type: String,
         }

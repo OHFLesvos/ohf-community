@@ -29,9 +29,9 @@
         <code-scanner-modal
             v-if="qr_code_enabled"
             ref="codeScanner"
-            :title="lang['people.qr_code_scanner']"
+            :title="$t('people.qr_code_scanner')"
             :validator="validateCode"
-            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            :validator-message="$t('app.only_letters_and_numbers_allowed')"
             @decode="submitScannedCode"
         />
 
@@ -60,11 +60,7 @@ export default {
                     'name' in obj
             }
         },
-        disabled: Boolean,
-        lang: {
-            type: Object,
-            required: true
-        }
+        disabled: Boolean
     },
     data() {
         return {
@@ -100,7 +96,7 @@ export default {
                     this.last_handout = data.countdown
                     this.returning_possible = true
                     setTimeout(this.disableCouponReturn, data.return_grace_period * 1000)
-                    showSnackbar(data.message, this.lang['app.undo'], 'warning', (element) => {
+                    showSnackbar(data.message, this.$t('app.undo'), 'warning', (element) => {
                         element.style.opacity = 0
                         this.undoHandoutCoupon()
                     });

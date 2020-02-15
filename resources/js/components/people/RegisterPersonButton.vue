@@ -5,7 +5,7 @@
             class="btn btn-primary"
         >
             <font-awesome-icon icon="plus-circle"/>
-            {{ lang['people.register_a_new_person'] }}
+            {{ $t('people.register_a_new_person') }}
         </a>
     </p>
 </template>
@@ -16,10 +16,6 @@ export default {
         url: {
             required: true,
             type: String
-        },
-        lang: {
-            type: Object,
-            required: true
         }
     }
 }

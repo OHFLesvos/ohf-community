@@ -2,7 +2,7 @@
     <div>
         <!-- Heading -->
         <h4 class="mb-3">
-            {{ lang['shop.non_redeemed_cards'] }}
+            {{ $t('shop.non_redeemed_cards') }}
         </h4>
 
         <!-- Error message -->
@@ -18,10 +18,10 @@
         >
             <thead>
                 <tr>
-                    <th>{{ lang['app.date'] }}</th>
-                    <th>{{ lang['shop.cards'] }}</th>
-                    <th>{{ lang['shop.expired'] }}</th>
-                    <th class="fit">{{ lang['app.actions'] }}</th>
+                    <th>{{ $t('app.date') }}</th>
+                    <th>{{ $t('shop.cards') }}</th>
+                    <th>{{ $t('shop.expired') }}</th>
+                    <th class="fit">{{ $t('app.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
                             :disabled="busy"
                             @click="deleteCards(item.date)"
                         >
-                            {{ lang['shop.delete_cards'] }}
+                            {{ $t('shop.delete_cards') }}
                         </button>
                     </td>
                 </tr>
@@ -50,7 +50,7 @@
 
         <!-- Empty results message -->
         <p v-else-if="!busy">
-            <em>{{ lang['shop.no_suitable_cards_found'] }}</em>
+            <em>{{ $t('shop.no_suitable_cards_found') }}</em>
         </p>
 
         <!-- Loading indicator -->
@@ -59,7 +59,7 @@
                 icon="spinner"
                 spin
             />
-            {{ lang['app.loading'] }}
+            {{ $t('app.loading') }}
         </p>
     </div>
 </template>
@@ -73,10 +73,6 @@
             ErrorAlert
         },
         props: {
-            lang: {
-                type: Object,
-                required: true
-            },
             summaryUrl: {
                 type: String,
                 required: true

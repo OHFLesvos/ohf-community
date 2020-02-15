@@ -12,7 +12,6 @@
             <shop-cards-list
                 :handouts="handouts"
                 :loading="loading"
-                :lang="lang"
             />
 
         </div>
@@ -22,7 +21,6 @@
             <non-expired-cards-table
                 :summaryUrl="summaryUrl"
                 :deleteUrl="deleteUrl"
-                :lang="lang"
             />
 
         </div>
@@ -32,10 +30,13 @@
 <script>
 import ShopCardsList from '@/components/shop/ShopCardsList'
 import NonExpiredCardsTable from '@/components/shop/NonExpiredCardsTable'
+import { getAjaxErrorMessage } from '@/utils'
+import ErrorAlert from '@/components/alerts/ErrorAlert'
 export default {
     components: {
         ShopCardsList,
-        NonExpiredCardsTable
+        NonExpiredCardsTable,
+        ErrorAlert
     },
     props: {
         listCardsUrl: {
@@ -48,10 +49,6 @@ export default {
         },
         deleteUrl: {
             type: String,
-            required: true
-        },
-        lang: {
-            type: Object,
             required: true
         }
     },

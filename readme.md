@@ -38,7 +38,9 @@ Run tests:
 
 Create assets (development)
 
-    npm install && npm run dev
+    npm install
+    php artisan vue-i18n:generate
+    npm run dev
 
 For more information see https://laravel.com/docs/installation
 
@@ -47,7 +49,9 @@ Assets
 
 Compile assets (CSS/JavaScript) using npm:
 
-    npm install && npm run prod
+    npm install
+    php artisan vue-i18n:generate
+    npm run prod
 
 Development notes
 -----------------

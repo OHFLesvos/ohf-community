@@ -2,10 +2,9 @@
     <div>
         <person-filter-input
             :value="filter"
-            :lang="lang"
             :busy="busy"
             :disabled="disableSearch"
-            :placeholder="lang['people.bank_search_text']"
+            :placeholder="$t('people.bank_search_text')"
             @submit="search"
             @reset="reset"
         />
@@ -18,7 +17,6 @@
                     v-for="person in persons"
                     :key="person.id"
                     :person="person"
-                    :lang="lang"
                     :highlight-terms="searchTerms"
                     @change="reloadPerson(person)"
                     :disabled="disabledCards.indexOf(person.id) >= 0"
@@ -46,19 +44,17 @@
                 />
                 <info-alert
                     v-else
-                    :message="lang['app.not_found']"
+                    :message="$t('app.not_found')"
                 />
                 <register-person-button
                     v-if="canRegisterPerson != null"
                     :url="registerPersonUrlWithQuery"
-                    :lang="lang"
                 />
             </template>
         </div>
         <bank-stats
             v-else-if="filter.length == 0"
             :api-url="statsApiUrl"
-            :lang="lang"
         />
     </div>
 </template>
@@ -97,10 +93,6 @@ export default {
         statsApiUrl: {
             required: true,
             type: String
-        },
-        lang: {
-            type: Object,
-            required: true
         },
         canRegisterPerson: Boolean,
         registerPersonUrl: {

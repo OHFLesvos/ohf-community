@@ -1,6 +1,6 @@
 <template>
     <span>
-        <b-form-group :label="lang['people.nationality']">
+        <b-form-group :label="$t('people.nationality')">
             <b-form-input
                 v-model="nationality"
                 list="country-list"
@@ -19,10 +19,6 @@ export default {
         BFormDatalist
     },
     props: {
-        lang: {
-            type: Object,
-            required: true,
-        },
         value: {
             type: String,
         },

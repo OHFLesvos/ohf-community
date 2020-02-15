@@ -1,10 +1,11 @@
 <template>
     <b-form @submit="onSubmit">
+
         <div class="form-row">
 
             <!-- Name -->
             <div class="col-md">
-                <b-form-group :label="lang['people.name']">
+                <b-form-group :label="$t('people.name')">
                     <b-form-input
                         v-model="person.name"
                         required
@@ -16,7 +17,7 @@
 
             <!-- Family Name -->
             <div class="col-md">
-                <b-form-group :label="lang['people.family_name']">
+                <b-form-group :label="$t('people.family_name')">
                     <b-form-input
                         v-model="person.family_name"
                         required
@@ -31,7 +32,6 @@
             <div class="col-md-auto">
                 <gender-radio-input
                     v-model="person.gender"
-                    :lang="lang"
                 />
             </div>
 
@@ -39,7 +39,6 @@
             <div class="col-md-auto">
                 <date-of-birth-input
                     v-model="person.date_of_birth"
-                    :lang="lang"
                 />
             </div>
 
@@ -47,7 +46,6 @@
             <div class="col-md">
                 <nationality-input
                     v-model="person.nationality"
-                    :lang="lang"
                     :countries="countries"
                 />
             </div>
@@ -56,7 +54,6 @@
             <div class="col-lg">
                 <police-number-input
                     v-model="person.police_no"
-                    :lang="lang"
                 />
             </div>
 
@@ -66,15 +63,16 @@
 
             <!-- Remarks -->
             <div class="col-md">
-                <b-form-group :label="lang['people.remarks']">
+                <b-form-group :label="$t('people.remarks')">
                     <b-form-input
                         v-model="person.remarks"
                     />
                 </b-form-group>
             </div>
 
+            <!-- Card registration -->
             <div class="col-md-auto">
-                <p class="mb-2">{{ lang['people.code_card'] }}</p>
+                <p class="mb-2">{{ $t('people.code_card') }}</p>
                 <b-button
                     :variant="person.card_no ? 'success' : 'secondary'"
                     @click="person.card_no ? person.card_no = '' : $refs.codeScanner.open()"
@@ -85,19 +83,18 @@
 
         </div>
 
-
 		<p>
             <b-button variant="primary" type="submit" :disabled="busy">
                 <font-awesome-icon icon="check"/>
-                {{ lang['app.register'] }}
+                {{ $t('app.register') }}
             </b-button>
         </p>
 
         <code-scanner-modal
             ref="codeScanner"
-            :title="lang['people.qr_code_scanner']"
+            :title="$t('people.qr_code_scanner')"
             :validator="validateCode"
-            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            :validator-message="$t('app.only_letters_and_numbers_allowed')"
             @decode="assignCard"
         />
 
@@ -144,10 +141,6 @@ export default {
         },
         countries: {
             type: Array,
-            required: true,
-        },
-        lang: {
-            type: Object,
             required: true,
         },
         name: {

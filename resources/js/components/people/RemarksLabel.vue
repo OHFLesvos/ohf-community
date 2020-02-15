@@ -3,7 +3,7 @@
         <inline-value-editor
             v-if="form"
             :value="editValue"
-            :placeholder="lang['people.remarks']"
+            :placeholder="$t('people.remarks')"
             :disabled="disabled"
             :busy="busy"
             @submit="saveEdit"
@@ -23,7 +23,7 @@
                     v-else @click="startEdit"
                     class="text-muted clickable"
                 >
-                    {{ lang['people.click_to_add_remarks'] }}
+                    {{ $t('people.click_to_add_remarks') }}
                 </em>
             </template>
             <span
@@ -53,11 +53,7 @@ export default {
         value: {
             required: true
         },
-        disabled: Boolean,
-        lang: {
-            type: Object,
-            required: true
-        },
+        disabled: Boolean
     },
     data() {
         return {

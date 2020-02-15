@@ -53,16 +53,16 @@
             >
                 <font-awesome-icon icon="qrcode"/>
                 <span class="d-none d-sm-inline">
-                    {{ lang['people.scan_card'] }}
+                    {{ $t('people.scan_card') }}
                 </span>
             </button>
         </div>
 
         <code-scanner-modal
             ref="codeScanner"
-            :title="lang['people.qr_code_scanner']"
+            :title="$t('people.qr_code_scanner')"
             :validator="validateCode"
-            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            :validator-message="$t('app.only_letters_and_numbers_allowed')"
             @decode="submitScannedCode"
         />
     </div>
@@ -88,10 +88,6 @@ export default {
             default: 'Search...'
         },
         busy: Boolean,
-        lang: {
-            type: Object,
-            required: true
-        },
         disabled: Boolean
     },
     data() {

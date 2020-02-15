@@ -13,7 +13,7 @@
                 <card-scanner-area
                     :busy="searching"
                     :validator="validateCode"
-                    :validator-message="lang['app.only_letters_and_numbers_allowed']"
+                    :validator-message="$t('app.only_letters_and_numbers_allowed')"
                     :enabled="scannerEnabled"
                     @decode="onDecode"
                     @enable="scannerEnabled = true"
@@ -26,7 +26,7 @@
                 <!-- Searching card message -->
                 <info-alert
                     v-if="code != null && searching"
-                    :message="this.lang['app.searching']"
+                    :message="$t('app.searching')"
                 />
 
                 <!-- Shop card details -->
@@ -35,7 +35,6 @@
                         <template v-if="handout.person != null">
                             <shop-card-details
                                 :handout="handout"
-                                :lang="lang"
                                 :busy="busy"
                                 @redeem="redeemCard"
                                 @cancel="cancelCard"
@@ -43,12 +42,12 @@
                         </template>
                         <warning-alert
                             v-else
-                            :message="lang['shop.person_assigned_to_card_has_been_deleted']"
+                            :message="$t('shop.person_assigned_to_card_has_been_deleted')"
                         />
                     </template>
                     <warning-alert
                         v-else-if="!error"
-                        :message="lang['shop.card_not_registered']"
+                        :message="$t('shop.card_not_registered')"
                     />
                 </template>
 
@@ -85,10 +84,6 @@ export default {
         getCardUrl: {
             type: String,
             required: true,
-        },
-        lang: {
-            type: Object,
-            required: true
         }
     },
     data() {
@@ -105,8 +100,8 @@ export default {
     computed: {
         idleMessage() {
             return this.scannerEnabled
-                ? this.lang['shop.please_scan_next_card']
-                : this.lang['shop.please_enable_scanner_to_scan_cards']
+                ? this.$t('shop.please_scan_next_card')
+                : this.$t('shop.please_enable_scanner_to_scan_cards')
         }
     },
     watch: {
@@ -157,7 +152,7 @@ export default {
                 .then(() => this.busy = false)
         },
         cancelCard() {
-            if (window.confirm(this.lang['shop.should_card_be_cancelled'])) {
+            if (window.confirm(this.$t('shop.should_card_be_cancelled'))) {
                 this.busy = true
                 axios.delete(this.handout.cancel_url)
                     .then(res => {

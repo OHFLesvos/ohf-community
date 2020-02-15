@@ -7,10 +7,10 @@
                 v-if="url != null"
                 :href="url"
             >
-                {{ lang['library.library'] }}
+                {{ $t('library.library') }}
             </a>
             <template v-else>
-                {{ lang['library.library'] }}
+                {{ $t('library.library') }}
             </template>
         </em>
     </div>
@@ -23,10 +23,6 @@ export default {
             type: String,
             required: false,
             default: null
-        },
-        lang: {
-            type: Object,
-            required: true
         }
     },
 }

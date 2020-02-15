@@ -1,7 +1,7 @@
 <template>
     <div>
         <h4 class="mb-3">
-            {{ lang['shop.redeemed_cards'] }}
+            {{ $t('shop.redeemed_cards') }}
             <template v-if="handouts.length > 0">
                 ({{ handouts.length }})
             </template>
@@ -11,7 +11,7 @@
                 icon="spinner"
                 spin
             />
-            {{ lang['app.loading'] }}
+            {{ $t('app.loading') }}
         </p>
         <table
             v-else-if="handouts.length > 0"
@@ -38,7 +38,7 @@
             </tbody>
         </table>
         <p v-else>
-            <em>{{ lang['shop.no_cards_redeemed_so_far_today'] }}</em>
+            <em>{{ $t('shop.no_cards_redeemed_so_far_today') }}</em>
         </p>
     </div>
 </template>
@@ -52,10 +52,6 @@ export default {
     props: {
         handouts: {
             type: Array,
-            required: true
-        },
-        lang: {
-            type: Object,
             required: true
         },
         loading: {

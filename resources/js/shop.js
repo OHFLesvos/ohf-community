@@ -8,8 +8,11 @@ import ShopCardManagerPage from '@/pages/shop/ShopCardManagerPage'
 
 Vue.config.productionTip = false
 
+import i18n from './i18n'
+
 new Vue({
     el: '#shop-app',
+    i18n,
     components: {
         ShopScannerPage,
         ShopCardManagerPage

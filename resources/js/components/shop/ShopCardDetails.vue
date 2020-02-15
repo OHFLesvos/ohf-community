@@ -2,12 +2,12 @@
     <div class="card mb-4">
         <div class="card-header d-flex justify-content-between">
             <span>
-                {{ lang['shop.card'] }}
+                {{ $t('shop.card') }}
                 {{ handout.code_short }}
             </span>
             <span>
                 <span class="d-none d-sm-inline">
-                    {{ lang['shop.registered'] }}
+                    {{ $t('shop.registered') }}
                 </span>
                 {{ handout.date }}
             </span>
@@ -65,7 +65,7 @@
                         class="text-warning"
                     >
                         <font-awesome-icon icon="exclamation-triangle"/>
-                        {{ lang['shop.card_already_redeemed'] }}
+                        {{ $t('shop.card_already_redeemed') }}
                         <br>
                         <small>{{ handout.updated_diff_formatted }}</small>
                     </strong>
@@ -74,7 +74,7 @@
                         class="text-warning"
                     >
                         <font-awesome-icon icon="exclamation-triangle"/>
-                        {{ lang['shop.card_expired'] }}
+                        {{ $t('shop.card_expired') }}
                         <br>
                         <small>{{ handout.validity_formatted }}</small>
                     </strong>
@@ -89,7 +89,7 @@
                                 :icon="redeemButtonIcon"
                                 :spin="this.redeeming"
                             />
-                            {{ lang['shop.redeem'] }}
+                            {{ $t('shop.redeem') }}
                         </button>
                         <button
                             type="submit"
@@ -101,7 +101,7 @@
                                 :icon="cancelButtonIcon"
                                 :spin="this.cancelling"
                             />
-                            {{ lang['shop.cancel_card'] }}
+                            {{ $t('shop.cancel_card') }}
                         </button>
                     </template>
                 </div>
@@ -118,10 +118,6 @@ export default {
     },
     props: {
         handout: {
-            type: Object,
-            required: true
-        },
-        lang: {
             type: Object,
             required: true
         },

@@ -5,7 +5,7 @@
             v-model="filter"
             type="search"
             debounce="500"
-            :placeholder="lang['app.filter']"
+            :placeholder="$t('app.filter')"
             class="mb-3"
             size="sm"
         ></b-form-input>
@@ -22,8 +22,8 @@
             :per-page="perPage"
             :api-url="apiUrl"
             :show-empty="initialized"
-            :empty-text="lang['people.no_transactions_so_far']"
-            :empty-filtered-text="lang['app.no_records_matching_your_request']"
+            :empty-text="$t('people.no_transactions_so_far')"
+            :empty-filtered-text="$t('app.no_records_matching_your_request')"
             :filter="filter"
         >
             <!-- Busy state -->
@@ -36,7 +36,7 @@
                         icon="spinner"
                         spin
                     />
-                    {{ lang['app.loading'] }}
+                    {{ $t('app.loading') }}
                 </div>
             </template>
 
@@ -60,7 +60,7 @@
                     {{ data.value }}
                 </template>
                 <em v-else>
-                    {{ lang['app.not_found'] }}
+                    {{ $t('app.not_found') }}
                 </em>
             </template>
 
@@ -71,7 +71,7 @@
                     :person="data.value"
                 />
                 <em v-else>
-                    {{ lang['app.not_found'] }}
+                    {{ $t('app.not_found') }}
                 </em>
             </template>
 
@@ -82,7 +82,7 @@
                     {{ data.value.name }}
                 </template>
                 <em v-else>
-                    {{ lang['app.not_found'] }}
+                    {{ $t('app.not_found') }}
                 </em>
             </template>
         </b-table>
@@ -141,30 +141,26 @@ export default {
         apiUrl: {
             type: String,
             required: true
-        },
-        lang: {
-            type: Object,
-            required: true
-        },
+        }
     },
     data() {
         return {
             fields: [
                 {
                     key: 'created_at',
-                    label: this.lang['app.registered']
+                    label: this.$t('app.registered')
                 },
                 {
                     key: 'date',
-                    label: this.lang['app.date']
+                    label: this.$t('app.date')
                 },
                 {
                     key: 'person',
-                    label: this.lang['people.recipient']
+                    label: this.$t('people.recipient')
                 },
                 {
                     key: 'coupon',
-                    label: this.lang['app.amount']
+                    label: this.$t('app.amount')
                 }
             ],
             totalRows: 0,

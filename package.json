@@ -43,5 +43,7 @@
     "vue-template-compiler": "^2.6.11",
     "vue-text-highlight": "^2.0.10"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vue-i18n": "^8.15.3"
+  }
 }

@@ -1,7 +1,7 @@
 <template>
     <b-form-group
-        :label="lang['people.police_number']"
-        :description="lang['people.leading_zeros_added_automatically']"
+        :label="$t('people.police_number')"
+        :description="$t('people.leading_zeros_added_automatically')"
     >
         <b-input-group :prepend="policeNoPrefix">
             <b-form-input
@@ -22,10 +22,6 @@ export default {
         BFormInput
     },
     props: {
-        lang: {
-            type: Object,
-            required: true,
-        },
         value: {
             type: String,
         }

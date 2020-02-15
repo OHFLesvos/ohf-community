@@ -11,7 +11,6 @@
                     <helper-marker
                         v-if="person.is_helper"
                         :url="person.can_view_helper ? person.show_helper_url : null"
-                        :lang="lang"
                     />
                     <name-label
                         :url="person.can_view ? person.show_url : null"
@@ -47,7 +46,6 @@
                         :api-url="person.can_update ? person.register_card_url : null"
                         :value="person.card_no"
                         :disabled="disabled"
-                        :lang="lang"
                     />
                 </div>
             </div>
@@ -59,17 +57,14 @@
                 v-if="person.police_no"
                 :value="person.police_no_formatted"
                 :highlight-terms="highlightTerms"
-                :lang="lang"
             />
             <remarks-label
                 :value="person.remarks"
                 :api-url="person.can_update ? person.remarks_update_url : null"
-                :lang="lang"
             />
             <overdue-book-lendings-label
                 v-if="person.has_overdue_book_lendings"
                 :url="person.can_operate_library ? person.library_lending_person_url : null"
-                :lang="lang"
             />
         </div>
 
@@ -84,7 +79,6 @@
                     <coupon-handout-button
                         :coupon="coupon"
                         :disabled="disabled"
-                        :lang="lang"
                     />
                 </div>
             </div>
@@ -92,7 +86,7 @@
                 v-else
                 class="pb-2 px-2"
             >
-                <em>{{ lang['people.no_coupons_defined'] }}</em>
+                <em>{{ $t('people.no_coupons_defined') }}</em>
             </div>
         </div>
 
@@ -124,10 +118,6 @@ export default {
             type: Array,
             required: false,
             default: []
-        },
-        lang: {
-            type: Object,
-            required: true
         }
     },
     components: {

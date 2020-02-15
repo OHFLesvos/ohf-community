@@ -183,16 +183,3 @@ if (! function_exists('array_elements_not_empty')) {
         return true;
     }
 }
-
-if (! function_exists('lang_arr')) {
-    /**
-     * Returns an associative array of language strings resolved by the given keys
-     */
-    function lang_arr($keys = []) {
-        return collect($keys)
-            ->mapWithKeys(function($k){
-                return [ $k => __($k) ];
-            })
-            ->toArray();
-    }
-}

@@ -12,8 +12,11 @@ Vue.use(ModalPlugin)
 
 Vue.config.productionTip = false
 
+import i18n from './i18n'
+
 new Vue({
 	el: '#bank-app',
+	i18n,
 	components: {
 		BankSearchPage,
 		BankTransactionsPage,

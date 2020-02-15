@@ -9,7 +9,7 @@
             v-html="stats.numbers"
         ></p>
         <template v-else>
-            {{ lang['people.not_yet_served_any_persons'] }}
+            {{ $t('people.not_yet_served_any_persons') }}
         </template>
         <template v-if="stats.limitedCoupons">
             <p
@@ -34,10 +34,6 @@ export default {
             required: false,
             default: DEFAULT_RELOAD_INTERVAL, // in seconds
             validator: val => val > 0
-        },
-        lang: {
-            type: Object,
-            required: true
         }
     },
     data() {

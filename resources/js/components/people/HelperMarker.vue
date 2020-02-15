@@ -20,15 +20,11 @@ export default {
             type: String,
             required: false,
             default: null
-        },
-        lang: {
-            type: Object,
-            required: true
         }
     },
     computed: {
         label() {
-            return this.lang['helpers.helper'].toUpperCase()
+            return this.$t('helpers.helper').toUpperCase()
         }
     }
 }
