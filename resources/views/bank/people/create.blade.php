@@ -17,7 +17,10 @@
             'people.remarks',
             'app.register',
             'app.male',
-            'app.female'
+            'app.female',
+            'people.qr_code_scanner',
+            'app.only_letters_and_numbers_allowed',
+            'people.code_card',
         ]);
     @endphp
 

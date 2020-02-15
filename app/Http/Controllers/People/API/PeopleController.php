@@ -100,6 +100,12 @@ class PeopleController extends Controller
     {
         $person = new Person();
         $person->fill($request->all());
+
+        if ($request->filled('card_no')) {
+            $person->card_no = $request->card_no;
+            $person->card_issued = Carbon::now();
+        }
+
 		$person->save();
 
         return response()->json([

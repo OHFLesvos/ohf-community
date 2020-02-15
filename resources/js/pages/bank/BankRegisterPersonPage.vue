@@ -73,7 +73,18 @@
                 </b-form-group>
             </div>
 
+            <div class="col-md-auto">
+                <p class="mb-2">{{ lang['people.code_card'] }}</p>
+                <b-button
+                    :variant="person.card_no ? 'success' : 'secondary'"
+                    @click="person.card_no ? person.card_no = '' : $refs.codeScanner.open()"
+                >
+                    <font-awesome-icon icon="qrcode"/>
+                </b-button>
+            </div>
+
         </div>
+
 
 		<p>
             <b-button variant="primary" type="submit" :disabled="busy">
@@ -81,6 +92,14 @@
                 {{ lang['app.register'] }}
             </b-button>
         </p>
+
+        <code-scanner-modal
+            ref="codeScanner"
+            :title="lang['people.qr_code_scanner']"
+            :validator="validateCode"
+            :validator-message="lang['app.only_letters_and_numbers_allowed']"
+            @decode="assignCard"
+        />
 
     </b-form>
 </template>
@@ -98,7 +117,9 @@ import GenderRadioInput from '@/components/people/GenderRadioInput'
 import DateOfBirthInput from '@/components/people/DateOfBirthInput'
 import NationalityInput from '@/components/people/NationalityInput'
 import PoliceNumberInput from '@/components/people/PoliceNumberInput'
-import { handleAjaxError } from '@/utils'
+import { handleAjaxError, isAlphaNumeric } from '@/utils'
+import CodeScannerModal from '@/components/ui/CodeScannerModal'
+
 export default {
     components: {
         BForm,
@@ -109,7 +130,8 @@ export default {
         GenderRadioInput,
         DateOfBirthInput,
         NationalityInput,
-        PoliceNumberInput
+        PoliceNumberInput,
+        CodeScannerModal
     },
     props: {
         apiUrl: {
@@ -154,11 +176,18 @@ export default {
                 police_no: this.policeNo,
                 nationality: '',
                 remarks: '',
+                card_no: ''
             },
             busy: false,
         }
     },
     methods: {
+        validateCode(val) {
+            return isAlphaNumeric(val)
+        },
+        assignCard(val) {
+            this.person.card_no = val
+        },
         onSubmit(evt) {
             evt.preventDefault()
             this.busy = true
@@ -182,6 +211,7 @@ export default {
                                 this.person.gender = ''
                                 this.person.date_of_birth = ''
                                 this.person.remarks = ''
+                                this.person.card_no = ''
                                 this.$refs.name.focus()
                             } else {
                                 window.location.href = this.redirectUrl
