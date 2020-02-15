@@ -153,7 +153,7 @@ class WithdrawalController extends Controller
         $names = [];
         foreach (split_by_whitespace($filter) as $q) {
             if (is_numeric($q)) {
-                $register['case_no'] = $q;
+                $register['police_no'] = $q;
             } else {
                 $names[] = $q;
             }

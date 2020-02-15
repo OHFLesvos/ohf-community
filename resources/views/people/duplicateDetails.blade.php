@@ -32,9 +32,6 @@
     @if(isset($person->police_no))
         @lang('people.police_number'): {{ $person->police_no }}<br>
     @endif
-    @if(isset($person->case_no_hash))
-        @lang('people.case_number'): {{ $person->case_no_hash != null ? __('app.yes') : __('app.no') }}<br>
-    @endif
     @if ($person->card_no != null)
         Card: {{ $person->card_no }} issued on {{ $person->card_issued }} ({{ $person->card_issued->diffForHumans() }})<br>
     @endif

@@ -32,8 +32,8 @@
                     </strong>
                 </div>
                 <div class="col-sm">
-                    @if($person->gender == 'f')@icon(female) Female 
-                    @elseif($person->gender == 'm')@icon(male) Male 
+                    @if($person->gender == 'f')@icon(female) Female
+                    @elseif($person->gender == 'm')@icon(male) Male
                     @endif
                 </div>
             </div>
@@ -75,20 +75,6 @@
                 </div>
                 <div class="col-sm">
                     {{ $person->police_no_formatted }}
-                </div>
-            </div>
-        </li>
-    @endisset
-    @isset($person->case_no_hash)
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm-5">
-                    <strong>
-                        @lang('people.case_number')
-                    </strong>
-                </div>
-                <div class="col-sm">
-                    <em>@lang('app.encrypted')</em>
                 </div>
             </div>
         </li>
@@ -163,21 +149,21 @@
                             </a>
                         @endif
                         @if(count($person->siblings) > 0)
-                            @foreach($person->siblings->sortByDesc('age') as $sibling) 
+                            @foreach($person->siblings->sortByDesc('age') as $sibling)
                                 <a href="{{ route($showRouteName, $sibling) }}" class="list-group-item list-group-item-action">
                                     @include('people.person-label', ['person' => $sibling, 'suffix' => __('people.sibling')])
                                 </a>
                             @endforeach
                         @endif
                         @if(count($person->children) > 0)
-                            @foreach($person->children->sortByDesc('age') as $child) 
+                            @foreach($person->children->sortByDesc('age') as $child)
                                 <a href="{{ route($showRouteName, $child) }}" class="list-group-item list-group-item-action">
                                     @include('people.person-label', ['person' => $child, 'suffix' => __('people.child')])
                                 </a>
                             @endforeach
                         @endif
                         @if(count($person->partnersChildren) > 0)
-                            @foreach($person->partnersChildren->sortByDesc('age') as $child) 
+                            @foreach($person->partnersChildren->sortByDesc('age') as $child)
                                 <a href="{{ route($showRouteName, $child) }}" class="list-group-item list-group-item-action">
                                     @include('people.person-label', ['person' => $child, 'suffix' => __('people.partners_child')])
                                 </a>
@@ -188,6 +174,6 @@
             </div>
         </li>
     @endif
-    
+
     {{-- Created / updated --}}
 </ul>

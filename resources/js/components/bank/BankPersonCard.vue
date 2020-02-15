@@ -61,11 +61,6 @@
                 :highlight-terms="highlightTerms"
                 :lang="lang"
             />
-            <case-no-label
-                v-if="person.case_no_hash"
-                :value="person.case_no_hash"
-                :lang="lang"
-            />
             <remarks-label
                 :value="person.remarks"
                 :api-url="person.can_update ? person.remarks_update_url : null"
@@ -114,7 +109,6 @@ import FrequentVisitorMarker from './FrequentVisitorMarker'
 import EditLink from '@/components/people/EditLink'
 import CardNumberLabel from '@/components/people/CardNumberLabel'
 import PoliceNoLabel from '@/components/people/PoliceNoLabel'
-import CaseNoLabel from '@/components/people/CaseNoLabel'
 import RemarksLabel from '@/components/people/RemarksLabel'
 import OverdueBookLendingsLabel from '@/components/people/OverdueBookLendingsLabel'
 import CouponHandoutButton from './CouponHandoutButton'
@@ -146,7 +140,6 @@ export default {
         EditLink,
         CardNumberLabel,
         PoliceNoLabel,
-        CaseNoLabel,
         RemarksLabel,
         OverdueBookLendingsLabel,
         CouponHandoutButton

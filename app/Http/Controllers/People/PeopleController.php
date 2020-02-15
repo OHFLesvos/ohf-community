@@ -66,7 +66,6 @@ class PeopleController extends Controller
                     $child->date_of_birth = $request->child_date_of_birth[$i];
 
                     $child->police_no = !empty($request->police_no) ? $request->police_no : null;
-                    $child->case_no = !empty($request->case_no) ? $request->case_no : null;
                     $child->nationality = !empty($request->nationality) ? $request->nationality : null;
                     if ($person->gender == 'f') {
                         $child->mother()->associate($person);

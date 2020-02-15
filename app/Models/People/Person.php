@@ -40,7 +40,6 @@ class Person extends Model
         'gender',
         'date_of_birth',
         'police_no',
-        'case_no',
         'nationality',
         'languages',
         'languages_string',
@@ -146,18 +145,6 @@ class Person extends Model
             $str .= '«'.$this->nickname.'»';
         }
         return trim($str);
-    }
-
-    public function setCaseNoAttribute($value)
-    {
-        if ($value !== null && $value != '') {
-            $value = intval(preg_replace("/[^0-9]/", "", $value));
-            if ($value <= 0) {
-                $this->case_no_hash = null;
-            } else {
-                $this->case_no_hash = hash('sha256', $value);
-            }
-        }
     }
 
     public function getPoliceNoFormattedAttribute()

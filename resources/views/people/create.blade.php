@@ -28,9 +28,6 @@
             <div class="col-md">
                 {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people.police_number'), __('people.leading_zeros_added_automatically')) }}
             </div>
-            <div class="col-md">
-                {{ Form::bsText('case_no', null, [ ], __('people.case_number')) }}
-            </div>
         </div>
         <div class="form-row">
             <div class="col-md">

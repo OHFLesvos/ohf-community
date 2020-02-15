@@ -46,7 +46,6 @@ class BankPerson extends Resource
             'show_helper_url' => $this->helper != null ? route('people.helpers.show', $this->helper) : null,
             'police_no' => $this->police_no,
             'police_no_formatted' => $this->police_no_formatted,
-            'case_no_hash' => $this->case_no_hash,
             'remarks' => $this->remarks,
             'has_overdue_book_lendings' => $this->hasOverdueBookLendings,
             'can_operate_library' => Gate::allows('operate-library'),
