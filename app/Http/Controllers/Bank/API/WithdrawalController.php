@@ -162,7 +162,7 @@ class WithdrawalController extends Controller
             if (sizeof($names) == 1) {
                 $register['name'] = $names[0];
             } else {
-                $register['family_name'] = array_shift($names);
+                $register['family_name'] = array_pop($names);
                 $register['name'] = implode(' ', $names);
             }
 

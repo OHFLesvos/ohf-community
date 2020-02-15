@@ -65,8 +65,6 @@
 
 <script>
 
-// TODO Show Family connections
-
 import SessionVariable from '@/sessionVariable'
 const rememberedFilter = new SessionVariable('bank.withdrawal.filter')
 

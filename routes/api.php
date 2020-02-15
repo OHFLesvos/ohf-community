@@ -83,6 +83,11 @@ Route::middleware(['auth', 'language'])
             ->name('index')
             ->middleware('can:list,App\Models\People\Person');
 
+        // Store new person
+        Route::post('', 'PeopleController@store')
+            ->name('store')
+            ->middleware('can:create,App\Models\People\Person');
+
         // Filter persons
         Route::get('filterPersons', 'PeopleController@filterPersons')
             ->name('filterPersons')

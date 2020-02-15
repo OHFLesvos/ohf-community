@@ -351,7 +351,7 @@ Route::middleware(['auth', 'language'])
 
                 // People
                 Route::resource('people', 'PeopleController')
-                    ->except(['index']);
+                    ->except(['index', 'store']);
 
                 // Settings
                 Route::middleware('can:configure-bank')

@@ -4,48 +4,37 @@
 
 @section('content')
 
-    {!! Form::open(['route' => 'bank.people.store']) !!}
+    @php
+        $lang_arr = lang_arr([
+            'people.name',
+            'people.family_name',
+            'people.gender',
+            'people.police_number',
+            'people.leading_zeros_added_automatically',
+            'people.date_of_birth',
+            'people.age',
+            'people.nationality',
+            'people.remarks',
+            'app.register',
+            'app.male',
+            'app.female'
+        ]);
+    @endphp
 
-        <div class="form-row">
-            <div class="col-md">
-                {{ Form::bsText('name', request()->query('name'), [ 'required', 'autofocus' ], __('people.name')) }}
-            </div>
-            <div class="col-md">
-                {{ Form::bsText('family_name', request()->query('family_name'), [ 'required' ], __('people.family_name')) }}
-            </div>
-            <div class="col-md-auto">
-                {{ Form::genderSelect('gender', null, __('people.gender')) }}
-            </div>
-            <div class="col-md-auto">
-                {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people.date_of_birth')) }}
-            </div>
-            <div class="col-md-auto">
-                <p>@lang('people.age')</p>
-                <span id="age">?</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md">
-                {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people.police_number'), __('people.leading_zeros_added_automatically')) }}
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md">
-                {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people.nationality')) }}
-            </div>
-            <div class="col-md">
-                {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
-            </div>
-        </div>
+    <div id="bank-app">
+        <bank-register-person-page
+            api-url="{{ route('api.people.store') }}"
+            redirect-url="{{ route('bank.withdrawal.search') }}"
+            :countries='@json($countries)'
+            :lang='@json($lang_arr)'
+            name="{{ request()->query('name') }}"
+            family-name="{{ request()->query('family_name') }}"
+            police-no="{{ request()->query('police_no') }}"
+        ></bank-register-person-page>
+    </div>
 
-		<p>
-            {{ Form::bsSubmitButton(__('app.register')) }}
-        </p>
+@endsection
 
-        @isset(request()->card_no)
-            {{ Form::hidden('card_no', request()->card_no) }}
-        @endisset
-
-    {!! Form::close() !!}
-
+@section('footer')
+    <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}" defer></script>
 @endsection

@@ -21,21 +21,8 @@ class PeopleController extends Controller
     {
         $countries = Countries::getList('en');
         return view('bank.people.create', [
-            'countries' => $countries,
+            'countries' => array_values($countries),
         ]);
-    }
-
-    public function store(StorePerson $request)
-    {
-        $person = new Person();
-        $person->fill($request->all());
-        $person->card_no = $request->card_no;
-		$person->save();
-
-        $request->session()->put('filter', $person->search);
-
-        return redirect()->route('bank.withdrawal.search')
-            ->with('success', __('people.person_added'));
     }
 
     public function show(Person $person)

@@ -10,6 +10,7 @@ use App\Http\Requests\People\UpdatePersonDateOfBirth;
 use App\Http\Requests\People\UpdatePersonGender;
 use App\Http\Requests\People\UpdatePersonNationality;
 use App\Http\Requests\People\UpdatePersonRemarks;
+use App\Http\Requests\People\StorePerson;
 use App\Http\Requests\People\RegisterCard;
 use App\Http\Resources\People\PersonCollection;
 
@@ -87,6 +88,23 @@ class PeopleController extends Controller
                 ->orWhere('police_no', $filter)
                 ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
         });
+    }
+
+    /**
+     * Stores a new person
+     *
+     * @param StorePerson $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StorePerson $request)
+    {
+        $person = new Person();
+        $person->fill($request->all());
+		$person->save();
+
+        return response()->json([
+            'message' => __('people.person_added'),
+        ]);
     }
 
     /**
@@ -247,4 +265,5 @@ class PeopleController extends Controller
             'message' => __('people.qr_code_card_has_been_registered'),
         ]);
     }
+
 }
