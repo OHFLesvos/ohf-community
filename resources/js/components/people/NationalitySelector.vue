@@ -10,39 +10,41 @@
         </template>
         <template v-else-if="apiUrl != null">
             <template v-if="form">
-                <input
+                <b-form-input
                     ref="input"
                     v-model="newNationality"
-                    type="text"
+                    size="sm"
                     :placeholder="$t('people.choose_nationality')"
-                    class="form-control form-control-sm"
+                    list="country-list"
                     @keydown.enter="setNationality"
                     @keydown.esc="form = false"
                 />
-                <button
-                    type="button"
-                    class="btn btn-primary btn-sm"
+                <b-form-datalist id="country-list" :options="countries"/>
+                <b-button
+                    variant="primary"
+                    size="sm"
                     @click="setNationality"
                 >
                     <font-awesome-icon icon="check"/>
-                </button>
-                <button
-                    type="button"
-                    class="btn btn-secondary btn-sm"
+                </b-button>
+                <b-button
+                    variant="secondary"
+                    size="sm"
                     @click="form = false"
                 >
                     <font-awesome-icon icon="times"/>
-                </button>
+                </b-button>
             </template>
-            <button
+            <b-button
                 v-else
-                class="btn btn-warning btn-sm"
+                variant="warning"
+                size="sm"
                 title="Set nationality"
                 :disabled="disabled"
                 @click="form = true"
             >
                 <font-awesome-icon icon="globe"/>
-            </button>
+            </b-button>
         </template>
     </span>
 </template>
@@ -50,7 +52,13 @@
 <script>
 import showSnackbar from '@/snackbar'
 import { handleAjaxError } from '@/utils'
+import { BButton, BFormInput, BFormDatalist } from 'bootstrap-vue'
 export default {
+    components: {
+        BButton,
+        BFormInput,
+        BFormDatalist
+    },
     props: {
         apiUrl: {
             type: String,
@@ -61,6 +69,10 @@ export default {
             type: String,
             required: false,
             default: null
+        },
+        countries: {
+            type: Array,
+            required: true,
         },
         disabled: Boolean
     },
@@ -86,6 +98,12 @@ export default {
     },
     methods: {
         setNationality() {
+            if (this.newNationality == null || this.newNationality.length == 0) {
+                this.$nextTick(() => {
+                    this.$refs.input.select();
+                })
+                return
+            }
             this.busy = true
             axios.patch(this.apiUrl, {
                     'nationality': this.newNationality

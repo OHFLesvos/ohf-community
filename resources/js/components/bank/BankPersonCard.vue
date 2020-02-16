@@ -32,6 +32,7 @@
                         :api-url="person.can_update ? person.nationality_update_url : null"
                         :value="person.nationality"
                         :disabled="disabled"
+                        :countries="countries"
                     />
                     <frequent-visitor-marker
                         v-if="person.frequent_visitor"
@@ -118,6 +119,10 @@ export default {
             type: Array,
             required: false,
             default: []
+        },
+        countries: {
+            type: Array,
+            required: true,
         }
     },
     components: {

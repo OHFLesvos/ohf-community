@@ -8,6 +8,7 @@
         <bank-search-page
             api-url="{{ route('api.bank.withdrawal.search') }}"
             stats-api-url="{{ route('api.bank.withdrawal.dailyStats') }}"
+            :countries='@json(array_values(Countries::getList('en')))'
             @can('create', App\Models\People\Person::class)can-register-person
             register-person-url="{{ route('bank.people.create') }}" @endcan
         ></bank-search-page>

@@ -18,8 +18,9 @@
                     :key="person.id"
                     :person="person"
                     :highlight-terms="searchTerms"
-                    @change="reloadPerson(person)"
+                    :countries="countries"
                     :disabled="disabledCards.indexOf(person.id) >= 0"
+                    @change="reloadPerson(person)"
                 />
                 <div class="row align-items-center">
                     <div class="col">
@@ -99,6 +100,10 @@ export default {
             type: String,
             required: false,
             default: null
+        },
+        countries: {
+            type: Array,
+            required: true,
         }
     },
     data() {
