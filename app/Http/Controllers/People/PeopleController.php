@@ -10,12 +10,12 @@ use App\Exports\People\PeopleExport;
 use App\Imports\People\PeopleImport;
 use App\Http\Requests\People\StorePerson;
 
-use App\Models\Bank\CouponHandout;    // TODO: fix circular dependency
+use App\Models\Bank\CouponHandout;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+
 use Validator;
 
 use Carbon\Carbon;

@@ -221,7 +221,6 @@ class Person extends Model
 
     public function couponHandouts()
     {
-        // TODO This is a circular module dependency
         return $this->hasMany(\App\Models\Bank\CouponHandout::class);
     }
 
