@@ -86,7 +86,6 @@ class NavigationServiceProvider extends ServiceProvider
         'people.index'                    => \App\Navigation\ContextButtons\People\PeopleIndexContextButtons::class,
         'people.create'                   => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
         'people.show'                     => \App\Navigation\ContextButtons\People\PeopleShowContextButtons::class,
-        'people.relations'                => \App\Navigation\ContextButtons\People\PeopleRelationsContextButtons::class,
         'people.edit'                     => \App\Navigation\ContextButtons\People\PeopleEditContextButtons::class,
         'people.duplicates'               => \App\Navigation\ContextButtons\People\PeopleDuplicatesContextButtons::class,
         'people.import'                   => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,

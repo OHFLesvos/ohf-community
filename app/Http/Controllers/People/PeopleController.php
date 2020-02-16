@@ -56,27 +56,6 @@ class PeopleController extends Controller
         $person->fill($request->all());
 		$person->save();
 
-        if (isset($request->child_family_name) && is_array($request->child_family_name)) {
-            for ($i = 0; $i < count($request->child_family_name); $i++) {
-                if (!empty($request->child_family_name[$i]) && !empty($request->child_name[$i]) && !empty($request->child_gender[$i])) {
-                    $child = new Person();
-                    $child->name = $request->child_name[$i];
-                    $child->family_name = $request->child_family_name[$i];
-                    $child->gender = $request->child_gender[$i];
-                    $child->date_of_birth = $request->child_date_of_birth[$i];
-
-                    $child->police_no = !empty($request->police_no) ? $request->police_no : null;
-                    $child->nationality = !empty($request->nationality) ? $request->nationality : null;
-                    if ($person->gender == 'f') {
-                        $child->mother()->associate($person);
-                    } else if ($person->gender == 'm') {
-                        $child->father()->associate($person);
-                    }
-                    $child->save();
-                }
-            }
-        }
-
 		return redirect()->route('people.index')
 				->with('success', __('people.person_added'));
 	}
@@ -112,122 +91,6 @@ class PeopleController extends Controller
                 ->with('success', __('people.person_updated'));
 	}
 
-    public function relations(Person $person)
-    {
-        $types = [];
-        if ($person->father == null) {
-            $types['father'] = 'Father';
-        }
-        if ($person->mother == null) {
-            $types['mother'] = 'Mother';
-        }
-        if ($person->partner == null) {
-            $types['partner'] = 'Partner';
-        }
-        if ($person->gender != null) {
-            $types['child'] = 'Child';
-        }
-        return view('people.relations', [
-            'person' => $person,
-            'types' => $types,
-		]);
-    }
-
-    public function addRelation(Person $person, Request $request)
-    {
-        Validator::make($request->all(), [
-            'type' => 'required|in:father,mother,partner,child',
-            'relative' => [
-                'required',
-                Rule::exists('persons', $person->getRouteKeyName())
-                    ->whereNot($person->getRouteKeyName(), $person->getRouteKey())
-                    ->whereNull(function ($query) use ($request) {
-                        if ($request->type == 'father') {
-                            $query->whereNull('father_id');
-                        }
-                        if ($request->type == 'mother') {
-                            $query->whereNull('mother_id');
-                        }
-                        if ($request->type == 'partner') {
-                            $query->whereNull('partner_id');
-                        }
-                    }),
-            ],
-        ])->validate();
-
-        $relative = Person::where('public_id', $request->relative)->first();
-        $label = '';
-        if ($request->type == 'father') {
-            $person->father()->associate($relative);
-            $label = 'Father';
-        }
-        else if ($request->type == 'mother') {
-            $person->mother()->associate($relative);
-            $label = 'Mother';
-        }
-        else if ($request->type == 'partner') {
-            $relative->partner_id = $person->id;
-            $relative->save();
-            $person->partner_id = $relative->id;
-            $label = 'Partner';
-        }
-        else if ($request->type == 'child') {
-            if ($person->gender == 'f') {
-                $relative->mother()->associate($person);
-            } else if ($person->gender == 'm') {
-                $relative->father()->associate($person);
-            }
-            $relative->save();
-            $label = 'Child';
-        }
-        $person->save();
-
-        return redirect()->route('people.relations', $person)
-            ->with('success', $label . ' "' . $relative->full_name . '" has been added!');
-    }
-
-    public function removeChild(Person $person, Person $child)
-    {
-        if ($person->gender == 'm') {
-            $child->father()->dissociate();
-        }
-        else if ($person->gender == 'f') {
-            $child->mother()->dissociate();
-        }
-        $child->save();
-        return redirect()->route('people.relations', $person)
-            ->with('success', 'Child "' . $child->full_name . '" has been removed!');
-    }
-
-    public function removePartner(Person $person)
-    {
-        $partner = $person->partner;
-        $partner->partner_id = null;
-        $partner->save();
-        $person->partner_id = null;
-        $person->save();
-        return redirect()->route('people.relations', $person)
-            ->with('success', 'Partner "' . $partner->full_name . '" has been removed!');
-    }
-
-    public function removeFather(Person $person)
-    {
-        $father = $person->father;
-        $person->father()->dissociate();
-        $person->save();
-        return redirect()->route('people.relations', $person)
-            ->with('success', 'Father "' . $father->full_name . '" has been removed!');
-    }
-
-    public function removeMother(Person $person)
-    {
-        $mother = $person->mother;
-        $person->mother()->dissociate();
-        $person->save();
-        return redirect()->route('people.relations', $person)
-            ->with('success', 'Mother "' . $mother->full_name . '" has been removed!');
-    }
-
     public function destroy(Person $person)
     {
         $person->delete();
@@ -241,7 +104,6 @@ class PeopleController extends Controller
         $names = [];
         Person::orderBy('family_name')
             ->orderBy('name')
-            ->with(['father', 'mother', 'partner'])
             ->get()
             ->each(function($e) use (&$names) {
                 $names[$e->name . ' ' . $e->family_name][$e->id] = $e;
@@ -301,48 +163,6 @@ class PeopleController extends Controller
                 $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
             }
         }
-
-        // Merge mother
-        if ($master->mother == null) {
-            $mother = $persons->filter(function($e) {
-                    return $e->mother != null;
-                })
-                ->pluck('mother')
-                ->first();
-            if ($mother != null) {
-                $master->mother()->dissociate();
-                $master->mother()->associate($mother);
-            }
-        }
-        // Merge father
-        if ($master->father == null) {
-            $father = $persons->filter(function($e) {
-                    return $e->father != null;
-                })
-                ->pluck('father')
-                ->first();
-            if ($father != null) {
-                $master->father()->dissociate();
-                $master->father()->associate($father);
-            }
-        }
-
-        // Merge children
-        $persons->each(function($e) use($master) {
-            $e->children()->each(function($child) use($master) {
-                if ($master->gender == 'f') {
-                    $child->mother()->dissociate();
-                    $child->mother()->associate($master);
-                }
-                else if ($master->gender == 'm') {
-                    $child->father()->dissociate();
-                    $child->father()->associate($master);
-                }
-                $child->save();
-            });
-        });
-
-        // TODO partner merge
 
         // Merge coupon handouts
         CouponHandout::whereIn('person_id', $persons->pluck('id')->toArray())

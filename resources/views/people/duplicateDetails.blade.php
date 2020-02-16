@@ -3,32 +3,6 @@
     $numTransactions = $person->couponHandouts()->count();
 @endphp
 <small class="text-muted">
-    @if(isset($person->mother))
-        Mother:
-        <a href="{{ route('people.show', $person->mother) }}" target="_blank">
-            @include('people.person-label', ['person'=> $person->mother, 'prefix' => 'Mother'])
-        </a><br>
-    @endif
-    @if(isset($person->father))
-        Father:
-        <a href="{{ route('people.show', $person->father) }}" target="_blank">
-            @include('people.person-label', ['person'=> $person->father, 'prefix' => 'Father'])
-        </a><br>
-    @endif
-    @if(isset($person->partner))
-        Partner:
-        <a href="{{ route('people.show', $person->partner) }}" target="_blank">
-            @include('people.person-label', ['person'=> $person->partner, 'prefix' => 'Partner'])
-        </a><br>
-    @endif
-    @if(count($person->children) > 0)
-        @foreach($person->children->sortByDesc('age') as $child)
-            Child:
-            <a href="{{ route('people.show', $child) }}" target="_blank">
-                @include('people.person-label', ['person' => $child, 'prefix' => 'Child'])
-            </a><br>
-        @endforeach
-    @endif
     @if(isset($person->police_no))
         @lang('people.police_number'): {{ $person->police_no }}<br>
     @endif

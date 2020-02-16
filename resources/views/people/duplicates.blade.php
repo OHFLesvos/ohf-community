@@ -22,11 +22,7 @@
 					</div>
 					<div class="card-footer text-right">
 						@php
-							$action = count($persons) > 2 
-								|| !collect($persons)->every(function($e){return $e->mother == null;})
-								|| !collect($persons)->every(function($e){return $e->father == null;})
-								|| !collect($persons)->every(function($e){return $e->partner == null;})
-								|| !collect($persons)->every(function($e){return $e->children->count() == 0;})
+							$action = count($persons) > 2
 								|| collect($persons)->pluck('date_of_birth')->filter(function($e){return $e != null;})->unique()->count() > 1
 								|| collect($persons)->pluck('nationality')->filter(function($e){return $e != null;})->unique()->count() > 1
 								? 'nothing' :'merge'

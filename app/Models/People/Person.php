@@ -169,114 +169,15 @@ class Person extends Model
             return $count >= $threshold;
     }
 
-    function children()
+    function getRelatedPersonsAttribute()
     {
-        if ($this->gender == 'm') {
-            return $this->hasMany(Person::class, 'father_id');
-        } else {
-            return $this->hasMany(Person::class, 'mother_id');
+        if ($this->police_no == null) {
+            return collect([]);
         }
-    }
-
-    function mother()
-    {
-        return $this->belongsTo(Person::class);
-    }
-
-    function father()
-    {
-        return $this->belongsTo(Person::class);
-    }
-
-    function partner()
-    {
-        return $this->hasOne(Person::class, 'partner_id');
-    }
-
-    function getSiblingsAttribute()
-    {
-        $siblings = [];
-
-        $mother = $this->mother;
-        if ($mother != null) {
-            $children = $mother->children;
-            if ($children != null && $children->count() > 0) {
-                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$siblings) {
-                    $siblings[] = $c;
-                });
-            }
-        }
-
-        $father = $this->father;
-        if ($father != null) {
-            $children = $father->children;
-            if ($children != null && $children->count() > 0) {
-                $children->filter(function($m) { return $m->id != $this->id; })->each(function($c) use(&$siblings) {
-                    $siblings[] = $c;
-                });
-            }
-        }
-
-        return collect($siblings);
-    }
-
-    function getPartnersChildrenAttribute()
-    {
-        $results = [];
-
-        $ownChildrenIds = $this->children->pluck('id');
-
-        $partner = $this->partner;
-        if ($partner != null) {
-            $children = $partner->children;
-            if ($children != null && $children->count() > 0) {
-                $children->filter(function($m) use ($ownChildrenIds) {
-                        return $m->id != $this->id && !$ownChildrenIds->contains($m->id);
-                    })->each(function($c) use(&$results) {
-                        $results[] = $c;
-                    });
-            }
-        }
-
-        return collect($results);
-    }
-
-    function getFamilyAttribute()
-    {
-        $members = [$this];
-        $mother = $this->mother;
-        if ($mother != null) {
-            $members[] = $mother;
-        }
-        $father = $this->father;
-        if ($father != null) {
-            $members[] = $father;
-        }
-        $partner = $this->partner;
-        if ($partner != null) {
-            $members[] = $partner;
-        }
-        $children = $this->children;
-        if ($children != null && $children->count() > 0) {
-            $children->each(function($c) use(&$members) {
-                $members[] = $c;
-            });
-        }
-        $partnersChildren = $this->partnersChildren;
-        if ($partnersChildren != null && $partnersChildren->count() > 0) {
-            $partnersChildren->each(function($c) use(&$members) {
-                $members[] = $c;
-            });
-        }
-        $this->siblings->each(function($c) use(&$members) {
-            $members[] = $c;
-        });
-        return collect($members);
-    }
-
-    function getOtherFamilyMembersAttribute()
-    {
-        return $this->family->filter(function($m) { return $m->id != $this->id; });
+        return Person::whereNotNull('police_no')
+            ->where('id', '!=', $this->id)
+            ->where('police_no', $this->police_no)
+            ->get();
     }
 
     function revokedCards()

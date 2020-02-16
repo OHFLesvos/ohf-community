@@ -278,18 +278,6 @@ Route::middleware(['auth', 'language'])
         Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')
             ->name('people.qrCode')
             ->middleware('can:view,person');
-        Route::get('/people/{person}/relations', 'PeopleController@relations')
-            ->name('people.relations');
-        Route::post('/people/{person}/relations', 'PeopleController@addRelation')
-            ->name('people.addRelation');
-        Route::delete('/people/{person}/children/{child}', 'PeopleController@removeChild')
-            ->name('people.removeChild');
-        Route::delete('/people/{person}/partner', 'PeopleController@removePartner')
-            ->name('people.removePartner');
-        Route::delete('/people/{person}/mother', 'PeopleController@removeMother')
-            ->name('people.removeMother');
-        Route::delete('/people/{person}/father', 'PeopleController@removeFather')
-            ->name('people.removeFather');
         Route::get('/people/duplicates', 'PeopleController@duplicates')
             ->name('people.duplicates');
         Route::post('/people/duplicates', 'PeopleController@applyDuplicates')

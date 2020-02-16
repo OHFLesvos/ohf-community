@@ -39,82 +39,11 @@
         </div>
         {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
 
-        <div class="mb-4 d-none" id="children-container">
-            <hr>
-            <div>
-                <template id="child-form-row-template">
-                    <div class="form-row">
-                        <div class="col-md">
-                            {{ Form::bsText('child_family_name[x]', null, [ 'placeholder' => 'Child Family Name' ], '') }}
-                        </div>
-                        <div class="col-md">
-                            {{ Form::bsText('child_name[x]', null, [ 'placeholder' => 'Child Name'  ], '') }}
-                        </div>
-                        <div class="col-md-auto">
-                            {{ Form::genderSelect('child_gender[x]', null, '') }}
-                        </div>
-                        <div class="col-md-auto">
-                            {{ Form::bsStringDate('child_date_of_birth[x]', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], '') }}
-                        </div>
-                        <div class="col-md-auto">
-                            <span id="age">?</span>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-
 		<p>
             {{ Form::bsSubmitButton(__('app.register')) }}
-            <button type="button" class="btn btn-secondary" id="add-children">@icon(child) Add child</button>
         </p>
 
     {!! Form::close() !!}
 
 @endsection
 
-@section('script')
-    var childIndex = 0;
-    $(function(){
-        // Add children row
-        $('#add-children').on('click', function(){
-            var content = $($('#child-form-row-template').html()); //;.replace(/\[x\]/g, '[' + childIndex++ + ']');
-
-            // Adapt name attribute
-            content.find('input').each(function(){
-                $(this).attr('name', $(this).attr('name').replace(/\[x\]/g, '[' + childIndex + ']'));
-                if ($(this).attr('id')) {
-                    $(this).attr('id', $(this).attr('id').replace(/-x-/g, '-' + childIndex + '-'));
-                }
-            });
-            content.find('label').each(function(){
-                if ($(this).attr('for')) {
-                    $(this).attr('for', $(this).attr('for').replace(/-x-/g, '-' + childIndex + '-'));
-                }
-            });
-            childIndex++;
-
-            // Set default family name
-            var familyName;
-            var childFamilyNames = $('#children-container').find('input[name^="child_family_name"]');
-            if (childFamilyNames.length > 0) {
-                familyName = childFamilyNames.last().val();
-            } else {
-                familyName = $('input[name="family_name"]').val();
-            }
-            content.find('input[name^="child_family_name"]').val(familyName);
-
-            // Add row (ensure container is visible)
-            $('#children-container')
-                .removeClass('d-none')
-                .children('div').first().append(content);
-
-            // Focus
-            if (childFamilyNames.length > 0) {
-                content.find('input[name^="child_name"]').focus();
-            } else {
-                content.find('input[name^="child_family_name"]').select();
-            }
-        });
-    });
-@endsection

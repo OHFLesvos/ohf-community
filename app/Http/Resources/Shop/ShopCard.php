@@ -37,19 +37,19 @@ class ShopCard extends Resource
                 'age_formatted' => __('people.age_n', ['age' => $this->person->age]),
                 'nationality' => $this->person->nationality,
                 'url' => route('bank.people.show', $this->person),
-                'children' => $this->getChildren(),
+                'related_persons' => $this->getRelatedPersons(),
             ];
         }
         return null;
     }
 
-    private function getChildren()
+    private function getRelatedPersons()
     {
-        return collect($this->person->children)
-            ->mapWithKeys(function($child){
+        return $this->person->relatedPersons
+            ->map(function($person){
                 return [
-                    'fullName' => $child->fullName,
-                    'age_formatted' => __('people.age_n', ['age' => $child->age]),
+                    'fullName' => $person->fullName,
+                    'age_formatted' => __('people.age_n', ['age' => $person->age]),
                 ];
             })
             ->toArray();

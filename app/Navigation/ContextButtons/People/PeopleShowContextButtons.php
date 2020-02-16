@@ -22,12 +22,6 @@ class PeopleShowContextButtons implements ContextButtons {
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $person)
             ],
-            'relations' => [
-                'url' => route('people.relations', $person),
-                'caption' => __('people.relationships'),
-                'icon' => 'users',
-                'authorized' => Auth::user()->can('update', $person)
-            ],
             'helper' => $person->helper != null ? [
                 'url' => route('people.helpers.show', $person->helper),
                 'caption' => __('people.view_helper'),
