@@ -3,32 +3,6 @@
 @section('title', __('people.people'))
 
 @section('content')
-    
-    {{-- {!! Form::open(['route' => 'people.bulkAction']) !!}
-        @can('manage-people', App\Models\People\Person::class)
-            <div class="card mb-4 bg-light" id="selected_actions_container" style="display:none;">
-                <div class="card-header">@lang('app.bulk_action') (<span id="selected_count">0</span> @lang('people.persons'))</div>
-                <div class="card-body">
-                    <button 
-                        class="btn btn-secondary btn-sm" 
-                        type="submit"
-                        name="selected_action" 
-                        value="delete" 
-                        data-bulk-min="1" 
-                        onclick="return confirm('@lang('people.really_delete_these_persons')')"
-                    >@lang('app.delete')</button>
-                    <button 
-                        class="btn btn-secondary btn-sm"
-                        type="submit"
-                        name="selected_action" 
-                        value="merge" 
-                        data-bulk-min="2" 
-                        onclick="return confirm('@lang('people.really_merge_these_persons')')"
-                    >@lang('app.merge')</button>
-                </div>
-            </div>
-        @endcan
-    {!! Form::close() !!} --}}
 
     <div id="people-app">
         @php
@@ -54,7 +28,7 @@
                     'sortable' => true,
                 ],
                 [
-                    'key' => 'police_no',
+                    'key' => 'police_no_formatted',
                     'label' => __('people.police_no'),
                     'sortable' => false,
                 ],
@@ -70,7 +44,7 @@
                 ],
             ];
         @endphp
-        <people-table 
+        <people-table
             id="peopleTable"
             :fields='@json($fields)'
             api-url="{{ route('api.people.index') }}"

@@ -36,6 +36,7 @@
             :trim="true"
             type="search"
             :placeholder="filterPlaceholder"
+            autocomplete="off"
             @keyup.enter="applyFilter"
             @keyup.esc="clearFilter"
         ></b-form-input>

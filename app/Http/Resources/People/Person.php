@@ -16,7 +16,7 @@ class Person extends Resource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['police_no'] = $this->police_no_formatted;
+        $data['police_no_formatted'] = $this->police_no_formatted;
         $data['languages'] = $this->languages_string;
         $data['url'] = Auth::user()->can('view', $this->resource) ? route('people.show', $this) : null;
         return $data;

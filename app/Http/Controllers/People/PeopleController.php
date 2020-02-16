@@ -207,34 +207,6 @@ class PeopleController extends Controller
             ->first();
     }
 
-    public function bulkAction(Request $request)
-    {
-        Validator::make($request->all(), [
-            'selected_action' => 'required|in:delete,merge',
-            'selected_people' => 'array',
-        ])->validate();
-        $action = $request->selected_action;
-        $ids = $request->selected_people;
-
-        // Bulk delete
-        if ($action == 'delete') {
-
-            $n = Person::whereIn('public_id', $ids)->delete();
-
-            return redirect()->route('people.index')
-                ->with('success', trans_choice('people.deleted_n_persons', $n, [ 'num' => $n ]));
-        }
-
-        // Merge
-        if ($action == 'merge') {
-
-            $n = self::mergePersons($ids);
-
-            return redirect()->route('people.index')
-                ->with('success', __('people.merged_n_persons', [ 'num' => $n ]));
-        }
-    }
-
     public function export()
     {
         $file_name = __('people.people') . ' ' . Carbon::now()->toDateString();

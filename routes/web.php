@@ -282,9 +282,6 @@ Route::middleware(['auth', 'language'])
             ->name('people.duplicates');
         Route::post('/people/duplicates', 'PeopleController@applyDuplicates')
             ->name('people.applyDuplicates');
-        Route::post('/people/bulkAction', 'PeopleController@bulkAction')
-            ->name('people.bulkAction')
-            ->middleware('can:manage-people');
         Route::resource('/people', 'PeopleController');
 
         // Reporting
