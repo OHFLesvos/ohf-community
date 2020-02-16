@@ -18,6 +18,7 @@ return [
     'date_of_birth' => 'Date of birth',
     'age' => 'Age',
     'nationality' => 'Nationality',
+    'choose_nationality' => 'Choose nationality',
     'languages' => 'Languages',
     'skills' => 'Skills',
     'remarks' => 'Remarks',

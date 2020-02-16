@@ -18,6 +18,7 @@ return [
     'date_of_birth' => 'Geburtsdatum',
     'age' => 'Alter',
     'nationality' => 'Nationalität',
+    'choose_nationality' => 'Nationalität auswählen',
     'languages' => 'Sprachen',
     'skills' => 'Fähigkeiten',
     'remarks' => 'Bemerkungen',

@@ -14,7 +14,7 @@
                     ref="input"
                     v-model="newNationality"
                     type="text"
-                    placeholder="Choose nationality"
+                    :placeholder="$t('people.choose_nationality')"
                     class="form-control form-control-sm"
                     @keydown.enter="setNationality"
                     @keydown.esc="form = false"
