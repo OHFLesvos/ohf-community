@@ -6,7 +6,7 @@
             spin
         />
         <template v-else-if="dateOfBirth != null">
-            {{ dateOfBirth }}  (age {{ age }})
+            {{ dateOfBirth }}  ({{ $t('people.age_n', {age: age}) }})
         </template>
         <template v-else-if="apiUrl != null">
             <template v-if="form">

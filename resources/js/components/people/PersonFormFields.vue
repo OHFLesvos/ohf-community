@@ -28,21 +28,21 @@
         <div class="form-row">
 
             <!-- Gender -->
-            <div class="col-md-auto">
+            <div class="col-md-3">
                 <gender-radio-input
                     v-model="person.gender"
                 />
             </div>
 
             <!-- Date of birth -->
-            <div class="col-md-auto">
+            <div class="col-md-3">
                 <date-of-birth-input
                     v-model="person.date_of_birth"
                 />
             </div>
 
             <!-- Nationality -->
-            <div class="col-md">
+            <div class="col-md-6">
                 <nationality-input
                     v-model="person.nationality"
                     :countries="countries"

@@ -35,7 +35,7 @@ export default {
             if (dob && isDateString(dob)) {
                 const age = dateOfBirthToAge(dob)
                 if (!isNaN(age) && age >= 0) {
-                    return `${this.$t('people.age')}: ${age}`
+                    return this.$t('people.age_n', {age: age})
                 }
             }
             return null
