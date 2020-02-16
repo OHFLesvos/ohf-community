@@ -50,11 +50,41 @@
                 />
             </div>
 
+        </div>
+
+        <div class="form-row">
+
             <!-- Police number -->
-            <div class="col-lg">
+            <div class="col-md">
                 <police-number-input
                     v-model="person.police_no"
                 />
+            </div>
+
+            <!-- Card registration -->
+            <div class="col-md">
+                <p class="mb-2">{{ $t('people.code_card') }}</p>
+                <b-button
+                    :variant="person.card_no ? 'secondary' : 'primary'"
+                    @click="$refs.codeScanner.open()"
+                >
+                    <font-awesome-icon icon="qrcode"/>
+                </b-button>
+                <template v-if="person.card_no != ''">
+                    {{ person.card_no }}
+                    <b-button
+                        variant="warning"
+                        @click="person.card_no = ''"
+                    >
+                        <font-awesome-icon icon="trash"/>
+                    </b-button>
+                </template>
+                <span
+                    v-else
+                    class="text-muted"
+                >
+                    {{ $t('app.no_cards_registered') }}
+                </span>
             </div>
 
         </div>
@@ -68,17 +98,6 @@
                         v-model="person.remarks"
                     />
                 </b-form-group>
-            </div>
-
-            <!-- Card registration -->
-            <div class="col-md-auto">
-                <p class="mb-2">{{ $t('people.code_card') }}</p>
-                <b-button
-                    :variant="person.card_no ? 'success' : 'secondary'"
-                    @click="person.card_no ? person.card_no = '' : $refs.codeScanner.open()"
-                >
-                    <font-awesome-icon icon="qrcode"/>
-                </b-button>
             </div>
 
         </div>
