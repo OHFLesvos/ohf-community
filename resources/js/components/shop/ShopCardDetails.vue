@@ -45,15 +45,15 @@
                             <template v-if="handout.person.nationality != null">
                                 {{ handout.person.nationality }}
                             </template>
-                            <template v-if="handout.person.related_persons.length > 0">
+                            <template v-if="handout.person.family_members.length > 0">
                                 <span
-                                    v-for="rp in handout.person.related_persons"
-                                    :key="rp.fullName"
+                                    v-for="fm in handout.person.family_members"
+                                    :key="fm.fullName"
                                 >
                                     <br>
                                     <font-awesome-icon icon="user-friends"/>
-                                    {{ rp.fullName }}
-                                    ({{ rp.age_formatted }})
+                                    {{ fm.fullName }}
+                                    ({{ fm.age_formatted }})
                                 </span>
                             </template>
                         </div>

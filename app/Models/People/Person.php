@@ -57,6 +57,32 @@ class Person extends Model
         static::creating(function ($model) {
             $model->search = self::createSearchString($model);
             $model->public_id = strtolower(Str::random(self::PUBLIC_ID_LENGTH));
+
+            // Create families / add family members based on police number
+            if ($model->family == null && $model->police_no != null) {
+                // Assign to existing family
+                $member = Person::whereNotNull('police_no')
+                    ->where('id', '!=', $model->id)
+                    ->where('police_no', $model->police_no)
+                    ->has('family')
+                    ->first();
+                if ($member != null) {
+                    $model->family()->associate($member->family);
+                } else {
+                    $members = Person::whereNotNull('police_no')
+                        ->where('id', '!=', $model->id)
+                        ->where('police_no', $model->police_no)
+                        ->doesntHave('family')
+                        ->get();
+                    // Create new family
+                    if (!$members->isEmpty()) {
+                        $family = new Family();
+                        $family->save();
+                        $family->members()->saveMany($members);
+                        $model->family()->associate($family);
+                    }
+                }
+            }
         });
 
         static::updating(function ($model) {
@@ -72,12 +98,18 @@ class Person extends Model
                     Storage::delete($model->portrait_picture);
                 }
             }
+
+            // Delete family if it is the last member
+            if ($model->family != null && $model->family->members()->count() == 1) {
+                $model->family()->delete();
+            }
          });
 
         parent::boot();
     }
 
-    private static function createSearchString($model) {
+    private static function createSearchString($model)
+    {
         $str = $model->name . ' ' . $model->family_name;
         return preg_replace('/\s+/', ' ', trim($str));
     }
@@ -169,14 +201,16 @@ class Person extends Model
             return $count >= $threshold;
     }
 
-    function getRelatedPersonsAttribute()
+    function family()
     {
-        if ($this->police_no == null) {
-            return collect([]);
-        }
-        return Person::whereNotNull('police_no')
+        return $this->belongsTo(Family::class);
+    }
+
+    function getFamilyMembersAttribute()
+    {
+        return $this->family
+            ->members()
             ->where('id', '!=', $this->id)
-            ->where('police_no', $this->police_no)
             ->get();
     }
 
