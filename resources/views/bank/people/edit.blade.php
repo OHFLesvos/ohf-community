@@ -5,12 +5,12 @@
 @section('content')
 
     <div id="bank-app">
-		<bank-edit-person-page
+		<edit-person-page
 			api-url="{{ route('api.people.update', $person) }}"
 			redirect-url="{{ route('bank.people.show', $person) }}"
 			:value='@json($person)'
 			:countries='@json($countries)'
-		></bank-edit-person-page>
+		></edit-person-page>
 	</div>
 
 @endsection
