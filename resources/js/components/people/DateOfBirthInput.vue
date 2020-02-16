@@ -5,6 +5,7 @@
                 v-model="date_of_birth"
                 pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                 placeholder="YYYY-MM-DD"
+                autocomplete="off"
             />
         </b-input-group>
     </b-form-group>

@@ -8,6 +8,7 @@
                 v-model="police_no"
                 type="number"
                 no-wheel
+                autocomplete="off"
             />
         </b-input-group>
     </b-form-group>

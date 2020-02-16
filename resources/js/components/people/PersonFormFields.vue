@@ -10,6 +10,7 @@
                         v-model="person.name"
                         required
                         :autofocus="autofocus"
+                        autocomplete="off"
                     />
                 </b-form-group>
             </div>
@@ -20,6 +21,7 @@
                     <b-form-input
                         v-model="person.family_name"
                         required
+                        autocomplete="off"
                     />
                 </b-form-group>
             </div>
@@ -76,6 +78,7 @@
                 <b-form-group :label="$t('people.remarks')">
                     <b-form-input
                         v-model="person.remarks"
+                        autocomplete="off"
                     />
                 </b-form-group>
             </div>
