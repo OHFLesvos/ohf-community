@@ -4,78 +4,61 @@
 
 @section('content')
 
-    @if(optional($person->helper)->isActive)
-        @component('components.alert.info')
-            @lang('people.person_registered_as_helper')
-        @endcomponent
-    @endif
+    @php
+        $showHandoutLimit = 15;
+        $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->limit($showHandoutLimit)->get();
+        $firstHandout = $person->couponHandouts()->orderBy('created_at', 'asc')->first();
+        $p = [
+            'name' => $person->name,
+            'family_name' => $person->family_name,
+            'gender' => $person->gender,
+            'date_of_birth' => $person->date_of_birth,
+            'age' => $person->age,
+            'police_no' => $person->police_no,
+            'police_no_formatted' => $person->police_no_formatted,
+            'nationality' => $person->nationality,
+            'languages' => $person->languages,
+            'portrait_picture' => $person->portrait_picture,
+            'portrait_picture_url' => $person->portrait_picture != null ? Storage::url($person->portrait_picture) : null,
+            'is_active_helper' => optional($person->helper)->isActive,
+            'remarks' => $person->remarks,
+            'card_no' => $person->card_no,
+            'card_issued' => optional($person->card_issued)->toDateString(),
+            'card_issued_dfh' => optional($person->card_issued)->diffForHumans(),
+            'revoked_cards' => $person->revokedCards->map(function($card){ return [
+                'date' => $card->created_at->toDateString(),
+                'date_dfh' => $card->created_at->diffForHumans(),
+                'card_no' => $card->card_no,
+            ]; }),
+            'created_at' => $person->created_at->toDateTimeString(),
+            'created_at_dfh' => $person->created_at->diffForHumans(),
+            'updated_at' => $person->updated_at->toDateTimeString(),
+            'updated_at_dfh' => $person->updated_at->diffForHumans(),
+            'handouts' => ! $handouts->isEmpty() ? $handouts->map(function($handout){
+                return [
+                    'id' => $handout->id,
+                    'date' => $handout->date,
+                    'amount' => $handout->couponType->daily_amount,
+                    'coupon_name' => $handout->couponType->name,
+                    'created_at' => $handout->created_at->toDateTimeString(),
+                    'created_at_dfh' => $handout->created_at->diffForHumans(),
+                ];
+            })->toArray() : [],
+            'num_handouts' => $person->couponHandouts()->count(),
+            'first_handout_date' => optional(optional($firstHandout)->created_at)->toDateString(),
+            'first_handout_date_diff' => optional(optional($firstHandout)->created_at)->diffForHumans(),
+        ];
+    @endphp
 
-    @isset($person->remarks)
-        @component('components.alert.info')
-            @lang('people.remarks'): {{ $person->remarks }}
-        @endcomponent
-    @endisset
+    <div id="bank-app">
+		<view-person-page
+			:person='@json($p)'
+            :show-handout-limit="{{ $showHandoutLimit }}"
+		></view-person-page>
+	</div>
 
-    <div class="row mb-3">
-        <div class="col-md">
-            {{-- Properties --}}
-            @include('people.snippets.properties', [ 'showRouteName' => 'bank.people.show' ])
-        </div>
-        <div class="col-md">
+@endsection
 
-            {{-- Card --}}
-            @include('people.snippets.card')
-
-            {{-- Coupons --}}
-            <h4>@lang('coupons.coupons')</h4>
-            @php
-                $showHandoutLimit = 15;
-                $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->limit($showHandoutLimit)->get();
-            @endphp
-            @if( ! $handouts->isEmpty() )
-                <div class="table-responsive">
-                    <table class="table table-sm table-hover">
-                        <thead>
-                            <tr>
-                                <th>@lang('app.date')</th>
-                                <th>@lang('app.type')</th>
-                                <th>@lang('app.registered')</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($handouts as $handout)
-                                <tr>
-                                    <td>{{ $handout->date }}</td>
-                                    <td>{{ $handout->couponType->daily_amount }} {{ $handout->couponType->name }}</td>
-                                    <td>{{ $handout->created_at->diffForHumans() }} <small class="text-muted">{{ $handout->created_at }}</small></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <p><small>
-                    @php
-                        $numHandouts = $person->couponHandouts()->count();
-                        $firstHandout = $person->couponHandouts()->orderBy('created_at', 'asc')->first();
-                    @endphp
-                    @if ($showHandoutLimit < $numHandouts)
-                        @lang('app.last_n_transactions_shown', [ 'num' => $showHandoutLimit ])
-                    @endif
-                    @lang('coupons.n_coupons_received_total_since_date', [ 'num' => $numHandouts, 'date' => $firstHandout->created_at->toDateString(), 'date_diff' => $firstHandout->created_at->diffForHumans() ])
-                </small></p>
-            @else
-                @component('components.alert.info')
-                    @lang('coupons.no_coupons_received_so_far')
-                @endcomponent
-            @endif
-
-        </div>
-    </div>
-
-    <hr>
-    <p class="text-right">
-        <small>@lang('app.created'): {{ $person->created_at->diffForHumans() }} <small class="text-muted">{{ $person->created_at }}</small></small><br>
-        <small>@lang('app.last_updated'): {{ $person->updated_at->diffForHumans() }} <small class="text-muted">{{ $person->updated_at }}</small></small></small>
-    </p>
-
+@section('footer')
+    <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}" defer></script>
 @endsection
