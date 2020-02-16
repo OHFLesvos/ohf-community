@@ -24,12 +24,15 @@ export default {
             type: String,
         }
     },
-    data() {
-        return {
-            date_of_birth: this.value
-        }
-    },
     computed: {
+        date_of_birth: {
+            get() {
+                return this.value
+            },
+            set(val) {
+                this.$emit('input', val)
+            }
+        },
         ageString() {
             const dob = this.date_of_birth
             if (dob && isDateString(dob)) {
@@ -39,11 +42,6 @@ export default {
                 }
             }
             return null
-        }
-    },
-    watch: {
-        date_of_birth(v) {
-            this.$emit('input', this.date_of_birth)
         }
     }
 }

@@ -2,6 +2,7 @@
     <b-form @submit="onSubmit">
 
         <person-form-fields
+            ref="formfields"
             v-model="person"
             :countries="countries"
             autofocus
@@ -102,7 +103,7 @@ export default {
                                 this.person.date_of_birth = ''
                                 this.person.remarks = ''
                                 this.person.card_no = ''
-                                this.$refs.name.focus()
+                                this.$refs.formfields.focus()
                             } else {
                                 window.location.href = this.redirectUrl
                             }

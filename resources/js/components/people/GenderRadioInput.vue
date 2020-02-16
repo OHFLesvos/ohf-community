@@ -29,14 +29,14 @@ export default {
             type: String,
         }
     },
-    data() {
-        return {
-            gender: this.value
-        }
-    },
-    watch: {
-        gender(v) {
-            this.$emit('input', this.gender)
+    computed: {
+        gender: {
+            get() {
+                return this.value
+            },
+            set(val) {
+                this.$emit('input', val)
+            }
         }
     }
 }

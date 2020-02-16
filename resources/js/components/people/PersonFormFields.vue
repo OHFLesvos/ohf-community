@@ -6,10 +6,10 @@
             <div class="col-md">
                 <b-form-group :label="$t('people.name')">
                     <b-form-input
+                        ref="name"
                         v-model="person.name"
                         required
                         :autofocus="autofocus"
-                        ref="name"
                     />
                 </b-form-group>
             </div>
@@ -123,6 +123,11 @@ export default {
                 this.$emit('input', this.person)
             },
             deep: true
+        }
+    },
+    methods: {
+        focus() {
+            this.$refs.name.focus()
         }
     }
 }

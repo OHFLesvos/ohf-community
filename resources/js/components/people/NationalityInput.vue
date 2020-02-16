@@ -27,14 +27,14 @@ export default {
             required: true,
         }
     },
-    data() {
-        return {
-            nationality: this.value
-        }
-    },
-    watch: {
-        nationality(v) {
-            this.$emit('input', this.nationality)
+    computed: {
+        nationality: {
+            get() {
+                return this.value
+            },
+            set(val) {
+                this.$emit('input', val)
+            }
         }
     }
 }

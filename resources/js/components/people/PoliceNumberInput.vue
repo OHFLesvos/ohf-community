@@ -26,22 +26,20 @@ export default {
             type: [Number, String],
         }
     },
-    data() {
-        return {
-            police_no: typeof this.value == 'number' ? this.value.toString() : this.value
-        }
-    },
     computed: {
+        police_no: {
+            get() {
+                return typeof this.value == 'number' ? this.value.toString() : this.value
+            },
+            set(val) {
+                this.$emit('input', val)
+            }
+        },
         policeNoPrefix() {
             let str = '05/'
             const len = this.police_no.length
             str += "000000000".substr(len)
             return str
-        }
-    },
-    watch: {
-        police_no(v) {
-            this.$emit('input', this.police_no)
         }
     }
 }

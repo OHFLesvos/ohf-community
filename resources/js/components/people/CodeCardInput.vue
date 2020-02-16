@@ -47,14 +47,14 @@ export default {
             type: String,
         }
     },
-    data() {
-        return {
-            card_no: this.value
-        }
-    },
-    watch: {
-        card_no(v) {
-            this.$emit('input', this.card_no)
+    computed: {
+        card_no: {
+            get() {
+                return this.value
+            },
+            set(val) {
+                this.$emit('input', val)
+            }
         }
     },
     methods: {
