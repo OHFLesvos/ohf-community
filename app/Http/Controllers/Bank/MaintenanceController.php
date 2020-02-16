@@ -76,7 +76,6 @@ class MaintenanceController extends Controller
     private function getPersonsWithoutNumber(): int
     {
         return Person::whereNull('police_no')
-            ->whereNull('case_no_hash')
             ->doesntHave('helper')
             ->count();
     }
@@ -119,7 +118,6 @@ class MaintenanceController extends Controller
         }
         if (isset($request->cleanup_no_number)) {
             $cnt +=  Person::whereNull('police_no')
-                ->whereNull('case_no_hash')
                 ->doesntHave('helper')
                 ->delete();
         }

@@ -294,7 +294,6 @@ class PeopleController extends Controller
                 'nationality',
                 'languages',
                 'police_no',
-                'case_no_hash',
                 'card_no',
                 'card_issued'
             ] as $attr) {
@@ -473,7 +472,6 @@ class PeopleController extends Controller
                     $qp->where(function($wq) use ($term) {
                         $wq->where('search', 'LIKE', '%' . $term  . '%');
                         $wq->orWhere('police_no', $term);
-                        $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
                     });
                 }
             });

@@ -130,7 +130,6 @@ class PeopleController extends Controller
                 $qry->where(function($wq) use ($term) {
                     $wq->where('search', 'LIKE', '%' . $term  . '%');
                     $wq->orWhere('police_no', $term);
-                    $wq->orWhere('case_no_hash', DB::raw("SHA2('". $term ."', 256)"));
                 });
             }
         }
