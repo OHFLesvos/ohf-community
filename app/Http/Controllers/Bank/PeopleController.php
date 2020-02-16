@@ -19,9 +19,8 @@ class PeopleController extends Controller
 
     public function create()
     {
-        $countries = Countries::getList('en');
         return view('bank.people.create', [
-            'countries' => array_values($countries),
+            'countries' => array_values(Countries::getList('en')),
         ]);
     }
 
@@ -36,18 +35,9 @@ class PeopleController extends Controller
     {
         return view('bank.people.edit', [
             'person' => $person,
-            'countries' => Countries::getList('en')
+            'countries' => array_values(Countries::getList('en')),
 		]);
 	}
-
-    public function update(StorePerson $request, Person $person)
-    {
-        $person->fill($request->all());
-        $person->save();
-
-        return redirect()->route('bank.people.show', $person)
-                ->with('success', __('people.person_updated'));
-    }
 
     public function destroy(Person $person)
     {

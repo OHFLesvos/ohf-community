@@ -1,106 +1,11 @@
 <template>
     <b-form @submit="onSubmit">
 
-        <div class="form-row">
-
-            <!-- Name -->
-            <div class="col-md">
-                <b-form-group :label="$t('people.name')">
-                    <b-form-input
-                        v-model="person.name"
-                        required
-                        autofocus
-                        ref="name"
-                    />
-                </b-form-group>
-            </div>
-
-            <!-- Family Name -->
-            <div class="col-md">
-                <b-form-group :label="$t('people.family_name')">
-                    <b-form-input
-                        v-model="person.family_name"
-                        required
-                    />
-                </b-form-group>
-            </div>
-        </div>
-
-        <div class="form-row">
-
-            <!-- Gender -->
-            <div class="col-md-auto">
-                <gender-radio-input
-                    v-model="person.gender"
-                />
-            </div>
-
-            <!-- Date of birth -->
-            <div class="col-md-auto">
-                <date-of-birth-input
-                    v-model="person.date_of_birth"
-                />
-            </div>
-
-            <!-- Nationality -->
-            <div class="col-md">
-                <nationality-input
-                    v-model="person.nationality"
-                    :countries="countries"
-                />
-            </div>
-
-        </div>
-
-        <div class="form-row">
-
-            <!-- Police number -->
-            <div class="col-md">
-                <police-number-input
-                    v-model="person.police_no"
-                />
-            </div>
-
-            <!-- Card registration -->
-            <div class="col-md">
-                <p class="mb-2">{{ $t('people.code_card') }}</p>
-                <b-button
-                    :variant="person.card_no ? 'secondary' : 'primary'"
-                    @click="$refs.codeScanner.open()"
-                >
-                    <font-awesome-icon icon="qrcode"/>
-                </b-button>
-                <template v-if="person.card_no != ''">
-                    {{ person.card_no }}
-                    <b-button
-                        variant="warning"
-                        @click="person.card_no = ''"
-                    >
-                        <font-awesome-icon icon="trash"/>
-                    </b-button>
-                </template>
-                <span
-                    v-else
-                    class="text-muted"
-                >
-                    {{ $t('app.no_cards_registered') }}
-                </span>
-            </div>
-
-        </div>
-
-        <div class="form-row">
-
-            <!-- Remarks -->
-            <div class="col-md">
-                <b-form-group :label="$t('people.remarks')">
-                    <b-form-input
-                        v-model="person.remarks"
-                    />
-                </b-form-group>
-            </div>
-
-        </div>
+        <person-form-fields
+            v-model="person"
+            :countries="countries"
+            autofocus
+        />
 
 		<p>
             <b-button variant="primary" type="submit" :disabled="busy">
@@ -109,45 +14,24 @@
             </b-button>
         </p>
 
-        <code-scanner-modal
-            ref="codeScanner"
-            :title="$t('people.qr_code_scanner')"
-            :validator="validateCode"
-            :validator-message="$t('app.only_letters_and_numbers_allowed')"
-            @decode="assignCard"
-        />
-
     </b-form>
 </template>
 
 <script>
 
-// TODO: Register card
-
 import SessionVariable from '@/sessionVariable'
 const rememberedFilter = new SessionVariable('bank.withdrawal.filter')
 
-import { BForm, BFormInput, BFormGroup, BButton, BModal } from 'bootstrap-vue'
+import { BForm, BButton, BModal } from 'bootstrap-vue'
 import showSnackbar from '@/snackbar'
-import GenderRadioInput from '@/components/people/GenderRadioInput'
-import DateOfBirthInput from '@/components/people/DateOfBirthInput'
-import NationalityInput from '@/components/people/NationalityInput'
-import PoliceNumberInput from '@/components/people/PoliceNumberInput'
-import { handleAjaxError, isAlphaNumeric } from '@/utils'
-import CodeScannerModal from '@/components/ui/CodeScannerModal'
-
+import PersonFormFields from '@/components/people/PersonFormFields'
+import { handleAjaxError } from '@/utils'
 export default {
     components: {
         BForm,
-        BFormInput,
-        BFormGroup,
         BButton,
         BModal,
-        GenderRadioInput,
-        DateOfBirthInput,
-        NationalityInput,
-        PoliceNumberInput,
-        CodeScannerModal
+        PersonFormFields
     },
     props: {
         apiUrl: {
@@ -194,12 +78,6 @@ export default {
         }
     },
     methods: {
-        validateCode(val) {
-            return isAlphaNumeric(val)
-        },
-        assignCard(val) {
-            this.person.card_no = val
-        },
         onSubmit(evt) {
             evt.preventDefault()
             this.busy = true

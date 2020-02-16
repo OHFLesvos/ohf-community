@@ -114,6 +114,31 @@ class PeopleController extends Controller
     }
 
     /**
+     * Updates a person
+     *
+     * @param StorePerson $request
+     * @param Person $person
+     * @return \Illuminate\Http\Response
+     */
+    public function update(StorePerson $request, Person $person)
+    {
+        $person->fill($request->all());
+
+        if ($request->filled('card_no')) {
+            // TODO check existing code, move to revoked
+
+            $person->card_no = $request->card_no;
+            $person->card_issued = Carbon::now();
+        }
+
+        $person->save();
+
+        return response()->json([
+            'message' => __('people.person_updated'),
+        ]);
+    }
+
+    /**
      * Returns a list of people according to filter criteria for auto-suggestion fields.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -81,7 +81,12 @@ class StorePerson extends FormRequest
                 }
 
                 // Check for used card number
-                if (Person::where('card_no', $card_no)->count() > 0) {
+                $personQuery = Person::where('card_no', $card_no)->where(function($q) {
+                    if ($this->person != null) {
+                        $q->where('id', '!=', $this->person->id);
+                    }
+                });
+                if ($personQuery->count() > 0) {
                     $validator->errors()->add('card_no', __('people.card_already_in_use', [ 'card_no' => substr($card_no, 0, 7) ]));
                 }
             }

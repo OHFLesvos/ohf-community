@@ -88,6 +88,11 @@ Route::middleware(['auth', 'language'])
             ->name('store')
             ->middleware('can:create,App\Models\People\Person');
 
+        // Update person
+        Route::put('{person}', 'PeopleController@update')
+            ->name('update')
+            ->middleware('can:update,person');
+
         // Filter persons
         Route::get('filterPersons', 'PeopleController@filterPersons')
             ->name('filterPersons')

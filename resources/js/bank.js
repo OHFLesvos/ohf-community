@@ -6,6 +6,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import BankSearchPage from './pages/bank/BankSearchPage.vue'
 import BankTransactionsPage from './pages/bank/BankTransactionsPage.vue'
 import BankRegisterPersonPage from './pages/bank/BankRegisterPersonPage.vue'
+import BankEditPersonPage from './pages/bank/BankEditPersonPage.vue'
 
 import { ModalPlugin } from 'bootstrap-vue'
 Vue.use(ModalPlugin)
@@ -20,6 +21,7 @@ new Vue({
 	components: {
 		BankSearchPage,
 		BankTransactionsPage,
-		BankRegisterPersonPage
+		BankRegisterPersonPage,
+		BankEditPersonPage
 	}
 });

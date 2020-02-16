@@ -23,12 +23,12 @@ export default {
     },
     props: {
         value: {
-            type: String,
+            type: [Number, String],
         }
     },
     data() {
         return {
-            police_no: this.value
+            police_no: typeof this.value == 'number' ? this.value.toString() : this.value
         }
     },
     computed: {
