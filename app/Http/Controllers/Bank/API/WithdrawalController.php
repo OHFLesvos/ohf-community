@@ -44,17 +44,15 @@ class WithdrawalController extends Controller
     public function dailyStats(BankStatisticsProvider $stats)
     {
 		return response()->json([
-            'numbers' => __('people.num_persons_served_handing_out_coupons', [
-                'persons' => $stats->getNumberOfPersonsServed(),
-                'coupons' => $stats->getNumberOfCouponsHandedOut(),
-            ]),
-            'limitedCoupons' => $stats->getCouponsWithSpendingLimit()
+            'number_of_persons_served' => $stats->getNumberOfPersonsServed(),
+            'number_of_coupons_handed_out' => $stats->getNumberOfCouponsHandedOut(),
+            'limited_coupons' => $stats->getCouponsWithSpendingLimit()
                 ->map(function($coupon, $couponName){
-                    return __('coupons.coupons_handed_out_n_t', [
+                    return [
                         'coupon' => $couponName,
                         'count' => $coupon['count'],
                         'limit' => $coupon['limit']
-                    ]);
+                    ];
                 })
                 ->values()
 		]);
