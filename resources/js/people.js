@@ -6,7 +6,7 @@ Vue.use(BootstrapVue)
 import BaseTable from './components/BaseTable.vue'
 Vue.component('base-table', BaseTable);
 
-import PeopleTable from './components/People/PeopleTable.vue'
+import PeopleTable from './components/people/PeopleTable.vue'
 Vue.component('people-table', PeopleTable);
 
 new Vue({
