@@ -6,7 +6,9 @@ use Faker\Generator as Faker;
 
 use Carbon\Carbon;
 
-$factory->define(Person::class, function (Faker $faker) {
+$countries = weightedCountries(10);
+
+$factory->define(Person::class, function (Faker $faker) use($countries) {
     // $faker = \Faker\Factory::create('ar_JO');
 
     $gender = $faker->optional(0.9)->randomElement(['male', 'female']);
@@ -14,8 +16,7 @@ $factory->define(Person::class, function (Faker $faker) {
     $lc = $faker->optional(0.3)->languageCode;
     $language = $lc != null ? collect(\Languages::lookup([$lc]))->first() : null;
 
-    $countryCode = $faker->optional(0.9)->countryCode;
-    $nationality = $countryCode != null && !in_array($countryCode, ['HM', 'BV']) ? \Countries::getOne($countryCode) : null;
+    $nationality = $faker->optional(0.9)->randomElement($countries);
 
     $dob = $faker->optional(0.9)->dateTimeBetween('-70 years', 'now');
 
@@ -31,3 +32,19 @@ $factory->define(Person::class, function (Faker $faker) {
         'created_at' => $faker->dateTimeBetween('-3 months', 'now'),
     ];
 });
+
+function weightedCountries($num)
+{
+    $countries = \Countries::getList('en');
+    $rand_keys = array_rand($countries, $num);
+    $percentages = randomPercentages($num);
+    $data = [];
+    while (count($percentages) > 0) {
+        $p = array_pop($percentages);
+        $c = array_pop($rand_keys);
+        for ($i = 0; $i < $p; $i++) {
+            $data[] = \Countries::getOne($c);
+        }
+    }
+    return $data;
+}

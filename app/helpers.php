@@ -183,3 +183,25 @@ if (! function_exists('array_elements_not_empty')) {
         return true;
     }
 }
+
+if (! function_exists('randomPercentages')) {
+    function randomPercentages($x) {
+        $temp[] = 0;
+        for($i=1; $i < $x; $i++) {
+            $new = mt_rand(1, 99);
+            if($i < 98) {
+                while(in_array($new,$temp)) {
+                    $new = mt_rand(1, 99);
+                }
+            }
+            $temp[] = $new;
+        }
+        $temp[] = 100;
+        sort($temp);
+        $percentages = [];
+        for($i=1; $i < count($temp); $i++) {
+            $percentages[] = $temp[$i] - $temp[$i-1];
+        }
+        return $percentages;
+    }
+}
