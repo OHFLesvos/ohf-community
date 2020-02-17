@@ -208,10 +208,13 @@ class Person extends Model
 
     function getFamilyMembersAttribute()
     {
-        return $this->family
-            ->members()
-            ->where('id', '!=', $this->id)
-            ->get();
+        if ($this->family != null) {
+            return $this->family
+                ->members()
+                ->where('id', '!=', $this->id)
+                ->get();
+        }
+        return collect();
     }
 
     function revokedCards()
