@@ -310,7 +310,10 @@ class Person extends Model
 
     public function getHasOverdueBookLendingsAttribute()
     {
-        return $this->bookLendings()->whereNull('returned_date')->whereDate('return_date', '<', Carbon::today())->count();
+        return $this->bookLendings()
+            ->whereNull('returned_date')
+            ->whereDate('return_date', '<', Carbon::today())
+            ->count();
     }
 
     public static function getNationalities(): array
