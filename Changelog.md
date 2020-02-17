@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.11.0
+
+* Bank and shop screens reworked
+
 ## 2.10.1
 
 * Added support for QR code scanner functioning when camera is not available.
