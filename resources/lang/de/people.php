@@ -212,4 +212,6 @@ return [
     'cards_revoked' => 'Karten zurückgezogen',
     'no_permission_to_search_existing_persons' => 'Du hast keine Erlaubnis um nach existierenden Persondendatensätzen zu suchen.',
     'code_expiry' => 'Code Ablaufdatum',
+    'click_to_add_police_number' => 'Klicke um Polizeinummer hinzuzufügen...',
+    'police_no_has_been_updated' => 'Polizeinummer von :person wurde aktualisiert.',
 ];

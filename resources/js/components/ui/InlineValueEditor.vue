@@ -82,7 +82,11 @@ export default {
         cancelEdit() {
             this.modelValue = this.value
             this.$emit('cancel')
+        },
+        focus() {
+            this.$refs.input.focus();
         }
+
     }
 }
 </script>

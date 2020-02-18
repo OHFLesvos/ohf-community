@@ -9,6 +9,7 @@ use App\Models\People\RevokedCard;
 use App\Http\Requests\People\UpdatePersonDateOfBirth;
 use App\Http\Requests\People\UpdatePersonGender;
 use App\Http\Requests\People\UpdatePersonNationality;
+use App\Http\Requests\People\UpdatePersonPoliceNo;
 use App\Http\Requests\People\UpdatePersonRemarks;
 use App\Http\Requests\People\StorePerson;
 use App\Http\Requests\People\RegisterCard;
@@ -231,6 +232,26 @@ class PeopleController extends Controller
         return response()->json([
             'nationality' => $person->nationality,
             'message' => __('people.nationality_has_been_registered', [
+                'person' => $person->full_name,
+            ]),
+        ]);
+    }
+
+    /**
+     * Update police number of person.
+     *
+     * @param  \App\Models\People\Person $person
+     * @param  \App\Http\Requests\People\UpdatePersonPoliceNo  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePoliceNo(Person $person, UpdatePersonPoliceNo $request)
+    {
+        $person->police_no = $request->police_no;
+        $person->save();
+
+        return response()->json([
+            'police_no' => $person->police_no_formatted,
+            'message' => __('people.police_no_has_been_updated', [
                 'person' => $person->full_name,
             ]),
         ]);

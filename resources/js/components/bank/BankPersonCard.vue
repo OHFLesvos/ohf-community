@@ -55,9 +55,9 @@
         <!-- Card body -->
         <div class="card-body p-2">
             <police-no-label
-                v-if="person.police_no"
                 :value="person.police_no_formatted"
                 :highlight-terms="highlightTerms"
+                :api-url="person.can_update ? person.police_no_update_url : null"
             />
             <remarks-label
                 :value="person.remarks"

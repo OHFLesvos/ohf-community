@@ -38,6 +38,7 @@ class BankPerson extends Resource
             'gender_update_url' => route('api.people.setGender', $this),
             'date_of_birth_update_url' => route('api.people.setDateOfBirth', $this),
             'nationality_update_url' => route('api.people.setNationality', $this),
+            'police_no_update_url' => route('api.people.updatePoliceNo', $this),
             'remarks_update_url' => route('api.people.updateRemarks', $this),
             'card_no' => $this->card_no,
             'register_card_url' => route('api.people.registerCard', $this),

@@ -113,6 +113,11 @@ Route::middleware(['auth', 'language'])
             ->name('setNationality')
             ->middleware('can:update,person');
 
+        // Update police number
+        Route::patch('{person}/updatePoliceNo', 'PeopleController@updatePoliceNo')
+            ->name('updatePoliceNo')
+            ->middleware('can:update,person');
+
         // Update remarks
         Route::patch('{person}/remarks', 'PeopleController@updateRemarks')
             ->name('updateRemarks')
