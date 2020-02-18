@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.11.1
+
+* Bugfixes
+* Added option to quickly add police number in bank
+
 ## 2.11.0
 
 * Bank and shop screens reworked
