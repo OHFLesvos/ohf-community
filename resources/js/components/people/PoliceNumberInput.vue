@@ -25,6 +25,7 @@ export default {
     props: {
         value: {
             type: [Number, String],
+            default: ''
         }
     },
     computed: {
@@ -37,8 +38,9 @@ export default {
             }
         },
         policeNoPrefix() {
+            const police_no = this.police_no != null ? this.police_no : ''
             let str = '05/'
-            const len = this.police_no.length
+            const len = police_no.length
             str += "000000000".substr(len)
             return str
         }
