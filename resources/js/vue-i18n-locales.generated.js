@@ -720,7 +720,8 @@ export default {
             "cards_revoked": "Karten zurückgezogen",
             "no_permission_to_search_existing_persons": "Du hast keine Erlaubnis um nach existierenden Persondendatensätzen zu suchen.",
             "code_expiry": "Code Ablaufdatum",
-            "click_to_add_police_number": "Klicke um Polizeinummer hinzuzufügen..."
+            "click_to_add_police_number": "Klicke um Polizeinummer hinzuzufügen...",
+            "police_no_has_been_updated": "Polizeinummer von {person} wurde aktualisiert."
         },
         "permissions": {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
@@ -1775,7 +1776,8 @@ export default {
             "cards_revoked": "Cards revoked",
             "no_permission_to_search_existing_persons": "You don't have permission to search for existing person records.",
             "code_expiry": "Code expiry",
-            "click_to_add_police_number": "Click to add police number..."
+            "click_to_add_police_number": "Click to add police number...",
+            "police_no_has_been_updated": "Police number of {person} has been updated."
         },
         "permissions": {
             "view_usermgmt": "User management: View users and roles",

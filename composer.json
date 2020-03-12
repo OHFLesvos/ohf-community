@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": "^7.2.5",
         "akaunting/language": "^1.0",
         "anlutro/l4-settings": "^0.9.0",
         "creativeorange/gravatar": "~1.0",
@@ -35,7 +35,7 @@
         "maennchen/zipstream-php": "^0.5.2",
         "michelf/php-markdown": "^1.8",
         "monarobase/country-list": "^2.0",
-        "mpdf/mpdf": "^7.1",
+        "mpdf/mpdf": "^8.0",
         "mrcage/chf-exchange-rates": "~1.0",
         "nicebooks/isbn": "^0.2.20",
         "owen-it/laravel-auditing": "^9.0",
