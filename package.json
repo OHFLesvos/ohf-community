@@ -26,7 +26,7 @@
     "is-isbn": "^1.1.0",
     "jquery": "^3.4.1",
     "jquery.session": "^1.0.0",
-    "laravel-mix": "^5.0.1",
+    "laravel-mix": "^5.0.4",
     "laravel-mix-merge-manifest": "^0.1.2",
     "lity": "^2.4.0",
     "lodash": "^4.17.15",
