@@ -3,6 +3,7 @@
 ## NEXT
 
 * Added error tracking with Sentry.io
+* Remove built-in log reader view
 
 ## 2.11.1
 

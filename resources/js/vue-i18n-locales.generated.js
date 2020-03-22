@@ -494,9 +494,6 @@ export default {
             "book_removed": "Book entfernt.",
             "confirm_delete_book": "Soll dieses Buch gelöscht werden?"
         },
-        "logviewer": {
-            "logviewer": "Protokolle"
-        },
         "pagination": {
             "previous": "&laquo; Zurück",
             "next": "Weiter &raquo;"
@@ -1546,9 +1543,6 @@ export default {
             "register_book": "Register book",
             "book_removed": "Book removed.",
             "confirm_delete_book": "Should this book be deleted?"
-        },
-        "logviewer": {
-            "logviewer": "Log Viewer"
         },
         "pagination": {
             "previous": "&laquo; Previous",

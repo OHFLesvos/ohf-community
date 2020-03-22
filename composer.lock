@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a417f436c91fd98ef37587820b31572",
+    "content-hash": "74863cb860e02508a14cce4046105217",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1616,60 +1616,6 @@
                 "watermark"
             ],
             "time": "2019-11-02T09:15:47+00:00"
-        },
-        {
-            "name": "jackiedo/log-reader",
-            "version": "dev-dev-laravel-6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/xeno010/Laravel-Log-Reader.git",
-                "reference": "8a033050a2b9635a825d60c0bf99f640c6de01e8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/xeno010/Laravel-Log-Reader/zipball/8a033050a2b9635a825d60c0bf99f640c6de01e8",
-                "reference": "8a033050a2b9635a825d60c0bf99f640c6de01e8",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/cache": "^6.0|5.*",
-                "illuminate/config": "^6.0|5.*",
-                "illuminate/console": "^6.0|5.*",
-                "illuminate/http": "^6.0|5.*",
-                "illuminate/pagination": "^6.0|5.*",
-                "illuminate/support": "^6.0|5.*",
-                "nesbot/carbon": "^2.0|~1.20"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Jackiedo\\LogReader\\": "src/Jackiedo/LogReader"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jackie Do",
-                    "email": "anhvudo@gmail.com"
-                }
-            ],
-            "description": "An easy log reader and management tool for Laravel",
-            "keywords": [
-                "laravel",
-                "log",
-                "log-manager",
-                "log-reader",
-                "log-viewer",
-                "logs",
-                "reader",
-                "viewer"
-            ],
-            "support": {
-                "source": "https://github.com/xeno010/Laravel-Log-Reader/tree/dev-laravel-6"
-            },
-            "time": "2019-09-18T12:51:52+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -10784,9 +10730,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "jackiedo/log-reader": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

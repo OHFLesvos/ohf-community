@@ -102,16 +102,6 @@ Route::middleware(['language', 'auth', 'can:view-changelogs'])
     });
 
 //
-// Logviewer
-//
-Route::middleware(['language', 'auth', 'can:view-logs'])
-    ->namespace('Logviewer')
-    ->group(function () {
-        Route::get('logviewer', 'LogViewerController@index')
-            ->name('logviewer.index');
-    });
-
-//
 // Badges
 //
 Route::middleware(['language', 'auth'])
