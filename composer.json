@@ -41,6 +41,7 @@
         "owen-it/laravel-auditing": "^9.0",
         "petercoles/multilingual-language-list": "^1.1",
         "scriptotek/google-books": "^0.2.4",
+        "sentry/sentry-laravel": "1.7.0",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spomky-labs/otphp": "^9.1",
         "symfony/translation": "4.3.8",

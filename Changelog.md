@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Added error tracking with Sentry.io
+
 ## 2.11.1
 
 * Bugfixes
