@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Bank;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Gate;
 
-class BankPerson extends Resource
+class BankPerson extends JsonResource
 {
     protected $couponTypes = [];
 

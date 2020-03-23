@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Collaboration;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class CalendarResourceResource extends Resource
+class CalendarResourceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

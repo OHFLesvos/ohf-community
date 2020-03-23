@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\People;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
-class Person extends Resource
+class Person extends JsonResource
 {
     /**
      * Transform the resource into an array.
