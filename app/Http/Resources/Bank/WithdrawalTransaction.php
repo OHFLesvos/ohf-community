@@ -6,11 +6,11 @@ use App\Models\People\Person;
 
 use App\Models\Bank\CouponType;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 use Carbon\Carbon;
 
-class WithdrawalTransaction extends Resource
+class WithdrawalTransaction extends JsonResource
 {
     /**
      * Transform the resource into an array.

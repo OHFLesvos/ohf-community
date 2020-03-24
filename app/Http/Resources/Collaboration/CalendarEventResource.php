@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources\Collaboration;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
 
-class CalendarEventResource extends Resource
+class CalendarEventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

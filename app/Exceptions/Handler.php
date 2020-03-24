@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use Throwable;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -29,10 +29,10 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         if (app()->bound('sentry') && $this->shouldReport($exception)) {
             app('sentry')->captureException($exception);
@@ -45,10 +45,10 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         // If action is unauthorized, but user is not logged in, redirect him to login screen
         // For routes that require authorization, but are not protected by authentication (guest user authorization)

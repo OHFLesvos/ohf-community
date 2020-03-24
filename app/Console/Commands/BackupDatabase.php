@@ -35,7 +35,7 @@ class BackupDatabase extends Command
     {
         parent::__construct();
 
-        $this->process = new Process(sprintf(
+        $this->process = Process::fromShellCommandline(sprintf(
             'mysqldump -u%s -p"%s" %s | gzip > %s',
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),

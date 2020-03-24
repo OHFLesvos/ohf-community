@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Collaboration;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends Resource
+class TaskResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

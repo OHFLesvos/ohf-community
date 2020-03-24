@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Fundraising;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class Donor extends Resource
+class Donor extends JsonResource
 {
     /**
      * Transform the resource into an array.
