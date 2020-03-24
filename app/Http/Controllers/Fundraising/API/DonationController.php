@@ -93,7 +93,7 @@ class DonationController extends Controller
         ];
         $payment_method = $payment_methods[$request->payment_method] ?? $request->payment_method;
         $donation = new Donation();
-        $donation->date = $date;
+        $donation->date = $date->toDateString();
         $donation->amount = $amount;
         $donation->currency = $currency;
         $donation->exchange_amount = $exchange_amount;

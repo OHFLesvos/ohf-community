@@ -14,8 +14,7 @@ class RemoveMedicalTempNoFromPersons extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn('temp_no');
-            $table->dropColumn('medical_no');
+            $table->dropColumn(['temp_no', 'medical_no']);
         });
     }
 

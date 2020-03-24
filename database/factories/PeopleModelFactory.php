@@ -32,19 +32,3 @@ $factory->define(Person::class, function (Faker $faker) use($countries) {
         'created_at' => $faker->dateTimeBetween('-3 months', 'now'),
     ];
 });
-
-function weightedCountries($num)
-{
-    $countries = \Countries::getList('en');
-    $rand_keys = array_rand($countries, $num);
-    $percentages = randomPercentages($num);
-    $data = [];
-    while (count($percentages) > 0) {
-        $p = array_pop($percentages);
-        $c = array_pop($rand_keys);
-        for ($i = 0; $i < $p; $i++) {
-            $data[] = \Countries::getOne($c);
-        }
-    }
-    return $data;
-}

@@ -15,7 +15,9 @@ class AddPurposeReferennceToDonation extends Migration
     {
         Schema::table('donations', function (Blueprint $table) {
             $table->renameColumn('origin', 'channel');
-            $table->string('purpose')->after('origin')->nullable();
+        });
+        Schema::table('donations', function (Blueprint $table) {
+            $table->string('purpose')->after('channel')->nullable();
             $table->string('reference')->after('purpose')->nullable();
         });
     }
@@ -30,6 +32,8 @@ class AddPurposeReferennceToDonation extends Migration
         Schema::table('donations', function (Blueprint $table) {
             $table->dropColumn('reference');
             $table->dropColumn('purpose');
+        });
+        Schema::table('donations', function (Blueprint $table) {
             $table->renameColumn('channel', 'origin');
         });
     }

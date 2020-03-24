@@ -14,7 +14,7 @@ class AddPublicIdToPersons extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->string('public_id', 32)->after('id');
+            $table->string('public_id', 32)->nullable()->after('id');
             $table->unique('public_id');
         });
 }

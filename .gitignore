@@ -6,10 +6,13 @@ public/.well-known/
 /vendor
 /.idea
 /.vagrant
+.env
+.env.backup
+.phpunit.result.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
-.env
+yarn-error.log
 /nbproject/private/
 Modules/*/node_modules
 modules_statuses.json

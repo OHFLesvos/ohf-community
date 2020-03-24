@@ -28,10 +28,8 @@ class CreateFamiliesTable extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->dropForeign(['mother_id']);
             $table->dropForeign(['father_id']);
-            $table->dropColumn('mother_id');
-            $table->dropColumn('father_id');
             $table->dropForeign(['partner_id']);
-            $table->dropColumn('partner_id');
+            $table->dropColumn(['mother_id', 'father_id', 'partner_id']);
         });
 
         Person::whereNotNull('police_no')

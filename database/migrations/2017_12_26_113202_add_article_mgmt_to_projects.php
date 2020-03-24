@@ -17,7 +17,7 @@ class AddArticleMgmtToProjects extends Migration
             $table->boolean('has_article_mgmt')->default(false)->after('enable_in_bank');
         });
         Schema::table('articles', function (Blueprint $table) {
-            $table->unsignedInteger('project_id')->after('name');
+            $table->unsignedInteger('project_id')->nullable()->after('name');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade')->onUpdate('cascade');
         });
     }

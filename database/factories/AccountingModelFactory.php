@@ -14,5 +14,6 @@ $factory->define(MoneyTransaction::class, function (Faker $faker) {
         'category' => $faker->catchPhrase,
         'project' => $faker->optional(0.7)->catchPhrase,
         'description' => $faker->sentence,
+        'booked' => false,
     ];
 });

@@ -8,12 +8,15 @@ use App\User;
 use App\Role;
 use App\RolePermission;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 
 use Carbon\Carbon;
 
 class DonationWebhookTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testRequireAuthentication()
     {
         $response = $this->post('api/fundraising/donations/raiseNowWebHookListener', []);

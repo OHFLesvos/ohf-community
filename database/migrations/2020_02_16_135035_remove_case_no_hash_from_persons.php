@@ -14,8 +14,9 @@ class RemoveCaseNoHashFromPersons extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropIndex('persons_case_no_hash_index');
-            $table->dropColumn('case_no_hash');
+            if (Schema::hasColumn('persons', 'case_no_hash')) {
+                $table->dropColumn('case_no_hash');
+            }
         });
     }
 

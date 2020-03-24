@@ -14,8 +14,8 @@ class MakeTransactionsPolymorphic extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->integer('transactionable_id')->unsigned()->after('id');
-            $table->string('transactionable_type')->after('transactionable_id');
+            $table->integer('transactionable_id')->nullable()->unsigned()->after('id');
+            $table->string('transactionable_type')->nullable()->after('transactionable_id');
             $table->index(['transactionable_id', 'transactionable_type']);
             $table->dropForeign(['person_id']);
             $table->dropColumn('person_id');

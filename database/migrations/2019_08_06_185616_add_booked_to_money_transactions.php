@@ -15,7 +15,7 @@ class AddBookedToMoneyTransactions extends Migration
     {
         Schema::table('money_transactions', function (Blueprint $table) {
             $table->unsignedInteger('external_id')->after('wallet_owner')->nullable();
-            $table->boolean('booked')->after('wallet_owner');
+            $table->boolean('booked')->default(false)->after('wallet_owner');
         });
     }
 

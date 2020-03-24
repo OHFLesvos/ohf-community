@@ -45,6 +45,15 @@ class User extends Authenticatable implements HasLocalePreference
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
      * Get the user's preferred locale.
      *
      * @return string

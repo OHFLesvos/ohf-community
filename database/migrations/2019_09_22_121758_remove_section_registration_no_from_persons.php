@@ -14,8 +14,7 @@ class RemoveSectionRegistrationNoFromPersons extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn('section_card_no');
-            $table->dropColumn('registration_no');
+            $table->dropColumn(['section_card_no', 'registration_no']);
         });
     }
 

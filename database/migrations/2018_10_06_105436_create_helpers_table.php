@@ -64,8 +64,7 @@ class CreateHelpersTable extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->string('nickname')->nullable()->after('family_name');
             $table->string('portrait_picture')->nullable()->after('languages');
-            $table->dropColumn('worker');
-            $table->dropColumn('skills');
+            $table->dropColumn(['worker', 'skills']);
         });
     }
 

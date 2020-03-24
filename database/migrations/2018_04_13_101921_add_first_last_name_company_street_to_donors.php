@@ -36,9 +36,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $donor->save();
         });
         Schema::table('donors', function (Blueprint $table) {
-            $table->dropColumn('name');
-            $table->dropColumn('address');
-            $table->dropColumn('country');
+            $table->dropColumn(['name', 'address', 'country']);
         });
     }
 

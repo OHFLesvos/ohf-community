@@ -14,7 +14,7 @@ class AddExchangeAmountColumnToDonations extends Migration
     public function up()
     {
         Schema::table('donations', function (Blueprint $table) {
-            $table->decimal('exchange_amount')->after('currency');
+            $table->decimal('exchange_amount')->nullable()->after('currency');
         });
     }
 
