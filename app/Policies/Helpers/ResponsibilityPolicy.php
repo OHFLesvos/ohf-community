@@ -2,10 +2,8 @@
 
 namespace App\Policies\Helpers;
 
-use App\User;
-
 use App\Models\Helpers\Responsibility;
-
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ResponsibilityPolicy

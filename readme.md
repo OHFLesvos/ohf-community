@@ -34,7 +34,11 @@ Create/migrate database tables:
 
 Run tests:
 
-    ./vendor/bin/phpunit
+    php artisan test
+
+Run code quality checks:
+
+    php artisan insights
 
 Create assets (development)
 
@@ -78,13 +82,6 @@ The following commands creates a custom self-signed TLS certificate:
 
     cd c:\devel\xampp\apache
     bin\openssl.exe req -newkey rsa:2048 -sha256 -nodes -keyout conf\ssl.key\ohf.test.key -x509 -days 365 -out conf\ssl.crt\ohf.test.crt -config conf\openssl.cnf
-
-Code quality checks
--------------------
-
-Run the following command
-
-    php artisan insights
 
 License
 -------

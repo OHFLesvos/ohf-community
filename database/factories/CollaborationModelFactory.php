@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\Collaboration\CalendarResource;
-use App\Models\Collaboration\CalendarEvent;
-use App\Models\Collaboration\WikiArticle;
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Models\Collaboration\CalendarEvent;
+use App\Models\Collaboration\CalendarResource;
+use App\Models\Collaboration\WikiArticle;
 use Carbon\Carbon;
 
 /*

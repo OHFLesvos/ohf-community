@@ -2,14 +2,13 @@
 
 namespace App\Navigation\ContextButtons\UserManagement;
 
-use App\Role;
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
+use App\Role;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class RolePermissionsContextButtons implements ContextButtons {
-
+class RolePermissionsContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -17,8 +16,8 @@ class RolePermissionsContextButtons implements ContextButtons {
                 'url' => url()->previous(),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Role::class)
-            ]
+                'authorized' => Auth::user()->can('list', Role::class),
+            ],
         ];
     }
 

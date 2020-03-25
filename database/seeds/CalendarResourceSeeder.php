@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Collaboration\CalendarResource;
-
 use Illuminate\Database\Seeder;
 
 class CalendarResourceSeeder extends Seeder

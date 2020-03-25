@@ -2,14 +2,13 @@
 
 namespace App\Imports\Helpers;
 
-use App\Models\People\Person;
-
 use App\Models\Helpers\Helper;
-
+use App\Models\People\Person;
+use Exception;
 use Illuminate\Support\Collection;
-
-use Maatwebsite\Excel\Concerns\ToCollection;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
@@ -62,17 +61,18 @@ class HelpersImport implements ToCollection, WithHeadingRow
         }
     }
 
-    private function assignImportedValues($row, $helper, $person) {
-        $row->each(function($value, $label) use($helper, $person) {
+    private function assignImportedValues($row, $helper, $person)
+    {
+        $row->each(function ($value, $label) use ($helper, $person) {
             if ($value == 'N/A') {
                 $value = null;
             }
-            $this->fields->each(function($f) use($helper, $person, $label, $value) {
+            $this->fields->each(function ($f) use ($helper, $person, $label, $value) {
                 if ($f['labels']->containsStrict(strtolower($label))) {
                     try {
                         $f['assign']($person, $helper, $value);
-                    } catch(\Exception $e) {
-                        // ignored
+                    } catch (Exception $e) {
+                        Log::warning('Cannot import helper: ' . $e->getMessage());
                     }
                 }
             });

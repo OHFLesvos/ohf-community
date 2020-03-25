@@ -4,7 +4,7 @@
 
 @section('wrapped-content')
 
-    @if( ! $donations->isEmpty() )
+    @if(! $donations->isEmpty())
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
@@ -55,6 +55,6 @@
         @component('components.alert.info')
             @lang('fundraising.no_donations_found')
         @endcomponent
-	@endif
+    @endif
 
 @endsection

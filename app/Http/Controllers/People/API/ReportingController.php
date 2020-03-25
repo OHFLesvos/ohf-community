@@ -3,21 +3,23 @@
 namespace App\Http\Controllers\People\API;
 
 use App\Http\Controllers\Reporting\BaseReportingController;
+use App\Http\Controllers\ValidatesDateRanges;
 use App\Models\People\Person;
-
 use Illuminate\Http\Request;
 
 class ReportingController extends BaseReportingController
 {
+    use ValidatesDateRanges;
+
     /**
      * Nationalities
      */
-    function nationalities()
+    public function nationalities()
     {
         return response()->json([
             'labels' => null,
             'datasets' => collect(Person::getNationalities())
-                ->map(function($e){ return [$e]; })
+                ->map(fn ($e) => [$e])
                 ->toArray(),
         ]);
     }
@@ -25,7 +27,7 @@ class ReportingController extends BaseReportingController
     /**
      * Gender distribution
      */
-    function genderDistribution()
+    public function genderDistribution()
     {
         $gender = Person::getGenderDistribution();
         return response()->json([
@@ -37,7 +39,7 @@ class ReportingController extends BaseReportingController
     /**
      * Age distribution
      */
-    function ageDistribution()
+    public function ageDistribution()
     {
         $data = Person::getAgeDistribution();
         return response()->json([
@@ -49,16 +51,16 @@ class ReportingController extends BaseReportingController
     /**
      * Registrations per day
      */
-    function registrationsPerDay(Request $request)
+    public function registrationsPerDay(Request $request)
     {
-        list($dateFrom, $dateTo) = parent::getDatePeriodFromRequest($request, 30);
+        [$dateFrom, $dateTo] = self::getDatePeriodFromRequest($request, 30);
 
         $data = Person::getRegistrationsPerDay($dateFrom, $dateTo);
         return response()->json([
             'labels' => array_keys($data),
             'datasets' => [
                 'Registrations' => array_values($data),
-            ]
+            ],
         ]);
     }
 

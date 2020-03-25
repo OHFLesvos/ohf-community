@@ -2,18 +2,14 @@
 
 namespace App\Http\Requests\Accounting;
 
+use App\Http\Controllers\Accounting\AccountingSettingsController;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-
-use Carbon\Carbon;
-
 use Setting;
 
 class StoreTransaction extends FormRequest
 {
-    const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
-    const PROJECTS_SETTING_KEY = 'accounting.transactions.projects';
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -54,11 +50,11 @@ class StoreTransaction extends FormRequest
             ],
             'category' => [
                 'required',
-                Setting::has(self::CATEGORIES_SETTING_KEY) ? Rule::in(Setting::get(self::CATEGORIES_SETTING_KEY)) : null,
+                Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY) ? Rule::in(Setting::get(AccountingSettingsController::CATEGORIES_SETTING_KEY)) : null,
             ],
             'project' => [
                 'nullable',
-                Setting::has(self::PROJECTS_SETTING_KEY) ? Rule::in(Setting::get(self::PROJECTS_SETTING_KEY)) : null,
+                Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY) ? Rule::in(Setting::get(AccountingSettingsController::PROJECTS_SETTING_KEY)) : null,
             ],
             'description' => [
                 'required',

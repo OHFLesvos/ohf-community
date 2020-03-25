@@ -2,14 +2,12 @@
 
 namespace App\Navigation\Drawer\Fundraising;
 
-use App\Navigation\Drawer\BaseNavigationItem;
-
 use App\Models\Fundraising\Donor;
-
+use App\Navigation\Drawer\BaseNavigationItem;
 use Illuminate\Support\Facades\Auth;
 
-class FundraisingNavigationItem extends BaseNavigationItem {
-
+class FundraisingNavigationItem extends BaseNavigationItem
+{
     protected $route = 'fundraising.donors.index';
 
     protected $caption = 'fundraising.donation_management';
@@ -22,5 +20,4 @@ class FundraisingNavigationItem extends BaseNavigationItem {
     {
         return Auth::user()->can('list', Donor::class);
     }
-
 }

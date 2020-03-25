@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\Bank;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
-class BankExportContextButtons implements ContextButtons {
-
+class BankExportContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -16,8 +15,8 @@ class BankExportContextButtons implements ContextButtons {
                 'url' => route('bank.withdrawal.search'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Gate::allows('do-bank-withdrawals')
-            ]
+                'authorized' => Gate::allows('do-bank-withdrawals'),
+            ],
         ];
     }
 

@@ -27,7 +27,7 @@ class StoreReturnBookFromPerson extends FormRequest
             'book_id' => [
                 'required',
                 'exists:library_books,id',
-            ]
+            ],
         ];
     }
 }

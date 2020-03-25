@@ -47,8 +47,8 @@
 @endsection
 
 @section('script')
-    $(function(){
-        $('#currency').on('change', function(){
+    $(function () {
+        $('#currency').on('change', function () {
             $('#amount').focus();
         });
     });

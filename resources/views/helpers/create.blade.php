@@ -10,9 +10,9 @@
             @include('helpers.form')
         </div>
 
-		<p>
-			{{ Form::bsSubmitButton(__('app.register')) }}
-		</p>
+        <p>
+            {{ Form::bsSubmitButton(__('app.register')) }}
+        </p>
 
     {!! Form::close() !!}
 

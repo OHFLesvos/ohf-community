@@ -2,10 +2,8 @@
 
 namespace App\Policies\Accounting;
 
-use App\User;
-
 use App\Models\Accounting\MoneyTransaction;
-
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MoneyTransactionPolicy
@@ -14,7 +12,7 @@ class MoneyTransactionPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete', 'undoBooking'])) {
+        if ($user->isSuperAdmin() && ! in_array($ability, ['update', 'delete', 'undoBooking'])) {
             return true;
         }
     }
@@ -62,7 +60,7 @@ class MoneyTransactionPolicy
      */
     public function update(User $user, MoneyTransaction $moneyTransaction)
     {
-        if (!$moneyTransaction->booked) {
+        if (! $moneyTransaction->booked) {
             return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
         }
         return false;
@@ -77,7 +75,7 @@ class MoneyTransactionPolicy
      */
     public function delete(User $user, MoneyTransaction $moneyTransaction)
     {
-        if (!$moneyTransaction->booked) {
+        if (! $moneyTransaction->booked) {
             return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.delete');
         }
         return false;

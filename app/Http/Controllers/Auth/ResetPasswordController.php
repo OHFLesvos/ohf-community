@@ -25,10 +25,10 @@ class ResetPasswordController extends Controller
      *
      * @return string
      */
-	protected function redirectTo()
-	{
-		return route('home');
-	}
+    protected function redirectTo()
+    {
+        return route('home');
+    }
 
     /**
      * Create a new controller instance.

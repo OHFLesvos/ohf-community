@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\UserManagement;
 
-use App\User;
-use App\Role;
 use App\Http\Controllers\Controller;
-use App\Support\Facades\PermissionRegistry;
-
 use App\Http\Requests\UserManagement\StoreUser;
 use App\Http\Requests\UserManagement\UpdateUser;
-
+use App\Role;
+use App\Support\Facades\PermissionRegistry;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -60,7 +58,7 @@ class UserController extends Controller
     public function create()
     {
         return view('user_management.users.create', [
-            'roles' => Role::orderBy('name')->get()
+            'roles' => Role::orderBy('name')->get(),
         ]);
     }
 
@@ -76,10 +74,12 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->is_super_admin = !empty($request->is_super_admin);
+        $user->is_super_admin = ! empty($request->is_super_admin);
         $user->save();
         $user->roles()->sync($request->roles);
-        return redirect()->route('users.index')
+
+        return redirect()
+            ->route('users.index')
             ->with('success', __('app.user_added'));
     }
 
@@ -94,7 +94,7 @@ class UserController extends Controller
         $current_permissions = $user->permissions()->pluck('key');
         $permissions = [];
         foreach (PermissionRegistry::getCategorizedPermissions() as $title => $elements) {
-            foreach($elements as $key => $label) {
+            foreach ($elements as $key => $label) {
                 if ($current_permissions->contains($key)) {
                     $permissions[$title][] = $label;
                 }
@@ -117,7 +117,7 @@ class UserController extends Controller
     {
         return view('user_management.users.edit', [
             'user' => $user,
-            'roles' => Role::orderBy('name')->get()
+            'roles' => Role::orderBy('name')->get(),
         ]);
     }
 
@@ -134,17 +134,21 @@ class UserController extends Controller
         if (empty($user->provider_name)) {
             $user->email = $request->email;
         }
-        if (!empty($request->password)) {
+        if (! empty($request->password)) {
             $user->password = Hash::make($request->password);
         }
-        $user->is_super_admin = !empty($request->is_super_admin) || User::count() == 1;
+        $user->is_super_admin = ! empty($request->is_super_admin) || User::count() == 1;
         $user->roles()->sync($request->roles);
+
         if ($user->isDirty()) {
             $user->save();
-            return redirect()->route('users.show', $user)
+            return redirect()
+                ->route('users.show', $user)
                 ->with('success', __('app.user_updated'));
         }
-        return redirect()->route('users.show', $user)
+
+        return redirect()
+            ->route('users.show', $user)
             ->with('info', __('app.no_changes_made'));
     }
 
@@ -157,7 +161,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')
+
+        return redirect()
+            ->route('users.index')
             ->with('success', __('app.user_deleted'));
     }
 
@@ -181,11 +187,7 @@ class UserController extends Controller
             'sensitivePermissions' => PermissionRegistry::collection(true),
             'users' => User::orderBy('name')
                 ->get()
-                ->filter(function($u) {
-                    return $u->isSuperAdmin() || $u->permissions()->contains(function($p) {
-                        return PermissionRegistry::hasKey($p->key, true);
-                    });
-                })
+                ->filter(fn ($user) => $user->isSuperAdmin() || $user->permissions()->contains(fn ($permission) => PermissionRegistry::hasKey($permission->key, true))),
         ]);
     }
 
@@ -199,7 +201,9 @@ class UserController extends Controller
     {
         $user->tfa_secret = null;
         $user->save();
-        return redirect()->route('users.show', $user)
+
+        return redirect()
+            ->route('users.show', $user)
             ->with('success', __('userprofile.tfa_disabled'));
     }
 
@@ -217,7 +221,9 @@ class UserController extends Controller
         $password = Str::random(8);
         $user->password = Hash::make($password);
         $user->save();
-        return redirect()->route('users.show', $user)
+
+        return redirect()
+            ->route('users.show', $user)
             ->with('success', __('userprofile.oauth_disabled_new_password_has_been_set'));
     }
 

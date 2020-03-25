@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Helpers;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Helpers\Responsibility;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class ResponsibilitiesCreateContextButtons implements ContextButtons {
-
+class ResponsibilitiesCreateContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -18,8 +16,8 @@ class ResponsibilitiesCreateContextButtons implements ContextButtons {
                 'url' => route('people.helpers.responsibilities.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Responsibility::class)
-            ]
+                'authorized' => Auth::user()->can('list', Responsibility::class),
+            ],
         ];
     }
 

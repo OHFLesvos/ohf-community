@@ -1,4 +1,4 @@
-@if ($label !== null || !empty($label))
+@if ($label !== null || ! empty($label))
     <p>{{ $label }}</p>
 @endif
 @foreach($entries as $k => $v)
@@ -9,7 +9,7 @@
 @endforeach
 @if($value != null)
     @foreach($value as $v)
-        @if(!isset($entries[$v]))
+        @if(! isset($entries[$v]))
             <div class="custom-control custom-checkbox">
                 {{ Form::checkbox($name, $v, true, [ 'class' => 'custom-control-input', 'id' => form_id_string($name, $v) ]) }}
                 <label class="custom-control-label text-danger" for="{{ form_id_string($name, $v) }}">{{ $v }}</label>

@@ -4,7 +4,7 @@
 
 @section('wrapped-content')
 
-    @if( ! $roles->isEmpty() )
+    @if(! $roles->isEmpty())
         <table class="table table-sm table-bordered table-striped table-hover">
             <thead>
                 <tr>
@@ -35,6 +35,6 @@
         @component('components.alert.info')
             @lang('app.no_roles_found')
         @endcomponent
-	@endif
+    @endif
 
 @endsection

@@ -11,7 +11,6 @@ use NunoMaduro\PhpInsights\Domain\Metrics\Architecture\Classes;
 use SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff;
-use SlevomatCodingStandard\Sniffs\TypeHints\TypeHintDeclarationSniff;
 
 return [
 
@@ -58,7 +57,8 @@ return [
         ForbiddenDefineFunctions::class,
         ForbiddenNormalClasses::class,
         ForbiddenTraits::class,
-        TypeHintDeclarationSniff::class,
+        \SlevomatCodingStandard\Sniffs\Commenting\DocCommentSpacingSniff::class,
+        \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer::class,
     ],
 
     'config' => [

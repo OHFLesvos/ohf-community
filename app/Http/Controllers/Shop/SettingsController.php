@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Settings\SettingsController as BaseSettingsController;
-
 use App\Models\Bank\CouponType;
 use App\Models\Collaboration\WikiArticle;
 
@@ -11,7 +10,7 @@ class SettingsController extends BaseSettingsController
 {
     protected function getSections() {
         return [
-         ];
+        ];
     }
 
     protected function getSettings() {

@@ -39,7 +39,7 @@
         </div>
         {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
 
-		<p>
+        <p>
             {{ Form::bsSubmitButton(__('app.register')) }}
         </p>
 

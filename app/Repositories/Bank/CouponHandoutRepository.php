@@ -3,9 +3,7 @@
 namespace App\Repositories\Bank;
 
 use App\Models\Bank\CouponHandout;
-
 use Illuminate\Database\Eloquent\Builder;
-
 use OwenIt\Auditing\Models\Audit;
 
 class CouponHandoutRepository
@@ -21,16 +19,15 @@ class CouponHandoutRepository
     public function getAuditsFilteredByPerson(array $searchTerms, ?int $perPage = null)
     {
         return $this->getFilteredByPerson($searchTerms, $perPage)
-            ->map(function($e) {
-                return optional($e->audits()->latest())->first();
-            })
+            ->map(fn ($e) => optional($e->audits()->latest())->first())
             ->filter();
     }
 
     public function getFilteredByPerson(array $searchTerms, ?int $perPage = null)
     {
-        $query = CouponHandout::whereHas('person', function (Builder $query) use ($searchTerms) {
-                $query->where(function(Builder $innerQuery) use ($searchTerms) {
+        $query = CouponHandout::query()
+            ->whereHas('person', function (Builder $query) use ($searchTerms) {
+                $query->where(function (Builder $innerQuery) use ($searchTerms) {
                     $innerQuery->filterByTerms($searchTerms);
                 });
             })

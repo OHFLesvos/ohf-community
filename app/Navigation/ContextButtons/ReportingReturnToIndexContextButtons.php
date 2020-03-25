@@ -4,8 +4,8 @@ namespace App\Navigation\ContextButtons;
 
 use Illuminate\View\View;
 
-class ReportingReturnToIndexContextButtons implements ContextButtons {
-
+class ReportingReturnToIndexContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -13,9 +13,8 @@ class ReportingReturnToIndexContextButtons implements ContextButtons {
                 'url' => url()->previous(),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => true
-            ]
+                'authorized' => true,
+            ],
         ];
     }
-
 }

@@ -10,7 +10,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="fit">@isset($person->card_issued){{ $person->card_issued }} <small>{{ $person->card_issued->diffForHumans() }}@endisset</small></td>
+                    <td class="fit">@isset($person->card_issued) {{ $person->card_issued }} <small>{{ $person->card_issued->diffForHumans() }}@endisset</small></td>
                     <td><strong>{{ substr($person->card_no, 0, 7) }}</strong>{{ substr($person->card_no, 7) }}</td>
                 </tr>
                 @foreach ($person->revokedCards as $card)

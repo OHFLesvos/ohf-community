@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Events\UserSelfRegistered;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
+use App\User;
+use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use OTPHP\TOTP;
-
 use Socialite;
 
 class LoginController extends Controller
@@ -39,10 +37,10 @@ class LoginController extends Controller
      *
      * @return string
      */
-	protected function redirectTo()
-	{
-		return route('home');
-	}
+    protected function redirectTo()
+    {
+        return route('home');
+    }
 
     /**
      * Get the post register / login redirect path.
@@ -76,7 +74,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        if (session('errors') !== null && !empty(session('errors')->get('code'))) {
+        if (session('errors') !== null && ! empty(session('errors')->get('code'))) {
             return view('auth.tfa');
         }
         return view('auth.login');
@@ -110,12 +108,13 @@ class LoginController extends Controller
             }
             $validator = Validator::make($request->all(), [
                 'code' => 'required|numeric',
-            ])->after(function ($validator) use ($user, $request) {
-                $otp = TOTP::create($user->tfa_secret);
-                if (!$otp->verify($request->code)) {
-                    $validator->errors()->add('code', __('userprofile.invalid_code_please_repeat'));
-                }                
-            });
+            ])
+                ->after(function ($validator) use ($user, $request) {
+                    $otp = TOTP::create($user->tfa_secret);
+                    if (! $otp->verify($request->code)) {
+                        $validator->errors()->add('code', __('userprofile.invalid_code_please_repeat'));
+                    }
+                });
             if ($validator->fails()) {
                 return redirect()->back()->withInput()->withErrors($validator);
             }
@@ -164,7 +163,7 @@ class LoginController extends Controller
     {
         try {
             $user = Socialite::driver($driver)->user();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->route('login');
         }
 
@@ -174,28 +173,28 @@ class LoginController extends Controller
         if ($existingUser) {
             auth()->login($existingUser, true);
         } else {
-            $newUser                    = new User;
-            $newUser->provider_name     = $driver;
-            $newUser->provider_id       = $user->getId();
-            $newUser->name              = $user->getName();
-            $newUser->email             = $user->getEmail();
+            $newUser = new User();
+            $newUser->provider_name = $driver;
+            $newUser->provider_id = $user->getId();
+            $newUser->name = $user->getName();
+            $newUser->email = $user->getEmail();
             $newUser->email_verified_at = now();
-            $newUser->avatar            = $user->getAvatar();
-            $newUser->locale            = \App::getLocale();
+            $newUser->avatar = $user->getAvatar();
+            $newUser->locale = \App::getLocale();
             $newUser->save();
-    
+
             event(new UserSelfRegistered($newUser));
 
             auth()->login($newUser, true);
 
             session()->flash('login_message', __('userprofile.registration_message', [
                 'name' => Auth::user()->name,
-                'app_name' => Config::get('app.name')
+                'app_name' => Config::get('app.name'),
             ]));
 
             return redirect($this->laravelRedirectPath());
         }
-    
+
         return redirect($this->redirectPath());
     }
 

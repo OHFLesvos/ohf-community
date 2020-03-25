@@ -27,7 +27,7 @@ class StoreUndoHandoutCoupon extends FormRequest
         ];
     }
 
-        /**
+    /**
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
@@ -43,7 +43,7 @@ class StoreUndoHandoutCoupon extends FormRequest
                 ->orderBy('date', 'desc')
                 ->first();
             if ($handout != null) {
-                if (!$handout->isReturningPossible) {
+                if (! $handout->isReturningPossible) {
                     $validator->errors()->add('coupon_type_id', __('coupons.only_allowed_within_n_seconds_after_handout', ['seconds' => $handout::returningPossibleGracePeriod()]));
                 }
             } else {

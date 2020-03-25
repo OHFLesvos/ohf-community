@@ -3,11 +3,10 @@
 namespace App\Navigation\Drawer\Shop;
 
 use App\Navigation\Drawer\BaseNavigationItem;
-
 use Illuminate\Support\Facades\Gate;
 
-class ShopNavigationItem extends BaseNavigationItem {
-
+class ShopNavigationItem extends BaseNavigationItem
+{
     protected $route = 'shop.index';
 
     protected $caption = 'shop.shop';
@@ -20,5 +19,4 @@ class ShopNavigationItem extends BaseNavigationItem {
     {
         return Gate::allows('validate-shop-coupons');
     }
-
 }

@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Collaboration;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Collaboration\WikiArticle;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class ArticleIndexContextButtons implements ContextButtons {
-
+class ArticleIndexContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [

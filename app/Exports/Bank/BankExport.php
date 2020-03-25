@@ -3,23 +3,22 @@
 namespace App\Exports\Bank;
 
 use App\Exports\BaseExport;
-use App\Models\People\Person;
 use App\Models\Bank\CouponType;
-
+use App\Models\People\Person;
+use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapping
 {
-    private $couponTypes;
+    private Collection $couponTypes;
 
     public function __construct()
     {
-        $this->setOrientation('landscape');
+        $this->orientation = 'landscape';
 
         $this->couponTypes = CouponType::orderBy('order')
             ->orderBy('name')
@@ -33,17 +32,11 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
             ->orderBy('name', 'asc');
     }
 
-    /**
-     * @return string
-     */
     public function title(): string
     {
         return __('people.withdrawals');
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         $headings = [
@@ -55,7 +48,7 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
             __('people.nationality'),
             __('people.police_number'),
         ];
-        foreach($this->couponTypes as $coupon) {
+        foreach ($this->couponTypes as $coupon) {
             $headings[] = $coupon->name;
         }
         $headings[] = __('people.remarks');
@@ -63,8 +56,8 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
     }
 
     /**
-    * @var Person $person
-    */
+     * @param Person $person
+     */
     public function map($person): array
     {
         $mapping = [
@@ -76,7 +69,7 @@ class BankExport extends BaseExport implements FromQuery, WithHeadings, WithMapp
             $person->nationality,
             $person->police_no,
         ];
-        foreach($this->couponTypes as $coupon) {
+        foreach ($this->couponTypes as $coupon) {
             if ($person->eligibleForCoupon($coupon)) {
                 $lastHandout = $person->lastCouponHandout($coupon);
                 $mapping[] = $lastHandout ?? '';

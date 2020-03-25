@@ -4,12 +4,12 @@
 
 @section('content')
 
-    @if( ! $articles->isEmpty() )
+    @if(! $articles->isEmpty())
         <p><small>@lang('wiki.found_num_articles_with_tag', ['num' => $articles->total(), 'tag' => $tag->name ])</small></p>
         <p>
             @foreach ($articles as $article)
                 <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
-                    @auth 
+                    @auth
                         @if($article->public)
                             <small class="text-muted" title="@lang('wiki.article_publicly_available')">@icon(eye)</small>
                         @endif
@@ -31,6 +31,6 @@
         @component('components.alert.info')
             @lang('wiki.no_articles_found')
         @endcomponent
-	@endif
-	
+    @endif
+
 @endsection

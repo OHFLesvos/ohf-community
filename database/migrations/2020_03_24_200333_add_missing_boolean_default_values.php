@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Schema;
 class AddMissingBooleanDefaultValues extends Migration
 {
     public function __construct()
-	{
-		// workaround for laravels limitation to change tables with an enum
-		DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+    {
+        // workaround for laravels limitation to change tables with an enum
+        DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
     }
 
     /**

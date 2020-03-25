@@ -22,15 +22,15 @@ trait HasTags
      */
     public function getTagsSortedAttribute()
     {
-        return $this->tags->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE);
-    }    
+        return $this->tags->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
+    }
 
     public function syncTags(array $tags)
     {
         $tag_ids = [];
-        foreach($tags as $tag_str) {
+        foreach ($tags as $tag_str) {
             $tag = Tag::where('name', $tag_str)->first();
-            if ($tag != null) {
+            if ($tag !== null) {
                 $tag_ids[] = $tag->id;
             } else {
                 $tag = new Tag();

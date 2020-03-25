@@ -2,10 +2,8 @@
 
 namespace App\Policies\Helpers;
 
-use App\User;
-
 use App\Models\Helpers\Helper;
-
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HelperPolicy
@@ -41,7 +39,7 @@ class HelperPolicy
         return $user->hasPermission('people.helpers.view');
     }
 
-        /**
+    /**
      * Determine whether the user can import helpers.
      *
      * @param  \App\User  $user

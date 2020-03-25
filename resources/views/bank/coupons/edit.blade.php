@@ -66,10 +66,10 @@
 @endsection
 
 @section('script')
-$(function(){
+$(function () {
     $('#icon').autocomplete({
         lookup: {!! json_encode(list_fa_icons()) !!},
-        onSelect: function(suggestion){
+        onSelect: function (suggestion) {
             $('#icon-addon').html('<i class="fa fa-' + suggestion.value + '"></i>');
         }
     });

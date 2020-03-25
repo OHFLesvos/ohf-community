@@ -6,24 +6,21 @@ use App\Models\Fundraising\Donation;
 
 class DonationsWithDonorSheet extends DonationsSheet
 {
-    protected $currencyColumn = 'H';
-    protected $exchangedCurrencyColumn = 'I';
+    protected string $currencyColumn = 'H';
+    protected string $exchangedCurrencyColumn = 'I';
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         $headings = collect(parent::headings());
         $headings->splice(1, 0, [
-                __('fundraising.donor')
-            ]);
-        return $headings ->toArray();
+            __('fundraising.donor'),
+        ]);
+        return $headings->toArray();
     }
 
     /**
-    * @var Donation $donation
-    */
+     * @param Donation $donation
+     */
     public function map($donation): array
     {
         $map = collect(parent::map($donation));

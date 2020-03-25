@@ -50,7 +50,7 @@ return [
      * Set this to a closure that accepts two parameters (string and separator)
      * to define a custom slugger.  e.g.:
      *
-     *    'method' => function( $string, $sep ) {
+     *    'method' => function ( $string, $sep ) {
      *       return preg_replace('/[^a-z]+/i', $sep, $string);
      *    },
      *
@@ -111,7 +111,7 @@ return [
      * If using a closure, it will accept one parameter: the model itself, and should
      * return an array of reserved names, or null. e.g.
      *
-     *    'reserved' => function( Model $model) {
+     *    'reserved' => function ( Model $model) {
      *      return $model->some_method_that_returns_an_array();
      *    }
      *

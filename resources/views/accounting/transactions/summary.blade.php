@@ -115,8 +115,8 @@
 @endsection
 
 @section('script')
-$(function(){
-    $('#monthrange').on('change', function(){
+$(function () {
+    $('#monthrange').on('change', function () {
         var val = $(this).val();
         var month = ''
         var year = ''
@@ -127,7 +127,7 @@ $(function(){
         }
         document.location = '{{ route('accounting.transactions.summary') }}?month=' + month + '&year=' + year;
     });
-    $('#yearrange').on('change', function(){
+    $('#yearrange').on('change', function () {
         var val = $(this).val();
         document.location = '{{ route('accounting.transactions.summary') }}?year=' + val;
     });

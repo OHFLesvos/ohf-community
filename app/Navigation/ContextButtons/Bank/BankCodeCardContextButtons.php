@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\Bank;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
-class BankCodeCardContextButtons implements ContextButtons {
-
+class BankCodeCardContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -16,8 +15,8 @@ class BankCodeCardContextButtons implements ContextButtons {
                 'url' => route('bank.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Gate::allows('view-bank-index')
-            ]
+                'authorized' => Gate::allows('view-bank-index'),
+            ],
         ];
     }
 

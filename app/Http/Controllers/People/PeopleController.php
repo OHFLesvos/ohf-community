@@ -2,28 +2,21 @@
 
 namespace App\Http\Controllers\People;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UploadSpreadsheet;
-
-use App\Models\People\Person;
 use App\Exports\People\PeopleExport;
-use App\Imports\People\PeopleImport;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\People\StorePerson;
-
+use App\Http\Requests\UploadSpreadsheet;
+use App\Imports\People\PeopleImport;
 use App\Models\Bank\CouponHandout;
-
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Log;
-
-use Validator;
-
+use App\Models\People\Person;
 use Carbon\Carbon;
-
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\LabelAlignment;
-
 use Countries;
+use Endroid\QrCode\LabelAlignment;
+use Endroid\QrCode\QrCode;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class PeopleController extends Controller
 {
@@ -37,9 +30,9 @@ class PeopleController extends Controller
         $this->authorizeResource(Person::class);
     }
 
-    function index(Request $request)
+    public function index()
     {
-    	return view('people.index');
+        return view('people.index');
     }
 
     public function create()
@@ -54,11 +47,12 @@ class PeopleController extends Controller
     {
         $person = new Person();
         $person->fill($request->all());
-		$person->save();
+        $person->save();
 
-		return redirect()->route('people.index')
-				->with('success', __('people.person_added'));
-	}
+        return redirect()
+            ->route('people.index')
+            ->with('success', __('people.person_added'));
+    }
 
     public function show(Person $person)
     {
@@ -79,17 +73,17 @@ class PeopleController extends Controller
     {
         return view('people.edit', [
             'person' => $person,
-            'countries' => Countries::getList('en')
-		]);
-	}
+            'countries' => Countries::getList('en'),
+        ]);
+    }
 
     public function update(StorePerson $request, Person $person)
     {
         $person->fill($request->all());
         $person->save();
         return redirect()->route('people.show', $person)
-                ->with('success', __('people.person_updated'));
-	}
+            ->with('success', __('people.person_updated'));
+    }
 
     public function destroy(Person $person)
     {
@@ -105,22 +99,20 @@ class PeopleController extends Controller
         Person::orderBy('family_name')
             ->orderBy('name')
             ->get()
-            ->each(function($e) use (&$names) {
+            ->each(function ($e) use (&$names) {
                 $names[$e->name . ' ' . $e->family_name][$e->id] = $e;
             });
         $duplicates = collect($names)
-            ->filter(function($e){
-                return count($e) > 1;
-            });
+            ->filter(fn ($e) => count($e) > 1);
 
         return view('people.duplicates', [
             'duplicates' => $duplicates,
             'total' => Person::count(),
             'actions' => [
-                'nothing'=> 'Do nothing',
-                'merge'=>'Merge',
+                'nothing' => 'Do nothing',
+                'merge' => 'Merge',
             ],
-		]);
+        ]);
     }
 
     public function applyDuplicates(Request $request)
@@ -129,7 +121,7 @@ class PeopleController extends Controller
             'action' => 'required|array',
         ])->validate();
         $merged = 0;
-        foreach($request->action as $idsString => $action) {
+        foreach ($request->action as $idsString => $action) {
             if ($action == 'merge') {
                 $ids = explode(',', $idsString);
                 self::mergePersons($ids);
@@ -150,15 +142,16 @@ class PeopleController extends Controller
         $master = $persons->shift();
 
         // Merge basic attributes
-        foreach ([
-                'gender',
-                'date_of_birth',
-                'nationality',
-                'languages',
-                'police_no',
-                'card_no',
-                'card_issued'
-            ] as $attr) {
+        $attributes = [
+            'gender',
+            'date_of_birth',
+            'nationality',
+            'languages',
+            'police_no',
+            'card_no',
+            'card_issued',
+        ];
+        foreach ($attributes as $attr) {
             if ($master->$attr == null) {
                 $master->$attr = self::getFirstNonEmptyAttributeFromCollection($persons, $attr);
             }
@@ -167,11 +160,11 @@ class PeopleController extends Controller
         // Merge coupon handouts
         CouponHandout::whereIn('person_id', $persons->pluck('id')->toArray())
             ->get()
-            ->each(function($e) use($master) {
+            ->each(function ($e) use ($master) {
                 $e->person_id = $master->id;
                 try {
                     $e->save();
-                } catch(\Illuminate\Database\QueryException $ex){
+                } catch(\Illuminate\Database\QueryException $ex) {
                     // Ignore
                     Log::notice('Skip adapting coupon handout during merge: ' . $ex->getMessage());
                 }
@@ -180,18 +173,16 @@ class PeopleController extends Controller
         // Merge remarks
         $remarks = $persons->pluck('remarks')
             ->push($master->remarks)
-            ->filter(function($e) {
-                return $e != null;
-            })
+            ->filter(fn ($e) => $e != null)
             ->unique()
             ->implode("\n");
-        if (!empty($remarks)) {
+        if (! empty($remarks)) {
             $master->remarks = $remarks;
         }
 
         // Save master, remove duplicates
         $master->save();
-        $persons->each(function($e) {
+        $persons->each(function ($e) {
             $e->forceDelete();
         });
 
@@ -201,33 +192,32 @@ class PeopleController extends Controller
     private static function getFirstNonEmptyAttributeFromCollection($collection, $attributeName)
     {
         return $collection->pluck($attributeName)
-            ->filter(function($e) {
-                return $e != null;
-            })
+            ->filter(fn ($e) => $e != null)
             ->first();
     }
 
     public function export()
     {
         $file_name = __('people.people') . ' ' . Carbon::now()->toDateString();
-        return (new PeopleExport)->download($file_name . '.' . 'xlsx');
+        $extension = 'xlsx';
+        return (new PeopleExport())->download($file_name . '.' . $extension);
     }
 
-    function import()
+    public function import()
     {
         return view('people.import');
     }
 
-    function doImport(UploadSpreadsheet $request)
+    public function doImport(UploadSpreadsheet $request)
     {
         $import = new PeopleImport();
         $import->import($request->file('file'));
 
         return redirect()->route('people.index')
-				->with('success', __('app.imported_num_records', ['num' => $import->count()]));
+            ->with('success', __('app.imported_num_records', ['num' => $import->count()]));
     }
 
-    function bulkSearch(Request $request)
+    public function bulkSearch()
     {
         $orders = [
             'name' => __('app.name'),
@@ -240,7 +230,7 @@ class PeopleController extends Controller
         ]);
     }
 
-    function doBulkSearch(Request $request)
+    public function doBulkSearch(Request $request)
     {
         $request->validate([
             'data' => [
@@ -248,8 +238,12 @@ class PeopleController extends Controller
             ],
             'order' => [
                 'required',
-                Rule::in(['name', 'age', 'nationality']),
-            ]
+                Rule::in([
+                    'name',
+                    'age',
+                    'nationality',
+                ]),
+            ],
         ]);
 
         $lines = preg_split("/[\s]*(\r\n|\n|\r)[\s]*/", $request->input('data'));
@@ -257,11 +251,11 @@ class PeopleController extends Controller
             ->orderBy('family_name');
         foreach ($lines as $line) {
             $terms = split_by_whitespace($line);
-            $qry->orWhere(function($qp) use ($terms) {
+            $qry->orWhere(function ($qp) use ($terms) {
                 foreach ($terms as $term) {
                     // Remove dash "-" from term
                     $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
-                    $qp->where(function($wq) use ($term) {
+                    $qp->where(function ($wq) use ($term) {
                         $wq->where('search', 'LIKE', '%' . $term  . '%');
                         $wq->orWhere('police_no', $term);
                     });

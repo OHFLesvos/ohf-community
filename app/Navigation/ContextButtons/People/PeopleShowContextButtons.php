@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\People;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\People\Person;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class PeopleShowContextButtons implements ContextButtons {
-
+class PeopleShowContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $person = $view->getData()['person'];
@@ -20,7 +18,7 @@ class PeopleShowContextButtons implements ContextButtons {
                 'caption' => __('app.edit'),
                 'icon' => 'edit',
                 'icon_floating' => 'pencil-alt',
-                'authorized' => Auth::user()->can('update', $person)
+                'authorized' => Auth::user()->can('update', $person),
             ],
             'helper' => $person->helper != null ? [
                 'url' => route('people.helpers.show', $person->helper),
@@ -33,15 +31,14 @@ class PeopleShowContextButtons implements ContextButtons {
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $person),
-                'confirmation' => __('people.confirm_delete_person')
+                'confirmation' => __('people.confirm_delete_person'),
             ],
             'back' => [
                 'url' => route(session('peopleOverviewRouteName', 'people.index')),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Person::class)
-            ]
+                'authorized' => Auth::user()->can('list', Person::class),
+            ],
         ];
     }
-
 }

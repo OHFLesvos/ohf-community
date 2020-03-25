@@ -69,7 +69,7 @@
             $('#lend-existing-book-button').attr('disabled', true);
         }
     }
-    $(function(){
+    $(function () {
         $('#person_id').on('change', toggleSubmit);
         toggleSubmit();
 
@@ -78,7 +78,7 @@
         @endif
     });
 
-    $('.extend-lending-button').on('click', function(){
+    $('.extend-lending-button').on('click', function () {
         var days = prompt('{{ __('app.number_of_days') }}:', {{ $default_extend_duration }});
         if (days != null && days > 0) {
             window.post('{{ route('library.lending.extendBook', $book) }}', {_token: '{{ csrf_token() }}', days: days});

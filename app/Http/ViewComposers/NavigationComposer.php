@@ -3,12 +3,11 @@
 namespace App\Http\ViewComposers;
 
 use App\Support\Facades\NavigationItems;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class NavigationComposer {
-
+class NavigationComposer
+{
     /**
      * Bind data to the view.
      *

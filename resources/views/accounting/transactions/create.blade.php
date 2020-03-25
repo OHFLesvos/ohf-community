@@ -62,8 +62,8 @@
 @endsection
 
 @section('script')
-$(function(){
-    $('input[name="date"]').on('change', function(){
+$(function () {
+    $('input[name="date"]').on('change', function () {
         $('input[name="amount"]').focus();
     });
 });

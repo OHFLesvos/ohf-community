@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Bank\CouponType;
 use App\Http\Requests\Bank\StoreCouponType;
-
-use Illuminate\Support\Facades\DB;
+use App\Models\Bank\CouponType;
 
 class CouponTypesController extends Controller
 {
@@ -29,8 +26,7 @@ class CouponTypesController extends Controller
     public function index()
     {
         return view('bank.coupons.index', [
-            'coupons' => CouponType
-                ::orderBy('order')
+            'coupons' => CouponType::orderBy('order')
                 ->orderBy('name')
                 ->get(),
         ]);
@@ -44,7 +40,7 @@ class CouponTypesController extends Controller
     public function create()
     {
         return view('bank.coupons.create', [
-            'default_order' => optional(CouponType::select(DB::raw('MAX(`order`) as max_order'))->first())->max_order + 1,
+            'default_order' => optional(CouponType::selectRaw('MAX(`order`) as max_order')->first())->max_order + 1,
         ]);
     }
 
@@ -64,7 +60,8 @@ class CouponTypesController extends Controller
         $coupon->allow_for_helpers = isset($request->allow_for_helpers);
         $coupon->save();
 
-        return redirect()->route('coupons.index')
+        return redirect()
+            ->route('coupons.index')
             ->with('success', __('coupons.coupon_added'));
     }
 
@@ -110,7 +107,8 @@ class CouponTypesController extends Controller
         $coupon->allow_for_helpers = isset($request->allow_for_helpers);
         $coupon->save();
 
-        return redirect()->route('coupons.show', $coupon)
+        return redirect()
+            ->route('coupons.show', $coupon)
             ->with('info', __('coupons.coupon_updated'));
     }
 
@@ -123,7 +121,8 @@ class CouponTypesController extends Controller
     public function destroy(CouponType $coupon)
     {
         $coupon->delete();
-        return redirect()->route('coupons.index')
+        return redirect()
+            ->route('coupons.index')
             ->with('success', __('coupons.coupon_deleted'));
     }
 }

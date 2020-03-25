@@ -1,4 +1,4 @@
-@if ($label === null || !empty($label))
+@if ($label === null || ! empty($label))
     <p>{{ $label }}</p>
 @endif
 <div class="custom-control custom-radio custom-control-inline">

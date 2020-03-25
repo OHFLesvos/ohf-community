@@ -8,10 +8,15 @@ class ArticleView extends Model
 {
     protected $table = 'kb_article_views';
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     protected $fillable = [
-        'value'
+        'value',
     ];
 
     /**

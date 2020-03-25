@@ -6,36 +6,43 @@ use App\Http\Controllers\Settings\SettingsController;
 
 class AccountingSettingsController extends SettingsController
 {
-    protected function getSections() {
+    public const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
+    public const PROJECTS_SETTING_KEY = 'accounting.transactions.projects';
+
+    protected function getSections()
+    {
         return [ ];
     }
 
-    protected function getSettings() {
+    protected function getSettings()
+    {
         return [
-            'accounting.transactions.categories' => [
+            self::CATEGORIES_SETTING_KEY => [
                 'default' => '',
                 'form_type' => 'textarea',
                 'label_key' => 'app.categories',
                 'form_help' => 'Separate items by newline',
-                'setter' => function($value){ return preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value); },
-                'getter' => function($value) { return implode("\n", $value); },
+                'setter' => fn ($value) => preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value),
+                'getter' => fn ($value) => implode("\n", $value),
             ],
-            'accounting.transactions.projects' => [
+            self::PROJECTS_SETTING_KEY => [
                 'default' => '',
                 'form_type' => 'textarea',
                 'label_key' => 'app.projects',
                 'form_help' => 'Separate items by newline',
-                'setter' => function($value){ return preg_split("/(\s*[,\/|]\s*)|(\s*\n\s*)/", $value); },
-                'getter' => function($value) { return implode("\n", $value); },
+                'setter' => fn ($value) => preg_split("/(\s*[,\/|]\s*)|(\s*\n\s*)/", $value),
+                'getter' => fn ($value) => implode("\n", $value),
             ],
         ];
     }
 
-    protected function getUpdateRouteName() {
+    protected function getUpdateRouteName()
+    {
         return 'accounting.settings.update';
     }
 
-    protected function getRedirectRouteName() {
+    protected function getRedirectRouteName()
+    {
         return 'accounting.transactions.summary';
     }
 

@@ -15,8 +15,8 @@ class UpdatePersonRemarks extends FormRequest
     {
         return [
             'remarks' => [
-				'nullable'
-			],
+                'nullable',
+            ],
         ];
     }
 

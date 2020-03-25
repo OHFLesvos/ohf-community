@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\UserManagement;
 
-use App\Role;
-use App\User;
-use App\RolePermission;
 use App\Http\Controllers\Controller;
-use App\Support\Facades\PermissionRegistry;
-
 use App\Http\Requests\UserManagement\StoreRole;
 use App\Http\Requests\UserManagement\UpdateMembers;
+use App\Role;
+use App\RolePermission;
+use App\Support\Facades\PermissionRegistry;
+use App\User;
 
 class RoleController extends Controller
 {
@@ -26,7 +25,9 @@ class RoleController extends Controller
     public function index()
     {
         return view('user_management.roles.index', [
-            'roles' => Role::with(['users', 'permissions'])->orderBy('name')->paginate(100)
+            'roles' => Role::with(['users', 'permissions'])
+                ->orderBy('name')
+                ->paginate(100),
         ]);
     }
 
@@ -38,7 +39,10 @@ class RoleController extends Controller
     public function create()
     {
         return view('user_management.roles.create', [
-            'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
+            'users' => User::orderBy('name')
+                ->get()
+                ->pluck('name', 'id')
+                ->toArray(),
             'permissions' => PermissionRegistry::getCategorizedPermissions(),
         ]);
     }
@@ -65,7 +69,8 @@ class RoleController extends Controller
             }
         }
 
-        return redirect()->route('roles.index')
+        return redirect()
+            ->route('roles.index')
             ->with('success', __('app.role_added'));
     }
 
@@ -80,7 +85,7 @@ class RoleController extends Controller
         $current_permissions = $role->permissions->pluck('key');
         $permissions = [];
         foreach (PermissionRegistry::getCategorizedPermissions() as $title => $elements) {
-            foreach($elements as $key => $label) {
+            foreach ($elements as $key => $label) {
                 if ($current_permissions->contains($key)) {
                     $permissions[$title][] = $label;
                 }
@@ -103,7 +108,10 @@ class RoleController extends Controller
     {
         return view('user_management.roles.edit', [
             'role' => $role,
-            'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
+            'users' => User::orderBy('name')
+                ->get()
+                ->pluck('name', 'id')
+                ->toArray(),
             'permissions' => PermissionRegistry::getCategorizedPermissions(),
         ]);
     }
@@ -124,22 +132,28 @@ class RoleController extends Controller
 
         if (isset($request->permissions)) {
             foreach ($request->permissions as $k) {
-                if (!$role->permissions->contains(function ($value, $key) use ($k) { return $value->key == $k; })) {
+                if (! $role->permissions->contains(fn ($value, $key) => $value->key == $k)) {
                     $permission = new RolePermission();
                     $permission->key = $k;
                     $role->permissions()->save($permission);
                 }
             }
         }
-        foreach (PermissionRegistry::collection() as $k => $v) {
-            if (!in_array($k, isset($request->permissions) ? $request->permissions : [])) {
-                RolePermission::where('key', $k)->where('role_id', $role->id)->delete();
+        foreach (PermissionRegistry::collection()->keys() as $key) {
+            if (! in_array($key, isset($request->permissions) ? $request->permissions : [])) {
+                RolePermission::where('key', $key)
+                    ->where('role_id', $role->id)
+                    ->delete();
             }
         }
         $valid_keys = PermissionRegistry::collection()->keys();
-        RolePermission::destroy($role->permissions->whereNotIn('key', $valid_keys)->pluck('id')->toArray());
+        $ids_to_delete = $role->permissions->whereNotIn('key', $valid_keys)
+            ->pluck('id')
+            ->toArray();
+        RolePermission::destroy($ids_to_delete);
 
-        return redirect()->route('roles.show', $role)
+        return redirect()
+            ->route('roles.show', $role)
             ->with('success', __('app.role_updated'));
     }
 
@@ -152,7 +166,8 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
-        return redirect()->route('roles.index')
+        return redirect()
+            ->route('roles.index')
             ->with('success', __('app.role_deleted'));
     }
 
@@ -178,7 +193,10 @@ class RoleController extends Controller
 
         return view('user_management.roles.manageMembers', [
             'role' => $role,
-            'users' => User::orderBy('name')->get()->pluck('name', 'id')->toArray(),
+            'users' => User::orderBy('name')
+                ->get()
+                ->pluck('name', 'id')
+                ->toArray(),
         ]);
     }
 
@@ -195,9 +213,9 @@ class RoleController extends Controller
 
         $role->users()->sync($request->users);
 
-        return redirect()->route('roles.show', $role)
+        return redirect()
+            ->route('roles.show', $role)
             ->with('success', __('app.role_updated'));
     }
-
 
 }

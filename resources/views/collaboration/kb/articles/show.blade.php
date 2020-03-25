@@ -11,7 +11,7 @@
         @endauth
     @endif
 
-	{!! $article->content !!}
+    {!! $article->content !!}
 
     <hr>
     @auth

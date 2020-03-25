@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{ $v['coupon']->name }}</td>
                         <td class="text-right">{{ $v['avg_sum'] }}</td>
-                        <td class="text-right">@isset($v['highest_sum']){{ $v['highest_sum']->sum }} <small class="text-muted">{{ $v['highest_sum']->date }}</small>@endisset </td>
+                        <td class="text-right">@isset($v['highest_sum']) {{ $v['highest_sum']->sum }} <small class="text-muted">{{ $v['highest_sum']->date }}</small>@endisset </td>
                         <td class="text-right">{{ $v['last_month_sum'] }}</td>
                         <td class="text-right">{{ $v['this_month_sum'] }}</td>
                         <td class="text-right">{{ $v['last_week_sum'] }}</td>

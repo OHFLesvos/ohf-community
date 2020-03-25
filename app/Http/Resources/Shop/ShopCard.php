@@ -46,12 +46,12 @@ class ShopCard extends JsonResource
     private function getFamilyMembers()
     {
         return $this->person->familyMembers
-            ->map(function($person){
-                return [
-                    'fullName' => $person->fullName,
-                    'age_formatted' => __('people.age_n', ['age' => $person->age]),
-                ];
-            })
+            ->map(fn ($person) => [
+                'fullName' => $person->fullName,
+                'age_formatted' => __('people.age_n', [
+                    'age' => $person->age,
+                ]),
+            ])
             ->toArray();
     }
 }

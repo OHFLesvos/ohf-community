@@ -25,10 +25,10 @@
 
                         <div class="form-row">
                             <div class="col-md">
-                                {{ Form::bsEmail('email', null, [ !empty($user->provider_name) ? 'disabled' : 'required' ], __('app.email')) }}
+                                {{ Form::bsEmail('email', null, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('app.email')) }}
                             </div>
                             <div class="col-md">
-                                {{ Form::bsPassword('password', [ !empty($user->provider_name) ? 'disabled' : null ], __('app.password'), __('app.leave_empty_to_keep_current_password')) }}
+                                {{ Form::bsPassword('password', [ ! empty($user->provider_name) ? 'disabled' : null ], __('app.password'), __('app.leave_empty_to_keep_current_password')) }}
                             </div>
                         </div>
 
@@ -40,11 +40,11 @@
                 <div class="card">
                     <div class="card-header">@lang('app.roles')</div>
                     <div class="card-body">
-                        {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(function($role){return [ $role->id => $role->name ];}), null) }}
+                        {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(fn ($role) => [ $role->id => $role->name ]), null) }}
                         @empty($roles)
                             <em>@lang('app.no_roles_defined')</em>
                         @endempty
-                        @if ( App\User::count() > 1 )
+                        @if (App\User::count() > 1)
                             <hr>
                             {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}
                         @endif

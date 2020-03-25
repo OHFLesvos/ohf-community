@@ -2,19 +2,18 @@
 
 namespace App\Providers;
 
+use App\Providers\Traits\RegistersDashboardWidgets;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
 use App\Rules\Library\Isbn;
-use App\Providers\Traits\RegistersDashboardWidgets;
-
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -55,27 +54,26 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         // Enforce SSL if running in production
-		if (env('APP_ENV') === 'production' || env('APP_ENV') === 'prod') {
-			\URL::forceScheme('https');
-		}
+        if (env('APP_ENV') === 'production' || env('APP_ENV') === 'prod') {
+            \URL::forceScheme('https');
+        }
 
-		// Pagination method for collections
-        if (!Collection::hasMacro('paginate')) {
+        // Pagination method for collections
+        if (! Collection::hasMacro('paginate')) {
             Collection::macro('paginate',
                 function ($perPage = 15, $page = null, $options = []) {
                     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-                    return (new LengthAwarePaginator(
-                        $this->forPage($page, $perPage), $this->count(), $perPage, $page, $options))
-                        ->withPath('');
+                    $forPage = $this->forPage($page, $perPage);
+                    $count = $this->count();
+                    $paginator = new LengthAwarePaginator($forPage, $count, $perPage, $page, $options);
+                    return $paginator->withPath('');
                 });
         }
 
         // Blade directive for showing a Font Awesome icon
-        Blade::directive('icon', function ($name) {
-            return '<i class="fa fa-' . $name . '"></i>';
-        });
+        Blade::directive('icon', fn ($name) => '<i class="fa fa-' . $name . '"></i>');
 
-		// Exposes checks agains a specific gate
+        // Exposes checks agains a specific gate
         Blade::if('allowed', function ($gate) {
             if (is_array($gate)) {
                 foreach ($gate as $g) {
@@ -89,24 +87,16 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Blade directive to create a link to a telephone number
-        Blade::directive('tel', function ($expression) {
-            return "<?php echo tel_link($expression); ?>";
-        });
+        Blade::directive('tel', fn ($expression) => "<?php echo tel_link(${expression}); ?>");
 
         // Blade directive to create a link to a WhatsApp number
-        Blade::directive('whatsapp', function ($expression) {
-            return "<?php echo whatsapp_link($expression); ?>";
-        });
+        Blade::directive('whatsapp', fn ($expression) => "<?php echo whatsapp_link(${expression}); ?>");
 
         // Blade directive to create a link to an email address
-        Blade::directive('email', function ($expression) {
-            return "<?php echo email_link($expression); ?>";
-        });
+        Blade::directive('email', fn ($expression) => "<?php echo email_link(${expression}); ?>");
 
         // Blade directive to create a link to call a skype name
-        Blade::directive('skype', function ($expression) {
-            return "<?php echo skype_link($expression); ?>";
-        });
+        Blade::directive('skype', fn ($expression) => "<?php echo skype_link(${expression}); ?>");
 
         $this->registerRules();
         $this->registerDashboardWidgets();

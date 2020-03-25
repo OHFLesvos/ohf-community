@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\UserManagement;
 
-use App\User;
 use App\Support\Facades\PermissionRegistry;
-
-use Illuminate\Validation\Rule;
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRole extends FormRequest
 {
@@ -32,7 +31,7 @@ class StoreRole extends FormRequest
                 'required',
                 'string',
                 'max:191',
-                isset($this->role) ? Rule::unique('roles')->ignore($this->role->id) : Rule::unique('roles')
+                isset($this->role) ? Rule::unique('roles')->ignore($this->role->id) : Rule::unique('roles'),
             ],
             'users' => [
                 'array',
@@ -41,11 +40,11 @@ class StoreRole extends FormRequest
             'role_admins' => [
                 'array',
                 Rule::in(User::select('id')->get()->pluck('id')),
-            ],            
+            ],
             'permissions' => [
                 'array',
                 Rule::in(PermissionRegistry::keys()),
-            ]
+            ],
         ];
     }
 }

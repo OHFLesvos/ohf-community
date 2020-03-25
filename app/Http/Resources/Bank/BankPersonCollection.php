@@ -21,8 +21,8 @@ class BankPersonCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function(BankPerson $resource) use($request){
-                return $resource->withCouponTypes($this->couponTypes)->toArray($request);
-        })->all();
+        return $this->collection
+            ->map(fn (BankPerson $resource) => $resource->withCouponTypes($this->couponTypes)->toArray($request))
+            ->all();
     }
 }

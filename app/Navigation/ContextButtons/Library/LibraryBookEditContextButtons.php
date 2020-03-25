@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\Library;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class LibraryBookEditContextButtons implements ContextButtons {
-
+class LibraryBookEditContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $book = $view->getData()['book'];
@@ -18,14 +17,14 @@ class LibraryBookEditContextButtons implements ContextButtons {
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $book),
-                'confirmation' => __('library.confirm_delete_book')
+                'confirmation' => __('library.confirm_delete_book'),
             ],
             'back' => [
                 'url' => route('library.lending.book', $book),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('view', $book),
-            ]
+            ],
         ];
     }
 

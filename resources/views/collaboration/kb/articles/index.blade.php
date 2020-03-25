@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @if( ! $articles->isEmpty() )
+    @if(! $articles->isEmpty())
         @if($order == 'popularity')
             <p><small>@lang('wiki.showing_articles_by_popularity')</small></p>
         @elseif($order == 'recent')
@@ -41,6 +41,6 @@
         @component('components.alert.info')
             @lang('wiki.no_articles_found')
         @endcomponent
-	@endif
+    @endif
 
 @endsection

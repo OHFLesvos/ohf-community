@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Helpers;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Helpers\Helper;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class HelperShowContextButtons implements ContextButtons {
-
+class HelperShowContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $helper = $view->getData()['helper'];
@@ -25,21 +23,21 @@ class HelperShowContextButtons implements ContextButtons {
                 'url' => route('people.helpers.vcard', $helper),
                 'caption' => __('app.vcard'),
                 'icon' => 'address-card',
-                'authorized' => Auth::user()->can('view', $helper)
-            ],                    
+                'authorized' => Auth::user()->can('view', $helper),
+            ],
             'delete' => [
                 'url' => route('people.helpers.destroy', $helper),
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $helper),
-                'confirmation' => 'Really delete this helper?'
+                'confirmation' => 'Really delete this helper?',
             ],
             'back' => [
                 'url' => route('people.helpers.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Helper::class)
-            ]
+                'authorized' => Auth::user()->can('list', Helper::class),
+            ],
         ];
     }
 

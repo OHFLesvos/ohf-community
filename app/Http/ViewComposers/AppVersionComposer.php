@@ -5,9 +5,9 @@ namespace App\Http\ViewComposers;
 use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
 
-class AppVersionComposer {
-
-	/**
+class AppVersionComposer
+{
+    /**
      * Create the composer.
      *
      * @return void

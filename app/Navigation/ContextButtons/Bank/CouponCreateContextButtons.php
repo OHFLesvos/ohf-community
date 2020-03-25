@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Bank;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Bank\CouponType;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class CouponCreateContextButtons implements ContextButtons {
-
+class CouponCreateContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -18,8 +16,8 @@ class CouponCreateContextButtons implements ContextButtons {
                 'url' => route('coupons.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', CouponType::class)
-            ]
+                'authorized' => Auth::user()->can('list', CouponType::class),
+            ],
         ];
     }
 

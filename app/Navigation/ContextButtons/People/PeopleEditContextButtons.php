@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\People;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class PeopleEditContextButtons implements ContextButtons {
-
+class PeopleEditContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $person = $view->getData()['person'];
@@ -17,10 +16,9 @@ class PeopleEditContextButtons implements ContextButtons {
                 'url' => route('people.show', $person),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('view', $person)
-            ]
+                'authorized' => Auth::user()->can('view', $person),
+            ],
         ];
-
     }
 
 }

@@ -3,48 +3,36 @@
 namespace App\Exports\Fundraising;
 
 use App\Exports\BaseExport;
-
-use App\Models\Fundraising\Donor;
 use App\Models\Fundraising\Donation;
-
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Auth;
-
+use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
     public function __construct()
     {
-        $this->setOrientation('landscape');
+        $this->orientation = 'landscape';
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return Donor
-            ::orderBy('first_name')
+        return Donor::orderBy('first_name')
             ->orderBy('last_name')
             ->orderBy('company');
     }
 
-    /**
-     * @return string
-     */
     public function title(): string
     {
         return __('fundraising.donors');
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         $headings = [
@@ -74,8 +62,8 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     }
 
     /**
-    * @var Donor $donor
-    */
+     * @param Donor $donor
+     */
     public function map($donor): array
     {
         $map = [
@@ -117,8 +105,9 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             $formats['P'] = Config::get('fundraising.base_currency_excel_format');
             $i = Coordinate::columnIndexFromString('P');
             foreach (Config::get('fundraising.currencies') as $currency) {
-                $column = Coordinate::stringFromColumnIndex(++$i);
-                $formats[$column] =  Config::get('fundraising.currencies_excel_format')[$currency];
+                $i++;
+                $column = Coordinate::stringFromColumnIndex($i);
+                $formats[$column] = Config::get('fundraising.currencies_excel_format')[$currency];
             }
         }
         return $formats;

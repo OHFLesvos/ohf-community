@@ -4,11 +4,8 @@ namespace App\Models\Collaboration;
 
 use App\Support\Traits\HasTags;
 use App\Util\Collaboration\ArticleFormat;
-
-use Illuminate\Database\Eloquent\Model;
-
 use Cviebrock\EloquentSluggable\Sluggable;
-
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class WikiArticle extends Model implements Auditable
@@ -28,8 +25,8 @@ class WikiArticle extends Model implements Auditable
     {
         return [
             'slug' => [
-                'source' => 'title'
-            ]
+                'source' => 'title',
+            ],
         ];
     }
 
@@ -77,7 +74,7 @@ class WikiArticle extends Model implements Auditable
         return format_number_in_k_notation($views != null ? $views->value : 0);
     }
 
-    public function setViewed() {
+    public function incrementViewedCount() {
         if ($this->views == null) {
             $this->views()->create([
                 'value' => 1,

@@ -27,9 +27,7 @@
                                         <li class="mt-1 mt-md-0">{{ $permission }}</li>
                                     @endforeach
                                 @else
-                                    @foreach($user->permissions()->filter(function($p) use($sensitivePermissions) {
-                                            return isset($sensitivePermissions[$p->key]);
-                                        }) as $permission)
+                                    @foreach($user->permissions()->filter(fn ($p) => isset($sensitivePermissions[$p->key])) as $permission)
                                         <li class="mt-1 mt-md-0">{{ $sensitivePermissions[$permission->key] }}</li>
                                     @endforeach
                                 @endif
@@ -43,5 +41,5 @@
         @component('components.alert.info')
             @lang('app.no_users_found')
         @endcomponent
-	@endif
+    @endif
 @endsection

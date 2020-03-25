@@ -6,16 +6,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CountryName implements Rule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function validate($attribute, $value, $params)
     {
         return $this->passes($attribute, $value);

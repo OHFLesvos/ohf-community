@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Helpers\API;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\People\Person;
-
 use Carbon\Carbon;
 
 class HelperReportController extends Controller
@@ -25,29 +23,30 @@ class HelperReportController extends Controller
     private static function getGenders()
     {
         return collect(self::getPersonGenders())
-            ->mapWithKeys(function($i) {
-                if ($i['gender'] == 'm') {
-                    $label = __('app.male');
-                } else if ($i['gender'] == 'f') {
-                    $label = __('app.female');
-                } else {
-                    $label = $i['gender'];
-                }
-                return [$label =>  $i['total']];
-            })
+            ->mapWithKeys(fn ($i) => [ self::getGenderLabel($i['gender']) => $i['total'] ])
             ->toArray();
     }
 
     private static function getPersonGenders()
     {
-        return Person::whereHas('helper', function($query) {
-                return self::getActiveHelperQuery($query);
-            })
+        return Person::query()
+            ->whereHas('helper', fn ($query) => self::getActiveHelperQuery($query))
             ->select('gender')
             ->selectRaw('COUNT(*) AS total')
             ->groupBy('gender')
             ->whereNotNull('gender')
-            ->get();        
+            ->get();
+    }
+
+    private static function getGenderLabel(string $value): string
+    {
+        if ($value == 'm') {
+            return __('app.male');
+        }
+        if ($value == 'f') {
+            return __('app.female');
+        }
+        return $value;
     }
 
     /**
@@ -65,15 +64,14 @@ class HelperReportController extends Controller
     private static function getNationalities($limit = 10)
     {
         $nationalities = collect(self::getPersonNationalities())
-            ->mapWithKeys(function($i) {
-                return [$i['nationality'] =>  $i['total']];
-            });
+            ->mapWithKeys(fn ($i) => [ $i['nationality'] => $i['total'] ]);
         return self::sliceData($nationalities, $limit);
     }
 
     private static function getPersonNationalities()
     {
-        return Person::whereHas('helper', function($query) {
+        return Person::query()
+            ->whereHas('helper', function ($query) {
                 return self::getActiveHelperQuery($query);
             })
             ->select('nationality')
@@ -89,9 +87,7 @@ class HelperReportController extends Controller
         $data = $source->slice(0, $limit)
             ->toArray();
         $other = $source->slice($limit)
-            ->reduce(function ($carry, $item) {
-                 return $carry + $item;
-            });
+            ->reduce(fn ($carry, $item) => $carry + $item);
         if ($other > 0) {
             $data['Other'] = $other;
         }
@@ -122,19 +118,17 @@ class HelperReportController extends Controller
             return collect($ages)
                 ->merge(
                     self::getPersonAges()
-                        ->mapWithKeys(function($i) {
-                            return [$i['age'].' ' => $i['total']];
-                        })
+                        ->mapWithKeys(fn ($i) => [ $i['age'] . ' ' => $i['total'] ])
                 )
                 ->toArray();
-        } else {
-            return [];
         }
+        return [];
     }
 
     private static function getYoungestPerson()
     {
-        return Person::whereHas('helper', function($query){
+        return Person::query()
+            ->whereHas('helper', function ($query) {
                 return self::getActiveHelperQuery($query);
             })
             ->select('date_of_birth')
@@ -146,19 +140,21 @@ class HelperReportController extends Controller
 
     private static function getOldestPerson()
     {
-        return Person::whereHas('helper', function($query) {
+        return Person::query()
+            ->whereHas('helper', function ($query) {
                 return self::getActiveHelperQuery($query);
             })
             ->select('date_of_birth')
             ->whereNotNull('date_of_birth')
             ->orderBy('date_of_birth', 'asc')
             ->limit(1)
-            ->first();        
+            ->first();
     }
 
     private static function getPersonAges()
     {
-        return Person::whereHas('helper', function($query) {
+        return Person::query()
+            ->whereHas('helper', function ($query) {
                 return self::getActiveHelperQuery($query);
             })
             ->select('date_of_birth')
@@ -175,7 +171,7 @@ class HelperReportController extends Controller
         return $query
             ->whereNotNull('work_starting_date')
             ->whereDate('work_starting_date', '<=', Carbon::today())
-            ->where(function($q) {
+            ->where(function ($q) {
                 return $q->whereNull('work_leaving_date')
                     ->orWhereDate('work_leaving_date', '>=', Carbon::today());
             });

@@ -2,14 +2,13 @@
 
 namespace App\Navigation\Drawer\UserManagement;
 
-use App\User;
-use App\Role;
 use App\Navigation\Drawer\BaseNavigationItem;
-
+use App\Role;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
-class UsersNavigationItem extends BaseNavigationItem {
-
+class UsersNavigationItem extends BaseNavigationItem
+{
     protected $route = 'users.index';
 
     protected $caption = 'app.users_and_roles';
@@ -22,5 +21,4 @@ class UsersNavigationItem extends BaseNavigationItem {
     {
         return Auth::user()->can('list', User::class) || Auth::user()->can('list', Role::class);
     }
-
 }

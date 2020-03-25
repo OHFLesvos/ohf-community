@@ -2,16 +2,15 @@
 
 namespace App\Models\Fundraising;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Model;
 
 class Donation extends Model
 {
-	use NullableFields;
+    use NullableFields;
 
-	protected $nullable = [
-		'purpose',
+    protected $nullable = [
+        'purpose',
         'reference',
         'in_name_of',
     ];
@@ -21,7 +20,7 @@ class Donation extends Model
         'thanked',
     ];
 
-    function donor()
+    public function donor()
     {
         return $this->belongsTo(Donor::class);
     }

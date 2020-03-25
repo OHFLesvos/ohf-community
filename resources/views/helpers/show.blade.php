@@ -42,7 +42,7 @@
                     <a href="{{ route('people.helpers.edit', [$helper, 'section' => $section]) }}" class="float-right">@icon(edit)</a>                        
                 </div>
                 <ul class="list-group list-group-flush">
-                    @if(!empty($fields))
+                    @if(! empty($fields))
                         @foreach($fields as $field)
                             <li class="list-group-item">
                                 <div class="row">

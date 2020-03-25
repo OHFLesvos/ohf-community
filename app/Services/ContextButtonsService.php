@@ -4,8 +4,8 @@ namespace App\Services;
 
 use Illuminate\View\View;
 
-class ContextButtonsService {
-
+class ContextButtonsService
+{
     private $buttons = [];
 
     public function define(string $routeName, $buttonsClass)
@@ -21,5 +21,4 @@ class ContextButtonsService {
         }
         return [];
     }
-
 }

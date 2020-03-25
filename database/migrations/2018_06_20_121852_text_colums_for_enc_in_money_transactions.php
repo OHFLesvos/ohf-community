@@ -1,16 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class TextColumsForEncInMoneyTransactions extends Migration
 {
-	public function __construct()
-	{
-		// workaround for laravels limitation to change tables with an enum
-		DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-	}
+    public function __construct()
+    {
+        // workaround for laravels limitation to change tables with an enum
+        DB::getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+    }
 
     /**
      * Run the migrations.

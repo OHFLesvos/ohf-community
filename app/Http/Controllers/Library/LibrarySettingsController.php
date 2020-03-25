@@ -32,7 +32,7 @@ class LibrarySettingsController extends SettingsController
                 'default' => '',
                 'form_type' => 'text',
                 'label_key' => 'app.google_api_key',
-            ]
+            ],
         ];
     }
 

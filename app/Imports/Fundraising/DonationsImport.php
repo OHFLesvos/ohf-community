@@ -2,28 +2,21 @@
 
 namespace App\Imports\Fundraising;
 
-use App\Models\Fundraising\Donor;
 use App\Models\Fundraising\Donation;
-
+use App\Models\Fundraising\Donor;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
-
-use Carbon\Carbon;
-
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
 use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationsImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
-    /**
-    * @param \Illuminate\Support\Collection $rows
-    */
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
@@ -33,8 +26,7 @@ class DonationsImport implements ToCollection, WithHeadingRow
 
             if ($row['status'] == 'Paid') {
 
-                $donor = Donor
-                    ::where('email', $row['customer_email'])
+                $donor = Donor::where('email', $row['customer_email'])
                     ->first();
                 if ($donor == null) {
                     $donor = new Donor();
@@ -53,10 +45,9 @@ class DonationsImport implements ToCollection, WithHeadingRow
                     $exchange_amount = $amount;
                 }
 
-                $donation = Donation
-                     ::where('channel', 'Stripe')
-                     ->where('reference', $row['id'])
-                     ->first();
+                $donation = Donation::where('channel', 'Stripe')
+                    ->where('reference', $row['id'])
+                    ->first();
                 if ($donation == null) {
                     $donation = new Donation();
                     $donation->date = $date;

@@ -1,17 +1,16 @@
 <?php
 
-use App\Models\Fundraising\Donor;
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
 use App\Models\Fundraising\Donation;
-
+use App\Models\Fundraising\Donor;
+use Faker\Generator as Faker;
 use Illuminate\Support\Facades\Config;
-
 use MrCage\EzvExchangeRates\EzvExchangeRates;
 
-use Faker\Generator as Faker;
-
 $factory->define(Donor::class, function (Faker $faker) {
-    $countryCodeValidator = function($cc) {
-        return !in_array($cc, ['HM', 'BV']); // not supported by country code library
+    $countryCodeValidator = function ($cc) {
+        return ! in_array($cc, ['HM', 'BV']); // not supported by country code library
     };
     $gender = $faker->randomElement(['male', 'female']);
     $lc = $faker->optional(0.3)->languageCode;
@@ -33,7 +32,7 @@ $factory->define(Donor::class, function (Faker $faker) {
 
 $factory->define(Donation::class, function (Faker $faker) {
     $baseCurrency = Config::get('fundraising.base_currency');
-    $currencyValidator = function($cc) use($baseCurrency) {
+    $currencyValidator = function ($cc) use ($baseCurrency) {
         return in_array($cc, array_merge(Config::get('fundraising.currencies'), [$baseCurrency]));
     };
     $date = $faker->dateTimeBetween('-5 years', 'now');

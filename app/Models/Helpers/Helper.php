@@ -3,15 +3,11 @@
 namespace App\Models\Helpers;
 
 use App\Models\People\Person;
-
+use Carbon\Carbon;
+use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-use Iatstuti\Database\Support\NullableFields;
-
 use OwenIt\Auditing\Contracts\Auditable;
-
-use Carbon\Carbon;
 
 class Helper extends Model implements Auditable
 {
@@ -91,10 +87,10 @@ class Helper extends Model implements Auditable
         'notes',
     ];
 
-    function responsibilities()
+    public function responsibilities()
     {
         return $this->belongsToMany(Responsibility::class, 'helpers_helper_responsibility', 'helper_id', 'responsibility_id')
-            ->withTimestamps();;
+            ->withTimestamps();
     }
 
     /**
@@ -121,7 +117,7 @@ class Helper extends Model implements Auditable
         return $query
             ->whereNotNull('work_starting_date')
             ->whereDate('work_starting_date', '<=', Carbon::today())
-            ->where(function($q){
+            ->where(function ($q) {
                 return $q->whereNull('work_leaving_date')
                     ->orWhereDate('work_leaving_date', '>=', Carbon::today());
             });
@@ -138,7 +134,7 @@ class Helper extends Model implements Auditable
         return $query
             ->whereNotNull('work_starting_date')
             ->whereDate('work_starting_date', '<=', Carbon::today())
-            ->where(function($q){
+            ->where(function ($q) {
                 return $q->whereNull('work_leaving_date')
                     ->orWhereDate('work_leaving_date', '>=', Carbon::today());
             })
@@ -156,7 +152,7 @@ class Helper extends Model implements Auditable
         return $query
             ->whereNotNull('work_starting_date')
             ->whereDate('work_starting_date', '<=', Carbon::today())
-            ->where(function($q){
+            ->where(function ($q) {
                 return $q->whereNull('work_leaving_date')
                     ->orWhereDate('work_leaving_date', '>=', Carbon::today());
             })
@@ -189,9 +185,23 @@ class Helper extends Model implements Auditable
         $end = $this->work_leaving_date != null ? new Carbon($this->work_leaving_date) : null;
         if ($start != null && $end != null && $end->lte(Carbon::today())) {
             return $start->diffInDays($end);
-        } else if ($start != null) {
+        }
+        if ($start != null) {
             return $start->diffInDays(Carbon::today());
         }
         return 0;
+    }
+
+    public static function pickupLocations(): array
+    {
+        return Helper::groupBy('pickup_location')
+            ->orderBy('pickup_location')
+            ->whereNotNull('pickup_location')
+            ->get()
+            ->pluck('pickup_location')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->toArray();
     }
 }

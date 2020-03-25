@@ -1,12 +1,12 @@
 <?php
 return array(
-	'default' => array(
-		'fallback' => 'identicon',
-	),
-	'userprofile' => array(
-		'size'   => 120,
+    'default' => array(
+        'fallback' => 'identicon',
     ),
-	'site_header' => array(
-		'size'   => 30,
-	),
+    'userprofile' => array(
+        'size'   => 120,
+    ),
+    'site_header' => array(
+        'size'   => 30,
+    ),
 );

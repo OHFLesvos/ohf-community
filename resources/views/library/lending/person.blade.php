@@ -74,7 +74,7 @@
             $('#lend-existing-book-button').attr('disabled', true);
         }
     }
-    $(function(){
+    $(function () {
         $('#book_id').on('change', toggleSubmit);
         toggleSubmit();
 
@@ -86,7 +86,7 @@
         @endif        
     });
 
-    $('.extend-lending-button').on('click', function(){
+    $('.extend-lending-button').on('click', function () {
         var book_id = $(this).data('book');
         var days = prompt('{{ __('app.number_of_days') }}:', {{ $default_extend_duration }});
         if (days != null && days > 0) {

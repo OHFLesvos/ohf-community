@@ -35,9 +35,9 @@ class BankPerson extends JsonResource
             'can_update' => $request->user()->can('update', $this->resource),
             'show_url' => route('bank.people.show', $this),
             'edit_url' => route('bank.people.edit', $this),
-            'gender_update_url' => route('api.people.setGender', $this),
-            'date_of_birth_update_url' => route('api.people.setDateOfBirth', $this),
-            'nationality_update_url' => route('api.people.setNationality', $this),
+            'gender_update_url' => route('api.people.updateGender', $this),
+            'date_of_birth_update_url' => route('api.people.updateDateOfBirth', $this),
+            'nationality_update_url' => route('api.people.updateNationality', $this),
             'police_no_update_url' => route('api.people.updatePoliceNo', $this),
             'remarks_update_url' => route('api.people.updateRemarks', $this),
             'card_no' => $this->card_no,
@@ -52,28 +52,30 @@ class BankPerson extends JsonResource
             'can_operate_library' => Gate::allows('operate-library'),
             'library_lending_person_url' => route('library.lending.person', $this),
             'coupon_types' => collect($this->couponTypes)
-                ->filter(function($coupon) {
-                    return $this->eligibleForCoupon($coupon);
-                })
-                ->map(function($coupon) {
-                    $returning_possible = optional($this->couponHandouts()
-                        ->where('coupon_type_id', $coupon->id)
-                        ->orderBy('date', 'desc')
-                        ->first())->isReturningPossible;
-                    return [
-                        'id' => $coupon->id,
-                        'daily_amount' => $coupon->daily_amount,
-                        'icon' => $coupon->icon,
-                        'name' => $coupon->name,
-                        'min_age' => $coupon->min_age,
-                        'max_age' => $coupon->max_age,
-                        'qr_code_enabled' => $coupon->qr_code_enabled,
-                        'last_handout' => $this->canHandoutCoupon($coupon),
-                        'handout_url' => route('api.bank.withdrawal.handoutCoupon', [$this, $coupon]),
-                        'returning_possible' => $returning_possible,
-                    ];
-                })
+                ->filter(fn ($coupon) => $this->eligibleForCoupon($coupon))
+                ->map(fn ($coupon) => $this->mapCoupon($coupon))
                 ->values(),
+        ];
+    }
+
+    private function mapCoupon($coupon)
+    {
+        return [
+            'id' => $coupon->id,
+            'daily_amount' => $coupon->daily_amount,
+            'icon' => $coupon->icon,
+            'name' => $coupon->name,
+            'min_age' => $coupon->min_age,
+            'max_age' => $coupon->max_age,
+            'qr_code_enabled' => $coupon->qr_code_enabled,
+            'last_handout' => $this->canHandoutCoupon($coupon),
+            'handout_url' => route('api.bank.withdrawal.handoutCoupon', [$this, $coupon]),
+            'returning_possible' => optional($this->couponHandouts()
+                ->where('coupon_type_id', $coupon->id)
+                ->orderBy('date', 'desc')
+                ->first()
+            )
+                ->isReturningPossible,
         ];
     }
 }

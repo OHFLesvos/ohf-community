@@ -13,7 +13,7 @@
         </button>
     </p>
 
-    @if( ! $transactions->isEmpty() )
+    @if(! $transactions->isEmpty())
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
@@ -45,8 +45,8 @@
                                 </a>
                             </td>
                             <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
-                            <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income'){{ number_format($transaction->amount, 2) }}@endif</td>
-                            <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending'){{ number_format($transaction->amount, 2) }}@endif</td>
+                            <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif</td>
+                            <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif</td>
                             <td>{{ $transaction->category }}</td>
                             <td>{{ $transaction->project }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
@@ -89,7 +89,7 @@
         <div style="overflow-x: auto">
             {{ $transactions->appends($filter)->links() }}
         </div>
-        @foreach ($transactions->filter(function($e){ return $e->receipt_no != null && empty($e->receipt_pictures); }) as $transaction)
+        @foreach ($transactions->filter(fn ($e) => $e->receipt_no != null && empty($e->receipt_pictures)) as $transaction)
             <form action="{{ route('accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-none upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
                 {{ csrf_field() }}
                 {{ Form::file('img', [ 'accept' => 'image/*', 'class' => 'd-none' ]) }}
@@ -99,19 +99,19 @@
         @component('components.alert.info')
             @lang('accounting.no_transactions_found')
         @endcomponent
-	@endif
+    @endif
 @endsection
 
 @section('script')
-    $(function(){
-        $('.receipt-picture-missing').on('click', function(){
+    $(function () {
+        $('.receipt-picture-missing').on('click', function () {
             var tr_id = $(this).data('transaction-id');
             $('#receipt_upload_' + tr_id).find('input[type=file]').click();
         });
-        $('.upload-receipt-form input[type="file"]').on('change', function(){
+        $('.upload-receipt-form input[type="file"]').on('change', function () {
             $(this).parents('form').submit();
         });
-        $('.upload-receipt-form').on('submit', function(e){
+        $('.upload-receipt-form').on('submit', function (e) {
             e.preventDefault();
             var tr_id = $(this).attr('id').substr('#receipt_upload_'.length - 1);
             var td = $('.receipt-picture-missing[data-transaction-id="' + tr_id + '"]');
@@ -125,18 +125,18 @@
                 contentType: false,
                 cache: false,
                 processData:false,
-                success: function() {
+                success: function () {
                     td.removeClass('table-info receipt-picture-missing')
                         .addClass('text-success');
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function (jqXHR, textStatus, errorThrown) {
                     td.removeClass('table-info').addClass('table-warning');
                     var message;
                     if (jqXHR.responseJSON.message) {
                         if (jqXHR.responseJSON.errors) {
                             message = "";
                             var errors = jqXHR.responseJSON.errors;
-                            Object.keys(errors).forEach(function(key) {
+                            Object.keys(errors).forEach(function (key) {
                                 message += errors[key] + "\n";
                             });
                         } else {
@@ -150,7 +150,7 @@
             });
         });
 
-        $('.details-link').on('click', function(e){
+        $('.details-link').on('click', function (e) {
             e.preventDefault();
             var container = $('#detailsModal');
             var edit_url =  $(this).data('edit-url');
@@ -163,7 +163,7 @@
                 .removeClass('pb-0')
                 .removeClass('p-0')
                 .html('<div class="text-center p-4"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
-            $.get($(this).data('url'), function(result) {
+            $.get($(this).data('url'), function (result) {
                 container.find('.modal-header')
                     .show();
                 container.find('.modal-body')
@@ -190,7 +190,7 @@
 
             <div class="form-row">
                 <div class="col-sm mb-3">
-                    {{ Form::bsRadioList('filter[type]', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending'), null => __('app.any'),  ], $filter['type'] ?? null, __('app.type')) }}
+                    {{ Form::bsRadioList('filter[type]', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending'), null => __('app.any') ], $filter['type'] ?? null, __('app.type')) }}
                 </div>
                 <div class="col-sm">
                     {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('accounting.receipt') . ' #') }}

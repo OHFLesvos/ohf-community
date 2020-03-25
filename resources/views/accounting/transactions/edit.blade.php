@@ -24,14 +24,14 @@
         <div class="form-row">
             <div class="col-sm-3">
                 @if($fixed_categories)
-                    {{ Form::bsSelect('category', $categories, null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -', 'error' => !in_array($transaction->category, $categories) ? __('app.invalid_category_x', ['category' => $transaction->category]) : null ], __('app.category')) }}
+                    {{ Form::bsSelect('category', $categories, null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -', 'error' => ! in_array($transaction->category, $categories) ? __('app.invalid_category_x', ['category' => $transaction->category]) : null ], __('app.category')) }}
                 @else
                     {{ Form::bsText('category', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
                 @endif
             </div>
             <div class="col-sm-3">
                 @if($fixed_projects)
-                    {{ Form::bsSelect('project', $projects, null, [ 'placeholder' => '- ' . __('app.project') . ' -', 'error' => $transaction->project != null && !in_array($transaction->project, $projects) ? __('app.invalid_project_x', ['project' => $transaction->project]) : null ], __('app.project')) }}
+                    {{ Form::bsSelect('project', $projects, null, [ 'placeholder' => '- ' . __('app.project') . ' -', 'error' => $transaction->project != null && ! in_array($transaction->project, $projects) ? __('app.invalid_project_x', ['project' => $transaction->project]) : null ], __('app.project')) }}
                 @else
                     {{ Form::bsText('project', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
                 @endif
@@ -45,9 +45,9 @@
                 <label>@lang('accounting.receipt')</label>
                 <div class="form-row">
                     <div class="col-sm">
-                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __(!empty($transaction->receipt_pictures) ? 'accounting.change_picture_of_receipt' : 'accounting.choose_picture_of_receipt')) }}
+                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __(! empty($transaction->receipt_pictures) ? 'accounting.change_picture_of_receipt' : 'accounting.choose_picture_of_receipt')) }}
                     </div>
-                    @if(!empty($transaction->receipt_pictures))
+                    @if(! empty($transaction->receipt_pictures))
                         <div class="col-sm-auto">
                             {{ Form::bsCheckbox('remove_receipt_picture', 1, null, __('accounting.remove_receipt_picture')) }}<br>
                         </div>

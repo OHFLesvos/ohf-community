@@ -3,9 +3,8 @@
 namespace App\Http\Requests\UserManagement;
 
 use App\Role;
-
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUser extends FormRequest
 {
@@ -30,7 +29,7 @@ class UpdateUser extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:191'
+                'max:191',
             ],
             'email' => [
                 Rule::requiredIf(empty($this->user->provider_name)),

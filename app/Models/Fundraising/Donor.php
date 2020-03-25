@@ -3,11 +3,9 @@
 namespace App\Models\Fundraising;
 
 use App\Support\Traits\HasTags;
-
+use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
-use Iatstuti\Database\Support\NullableFields;
 
 class Donor extends Model
 {
@@ -19,7 +17,7 @@ class Donor extends Model
         'first_name',
         'last_name',
         'company',
-		'street',
+        'street',
         'zip',
         'city',
         'country',
@@ -29,7 +27,7 @@ class Donor extends Model
         'remarks',
     ];
 
-    function getFullNameAttribute()
+    public function getFullNameAttribute()
     {
         $str = '';
         if ($this->first_name != null) {
@@ -39,7 +37,7 @@ class Donor extends Model
             $str .= ' ' . $this->last_name;
         }
         if ($this->company != null) {
-            if (!empty($str)) {
+            if (! empty($str)) {
                 $str .= ', ';
             }
             $str .= $this->company;
@@ -71,12 +69,12 @@ class Donor extends Model
         $this->attributes['country_code'] = $value != null ? array_flip(\Countries::getList(\App::getLocale()))[$value] ?? null : null;
     }
 
-    function donations()
+    public function donations()
     {
         return $this->hasMany(Donation::class);
     }
 
-    function amountPerYear($year)
+    public function amountPerYear($year)
     {
         return $this->donations()
             ->whereYear('date', $year)
@@ -86,7 +84,7 @@ class Donor extends Model
             ->first();
     }
 
-    function amountPerYearByCurrencies($year)
+    public function amountPerYearByCurrencies($year)
     {
         return $this->donations()
             ->whereYear('date', $year)
@@ -96,7 +94,7 @@ class Donor extends Model
             ->pluck('total', 'currency');
     }
 
-    function donationsPerYear()
+    public function donationsPerYear()
     {
         return $this->donations()
             ->groupBy(DB::raw('YEAR(date)'))

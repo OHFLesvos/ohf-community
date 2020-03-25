@@ -15,8 +15,8 @@ class UpdatePersonPoliceNo extends FormRequest
     {
         return [
             'police_no' => [
-				'integer'
-			],
+                'integer',
+            ],
         ];
     }
 

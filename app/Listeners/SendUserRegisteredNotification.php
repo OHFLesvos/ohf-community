@@ -2,11 +2,10 @@
 
 namespace App\Listeners;
 
-use App\User;
 use App\Events\UserSelfRegistered;
 use App\Mail\UserRegistered;
 use App\Mail\UserRegisteredConfirmation;
-
+use App\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 

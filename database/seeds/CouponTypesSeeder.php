@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Bank\CouponType;
-
 use Illuminate\Database\Seeder;
 
 class CouponTypesSeeder extends Seeder

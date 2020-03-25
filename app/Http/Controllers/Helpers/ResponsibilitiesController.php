@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Helpers;
 
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\Helpers\StoreResponsibility;
 use App\Models\Helpers\Responsibility;
-use  App\Http\Requests\Helpers\StoreResponsibility;
-
 use Illuminate\Http\Response;
 
 class ResponsibilitiesController extends Controller
@@ -52,7 +50,7 @@ class ResponsibilitiesController extends Controller
         $responsibility->fill($request->all());
         $responsibility->available = $request->has('available');
         $responsibility->save();
-    
+
         return redirect()->route('people.helpers.responsibilities.index')
             ->with('success', __('responsibilities.responsibility_added'));
     }

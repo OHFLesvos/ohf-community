@@ -28,7 +28,7 @@ class StoreExtendBook extends FormRequest
                 'required',
                 'numeric',
                 'min:1',
-            ]
+            ],
         ];
     }
 }

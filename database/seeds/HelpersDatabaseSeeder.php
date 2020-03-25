@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\People\Person;
 use App\Models\Helpers\Helper;
 use App\Models\Helpers\Responsibility;
-
-use Illuminate\Database\Seeder;
+use App\Models\People\Person;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class HelpersDatabaseSeeder extends Seeder
 {
@@ -20,7 +19,7 @@ class HelpersDatabaseSeeder extends Seeder
 
         $responsibilities = factory(Responsibility::class, 15)->create();
 
-        factory(Person::class, 50)->create()->each(function($person) use($responsibilities) {
+        factory(Person::class, 50)->create()->each(function ($person) use ($responsibilities) {
             $helper = factory(Helper::class)->make();
             $person->helper()->save($helper);
             $helper->responsibilities()->sync($responsibilities->random(mt_rand(0, min(3, $responsibilities->count())))->pluck('id')->all());

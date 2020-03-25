@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\AppVersionComposer;
+use App\Http\ViewComposers\ContextMenuComposer;
+use App\Http\ViewComposers\NavigationComposer;
 use Illuminate\Support\ServiceProvider;
 
 class ComposerServiceProvider extends ServiceProvider
@@ -13,9 +16,9 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', 'App\Http\ViewComposers\AppVersionComposer');
-        view()->composer('layouts.include.side-nav', 'App\Http\ViewComposers\NavigationComposer');
-        view()->composer(['layouts.app', 'layouts.include.site-header'], 'App\Http\ViewComposers\ContextMenuComposer');
+        view()->composer('*', AppVersionComposer::class);
+        view()->composer('layouts.include.side-nav', NavigationComposer::class);
+        view()->composer(['layouts.app', 'layouts.include.site-header'], ContextMenuComposer::class);
     }
 
     /**

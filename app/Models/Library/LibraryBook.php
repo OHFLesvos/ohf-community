@@ -2,13 +2,12 @@
 
 namespace App\Models\Library;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Iatstuti\Database\Support\NullableFields;
-
-use Nicebooks\Isbn\Isbn;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Nicebooks\Isbn\Exception\InvalidIsbnException;
 use Nicebooks\Isbn\Exception\IsbnNotConvertibleException;
+use Nicebooks\Isbn\Isbn;
 
 class LibraryBook extends Model
 {
@@ -32,8 +31,11 @@ class LibraryBook extends Model
                 $this->attributes['isbn10'] = preg_replace('/[^+0-9x]/i', '', $isbn->to10()->format());
                 $this->attributes['isbn13'] = preg_replace('/[^+0-9x]/i', '', $isbn->to13()->format());
                 return;
-            } catch (InvalidIsbnException $e) {}
-            catch (IsbnNotConvertibleException $e) {}
+            } catch (InvalidIsbnException $e) {
+                Log::warning('Tried to set invalid ISBN: ' . $e->getMessage());
+            } catch (IsbnNotConvertibleException $e) {
+                Log::warning('Tried to set not convertible ISBN: ' . $e->getMessage());
+            }
         }
         $this->attributes['isbn10'] = null;
         $this->attributes['isbn13'] = null;

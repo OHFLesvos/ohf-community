@@ -2,28 +2,25 @@
 
 namespace App\Widgets\Fundraising;
 
-use App\Widgets\Widget;
-
-use App\Models\Fundraising\Donor;
 use App\Models\Fundraising\Donation;
-
-use Illuminate\Support\Facades\Auth;
-
+use App\Models\Fundraising\Donor;
+use App\Widgets\Widget;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DonorsWidget implements Widget
 {
-    function authorize(): bool
+    public function authorize(): bool
     {
         return Auth::user()->can('list', Donor::class);
     }
 
-    function view(): string
+    public function view(): string
     {
         return 'fundraising.dashboard.widgets.donors';
     }
 
-    function args(): array
+    public function args(): array
     {
         return [
             'num_donors' => Donor::count(),

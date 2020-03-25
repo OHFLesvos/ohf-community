@@ -3,22 +3,20 @@
 namespace App\Http\Controllers\People\API;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\People\Person;
-use App\Models\People\RevokedCard;
+use App\Http\Requests\People\RegisterCard;
+use App\Http\Requests\People\StorePerson;
 use App\Http\Requests\People\UpdatePersonDateOfBirth;
 use App\Http\Requests\People\UpdatePersonGender;
 use App\Http\Requests\People\UpdatePersonNationality;
 use App\Http\Requests\People\UpdatePersonPoliceNo;
 use App\Http\Requests\People\UpdatePersonRemarks;
-use App\Http\Requests\People\StorePerson;
-use App\Http\Requests\People\RegisterCard;
 use App\Http\Resources\People\PersonCollection;
-
+use App\Models\People\Person;
+use App\Models\People\RevokedCard;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
-use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class PeopleController extends Controller
 {
@@ -48,11 +46,18 @@ class PeopleController extends Controller
                 'nullable',
                 'alpha_dash',
                 'filled',
-                'in:name,family_name,date_of_birth,nationality,languages,remarks'
+                Rule::in([
+                    'name',
+                    'family_name',
+                    'date_of_birth',
+                    'nationality',
+                    'languages',
+                    'remarks',
+                ]),
             ],
             'sortDirection' => [
                 'nullable',
-                'in:asc,desc'
+                'in:asc,desc',
             ],
         ]);
 
@@ -68,10 +73,10 @@ class PeopleController extends Controller
             ->paginate($pageSize));
     }
 
-    private static function createQuery(String $filter)
+    private static function createQuery(string $filter)
     {
         $query = Person::query();
-        if (!empty($filter)) {
+        if (! empty($filter)) {
             self::applyFilter($query, $filter);
         }
         return $query;
@@ -79,7 +84,7 @@ class PeopleController extends Controller
 
     private static function applyFilter(&$query, $filter)
     {
-        $query->where(function($wq) use($filter) {
+        $query->where(function ($wq) use ($filter) {
             return $wq->where(DB::raw('CONCAT(name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
                 ->orWhere(DB::raw('CONCAT(family_name, \' \', name)'), 'LIKE', '%' . $filter . '%')
                 ->orWhere('name', 'LIKE', '%' . $filter . '%')
@@ -107,7 +112,7 @@ class PeopleController extends Controller
             $person->card_issued = Carbon::now();
         }
 
-		$person->save();
+        $person->save();
 
         return response()->json([
             'message' => __('people.person_added'),
@@ -153,27 +158,27 @@ class PeopleController extends Controller
         if (isset($request->query()['query'])) {
             $terms = split_by_whitespace($request->query()['query']);
             foreach ($terms as $term) {
-                $qry->where(function($wq) use ($term) {
+                $qry->where(function ($wq) use ($term) {
                     $wq->where('search', 'LIKE', '%' . $term  . '%');
                     $wq->orWhere('police_no', $term);
                 });
             }
         }
         $persons = $qry->get()
-            ->map(function($e){
+            ->map(function ($e) {
                 $val = $e->full_name;
-                if (!empty($e->date_of_birth)) {
-                    $val.= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
+                if (! empty($e->date_of_birth)) {
+                    $val .= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
                 }
-                if (!empty($e->nationality)) {
-                    $val.= ', ' . $e->nationality;
+                if (! empty($e->nationality)) {
+                    $val .= ', ' . $e->nationality;
                 }
                 return [
                     'value' => $val,
                     'data' => $e->getRouteKey(),
                 ];
             });
-        return response()->json(["suggestions" => $persons]);
+        return response()->json(['suggestions' => $persons]);
     }
 
     /**
@@ -183,7 +188,7 @@ class PeopleController extends Controller
      * @param  \App\Http\Requests\People\UpdatePersonGender  $request
      * @return \Illuminate\Http\Response
      */
-    public function setGender(Person $person, UpdatePersonGender $request)
+    public function updateGender(Person $person, UpdatePersonGender $request)
     {
         $person->gender = $request->gender;
         $person->save();
@@ -203,7 +208,7 @@ class PeopleController extends Controller
      * @param  \App\Http\Requests\People\UpdatePersonDateOfBirth  $request
      * @return \Illuminate\Http\Response
      */
-    public function setDateOfBirth(Person $person, UpdatePersonDateOfBirth $request)
+    public function updateDateOfBirth(Person $person, UpdatePersonDateOfBirth $request)
     {
         $person->date_of_birth = $request->date_of_birth;
         $person->save();
@@ -224,7 +229,7 @@ class PeopleController extends Controller
      * @param  \App\Http\Requests\People\UpdatePersonNationality  $request
      * @return \Illuminate\Http\Response
      */
-    public function setNationality(Person $person, UpdatePersonNationality $request)
+    public function updateNationality(Person $person, UpdatePersonNationality $request)
     {
         $person->nationality = $request->nationality;
         $person->save();

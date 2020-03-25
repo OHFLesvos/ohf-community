@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Helpers;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Helpers\Responsibility;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class ResponsibilitiesEditContextButtons implements ContextButtons {
-
+class ResponsibilitiesEditContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $responsibility = $view->getData()['responsibility'];
@@ -20,14 +18,14 @@ class ResponsibilitiesEditContextButtons implements ContextButtons {
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $responsibility),
-                'confirmation' => __('responsibilities.confirm_delete_responsibility')
-            ],            
+                'confirmation' => __('responsibilities.confirm_delete_responsibility'),
+            ],
             'back' => [
                 'url' => route('people.helpers.responsibilities.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Responsibility::class)
-            ]
+                'authorized' => Auth::user()->can('list', Responsibility::class),
+            ],
         ];
     }
 

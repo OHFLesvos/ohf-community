@@ -38,7 +38,7 @@
         </div>
     </div>
 
-    @if(isset($groups) && $data->filter(function($d){ return count($d) > 0; })->count() > 0)
+    @if(isset($groups) && $data->filter(fn ($d) => count($d) > 0)->count() > 0)
         @if($selected_display == 'list')
             @component('helpers.table', ['fields' => $fields])
                 @foreach($groups as $group)
@@ -58,7 +58,7 @@
                 @endif
             @endforeach
         @endif
-    @elseif(!isset($groups) && !$data->isEmpty() )
+    @elseif(! isset($groups) && !$data->isEmpty())
         @if($selected_display == 'list')
             @component('helpers.table', ['fields' => $fields])
                 @include('helpers.tablebody')

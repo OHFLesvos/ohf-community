@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\Shop;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
-class ShopManageCardsContextButtons implements ContextButtons {
-
+class ShopManageCardsContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -16,8 +15,8 @@ class ShopManageCardsContextButtons implements ContextButtons {
                 'url' => route('shop.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Gate::allows('validate-shop-coupons')
-            ]
+                'authorized' => Gate::allows('validate-shop-coupons'),
+            ],
         ];
     }
 

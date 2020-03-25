@@ -30,7 +30,7 @@ class UpdateBook extends FormRequest
             'isbn' => [
                 'nullable',
                 'isbn',
-            ]
+            ],
         ];
     }
 }

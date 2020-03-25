@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Bank;
 
-use App\Http\Controllers\Controller;
-
-use App\Models\People\Person;
-
 use App\Exports\Bank\BankExport;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Bank\DownloadFile;
-
-use Illuminate\Support\Facades\Config;
-
+use App\Models\People\Person;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class ImportExportController extends Controller
 {
@@ -20,12 +16,11 @@ class ImportExportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function export() {
-		return view('bank.export', [
+    public function export()
+    {
+        return view('bank.export', [
             'formats' => collect(Config::get('bank.export_formats'))
-                ->mapWithKeys(function($v, $k){
-                    return [ $k => __($v)];
-                }),
+                ->mapWithKeys(fn ($val, $key) => [ $key => __($val)]),
             'selectedFormat' => 'xlsx',
         ]);
     }
@@ -36,7 +31,8 @@ class ImportExportController extends Controller
      * @param  \App\Http\Requests\People\Bank\DownloadFile  $request
      * @return \Illuminate\Http\Response
      */
-	public function doExport(DownloadFile $request) {
+    public function doExport(DownloadFile $request)
+    {
         $this->authorize('export', Person::class);
 
         $file_name = __('bank.bank') . '_' . Carbon::now()->toDateString();
@@ -45,12 +41,14 @@ class ImportExportController extends Controller
 
         // Excel export
         if ($request->format == 'xlsx') {
-            return $export->download($file_name . '.' . 'xlsx');
+            $extension = 'xlsx';
+            return $export->download($file_name . '.' . $extension);
         }
 
         // PDF export
         if ($request->format == 'pdf') {
-            return $export->download($file_name . '.' . 'pdf');
+            $extension = 'pdf';
+            return $export->download($file_name . '.' . $extension);
         }
     }
 

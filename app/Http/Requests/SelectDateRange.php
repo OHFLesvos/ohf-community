@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class SelectDateRange extends FormRequest
 {
@@ -33,7 +32,7 @@ class SelectDateRange extends FormRequest
             'to' => [
                 'required',
                 'date',
-            ]
+            ],
         ];
     }
 
@@ -54,4 +53,3 @@ class SelectDateRange extends FormRequest
         });
     }
 }
-

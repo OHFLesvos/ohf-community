@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\Bank\CreateCodeCard;
-
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\LabelAlignment;
-
 use Dompdf\Dompdf;
+use Endroid\QrCode\LabelAlignment;
+use Endroid\QrCode\QrCode;
 
 class CodeCardController extends Controller
 {

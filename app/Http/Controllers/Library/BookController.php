@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Library;
 
-use App\Models\Library\LibraryBook;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Library\UpdateBook;
-
+use App\Models\Library\LibraryBook;
 use Illuminate\Http\Request;
-
 use Scriptotek\GoogleBooks\GoogleBooks;
 
 class BookController extends Controller
@@ -72,7 +70,7 @@ class BookController extends Controller
             ->with('success', __('library.book_removed'));
     }
 
-	public function filter(Request $request) {
+    public function filter(Request $request) {
         $this->authorize('list', LibraryBook::class);
 
         $qry = LibraryBook::limit(10)
@@ -87,20 +85,20 @@ class BookController extends Controller
             }
         }
         $records = $qry->get()
-            ->map(function($e){
+            ->map(function ($e) {
                 $val = $e->title;
-                if (!empty($e->author)) {
-                    $val.= ' (' . $e->author . ')';
+                if (! empty($e->author)) {
+                    $val .= ' (' . $e->author . ')';
                 }
-                if (!empty($e->isbn)) {
-                    $val.= ', ' . $e->isbn;
+                if (! empty($e->isbn)) {
+                    $val .= ', ' . $e->isbn;
                 }
                 return [
                     'value' => $val,
                     'data' => $e->id,
                 ];
             });
-        return response()->json(["suggestions" => $records]);
+        return response()->json(['suggestions' => $records]);
     }
 
     public function findIsbn($isbn) {

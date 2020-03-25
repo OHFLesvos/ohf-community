@@ -2,10 +2,8 @@
 
 namespace App\Policies\Collaboration;
 
-use App\User;
-
 use App\Models\Collaboration\CalendarEvent;
-
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CalendarEventPolicy

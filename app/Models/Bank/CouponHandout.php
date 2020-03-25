@@ -3,16 +3,12 @@
 namespace App\Models\Bank;
 
 use App\Models\People\Person;
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
-
-use OwenIt\Auditing\Contracts\Auditable;
-
-use Iatstuti\Database\Support\NullableFields;
-
 use Carbon\Carbon;
+use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class CouponHandout extends Model implements Auditable
 {
@@ -65,10 +61,9 @@ class CouponHandout extends Model implements Auditable
     public function scopeWithCode($query, $code)
     {
         if (strlen($code) == 7) {
-            return $query->where(DB::raw("SUBSTR(code, 1, 7)"), $code);
-        } else {
-            return $query->where('code', $code);
+            return $query->where(DB::raw('SUBSTR(code, 1, 7)'), $code);
         }
+        return $query->where('code', $code);
     }
 
     public static function returningPossibleGracePeriod()

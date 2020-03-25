@@ -1,14 +1,14 @@
 <?php
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
 use App\Models\People\Person;
-
-use Faker\Generator as Faker;
-
 use Carbon\Carbon;
+use Faker\Generator as Faker;
 
 $countries = weightedCountries(10);
 
-$factory->define(Person::class, function (Faker $faker) use($countries) {
+$factory->define(Person::class, function (Faker $faker) use ($countries) {
     // $faker = \Faker\Factory::create('ar_JO');
 
     $gender = $faker->optional(0.9)->randomElement(['male', 'female']);

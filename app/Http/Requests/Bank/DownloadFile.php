@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Bank;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rule;
 
 class DownloadFile extends FormRequest
 {

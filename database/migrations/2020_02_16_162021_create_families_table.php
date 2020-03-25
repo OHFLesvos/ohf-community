@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\People\Person;
 use App\Models\People\Family;
-
+use App\Models\People\Person;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -39,7 +38,7 @@ class CreateFamiliesTable extends Migration
             ->havingRaw ('COUNT(*) > 1')
             ->get()
             ->pluck('police_no')
-            ->each(function($p) {
+            ->each(function ($p) {
                 $family = new Family();
                 $family->save();
                 $family->members()->saveMany(Person::where('police_no', $p)->get());

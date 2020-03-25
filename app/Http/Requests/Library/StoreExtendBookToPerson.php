@@ -32,7 +32,7 @@ class StoreExtendBookToPerson extends FormRequest
                 'required',
                 'numeric',
                 'min:1',
-            ]
+            ],
         ];
     }
 }

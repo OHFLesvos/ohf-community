@@ -2,27 +2,25 @@
 
 namespace App\Models\People;
 
-use App\Models\Bank\CouponType;
 use App\Models\Bank\CouponHandout;
-use App\Models\Library\LibraryLending;
+use App\Models\Bank\CouponType;
 use App\Models\Helpers\Helper;
-
+use App\Models\Library\LibraryLending;
+use Carbon\Carbon;
+use Exception;
+use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Builder;
-
-use Carbon\Carbon;
-
-use Iatstuti\Database\Support\NullableFields;
 
 class Person extends Model
 {
-    const PUBLIC_ID_LENGTH = 10;
+    public const PUBLIC_ID_LENGTH = 10;
 
     use SoftDeletes;
     use NullableFields;
@@ -43,7 +41,7 @@ class Person extends Model
         'nationality',
         'languages',
         'languages_string',
-        'remarks'
+        'remarks',
     ];
 
     protected $nullable = [
@@ -75,7 +73,7 @@ class Person extends Model
                         ->doesntHave('family')
                         ->get();
                     // Create new family
-                    if (!$members->isEmpty()) {
+                    if (! $members->isEmpty()) {
                         $family = new Family();
                         $family->save();
                         $family->members()->saveMany($members);
@@ -89,7 +87,7 @@ class Person extends Model
             $model->search = self::createSearchString($model);
         });
 
-        static::deleting(function($model) {
+        static::deleting(function ($model) {
             if ($model->helper != null) {
                 $model->helper->delete();
             }
@@ -103,7 +101,7 @@ class Person extends Model
             if ($model->family != null && $model->family->members()->count() == 1) {
                 $model->family()->delete();
             }
-         });
+        });
 
         parent::boot();
     }
@@ -145,7 +143,7 @@ class Person extends Model
     {
         try {
             return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Error calculating age of ' . $this->full_name . ' ('. $this->date_of_birth . '): ' . $e->getMessage());
             return null;
         }
@@ -158,10 +156,28 @@ class Person extends Model
 
     public function setLanguagesStringAttribute($value)
     {
-        $this->languages = !empty($value) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) : null;
+        $this->languages = ! empty($value) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) : null;
     }
 
-    function getFullNameAttribute()
+    /**
+     * Returns a list of all languages spoken by any person
+     *
+     * @return array
+     */
+    public static function allLanguages(): array
+    {
+        return Person::groupBy('languages')
+            ->orderBy('languages')
+            ->whereNotNull('languages')
+            ->get()
+            ->pluck('languages')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->toArray();
+    }
+
+    public function getFullNameAttribute()
     {
         $str = '';
         if ($this->name != null) {
@@ -171,7 +187,7 @@ class Person extends Model
             $str .= ' ' . strtoupper($this->family_name);
         }
         if ($this->nickname != null) {
-            if (!empty($str)) {
+            if (! empty($str)) {
                 $str .= ' ';
             }
             $str .= '«'.$this->nickname.'»';
@@ -182,7 +198,7 @@ class Person extends Model
     public function getPoliceNoFormattedAttribute()
     {
         if ($this->police_no !== null && $this->police_no > 0) {
-            return '05/' . sprintf("%09d", $this->police_no);
+            return '05/' . sprintf('%09d', $this->police_no);
         }
         return null;
     }
@@ -201,12 +217,12 @@ class Person extends Model
             return $count >= $threshold;
     }
 
-    function family()
+    public function family()
     {
         return $this->belongsTo(Family::class);
     }
 
-    function getFamilyMembersAttribute()
+    public function getFamilyMembersAttribute()
     {
         if ($this->family != null) {
             return $this->family
@@ -217,7 +233,7 @@ class Person extends Model
         return collect();
     }
 
-    function revokedCards()
+    public function revokedCards()
     {
         return $this->hasMany(RevokedCard::class);
     }
@@ -238,7 +254,7 @@ class Person extends Model
                 return false;
             }
         }
-        return $couponType->allow_for_helpers || !optional($this->helper)->isActive;
+        return $couponType->allow_for_helpers || ! optional($this->helper)->isActive;
     }
 
     public function canHandoutCoupon(CouponType $couponType)
@@ -272,7 +288,7 @@ class Person extends Model
             ->first();
         if ($handout != null) {
             $date = (new Carbon($handout->date));
-            $daysUntil = ((clone $date)->addDays($couponType->retention_period))->diffInDays() + 1;
+            $daysUntil = (clone $date)->addDays($couponType->retention_period)->diffInDays() + 1;
             return trans_choice('people.in_n_days', $daysUntil, ['days' => $daysUntil]);
         }
         return $this->checkDailySpendingLimit($couponType);
@@ -330,6 +346,58 @@ class Person extends Model
             ->toArray();
     }
 
+    /**
+     * Returns a list of all nationalities assigned to any persons.
+     *
+     * @return array
+     */
+    public static function nationalities(): array
+    {
+        return Person::groupBy('nationality')
+            ->orderBy('nationality')
+            ->whereNotNull('nationality')
+            ->get()
+            ->pluck('nationality')
+            ->toArray();
+    }
+
+    /**
+     * Returns a list of all languages assigned to any persons.
+     *
+     * @return array
+     */
+    public static function languages(): array
+    {
+        return Person::groupBy('languages')
+            ->orderBy('languages')
+            ->whereNotNull('languages')
+            ->get()
+            ->pluck('languages')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->toArray();
+    }
+
+    /**
+     * Returns a list of all genders assigned to any persons.
+     *
+     * @return array
+     */
+    public static function genders(): array
+    {
+        return Person::groupBy('gender')
+            ->orderBy('gender')
+            ->whereNotNull('gender')
+            ->get()
+            ->pluck('gender')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->push(null)
+            ->toArray();
+    }
+
     public static function getGenderDistribution(): array
     {
         return collect(
@@ -339,10 +407,10 @@ class Person extends Model
                 ->whereNotNull('gender')
                 ->get()
             )
-            ->map(function($i){
+            ->map(function ($i) {
                 if ($i['gender'] == 'm') {
                     $i['gender'] = __('app.male');
-                } else if ($i['gender'] == 'f') {
+                } elseif ($i['gender'] == 'f') {
                     $i['gender'] = __('app.female');
                 }
                 return $i;
@@ -405,7 +473,7 @@ class Person extends Model
         ];
     }
 
-    public static function getRegistrationsPerDay(Carbon $dateFrom, Carbon $dateTo = null): array
+    public static function getRegistrationsPerDay(Carbon $dateFrom, ?Carbon $dateTo = null): array
     {
         if ($dateTo == null) {
             $dateTo = Carbon::today();
@@ -415,38 +483,39 @@ class Person extends Model
             ->where('created_at', '>=', $dateFrom->startOfDay())
             ->where('created_at', '<=', $dateTo->endOfDay())
             ->withTrashed()
-			->groupBy('date')
-			->orderBy('date', 'DESC')
+            ->groupBy('date')
+            ->orderBy('date', 'DESC')
             ->get()
             ->pluck('amount', 'date')
-			->reverse()
+            ->reverse()
             ->all();
         $date = $dateFrom->clone();
         do {
             $dateKey = $date->toDateString();
-			if (!isset($registrations[$dateKey])) {
-				$registrations[$dateKey] = 0;
-			}
+            if (! isset($registrations[$dateKey])) {
+                $registrations[$dateKey] = 0;
+            }
         } while ($date->addDay() <= $dateTo);
-		ksort($registrations);
-		return $registrations;
+        ksort($registrations);
+        return $registrations;
     }
 
-    public static function getAvgRegistrationsPerDay(Carbon $dateFrom = null, Carbon $dateTo = null): int
+    public static function getAvgRegistrationsPerDay(?Carbon $dateFrom = null, ?Carbon $dateTo = null): int
     {
         $avg = DB::table(function ($query) use ($dateFrom, $dateTo) {
-                $query->selectRaw('COUNT(*) AS total')
-                    ->selectRaw('DATE(created_at) AS date')
-                    ->from('persons')
-                    ->groupBy('date');
-                if ($dateFrom != null) {
-                    $query->whereDate('created_at', '>=', $dateFrom->startOfDay());
-                }
-                if ($dateTo != null) {
-                    $query->whereDate('created_at', '<=', $dateTo->endOfDay());
-                }
-            })
+            $query->selectRaw('COUNT(*) AS total')
+                ->selectRaw('DATE(created_at) AS date')
+                ->from('persons')
+                ->groupBy('date');
+            if ($dateFrom != null) {
+                $query->whereDate('created_at', '>=', $dateFrom->startOfDay());
+            }
+            if ($dateTo != null) {
+                $query->whereDate('created_at', '<=', $dateTo->endOfDay());
+            }
+        })
             ->avg('total');
+
         return round($avg);
     }
 
@@ -459,12 +528,12 @@ class Person extends Model
      */
     public function scopeFilterByTerms(Builder $query, array $terms)
     {
-        return $query->orWhere(function($aq) use ($terms) {
+        return $query->orWhere(function ($aq) use ($terms) {
             foreach ($terms as $term) {
                 // Remove dash "-" from term
                 $term = preg_replace('/^([0-9]+)-([0-9]+)/', '$1$2', $term);
                 // Create like condition
-                $aq->where(function($wq) use ($term) {
+                $aq->where(function ($wq) use ($term) {
                     $wq->where('search', 'LIKE', '%' . $term . '%');
                     $wq->orWhere('police_no', $term);
                     $wq->orWhere('card_no', $term);

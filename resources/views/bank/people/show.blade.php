@@ -25,25 +25,24 @@
             'card_no' => $person->card_no,
             'card_issued' => optional($person->card_issued)->toDateString(),
             'card_issued_dfh' => optional($person->card_issued)->diffForHumans(),
-            'revoked_cards' => $person->revokedCards->map(function($card){ return [
+            'revoked_cards' => $person->revokedCards->map(fn ($card) => [
                 'date' => $card->created_at->toDateString(),
                 'date_dfh' => $card->created_at->diffForHumans(),
                 'card_no' => $card->card_no,
-            ]; }),
+            ]),
             'created_at' => $person->created_at->toDateTimeString(),
             'created_at_dfh' => $person->created_at->diffForHumans(),
             'updated_at' => $person->updated_at->toDateTimeString(),
             'updated_at_dfh' => $person->updated_at->diffForHumans(),
-            'handouts' => ! $handouts->isEmpty() ? $handouts->map(function($handout){
-                return [
-                    'id' => $handout->id,
-                    'date' => $handout->date,
-                    'amount' => $handout->couponType->daily_amount,
-                    'coupon_name' => $handout->couponType->name,
-                    'created_at' => $handout->created_at->toDateTimeString(),
-                    'created_at_dfh' => $handout->created_at->diffForHumans(),
-                ];
-            })->toArray() : [],
+            'handouts' => ! $handouts->isEmpty() ? $handouts->map(fn ($handout) => [
+                'id' => $handout->id,
+                'date' => $handout->date,
+                'amount' => $handout->couponType->daily_amount,
+                'coupon_name' => $handout->couponType->name,
+                'created_at' => $handout->created_at->toDateTimeString(),
+                'created_at_dfh' => $handout->created_at->diffForHumans(),
+            ])
+            ->toArray() : [],
             'num_handouts' => $person->couponHandouts()->count(),
             'first_handout_date' => optional(optional($firstHandout)->created_at)->toDateString(),
             'first_handout_date_diff' => optional(optional($firstHandout)->created_at)->diffForHumans(),
@@ -51,11 +50,11 @@
     @endphp
 
     <div id="bank-app">
-		<view-person-page
-			:person='@json($p)'
+        <view-person-page
+            :person='@json($p)'
             :show-handout-limit="{{ $showHandoutLimit }}"
-		></view-person-page>
-	</div>
+        ></view-person-page>
+    </div>
 
 @endsection
 

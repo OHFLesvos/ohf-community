@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use App\User;
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -15,10 +14,8 @@ class UserRegisteredConfirmation extends Mailable
 
     /**
      * The user instance.
-     * 
-     * @var User
      */
-    public $user;
+    public User $user;
 
     /**
      * Create a new message instance.

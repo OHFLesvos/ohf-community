@@ -3,22 +3,21 @@
 namespace App\Widgets\Changelog;
 
 use App\Widgets\Widget;
-
 use Illuminate\Support\Facades\Gate;
 
 class ChangelogWidget implements Widget
 {
-    function authorize(): bool
+    public function authorize(): bool
     {
         return Gate::allows('view-changelogs');
     }
 
-    function view(): string
+    public function view(): string
     {
         return 'changelog.dashboard.widgets.changelog';
     }
 
-    function args(): array
+    public function args(): array
     {
         return [ ];
     }

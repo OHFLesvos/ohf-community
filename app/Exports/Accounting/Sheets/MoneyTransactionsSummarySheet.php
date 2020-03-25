@@ -3,21 +3,29 @@
 namespace App\Exports\Accounting\Sheets;
 
 use App\Exports\BaseExport;
-
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
-
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class MoneyTransactionsSummarySheet extends BaseExport implements FromView, WithColumnFormatting
 {
-    private $months;
+    /**
+     * Months
+     *
+     * @var array<Carbon>
+     */
+    private array $months;
 
-    public function __construct($months)
+    /**
+     * Constructor.
+     *
+     * @param array<Carbon> $months
+     */
+    public function __construct(array $months)
     {
         $this->months = $months;
     }
@@ -29,17 +37,11 @@ class MoneyTransactionsSummarySheet extends BaseExport implements FromView, With
         ]);
     }
 
-    /**
-     * @return string
-     */
     public function title(): string
     {
         return __('accounting.summary');
     }
 
-    /**
-     * @return array
-     */
     public function columnFormats(): array
     {
         return [

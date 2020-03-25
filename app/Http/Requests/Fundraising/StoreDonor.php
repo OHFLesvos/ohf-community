@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests\Fundraising;
 
-use App\Rules\CountryCode;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDonor extends FormRequest
@@ -27,17 +25,17 @@ class StoreDonor extends FormRequest
     {
         return [
             'first_name' => [
-                'required_without_all:last_name,company'
+                'required_without_all:last_name,company',
             ],
             'last_name' => [
-                'required_without_all:first_name,company'
+                'required_without_all:first_name,company',
             ],
             'company' => [
-                'required_without_all:first_name,last_name'
+                'required_without_all:first_name,last_name',
             ],
             'email' => [
                 'nullable',
-                'email'
+                'email',
             ],
             'country_name' => [
                 'nullable',
@@ -46,7 +44,7 @@ class StoreDonor extends FormRequest
             'tags' => [
                 'nullable',
                 'json',
-            ]
+            ],
         ];
     }
 

@@ -2,13 +2,11 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-
-use Carbon\Carbon;
+use Symfony\Component\Process\Process;
 
 class BackupDatabase extends Command
 {

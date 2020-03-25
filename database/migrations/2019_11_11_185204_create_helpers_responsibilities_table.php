@@ -2,11 +2,10 @@
 
 use App\Models\Helpers\Helper;
 use App\Models\Helpers\Responsibility;
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateHelpersResponsibilitiesTable extends Migration
 {
@@ -35,10 +34,10 @@ class CreateHelpersResponsibilitiesTable extends Migration
         DB::table('helpers')
             ->select('id', 'responsibilities')
             ->get()
-            ->each(function($h) {
-                if ($h->responsibilities != null && !empty($h->responsibilities)) {
+            ->each(function ($h) {
+                if ($h->responsibilities != null && ! empty($h->responsibilities)) {
                     collect(json_decode($h->responsibilities))
-                        ->each(function($r) use($h) {
+                        ->each(function ($r) use ($h) {
                             $responsibility = Responsibility::firstOrCreate(['name' => $r]);
                             $responsibility->helpers()->attach($h->id);
                         });
@@ -59,7 +58,7 @@ class CreateHelpersResponsibilitiesTable extends Migration
         Schema::table('helpers_helper_responsibility', function (Blueprint $table) {
             $table->timestamps();
         });
-        $map = Helper::all()->mapWithKeys(function($helper){
+        $map = Helper::all()->mapWithKeys(function ($helper) {
             $arr = $helper->responsibilities->pluck('name')->toArray();
             return [$helper->id => count($arr) > 0 ? json_encode($arr) : null];
         });
@@ -72,7 +71,7 @@ class CreateHelpersResponsibilitiesTable extends Migration
                 ->comment('Areas of responsibility the helper is involved in')
                 ->after('person_id');
         });
-        $map->each(function($item, $key){
+        $map->each(function ($item, $key) {
             DB::table('helpers')
                 ->where('id', $key)
                 ->update(['responsibilities' => $item]);

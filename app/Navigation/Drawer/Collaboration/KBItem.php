@@ -2,14 +2,12 @@
 
 namespace App\Navigation\Drawer\Collaboration;
 
-use App\Navigation\Drawer\BaseNavigationItem;
-
 use App\Models\Collaboration\WikiArticle;
-
+use App\Navigation\Drawer\BaseNavigationItem;
 use Illuminate\Support\Facades\Auth;
 
-class KBItem extends BaseNavigationItem {
-
+class KBItem extends BaseNavigationItem
+{
     protected $route = 'kb.index';
 
     protected $caption = 'kb.knowledge_base';
@@ -22,5 +20,4 @@ class KBItem extends BaseNavigationItem {
     {
         return Auth::user()->can('list', WikiArticle::class);
     }
-
 }
