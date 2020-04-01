@@ -40,7 +40,7 @@
                                 </td>
                                 <td>
                                     {{ Form::bsText('posting_text['.$transaction->id.']', $posting_text, [ 'placeholder' => __('accounting.posting_text') ], '') }}
-                                    
+
                                 </td>
                                 <td style="max-width: 8em">
                                     @if($transaction->type == 'income')
@@ -67,7 +67,7 @@
             </div>
             <p>
                 {{ Form::bsSubmitButton(__('app.submit')) }}
-            </p>            
+            </p>
         {!! Form::close() !!}
     @else
         @component('components.alert.info')
@@ -84,8 +84,6 @@
         var debit_side = row.find('select[name="debit_side['+id+']"]').val();
         var credit_side = row.find('select[name="credit_side['+id+']"]').val();
         var action = row.find('input[name="action['+id+']"]:checked').val();
-
-        console.log(id + ': ' + message + ', ' + debit_side + ', ' + credit_side + ', ' + action);
 
         row.removeClass('table-success');
         row.removeClass('table-warning');
