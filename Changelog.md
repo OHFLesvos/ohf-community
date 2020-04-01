@@ -1,6 +1,12 @@
 # Changelog
 
-## NEXT
+## 2.12.0
+
+* Update to Laravel 7 framework
+* Code cleanup
+* Fix env variable caching
+
+## 2.11.2
 
 * Added error tracking with Sentry.io
 * Remove built-in log reader view

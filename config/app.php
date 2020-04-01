@@ -19,7 +19,7 @@ return [
 
     'product_url' => 'https://github.com/mrcage/ohf-community',
 
-    'version' => 'v2.11.1',
+    'version' => 'v2.12.0',
     /*
     |--------------------------------------------------------------------------
     | Application Environment
