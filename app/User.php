@@ -109,7 +109,7 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->hasMany(Task::class);
     }
 
-    public function avatarUrl($profile = null)
+    public function avatarUrl(?string $profile = null): string
     {
         return $this->avatar !== null ? $this->avatar : \Gravatar::get($this->email, $profile);
     }

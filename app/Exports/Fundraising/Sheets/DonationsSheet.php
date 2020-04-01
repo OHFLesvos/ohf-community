@@ -15,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class DonationsSheet extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
     private Collection $donations;
-    private int $year;
+    private ?int $year;
 
     protected string $currencyColumn = 'G';
     protected string $exchangedCurrencyColumn = 'H';
@@ -35,7 +35,7 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
     public function title(): string
     {
-        return __('fundraising.donations') . ($this->year != null ? ' ' . $this->year : '');
+        return __('fundraising.donations') . ($this->year !== null ? ' ' . $this->year : '');
     }
 
     public function headings(): array
