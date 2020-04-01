@@ -14,7 +14,8 @@ class AddDatePersonIdIndexToCouponHandouts extends Migration
     public function up()
     {
         Schema::table('coupon_handouts', function (Blueprint $table) {
-            $table->index(['person_id', 'date'], 'person_id_date_index');
+            $table->index(['person_id', 'date']);
+            $table->index(['date', 'amount']);
         });
     }
 
@@ -26,7 +27,8 @@ class AddDatePersonIdIndexToCouponHandouts extends Migration
     public function down()
     {
         Schema::table('coupon_handouts', function (Blueprint $table) {
-            $table->dropIndex('person_id_date_index');
+            $table->dropIndex(['date', 'amount']);
+            $table->dropIndex(['person_id', 'date']);
         });
     }
 }
