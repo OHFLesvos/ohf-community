@@ -11,8 +11,6 @@ use App\Models\Bank\CouponHandout;
 use App\Models\People\Person;
 use Carbon\Carbon;
 use Countries;
-use Endroid\QrCode\LabelAlignment;
-use Endroid\QrCode\QrCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -59,14 +57,6 @@ class PeopleController extends Controller
         return view('people.show', [
             'person' => $person,
         ]);
-    }
-
-    public function qrCode(Person $person)
-    {
-        $qrCode = new QrCode($person->public_id);
-        $qrCode->setLabel($person->fullName, 16, null, LabelAlignment::CENTER);
-        return response($qrCode->writeString())
-            ->header('Content-Type', $qrCode->getContentType());
     }
 
     public function edit(Person $person)

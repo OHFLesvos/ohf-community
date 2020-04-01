@@ -264,9 +264,6 @@ Route::middleware(['auth', 'language'])
         Route::post('/people/doImport', 'PeopleController@doImport')
             ->name('people.doImport')
             ->middleware('can:create,App\Models\People\Person');
-        Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')
-            ->name('people.qrCode')
-            ->middleware('can:view,person');
         Route::get('/people/duplicates', 'PeopleController@duplicates')
             ->name('people.duplicates');
         Route::post('/people/duplicates', 'PeopleController@applyDuplicates')
