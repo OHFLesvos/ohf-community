@@ -111,7 +111,7 @@ class HelperReportController extends Controller
         $ages = [];
         $minAge = optional(self::getYoungestPerson())->age;
         $maxAge = optional(self::getOldestPerson())->age;
-        if ($minAge != null && $maxAge != null) {
+        if ($minAge !== null && $maxAge !== null) {
             foreach (range($minAge, $maxAge) as $r) {
                 $ages[$r.' '] = null;
             }
