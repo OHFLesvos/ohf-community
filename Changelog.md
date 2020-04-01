@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Optimized bank statistics database query
+
 ## 2.12.0
 
 * Update to Laravel 7 framework

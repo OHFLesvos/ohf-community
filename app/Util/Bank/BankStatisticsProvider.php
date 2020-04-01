@@ -22,7 +22,7 @@ class BankStatisticsProvider
 
     public function getNumberOfPersonsServed(): int {
         $q = CouponHandout::whereDate('date', $this->date)
-            ->groupBy('person_id')
+            ->groupBy('person_id', 'date')
             ->select('person_id');
         return DB::table(DB::raw('('.$q->toSql().') as o2'))
             ->mergeBindings($q->getQuery())
