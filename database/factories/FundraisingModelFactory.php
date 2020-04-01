@@ -5,7 +5,6 @@
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Faker\Generator as Faker;
-use Illuminate\Support\Facades\Config;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 $factory->define(Donor::class, function (Faker $faker) {
@@ -31,9 +30,9 @@ $factory->define(Donor::class, function (Faker $faker) {
 });
 
 $factory->define(Donation::class, function (Faker $faker) {
-    $baseCurrency = Config::get('fundraising.base_currency');
+    $baseCurrency = config('fundraising.base_currency');
     $currencyValidator = function ($cc) use ($baseCurrency) {
-        return in_array($cc, array_merge(Config::get('fundraising.currencies'), [$baseCurrency]));
+        return in_array($cc, array_merge(config('fundraising.currencies'), [$baseCurrency]));
     };
     $date = $faker->dateTimeBetween('-5 years', 'now');
     $amount = $faker->numberBetween(1, 10000);

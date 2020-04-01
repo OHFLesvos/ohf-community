@@ -79,7 +79,7 @@ class MoneyTransactionsController extends Controller
             session(['accounting.filter' => []]);
         }
         $filter = session('accounting.filter', []);
-        foreach (Config::get('accounting.filter_columns') as $col) {
+        foreach (config('accounting.filter_columns') as $col) {
             if (! empty($request->filter[$col])) {
                 $filter[$col] = $request->filter[$col];
             } elseif (isset($request->filter)) {
@@ -131,7 +131,7 @@ class MoneyTransactionsController extends Controller
     }
 
     public static function applyFilterToQuery(array $filter, &$query, ?bool $skipDates = false) {
-        foreach (Config::get('accounting.filter_columns') as $col) {
+        foreach (config('accounting.filter_columns') as $col) {
             if (! empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());
@@ -531,7 +531,7 @@ class MoneyTransactionsController extends Controller
 
     protected function exportFilename(Request $request): string
     {
-        return Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
+        return config('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
     }
 
     protected function exportExportable(Request $request)

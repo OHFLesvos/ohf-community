@@ -12,7 +12,6 @@ use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -205,9 +204,9 @@ class Person extends Model
 
     public function getFrequentVisitorAttribute()
     {
-        $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', config('bank.frequent_visitor_weeks'));
         $date = Carbon::today()->subWeek($weeks)->toDateString();
-        $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', config('bank.frequent_visitor_threshold'));
         $q = $this->couponHandouts()
             ->whereDate('date', '>=', $date)
             ->groupBy('date');

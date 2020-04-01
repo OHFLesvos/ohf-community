@@ -2,7 +2,6 @@
 
 namespace App\Widgets;
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 
 class ReportingWidget implements Widget
@@ -26,7 +25,7 @@ class ReportingWidget implements Widget
 
     private function getAvailableReports()
     {
-        return collect(Config::get('reporting.reports'))
+        return collect(config('reporting.reports'))
             ->filter(fn ($e) => $e['featured'] && Gate::allows($e['gate']))
             ->map(fn ($item, $key) => (object) [
                 'url' => route($item['route']),

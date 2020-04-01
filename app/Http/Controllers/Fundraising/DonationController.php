@@ -11,7 +11,6 @@ use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
@@ -46,7 +45,7 @@ class DonationController extends Controller
 
         return view('fundraising.donations.create', [
             'donor' => $donor,
-            'currencies' => Config::get('fundraising.currencies'),
+            'currencies' => config('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
@@ -67,7 +66,7 @@ class DonationController extends Controller
             $date = Carbon::today();
         }
 
-        if ($request->currency == Config::get('fundraising.base_currency')) {
+        if ($request->currency == config('fundraising.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
             if (! empty($request->exchange_rate)) {
@@ -115,7 +114,7 @@ class DonationController extends Controller
         return view('fundraising.donations.edit', [
             'donor' => $donor,
             'donation' => $donation,
-            'currencies' => Config::get('fundraising.currencies'),
+            'currencies' => config('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
@@ -137,7 +136,7 @@ class DonationController extends Controller
             $date = Carbon::today();
         }
 
-        if ($request->currency == Config::get('fundraising.base_currency')) {
+        if ($request->currency == config('fundraising.base_currency')) {
             $exchange_amount = $request->amount;
         } else {
             if (! empty($request->exchange_rate)) {
@@ -196,7 +195,7 @@ class DonationController extends Controller
     {
         $this->authorize('list', Donation::class);
 
-        $file_name = Config::get('app.name') . ' - ' .__('fundraising.donations') . ' (' . Carbon::now()->toDateString() . ')';
+        $file_name = config('app.name') . ' - ' .__('fundraising.donations') . ' (' . Carbon::now()->toDateString() . ')';
         $extension = 'xlsx';
 
         return (new DonationsExport())->download($file_name . '.' . $extension);
@@ -212,7 +211,7 @@ class DonationController extends Controller
     {
         $this->authorize('list', Donation::class);
 
-        $file_name = Config::get('app.name') . ' - ' .__('fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
+        $file_name = config('app.name') . ' - ' .__('fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
         $extension = 'xlsx';
 
         return (new DonationsExport($donor))->download($file_name . '.' . $extension);

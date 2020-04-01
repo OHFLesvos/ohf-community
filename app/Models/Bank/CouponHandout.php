@@ -6,7 +6,6 @@ use App\Models\People\Person;
 use Carbon\Carbon;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -68,7 +67,7 @@ class CouponHandout extends Model implements Auditable
 
     public static function returningPossibleGracePeriod()
     {
-        return \Setting::get('bank.undo_coupon_handout_grace_period', Config::get('bank.undo_coupon_handout_grace_period'));
+        return \Setting::get('bank.undo_coupon_handout_grace_period', config('bank.undo_coupon_handout_grace_period'));
     }
 
     public function getIsReturningPossibleAttribute()

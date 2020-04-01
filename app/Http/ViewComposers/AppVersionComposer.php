@@ -2,7 +2,6 @@
 
 namespace App\Http\ViewComposers;
 
-use Illuminate\Support\Facades\Config;
 use Illuminate\View\View;
 
 class AppVersionComposer
@@ -24,6 +23,6 @@ class AppVersionComposer
      */
     public function compose(View $view)
     {
-        $view->with('app_version', Config::get('app.version'));
+        $view->with('app_version', config('app.version'));
     }
 }

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Bank\DownloadFile;
 use App\Models\People\Person;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Config;
 
 class ImportExportController extends Controller
 {
@@ -19,7 +18,7 @@ class ImportExportController extends Controller
     public function export()
     {
         return view('bank.export', [
-            'formats' => collect(Config::get('bank.export_formats'))
+            'formats' => collect(config('bank.export_formats'))
                 ->mapWithKeys(fn ($val, $key) => [ $key => __($val)]),
             'selectedFormat' => 'xlsx',
         ]);

@@ -9,7 +9,6 @@ use App\Http\Requests\UserManagement\StoreUserProfile;
 use Endroid\QrCode\QrCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use OTPHP\TOTP;
@@ -87,7 +86,7 @@ class UserProfileController extends Controller
             $request->session()->put('temp_2fa_secret', $secret);
             $otp = TOTP::create($secret);
             $otp->setLabel($user->email);
-            $otp->setIssuer(Config::get('app.name'));
+            $otp->setIssuer(config('app.name'));
             $qrCode = new QrCode($otp->getProvisioningUri());
             $qrCode->setSize(400);
             return view('user_management.userprofile.enable2FA', [

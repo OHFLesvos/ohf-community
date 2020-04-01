@@ -9,7 +9,6 @@ use App\Imports\Helpers\HelpersImport;
 use App\Models\Helpers\Helper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use JeroenDesloovere\VCard\VCard;
@@ -195,7 +194,7 @@ class HelperExportImportController extends BaseHelperController
         // if ($helper->company != null) {
         //     $vcard->addCompany($helper->company);
         // }
-        $vcard->addCompany(Config::get('app.name'));
+        $vcard->addCompany(config('app.name'));
 
         if ($helper->person->family_name != null || $helper->person->name != null) {
             $vcard->addName($helper->person->family_name, $helper->person->name, '', '', '');

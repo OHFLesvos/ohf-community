@@ -6,7 +6,6 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -38,7 +37,7 @@ class DonationsImport implements ToCollection, WithHeadingRow
                 $date = new Carbon($row['created_utc']);
                 $amount = $row['amount'];
                 $currency = strtoupper($row['currency']);
-                if ($currency != Config::get('fundraising.base_currency')) {
+                if ($currency != config('fundraising.base_currency')) {
                     $exchange_rate = EzvExchangeRates::getExchangeRate($currency, $date);
                     $exchange_amount = $amount * $exchange_rate;
                 } else {

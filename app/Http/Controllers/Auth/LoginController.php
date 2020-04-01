@@ -9,7 +9,6 @@ use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use OTPHP\TOTP;
@@ -189,7 +188,7 @@ class LoginController extends Controller
 
             session()->flash('login_message', __('userprofile.registration_message', [
                 'name' => Auth::user()->name,
-                'app_name' => Config::get('app.name'),
+                'app_name' => config('app.name'),
             ]));
 
             return redirect($this->laravelRedirectPath());

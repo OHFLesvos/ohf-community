@@ -7,7 +7,6 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -54,7 +53,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         if (Auth::user()->can('list', Donation::class)) {
             $headings[] = __('fundraising.donations') . ' ' . Carbon::now()->subYear()->year;
             $headings[] = __('fundraising.donations') . ' ' . Carbon::now()->year;
-            foreach (Config::get('fundraising.currencies') as $currency) {
+            foreach (config('fundraising.currencies') as $currency) {
                 $headings[] = $currency . ' in ' . Carbon::now()->year;
             }
         }
@@ -87,7 +86,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             $map[] = $donor->amountPerYear(Carbon::now()->year) ?? 0;
 
             $apybc = $donor->amountPerYearByCurrencies(Carbon::now()->year) ?? [];
-            foreach (Config::get('fundraising.currencies') as $currency) {
+            foreach (config('fundraising.currencies') as $currency) {
                 $map[] = $apybc[$currency] ?? 0;
             }
         }
@@ -101,13 +100,13 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     {
         $formats = [];
         if (Auth::user()->can('list', Donation::class)) {
-            $formats['O'] = Config::get('fundraising.base_currency_excel_format');
-            $formats['P'] = Config::get('fundraising.base_currency_excel_format');
+            $formats['O'] = config('fundraising.base_currency_excel_format');
+            $formats['P'] = config('fundraising.base_currency_excel_format');
             $i = Coordinate::columnIndexFromString('P');
-            foreach (Config::get('fundraising.currencies') as $currency) {
+            foreach (config('fundraising.currencies') as $currency) {
                 $i++;
                 $column = Coordinate::stringFromColumnIndex($i);
-                $formats[$column] = Config::get('fundraising.currencies_excel_format')[$currency];
+                $formats[$column] = config('fundraising.currencies_excel_format')[$currency];
             }
         }
         return $formats;

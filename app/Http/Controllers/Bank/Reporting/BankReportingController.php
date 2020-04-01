@@ -7,7 +7,6 @@ use App\Http\Requests\SelectDateRange;
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class BankReportingController extends BaseReportingController
@@ -337,8 +336,8 @@ class BankReportingController extends BaseReportingController
      */
     public static function getNumberOfFrequentVisitors()
     {
-        $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
-        $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', config('bank.frequent_visitor_weeks'));
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', config('bank.frequent_visitor_threshold'));
 
         $q1 = DB::table('coupon_handouts')
             ->select('person_id', 'date')

@@ -164,7 +164,7 @@
                                     {{ Form::bsDate('date', Carbon\Carbon::now()->toDateString(), [ 'required', 'max' => Carbon\Carbon::today()->toDateString() ], '') }}
                                 </div>
                                 <div class="col-md-auto">
-                                    {{ Form::bsSelect('currency', $currencies, Config::get('fundraising.base_currency'), [ 'required', 'id' => 'currency' ], '') }}
+                                    {{ Form::bsSelect('currency', $currencies, config('fundraising.base_currency'), [ 'required', 'id' => 'currency' ], '') }}
                                 </div>
                                 <div class="col-md">
                                     {{ Form::bsNumber('amount', null, [ 'required', 'placeholder' => __('app.amount'), 'step' => 'any', 'id' => 'amount' ], '') }}
@@ -219,8 +219,8 @@
                                         <td class="d-none d-sm-table-cell">{{ $donation->in_name_of }}</td>
                                         <td class="text-right">
                                             {{ $donation->currency }} {{ $donation->amount }}
-                                            @if($donation->currency != Config::get('fundraising.base_currency'))
-                                                ({{ Config::get('fundraising.base_currency') }} {{ $donation->exchange_amount }})
+                                            @if($donation->currency != config('fundraising.base_currency'))
+                                                ({{ config('fundraising.base_currency') }} {{ $donation->exchange_amount }})
                                             @endif
                                         </td>
                                         <td class="fit">
@@ -248,7 +248,7 @@
                                 <tr>
                                     <td>{{ $donation->year }}</td>
                                     <td class="text-right" style="text-decoration: underline;">
-                                        {{ Config::get('fundraising.base_currency') }}
+                                        {{ config('fundraising.base_currency') }}
                                         {{ $donation->total }}
                                     </td>
                                 </tr>
@@ -270,7 +270,7 @@
 
 @section('script')
     function toggleExchangeAmount() {
-        if ($('#currency').val() != '{{ Config::get('fundraising.base_currency') }}') {
+        if ($('#currency').val() != '{{ config('fundraising.base_currency') }}') {
             $('#exchange_rate_container').show();
         } else {
             $('#exchange_rate_container').hide();

@@ -26,8 +26,8 @@
                             <td class="fit"><a href="{{ route('fundraising.donations.edit', [$donation->donor, $donation]) }}">{{ $donation->date }}</a></td>
                             <td class="text-right fit">
                                 {{ $donation->currency }} {{ $donation->amount }}
-                                @if($donation->currency != Config::get('fundraising.base_currency'))
-                                    ({{ Config::get('fundraising.base_currency') }} {{ $donation->exchange_amount }})
+                                @if($donation->currency != config('fundraising.base_currency'))
+                                    ({{ config('fundraising.base_currency') }} {{ $donation->exchange_amount }})
                                 @endif
                             </td>
                             <td>

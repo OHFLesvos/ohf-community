@@ -17,7 +17,6 @@ use App\Repositories\People\PersonRepository;
 use App\Repositories\People\RevokedCardRepository;
 use App\Util\Bank\BankStatisticsProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 
 class WithdrawalController extends Controller
 {
@@ -128,7 +127,7 @@ class WithdrawalController extends Controller
     private function getPersonsByFilter($filter)
     {
         $terms = split_by_whitespace($filter);
-        $perPage = Config::get('bank.results_per_page');
+        $perPage = config('bank.results_per_page');
 
         $data = $this->persons->filterByTerms($terms, $perPage);
 

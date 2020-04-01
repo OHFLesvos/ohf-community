@@ -6,7 +6,6 @@ use App\Http\Controllers\Bank\Reporting\BankReportingController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Models\Collaboration\WikiArticle;
 use App\Models\People\Person;
-use Illuminate\Support\Facades\Config;
 
 class BankSettingsController extends SettingsController
 {
@@ -21,7 +20,7 @@ class BankSettingsController extends SettingsController
     protected function getSettings() {
         return [
             'bank.undo_coupon_handout_grace_period' => [
-                'default' => Config::get('bank.undo_coupon_handout_grace_period'),
+                'default' => config('bank.undo_coupon_handout_grace_period'),
                 'form_type' => 'number',
                 'form_args' => [ 'min' => 1 ],
                 'form_validate' => 'required|numeric|min:1',
@@ -29,7 +28,7 @@ class BankSettingsController extends SettingsController
                 'section' => 'coupons',
             ],
             'bank.frequent_visitor_weeks' => [
-                'default' => Config::get('bank.frequent_visitor_weeks'),
+                'default' => config('bank.frequent_visitor_weeks'),
                 'form_type' => 'number',
                 'form_args' => [ 'min' => 1 ],
                 'form_validate' => 'required|numeric|min:1',
@@ -38,7 +37,7 @@ class BankSettingsController extends SettingsController
                 'include_pre' => 'bank.settings.frequent_visitors_explanation',
             ],
             'bank.frequent_visitor_threshold' => [
-                'default' => Config::get('bank.frequent_visitor_threshold'),
+                'default' => config('bank.frequent_visitor_threshold'),
                 'form_type' => 'number',
                 'form_args' => [ 'min' => 1 ],
                 'form_validate' => 'required|numeric|min:1',

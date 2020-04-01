@@ -5,7 +5,6 @@ namespace App\Exports\Fundraising\Sheets;
 use App\Exports\BaseExport;
 use App\Models\Fundraising\Donation;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -77,14 +76,14 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
         // Set exchange currency format
         for ($i = 0; $i < $cnt; $i++) {
-            $sheet->getStyle($this->currencyColumn . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
+            $sheet->getStyle($this->currencyColumn . ($i + 2))->getNumberFormat()->setFormatCode(config('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
         }
 
         if ($cnt > 0) {
             $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);
 
             // Set currency format
-            $sheet->getStyle($this->exchangedCurrencyColumn . '1:' . $sumCell)->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
+            $sheet->getStyle($this->exchangedCurrencyColumn . '1:' . $sumCell)->getNumberFormat()->setFormatCode(config('fundraising.base_currency_excel_format'));
 
             // Total sum cell value
             $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);

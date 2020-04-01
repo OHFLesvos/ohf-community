@@ -2,8 +2,6 @@
 
 namespace App\Util\Collaboration;
 
-use Illuminate\Support\Facades\Config;
-
 class ArticlePdfExport
 {
     public static function createPDF($title, $content)
@@ -22,7 +20,7 @@ class ArticlePdfExport
         // Header
         $mpdf->SetHTMLHeader('
         <div style="text-align: right; font-weight: bold;">
-            ' . Config::get('app.name') . ' - ' . __('kb.knowledge_base') . '
+            ' . config('app.name') . ' - ' . __('kb.knowledge_base') . '
         </div>');
 
         // Footer
