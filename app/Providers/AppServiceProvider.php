@@ -54,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         // Enforce SSL if running in production
-        if (env('APP_ENV') === 'production' || env('APP_ENV') === 'prod') {
+        if (config('app.env') === 'production' || config('app.env') === 'prod') {
             \URL::forceScheme('https');
         }
 

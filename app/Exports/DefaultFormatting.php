@@ -11,7 +11,7 @@ trait DefaultFormatting
 {
     protected function setupSpreadsheet(Spreadsheet $spreadsheet) {
         // Creator
-        $spreadsheet->getProperties()->setCreator(env('APP_NAME'));
+        $spreadsheet->getProperties()->setCreator(config('app.name'));
 
         // Default font
         $spreadsheet->getDefaultStyle()->getFont()->setSize(9);

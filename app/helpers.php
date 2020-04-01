@@ -154,7 +154,7 @@ if (! function_exists('gmaps_embedd')) {
     function gmaps_embedd(string $query): string
     {
         $q = urlencode($query);
-        return '<iframe style="width: 100%; border:0;" height="450" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=' . env('GOOGLE_MAPS_API_KEY') . '&amp;q=' . $q . '" allowfullscreen></iframe>';
+        return '<iframe style="width: 100%; border:0;" height="450" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=' . config('services.google.maps_api_key') . '&amp;q=' . $q . '" allowfullscreen></iframe>';
     }
 }
 
