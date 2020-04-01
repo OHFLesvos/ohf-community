@@ -3,6 +3,7 @@
 namespace App\Imports\People;
 
 use App\Models\People\Person;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
@@ -40,7 +41,7 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
         return new Person([
             'family_name' => $row['Family Name'],
             'name' => $row['Name'],
-            'date_of_birth' => isset($row['Date of birth']) ? self::parseDate($row['Date of birth']) : null,
+            'date_of_birth' => !empty($row['Date of birth']) ? self::parseDate($row['Date of birth']) : null,
             'nationality' => $row['Nationality'],
             'police_no' => $row['Police Number'],
             'languages' => ! empty($row['Languages']) ? self::parseToArray($row['Languages']) : null,
@@ -50,7 +51,11 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
 
     private static function parseDate($value)
     {
-        return Date::excelToDateTimeObject($value)->format(DATE_ISO8601);
+        try {
+            return Date::excelToDateTimeObject($value)->format("Y-m-d");
+        } catch (\ErrorException $e) {
+            return Carbon::createFromFormat("Y-m-d", $value);
+        }
     }
 
     private static function parseToArray($value)
@@ -69,6 +74,7 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
             ],
             'Date of birth' => [
                 'nullable',
+                'date',
             ],
             'Nationality' => [
                 'nullable',
