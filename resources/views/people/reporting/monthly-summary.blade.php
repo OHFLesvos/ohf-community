@@ -116,8 +116,8 @@
 @endsection
 
 @section('script')
-$(function(){
-    $('#timerange').on('change', function(){
+$(function () {
+    $('#timerange').on('change', function () {
         var val = $(this).val().split('-');
         document.location = '{{ route('reporting.monthly-summary') }}?year=' + val[0] + '&month=' + val[1];
     });

@@ -3,21 +3,20 @@
 namespace App\Widgets;
 
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Config;
 
 class ReportingWidget implements Widget
 {
-    function authorize(): bool
+    public function authorize(): bool
     {
         return Gate::allows('view-reports') && $this->getAvailableReports()->count() > 0;
     }
 
-    function view(): string
+    public function view(): string
     {
         return 'dashboard.widgets.reports';
     }
 
-    function args(): array
+    public function args(): array
     {
         return [
             'reports' => $this->getAvailableReports()->toArray(),
@@ -26,15 +25,11 @@ class ReportingWidget implements Widget
 
     private function getAvailableReports()
     {
-        return collect(Config::get('reporting.reports'))
-            ->filter(function($e){
-                return $e['featured'] && Gate::allows($e['gate']);
-            })
-            ->map(function($item, $key){
-                return (object)[
-                    'url' => route($item['route']),
-                    'name' => __('reporting.' . $key),
-                ];
-            });
+        return collect(config('reporting.reports'))
+            ->filter(fn ($e) => $e['featured'] && Gate::allows($e['gate']))
+            ->map(fn ($item, $key) => (object) [
+                'url' => route($item['route']),
+                'name' => __('reporting.' . $key),
+            ]);
     }
 }

@@ -40,11 +40,11 @@
             document.location='/library/lending/book/' + $('#book_id').val();
         }
     }
-    $(function(){
+    $(function () {
         $('#person_id').on('change', navigateToPerson);
         $('#book_id').on('change', navigateToBook);
 
-        $('#button-register-person').on('click', function(){
+        $('#button-register-person').on('click', function () {
             $('#registerPersoModal').modal('show');
         });
         $('#registerPersoModal').on('shown.bs.modal', function (e) {

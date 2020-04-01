@@ -3,11 +3,9 @@
 namespace App\Mail;
 
 use App\User;
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Config;
 
 class UserRegisteredConfirmation extends Mailable
 {
@@ -15,10 +13,8 @@ class UserRegisteredConfirmation extends Mailable
 
     /**
      * The user instance.
-     * 
-     * @var User
      */
-    public $user;
+    public User $user;
 
     /**
      * Create a new message instance.
@@ -39,6 +35,6 @@ class UserRegisteredConfirmation extends Mailable
     {
         return $this
             ->markdown('emails.users.registered_confirmation')
-            ->subject(__('userprofile.new_account_registered_at_app_name', ['app_name' => Config::get('app.name')]));
+            ->subject(__('userprofile.new_account_registered_at_app_name', ['app_name' => config('app.name')]));
     }
 }

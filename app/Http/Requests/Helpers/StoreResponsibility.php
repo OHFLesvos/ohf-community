@@ -24,10 +24,10 @@ class StoreResponsibility extends FormRequest
             'capacity' => [
                 'nullable',
                 'numeric',
-                'min:1'
+                'min:1',
             ],
             'available' => [
-                'boolean'
+                'boolean',
             ],
         ];
     }

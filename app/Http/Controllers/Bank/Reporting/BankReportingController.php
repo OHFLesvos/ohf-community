@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Bank\Reporting;
 
-use App\Http\Requests\SelectDateRange;
 use App\Http\Controllers\Reporting\BaseReportingController;
-
-use App\Models\Bank\CouponType;
+use App\Http\Requests\SelectDateRange;
 use App\Models\Bank\CouponHandout;
-
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
-
+use App\Models\Bank\CouponType;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class BankReportingController extends BaseReportingController
 {
@@ -20,40 +16,42 @@ class BankReportingController extends BaseReportingController
      *
      * @return \Illuminate\Http\Response
      */
-    function withdrawals()
+    public function withdrawals()
     {
-        $coupons = CouponType
-            ::orderBy('order')
-            ->orderBy('name')
-            ->get()
-            ->map(function($coupon){
-                return [
-                    'coupon' => $coupon,
-                    'avg_sum' => self::getAvgTransactionSumPerDay($coupon),
-                    'highest_sum' => self::getHighestSumPerDay($coupon),
-                    'last_month_sum' => self::sumOfTransactions($coupon, Carbon::today()->subMonth()->startOfMonth(), Carbon::today()->subMonth()->endOfMonth()),
-                    'this_month_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth()),
-                    'last_week_sum' => self::sumOfTransactions($coupon, Carbon::today()->subWeek()->startOfWeek(), Carbon::today()->subWeek()->endOfWeek()),
-                    'this_week_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()),
-                    'today_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
-                ];
-            });
         return view('bank.reporting.withdrawals', [
-            'coupons' => $coupons,
-            'from' => Carbon::today()->subMonth()->toDateString(),
-            'to' => Carbon::today()->toDateString(),
+            'coupons' => CouponType::orderBy('order')
+                ->orderBy('name')
+                ->get()
+                ->map(fn ($coupon) => self::getCouponStatistics($coupon)),
+            'from' => Carbon::today()
+                ->subMonth()
+                ->toDateString(),
+            'to' => Carbon::today()
+                ->toDateString(),
         ]);
+    }
+
+    private static function getCouponStatistics($coupon)
+    {
+        return [
+            'coupon' => $coupon,
+            'avg_sum' => self::getAvgTransactionSumPerDay($coupon),
+            'highest_sum' => self::getHighestSumPerDay($coupon),
+            'last_month_sum' => self::sumOfTransactions($coupon, Carbon::today()->subMonth()->startOfMonth(), Carbon::today()->subMonth()->endOfMonth()),
+            'this_month_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfMonth(), Carbon::today()->endOfMonth()),
+            'last_week_sum' => self::sumOfTransactions($coupon, Carbon::today()->subWeek()->startOfWeek(), Carbon::today()->subWeek()->endOfWeek()),
+            'this_week_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfWeek(), Carbon::today()->endOfWeek()),
+            'today_sum' => self::sumOfTransactions($coupon, Carbon::today()->startOfDay(), Carbon::today()->endOfDay()),
+        ];
     }
 
     private static function getAvgTransactionSumPerDay(CouponType $coupon)
     {
-        $sub = CouponHandout
-            ::select(DB::raw('sum(amount) as sum'))
+        $sub = CouponHandout::selectRaw('sum(amount) as sum')
             ->where('coupon_type_id', $coupon->id)
             ->groupBy('date');
-        $result = DB
-            ::table( DB::raw("({$sub->toSql()}) as sub") )
-            ->select(DB::raw('round(avg(sum), 1) as avg'))
+        $result = DB::table(DB::raw("({$sub->toSql()}) as sub"))
+            ->selectRaw('round(avg(sum), 1) as avg')
             ->mergeBindings($sub->getQuery())
             ->first();
         return $result != null ? $result->avg : null;
@@ -61,23 +59,22 @@ class BankReportingController extends BaseReportingController
 
     private static function getHighestSumPerDay(CouponType $coupon)
     {
-        return CouponHandout
-                ::select(DB::raw('sum(amount) as sum, date'))
-                ->where('coupon_type_id', $coupon->id)
-                ->groupBy('date')
-                ->orderBy('sum', 'DESC')
-                ->limit(1)
-                ->first();
+        return CouponHandout::selectRaw('sum(amount) as sum, date')
+            ->where('coupon_type_id', $coupon->id)
+            ->groupBy('date')
+            ->orderBy('sum', 'DESC')
+            ->limit(1)
+            ->first();
     }
 
     private static function sumOfTransactions(CouponType $coupon, Carbon $from, Carbon $to)
     {
-        $result = CouponHandout
-            ::whereDate('date', '>=', $from->toDateString())
+        $result = CouponHandout::whereDate('date', '>=', $from->toDateString())
             ->whereDate('date', '<=', $to->toDateString())
             ->where('coupon_type_id', $coupon->id)
-            ->select(DB::raw('sum(amount) as sum'))
+            ->selectRaw('sum(amount) as sum')
             ->first();
+
         return $result != null ? $result->sum : null;
     }
 
@@ -94,31 +91,29 @@ class BankReportingController extends BaseReportingController
         $to = new Carbon($request->to);
         $q = self::createDateCollectionEmpty($from, $to)
             ->merge(
-                CouponHandout
-                    ::where('coupon_type_id', $coupon->id)
+                CouponHandout::where('coupon_type_id', $coupon->id)
                     ->whereDate('date', '>=', $from->toDateString())
                     ->whereDate('date', '<=', $to->toDateString())
                     ->groupBy('date')
                     ->select(DB::raw('SUM(amount) as sum'), 'date')
                     ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->date => $item->sum];
-                    })
+                    ->mapWithKeys(fn ($item) => [ $item->date => $item->sum ])
             )
             ->reverse()
             ->toArray();
+
         return response()->json([
             'labels' => array_keys($q),
             'datasets' => [
                 'Value' => array_values($q),
-            ]
+            ],
         ]);
     }
 
     /**
      * Visitors
      */
-    function visitors()
+    public function visitors()
     {
         $daily = array_values(self::getVisitorsPerDay(Carbon::now()->subDay()->startOfDay(), Carbon::now()));
         $weekly = array_values(self::getVisitorsPerWeek(Carbon::now()->subWeek()->startOfWeek(), Carbon::now()));
@@ -140,18 +135,18 @@ class BankReportingController extends BaseReportingController
                     'Last year' => $year[0] ?? 0,
                 ],
                 [
-                    'Daily average' => round(self::getAvgVisitorsPerDay( Carbon::now()->subMonth(3)->startOfWeek(), Carbon::now())),
+                    'Daily average' => round(self::getAvgVisitorsPerDay(Carbon::now()->subMonth(3)->startOfWeek(), Carbon::now())),
                     'Frequent' => self::getNumberOfFrequentVisitors(),
                     // TODO peak visitors per day
-                ]
-            ]
-		]);
+                ],
+            ],
+        ]);
     }
 
     /**
      * Visitors per day
      */
-    function visitorsPerDay()
+    public function visitorsPerDay()
     {
         $from = Carbon::now()->subMonth(3);
         $to = Carbon::now();
@@ -160,18 +155,18 @@ class BankReportingController extends BaseReportingController
             'labels' => array_keys($data),
             'datasets' => [
                 'Visitors' => array_values($data),
-            ]
+            ],
         ]);
     }
 
     private static function getvisitorsPerDay($from, $to)
     {
         return self::createDateCollectionEmpty($from, $to)
-            ->merge(self::getVisitorsPerDayQuery($from, $to)
-                ->get()
-                ->mapWithKeys(function ($item) {
-                    return [$item->date => $item->visitors];
-                }))
+            ->merge(
+                self::getVisitorsPerDayQuery($from, $to)
+                    ->get()
+                    ->mapWithKeys(fn ($item) => [ $item->date => $item->visitors ])
+            )
             ->reverse()
             ->toArray();
     }
@@ -179,7 +174,7 @@ class BankReportingController extends BaseReportingController
     /**
      * Visitors per week
      */
-    function visitorsPerWeek()
+    public function visitorsPerWeek()
     {
         $from = Carbon::now()->subMonth(6)->startOfWeek();
         $to = Carbon::now();
@@ -188,7 +183,7 @@ class BankReportingController extends BaseReportingController
             'labels' => array_keys($data),
             'datasets' => [
                 'Visitors' => array_values($data),
-            ]
+            ],
         ]);
     }
 
@@ -204,9 +199,7 @@ class BankReportingController extends BaseReportingController
                     ->orderBy('date', 'DESC')
                     ->mergeBindings($visitsPerDayQuery)
                     ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->week => $item->visitors];
-                    })
+                    ->mapWithKeys(fn ($item) => [ $item->week => $item->visitors ])
             )
             ->reverse()
             ->toArray();
@@ -215,7 +208,7 @@ class BankReportingController extends BaseReportingController
     /**
      * Visitors per month
      */
-    function visitorsPerMonth()
+    public function visitorsPerMonth()
     {
         $from = Carbon::now()->subMonth(12)->startOfMonth();
         $to = Carbon::now();
@@ -224,7 +217,7 @@ class BankReportingController extends BaseReportingController
             'labels' => array_keys($data),
             'datasets' => [
                 'Visitors' => array_values($data),
-            ]
+            ],
         ]);
     }
 
@@ -239,9 +232,7 @@ class BankReportingController extends BaseReportingController
                     ->orderBy('date', 'DESC')
                     ->mergeBindings($visitsPerDayQuery)
                     ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->month => $item->visitors];
-                    })
+                    ->mapWithKeys(fn ($item) => [ $item->month => $item->visitors ])
             )
             ->reverse()
             ->toArray();
@@ -250,7 +241,7 @@ class BankReportingController extends BaseReportingController
     /**
      * Visitors per year
      */
-    function visitorsPerYear()
+    public function visitorsPerYear()
     {
         $from = Carbon::now()->subYear(2)->startOfYear();
         $to = Carbon::now();
@@ -259,7 +250,7 @@ class BankReportingController extends BaseReportingController
             'labels' => array_keys($data),
             'datasets' => [
                 'Visitors' => array_values($data),
-            ]
+            ],
         ]);
     }
 
@@ -274,9 +265,7 @@ class BankReportingController extends BaseReportingController
                     ->orderBy('date', 'DESC')
                     ->mergeBindings($visitsPerDayQuery)
                     ->get()
-                    ->mapWithKeys(function ($item) {
-                        return ["Year " . $item->year => (int)$item->visitors];
-                    })
+                    ->mapWithKeys(fn ($item) => [ 'Year ' . $item->year => (int) $item->visitors ])
             )
             ->reverse()
             ->toArray();
@@ -285,7 +274,7 @@ class BankReportingController extends BaseReportingController
     /**
      * Average visitors per day of week
      */
-    function avgVisitorsPerDayOfWeek()
+    public function avgVisitorsPerDayOfWeek()
     {
         $from = Carbon::now()->subMonth(3)->startOfWeek();
         $to = Carbon::now();
@@ -294,7 +283,7 @@ class BankReportingController extends BaseReportingController
             'labels' => array_keys($data),
             'datasets' => [
                 'Visitors' => array_values($data),
-            ]
+            ],
         ]);
     }
 
@@ -312,9 +301,7 @@ class BankReportingController extends BaseReportingController
                     ->orderBy(DB::raw('DAYOFWEEK(date)'))
                     ->mergeBindings($visitsPerDayQuery)
                     ->get()
-                    ->mapWithKeys(function ($item) {
-                        return [$item->day => round($item->visitors, 1)];
-                    })
+                    ->mapWithKeys(fn ($item) => [ $item->day => round($item->visitors, 1) ])
             )
             ->toArray();
     }
@@ -349,8 +336,8 @@ class BankReportingController extends BaseReportingController
      */
     public static function getNumberOfFrequentVisitors()
     {
-        $weeks = \Setting::get('bank.frequent_visitor_weeks', Config::get('bank.frequent_visitor_weeks'));
-        $threshold = \Setting::get('bank.frequent_visitor_threshold', Config::get('bank.frequent_visitor_threshold'));
+        $weeks = \Setting::get('bank.frequent_visitor_weeks', config('bank.frequent_visitor_weeks'));
+        $threshold = \Setting::get('bank.frequent_visitor_threshold', config('bank.frequent_visitor_threshold'));
 
         $q1 = DB::table('coupon_handouts')
             ->select('person_id', 'date')

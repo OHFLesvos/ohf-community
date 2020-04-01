@@ -2,31 +2,24 @@
 
 namespace App\Http\Controllers\Accounting;
 
+use App\Exports\Accounting\MoneyTransactionsExport;
+use App\Exports\Accounting\MoneyTransactionsMonthsExport;
+use App\Exports\Accounting\WeblingMoneyTransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
-
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\MoneyTransaction;
-use App\Exports\Accounting\MoneyTransactionsExport;
-use App\Exports\Accounting\WeblingMoneyTransactionsExport;
-use App\Exports\Accounting\MoneyTransactionsMonthsExport;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Validation\Rule;
-
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Setting;
 
 class MoneyTransactionsController extends Controller
 {
     use ExportableActions;
-
-    const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
-    const PROJECTS_SETTING_KEY = 'accounting.transactions.projects';
 
     public function __construct()
     {
@@ -67,9 +60,9 @@ class MoneyTransactionsController extends Controller
             'date' => __('app.date'),
             'category' => __('app.category'),
             'project' => __('app.project'),
-            'beneficiary'=> __('accounting.beneficiary'),
+            'beneficiary' => __('accounting.beneficiary'),
             'receipt_no' => __('accounting.receipt'),
-            'created_at' => __('app.registered')
+            'created_at' => __('app.registered'),
         ];
         $sortColumn = session('accounting.sortColumn', 'created_at');
         $sortOrder = session('accounting.sortOrder', 'desc');
@@ -86,21 +79,21 @@ class MoneyTransactionsController extends Controller
             session(['accounting.filter' => []]);
         }
         $filter = session('accounting.filter', []);
-        foreach (Config::get('accounting.filter_columns') as $col) {
-            if (!empty($request->filter[$col])) {
+        foreach (config('accounting.filter_columns') as $col) {
+            if (! empty($request->filter[$col])) {
                 $filter[$col] = $request->filter[$col];
-            } else if (isset($request->filter)) {
+            } elseif (isset($request->filter)) {
                 unset($filter[$col]);
             }
         }
-        if (!empty($request->filter['date_start'])) {
+        if (! empty($request->filter['date_start'])) {
             $filter['date_start'] = $request->filter['date_start'];
-        } else if (isset($request->filter)) {
+        } elseif (isset($request->filter)) {
             unset($filter['date_start']);
         }
-        if (!empty($request->filter['date_end'])) {
+        if (! empty($request->filter['date_end'])) {
             $filter['date_end'] = $request->filter['date_end'];
-        } else if (isset($request->filter)) {
+        } elseif (isset($request->filter)) {
             unset($filter['date_end']);
         }
         session(['accounting.filter' => $filter]);
@@ -111,7 +104,7 @@ class MoneyTransactionsController extends Controller
         $transactions = $query->paginate(250);
 
         // Single receipt no. query
-        if ($transactions->count() == 1 && !empty($filter['receipt_no'])) {
+        if ($transactions->count() == 1 && ! empty($filter['receipt_no'])) {
             session(['accounting.filter' => []]);
             return redirect()->route('accounting.transactions.show', $transactions->first());
         }
@@ -124,43 +117,42 @@ class MoneyTransactionsController extends Controller
             'sortOrder' => $sortOrder,
             'beneficiaries' => self::getBeneficiaries(),
             'categories' => self::getCategories(true),
-            'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
+            'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(true),
-            'fixed_projects' => Setting::has(self::PROJECTS_SETTING_KEY),
+            'fixed_projects' => Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY),
         ]);
     }
 
-    private static function createIndexQuery($filter, $sortColumn, $sortOrder) {
-        $query = MoneyTransaction
-            ::orderBy($sortColumn, $sortOrder)
+    private static function createIndexQuery(array $filter, string $sortColumn, string $sortOrder) {
+        $query = MoneyTransaction::orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
         self::applyFilterToQuery($filter, $query);
         return $query;
     }
 
-    public static function applyFilterToQuery($filter, &$query, $skipDates = false) {
-        foreach (Config::get('accounting.filter_columns') as $col) {
-            if (!empty($filter[$col])) {
+    public static function applyFilterToQuery(array $filter, &$query, ?bool $skipDates = false) {
+        foreach (config('accounting.filter_columns') as $col) {
+            if (! empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());
-                } else if ($col == 'no_receipt') {
-                    $query->where(function($query){
+                } elseif ($col == 'no_receipt') {
+                    $query->where(function ($query) {
                         $query->whereNull('receipt_no');
                         $query->orWhereNull('receipt_pictures');
                         $query->orWhere('receipt_pictures', '[]');
                     });
-                } else if ($col == 'beneficiary' || $col == 'description') {
+                } elseif ($col == 'beneficiary' || $col == 'description') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
                 } else {
                     $query->where($col, $filter[$col]);
                 }
             }
         }
-        if (!$skipDates) {
-            if (!empty($filter['date_start'])) {
+        if (! $skipDates) {
+            if (! empty($filter['date_start'])) {
                 $query->whereDate('date', '>=', $filter['date_start']);
             }
-            if (!empty($filter['date_end'])) {
+            if (! empty($filter['date_end'])) {
                 $query->whereDate('date', '<=', $filter['date_end']);
             }
         }
@@ -178,14 +170,14 @@ class MoneyTransactionsController extends Controller
         return view('accounting.transactions.create', [
             'beneficiaries' => self::getBeneficiaries(),
             'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
+            'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has(self::PROJECTS_SETTING_KEY),
+            'fixed_projects' => Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY),
             'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
         ]);
     }
 
-    private static function getBeneficiaries() {
+    private static function getBeneficiaries(): array {
         return MoneyTransaction::select('beneficiary')
             ->groupBy('beneficiary')
             ->orderBy('beneficiary')
@@ -195,12 +187,10 @@ class MoneyTransactionsController extends Controller
             ->toArray();
     }
 
-    private static function getCategories($onlyExisting = false) {
-        if (!$onlyExisting && Setting::has(self::CATEGORIES_SETTING_KEY)) {
-            return collect(Setting::get(self::CATEGORIES_SETTING_KEY))
-                ->mapWithKeys(function($e){
-                    return [ $e => $e ];
-                })
+    private static function getCategories(?bool $onlyExisting = false): array {
+        if (! $onlyExisting && Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY)) {
+            return collect(Setting::get(AccountingSettingsController::CATEGORIES_SETTING_KEY))
+                ->mapWithKeys(fn ($e) => [ $e => $e ])
                 ->sort()
                 ->toArray();
         }
@@ -213,12 +203,10 @@ class MoneyTransactionsController extends Controller
             ->toArray();
     }
 
-    private static function getProjects($onlyExisting = false) {
-        if (!$onlyExisting && Setting::has(self::PROJECTS_SETTING_KEY)) {
-            return collect(Setting::get(self::PROJECTS_SETTING_KEY))
-                ->mapWithKeys(function($e){
-                    return [ $e => $e ];
-                })
+    private static function getProjects(?bool $onlyExisting = false): array {
+        if (! $onlyExisting && Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY)) {
+            return collect(Setting::get(AccountingSettingsController::PROJECTS_SETTING_KEY))
+                ->mapWithKeys(fn ($e) => [ $e => $e ])
                 ->sort()
                 ->toArray();
         }
@@ -321,9 +309,9 @@ class MoneyTransactionsController extends Controller
             'transaction' => $transaction,
             'beneficiaries' => self::getBeneficiaries(),
             'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has(self::CATEGORIES_SETTING_KEY),
+            'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has(self::PROJECTS_SETTING_KEY),
+            'fixed_projects' => Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY),
         ]);
     }
 
@@ -351,7 +339,7 @@ class MoneyTransactionsController extends Controller
         if (isset($request->remove_receipt_picture)) {
             $transaction->deleteReceiptPictures();
         }
-        else if (isset($request->receipt_picture)) {
+        elseif (isset($request->receipt_picture)) {
             $transaction->deleteReceiptPictures(); // TODO no need to clear pictures for multi picture support
             $transaction->addReceiptPicture($request->file('receipt_picture'));
         }
@@ -392,7 +380,7 @@ class MoneyTransactionsController extends Controller
 
         $currentMonth = Carbon::now()->startOfMonth();
 
-        $validatedData = $request->validate([
+        $request->validate([
             'month' => 'nullable|integer|min:1|max:12',
             'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
         ]);
@@ -400,19 +388,19 @@ class MoneyTransactionsController extends Controller
         if ($request->filled('year') && $request->filled('month')) {
             $year = $request->year;
             $month = $request->month;
-        } else if ($request->filled('year')) {
+        } elseif ($request->filled('year')) {
             $year = $request->year;
             $month = null;
-        } else if ($request->has('year')) {
+        } elseif ($request->has('year')) {
             $year = null;
             $month = null;
-        } else if ($request->session()->has('accounting.summary_range.year') && $request->session()->has('accounting.summary_range.month')) {
+        } elseif ($request->session()->has('accounting.summary_range.year') && $request->session()->has('accounting.summary_range.month')) {
             $year = $request->session()->get('accounting.summary_range.year');
             $month = $request->session()->get('accounting.summary_range.month');
-        } else if ($request->session()->has('accounting.summary_range.year')) {
+        } elseif ($request->session()->has('accounting.summary_range.year')) {
             $year = $request->session()->get('accounting.summary_range.year');
             $month = null;
-        } else if ($request->session()->exists('accounting.summary_range.year')) {
+        } elseif ($request->session()->exists('accounting.summary_range.year')) {
             $year = null;
             $month = null;
         } else {
@@ -429,7 +417,7 @@ class MoneyTransactionsController extends Controller
             $dateTo = (clone $dateFrom)->endOfMonth();
             $heading = $dateFrom->formatLocalized('%B %Y');
             $currentRange = $dateFrom->format('Y-m');
-        } else if ($year != null) {
+        } elseif ($year != null) {
             $dateFrom = (new Carbon($year.'-01-01'))->startOfYear();
             $dateTo = (clone $dateFrom)->endOfYear();
             $heading = $year;
@@ -458,10 +446,7 @@ class MoneyTransactionsController extends Controller
             ->orderBy('year', 'desc')
             ->orderBy('month', 'desc')
             ->get()
-            ->mapWithKeys(function($e){
-                $date = new Carbon($e->year.'-'.$e->month.'-01');
-                return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
-            })
+            ->mapWithKeys(fn ($e) => self::toYearMonthMap($e->year, $e->month))
             ->prepend($currentMonth->formatLocalized('%B %Y'), $currentMonth->format('Y-m'))
             ->toArray();
 
@@ -469,9 +454,7 @@ class MoneyTransactionsController extends Controller
             ->groupBy(DB::raw('YEAR(date)'))
             ->orderBy('year', 'desc')
             ->get()
-            ->mapWithKeys(function($e){
-                return [ $e->year => $e->year ];
-            })
+            ->mapWithKeys(fn ($e) => [ $e->year => $e->year ])
             ->prepend($currentMonth->format('Y'), $currentMonth->format('Y'))
             ->toArray();
 
@@ -490,17 +473,23 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    function exportAuthorize()
+    private static function toYearMonthMap(int $year, int $month)
+    {
+        $date = new Carbon($year.'-'.$month.'-01');
+        return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
+    }
+
+    protected function exportAuthorize()
     {
         $this->authorize('list', MoneyTransaction::class);
     }
 
-    function exportView(): string
+    protected function exportView(): string
     {
         return 'accounting.transactions.export';
     }
 
-    function exportViewArgs(): array
+    protected function exportViewArgs(): array
     {
         $filter = session('accounting.filter', []);
         return [
@@ -514,15 +503,15 @@ class MoneyTransactionsController extends Controller
                 'monthly' => __('app.monthly'),
             ],
             'grouping' => 'none',
-            'selections' => !empty($filter) ? [
+            'selections' => ! empty($filter) ? [
                 'all' => __('app.all_records'),
-                'filtered' => __('app.selected_records_according_to_current_filter')
+                'filtered' => __('app.selected_records_according_to_current_filter'),
             ] : null,
             'selection' => 'all',
         ];
     }
 
-    function exportValidateArgs(): array
+    protected function exportValidateArgs(): array
     {
         return [
             'columns' => [
@@ -540,12 +529,12 @@ class MoneyTransactionsController extends Controller
         ];
     }
 
-    function exportFilename(Request $request): string
+    protected function exportFilename(Request $request): string
     {
-        return Config::get('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
+        return config('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
     }
 
-    function exportExportable(Request $request)
+    protected function exportExportable(Request $request)
     {
         $filter = $request->selection == 'filtered' ? session('accounting.filter', []) : [];
         if ($request->grouping == 'monthly') {

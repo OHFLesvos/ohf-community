@@ -2,14 +2,13 @@
 
 namespace App\Navigation\ContextButtons\UserManagement;
 
-use App\User;
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
+use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class UserCreateContextButtons implements ContextButtons {
-
+class UserCreateContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -17,8 +16,8 @@ class UserCreateContextButtons implements ContextButtons {
                 'url' => route('users.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', User::class)
-            ]
+                'authorized' => Auth::user()->can('list', User::class),
+            ],
         ];
     }
 

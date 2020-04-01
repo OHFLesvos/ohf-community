@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\Accounting\MoneyTransaction;
-
 use Illuminate\Http\Request;
 
 class MoneyTransactionsController extends Controller

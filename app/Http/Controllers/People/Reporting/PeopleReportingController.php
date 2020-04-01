@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\People\Reporting;
 
 use App\Http\Controllers\Reporting\BaseReportingController;
-
+use App\Http\Controllers\ValidatesDateRanges;
 use App\Models\People\Person;
 use App\Models\People\RevokedCard;
-
-use Illuminate\Http\Request;
-
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PeopleReportingController extends BaseReportingController
 {
+    use ValidatesDateRanges;
+
     /**
      * Index
      */
-    function index(Request $request)
+    public function index(Request $request)
     {
-        list($dateFrom, $dateTo) = parent::getDatePeriodFromRequest($request, 30);
+        [$dateFrom, $dateTo] = self::getDatePeriodFromRequest($request, 30);
 
         return view('people.reporting.people', [
             'dateFrom' => $dateFrom,
@@ -50,9 +50,9 @@ class PeopleReportingController extends BaseReportingController
                 [
                     __('people.cards_issued') => Person::whereNotNull('card_no')->count(),
                     __('people.cards_revoked') => RevokedCard::count(),
-                ]            
-            ]
-		]);
+                ],
+            ],
+        ]);
     }
 
 }

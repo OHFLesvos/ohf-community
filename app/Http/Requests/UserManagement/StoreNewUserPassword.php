@@ -3,9 +3,8 @@
 namespace App\Http\Requests\UserManagement;
 
 use App\Rules\OldPassword;
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreNewUserPassword extends FormRequest
 {
@@ -29,7 +28,7 @@ class StoreNewUserPassword extends FormRequest
         return [
             'old_password' => [
                 'required',
-                new OldPassword(Auth::user()->password)
+                new OldPassword(Auth::user()->password),
             ],
             'password' => [
                 'required',

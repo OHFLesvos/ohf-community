@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Collaboration;
 
-use App\Tag;
 use App\Http\Controllers\Controller;
 use App\Models\Collaboration\WikiArticle;
-
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
-
 use OwenIt\Auditing\Models\Audit;
 
 class SearchController extends Controller
@@ -24,7 +22,7 @@ class SearchController extends Controller
         $this->authorize('list', WikiArticle::class);
 
         // If previous route is from other module, forget search string
-        if (!Str::startsWith(previous_route(), 'kb.')) {
+        if (! Str::startsWith(previous_route(), 'kb.')) {
             $request->session()->forget('kb_search');
         }
 
@@ -43,7 +41,7 @@ class SearchController extends Controller
         // Search results
         if ($request->session()->has('kb_search')) {
             $search = $request->session()->get('kb_search');
-            $query->where(function($wq) use($search) {
+            $query->where(function ($wq) use ($search) {
                 return $wq->where('title', 'LIKE', '%' . $search . '%')
                     ->orWhere('search', 'LIKE', '%' . $search . '%');
             });
@@ -56,7 +54,8 @@ class SearchController extends Controller
                 ->orderBy('title')
                 ->paginate(50),
             'search' => $search,
-            'popular_articles' => WikiArticle::leftJoin('kb_article_views', function($join){
+            'popular_articles' => WikiArticle::query()
+                ->leftJoin('kb_article_views', function ($join) {
                     $join->on('kb_article_views.viewable_id', '=', 'kb_articles.id')
                         ->where('kb_article_views.viewable_type', WikiArticle::class);
                 })
@@ -74,16 +73,14 @@ class SearchController extends Controller
             'popular_tags' => Tag::has('wikiArticles')
                 ->orderBy('name')
                 ->get()
-                ->map(function($t){
-                    return [
-                        'tag' => $t,
-                        'count' => $t->wikiArticles()->count(),
-                    ];
-                })
+                ->map(fn ($tag) => [
+                    'tag' => $tag,
+                    'count' => $tag->wikiArticles()->count(),
+                ])
                 ->sortByDesc('count')
                 ->pluck('tag')
                 ->slice(0, 25)
-                ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE),
+                ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE),
         ]);
     }
 
@@ -92,7 +89,7 @@ class SearchController extends Controller
         $this->authorize('list', WikiArticle::class);
 
         return view('collaboration.kb.latest_changes', [
-            'audits' =>  Audit::where('auditable_type', WikiArticle::class)
+            'audits' => Audit::where('auditable_type', WikiArticle::class)
                 ->orderBy('created_at', 'DESC')
                 ->paginate(),
         ]);

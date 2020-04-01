@@ -2,16 +2,14 @@
 
 namespace App\Navigation\ContextButtons\Bank;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Bank\CouponType;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
-class CouponIndexContextButtons implements ContextButtons {
-
+class CouponIndexContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -20,14 +18,14 @@ class CouponIndexContextButtons implements ContextButtons {
                 'caption' => __('app.add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', CouponType::class)
+                'authorized' => Auth::user()->can('create', CouponType::class),
             ],
             'back' => [
                 'url' => route('bank.withdrawal.search'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Gate::allows('do-bank-withdrawals')
-            ]
+                'authorized' => Gate::allows('do-bank-withdrawals'),
+            ],
         ];
     }
 

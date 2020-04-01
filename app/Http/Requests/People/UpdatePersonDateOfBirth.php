@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\People;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePersonDateOfBirth extends FormRequest
 {

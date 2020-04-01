@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @if( ! $audits->isEmpty() )
+    @if(! $audits->isEmpty())
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
@@ -49,6 +49,6 @@
         @component('components.alert.info')
             @lang('wiki.no_articles_found')
         @endcomponent
-	@endif
-	
+    @endif
+
 @endsection

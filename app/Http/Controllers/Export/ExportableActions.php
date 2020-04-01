@@ -7,12 +7,12 @@ use Illuminate\Validation\Rule;
 
 trait ExportableActions
 {
-    abstract function exportAuthorize();
-    abstract function exportView(): string;
-    abstract function exportViewArgs(): array;
-    abstract function exportValidateArgs(): array;
-    abstract function exportFilename(Request $request): string;
-    abstract function exportExportable(Request $request);
+    abstract protected function exportAuthorize();
+    abstract protected function exportView(): string;
+    abstract protected function exportViewArgs(): array;
+    abstract protected function exportValidateArgs(): array;
+    abstract protected function exportFilename(Request $request): string;
+    abstract protected function exportExportable(Request $request);
 
     private static function getFormats()
     {
@@ -29,7 +29,7 @@ trait ExportableActions
      *
      * @return \Illuminate\Http\Response
      */
-    function export() {
+    public function export() {
         $this->exportAuthorize();
 
         $args = [
@@ -59,14 +59,14 @@ trait ExportableActions
         $file_name = $this->exportFilename($request);
         if ($request->format == 'csv') {
             $file_ext = 'csv';
-        } else if ($request->format == 'tsv') {
+        } elseif ($request->format == 'tsv') {
             $file_ext = 'tsv';
-        } else if ($request->format == 'pdf') {
+        } elseif ($request->format == 'pdf') {
             $file_ext = 'pdf';
         } else {
             $file_ext = 'xlsx';
         }
-        
+
         $export = $this->exportExportable($request);
         return $this->exportDownload($request, $export, $file_name, $file_ext);
     }

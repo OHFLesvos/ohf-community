@@ -2,14 +2,13 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Support\Facades\ContextMenus;
 use App\Support\Facades\ContextButtons;
-
+use App\Support\Facades\ContextMenus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
-class ContextMenuComposer {
-
+class ContextMenuComposer
+{
     /**
      * Bind data to the view.
      *
@@ -23,5 +22,4 @@ class ContextMenuComposer {
         $view->with('menu', ContextMenus::get($currentRouteName));
         $view->with('buttons', ContextButtons::get($currentRouteName, $view));
     }
-
 }

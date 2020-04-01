@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Library;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Library\LibraryBook;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class LibraryBookIndexContextButtons implements ContextButtons {
-
+class LibraryBookIndexContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -19,7 +17,7 @@ class LibraryBookIndexContextButtons implements ContextButtons {
                 'caption' => __('app.add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', LibraryBook::class)
+                'authorized' => Auth::user()->can('create', LibraryBook::class),
             ],
         ];
     }

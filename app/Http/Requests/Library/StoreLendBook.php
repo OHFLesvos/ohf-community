@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Library;
 
 use App\Models\Library\LibraryLending;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLendBook extends FormRequest
@@ -29,7 +28,7 @@ class StoreLendBook extends FormRequest
             'person_id' => [
                 'required',
                 'exists:persons,id',
-            ]
+            ],
         ];
     }
 

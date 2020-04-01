@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Library;
 
 use App\Models\Library\LibraryLending;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLendBookToPerson extends FormRequest
@@ -33,7 +32,7 @@ class StoreLendBookToPerson extends FormRequest
             'isbn' => [
                 'nullable',
                 'isbn',
-            ]
+            ],
         ];
     }
 

@@ -11,18 +11,18 @@
         <div class="mb-3 mt-4">
             {{ Form::bsFile('alt_logo', [ 'accept' => 'image/*' ], __('app.choose_alternative_logo'), 'Optional: Upload an alternative logo file.') }}
         </div>
-		<p>
-			{{ Form::bsSubmitButton(__('app.create')) }}
-		</p>
+        <p>
+            {{ Form::bsSubmitButton(__('app.create')) }}
+        </p>
     {!! Form::close() !!}
 @endsection
 
 @section('script')
-    $(function(){
-        $('#select_all').on('click', function(){
+    $(function () {
+        $('#select_all').on('click', function () {
             $('input[type="checkbox"]').prop('checked', true);
         });
-        $('#select_none').on('click', function(){
+        $('#select_none').on('click', function () {
             $('input[type="checkbox"]').prop('checked', false);
         });
     });

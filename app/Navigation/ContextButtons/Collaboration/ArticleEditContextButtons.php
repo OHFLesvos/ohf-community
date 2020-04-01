@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\Collaboration;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class ArticleEditContextButtons implements ContextButtons {
-
+class ArticleEditContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $article = $view->getData()['article'];
@@ -25,7 +24,7 @@ class ArticleEditContextButtons implements ContextButtons {
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('view', $article),
-            ]
+            ],
         ];
     }
 

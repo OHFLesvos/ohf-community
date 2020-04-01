@@ -1,10 +1,9 @@
 <?php
 
 use App\Models\Fundraising\Donor;
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddFirstLastNameCompanyStreetToDonors extends Migration
 {
@@ -23,7 +22,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->text('country_code')->nullable()->after('city');
             $table->text('language')->nullable()->after('phone');
         });
-        Donor::all()->each(function($donor){
+        Donor::all()->each(function ($donor) {
             $name_parts = preg_split('/\\s+/', $donor->name);
             $first_name = isset($name_parts[0]) ? $name_parts[0] : null;
             $last_name = isset($name_parts[1]) ? $name_parts[1] : null;
@@ -52,7 +51,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->string('name')->after('id');
             $table->string('country')->after('city')->nullable();
         });
-        Donor::all()->each(function($donor){
+        Donor::all()->each(function ($donor) {
             $donor->name = $donor->first_name . ' ' . $donor->last_name;
             $donor->address = $donor->street;
             if ($donor->country_code != null) {

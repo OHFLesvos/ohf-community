@@ -2,8 +2,8 @@
 
 namespace App\Navigation\Drawer;
 
-class HomeNavigationItem extends BaseNavigationItem {
-
+class HomeNavigationItem extends BaseNavigationItem
+{
     protected $route = 'home';
 
     protected $caption = 'app.dashboard';
@@ -13,5 +13,4 @@ class HomeNavigationItem extends BaseNavigationItem {
     protected $active = '/';
 
     protected $authorized = true;
-
 }

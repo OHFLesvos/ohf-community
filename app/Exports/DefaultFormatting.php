@@ -3,16 +3,16 @@
 namespace App\Exports;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 trait DefaultFormatting
 {
     protected function setupSpreadsheet(Spreadsheet $spreadsheet) {
         // Creator
-        $spreadsheet->getProperties()->setCreator(env('APP_NAME'));
-    
+        $spreadsheet->getProperties()->setCreator(config('app.name'));
+
         // Default font
         $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
     }
@@ -57,7 +57,7 @@ trait DefaultFormatting
     protected function setupView(Worksheet $sheet) {
         // Freeze first line
         $sheet->freezePane('B2');
-        
+
         // Auto-filter
         $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
     }

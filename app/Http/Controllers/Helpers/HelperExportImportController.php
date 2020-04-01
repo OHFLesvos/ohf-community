@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers\Helpers;
 
-use App\Http\Controllers\Export\ExportableActions;
-
-use App\Models\Helpers\Helper;
-use App\Http\Requests\Helpers\ImportHelpers;
 use App\Exports\Helpers\HelpersExport;
+use App\Http\Controllers\Export\ExportableActions;
+use App\Http\Requests\Helpers\ImportHelpers;
 use App\Imports\Helpers\HelpersImport;
-
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Config;
-
+use App\Models\Helpers\Helper;
 use Carbon\Carbon;
-
-use ZipStream\ZipStream;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use JeroenDesloovere\VCard\VCard;
+use ZipStream\ZipStream;
 
 class HelperExportImportController extends BaseHelperController
 {
@@ -37,17 +31,17 @@ class HelperExportImportController extends BaseHelperController
     protected function exportViewArgs(): array
     {
         return [
-            'scopes' => $this->getScopes()->mapWithKeys(function($s, $k){
-                return [ $k => $s['label'] ];
-            })->toArray(),
+            'scopes' => $this->getScopes()
+                ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
+                ->toArray(),
             'scope' => session('helpers.export.scope', $this->getScopes()->keys()->first()),
-            'columnt_sets' => $this->getColumnSets()->mapWithKeys(function($s, $k){
-                return [ $k => $s['label'] ];
-            })->toArray(),
+            'columnt_sets' => $this->getColumnSets()
+                ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
+                ->toArray(),
             'columnt_set' => session('helpers.export.columnt_set', $this->getColumnSets()->keys()->first()),
-            'sorters' => $this->getSorters()->mapWithKeys(function($s, $k){
-                return [ $k => $s['label'] ];
-            })->toArray(),
+            'sorters' => $this->getSorters()
+                ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
+                ->toArray(),
             'sorting' => session('helpers.export.sorting', $this->getSorters()->keys()->first()),
         ];
     }
@@ -79,7 +73,7 @@ class HelperExportImportController extends BaseHelperController
     protected function exportFilename(Request $request): string
     {
         $scope = $this->getScopes()[$request->scope];
-        return __('helpers.helpers') .'_' . $scope['label'] .'_' . Carbon::now()->toDateString();
+        return __('helpers.helpers') . '_' . $scope['label'] . '_' . Carbon::now()->toDateString();
     }
 
     protected function exportExportable(Request $request)
@@ -90,11 +84,11 @@ class HelperExportImportController extends BaseHelperController
         $sorting = $this->getSorters()[$request->sorting];
 
         $export = new HelpersExport($fields, $scope['scope']);
-        $export->setOrientation($request->orientation);
-        $export->setSorting($sorting['sorting']);
+        $export->orientation = $request->orientation;
+        $export->sorting = $sorting['sorting'];
         if ($request->has('fit_to_page')) {
-            $export->setFitToWidth(1);
-            $export->setFitToHeight(1);
+            $export->fitToWidth = 1;
+            $export->fitToHeight = 1;
         }
         return $export;
     }
@@ -104,10 +98,8 @@ class HelperExportImportController extends BaseHelperController
         return collect($fields)
             ->where('overview_only', false)
             ->where('exclude_export', false)
-            ->filter(function($e){
-                return !isset($e['authorized_view']) || $e['authorized_view'];
-            })
-            ->filter(function($e) use($columnSet){
+            ->filter(fn ($e) => ! isset($e['authorized_view']) || $e['authorized_view'])
+            ->filter(function ($e) use ($columnSet) {
                 if (count($columnSet['columns']) > 0) {
                     if (isset($e['form_name'])) {
                         return in_array($e['form_name'], $columnSet['columns']);
@@ -141,7 +133,7 @@ class HelperExportImportController extends BaseHelperController
                     $picture_path = storage_path('app/'.$helper->person->portrait_picture);
                     if (is_file($picture_path)) {
                         $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
-                        $zip->addFileFromPath('portraits/' . $helper->person->fullName . '.' . $ext , $picture_path);
+                        $zip->addFileFromPath('portraits/' . $helper->person->fullName . '.' . $ext, $picture_path);
                     }
                 }
             }
@@ -153,14 +145,14 @@ class HelperExportImportController extends BaseHelperController
         }
     }
 
-    function import()
+    public function import()
     {
         $this->authorize('import', Helper::class);
 
         return view('helpers.import');
     }
 
-    function doImport(ImportHelpers $request)
+    public function doImport(ImportHelpers $request)
     {
         $this->authorize('import', Helper::class);
 
@@ -169,23 +161,22 @@ class HelperExportImportController extends BaseHelperController
         $importer = new HelpersImport($fields);
         $importer->import($request->file('file'));
 
-		return redirect()->route('people.helpers.index')
-				->with('success', __('app.import_successful'));
+        return redirect()
+            ->route('people.helpers.index')
+            ->with('success', __('app.import_successful'));
     }
 
     private static function getImportFields($fields)
     {
         return collect($fields)
             ->where('overview_only', false)
-            ->filter(function($f){ return isset($f['assign']) && is_callable($f['assign']); })
-            ->map(function($f){
-                return [
-                    'labels' => self::getAllTranslations($f['label_key'])
-                        ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
-                        ->map(function($l){ return strtolower($l); }),
-                    'assign' => $f['assign'],
-                ];
-            });
+            ->filter(fn ($f) => isset($f['assign']) && is_callable($f['assign']))
+            ->map(fn ($f) => [
+                'labels' => self::getAllTranslations($f['label_key'])
+                    ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
+                    ->map(fn ($l) => strtolower($l)),
+                'assign' => $f['assign'],
+            ]);
     }
 
     /**
@@ -194,7 +185,7 @@ class HelperExportImportController extends BaseHelperController
      * @param  \App\Models\Helpers\Helper  $helper
      * @return \Illuminate\Http\Response
      */
-    function vcard(Helper $helper)
+    public function vcard(Helper $helper)
     {
         $this->authorize('view', $helper);
 
@@ -203,7 +194,7 @@ class HelperExportImportController extends BaseHelperController
         // if ($helper->company != null) {
         //     $vcard->addCompany($helper->company);
         // }
-        $vcard->addCompany(Config::get('app.name'));
+        $vcard->addCompany(config('app.name'));
 
         if ($helper->person->family_name != null || $helper->person->name != null) {
             $vcard->addName($helper->person->family_name, $helper->person->name, '', '', '');

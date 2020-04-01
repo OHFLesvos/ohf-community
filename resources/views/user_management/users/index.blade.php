@@ -4,7 +4,7 @@
 
 @section('wrapped-content')
 
-    @if( ! $users->isEmpty() )
+    @if(! $users->isEmpty())
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
@@ -64,6 +64,6 @@
         @component('components.alert.info')
             @lang('app.no_users_found')
         @endcomponent
-	@endif
+    @endif
 
 @endsection

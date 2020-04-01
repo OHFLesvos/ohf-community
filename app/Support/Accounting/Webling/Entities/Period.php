@@ -13,7 +13,7 @@ class Period extends WeblingEntity
     {
         return $this->hasMany(AccountGroup::class);
     }
-    
+
     public function entryGroups()
     {
         return $this->hasMany(Entrygroup::class);

@@ -2,16 +2,14 @@
 
 namespace App\Navigation\ContextButtons\Library;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\People\Person;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
-class LibraryLendingPersonContextButtons implements ContextButtons {
-
+class LibraryLendingPersonContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $person = $view->getData()['person'];

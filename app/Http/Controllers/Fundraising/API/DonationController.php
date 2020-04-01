@@ -3,16 +3,10 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Fundraising\Donor;
 use App\Models\Fundraising\Donation;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
-
+use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationController extends Controller
@@ -21,36 +15,35 @@ class DonationController extends Controller
      * Store donation and donor supplied by RaiseNow Webhook
      */
     public function raiseNowWebHookListener(Request $request) {
-        $data = $request->all();
+        // $data = $request->all();
         // Log::info("Donation webhook", $data);
 
         $request->validate([
             'stored_customer_firstname' => [
-                'required'
+                'required',
             ],
             'stored_customer_lastname' => [
-                'required'
+                'required',
             ],
             'stored_customer_street' => [
-                'required'
+                'required',
             ],
             'stored_customer_city' => [
-                'required'
+                'required',
             ],
             'amount' => [
-                'required'
+                'required',
             ],
             'currency' => [
-                'required'
+                'required',
             ],
             'payment_method' => [
-                'required'
+                'required',
             ],
         ]);
 
-        $street = $request->stored_customer_street . (!empty($request->stored_customer_street_number) ? ' ' . $request->stored_customer_street_number : '');
-        $donor = Donor
-            ::where('first_name', $request->stored_customer_firstname)
+        $street = $request->stored_customer_street . (! empty($request->stored_customer_street_number) ? ' ' . $request->stored_customer_street_number : '');
+        $donor = Donor::where('first_name', $request->stored_customer_firstname)
             ->where('last_name', $request->stored_customer_lastname)
             ->where('street', $street)
             ->where('city', $request->stored_customer_city)
@@ -74,7 +67,7 @@ class DonationController extends Controller
         $date = new Carbon($request->created);
         $amount = $request->amount / 100;
         $currency = strtoupper($request->currency);
-        if ($currency != Config::get('fundraising.base_currency')) {
+        if ($currency != config('fundraising.base_currency')) {
             $exchange_rate = EzvExchangeRates::getExchangeRate($currency, $date);
             $exchange_amount = $amount * $exchange_rate;
         } else {
@@ -84,7 +77,7 @@ class DonationController extends Controller
         $payment_methods = [
             'ECA' => 'MasterCard',
             'MPW' => 'MasterPass',
-            'PP'  => 'PayPal',
+            'PP' => 'PayPal',
             'VIS' => 'Visa',
             'TWI' => 'Twint',
             'PFC' => 'PostFinance Card',

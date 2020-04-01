@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Collaboration\API;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Collaboration\CalendarResource;
 use App\Http\Requests\Collaboration\StoreResource;
 use App\Http\Requests\Collaboration\UpdateResource;
 use App\Http\Resources\Collaboration\CalendarResourceResource;
+use App\Models\Collaboration\CalendarResource;
 
 class CalendarResourceController extends Controller
 {
@@ -41,7 +40,7 @@ class CalendarResourceController extends Controller
         $resource = new CalendarResource();
         $resource->title = $request->title;
         $resource->color = $request->color;
-        $resource->group = !empty($request->group) ? $request->group : null;
+        $resource->group = ! empty($request->group) ? $request->group : null;
         $resource->default = CalendarResource::count() == 0;
         $resource->save();
         return (new CalendarResourceResource($resource))->response(201);
@@ -74,7 +73,7 @@ class CalendarResourceController extends Controller
         $resource->title = $request->title;
         $resource->color = $request->color;
         // TODO default
-        $resource->group = !empty($request->group) ? $request->group : null;
+        $resource->group = ! empty($request->group) ? $request->group : null;
         $resource->save();
         return response()->json([], 204);
     }

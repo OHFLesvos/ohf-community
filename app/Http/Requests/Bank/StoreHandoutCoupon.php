@@ -2,14 +2,9 @@
 
 namespace App\Http\Requests\Bank;
 
-use App\Models\People\Person;
-
-use App\Models\Bank\CouponType;
-
-use Illuminate\Validation\Rule;
-use Illuminate\Foundation\Http\FormRequest;
-
 use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreHandoutCoupon extends FormRequest
 {
@@ -45,8 +40,8 @@ class StoreHandoutCoupon extends FormRequest
                         return $query->whereDate('date', '>=', Carbon::today()->subDays($expiry - 1));
                     }
                     return $query;
-                })
-            ]
+                }),
+            ],
         ];
     }
 
@@ -61,7 +56,7 @@ class StoreHandoutCoupon extends FormRequest
         $validator->after(function ($validator) {
             $coupon = $this->couponType;
             $person = $this->person;
-            if (!$person->eligibleForCoupon($coupon)) {
+            if (! $person->eligibleForCoupon($coupon)) {
                 $validator->errors()->add('coupon_type_id', __('people.person_not_eligible_for_this_coupon'));
             }
             $lastHandout = $person->canHandoutCoupon($coupon);

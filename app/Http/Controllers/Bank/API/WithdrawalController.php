@@ -3,30 +3,26 @@
 namespace App\Http\Controllers\Bank\API;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\People\Person;
-use App\Repositories\People\RevokedCardRepository;
-use App\Repositories\People\PersonRepository;
-
-use App\Models\Bank\CouponType;
-use App\Models\Bank\CouponHandout;
 use App\Http\Requests\Bank\StoreHandoutCoupon;
 use App\Http\Requests\Bank\StoreUndoHandoutCoupon;
 use App\Http\Resources\Bank\BankPerson;
 use App\Http\Resources\Bank\BankPersonCollection;
 use App\Http\Resources\Bank\WithdrawalTransaction;
-use App\Util\Bank\BankStatisticsProvider;
-use App\Repositories\Bank\CouponTypeRepository;
+use App\Models\Bank\CouponHandout;
+use App\Models\Bank\CouponType;
+use App\Models\People\Person;
 use App\Repositories\Bank\CouponHandoutRepository;
-
+use App\Repositories\Bank\CouponTypeRepository;
+use App\Repositories\People\PersonRepository;
+use App\Repositories\People\RevokedCardRepository;
+use App\Util\Bank\BankStatisticsProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 
 class WithdrawalController extends Controller
 {
-    private $revokedCards;
-    private $persons;
-    private $couponTypes;
+    private RevokedCardRepository $revokedCards;
+    private PersonRepository $persons;
+    private CouponTypeRepository $couponTypes;
 
     public function __construct(RevokedCardRepository $revokedCards, PersonRepository $persons, CouponTypeRepository $couponTypes)
     {
@@ -43,19 +39,17 @@ class WithdrawalController extends Controller
      */
     public function dailyStats(BankStatisticsProvider $stats)
     {
-		return response()->json([
+        return response()->json([
             'number_of_persons_served' => $stats->getNumberOfPersonsServed(),
             'number_of_coupons_handed_out' => $stats->getNumberOfCouponsHandedOut(),
             'limited_coupons' => $stats->getCouponsWithSpendingLimit()
-                ->map(function($coupon, $couponName){
-                    return [
-                        'coupon' => $couponName,
-                        'count' => $coupon['count'],
-                        'limit' => $coupon['limit']
-                    ];
-                })
-                ->values()
-		]);
+                ->map(fn ($coupon, $couponName) => [
+                    'coupon' => $couponName,
+                    'count' => $coupon['count'],
+                    'limit' => $coupon['limit'],
+                ])
+                ->values(),
+        ]);
     }
 
     /**
@@ -71,8 +65,8 @@ class WithdrawalController extends Controller
             'perPage' => [
                 'nullable',
                 'integer',
-                'min:1'
-            ]
+                'min:1',
+            ],
         ]);
 
         $perPage = $request->input('perPage');
@@ -97,52 +91,54 @@ class WithdrawalController extends Controller
     {
         $request->validate([
             'filter' => [
-                'required_without_all:card_no'
+                'required_without_all:card_no',
             ],
             'card_no' => [
-                'required_without_all:filter'
-            ]
+                'required_without_all:filter',
+            ],
         ]);
 
         if ($request->filled('card_no')) {
             return $this->getPersonByCardNo($request->card_no);
-        } else {
-            return $this->getPersonsByFilter($request->filter);
         }
+        return $this->getPersonsByFilter($request->filter);
     }
 
     private function getPersonByCardNo($cardNo)
     {
-        if (($revoked = $this->revokedCards->findByCardNumber($cardNo)) !== null) {
+        $revoked = $this->revokedCards->findByCardNumber($cardNo);
+        if ($revoked !== null) {
             return response()->json([
                 'message' => __('people.card_revoked', [
                     'card_no' => substr($cardNo, 0, 7),
-                    'date' => $revoked->created_at
+                    'date' => $revoked->created_at,
                 ]),
             ]);
         }
 
-        if (($person = $this->persons->findByCardNumber($cardNo)) !== null) {
+        $person = $this->persons->findByCardNumber($cardNo);
+        if ($person !== null) {
             return (new BankPerson($person))
                 ->withCouponTypes($this->couponTypes->getEnabled());
-        } else {
-            return response()->json([]);
         }
+        return response()->json([]);
     }
 
     private function getPersonsByFilter($filter)
     {
         $terms = split_by_whitespace($filter);
-        $perPage = Config::get('bank.results_per_page');
+        $perPage = config('bank.results_per_page');
 
         $data = $this->persons->filterByTerms($terms, $perPage);
 
         return (new BankPersonCollection($data))
             ->withCouponTypes($this->couponTypes->getEnabled())
-            ->additional(['meta' => [
-                'register_query' => self::createRegisterStringFromFilter($filter),
-                'terms' => collect($terms)->unique()->values(),
-            ]]);
+            ->additional([
+                'meta' => [
+                    'register_query' => self::createRegisterStringFromFilter($filter),
+                    'terms' => collect($terms)->unique()->values(),
+                ],
+            ]);
     }
 
     private static function createRegisterStringFromFilter($filter)
@@ -164,7 +160,9 @@ class WithdrawalController extends Controller
                 $register['name'] = implode(' ', $names);
             }
 
-            array_walk($register, function(&$a, $b) { $a = "$b=$a"; });
+            array_walk($register, function (&$a, $b) {
+                $a = "${b}=${a}";
+            });
             return implode('&', $register);
         }
         return null;
@@ -207,7 +205,7 @@ class WithdrawalController extends Controller
                 'amount' => $coupon->amount,
                 'coupon' => $couponType->name,
                 'person' => $person->full_name,
-            ])
+            ]),
         ]);
     }
 

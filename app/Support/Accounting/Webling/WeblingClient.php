@@ -2,9 +2,10 @@
 
 namespace App\Support\Accounting\Webling;
 
+use Exception;
 use Webling\API\Client;
-use Webling\CacheAdapters\FileCacheAdapter;
 use Webling\Cache\Cache;
+use Webling\CacheAdapters\FileCacheAdapter;
 
 class WeblingClient
 {
@@ -14,12 +15,12 @@ class WeblingClient
 
     public function __construct(?string $url, ?string $apiKey)
     {
-        if (empty($url)) {
-            throw new \Exception('Webling API URL not defined! Please set the env variable WEBLING_API_URL.');
+        if (blank($url)) {
+            throw new Exception('Webling API URL not defined! Please set the env variable WEBLING_API_URL.');
         }
         $this->url = $url;
-        if (empty($apiKey)) {
-            throw new \Exception('Webling API key not defined! Please set the env variable WEBLING_API_KEY.');
+        if (blank($apiKey)) {
+            throw new Exception('Webling API key not defined! Please set the env variable WEBLING_API_KEY.');
         }
 
         $this->client = new Client($url, $apiKey);
@@ -55,7 +56,7 @@ class WeblingClient
         return null;
     }
 
-    public function listObjectsUncached(string $name, bool $full = false, string $filter = null)
+    public function listObjectsUncached(string $name, ?bool $full = false, ?string $filter = null)
     {
         $params = [];
         if ($full) {
@@ -86,10 +87,9 @@ class WeblingClient
             // the single response does not have the id attribute, set it here for consistency
             $data['id'] = $objectId;
             return $data;
-        } else {
-            // TODO error handling
-            return null;
         }
+        // TODO error handling
+        return null;
     }
 
     /**
@@ -105,7 +105,8 @@ class WeblingClient
         }
         $data = [];
         $chunk_size = 250;
-        for ($offset = 0; $offset < count($ids); $offset += $chunk_size) {
+        $num_ids = count($ids);
+        for ($offset = 0; $offset < $num_ids; $offset += $chunk_size) {
             $ids_slice = array_slice($ids, $offset, $chunk_size);
             $response = $this->client->get($name  . '/' . implode(',', $ids_slice));
             if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
@@ -125,7 +126,7 @@ class WeblingClient
         if ($response->getStatusCode() < 400) {
             return $response->getData();
         }
-        throw new \Exception('Server responded with code ' . $response->getStatusCode().': ' . $response->getRawData());
+        throw new Exception('Server responded with code ' . $response->getStatusCode().': ' . $response->getRawData());
     }
 
     /**

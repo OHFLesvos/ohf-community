@@ -2,11 +2,7 @@
 
 namespace App\Navigation\ContextMenu;
 
-interface ContextMenu {
-
-    /**
-     * @return array
-     */
+interface ContextMenu
+{
     public function getItems(): array;
-
 }

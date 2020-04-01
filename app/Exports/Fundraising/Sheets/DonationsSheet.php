@@ -3,54 +3,40 @@
 namespace App\Exports\Fundraising\Sheets;
 
 use App\Exports\BaseExport;
-
 use App\Models\Fundraising\Donation;
-
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Font;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class DonationsSheet extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
-    private $donations;
-    private $year;
+    private Collection $donations;
+    private ?int $year;
 
-    protected $currencyColumn = 'G';
-    protected $exchangedCurrencyColumn = 'H';
+    protected string $currencyColumn = 'G';
+    protected string $exchangedCurrencyColumn = 'H';
 
     public function __construct(Collection $donations, ?int $year = null)
     {
         $this->donations = $donations;
         $this->year = $year;
 
-        $this->setOrientation('landscape');
+        $this->orientation = 'landscape';
     }
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
     public function collection(): Collection
     {
         return $this->donations;
     }
 
-    /**
-     * @return string
-     */
     public function title(): string
     {
-        return __('fundraising.donations') . ($this->year != null ? ' ' . $this->year : '');
+        return __('fundraising.donations') . ($this->year !== null ? ' ' . $this->year : '');
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         return [
@@ -66,8 +52,8 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
     }
 
     /**
-    * @var Donation $donation
-    */
+     * @param Donation $donation
+     */
     public function map($donation): array
     {
         return [
@@ -90,14 +76,14 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
         // Set exchange currency format
         for ($i = 0; $i < $cnt; $i++) {
-            $sheet->getStyle($this->currencyColumn . ($i + 2))->getNumberFormat()->setFormatCode(Config::get('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
+            $sheet->getStyle($this->currencyColumn . ($i + 2))->getNumberFormat()->setFormatCode(config('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
         }
 
         if ($cnt > 0) {
             $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);
-            
+
             // Set currency format
-            $sheet->getStyle($this->exchangedCurrencyColumn . '1:' . $sumCell)->getNumberFormat()->setFormatCode(Config::get('fundraising.base_currency_excel_format'));
+            $sheet->getStyle($this->exchangedCurrencyColumn . '1:' . $sumCell)->getNumberFormat()->setFormatCode(config('fundraising.base_currency_excel_format'));
 
             // Total sum cell value
             $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);

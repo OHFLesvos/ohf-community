@@ -2,18 +2,16 @@
 
 namespace App\Navigation\Drawer\Accounting;
 
-use App\Navigation\Drawer\BaseNavigationItem;
-
 use App\Models\Accounting\MoneyTransaction;
-
+use App\Navigation\Drawer\BaseNavigationItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
-class AccountingNavigationItem extends BaseNavigationItem {
-
+class AccountingNavigationItem extends BaseNavigationItem
+{
     public function getRoute(): string
     {
-        return !Auth::user()->can('list', MoneyTransaction::class) && Gate::allows('view-accounting-summary')
+        return ! Auth::user()->can('list', MoneyTransaction::class) && Gate::allows('view-accounting-summary')
             ? route('accounting.transactions.summary')
             : route('accounting.transactions.index');
     }
@@ -28,5 +26,4 @@ class AccountingNavigationItem extends BaseNavigationItem {
     {
         return Auth::user()->can('list', MoneyTransaction::class) || Gate::allows('view-accounting-summary');
     }
-
 }

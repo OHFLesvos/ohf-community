@@ -31,6 +31,6 @@
         @component('components.alert.info')
             @lang('responsibilities.no_responsibilities_defined')
         @endcomponent
-	@endif
-	
+    @endif
+
 @endsection

@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\Badges;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
-class BadgeSelectionContextButtons implements ContextButtons {
-
+class BadgeSelectionContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [

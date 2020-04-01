@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Fundraising\Donor;
 use App\Http\Resources\Fundraising\DonorCollection;
-
+use App\Models\Fundraising\Donor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -42,13 +40,13 @@ class DonorController extends Controller
             ],
             'sortDirection' => [
                 'nullable',
-                'in:asc,desc'
+                'in:asc,desc',
             ],
             'tags' => [
                 'nullable',
                 'array',
                 //                 'alpha_dash', TODO
-            ]
+            ],
         ]);
 
         // Sorting, pagination and filter
@@ -72,19 +70,19 @@ class DonorController extends Controller
         return new DonorCollection($donors);
     }
 
-    private static function createQuery(String $filter, Array $tags = [])
+    private static function createQuery(string $filter, array $tags = [])
     {
         $query = Donor::query();
 
         // Filter by tags
         if (count($tags) > 0) {
-            $query->whereHas('tags', function($query) use($tags) {
+            $query->whereHas('tags', function ($query) use ($tags) {
                 $query->whereIn('slug', $tags);
             });
         }
 
         // Filter by filter string
-        if (!empty($filter)) {
+        if (! empty($filter)) {
             self::applyFilter($query, $filter);
         }
 
@@ -93,9 +91,9 @@ class DonorController extends Controller
 
     private static function applyFilter(&$query, $filter)
     {
-        $query->where(function($wq) use($filter) {
+        $query->where(function ($wq) use ($filter) {
             $countries = \Countries::getList(\App::getLocale());
-            array_walk($countries, function(&$value, $idx){
+            array_walk($countries, function (&$value, $idx) {
                 $value = strtolower($value);
             });
             $countries = array_flip($countries);

@@ -52,6 +52,6 @@
         @component('components.alert.info')
             @lang('coupons.no_coupons_found')
         @endcomponent
-	@endif
+    @endif
 
 @endsection

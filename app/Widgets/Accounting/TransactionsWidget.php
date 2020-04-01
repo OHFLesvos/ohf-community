@@ -2,28 +2,24 @@
 
 namespace App\Widgets\Accounting;
 
-use App\Widgets\Widget;
-
 use App\Models\Accounting\MoneyTransaction;
-
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\DB;
-
+use App\Widgets\Widget;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
 
 class TransactionsWidget implements Widget
 {
-    function authorize(): bool
+    public function authorize(): bool
     {
         return Gate::allows('view-accounting-summary');
     }
 
-    function view(): string
+    public function view(): string
     {
         return 'accounting.dashboard.widgets.transactions';
     }
 
-    function args(): array
+    public function args(): array
     {
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
@@ -33,8 +29,7 @@ class TransactionsWidget implements Widget
 
         return [
             'monthName' => $dateFrom->formatLocalized('%B %Y'),
-            'spending' => MoneyTransaction
-                ::select(DB::raw('SUM(amount) as sum'))
+            'spending' => MoneyTransaction::selectRaw('SUM(amount) as sum')
                 ->whereDate('date', '>=', $dateFrom)
                 ->whereDate('date', '<=', $dateTo)
                 ->where('type', 'spending')

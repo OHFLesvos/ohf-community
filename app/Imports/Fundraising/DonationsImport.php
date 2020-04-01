@@ -2,28 +2,20 @@
 
 namespace App\Imports\Fundraising;
 
-use App\Models\Fundraising\Donor;
 use App\Models\Fundraising\Donation;
-
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Validator;
-
+use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
-
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
 use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationsImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
-    /**
-    * @param \Illuminate\Support\Collection $rows
-    */
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
@@ -33,8 +25,7 @@ class DonationsImport implements ToCollection, WithHeadingRow
 
             if ($row['status'] == 'Paid') {
 
-                $donor = Donor
-                    ::where('email', $row['customer_email'])
+                $donor = Donor::where('email', $row['customer_email'])
                     ->first();
                 if ($donor == null) {
                     $donor = new Donor();
@@ -46,17 +37,16 @@ class DonationsImport implements ToCollection, WithHeadingRow
                 $date = new Carbon($row['created_utc']);
                 $amount = $row['amount'];
                 $currency = strtoupper($row['currency']);
-                if ($currency != Config::get('fundraising.base_currency')) {
+                if ($currency != config('fundraising.base_currency')) {
                     $exchange_rate = EzvExchangeRates::getExchangeRate($currency, $date);
                     $exchange_amount = $amount * $exchange_rate;
                 } else {
                     $exchange_amount = $amount;
                 }
 
-                $donation = Donation
-                     ::where('channel', 'Stripe')
-                     ->where('reference', $row['id'])
-                     ->first();
+                $donation = Donation::where('channel', 'Stripe')
+                    ->where('reference', $row['id'])
+                    ->first();
                 if ($donation == null) {
                     $donation = new Donation();
                     $donation->date = $date;

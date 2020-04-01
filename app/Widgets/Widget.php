@@ -4,7 +4,7 @@ namespace App\Widgets;
 
 interface Widget
 {
-    function authorize(): bool;
-    function view(): string;
-    function args(): array;
+    public function authorize(): bool;
+    public function view(): string;
+    public function args(): array;
 }

@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers\Fundraising;
 
-use App\Tag;
-use App\Http\Controllers\Controller;
-
-use App\Models\Fundraising\Donor;
-use App\Models\Fundraising\Donation;
 use App\Exports\Fundraising\DonorsExport;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-
+use App\Models\Fundraising\Donation;
+use App\Models\Fundraising\Donor;
+use App\Tag;
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
 use JeroenDesloovere\VCard\VCard;
-
-use Validator;
 
 class DonorController extends Controller
 {
@@ -94,7 +87,7 @@ class DonorController extends Controller
         return view('fundraising.donors.show', [
             'donor' => $donor,
             'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate(),
-            'currencies' => Config::get('fundraising.currencies'),
+            'currencies' => config('fundraising.currencies'),
             'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
         ]);
     }
@@ -173,9 +166,10 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        $file_name = Config::get('app.name') . ' - ' . __('fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')';
+        $file_name = config('app.name') . ' - ' . __('fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')';
+        $extension = 'xlsx';
 
-        return (new DonorsExport)->download($file_name . '.' . 'xlsx');
+        return (new DonorsExport())->download($file_name . '.' . $extension);
     }
 
     /**
@@ -184,7 +178,7 @@ class DonorController extends Controller
      * @param  \App\Models\Fundraising\Donor  $donor
      * @return \Illuminate\Http\Response
      */
-    function vcard(Donor $donor)
+    public function vcard(Donor $donor)
     {
         $this->authorize('view', $donor);
 

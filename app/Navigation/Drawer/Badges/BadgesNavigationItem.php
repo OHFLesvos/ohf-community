@@ -3,11 +3,10 @@
 namespace App\Navigation\Drawer\Badges;
 
 use App\Navigation\Drawer\BaseNavigationItem;
-
 use Illuminate\Support\Facades\Gate;
 
-class BadgesNavigationItem extends BaseNavigationItem {
-
+class BadgesNavigationItem extends BaseNavigationItem
+{
     protected $route = 'badges.index';
 
     protected $caption = 'badges.badges';
@@ -20,5 +19,4 @@ class BadgesNavigationItem extends BaseNavigationItem {
     {
         return Gate::allows('create-badges');
     }
-
 }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources\Collaboration;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
-
-use Carbon\Carbon;
 
 class CalendarEventResource extends JsonResource
 {
@@ -23,7 +22,7 @@ class CalendarEventResource extends JsonResource
             'description' => $this->description,
             'start' => (new Carbon($this->start_date))->toIso8601String(),
             'end' => (new Carbon($this->end_date))->toIso8601String(),
-            'allDay' => (bool)$this->all_day,
+            'allDay' => (bool) $this->all_day,
             'resourceId' => $this->resource->resource->id,
             'user' => new UserResource($this->user),
             'editable' => Auth::user()->can('update', $this->resource),

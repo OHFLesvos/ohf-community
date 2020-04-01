@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\People;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePersonNationality extends FormRequest
 {
@@ -26,10 +26,10 @@ class UpdatePersonNationality extends FormRequest
     {
         return [
             'nationality' => [
-				'nullable',
-				'max:191',
-				Rule::in(\Countries::getList('en'))
-			],
+                'nullable',
+                'max:191',
+                Rule::in(\Countries::getList('en')),
+            ],
         ];
     }
 }

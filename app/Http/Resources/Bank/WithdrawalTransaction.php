@@ -2,13 +2,10 @@
 
 namespace App\Http\Resources\Bank;
 
-use App\Models\People\Person;
-
 use App\Models\Bank\CouponType;
-
-use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Models\People\Person;
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class WithdrawalTransaction extends JsonResource
 {
@@ -22,7 +19,7 @@ class WithdrawalTransaction extends JsonResource
     {
         return [
             'id' => $this->id,
-            'created_at'  => $this->created_at->toDateTimeString(),
+            'created_at' => $this->created_at->toDateTimeString(),
             'created_at_diff' => $this->created_at->diffForHumans(),
             'user' => optional($this->user)->name,
             'date' => optional($this->getDate())->toDateString(),
@@ -37,7 +34,7 @@ class WithdrawalTransaction extends JsonResource
             $mdate = $this->getModified()['date'];
             if (isset($mdate['new'])) {
                 $date = new Carbon($mdate['new']);
-            } else if (isset($mdate['old'])) {
+            } elseif (isset($mdate['old'])) {
                 $date = new Carbon($mdate['old']);
             }
         }
@@ -49,7 +46,7 @@ class WithdrawalTransaction extends JsonResource
         $person = null;
         if (isset($this->getModified()['person_id']['new'])) {
             $person = Person::find($this->getModified()['person_id']['new']);
-        } else if (isset($this->getModified()['person_id']['old'])) {
+        } elseif (isset($this->getModified()['person_id']['old'])) {
             $person = Person::find($this->getModified()['person_id']['old']);
         }
         if ($person != null) {
@@ -70,13 +67,13 @@ class WithdrawalTransaction extends JsonResource
         $coupon = null;
         if (isset($this->getModified()['coupon_type_id']['new'])) {
             $coupon = CouponType::find($this->getModified()['coupon_type_id']['new']);
-        } else if (isset($this->getModified()['coupon_type_id']['old'])) {
+        } elseif (isset($this->getModified()['coupon_type_id']['old'])) {
             $coupon = CouponType::find($this->getModified()['coupon_type_id']['old']);
         }
         if ($coupon != null) {
             $amount_diff = 0;
             if (isset($this->getModified()['amount']['new'])) {
-                $amount_diff += $this->getModified()['amount']['new'] ;
+                $amount_diff += $this->getModified()['amount']['new'];
             }
             if (isset($this->getModified()['amount']['old'])) {
                 $amount_diff -= $this->getModified()['amount']['old'];

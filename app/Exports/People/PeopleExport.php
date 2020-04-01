@@ -4,7 +4,6 @@ namespace App\Exports\People;
 
 use App\Exports\BaseExport;
 use App\Models\People\Person;
-
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -13,7 +12,7 @@ class PeopleExport extends BaseExport implements FromQuery, WithHeadings, WithMa
 {
     public function __construct()
     {
-        $this->setOrientation('landscape');
+        $this->orientation = 'landscape';
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
@@ -23,17 +22,11 @@ class PeopleExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->orderBy('name', 'asc');
     }
 
-    /**
-     * @return string
-     */
     public function title(): string
     {
         return __('people.people');
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         return [
@@ -50,8 +43,8 @@ class PeopleExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     }
 
     /**
-    * @var Person $person
-    */
+     * @param Person $person
+     */
     public function map($person): array
     {
         return [

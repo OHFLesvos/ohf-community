@@ -3,9 +3,8 @@
 namespace App\Http\Requests\UserManagement;
 
 use App\Role;
-
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUser extends FormRequest
 {

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Changelog;
 
 use App\Http\Controllers\Controller;
-
 use Michelf\MarkdownExtra;
 
 class ChangelogController extends Controller
@@ -14,7 +13,7 @@ class ChangelogController extends Controller
         $content = MarkdownExtra::defaultTransform($markdown);
         $content = preg_replace('/^<h1>.+<\/h1>/', '', $content);
         return view('changelog.index', [
-            'changelog'=> $content,
+            'changelog' => $content,
         ]);
     }
 }

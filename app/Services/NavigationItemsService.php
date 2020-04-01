@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-class NavigationItemsService {
-
+class NavigationItemsService
+{
     private $items = [];
 
-    public function define($itemClass, int $position = null)
+    public function define($itemClass, ?int $position = null)
     {
         $item = new $itemClass();
         $this->items[] = [
@@ -19,5 +19,4 @@ class NavigationItemsService {
     {
         return collect($this->items)->sortBy('position')->pluck('item')->toArray();
     }
-
 }

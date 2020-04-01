@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTransactionsTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('person_id')->unsigned();
             $table->integer('value');
             $table->timestamps();
-   			$table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

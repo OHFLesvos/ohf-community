@@ -3,29 +3,23 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Http\Controllers\Controller;
-
-use App\Http\Requests\UserManagement\StoreUserProfile;
-use App\Http\Requests\UserManagement\StoreNewUserPassword;
 use App\Http\Requests\UserManagement\Store2FA;
-
+use App\Http\Requests\UserManagement\StoreNewUserPassword;
+use App\Http\Requests\UserManagement\StoreUserProfile;
+use Endroid\QrCode\QrCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Config;
-
+use Illuminate\Support\Facades\Log;
 use OTPHP\TOTP;
-
 use ParagonIE\ConstantTime\Base32;
-
-use Endroid\QrCode\QrCode;
 
 class UserProfileController extends Controller
 {
     public function index()
     {
         return view('user_management.userprofile.view', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
         ]);
     }
 
@@ -45,10 +39,10 @@ class UserProfileController extends Controller
             ]);
             $user->save();
             return redirect()->route('userprofile')
-                             ->with('success', __('userprofile.profile_updated'));
+                ->with('success', __('userprofile.profile_updated'));
         }
         return redirect()->route('userprofile')
-                         ->with('info', __('userprofile.no_changes_made'));
+            ->with('info', __('userprofile.no_changes_made'));
     }
 
     public function updatePassword(StoreNewUserPassword $request)
@@ -64,10 +58,10 @@ class UserProfileController extends Controller
             ]);
             $user->save();
             return redirect()->route('userprofile')
-                             ->with('success', __('userprofile.password_updated'));
+                ->with('success', __('userprofile.password_updated'));
         }
         return redirect()->route('userprofile')
-                         ->with('info', __('userprofile.no_changes_made'));
+            ->with('info', __('userprofile.no_changes_made'));
     }
 
     public function delete()
@@ -92,15 +86,14 @@ class UserProfileController extends Controller
             $request->session()->put('temp_2fa_secret', $secret);
             $otp = TOTP::create($secret);
             $otp->setLabel($user->email);
-            $otp->setIssuer(Config::get('app.name'));
+            $otp->setIssuer(config('app.name'));
             $qrCode = new QrCode($otp->getProvisioningUri());
             $qrCode->setSize(400);
             return view('user_management.userprofile.enable2FA', [
                 'image' => base64_encode($qrCode->writeString()),
             ]);
-        } else {
-            return view('user_management.userprofile.disable2FA');
         }
+        return view('user_management.userprofile.disable2FA');
     }
 
     public function store2FA(Store2FA $request)

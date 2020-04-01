@@ -3,7 +3,6 @@
 namespace App\Models\Library;
 
 use App\Models\People\Person;
-
 use Illuminate\Database\Eloquent\Model;
 
 class LibraryLending extends Model

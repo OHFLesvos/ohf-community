@@ -3,19 +3,16 @@
 namespace App\Http\Controllers\Badges;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Helpers\Helper;
-
-use App\Util\Badges\BadgeCreator;
 use App\Imports\Badges\BadgeImport;
-
+use App\Models\Helpers\Helper;
+use App\Util\Badges\BadgeCreator;
+use Exception;
+use Gumlet\ImageResize;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
-use \Gumlet\ImageResize;
-
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Validator;
 
 class BadgeMakerController extends Controller
@@ -65,11 +62,11 @@ class BadgeMakerController extends Controller
             ],
             'file' => [
                 'file',
-                'required_if:source,file'
+                'required_if:source,file',
             ],
             'name' => [
                 'array',
-                'required_if:source,list'
+                'required_if:source,list',
             ],
         ])->validate();
 
@@ -79,11 +76,11 @@ class BadgeMakerController extends Controller
         if ($request->source == 'helpers') {
             $persons = Helper::active()
                 ->get()
-                ->map(function($helper){ return self::helperToBadgePerson($helper); });
+                ->map(fn ($helper) => self::helperToBadgePerson($helper));
         }
         // Source: File
-        else if ($request->source == 'file') {
-            $sheets = (new BadgeImport)->toArray($request->file('file'));
+        elseif ($request->source == 'file') {
+            $sheets = (new BadgeImport())->toArray($request->file('file'));
             foreach ($sheets as $rows) {
                 foreach ($rows as $row) {
                     if (isset($row['name']) && isset($row['position'])) {
@@ -97,13 +94,14 @@ class BadgeMakerController extends Controller
             }
         }
         // Source: List
-        else if ($request->source == 'list') {
-            for ($i = 0; $i < count($request->name); $i++) {
-                if (!empty($request->name[$i])) {
+        elseif ($request->source == 'list') {
+            $num_names = count($request->name);
+            for ($i = 0; $i < $num_names; $i++) {
+                if (! empty($request->name[$i])) {
                     if ($request->hasFile('picture.'.$i)) {
                         $image = new ImageResize($request->file('picture.'.$i), IMAGETYPE_JPEG);
                         $image->resizeToBestFit(800, 800, true);
-                        $picture = 'data:image/jpeg;base64,' . base64_encode((string)$image);
+                        $picture = 'data:image/jpeg;base64,' . base64_encode((string) $image);
                     } else {
                         $picture = null;
                     }
@@ -111,7 +109,7 @@ class BadgeMakerController extends Controller
                         'name' => $request->name[$i],
                         'position' => $request->position[$i] ?? null,
                         'picture' => $picture,
-                        'code' => null
+                        'code' => null,
                     ];
                 }
             }
@@ -119,7 +117,7 @@ class BadgeMakerController extends Controller
 
         // Ensure there are records
         Validator::make([], [])
-            ->after(function ($validator) use($persons) {
+            ->after(function ($validator) use ($persons) {
                 if (count($persons) == 0) {
                     $validator->errors()->add('source', __('app.empty_data_source'));
                 }
@@ -127,17 +125,14 @@ class BadgeMakerController extends Controller
             ->validate();
 
         $data = collect($persons)
-            ->sortBy('name', SORT_NATURAL|SORT_FLAG_CASE)
-            ->mapWithKeys(function($e){
-                $id = md5(uniqid(null, true));
-                return [ $id => $e ];
-            });
+            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
+            ->mapWithKeys(fn ($e) => [ Str::random(16) => $e ]);
+
         $request->session()->put(self::BADGE_ITEMS_SESSION_KEY, $data->toArray());
 
         return view('badges.selection', [
-            'persons' => $data->map(function($e){
-                return $e['name'] . ($e['position'] != null ? ' (' . $e['position'] . ')' : '');
-            })->toArray(),
+            'persons' => $data->map(fn ($e) => $e['name'] . ($e['position'] != null ? ' (' . $e['position'] . ')' : ''))
+                ->toArray(),
         ]);
     }
 
@@ -148,7 +143,7 @@ class BadgeMakerController extends Controller
                 'array',
             ],
             'persons.*' => [
-                'string'
+                'string',
             ],
             'alt_logo' => [
                 'file',
@@ -162,25 +157,13 @@ class BadgeMakerController extends Controller
 
         // Retrieve data
         $data = $request->session()->get(self::BADGE_ITEMS_SESSION_KEY, []);
-        $persons = collect($request->persons)->map(function($e) use($data) {
-            $person = $data[$e];
-
-            if (isset($person['type']) && $person['type'] == 'helper' && isset($person['id'])) {
-                $helper = Helper::find($person['id']);
-                if ($helper != null) {
-                    $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
-                    $helper->person->save();
-                    $person['code'] = $helper->person->staff_card_no;
-                    $person['picture'] = $helper->person->portrait_picture != null ? Storage::path($helper->person->portrait_picture) : null;
-                }
-            }
-
-            return $person;
-        });
+        $persons = collect($request->persons)
+            ->map(fn ($idx) => self::addHelperData($data[$idx]));
 
         // Ensure there are records
         if (count($persons) == 0) {
-            return redirect()->route('badges.index')
+            return redirect()
+                ->route('badges.index')
                 ->with('error', __('app.empty_data_source'));
         }
 
@@ -188,14 +171,28 @@ class BadgeMakerController extends Controller
 
         $badgeCreator = new BadgeCreator($persons);
         if ($request->hasFile('alt_logo')) {
-            $badgeCreator->setLogo($request->file('alt_logo'));
+            $badgeCreator->logo = $request->file('alt_logo');
         }
         try {
             $badgeCreator->createPdf($title);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->route('badges.index')
                 ->with('error', $e->getMessage());
         }
+    }
+
+    private static function addHelperData($person)
+    {
+        if (isset($person['type']) && $person['type'] == 'helper' && isset($person['id'])) {
+            $helper = Helper::find($person['id']);
+            if ($helper != null) {
+                $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
+                $helper->person->save();
+                $person['code'] = $helper->person->staff_card_no;
+                $person['picture'] = $helper->person->portrait_picture != null ? Storage::path($helper->person->portrait_picture) : null;
+            }
+        }
+        return $person;
     }
 
     private static function helperToBadgePerson($helper) {

@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Collaboration;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Collaboration\WikiArticle;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class ArticleCreateContextButtons implements ContextButtons {
-
+class ArticleCreateContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $previous_route = previous_route();
@@ -20,7 +18,7 @@ class ArticleCreateContextButtons implements ContextButtons {
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('list', WikiArticle::class),
-            ]
+            ],
         ];
     }
 

@@ -2,15 +2,13 @@
 
 namespace App\Support\Accounting\Webling\Entities;
 
-use App\Support\Accounting\Webling\WeblingClient;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
-
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
-use Webling\API\ClientException;
-
+use App\Support\Accounting\Webling\WeblingClient;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Collection;
+use Webling\API\ClientException;
 
 abstract class WeblingEntity
 {
@@ -33,9 +31,7 @@ abstract class WeblingEntity
             $webling = resolve(WeblingClient::class);
             $data = $webling->getObjects(self::getObjectName(), $id);
             return collect($data)
-                ->map(function($data) {
-                    return self::createFromResponseData($data);
-                });
+                ->map(fn ($data) => self::createFromResponseData($data));
         }
         return self::findById($id);
     }
@@ -72,9 +68,7 @@ abstract class WeblingEntity
                 $data = $webling->getObjects(self::getObjectName(), $ids);
                 if ($data != null) {
                     return collect($data)
-                        ->map(function($data) {
-                            return self::createFromResponseData($data);
-                        });
+                        ->map(fn ($data) => self::createFromResponseData($data));
                 }
             }
             throw new ModelNotFoundException('Objects of type \'' . self::getObjectName() . '\' not found.');
@@ -87,12 +81,10 @@ abstract class WeblingEntity
     {
         $webling = resolve(WeblingClient::class);
         try {
-            $data = $webling->listObjectsUncached(self::getObjectName(), true,  $filter);
+            $data = $webling->listObjectsUncached(self::getObjectName(), true, $filter);
             if ($data != null) {
                 return collect($data)
-                    ->map(function($data) {
-                        return self::createFromResponseData($data);
-                    });
+                    ->map(fn ($data) => self::createFromResponseData($data));
             }
             throw new ModelNotFoundException('Objects of type \'' . self::getObjectName() . '\' not found.');
         } catch (ClientException $e) {
@@ -106,7 +98,7 @@ abstract class WeblingEntity
         $obj = new $clazz();
 
         // ID
-        $obj->id = isset($data['id']) ? $data['id'] : null;
+        $obj->id = $data['id'] ?? null;
 
         // Properties
         if (isset($data['properties'])) {
@@ -169,7 +161,7 @@ abstract class WeblingEntity
         if ($var == 'parent') {
             return $this->parent();
         }
-        throw new \Exception('Undefined property: ' . get_called_class().'::$'.$var);
+        throw new Exception('Undefined property: ' . get_called_class().'::$'.$var);
     }
 
     public static function createRaw($data)
@@ -179,12 +171,12 @@ abstract class WeblingEntity
         return self::find($id);
     }
 
-    public final function save()
+    final public function save()
     {
         // TODO
     }
 
-    public final function delete()
+    final public function delete()
     {
         // TODO
     }

@@ -13,9 +13,7 @@
                         @php
                             $roles = App\RolePermission::where('key', $key)
                                 ->get()
-                                ->map(function($e){
-                                    return $e->role;
-                                })
+                                ->map(fn ($e) => $e->role)
                                 ->sortBy('name');
                         @endphp
                         @forelse($roles as $role)

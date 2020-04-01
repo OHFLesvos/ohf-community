@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Shop\API;
 
+use anlutro\LaravelSettings\Facade as Setting;
+use App\Exceptions\ConfigurationException;
 use App\Http\Controllers\Controller;
-
+use App\Http\Resources\Shop\ShopCard;
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
-
-use App\Exceptions\ConfigurationException;
-use App\Http\Resources\Shop\ShopCard;
-
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
-use anlutro\LaravelSettings\Facade as Setting;
-
-use Carbon\Carbon;
 
 class CardsController extends Controller
 {
@@ -33,7 +29,7 @@ class CardsController extends Controller
             return ShopCard::collection($handout);
         } catch (ConfigurationException $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -46,8 +42,8 @@ class CardsController extends Controller
         $request->validate([
             'code' => [
                 'required',
-                'alpha_num'
-            ]
+                'alpha_num',
+            ],
         ]);
 
         try {
@@ -60,7 +56,7 @@ class CardsController extends Controller
             return new ShopCard($handout);
         } catch (ConfigurationException $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -72,9 +68,9 @@ class CardsController extends Controller
     {
         try {
             self::validateChangeAllowed($handout);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 422);
         }
 
@@ -86,7 +82,7 @@ class CardsController extends Controller
         ]);
 
         return response()->json([
-            'message' => __('shop.card_redeemed')
+            'message' => __('shop.card_redeemed'),
         ]);
     }
 
@@ -97,9 +93,9 @@ class CardsController extends Controller
     {
         try {
             self::validateChangeAllowed($handout);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 422);
         }
 
@@ -111,7 +107,7 @@ class CardsController extends Controller
         ]);
 
         return response()->json([
-            'message' => __('shop.card_has_been_cancelled')
+            'message' => __('shop.card_has_been_cancelled'),
         ]);
     }
 
@@ -130,7 +126,7 @@ class CardsController extends Controller
                 ->selectRaw('COUNT(id) as total')
                 ->orderBy('date', 'desc')
                 ->get()
-                ->map(function($e) use($couponType) {
+                ->map(function ($e) use ($couponType) {
                     $acceptDate = Carbon::today()->subDays($couponType->code_expiry_days - 1);
                     $e['expired'] = $acceptDate->gt(new Carbon($e->date));
                     return $e;
@@ -139,7 +135,7 @@ class CardsController extends Controller
             return response()->json($data);
         } catch (ConfigurationException $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -152,8 +148,8 @@ class CardsController extends Controller
         $request->validate([
             'date' => [
                 'required',
-                'date'
-            ]
+                'date',
+            ],
         ]);
 
         try {
@@ -163,11 +159,11 @@ class CardsController extends Controller
                 ->delete();
 
             return response()->json([
-                'message' => __('shop.cards_removed')
+                'message' => __('shop.cards_removed'),
             ]);
         } catch (ConfigurationException $e) {
             return response()->json([
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -178,7 +174,7 @@ class CardsController extends Controller
      */
     private static function getCouponType()
     {
-        if (!Setting::has('shop.coupon_type')) {
+        if (! Setting::has('shop.coupon_type')) {
             throw new ConfigurationException(__('shop.coupon_type_not_configured_yet'));
         }
         $couponType = CouponType::find(Setting::get('shop.coupon_type'));
@@ -194,10 +190,10 @@ class CardsController extends Controller
     private static function validateChangeAllowed(CouponHandout $handout)
     {
         if ($handout->code_redeemed != null) {
-            throw new \Exception(__('shop.card_already_redeemed'));
+            throw new Exception(__('shop.card_already_redeemed'));
         }
         if ($handout->isCodeExpired()) {
-            throw new \Exception(__('shop.card_expired'));
+            throw new Exception(__('shop.card_expired'));
         }
     }
 }

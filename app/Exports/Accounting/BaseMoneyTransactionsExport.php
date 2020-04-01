@@ -3,23 +3,17 @@
 namespace App\Exports\Accounting;
 
 use App\Exports\BaseExport;
-
 use App\Models\Accounting\MoneyTransaction;
-
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         return [
@@ -40,8 +34,8 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
     }
 
     /**
-    * @var MoneyTransaction $transaction
-    */
+     * @param MoneyTransaction $transaction
+     */
     public function map($transaction): array
     {
         $audit = $transaction->audits()->first();
@@ -62,9 +56,6 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
         ];
     }
 
-    /**
-     * @return array
-     */
     public function columnFormats(): array
     {
         return [

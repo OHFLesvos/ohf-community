@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Events\UserSelfRegistered;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Support\Facades\Validator;
+use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -33,10 +31,10 @@ class RegisterController extends Controller
      *
      * @return string
      */
-	protected function redirectTo()
-	{
-		return route('home');
-	}
+    protected function redirectTo()
+    {
+        return route('home');
+    }
 
     /**
      * Get the post register / login redirect path.
@@ -48,7 +46,7 @@ class RegisterController extends Controller
         // Do your logic to flash data to session...
         session()->flash('login_message', __('userprofile.registration_message', [
             'name' => Auth::user()->name,
-            'app_name' => Config::get('app.name')
+            'app_name' => config('app.name'),
         ]));
 
         // Return the results of the method we are overriding that we aliased.
@@ -92,7 +90,7 @@ class RegisterController extends Controller
                 'min:8',
                 'pwned',
                 'confirmed',
-            ]
+            ],
         ]);
     }
 

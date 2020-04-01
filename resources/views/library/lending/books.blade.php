@@ -31,7 +31,7 @@
                                 @endisset @endisset
                             </td>
                             <td>
-                                @isset($lending){{ $lending->return_date->toDateString() }}@endisset
+                                @isset($lending) {{ $lending->return_date->toDateString() }}@endisset
                             </td>
                         </tr>
                     @endforeach

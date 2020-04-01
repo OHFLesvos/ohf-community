@@ -2,9 +2,8 @@
 
 namespace App\Models\Helpers;
 
-use Illuminate\Database\Eloquent\Model;
-
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Model;
 
 class Responsibility extends Model
 {
@@ -15,7 +14,7 @@ class Responsibility extends Model
     protected $fillable = [
         'name',
         'capacity',
-        'available'
+        'available',
     ];
 
     /**
@@ -36,8 +35,8 @@ class Responsibility extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
@@ -51,23 +50,23 @@ class Responsibility extends Model
         return 'slug';
     }
 
-    function helpers()
+    public function helpers()
     {
         return $this->belongsToMany(Helper::class, 'helpers_helper_responsibility', 'responsibility_id', 'helper_id')
-            ->withTimestamps();;
+            ->withTimestamps();
     }
 
-    function getIsCapacityExhaustedAttribute()
+    public function getIsCapacityExhaustedAttribute()
     {
         return $this->capacity != null && $this->capacity < $this->numberOfActiveHelpers;
     }
 
-    function getHasHelpersAltoughNotAvailableAttribute()
+    public function getHasHelpersAltoughNotAvailableAttribute()
     {
-        return !$this->available && $this->numberOfActiveHelpers > 0;
+        return ! $this->available && $this->numberOfActiveHelpers > 0;
     }
 
-    function getNumberOfActiveHelpersAttribute()
+    public function getNumberOfActiveHelpersAttribute()
     {
         return $this->helpers()->active()->count();
     }

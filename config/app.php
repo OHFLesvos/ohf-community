@@ -17,7 +17,7 @@ return [
 
     'product_name' => 'Community Center Manager',
 
-	'product_url' => 'https://github.com/mrcage/ohf-community',
+    'product_url' => 'https://github.com/mrcage/ohf-community',
 
     'version' => 'v2.11.1',
     /*
@@ -179,7 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-		App\Providers\ComposerServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
         App\Providers\FormServiceProvider::class,
         App\Providers\NavigationServiceProvider::class,
 
@@ -187,7 +187,7 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
 
-		anlutro\LaravelSettings\ServiceProvider::class,
+        anlutro\LaravelSettings\ServiceProvider::class,
 
         Monarobase\CountryList\CountryListServiceProvider::class,
     ],
@@ -245,7 +245,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
 
-		'Setting' => anlutro\LaravelSettings\Facade::class,
+        'Setting' => anlutro\LaravelSettings\Facade::class,
 
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
     ],

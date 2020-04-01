@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\Collaboration\API;
 
-use App\Models\Collaboration\CalendarEvent;
-use App\Models\Collaboration\CalendarResource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Collaboration\GetCalendarEvents;
 use App\Http\Requests\Collaboration\StoreCalendarEvent;
 use App\Http\Requests\Collaboration\UpdateCalendarEvent;
 use App\Http\Requests\Collaboration\UpdateCalendarEventDate;
 use App\Http\Resources\Collaboration\CalendarEventResource;
-
+use App\Models\Collaboration\CalendarEvent;
+use App\Models\Collaboration\CalendarResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use Carbon\Carbon;
 
 class CalendarEventController extends Controller
 {
@@ -86,7 +84,7 @@ class CalendarEventController extends Controller
     public function update(UpdateCalendarEvent $request, CalendarEvent $event)
     {
         $event->title = $request->title;
-        $event->description = !empty($request->description) ? $request->description : null;
+        $event->description = ! empty($request->description) ? $request->description : null;
         self::parseResourceId($request, $event);
         $event->save();
         return response()->json([], 204);

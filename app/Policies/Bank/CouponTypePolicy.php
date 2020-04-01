@@ -2,10 +2,8 @@
 
 namespace App\Policies\Bank;
 
-use App\User;
-
 use App\Models\Bank\CouponType;
-
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CouponTypePolicy

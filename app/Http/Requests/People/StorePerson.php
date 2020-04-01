@@ -4,9 +4,8 @@ namespace App\Http\Requests\People;
 
 use App\Models\People\Person;
 use App\Models\People\RevokedCard;
-
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePerson extends FormRequest
 {
@@ -41,10 +40,10 @@ class StorePerson extends FormRequest
                 'in:m,f',
             ],
             'nationality' => [
-				'nullable',
-				'max:191',
-				Rule::in(\Countries::getList('en')),
-			],
+                'nullable',
+                'max:191',
+                Rule::in(\Countries::getList('en')),
+            ],
             'languages' => [
                 'max:191',
             ],
@@ -57,12 +56,12 @@ class StorePerson extends FormRequest
             ],
             'card_no' => [
                 'nullable',
-                'alpha_num'
-            ]
+                'alpha_num',
+            ],
         ];
     }
 
-        /**
+    /**
      * Configure the validator instance.
      *
      * @param  \Illuminate\Validation\Validator  $validator
@@ -71,7 +70,7 @@ class StorePerson extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (!empty($this->card_no)) {
+            if (! empty($this->card_no)) {
                 $card_no = $this->card_no;
 
                 // Check for revoked card number
@@ -81,7 +80,7 @@ class StorePerson extends FormRequest
                 }
 
                 // Check for used card number
-                $personQuery = Person::where('card_no', $card_no)->where(function($q) {
+                $personQuery = Person::where('card_no', $card_no)->where(function ($q) {
                     if ($this->person != null) {
                         $q->where('id', '!=', $this->person->id);
                     }

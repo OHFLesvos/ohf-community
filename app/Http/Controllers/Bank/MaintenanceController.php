@@ -3,26 +3,23 @@
 namespace App\Http\Controllers\Bank;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\People\Person;
-
 use App\Models\Bank\CouponHandout;
-
+use App\Models\People\Person;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use Carbon\Carbon;
-
 class MaintenanceController extends Controller
 {
-    const MONTHS_NO_TRANSACTIONS_SINCE = 2;
+    private const MONTHS_NO_TRANSACTIONS_SINCE = 2;
 
     /**
      * View for preparing person records cleanup.
      *
      * @return \Illuminate\Http\Response
      */
-    function maintenance() {
+    public function maintenance()
+    {
         return view('bank.maintenance', [
             'months_no_transactions_since' => self::MONTHS_NO_TRANSACTIONS_SINCE,
             'persons_without_coupons_since' => $this->getPersonsWithoutCouponsSince(self::MONTHS_NO_TRANSACTIONS_SINCE),
@@ -58,9 +55,10 @@ class MaintenanceController extends Controller
      */
     private function getPersonsWithoutCouponsEver(): int
     {
-        return Person::leftJoin('coupon_handouts', function ($join) {
-            $join->on('persons.id', '=', 'coupon_handouts.person_id')
-                ->whereNull('deleted_at');
+        return Person::query()
+            ->leftJoin('coupon_handouts', function ($join) {
+                $join->on('persons.id', '=', 'coupon_handouts.person_id')
+                    ->whereNull('deleted_at');
             })
             ->whereNull('coupon_handouts.id')
             ->doesntHave('helper')
@@ -86,8 +84,8 @@ class MaintenanceController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    function updateMaintenance(Request $request) {
-	    $cnt = 0;
+    public function updateMaintenance(Request $request) {
+        $cnt = 0;
         if (isset($request->cleanup_no_coupons_since)) {
             $ids = CouponHandout::groupBy('person_id')
                 ->having(DB::raw('max(coupon_handouts.date)'), '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
@@ -104,9 +102,10 @@ class MaintenanceController extends Controller
             $cnt += Person::destroy($ids_wo_helpers);
         }
         if (isset($request->cleanup_no_coupons_ever)) {
-            $ids = Person::leftJoin('coupon_handouts', function($join){
-                $join->on('persons.id', '=', 'coupon_handouts.person_id')
-                    ->whereNull('deleted_at');
+            $ids = Person::query()
+                ->leftJoin('coupon_handouts', function ($join) {
+                    $join->on('persons.id', '=', 'coupon_handouts.person_id')
+                        ->whereNull('deleted_at');
                 })
                 ->whereNull('coupon_handouts.id')
                 ->doesntHave('helper')
@@ -117,7 +116,7 @@ class MaintenanceController extends Controller
             $cnt += Person::destroy($ids);
         }
         if (isset($request->cleanup_no_number)) {
-            $cnt +=  Person::whereNull('police_no')
+            $cnt += Person::whereNull('police_no')
                 ->doesntHave('helper')
                 ->delete();
         }

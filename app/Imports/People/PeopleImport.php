@@ -3,15 +3,14 @@
 namespace App\Imports\People;
 
 use App\Models\People\Person;
-
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\SkipsOnFailure;
-use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
-
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFailure
@@ -31,10 +30,10 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
     }
 
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
         ++$this->count;
@@ -42,17 +41,21 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
         return new Person([
             'family_name' => $row['Family Name'],
             'name' => $row['Name'],
-            'date_of_birth' => isset($row['Date of birth']) ? self::parseDate($row['Date of birth']) : null,
+            'date_of_birth' => !empty($row['Date of birth']) ? self::parseDate($row['Date of birth']) : null,
             'nationality' => $row['Nationality'],
             'police_no' => $row['Police Number'],
-            'languages' => !empty($row['Languages']) ? self::parseToArray($row['Languages']) : null,
+            'languages' => ! empty($row['Languages']) ? self::parseToArray($row['Languages']) : null,
             'remarks' => $row['Remarks'],
         ]);
     }
 
     private static function parseDate($value)
     {
-        return Date::excelToDateTimeObject($value)->format(DATE_ISO8601);
+        try {
+            return Date::excelToDateTimeObject($value)->format("Y-m-d");
+        } catch (\ErrorException $e) {
+            return Carbon::createFromFormat("Y-m-d", $value);
+        }
     }
 
     private static function parseToArray($value)
@@ -64,20 +67,21 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
     {
         return [
             'Name' => [
-                 'required',
+                'required',
             ],
             'Family Name' => [
                 'required',
             ],
             'Date of birth' => [
                 'nullable',
+                'date',
             ],
             'Nationality' => [
                 'nullable',
             ],
             'Police Number' => [
                 'nullable',
-                'numeric'
+                'numeric',
             ],
             'Languages' => [
                 'nullable',

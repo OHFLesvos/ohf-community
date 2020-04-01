@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Role;
-
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RolePolicy
@@ -49,7 +48,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('app.usermgmt.roles.manage');;
+        return $user->hasPermission('app.usermgmt.roles.manage');
     }
 
     /**
@@ -73,7 +72,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasPermission('app.usermgmt.roles.manage');;
+        return $user->hasPermission('app.usermgmt.roles.manage');
     }
 
     /**

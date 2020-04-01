@@ -2,24 +2,23 @@
 
 namespace App\Widgets\Collaboration;
 
-use App\Widgets\Widget;
 use App\Models\Collaboration\WikiArticle;
-
+use App\Widgets\Widget;
 use Illuminate\Support\Facades\Auth;
 
 class KBWidget implements Widget
 {
-    function authorize(): bool
+    public function authorize(): bool
     {
         return Auth::user()->can('list', WikiArticle::class);
     }
 
-    function view(): string
+    public function view(): string
     {
         return 'collaboration.dashboard.widgets.kb';
     }
 
-    function args(): array
+    public function args(): array
     {
         return [
             'num_articles' => WikiArticle::count(),

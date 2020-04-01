@@ -40,7 +40,7 @@ class UploadSpreadsheet extends FormRequest
                 'required',
                 'file',
                 'mimes:' . implode(',', self::MIMES),
-            ]
+            ],
         ];
     }
 }

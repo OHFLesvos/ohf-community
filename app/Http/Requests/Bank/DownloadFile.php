@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\Bank;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Validation\Rule;
 
 class DownloadFile extends FormRequest
 {
@@ -28,7 +27,7 @@ class DownloadFile extends FormRequest
         return [
             'format' => [
                 'required',
-                Rule::in(array_keys(Config::get('bank.export_formats'))),
+                Rule::in(array_keys(config('bank.export_formats'))),
             ],
         ];
     }

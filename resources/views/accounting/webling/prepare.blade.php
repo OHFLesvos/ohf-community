@@ -33,14 +33,14 @@
                                     <a href="{{ route('accounting.transactions.show', $transaction->id) }}" target="_blank" title="@lang('app.open_in_new_window')">{{ $transaction->date }}</a>
                                 </td>
                                 <td class="text-success text-right fit">
-                                    @if($transaction->type == 'income'){{ number_format($transaction->amount, 2) }}@endif
+                                    @if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif
                                 </td>
                                 <td class="text-danger text-right fit">
-                                    @if($transaction->type == 'spending'){{ number_format($transaction->amount, 2) }}@endif
+                                    @if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif
                                 </td>
                                 <td>
                                     {{ Form::bsText('posting_text['.$transaction->id.']', $posting_text, [ 'placeholder' => __('accounting.posting_text') ], '') }}
-                                    
+
                                 </td>
                                 <td style="max-width: 8em">
                                     @if($transaction->type == 'income')
@@ -67,7 +67,7 @@
             </div>
             <p>
                 {{ Form::bsSubmitButton(__('app.submit')) }}
-            </p>            
+            </p>
         {!! Form::close() !!}
     @else
         @component('components.alert.info')
@@ -84,8 +84,6 @@
         var debit_side = row.find('select[name="debit_side['+id+']"]').val();
         var credit_side = row.find('select[name="credit_side['+id+']"]').val();
         var action = row.find('input[name="action['+id+']"]:checked').val();
-
-        console.log(id + ': ' + message + ', ' + debit_side + ', ' + credit_side + ', ' + action);
 
         row.removeClass('table-success');
         row.removeClass('table-warning');
@@ -104,12 +102,12 @@
         }
     }
 
-    $('#bookings_table input, #bookings_table select').on('change propertychange keyup', function(){
+    $('#bookings_table input, #bookings_table select').on('change propertychange keyup', function () {
         var row = $(this).parents('tr');
         updateStatus(row);
     });
 
-    $('#bookings_table tbody tr').each(function(){
+    $('#bookings_table tbody tr').each(function () {
         var row = $(this);
         updateStatus(row);
     });

@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\People\Person;
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 

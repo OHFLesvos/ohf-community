@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Helpers;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Helpers\Helper;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class HelperIndexContextButtons implements ContextButtons {
-
+class HelperIndexContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -19,19 +17,19 @@ class HelperIndexContextButtons implements ContextButtons {
                 'caption' => __('app.register'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', Helper::class)
+                'authorized' => Auth::user()->can('create', Helper::class),
             ],
             'report' => [
                 'url' => route('people.helpers.report'),
                 'caption' => __('app.report'),
                 'icon' => 'chart-bar',
-                'authorized' => Auth::user()->can('list', Helper::class)
+                'authorized' => Auth::user()->can('list', Helper::class),
             ],
             'export' => [
                 'url' => route('people.helpers.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('export', Helper::class)
+                'authorized' => Auth::user()->can('export', Helper::class),
             ],
         ];
     }

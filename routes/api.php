@@ -101,18 +101,18 @@ Route::middleware(['auth', 'language'])
             ->middleware('can:list,App\Models\People\Person');
 
         // Set gender
-        Route::patch('{person}/gender', 'PeopleController@setGender')
-            ->name('setGender')
+        Route::patch('{person}/gender', 'PeopleController@updateGender')
+            ->name('updateGender')
             ->middleware('can:update,person');
 
         // Set date of birth
-        Route::patch('{person}/date_of_birth', 'PeopleController@setDateOfBirth')
-            ->name('setDateOfBirth')
+        Route::patch('{person}/date_of_birth', 'PeopleController@updateDateOfBirth')
+            ->name('updateDateOfBirth')
             ->middleware('can:update,person');
 
         // Set nationality
-        Route::patch('{person}/nationality', 'PeopleController@setNationality')
-            ->name('setNationality')
+        Route::patch('{person}/nationality', 'PeopleController@updateNationality')
+            ->name('updateNationality')
             ->middleware('can:update,person');
 
         // Update police number
@@ -134,7 +134,7 @@ Route::middleware(['auth', 'language'])
         Route::prefix('reporting')
             ->name('reporting.')
             ->middleware(['can:view-people-reports'])
-            ->group(function(){
+            ->group(function () {
                 Route::get('nationalities', 'ReportingController@nationalities')
                     ->name('nationalities');
                 Route::get('genderDistribution', 'ReportingController@genderDistribution')
@@ -182,7 +182,7 @@ Route::middleware(['auth', 'language'])
     ->name('people.helpers.')
     ->prefix('helpers')
     ->namespace('Helpers\API')
-    ->group(function(){
+    ->group(function () {
         // Age distribution
         Route::get('report/ages', 'HelperReportController@ages')
             ->name('report.ages')
@@ -205,11 +205,11 @@ Route::middleware(['auth', 'language'])
     ->prefix('shop')
     ->name('shop.')
     ->namespace('Shop\API')
-    ->group(function(){
+    ->group(function () {
         Route::middleware(['can:validate-shop-coupons'])
             ->prefix('cards')
             ->name('cards.')
-            ->group(function() {
+            ->group(function () {
                 Route::get('listRedeemedToday', 'CardsController@listRedeemedToday')->name('listRedeemedToday');
                 Route::get('searchByCode', 'CardsController@searchByCode')->name('searchByCode');
                 Route::patch('redeem/{handout}', 'CardsController@redeem')->name('redeem');

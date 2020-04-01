@@ -4,11 +4,15 @@ namespace App\Util\Bank;
 
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
-
 use Illuminate\Support\Facades\DB;
 
 class BankStatisticsProvider
 {
+    /**
+     * Date of the day for which the statistics are requested
+     *
+     * @var Carbon\Carbon
+     */
     private $date;
 
     public function __construct($date = null)
@@ -16,7 +20,7 @@ class BankStatisticsProvider
         $this->date = $date ?? today();
     }
 
-    public function getNumberOfPersonsServed() : int {
+    public function getNumberOfPersonsServed(): int {
         $q = CouponHandout::whereDate('date', $this->date)
             ->groupBy('person_id')
             ->select('person_id');
@@ -25,15 +29,15 @@ class BankStatisticsProvider
             ->count();
     }
 
-    public function getNumberOfCouponsHandedOut() : int {
-        return (int)CouponHandout::whereDate('date', $this->date)
+    public function getNumberOfCouponsHandedOut(): int {
+        return (int) CouponHandout::whereDate('date', $this->date)
             ->selectRaw('sum(amount) as total')
             ->get()
             ->first()
             ->total;
     }
 
-    public function getCouponsWithSpendingLimit() : \Illuminate\Support\Collection {
+    public function getCouponsWithSpendingLimit(): \Illuminate\Support\Collection {
         return CouponType::select('name', 'daily_spending_limit')
             ->selectRaw('SUM(amount) as total')
             ->where('daily_spending_limit', '>', 0)
@@ -41,11 +45,11 @@ class BankStatisticsProvider
             ->join('coupon_handouts', 'coupon_handouts.coupon_type_id', '=', 'coupon_types.id')
             ->groupBy('coupon_types.id')
             ->get()
-            ->mapWithKeys(function($e) {
-                return [ $e->name => [
-                    'count' => (int)$e->total,
-                    'limit' => $e->daily_spending_limit
-                ] ];
-            });
+            ->mapWithKeys(fn ($e) => [
+                $e->name => [
+                    'count' => (int) $e->total,
+                    'limit' => $e->daily_spending_limit,
+                ],
+            ]);
     }
 }

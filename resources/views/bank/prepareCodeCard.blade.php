@@ -20,8 +20,8 @@
 @endsection
 
 @section('script')
-    $(function(){
-        $('form').on('submit', function(){
+    $(function () {
+        $('form').on('submit', function () {
             $('#patience-notice').fadeIn();
         });
     });

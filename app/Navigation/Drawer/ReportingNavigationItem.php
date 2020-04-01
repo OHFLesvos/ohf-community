@@ -4,8 +4,8 @@ namespace App\Navigation\Drawer;
 
 use Illuminate\Support\Facades\Gate;
 
-class ReportingNavigationItem extends BaseNavigationItem {
-
+class ReportingNavigationItem extends BaseNavigationItem
+{
     protected $route = 'reporting.index';
 
     protected $caption = 'app.reporting';
@@ -18,5 +18,4 @@ class ReportingNavigationItem extends BaseNavigationItem {
     {
         return Gate::allows('view-reports');
     }
-
 }

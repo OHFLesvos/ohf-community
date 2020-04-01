@@ -2,13 +2,12 @@
 
 namespace App;
 
+use App\Models\Collaboration\Task;
 use App\Support\Facades\PermissionRegistry;
-
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Translation\HasLocalePreference;
-
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements HasLocalePreference
 {
@@ -16,7 +15,7 @@ class User extends Authenticatable implements HasLocalePreference
     use NullableFields;
 
     protected $nullable = [
-		'tfa_secret',
+        'tfa_secret',
     ];
 
     /**
@@ -86,11 +85,11 @@ class User extends Authenticatable implements HasLocalePreference
     }
 
     public function hasPermission($permissionKey) {
-        return $this->roles->contains(function($role) use($permissionKey) {
-            return $role->permissions->contains(function($value) use($permissionKey) {
-                return $value->key == $permissionKey;
-            });
-        });
+        return $this->roles->contains(
+            fn ($role) => $role->permissions->contains(
+                fn ($value) => $value->key === $permissionKey
+            )
+        );
     }
 
     public function permissions() {
@@ -101,19 +100,17 @@ class User extends Authenticatable implements HasLocalePreference
             }
         }
         return collect($permissions)
-            ->filter(function($permission) {
-                return PermissionRegistry::hasKey($permission->key);
-            })
+            ->filter(fn ($permission) => PermissionRegistry::hasKey($permission->key))
             ->unique();
     }
 
     public function tasks()
     {
-        return $this->hasMany('App\Models\Collaboration\Task');
+        return $this->hasMany(Task::class);
     }
 
-    public function avatarUrl($profile = null)
+    public function avatarUrl(?string $profile = null): string
     {
-        return $this->avatar != null ? $this->avatar : \Gravatar::get($this->email, $profile);
+        return $this->avatar !== null ? $this->avatar : \Gravatar::get($this->email, $profile);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Reporting;
 
 use App\Http\Controllers\Controller;
-
 use Carbon\Carbon;
 
 abstract class BaseReportingController extends Controller
@@ -41,7 +40,7 @@ abstract class BaseReportingController extends Controller
         $dates = [];
         $date = $to->clone();
         do {
-            $dates["Year " . $date->year] = null;
+            $dates['Year ' . $date->year] = null;
         } while ($date->subYear()->gt($from));
         return collect($dates);
     }

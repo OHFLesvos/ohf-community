@@ -2,14 +2,12 @@
 
 namespace App\Navigation\Drawer\Helpers;
 
-use App\Navigation\Drawer\BaseNavigationItem;
-
 use App\Models\Helpers\Helper;
-
+use App\Navigation\Drawer\BaseNavigationItem;
 use Illuminate\Support\Facades\Auth;
 
-class HelpersNavigationItem extends BaseNavigationItem {
-
+class HelpersNavigationItem extends BaseNavigationItem
+{
     protected $route = 'people.helpers.index';
 
     protected $caption = 'helpers.helpers';
@@ -22,5 +20,4 @@ class HelpersNavigationItem extends BaseNavigationItem {
     {
         return Auth::user()->can('list', Helper::class);
     }
-
 }

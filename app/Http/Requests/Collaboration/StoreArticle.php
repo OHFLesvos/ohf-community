@@ -42,11 +42,13 @@ class StoreArticle extends FormRequest
             'featured' => [
                 'boolean',
             ],
-            'content' => 'required',
+            'content' => [
+                'required',
+            ],
             'tags' => [
                 'nullable',
                 'json',
-            ]
+            ],
         ];
     }
 }

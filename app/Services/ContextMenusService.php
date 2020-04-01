@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-class ContextMenusService {
-
+class ContextMenusService
+{
     private $menus = [];
 
     public function define(string $routeName, $menuClass)
@@ -19,5 +19,4 @@ class ContextMenusService {
         }
         return [];
     }
-
 }

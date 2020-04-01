@@ -17,7 +17,7 @@
     {!! Form::close() !!}
 
     @if (isset($search))
-        @if( ! $article_results->isEmpty() )
+        @if(! $article_results->isEmpty())
 
             <p><small>@lang('wiki.found_num_articles_containing_word', ['num' => $article_results->total(), 'word' => $search ])</small></p>
             <div class="columns-3 mb-3">

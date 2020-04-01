@@ -3,11 +3,10 @@
 namespace App\Navigation\Drawer\Library;
 
 use App\Navigation\Drawer\BaseNavigationItem;
-
 use Illuminate\Support\Facades\Gate;
 
-class LibraryNavigationItem extends BaseNavigationItem {
-
+class LibraryNavigationItem extends BaseNavigationItem
+{
     protected $route = 'library.lending.index';
 
     protected $caption = 'library.library';
@@ -20,5 +19,4 @@ class LibraryNavigationItem extends BaseNavigationItem {
     {
         return Gate::allows('operate-library');
     }
-
 }

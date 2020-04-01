@@ -1,6 +1,6 @@
 <div class="form-group column-break-avoid">
-    @if ($label === null || !empty($label))
-        {{ Form::label($name, $label) }} 
+    @if ($label === null || ! empty($label))
+        {{ Form::label($name, $label) }}
         @if(isset($attributes) && in_array('required', $attributes, true))<span class="text-danger" title="@lang('app.required')">*</span>@endif
     @endif
     @if (isset($attributes['prepend']) || isset($attributes['append']))
@@ -28,7 +28,7 @@
             {{ $help }}
         </small>
     @endif
-    @if (isset($attributes['error']) && !empty($attributes['error']))
+    @if (isset($attributes['error']) && ! empty($attributes['error']))
         <small class="form-text text-danger">
             {{ $attributes['error'] }}
         </small>

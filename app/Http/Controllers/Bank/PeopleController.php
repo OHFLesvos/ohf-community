@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers\Bank;
 
-use App\Models\People\Person;
-
 use App\Http\Controllers\Controller;
-
-use App\Http\Requests\People\StorePerson;
-
+use App\Models\People\Person;
 use Countries;
 
 class PeopleController extends Controller
@@ -36,14 +32,15 @@ class PeopleController extends Controller
         return view('bank.people.edit', [
             'person' => $person,
             'countries' => array_values(Countries::getList('en')),
-		]);
-	}
+        ]);
+    }
 
     public function destroy(Person $person)
     {
         $person->delete();
 
-        return redirect()->route('bank.withdrawal.search')
+        return redirect()
+            ->route('bank.withdrawal.search')
             ->with('success', __('people.person_deleted'));
     }
 }

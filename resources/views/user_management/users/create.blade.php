@@ -40,7 +40,7 @@
                 <div class="card">
                     <div class="card-header">@lang('app.roles')</div>
                     <div class="card-body">
-                        {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(function($role){return [ $role->id => $role->name ];}), null) }}
+                        {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(fn ($role) => [ $role->id => $role->name ]), null) }}
                         @empty($roles)
                             <em>@lang('app.no_roles_defined')</em>
                         @endempty

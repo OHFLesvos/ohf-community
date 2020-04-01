@@ -27,7 +27,7 @@ class StoreTask extends FormRequest
             'description' => [
                 'required',
                 'max:191',
-            ]
+            ],
         ];
     }
 }

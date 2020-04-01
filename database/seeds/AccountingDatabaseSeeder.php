@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Accounting\MoneyTransaction;
-
 use Illuminate\Database\Seeder;
 
 class AccountingDatabaseSeeder extends Seeder

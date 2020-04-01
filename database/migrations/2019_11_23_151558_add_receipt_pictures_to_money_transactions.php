@@ -1,10 +1,9 @@
 <?php
 
 use App\Models\Accounting\MoneyTransaction;
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddReceiptPicturesToMoneyTransactions extends Migration
 {
@@ -20,8 +19,8 @@ class AddReceiptPicturesToMoneyTransactions extends Migration
         });
         MoneyTransaction::whereNotNull('receipt_picture')
             ->get()
-            ->each(function($t){
-                if (!empty($t->receipt_picture)) {
+            ->each(function ($t) {
+                if (! empty($t->receipt_picture)) {
                     $t->receipt_pictures = [ $t->receipt_picture ];
                     $t->save();
                 }
@@ -43,8 +42,8 @@ class AddReceiptPicturesToMoneyTransactions extends Migration
         });
         MoneyTransaction::whereNotNull('receipt_pictures')
             ->get()
-            ->each(function($t){
-                if (!empty($t->receipt_pictures)) {
+            ->each(function ($t) {
+                if (! empty($t->receipt_pictures)) {
                     // Warning: potential data loss
                     $t->receipt_picture = $t->receipt_pictures[0];
                     $t->save();

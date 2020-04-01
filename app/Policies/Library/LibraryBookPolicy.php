@@ -2,10 +2,8 @@
 
 namespace App\Policies\Library;
 
-use App\User;
-
 use App\Models\Library\LibraryBook;
-
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class LibraryBookPolicy

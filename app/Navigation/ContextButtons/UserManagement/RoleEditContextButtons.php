@@ -3,12 +3,11 @@
 namespace App\Navigation\ContextButtons\UserManagement;
 
 use App\Navigation\ContextButtons\ContextButtons;
-
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class RoleEditContextButtons implements ContextButtons {
-
+class RoleEditContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $role = $view->getData()['role'];
@@ -17,8 +16,8 @@ class RoleEditContextButtons implements ContextButtons {
                 'url' => route('roles.show', $role),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('view', $role)
-            ]
+                'authorized' => Auth::user()->can('view', $role),
+            ],
         ];
     }
 

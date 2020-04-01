@@ -11,7 +11,7 @@
                 <div class="card-body">
                     {!! Form::open(['route' => ['userprofile.update']]) !!}
                         {{ Form::bsText('name', $user->name, [ 'required' ], __('userprofile.name')) }}
-                        {{ Form::bsEmail('email', $user->email, [ !empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
+                        {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
                         {{ Form::bsSubmitButton(__('userprofile.update')) }}
                     {!! Form::close() !!}
                 </div>
@@ -70,7 +70,7 @@
                     <ul class="list-group list-group-flush">
                         @foreach (language()->allowed() as $code => $name)
                             <li class="list-group-item">
-                                @if( App::getLocale() == $code )
+                                @if(App::getLocale() == $code)
                                     <span class="text-success">@icon(check)</span>
                                 @else
                                     <span class="d-inline-block" style="width: 1em"></span>
@@ -87,10 +87,10 @@
             <div class="card mb-4">
                 <div class="card-header">@lang('userprofile.account_information')</div>
                 <div class="card-body pb-2">
-                    <p>@lang('userprofile.account_created_on') <strong>{{ $user->created_at }}</strong> 
+                    <p>@lang('userprofile.account_created_on') <strong>{{ $user->created_at }}</strong>
                         @lang('userprofile.account_updated_on') <strong>{{ $user->updated_at }}</strong>.
                     </p>
-                    @if ( ! $user->roles->isEmpty() )
+                    @if (! $user->roles->isEmpty())
                         <p>@lang('userprofile.your_roles'):
                             @foreach ($user->roles->sortBy('name') as $role)
                                 {{ $role->name }}@if (! $loop->last), @endif

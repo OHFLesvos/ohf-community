@@ -5,7 +5,7 @@
         {{-- Logo --}}
         <div class="px-3 pt-3">
             <span class="navbar-brand">
-                <img src="{{ asset('/img/logo.png') }}" /> {{ Config::get('app.name') }}
+                <img src="{{ asset('/img/logo.png') }}" /> {{ config('app.name') }}
             </span>
         </div>
 
@@ -48,7 +48,7 @@
 
         <hr>
         <p class="copyright text-muted px-3">
-            <a href="{{ Config::get('app.product_url') }}" target="_blank" class="text-dark">{{ Config::get('app.product_name') }}</a>
+            <a href="{{ config('app.product_url') }}" target="_blank" class="text-dark">{{ config('app.product_name') }}</a>
             <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
             &copy; Nicolas Perrenoud<br>
             Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms

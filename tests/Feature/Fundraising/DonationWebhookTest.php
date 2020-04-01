@@ -2,16 +2,13 @@
 
 namespace App\Tests\Feature\Fundraising;
 
-use Tests\TestCase;
-
-use App\User;
 use App\Role;
 use App\RolePermission;
-
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-
-use Carbon\Carbon;
+use Tests\TestCase;
 
 class DonationWebhookTest extends TestCase
 {

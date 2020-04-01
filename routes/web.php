@@ -22,7 +22,6 @@ Route::middleware('language')->group(function () {
 
         // Reporting
         Route::view('reporting', 'reporting.index')->name('reporting.index')->middleware('can:view-reports');
-
     });
 
     // Authentication
@@ -38,7 +37,6 @@ Route::middleware('language')->group(function () {
 
     // Privacy policy
     Route::get('userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
-
 });
 
 //
@@ -49,7 +47,7 @@ Route::middleware(['auth', 'language'])
     ->group(function () {
 
         // User management
-        Route::prefix('admin')->group(function(){
+        Route::prefix('admin')->group(function () {
             // Users
             Route::put('users/{user}/disable2FA', 'UserController@disable2FA')
                 ->name('users.disable2FA');
@@ -112,7 +110,7 @@ Route::middleware(['language', 'auth'])
     ->prefix('badges')
     ->group(function () {
         Route::middleware(['can:create-badges'])
-            ->group(function(){
+            ->group(function () {
                 Route::get('/', 'BadgeMakerController@index')
                     ->name('index');
                 Route::post('/selection', 'BadgeMakerController@selection')
@@ -164,7 +162,7 @@ Route::middleware(['language', 'auth'])
     ->namespace('Accounting')
     ->prefix('accounting')
     ->name('accounting.')
-    ->group(function() {
+    ->group(function () {
 
         // Transactions
         Route::get('transactions/export', 'MoneyTransactionsController@export')
@@ -213,14 +211,13 @@ Route::middleware(['language', 'auth'])
         Route::view('tasks', 'collaboration.tasklist')
             ->name('tasks')
             ->middleware('can:list,App\Models\Collaboration\Task');
-
     });
 
 Route::middleware(['language'])
     ->namespace('Collaboration')
     ->prefix('kb')
     ->name('kb.')
-    ->group(function(){
+    ->group(function () {
         Route::group(['middleware' => ['auth']], function () {
             Route::get('', 'SearchController@index')
                 ->name('index');
@@ -267,9 +264,6 @@ Route::middleware(['auth', 'language'])
         Route::post('/people/doImport', 'PeopleController@doImport')
             ->name('people.doImport')
             ->middleware('can:create,App\Models\People\Person');
-        Route::get('/people/{person}/qrcode', 'PeopleController@qrCode')
-            ->name('people.qrCode')
-            ->middleware('can:view,person');
         Route::get('/people/duplicates', 'PeopleController@duplicates')
             ->name('people.duplicates');
         Route::post('/people/duplicates', 'PeopleController@applyDuplicates')
@@ -280,7 +274,7 @@ Route::middleware(['auth', 'language'])
         Route::namespace('Reporting')
             ->prefix('reporting')
             ->middleware(['can:view-people-reports'])
-            ->group(function(){
+            ->group(function () {
 
                 // Monthly summary report
                 Route::get('monthly-summary', 'MonthlySummaryReportingController@index')
@@ -308,7 +302,7 @@ Route::middleware(['auth', 'language'])
                 Route::middleware('can:do-bank-withdrawals')
                     ->group(function () {
 
-                        Route::get('', function(){
+                        Route::get('', function () {
                             return redirect()->route('bank.withdrawal.search');
                         })->name('index');
 
@@ -390,9 +384,7 @@ Route::middleware(['auth', 'language'])
                     ->name('visitorsPerYear');
                 Route::get('visitors/chart/avgVisitorsPerDayOfWeek', 'BankReportingController@avgVisitorsPerDayOfWeek')
                     ->name('avgVisitorsPerDayOfWeek');
-
             });
-
     });
 
 //
@@ -403,7 +395,7 @@ Route::middleware(['auth', 'language'])
     ->namespace('Helpers')
     ->group(function () {
         Route::name('people.')
-            ->group(function(){
+            ->group(function () {
                 // Report view
                 Route::view('helpers/report', 'helpers.report')
                     ->name('helpers.report')
@@ -485,12 +477,12 @@ Route::middleware(['auth', 'language'])
     ->prefix('shop')
     ->name('shop.')
     ->group(function () {
-        Route::middleware(['can:validate-shop-coupons'])->group(function() {
+        Route::middleware(['can:validate-shop-coupons'])->group(function () {
             Route::view('/', 'shop.index')->name('index');
             Route::view('manageCards', 'shop.manageCards')->name('manageCards');
         });
-        Route::middleware(['can:configure-shop'])->group(function() {
+        Route::middleware(['can:configure-shop'])->group(function () {
             Route::get('settings', 'SettingsController@edit')->name('settings.edit');
             Route::put('settings', 'SettingsController@update')->name('settings.update');
         });
-});
+    });

@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Accounting;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Accounting\MoneyTransaction;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class WeblingIndexContextButtons implements ContextButtons {
-
+class WeblingIndexContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -19,8 +17,7 @@ class WeblingIndexContextButtons implements ContextButtons {
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('list', MoneyTransaction::class),
-            ]
+            ],
         ];
     }
-
 }

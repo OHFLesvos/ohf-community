@@ -47,7 +47,7 @@
                         @if (count($errors) > 0)
                             <div class="alert alert-danger alert-dismissible fade show">
                                 @icon(exclamation-triangle) @lang('app.validation_failed')
-{{--                                 
+{{--
                                 <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -64,7 +64,7 @@
                         @yield('content')
 
                         {{-- Floating action button --}}
-                        @if( isset($buttons['action']) && $buttons['action']['authorized'] )
+                        @if(isset($buttons['action']) && $buttons['action']['authorized'] )
                             @include('components.action-button', [ 'route' => $buttons['action']['url'], 'icon' => $buttons['action']['icon_floating'] ])
                         @endif
 
@@ -86,7 +86,7 @@
         <script>
             @yield('script')
         </script>
-		@yield('footer')
+        @yield('footer')
 
     </body>
 </html>

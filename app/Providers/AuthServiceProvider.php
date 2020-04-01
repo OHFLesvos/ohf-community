@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Support\Facades\PermissionRegistry;
-
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -233,7 +232,7 @@ class AuthServiceProvider extends ServiceProvider
         'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
 
         'view-accounting-summary'     => 'accounting.summary.view',
-        'book-accounting-transactions-externally'=> 'accounting.transactions.book_externally',
+        'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',
         'configure-accounting'        => 'accounting.configure',
 
         'view-calendar'               => 'calendar.events.view',
@@ -281,7 +280,7 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function registerPermissionGateMappings() {
         foreach ($this->permission_gate_mappings as $gate => $permission) {
-            Gate::define($gate, function ($user) use($permission) {
+            Gate::define($gate, function ($user) use ($permission) {
                 if ($user->isSuperAdmin()) {
                     return true;
                 }
@@ -299,7 +298,7 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function registerPErmissionGateMappingsNoSuperAdmin() {
         foreach ($this->permission_gate_mappings_no_super_admin as $gate => $permission) {
-            Gate::define($gate, function ($user) use($permission) {
+            Gate::define($gate, function ($user) use ($permission) {
                 if (is_array($permission)) {
                     $hasPermission = false;
                     foreach ($permission as $pe) {

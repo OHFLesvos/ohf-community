@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RevokedCard extends Model
 {
-    function person()
+    public function person()
     {
         return $this->belongsTo(Person::class);
     }

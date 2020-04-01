@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Collaboration;
 
-use App\Tag;
-use App\Models\Collaboration\WikiArticle;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Collaboration\StoreArticle;
+use App\Models\Collaboration\WikiArticle;
+use App\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use App\Util\Collaboration\ArticlePdfExport;
-
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -21,18 +20,18 @@ class ArticleController extends Controller
             'order' => [
                 'nullable',
                 'in:popularity,recent',
-            ]
+            ],
         ]);
 
         $query = WikiArticle::query();
         if ($request->order == 'popularity') {
-            $query->leftJoin('kb_article_views', function($join){
-                    $join->on('kb_article_views.viewable_id', '=', 'kb_articles.id')
-                        ->where('kb_article_views.viewable_type', WikiArticle::class);
-                })
+            $query->leftJoin('kb_article_views', function ($join) {
+                $join->on('kb_article_views.viewable_id', '=', 'kb_articles.id')
+                    ->where('kb_article_views.viewable_type', WikiArticle::class);
+            })
                 ->orderBy('kb_article_views.value', 'desc')
                 ->select('kb_articles.*');
-        } else if ($request->order == 'recent') {
+        } elseif ($request->order == 'recent') {
             $query->orderBy('updated_at', 'desc');
         }
 
@@ -77,20 +76,20 @@ class ArticleController extends Controller
         // Set articles as viewed, but count only for first time in session
         if ($request->session()->has('kb.articles_viewed')) {
             $articles_viewed = $request->session()->get('kb.articles_viewed');
-            if (!(is_array($articles_viewed) && in_array($article->id, $articles_viewed))) {
+            if (! (is_array($articles_viewed) && in_array($article->id, $articles_viewed))) {
                 $request->session()->push('kb.articles_viewed', $article->id);
-                $article->setViewed();
+                $article->incrementViewedCount();
             }
         } else {
             $request->session()->push('kb.articles_viewed', $article->id);
-            $article->setViewed();
+            $article->incrementViewedCount();
         }
 
         // Format article
         $article->content = ArticleFormat::formatContent($article->content);
 
         return view('collaboration.kb.articles.show', [
-            'article' => $article
+            'article' => $article,
         ]);
     }
 
@@ -157,6 +156,5 @@ class ArticleController extends Controller
         $content = '<h1>' . $article->title . '</h1>' . ArticleFormat::formatContent($article->content);
         ArticlePdfExport::createPDF($article->title, $content);
     }
-
 
 }

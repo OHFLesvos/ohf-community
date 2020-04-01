@@ -2,8 +2,10 @@
 
 namespace App\Navigation\Drawer;
 
-abstract class BaseNavigationItem implements NavigationItem {
+use Exception;
 
+abstract class BaseNavigationItem implements NavigationItem
+{
     protected $route;
     protected $caption;
     protected $icon;
@@ -27,7 +29,7 @@ abstract class BaseNavigationItem implements NavigationItem {
         $this->assertDefined('icon');
         return $this->icon;
     }
-    
+
     public function getActive()
     {
         $this->assertDefined('active');
@@ -38,7 +40,6 @@ abstract class BaseNavigationItem implements NavigationItem {
     {
         $this->assertDefined('authorized');
         return $this->authorized;
-
     }
 
     public function getBadge()
@@ -48,9 +49,8 @@ abstract class BaseNavigationItem implements NavigationItem {
 
     private function assertDefined($variable)
     {
-        if (!isset($this->$variable) || empty($this->$variable)) {
-            throw new \Exception('Parameter \'' . $variable . '\' not defined in '. __CLASS__);
+        if (! isset($this->$variable) || empty($this->$variable)) {
+            throw new Exception('Parameter \'' . $variable . '\' not defined in '. __CLASS__);
         }
     }
-
 }

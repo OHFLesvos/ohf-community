@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @if ( $user->id == Auth::id() )
+    @if ($user->id == Auth::id())
         @component('components.alert.info')
             @lang('app.this_is_your_own_account')
         @endcomponent
@@ -102,7 +102,7 @@
                 <div class="card-header">@lang('app.permissions') ({{ $user->permissions()->count() }})</div>
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush">
-                        @if ( $user->isSuperAdmin() )
+                        @if ($user->isSuperAdmin())
                             <li class="list-group-item list-group-item-warning">
                                 @lang('app.user_is_admin_has_all_permissions')
                             </li>

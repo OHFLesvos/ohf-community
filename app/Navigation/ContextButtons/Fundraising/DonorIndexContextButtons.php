@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Fundraising;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Fundraising\Donor;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class DonorIndexContextButtons implements ContextButtons {
-
+class DonorIndexContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -19,14 +17,14 @@ class DonorIndexContextButtons implements ContextButtons {
                 'caption' => __('app.add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', Donor::class)
+                'authorized' => Auth::user()->can('create', Donor::class),
             ],
             'export' => [
                 'url' => route('fundraising.donors.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('list', Donor::class)
-            ]
+                'authorized' => Auth::user()->can('list', Donor::class),
+            ],
         ];
     }
 

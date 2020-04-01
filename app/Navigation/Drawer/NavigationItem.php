@@ -2,36 +2,17 @@
 
 namespace App\Navigation\Drawer;
 
-interface NavigationItem {
-
-    /**
-     * @return string
-     */
+interface NavigationItem
+{
     public function getRoute(): string;
 
-    /**
-     * @return string
-     */
     public function getCaption(): string;
 
-    /**
-     * @return string
-     */
     public function getIcon(): string;
 
-    /**
-     * @return string|array
-     */
     public function getActive();
 
-    /**
-     * @return bool
-     */
     public function isAuthorized(): bool;
 
-    /**
-     * @return string
-     */
     public function getBadge();
-
 }

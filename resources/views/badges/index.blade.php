@@ -25,9 +25,9 @@
                 <div class="col-auto"><button type="button" class="btn btn-danger">@icon(minus-circle)</button></div>
             </div> --}}
         </div>
-		<p>
-			{{ Form::bsSubmitButton(__('app.next')) }}
-		</p>
+        <p>
+            {{ Form::bsSubmitButton(__('app.next')) }}
+        </p>
     {!! Form::close() !!}
 @endsection
 
@@ -63,7 +63,7 @@
     function removeInputListRow() {
         $(this).parents('div[class="form-row"]').remove();
     }
-    $(function(){
+    $(function () {
         $('input[name="source"]').on('change', toggleFileUplad);
         toggleFileUplad();
         $('input[name="source"]').on('change', toggleInputList);

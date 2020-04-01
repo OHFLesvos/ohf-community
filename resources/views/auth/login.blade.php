@@ -31,18 +31,18 @@
             </button>
         </p>
 
-        @if(array_elements_not_empty(config('services.google'), ['client_id', 'client_secret', 'redirect']) || array_elements_not_empty(config('services.facebook'), ['client_id', 'client_secret', 'redirect']))
+        @if(array_elements_not_blank(config('services.google'), ['client_id', 'client_secret', 'redirect']) || array_elements_not_blank(config('services.facebook'), ['client_id', 'client_secret', 'redirect']))
             <p class="text-center">@lang('app.or')</p>
             <p class="text-center">
             <div class="row">
-                @if(array_elements_not_empty(config('services.google'), ['client_id', 'client_secret', 'redirect']))
+                @if(array_elements_not_blank(config('services.google'), ['client_id', 'client_secret', 'redirect']))
                     <div class="col-sm text-center mb-2">
                         <a href="{{ route('login.provider', 'google') }}" class="btn btn-secondary btn-sm btn-block">
                             <i class="fab fa-google"></i> {{ __('app.google_sign_in') }}
                         </a>
                     </div>
                 @endif
-                @if(array_elements_not_empty(config('services.facebook'), ['client_id', 'client_secret', 'redirect']))
+                @if(array_elements_not_blank(config('services.facebook'), ['client_id', 'client_secret', 'redirect']))
                     <div class="col-sm text-center mb-2">
                         <a href="{{ route('login.provider', 'facebook') }}" class="btn btn-secondary btn-sm btn-block">
                             <i class="fab fa-facebook"></i> {{ __('app.facebook_sign_in') }}

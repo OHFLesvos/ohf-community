@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="columns-3">
-        @foreach($permissions as $title => $elements)   
+        @foreach($permissions as $title => $elements)
             <div class="mb-4 column-break-avoid">
                 <h4>{{ $title == null ? __('app.general') : $title }}</h4>
                 @foreach($elements as $key => $label)
@@ -13,13 +13,9 @@
                         @php
                             $roles = App\RolePermission::where('key', $key)
                                 ->get()
-                                ->map(function($e){
-                                    return $e->role;
-                                })
+                                ->map(fn ($e) => $e->role)
                                 ->sortBy('name');
-                            $users = $roles->flatMap(function($e){
-                                    return $e->users;
-                                })
+                            $users = $roles->flatMap(fn ($e) => $e->users)
                                 ->concat(App\User::where('is_super_admin', true)->get())
                                 ->unique('id')
                                 ->sortBy('name');

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @if( ! $tags->isEmpty() )
+    @if(! $tags->isEmpty())
         <p><small>@lang('app.found_num_tags', ['num' => $tags->count() ])</small></p>
         <div class="mb-4">
             <div class="columns-3">
@@ -18,6 +18,6 @@
         @component('components.alert.info')
             @lang('wiki.no_articles_found')
         @endcomponent
-	@endif
-	
+    @endif
+
 @endsection

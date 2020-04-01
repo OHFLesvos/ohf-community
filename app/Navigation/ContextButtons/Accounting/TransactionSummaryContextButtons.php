@@ -2,16 +2,14 @@
 
 namespace App\Navigation\ContextButtons\Accounting;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Accounting\MoneyTransaction;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
-class TransactionSummaryContextButtons implements ContextButtons {
-
+class TransactionSummaryContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         return [
@@ -19,14 +17,14 @@ class TransactionSummaryContextButtons implements ContextButtons {
                 'url' => route('accounting.transactions.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('list', MoneyTransaction::class)
+                'authorized' => Auth::user()->can('list', MoneyTransaction::class),
             ],
             'settings' => [
                 'url' => route('accounting.settings.edit'),
                 'caption' => __('app.settings'),
                 'icon' => 'cogs',
-                'authorized' => Gate::allows('configure-accounting')
-            ],            
+                'authorized' => Gate::allows('configure-accounting'),
+            ],
             'book' => [
                 'url' => route('accounting.webling.index'),
                 'caption' => __('accounting.book'),

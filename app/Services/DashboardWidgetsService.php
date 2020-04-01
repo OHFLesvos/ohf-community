@@ -4,11 +4,11 @@ namespace App\Services;
 
 use App\Widgets\Widget;
 
-class DashboardWidgetsService {
-
+class DashboardWidgetsService
+{
     private $widgets = [];
 
-    public function define($widgetClass, int $position = null)
+    public function define($widgetClass, ?int $position = null)
     {
         $this->widgets[] = [
             'clazz' => $widgetClass,
@@ -21,12 +21,7 @@ class DashboardWidgetsService {
         return collect($this->widgets)
             ->sortBy('position')
             ->pluck('clazz')
-            ->map(function($clazz){
-                return new $clazz();
-            })
-            ->filter(function($w){
-                return $w instanceof Widget;
-            });
+            ->map(fn ($clazz) => new $clazz())
+            ->filter(fn ($widget) => $widget instanceof Widget);
     }
-
 }

@@ -3,33 +3,34 @@
 namespace App\Exports\Helpers;
 
 use App\Exports\BaseExport;
-
 use App\Models\Helpers\Helper;
-
 use Illuminate\Support\Collection;
-
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class HelpersExport extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
-    private $fields;
-    private $scopeMethod;
-    private $sorting = 'person.name';
+    /**
+     * Field definitions
+     */
+    private Collection $fields;
+
+    /**
+     * Scope method name
+     */
+    private string $scopeMethod;
+
+    /**
+     * Field to sort by
+     */
+    public string $sorting = 'person.name';
 
     public function __construct(Collection $fields, string $scopeMethod) {
         $this->fields = $fields;
         $this->scopeMethod = $scopeMethod;
     }
 
-    public function setSorting(string $sorting) {
-        $this->sorting = $sorting;
-    }
-
-    /**
-    * @return \Illuminate\Support\Collection
-    */
     public function collection(): Collection
     {
         return Helper::{$this->scopeMethod}()
@@ -39,40 +40,39 @@ class HelpersExport extends BaseExport implements FromCollection, WithHeadings, 
     }
 
     /**
-    * @var Helper $helper
-    * @return array
-    */
+     * @param Helper $helper
+     */
     public function map($helper): array
     {
         return $this->fields
-            ->map(function($field) use($helper) {
-                if (gettype($field['value']) == 'string') {
-                    $value = $helper->{$field['value']};
-                } else {
-                    $value = $field['value']($helper);
-                }
-                return $value != null ? (($field['prefix'] ?? '') . (is_array($value) ? implode(', ', $value) : $value)) : null;
-            })
+            ->map(fn ($field) => self::mapField($field, $helper))
             ->toArray();
     }
 
-    /**
-     * @return string
-     */
+    private static function mapField($field, $helper)
+    {
+        if (gettype($field['value']) == 'string') {
+            $value = $helper->{$field['value']};
+        } else {
+            $value = $field['value']($helper);
+        }
+        if ($value !== null) {
+            $prefix = $field['prefix'] ?? '';
+            $valueString = is_array($value) ? implode(', ', $value) : $value;
+            return $prefix . $valueString;
+        }
+        return null;
+    }
+
     public function title(): string
     {
         return __('helpers.helpers');
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         return $this->fields
-            ->map(function($field){
-                return __($field['label_key']);
-            })
+            ->map(fn ($field) => __($field['label_key']))
             ->toArray();
     }
 }

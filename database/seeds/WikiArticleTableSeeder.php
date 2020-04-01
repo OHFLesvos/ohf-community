@@ -1,10 +1,10 @@
 <?php
 
-use App\Tag;
 use App\Models\Collaboration\WikiArticle;
+use App\Tag;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class WikiArticleTableSeeder extends Seeder
 {
@@ -17,11 +17,11 @@ class WikiArticleTableSeeder extends Seeder
     {
         Model::unguard();
 
-        factory(WikiArticle::class, 100)->create()->each(function($a){
+        factory(WikiArticle::class, 100)->create()->each(function ($a) {
             $a->syncTags(factory(Tag::class, mt_rand(1, 5))
                 ->make()
                 ->pluck('name')
-                ->map(function($n){ return ucfirst($n); })
+                ->map(fn ($n) => ucfirst($n))
                 ->toArray());
         });
     }

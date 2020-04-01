@@ -2,15 +2,13 @@
 
 namespace App\Navigation\ContextButtons\Collaboration;
 
-use App\Navigation\ContextButtons\ContextButtons;
-
 use App\Models\Collaboration\WikiArticle;
-
-use Illuminate\View\View;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class TagContextButtons implements ContextButtons {
-
+class TagContextButtons implements ContextButtons
+{
     public function getItems(View $view): array
     {
         $tag = $view->getData()['tag'];
@@ -27,7 +25,7 @@ class TagContextButtons implements ContextButtons {
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user() != null && Auth::user()->can('list', WikiArticle::class),
-            ]
+            ],
         ];
     }
 

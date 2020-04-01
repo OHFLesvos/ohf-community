@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Library\LibraryBook;
-
 use Illuminate\Database\Seeder;
 
 class LibraryDatabaseSeeder extends Seeder
