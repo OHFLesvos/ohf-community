@@ -6,7 +6,7 @@ Community center manager based on [Laravel](https://laravel.com/). Laravel is a 
 Requirements
 ------------
 
-* PHP >= 7.3.0
+* PHP >= 7.4.0
     * OpenSSL PHP Extension
     * PDO PHP Extension
     * Mbstring PHP Extension
@@ -95,6 +95,20 @@ In your `.env` file, set the values of the following variables according to the 
 * GOOGLE_REDIRECT
 
 Once set, a new "Google Login" button should appear on the login view.
+
+Deployment onto production server
+---------------------------------
+
+It is recommended to execute a production deployment / upgrade as follows:
+
+    php artisan down --message="Upgrading Application, please wait..." --retry=60
+    php composer install
+    php artisan cache:clear
+    php artisan view:clear
+    php artisan config:cache
+    php artisan migrate --force
+    php artisan up
+    npm install && npm run prod
 
 License
 -------
