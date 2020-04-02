@@ -25,4 +25,13 @@ class Donation extends Model
         return $this->belongsTo(Donor::class);
     }
 
+    public static function channels(): array
+    {
+        return self::select('channel')
+            ->distinct()
+            ->orderBy('channel')
+            ->get()
+            ->pluck('channel')
+            ->toArray();
+    }
 }

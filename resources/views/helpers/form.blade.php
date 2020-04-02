@@ -24,9 +24,7 @@
         @php
             $args = [];
             if (isset($field['autocomplete'])) {
-                $args['autocomplete'] = 'off';
-                $args['rel'] = 'autocomplete';
-                $args['data-autocomplete-source'] = json_encode(array_values($field['autocomplete']));
+                $args['list'] = $field['autocomplete'];
             }
             if (isset($field['required'])) {
                 $args[] = 'required';

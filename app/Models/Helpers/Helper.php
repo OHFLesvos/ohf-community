@@ -194,14 +194,12 @@ class Helper extends Model implements Auditable
 
     public static function pickupLocations(): array
     {
-        return Helper::groupBy('pickup_location')
+        return self::select('pickup_location')
+            ->distinct()
             ->orderBy('pickup_location')
             ->whereNotNull('pickup_location')
             ->get()
             ->pluck('pickup_location')
-            ->flatten()
-            ->unique()
-            ->sort()
             ->toArray();
     }
 }

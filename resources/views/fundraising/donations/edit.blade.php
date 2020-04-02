@@ -21,7 +21,7 @@
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('channel', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($channels)) ], __('fundraising.channel')) }}
+                {{ Form::bsText('channel', null, [ 'required', 'list' => $channels ], __('fundraising.channel')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('purpose', null, [ ], __('fundraising.purpose')) }}
@@ -32,7 +32,7 @@
         </div>
         {{ Form::bsText('in_name_of', null, [ ], __('fundraising.in_name_of')) }}
         <p>{{ Form::bsCheckbox('thanked', null, null, __('fundraising.donor_thanked')) }}</p>
-        
+
         <div class="row">
             <div class="col-auto pt-1">
                 {{ Form::bsSubmitButton(__('app.update')) }}

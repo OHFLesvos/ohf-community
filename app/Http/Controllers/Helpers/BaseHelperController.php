@@ -207,7 +207,7 @@ abstract class BaseHelperController extends Controller
                 'form_type' => 'text',
                 'form_name' => 'languages',
                 'form_help' => __('app.separate_by_comma'),
-                'form_autocomplete' => fn () => Person::allLanguages(),
+                'form_autocomplete' => fn () => Person::languages(),
             ],
             [
                 'label_key' => 'app.local_phone',

@@ -207,22 +207,22 @@
             <div class="form-row">
                 <div class="col-sm">
                     @if($fixed_categories)
-                        {{ Form::bsSelect('filter[category]', $categories, $filter['category'] ?? null, [ 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
+                        {{ Form::bsSelect('filter[category]', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['category'] ?? null, [ 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
                     @else
-                        {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
+                        {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'list' => $categories ], __('app.category')) }}
                     @endif
                 </div>
                 <div class="col-sm">
                     @if($fixed_projects)
-                        {{ Form::bsSelect('filter[project]', $projects, $filter['project'] ?? null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
+                        {{ Form::bsSelect('filter[project]', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['project'] ?? null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
                     @else
-                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'list' => $projects ], __('app.project')) }}
                     @endif
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-sm">
-                    {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($beneficiaries)) ], __('accounting.beneficiary')) }}
+                    {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ 'list' => $beneficiaries ], __('accounting.beneficiary')) }}
                 </div>
                 <div class="col-sm">
                     {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}

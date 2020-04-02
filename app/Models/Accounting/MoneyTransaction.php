@@ -137,4 +137,34 @@ class MoneyTransaction extends Model implements Auditable
         }
         $this->receipt_pictures = [];
     }
+
+    public static function beneficiaries(): array
+    {
+        return self::select('beneficiary')
+            ->distinct()
+            ->orderBy('beneficiary')
+            ->get()
+            ->pluck('beneficiary')
+            ->toArray();
+    }
+
+    public static function categories(): array
+    {
+        return self::select('category')
+            ->distinct()
+            ->orderBy('category')
+            ->get()
+            ->pluck('category')
+            ->toArray();
+    }
+
+    public static function projects(): array
+    {
+        return self::select('project')
+            ->distinct()
+            ->orderBy('project')
+            ->get()
+            ->pluck('project')
+            ->toArray();
+    }
 }

@@ -9,6 +9,7 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use App\Tag;
 use Carbon\Carbon;
+use Countries;
 use Illuminate\Http\Request;
 use JeroenDesloovere\VCard\VCard;
 
@@ -38,6 +39,9 @@ class DonorController extends Controller
         $this->authorize('create', Donor::class);
 
         return view('fundraising.donors.create', [
+            'salutations' => Donor::salutations(),
+            'countries' => array_values(Countries::getList(\App::getLocale())),
+            'languages' => Donor::languages(),
             'tag_suggestions' => self::getTagSuggestions(),
         ]);
     }
@@ -70,7 +74,8 @@ class DonorController extends Controller
         // Tags
         $donor->syncTags(self::splitTags($request->tags));
 
-        return redirect()->route('fundraising.donors.show', $donor)
+        return redirect()
+            ->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donor_added'));
     }
 
@@ -88,7 +93,7 @@ class DonorController extends Controller
             'donor' => $donor,
             'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate(),
             'currencies' => config('fundraising.currencies'),
-            'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
+            'channels' => Donation::channels(),
         ]);
     }
 
@@ -104,6 +109,9 @@ class DonorController extends Controller
 
         return view('fundraising.donors.edit', [
             'donor' => $donor,
+            'salutations' => Donor::salutations(),
+            'countries' => array_values(Countries::getList(\App::getLocale())),
+            'languages' => Donor::languages(),
             'tag_suggestions' => self::getTagSuggestions(),
         ]);
     }

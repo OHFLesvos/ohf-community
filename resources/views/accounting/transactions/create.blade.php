@@ -18,22 +18,22 @@
                 {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('app.write_decimal_point_as_comma')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsText('beneficiary', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($beneficiaries)) ], __('accounting.beneficiary')) }}
+                {{ Form::bsText('beneficiary', null, [ 'required', 'list' => $beneficiaries ], __('accounting.beneficiary')) }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-sm-3">
                 @if($fixed_categories)
-                    {{ Form::bsSelect('category', $categories, null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
+                    {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
                 @else
-                    {{ Form::bsText('category', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($categories)) ], __('app.category')) }}
+                    {{ Form::bsText('category', null, [ 'required', 'list' => $categories ], __('app.category')) }}
                 @endif
             </div>
             <div class="col-sm-3">
                 @if($fixed_projects)
-                    {{ Form::bsSelect('project', $projects, null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
+                    {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
                 @else
-                    {{ Form::bsText('project', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($projects)) ], __('app.project')) }}
+                    {{ Form::bsText('project', null, [ 'list' => $projects ], __('app.project')) }}
                 @endif
             </div>
             <div class="col-sm">

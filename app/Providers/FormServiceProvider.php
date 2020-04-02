@@ -19,7 +19,6 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsPassword', 'components.form.bsPassword', [ 'name', 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsTextarea', 'components.form.bsTextarea', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsEmail', 'components.form.bsEmail', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
-        Form::component('bsUrl', 'components.form.bsUrl', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsDate', 'components.form.bsDate', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsStringDate', 'components.form.bsStringDate', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsCheckbox', 'components.form.bsCheckbox', [ 'name', 'value' => null, 'checked' => null, 'label' => null ]);
@@ -36,7 +35,6 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsDeleteForm', 'components.form.bsDeleteForm', [ 'action', 'label' => 'Delete', 'icon' => 'trash', 'confirmation' => 'Do you really want to delete this item?' ]);
         Form::component('bsButtonLink', 'components.form.bsButtonLink', [ 'href', 'label', 'icon', 'class' => 'secondary' ]);
         Form::component('genderSelect', 'components.form.genderSelect', [ 'name', 'value' => null, 'label' => 'Gender' ]);
-        Form::component('bsCountryName', 'components.form.bsCountryName', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsAutocomplete', 'components.form.bsAutocomplete', [ 'name', 'value' => null, 'autocomplete_url', 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsAutocompleteWithButton', 'components.form.bsAutocompleteWithButton', [ 'name', 'value' => null, 'autocomplete_url', 'attributes' => [], 'button_label' => null,  'button_id' => null, 'button_icon' => null ]);
         Form::component('bsTags', 'components.form.bsTags', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
