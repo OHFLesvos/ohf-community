@@ -17,6 +17,10 @@ class AddDatePersonIdIndexToCouponHandouts extends Migration
             $table->index(['person_id', 'date']);
             $table->index(['date', 'amount']);
         });
+        // Fix issue with foreign key getting overwritten by composite key
+        Schema::table('coupon_handouts', function (Blueprint $table) {
+            $table->index('person_id', 'coupon_handouts_person_id_foreign');
+        });
     }
 
     /**
