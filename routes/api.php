@@ -218,3 +218,16 @@ Route::middleware(['auth', 'language'])
                 Route::post('deleteNonRedeemedByDay', 'CardsController@deleteNonRedeemedByDay')->name('deleteNonRedeemedByDay');
             });
     });
+
+//
+// Library
+//
+
+Route::middleware(['auth', 'language', 'can:operate-library'])
+    ->namespace('Library\API')
+    ->prefix('library')
+    ->name('library.')
+    ->group(function () {
+        Route::get('books/filter', 'BookController@filter')->name('books.filter');
+        Route::get('books/findIsbn/{isbn}', 'BookController@findIsbn')->name('books.findIsbn');
+    });

@@ -437,6 +437,10 @@ Route::middleware(['auth', 'language'])
             });
     });
 
+//
+// Library
+//
+
 Route::middleware(['auth', 'language', 'can:operate-library'])
     ->namespace('Library')
     ->prefix('library')
@@ -458,9 +462,6 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::post('lending/book/{book}/extend', 'LendingController@extendBook')->name('lending.extendBook');
         Route::post('lending/book/{book}/return', 'LendingController@returnBook')->name('lending.returnBook');
         Route::get('lending/book/{book}/log', 'LendingController@bookLog')->name('lending.bookLog');
-
-        Route::get('books/filter', 'BookController@filter')->name('books.filter');
-        Route::get('books/findIsbn/{isbn}', 'BookController@findIsbn')->name('books.findIsbn');
 
         Route::resource('books', 'BookController');
 
