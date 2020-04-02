@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="card mb-4">
-        <div class="card-header">@lang('fundraising.register_new_donation_for', [ 'name' => $donor->name])</div>
+        <div class="card-header">@lang('fundraising.register_new_donation_for', [ 'name' => $donor->fullName ])</div>
         <div class="card-body pb-0">
             {!! Form::open(['route' => ['fundraising.donations.store', $donor ]]) !!}
                 <div class="form-row">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsText('channel', null, [ 'required', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($channels)) ], __('fundraising.channel')) }}
+                        {{ Form::bsText('channel', null, [ 'required', 'list' => $channels ], __('fundraising.channel')) }}
                     </div>
                     <div class="col-md">
                         {{ Form::bsText('purpose', null, [ ], __('fundraising.purpose')) }}

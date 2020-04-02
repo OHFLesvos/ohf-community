@@ -12,7 +12,6 @@ use App\Models\Accounting\MoneyTransaction;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Setting;
@@ -115,7 +114,7 @@ class MoneyTransactionsController extends Controller
             'sortColumns' => $sortColumns,
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
-            'beneficiaries' => self::getBeneficiaries(),
+            'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(true),
             'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(true),
@@ -168,7 +167,7 @@ class MoneyTransactionsController extends Controller
         $this->authorize('create', MoneyTransaction::class);
 
         return view('accounting.transactions.create', [
-            'beneficiaries' => self::getBeneficiaries(),
+            'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),
@@ -177,47 +176,22 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    private static function getBeneficiaries(): array {
-        return MoneyTransaction::select('beneficiary')
-            ->groupBy('beneficiary')
-            ->orderBy('beneficiary')
-            ->get()
-            ->pluck('beneficiary')
-            ->unique()
-            ->toArray();
-    }
-
     private static function getCategories(?bool $onlyExisting = false): array {
         if (! $onlyExisting && Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY)) {
             return collect(Setting::get(AccountingSettingsController::CATEGORIES_SETTING_KEY))
-                ->mapWithKeys(fn ($e) => [ $e => $e ])
                 ->sort()
                 ->toArray();
         }
-        return MoneyTransaction::select('category')
-            ->groupBy('category')
-            ->orderBy('category')
-            ->get()
-            ->pluck('category', 'category')
-            ->unique()
-            ->toArray();
+        return MoneyTransaction::categories();
     }
 
     private static function getProjects(?bool $onlyExisting = false): array {
         if (! $onlyExisting && Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY)) {
             return collect(Setting::get(AccountingSettingsController::PROJECTS_SETTING_KEY))
-                ->mapWithKeys(fn ($e) => [ $e => $e ])
                 ->sort()
                 ->toArray();
         }
-        return MoneyTransaction::select('project')
-            ->where('project', '!=', null)
-            ->groupBy('project')
-            ->orderBy('project')
-            ->get()
-            ->pluck('project', 'project')
-            ->unique()
-            ->toArray();
+        return MoneyTransaction::projects();
     }
 
     /**
@@ -307,7 +281,7 @@ class MoneyTransactionsController extends Controller
 
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
-            'beneficiaries' => self::getBeneficiaries(),
+            'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
             'projects' => self::getProjects(),

@@ -35,9 +35,8 @@ class PeopleController extends Controller
 
     public function create()
     {
-        $countries = Countries::getList('en');
         return view('people.create', [
-            'countries' => $countries,
+            'countries' => array_values(Countries::getList('en')),
         ]);
     }
 
@@ -63,7 +62,7 @@ class PeopleController extends Controller
     {
         return view('people.edit', [
             'person' => $person,
-            'countries' => Countries::getList('en'),
+            'countries' => array_values(Countries::getList('en')),
         ]);
     }
 

@@ -46,7 +46,7 @@ class DonationController extends Controller
         return view('fundraising.donations.create', [
             'donor' => $donor,
             'currencies' => config('fundraising.currencies'),
-            'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
+            'channels' => Donation::channels(),
         ]);
     }
 
@@ -115,7 +115,7 @@ class DonationController extends Controller
             'donor' => $donor,
             'donation' => $donation,
             'currencies' => config('fundraising.currencies'),
-            'channels' => Donation::select('channel')->distinct()->get()->pluck('channel')->toArray(),
+            'channels' => Donation::channels(),
         ]);
     }
 

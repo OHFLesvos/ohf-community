@@ -175,7 +175,7 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md">
-                                    {{ Form::bsText('channel', null, [ 'required', 'placeholder' => __('fundraising.channel'), 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($channels)) ], '') }}
+                                    {{ Form::bsText('channel', null, [ 'required', 'placeholder' => __('fundraising.channel'), 'list' => $channels ], '') }}
                                 </div>
                                 <div class="col-md">
                                     {{ Form::bsText('purpose', null, [ 'placeholder' => __('fundraising.purpose') ], '') }}

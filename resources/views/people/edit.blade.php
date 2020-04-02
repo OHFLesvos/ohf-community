@@ -31,7 +31,7 @@
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people.nationality')) }}
+                {{ Form::bsText('nationality', null, [ 'list' => $countries ], __('people.nationality')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('languages_string', null, [], __('people.languages')) }}

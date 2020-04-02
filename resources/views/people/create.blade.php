@@ -26,12 +26,12 @@
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsNumber('police_no', null, ['prepend' => '05/'], __('people.police_number'), __('people.leading_zeros_added_automatically')) }}
+                {{ Form::bsNumber('police_no', null, [ 'prepend' => '05/' ], __('people.police_number'), __('people.leading_zeros_added_automatically')) }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('nationality', null, ['id' => 'nationality', 'autocomplete' => 'off', 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(array_values($countries))], __('people.nationality')) }}
+                {{ Form::bsText('nationality', null, [ 'list' => $countries ], __('people.nationality')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('languages_string', null, [], __('people.languages')) }}

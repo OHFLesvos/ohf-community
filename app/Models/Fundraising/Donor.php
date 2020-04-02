@@ -102,10 +102,10 @@ class Donor extends Model
             ->get();
     }
 
-    public static function languages()
+    public static function languages(): array
     {
         return self::select('language')
-            ->groupBy('language')
+            ->distinct()
             ->whereNotNull('language')
             ->orderBy('language')
             ->get()
@@ -113,10 +113,10 @@ class Donor extends Model
             ->toArray();
     }
 
-    public static function salutations()
+    public static function salutations(): array
     {
         return self::select('salutation')
-            ->groupBy('salutation')
+            ->distinct()
             ->whereNotNull('salutation')
             ->orderBy('salutation')
             ->get()

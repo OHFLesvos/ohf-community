@@ -6,9 +6,9 @@
 
     {!! Form::model($donor, ['route' => ['fundraising.donors.update', $donor], 'method' => 'put']) !!}
 
-       <div class="form-row">
+        <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('salutation', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(App\Models\Fundraising\Donor::salutations()) ], __('app.salutation')) }}
+                {{ Form::bsText('salutation', null, [ 'list' => $salutations ], __('app.salutation')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('first_name', null, [ ], __('app.first_name')) }}
@@ -31,7 +31,7 @@
                 {{ Form::bsText('city', null, [ ], __('app.city')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsCountryName('country_name', null, [ ], __('app.country')) }}
+                {{ Form::bsText('country_name', null, [ 'list' => $countries ], __('app.country')) }}
             </div>
         </div>
         <div class="form-row">
@@ -42,7 +42,7 @@
                 {{ Form::bsText('phone', null, [ ], __('app.phone')) }}
             </div>
             <div class="col-md">
-                {{ Form::bsText('language', null, [ 'rel' => 'autocomplete', 'data-autocomplete-source' => json_encode(App\Models\Fundraising\Donor::languages()) ], __('app.correspondence_language')) }}
+                {{ Form::bsText('language', null, [ 'list' => $languages ], __('app.correspondence_language')) }}
             </div>
         </div>
         <div class="form-row">
