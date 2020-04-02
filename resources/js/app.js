@@ -203,8 +203,6 @@ $(function(){
             opts.serviceUrl = $(this).data('autocomplete-url');
             opts.dataType = 'json';
             opts.deferRequestBy = 100; //ms
-        } else if ($(this).data('autocomplete-source')) {
-            opts.lookup = $(this).data('autocomplete-source');
         }
         if ($(this).data('autocomplete-update')) {
             opts.onSelect = function (suggestion) {

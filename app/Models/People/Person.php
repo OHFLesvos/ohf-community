@@ -165,7 +165,8 @@ class Person extends Model
      */
     public static function allLanguages(): array
     {
-        return Person::groupBy('languages')
+        return self::select('languages')
+            ->distinct()
             ->orderBy('languages')
             ->whereNotNull('languages')
             ->get()
@@ -173,6 +174,7 @@ class Person extends Model
             ->flatten()
             ->unique()
             ->sort()
+            ->values()
             ->toArray();
     }
 
