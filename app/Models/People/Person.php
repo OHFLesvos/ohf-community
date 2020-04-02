@@ -158,26 +158,6 @@ class Person extends Model
         $this->languages = ! empty($value) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) : null;
     }
 
-    /**
-     * Returns a list of all languages spoken by any person
-     *
-     * @return array
-     */
-    public static function allLanguages(): array
-    {
-        return self::select('languages')
-            ->distinct()
-            ->orderBy('languages')
-            ->whereNotNull('languages')
-            ->get()
-            ->pluck('languages')
-            ->flatten()
-            ->unique()
-            ->sort()
-            ->values()
-            ->toArray();
-    }
-
     public function getFullNameAttribute()
     {
         $str = '';
@@ -369,7 +349,8 @@ class Person extends Model
      */
     public static function languages(): array
     {
-        return Person::groupBy('languages')
+        return self::select('languages')
+            ->distinct()
             ->orderBy('languages')
             ->whereNotNull('languages')
             ->get()
@@ -377,6 +358,7 @@ class Person extends Model
             ->flatten()
             ->unique()
             ->sort()
+            ->values()
             ->toArray();
     }
 
