@@ -5766,16 +5766,16 @@
         },
         {
             "name": "shiftonelabs/laravel-cascade-deletes",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shiftonelabs/laravel-cascade-deletes.git",
-                "reference": "4302f0ecb7c0a166b9c4977cfbc10fe6ebedff0a"
+                "reference": "af256e3796f997b5f66d34c7ec25c2a1c560e36f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shiftonelabs/laravel-cascade-deletes/zipball/4302f0ecb7c0a166b9c4977cfbc10fe6ebedff0a",
-                "reference": "4302f0ecb7c0a166b9c4977cfbc10fe6ebedff0a",
+                "url": "https://api.github.com/repos/shiftonelabs/laravel-cascade-deletes/zipball/af256e3796f997b5f66d34c7ec25c2a1c560e36f",
+                "reference": "af256e3796f997b5f66d34c7ec25c2a1c560e36f",
                 "shasum": ""
             },
             "require": {
@@ -5815,7 +5815,7 @@
                 "lumen",
                 "model"
             ],
-            "time": "2016-12-07T07:59:43+00:00"
+            "time": "2020-04-02T07:31:25+00:00"
         },
         {
             "name": "spomky-labs/otphp",
@@ -8284,20 +8284,21 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.8.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "904dca4eb10715b92569fbcd79e201d5c349b6bc"
+                "reference": "233e36632422cfc5cc499f14ad6c1476b50cb7b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/904dca4eb10715b92569fbcd79e201d5c349b6bc",
-                "reference": "904dca4eb10715b92569fbcd79e201d5c349b6bc",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/233e36632422cfc5cc499f14ad6c1476b50cb7b1",
+                "reference": "233e36632422cfc5cc499f14ad6c1476b50cb7b1",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "1.*",
+                "ext-tokenizer": "*",
                 "php": "^7.1"
             },
             "require-dev": {
@@ -8307,7 +8308,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
@@ -8348,7 +8349,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2019-10-01T18:55:10+00:00"
+            "time": "2020-04-02T08:15:55+00:00"
         },
         {
             "name": "doctrine/instantiator",
