@@ -41,9 +41,15 @@ class BookController extends Controller
         return response()->json(['suggestions' => $records]);
     }
 
-    public function findIsbn(GoogleBooks $books, $isbn)
+    public function findIsbn(GoogleBooks $books, Request $request)
     {
-        $volume = $books->volumes->byIsbn($isbn);
+        $request->validate([
+            'isbn' => [
+                'required',
+                'isbn',
+            ],
+        ]);
+        $volume = $books->volumes->byIsbn($request->isbn);
         if ($volume == null || $volume->volumeInfo == null) {
             return response()->json([], 404);
         }

@@ -229,5 +229,5 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     ->name('library.')
     ->group(function () {
         Route::get('books/filter', 'BookController@filter')->name('books.filter');
-        Route::get('books/findIsbn/{isbn}', 'BookController@findIsbn')->name('books.findIsbn');
+        Route::get('books/findIsbn', 'BookController@findIsbn')->name('books.findIsbn');
     });
