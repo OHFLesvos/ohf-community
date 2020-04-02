@@ -21,7 +21,7 @@
         </div>
         <div class="form-row">
             <div class="col-md">
-                {{ Form::bsText('channel', null, [ 'required', 'rel' => 'autocomplete', 'list' => $channels ], __('fundraising.channel')) }}
+                {{ Form::bsText('channel', null, [ 'required', 'list' => $channels ], __('fundraising.channel')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsText('purpose', null, [ ], __('fundraising.purpose')) }}
