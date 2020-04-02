@@ -101,10 +101,7 @@ class BookController extends Controller
         return response()->json(['suggestions' => $records]);
     }
 
-    public function findIsbn($isbn) {
-        $books = new GoogleBooks([
-            'key' => \Setting::get('google.api_key'),
-        ]);
+    public function findIsbn(GoogleBooks $books, $isbn) {
         $volume = $books->volumes->byIsbn($isbn);
         if ($volume == null || $volume->volumeInfo == null) {
             return response()->json([], 404);

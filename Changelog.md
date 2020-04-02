@@ -3,6 +3,7 @@
 ## NEXT
 
 * Optimized bank statistics database query
+* Google boosk api key added to .env file
 
 ## 2.12.0
 

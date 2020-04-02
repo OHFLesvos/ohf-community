@@ -27,12 +27,7 @@ class LibrarySettingsController extends SettingsController
                 'form_args' => [ 'min' => 1 ],
                 'form_validate' => 'nullable|numeric|min:1',
                 'label_key' => 'library.max_amount_of_books_person_can_lend',
-            ],
-            'google.api_key' => [
-                'default' => '',
-                'form_type' => 'text',
-                'label_key' => 'app.google_api_key',
-            ],
+            ]
         ];
     }
 
