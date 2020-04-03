@@ -134,22 +134,16 @@ class UserController extends Controller
         if (empty($user->provider_name)) {
             $user->email = $request->email;
         }
-        if (! empty($request->password)) {
+        if ($request->password !== null) {
             $user->password = Hash::make($request->password);
         }
         $user->is_super_admin = ! empty($request->is_super_admin) || User::count() == 1;
         $user->roles()->sync($request->roles);
 
-        if ($user->isDirty()) {
-            $user->save();
-            return redirect()
-                ->route('users.show', $user)
-                ->with('success', __('app.user_updated'));
-        }
-
+        $user->save();
         return redirect()
             ->route('users.show', $user)
-            ->with('info', __('app.no_changes_made'));
+            ->with('success', __('app.user_updated'));
     }
 
     /**
