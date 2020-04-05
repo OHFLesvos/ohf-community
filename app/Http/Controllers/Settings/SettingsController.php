@@ -10,9 +10,6 @@ use Setting;
 
 class SettingsController extends Controller
 {
-    public const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
-    public const PROJECTS_SETTING_KEY = 'accounting.transactions.projects';
-
     protected function getSections()
     {
         return [
@@ -23,7 +20,7 @@ class SettingsController extends Controller
     protected function getSettings()
     {
         return [
-            self::CATEGORIES_SETTING_KEY => [
+            'accounting.transactions.categories' => [
                 'section' => 'accounting',
                 'default' => '',
                 'form_type' => 'textarea',
@@ -33,7 +30,7 @@ class SettingsController extends Controller
                 'getter' => fn ($value) => implode("\n", $value),
                 'authorized' => Gate::allows('configure-accounting'),
             ],
-            self::PROJECTS_SETTING_KEY => [
+            'accounting.transactions.projects' => [
                 'section' => 'accounting',
                 'default' => '',
                 'form_type' => 'textarea',

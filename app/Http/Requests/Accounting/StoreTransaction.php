@@ -50,11 +50,11 @@ class StoreTransaction extends FormRequest
             ],
             'category' => [
                 'required',
-                Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY) ? Rule::in(Setting::get(AccountingSettingsController::CATEGORIES_SETTING_KEY)) : null,
+                Setting::has('accounting.transactions.categories') ? Rule::in(Setting::get('accounting.transactions.categories')) : null,
             ],
             'project' => [
                 'nullable',
-                Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY) ? Rule::in(Setting::get(AccountingSettingsController::PROJECTS_SETTING_KEY)) : null,
+                Setting::has('accounting.transactions.projects') ? Rule::in(Setting::get('accounting.transactions.projects')) : null,
             ],
             'description' => [
                 'required',

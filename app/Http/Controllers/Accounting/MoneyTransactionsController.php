@@ -116,9 +116,9 @@ class MoneyTransactionsController extends Controller
             'sortOrder' => $sortOrder,
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(true),
-            'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
+            'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(true),
-            'fixed_projects' => Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY),
+            'fixed_projects' => Setting::has('accounting.transactions.projects'),
         ]);
     }
 
@@ -169,16 +169,16 @@ class MoneyTransactionsController extends Controller
         return view('accounting.transactions.create', [
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
+            'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY),
+            'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
         ]);
     }
 
     private static function getCategories(?bool $onlyExisting = false): array {
-        if (! $onlyExisting && Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY)) {
-            return collect(Setting::get(AccountingSettingsController::CATEGORIES_SETTING_KEY))
+        if (! $onlyExisting && Setting::has('accounting.transactions.categories')) {
+            return collect(Setting::get('accounting.transactions.categories'))
                 ->sort()
                 ->toArray();
         }
@@ -186,8 +186,8 @@ class MoneyTransactionsController extends Controller
     }
 
     private static function getProjects(?bool $onlyExisting = false): array {
-        if (! $onlyExisting && Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY)) {
-            return collect(Setting::get(AccountingSettingsController::PROJECTS_SETTING_KEY))
+        if (! $onlyExisting && Setting::has('accounting.transactions.projects')) {
+            return collect(Setting::get('accounting.transactions.projects'))
                 ->sort()
                 ->toArray();
         }
@@ -283,9 +283,9 @@ class MoneyTransactionsController extends Controller
             'transaction' => $transaction,
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has(AccountingSettingsController::CATEGORIES_SETTING_KEY),
+            'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has(AccountingSettingsController::PROJECTS_SETTING_KEY),
+            'fixed_projects' => Setting::has('accounting.transactions.projects'),
         ]);
     }
 

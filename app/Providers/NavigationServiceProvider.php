@@ -15,6 +15,7 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\HomeNavigationItem::class                    => 0,
         \App\Navigation\Drawer\ReportingNavigationItem::class               => 14,
         \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class    => 15,
+        \App\Navigation\Drawer\Settings\SettingsNavigationItem::class       => 16,
         \App\Navigation\Drawer\Badges\BadgesNavigationItem::class           => 13,
         \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class => 5,
         \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class   => 7,
@@ -70,7 +71,6 @@ class NavigationServiceProvider extends ServiceProvider
         'accounting.transactions.edit'    => \App\Navigation\ContextButtons\Accounting\TransactionEditContextButtons::class,
         'accounting.webling.index'        => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,
         'accounting.webling.prepare'      => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
-        'accounting.settings.edit'        => \App\Navigation\ContextButtons\Accounting\SettingsContextButtons::class,
 
         'kb.index'                        => \App\Navigation\ContextButtons\Collaboration\IndexContextButtons::class,
         'kb.latestChanges'                => \App\Navigation\ContextButtons\Collaboration\LatestChangesContextButtons::class,
