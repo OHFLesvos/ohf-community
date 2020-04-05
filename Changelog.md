@@ -4,12 +4,15 @@
 
 * Optimized bank statistics database query
 * Google boosk api key added to .env file
+* Centralized settings view
+* Fixed issue with role permission selection
+*
 
 ## 2.12.0
 
 * Update to Laravel 7 framework
 * Code cleanup
-* Fix env variable caching
+* Fixed env variable caching
 
 ## 2.11.2
 
