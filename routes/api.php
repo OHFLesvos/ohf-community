@@ -14,6 +14,77 @@ use Illuminate\Support\Facades\Route;
 */
 
 //
+// User management
+//
+Route::middleware(['auth', 'language'])
+    ->namespace('UserManagement\API')
+    ->name('api.')
+    ->group(function () {
+        Route::apiResource('users', 'UserController');
+        Route::prefix('users/{user}')
+            ->name('users.')
+            ->group(function () {
+                Route::get('roles', 'UserController@roles')
+                    ->name('roles.index');
+                Route::prefix('relationships')
+                    ->name('relationships.')
+                    ->group(function () {
+                        Route::prefix('roles')
+                            ->name('roles.')
+                            ->group(function () {
+                                Route::get('', 'UserRoleRelationshipController@index')
+                                ->name('index');
+                                Route::post('', 'UserRoleRelationshipController@store')
+                                    ->name('store');
+                                Route::put('', 'UserRoleRelationshipController@update')
+                                    ->name('update');
+                                Route::delete('', 'UserRoleRelationshipController@destroy')
+                                    ->name('destroy');
+                            });
+                    });
+            });
+
+        Route::apiResource('roles', 'RoleController');
+        Route::prefix('roles/{role}')
+            ->name('roles.')
+            ->group(function () {
+                Route::get('users', 'RoleController@users')
+                    ->name('users.index');
+                Route::get('administrators', 'RoleController@administrators')
+                    ->name('administrators.index');
+                Route::prefix('relationships')
+                    ->name('relationships.')
+                    ->group(function () {
+                        Route::prefix('users')
+                            ->name('users.')
+                            ->group(function () {
+                                Route::get('', 'RoleUserRelationshipController@index')
+                                    ->name('index');
+                                Route::post('', 'RoleUserRelationshipController@store')
+                                    ->name('store');
+                                Route::put('', 'RoleUserRelationshipController@update')
+                                    ->name('update');
+                                Route::delete('', 'RoleUserRelationshipController@destroy')
+                                    ->name('destroy');
+                            });
+                        Route::prefix('administrators')
+                            ->name('administrators.')
+                            ->group(function () {
+                                Route::get('', 'RoleAdministratorRelationshipController@index')
+                                    ->name('index');
+                                Route::post('', 'RoleAdministratorRelationshipController@store')
+                                    ->name('store');
+                                Route::put('', 'RoleAdministratorRelationshipController@update')
+                                    ->name('update');
+                                Route::delete('', 'RoleAdministratorRelationshipController@destroy')
+                                    ->name('destroy');
+                            });
+                    });
+
+            });
+    });
+
+//
 // Fundraising
 //
 
