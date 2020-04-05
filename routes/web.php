@@ -37,6 +37,13 @@ Route::middleware('language')->group(function () {
 
     // Privacy policy
     Route::get('userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
+
+    // Settings
+    Route::get('settings', 'Settings\SettingsController@edit')
+        ->name('settings.edit');
+    Route::put('settings', 'Settings\SettingsController@update')
+        ->name('settings.update');
+
 });
 
 //

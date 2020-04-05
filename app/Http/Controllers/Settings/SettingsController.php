@@ -4,31 +4,55 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Setting;
 
-abstract class SettingsController extends Controller
+class SettingsController extends Controller
 {
-    abstract protected function getSections();
+    public const CATEGORIES_SETTING_KEY = 'accounting.transactions.categories';
+    public const PROJECTS_SETTING_KEY = 'accounting.transactions.projects';
 
-    abstract protected function getSettings();
+    protected function getSections()
+    {
+        return [
+            'accounting' => __('accounting.accounting'),
+        ];
+    }
 
-    abstract protected function getRedirectRouteName();
+    protected function getSettings()
+    {
+        return [
+            self::CATEGORIES_SETTING_KEY => [
+                'section' => 'accounting',
+                'default' => '',
+                'form_type' => 'textarea',
+                'label_key' => 'app.categories',
+                'form_help' => 'Separate items by newline',
+                'setter' => fn ($value) => preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value),
+                'getter' => fn ($value) => implode("\n", $value),
+                'authorized' => Gate::allows('configure-accounting'),
+            ],
+            self::PROJECTS_SETTING_KEY => [
+                'section' => 'accounting',
+                'default' => '',
+                'form_type' => 'textarea',
+                'label_key' => 'app.projects',
+                'form_help' => 'Separate items by newline',
+                'setter' => fn ($value) => preg_split("/(\s*[,\/|]\s*)|(\s*\n\s*)/", $value),
+                'getter' => fn ($value) => implode("\n", $value),
+                'authorized' => Gate::allows('configure-accounting'),
+            ],
+        ];
+    }
 
-    abstract protected function getUpdateRouteName();
-
-    /**
-     * View for configuring settings.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function edit()
     {
-        return view('settings', [
-            'route' => $this->getUpdateRouteName(),
+        return view('settings.edit', [
             'sections' => $this->getSections(),
             'fields' => collect($this->getSettings())
                 ->filter()
+                ->where('authorized', true)
                 ->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => self::mapSettingsField($field, $key) ]),
         ]);
     }
@@ -53,24 +77,20 @@ abstract class SettingsController extends Controller
         ];
     }
 
-    /**
-     * Update settings
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
+        $settings = collect($this->getSettings())
+            ->where('authorized', true);
+
         // Validate
         $request->validate(
-            collect($this->getSettings())
-                ->filter(fn ($field) => isset($field['form_validate']))
+            $settings->filter(fn ($field) => isset($field['form_validate']))
                 ->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => is_callable($field['form_validate']) ? $field['form_validate']() : $field['form_validate'] ])
                 ->toArray()
         );
 
         // Update
-        foreach ($this->getSettings() as $field_key => $field) {
+        foreach ($settings as $field_key => $field) {
             $value = $request->{Str::slug($field_key)};
             if ($value !== null) {
                 if (isset($field['setter']) && is_callable($field['setter'])) {
@@ -83,9 +103,8 @@ abstract class SettingsController extends Controller
         }
         Setting::save();
 
-        // Redirect
         return redirect()
-            ->route($this->getRedirectRouteName())
+            ->route('settings.edit')
             ->with('success', __('app.settings_updated'));
     }
 }
