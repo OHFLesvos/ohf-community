@@ -136,12 +136,16 @@ class SettingsController extends Controller
 
     public function edit()
     {
+        $fields = collect($this->getSettings())
+            ->where('authorized', true);
+
+        if ($fields->isEmpty()) {
+            return view('settings.empty');
+        }
+
         return view('settings.edit', [
             'sections' => $this->getSections(),
-            'fields' => collect($this->getSettings())
-                ->filter()
-                ->where('authorized', true)
-                ->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => self::mapSettingsField($field, $key) ]),
+            'fields' => $fields->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => self::mapSettingsField($field, $key) ]),
         ]);
     }
 
@@ -167,18 +171,18 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
-        $settings = collect($this->getSettings())
+        $fields = collect($this->getSettings())
             ->where('authorized', true);
 
         // Validate
         $request->validate(
-            $settings->filter(fn ($field) => isset($field['form_validate']))
+            $fields->filter(fn ($field) => isset($field['form_validate']))
                 ->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => is_callable($field['form_validate']) ? $field['form_validate']() : $field['form_validate'] ])
                 ->toArray()
         );
 
         // Update
-        foreach ($settings as $field_key => $field) {
+        foreach ($fields as $field_key => $field) {
             $value = $request->{Str::slug($field_key)};
             if ($value !== null) {
                 if (isset($field['setter']) && is_callable($field['setter'])) {

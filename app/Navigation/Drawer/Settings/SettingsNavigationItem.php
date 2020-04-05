@@ -12,7 +12,7 @@ class SettingsNavigationItem extends BaseNavigationItem
 
     protected $icon = 'cogs';
 
-    protected $active = '/settings';
+    protected $active = 'settings';
 
-    protected $authorized = true; // TODO
+    protected $authorized = true;
 }
