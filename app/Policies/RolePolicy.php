@@ -84,6 +84,6 @@ class RolePolicy
      */
     public function manageMembers(User $user, Role $role)
     {
-        return $role->administrators()->find($user->id) != null;
+        return $role->hasAdministrator($user->id);
     }
 }

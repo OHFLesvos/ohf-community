@@ -90,21 +90,4 @@ class DonationWebhookTest extends TestCase
         ]);
     }
 
-    protected function makeUserWithPermission($permission)
-    {
-        // $user = $this->createMock(User::class);
-        // $user->expects($this->any())
-        //     ->method('hasPermission')
-        //     ->with('fundraising.donations.accept_webhooks')
-        //     ->willReturn(true);
-
-        $user = factory(User::class)->make();
-        $role = factory(Role::class)->make();
-        $user->roles[0] = $role;
-        $role->permissions[0] = RolePermission::make([
-            'key' => $permission,
-        ]);
-
-        return $user;
-    }
 }

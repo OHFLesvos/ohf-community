@@ -50,6 +50,7 @@ class User extends Authenticatable implements HasLocalePreference
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_super_admin' => 'boolean',
     ];
 
     /**
@@ -62,7 +63,8 @@ class User extends Authenticatable implements HasLocalePreference
         return $this->locale;
     }
 
-    public function isSuperAdmin() {
+    public function isSuperAdmin(): bool
+    {
         return $this->is_super_admin;
     }
 
@@ -73,6 +75,13 @@ class User extends Authenticatable implements HasLocalePreference
     {
         return $this->belongsToMany(Role::class)
             ->withTimestamps();
+    }
+
+    public function hasRole(int $id): bool
+    {
+        return $this->roles()
+            ->where('roles.id', $id)
+            ->exists();
     }
 
     /**
@@ -112,5 +121,22 @@ class User extends Authenticatable implements HasLocalePreference
     public function avatarUrl(?string $profile = null): string
     {
         return $this->avatar !== null ? $this->avatar : \Gravatar::get($this->email, $profile);
+    }
+
+    /**
+     * Scope a query to only include records matching the filter.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  null|string  $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFiltered($query, ?string $filter = '')
+    {
+        $value = trim($filter);
+        if ($value == '') {
+            return $query;
+        }
+        return $query->where('name', 'LIKE', '%' . $value . '%')
+            ->orWhere('email', 'LIKE', '%' . $value . '%');
     }
 }

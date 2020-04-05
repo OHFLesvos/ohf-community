@@ -48,6 +48,13 @@ class StoreUser extends FormRequest
                 'array',
                 Rule::in(Role::select('id')->get()->pluck('id')),
             ],
+            'locale' => [
+                'nullable',
+                Rule::in(config('language.allowed')),
+            ],
+            'is_super_admin' => [
+                'boolean',
+            ],
         ];
     }
 }
