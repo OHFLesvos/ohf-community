@@ -39,7 +39,7 @@
                     @forelse($permissions as $title => $elements)
                         <div class="column-break-avoid">
                             <h5 @unless($loop->first) class="mt-3" @endunless>{{ $title == null ? __('app.general') : $title }}</h5>
-                            {{ Form::bsCheckboxList('permissions[]', $elements, $role->permissions->pluck('key')->toArray()) }}
+                            {{ Form::bsCheckboxList('permissions[]', $elements, $role->permissions->pluck('key')->filter(fn ($e) => isset($elements[$e]))->toArray()) }}
                         </div>
                     @empty
                         <em>@lang('app.no_permissions_defined')</em>

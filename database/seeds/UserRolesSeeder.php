@@ -15,9 +15,7 @@ class UserRolesSeeder extends Seeder
      */
     public function run()
     {
-        $roles = factory(Role::class, 15)->create()->each(function ($role) {
-            $role->permissions()->saveMany(factory(RolePermission::class, mt_rand(0, 5))->make());
-        });
+        $roles = factory(Role::class, 15)->create();
         factory(User::class, 100)->create()->each(function ($user) use ($roles) {
             $user->roles()->attach($roles->random(mt_rand(0, 5))->unique()->values());
         });

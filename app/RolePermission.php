@@ -20,4 +20,9 @@ class RolePermission extends Model
         return $this->belongsTo(Role::class);
     }
 
+    public function withKey(string $key): RolePermission
+    {
+        $this->key = $key;
+        return $this;
+    }
 }
