@@ -34,7 +34,7 @@ class SettingsController extends Controller
                 'default' => '',
                 'form_type' => 'textarea',
                 'label_key' => 'app.categories',
-                'form_help' => 'Separate items by newline',
+                'form_help' => __('app.separate_items_by_newline'),
                 'setter' => fn ($value) => preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value),
                 'getter' => fn ($value) => implode("\n", $value),
                 'authorized' => Gate::allows('configure-accounting'),
@@ -44,7 +44,7 @@ class SettingsController extends Controller
                 'default' => '',
                 'form_type' => 'textarea',
                 'label_key' => 'app.projects',
-                'form_help' => 'Separate items by newline',
+                'form_help' => __('app.separate_items_by_newline'),
                 'setter' => fn ($value) => preg_split("/(\s*[,\/|]\s*)|(\s*\n\s*)/", $value),
                 'getter' => fn ($value) => implode("\n", $value),
                 'authorized' => Gate::allows('configure-accounting'),
@@ -173,6 +173,18 @@ class SettingsController extends Controller
     {
         $fields = collect($this->getSettings())
             ->where('authorized', true);
+
+        // Reset
+        if ($request->has('reset')) {
+            foreach ($fields as $field_key => $field) {
+                Setting::forget($field_key);
+            }
+            Setting::save();
+
+            return redirect()
+                ->route('settings.edit')
+                ->with('success', __('app.settings_reset'));
+        }
 
         // Validate
         $request->validate(

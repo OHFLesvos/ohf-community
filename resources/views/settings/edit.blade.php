@@ -8,11 +8,15 @@
 
         @foreach($sections as $section_key => $section_label)
             @if($fields->where('section', $section_key)->count() > 0)
-                <h2 class="display-4">{{ $section_label }}</h2>
-                <div class="mb-4">
-                    @foreach($fields->where('section', $section_key) as $field_key => $field)
-                        @include('settings.field')
-                    @endforeach
+                <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                        <h2 class="display-4">{{ $section_label }}</h2>
+                    </div>
+                    <div class="col-sm-6  col-lg-8">
+                        @foreach($fields->where('section', $section_key) as $field_key => $field)
+                            @include('settings.field')
+                        @endforeach
+                    </div>
                 </div>
                 <hr>
             @endif
@@ -20,6 +24,9 @@
 
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
+            <button class="btn btn-secondary" type="submit" name="reset">
+                @icon(undo) @lang('app.reset_to_default_settings')
+            </button>
         </p>
 
     {!! Form::close() !!}
