@@ -125,7 +125,6 @@ class NavigationServiceProvider extends ServiceProvider
         'people.helpers.responsibilities.edit'   => \App\Navigation\ContextButtons\Helpers\ResponsibilitiesEditContextButtons::class,
 
         'library.lending.index'           => \App\Navigation\ContextButtons\Library\LibraryLendingIndexContextButtons::class,
-        'library.settings.edit'           => \App\Navigation\ContextButtons\Library\LibrarySettingsContextButtons::class,
         'library.lending.persons'         => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
         'library.lending.books'           => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
         'library.lending.person'          => \App\Navigation\ContextButtons\Library\LibraryLendingPersonContextButtons::class,

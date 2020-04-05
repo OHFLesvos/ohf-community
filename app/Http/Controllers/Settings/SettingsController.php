@@ -10,10 +10,13 @@ use Setting;
 
 class SettingsController extends Controller
 {
+    public const LIBRARY_DEFAULT_LENING_DURATION_DAYS = 14;
+
     protected function getSections()
     {
         return [
             'accounting' => __('accounting.accounting'),
+            'library' => __('library.library'),
         ];
     }
 
@@ -40,6 +43,24 @@ class SettingsController extends Controller
                 'getter' => fn ($value) => implode("\n", $value),
                 'authorized' => Gate::allows('configure-accounting'),
             ],
+            'library.default_lening_duration_days' => [
+                'section' => 'library',
+                'default' => self::LIBRARY_DEFAULT_LENING_DURATION_DAYS,
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'required|numeric|min:1',
+                'label_key' => 'library.default_lening_duration_days_in_days',
+                'authorized' => Gate::allows('configure-library'),
+            ],
+            'library.max_books_per_person' => [
+                'section' => 'library',
+                'default' => null,
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'nullable|numeric|min:1',
+                'label_key' => 'library.max_amount_of_books_person_can_lend',
+                'authorized' => Gate::allows('configure-library'),
+            ]
         ];
     }
 
