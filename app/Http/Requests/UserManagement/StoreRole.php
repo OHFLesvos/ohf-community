@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\UserManagement;
 
-use App\Support\Facades\PermissionRegistry;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -43,7 +42,7 @@ class StoreRole extends FormRequest
             ],
             'permissions' => [
                 'array',
-                Rule::in(PermissionRegistry::keys()),
+                Rule::in(array_keys(config('auth.permissions'))),
             ],
         ];
     }

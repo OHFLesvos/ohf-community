@@ -4,7 +4,6 @@
 
 use App\Role;
 use App\RolePermission;
-use App\Support\Facades\PermissionRegistry;
 use Faker\Generator as Faker;
 use Illuminate\Support\Arr;
 
@@ -14,7 +13,7 @@ $factory->define(Role::class, function (Faker $faker) {
     ];
 });
 $factory->afterCreating(Role::class, function ($role, $faker) {
-    $keys = PermissionRegistry::keys();
+    $keys = array_keys(config('auth.permissions'));
     $selected_keys = Arr::random($keys, mt_rand(0, min(10, count($keys))));
     $permissions = collect($selected_keys)
         ->map(fn ($key) => (new RolePermission())->withKey($key));

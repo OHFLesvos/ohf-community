@@ -3,11 +3,11 @@
 namespace App;
 
 use App\Models\Collaboration\Task;
-use App\Support\Facades\PermissionRegistry;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable implements HasLocalePreference
 {
@@ -101,16 +101,23 @@ class User extends Authenticatable implements HasLocalePreference
         );
     }
 
-    public function permissions() {
+    /**
+     * Returns a collection of the keys of all permissions this users possesses
+     *
+     * @return Collection
+     */
+    public function permissions(): Collection {
         $permissions = [];
         foreach ($this->roles as $role) {
             foreach ($role->permissions as $permission) {
                 $permissions[] = $permission;
             }
         }
-        return collect($permissions)
-            ->filter(fn ($permission) => PermissionRegistry::hasKey($permission->key))
-            ->unique();
+        return collect(config('auth.permissions'))
+            ->keys()
+            ->intersect(collect($permissions)->map(fn ($permission) => $permission->key))
+            ->unique()
+            ->values();
     }
 
     public function tasks()

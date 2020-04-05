@@ -7,7 +7,6 @@ use App\Http\Requests\UserManagement\StoreRole;
 use App\Http\Requests\UserManagement\UpdateMembers;
 use App\Role;
 use App\RolePermission;
-use App\Support\Facades\PermissionRegistry;
 use App\User;
 
 class RoleController extends Controller
@@ -43,7 +42,7 @@ class RoleController extends Controller
                 ->get()
                 ->pluck('name', 'id')
                 ->toArray(),
-            'permissions' => PermissionRegistry::getCategorizedPermissions(),
+            'permissions' => getCategorizedPermissions(),
         ]);
     }
 
@@ -61,12 +60,11 @@ class RoleController extends Controller
         $role->users()->sync($request->users);
         $role->administrators()->sync($request->role_admins);
 
-        if (isset($request->permissions)) {
-            foreach ($request->permissions as $k) {
-                $permission = new RolePermission();
-                $permission->key = $k;
-                $role->permissions()->save($permission);
-            }
+        $requested_keys = collect($request->input('permissions', []));
+        if ($requested_keys->isNotEmpty()) {
+            $selected_permissions = $requested_keys
+                ->map(fn ($key) => (new RolePermission())->withKey($key));
+            $role->permissions()->saveMany($selected_permissions);
         }
 
         return redirect()
@@ -84,7 +82,7 @@ class RoleController extends Controller
     {
         $current_permissions = $role->permissions->pluck('key');
         $permissions = [];
-        foreach (PermissionRegistry::getCategorizedPermissions() as $title => $elements) {
+        foreach (getCategorizedPermissions() as $title => $elements) {
             foreach ($elements as $key => $label) {
                 if ($current_permissions->contains($key)) {
                     $permissions[$title][] = $label;
@@ -112,7 +110,7 @@ class RoleController extends Controller
                 ->get()
                 ->pluck('name', 'id')
                 ->toArray(),
-            'permissions' => PermissionRegistry::getCategorizedPermissions(),
+            'permissions' => getCategorizedPermissions(),
         ]);
     }
 
@@ -130,27 +128,27 @@ class RoleController extends Controller
         $role->users()->sync($request->users);
         $role->administrators()->sync($request->role_admins);
 
-        if (isset($request->permissions)) {
-            foreach ($request->permissions as $k) {
-                if (! $role->permissions->contains(fn ($value, $key) => $value->key == $k)) {
-                    $permission = new RolePermission();
-                    $permission->key = $k;
-                    $role->permissions()->save($permission);
-                }
-            }
+        // Save requested permissions
+        $requested_keys = collect($request->input('permissions', []));
+        if ($requested_keys->isNotEmpty()) {
+            $selected_permissions = $requested_keys
+                ->filter(fn ($key) => ! $role->permissions->contains('key', $key))
+                ->map(fn ($key) => (new RolePermission())->withKey($key));
+            $role->permissions()->saveMany($selected_permissions);
         }
-        foreach (PermissionRegistry::collection()->keys() as $key) {
-            if (! in_array($key, isset($request->permissions) ? $request->permissions : [])) {
-                RolePermission::where('key', $key)
-                    ->where('role_id', $role->id)
-                    ->delete();
-            }
-        }
-        $valid_keys = PermissionRegistry::collection()->keys();
-        $ids_to_delete = $role->permissions->whereNotIn('key', $valid_keys)
-            ->pluck('id')
+
+        // Remove non-requested permissions
+        $valid_keys = array_keys(config('auth.permissions'));
+        $not_requested_keys = collect($valid_keys)
+            ->filter(fn ($key) => ! $requested_keys->contains($key))
             ->toArray();
-        RolePermission::destroy($ids_to_delete);
+        RolePermission::whereIn('key', $not_requested_keys)
+            ->where('role_id', $role->id)
+            ->delete();
+
+        // Remove invalid permissions
+        $role->permissions()->whereNotIn('key', $valid_keys)
+            ->delete();
 
         return redirect()
             ->route('roles.show', $role)
@@ -177,7 +175,7 @@ class RoleController extends Controller
     public function permissions()
     {
         return view('user_management.roles.permission_report', [
-            'permissions' => PermissionRegistry::getCategorizedPermissions(),
+            'permissions' => getCategorizedPermissions(),
         ]);
     }
 

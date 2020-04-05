@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserManagement\StoreUser;
 use App\Http\Requests\UserManagement\UpdateUser;
 use App\Role;
-use App\Support\Facades\PermissionRegistry;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -91,9 +90,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $current_permissions = $user->permissions()->pluck('key');
+        $current_permissions = $user->permissions();
         $permissions = [];
-        foreach (PermissionRegistry::getCategorizedPermissions() as $title => $elements) {
+        foreach (getCategorizedPermissions() as $title => $elements) {
             foreach ($elements as $key => $label) {
                 if ($current_permissions->contains($key)) {
                     $permissions[$title][] = $label;
@@ -167,7 +166,7 @@ class UserController extends Controller
     public function permissions()
     {
         return view('user_management.users.permission_report', [
-            'permissions' => PermissionRegistry::getCategorizedPermissions(),
+            'permissions' => getCategorizedPermissions(),
         ]);
     }
 
@@ -176,12 +175,15 @@ class UserController extends Controller
      */
     public function sensitiveDataReport()
     {
+        $available_permissions = collect(config('auth.permissions'));
+        $sensitive_permissions = $available_permissions->where('sensitive', true);
+
         return view('user_management.users.privacy_report', [
-            'permissions' => PermissionRegistry::collection(),
-            'sensitivePermissions' => PermissionRegistry::collection(true),
+            'permissions' => $available_permissions->map(fn ($p) => __($p['label'])),
+            'sensitivePermissions' => $sensitive_permissions->map(fn ($p) => __($p['label'])),
             'users' => User::orderBy('name')
                 ->get()
-                ->filter(fn ($user) => $user->isSuperAdmin() || $user->permissions()->contains(fn ($permission) => PermissionRegistry::hasKey($permission->key, true))),
+                ->filter(fn (User $user) => $user->isSuperAdmin() || $user->permissions()->contains(fn ($permission) => $sensitive_permissions->keys()->contains($permission))),
         ]);
     }
 

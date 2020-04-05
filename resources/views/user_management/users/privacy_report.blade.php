@@ -12,12 +12,12 @@
                         <div class="col-sm">
                             <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a><br>
                             @empty($user->tfa_secret)
-                                <small class="text-danger">@lang('userprofile.2FA_inactive')</small>
+                                <small class="text-warning">@icon(ticket-alt) @lang('userprofile.2FA_inactive')</small>
                             @else
-                                <small class="text-success">@lang('userprofile.2FA_active')</small>
+                                <small class="text-success">@icon(ticket-alt) @lang('userprofile.2FA_active')</small>
                             @endempty
                             @if($user->isSuperAdmin())
-                                <small class="text-info">@lang('app.administrator')</small>
+                                <br><small class="text-danger">@icon(user-tie) @lang('app.administrator')</small>
                             @endif
                     </div>
                         <div class="col-sm mt-2 mt-sm-0">
@@ -27,8 +27,8 @@
                                         <li class="mt-1 mt-md-0">{{ $permission }}</li>
                                     @endforeach
                                 @else
-                                    @foreach($user->permissions()->filter(fn ($p) => isset($sensitivePermissions[$p->key])) as $permission)
-                                        <li class="mt-1 mt-md-0">{{ $sensitivePermissions[$permission->key] }}</li>
+                                    @foreach($user->permissions()->filter(fn ($p) => isset($sensitivePermissions[$p])) as $permission)
+                                        <li class="mt-1 mt-md-0">{{ $sensitivePermissions[$permission] }}</li>
                                     @endforeach
                                 @endif
                             </ul>
