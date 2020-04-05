@@ -2,34 +2,150 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Http\Controllers\Bank\Reporting\BankReportingController;
 use App\Http\Controllers\Controller;
+use App\Models\Bank\CouponType;
+use App\Models\Collaboration\WikiArticle;
+use App\Models\People\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Setting;
 
-abstract class SettingsController extends Controller
+class SettingsController extends Controller
 {
-    abstract protected function getSections();
+    public const LIBRARY_DEFAULT_LENING_DURATION_DAYS = 14;
 
-    abstract protected function getSettings();
+    protected function getSections()
+    {
+        return [
+            'accounting' => __('accounting.accounting'),
+            'bank' => __('bank.bank'),
+            'shop' => __('shop.shop'),
+            'library' => __('library.library'),
+        ];
+    }
 
-    abstract protected function getRedirectRouteName();
+    protected function getSettings()
+    {
+        return [
+            'accounting.transactions.categories' => [
+                'section' => 'accounting',
+                'default' => '',
+                'form_type' => 'textarea',
+                'label_key' => 'app.categories',
+                'form_help' => __('app.separate_items_by_newline'),
+                'setter' => fn ($value) => preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value),
+                'getter' => fn ($value) => implode("\n", $value),
+                'authorized' => Gate::allows('configure-accounting'),
+            ],
+            'accounting.transactions.projects' => [
+                'section' => 'accounting',
+                'default' => '',
+                'form_type' => 'textarea',
+                'label_key' => 'app.projects',
+                'form_help' => __('app.separate_items_by_newline'),
+                'setter' => fn ($value) => preg_split("/(\s*[,\/|]\s*)|(\s*\n\s*)/", $value),
+                'getter' => fn ($value) => implode("\n", $value),
+                'authorized' => Gate::allows('configure-accounting'),
+            ],
+            'bank.undo_coupon_handout_grace_period' => [
+                'section' => 'bank',
+                'default' => config('bank.undo_coupon_handout_grace_period'),
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'required|numeric|min:1',
+                'label_key' => 'coupons.undo_coupon_handout_grace_period_seconds',
+                'authorized' => Gate::allows('configure-bank'),
+            ],
+            'bank.frequent_visitor_weeks' => [
+                'section' => 'bank',
+                'default' => config('bank.frequent_visitor_weeks'),
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'required|numeric|min:1',
+                'label_key' => 'people.number_of_weeks',
+                'include_pre' => 'bank.settings.frequent_visitors_explanation',
+                'authorized' => Gate::allows('configure-bank'),
+            ],
+            'bank.frequent_visitor_threshold' => [
+                'section' => 'bank',
+                'default' => config('bank.frequent_visitor_threshold'),
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'required|numeric|min:1',
+                'label_key' => 'people.min_number_of_visits',
+                'include_post' => [
+                    'bank.settings.frequent_visitors_affected', [
+                        'current_num_people' => Person::count(),
+                        'current_num_frequent_visitors' => BankReportingController::getNumberOfFrequentVisitors(),
+                    ],
+                ],
+                'authorized' => Gate::allows('configure-bank'),
+            ],
+            'bank.help_article' => [
+                'section' => 'bank',
+                'default' => null,
+                'form_type' => 'select',
+                'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),
+                'form_placeholder' => __('wiki.select_article'),
+                'form_validate' => 'nullable|exists:kb_articles,id',
+                'label_key' => 'wiki.help_article',
+                'authorized' => Gate::allows('configure-bank'),
+            ],
+            'shop.coupon_type' => [
+                'section' => 'shop',
+                'default' => null,
+                'form_type' => 'select',
+                'form_list' => CouponType::orderBy('name')->where('qr_code_enabled', true)->get()->pluck('name', 'id')->toArray(),
+                'form_placeholder' => __('people.select_coupon_type'),
+                'form_validate' => 'nullable|exists:coupon_types,id',
+                'label_key' => 'coupons.coupon',
+                'authorized' => Gate::allows('configure-shop'),
+            ],
+            'shop.help_article' => [
+                'section' => 'shop',
+                'default' => null,
+                'form_type' => 'select',
+                'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),
+                'form_placeholder' => __('wiki.select_article'),
+                'form_validate' => 'nullable|exists:kb_articles,id',
+                'label_key' => 'wiki.help_article',
+                'authorized' => Gate::allows('configure-shop'),
+            ],
+            'library.default_lening_duration_days' => [
+                'section' => 'library',
+                'default' => self::LIBRARY_DEFAULT_LENING_DURATION_DAYS,
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'required|numeric|min:1',
+                'label_key' => 'library.default_lening_duration_days_in_days',
+                'authorized' => Gate::allows('configure-library'),
+            ],
+            'library.max_books_per_person' => [
+                'section' => 'library',
+                'default' => null,
+                'form_type' => 'number',
+                'form_args' => [ 'min' => 1 ],
+                'form_validate' => 'nullable|numeric|min:1',
+                'label_key' => 'library.max_amount_of_books_person_can_lend',
+                'authorized' => Gate::allows('configure-library'),
+            ]
+        ];
+    }
 
-    abstract protected function getUpdateRouteName();
-
-    /**
-     * View for configuring settings.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function edit()
     {
-        return view('settings', [
-            'route' => $this->getUpdateRouteName(),
+        $fields = collect($this->getSettings())
+            ->where('authorized', true);
+
+        if ($fields->isEmpty()) {
+            return view('settings.empty');
+        }
+
+        return view('settings.edit', [
             'sections' => $this->getSections(),
-            'fields' => collect($this->getSettings())
-                ->filter()
-                ->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => self::mapSettingsField($field, $key) ]),
+            'fields' => $fields->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => self::mapSettingsField($field, $key) ]),
         ]);
     }
 
@@ -53,24 +169,32 @@ abstract class SettingsController extends Controller
         ];
     }
 
-    /**
-     * Update settings
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
+        $fields = collect($this->getSettings())
+            ->where('authorized', true);
+
+        // Reset
+        if ($request->has('reset')) {
+            foreach ($fields as $field_key => $field) {
+                Setting::forget($field_key);
+            }
+            Setting::save();
+
+            return redirect()
+                ->route('settings.edit')
+                ->with('success', __('app.settings_reset'));
+        }
+
         // Validate
         $request->validate(
-            collect($this->getSettings())
-                ->filter(fn ($field) => isset($field['form_validate']))
+            $fields->filter(fn ($field) => isset($field['form_validate']))
                 ->mapWithKeys(fn ($field, $key) => [ Str::slug($key) => is_callable($field['form_validate']) ? $field['form_validate']() : $field['form_validate'] ])
                 ->toArray()
         );
 
         // Update
-        foreach ($this->getSettings() as $field_key => $field) {
+        foreach ($fields as $field_key => $field) {
             $value = $request->{Str::slug($field_key)};
             if ($value !== null) {
                 if (isset($field['setter']) && is_callable($field['setter'])) {
@@ -83,9 +207,8 @@ abstract class SettingsController extends Controller
         }
         Setting::save();
 
-        // Redirect
         return redirect()
-            ->route($this->getRedirectRouteName())
+            ->route('settings.edit')
             ->with('success', __('app.settings_updated'));
     }
 }

@@ -21,12 +21,6 @@ class ShopContextButtons implements ContextButtons
                 'icon' => 'ticket-alt',
                 'authorized' => Gate::allows('validate-shop-coupons'),
             ],
-            'settings' => [
-                'url' => route('shop.settings.edit'),
-                'caption' => __('app.settings'),
-                'icon' => 'cogs',
-                'authorized' => Gate::allows('configure-shop'),
-            ],
             'help' => $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),
                 'caption' => null,

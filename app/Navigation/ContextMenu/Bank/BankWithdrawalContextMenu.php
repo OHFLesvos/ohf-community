@@ -36,12 +36,6 @@ class BankWithdrawalContextMenu implements ContextMenu
                 'icon' => 'ticket-alt',
                 'authorized' => Gate::allows('configure-bank'),
             ],
-            [
-                'url' => route('bank.settings.edit'),
-                'caption' => __('app.settings'),
-                'icon' => 'cogs',
-                'authorized' => Gate::allows('configure-bank'),
-            ],
         ];
     }
 

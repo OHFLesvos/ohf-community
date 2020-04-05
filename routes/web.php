@@ -37,6 +37,13 @@ Route::middleware('language')->group(function () {
 
     // Privacy policy
     Route::get('userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
+
+    // Settings
+    Route::get('settings', 'Settings\SettingsController@edit')
+        ->name('settings.edit');
+    Route::put('settings', 'Settings\SettingsController@update')
+        ->name('settings.update');
+
 });
 
 //
@@ -186,14 +193,6 @@ Route::middleware(['language', 'auth'])
             ->name('webling.store');
         Route::get('webling/sync', 'WeblingApiController@sync')
             ->name('webling.sync');
-
-        // Settings
-        Route::get('settings', 'AccountingSettingsController@edit')
-            ->name('settings.edit')
-            ->middleware(['can:configure-accounting']);
-        Route::put('settings', 'AccountingSettingsController@update')
-            ->name('settings.update')
-            ->middleware(['can:configure-accounting']);
     });
 
 //
@@ -324,17 +323,6 @@ Route::middleware(['auth', 'language'])
                 Route::resource('people', 'PeopleController')
                     ->except(['index', 'store', 'update']);
 
-                // Settings
-                Route::middleware('can:configure-bank')
-                    ->namespace('Settings')
-                    ->name('settings.')
-                    ->group(function () {
-                        Route::get('settings', 'BankSettingsController@edit')
-                            ->name('edit');
-                        Route::put('settings', 'BankSettingsController@update')
-                            ->name('update');
-                    });
-
                 // Maintenance
                 Route::middleware('can:cleanup,App\Models\People\Person')
                     ->group(function () {
@@ -464,9 +452,6 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::get('lending/book/{book}/log', 'LendingController@bookLog')->name('lending.bookLog');
 
         Route::resource('books', 'BookController');
-
-        Route::get('settings', 'LibrarySettingsController@edit')->name('settings.edit')->middleware(['can:configure-library']);
-        Route::put('settings', 'LibrarySettingsController@update')->name('settings.update')->middleware(['can:configure-library']);
     });
 
 //
@@ -481,9 +466,5 @@ Route::middleware(['auth', 'language'])
         Route::middleware(['can:validate-shop-coupons'])->group(function () {
             Route::view('/', 'shop.index')->name('index');
             Route::view('manageCards', 'shop.manageCards')->name('manageCards');
-        });
-        Route::middleware(['can:configure-shop'])->group(function () {
-            Route::get('settings', 'SettingsController@edit')->name('settings.edit');
-            Route::put('settings', 'SettingsController@update')->name('settings.update');
         });
     });
