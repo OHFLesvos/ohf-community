@@ -137,7 +137,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,
         'shop.manageCards'                => \App\Navigation\ContextButtons\Shop\ShopManageCardsContextButtons::class,
-        'shop.settings.edit'              => \App\Navigation\ContextButtons\Shop\ShopSettingsContextButtons::class,
     ];
 
     /**

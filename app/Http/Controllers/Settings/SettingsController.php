@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bank\CouponType;
+use App\Models\Collaboration\WikiArticle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -16,6 +18,7 @@ class SettingsController extends Controller
     {
         return [
             'accounting' => __('accounting.accounting'),
+            'shop' => __('shop.shop'),
             'library' => __('library.library'),
         ];
     }
@@ -42,6 +45,26 @@ class SettingsController extends Controller
                 'setter' => fn ($value) => preg_split("/(\s*[,\/|]\s*)|(\s*\n\s*)/", $value),
                 'getter' => fn ($value) => implode("\n", $value),
                 'authorized' => Gate::allows('configure-accounting'),
+            ],
+            'shop.coupon_type' => [
+                'section' => 'shop',
+                'default' => null,
+                'form_type' => 'select',
+                'form_list' => CouponType::orderBy('name')->where('qr_code_enabled', true)->get()->pluck('name', 'id')->toArray(),
+                'form_placeholder' => __('people.select_coupon_type'),
+                'form_validate' => 'nullable|exists:coupon_types,id',
+                'label_key' => 'coupons.coupon',
+                'authorized' => Gate::allows('configure-shop'),
+            ],
+            'shop.help_article' => [
+                'section' => 'shop',
+                'default' => null,
+                'form_type' => 'select',
+                'form_list' => WikiArticle::orderBy('title')->get()->pluck('title', 'id')->toArray(),
+                'form_placeholder' => __('wiki.select_article'),
+                'form_validate' => 'nullable|exists:kb_articles,id',
+                'label_key' => 'wiki.help_article',
+                'authorized' => Gate::allows('configure-shop'),
             ],
             'library.default_lening_duration_days' => [
                 'section' => 'library',

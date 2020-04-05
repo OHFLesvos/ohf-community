@@ -478,8 +478,4 @@ Route::middleware(['auth', 'language'])
             Route::view('/', 'shop.index')->name('index');
             Route::view('manageCards', 'shop.manageCards')->name('manageCards');
         });
-        Route::middleware(['can:configure-shop'])->group(function () {
-            Route::get('settings', 'SettingsController@edit')->name('settings.edit');
-            Route::put('settings', 'SettingsController@update')->name('settings.update');
-        });
     });
