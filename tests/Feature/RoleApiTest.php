@@ -44,15 +44,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'data' => [
-
-                ],
-                'links' => [
-                    'self' => route('api.roles.index'),
-                ],
-                'meta' => [
-                    'total' => 0,
-                ],
+                'data' => [ ],
             ]);
     }
 
@@ -84,23 +76,15 @@ class RoleApiTest extends TestCase
                                     'related' => route('api.roles.administrators.index', $role),
                                     'self' => route('api.roles.relationships.administrators.index', $role),
                                 ],
-                                'total' => 0,
                             ],
                             'users' => [
                                 'links' => [
                                     'related' =>route('api.roles.users.index', $role),
                                     'self' => route('api.roles.relationships.users.index', $role),
                                 ],
-                                'total' => 0,
                             ],
                         ],
                     ],
-                ],
-                'links' => [
-                    'self' => route('api.roles.index'),
-                ],
-                'meta' => [
-                    'total' => 1,
                 ],
             ]);
     }
@@ -310,25 +294,23 @@ class RoleApiTest extends TestCase
                     'name' => $role->name,
                     'created_at' => $role->created_at,
                     'updated_at' => $role->updated_at,
-                ],
-                'links' => [
-                    'parent' => route('api.roles.index'),
-                    'self' => route('api.roles.show', $role),
-                ],
-                'relationships' => [
-                    'administrators' => [
-                        'links' => [
-                            'related' => route('api.roles.administrators.index', $role),
-                            'self' => route('api.roles.relationships.administrators.index', $role),
-                        ],
-                        'total' => 0,
+                    'links' => [
+                        'parent' => route('api.roles.index'),
+                        'self' => route('api.roles.show', $role),
                     ],
-                    'users' => [
-                        'links' => [
-                            'related' =>route('api.roles.users.index', $role),
-                            'self' => route('api.roles.relationships.users.index', $role),
+                    'relationships' => [
+                        'administrators' => [
+                            'links' => [
+                                'related' => route('api.roles.administrators.index', $role),
+                                'self' => route('api.roles.relationships.administrators.index', $role),
+                            ],
                         ],
-                        'total' => 0,
+                        'users' => [
+                            'links' => [
+                                'related' =>route('api.roles.users.index', $role),
+                                'self' => route('api.roles.relationships.users.index', $role),
+                            ],
+                        ],
                     ],
                 ],
             ]);

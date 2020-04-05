@@ -64,9 +64,6 @@ class RoleUserApiTest extends TestCase
         $response->assertOk()
             ->assertExactJson([
                 'data' => [ ],
-                'links' => [
-                    'self' => route('api.users.index'),
-                ],
             ]);
     }
 
@@ -111,7 +108,6 @@ class RoleUserApiTest extends TestCase
                                     'related' =>route('api.users.roles.index', $user1),
                                     'self' => route('api.users.relationships.roles.index', $user1),
                                 ],
-                                'total' => 1,
                             ],
                         ],
                     ],
@@ -136,13 +132,9 @@ class RoleUserApiTest extends TestCase
                                     'related' =>route('api.users.roles.index', $user2),
                                     'self' => route('api.users.relationships.roles.index', $user2),
                                 ],
-                                'total' => 1,
                             ],
                         ],
                     ]
-                ],
-                'links' => [
-                    'self' => route('api.users.index'),
                 ],
             ]);
     }

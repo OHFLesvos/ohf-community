@@ -52,7 +52,6 @@ class UserApiTest extends TestCase
                     'last' => route('api.users.index') . '?page=1',
                     'prev' => null,
                     'next' => null,
-                    'self' => route('api.users.index'),
                 ],
                 'meta' => [
                     'current_page' => 1,
@@ -100,7 +99,6 @@ class UserApiTest extends TestCase
                                     'related' =>route('api.users.roles.index', $user),
                                     'self' => route('api.users.relationships.roles.index', $user),
                                 ],
-                                'total' => 0,
                             ],
                         ],
                     ],
@@ -403,18 +401,17 @@ class UserApiTest extends TestCase
                     'provider_name' => $user->provider_name,
                     'created_at' => $user->created_at->toJSON(),
                     'updated_at' => $user->updated_at->toJSON(),
-                ],
-                'links' => [
-                    'parent' => route('api.users.index'),
-                    'self' => route('api.users.show', $user),
-                ],
-                'relationships' => [
-                    'roles' => [
-                        'links' => [
-                            'related' =>route('api.users.roles.index', $user),
-                            'self' => route('api.users.relationships.roles.index', $user),
+                    'links' => [
+                        'parent' => route('api.users.index'),
+                        'self' => route('api.users.show', $user),
+                    ],
+                    'relationships' => [
+                        'roles' => [
+                            'links' => [
+                                'related' =>route('api.users.roles.index', $user),
+                                'self' => route('api.users.relationships.roles.index', $user),
+                            ],
                         ],
-                        'total' => 0,
                     ],
                 ],
             ]);

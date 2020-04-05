@@ -22,14 +22,6 @@ class Role extends JsonResource
             'name' => $this->name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'links' => $this->when($this->includeLinks, $this->links()),
-            'relationships' => $this->when($this->includeRelationships, $this->relationships()),
-        ];
-    }
-
-    public function with($request)
-    {
-        return [
             'links' => $this->links(),
             'relationships' => $this->relationships(),
         ];
@@ -51,14 +43,14 @@ class Role extends JsonResource
                     'self' => route('api.roles.relationships.users.index', $this->resource),
                     'related' => route('api.roles.users.index', $this->resource),
                 ],
-                'total' => $this->resource->users->count(),
+                // 'total' => $this->resource->users->count(),
             ],
             'administrators' => [
                 'links' => [
                     'self' => route('api.roles.relationships.administrators.index', $this->resource),
                     'related' => route('api.roles.administrators.index', $this->resource),
                 ],
-                'total' => $this->resource->administrators->count(),
+                // 'total' => $this->resource->administrators->count(),
             ],
         ];
     }

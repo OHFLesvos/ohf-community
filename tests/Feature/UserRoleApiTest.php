@@ -64,12 +64,6 @@ class UserRoleApiTest extends TestCase
         $response->assertOk()
             ->assertExactJson([
                 'data' => [ ],
-                'links' => [
-                    'self' => route('api.roles.index'),
-                ],
-                'meta' => [
-                    'total' => 0,
-                ],
             ]);
     }
 
@@ -108,14 +102,12 @@ class UserRoleApiTest extends TestCase
                                     'related' => route('api.roles.administrators.index', $role1),
                                     'self' => route('api.roles.relationships.administrators.index', $role1),
                                 ],
-                                'total' => 0,
                             ],
                             'users' => [
                                 'links' => [
                                     'related' =>route('api.roles.users.index', $role1),
                                     'self' => route('api.roles.relationships.users.index', $role1),
                                 ],
-                                'total' => 1,
                             ],
                         ],
                     ],
@@ -134,23 +126,15 @@ class UserRoleApiTest extends TestCase
                                     'related' => route('api.roles.administrators.index', $role2),
                                     'self' => route('api.roles.relationships.administrators.index', $role2),
                                 ],
-                                'total' => 0,
                             ],
                             'users' => [
                                 'links' => [
                                     'related' =>route('api.roles.users.index', $role2),
                                     'self' => route('api.roles.relationships.users.index', $role2),
                                 ],
-                                'total' => 1,
                             ],
                         ],
                     ]
-                ],
-                'links' => [
-                    'self' => route('api.roles.index'),
-                ],
-                'meta' => [
-                    'total' => 2,
                 ],
             ]);
     }

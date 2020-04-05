@@ -6,9 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class User extends JsonResource
 {
-    public $includeLinks = false;
-    public $includeRelationships = false;
-
     /**
      * Transform the resource into an array.
      *
@@ -28,14 +25,6 @@ class User extends JsonResource
             'provider_name' => $this->provider_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'links' => $this->when($this->includeLinks, $this->links()),
-            'relationships' => $this->when($this->includeRelationships, $this->relationships()),
-        ];
-    }
-
-    public function with($request)
-    {
-        return [
             'links' => $this->links(),
             'relationships' => $this->relationships(),
         ];
@@ -57,7 +46,6 @@ class User extends JsonResource
                     'self' => route('api.users.relationships.roles.index', $this->resource),
                     'related' => route('api.users.roles.index', $this->resource),
                 ],
-                'total' => $this->resource->roles->count(),
             ],
         ];
     }
