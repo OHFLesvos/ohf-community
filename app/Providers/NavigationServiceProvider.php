@@ -98,7 +98,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
         'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
-        'bank.settings.edit'              => \App\Navigation\ContextButtons\Bank\BankSettingsContextButtons::class,
         'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
         'bank.maintenance'                => \App\Navigation\ContextButtons\Bank\BankMaintenanceContextButtons::class,
         'bank.export'                     => \App\Navigation\ContextButtons\Bank\BankExportContextButtons::class,

@@ -323,17 +323,6 @@ Route::middleware(['auth', 'language'])
                 Route::resource('people', 'PeopleController')
                     ->except(['index', 'store', 'update']);
 
-                // Settings
-                Route::middleware('can:configure-bank')
-                    ->namespace('Settings')
-                    ->name('settings.')
-                    ->group(function () {
-                        Route::get('settings', 'BankSettingsController@edit')
-                            ->name('edit');
-                        Route::put('settings', 'BankSettingsController@update')
-                            ->name('update');
-                    });
-
                 // Maintenance
                 Route::middleware('can:cleanup,App\Models\People\Person')
                     ->group(function () {
