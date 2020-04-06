@@ -217,6 +217,7 @@ return [
     'settings_updated' => 'Einstellungen wurden aktualisiert.',
     'settings_reset' => 'Einstellungen wurden zurückgesetzt.',
     'reset_to_default_settings' => 'Auf Standardeinstellungen zurücksetzen',
+    'confirm_reset_to_default_settings' => 'Wirklich auf Standardeinstellungen zurücksetzen?',
     'not_configured' => 'Nicht konfiguriert.',
     'view_list' => 'Liste anzeigen',
     'source' => 'Quelle',

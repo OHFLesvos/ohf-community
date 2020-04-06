@@ -217,6 +217,7 @@ return [
     'settings_updated' => 'Settings have been updated.',
     'settings_reset' => 'Settings has been reset.',
     'reset_to_default_settings' => 'Reset to default settings',
+    'confirm_reset_to_default_settings' => 'Really reset to default settings?',
     'not_configured' => 'Not configured.',
     'view_list' => 'View list',
     'source' => 'Source',

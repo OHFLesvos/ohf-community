@@ -267,6 +267,7 @@ export default {
             "settings_updated": "Einstellungen wurden aktualisiert.",
             "settings_reset": "Einstellungen wurden zurückgesetzt.",
             "reset_to_default_settings": "Auf Standardeinstellungen zurücksetzen",
+            "confirm_reset_to_default_settings": "Wirklich auf Standardeinstellungen zurücksetzen?",
             "not_configured": "Nicht konfiguriert.",
             "view_list": "Liste anzeigen",
             "source": "Quelle",
@@ -372,7 +373,8 @@ export default {
             "data": "Daten",
             "valid_for_n_days": "Gültig für einen Tag.|Gültig für {days} Tage.",
             "no_records_matching_your_request": "Keine Datensätze entsprechen deiner Anfrage.",
-            "only_letters_and_numbers_allowed": "Nur Zahlen und Nummern erlaubt!"
+            "only_letters_and_numbers_allowed": "Nur Zahlen und Nummern erlaubt!",
+            "logo": "Logo"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1339,6 +1341,7 @@ export default {
             "settings_updated": "Settings have been updated.",
             "settings_reset": "Settings has been reset.",
             "reset_to_default_settings": "Reset to default settings",
+            "confirm_reset_to_default_settings": "Really reset to default settings?",
             "not_configured": "Not configured.",
             "view_list": "View list",
             "source": "Source",
@@ -1444,7 +1447,8 @@ export default {
             "data": "Data",
             "valid_for_n_days": "Valid for one day.|Valid for {days} days.",
             "no_records_matching_your_request": "There are no records matching your request.",
-            "only_letters_and_numbers_allowed": "Only letters and numbers are allowed!"
+            "only_letters_and_numbers_allowed": "Only letters and numbers are allowed!",
+            "logo": "Logo"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
