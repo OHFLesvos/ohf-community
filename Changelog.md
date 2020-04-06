@@ -1,12 +1,12 @@
 # Changelog
 
-## NEXT
+## 2.12.1
 
 * Optimized bank statistics database query
 * Google boosk api key added to .env file
 * Centralized settings view
 * Fixed issue with role permission selection
-*
+* Fixed an issue on privacy policy page if invalid locale is selected
 
 ## 2.12.0
 
