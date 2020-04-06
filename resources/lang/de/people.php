@@ -30,6 +30,7 @@ return [
     'find_duplicates' => 'Duplikate finden',
     'code_card' => 'Codekarte',
     'code_cards' => 'Codekarten',
+    'label_on_code_card' => 'Text auf Codekarte',
     'not_yet_served_any_persons' => 'Heute wurden noch keine Personen bedient.',
     'num_persons_served_handing_out_coupons' => 'Heute haben wir <strong>:persons</strong> Personen bedient und <strong>:coupons</strong> Coupons ausgehändigt.',
     'person_deleted' => 'Person gelöscht',

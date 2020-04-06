@@ -8,7 +8,7 @@
                 font-family: sans-serif;
                 margin-bottom: 0;
             }
-            
+
             table {
                 border-collapse: collapse;
             }
@@ -48,7 +48,9 @@
                 </td>
                 <td class="logo-cell">
                     <img src="data:image/png;base64,{{ $logo }}" style="width: 300px">
-                    <br><span style="font-size: 0.6em; color: #333;">www.ohf-lesvos.org</span>
+                    @if(Setting::has('bank.code_card.label'))
+                    <br><span style="font-size: 0.6em; color: #333;">{{ Setting::get('bank.code_card.label') }}</span>
+                    @endif
                 </td>
                 @if($loop->index % 2 == 1)
                 </tr>

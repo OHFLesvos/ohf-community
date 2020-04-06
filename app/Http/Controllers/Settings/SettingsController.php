@@ -83,6 +83,14 @@ class SettingsController extends Controller
                 ],
                 'authorized' => Gate::allows('configure-bank'),
             ],
+            'bank.code_card.label' => [
+                'section' => 'bank',
+                'default' => '',
+                'form_type' => 'text',
+                'form_validate' => 'nullable',
+                'label_key' => 'people.label_on_code_card',
+                'authorized' => Gate::allows('configure-bank'),
+            ],
             'bank.help_article' => [
                 'section' => 'bank',
                 'default' => null,
