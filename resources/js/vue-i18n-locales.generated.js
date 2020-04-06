@@ -376,7 +376,8 @@ export default {
             "only_letters_and_numbers_allowed": "Nur Zahlen und Nummern erlaubt!",
             "logo": "Logo",
             "common": "Allgemein",
-            "image_will_be_visible_e_g_on_login_screen": "Das Bild wird z.B. auf der Loginmaske angezeigt werden"
+            "image_will_be_visible_e_g_on_login_screen": "Das Bild wird z.B. auf der Loginmaske angezeigt werden",
+            "signet": "Signet"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1452,7 +1453,8 @@ export default {
             "only_letters_and_numbers_allowed": "Only letters and numbers are allowed!",
             "logo": "Logo",
             "common": "Common",
-            "image_will_be_visible_e_g_on_login_screen": "The image will be visible e.g. on the login screen"
+            "image_will_be_visible_e_g_on_login_screen": "The image will be visible e.g. on the login screen",
+            "signet": "Signet"
         },
         "auth": {
             "failed": "These credentials do not match our records.",

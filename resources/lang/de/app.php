@@ -327,4 +327,5 @@ return [
     'logo' => 'Logo',
     'common' => 'Allgemein',
     'image_will_be_visible_e_g_on_login_screen' => 'Das Bild wird z.B. auf der Loginmaske angezeigt werden',
+    'signet' => 'Signet',
 ];

@@ -6,7 +6,7 @@ use App\Settings\BaseSettingsField;
 use Gumlet\ImageResize;
 use Illuminate\Support\Facades\Gate;
 
-class LogoFile extends BaseSettingsField
+class SignetFile extends BaseSettingsField
 {
     public function section(): string
     {
@@ -15,7 +15,7 @@ class LogoFile extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.logo');
+        return __('app.signet');
     }
 
     public function defaultValue()
@@ -43,11 +43,6 @@ class LogoFile extends BaseSettingsField
         ];
     }
 
-    public function formHelp(): ?string
-    {
-        return __('app.image_will_be_visible_e_g_on_login_screen');
-    }
-
     public function formFilePath(): ?string
     {
         return 'public/common';
@@ -56,7 +51,7 @@ class LogoFile extends BaseSettingsField
     public function setter($value)
     {
         $image = new ImageResize($value->getRealPath());
-        $image->resizeToBestFit(1000, 1000, true);
+        $image->resizeToBestFit(30, 30, true);
         $image->save($value->getRealPath());
         return $value;
     }

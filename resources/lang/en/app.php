@@ -327,4 +327,5 @@ return [
     'logo' => 'Logo',
     'common' => 'Common',
     'image_will_be_visible_e_g_on_login_screen' => 'The image will be visible e.g. on the login screen',
+    'signet' => 'Signet',
  ];

@@ -26,6 +26,7 @@ class SettingsController extends Controller
 
     private static $fields = [
         'common.logo_file' => \App\Settings\Common\LogoFile::class,
+        'common.signet_file' => \App\Settings\Common\SignetFile::class,
         'accounting.transactions.categories' => \App\Settings\Accounting\TransactionCategories::class,
         'accounting.transactions.projects' => \App\Settings\Accounting\TransactionProjects::class,
         'bank.undo_coupon_handout_grace_period' => \App\Settings\Bank\UndoCouponHandoutGracePeriod::class,
