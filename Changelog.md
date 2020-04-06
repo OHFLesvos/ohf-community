@@ -5,6 +5,7 @@
 * Added support for file / image upload in settings editor
 * Bank code card image can now be defined in settings view
 * Badge logo image can now be defined in settings view
+* Login logo image can now be defined in settings view
 
 ## 2.12.1
 

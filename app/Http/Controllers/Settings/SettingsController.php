@@ -15,6 +15,7 @@ class SettingsController extends Controller
     private static function getSections(): array
     {
         return [
+            'common' => __('app.common'),
             'accounting' => __('accounting.accounting'),
             'bank' => __('bank.bank'),
             'shop' => __('shop.shop'),
@@ -24,6 +25,7 @@ class SettingsController extends Controller
     }
 
     private static $fields = [
+        'common.logo_file' => \App\Settings\Common\LogoFile::class,
         'accounting.transactions.categories' => \App\Settings\Accounting\TransactionCategories::class,
         'accounting.transactions.projects' => \App\Settings\Accounting\TransactionProjects::class,
         'bank.undo_coupon_handout_grace_period' => \App\Settings\Bank\UndoCouponHandoutGracePeriod::class,

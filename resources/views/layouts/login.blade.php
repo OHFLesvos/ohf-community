@@ -7,9 +7,14 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 mt-md-4">
 
-                    <div class="px-5 px-sm-0"><img src="{{ asset('/img/logo_login.png') }}" class="img-fluid text-center my-sm-0 p-4" /></div>
+                    @php
+                        $logo = Setting::has('common.logo_file') ? Storage::url(Setting::get('common.logo_file')) : null;
+                    @endphp
+                    @isset($logo)
+                        <div class="px-5 px-sm-0"><img src="{{ $logo }}" class="img-fluid text-center my-sm-0 p-4" /></div>
+                    @endisset
 
-                    <div class="card mb-4">
+                    <div class="card mb-4 @unless($logo)mt-5 @endunless">
                         <div class="card-body p-md-5">
 
                             <h1 class="display-4 text-center mb-4 mb-md-5">@yield('title')</h1>

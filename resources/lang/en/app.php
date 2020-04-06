@@ -325,4 +325,6 @@ return [
     'no_records_matching_your_request' => 'There are no records matching your request.',
     'only_letters_and_numbers_allowed' => 'Only letters and numbers are allowed!',
     'logo' => 'Logo',
+    'common' => 'Common',
+    'image_will_be_visible_e_g_on_login_screen' => 'The image will be visible e.g. on the login screen',
  ];

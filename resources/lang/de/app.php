@@ -325,4 +325,6 @@ return [
     'no_records_matching_your_request' => 'Keine Datensätze entsprechen deiner Anfrage.',
     'only_letters_and_numbers_allowed' => 'Nur Zahlen und Nummern erlaubt!',
     'logo' => 'Logo',
+    'common' => 'Allgemein',
+    'image_will_be_visible_e_g_on_login_screen' => 'Das Bild wird z.B. auf der Loginmaske angezeigt werden',
 ];
