@@ -13,9 +13,9 @@ class HelpArticle extends BaseSettingsField
         return 'bank';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'wiki.help_article';
+        return __('wiki.help_article');
     }
 
     public function defaultValue()

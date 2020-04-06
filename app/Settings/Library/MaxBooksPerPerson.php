@@ -12,9 +12,9 @@ class MaxBooksPerPerson extends BaseSettingsField
         return 'library';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'library.max_amount_of_books_person_can_lend';
+        return __('library.max_amount_of_books_person_can_lend');
     }
 
     public function defaultValue()

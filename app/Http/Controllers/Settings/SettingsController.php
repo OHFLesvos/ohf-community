@@ -67,7 +67,7 @@ class SettingsController extends Controller
         return [
             'value' => $value,
             'type' => $field->formType(),
-            'label' => __($field->labelKey()),
+            'label' => $field->label(),
             'section' => $field->section(),
             'args' => $field->formArgs() ?? null,
             'include_pre' => $field->includePre() ?? null,

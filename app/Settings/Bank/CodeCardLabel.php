@@ -12,9 +12,9 @@ class CodeCardLabel extends BaseSettingsField
         return 'bank';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'people.label_on_code_card';
+        return __('people.label_on_code_card');
     }
 
     public function defaultValue()

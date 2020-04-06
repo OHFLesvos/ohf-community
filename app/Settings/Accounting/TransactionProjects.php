@@ -12,9 +12,9 @@ class TransactionProjects extends BaseSettingsField
         return 'accounting';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'app.projects';
+        return __('app.projects');
     }
 
     public function defaultValue()

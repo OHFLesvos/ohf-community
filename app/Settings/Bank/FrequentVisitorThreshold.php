@@ -14,9 +14,9 @@ class FrequentVisitorThreshold extends BaseSettingsField
         return 'bank';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'people.min_number_of_visits';
+        return __('people.min_number_of_visits');
     }
 
     public function defaultValue()

@@ -6,7 +6,7 @@ interface SettingsField
 {
     public function section(): string;
 
-    public function labelKey(): string;
+    public function label(): string;
 
     public function defaultValue();
 

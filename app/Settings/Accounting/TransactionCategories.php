@@ -12,9 +12,9 @@ class TransactionCategories extends BaseSettingsField
         return 'accounting';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'app.categories';
+        return __('app.categories');
     }
 
     public function defaultValue()

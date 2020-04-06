@@ -14,9 +14,9 @@ class DefaultLendingDurationDays extends BaseSettingsField
         return 'library';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'library.default_lending_duration_days_in_days';
+        return __('library.default_lending_duration_days_in_days');
     }
 
     public function defaultValue()

@@ -12,9 +12,9 @@ class UndoCouponHandoutGracePeriod extends BaseSettingsField
         return 'bank';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'coupons.undo_coupon_handout_grace_period_seconds';
+        return __('coupons.undo_coupon_handout_grace_period_seconds');
     }
 
     public function defaultValue()

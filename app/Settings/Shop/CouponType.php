@@ -13,9 +13,9 @@ class CouponType extends BaseSettingsField
         return 'shop';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'coupons.coupon';
+        return __('coupons.coupon');
     }
 
     public function defaultValue()

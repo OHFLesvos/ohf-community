@@ -12,9 +12,9 @@ class FrequentVisitorWeeks extends BaseSettingsField
         return 'bank';
     }
 
-    public function labelKey(): string
+    public function label(): string
     {
-        return 'people.number_of_weeks';
+        return __('people.number_of_weeks');
     }
 
     public function defaultValue()
