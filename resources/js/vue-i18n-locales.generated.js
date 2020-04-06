@@ -374,7 +374,9 @@ export default {
             "valid_for_n_days": "Gültig für einen Tag.|Gültig für {days} Tage.",
             "no_records_matching_your_request": "Keine Datensätze entsprechen deiner Anfrage.",
             "only_letters_and_numbers_allowed": "Nur Zahlen und Nummern erlaubt!",
-            "logo": "Logo"
+            "logo": "Logo",
+            "common": "Allgemein",
+            "image_will_be_visible_e_g_on_login_screen": "Das Bild wird z.B. auf der Loginmaske angezeigt werden"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -748,8 +750,8 @@ export default {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
             "usermgmt_manage_users": "Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen",
             "usermgmt_manage_roles": "Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen",
+            "configure_common_settings": "Allgemeine Einstellungen konfigurieren",
             "view_changelogs": "Änderungshistorie betrachten",
-            "view_logs": "Logeinträge betrachten",
             "create_badges": "Badges: Badges erstellen",
             "view_fundraising_donors": "Spendenverwaltung: Spender betrachten",
             "manage_fundraising_donors": "Spendenverwaltung: Spender verwalten",
@@ -1448,7 +1450,9 @@ export default {
             "valid_for_n_days": "Valid for one day.|Valid for {days} days.",
             "no_records_matching_your_request": "There are no records matching your request.",
             "only_letters_and_numbers_allowed": "Only letters and numbers are allowed!",
-            "logo": "Logo"
+            "logo": "Logo",
+            "common": "Common",
+            "image_will_be_visible_e_g_on_login_screen": "The image will be visible e.g. on the login screen"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -1825,8 +1829,8 @@ export default {
             "view_usermgmt": "User management: View users and roles",
             "usermgmt_manage_users": "User management: Create, edit and delete users",
             "usermgmt_manage_roles": "User management: Create, edit and delete roles",
+            "configure_common_settings": "Configure common settings",
             "view_changelogs": "View application changelogs",
-            "view_logs": "View applicaiton log files",
             "create_badges": "Badges: Create badges",
             "view_fundraising_donors": "Donation management: View donors",
             "manage_fundraising_donors": "Donation management: Manage donors",

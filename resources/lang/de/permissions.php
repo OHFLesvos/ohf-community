@@ -9,8 +9,6 @@ return [
 
     'view_changelogs' => 'Änderungshistorie betrachten',
 
-    'view_logs' => 'Logeinträge betrachten',
-
     'create_badges' => 'Badges: Badges erstellen',
 
     'view_fundraising_donors' => 'Spendenverwaltung: Spender betrachten',

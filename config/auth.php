@@ -149,11 +149,6 @@ return [
             'sensitive' => false,
         ],
 
-        'app.logs.view' => [
-            'label' => 'permissions.view_logs',
-            'sensitive' => true,
-        ],
-
         'badges.create' => [
             'label' => 'permissions.create_badges',
             'sensitive' => false,

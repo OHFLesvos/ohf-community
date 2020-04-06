@@ -40,8 +40,6 @@ class AuthServiceProvider extends ServiceProvider
 
         'view-changelogs'             => 'app.changelogs.view',
 
-        'view-logs'                   => 'app.logs.view',
-
         'create-badges'               => 'badges.create',
 
         'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',

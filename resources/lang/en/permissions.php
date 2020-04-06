@@ -9,8 +9,6 @@ return [
 
     'view_changelogs' => 'View application changelogs',
 
-    'view_logs' => 'View applicaiton log files',
-
     'create_badges' => 'Badges: Create badges',
 
     'view_fundraising_donors' => 'Donation management: View donors',
