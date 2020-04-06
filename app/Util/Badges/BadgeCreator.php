@@ -12,7 +12,7 @@ class BadgeCreator
     /**
      * Relative path to the logo image file
      */
-    public string $logo;
+    public ?string $logo = null;
 
     /**
      * The page format (e.g. A4)
@@ -68,7 +68,6 @@ class BadgeCreator
 
     public function __construct($persons) {
         $this->persons = $persons;
-        $this->logo = public_path('img/logo_card.png');
     }
 
     public function createPdf($title)
@@ -162,7 +161,9 @@ class BadgeCreator
             $content = '';
 
             // Logo
-            $content .= '<img src="'. $this->logo .'" style="height: 15mm; margin-top: 3mm; text-align: center;">';
+            if ($this->logo !== null) {
+                $content .= '<div style="text-align:center"><img src="'. $this->logo .'" style="height: 15mm; margin-top: 3mm;"></div>';
+            }
 
             // Picture
             if (isset($persons[$i]['picture'])) {

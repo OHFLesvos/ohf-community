@@ -323,4 +323,5 @@ return [
     'valid_for_n_days' => 'Valid for one day.|Valid for :days days.',
     'no_records_matching_your_request' => 'There are no records matching your request.',
     'only_letters_and_numbers_allowed' => 'Only letters and numbers are allowed!',
+    'logo' => 'Logo',
  ];
