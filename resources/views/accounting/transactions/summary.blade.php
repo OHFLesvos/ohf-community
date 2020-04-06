@@ -1,12 +1,12 @@
-@extends('accounting.layouts.accounting')
+@extends('layouts.app')
 
 @section('title', __('accounting.accounting'))
 
-@section('wrapped-content')
+@section('content')
 
     <div class="row">
         <div class="col-sm">
-            <h2 class="mb-4">{{ $heading }}</h2>
+            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }}</h2>
         </div>
         <div class="col-sm-auto">
             @if(sizeof($months) > 0)

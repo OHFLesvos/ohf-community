@@ -11,6 +11,7 @@
 * Favicon images can now be defined in settings view
 * Store settings in json file instead of database
 * Show accounting wallet amount on transactions index
+* Simplified accounting transaction list / summary view navigation
 
 ## 2.12.1
 

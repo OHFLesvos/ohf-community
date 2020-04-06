@@ -7,10 +7,10 @@
             'authorized' => Auth::user()->can('create', App\Models\Accounting\MoneyTransaction::class),
         ],
         [
-            'url' => route('accounting.transactions.summary'),
-            'title' => __('accounting.summary'),
-            'icon' => 'calculator',
-            'authorized' => Gate::allows('view-accounting-summary'),
+            'url' => route('accounting.transactions.index'),
+            'title' => __('app.overview'),
+            'icon' => 'list',
+            'authorized' =>  Auth::user()->can('list', App\Models\Accounting\MoneyTransaction::class),
         ],
     ];
 @endphp

@@ -4,7 +4,7 @@ return [
     'accounting' => 'Buchhaltung',
     'transactions' => 'Transaktionen',
     'all_transactions' => 'Alle Transaktionen',
-    'summary' => 'Übersicht',
+    'summary' => 'Zusammenfassung',
     'no_transactions_found' => 'Keine Transaktionen gefunden.',
     'income' => 'Einnahmen',
     'spending' => 'Ausgaben',

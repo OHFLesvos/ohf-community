@@ -1,8 +1,8 @@
-@extends('accounting.layouts.accounting')
+@extends('layouts.app')
 
 @section('title', __('accounting.accounting'))
 
-@section('wrapped-content')
+@section('content')
 
     <div class="row align-items-center">
         <div class="col-sm-auto  mb-3">

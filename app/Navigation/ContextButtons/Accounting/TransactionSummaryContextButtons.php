@@ -12,17 +12,11 @@ class TransactionSummaryContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         return [
-            'export' => [
-                'url' => route('accounting.transactions.export'),
-                'caption' => __('app.export'),
-                'icon' => 'download',
+            'back' => [
+                'url' => route('accounting.transactions.index'),
+                'caption' => __('app.close'),
+                'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('list', MoneyTransaction::class),
-            ],
-            'book' => [
-                'url' => route('accounting.webling.index'),
-                'caption' => __('accounting.book'),
-                'icon' => 'list-alt',
-                'authorized' => Auth::user()->can('book-accounting-transactions-externally'),
             ],
         ];
     }
