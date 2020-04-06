@@ -17,7 +17,7 @@ return [
 
     'product_name' => 'Community Center Manager',
 
-    'product_url' => 'https://github.com/mrcage/ohf-community',
+    'product_url' => 'https://github.com/OHFLesvos/ohf-community',
 
     'version' => 'v2.12.0',
     /*
