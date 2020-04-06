@@ -16,7 +16,7 @@ class FrequentVisitorThreshold extends BaseSettingsField
 
     public function label(): string
     {
-        return __('people.min_number_of_visits');
+        return __('people.frequent_visitors') . ': ' . __('people.min_number_of_visits');
     }
 
     public function defaultValue()
@@ -45,14 +45,15 @@ class FrequentVisitorThreshold extends BaseSettingsField
         ];
     }
 
-    public function includePost()
+    public function formHelp(): ?string
     {
-        return [
-            'bank.settings.frequent_visitors_affected', [
-                'current_num_people' => Person::count(),
-                'current_num_frequent_visitors' => BankReportingController::getNumberOfFrequentVisitors(),
-            ],
-        ];
+        $current_num_people = Person::count();
+        $current_num_frequent_visitors = BankReportingController::getNumberOfFrequentVisitors();
+        return __('bank.frequent_visitors_affected', [
+            'freq' => $current_num_frequent_visitors,
+            'total' => $current_num_people,
+            'percentage' => round($current_num_frequent_visitors/$current_num_people * 100),
+        ]);
     }
 
     public function authorized(): bool

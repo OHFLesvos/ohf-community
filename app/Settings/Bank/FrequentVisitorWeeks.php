@@ -14,7 +14,7 @@ class FrequentVisitorWeeks extends BaseSettingsField
 
     public function label(): string
     {
-        return __('people.number_of_weeks');
+        return __('people.frequent_visitors') . ': ' . __('people.number_of_weeks');
     }
 
     public function defaultValue()
@@ -43,9 +43,9 @@ class FrequentVisitorWeeks extends BaseSettingsField
         ];
     }
 
-    public function includePre()
+    public function formHelp(): ?string
     {
-        return 'bank.settings.frequent_visitors_explanation';
+        return __('bank.frequent_visitors_explanation');
     }
 
     public function authorized(): bool
