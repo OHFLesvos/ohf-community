@@ -8,7 +8,7 @@
                 <div class="col-md-8 col-lg-6 mt-md-4">
 
                     @php
-                        $logo = Setting::has('common.logo_file') ? Storage::url(Setting::get('common.logo_file')) : null;
+                        $logo = Setting::has('branding.logo_file') ? Storage::url(Setting::get('branding.logo_file')) : null;
                     @endphp
                     @isset($logo)
                         <div class="px-5 px-sm-0"><img src="{{ $logo }}" class="img-fluid text-center my-sm-0 p-4" /></div>

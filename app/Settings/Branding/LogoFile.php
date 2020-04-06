@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Settings\Common;
+namespace App\Settings\Branding;
 
 use App\Settings\BaseSettingsField;
 use Gumlet\ImageResize;
@@ -13,7 +13,7 @@ class LogoFile extends BaseSettingsField
 
     public function section(): string
     {
-        return 'common';
+        return 'branding';
     }
 
     public function label(): string
@@ -53,7 +53,7 @@ class LogoFile extends BaseSettingsField
 
     public function formFilePath(): ?string
     {
-        return 'public/common';
+        return 'public/branding';
     }
 
     public function setter($value)

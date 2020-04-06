@@ -15,7 +15,7 @@ class SettingsController extends Controller
     private static function getSections(): array
     {
         return [
-            'common' => __('app.common'),
+            'branding' => __('app.branding'),
             'accounting' => __('accounting.accounting'),
             'bank' => __('bank.bank'),
             'shop' => __('shop.shop'),
@@ -25,11 +25,11 @@ class SettingsController extends Controller
     }
 
     private static $fields = [
-        'common.logo_file' => \App\Settings\Common\LogoFile::class,
-        'common.signet_file' => \App\Settings\Common\SignetFile::class,
-        'common.favicon_32_file' => \App\Settings\Common\Favicon32File::class,
-        'common.favicon_180_file' => \App\Settings\Common\Favicon180File::class,
-        'common.favicon_192_file' => \App\Settings\Common\Favicon192File::class,
+        'branding.logo_file' => \App\Settings\Branding\LogoFile::class,
+        'branding.signet_file' => \App\Settings\Branding\SignetFile::class,
+        'branding.favicon_32_file' => \App\Settings\Branding\Favicon32File::class,
+        'branding.favicon_180_file' => \App\Settings\Branding\Favicon180File::class,
+        'branding.favicon_192_file' => \App\Settings\Branding\Favicon192File::class,
         'accounting.transactions.categories' => \App\Settings\Accounting\TransactionCategories::class,
         'accounting.transactions.projects' => \App\Settings\Accounting\TransactionProjects::class,
         'bank.undo_coupon_handout_grace_period' => \App\Settings\Bank\UndoCouponHandoutGracePeriod::class,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Settings\Common;
+namespace App\Settings\Branding;
 
 class Favicon32File extends FaviconFile
 {

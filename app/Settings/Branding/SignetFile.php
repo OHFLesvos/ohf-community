@@ -1,18 +1,24 @@
 <?php
 
-namespace App\Settings\Common;
+namespace App\Settings\Branding;
 
 use App\Settings\BaseSettingsField;
 use Gumlet\ImageResize;
 use Illuminate\Support\Facades\Gate;
 
-abstract class FaviconFile extends BaseSettingsField
+class SignetFile extends BaseSettingsField
 {
-    abstract public function dimension(): int;
+    private const WIDTH = 30;
+    private const HEIGHT = 30;
 
     public function section(): string
     {
-        return 'common';
+        return 'branding';
+    }
+
+    public function label(): string
+    {
+        return __('app.signet');
     }
 
     public function defaultValue()
@@ -28,7 +34,7 @@ abstract class FaviconFile extends BaseSettingsField
     public function formArgs(): ?array
     {
         return [
-            'accept' => 'image/png',
+            'accept' => 'image/*',
         ];
     }
 
@@ -40,16 +46,20 @@ abstract class FaviconFile extends BaseSettingsField
         ];
     }
 
+    public function formHelp(): ?string
+    {
+        return __('app.size_x_y_pixel', [ 'x' => self::WIDTH, 'y' => self::HEIGHT ]);
+    }
+
     public function formFilePath(): ?string
     {
-        return 'public/common';
+        return 'public/branding';
     }
 
     public function setter($value)
     {
-        $dimension = $this->dimension();
         $image = new ImageResize($value->getRealPath());
-        $image->resizeToBestFit($dimension, $dimension, true);
+        $image->resizeToBestFit(self::WIDTH, self::HEIGHT, true);
         $image->save($value->getRealPath());
         return $value;
     }

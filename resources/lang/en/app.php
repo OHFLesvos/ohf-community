@@ -335,4 +335,5 @@ return [
     'favicon_192' => 'Favicon (192 x 192 pixel)',
     'favicon_192_explanation' => 'Favicon according to Google Developer Web App Manifest Recommendation',
     'size_x_y_pixel' => 'Size: :x x :y pixel',
+    'branding' => 'Branding',
  ];
