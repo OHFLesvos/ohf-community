@@ -84,10 +84,12 @@ class SettingsController extends Controller
 
         // Reset
         if ($request->has('reset')) {
-            $fields->keys()
-                ->each(function ($field_key) {
-                    Setting::forget($field_key);
-                });
+            foreach ($fields as $key => $field) {
+                if ($field->formType() == 'file' && Setting::has($key)) {
+                    Storage::delete(Setting::get($key));
+                }
+                Setting::forget($key);
+            }
             Setting::save();
 
             return redirect()
