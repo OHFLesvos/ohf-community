@@ -247,7 +247,9 @@ export default {
             "yes": "Ja",
             "no": "Nein",
             "status": "Status",
-            "choose_file": "Datei wählen",
+            "choose_file": "Datei wählen...",
+            "remove_file": "Datei entfernen",
+            "view_file": "Datei anzeigen",
             "import_successful": "Import erfolgreich.",
             "imported_num_records": "{num} Datensätze importiert.",
             "select_status": "Status wählen...",
@@ -383,7 +385,11 @@ export default {
         "bank": {
             "bank": "Bank",
             "go_to_bank": "Gehe zur Bank",
-            "view_bank_report": "Bankbericht anzeigen"
+            "view_bank_report": "Bankbericht anzeigen",
+            "frequent_visitors_explanation": "Personen werden als regelmässige Besucher markiert ('gelbes Stern' Symbol) wenn sie mindestens _x_ mal während der letzten _y_ Wochen vorbeikommen.",
+            "frequent_visitors_affected": "Aktuelle Einstellungen: {freq} Personen betroffen, von total {total} ({percentage} %)",
+            "label_on_code_card": "Text auf Codekarte",
+            "logo_on_code_card": "Logo auf Codekarte"
         },
         "calendar": {
             "calendar": "Kalender"
@@ -551,7 +557,6 @@ export default {
             "find_duplicates": "Duplikate finden",
             "code_card": "Codekarte",
             "code_cards": "Codekarten",
-            "label_on_code_card": "Text auf Codekarte",
             "not_yet_served_any_persons": "Heute wurden noch keine Personen bedient.",
             "num_persons_served_handing_out_coupons": "Heute haben wir <strong>{persons}</strong> Personen bedient und <strong>{coupons}</strong> Coupons ausgehändigt.",
             "person_deleted": "Person gelöscht",
@@ -1314,7 +1319,9 @@ export default {
             "yes": "Yes",
             "no": "No",
             "status": "Status",
-            "choose_file": "Choose file",
+            "choose_file": "Choose file...",
+            "remove_file": "Remove file",
+            "view_file": "View file",
             "import_successful": "Import successful.",
             "imported_num_records": "Imported {num} records.",
             "select_status": "Select status...",
@@ -1450,7 +1457,11 @@ export default {
         "bank": {
             "bank": "Bank",
             "go_to_bank": "Go to bank",
-            "view_bank_report": "View bank report"
+            "view_bank_report": "View bank report",
+            "frequent_visitors_explanation": "Persons are marked as frequent visitor ('yellow star' icon) if they visit the bank at least _x_ times during the last _y_ weeks.",
+            "frequent_visitors_affected": "Current settings: {freq} persons affected, out of {total} ({percentage} %)",
+            "label_on_code_card": "Label on code card",
+            "logo_on_code_card": "Logo on code card"
         },
         "calendar": {
             "calendar": "Calendar"
@@ -1618,7 +1629,6 @@ export default {
             "find_duplicates": "Find duplicates",
             "code_card": "Code Card",
             "code_cards": "Code Cards",
-            "label_on_code_card": "Label on code card",
             "not_yet_served_any_persons": "We did not yet serve any persons today.",
             "num_persons_served_handing_out_coupons": "Today, we served <strong>{persons}</strong> persons, handing out <strong>{coupons}</strong> coupons.",
             "deleted_n_persons": "Deleted one person.|Deleted {num} persons.",

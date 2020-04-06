@@ -22,6 +22,8 @@ interface SettingsField
 
     public function formPlaceholder(): ?string;
 
+    public function formFilePath(): ?string;
+
     public function setter($value);
 
     public function getter($value);

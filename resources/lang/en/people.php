@@ -30,7 +30,6 @@ return [
     'find_duplicates' => 'Find duplicates',
     'code_card' => 'Code Card',
     'code_cards' => 'Code Cards',
-    'label_on_code_card' => 'Label on code card',
     'not_yet_served_any_persons' => 'We did not yet serve any persons today.',
     'num_persons_served_handing_out_coupons' => 'Today, we served <strong>:persons</strong> persons, handing out <strong>:coupons</strong> coupons.',
     'deleted_n_persons' => 'Deleted one person.|Deleted :num persons.',

@@ -14,7 +14,7 @@ class CodeCardLabel extends BaseSettingsField
 
     public function label(): string
     {
-        return __('people.label_on_code_card');
+        return __('bank.label_on_code_card');
     }
 
     public function defaultValue()

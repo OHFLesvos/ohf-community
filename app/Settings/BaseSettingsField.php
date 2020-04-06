@@ -29,6 +29,11 @@ abstract class BaseSettingsField implements SettingsField
         return null;
     }
 
+    public function formFilePath(): ?string
+    {
+        return null;
+    }
+
     public function setter($value)
     {
         return $value;

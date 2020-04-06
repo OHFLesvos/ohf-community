@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Settings\SettingsField;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Setting;
 
@@ -28,6 +29,7 @@ class SettingsController extends Controller
         'bank.frequent_visitor_weeks' => \App\Settings\Bank\FrequentVisitorWeeks::class,
         'bank.frequent_visitor_threshold' => \App\Settings\Bank\FrequentVisitorThreshold::class,
         'bank.code_card.label' => \App\Settings\Bank\CodeCardLabel::class,
+        'bank.code_card.logo' => \App\Settings\Bank\CodeCardLogo::class,
         'bank.help_article' => \App\Settings\Bank\HelpArticle::class,
         'shop.coupon_type' => \App\Settings\Shop\CouponType::class,
         'shop.help_article' => \App\Settings\Shop\HelpArticle::class,
@@ -103,19 +105,44 @@ class SettingsController extends Controller
         );
 
         // Update
-        foreach ($fields as $field_key => $field) {
-            $value = $request->{Str::slug($field_key)};
-            if ($value !== null) {
-                $value = $field->setter($value);
-                Setting::set($field_key, $value);
-            } else {
-                Setting::forget($field_key);
-            }
+        foreach ($fields as $key => $field) {
+            self::updateFieldValue($field, $request, $key);
         }
         Setting::save();
 
         return redirect()
             ->route('settings.edit')
             ->with('success', __('app.settings_updated'));
+    }
+
+    private static function updateFieldValue(SettingsField $field, Request $request, string $key)
+    {
+        if ($field->formType() == 'file') {
+            self::handleFileField($field, $request, $key);
+        } else {
+            $value = $request->input(Str::slug($key));
+            if ($value !== null) {
+                $value = $field->setter($value);
+                Setting::set($key, $value);
+            } else {
+                Setting::forget($key);
+            }
+        }
+    }
+
+    private static function handleFileField(SettingsField $field, Request $request, string $key)
+    {
+        $req_key = Str::slug($key);
+        if ($request->has($req_key . '_delete') || $request->hasFile($req_key)) {
+            if (Setting::has($key)) {
+                Storage::delete(Setting::get($key));
+            }
+        }
+        if ($request->hasFile($req_key)) {
+            $value = $field->setter($request->file($req_key));
+            Setting::set($key, $value->store($field->formFilePath()));
+        } else if ($request->has($req_key . '_delete')) {
+            Setting::forget($key);
+        }
     }
 }

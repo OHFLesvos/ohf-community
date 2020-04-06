@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::open(['route' => [ 'settings.update' ], 'method' => 'put']) !!}
+    {!! Form::open(['route' => [ 'settings.update' ], 'method' => 'put', 'files' => true]) !!}
 
         @foreach($sections as $section_key => $section_label)
             @if($fields->where('section', $section_key)->count() > 0)
