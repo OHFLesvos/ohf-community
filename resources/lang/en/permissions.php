@@ -5,6 +5,8 @@ return [
     'usermgmt_manage_users' => 'User management: Create, edit and delete users',
     'usermgmt_manage_roles' => 'User management: Create, edit and delete roles',
 
+    'configure_common_settings' => 'Configure common settings',
+
     'view_changelogs' => 'View application changelogs',
 
     'view_logs' => 'View applicaiton log files',

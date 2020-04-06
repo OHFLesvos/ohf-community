@@ -6,6 +6,7 @@
 * Bank code card image can now be defined in settings view
 * Badge logo image can now be defined in settings view
 * Login logo image can now be defined in settings view
+* Added permissions to configure common settings
 
 ## 2.12.1
 

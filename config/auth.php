@@ -139,6 +139,11 @@ return [
             'sensitive' => false,
         ],
 
+        'app.settings.common.configure' => [
+            'label' => 'permissions.configure_common_settings',
+            'sensitive' => false,
+        ],
+
         'app.changelogs.view' => [
             'label' => 'permissions.view_changelogs',
             'sensitive' => false,

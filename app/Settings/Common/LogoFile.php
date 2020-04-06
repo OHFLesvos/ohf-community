@@ -5,6 +5,7 @@ namespace App\Settings\Common;
 use App\Settings\BaseSettingsField;
 use Gumlet\ImageResize;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class LogoFile extends BaseSettingsField
 {
@@ -63,6 +64,6 @@ class LogoFile extends BaseSettingsField
 
     public function authorized(): bool
     {
-        return Auth::user()->isSuperAdmin(); // TODO
+        return Gate::allows('configure-common-settings');
     }
 }
