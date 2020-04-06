@@ -13,6 +13,7 @@ use App\Http\Requests\People\StorePerson;
 use App\Models\Library\LibraryBook;
 use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
+use App\Settings\Library\DefaultLendingDurationDays;
 use Carbon\Carbon;
 use Setting;
 
@@ -75,7 +76,7 @@ class LendingController extends Controller
         return view('library.lending.person', [
             'person' => $person,
             'lendings' => $person->bookLendings()->whereNull('returned_date')->orderBy('return_date', 'asc')->get(),
-            'default_extend_duration' => Setting::get('library.default_lening_duration_days', SettingsController::LIBRARY_DEFAULT_LENING_DURATION_DAYS),
+            'default_extend_duration' => Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE),
         ]);
     }
 
@@ -106,7 +107,7 @@ class LendingController extends Controller
 
         return view('library.lending.book', [
             'book' => $book,
-            'default_extend_duration' => Setting::get('library.default_lening_duration_days', SettingsController::LIBRARY_DEFAULT_LENING_DURATION_DAYS),
+            'default_extend_duration' => Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE),
         ]);
     }
 
@@ -136,7 +137,7 @@ class LendingController extends Controller
         }
         $lending = new LibraryLending();
         $lending->lending_date = Carbon::today();
-        $duration = Setting::get('library.default_lening_duration_days', SettingsController::LIBRARY_DEFAULT_LENING_DURATION_DAYS);
+        $duration = Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE);
         $lending->return_date = Carbon::today()->addDays($duration);
         $lending->person()->associate($person);
         $lending->book()->associate($book);
@@ -155,7 +156,7 @@ class LendingController extends Controller
         $person = Person::findOrFail($request->person_id);
         $lending = new LibraryLending();
         $lending->lending_date = Carbon::today();
-        $duration = Setting::get('library.default_lening_duration_days', SettingsController::LIBRARY_DEFAULT_LENING_DURATION_DAYS);
+        $duration = Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE);
         $lending->return_date = Carbon::today()->addDays($duration);
         $lending->person()->associate($person);
         $lending->book()->associate($book);

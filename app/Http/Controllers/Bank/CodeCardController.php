@@ -7,6 +7,8 @@ use App\Http\Requests\Bank\CreateCodeCard;
 use Dompdf\Dompdf;
 use Endroid\QrCode\LabelAlignment;
 use Endroid\QrCode\QrCode;
+use Illuminate\Support\Facades\Storage;
+use Setting;
 
 class CodeCardController extends Controller
 {
@@ -36,7 +38,7 @@ class CodeCardController extends Controller
                 $firstCode = $code;
             }
         }
-        $logo = base64_encode(file_get_contents(public_path() . '/img/logo_card.png'));
+        $logo = Setting::has('bank.code_card.logo') ? base64_encode(Storage::get(Setting::get('bank.code_card.logo'))) : null;
         $view = view('bank.codeCard', [
             'codes' => $codes,
             'logo' => $logo,

@@ -16,7 +16,7 @@ return [
     'lend_a_book' => 'Leihe ein Buch aus',
     'lend_book' => 'Buch ausleihen',    
     'book_lending' => 'Bücherausleihe',
-    'default_lening_duration_days_in_days' => 'Standard Ausleihedauer in Tagen',
+    'default_lending_duration_days_in_days' => 'Standard Ausleihedauer in Tagen',
     'book_already_lent' => 'Buch ist bereits ausgeliehen.',
     'returned' => 'Zurückgegeben',
     'book_lending_log' => 'Vergangene Buchausleihen',

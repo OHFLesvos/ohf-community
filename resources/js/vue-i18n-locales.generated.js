@@ -247,7 +247,9 @@ export default {
             "yes": "Ja",
             "no": "Nein",
             "status": "Status",
-            "choose_file": "Datei wählen",
+            "choose_file": "Datei wählen...",
+            "remove_file": "Datei entfernen",
+            "view_file": "Datei anzeigen",
             "import_successful": "Import erfolgreich.",
             "imported_num_records": "{num} Datensätze importiert.",
             "select_status": "Status wählen...",
@@ -265,6 +267,7 @@ export default {
             "settings_updated": "Einstellungen wurden aktualisiert.",
             "settings_reset": "Einstellungen wurden zurückgesetzt.",
             "reset_to_default_settings": "Auf Standardeinstellungen zurücksetzen",
+            "confirm_reset_to_default_settings": "Wirklich auf Standardeinstellungen zurücksetzen?",
             "not_configured": "Nicht konfiguriert.",
             "view_list": "Liste anzeigen",
             "source": "Quelle",
@@ -370,7 +373,11 @@ export default {
             "data": "Daten",
             "valid_for_n_days": "Gültig für einen Tag.|Gültig für {days} Tage.",
             "no_records_matching_your_request": "Keine Datensätze entsprechen deiner Anfrage.",
-            "only_letters_and_numbers_allowed": "Nur Zahlen und Nummern erlaubt!"
+            "only_letters_and_numbers_allowed": "Nur Zahlen und Nummern erlaubt!",
+            "logo": "Logo",
+            "common": "Allgemein",
+            "image_will_be_visible_e_g_on_login_screen": "Das Bild wird z.B. auf der Loginmaske angezeigt werden",
+            "signet": "Signet"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -383,7 +390,11 @@ export default {
         "bank": {
             "bank": "Bank",
             "go_to_bank": "Gehe zur Bank",
-            "view_bank_report": "Bankbericht anzeigen"
+            "view_bank_report": "Bankbericht anzeigen",
+            "frequent_visitors_explanation": "Personen werden als regelmässige Besucher markiert ('gelbes Stern' Symbol) wenn sie mindestens _x_ mal während der letzten _y_ Wochen vorbeikommen.",
+            "frequent_visitors_affected": "Aktuelle Einstellungen: {freq} Personen betroffen, von total {total} ({percentage} %)",
+            "label_on_code_card": "Text auf Codekarte",
+            "logo_on_code_card": "Logo auf Codekarte"
         },
         "calendar": {
             "calendar": "Kalender"
@@ -477,7 +488,7 @@ export default {
             "lend_a_book": "Leihe ein Buch aus",
             "lend_book": "Buch ausleihen",
             "book_lending": "Bücherausleihe",
-            "default_lening_duration_days_in_days": "Standard Ausleihedauer in Tagen",
+            "default_lending_duration_days_in_days": "Standard Ausleihedauer in Tagen",
             "book_already_lent": "Buch ist bereits ausgeliehen.",
             "returned": "Zurückgegeben",
             "book_lending_log": "Vergangene Buchausleihen",
@@ -740,8 +751,8 @@ export default {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
             "usermgmt_manage_users": "Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen",
             "usermgmt_manage_roles": "Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen",
+            "configure_common_settings": "Allgemeine Einstellungen konfigurieren",
             "view_changelogs": "Änderungshistorie betrachten",
-            "view_logs": "Logeinträge betrachten",
             "create_badges": "Badges: Badges erstellen",
             "view_fundraising_donors": "Spendenverwaltung: Spender betrachten",
             "manage_fundraising_donors": "Spendenverwaltung: Spender verwalten",
@@ -1313,7 +1324,9 @@ export default {
             "yes": "Yes",
             "no": "No",
             "status": "Status",
-            "choose_file": "Choose file",
+            "choose_file": "Choose file...",
+            "remove_file": "Remove file",
+            "view_file": "View file",
             "import_successful": "Import successful.",
             "imported_num_records": "Imported {num} records.",
             "select_status": "Select status...",
@@ -1331,6 +1344,7 @@ export default {
             "settings_updated": "Settings have been updated.",
             "settings_reset": "Settings has been reset.",
             "reset_to_default_settings": "Reset to default settings",
+            "confirm_reset_to_default_settings": "Really reset to default settings?",
             "not_configured": "Not configured.",
             "view_list": "View list",
             "source": "Source",
@@ -1436,7 +1450,11 @@ export default {
             "data": "Data",
             "valid_for_n_days": "Valid for one day.|Valid for {days} days.",
             "no_records_matching_your_request": "There are no records matching your request.",
-            "only_letters_and_numbers_allowed": "Only letters and numbers are allowed!"
+            "only_letters_and_numbers_allowed": "Only letters and numbers are allowed!",
+            "logo": "Logo",
+            "common": "Common",
+            "image_will_be_visible_e_g_on_login_screen": "The image will be visible e.g. on the login screen",
+            "signet": "Signet"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -1449,7 +1467,11 @@ export default {
         "bank": {
             "bank": "Bank",
             "go_to_bank": "Go to bank",
-            "view_bank_report": "View bank report"
+            "view_bank_report": "View bank report",
+            "frequent_visitors_explanation": "Persons are marked as frequent visitor ('yellow star' icon) if they visit the bank at least _x_ times during the last _y_ weeks.",
+            "frequent_visitors_affected": "Current settings: {freq} persons affected, out of {total} ({percentage} %)",
+            "label_on_code_card": "Label on code card",
+            "logo_on_code_card": "Logo on code card"
         },
         "calendar": {
             "calendar": "Calendar"
@@ -1543,7 +1565,7 @@ export default {
             "lend_a_book": "Lend a book",
             "lend_book": "Lend book",
             "book_lending": "Book lending",
-            "default_lening_duration_days_in_days": "Default lending duration in days",
+            "default_lending_duration_days_in_days": "Default lending duration in days",
             "book_already_lent": "Book is already lent.",
             "returned": "Returned",
             "book_lending_log": "Book lending log",
@@ -1809,8 +1831,8 @@ export default {
             "view_usermgmt": "User management: View users and roles",
             "usermgmt_manage_users": "User management: Create, edit and delete users",
             "usermgmt_manage_roles": "User management: Create, edit and delete roles",
+            "configure_common_settings": "Configure common settings",
             "view_changelogs": "View application changelogs",
-            "view_logs": "View applicaiton log files",
             "create_badges": "Badges: Create badges",
             "view_fundraising_donors": "Donation management: View donors",
             "manage_fundraising_donors": "Donation management: Manage donors",

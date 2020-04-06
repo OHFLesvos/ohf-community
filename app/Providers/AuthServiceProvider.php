@@ -36,9 +36,9 @@ class AuthServiceProvider extends ServiceProvider
 
         'view-usermgmt-reports'       => 'app.usermgmt.view',
 
-        'view-changelogs'             => 'app.changelogs.view',
+        'configure-common-settings'   => 'app.settings.commonbr.configure',
 
-        'view-logs'                   => 'app.logs.view',
+        'view-changelogs'             => 'app.changelogs.view',
 
         'create-badges'               => 'badges.create',
 

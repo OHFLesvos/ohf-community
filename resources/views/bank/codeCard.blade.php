@@ -47,7 +47,11 @@
                     <img src="data:image/png;base64,{{ $code }}">
                 </td>
                 <td class="logo-cell">
-                    <img src="data:image/png;base64,{{ $logo }}" style="width: 300px">
+                    @isset($logo)
+                        <img src="data:image/png;base64,{{ $logo }}" style="width: 300px">
+                    @else
+                        <div style="width: 300px">&nbsp;</div>
+                    @endisset
                     @if(Setting::has('bank.code_card.label'))
                     <br><span style="font-size: 0.6em; color: #333;">{{ Setting::get('bank.code_card.label') }}</span>
                     @endif

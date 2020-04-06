@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::open(['route' => [ 'settings.update' ], 'method' => 'put']) !!}
+    {!! Form::open(['route' => [ 'settings.update' ], 'method' => 'put', 'files' => true]) !!}
 
         @foreach($sections as $section_key => $section_label)
             @if($fields->where('section', $section_key)->count() > 0)
@@ -24,7 +24,7 @@
 
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
-            <button class="btn btn-secondary" type="submit" name="reset">
+            <button class="btn btn-secondary" type="submit" name="reset" onclick="return confirm('@lang('app.confirm_reset_to_default_settings')')">
                 @icon(undo) @lang('app.reset_to_default_settings')
             </button>
         </p>

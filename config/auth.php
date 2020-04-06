@@ -139,14 +139,14 @@ return [
             'sensitive' => false,
         ],
 
-        'app.changelogs.view' => [
-            'label' => 'permissions.view_changelogs',
+        'app.settings.common.configure' => [
+            'label' => 'permissions.configure_common_settings',
             'sensitive' => false,
         ],
 
-        'app.logs.view' => [
-            'label' => 'permissions.view_logs',
-            'sensitive' => true,
+        'app.changelogs.view' => [
+            'label' => 'permissions.view_changelogs',
+            'sensitive' => false,
         ],
 
         'badges.create' => [

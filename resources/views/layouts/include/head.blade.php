@@ -14,9 +14,15 @@
 
         @yield('head-meta')
 
-        <link rel="icon" href="{{ asset('/img/favicon-32x32.png') }}" sizes="32x32" />
-        <link rel="icon" href="{{ asset('/img/favicon-192x192.png') }}" sizes="192x192" />
-        <link rel="apple-touch-icon-precomposed" href="{{ asset('/img/favicon-180x180.png') }}" />
+        @isset($favicon_32_url)
+            <link rel="icon" href="{{ $favicon_32_url }}" sizes="32x32" />
+        @endisset
+        @isset($favicon_192_url)
+            <link rel="icon" href="{{ $favicon_192_url }}" sizes="192x192" />
+        @endisset
+        @isset($favicon_180_url)
+            <link rel="apple-touch-icon-precomposed" href="{{ $favicon_180_url }}" />
+        @endisset
 
         <!-- Scripts -->
         <script>

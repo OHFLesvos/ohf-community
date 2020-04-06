@@ -5,9 +5,9 @@ return [
     'usermgmt_manage_users' => 'Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen',
     'usermgmt_manage_roles' => 'Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen',
 
-    'view_changelogs' => 'Änderungshistorie betrachten',
+    'configure_common_settings' => 'Allgemeine Einstellungen konfigurieren',
 
-    'view_logs' => 'Logeinträge betrachten',
+    'view_changelogs' => 'Änderungshistorie betrachten',
 
     'create_badges' => 'Badges: Badges erstellen',
 
