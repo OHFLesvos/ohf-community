@@ -9,6 +9,7 @@
 * Signet image can now be defined in settings view
 * Added permissions to configure common settings
 * Favicon images can now be defined in settings view
+* Store settings in json file instead of database
 
 ## 2.12.1
 
