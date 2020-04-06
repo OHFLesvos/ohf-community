@@ -16,7 +16,7 @@ return [
     'lend_a_book' => 'Lend a book',
     'lend_book' => 'Lend book',
     'book_lending' => 'Book lending',
-    'default_lening_duration_days_in_days' => 'Default lending duration in days',
+    'default_lending_duration_days_in_days' => 'Default lending duration in days',
     'book_already_lent' => 'Book is already lent.',
     'returned' => 'Returned',
     'book_lending_log' => 'Book lending log',
