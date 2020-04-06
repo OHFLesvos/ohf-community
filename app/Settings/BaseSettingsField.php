@@ -29,16 +29,6 @@ abstract class BaseSettingsField implements SettingsField
         return null;
     }
 
-    public function includePre()
-    {
-        return null;
-    }
-
-    public function includePost()
-    {
-        return null;
-    }
-
     public function setter($value)
     {
         return $value;

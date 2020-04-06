@@ -70,8 +70,6 @@ class SettingsController extends Controller
             'label' => $field->label(),
             'section' => $field->section(),
             'args' => $field->formArgs() ?? null,
-            'include_pre' => $field->includePre() ?? null,
-            'include_post' => $field->includePost() ?? null,
             'list' => $field->formList() ?? null,
             'help' => $field->formHelp() ?? null,
             'placeholder' => $field->formPlaceholder() ?? null,
