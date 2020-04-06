@@ -25,6 +25,7 @@ class BrandingComposer
      */
     public function compose(View $view)
     {
+        $view->with('logo_url', self::fileUrlFromSettings('branding.logo_file'));
         $view->with('signet_url', self::fileUrlFromSettings('branding.signet_file'));
         $view->with('favicon_32_url', self::fileUrlFromSettings('branding.favicon_32_file'));
         $view->with('favicon_180_url', self::fileUrlFromSettings('branding.favicon_180_file'));
