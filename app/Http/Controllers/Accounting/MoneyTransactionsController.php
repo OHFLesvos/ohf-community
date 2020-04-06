@@ -119,6 +119,7 @@ class MoneyTransactionsController extends Controller
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(true),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
+            'wallet' => MoneyTransaction::currentWallet(),
         ]);
     }
 

@@ -4,14 +4,20 @@
 
 @section('wrapped-content')
 
-    <p class="text-right">
-        @if(count($filter) > 0)
-            <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-sm btn-primary">@icon(eraser) @lang('app.reset_filter')</a>
-        @endif
-        <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#filterModal">
-            @icon(search) @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
-        </button>
-    </p>
+    <div class="row align-items-center">
+        <div class="col-sm-auto  mb-3">
+            <strong>Wallet:</strong>
+            <u>{{ number_format($wallet, 2) }}</u>
+        </div>
+        <div class="col-sm text-right  mb-3">
+            @if(count($filter) > 0)
+                <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-sm btn-primary">@icon(eraser) @lang('app.reset_filter')</a>
+            @endif
+            <button type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#filterModal">
+                @icon(search) @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
+            </button>
+        </div>
+    </div>
 
     @if(! $transactions->isEmpty())
         <div class="table-responsive">
