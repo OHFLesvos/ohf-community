@@ -6,19 +6,13 @@ use App\Settings\BaseSettingsField;
 use Gumlet\ImageResize;
 use Illuminate\Support\Facades\Gate;
 
-class LogoFile extends BaseSettingsField
+abstract class FaviconFile extends BaseSettingsField
 {
-    private const MAX_WIDTH = 1000;
-    private const MAX_HEIGHT = 1000;
+    abstract public function dimension(): int;
 
     public function section(): string
     {
         return 'common';
-    }
-
-    public function label(): string
-    {
-        return __('app.logo');
     }
 
     public function defaultValue()
@@ -34,7 +28,7 @@ class LogoFile extends BaseSettingsField
     public function formArgs(): ?array
     {
         return [
-            'accept' => 'image/*',
+            'accept' => 'image/png',
         ];
     }
 
@@ -46,11 +40,6 @@ class LogoFile extends BaseSettingsField
         ];
     }
 
-    public function formHelp(): ?string
-    {
-        return __('app.image_will_be_visible_e_g_on_login_screen');
-    }
-
     public function formFilePath(): ?string
     {
         return 'public/common';
@@ -58,8 +47,9 @@ class LogoFile extends BaseSettingsField
 
     public function setter($value)
     {
+        $dimension = $this->dimension();
         $image = new ImageResize($value->getRealPath());
-        $image->resizeToBestFit(self::MAX_WIDTH, self::MAX_HEIGHT);
+        $image->resizeToBestFit($dimension, $dimension, true);
         $image->save($value->getRealPath());
         return $value;
     }

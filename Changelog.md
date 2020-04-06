@@ -8,6 +8,7 @@
 * Login logo image can now be defined in settings view
 * Signet image can now be defined in settings view
 * Added permissions to configure common settings
+* Favicon images can now be defined in settings view
 
 ## 2.12.1
 

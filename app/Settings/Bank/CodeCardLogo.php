@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Gate;
 
 class CodeCardLogo extends BaseSettingsField
 {
+    private const MAX_WIDTH = 300;
+    private const MAX_HEIGHT = 300;
+
     public function section(): string
     {
         return 'bank';
@@ -51,7 +54,7 @@ class CodeCardLogo extends BaseSettingsField
     public function setter($value)
     {
         $image = new ImageResize($value->getRealPath());
-        $image->resizeToBestFit(300, 300, true);
+        $image->resizeToBestFit(self::MAX_WIDTH, self::MAX_HEIGHT);
         $image->save($value->getRealPath());
         return $value;
     }

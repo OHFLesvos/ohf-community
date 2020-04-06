@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Gate;
 
 class SignetFile extends BaseSettingsField
 {
+    private const WIDTH = 30;
+    private const HEIGHT = 30;
+
     public function section(): string
     {
         return 'common';
@@ -43,6 +46,11 @@ class SignetFile extends BaseSettingsField
         ];
     }
 
+    public function formHelp(): ?string
+    {
+        return __('app.size_x_y_pixel', [ 'x' => self::WIDTH, 'y' => self::HEIGHT ]);
+    }
+
     public function formFilePath(): ?string
     {
         return 'public/common';
@@ -51,7 +59,7 @@ class SignetFile extends BaseSettingsField
     public function setter($value)
     {
         $image = new ImageResize($value->getRealPath());
-        $image->resizeToBestFit(30, 30, true);
+        $image->resizeToBestFit(self::WIDTH, self::HEIGHT, true);
         $image->save($value->getRealPath());
         return $value;
     }

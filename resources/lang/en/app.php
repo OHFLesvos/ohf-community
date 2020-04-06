@@ -328,4 +328,11 @@ return [
     'common' => 'Common',
     'image_will_be_visible_e_g_on_login_screen' => 'The image will be visible e.g. on the login screen',
     'signet' => 'Signet',
+    'favicon_32' => 'Favicon (32 x 32 pixel)',
+    'favicon_32_explanation' => 'Favicon standard for most desktop browsers',
+    'favicon_180' => 'Favicon (180 x 180 pixel)',
+    'favicon_180_explanation' => 'Favicon for iPhone Retina',
+    'favicon_192' => 'Favicon (192 x 192 pixel)',
+    'favicon_192_explanation' => 'Favicon according to Google Developer Web App Manifest Recommendation',
+    'size_x_y_pixel' => 'Size: :x x :y pixel',
  ];

@@ -25,7 +25,14 @@ class BrandingComposer
      */
     public function compose(View $view)
     {
-        $signet_url = Setting::has('common.signet_file') ? Storage::url(Setting::get('common.signet_file')) : null;
-        $view->with('signet_url', $signet_url);
+        $view->with('signet_url', self::fileUrlFromSettings('common.signet_file'));
+        $view->with('favicon_32_url', self::fileUrlFromSettings('common.favicon_32_file'));
+        $view->with('favicon_180_url', self::fileUrlFromSettings('common.favicon_180_file'));
+        $view->with('favicon_192_url', self::fileUrlFromSettings('common.favicon_192_file'));
+    }
+
+    private static function fileUrlFromSettings(string $key): ?string
+    {
+        return Setting::has($key) ? Storage::url(Setting::get($key)) : null;
     }
 }
