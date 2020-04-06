@@ -2,16 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\App;
 use Michelf\MarkdownExtra;
 
 class PrivacyPolicy extends Controller
 {
     public function userPolicy()
     {
-        $markdown = file_get_contents(base_path() . '/resources/lang/' .  \App::getLocale() . '/user-privacy-policy.md');
-        $content = MarkdownExtra::defaultTransform($markdown);
         return view('auth.privacy', [
-            'content' => $content,
+            'content' => self::getContent(),
         ]);
+    }
+
+    private static function getContent()
+    {
+        $locale = App::getLocale();
+        if ($locale != '') {
+            $file_path = base_path() . '/resources/lang/' .  $locale . '/user-privacy-policy.md';
+            if (is_file(($file_path))) {
+                $markdown = file_get_contents($file_path);
+                return MarkdownExtra::defaultTransform($markdown);
+            }
+        }
+        return null;
     }
 }
