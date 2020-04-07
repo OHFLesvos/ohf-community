@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "26a56f798b8320a50cb19f2683fc77f8",
+    "content-hash": "6a9fc79baea2c7999677198336b6713c",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1458,27 +1458,28 @@
         },
         {
             "name": "gumlet/php-image-resize",
-            "version": "1.8.0",
+            "version": "1.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gumlet/php-image-resize.git",
-                "reference": "203210e94849c809bdb97fff4f803a7932e2bc62"
+                "reference": "06339a9c1b167acd58173db226f57957a6617547"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gumlet/php-image-resize/zipball/203210e94849c809bdb97fff4f803a7932e2bc62",
-                "reference": "203210e94849c809bdb97fff4f803a7932e2bc62",
+                "url": "https://api.github.com/repos/gumlet/php-image-resize/zipball/06339a9c1b167acd58173db226f57957a6617547",
+                "reference": "06339a9c1b167acd58173db226f57957a6617547",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
                 "ext-gd": "*",
-                "php": ">=5.4.0"
+                "php": ">=5.5.0"
             },
             "require-dev": {
+                "apigen/apigen": "^4.1",
                 "ext-exif": "*",
                 "ext-gd": "*",
-                "php-coveralls/php-coveralls": "dev-master || ^1.0",
+                "php-coveralls/php-coveralls": "^2.1",
                 "phpunit/phpunit": "^4.8"
             },
             "suggest": {
@@ -1508,7 +1509,7 @@
                 "resize",
                 "scale"
             ],
-            "time": "2018-02-10T05:20:52+00:00"
+            "time": "2019-01-01T13:53:00+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3127,21 +3128,25 @@
         },
         {
             "name": "monarobase/country-list",
-            "version": "2.1.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Monarobase/country-list.git",
-                "reference": "7d3bee9cd4712fd27ede285a01228fe1984dcf70"
+                "reference": "b5e6d1b237c4fa38c989b4bdb9917c803824c77d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Monarobase/country-list/zipball/7d3bee9cd4712fd27ede285a01228fe1984dcf70",
-                "reference": "7d3bee9cd4712fd27ede285a01228fe1984dcf70",
+                "url": "https://api.github.com/repos/Monarobase/country-list/zipball/b5e6d1b237c4fa38c989b4bdb9917c803824c77d",
+                "reference": "b5e6d1b237c4fa38c989b4bdb9917c803824c77d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
+                "illuminate/support": "^5.8|^6|^7",
+                "php": ">=5.6.0",
                 "umpirsky/country-list": "2.0.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.3"
             },
             "type": "library",
             "extra": {
@@ -3171,12 +3176,12 @@
                     "role": "Developer"
                 }
             ],
-            "description": "List of all countries with names and ISO 3166-1 codes in all languages and data formats for Laravel 4/5",
+            "description": "List of all countries with names and ISO 3166-1 codes in all languages and data formats for Laravel",
             "keywords": [
                 "countries",
                 "laravel"
             ],
-            "time": "2018-02-20T07:38:50+00:00"
+            "time": "2020-03-10T15:42:14+00:00"
         },
         {
             "name": "monolog/monolog",
