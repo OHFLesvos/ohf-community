@@ -37,6 +37,14 @@ class MoneyTransaction extends Model implements Auditable
     ];
 
     /**
+     * Get the wallet that owns this transaction.
+     */
+    public function wallet()
+    {
+        return $this->belongsTo(Wallet::class);
+    }
+
+    /**
      * Gets the amount of the wallet
      *
      * @param \Carbon\Carbon $date optional end-date until which transactions should be considered
