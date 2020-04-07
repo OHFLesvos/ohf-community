@@ -31,7 +31,6 @@
         "jeroendesloovere/vcard": "^1.6",
         "laravel/framework": "^7.0",
         "laravel/socialite": "^4.1",
-        "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "laravelcollective/html": "^6.0",
         "maatwebsite/excel": "^3.1",
