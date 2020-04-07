@@ -176,7 +176,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.export');
         Route::post('transactions/doExport', 'MoneyTransactionsController@doExport')
             ->name('transactions.doExport');
-        Route::get('transactions/summary', 'MoneyTransactionsController@summary')
+        Route::get('transactions/summary', 'SummaryController@summary')
             ->name('transactions.summary');
         Route::get('transactions/{transaction}/snippet', 'MoneyTransactionsController@snippet')
             ->name('transactions.snippet');
