@@ -7,12 +7,6 @@
         "laravel"
     ],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git://github.com/mrcage/chf-exchange-rates-php.git"
-        }
-    ],
     "require": {
         "php": "^7.4.0",
         "akaunting/language": "^1.0",
@@ -38,7 +32,7 @@
         "michelf/php-markdown": "^1.8",
         "monarobase/country-list": "^3.0",
         "mpdf/mpdf": "^8.0",
-        "mrcage/chf-exchange-rates": "~1.0",
+        "mrcage/chf-exchange-rates": "^1.0",
         "nicebooks/isbn": "^0.2.20",
         "owen-it/laravel-auditing": "^10.0",
         "petercoles/multilingual-language-list": "^1.1",
