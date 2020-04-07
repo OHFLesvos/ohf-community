@@ -52,7 +52,7 @@ class FrequentVisitorThreshold extends BaseSettingsField
         return __('bank.frequent_visitors_affected', [
             'freq' => $current_num_frequent_visitors,
             'total' => $current_num_people,
-            'percentage' => round($current_num_frequent_visitors/$current_num_people * 100),
+            'percentage' => $current_num_people > 0 ? (round($current_num_frequent_visitors/$current_num_people * 100)) : 0,
         ]);
     }
 
