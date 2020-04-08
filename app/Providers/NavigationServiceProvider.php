@@ -33,6 +33,7 @@ class NavigationServiceProvider extends ServiceProvider
         'people.index'           => \App\Navigation\ContextMenu\People\PeopleContextMenu::class,
         'bank.withdrawal.search' => \App\Navigation\ContextMenu\Bank\BankWithdrawalContextMenu::class,
         'people.helpers.index'   => \App\Navigation\ContextMenu\Helpers\HelpersContextMenu::class,
+        'accounting.transactions.index'       => \App\Navigation\ContextMenu\Accounting\AccountingContextMenu::class,
     ];
 
     protected $contextButtons = [
