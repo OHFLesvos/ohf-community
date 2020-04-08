@@ -17,12 +17,6 @@
                 <span class="float-right">{{ number_format($wallet->amount, 2) }}</span>
             </a>
         @endforeach
-        @can('create', App\Models\Accounting\Wallet::class)
-            <a href="{{ route('accounting.wallets.create') }}" class="list-group-item list-group-item-action">
-                <span class="text-primary">@icon(plus-circle)</span>
-                @lang('accounting.add_new_wallet')
-            </a>
-        @endcan
     </div>
 
 @endsection

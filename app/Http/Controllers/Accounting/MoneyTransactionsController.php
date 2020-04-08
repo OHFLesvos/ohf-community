@@ -54,7 +54,15 @@ class MoneyTransactionsController extends Controller
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
             'sortColumn' => 'nullable|in:date,created_at,category,project,beneficiary,receipt_no',
             'sortOrder' => 'nullable|in:asc,desc',
+            'wallet_id' => [
+                'nullable',
+                'exists:accounting_wallets,id',
+            ],
         ]);
+
+        if ($request->has('wallet_id')) {
+            $currentWallet->set(Wallet::find($request->input('wallet_id')));
+        }
 
         $sortColumns = [
             'date' => __('app.date'),

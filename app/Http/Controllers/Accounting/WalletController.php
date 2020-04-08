@@ -131,10 +131,15 @@ class WalletController extends Controller
     {
         $this->authorize('list', MoneyTransaction::class);
 
+        $change = $currentWallet->get()->id != $wallet->id;
+
         $currentWallet->set($wallet);
 
-        return redirect()
-            ->route('accounting.transactions.index')
-            ->with('info', __('accounting.wallet_changed'));
+        $ret = redirect()
+            ->route('accounting.transactions.index');
+        if ($change) {
+            return $ret->with('info', __('accounting.wallet_changed'));
+        }
+        return $ret;
     }
 }
