@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Wallet;
 use Illuminate\Database\Seeder;
 
 class AccountingDatabaseSeeder extends Seeder
@@ -12,6 +13,11 @@ class AccountingDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(MoneyTransaction::class, 250)->create();
+        factory(Wallet::class, 3)->create()
+           ->each(function ($wallet) {
+                $wallet->transactions()->createMany(
+                    factory(MoneyTransaction::class, mt_rand(50, 250))->make()->toArray()
+                );
+            });
     }
 }

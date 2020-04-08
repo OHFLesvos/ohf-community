@@ -5,8 +5,8 @@ namespace App\Exports\Accounting;
 use App\Exports\Accounting\Sheets\MoneyTransactionsMonthSheet;
 use App\Exports\Accounting\Sheets\MoneyTransactionsSummarySheet;
 use App\Exports\DefaultFormatting;
-use App\Http\Controllers\Accounting\MoneyTransactionsController;
 use App\Models\Accounting\MoneyTransaction;
+use App\Services\Accounting\CurrentWalletService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -37,15 +37,16 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
 
     public function sheets(): array
     {
-        $qry = MoneyTransaction::query()
+        $months = MoneyTransaction::query()
+            ->forWallet(resolve(CurrentWalletService::class)->get())
+            ->forFilter($this->filter, true)
             ->selectRaw('MONTH(date) as month')
             ->selectRaw('YEAR(date) as year')
             ->groupBy(DB::raw('MONTH(date)'))
             ->groupBy(DB::raw('YEAR(date)'))
             ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc');
-        MoneyTransactionsController::applyFilterToQuery($this->filter, $qry, true);
-        $months = $qry->get()
+            ->orderBy('month', 'asc')
+            ->get()
             ->map(fn ($e) => (new Carbon($e->year.'-'.$e->month.'-01'))->startOfMonth())
             ->toArray();
 

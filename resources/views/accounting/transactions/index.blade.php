@@ -6,8 +6,23 @@
 
     <div class="d-flex justify-content-between align-items-center">
         <div class="mb-3">
-            @icon(wallet) <span class="d-none d-sm-inline">Wallet:</span>
-            <u>{{ number_format($wallet, 2) }}</u>
+            @icon(wallet)
+            <span class="d-none d-sm-inline">
+                @if($has_multiple_wallets)
+                    {{ $wallet->name }}:
+                @else
+                    @lang('accounting.wallet'):
+                @endif
+            </span>
+            <u>{{ number_format($wallet->amount, 2) }}</u>
+            @if($has_multiple_wallets)
+                <a href="{{ route('accounting.wallets.change') }}" class="d-none d-sm-inline">
+                    @lang('app.change')
+                </a>
+                <a href="{{ route('accounting.wallets.change') }}" class="d-inline d-sm-none btn btn-sm">
+                    @icon(folder-open)
+                </a>
+            @endif
         </div>
         <div class="text-right">
             @if(count($filter) > 0)

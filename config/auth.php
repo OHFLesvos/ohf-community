@@ -204,7 +204,7 @@ return [
             'sensitive' => false,
         ],
         'accounting.configure' => [
-            'label' => 'permissions.configure',
+            'label' => 'permissions.configure_accounting',
             'sensitive' => false,
         ],
 

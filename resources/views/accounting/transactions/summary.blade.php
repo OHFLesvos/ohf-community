@@ -6,7 +6,13 @@
 
     <div class="row">
         <div class="col-sm">
-            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }}</h2>
+            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }}
+                @if($has_multiple_wallets)
+                    <small>
+                        {{ $wallet->name }}
+                    </small>
+                @endif
+            </h2>
         </div>
         <div class="col-sm-auto">
             @if(sizeof($months) > 0)
@@ -104,7 +110,7 @@
                         </tr>
                         <tr>
                             <td>@lang('accounting.wallet')</td>
-                            <td class="text-right {{ $wallet < 0 ? 'text-danger' : '' }}"><u>{{ number_format($wallet, 2) }}</u></td>
+                            <td class="text-right {{ $wallet_amount < 0 ? 'text-danger' : '' }}"><u>{{ number_format($wallet_amount, 2) }}</u></td>
                         </tr>
                     </tbody>
                 </table>

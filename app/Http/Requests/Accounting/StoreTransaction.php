@@ -28,6 +28,10 @@ class StoreTransaction extends FormRequest
     public function rules()
     {
         return [
+            'wallet_id' => [
+                'nullable',
+                'exists:accounting_wallets,id',
+            ],
             'date' => [
                 'required',
                 'date',

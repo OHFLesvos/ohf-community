@@ -3,6 +3,8 @@
 namespace App\Widgets\Accounting;
 
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Wallet;
+use App\Services\Accounting\CurrentWalletService;
 use App\Widgets\Widget;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
@@ -21,22 +23,11 @@ class TransactionsWidget implements Widget
 
     public function args(): array
     {
-        // TODO: Probably define on more general location
-        setlocale(LC_TIME, \App::getLocale());
-
-        $dateFrom = Carbon::now()->startOfMonth();
-        $dateTo = (clone $dateFrom)->endOfMonth();
-
         return [
-            'monthName' => $dateFrom->formatLocalized('%B %Y'),
-            'spending' => MoneyTransaction::selectRaw('SUM(amount) as sum')
-                ->whereDate('date', '>=', $dateFrom)
-                ->whereDate('date', '<=', $dateTo)
-                ->where('type', 'spending')
-                ->get()
-                ->first()
-                ->sum,
-            'wallet' => MoneyTransaction::currentWallet(),
+            'wallets' => Wallet::orderBy('is_default', 'desc')
+                ->orderBy('name')
+                ->get(),
+            'has_multiple_wallets' => Wallet::count() > 1,
         ];
     }
 }

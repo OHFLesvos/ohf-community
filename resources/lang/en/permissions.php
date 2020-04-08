@@ -24,7 +24,7 @@ return [
     'delete_transactions' => 'Accounting: Delete transactions',
     'book_externally' => 'Accounting: Book transactions externally',
     'view_summary' => 'Accounting: View summary',
-    'configure'  => 'Accounting: Configure settings',
+    'configure_accounting'  => 'Accounting: Configure settings',
 
     'view_calendar_events' => 'Calendar: View events',
     'create_calendar_events' => 'Calendar: Create events',

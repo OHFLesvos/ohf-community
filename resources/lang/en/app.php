@@ -292,7 +292,7 @@ return [
     'by_month' => 'by month',
     'by_year' => 'by year',
     'all_time' => 'All time',
-    'columns' => 'columns',
+    'columns' => 'Columns',
     'rows' => 'Rows',
     'action' => 'Action',
     'actions' => 'Actions',
@@ -336,4 +336,7 @@ return [
     'favicon_192_explanation' => 'Favicon according to Google Developer Web App Manifest Recommendation',
     'size_x_y_pixel' => 'Size: :x x :y pixel',
     'branding' => 'Branding',
+    'change' => 'Change',
+    'default' => 'Default',
+    'latest_activity' => 'Latest activity',
  ];

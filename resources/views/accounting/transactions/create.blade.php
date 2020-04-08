@@ -4,6 +4,9 @@
 
 @section('content')
     {!! Form::open(['route' => ['accounting.transactions.store' ], 'files' => true]) !!}
+        @if(count($wallets) > 1)
+            {{ Form::bsSelect('wallet_id', $wallets, $wallet->id, [], __('accounting.wallet')) }}
+        @endif
         <div class="form-row">
             <div class="col-sm-auto">
                 {{ Form::bsNumber('receipt_no', $newReceiptNo, [ 'disabled' ], __('accounting.receipt_no')) }}

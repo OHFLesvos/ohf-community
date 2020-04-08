@@ -3,8 +3,8 @@
 namespace App\Exports\Accounting\Sheets;
 
 use App\Exports\Accounting\BaseMoneyTransactionsExport;
-use App\Http\Controllers\Accounting\MoneyTransactionsController;
 use App\Models\Accounting\MoneyTransaction;
+use App\Services\Accounting\CurrentWalletService;
 use Carbon\Carbon;
 
 class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
@@ -32,12 +32,13 @@ class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
         $dateFrom = $this->month;
         $dateTo = (clone $dateFrom)->endOfMonth();
 
-        $qry = MoneyTransaction::orderBy('date', 'ASC')
+        return MoneyTransaction::query()
+            ->forWallet(resolve(CurrentWalletService::class)->get())
+            ->forFilter($this->filter, true)
+            ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC')
             ->whereDate('date', '>=', $dateFrom)
             ->whereDate('date', '<=', $dateTo);
-        MoneyTransactionsController::applyFilterToQuery($this->filter, $qry, true);
-        return $qry;
     }
 
     public function title(): string

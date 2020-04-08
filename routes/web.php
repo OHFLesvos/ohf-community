@@ -176,13 +176,19 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.export');
         Route::post('transactions/doExport', 'MoneyTransactionsController@doExport')
             ->name('transactions.doExport');
-        Route::get('transactions/summary', 'MoneyTransactionsController@summary')
+        Route::get('transactions/summary', 'SummaryController@summary')
             ->name('transactions.summary');
         Route::get('transactions/{transaction}/snippet', 'MoneyTransactionsController@snippet')
             ->name('transactions.snippet');
         Route::put('transactions/{transaction}/undoBooking', 'MoneyTransactionsController@undoBooking')
             ->name('transactions.undoBooking');
         Route::resource('transactions', 'MoneyTransactionsController');
+
+        Route::get('wallets/change', 'WalletController@change')
+            ->name('wallets.change');
+        Route::get('wallets/change/{wallet}', 'WalletController@doChange')
+            ->name('wallets.doChange');
+        Route::resource('wallets', 'WalletController');
 
         // Webling
         Route::get('webling', 'WeblingApiController@index')

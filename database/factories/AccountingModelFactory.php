@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Wallet;
 use Faker\Generator as Faker;
 
 $factory->define(MoneyTransaction::class, fn (Faker $faker) => [
@@ -16,3 +17,9 @@ $factory->define(MoneyTransaction::class, fn (Faker $faker) => [
     'description' => $faker->sentence,
     'booked' => false,
 ]);
+
+$factory->define(Wallet::class, function (Faker $faker) {
+    return [
+        'name' => $faker->company,
+    ];
+});

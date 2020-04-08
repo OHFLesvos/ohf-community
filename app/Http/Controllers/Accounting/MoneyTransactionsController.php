@@ -9,10 +9,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Wallet;
+use App\Services\Accounting\CurrentWalletService;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Setting;
 
@@ -30,7 +31,7 @@ class MoneyTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, CurrentWalletService $currentWallet)
     {
         $this->authorize('list', MoneyTransaction::class);
 
@@ -53,7 +54,15 @@ class MoneyTransactionsController extends Controller
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
             'sortColumn' => 'nullable|in:date,created_at,category,project,beneficiary,receipt_no',
             'sortOrder' => 'nullable|in:asc,desc',
+            'wallet_id' => [
+                'nullable',
+                'exists:accounting_wallets,id',
+            ],
         ]);
+
+        if ($request->has('wallet_id')) {
+            $currentWallet->set(Wallet::find($request->input('wallet_id')));
+        }
 
         $sortColumns = [
             'date' => __('app.date'),
@@ -119,43 +128,17 @@ class MoneyTransactionsController extends Controller
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(true),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
-            'wallet' => MoneyTransaction::currentWallet(),
+            'wallet' => $currentWallet->get(),
+            'has_multiple_wallets' => Wallet::count() > 1,
         ]);
     }
 
     private static function createIndexQuery(array $filter, string $sortColumn, string $sortOrder) {
-        $query = MoneyTransaction::orderBy($sortColumn, $sortOrder)
+        return MoneyTransaction::query()
+            ->forWallet(resolve(CurrentWalletService::class)->get())
+            ->forFilter($filter)
+            ->orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
-        self::applyFilterToQuery($filter, $query);
-        return $query;
-    }
-
-    public static function applyFilterToQuery(array $filter, &$query, ?bool $skipDates = false) {
-        foreach (config('accounting.filter_columns') as $col) {
-            if (! empty($filter[$col])) {
-                if ($col == 'today') {
-                    $query->whereDate('created_at', Carbon::today());
-                } elseif ($col == 'no_receipt') {
-                    $query->where(function ($query) {
-                        $query->whereNull('receipt_no');
-                        $query->orWhereNull('receipt_pictures');
-                        $query->orWhere('receipt_pictures', '[]');
-                    });
-                } elseif ($col == 'beneficiary' || $col == 'description') {
-                    $query->where($col, 'like', '%' . $filter[$col] . '%');
-                } else {
-                    $query->where($col, $filter[$col]);
-                }
-            }
-        }
-        if (! $skipDates) {
-            if (! empty($filter['date_start'])) {
-                $query->whereDate('date', '>=', $filter['date_start']);
-            }
-            if (! empty($filter['date_end'])) {
-                $query->whereDate('date', '<=', $filter['date_end']);
-            }
-        }
     }
 
     /**
@@ -163,7 +146,7 @@ class MoneyTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CurrentWalletService $currentWallet)
     {
         $this->authorize('create', MoneyTransaction::class);
 
@@ -174,6 +157,10 @@ class MoneyTransactionsController extends Controller
             'projects' => self::getProjects(),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
+            'wallet' => $currentWallet->get(),
+            'wallets' => Wallet::orderBy('name')
+                ->pluck('name', 'id')
+                ->toArray(),
         ]);
     }
 
@@ -201,7 +188,7 @@ class MoneyTransactionsController extends Controller
      * @param  \App\Http\Requests\Accounting\StoreTransaction  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTransaction $request)
+    public function store(StoreTransaction $request, CurrentWalletService $currentWallet)
     {
         $this->authorize('create', MoneyTransaction::class);
 
@@ -215,12 +202,17 @@ class MoneyTransactionsController extends Controller
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
         $transaction->wallet_owner = $request->wallet_owner;
+        $transaction->wallet()->associate($request->input('wallet_id', $currentWallet->get()));
 
         if (isset($request->receipt_picture)) {
             $transaction->addReceiptPicture($request->file('receipt_picture'));
         }
 
         $transaction->save();
+
+        if ($transaction->wallet->id !== $currentWallet->get()->id) {
+            $currentWallet->set($transaction->wallet);
+        }
 
         return redirect()
             ->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index')
@@ -343,117 +335,6 @@ class MoneyTransactionsController extends Controller
             ->with('info', __('accounting.transactions_deleted'));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function summary(Request $request)
-    {
-        $this->authorize('view-accounting-summary');
-
-        $currentMonth = Carbon::now()->startOfMonth();
-
-        $request->validate([
-            'month' => 'nullable|integer|min:1|max:12',
-            'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
-        ]);
-
-        if ($request->filled('year') && $request->filled('month')) {
-            $year = $request->year;
-            $month = $request->month;
-        } elseif ($request->filled('year')) {
-            $year = $request->year;
-            $month = null;
-        } elseif ($request->has('year')) {
-            $year = null;
-            $month = null;
-        } elseif ($request->session()->has('accounting.summary_range.year') && $request->session()->has('accounting.summary_range.month')) {
-            $year = $request->session()->get('accounting.summary_range.year');
-            $month = $request->session()->get('accounting.summary_range.month');
-        } elseif ($request->session()->has('accounting.summary_range.year')) {
-            $year = $request->session()->get('accounting.summary_range.year');
-            $month = null;
-        } elseif ($request->session()->exists('accounting.summary_range.year')) {
-            $year = null;
-            $month = null;
-        } else {
-            $year = $currentMonth->year;
-            $month = $currentMonth->month;
-        }
-        session([
-            'accounting.summary_range.year' => $year,
-            'accounting.summary_range.month' => $month,
-        ]);
-
-        if ($year != null && $month != null) {
-            $dateFrom = (new Carbon($year.'-'.$month.'-01'))->startOfMonth();
-            $dateTo = (clone $dateFrom)->endOfMonth();
-            $heading = $dateFrom->formatLocalized('%B %Y');
-            $currentRange = $dateFrom->format('Y-m');
-        } elseif ($year != null) {
-            $dateFrom = (new Carbon($year.'-01-01'))->startOfYear();
-            $dateTo = (clone $dateFrom)->endOfYear();
-            $heading = $year;
-            $currentRange = $year;
-        } else {
-            $dateFrom = null;
-            $dateTo = null;
-            $heading = __('app.all_time');
-            $currentRange = null;
-        }
-
-        // TODO: Probably define on more general location
-        setlocale(LC_TIME, \App::getLocale());
-
-        $revenueByCategory = MoneyTransaction::revenueByField('category', $dateFrom, $dateTo);
-        $revenueByProject = MoneyTransaction::revenueByField('project', $dateFrom, $dateTo);
-        $wallet = MoneyTransaction::currentWallet($dateTo);
-
-        $spending = MoneyTransaction::totalSpending($dateFrom, $dateTo);
-        $income = MoneyTransaction::totalIncome($dateFrom, $dateTo);
-
-        $months = MoneyTransaction::selectRaw('MONTH(date) as month')
-            ->selectRaw('YEAR(date) as year')
-            ->groupBy(DB::raw('MONTH(date)'))
-            ->groupBy(DB::raw('YEAR(date)'))
-            ->orderBy('year', 'desc')
-            ->orderBy('month', 'desc')
-            ->get()
-            ->mapWithKeys(fn ($e) => self::toYearMonthMap($e->year, $e->month))
-            ->prepend($currentMonth->formatLocalized('%B %Y'), $currentMonth->format('Y-m'))
-            ->toArray();
-
-        $years = MoneyTransaction::selectRaw('YEAR(date) as year')
-            ->groupBy(DB::raw('YEAR(date)'))
-            ->orderBy('year', 'desc')
-            ->get()
-            ->mapWithKeys(fn ($e) => [ $e->year => $e->year ])
-            ->prepend($currentMonth->format('Y'), $currentMonth->format('Y'))
-            ->toArray();
-
-        return view('accounting.transactions.summary', [
-            'heading' => $heading,
-            'currentRange' => $currentRange,
-            'months' => $months,
-            'years' => $years,
-            'revenueByCategory' => $revenueByCategory,
-            'revenueByProject' => $revenueByProject,
-            'wallet' => $wallet,
-            'spending' => $spending,
-            'income' => $income,
-            'filterDateStart' => optional($dateFrom)->toDateString(),
-            'filterDateEnd' => optional($dateTo)->toDateString(),
-        ]);
-    }
-
-    private static function toYearMonthMap(int $year, int $month)
-    {
-        $date = new Carbon($year.'-'.$month.'-01');
-        return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
-    }
-
     protected function exportAuthorize()
     {
         $this->authorize('list', MoneyTransaction::class);
@@ -506,7 +387,8 @@ class MoneyTransactionsController extends Controller
 
     protected function exportFilename(Request $request): string
     {
-        return config('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
+        $wallet = resolve(CurrentWalletService::class)->get();
+        return config('app.name') . ' ' . __('accounting.accounting') . ' [' . $wallet->name . '] (' . Carbon::now()->toDateString() . ')';
     }
 
     protected function exportExportable(Request $request)

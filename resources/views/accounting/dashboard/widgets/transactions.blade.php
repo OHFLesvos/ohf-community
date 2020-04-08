@@ -6,12 +6,12 @@
             'icon' => 'plus-circle',
             'authorized' => Auth::user()->can('create', App\Models\Accounting\MoneyTransaction::class),
         ],
-        [
+        ! $has_multiple_wallets ? [
             'url' => route('accounting.transactions.index'),
             'title' => __('app.overview'),
             'icon' => 'list',
             'authorized' =>  Auth::user()->can('list', App\Models\Accounting\MoneyTransaction::class),
-        ],
+        ] : null,
     ];
 @endphp
 
@@ -20,21 +20,12 @@
 @section('widget-title', __('accounting.accounting'))
 
 @section('widget-content')
-    <table class="table mb-0">
-        @isset($spending)
-            <tr><td>@lang('accounting.spending') {{ $monthName }}</td><td class="text-right">{{ number_format($spending, 2) }}</td></tr>
-        @endif
-        @isset($wallet)
-            <tr>
-                <td>
-                    @lang('accounting.wallet')
-                </td>
-                <td class="text-right">
-                    <u>{{ number_format($wallet, 2) }}</u>
-                </td>
-            </tr>
-        @else
-            <tr><td><em>@lang('app.no_data_available')</em></td></tr>
-        @endif
-    </table>
+    <div class="list-group list-group-flush">
+        @foreach($wallets as $wallet)
+            <a href="{{ route('accounting.transactions.index', ['wallet_id' => $wallet->id]) }}" class="list-group-item list-group-item-action">
+                @if($has_multiple_wallets){{ $wallet->name }}@else @lang('accounting.wallet') @endif
+                <span class="float-right">{{ number_format($wallet->amount, 2) }}</span>
+            </a>
+        @endforeach
+    </div>
 @endsection
