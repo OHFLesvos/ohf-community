@@ -114,8 +114,7 @@ class WalletController extends Controller
         $this->authorize('list', MoneyTransaction::class);
 
         return view('accounting.wallets.change', [
-            'wallets' => Wallet::orderBy('is_default', 'desc')
-                ->orderBy('name')
+            'wallets' => Wallet::orderBy('name')
                 ->get(),
             'active' => $currentWallet->get(),
         ]);

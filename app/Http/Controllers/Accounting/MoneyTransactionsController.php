@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Wallet;
 use App\Services\Accounting\CurrentWalletService;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
@@ -136,7 +137,7 @@ class MoneyTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CurrentWalletService $currentWallet)
     {
         $this->authorize('create', MoneyTransaction::class);
 
@@ -147,6 +148,10 @@ class MoneyTransactionsController extends Controller
             'projects' => self::getProjects(),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
+            'wallet' => $currentWallet->get(),
+            'wallets' => Wallet::orderBy('name')
+                ->pluck('name', 'id')
+                ->toArray(),
         ]);
     }
 
@@ -188,13 +193,17 @@ class MoneyTransactionsController extends Controller
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
         $transaction->wallet_owner = $request->wallet_owner;
-        $transaction->wallet()->associate($currentWallet->get());
+        $transaction->wallet()->associate($request->input('wallet_id', $currentWallet->get()));
 
         if (isset($request->receipt_picture)) {
             $transaction->addReceiptPicture($request->file('receipt_picture'));
         }
 
         $transaction->save();
+
+        if ($transaction->wallet->id !== $currentWallet->get()->id) {
+            $currentWallet->set($transaction->wallet);
+        }
 
         return redirect()
             ->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index')
