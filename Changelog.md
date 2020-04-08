@@ -12,6 +12,7 @@
 * Store settings in json file instead of database
 * Show accounting wallet amount on transactions index
 * Simplified accounting transaction list / summary view navigation
+* Added support for multiple wallets in accounting feature
 
 ## 2.12.1
 
