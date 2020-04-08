@@ -17,7 +17,7 @@ return [
     'receipt_no' => 'Beleg Nr.',
     'show_transaction' => 'Transaktion anzeigen',
     'wallet' => 'Kasse',
-    'wallets' => 'Kasses',
+    'wallets' => 'Kassen',
     'confirm_delete_transaction' => 'Soll diese Transaktion wirklich gelöscht werden?',
     'edit_transaction_number' => 'Transaktion #:number bearbeiten',
     'choose_picture_of_receipt' => 'Beleg-Bild auswählen',
