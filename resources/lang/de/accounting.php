@@ -17,6 +17,7 @@ return [
     'receipt_no' => 'Beleg Nr.',
     'show_transaction' => 'Transaktion anzeigen',
     'wallet' => 'Kasse',
+    'wallets' => 'Kasses',
     'confirm_delete_transaction' => 'Soll diese Transaktion wirklich gelöscht werden?',
     'edit_transaction_number' => 'Transaktion #:number bearbeiten',
     'choose_picture_of_receipt' => 'Beleg-Bild auswählen',
@@ -50,4 +51,6 @@ return [
     'undo_booking' => 'Verbuchen rückgängig machen',
     'really_undo_booking' => 'Verbuchen wirklich rückgängig machen?',
     'transaction_not_updated_external_record_still_exists' => 'Transaction nicht aktualisiert; der externe Datensatz existiert noch und muss zuerst gelöscht werden.',
+    'add_new_wallet' => 'Neue Kasse hinzufügen',
+    'wallet_changed' => 'Kasse gewechselt.',
 ];

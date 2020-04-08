@@ -17,6 +17,7 @@ return [
     'receipt_no' => 'Receipt No.',
     'show_transaction' => 'Show transaction',
     'wallet' => 'Wallet',
+    'wallets' => 'Wallets',
     'confirm_delete_transaction' => 'Do you really want to delete this transaction?',
     'edit_transaction_number' => 'Edit transaction #:number',
     'choose_picture_of_receipt' => 'Choose picture of receipt',
@@ -50,4 +51,6 @@ return [
     'undo_booking' => 'Undo booking',
     'really_undo_booking' => 'Really undo booking?',
     'transaction_not_updated_external_record_still_exists' => 'Transaction not updated; the external record still exists and has to be deleted beforehand.',
+    'add_new_wallet' => 'Add new wallet',
+    'wallet_changed' => 'Wallet changed',
 ];

@@ -20,6 +20,7 @@ class Wallet extends Model
 
     public static function boot()
     {
+        // Assign default marker if this is the first wallet being created
         static::creating(function ($model) {
             $model->is_default = self::count() == 0;
         });
@@ -49,7 +50,12 @@ class Wallet extends Model
         return optional($result)->sum;
     }
 
-    public function getAmountAttribute(): ?float
+    /**
+     * Gets the current amount (sum of all transactions) in the wallet
+     *
+     * @return float the amount in the wallet
+     */
+    public function getAmountAttribute(): float
     {
         return $this->calculatedSum() ?? 0;
     }

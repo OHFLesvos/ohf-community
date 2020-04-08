@@ -71,6 +71,7 @@ class NavigationServiceProvider extends ServiceProvider
         'accounting.transactions.edit'    => \App\Navigation\ContextButtons\Accounting\TransactionEditContextButtons::class,
         'accounting.webling.index'        => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,
         'accounting.webling.prepare'      => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
+        'accounting.wallets.change'       => \App\Navigation\ContextButtons\Accounting\TransactionReturnToIndexContextButtons::class,
 
         'kb.index'                        => \App\Navigation\ContextButtons\Collaboration\IndexContextButtons::class,
         'kb.latestChanges'                => \App\Navigation\ContextButtons\Collaboration\LatestChangesContextButtons::class,

@@ -184,6 +184,12 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.undoBooking');
         Route::resource('transactions', 'MoneyTransactionsController');
 
+        Route::get('wallets/change', 'WalletController@change')
+            ->name('wallets.change');
+        Route::get('wallets/change/{wallet}', 'WalletController@doChange')
+            ->name('wallets.doChange');
+        Route::resource('wallets', 'WalletController');
+
         // Webling
         Route::get('webling', 'WeblingApiController@index')
             ->name('webling.index');

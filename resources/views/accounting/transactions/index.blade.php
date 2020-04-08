@@ -8,6 +8,7 @@
         <div class="mb-3">
             @icon(wallet) <span class="d-none d-sm-inline">{{ $wallet->name }}:</span>
             <u>{{ number_format($wallet->amount, 2) }}</u>
+            <a href="{{ route('accounting.wallets.change') }}">@lang('app.change')</a>
         </div>
         <div class="text-right">
             @if(count($filter) > 0)
