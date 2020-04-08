@@ -24,6 +24,7 @@ class WalletController extends Controller
     {
         return view('accounting.wallets.index', [
             'wallets' => Wallet::orderBy('name')
+                ->with('transactions')
                 ->get(),
         ]);
     }
@@ -50,11 +51,6 @@ class WalletController extends Controller
         $wallet->fill($request->all());
         $wallet->is_default = isset($request->is_default);
         $wallet->save();
-
-        if ($wallet->is_default) {
-            Wallet::where('id', '!=', $wallet->id)
-                ->update(['is_default' => false]);
-        }
 
         return redirect()
             ->route('accounting.wallets.index')
@@ -86,11 +82,6 @@ class WalletController extends Controller
         $wallet->fill($request->all());
         $wallet->is_default = isset($request->is_default);
         $wallet->save();
-
-        if ($wallet->is_default) {
-            Wallet::where('id', '!=', $wallet->id)
-                ->update(['is_default' => false]);
-        }
 
         return redirect()
             ->route('accounting.wallets.index')

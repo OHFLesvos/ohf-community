@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Accounting;
 
-use App\Models\Accounting\Wallet;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

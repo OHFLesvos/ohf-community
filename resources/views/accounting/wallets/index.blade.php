@@ -10,6 +10,7 @@
                 <tr>
                     <th>@lang('app.name')</th>
                     <th class="text-right">@lang('app.amount')</th>
+                    <th class="text-right">@lang('accounting.transactions')</th>
                     <th class="fit text-center">@lang('app.default')</th>
                     <th class="fit">@lang('app.created')</th>
                 </tr>
@@ -22,6 +23,9 @@
                         </td>
                         <td class="text-right">
                             {{ number_format($wallet->amount, 2) }}
+                        </td>
+                        <td class="text-right">
+                            {{ $wallet->transactions()->count() }}
                         </td>
                         <td class="fit text-center">
                             @if($wallet->is_default)@icon(check)@else @icon(times) @endif

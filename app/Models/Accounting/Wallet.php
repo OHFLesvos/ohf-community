@@ -26,6 +26,20 @@ class Wallet extends Model
                 $model->is_default = true;
             }
         });
+        // Ensure only one wallet is default
+        static::created(function ($model) {
+            if ($model->is_default) {
+                Wallet::where('id', '!=', $model->id)
+                    ->update(['is_default' => false]);
+            }
+        });
+        // Ensure only one wallet is default
+        static::updated(function ($model) {
+            if ($model->is_default) {
+                Wallet::where('id', '!=', $model->id)
+                    ->update(['is_default' => false]);
+            }
+        });
         parent::boot();
     }
 

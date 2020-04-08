@@ -6,7 +6,7 @@
 
     <div class="list-group">
         @foreach($wallets as $wallet)
-            <a href="{{ route('accounting.wallets.doChange', $wallet) }}" class="list-group-item list-group-item-action @if($wallet->id == $active->id)list-group-item-success @endif">
+            <a href="{{ route('accounting.wallets.doChange', $wallet) }}" class="list-group-item list-group-item-action">
                 @if($wallet->id == $active->id)
                     <span class="text-success">@icon(check)</span>
                 @endif
