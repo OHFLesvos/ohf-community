@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Wallet;
 use App\Services\Accounting\CurrentWalletService;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Wallet::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -91,6 +97,8 @@ class WalletController extends Controller
 
     public function change(CurrentWalletService $currentWallet)
     {
+        $this->authorize('list', MoneyTransaction::class);
+
         return view('accounting.wallets.change', [
             'wallets' => Wallet::orderBy('is_default', 'desc')
                 ->orderBy('name')
@@ -101,6 +109,8 @@ class WalletController extends Controller
 
     public function doChange(Wallet $wallet, CurrentWalletService $currentWallet)
     {
+        $this->authorize('list', MoneyTransaction::class);
+
         $currentWallet->set($wallet);
 
         return redirect()

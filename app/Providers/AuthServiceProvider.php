@@ -19,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Fundraising\Donor::class              => \App\Policies\Fundraising\DonorPolicy::class,
         \App\Models\Fundraising\Donation::class           => \App\Policies\Fundraising\DonationPolicy::class,
         \App\Models\Accounting\MoneyTransaction::class    => \App\Policies\Accounting\MoneyTransactionPolicy::class,
+        \App\Models\Accounting\Wallet::class              => \App\Policies\Accounting\WalletPolicy::class,
         \App\Models\Collaboration\CalendarEvent::class    => \App\Policies\Collaboration\CalendarEventPolicy::class,
         \App\Models\Collaboration\CalendarResource::class => \App\Policies\Collaboration\ResourcePolicy::class,
         \App\Models\Collaboration\Task::class             => \App\Policies\Collaboration\TaskPolicy::class,

@@ -24,7 +24,7 @@ return [
     'delete_transactions' => 'Buchhaltung: Transaktionen löschen',
     'book_externally' => 'Buchhaltung: Transaktionen extern verbuchen',
     'view_summary' => 'Buchhaltung: Zusammenfassung ansehen',
-    'configure'  => 'Buchhaltung: Einstellungen bearbeiten',
+    'configure_accounting'  => 'Buchhaltung: Einstellungen bearbeiten',
 
     'view_calendar_events' => 'Kalender: Termine betrachten',
     'create_calendar_events' => 'Kalender: Termine erstellen',
