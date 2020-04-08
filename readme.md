@@ -102,9 +102,9 @@ Deployment onto production server
 It is recommended to execute a production deployment / upgrade as follows:
 
     php artisan down --message="Upgrading Application, please wait..." --retry=60
-    php composer install
+    php composer install --optimize-autoloader --no-dev
     php artisan cache:clear
-    php artisan view:clear
+    php artisan view:cache
     php artisan config:cache
     php artisan migrate --force
     php artisan up
