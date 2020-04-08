@@ -6,7 +6,14 @@
 
     <div class="d-flex justify-content-between align-items-center">
         <div class="mb-3">
-            @icon(wallet) <span class="d-none d-sm-inline">{{ $wallet->name }}:</span>
+            @icon(wallet)
+            <span class="d-none d-sm-inline">
+                @if($has_multiple_wallets)
+                    {{ $wallet->name }}:
+                @else
+                    @lang('accounting.wallet'):
+                @endif
+            </span>
             <u>{{ number_format($wallet->amount, 2) }}</u>
             @if($has_multiple_wallets)
                 <a href="{{ route('accounting.wallets.change') }}" class="d-none d-sm-inline">

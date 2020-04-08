@@ -27,6 +27,7 @@ class TransactionsWidget implements Widget
             'wallets' => Wallet::orderBy('is_default', 'desc')
                 ->orderBy('name')
                 ->get(),
+            'has_multiple_wallets' => Wallet::count() > 1,
         ];
     }
 }

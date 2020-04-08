@@ -6,7 +6,13 @@
 
     <div class="row">
         <div class="col-sm">
-            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }} <small>{{ $wallet->name }}</small></h2>
+            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }}
+                @if($has_multiple_wallets)
+                    <small>
+                        {{ $wallet->name }}
+                    </small>
+                @endif
+            </h2>
         </div>
         <div class="col-sm-auto">
             @if(sizeof($months) > 0)
