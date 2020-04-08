@@ -9,10 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\MoneyTransaction;
+use App\Services\Accounting\CurrentWalletService;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Setting;
 
@@ -30,7 +30,7 @@ class MoneyTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, CurrentWalletService $currentWallet)
     {
         $this->authorize('list', MoneyTransaction::class);
 
@@ -119,43 +119,16 @@ class MoneyTransactionsController extends Controller
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(true),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
-            'wallet' => MoneyTransaction::currentWallet(),
+            'wallet' => $currentWallet->get(),
         ]);
     }
 
     private static function createIndexQuery(array $filter, string $sortColumn, string $sortOrder) {
-        $query = MoneyTransaction::orderBy($sortColumn, $sortOrder)
+        return MoneyTransaction::query()
+            ->forWallet(resolve(CurrentWalletService::class)->get())
+            ->forFilter($filter)
+            ->orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
-        self::applyFilterToQuery($filter, $query);
-        return $query;
-    }
-
-    public static function applyFilterToQuery(array $filter, &$query, ?bool $skipDates = false) {
-        foreach (config('accounting.filter_columns') as $col) {
-            if (! empty($filter[$col])) {
-                if ($col == 'today') {
-                    $query->whereDate('created_at', Carbon::today());
-                } elseif ($col == 'no_receipt') {
-                    $query->where(function ($query) {
-                        $query->whereNull('receipt_no');
-                        $query->orWhereNull('receipt_pictures');
-                        $query->orWhere('receipt_pictures', '[]');
-                    });
-                } elseif ($col == 'beneficiary' || $col == 'description') {
-                    $query->where($col, 'like', '%' . $filter[$col] . '%');
-                } else {
-                    $query->where($col, $filter[$col]);
-                }
-            }
-        }
-        if (! $skipDates) {
-            if (! empty($filter['date_start'])) {
-                $query->whereDate('date', '>=', $filter['date_start']);
-            }
-            if (! empty($filter['date_end'])) {
-                $query->whereDate('date', '<=', $filter['date_end']);
-            }
-        }
     }
 
     /**
@@ -201,7 +174,7 @@ class MoneyTransactionsController extends Controller
      * @param  \App\Http\Requests\Accounting\StoreTransaction  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTransaction $request)
+    public function store(StoreTransaction $request, CurrentWalletService $currentWallet)
     {
         $this->authorize('create', MoneyTransaction::class);
 
@@ -215,6 +188,7 @@ class MoneyTransactionsController extends Controller
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
         $transaction->wallet_owner = $request->wallet_owner;
+        $transaction->wallet()->associate($currentWallet->get());
 
         if (isset($request->receipt_picture)) {
             $transaction->addReceiptPicture($request->file('receipt_picture'));
@@ -395,7 +369,8 @@ class MoneyTransactionsController extends Controller
 
     protected function exportFilename(Request $request): string
     {
-        return config('app.name') . ' ' . __('accounting.accounting') . ' (' . Carbon::now()->toDateString() . ')';
+        $wallet = resolve(CurrentWalletService::class)->get();
+        return config('app.name') . ' ' . __('accounting.accounting') . ' [' . $wallet->name . '] (' . Carbon::now()->toDateString() . ')';
     }
 
     protected function exportExportable(Request $request)

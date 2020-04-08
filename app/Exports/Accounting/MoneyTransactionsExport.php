@@ -2,8 +2,8 @@
 
 namespace App\Exports\Accounting;
 
-use App\Http\Controllers\Accounting\MoneyTransactionsController;
 use App\Models\Accounting\MoneyTransaction;
+use App\Services\Accounting\CurrentWalletService;
 
 class MoneyTransactionsExport extends BaseMoneyTransactionsExport
 {
@@ -22,10 +22,11 @@ class MoneyTransactionsExport extends BaseMoneyTransactionsExport
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        $qry = MoneyTransaction::orderBy('date', 'ASC')
+        return MoneyTransaction::query()
+            ->forWallet(resolve(CurrentWalletService::class)->get())
+            ->forFilter($this->filter)
+            ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC');
-        MoneyTransactionsController::applyFilterToQuery($this->filter, $qry);
-        return $qry;
     }
 
     public function title(): string

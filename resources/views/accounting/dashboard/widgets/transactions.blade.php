@@ -27,10 +27,10 @@
         @isset($wallet)
             <tr>
                 <td>
-                    @lang('accounting.wallet')
+                    @lang('accounting.wallet') '{{ $wallet->name }}'
                 </td>
                 <td class="text-right">
-                    <u>{{ number_format($wallet, 2) }}</u>
+                    <u>{{ number_format($wallet->calculatedSum(), 2) }}</u>
                 </td>
             </tr>
         @else

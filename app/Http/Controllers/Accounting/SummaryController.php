@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\SignedMoneyTransaction;
+use App\Services\Accounting\CurrentWalletService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class SummaryController extends Controller
 {
@@ -15,7 +18,7 @@ class SummaryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function summary(Request $request)
+    public function summary(Request $request, CurrentWalletService $currentWallet)
     {
         $this->authorize('view-accounting-summary');
 
@@ -73,12 +76,13 @@ class SummaryController extends Controller
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
-        $revenueByCategory = MoneyTransaction::revenueByField('category', $dateFrom, $dateTo);
-        $revenueByProject = MoneyTransaction::revenueByField('project', $dateFrom, $dateTo);
-        $wallet = MoneyTransaction::currentWallet($dateTo);
+        $revenueByCategory = self::revenueByField('category', $dateFrom, $dateTo);
+        $revenueByProject = self::revenueByField('project', $dateFrom, $dateTo);
+        // TODO Show all wallets ?
+        $wallet = $currentWallet->get()->calculatedSum($dateTo);
 
-        $spending = MoneyTransaction::totalSpending($dateFrom, $dateTo);
-        $income = MoneyTransaction::totalIncome($dateFrom, $dateTo);
+        $spending = self::totalSpending($dateFrom, $dateTo);
+        $income = self::totalIncome($dateFrom, $dateTo);
 
         $months = MoneyTransaction::selectRaw('MONTH(date) as month')
             ->selectRaw('YEAR(date) as year')
@@ -118,5 +122,40 @@ class SummaryController extends Controller
     {
         $date = new Carbon($year.'-'.$month.'-01');
         return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
+    }
+
+
+    private static function revenueByField(string $field, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    {
+        return SignedMoneyTransaction::select($field)
+            ->selectRaw('SUM(amount) as sum')
+            ->groupBy($field)
+            ->orderBy($field)
+            ->forDateRange($dateFrom, $dateTo)
+            ->get()
+            ->map(fn ($e) => [
+                'name' => $e->$field,
+                'amount' => $e->sum,
+            ]);
+    }
+
+    private static function totalSpending(?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
+    {
+        $result = MoneyTransaction::selectRaw('SUM(amount) as sum')
+            ->where('type', 'spending')
+            ->forDateRange($dateFrom, $dateTo)
+            ->first();
+
+        return optional($result)->sum;
+    }
+
+    private static function totalIncome(?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
+    {
+        $result = MoneyTransaction::selectRaw('SUM(amount) as sum')
+            ->where('type', 'income')
+            ->forDateRange($dateFrom, $dateTo)
+            ->first();
+
+        return optional($result)->sum;
     }
 }

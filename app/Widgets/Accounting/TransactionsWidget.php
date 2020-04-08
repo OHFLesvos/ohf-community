@@ -3,6 +3,7 @@
 namespace App\Widgets\Accounting;
 
 use App\Models\Accounting\MoneyTransaction;
+use App\Services\Accounting\CurrentWalletService;
 use App\Widgets\Widget;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
@@ -36,7 +37,8 @@ class TransactionsWidget implements Widget
                 ->get()
                 ->first()
                 ->sum,
-            'wallet' => MoneyTransaction::currentWallet(),
+            // TODO: Support multiple wallets ?
+            'wallet' => resolve(CurrentWalletService::class)->get(),
         ];
     }
 }

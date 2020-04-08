@@ -48,6 +48,9 @@ class CreateAccountingWalletsTable extends Migration
                 $table->foreign('wallet_id')->references('id')->on('accounting_wallets')->onDelete('cascade');
             });
         }
+
+        DB::statement($this->dropView());
+        DB::statement($this->createView());
     }
 
     /**
@@ -63,5 +66,22 @@ class CreateAccountingWalletsTable extends Migration
         });
 
         Schema::dropIfExists('accounting_wallets');
+    }
+
+    private function dropView(): string
+    {
+        return <<<SQL
+DROP VIEW IF EXISTS `accounting_signed_transactions`;
+SQL;
+    }
+
+    private function createView(): string
+    {
+        return <<<SQL
+CREATE VIEW `accounting_signed_transactions` AS
+SELECT wallet_id, date, -amount as amount, receipt_no, category, project, description, remarks from money_transactions where type = 'spending'
+union all
+SELECT wallet_id, date, amount, receipt_no, category, project, description, remarks from money_transactions where type = 'income'
+SQL;
     }
 }

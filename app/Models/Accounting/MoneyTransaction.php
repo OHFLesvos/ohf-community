@@ -7,7 +7,6 @@ use App\Support\Accounting\Webling\Exceptions\ConnectionException;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -45,63 +44,72 @@ class MoneyTransaction extends Model implements Auditable
     }
 
     /**
-     * Gets the amount of the wallet
+     * Scope a query to only include transactions from a given date range
      *
-     * @param \Carbon\Carbon $date optional end-date until which transactions should be considered
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  Carbon|null  $dateFrom
+     * @param  Carbon|null  $dateTo
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function currentWallet(?Carbon $date = null): ?float
+    public function scopeForDateRange($query, ?Carbon $dateFrom = null, ?Carbon $dateTo = null)
     {
-        $qry = SignedMoneyTransaction::selectRaw('SUM(amount) as sum');
-
-        self::dateFilter($qry, null, $date);
-
-        return optional($qry->first())->sum;
-    }
-
-    public static function revenueByField(string $field, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
-    {
-        $qry = SignedMoneyTransaction::select($field)
-            ->selectRaw('SUM(amount) as sum')
-            ->groupBy($field)
-            ->orderBy($field);
-
-        self::dateFilter($qry, $dateFrom, $dateTo);
-
-        return $qry->get()
-            ->map(fn ($e) => [
-                'name' => $e->$field,
-                'amount' => $e->sum,
-            ]);
-    }
-
-    public static function totalSpending(?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
-    {
-        $qry = MoneyTransaction::selectRaw('SUM(amount) as sum')
-            ->where('type', 'spending');
-
-        self::dateFilter($qry, $dateFrom, $dateTo);
-
-        return optional($qry->first())->sum;
-    }
-
-    public static function totalIncome(?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
-    {
-        $qry = MoneyTransaction::selectRaw('SUM(amount) as sum')
-            ->where('type', 'income');
-
-        self::dateFilter($qry, $dateFrom, $dateTo);
-
-        return optional($qry->first())->sum;
-    }
-
-    private static function dateFilter($qry, ?Carbon $dateFrom = null, ?Carbon $dateTo = null)
-    {
-        if ($dateFrom != null) {
-            $qry->whereDate('date', '>=', $dateFrom);
+        if ($dateFrom !== null) {
+            $query->whereDate('date', '>=', $dateFrom);
         }
-        if ($dateTo != null) {
-            $qry->whereDate('date', '<=', $dateTo);
+        if ($dateTo !== null) {
+            $query->whereDate('date', '<=', $dateTo);
         }
+        return $query;
+    }
+
+    /**
+     * Scope a query to only include transactions for the given wallet
+     *
+     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @param Wallet $wallet
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForWallet($query, Wallet $wallet)
+    {
+        return $query->where('wallet_id', $wallet->id);
+    }
+
+    /**
+     * Scope a query to only include transactions matching the given filter conditions
+     *
+     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @param array $filter
+     * @param boolean|null $skipDates
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter($query, array $filter, ?bool $skipDates = false)
+    {
+        foreach (config('accounting.filter_columns') as $col) {
+            if (! empty($filter[$col])) {
+                if ($col == 'today') {
+                    $query->whereDate('created_at', Carbon::today());
+                } elseif ($col == 'no_receipt') {
+                    $query->where(function ($query) {
+                        $query->whereNull('receipt_no');
+                        $query->orWhereNull('receipt_pictures');
+                        $query->orWhere('receipt_pictures', '[]');
+                    });
+                } elseif ($col == 'beneficiary' || $col == 'description') {
+                    $query->where($col, 'like', '%' . $filter[$col] . '%');
+                } else {
+                    $query->where($col, $filter[$col]);
+                }
+            }
+        }
+        if (! $skipDates) {
+            if (! empty($filter['date_start'])) {
+                $query->whereDate('date', '>=', $filter['date_start']);
+            }
+            if (! empty($filter['date_end'])) {
+                $query->whereDate('date', '<=', $filter['date_end']);
+            }
+        }
+        return $query;
     }
 
     public static function getNextFreeReceiptNo()

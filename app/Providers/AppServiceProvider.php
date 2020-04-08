@@ -6,6 +6,7 @@ use App\Providers\Traits\RegistersDashboardWidgets;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
 use App\Rules\Library\Isbn;
+use App\Services\Accounting\CurrentWalletService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -97,6 +98,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Blade directive to create a link to call a skype name
         Blade::directive('skype', fn ($expression) => "<?php echo skype_link(${expression}); ?>");
+
+        // Register current wallet service singleton for accounting feature
+        $this->app->singleton(CurrentWalletService::class, function ($app) {
+            return new CurrentWalletService();
+        });
 
         $this->registerRules();
         $this->registerDashboardWidgets();

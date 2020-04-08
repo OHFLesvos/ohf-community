@@ -292,7 +292,7 @@ return [
     'by_month' => 'by month',
     'by_year' => 'by year',
     'all_time' => 'All time',
-    'columns' => 'columns',
+    'columns' => 'Columns',
     'rows' => 'Rows',
     'action' => 'Action',
     'actions' => 'Actions',
