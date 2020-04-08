@@ -61,4 +61,5 @@ return [
     'wallet_updated' => 'Kasse aktualisert.',
     'wallet_deleted' => 'Kasse gelöscht.',
     'there_must_be_one_default_wallet' => 'Es muss eine Standard-Kasse geben.',
+    'confirm_delete_wallet' => 'Soll diese Kasse wirklich gelöscht werden?',
 ];

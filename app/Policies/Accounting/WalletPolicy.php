@@ -12,7 +12,7 @@ class WalletPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin()) {
+        if ($user->isSuperAdmin() && ! in_array($ability, ['delete'])) {
             return true;
         }
     }
@@ -77,6 +77,9 @@ class WalletPolicy
      */
     public function delete(User $user, Wallet $wallet)
     {
-        return $user->hasPermission('accounting.configure');
+        if ($user->isSuperAdmin() || $user->hasPermission('accounting.configure')) {
+            return ! $wallet->is_default && Wallet::count() > 1;
+        }
+        return false;
     }
 }

@@ -61,4 +61,5 @@ return [
     'wallet_updated' => 'Wallet updated.',
     'wallet_deleted' => 'Walled deleted.',
     'there_must_be_one_default_wallet' => 'There must be one default wallet.',
+    'confirm_delete_wallet' => 'Really delete this wallet?',
 ];

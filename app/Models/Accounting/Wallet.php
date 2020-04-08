@@ -22,7 +22,9 @@ class Wallet extends Model
     {
         // Assign default marker if this is the first wallet being created
         static::creating(function ($model) {
-            $model->is_default = self::count() == 0;
+            if (self::count() == 0) {
+                $model->is_default = true;
+            }
         });
         parent::boot();
     }
