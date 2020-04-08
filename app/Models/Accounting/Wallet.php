@@ -76,4 +76,11 @@ class Wallet extends Model
         return $this->calculatedSum() ?? 0;
     }
 
+    public function getLatestActivityAttribute(): ?Carbon
+    {
+        return optional($this->transactions()
+            ->orderBy('created_at', 'desc')
+            ->first())->created_at;
+    }
+
 }

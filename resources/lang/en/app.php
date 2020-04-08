@@ -338,4 +338,5 @@ return [
     'branding' => 'Branding',
     'change' => 'Change',
     'default' => 'Default',
+    'latest_activity' => 'Latest activity',
  ];

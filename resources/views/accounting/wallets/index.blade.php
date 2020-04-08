@@ -12,6 +12,7 @@
                     <th class="text-right">@lang('app.amount')</th>
                     <th class="text-right">@lang('accounting.transactions')</th>
                     <th class="fit text-center">@lang('app.default')</th>
+                    <th class="text-right">@lang('app.latest_activity')</th>
                     <th class="fit">@lang('app.created')</th>
                 </tr>
             </thead>
@@ -29,6 +30,9 @@
                         </td>
                         <td class="fit text-center">
                             @if($wallet->is_default)@icon(check)@else @icon(times) @endif
+                        </td>
+                        <td class="fit">
+                            {{ optional($wallet->latestActivity)->toDateTimeString() }}
                         </td>
                         <td class="fit">
                             {{ $wallet->created_at->toDateString() }}

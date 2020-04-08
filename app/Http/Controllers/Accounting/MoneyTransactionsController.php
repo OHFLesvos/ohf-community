@@ -129,6 +129,7 @@ class MoneyTransactionsController extends Controller
             'projects' => self::getProjects(true),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'wallet' => $currentWallet->get(),
+            'has_multiple_wallets' => Wallet::count() > 1,
         ]);
     }
 
