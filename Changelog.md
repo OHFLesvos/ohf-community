@@ -1,6 +1,6 @@
 # Changelog
 
-## NEXT
+## 2.13.0
 
 * Added support for file / image upload in settings editor
 * Bank code card image can now be defined in settings view
