@@ -52,5 +52,6 @@ return [
     'really_undo_booking' => 'Verbuchen wirklich rückgängig machen?',
     'transaction_not_updated_external_record_still_exists' => 'Transaction nicht aktualisiert; der externe Datensatz existiert noch und muss zuerst gelöscht werden.',
     'add_new_wallet' => 'Neue Kasse hinzufügen',
+    'change_wallet' => 'Kasse wechseln',
     'wallet_changed' => 'Kasse gewechselt.',
 ];

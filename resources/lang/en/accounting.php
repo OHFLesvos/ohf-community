@@ -52,5 +52,6 @@ return [
     'really_undo_booking' => 'Really undo booking?',
     'transaction_not_updated_external_record_still_exists' => 'Transaction not updated; the external record still exists and has to be deleted beforehand.',
     'add_new_wallet' => 'Add new wallet',
+    'change_wallet' => 'Change wallet',
     'wallet_changed' => 'Wallet changed',
 ];
