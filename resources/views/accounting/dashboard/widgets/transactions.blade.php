@@ -27,7 +27,7 @@
                     @icon(wallet) {{ $wallet->name }}
                 </td>
                 <td class="text-right">
-                    <u>{{ number_format($wallet->calculatedSum(), 2) }}</u>
+                    <u>{{ number_format($wallet->amount, 2) }}</u>
                 </td>
             </tr>
         @empty

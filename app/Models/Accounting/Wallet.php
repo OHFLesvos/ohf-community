@@ -49,4 +49,9 @@ class Wallet extends Model
         return optional($result)->sum;
     }
 
+    public function getAmountAttribute(): ?float
+    {
+        return $this->calculatedSum() ?? 0;
+    }
+
 }

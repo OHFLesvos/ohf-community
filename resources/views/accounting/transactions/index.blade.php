@@ -7,7 +7,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <div class="mb-3">
             @icon(wallet) <span class="d-none d-sm-inline">{{ $wallet->name }}:</span>
-            <u>{{ number_format($wallet->calculatedSum(), 2) }}</u>
+            <u>{{ number_format($wallet->amount, 2) }}</u>
         </div>
         <div class="text-right">
             @if(count($filter) > 0)
