@@ -23,7 +23,7 @@ class CreateAccountingWalletsTable extends Migration
     {
         Schema::create('accounting_wallets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->boolean('is_default')->default(false);
             $table->timestamps();
         });

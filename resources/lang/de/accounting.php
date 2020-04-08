@@ -54,4 +54,11 @@ return [
     'add_new_wallet' => 'Neue Kasse hinzufügen',
     'change_wallet' => 'Kasse wechseln',
     'wallet_changed' => 'Kasse gewechselt.',
+    'create_wallet' => 'Neue erstellen',
+    'edit_wallet' => 'Kasse bearbeiten',
+    'no_wallets_found' => 'Keine Kassen gefunden.',
+    'wallet_added' => 'Kasse hinzugefügt.',
+    'wallet_updated' => 'Kasse aktualisert.',
+    'wallet_deleted' => 'Kasse gelöscht.',
+    'there_must_be_one_default_wallet' => 'Es muss eine Standard-Kasse geben.',
 ];

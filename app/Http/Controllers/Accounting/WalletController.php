@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Accounting\StoreWallet;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Wallet;
 use App\Services\Accounting\CurrentWalletService;
-use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
@@ -23,8 +23,7 @@ class WalletController extends Controller
     public function index()
     {
         return view('accounting.wallets.index', [
-            'wallets' => Wallet::orderBy('is_default', 'desc')
-                ->orderBy('name')
+            'wallets' => Wallet::orderBy('name')
                 ->get(),
         ]);
     }
@@ -36,29 +35,30 @@ class WalletController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounting.wallets.create', [ ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreWallet $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWallet $request)
     {
-        //
-    }
+        $wallet = new Wallet();
+        $wallet->fill($request->all());
+        $wallet->is_default = isset($request->is_default);
+        $wallet->save();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Wallet $wallet)
-    {
-        //
+        if ($wallet->is_default) {
+            Wallet::where('id', '!=', $wallet->id)
+                ->update(['is_default' => false]);
+        }
+
+        return redirect()
+            ->route('accounting.wallets.index')
+            ->with('success', __('accounting.wallet_added'));
     }
 
     /**
@@ -69,19 +69,32 @@ class WalletController extends Controller
      */
     public function edit(Wallet $wallet)
     {
-        //
+        return view('accounting.wallets.edit', [
+            'wallet' => $wallet,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreWallet $request
      * @param  \App\Models\Accounting\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Wallet $wallet)
+    public function update(StoreWallet $request, Wallet $wallet)
     {
-        //
+        $wallet->fill($request->all());
+        $wallet->is_default = isset($request->is_default);
+        $wallet->save();
+
+        if ($wallet->is_default) {
+            Wallet::where('id', '!=', $wallet->id)
+                ->update(['is_default' => false]);
+        }
+
+        return redirect()
+            ->route('accounting.wallets.index')
+            ->with('info', __('accounting.wallet_updated'));
     }
 
     /**
@@ -92,9 +105,19 @@ class WalletController extends Controller
      */
     public function destroy(Wallet $wallet)
     {
-        //
+        $wallet->delete();
+
+        return redirect()
+            ->route('accounting.wallets.index')
+            ->with('success', __('accounting.wallet_deleted'));
     }
 
+    /**
+     * List wallets so the user can change the default one in his session
+     *
+     * @param CurrentWalletService $currentWallet
+     * @return void
+     */
     public function change(CurrentWalletService $currentWallet)
     {
         $this->authorize('list', MoneyTransaction::class);
@@ -107,6 +130,13 @@ class WalletController extends Controller
         ]);
     }
 
+    /**
+     * Change the default wallet in the user session
+     *
+     * @param Wallet $wallet
+     * @param CurrentWalletService $currentWallet
+     * @return void
+     */
     public function doChange(Wallet $wallet, CurrentWalletService $currentWallet)
     {
         $this->authorize('list', MoneyTransaction::class);

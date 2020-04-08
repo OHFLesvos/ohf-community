@@ -54,4 +54,11 @@ return [
     'add_new_wallet' => 'Add new wallet',
     'change_wallet' => 'Change wallet',
     'wallet_changed' => 'Wallet changed',
+    'create_wallet' => 'Create wallet',
+    'edit_wallet' => 'Edit wallet',
+    'no_wallets_found' => 'No wallets found.',
+    'wallet_added' => 'Wallet added.',
+    'wallet_updated' => 'Wallet updated.',
+    'wallet_deleted' => 'Walled deleted.',
+    'there_must_be_one_default_wallet' => 'There must be one default wallet.',
 ];
