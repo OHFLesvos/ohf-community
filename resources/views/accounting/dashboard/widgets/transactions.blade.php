@@ -21,20 +21,17 @@
 
 @section('widget-content')
     <table class="table mb-0">
-        @isset($spending)
-            <tr><td>@lang('accounting.spending') {{ $monthName }}</td><td class="text-right">{{ number_format($spending, 2) }}</td></tr>
-        @endif
-        @isset($wallet)
+        @forelse($wallets as $wallet)
             <tr>
                 <td>
-                    @lang('accounting.wallet') '{{ $wallet->name }}'
+                    @icon(wallet) {{ $wallet->name }}
                 </td>
                 <td class="text-right">
                     <u>{{ number_format($wallet->calculatedSum(), 2) }}</u>
                 </td>
             </tr>
-        @else
+        @empty
             <tr><td><em>@lang('app.no_data_available')</em></td></tr>
-        @endif
+        @endforelse
     </table>
 @endsection
