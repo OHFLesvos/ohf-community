@@ -112,6 +112,17 @@ class MoneyTransaction extends Model implements Auditable
         return $query;
     }
 
+    /**
+     * Scope a query to only include transactions which have not been booked
+     *
+     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotBooked($query)
+    {
+        return $query->where('booked', false);
+    }
+
     public static function getNextFreeReceiptNo()
     {
         return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
