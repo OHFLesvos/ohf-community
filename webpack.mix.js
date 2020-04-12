@@ -21,11 +21,12 @@ mix.webpackConfig({
     }
 });
 
-/* Allow multiple Laravel Mix applications*/
-require('laravel-mix-merge-manifest');
-mix.mergeManifest();
-
-mix.options({ processCssUrls: false })
+mix.options({
+        processCssUrls: false,
+        terser: {
+            extractComments: false,
+        }
+    })
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/fundraising.js', 'public/js')
     .js('resources/js/calendar.js', 'public/js')
