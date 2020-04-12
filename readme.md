@@ -28,6 +28,10 @@ Generate application key:
 
     php artisan key:generate
 
+Create symlink for public storage disk:
+
+    php artisan storage:link
+
 Create/migrate database tables:
 
     php artisan migrate
