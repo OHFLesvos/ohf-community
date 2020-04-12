@@ -24,7 +24,7 @@
         "fullcalendar-scheduler": "^1.10.0",
         "google-palette": "^1.1.0",
         "is-isbn": "^1.1.0",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "jquery.session": "^1.0.0",
         "laravel-mix": "^5.0.1",
         "laravel-mix-merge-manifest": "^0.1.2",
@@ -40,7 +40,7 @@
         "summernote": "^0.8.16",
         "vue": "^2.6.11",
         "vue-chartjs": "^3.5.0",
-        "vue-i18n": "^8.16.0",
+        "vue-i18n": "^8.17.0",
         "vue-qrcode-reader": "^2.1.1",
         "vue-template-compiler": "^2.6.11",
         "vue-text-highlight": "^2.0.10"
