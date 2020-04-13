@@ -51,6 +51,7 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
         if ($this->activeOnly) {
             $headings[] = __('library.books');
             $headings[] = __('library.lent_until');
+            $headings[] = __('library.overdue');
         }
         return $headings;
     }
@@ -73,6 +74,7 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
             $mapping[] = $person->bookLendings()->active()->count();
             $mapping[] = $person->bookLendings()->active()->get()->pluck('book.title')->join(', ');
             $mapping[] = $person->bookLendings()->active()->orderBy('return_date', 'asc')->first()->return_date->toDateString();
+            $mapping[] = $person->bookLendings()->overdue()->exists() ? __('app.yes') : __('app.no');
         } else {
             $mapping[] = $person->bookLendings()->count();
         }

@@ -47,4 +47,9 @@ class LibraryLending extends Model
     {
         return $this->belongsTo(Person::class, 'person_id');
     }
+
+    public function getIsOverdueAttribute()
+    {
+        return $this->returned_date === null && $this->return_date->lt(today());
+    }
 }

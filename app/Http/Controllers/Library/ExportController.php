@@ -69,7 +69,7 @@ class ExportController extends Controller
 
         if (in_array($request->selection, ['active_borrowers', 'all_borrowers'])) {
             $export = new BorrowerExport();
-            $export->activeOnly = $request->selection == 'active';
+            $export->activeOnly = $request->selection == 'active_borrowers';
             return $export;
         }
     }

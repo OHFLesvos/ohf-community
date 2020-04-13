@@ -28,6 +28,7 @@ return [
     'books' => 'Bücher',
     'borrowers' => 'Entleiher',
     'lent_books' => 'Ausgeliehene Bücher',
+    'overdue' => 'Überfällig',
     'book_is_overdue' => 'Buch ist überfällig.',
     'book_is_overdue_soon' => 'Buch ist bald überfällig.',
     'book_is_lent_to_person_until' => 'Buch ist ausgeliehen an <a href=":route">:person</a> bis <strong>:until</strong>.',

@@ -42,6 +42,7 @@ class BooksExport extends BaseExport implements FromQuery, WithHeadings, WithMap
         ];
         if ($this->lentOnly) {
             $headings[] = __('library.lent_until');
+            $headings[] = __('library.overdue');
         } else {
             $headings[] = '# ' . __('library.lendings');
         }
@@ -62,6 +63,7 @@ class BooksExport extends BaseExport implements FromQuery, WithHeadings, WithMap
         ];
         if ($this->lentOnly) {
             $mapping[] = $book->lendings()->active()->first()->return_date->toDateString();
+            $mapping[] = $book->lendings()->active()->first()->is_overdue ? __('app.yes') : __('app.no');
         } else {
             $mapping[] = $book->lendings()->count();
         }
