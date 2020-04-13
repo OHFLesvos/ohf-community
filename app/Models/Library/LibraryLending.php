@@ -26,6 +26,18 @@ class LibraryLending extends Model
             ->whereNull('returned_date');
     }
 
+    /**
+     * Scope a query to only include overdie lendings.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOverdue($query)
+    {
+        return $query->whereDate('return_date', '<', today())
+            ->whereNull('returned_date');
+    }
+
     public function book()
     {
         return $this->belongsTo(LibraryBook::class, 'book_id');
