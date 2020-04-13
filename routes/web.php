@@ -450,6 +450,15 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::post('lending/person/{person}/returnBook', 'LendingController@returnBookFromPerson')->name('lending.returnBookFromPerson');
         Route::get('lending/person/{person}/log', 'LendingController@personLog')->name('lending.personLog');
 
+        // Export view
+        Route::get('lending/export', 'LendingController@export')
+            ->name('lending.export')
+            ->middleware('can:list,App\Models\People\Person');
+        // Export download
+        Route::post('lending/doExport', 'LendingController@doExport')
+            ->name('lending.doExport')
+            ->middleware('can:list,App\Models\People\Person');
+
         Route::get('lending/books', 'LendingController@books')->name('lending.books');
         Route::get('lending/book/{book}', 'LendingController@book')->name('lending.book');
         Route::post('lending/book/{book}/lend', 'LendingController@lendBook')->name('lending.lendBook');

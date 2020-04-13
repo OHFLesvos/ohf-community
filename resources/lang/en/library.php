@@ -7,6 +7,7 @@ return [
     'isbn' => 'ISBN',
     'search_title_author_isbn' => 'Search for author, title or ISBN...',
     'lending' => 'Lending',
+    'lendings' => 'Lendings',
     'return' => 'Return',
     'extend' => 'Extend',
     'book_lent' => 'Book lent.',
@@ -52,4 +53,5 @@ return [
     'all_books' => 'All books',
     'lent_books' => 'Lent books',
     'lent_until' => 'Lent until',
+    'export_borrowers' => 'Export borrowers',
 ];

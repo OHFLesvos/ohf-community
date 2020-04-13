@@ -131,5 +131,4 @@ class BookController extends Controller
     {
         return $export->download($file_name . '.' . $file_ext);
     }
-
 }

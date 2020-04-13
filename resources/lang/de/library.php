@@ -7,6 +7,7 @@ return [
     'isbn' => 'ISBN',
     'search_title_author_isbn' => 'Suche nach Autor, Titel oder ISBN...',
     'lending' => 'Ausleihe',
+    'lendings' => 'Ausleihen',
     'return' => 'Rückgabe',
     'extend' => 'Verlängern',
     'book_lent' => 'Buch ausgeliehen.',
@@ -52,4 +53,5 @@ return [
     'all_books' => 'Alle Bücher',
     'lent_books' => 'Ausgeliehene Bücher',
     'lent_until' => 'Ausgelehen bis',
+    'export_borrowers' => 'Ausleiher exportieren',
 ];

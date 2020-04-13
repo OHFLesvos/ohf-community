@@ -339,4 +339,5 @@ return [
     'change' => 'Wechseln',
     'default' => 'Standard',
     'latest_activity' => 'Letzte Aktivität',
+    'active' => 'Aktiv',
 ];
