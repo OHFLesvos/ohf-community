@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Library;
 
+use App\Exports\Library\BooksExport;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Library\UpdateBook;
 use App\Models\Library\LibraryBook;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
+    use ExportableActions;
+
     public function index()
     {
         $this->authorize('list', LibraryBook::class);
@@ -75,6 +82,54 @@ class BookController extends Controller
         return redirect()
             ->route('library.books.index')
             ->with('success', __('library.book_removed'));
+    }
+
+    protected function exportAuthorize()
+    {
+        $this->authorize('list', LibraryBook::class);
+    }
+
+    protected function exportView(): string
+    {
+        return 'library.books.export';
+    }
+
+    protected function exportViewArgs(): array
+    {
+        return [
+            'selections' => [
+                'all' => __('library.all_books'),
+                'lent' => __('library.lent_books')
+            ],
+            'selection' => 'all',
+        ];
+    }
+
+    protected function exportValidateArgs(): array
+    {
+        return [
+            'selection' => [
+                'required',
+                Rule::in(['all', 'lent']),
+            ],
+        ];
+    }
+
+    protected function exportFilename(Request $request): string
+    {
+        return __('library.books') . '_' . Carbon::now()->toDateString();
+    }
+
+    protected function exportExportable(Request $request)
+    {
+        $export = new BooksExport();
+        $export->lentOnly = $request->selection == 'lent';
+        return $export;
+    }
+
+    protected function exportDownload(Request $request, $export, $file_name, $file_ext)
+    {
+        return $export->download($file_name . '.' . $file_ext);
     }
 
 }

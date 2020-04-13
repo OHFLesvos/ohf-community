@@ -3,6 +3,7 @@
 namespace App\Models\Library;
 
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Nicebooks\Isbn\Exception\InvalidIsbnException;
@@ -19,11 +20,26 @@ class LibraryBook extends Model
         'language',
     ];
 
-    public function lendings() {
+    public function lendings()
+    {
         return $this->hasMany(LibraryLending::class, 'book_id');
     }
 
-    public function setIsbnAttribute($value) {
+    /**
+     * Scope a query to only include currently lent.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeLent($query)
+    {
+        return $query->whereHas('lendings', function (Builder $query) {
+            $query->active();
+        });
+    }
+
+    public function setIsbnAttribute($value)
+    {
         if ($value != null) {
             $val = preg_replace('/[^+0-9x]/i', '', $value);
             try {
@@ -41,7 +57,8 @@ class LibraryBook extends Model
         $this->attributes['isbn13'] = null;
     }
 
-    public function getIsbnAttribute() {
+    public function getIsbnAttribute()
+    {
         if ($this->isbn13 != null) {
             $isbn = Isbn::of($this->isbn13);
             return $isbn->format();

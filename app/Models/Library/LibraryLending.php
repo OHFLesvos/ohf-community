@@ -13,6 +13,20 @@ class LibraryLending extends Model
         'returned_date',
     ];
 
+    /**
+     * Scope a query to only include active lendings.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->whereNotNull('lending_date')
+            ->whereNotNull('return_date')
+            ->whereDate('lending_date', '<=', today())
+            ->whereDate('return_date', '>=', today());
+    }
+
     public function book()
     {
         return $this->belongsTo(LibraryBook::class, 'book_id');

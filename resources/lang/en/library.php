@@ -48,4 +48,8 @@ return [
     'register_book' => 'Register book',
     'book_removed' => 'Book removed.',
     'confirm_delete_book' => 'Should this book be deleted?',
+    'export_books' => 'Export books',
+    'all_books' => 'All books',
+    'lent_books' => 'Lent books',
+    'lent_until' => 'Lent until',
 ];

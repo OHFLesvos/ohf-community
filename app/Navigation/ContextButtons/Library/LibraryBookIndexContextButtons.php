@@ -19,6 +19,12 @@ class LibraryBookIndexContextButtons implements ContextButtons
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', LibraryBook::class),
             ],
+            'export' => [
+                'url' => route('library.books.export'),
+                'caption' => __('app.export'),
+                'icon' => 'download',
+                'authorized' => Auth::user()->can('list', LibraryBook::class),
+            ],
         ];
     }
 
