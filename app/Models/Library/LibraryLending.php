@@ -22,9 +22,8 @@ class LibraryLending extends Model
     public function scopeActive($query)
     {
         return $query->whereNotNull('lending_date')
-            ->whereNotNull('return_date')
             ->whereDate('lending_date', '<=', today())
-            ->whereDate('return_date', '>=', today());
+            ->whereNull('returned_date');
     }
 
     public function book()

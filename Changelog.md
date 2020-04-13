@@ -3,7 +3,7 @@
 ## NEXT
 
 * Fixed path issue in webpack config for certain JS libraries
-* Added option to export books from library
+* Added option to export books and borrowers from library
 
 ## 2.13.0
 
