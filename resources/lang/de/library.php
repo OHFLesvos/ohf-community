@@ -54,4 +54,6 @@ return [
     'lent_books' => 'Ausgeliehene Bücher',
     'lent_until' => 'Ausgelehen bis',
     'export_borrowers' => 'Ausleiher exportieren',
+    'active_borrowers' => 'Aktive Ausleiher',
+    'all_borrowers' => 'Alle Ausleiher',
 ];

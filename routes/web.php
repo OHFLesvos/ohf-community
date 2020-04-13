@@ -450,15 +450,6 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::post('lending/person/{person}/returnBook', 'LendingController@returnBookFromPerson')->name('lending.returnBookFromPerson');
         Route::get('lending/person/{person}/log', 'LendingController@personLog')->name('lending.personLog');
 
-        // Export view
-        Route::get('lending/export', 'LendingController@export')
-            ->name('lending.export')
-            ->middleware('can:list,App\Models\People\Person');
-        // Export download
-        Route::post('lending/doExport', 'LendingController@doExport')
-            ->name('lending.doExport')
-            ->middleware('can:list,App\Models\People\Person');
-
         Route::get('lending/books', 'LendingController@books')->name('lending.books');
         Route::get('lending/book/{book}', 'LendingController@book')->name('lending.book');
         Route::post('lending/book/{book}/lend', 'LendingController@lendBook')->name('lending.lendBook');
@@ -466,14 +457,11 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::post('lending/book/{book}/return', 'LendingController@returnBook')->name('lending.returnBook');
         Route::get('lending/book/{book}/log', 'LendingController@bookLog')->name('lending.bookLog');
 
-        // Export view
-        Route::get('books/export', 'BookController@export')
-            ->name('books.export')
-            ->middleware('can:list,App\Models\Library\LibraryBook');
-        // Export download
-        Route::post('books/doExport', 'BookController@doExport')
-            ->name('books.doExport')
-            ->middleware('can:list,App\Models\Library\LibraryBook');
+        // Export
+        Route::get('export', 'ExportController@export')
+            ->name('export');
+        Route::post('doExport', 'ExportController@doExport')
+            ->name('doExport');
 
         Route::resource('books', 'BookController');
     });

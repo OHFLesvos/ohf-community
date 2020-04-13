@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers\Library;
 
-use App\Exports\Library\BorrowerExport;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Export\ExportableActions;
-use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Requests\Library\StoreExtendBook;
 use App\Http\Requests\Library\StoreExtendBookToPerson;
 use App\Http\Requests\Library\StoreLendBook;
@@ -17,14 +14,10 @@ use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
 use App\Settings\Library\DefaultLendingDurationDays;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Setting;
 
 class LendingController extends Controller
 {
-    use ExportableActions;
-
     public function index()
     {
         return view('library.lending.index', [
@@ -229,53 +222,5 @@ class LendingController extends Controller
         return redirect()
             ->route('library.lending.book', $book)
             ->with('success', __('library.book_returned'));
-    }
-
-    protected function exportAuthorize()
-    {
-        $this->authorize('list', Person::class);
-    }
-
-    protected function exportView(): string
-    {
-        return 'library.lending.export';
-    }
-
-    protected function exportViewArgs(): array
-    {
-        return [
-            'selections' => [
-                'all' => __('app.all'),
-                'active' => __('app.active')
-            ],
-            'selection' => 'active',
-        ];
-    }
-
-    protected function exportValidateArgs(): array
-    {
-        return [
-            'selection' => [
-                'required',
-                Rule::in(['all', 'active']),
-            ],
-        ];
-    }
-
-    protected function exportFilename(Request $request): string
-    {
-        return __('library.borrowers') . '_' . Carbon::now()->toDateString();
-    }
-
-    protected function exportExportable(Request $request)
-    {
-        $export = new BorrowerExport();
-        $export->activeOnly = $request->selection == 'active';
-        return $export;
-    }
-
-    protected function exportDownload(Request $request, $export, $file_name, $file_ext)
-    {
-        return $export->download($file_name . '.' . $file_ext);
     }
 }

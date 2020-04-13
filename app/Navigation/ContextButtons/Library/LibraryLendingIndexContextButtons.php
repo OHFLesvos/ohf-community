@@ -2,9 +2,8 @@
 
 namespace App\Navigation\ContextButtons\Library;
 
-use App\Models\People\Person;
 use App\Navigation\ContextButtons\ContextButtons;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class LibraryLendingIndexContextButtons implements ContextButtons
@@ -13,10 +12,10 @@ class LibraryLendingIndexContextButtons implements ContextButtons
     {
         return [
             'export' => [
-                'url' => route('library.lending.export'),
+                'url' => route('library.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('list', Person::class),
+                'authorized' => Gate::allows('operate-library'),
             ],
         ];
     }

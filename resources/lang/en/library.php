@@ -54,4 +54,6 @@ return [
     'lent_books' => 'Lent books',
     'lent_until' => 'Lent until',
     'export_borrowers' => 'Export borrowers',
+    'active_borrowers' => 'Active borrowers',
+    'all_borrowers' => 'All borrowers',
 ];

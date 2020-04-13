@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::open(['route' => 'library.lending.doExport']) !!}
+    {!! Form::open(['route' => 'library.doExport']) !!}
         <div class="mb-3">
             {{ Form::bsRadioList('format', $formats, $format, __('app.file_format')) }}
         </div>

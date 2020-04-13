@@ -6,7 +6,7 @@ use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
-class LibraryLendingExportContextButtons implements ContextButtons
+class LibraryExportContextButtons implements ContextButtons
 {
     public function getItems(View $view): array
     {

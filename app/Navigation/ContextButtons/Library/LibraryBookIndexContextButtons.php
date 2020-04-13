@@ -5,6 +5,7 @@ namespace App\Navigation\ContextButtons\Library;
 use App\Models\Library\LibraryBook;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class LibraryBookIndexContextButtons implements ContextButtons
@@ -20,10 +21,10 @@ class LibraryBookIndexContextButtons implements ContextButtons
                 'authorized' => Auth::user()->can('create', LibraryBook::class),
             ],
             'export' => [
-                'url' => route('library.books.export'),
+                'url' => route('library.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('list', LibraryBook::class),
+                'authorized' => Gate::allows('operate-library'),
             ],
         ];
     }
