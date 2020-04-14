@@ -242,6 +242,24 @@ if (! function_exists('weightedCountries')) {
     }
 }
 
+if (! function_exists('weightedLanguages')) {
+    function weightedLanguages(int $num): array
+    {
+        $languages = Languages::lookup()->keys()->toArray();
+        $selected_languages = Arr::random($languages, $num);
+        $percentages = randomPercentages($num);
+        $data = [];
+        while (count($percentages) > 0) {
+            $percentage = array_pop($percentages);
+            $lang = array_pop($selected_languages);
+            for ($i = 0; $i < $percentage; $i++) {
+                $data[] = $lang;
+            }
+        }
+        return $data;
+    }
+}
+
 if (! function_exists('getCategorizedPermissions')) {
     function getCategorizedPermissions(): array
     {

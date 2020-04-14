@@ -12,6 +12,6 @@ class LibraryDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(LibraryBook::class, 500)->create();
+        factory(LibraryBook::class, 1050)->create();
     }
 }
