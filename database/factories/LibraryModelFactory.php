@@ -12,7 +12,7 @@ $factory->define(LibraryBook::class, function (Faker\Generator $faker) {
     return [
         'title' => substr($sentence, 0, strlen($sentence) - 1),
         'author' => $faker->optional(0.9)->name,
-        'language_code' => $faker->optional(0.8)->languageCode,
+        'language_code' => $faker->optional(0.3)->languageCode,
         'isbn' => $faker->optional(0.6)->isbn10,
     ];
 });

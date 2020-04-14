@@ -104,9 +104,9 @@
                 <small>{{ $book_count }}</small>
             </h2>
 
-            @if($book_count > 0)
 
-                {{-- Popular --}}
+            {{-- Popular --}}
+            @if(count($book_lendings_top) > 0)
                 <h3>@lang('app.popular')</h3>
                 <table class="table table-sm table-bordered table-striped table-hover">
                     <thead>
@@ -124,9 +124,17 @@
                         @endforeach
                     </tbody>
                 </table>
+            @endif
 
-                {{-- Languages --}}
+            {{-- Languages --}}
+            @if($book_count > 0)
                 <h3>@lang('app.languages')</h3>
+                @php
+                    $undefined_count = $book_languages->filter(fn ($l) => $l->language_code === null)->sum('quantity');
+                @endphp
+                @if($undefined_count > 0)
+                    <p><em>@lang('library.books_without_language_specified', [ 'count' => $undefined_count, 'percentage' => round($undefined_count / $book_count * 100, 1) ])</em></p>
+                @endif
                 <table class="table table-sm table-bordered table-striped table-hover">
                     <thead>
                         <tr>
@@ -136,11 +144,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($book_languages as $language)
+                        @foreach($book_languages->filter(fn ($l) => $l->language_code !== null) as $language)
                             <tr>
                                 <td>{{ $language->language ?? __('app.unspecified') }}</td>
                                 <td class="text-right">{{ $language->quantity }}</td>
-                                <td class="text-right">{{ round($language->quantity / $book_count * 100, 1) }} %</td>
+                                <td class="text-right">{{ round($language->quantity / ($book_count - $undefined_count) * 100, 1) }} %</td>
                             </tr>
                         @endforeach
                     </tbody>

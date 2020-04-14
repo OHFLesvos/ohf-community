@@ -58,4 +58,5 @@ return [
     'active_borrowers' => 'Aktive Ausleiher',
     'overdue_borrowers' => 'Überfällige Ausleiher',
     'all_borrowers' => 'Alle Ausleiher',
+    'books_without_language_specified' => 'Es gibt :count Bücher ohne spezifizierte Sprache (:percentage % von allen Büchern).',
 ];
