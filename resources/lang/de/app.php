@@ -345,4 +345,5 @@ return [
     'quantity' => 'Anzahl',
     'percentage' => 'Prozentsatz',
     'popular' => 'Populär',
+    'regulars' => 'Stammkunden',
 ];

@@ -345,4 +345,5 @@ return [
     'quantity' => 'Quantity',
     'percentage' => 'Percentage',
     'popular' => 'Popular',
+    'regulars' => 'Regulars',
  ];
