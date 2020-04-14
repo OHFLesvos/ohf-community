@@ -7,7 +7,7 @@
         {{ Form::bsText('isbn', null, [ ], __('library.isbn')) }}
         {{ Form::bsText('title', null, [ 'required' ],  __('app.title')) }}
         {{ Form::bsText('author', null, [ ], __('library.author')) }}
-        {{ Form::bsText('language', null, [ ], __('app.language')) }}
+        {{ Form::bsSelect('language_code', $languages, null, [ 'placeholder' => __('app.choose_language') ], __('app.language')) }}
         {{ Form::bsSubmitButton(__('app.update')) }}
     {!! Form::close() !!}
 @endsection

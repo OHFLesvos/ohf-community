@@ -23,18 +23,18 @@ $(function(){
             $(this).addClass('is-valid');
             $('input[name="title"]').val('');
             $('input[name="author"]').val('');
-            $('input[name="language"]').val('');
+            $('select[name="language_code"]').val('');
             $('input[name="title"]').attr('placeholder', 'Searching for title...');
             $('input[name="author"]').attr('placeholder', 'Searching for author...');
-            $('input[name="language"]').attr('placeholder', 'Searching for language...');
+            $('select[name="language_code"]').attr('placeholder', 'Searching for language...');
             $.get("/api/library/books/findIsbn?isbn=" + isbn, function(data) {
                 $('input[name="title"]').val(data.title);
                 $('input[name="author"]').val(data.author);
-                $('input[name="language"]').val(data.language);
+                $('select[name="language_code"]').val(data.language);
             }).fail(function() {
                 $('input[name="title"]').attr('placeholder', 'Title');
                 $('input[name="author"]').attr('placeholder', 'Author');
-                $('input[name="language"]').attr('placeholder', 'Language');
+                $('select[name="language_code"]').attr('placeholder', 'Language');
             });
         } else if ($(this).val().length > 0) {
             $(this).addClass('is-invalid');

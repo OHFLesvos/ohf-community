@@ -340,4 +340,5 @@ return [
     'default' => 'Default',
     'latest_activity' => 'Latest activity',
     'active' => 'Active',
+    'choose_language' => 'Choose language...',
  ];

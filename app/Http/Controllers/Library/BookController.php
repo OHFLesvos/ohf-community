@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Library;
 
+use App;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Library\UpdateBook;
 use App\Models\Library\LibraryBook;
+use Languages;
 
 class BookController extends Controller
 {
@@ -23,6 +25,7 @@ class BookController extends Controller
         $this->authorize('create', LibraryBook::class);
 
         return view('library.books.create', [
+            'languages' => Languages::lookup(null, App::getLocale()),
         ]);
     }
 
@@ -33,7 +36,7 @@ class BookController extends Controller
         $book = new LibraryBook();
         $book->title = $request->title;
         $book->author = $request->author;
-        $book->language = $request->language;
+        $book->language_code = $request->language_code;
         $book->isbn = $request->isbn;
         $book->save();
 
@@ -48,6 +51,7 @@ class BookController extends Controller
 
         return view('library.books.edit', [
             'book' => $book,
+            'languages' => Languages::lookup(null, App::getLocale()),
         ]);
     }
 
@@ -57,7 +61,7 @@ class BookController extends Controller
 
         $book->title = $request->title;
         $book->author = $request->author;
-        $book->language = $request->language;
+        $book->language_code = $request->language_code;
         $book->isbn = $request->isbn;
         $book->save();
 
