@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Library;
 
 use App\Http\Controllers\Controller;
 use App\Models\Library\LibraryBook;
+use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -16,6 +17,16 @@ class ReportController extends Controller
         return view('library.report', [
             'borrwer_count' => Person::query()
                 ->has('bookLendings')
+                ->count(),
+            'borrowers_currently_borrowed_count' => Person::query()
+                ->whereHas('bookLendings', function (Builder $query) {
+                    $query->active();
+                })
+                ->count(),
+            'borrowers_currently_overdue_count' => Person::query()
+                ->whereHas('bookLendings', function (Builder $query) {
+                    $query->overdue();
+                })
                 ->count(),
             'borrwer_lendings_top' => Person::query()
                 ->selectRaw('persons.*')
@@ -41,13 +52,16 @@ class ReportController extends Controller
                 ->orderBy('quantity', 'desc')
                 ->orderBy('gender')
                 ->get(),
-            'currently_borrowed_count' => LibraryBook::lent()->count(),
-            'currently_overdue_count' => LibraryBook::query()
+
+            'book_count' => LibraryBook::count(),
+            'books_currently_borrowed_count' => LibraryBook::lent()->count(),
+            'books_currently_overdue_count' => LibraryBook::query()
                 ->whereHas('lendings', function (Builder $query) {
                     $query->overdue();
                 })
                 ->count(),
-            'book_count' => LibraryBook::count(),
+            'book_lendings_unique_count' => LibraryBook::has('lendings')->count(),
+            'book_lendings_all_count' => LibraryLending::count(),
             'book_lendings_top' => LibraryBook::query()
                 ->select('title', 'author', 'language_code')
                 ->selectRaw('(select count(*) from `library_lendings` where `library_books`.`id` = `library_lendings`.`book_id`) as quantity')

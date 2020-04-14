@@ -14,8 +14,15 @@
 
             @if($borrwer_count > 0)
 
+                <p>
+                    <strong>@lang('library.currently_borrowing'):</strong> {{ $borrowers_currently_borrowed_count }}
+                    @if($borrowers_currently_borrowed_count > 0)
+                        <strong>@lang('library.have_overdue_books'):</strong> {{ $borrowers_currently_overdue_count }} ({{ round($borrowers_currently_overdue_count / $borrowers_currently_borrowed_count * 100) }} %)
+                    @endif
+                </p>
+
                 {{-- Popular --}}
-                <h3>@lang('app.popular')</h3>
+                <h3>@lang('app.regulars')</h3>
                 <table class="table table-sm table-bordered table-striped table-hover">
                     <thead>
                         <tr>
@@ -105,10 +112,13 @@
             </h2>
 
             <p>
-                <strong>@lang('library.currently_borrowed'):</strong> {{ $currently_borrowed_count }}
-                @if($currently_borrowed_count > 0)
-                    <strong>@lang('library.overdue'):</strong> {{ $currently_overdue_count }} ({{ round($currently_overdue_count / $currently_borrowed_count * 100) }} %)
+                <strong>@lang('library.currently_borrowed'):</strong> {{ $books_currently_borrowed_count }}
+                @if($books_currently_borrowed_count > 0)
+                    <strong>@lang('library.overdue'):</strong> {{ $books_currently_overdue_count }} ({{ round($books_currently_overdue_count / $books_currently_borrowed_count * 100) }} %)
                 @endif
+                <br>
+                <strong>@lang('library.books_lent'):</strong> {{ $book_lendings_unique_count }} (@lang('library.percentage_of_all_books', [ 'percentage' => round($book_lendings_unique_count / $book_count * 100) ])</strong><br>
+                <strong>@lang('library.number_of_times_book_lent'):</strong> {{ $book_lendings_all_count }}
             </p>
 
             {{-- Popular --}}

@@ -59,5 +59,10 @@ return [
     'overdue_borrowers' => 'Overdue borrowers',
     'all_borrowers' => 'All borrowers',
     'currently_borrowed' => 'Currently borrowed',
+    'currently_borrowing' => 'Currently borrowing',
+    'have_overdue_books' => 'Has overdue books',
     'books_without_language_specified' => 'There are :count books without language specified (:percentage % of all books).',
+    'books_lent' => 'Books lent',
+    'number_of_times_book_lent' => 'Number of times a book as been lent',
+    'percentage_of_all_books' => ':percentage % of all books',
 ];
