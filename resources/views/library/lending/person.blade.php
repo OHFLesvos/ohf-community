@@ -83,7 +83,7 @@
         @endif
         @if($errors->get('isbn') != null || $errors->get('title') != null || $errors->get('author') != null || $errors->get('language') != null)
             $('#registerBookModal').modal('show');
-        @endif        
+        @endif
     });
 
     $('.extend-lending-button').on('click', function () {
@@ -124,7 +124,7 @@
             {{ Form::bsText('isbn', '', [ 'placeholder' => __('library.isbn') ], '') }}
             {{ Form::bsText('title', '', [ 'placeholder' => __('app.title') ], '') }}
             {{ Form::bsText('author', '', [ 'placeholder' => __('library.author') ], '') }}
-            {{ Form::bsText('language', '', [ 'placeholder' => __('app.language') ], '') }}
+            {{ Form::bsSelect('language_code', $languages, '', [ 'placeholder' => __('app.choose_language') ], '') }}
             @slot('footer')
                 {{ Form::bsSubmitButton(__('library.register_and_lend_book')) }}
             @endslot
