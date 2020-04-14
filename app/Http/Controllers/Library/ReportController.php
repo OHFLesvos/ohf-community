@@ -42,10 +42,9 @@ class ReportController extends Controller
                 ->orderBy('quantity', 'desc')
                 ->orderBy('gender')
                 ->get(),
-
             'book_count' => LibraryBook::count(),
             'book_lendings_top' => LibraryBook::query()
-                ->select('title')
+                ->select('title', 'author', 'language_code')
                 ->selectRaw('(select count(*) from `library_lendings` where `library_books`.`id` = `library_lendings`.`book_id`) as quantity')
                 ->having('quantity', '>', 0)
                 ->orderBy('quantity', 'desc')

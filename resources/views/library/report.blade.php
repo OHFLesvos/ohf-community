@@ -112,6 +112,8 @@
                     <thead>
                         <tr>
                             <th>@lang('app.title')</th>
+                            <th>@lang('library.author')</th>
+                            <th>@lang('app.language')</th>
                             <th class="text-right"># @lang('library.lendings')</th>
                         </tr>
                     </thead>
@@ -119,6 +121,8 @@
                         @foreach($book_lendings_top as $book)
                             <tr>
                                 <td>{{ $book->title }}</td>
+                                <td>{{ $book->author }}</td>
+                                <td>{{ $book->language }}</td>
                                 <td class="text-right">{{ $book->quantity }}</td>
                             </tr>
                         @endforeach
