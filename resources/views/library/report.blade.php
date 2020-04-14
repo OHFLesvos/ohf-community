@@ -120,8 +120,8 @@
                     <tbody>
                         @foreach($book_lendings_top as $book)
                             <tr>
-                                <td>{{ $book->title }}</td>
-                                <td>{{ $book->author }}</td>
+                                <td>{{ Str::limit($book->title, 40) }}</td>
+                                <td>{{ Str::limit($book->author, 30) }}</td>
                                 <td>{{ $book->language }}</td>
                                 <td class="text-right">{{ $book->quantity }}</td>
                             </tr>
