@@ -2,10 +2,12 @@
 
 namespace App\Models\Library;
 
+use App;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Languages;
 use Nicebooks\Isbn\Exception\InvalidIsbnException;
 use Nicebooks\Isbn\Exception\IsbnNotConvertibleException;
 use Nicebooks\Isbn\Isbn;
@@ -71,4 +73,23 @@ class LibraryBook extends Model
         return null;
     }
 
+    public function setLanguageAttribute($value)
+    {
+        if ($value !== null) {
+            $this->language_code = Languages::lookup(null, App::getLocale())
+                ->map(fn ($l) => strtolower($l))
+                ->flip()
+                ->get(strtolower($value));
+        } else {
+            $this->language_code = null;
+        }
+    }
+
+    public function getLanguageAttribute()
+    {
+        if ($this->language_code !== null) {
+            return Languages::lookup([$this->language_code], App::getLocale())->first();
+        }
+        return null;
+    }
 }

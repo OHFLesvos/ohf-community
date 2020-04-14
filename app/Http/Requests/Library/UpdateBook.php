@@ -31,6 +31,10 @@ class UpdateBook extends FormRequest
                 'nullable',
                 'isbn',
             ],
+            'language_code' => [
+                'nullable',
+                'language_code',
+            ],
         ];
     }
 }

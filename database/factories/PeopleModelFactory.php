@@ -14,7 +14,7 @@ $factory->define(Person::class, function (Faker $faker) use ($countries) {
     $gender = $faker->optional(0.9)->randomElement(['male', 'female']);
 
     $lc = $faker->optional(0.3)->languageCode;
-    $language = $lc != null ? collect(\Languages::lookup([$lc]))->first() : null;
+    $language = $lc != null ? \Languages::lookup([$lc])->first() : null;
 
     $nationality = $faker->optional(0.9)->randomElement($countries);
 

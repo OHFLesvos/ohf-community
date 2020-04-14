@@ -7,9 +7,15 @@
     <h2 class="mb-3">
         {{ $book->title }}
         <small class="d-block d-sm-inline">
-            {{ $book->author }}@if(isset($book->author) && isset($book->isbn13)),@endif {{ $book->isbn }}
+            {{ $book->author }}
         </small>
     </h2>
+    @isset($book->isbn13)
+        <p><strong>ISBN:</strong> {{ $book->isbn }}</p>
+    @endisset
+    @isset($book->language_code)
+        <p><strong>@lang('app.language'):</strong> {{ $book->language }}</p>
+    @endisset
 
     @php
         $lending = $book->lendings()->whereNull('returned_date')->first();
@@ -96,7 +102,7 @@
             @slot('title', __('library.lend_book'))
             {{ Form::bsAutocomplete('person_id', null, route('api.people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
             @slot('footer')
-                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>                
+                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>
             @endslot
         @endcomponent
     {!! Form::close() !!}

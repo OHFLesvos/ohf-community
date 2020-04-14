@@ -4,6 +4,7 @@
 
 * Fixed path issue in webpack config for certain JS libraries
 * Added option to export books and borrowers from library
+* Use of defined languages in library
 
 ## 2.13.0
 

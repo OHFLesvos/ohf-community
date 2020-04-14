@@ -33,6 +33,10 @@ class StoreLendBookToPerson extends FormRequest
                 'nullable',
                 'isbn',
             ],
+            'language_code' => [
+                'nullable',
+                'language_code',
+            ],
         ];
     }
 
