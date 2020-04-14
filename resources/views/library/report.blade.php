@@ -117,7 +117,7 @@
                     <strong>@lang('library.overdue'):</strong> {{ $books_currently_overdue_count }} ({{ round($books_currently_overdue_count / $books_currently_borrowed_count * 100) }} %)
                 @endif
                 <br>
-                <strong>@lang('library.books_lent'):</strong> {{ $book_lendings_unique_count }} (@lang('library.percentage_of_all_books', [ 'percentage' => round($book_lendings_unique_count / $book_count * 100) ])</strong><br>
+                <strong>@lang('library.books_lent'):</strong> {{ $book_lendings_unique_count }} (@lang('library.percentage_of_all_books', [ 'percentage' => round($book_lendings_unique_count / $book_count * 100) ]))</strong><br>
                 <strong>@lang('library.number_of_times_book_lent'):</strong> {{ $book_lendings_all_count }}
             </p>
 
