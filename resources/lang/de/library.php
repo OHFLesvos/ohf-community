@@ -56,5 +56,6 @@ return [
     'lent_until' => 'Ausgelehen bis',
     'export_borrowers' => 'Ausleiher exportieren',
     'active_borrowers' => 'Aktive Ausleiher',
+    'overdue_borrowers' => 'Überfällige Ausleiher',
     'all_borrowers' => 'Alle Ausleiher',
 ];

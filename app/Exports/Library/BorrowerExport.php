@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, WithMapping
 {
     public bool $activeOnly = false;
+    public bool $overdueOnly = false;
 
     public function __construct()
     {
@@ -21,7 +22,11 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
     public function query()
     {
         $query = Person::query();
-        if ($this->activeOnly) {
+        if ($this->overdueOnly) {
+            $query->whereHas('bookLendings', function (Builder $query) {
+                $query->overdue();
+            });
+        } else if ($this->activeOnly) {
             $query->whereHas('bookLendings', function (Builder $query) {
                 $query->active();
             });
@@ -48,7 +53,10 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
             __('people.police_no'),
             '# ' . __('library.books'),
         ];
-        if ($this->activeOnly) {
+        if ($this->overdueOnly) {
+            $headings[] = __('library.books');
+            $headings[] = __('library.lent_until');
+        } else if ($this->activeOnly) {
             $headings[] = __('library.books');
             $headings[] = __('library.lent_until');
             $headings[] = __('library.overdue');
@@ -70,13 +78,18 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
             $person->nationality,
             $person->police_no,
         ];
-        if ($this->activeOnly) {
+        if ($this->overdueOnly) {
+            $mapping[] = $person->bookLendings()->overdue()->count();
+            $mapping[] = $person->bookLendings()->overdue()->get()->pluck('book.title')->join(', ');
+            $mapping[] = $person->bookLendings()->overdue()->orderBy('return_date', 'asc')->first()->return_date->toDateString();
+
+        } else if ($this->activeOnly) {
             $mapping[] = $person->bookLendings()->active()->count();
             $mapping[] = $person->bookLendings()->active()->get()->pluck('book.title')->join(', ');
             $mapping[] = $person->bookLendings()->active()->orderBy('return_date', 'asc')->first()->return_date->toDateString();
             $mapping[] = $person->bookLendings()->overdue()->exists() ? __('app.yes') : __('app.no');
         } else {
-            $mapping[] = $person->bookLendings()->count();
+            $mapping[] = (int) $person->bookLendings()->count();
         }
         return $mapping;
     }

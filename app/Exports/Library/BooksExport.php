@@ -62,10 +62,11 @@ class BooksExport extends BaseExport implements FromQuery, WithHeadings, WithMap
             $book->created_at->toDateString(),
         ];
         if ($this->lentOnly) {
-            $mapping[] = $book->lendings()->active()->first()->return_date->toDateString();
-            $mapping[] = $book->lendings()->active()->first()->is_overdue ? __('app.yes') : __('app.no');
+            $activeLending = $book->activeLending();
+            $mapping[] = $activeLending->return_date->toDateString();
+            $mapping[] = $activeLending->is_overdue ? __('app.yes') : __('app.no');
         } else {
-            $mapping[] = $book->lendings()->count();
+            $mapping[] = (int) $book->lendings()->count();
         }
         return $mapping;
     }

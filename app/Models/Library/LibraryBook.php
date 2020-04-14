@@ -38,6 +38,11 @@ class LibraryBook extends Model
         });
     }
 
+    public function activeLending(): ?LibraryLending
+    {
+        return $this->lendings()->active()->first();
+    }
+
     public function setIsbnAttribute($value)
     {
         if ($value != null) {
