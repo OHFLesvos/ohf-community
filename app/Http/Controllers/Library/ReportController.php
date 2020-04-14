@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Library;
 use App\Http\Controllers\Controller;
 use App\Models\Library\LibraryBook;
 use App\Models\People\Person;
+use Illuminate\Database\Eloquent\Builder;
 
 class ReportController extends Controller
 {
@@ -40,6 +41,12 @@ class ReportController extends Controller
                 ->orderBy('quantity', 'desc')
                 ->orderBy('gender')
                 ->get(),
+            'currently_borrowed_count' => LibraryBook::lent()->count(),
+            'currently_overdue_count' => LibraryBook::query()
+                ->whereHas('lendings', function (Builder $query) {
+                    $query->overdue();
+                })
+                ->count(),
             'book_count' => LibraryBook::count(),
             'book_lendings_top' => LibraryBook::query()
                 ->select('title', 'author', 'language_code')

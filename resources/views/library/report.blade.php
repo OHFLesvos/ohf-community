@@ -104,6 +104,12 @@
                 <small>{{ $book_count }}</small>
             </h2>
 
+            <p>
+                <strong>@lang('library.currently_borrowed'):</strong> {{ $currently_borrowed_count }}
+                @if($currently_borrowed_count > 0)
+                    <strong>@lang('library.overdue'):</strong> {{ $currently_overdue_count }} ({{ round($currently_overdue_count / $currently_borrowed_count * 100) }} %)
+                @endif
+            </p>
 
             {{-- Popular --}}
             @if(count($book_lendings_top) > 0)
