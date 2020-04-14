@@ -138,6 +138,7 @@ class NavigationServiceProvider extends ServiceProvider
         'library.books.index'             => \App\Navigation\ContextButtons\Library\LibraryBookIndexContextButtons::class,
         'library.books.create'            => \App\Navigation\ContextButtons\Library\LibraryBookCreateContextButtons::class,
         'library.books.edit'              => \App\Navigation\ContextButtons\Library\LibraryBookEditContextButtons::class,
+        'library.report'                  => \App\Navigation\ContextButtons\Library\LibraryReportContextButtons::class,
         'library.export'                  => \App\Navigation\ContextButtons\Library\LibraryExportContextButtons::class,
 
         'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,

@@ -463,6 +463,10 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::post('doExport', 'ExportController@doExport')
             ->name('doExport');
 
+        // Report
+        Route::get('report', 'ReportController@index')
+            ->name('report');
+
         Route::resource('books', 'BookController');
     });
 

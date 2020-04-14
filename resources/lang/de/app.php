@@ -235,6 +235,7 @@ return [
     'number_of_days' => 'Anzahl Tage',
     'google_api_key' => 'Google API Schlüssel',
     'language' => 'Sprache',
+    'languages' => 'Sprachen',
     'grouping' => 'Gruppierung',
     'write_decimal_point_as_comma' => 'Dezimalpunkt als Komma (,) schreiben',
     'search' => 'Suchen',
@@ -341,4 +342,7 @@ return [
     'latest_activity' => 'Letzte Aktivität',
     'active' => 'Aktiv',
     'choose_language' => 'Sprache wählen...',
+    'quantity' => 'Anzahl',
+    'percentage' => 'Prozentsatz',
+    'popular' => 'Populär',
 ];
