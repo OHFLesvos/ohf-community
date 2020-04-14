@@ -13,7 +13,7 @@ $factory->define(Donor::class, function (Faker $faker) {
     };
     $gender = $faker->randomElement(['male', 'female']);
     $lc = $faker->optional(0.3)->languageCode;
-    $language = $lc != null ? collect(\Languages::lookup([$lc]))->first() : null;
+    $language = $lc != null ? \Languages::lookup([$lc])->first() : null;
     return [
         'salutation' => $faker->title($gender),
         'first_name' => $faker->firstName($gender),
