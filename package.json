@@ -25,7 +25,6 @@
         "google-palette": "^1.1.0",
         "is-isbn": "^1.1.0",
         "jquery": "^3.5.0",
-        "jquery.session": "^1.0.0",
         "laravel-mix": "^5.0.1",
         "laravel-mix-merge-manifest": "^0.1.2",
         "lity": "^2.4.0",

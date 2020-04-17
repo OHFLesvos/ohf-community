@@ -1,6 +1,5 @@
 require('./bootstrap');
 
-require('jquery.session/jquery.session');
 var palette = require('google-palette');
 
 // Define color palette (for charts)
