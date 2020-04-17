@@ -133,7 +133,7 @@ $(function(){
 //
 // Vue
 //
-window.Vue = require('vue');
+import Vue from 'vue'
 
 Vue.config.productionTip = false
 
@@ -146,7 +146,7 @@ Vue.component('horizontal-bar-chart', HorizontalBarChart);
 import PieChart from './components/PieChart.vue';
 Vue.component('pie-chart', PieChart);
 
-const app = new Vue({
+new Vue({
     el: '#app'
 });
 
