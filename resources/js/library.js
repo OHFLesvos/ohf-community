@@ -1,4 +1,4 @@
-const isIsbn = require('is-isbn')
+import isIsbn from 'is-isbn'
 
 $(function(){
     $('#lendBookModal').on('shown.bs.modal', function (e) {

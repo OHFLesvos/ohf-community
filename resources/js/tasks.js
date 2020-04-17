@@ -1,7 +1,7 @@
-window.Vue = require('vue');
+import Vue from'vue'
 
-import TaskList from './components/collaboration/TaskList.vue';
-Vue.component('task-list', TaskList);
+import TaskList from './components/collaboration/TaskList.vue'
+Vue.component('task-list', TaskList)
 
 new Vue({
     el: '#tasks-app'
