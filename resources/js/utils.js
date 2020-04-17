@@ -1,4 +1,4 @@
-var Snackbar = require('node-snackbar');
+import Snackbar from 'node-snackbar'
 
 export function showSnackbar(text, actionText, actionClass, callback) {
 	var args = {

@@ -185,7 +185,7 @@ $(function(){
 //
 // Snackbar
 //
-var Snackbar = require('node-snackbar')
+import Snackbar from 'node-snackbar'
 
 $(function(){
     $('.snack-message').each(function() {
