@@ -27,11 +27,11 @@ import { BForm, BButton, BModal } from 'bootstrap-vue'
 import showSnackbar from '@/snackbar'
 import PersonFormFields from '@/components/people/PersonFormFields'
 import { handleAjaxError } from '@/utils'
+import axios from '@/plugins/axios'
 export default {
     components: {
         BForm,
         BButton,
-        BModal,
         PersonFormFields
     },
     props: {

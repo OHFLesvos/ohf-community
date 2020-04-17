@@ -32,6 +32,7 @@ import ShopCardsList from '@/components/shop/ShopCardsList'
 import NonExpiredCardsTable from '@/components/shop/NonExpiredCardsTable'
 import { getAjaxErrorMessage } from '@/utils'
 import ErrorAlert from '@/components/alerts/ErrorAlert'
+import axios from '@/plugins/axios'
 export default {
     components: {
         ShopCardsList,

@@ -102,9 +102,10 @@
 </template>
 
 <script>
-  import TagSelectButton from './TagSelectButton'
-  import { getAjaxErrorMessage } from '@/utils'
-  export default {
+import axios from '@/plugins/axios'
+import TagSelectButton from './TagSelectButton'
+import { getAjaxErrorMessage } from '@/utils'
+export default {
     components: {
         'tag-select-button': TagSelectButton,
     },

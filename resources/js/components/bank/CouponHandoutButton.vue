@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 import { showSnackbar, handleAjaxError } from '@/utils'
 import { isAlphaNumeric } from '@/utils'
 import CodeScannerModal from '@/components/ui/CodeScannerModal'

@@ -53,6 +53,7 @@
 import showSnackbar from '@/snackbar'
 import { handleAjaxError } from '@/utils'
 import { BButton, BFormInput, BFormDatalist } from 'bootstrap-vue'
+import axios from '@/plugins/axios'
 export default {
     components: {
         BButton,

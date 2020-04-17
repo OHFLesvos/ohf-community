@@ -77,6 +77,8 @@ import { BPagination } from 'bootstrap-vue'
 
 import { EventBus } from '@/event-bus';
 
+import axios from '@/plugins/axios'
+
 export default {
     components: {
         PersonFilterInput,

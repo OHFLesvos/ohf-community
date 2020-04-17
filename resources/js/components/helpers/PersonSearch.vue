@@ -58,7 +58,7 @@
 </template>
 <script>
 import { getAjaxErrorMessage } from '@/utils'
-
+import axios from '@/plugins/axios'
 export default {
     props: {
         name: {

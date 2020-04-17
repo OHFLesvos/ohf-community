@@ -34,6 +34,7 @@ import InlineValueEditor from '@/components/ui/InlineValueEditor'
 import TextHighlight from 'vue-text-highlight'
 import showSnackbar from '@/snackbar'
 import { handleAjaxError } from '@/utils'
+import axios from '@/plugins/axios'
 export default {
     components: {
         InlineValueEditor,

@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 const DEFAULT_RELOAD_INTERVAL = 60
 export default {
     props: {

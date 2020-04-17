@@ -72,6 +72,7 @@ import { getAjaxErrorMessage } from '@/utils'
 import ShopCardDetails from '@/components/shop/ShopCardDetails'
 import CardScannerArea from '@/components/shop/CardScannerArea'
 import { isAlphaNumeric } from '@/utils'
+import axios from '@/plugins/axios'
 export default {
     components: {
         ShopCardDetails,

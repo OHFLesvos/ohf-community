@@ -68,6 +68,7 @@
     import { getAjaxErrorMessage } from '@/utils'
     import showSnackbar from '@/snackbar'
     import ErrorAlert from '@/components/alerts/ErrorAlert'
+    import axios from '@/plugins/axios'
     export default {
         components: {
             ErrorAlert

@@ -2,7 +2,8 @@
 // Calendar
 //
 
-import { handleAjaxError } from './utils'
+import { handleAjaxError } from '@/utils'
+import axios from '@/plugins/axios'
 
 var lastResourceGroup = null;
 

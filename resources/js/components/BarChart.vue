@@ -2,6 +2,8 @@
     import palette from 'google-palette'
     const colorPalette = palette('tol', 12);
 
+    import axios from '@/plugins/axios'
+
     import { Bar } from 'vue-chartjs'
     export default {
         extends: Bar,

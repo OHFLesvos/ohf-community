@@ -26,6 +26,8 @@ import showSnackbar from '@/snackbar'
 import { handleAjaxError } from '@/utils'
 import PersonFormFields from '@/components/people/PersonFormFields'
 
+import axios from '@/plugins/axios'
+
 export default {
     components: {
         BForm,

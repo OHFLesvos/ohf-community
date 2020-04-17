@@ -53,6 +53,7 @@
 <script>
 import showSnackbar from '@/snackbar'
 import { handleAjaxError, isDateString, dateOfBirthToAge, todayDate } from '@/utils'
+import axios from '@/plugins/axios'
 export default {
     props: {
         apiUrl: {

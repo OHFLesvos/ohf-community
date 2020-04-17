@@ -40,6 +40,7 @@
 import InlineValueEditor from '@/components/ui/InlineValueEditor'
 import showSnackbar from '@/snackbar'
 import { handleAjaxError } from '@/utils'
+import axios from '@/plugins/axios'
 export default {
     components: {
         InlineValueEditor

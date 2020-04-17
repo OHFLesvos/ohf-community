@@ -60,6 +60,8 @@
 </template>
 
 <script>
+    import axios from '@/plugins/axios'
+
     const focus = {
         inserted(el) {
             el.focus()
@@ -107,7 +109,7 @@
             createTask() {
                 this.errorMessage = null;
                 axios.post('api/tasks', this.task)
-                    .then((res) => {
+                    .then(() => {
                         this.task.description = '';
                         this.fetchTaskList();
                     })
@@ -120,7 +122,7 @@
 
             updateTask(id) {
                 axios.put('api/tasks/' + id, this.editTask)
-                    .then((res) => {
+                    .then(() => {
                         this.task.description = '';
                         this.fetchTaskList();
                     })
@@ -129,7 +131,7 @@
 
             deleteTask(id) {
                 axios.delete('api/tasks/' + id)
-                    .then((res) => {
+                    .then(() => {
                         this.fetchTaskList()
                     })
                     .catch((err) => console.error(err));
@@ -137,7 +139,7 @@
 
             doneTask(id) {
                 axios.patch('api/tasks/' + id + '/done')
-                    .then((res) => {
+                    .then(() => {
                         this.fetchTaskList()
                     })
                     .catch((err) => console.error(err));

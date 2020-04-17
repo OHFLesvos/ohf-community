@@ -37,6 +37,7 @@
 <script>
 import showSnackbar from '@/snackbar'
 import { handleAjaxError } from '@/utils'
+import axios from '@/plugins/axios'
 export default {
     props: {
         apiUrl: {
