@@ -1,10 +1,25 @@
 require('./bootstrap');
 
-var palette = require('google-palette');
+//
+// Palette
+//
 
 // Define color palette (for charts)
 // http://google.github.io/palette.js/
-window.colorPalette = palette('tol', 12);
+import palette from 'google-palette'
+const colorPalette = palette('tol', 12);
+$(function(){
+    $('.colorize').each(function(){
+        var i = 0;
+        $(this).find('.colorize-background').each(function(){
+            $(this).css('background-color', '#' + colorPalette[i++ % colorPalette.length]);
+        });
+        i = 0;
+        $(this).find('.colorize-text').each(function(){
+            $(this).css('color', '#' + colorPalette[i++ % colorPalette.length]);
+        });
+    });
+});
 
 /*====================================
 =            ON DOM READY            =
@@ -113,23 +128,6 @@ $(function(){
     $('input[rel="birthdate"]').on('change paste propertychange input', function(evt){
         updateAge($(this));
 	});
-});
-
-//
-// Palette
-//
-var palette = require('google-palette');
-$(function(){
-    $('.colorize').each(function(){
-        var i = 0;
-        $(this).find('.colorize-background').each(function(){
-            $(this).css('background-color', '#' + window.colorPalette[i++ % window.colorPalette.length]);
-        });
-        i = 0;
-        $(this).find('.colorize-text').each(function(){
-            $(this).css('color', '#' + colorPalette[i++ % window.colorPalette.length]);
-        });
-    });
 });
 
 //

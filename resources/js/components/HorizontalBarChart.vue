@@ -1,6 +1,6 @@
 <script>
-    var palette = require('google-palette');
-    var colorPalette = palette('tol', 12);
+    import palette from 'google-palette'
+    const colorPalette = palette('tol', 12);
 
     import { HorizontalBar } from 'vue-chartjs'
     export default {
@@ -75,7 +75,7 @@
                                 }
                             }],
                             yAxes: [{
-                                stacked: true, 
+                                stacked: true,
                                 gridLines : {
                                     display : false,
                                     drawBorder: false,
