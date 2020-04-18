@@ -38,16 +38,15 @@ class CreateAccountingWalletsTable extends Migration
                 $table->foreignId('wallet_id')->after('id')->default($wallet->id);
                 $table->foreign('wallet_id')->references('id')->on('accounting_wallets')->onDelete('cascade');
             });
-
-            Schema::table('money_transactions', function (Blueprint $table) {
-                $table->foreignId('wallet_id')->default(NULL)->change();
-            });
         } else {
             Schema::table('money_transactions', function (Blueprint $table) {
-                $table->foreignId('wallet_id')->after('id');
+                $table->foreignId('wallet_id')->after('id')->default(0);
                 $table->foreign('wallet_id')->references('id')->on('accounting_wallets')->onDelete('cascade');
             });
         }
+        Schema::table('money_transactions', function (Blueprint $table) {
+            $table->foreignId('wallet_id')->default(NULL)->change();
+        });
 
         DB::statement($this->dropView());
         DB::statement($this->createView());
