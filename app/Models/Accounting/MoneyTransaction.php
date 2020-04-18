@@ -47,11 +47,11 @@ class MoneyTransaction extends Model implements Auditable
      * Scope a query to only include transactions from a given date range
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  Carbon|null  $dateFrom
-     * @param  Carbon|null  $dateTo
+     * @param  string|Carbon|null  $dateFrom
+     * @param  string|Carbon|null  $dateTo
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForDateRange($query, ?Carbon $dateFrom = null, ?Carbon $dateTo = null)
+    public function scopeForDateRange($query, $dateFrom = null, $dateTo = null)
     {
         if ($dateFrom !== null) {
             $query->whereDate('date', '>=', $dateFrom);
@@ -110,6 +110,17 @@ class MoneyTransaction extends Model implements Auditable
             }
         }
         return $query;
+    }
+
+    /**
+     * Scope a query to only include transactions which have not been booked
+     *
+     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotBooked($query)
+    {
+        return $query->where('booked', false);
     }
 
     public static function getNextFreeReceiptNo()

@@ -23,6 +23,8 @@ class SummaryController extends Controller
     {
         $this->authorize('view-accounting-summary');
 
+        setlocale(LC_TIME, \App::getLocale());
+
         $currentMonth = Carbon::now()->startOfMonth();
 
         $request->validate([
@@ -75,9 +77,6 @@ class SummaryController extends Controller
             $heading = __('app.all_time');
             $currentRange = null;
         }
-
-        // TODO: Probably define on more general location
-        setlocale(LC_TIME, \App::getLocale());
 
         $revenueByCategory = self::revenueByField('category', $wallet, $dateFrom, $dateTo);
         $revenueByProject = self::revenueByField('project', $wallet, $dateFrom, $dateTo);
