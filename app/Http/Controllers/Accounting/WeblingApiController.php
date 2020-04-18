@@ -24,7 +24,6 @@ class WeblingApiController extends Controller
     {
         $this->authorize('book-accounting-transactions-externally');
 
-        // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
 
         try {

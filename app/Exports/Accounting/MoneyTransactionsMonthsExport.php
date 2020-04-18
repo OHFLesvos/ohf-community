@@ -30,7 +30,6 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
     {
         $this->filter = $filter;
 
-        // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
     }
 
