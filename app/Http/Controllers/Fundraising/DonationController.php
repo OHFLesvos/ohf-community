@@ -94,7 +94,9 @@ class DonationController extends Controller
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
         $donation->in_name_of = $request->in_name_of;
-        $donor->donations()->save($donation);
+
+        $donor->addDonation($donation);
+
         return redirect()
             ->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]));

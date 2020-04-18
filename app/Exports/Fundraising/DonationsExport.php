@@ -26,11 +26,9 @@ class DonationsExport implements WithMultipleSheets, WithEvents
 
     private function getDonationsQuery(?int $year = null)
     {
-        $qry = $this->donor != null ? $this->donor->donations() : Donation::query();
-        if ($year !== null) {
-            $qry->whereYear('date', $year);
-        }
-        return $qry;
+        return $this->donor != null
+            ? $this->donor->donations()
+            : Donation::query();
     }
 
     public function sheets(): array
@@ -43,12 +41,15 @@ class DonationsExport implements WithMultipleSheets, WithEvents
             ->get()
             ->pluck('year');
         foreach ($years as $year) {
-            if ($this->getDonationsQuery($year)->count() > 0) {
-                $data = $this->getDonationsQuery($year)
+            if ($this->getDonationsQuery()->forYear($year)->count() > 0) {
+                $data = $this->getDonationsQuery()
+                    ->forYear($year)
                     ->orderBy('date', 'asc')
                     ->orderBy('created_at', 'asc')
                     ->get();
-                $sheets[] = $this->donor != null ? new DonationsSheet($data, $year) : new DonationsWithDonorSheet($data, $year);
+                $sheets[] = $this->donor != null
+                    ? new DonationsSheet($data, $year)
+                    : new DonationsWithDonorSheet($data, $year);
             }
         }
 

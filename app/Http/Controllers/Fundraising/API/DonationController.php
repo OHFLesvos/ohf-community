@@ -85,6 +85,7 @@ class DonationController extends Controller
             'AMX' => 'American Express',
         ];
         $payment_method = $payment_methods[$request->payment_method] ?? $request->payment_method;
+
         $donation = new Donation();
         $donation->date = $date->toDateString();
         $donation->amount = $amount;
@@ -93,6 +94,7 @@ class DonationController extends Controller
         $donation->channel = 'RaiseNow (' . $payment_method . ')';
         $donation->purpose = $request->stored_customer_message; // TODO consider stored_customer_purpose
         $donation->reference = $request->epp_transaction_id;
-        $donor->donations()->save($donation);
+
+        $donor->addDonation($donation);
     }
 }

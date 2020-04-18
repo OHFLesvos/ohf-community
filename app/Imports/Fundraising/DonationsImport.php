@@ -48,6 +48,7 @@ class DonationsImport implements ToCollection, WithHeadingRow
                     ->where('reference', $row['id'])
                     ->first();
                 if ($donation == null) {
+
                     $donation = new Donation();
                     $donation->date = $date;
                     $donation->amount = $amount;
@@ -56,7 +57,8 @@ class DonationsImport implements ToCollection, WithHeadingRow
                     $donation->channel = 'Stripe';
                     $donation->reference = $row['id'];
                     $donation->purpose = $row['description'];
-                    $donor->donations()->save($donation);
+
+                    $donor->addDonation($donation);
                 }
             }
         }

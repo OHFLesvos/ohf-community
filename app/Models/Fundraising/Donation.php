@@ -25,6 +25,21 @@ class Donation extends Model
         return $this->belongsTo(Donor::class);
     }
 
+    /**
+     * Scope a query to only include donations from the given year, if specified.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  null|int $year
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForYear($query, ?int $year)
+    {
+        if ($year !== null) {
+            $query->whereYear('date', $year);
+        }
+        return $query;
+    }
+
     public static function channels(): array
     {
         return self::select('channel')

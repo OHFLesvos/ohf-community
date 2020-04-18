@@ -13,8 +13,8 @@ class FundraisingDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(Donor::class, 250)->create()->each(function ($d) {
-            $d->donations()->saveMany(factory(Donation::class, mt_rand(1, 10))->make());
+        factory(Donor::class, 250)->create()->each(function (Donor $donor) {
+            $donor->addDonations(factory(Donation::class, mt_rand(1, 10))->make());
         });
     }
 }

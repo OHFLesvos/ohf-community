@@ -77,7 +77,7 @@ class Donor extends Model
     public function amountPerYear($year)
     {
         return $this->donations()
-            ->whereYear('date', $year)
+            ->forYear($year)
             ->select(DB::raw('sum(exchange_amount) as total'))
             ->get()
             ->pluck('total')
@@ -87,7 +87,7 @@ class Donor extends Model
     public function amountPerYearByCurrencies($year)
     {
         return $this->donations()
-            ->whereYear('date', $year)
+            ->forYear($year)
             ->select(DB::raw('sum(amount) as total'), 'currency')
             ->groupBy('currency')
             ->get()
@@ -100,6 +100,16 @@ class Donor extends Model
             ->groupBy(DB::raw('YEAR(date)'))
             ->select(DB::raw('YEAR(date) as year'), DB::raw('sum(exchange_amount) as total'))
             ->get();
+    }
+
+    public function addDonation(Donation $donation)
+    {
+        $this->donations()->save($donation);
+    }
+
+    public function addDonations($donations)
+    {
+        $this->donations()->saveMany($donations);
     }
 
     public static function languages(): array
