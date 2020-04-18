@@ -16,12 +16,6 @@ use Illuminate\Support\Collection;
 
 class WeblingApiController extends Controller
 {
-    public function __construct()
-    {
-        // TODO find more generic place
-        Carbon::setUtf8(true);
-    }
-
     /**
      * Display a listing of the resource.
      * @return Response
@@ -94,7 +88,7 @@ class WeblingApiController extends Controller
         $period = Period::find($request->period);
 
         $transactions = MoneyTransaction::query()
-            ->forWallet($currentWallet)
+            ->forWallet($currentWallet->get())
             ->forDateRange($request->from, $request->to)
             ->forDateRange($period->from, $period->to)
             ->notBooked()
@@ -267,7 +261,7 @@ class WeblingApiController extends Controller
                 foreach ($entryGroup->entries as $entry) {
                     $transaction = MoneyTransaction::query()
                         ->whereDate('date', $entryGroup->date)
-                        ->forWallet($currentWallet)
+                        ->forWallet($currentWallet->get())
                         ->notBooked()
                         ->where('receipt_no', $entry->receipt)
                         ->first();

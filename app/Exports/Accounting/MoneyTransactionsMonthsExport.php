@@ -30,7 +30,6 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
     {
         $this->filter = $filter;
 
-        Carbon::setUtf8(true);
         // TODO: Probably define on more general location
         setlocale(LC_TIME, \App::getLocale());
     }

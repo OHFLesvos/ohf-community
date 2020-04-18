@@ -8,6 +8,7 @@ use App\Rules\CountryName;
 use App\Rules\LanguageCode;
 use App\Rules\Library\Isbn;
 use App\Services\Accounting\CurrentWalletService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -104,6 +105,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CurrentWalletService::class, function ($app) {
             return new CurrentWalletService();
         });
+
+        // UTF-8 support for Carbon time
+        Carbon::setUtf8(true);
 
         $this->registerRules();
         $this->registerDashboardWidgets();

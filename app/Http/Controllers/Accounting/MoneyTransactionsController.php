@@ -21,11 +21,6 @@ class MoneyTransactionsController extends Controller
 {
     use ExportableActions;
 
-    public function __construct()
-    {
-        Carbon::setUtf8(true);
-    }
-
     /**
      * Display a listing of the resource.
      *
