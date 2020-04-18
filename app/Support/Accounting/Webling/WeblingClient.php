@@ -2,6 +2,7 @@
 
 namespace App\Support\Accounting\Webling;
 
+use App\Exceptions\ConfigurationException;
 use Exception;
 use Webling\API\Client;
 use Webling\Cache\Cache;
@@ -16,11 +17,11 @@ class WeblingClient
     public function __construct(?string $url, ?string $apiKey)
     {
         if (blank($url)) {
-            throw new Exception('Webling API URL not defined! Please set the env variable WEBLING_API_URL.');
+            throw new ConfigurationException('Webling API URL not defined! Please set the env variable WEBLING_API_URL.');
         }
         $this->url = $url;
         if (blank($apiKey)) {
-            throw new Exception('Webling API key not defined! Please set the env variable WEBLING_API_KEY.');
+            throw new ConfigurationException('Webling API key not defined! Please set the env variable WEBLING_API_KEY.');
         }
 
         $this->client = new Client($url, $apiKey);

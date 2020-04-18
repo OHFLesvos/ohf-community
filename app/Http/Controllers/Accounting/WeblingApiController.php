@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accounting;
 
+use App\Exceptions\ConfigurationException;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
 use App\Services\Accounting\CurrentWalletService;
@@ -37,7 +38,7 @@ class WeblingApiController extends Controller
                         'months' => self::getMonthsForPeriod($period->from, $period->to),
                     ],
                 ]);
-        } catch (ConnectionException $e) {
+        } catch (ConnectionException|ConfigurationException $e) {
             session()->now('error', $e->getMessage());
             $periods = collect();
         }
