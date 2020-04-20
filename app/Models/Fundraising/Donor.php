@@ -3,9 +3,11 @@
 namespace App\Models\Fundraising;
 
 use App\Support\Traits\HasTags;
+use Countries;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 
 class Donor extends Model
 {
@@ -53,7 +55,7 @@ class Donor extends Model
     public function getCountryNameAttribute()
     {
         if ($this->country_code != null) {
-            return \Countries::getOne($this->country_code, \App::getLocale());
+            return Countries::getOne($this->country_code, App::getLocale());
         }
         return null;
     }
@@ -66,7 +68,9 @@ class Donor extends Model
      */
     public function setCountryNameAttribute($value)
     {
-        $this->attributes['country_code'] = $value != null ? array_flip(\Countries::getList(\App::getLocale()))[$value] ?? null : null;
+        $this->attributes['country_code'] = $value != null
+            ? array_flip(Countries::getList(App::getLocale()))[$value] ?? null
+            : null;
     }
 
     public function donations()
@@ -74,31 +78,34 @@ class Donor extends Model
         return $this->hasMany(Donation::class);
     }
 
-    public function amountPerYear($year)
+    public function amountPerYear(int $year): ?int
     {
         return $this->donations()
+            ->selectRaw('SUM(exchange_amount) AS total')
             ->forYear($year)
-            ->select(DB::raw('sum(exchange_amount) as total'))
             ->get()
             ->pluck('total')
             ->first();
     }
 
-    public function amountPerYearByCurrencies($year)
+    public function amountPerYearByCurrencies(int $year): array
     {
         return $this->donations()
+            ->select('currency')
+            ->selectRaw('SUM(amount) AS total')
             ->forYear($year)
-            ->select(DB::raw('sum(amount) as total'), 'currency')
             ->groupBy('currency')
             ->get()
-            ->pluck('total', 'currency');
+            ->pluck('total', 'currency')
+            ->toArray();
     }
 
-    public function donationsPerYear()
+    public function donationsPerYear(): Collection
     {
         return $this->donations()
-            ->groupBy(DB::raw('YEAR(date)'))
-            ->select(DB::raw('YEAR(date) as year'), DB::raw('sum(exchange_amount) as total'))
+            ->selectRaw('YEAR(date) AS year')
+            ->selectRaw('SUM(exchange_amount) AS total')
+            ->groupBy('year')
             ->get();
     }
 
