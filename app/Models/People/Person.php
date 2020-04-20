@@ -524,4 +524,29 @@ class Person extends Model
             }
         });
     }
+
+    /**
+     * Scope a query to only include persons matching the given filter
+     * If no filter is specified, all records will be returned.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param null|string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter($query, ?string $filter = '')
+    {
+        if (! empty($filter)) {
+            $query->where(function ($wq) use ($filter) {
+                return $wq->where(DB::raw('CONCAT(name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw('CONCAT(family_name, \' \', name)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere('name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('family_name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('date_of_birth', $filter)
+                    ->orWhere('nationality', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('police_no', $filter)
+                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+            });
+        }
+        return $query;
+    }
 }

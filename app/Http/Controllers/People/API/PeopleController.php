@@ -15,7 +15,6 @@ use App\Models\People\Person;
 use App\Models\People\RevokedCard;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class PeopleController extends Controller
@@ -66,34 +65,12 @@ class PeopleController extends Controller
         $pageSize = $request->input('pageSize', 10);
         $filter = trim($request->input('filter', ''));
 
-        return new PersonCollection(self::createQuery($filter)
+        return new PersonCollection(Person::query()
+            ->forFilter($filter)
             ->orderBy($sortBy, $sortDirection)
             ->orderBy('name')
             ->orderBy('family_name')
             ->paginate($pageSize));
-    }
-
-    private static function createQuery(string $filter)
-    {
-        $query = Person::query();
-        if (! empty($filter)) {
-            self::applyFilter($query, $filter);
-        }
-        return $query;
-    }
-
-    private static function applyFilter(&$query, $filter)
-    {
-        $query->where(function ($wq) use ($filter) {
-            return $wq->where(DB::raw('CONCAT(name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
-                ->orWhere(DB::raw('CONCAT(family_name, \' \', name)'), 'LIKE', '%' . $filter . '%')
-                ->orWhere('name', 'LIKE', '%' . $filter . '%')
-                ->orWhere('family_name', 'LIKE', '%' . $filter . '%')
-                ->orWhere('date_of_birth', $filter)
-                ->orWhere('nationality', 'LIKE', '%' . $filter . '%')
-                ->orWhere('police_no', $filter)
-                ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
-        });
     }
 
     /**
