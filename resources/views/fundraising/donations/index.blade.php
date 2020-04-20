@@ -4,57 +4,86 @@
 
 @section('wrapped-content')
 
-    @if(! $donations->isEmpty())
-        <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th class="fit">@lang('app.date')</th>
-                        <th class="text-right fit">@lang('app.amount')</th>
-                        <th>@lang('fundraising.donor')</th>
-                        <th class="d-none d-sm-table-cell">@lang('fundraising.channel')</th>
-                        <th>@lang('fundraising.purpose')</th>
-                        <th class="d-none d-sm-table-cell">@lang('fundraising.reference')</th>
-                        <th class="d-none d-sm-table-cell">@lang('fundraising.in_name_of')</th>
-                        <th class="d-none d-sm-table-cell fit">@lang('app.registered')</th>
-                        <th class="fit" title="@lang('fundraising.thanked')">@icon(handshake)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($donations as $donation)
-                        <tr>
-                            <td class="fit"><a href="{{ route('fundraising.donations.edit', [$donation->donor, $donation]) }}">{{ $donation->date }}</a></td>
-                            <td class="text-right fit">
-                                {{ $donation->currency }} {{ $donation->amount }}
-                                @if($donation->currency != config('fundraising.base_currency'))
-                                    ({{ config('fundraising.base_currency') }} {{ $donation->exchange_amount }})
-                                @endif
-                            </td>
-                            <td>
-                                <a href="{{ route('fundraising.donors.show', $donation->donor) }}">{{ $donation->donor->full_name }}</a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">{{ $donation->channel }}</td>
-                            <td>{{ $donation->purpose }}</td>
-                            <td class="d-none d-sm-table-cell">{{ $donation->reference }}</td>
-                            <td class="d-none d-sm-table-cell">{{ $donation->in_name_of }}</td>
-                            <td class="d-none d-sm-table-cell fit">{{ $donation->created_at }}</td>
-                            @if($donation->thanked != null)
-                                <td class="fit" title="{{ $donation->thanked->toDateString() }}">
-                                    @icon(check)
-                                </td>
-                            @else
-                                <td></td>
-                            @endif
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        {{ $donations->links() }}
-    @else
-        @component('components.alert.info')
-            @lang('fundraising.no_donations_found')
-        @endcomponent
-    @endif
+    <div id="fundraising-app">
+        @php
+            $fields = [
+                [
+                    'key' => 'date',
+                    'label' => __('app.date'),
+                    'class' => 'fit',
+                    'sortable' => true,
+                ],
+                [
+                    'key' => 'amount',
+                    'label' => __('app.amount'),
+                    'class' => 'text-right fit',
+                    'sortable' => true,
+                ],
+                [
+                    'key' => 'donor',
+                    'label' => __('fundraising.donor'),
+                    'sortable' => false,
+                ],
+                [
+                    'key' => 'channel',
+                    'label' => __('fundraising.channel'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => false,
+                ],
+                [
+                    'key' => 'purpose',
+                    'label' => __('fundraising.purpose'),
+                    'sortable' => false,
+                ],
+                [
+                    'key' => 'reference',
+                    'label' => __('fundraising.reference'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => false,
+                ],
+                [
+                    'key' => 'in_name_of',
+                    'label' => __('fundraising.in_name_of'),
+                    'class' => 'd-none d-sm-table-cell',
+                    'sortable' => true,
+                ],
+                [
+                    'key' => 'created_at',
+                    'label' => __('app.registered'),
+                    'class' => 'd-none d-sm-table-cell fit',
+                    'sortable' => true,
+                ],
+                [
+                    'key' => 'thanked',
+                    'label' => __('fundraising.thanked'),
+                    'class' => 'fit',
+                    'sortable' => false,
+                ],
+            ];
+        @endphp
+        <donations-table
+            id="donationsTable"
+            :fields='@json($fields)'
+            api-url="{{ route('api.fundraising.donations.index') }}"
+            default-sort-by="created_at"
+            empty-text="@lang('fundraising.no_donations_found')"
+            filter-placeholder="@lang('fundraising.search_for_name_address_email_phone')..."
+            :items-per-page="100"
+            loading-label="@lang('app.loading')"
+        ></donations-table>
+    </div>
 
+{{-- <th class="fit" title="@lang('fundraising.thanked')">@icon(handshake)</th>
+    @if($donation->thanked != null)
+        <td class="fit" title="{{ $donation->thanked->toDateString() }}">
+            @icon(check)
+        </td>
+    @else
+        <td></td>
+    @endif --}}
+
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/fundraising.js') }}?v={{ $app_version }}"></script>
 @endsection

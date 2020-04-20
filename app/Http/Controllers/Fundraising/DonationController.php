@@ -20,17 +20,12 @@ class DonationController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $this->authorize('list', Donation::class);
 
-        $query = Donation::orderBy('created_at', 'desc');
-        return view('fundraising.donations.index', [
-            'donations' => $query->paginate(100),
-        ]);
+        return view('fundraising.donations.index', [ ]);
     }
 
     /**

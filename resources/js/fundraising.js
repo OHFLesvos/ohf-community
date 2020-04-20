@@ -13,8 +13,15 @@ import BaseTable from './components/BaseTable.vue'
 Vue.component('base-table', BaseTable);
 
 import DonorsTable from './components/fundraising/DonorsTable.vue'
-Vue.component('donors-table', DonorsTable);
+import DonationsTable from './components/fundraising/DonationsTable.vue'
+
+import i18n from '@/plugins/i18n'
 
 new Vue({
-    el: '#fundraising-app'
+    el: '#fundraising-app',
+    i18n,
+    components: {
+        DonationsTable,
+        DonorsTable
+    }
 });
