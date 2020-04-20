@@ -115,7 +115,7 @@ export default {
             type: String,
         },
         fields: {
-            required: true,
+            required: false,
             type: Array,
         },
         apiUrl: {
