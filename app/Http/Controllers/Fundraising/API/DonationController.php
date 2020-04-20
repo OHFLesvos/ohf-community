@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Fundraising\DonationCollection;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
@@ -11,6 +12,53 @@ use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $this->authorize('list', Donation::class);
+
+        $request->validate([
+            'filter' => [
+                'nullable',
+            ],
+            'page' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'pageSize' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'sortBy' => [
+                'nullable',
+                'alpha_dash',
+                'filled',
+            ],
+            'sortDirection' => [
+                'nullable',
+                'in:asc,desc',
+            ],
+        ]);
+
+        // Sorting, pagination and filter
+        $sortBy = $request->input('sortBy', 'created_at');
+        $sortDirection = $request->input('sortDirection', 'desc');
+        $pageSize = $request->input('pageSize', 100);
+        $filter = trim($request->input('filter', ''));
+
+        $donations = Donation::query()
+            ->forFilter($filter)
+            ->orderBy($sortBy, $sortDirection)
+            ->paginate($pageSize);
+        return new DonationCollection($donations);
+    }
+
     /**
      * Store donation and donor supplied by RaiseNow Webhook
      */

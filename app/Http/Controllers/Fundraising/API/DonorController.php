@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DonorController extends Controller
 {
