@@ -8,6 +8,7 @@ use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class Donor extends Model
 {
@@ -100,6 +101,11 @@ class Donor extends Model
             ->toArray();
     }
 
+    /**
+     * Gets a collection of donations per year
+     *
+     * @return Collection
+     */
     public function donationsPerYear(): Collection
     {
         return $this->donations()
@@ -109,16 +115,86 @@ class Donor extends Model
             ->get();
     }
 
+    /**
+     * Adds the given donation
+     *
+     * @param Donation $donation
+     */
     public function addDonation(Donation $donation)
     {
         $this->donations()->save($donation);
     }
 
+    /**
+     * Adds the given donations
+     *
+     * @param [type] $donations
+     */
     public function addDonations($donations)
     {
         $this->donations()->saveMany($donations);
     }
 
+    /**
+     * Scope a query to only include donors having the given tags.
+     * If no tags are specified, all records will be returned.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param null|array<string> $tags list of tags (slug values)
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithTags($query, ?array $tags = [])
+    {
+        if (count($tags) > 0) {
+            $query->whereHas('tags', function ($query) use ($tags) {
+                $query->whereIn('slug', $tags);
+            });
+        }
+        return $query;
+    }
+
+    /**
+     * Scope a query to only include donors matching the given filter
+     * If no filter is specified, all records will be returned.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param null|string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter($query, ?string $filter = '')
+    {
+        if (! empty($filter)) {
+            $query->where(function ($wq) use ($filter) {
+                $countries = Countries::getList(App::getLocale());
+                array_walk($countries, function (&$value, $idx) {
+                    $value = strtolower($value);
+                });
+                $countries = array_flip($countries);
+                return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere('company', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('street', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('zip', $filter)
+                    ->orWhere('city', 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                    // Note: Countries filter only works for complete country code or country name
+                    ->orWhere('country_code', $countries[strtolower($filter)] ?? $filter)
+                    ->orWhere('email', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $filter . '%');
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * Gets a sorted list of all languages used by donors
+     *
+     * @return array
+     */
     public static function languages(): array
     {
         return self::select('language')
@@ -130,6 +206,11 @@ class Donor extends Model
             ->toArray();
     }
 
+    /**
+     * Gets a sorted list of all salutations used by donors
+     *
+     * @return array
+     */
     public static function salutations(): array
     {
         return self::select('salutation')
