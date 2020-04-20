@@ -19,8 +19,15 @@
 </template>
 
 <script>
-    import BaseTable from '@/components/BaseTable.vue';
-    export default {
-        extends: BaseTable,
+import PhoneLink from '@/components/PhoneLink';
+import EmailLink from '@/components/EmailLink';
+import BaseTable from '@/components/BaseTable';
+export default {
+    extends: BaseTable,
+    components: {
+        BaseTable,
+        EmailLink,
+        PhoneLink
     }
+}
 </script>

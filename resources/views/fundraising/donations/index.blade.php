@@ -66,21 +66,13 @@
             :fields='@json($fields)'
             api-url="{{ route('api.fundraising.donations.index') }}"
             default-sort-by="created_at"
+            default-sort-desc
             empty-text="@lang('fundraising.no_donations_found')"
-            filter-placeholder="@lang('fundraising.search_for_name_address_email_phone')..."
+            filter-placeholder="@lang('app.search_ellipsis')"
             :items-per-page="100"
             loading-label="@lang('app.loading')"
         ></donations-table>
     </div>
-
-{{-- <th class="fit" title="@lang('fundraising.thanked')">@icon(handshake)</th>
-    @if($donation->thanked != null)
-        <td class="fit" title="{{ $donation->thanked->toDateString() }}">
-            @icon(check)
-        </td>
-    @else
-        <td></td>
-    @endif --}}
 
 @endsection
 

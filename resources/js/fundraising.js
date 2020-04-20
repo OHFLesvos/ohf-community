@@ -1,21 +1,17 @@
 import Vue from 'vue'
 
+import FontAwesomeIcon from './components/common/FontAwesomeIcon'
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
-import PhoneLink from './components/PhoneLink.vue';
-Vue.component('phone-link', PhoneLink);
-
-import EmailLink from './components/EmailLink.vue';
-Vue.component('email-link', EmailLink);
-
-import BaseTable from './components/BaseTable.vue'
-Vue.component('base-table', BaseTable);
-
-import DonorsTable from './components/fundraising/DonorsTable.vue'
-import DonationsTable from './components/fundraising/DonationsTable.vue'
+import DonorsTable from '@/components/fundraising/DonorsTable'
+import DonationsTable from '@/components/fundraising/DonationsTable'
 
 import i18n from '@/plugins/i18n'
+
+Vue.config.productionTip = false
 
 new Vue({
     el: '#fundraising-app',

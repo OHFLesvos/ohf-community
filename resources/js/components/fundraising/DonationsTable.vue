@@ -6,12 +6,21 @@
     <template v-slot:cell(donor)="data">
         <a :href="data.item.donor_url" v-if="data.value != ''">{{ data.value }}</a>
     </template>
+    <template v-slot:head(thanked)>
+        <font-awesome-icon icon="handshake" />
+    </template>
+    <template v-slot:cell(thanked)="data">
+        <font-awesome-icon v-if="data.value" icon="check" />
+    </template>
   </base-table>
 </template>
 
 <script>
-    import BaseTable from '@/components/BaseTable.vue';
-    export default {
-        extends: BaseTable,
+import BaseTable from '@/components/BaseTable';
+export default {
+    extends: BaseTable,
+    components: {
+        BaseTable
     }
+}
 </script>
