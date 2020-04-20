@@ -1,10 +1,13 @@
 # Changelog
 
-## NEXT
+## 2.14.0
 
 * Fixed path issue in webpack config for certain JS libraries
 * Added option to export books and borrowers from library
 * Use of defined languages in library
+* Dynamic fundraising donors table with filter
+* Multi-wallet support for webling export
+* Javascript cleanup
 
 ## 2.13.0
 
