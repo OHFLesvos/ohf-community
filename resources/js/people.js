@@ -3,12 +3,16 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
-import BaseTable from './components/BaseTable.vue'
-Vue.component('base-table', BaseTable);
+import PeopleTable from '@/components/people/PeopleTable'
 
-import PeopleTable from './components/people/PeopleTable.vue'
-Vue.component('people-table', PeopleTable);
+import i18n from '@/plugins/i18n'
+
+Vue.config.productionTip = false
 
 new Vue({
-    el: '#people-app'
+    el: '#people-app',
+    i18n,
+    components: {
+        PeopleTable
+    }
 });

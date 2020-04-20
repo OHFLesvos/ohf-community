@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import BaseTable from '@/components/BaseTable';
+import BaseTable from '@/components/BaseTable'
 export default {
     extends: BaseTable,
     components: {

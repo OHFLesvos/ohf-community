@@ -20,8 +20,11 @@
 </template>
 
 <script>
-    import BaseTable from '@/components/BaseTable.vue';
-    export default {
-        extends: BaseTable,
+import BaseTable from '@/components/BaseTable'
+export default {
+    extends: BaseTable,
+    components: {
+        BaseTable
     }
+}
 </script>

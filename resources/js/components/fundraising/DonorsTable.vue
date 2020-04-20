@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import PhoneLink from '@/components/PhoneLink';
-import EmailLink from '@/components/EmailLink';
-import BaseTable from '@/components/BaseTable';
+import PhoneLink from '@/components/PhoneLink'
+import EmailLink from '@/components/EmailLink'
+import BaseTable from '@/components/BaseTable'
 export default {
     extends: BaseTable,
     components: {
