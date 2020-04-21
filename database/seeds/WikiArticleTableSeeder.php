@@ -17,12 +17,11 @@ class WikiArticleTableSeeder extends Seeder
     {
         Model::unguard();
 
-        factory(WikiArticle::class, 100)->create()->each(function ($a) {
-            $a->syncTags(factory(Tag::class, mt_rand(1, 5))
+        factory(WikiArticle::class, 100)->create()->each(function ($article) {
+            $tags = factory(Tag::class, mt_rand(1, 5))
                 ->make()
-                ->pluck('name')
-                ->map(fn ($n) => ucfirst($n))
-                ->toArray());
+                ->pluck('name');
+            $article->setTags($tags);
         });
     }
 }

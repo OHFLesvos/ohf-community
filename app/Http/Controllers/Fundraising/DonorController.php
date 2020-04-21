@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
-use App\Tag;
 use Carbon\Carbon;
 use Countries;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use JeroenDesloovere\VCard\VCard;
 
 class DonorController extends Controller
@@ -20,12 +20,12 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $this->authorize('list', Donor::class);
 
         return view('fundraising.donors.index', [
-            'tags' => Tag::has('donors')->orderBy('name')->get()->pluck('name', 'slug'),
+            'tags' => Donor::tagMap(),
         ]);
     }
 
@@ -40,9 +40,9 @@ class DonorController extends Controller
 
         return view('fundraising.donors.create', [
             'salutations' => Donor::salutations(),
-            'countries' => array_values(Countries::getList(\App::getLocale())),
+            'countries' => array_values(Countries::getList(App::getLocale())),
             'languages' => Donor::languages(),
-            'tag_suggestions' => self::getTagSuggestions(),
+            'tag_suggestions' => Donor::tagNames(),
         ]);
     }
 
@@ -72,7 +72,7 @@ class DonorController extends Controller
         $donor->save();
 
         // Tags
-        $donor->syncTags(self::splitTags($request->tags));
+        $donor->setTagsFromJson($request->tags);
 
         return redirect()
             ->route('fundraising.donors.show', $donor)
@@ -110,9 +110,9 @@ class DonorController extends Controller
         return view('fundraising.donors.edit', [
             'donor' => $donor,
             'salutations' => Donor::salutations(),
-            'countries' => array_values(Countries::getList(\App::getLocale())),
+            'countries' => array_values(Countries::getList(App::getLocale())),
             'languages' => Donor::languages(),
-            'tag_suggestions' => self::getTagSuggestions(),
+            'tag_suggestions' => Donor::tagNames(),
         ]);
     }
 
@@ -142,7 +142,7 @@ class DonorController extends Controller
         $donor->save();
 
         // Tags
-        $donor->syncTags(self::splitTags($request->tags));
+        $donor->setTagsFromJson($request->tags);
 
         return redirect()->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donor_updated'));
@@ -210,20 +210,4 @@ class DonorController extends Controller
         return $vcard->download();
     }
 
-    private static function splitTags($value): array
-    {
-        return collect(json_decode($value))
-            ->pluck('value')
-            ->unique()
-            ->toArray();
-    }
-
-    private static function getTagSuggestions()
-    {
-        return Tag::has('donors')
-            ->orderBy('name')
-            ->get()
-            ->pluck('name')
-            ->toArray();
-    }
 }

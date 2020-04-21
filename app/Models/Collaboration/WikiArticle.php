@@ -3,6 +3,7 @@
 namespace App\Models\Collaboration;
 
 use App\Support\Traits\HasTags;
+use App\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
@@ -74,7 +75,8 @@ class WikiArticle extends Model implements Auditable
         return format_number_in_k_notation($views != null ? $views->value : 0);
     }
 
-    public function incrementViewedCount() {
+    public function incrementViewedCount()
+    {
         if ($this->views == null) {
             $this->views()->create([
                 'value' => 1,
@@ -85,4 +87,12 @@ class WikiArticle extends Model implements Auditable
         }
     }
 
+    public static function tagNames(): array
+    {
+        return Tag::has('wikiArticles')
+            ->orderBy('name')
+            ->get()
+            ->pluck('name')
+            ->toArray();
+    }
 }

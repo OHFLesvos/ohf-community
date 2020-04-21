@@ -3,6 +3,7 @@
 namespace App\Models\Fundraising;
 
 use App\Support\Traits\HasTags;
+use App\Tag;
 use Countries;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
@@ -222,4 +223,21 @@ class Donor extends Model
             ->toArray();
     }
 
+    public static function tagNames(): array
+    {
+        return Tag::has('donors')
+            ->orderBy('name')
+            ->get()
+            ->pluck('name')
+            ->toArray();
+    }
+
+    public static function tagMap(): array
+    {
+        return Tag::has('donors')
+            ->orderBy('name')
+            ->get()
+            ->pluck('name', 'slug')
+            ->toArray();
+    }
 }

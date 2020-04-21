@@ -7,7 +7,7 @@
     <div id="fundraising-app">
         <donors-table
             api-url="{{ route('api.fundraising.donors.index') }}"
-            :tags='@json((object)$tags->toArray())'
+            :tags='@json((object)$tags)'
         ></donors-table>
     </div>
 

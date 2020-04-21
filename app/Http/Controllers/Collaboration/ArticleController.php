@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Collaboration;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Collaboration\StoreArticle;
 use App\Models\Collaboration\WikiArticle;
-use App\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use App\Util\Collaboration\ArticlePdfExport;
 use Illuminate\Http\Request;
@@ -48,7 +47,7 @@ class ArticleController extends Controller
 
         return view('collaboration.kb.articles.create', [
             'title' => $request->title,
-            'tag_suggestions' => self::getTagSuggestions(),
+            'tag_suggestions' => WikiArticle::tagNames(),
         ]);
     }
 
@@ -63,9 +62,10 @@ class ArticleController extends Controller
         $article->content = $request->content;
         $article->save();
 
-        $article->syncTags(self::splitTags($request->tags));
+        $article->setTagsFromJson($request->tags);
 
-        return redirect()->route('kb.articles.show', $article)
+        return redirect()
+            ->route('kb.articles.show', $article)
             ->with('info', __('wiki.article_created'));
     }
 
@@ -99,7 +99,7 @@ class ArticleController extends Controller
 
         return view('collaboration.kb.articles.edit', [
             'article' => $article,
-            'tag_suggestions' => self::getTagSuggestions(),
+            'tag_suggestions' => WikiArticle::tagNames(),
         ]);
     }
 
@@ -114,9 +114,10 @@ class ArticleController extends Controller
         $article->content = $request->content;
         $article->save();
 
-        $article->syncTags(self::splitTags($request->tags));
+        $article->setTagsFromJson($request->tags);
 
-        return redirect()->route('kb.articles.show', $article)
+        return redirect()
+            ->route('kb.articles.show', $article)
             ->with('info', __('wiki.article_updated'));
     }
 
@@ -128,25 +129,9 @@ class ArticleController extends Controller
 
         $article->delete();
 
-        return redirect()->route('kb.index')
+        return redirect()
+            ->route('kb.index')
             ->with('info', __('wiki.article_deleted'));
-    }
-
-    private static function splitTags($value): array
-    {
-        return collect(json_decode($value))
-            ->pluck('value')
-            ->unique()
-            ->toArray();
-    }
-
-    private static function getTagSuggestions()
-    {
-        return Tag::has('wikiArticles')
-            ->orderBy('name')
-            ->get()
-            ->pluck('name')
-            ->toArray();
     }
 
     public function pdf(WikiArticle $article)
@@ -156,5 +141,4 @@ class ArticleController extends Controller
         $content = '<h1>' . $article->title . '</h1>' . ArticleFormat::formatContent($article->content);
         ArticlePdfExport::createPDF($article->title, $content);
     }
-
 }

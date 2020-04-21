@@ -3,6 +3,7 @@
 namespace App\Support\Traits;
 
 use App\Tag;
+use Illuminate\Support\Collection;
 
 /**
  * Adds methods to @Illuminate\Database\Eloquent\Model to support tagging.
@@ -25,7 +26,29 @@ trait HasTags
         return $this->tags->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
     }
 
-    public function syncTags(array $tags)
+    /**
+     * Sets thgs from the given JSON string which must have the form:
+     * [{"value":"Tag 1"},{"value":"Tag 2"}]
+     *
+     * @param null|string $json
+     * @return void
+     */
+    public function setTagsFromJson(?string $json = null)
+    {
+        $items = collect(json_decode($json))
+            ->pluck('value')
+            ->unique();
+        $this->setTags($items);
+    }
+
+    /**
+     * Set tags from an array of values (tag names).
+     * Overrides existing tag relations.
+     *
+     * @param Collection<string> $tags
+     * @return void
+     */
+    public function setTags(Collection $tags)
     {
         $tag_ids = [];
         foreach ($tags as $tag_str) {
