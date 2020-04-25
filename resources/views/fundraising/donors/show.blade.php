@@ -41,38 +41,11 @@
                     </li>
                 @endisset
 
-                @isset($donor->street)
+                @isset($donor->fullAddress)
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('app.street')</strong></div>
-                            <div class="col-sm">{{ $donor->street }}</div>
-                        </div>
-                    </li>
-                @endisset
-
-                @isset($donor->zip)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm"><strong>@lang('app.zip')</strong></div>
-                            <div class="col-sm">{{ $donor->zip }}</div>
-                        </div>
-                    </li>
-                @endisset
-
-                @isset($donor->city)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm"><strong>@lang('app.city')</strong></div>
-                            <div class="col-sm">{{ $donor->city }}</div>
-                        </div>
-                    </li>
-                @endisset
-
-                @isset($donor->country_name)
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm"><strong>@lang('app.country')</strong></div>
-                            <div class="col-sm">{{ $donor->country_name }}</div>
+                            <div class="col-sm"><strong>@lang('app.address')</strong></div>
+                            <div class="col-sm" style="white-space: pre;">{{ $donor->fullAddress }}</div>
                         </div>
                     </li>
                 @endisset

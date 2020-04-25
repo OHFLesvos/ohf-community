@@ -77,6 +77,29 @@ class Donor extends Model
             : null;
     }
 
+    public function getFullAddressAttribute()
+    {
+        $str = '';
+        if (isset($this->street)) {
+            $str .= $this->street;
+            $str .= "\n";
+        }
+        if (isset($this->zip)) {
+            $str .= $this->zip;
+            $str .= ' ';
+        }
+        if (isset($this->city)) {
+            $str .= $this->city;
+        }
+        if (isset($this->zip) || isset($this->city)) {
+            $str .= "\n";
+        }
+        if (isset($this->country_name)) {
+            $str .= $this->country_name;
+        }
+        return trim($str);
+    }
+
     public function donations()
     {
         return $this->hasMany(Donation::class);
