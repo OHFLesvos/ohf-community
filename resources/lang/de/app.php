@@ -346,4 +346,10 @@ return [
     'percentage' => 'Prozentsatz',
     'popular' => 'Populär',
     'regulars' => 'Stammkunden',
+    'comment' => 'Kommentar',
+    'comments' => 'Kommentare',
+    'add_comment' => 'Kommentar hinzufügen',
+    'no_comments_found' => 'Keine Kommentare gefunden.',
+    'confirm_delete_comment' => 'Diesen Kommentar wirklich löschen?',
+    'unknown' => 'Unbekannt',
 ];

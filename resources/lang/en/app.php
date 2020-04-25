@@ -346,4 +346,10 @@ return [
     'percentage' => 'Percentage',
     'popular' => 'Popular',
     'regulars' => 'Regulars',
+    'comment' => 'Comment',
+    'comments' => 'Comments',
+    'add_comment' => 'Add comment',
+    'no_comments_found' => 'No comments found.',
+    'confirm_delete_comment' => 'Really delete this comment?',
+    'unknown' => 'Unknown',
  ];

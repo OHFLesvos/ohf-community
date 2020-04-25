@@ -9,7 +9,6 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Countries;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use JeroenDesloovere\VCard\VCard;
 
@@ -91,7 +90,10 @@ class DonorController extends Controller
 
         return view('fundraising.donors.show', [
             'donor' => $donor,
-            'donations' => $donor->donations()->orderBy('date', 'desc')->orderBy('created_at', 'desc')->paginate(),
+            'donations' => $donor->donations()
+                ->orderBy('date', 'desc')
+                ->orderBy('created_at', 'desc')
+                ->paginate(),
             'currencies' => config('fundraising.currencies'),
             'channels' => Donation::channels(),
         ]);
@@ -144,7 +146,8 @@ class DonorController extends Controller
         // Tags
         $donor->setTagsFromJson($request->tags);
 
-        return redirect()->route('fundraising.donors.show', $donor)
+        return redirect()
+            ->route('fundraising.donors.show', $donor)
             ->with('success', __('fundraising.donor_updated'));
     }
 
@@ -161,7 +164,9 @@ class DonorController extends Controller
         $donor->tags()->detach();
 
         $donor->delete();
-        return redirect()->route('fundraising.donors.index')
+
+        return redirect()
+            ->route('fundraising.donors.index')
             ->with('success', __('fundraising.donor_deleted'));
     }
 

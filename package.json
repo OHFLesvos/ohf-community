@@ -45,5 +45,8 @@
         "vue-qrcode-reader": "^2.1.1",
         "vue-template-compiler": "^2.6.11",
         "vue-text-highlight": "^2.0.10"
+    },
+    "dependencies": {
+        "vue-nl2br": "^0.1.2"
     }
 }
