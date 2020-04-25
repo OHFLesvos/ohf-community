@@ -48,7 +48,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             __('app.correspondence_language'),
             __('app.registered'),
             __('app.tags'),
-            __('app.remarks'),
+            __('app.comments'),
         ];
         if (Auth::user()->can('list', Donation::class)) {
             $headings[] = __('fundraising.donations') . ' ' . Carbon::now()->subYear()->year;
@@ -79,7 +79,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             $donor->language,
             $donor->created_at,
             $donor->tags->sortBy('name')->pluck('name')->implode(', '),
-            $donor->remarks,
+            $donor->comments->sortBy('created_at')->pluck('content')->implode('; '),
         ];
         if (Auth::user()->can('list', Donation::class)) {
             $map[] = $donor->amountPerYear(Carbon::now()->subYear()->year) ?? 0;

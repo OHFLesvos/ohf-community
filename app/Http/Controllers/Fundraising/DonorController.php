@@ -67,7 +67,6 @@ class DonorController extends Controller
         $donor->email = $request->email;
         $donor->phone = $request->phone;
         $donor->language = $request->language;
-        $donor->remarks = $request->remarks;
         $donor->save();
 
         // Tags
@@ -140,7 +139,6 @@ class DonorController extends Controller
         $donor->email = $request->email;
         $donor->phone = $request->phone;
         $donor->language = $request->language;
-        $donor->remarks = $request->remarks;
         $donor->save();
 
         // Tags

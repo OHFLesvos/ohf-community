@@ -113,14 +113,13 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-sm"><strong>@lang('app.registered')</strong></div>
-                        <div class="col-sm">{{ $donor->created_at }} <small class="text-muted pl-2">{{ $donor->created_at->diffForHumans() }}</small></div>
+                        <div class="col-sm">{{ $donor->created_at->isoFormat('LLL') }} <small class="text-muted pl-2">{{ $donor->created_at->diffForHumans() }}</small></div>
                     </div>
                 </li>
-
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
-                        <div class="col-sm">{{ $donor->updated_at }} <small class="text-muted pl-2">{{ $donor->created_at->diffForHumans() }}</small></div>
+                        <div class="col-sm">{{ $donor->updated_at->isoFormat('LLL') }} <small class="text-muted pl-2">{{ $donor->updated_at->diffForHumans() }}</small></div>
                     </div>
                 </li>
 
@@ -138,14 +137,6 @@
                 @endif
 
             </ul>
-
-            @isset($donor->remarks)
-                <br>
-                @component('components.alert.info')
-                    @lang('app.remarks')<br>
-                    {!! nl2br(e($donor->remarks)) !!}
-                @endcomponent
-            @endisset
 
             <div id="fundraising-app">
 
