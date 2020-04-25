@@ -41,21 +41,22 @@
             <em>{{ $t('app.no_comments_found') }}</em>
         </p>
 
-        <b-button
-            v-if="!editor"
-            :disabled="busy"
-            @click="openEditor(); editComment = null"
-        >
-            <font-awesome-icon icon="plus-circle" />
-            {{ $t('app.add_comment') }}
-        </b-button>
-
-        <comment-editor
-            v-if="editor"
-            :disabled="busy"
-            @submit="addComment($event)"
-            @cancel="closeEditor()"
-        />
+        <template v-if="apiCreateUrl">
+            <comment-editor
+                v-if="editor"
+                :disabled="busy"
+                @submit="addComment($event)"
+                @cancel="closeEditor()"
+            />
+            <b-button
+                v-else
+                :disabled="busy"
+                @click="openEditor(); editComment = null"
+            >
+                <font-awesome-icon icon="plus-circle" />
+                {{ $t('app.add_comment') }}
+            </b-button>
+        </template>
 
     </div>
 </template>
@@ -75,9 +76,13 @@ export default {
         ErrorAlert
     },
     props: {
-        apiUrl: {
+        apiListUrl: {
             type: String,
             required: true
+        },
+        apiCreateUrl: {
+            type: String,
+            required: false
         }
     },
     data() {
@@ -90,13 +95,13 @@ export default {
             busy: false
         }
     },
-    mounted() {
+    mounted () {
         this.loadComments()
     },
     methods: {
         loadComments() {
             this.error = null
-            axios.get(this.apiUrl)
+            axios.get(this.apiListUrl)
                 .then((res) => {
                     this.comments = res.data.data
                     this.loaded = true
@@ -112,7 +117,7 @@ export default {
         addComment(comment) {
             this.error = null
             this.busy = true
-            axios.post(this.apiUrl, comment)
+            axios.post(this.apiCreateUrl, comment)
                 .then((res) => {
                     this.comments.push(res.data.data)
                     this.closeEditor()

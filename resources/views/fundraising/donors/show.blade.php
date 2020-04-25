@@ -150,7 +150,8 @@
             <div id="fundraising-app">
 
                 <donor-comments
-                    api-url="{{ route('api.fundraising.donors.comments.index', $donor) }}"
+                    api-list-url="{{ route('api.fundraising.donors.comments.index', $donor) }}"
+                    api-create-url="{{ route('api.fundraising.donors.comments.store', $donor) }}"
                 ></donor-comments>
 
             </div>

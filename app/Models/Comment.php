@@ -11,7 +11,9 @@ class Comment extends Model
     public static function boot()
     {
         static::creating(function ($model) {
-            $model->user_name = $model->user->name;
+            if ($model->user_id !== null) {
+                $model->user_name = $model->user->name;
+            }
         });
         parent::boot();
     }

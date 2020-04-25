@@ -8,7 +8,11 @@
         </b-card-text>
         <template v-slot:footer>
             <small>
-                {{ comment.user_name }},
+                <a
+                    v-if="comment.user_url"
+                    :href="comment.user_url"
+                    target="_blank"
+                >{{ userName }}</a><span v-else>{{ userName }}</span>,
                 <span @click="dateFromNow = !dateFromNow">
                     {{ formattedDate }}
                 </span>
@@ -61,6 +65,9 @@ export default {
         }
     },
     computed: {
+        userName() {
+            return this.comment.user_name ? this.comment.user_name : this.$t('app.unknown')
+        },
         formattedDate() {
             const date = moment(this.comment.created_at)
             return this.dateFromNow

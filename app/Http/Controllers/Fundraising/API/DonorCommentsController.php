@@ -18,6 +18,7 @@ class DonorCommentsController extends Controller
      */
     public function index(Donor $donor)
     {
+        $this->authorize('view', $donor);
         $this->authorize('viewAny', Comment::class);
 
         return CommentResource::collection($donor->comments()
@@ -33,6 +34,7 @@ class DonorCommentsController extends Controller
      */
     public function store(Donor $donor, StoreComment $request)
     {
+        $this->authorize('view', $donor);
         $this->authorize('create', Comment::class);
 
         $comment = new Comment();

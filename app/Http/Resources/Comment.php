@@ -26,7 +26,10 @@ class Comment extends JsonResource
                 ? route('api.comments.update', $this->resource)
                 : null,
             'delete_url' => Auth::user()->can('delete', $this->resource)
-                ? route('api.comments.update', $this->resource)
+                ? route('api.comments.destroy', $this->resource)
+                : null,
+            'user_url' => $this->user_id !== null && Auth::user()->can('view', $this->user)
+                ? route('users.show', $this->user)
                 : null,
         ];
     }

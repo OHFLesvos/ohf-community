@@ -351,4 +351,5 @@ return [
     'add_comment' => 'Add comment',
     'no_comments_found' => 'No comments found.',
     'confirm_delete_comment' => 'Really delete this comment?',
+    'unknown' => 'Unknown',
  ];
