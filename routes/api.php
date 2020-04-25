@@ -95,6 +95,7 @@ Route::middleware(['language', 'auth'])
     ->group(function () {
         Route::apiResource('donors', 'DonorController');
         Route::apiResource('donations', 'DonationController')->only('index');
+        Route::apiResource('donors.comments', 'DonorCommentsController');
     });
 
 // RaiseNow Webhook

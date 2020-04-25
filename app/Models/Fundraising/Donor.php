@@ -2,6 +2,7 @@
 
 namespace App\Models\Fundraising;
 
+use App\Models\HasComments;
 use App\Support\Traits\HasTags;
 use App\Tag;
 use Countries;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 class Donor extends Model
 {
     use HasTags;
+    use HasComments;
     use NullableFields;
 
     protected $nullable = [
