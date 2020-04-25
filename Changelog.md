@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.15.0
+
+* Comments added for donors
+
 ## 2.14.0
 
 * Fixed path issue in webpack config for certain JS libraries
