@@ -26,6 +26,7 @@ $factory->define(Donor::class, function (Faker $faker) {
         'email' => $faker->optional(0.8)->email,
         'phone' => $faker->optional(0.5)->phoneNumber,
         'language' => $language,
+        'remarks' => $faker->optional(0.1)->sentence,
     ];
 });
 
