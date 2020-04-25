@@ -1,7 +1,7 @@
 <template>
     <b-card
         class="mb-3"
-        footer-class="d-flex justify-content-between align-items-center"
+        footer-class="d-flex justify-content-between align-items-center py-1"
     >
         <b-card-text>
             <nl2br tag="span" :text="comment.content" />
@@ -69,10 +69,22 @@ export default {
             return this.comment.user_name ? this.comment.user_name : this.$t('app.unknown')
         },
         formattedDate() {
-            const date = moment(this.comment.created_at)
+            let str = this.toDateString(this.comment.created_at)
+            if (this.comment.created_at != this.comment.updated_at) {
+                const updated = this.$t('app.updated_time_ago', {
+                    time: this.toDateString(this.comment.updated_at)
+                })
+                str += ` (${updated})`
+            }
+            return str
+        },
+    },
+    methods: {
+        toDateString(date) {
+            const mom = moment(date)
             return this.dateFromNow
-                ? date.fromNow()
-                : date.format("LLL")
+                ? mom.fromNow()
+                : mom.format("LLL")
         }
     }
 }
