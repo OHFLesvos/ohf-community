@@ -147,6 +147,14 @@
                 @endcomponent
             @endisset
 
+            <div id="fundraising-app">
+
+                <donor-comments
+                    api-url="{{ route('api.fundraising.donors.comments.index', $donor) }}"
+                ></donor-comments>
+
+            </div>
+
         </div>
 
         <div class="col-md mb-4">
@@ -284,4 +292,8 @@
         });
         toggleExchangeAmount();
     });
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/fundraising.js') }}?v={{ $app_version }}"></script>
 @endsection

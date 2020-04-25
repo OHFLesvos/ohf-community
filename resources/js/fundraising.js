@@ -8,6 +8,7 @@ Vue.use(BootstrapVue)
 
 import DonorsTable from '@/components/fundraising/DonorsTable'
 import DonationsTable from '@/components/fundraising/DonationsTable'
+import DonorComments from '@/components/fundraising/DonorComments'
 
 import i18n from '@/plugins/i18n'
 
@@ -18,6 +19,7 @@ new Vue({
     i18n,
     components: {
         DonationsTable,
-        DonorsTable
+        DonorsTable,
+        DonorComments
     }
 });

@@ -94,8 +94,18 @@ Route::middleware(['language', 'auth'])
     ->namespace('Fundraising\API')
     ->group(function () {
         Route::apiResource('donors', 'DonorController');
-        Route::apiResource('donations', 'DonationController')->only('index');
-        Route::apiResource('donors.comments', 'DonorCommentsController');
+        Route::apiResource('donations', 'DonationController')
+            ->only('index');
+        Route::apiResource('donors.comments', 'DonorCommentsController')
+            ->only('index', 'store');
+    });
+
+Route::middleware(['language', 'auth'])
+    ->name('api.')
+    ->namespace('API')
+    ->group(function () {
+        Route::apiResource('comments', 'CommentsController')
+            ->except('index', 'store');
     });
 
 // RaiseNow Webhook
