@@ -30,7 +30,6 @@ class Donor extends Model
         'email',
         'phone',
         'language',
-        'remarks',
     ];
 
     public function getFullNameAttribute()
