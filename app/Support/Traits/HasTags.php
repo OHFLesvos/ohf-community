@@ -64,4 +64,22 @@ trait HasTags
         }
         $this->tags()->sync($tag_ids);
     }
+
+    /**
+     * Scope a query to only include records having the given tags.
+     * If no tags are specified, all records will be returned.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param null|array<string> $tags list of tags (slug values)
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithTags($query, ?array $tags = [])
+    {
+        if (count($tags) > 0) {
+            $query->whereHas('tags', function ($query) use ($tags) {
+                $query->whereIn('slug', $tags);
+            });
+        }
+        return $query;
+    }
 }
