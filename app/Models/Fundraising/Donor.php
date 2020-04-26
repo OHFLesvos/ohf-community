@@ -153,7 +153,7 @@ class Donor extends Model
     /**
      * Adds the given donations
      *
-     * @param [type] $donations
+     * @param array|Collection $donations
      */
     public function addDonations($donations)
     {

@@ -29,4 +29,14 @@ trait HasComments
     {
         $this->comments()->save($comment);
     }
+
+    /**
+     * Adds the given comments
+     *
+     * @param array|Collection $comments
+     */
+    public function addComments($comments)
+    {
+        $this->comments()->saveMany($comments);
+    }
 }
