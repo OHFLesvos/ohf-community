@@ -78,6 +78,10 @@ export default {
             this.$emit('submit', this.tagify.value.map(t => t.value))
         },
         fetchTags (value) {
+            if (value.length <= 1) {
+                return
+            }
+
             this.tagify.settings.whitelist.length = 0 // reset the whitelist
 
             // show loading animation and hide the suggestions dropdown

@@ -22,11 +22,11 @@
             @submit="storeTags"
         />
         <template v-else>
-            <a
-                v-for="tag in tags"
-                :key="tag.slug"
-                :href="url(tag)"
-                class="btn btn-link btn-sm">{{ tag.name }}</a>
+            <template v-for="(tag, idx) in tags">
+                <a :key="tag.slug"
+                    :href="url(tag)"
+                    class="btn btn-secondary btn-sm">{{ tag.name }}</a>{{ idx < tags.length - 1 ? ' ': '' }}
+            </template>
             <b-button
                 v-if="apiStoreUrl"
                 variant="primary"
