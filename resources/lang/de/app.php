@@ -355,4 +355,5 @@ return [
     'comment_added' => 'Kommentar hinzugefügt.',
     'comment_updated' => 'Kommentar aktualisiert.',
     'comment_deleted' => 'Kommentar gelöscht.',
+    'tags_updated' => 'Stichwörter aktualisiert.',
 ];

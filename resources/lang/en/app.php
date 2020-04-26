@@ -355,4 +355,5 @@ return [
     'comment_added' => 'Comment added.',
     'comment_updated' => 'Comment updated.',
     'comment_deleted' => 'Comment deleted.',
+    'tags_updated' => 'Tags updated.',
  ];

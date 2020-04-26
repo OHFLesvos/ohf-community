@@ -50,4 +50,20 @@ class Tag extends Model
     {
         return $this->morphedByMany(\App\Models\Fundraising\Donor::class, 'taggable');
     }
+
+    /**
+     * Scope a query to only include tags matching the given filter
+     * If no filter is specified, all records will be returned.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param null|string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter($query, ?string $filter = '')
+    {
+        if (! empty($filter)) {
+            $query->where('name', 'LIKE', $filter . '%');
+        }
+        return $query;
+    }
 }

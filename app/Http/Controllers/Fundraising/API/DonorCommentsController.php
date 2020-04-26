@@ -7,7 +7,6 @@ use App\Http\Requests\Fundraising\StoreComment;
 use App\Http\Resources\Comment as CommentResource;
 use App\Models\Comment;
 use App\Models\Fundraising\Donor;
-use Illuminate\Http\Response;
 
 class DonorCommentsController extends Controller
 {

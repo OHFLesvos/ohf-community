@@ -98,6 +98,10 @@ Route::middleware(['language', 'auth'])
             ->only('index');
         Route::apiResource('donors.comments', 'DonorCommentsController')
             ->only('index', 'store');
+        Route::apiResource('donors.tags', 'DonorTagsController')
+            ->only('index', 'store');
+        Route::apiResource('tags', 'TagsController')
+            ->only('index');
     });
 
 Route::middleware(['language', 'auth'])
