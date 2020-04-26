@@ -352,4 +352,7 @@ return [
     'no_comments_found' => 'No comments found.',
     'confirm_delete_comment' => 'Really delete this comment?',
     'unknown' => 'Unknown',
+    'comment_added' => 'Comment added.',
+    'comment_updated' => 'Comment updated.',
+    'comment_deleted' => 'Comment deleted.',
  ];

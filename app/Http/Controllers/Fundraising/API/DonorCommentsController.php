@@ -42,6 +42,9 @@ class DonorCommentsController extends Controller
         $comment->content = $request->content;
         $donor->addComment($comment);
 
-        return new CommentResource($comment);
+        return (new CommentResource($comment))
+            ->additional([
+                'message' => __('app.comment_added'),
+            ]);
     }
 }

@@ -66,7 +66,7 @@ import axios from '@/plugins/axios'
 import { BButton } from 'bootstrap-vue'
 import CommentEditor from './CommentEditor'
 import CommentCard from './CommentCard'
-import { handleAjaxError, getAjaxErrorMessage } from '@/utils'
+import { handleAjaxError, getAjaxErrorMessage, showSnackbar } from '@/utils'
 import ErrorAlert from '@/components/alerts/ErrorAlert'
 export default {
     components: {
@@ -121,6 +121,7 @@ export default {
                 .then((res) => {
                     this.comments.push(res.data.data)
                     this.closeEditor()
+                    showSnackbar(res.data.message)
                 })
                 .catch(handleAjaxError)
                 .finally(() => this.busy = false)
@@ -135,6 +136,7 @@ export default {
                         this.$set(this.comments, idx, res.data.data)
                     }
                     this.editComment = null
+                    showSnackbar(res.data.message)
                 })
                 .catch(handleAjaxError)
                 .finally(() => this.busy = false)
@@ -143,11 +145,12 @@ export default {
             if (confirm(this.$t('app.confirm_delete_comment'))) {
                 this.busy = true
                 axios.delete(comment.delete_url)
-                    .then(() => {
+                    .then((res) => {
                         const idx = this.comments.findIndex(elem => elem.id === comment.id)
                         if (idx >= 0) {
                             this.comments.splice(idx, 1)
                         }
+                        showSnackbar(res.data.message)
                     })
                     .catch(handleAjaxError)
                     .finally(() => this.busy = false)
