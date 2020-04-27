@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DonorController extends Controller
 {
@@ -36,6 +37,15 @@ class DonorController extends Controller
                 'nullable',
                 'alpha_dash',
                 'filled',
+                Rule::in([
+                    'first_name',
+                    'last_name',
+                    'company',
+                    'city',
+                    'country',
+                    'language',
+                    'created_at',
+                ]),
             ],
             'sortDirection' => [
                 'nullable',
@@ -44,7 +54,9 @@ class DonorController extends Controller
             'tags' => [
                 'nullable',
                 'array',
-                //                 'alpha_dash', TODO
+            ],
+            'tags.*' => [
+                'alpha_dash',
             ],
         ]);
 

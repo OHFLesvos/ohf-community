@@ -1,6 +1,14 @@
 <template>
-    <span v-if="value != ''">
-        <i class="fa fa-phone"></i> <a :href="telHref(value)">{{ value }}</a>
+    <span>
+        <a
+            v-if="iconOnly"
+            :href="telHref"
+            class="btn btn-light btn-sm"
+            ><font-awesome-icon icon="phone" /></a>
+        <template v-else>
+            <font-awesome-icon icon="phone" />
+            <a :href="telHref">{{ value }}</a>
+        </template>
     </span>
 </template>
 <script>
@@ -9,11 +17,12 @@ export default {
         value: {
             required: true,
             type: String
-        }
+        },
+        iconOnly: Boolean
     },
-    methods: {
-        telHref(val) {
-            return `tel:${val}`;
+    computed: {
+        telHref () {
+            return `tel:${this.value}`
         }
     }
 }

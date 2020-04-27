@@ -8,6 +8,7 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationController extends Controller
@@ -39,6 +40,12 @@ class DonationController extends Controller
                 'nullable',
                 'alpha_dash',
                 'filled',
+                Rule::in([
+                    'date',
+                    'amount',
+                    'in_name_of',
+                    'created_at',
+                ]),
             ],
             'sortDirection' => [
                 'nullable',

@@ -356,4 +356,5 @@ return [
     'comment_updated' => 'Kommentar aktualisiert.',
     'comment_deleted' => 'Kommentar gelöscht.',
     'tags_updated' => 'Stichwörter aktualisiert.',
+    'contact' => 'Kontakt',
 ];

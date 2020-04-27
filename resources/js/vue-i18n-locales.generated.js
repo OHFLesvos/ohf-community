@@ -413,7 +413,12 @@ export default {
             "add_comment": "Kommentar hinzufügen",
             "no_comments_found": "Keine Kommentare gefunden.",
             "confirm_delete_comment": "Diesen Kommentar wirklich löschen?",
-            "unknown": "Unbekannt"
+            "unknown": "Unbekannt",
+            "comment_added": "Kommentar hinzugefügt.",
+            "comment_updated": "Kommentar aktualisiert.",
+            "comment_deleted": "Kommentar gelöscht.",
+            "tags_updated": "Stichwörter aktualisiert.",
+            "contact": "Kontakt"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1543,7 +1548,12 @@ export default {
             "add_comment": "Add comment",
             "no_comments_found": "No comments found.",
             "confirm_delete_comment": "Really delete this comment?",
-            "unknown": "Unknown"
+            "unknown": "Unknown",
+            "comment_added": "Comment added.",
+            "comment_updated": "Comment updated.",
+            "comment_deleted": "Comment deleted.",
+            "tags_updated": "Tags updated.",
+            "contact": "Contact"
         },
         "auth": {
             "failed": "These credentials do not match our records.",

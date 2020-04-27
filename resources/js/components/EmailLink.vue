@@ -1,6 +1,14 @@
 <template>
-    <span v-if="value != ''">
-        <i class="fa fa-envelope"></i> <a :href="mailtoHref(value)">{{ value }}</a>
+    <span>
+        <a
+            v-if="iconOnly"
+            :href="mailToHref"
+            class="btn btn-light btn-sm"
+            ><font-awesome-icon icon="envelope" /></a>
+        <template v-else>
+            <font-awesome-icon icon="envelope" />
+            <a :href="mailToHref">{{ value }}</a>
+        </template>
     </span>
 </template>
 <script>
@@ -9,11 +17,12 @@ export default {
         value: {
             required: true,
             type: String
-        }
+        },
+        iconOnly: Boolean
     },
-    methods: {
-        mailtoHref(val) {
-            return `mailto:${val}`;
+    computed: {
+        mailToHref () {
+            return `mailto:${this.value}`
         }
     }
 }

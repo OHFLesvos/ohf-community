@@ -20,16 +20,15 @@
         <template v-slot:cell(company)="data">
             <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
         </template>
-        <template v-slot:cell(email)="data">
-            <email-link :value="data.value"></email-link>
-        </template>
-        <template v-slot:cell(phone)="data">
-            <phone-link :value="data.value"></phone-link>
+        <template v-slot:cell(contact)="data">
+            <email-link v-if="data.item.email" :value="data.item.email" icon-only></email-link>
+            <phone-link v-if="data.item.phone" :value="data.item.phone" icon-only></phone-link>
         </template>
     </base-table>
 </template>
 
 <script>
+import moment from 'moment'
 import PhoneLink from '@/components/PhoneLink'
 import EmailLink from '@/components/EmailLink'
 import BaseTable from '@/components/BaseTable'
@@ -98,22 +97,25 @@ export default {
                     sortable: true
                 },
                 {
-                    key: 'email',
-                    label: this.$t('app.email'),
-                    class: 'd-none d-sm-table-cell'
-                },
-                {
-                    key: 'phone',
-                    label: this.$t('app.phone'),
-                    class: 'd-none d-sm-table-cell',
-                    type: 'tel'
-                },
-                {
                     key: 'language',
                     label: this.$t('app.correspondence_language'),
                     class: 'd-none d-sm-table-cell',
                     sortable: true
-                }
+                },
+                {
+                    key: 'contact',
+                    label: this.$t('app.contact'),
+                    class: 'fit'
+                },
+                {
+                    key: 'created_at',
+                    label: this.$t('app.registered'),
+                    class: 'd-none d-sm-table-cell fit',
+                    sortable: true,
+                    formatter: value => {
+                        return moment(value).fromNow()
+                    }
+                },
             ]
         }
     }
