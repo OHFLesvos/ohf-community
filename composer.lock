@@ -3603,16 +3603,16 @@
         },
         {
             "name": "nicebooks/isbn",
-            "version": "0.2.51",
+            "version": "0.2.52",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicebooks-com/isbn.git",
-                "reference": "e6f4ea04e574cd44ab250dda851af2cc8a327547"
+                "reference": "282882f7d26aa7f9ddeb151f90a109f2fc268957"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicebooks-com/isbn/zipball/e6f4ea04e574cd44ab250dda851af2cc8a327547",
-                "reference": "e6f4ea04e574cd44ab250dda851af2cc8a327547",
+                "url": "https://api.github.com/repos/nicebooks-com/isbn/zipball/282882f7d26aa7f9ddeb151f90a109f2fc268957",
+                "reference": "282882f7d26aa7f9ddeb151f90a109f2fc268957",
                 "shasum": ""
             },
             "require": {
@@ -3643,7 +3643,7 @@
                 "book",
                 "books"
             ],
-            "time": "2020-04-24T09:55:59+00:00"
+            "time": "2020-04-25T21:08:15+00:00"
         },
         {
             "name": "opis/closure",
