@@ -188,7 +188,7 @@
                                 <tbody>
                                     @foreach ($donations as $donation)
                                         <tr>
-                                            <td><a href="{{ route('fundraising.donations.edit', [$donor, $donation]) }}">{{ $donation->date }}</a></td>
+                                            <td><a href="{{ route('fundraising.donations.edit', [$donor, $donation]) }}">{{ (new Carbon\Carbon($donation->date))->isoFormat('LL') }}</a></td>
                                             <td class="d-none d-sm-table-cell">{{ $donation->channel }}</td>
                                             <td>{{ $donation->purpose }}</td>
                                             <td class="d-none d-sm-table-cell">{{ $donation->reference }}</td>
