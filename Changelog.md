@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.16.0
+
+* New donor tag editor
+
 ## 2.15.0
 
 * Comments added for donors
