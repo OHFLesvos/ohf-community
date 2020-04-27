@@ -1,13 +1,12 @@
 <template>
     <form @submit.prevent="submit" class="form-row">
         <div class="col">
-            <input
-                :value="value"
-                ref="input"
-                class="tags"
+            <tag-input
+                v-model="value"
+                :suggestions="suggestions"
+                :suggestionsUrl="suggestionsUrl"
                 :disabled="disabled"
-                autofocus
-            >
+            />
         </div>
         <div class="col-auto">
             <b-button
@@ -33,13 +32,11 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import axios from '@/plugins/axios'
-import Tagify from '@yaireo/tagify'
 import { BButton } from 'bootstrap-vue'
-import { getAjaxErrorMessage } from '@/utils'
+import TagInput from '@/components/tags/TagInput'
 export default {
     components: {
+        TagInput,
         BButton
     },
     props: {
@@ -60,43 +57,12 @@ export default {
     },
     data () {
         return {
-            value: JSON.stringify(this.tags),
-            tagify: undefined
-        }
-    },
-    mounted () {
-        this.tagify = new Tagify(this.$refs.input, {
-            whitelist: this.suggestions
-        })
-
-        if (this.suggestionsUrl) {
-            this.tagify.on('input', _.debounce(e => this.fetchTags(e.detail.value), 300))
+            value: [...this.tags]
         }
     },
     methods: {
         submit () {
-            this.$emit('submit', this.tagify.value.map(t => t.value))
-        },
-        fetchTags (value) {
-            if (value.length <= 1) {
-                return
-            }
-
-            this.tagify.settings.whitelist.length = 0 // reset the whitelist
-
-            // show loading animation and hide the suggestions dropdown
-            this.tagify.loading(true).dropdown.hide.call(this.tagify)
-
-            axios.get(`${this.suggestionsUrl}?filter=${value}`)
-                .then(res => {
-                    // update inwhitelist Array in-place
-                    const whitelist = res.data.data.map(t => t.name)
-                    this.tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
-                    this.tagify.loading(false).dropdown.show.call(this.tagify, value) // render the suggestions dropdown
-                })
-                .catch(err => {
-                    console.log(getAjaxErrorMessage(err))
-                })
+            this.$emit('submit', this.value)
         }
     }
 }
