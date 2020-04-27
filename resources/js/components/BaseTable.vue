@@ -103,7 +103,7 @@
 
 <script>
 import axios from '@/plugins/axios'
-import TagSelectButton from './TagSelectButton'
+import TagSelectButton from '@/components/tags/TagSelectButton'
 import { getAjaxErrorMessage } from '@/utils'
 export default {
     components: {
