@@ -112,6 +112,7 @@ export default {
                     label: this.$t('app.registered'),
                     class: 'd-none d-sm-table-cell fit',
                     sortable: true,
+                    sortDirection: 'desc',
                     formatter: value => {
                         return moment(value).fromNow()
                     }

@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import BaseTable from '@/components/BaseTable'
 export default {
     components: {
@@ -93,7 +94,10 @@ export default {
                     key: 'created_at',
                     label: this.$t('app.registered'),
                     class: 'd-none d-sm-table-cell fit',
-                    sortable: true
+                    sortable: true,
+                    formatter: value => {
+                        return moment(value).fromNow()
+                    }
                 },
                 {
                     key: 'thanked',
