@@ -9,6 +9,7 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Countries;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use JeroenDesloovere\VCard\VCard;
 
@@ -19,12 +20,21 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('list', Donor::class);
 
+        $request->validate([
+            'tag' => [
+                'nullable',
+                'filled',
+                'alpha_dash',
+            ],
+        ]);
+
         return view('fundraising.donors.index', [
             'tags' => Donor::tagMap(),
+            'tag' => $request->input('tag', null),
         ]);
     }
 

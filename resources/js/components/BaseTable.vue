@@ -152,6 +152,11 @@ export default {
                 return {}
             }
         },
+        tag: {
+            require: false,
+            type: String,
+            default: null
+        },
         loadingLabel: {
             type: String,
             required: false,
@@ -161,18 +166,40 @@ export default {
     data() {
       return {
         isBusy: false,
-        sortBy: sessionStorage.getItem(this.id + '.sortBy') ? sessionStorage.getItem(this.id + '.sortBy') : this.defaultSortBy,
-        sortDesc: sessionStorage.getItem(this.id + '.sortDesc') ? sessionStorage.getItem(this.id + '.sortDesc') == 'true' : this.defaultSortDesc,
-        currentPage: sessionStorage.getItem(this.id + '.currentPage') ? sessionStorage.getItem(this.id + '.currentPage') : 1,
+        sortBy: sessionStorage.getItem(this.id + '.sortBy')
+            ? sessionStorage.getItem(this.id + '.sortBy')
+            : this.defaultSortBy,
+        sortDesc: sessionStorage.getItem(this.id + '.sortDesc')
+            ? sessionStorage.getItem(this.id + '.sortDesc') == 'true'
+            : this.defaultSortDesc,
+        currentPage: sessionStorage.getItem(this.id + '.currentPage')
+            ? sessionStorage.getItem(this.id + '.currentPage')
+            : 1,
         perPage: this.itemsPerPage,
         totalRows: 0,
         errorText: null,
-        filter: sessionStorage.getItem(this.id + '.filter') ? sessionStorage.getItem(this.id + '.filter') : '',
-        filterText: sessionStorage.getItem(this.id + '.filter') ? sessionStorage.getItem(this.id + '.filter') : '',
-        selectedTags: (sessionStorage.getItem(this.id + '.selectedTags') ? JSON.parse(sessionStorage.getItem(this.id + '.selectedTags')) : []).filter(e => Object.keys(this.tags).indexOf(e) >= 0),
+        filter: sessionStorage.getItem(this.id + '.filter')
+            ? sessionStorage.getItem(this.id + '.filter')
+            : '',
+        filterText: sessionStorage.getItem(this.id + '.filter')
+            ? sessionStorage.getItem(this.id + '.filter')
+            : '',
+        selectedTags: this.getSelectedTags()
       }
     },
     methods: {
+        getSelectedTags () {
+            let tags
+            if (this.tag) {
+                tags = [this.tag]
+                sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(tags));
+            } else if (sessionStorage.getItem(this.id + '.selectedTags')) {
+                tags = JSON.parse(sessionStorage.getItem(this.id + '.selectedTags'))
+            } else {
+                tags = []
+            }
+            return tags.filter(e => Object.keys(this.tags).indexOf(e) >= 0)
+        },
         applyFilter() {
             this.filter = this.filterText
             this.currentPage = 1

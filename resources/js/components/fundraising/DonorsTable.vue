@@ -4,6 +4,7 @@
         :fields="fields"
         :api-url="apiUrl"
         :tags="tags"
+        :tag="tag"
         default-sort-by="first_name"
         :empty-text="$t('fundraising.no_donors_found')"
         :filter-placeholder="`${$t('fundraising.search_for_name_address_email_phone')}...`"
@@ -50,6 +51,11 @@ export default {
                 return {}
             }
         },
+        tag: {
+            require: false,
+            type: String,
+            default: null
+        }
     },
     data() {
         return {
