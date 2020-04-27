@@ -18,10 +18,11 @@ class TagsController extends Controller
     {
         $this->authorize('viewAny', Tag::class);
 
+        $filter = $request->input('filter', '');
+
         return TagResource::collection(Tag::has('donors')
-            ->forFilter($request->input('filter', ''))
+            ->forFilter($filter)
             ->orderBy('name')
-            ->limit(10)
             ->get());
     }
 }

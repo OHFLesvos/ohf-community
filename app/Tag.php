@@ -62,7 +62,7 @@ class Tag extends Model
     public function scopeForFilter($query, ?string $filter = '')
     {
         if (! empty($filter)) {
-            $query->where('name', 'LIKE', $filter . '%');
+            $query->where('name', 'LIKE', '%' . $filter . '%');
         }
         return $query;
     }

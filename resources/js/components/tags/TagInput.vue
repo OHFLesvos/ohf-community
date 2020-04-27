@@ -28,6 +28,7 @@ export default {
             required: false,
             type: String
         },
+        preload: Boolean,
         disabled: Boolean
     },
     data () {
@@ -50,10 +51,23 @@ export default {
         })
 
         if (this.suggestionsUrl) {
-            this.tagify.on('input', _.debounce(e => this.fetchTags(e.detail.value), 300))
+            if (this.preload) {
+                this.preloadTags()
+            } else {
+                this.tagify.on('input', _.debounce(e => this.fetchTags(e.detail.value), 300))
+            }
         }
     },
     methods: {
+        preloadTags () {
+            axios.get(this.suggestionsUrl)
+                .then(res => {
+                    this.tagify.settings.whitelist = res.data.data.map(t => t.name)
+                })
+                .catch(err => {
+                    console.log(getAjaxErrorMessage(err))
+                })
+        },
         fetchTags (value) {
             if (value.length <= 1) {
                 return

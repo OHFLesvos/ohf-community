@@ -18,6 +18,7 @@
             :tags="tagNames"
             :disabled="busy"
             :suggestionsUrl="apiSuggestionsUrl"
+            :preload="preload"
             @cancel="editor = false"
             @submit="storeTags"
         />
@@ -67,7 +68,8 @@ export default {
         tagUrl: {
             required: false,
             type: String
-        }
+        },
+        preload: Boolean
     },
     data () {
         return {

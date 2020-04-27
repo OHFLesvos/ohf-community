@@ -107,6 +107,7 @@
                                         api-store-url="{{ route('api.fundraising.donors.tags.store', $donor) }}"
                                         api-suggestions-url="{{ route('api.fundraising.tags.index') }}"
                                         tag-url="{{ route('fundraising.donors.index', [ 'tag' => '' ]) }}"
+                                        preload
                                     @endcan
                                 >
                                     @lang('app.loading')

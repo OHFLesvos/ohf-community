@@ -5,6 +5,7 @@
                 v-model="value"
                 :suggestions="suggestions"
                 :suggestionsUrl="suggestionsUrl"
+                :preload="preload"
                 :disabled="disabled"
             />
         </div>
@@ -49,11 +50,12 @@ export default {
             type: Array,
             default: () => []
         },
-        disabled: Boolean,
         suggestionsUrl: {
             required: false,
             type: String
-        }
+        },
+        preload: Boolean,
+        disabled: Boolean,
     },
     data () {
         return {
