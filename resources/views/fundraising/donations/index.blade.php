@@ -7,7 +7,9 @@
     <div id="fundraising-app">
         <donations-table
             api-url="{{ route('api.fundraising.donations.index') }}"
-        ></donations-table>
+        >
+            @lang('app.loading')
+        </donations-table>
     </div>
 
 @endsection

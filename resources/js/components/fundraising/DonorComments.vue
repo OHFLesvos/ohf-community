@@ -30,6 +30,7 @@
                     @cancel="editComment = null"
                 />
                 <comment-card
+                    v-else
                     :comment="comment"
                     :busy="busy"
                     @edit="editComment = comment.id; editor = false"

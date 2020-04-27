@@ -8,7 +8,9 @@
         <donors-table
             api-url="{{ route('api.fundraising.donors.index') }}"
             :tags='@json((object)$tags)'
-        ></donors-table>
+        >
+            @lang('app.loading')
+        </donors-table>
     </div>
 
 @endsection
