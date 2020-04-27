@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="col-sm"><strong>@lang('app.tags')</strong></div>
                             <div class="col-sm">
-                                <donor-tags
+                                <tag-manager
                                     api-list-url="{{ route('api.fundraising.donors.tags.index', $donor) }}"
                                     @can('create', App\Tag::class)
                                         api-store-url="{{ route('api.fundraising.donors.tags.store', $donor) }}"
@@ -110,7 +110,7 @@
                                     @endcan
                                 >
                                     @lang('app.loading')
-                                </donor-tags>
+                                </tag-manager>
                             </div>
                         </div>
                     </li>

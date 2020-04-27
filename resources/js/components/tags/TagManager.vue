@@ -25,7 +25,7 @@
             <template v-for="(tag, idx) in tags">
                 <a :key="tag.slug"
                     :href="url(tag)"
-                    class="btn btn-secondary btn-sm">{{ tag.name }}</a>{{ idx < tags.length - 1 ? ' ': '' }}
+                    class="btn btn-secondary btn-sm">{{ tag.name }}</a><template v-if="idx + 1 < tags.length">{{ ' ' }}</template>
             </template>
             <b-button
                 v-if="apiStoreUrl"
@@ -44,7 +44,7 @@
 import _ from 'lodash'
 import axios from '@/plugins/axios'
 import { BButton } from 'bootstrap-vue'
-import TagEditor from './TagEditor'
+import TagEditor from '@/components/tags/TagEditor'
 import { handleAjaxError, getAjaxErrorMessage, showSnackbar } from '@/utils'
 export default {
     components: {
