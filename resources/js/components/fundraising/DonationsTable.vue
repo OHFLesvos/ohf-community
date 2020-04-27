@@ -13,6 +13,15 @@
         <template v-slot:cell(date)="data">
             <a :href="data.item.edit_url" v-if="data.value != ''">{{ data.value }}</a>
         </template>
+        <template v-slot:cell(exchange_amount)="data">
+            <template v-if="data.item.base_currency != data.item.currency">
+                {{ data.item.currency }} {{ data.item.amount }}
+                ({{ data.item.base_currency }} {{ data.value }})
+            </template>
+            <template v-else>
+                {{ data.item.base_currency }} {{ data.value }}
+            </template>
+        </template>
         <template v-slot:cell(donor)="data">
             <a :href="data.item.donor_url" v-if="data.value != ''">{{ data.value }}</a>
         </template>
@@ -47,7 +56,7 @@ export default {
                     sortable: true
                 },
                 {
-                    key: 'amount',
+                    key: 'exchange_amount',
                     label: this.$t('app.amount'),
                     class: 'text-right fit',
                     sortable: true

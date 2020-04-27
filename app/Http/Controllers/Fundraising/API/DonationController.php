@@ -42,7 +42,7 @@ class DonationController extends Controller
                 'filled',
                 Rule::in([
                     'date',
-                    'amount',
+                    'exchange_amount',
                     'in_name_of',
                     'created_at',
                 ]),

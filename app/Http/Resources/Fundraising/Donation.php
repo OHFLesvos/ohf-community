@@ -14,13 +14,12 @@ class Donation extends JsonResource
      */
     public function toArray($request)
     {
-        $amount = $this->amount;
-        if ($this->currency != config('fundraising.base_currency')) {
-            $amount .= ' ('. config('fundraising.base_currency') . ' '. $this->exchange_amount;
-        }
         return [
             'date' => $this->date,
-            'amount' => $amount,
+            'amount' => $this->amount,
+            'exchange_amount' => $this->exchange_amount,
+            'currency' => $this->currency,
+            'base_currency' => config('fundraising.base_currency'),
             'donor' => $this->donor->full_name,
             'channel' => $this->channel,
             'purpose' => $this->purpose,
