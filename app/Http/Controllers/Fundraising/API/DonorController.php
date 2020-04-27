@@ -58,14 +58,14 @@ class DonorController extends Controller
         if ($sortBy == 'country') {
             $sortMethod = $sortDirection == 'desc' ? 'sortByDesc' : 'sortBy';
             $donors = Donor::query()
-                ->withTags($tags)
+                ->withAllTags($tags)
                 ->forFilter($filter)
                 ->get()
                 ->$sortMethod('country_name')
                 ->paginate($pageSize);
         } else {
             $donors = Donor::query()
-                ->withTags($tags)
+                ->withAllTags($tags)
                 ->forFilter($filter)
                 ->orderBy($sortBy, $sortDirection)
                 ->paginate($pageSize);
