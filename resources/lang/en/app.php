@@ -240,6 +240,7 @@ return [
     'write_decimal_point_as_comma' => 'Write decimal point as comma (,)',
     'search' => 'Search',
     'search_ellipsis' => 'Search...',
+    'type_to_search' => 'Type to search...',
     'not_all_results_listed_please_refine_criteria' => 'Not all results have been listed. Please refine your search criteria.',
     'no_results_found_for_term' => 'No results found for \':term\'.',
     'male' => 'Male',

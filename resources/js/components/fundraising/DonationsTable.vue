@@ -8,7 +8,6 @@
         :empty-text="$t('fundraising.no_donations_found')"
         :filter-placeholder="$t('app.search_ellipsis')"
         :items-per-page="100"
-        :loading-label="$t('app.loading')"
     >
         <template v-slot:cell(date)="data">
             <a :href="data.item.edit_url" v-if="data.value != ''">{{ data.value }}</a>

@@ -143,7 +143,9 @@ export default {
         filterPlaceholder: {
             require: false,
             type: String,
-            default: 'Type to search...'
+            default: function() {
+                return this.$t('app.type_to_search')
+            }
         },
         tags: {
             require: false,
@@ -160,7 +162,9 @@ export default {
         loadingLabel: {
             type: String,
             required: false,
-            default: 'Loading...'
+            default: function() {
+                return this.$t('app.loading')
+            }
         },
     },
     data() {

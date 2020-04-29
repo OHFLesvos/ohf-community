@@ -9,7 +9,6 @@
         :empty-text="$t('fundraising.no_donors_found')"
         :filter-placeholder="`${$t('fundraising.search_for_name_address_email_phone')}...`"
         :items-per-page="25"
-        :loading-label="$t('app.loading')"
     >
         <template v-slot:cell(first_name)="data">
             <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>

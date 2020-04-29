@@ -240,6 +240,7 @@ return [
     'write_decimal_point_as_comma' => 'Dezimalpunkt als Komma (,) schreiben',
     'search' => 'Suchen',
     'search_ellipsis' => 'Suchen...',
+    'type_to_search' => 'Zum Suchen tippen...',
     'not_all_results_listed_please_refine_criteria' => 'Nich alle Resultate können angezeigt werden. Bitte Suchkriterien verfeinern.',
     'no_results_found_for_term' => 'Keine Resultate gefunden für \':term\'.',
     'male' => 'männlich',

@@ -7,7 +7,6 @@
         :empty-text="$t('people.no_persons_found')"
         :filter-placeholder="$t('people.bank_search_text')"
         :items-per-page="15"
-        :loading-label="$t('app.loading')"
     >
         <template v-slot:cell(name)="data">
             <template v-if="data.item.url != null">
