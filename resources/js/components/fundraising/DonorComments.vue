@@ -65,8 +65,8 @@
 <script>
 import axios from '@/plugins/axios'
 import { BButton } from 'bootstrap-vue'
-import CommentEditor from './CommentEditor'
-import CommentCard from './CommentCard'
+import CommentEditor from '@/components/comments/CommentEditor'
+import CommentCard from '@/components/comments/CommentCard'
 import { handleAjaxError, getAjaxErrorMessage, showSnackbar } from '@/utils'
 import ErrorAlert from '@/components/alerts/ErrorAlert'
 export default {
