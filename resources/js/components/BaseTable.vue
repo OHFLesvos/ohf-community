@@ -40,10 +40,13 @@
             @keyup.enter="applyFilter"
             @keyup.esc="clearFilter"
         ></b-form-input>
-        <b-input-group-append>
-            <b-button :disabled="!filterText" @click="clearFilter">
-                <i class="fa fa-times"></i>
-            </b-button>
+        <b-input-group-append class="d-none d-sm-block">
+            <b-input-group-text v-if="isBusy">
+                ...
+            </b-input-group-text>
+            <b-input-group-text v-else>
+                {{ $t('app.n_results', { num: totalRows }) }}
+            </b-input-group-text>
         </b-input-group-append>
     </b-input-group>
 
@@ -65,6 +68,7 @@
         :api-url="apiUrl"
         :show-empty="true"
         :empty-text="emptyText"
+        :empty-filtered-text="$t('app.no_records_matching_your_request')"
         :no-sort-reset="true"
         :filter="filter"
     >
@@ -94,7 +98,12 @@
             ></b-pagination>
         </b-col>
         <b-col sm="auto" class="text-right">
-            <small>{{ ((currentPage - 1) * perPage) + 1 }} - {{ Math.min(currentPage * perPage, totalRows) }}, Total: {{ totalRows }}</small>
+            <small>
+                {{ $t('app.x_out_of_y', {
+                    x: `${((currentPage - 1) * perPage) + 1} - ${Math.min(currentPage * perPage, totalRows)}`,
+                    y: totalRows
+                }) }}
+            </small>
         </b-col>
     </b-row>
 
@@ -216,7 +225,6 @@ export default {
         itemProvider(ctx, callback) {
             this.isBusy = true
             this.errorText = null
-            this.totalRows = 0
             let url = this.apiUrl + '?filter=' + ctx.filter + '&page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc')
             for (let i = 0; i < this.selectedTags.length; i++) {
                 url += '&tags[]=' + this.selectedTags[i]
@@ -229,7 +237,10 @@ export default {
                 sessionStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
                 sessionStorage.setItem(this.id + '.currentPage', ctx.currentPage)
                 return data.data.data || []
-            }).catch(this.handleAjaxError)
+            }).catch((err) => {
+                this.handleAjaxError(err)
+                this.totalRows = 0
+            })
         },
         handleAjaxError(err){
             this.errorText = getAjaxErrorMessage(err);
