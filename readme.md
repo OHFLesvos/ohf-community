@@ -48,6 +48,7 @@ Create assets (development)
 
     npm install
     php artisan vue-i18n:generate
+    php artisan ziggy:generate "resources/js/ziggy.js"
     npm run dev
 
 For more information see https://laravel.com/docs/installation
