@@ -57,55 +57,65 @@ export default {
                 {
                     key: 'first_name',
                     label: this.$t('app.first_name'),
+                    tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'last_name',
                     label: this.$t('app.last_name'),
+                    tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'company',
                     label: this.$t('app.company'),
+                    tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'street',
                     label: this.$t('app.street'),
-                    class: 'd-none d-sm-table-cell'
+                    class: 'd-none d-sm-table-cell',
+                    tdClass: 'align-middle'
                 },
                 {
                     key: 'zip',
                     label: this.$t('app.zip'),
-                    class: 'd-none d-sm-table-cell'
+                    class: 'd-none d-sm-table-cell',
+                    tdClass: 'align-middle'
                 },
                 {
                     key: 'city',
                     label: this.$t('app.city'),
                     class: 'd-none d-sm-table-cell',
+                    tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'country',
                     label: this.$t('app.country'),
                     class: 'd-none d-sm-table-cell',
+                    tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'language',
                     label: this.$t('app.correspondence_language'),
                     class: 'd-none d-sm-table-cell',
+                    tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'contact',
                     label: this.$t('app.contact'),
-                    class: 'fit'
+                    class: 'fit',
+                    tdClass: 'align-middle'
                 },
                 {
                     key: 'created_at',
                     label: this.$t('app.registered'),
                     class: 'd-none d-sm-table-cell fit',
+                    tdClass: 'align-middle',
                     sortable: true,
                     sortDirection: 'desc',
                     formatter: value => {
