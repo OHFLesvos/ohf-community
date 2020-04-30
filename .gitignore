@@ -23,3 +23,4 @@ modules_statuses.json
 _ide_helper.php
 .phpstorm.meta.php
 /storage/settings.json
+resources/js/ziggy.js
