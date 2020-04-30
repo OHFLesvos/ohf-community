@@ -2,7 +2,7 @@
     <base-table
         id="donationsTable"
         :fields="fields"
-        :api-url="apiUrl"
+        :api-url="route('api.fundraising.donations.index')"
         default-sort-by="created_at"
         default-sort-desc
         :empty-text="$t('fundraising.no_donations_found')"
@@ -39,12 +39,6 @@ import BaseTable from '@/components/BaseTable'
 export default {
     components: {
         BaseTable
-    },
-    props: {
-        apiUrl: {
-            required: true,
-            type: String
-        },
     },
     data() {
         return {

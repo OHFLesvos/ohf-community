@@ -2,7 +2,7 @@
     <base-table
         id="peopleTable"
         :fields='fields'
-        :api-url="apiUrl"
+        :api-url="route('api.people.index')"
         default-sort-by="name"
         :empty-text="$t('people.no_persons_found')"
         :filter-placeholder="$t('people.bank_search_text')"
@@ -32,12 +32,6 @@ import BaseTable from '@/components/BaseTable'
 export default {
     components: {
         BaseTable
-    },
-    props: {
-        apiUrl: {
-            required: true,
-            type: String
-        },
     },
     data() {
         return {

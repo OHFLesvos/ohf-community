@@ -5,9 +5,9 @@
 @section('content')
 
     <div id="people-app">
-        <people-table
-            api-url="{{ route('api.people.index') }}"
-        ></people-table>
+        <people-table>
+            @lang('app.loading')
+        </people-table>
     </div>
 
 @endsection

@@ -2,7 +2,7 @@
     <base-table
         id="donorsTable"
         :fields="fields"
-        :api-url="apiUrl"
+        :api-url="route('api.fundraising.donors.index')"
         :tags="tags"
         :tag="tag"
         default-sort-by="first_name"
@@ -38,10 +38,6 @@ export default {
         PhoneLink
     },
     props: {
-        apiUrl: {
-            required: true,
-            type: String
-        },
         tags: {
             require: false,
             type: Object,
