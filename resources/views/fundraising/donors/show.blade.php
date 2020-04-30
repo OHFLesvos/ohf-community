@@ -118,10 +118,10 @@
 
                 </ul>
 
-                <donor-comments
+                <comments-list
                     api-list-url="{{ route('api.fundraising.donors.comments.index', $donor) }}"
                     api-create-url="{{ route('api.fundraising.donors.comments.store', $donor) }}"
-                ></donor-comments>
+                ></comments-list>
 
             </div>
 
