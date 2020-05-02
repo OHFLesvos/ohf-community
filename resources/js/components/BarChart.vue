@@ -4,9 +4,11 @@
 
     import axios from '@/plugins/axios'
 
-    import { Bar } from 'vue-chartjs'
+    import { Bar, mixins } from 'vue-chartjs'
+    const { reactiveData } = mixins
     export default {
         extends: Bar,
+        mixins: [reactiveData],
         props: {
             title: {
                 type: String,
@@ -26,29 +28,34 @@
                 default: true
             },
         },
+        data() {
+            return {
+                options: this.createOptions()
+            }
+        },
+        watch: {
+            url () {
+                this.loadData()
+            }
+        },
         mounted () {
             this.loadData()
         },
         methods: {
             loadData () {
-                console.log(`loaded chart data ${this.url}`)
                 axios.get(this.url)
-                    .then((res) => {
-                        console.log('loaded chart data')
-                        const chartData = this.parseDateFromResponse(res)
-                        this.renderChart(chartData, this.createOptions());
-                });
+                    .then(res => this.chartData = this.parseDateFromResponse(res.data))
             },
-            parseDateFromResponse (res) {
+            parseDateFromResponse (resData) {
                 // Assign lables and data
                 const data = {
-                    'labels': res.data.labels,
+                    'labels': resData.labels,
                     'datasets': [],
                 };
-                Object.keys(res.data.datasets).forEach(function (key) {
+                Object.keys(resData.datasets).forEach(function (key) {
                     data.datasets.push({
                         label: key,
-                        data: res.data.datasets[key],
+                        data: resData.datasets[key],
                         barPercentage: 1
                     });
                 });
