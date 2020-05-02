@@ -3,6 +3,7 @@
 namespace App\Models\Fundraising;
 
 use App\Models\HasComments;
+use App\Models\Traits\HasLanguageCodeField;
 use App\Support\Traits\HasTags;
 use App\Tag;
 use Countries;
@@ -16,6 +17,7 @@ class Donor extends Model
 {
     use HasTags;
     use HasComments;
+    use HasLanguageCodeField;
     use NullableFields;
 
     protected $nullable = [
@@ -29,7 +31,7 @@ class Donor extends Model
         'country',
         'email',
         'phone',
-        'language',
+        'language_code',
     ];
 
     public function getFullNameAttribute()
@@ -195,22 +197,6 @@ class Donor extends Model
         }
 
         return $query;
-    }
-
-    /**
-     * Gets a sorted list of all languages used by donors
-     *
-     * @return array
-     */
-    public static function languages(): array
-    {
-        return self::select('language')
-            ->distinct()
-            ->whereNotNull('language')
-            ->orderBy('language')
-            ->get()
-            ->pluck('language')
-            ->toArray();
     }
 
     /**

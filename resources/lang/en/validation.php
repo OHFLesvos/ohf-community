@@ -116,6 +116,7 @@ return [
     'country_code'         => 'The :attribute is not valid.',
     'country_name'         => 'The :attribute is not valid.',
     'language_code'        => 'The :attribute is not valid.',
+    'language_name'        => 'The :attribute is not valid.',
     'isbn'                 => 'The :attribute is not valid.',
 
     /*

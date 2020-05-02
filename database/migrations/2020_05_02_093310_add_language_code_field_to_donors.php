@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddLanguageCodeFieldToLibraryBooks extends Migration
+class AddLanguageCodeFieldToDonors extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddLanguageCodeFieldToLibraryBooks extends Migration
      */
     public function up()
     {
-        Schema::table('library_books', function (Blueprint $table) {
+        Schema::table('donors', function (Blueprint $table) {
             $table->string('language_code', 2)->nullable()->after('language');
         });
 
@@ -21,19 +21,19 @@ class AddLanguageCodeFieldToLibraryBooks extends Migration
             ->map(fn ($l) => strtolower($l))
             ->flip();
 
-        DB::table('library_books')
+        DB::table('donors')
             ->select('id', 'language')
             ->whereNotNull('language')
             ->get()
-            ->each(function ($book) use ($languages) {
-                DB::table('library_books')
-                    ->where('id', $book->id)
+            ->each(function ($donor) use ($languages) {
+                DB::table('donors')
+                    ->where('id', $donor->id)
                     ->update([
-                        'language_code' => $languages->get(strtolower($book->language), $book->language),
+                        'language_code' => $languages->get(strtolower($donor->language), $donor->language),
                     ]);
             });
 
-        Schema::table('library_books', function (Blueprint $table) {
+        Schema::table('donors', function (Blueprint $table) {
             $table->dropColumn('language');
         });
     }
@@ -45,25 +45,25 @@ class AddLanguageCodeFieldToLibraryBooks extends Migration
      */
     public function down()
     {
-        Schema::table('library_books', function (Blueprint $table) {
+        Schema::table('donors', function (Blueprint $table) {
             $table->string('language')->nullable()->after('language_code');
         });
 
         $languages = Languages::lookup();
 
-        DB::table('library_books')
+        DB::table('donors')
             ->select('id', 'language_code')
             ->whereNotNull('language_code')
             ->get()
-            ->each(function ($book) use ($languages) {
-                DB::table('library_books')
-                    ->where('id', $book->id)
+            ->each(function ($donor) use ($languages) {
+                DB::table('donors')
+                    ->where('id', $donor->id)
                     ->update([
-                        'language' => $languages->get($book->language_code),
+                        'language' => $languages->get($donor->language_code),
                     ]);
             });
 
-        Schema::table('library_books', function (Blueprint $table) {
+        Schema::table('donors', function (Blueprint $table) {
             $table->dropColumn('language_code');
         });
     }

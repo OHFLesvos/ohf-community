@@ -64,6 +64,7 @@ class DonationWebhookTest extends TestCase
                 'stored_customer_lastname' => 'Muster',
                 'stored_customer_street' => 'Musterstrasse',
                 'stored_customer_city' => 'Musterort',
+                'language' => 'de',
                 'amount' => '1000',
                 'currency' => 'CHF',
                 'payment_method' => 'ECA',
@@ -78,6 +79,7 @@ class DonationWebhookTest extends TestCase
             'last_name' => 'Muster',
             'street' => 'Musterstrasse',
             'city' => 'Musterort',
+            'language_code' => 'de',
         ]);
 
         $this->assertDatabaseHas('donations', [

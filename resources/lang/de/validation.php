@@ -91,6 +91,7 @@ return [
     'country_code' => 'Der :attribute ist ungültig.',
     'country_name' => 'Der :attribute ist ungültig.',
     'language_code' => 'Der :attribute ist ungültig.',
+    'language_name' => 'Die :attribute ist ungültig.',
     'isbn' => 'Die :attribute ist ungültig.',
 
     /*
@@ -156,6 +157,7 @@ return [
         'file' => 'Datei',
         'country_code' => 'Ländercode',
         'country_name' => 'Ländername',
+        'language' => 'Sprache',
         'quantity' => 'Menge',
         'isbn' => 'ISBN',
     ],

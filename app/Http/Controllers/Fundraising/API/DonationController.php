@@ -115,7 +115,7 @@ class DonationController extends Controller
             $donor->country_code = $request->stored_customer_country;
             $donor->email = $request->stored_customer_email;
             $donor->phone = $request->stored_customer_phone;
-            $donor->language = $request->language;
+            $donor->language_code = $request->language;
             $donor->save();
         }
 

@@ -6,6 +6,7 @@ use App\Providers\Traits\RegistersDashboardWidgets;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
 use App\Rules\LanguageCode;
+use App\Rules\LanguageName;
 use App\Rules\Library\Isbn;
 use App\Services\Accounting\CurrentWalletService;
 use Carbon\Carbon;
@@ -118,6 +119,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('country_code', CountryCode::class);
         Validator::extend('country_name', CountryName::class);
         Validator::extend('language_code', LanguageCode::class);
+        Validator::extend('language_name', LanguageName::class);
         Validator::extend('isbn', Isbn::class);
     }
 }

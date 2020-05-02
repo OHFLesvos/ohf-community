@@ -3,6 +3,7 @@
 ## NEXT (2.17.0)
 
 * Improved donor search for phone numnber
+* Localized language for donors
 
 ## 2.16.0
 

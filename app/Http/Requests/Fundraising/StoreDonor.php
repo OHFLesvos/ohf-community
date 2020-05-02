@@ -41,6 +41,10 @@ class StoreDonor extends FormRequest
                 'nullable',
                 'country_name',
             ],
+            'language' => [
+                'nullable',
+                'language_name',
+            ],
             'tags' => [
                 'nullable',
                 'json',

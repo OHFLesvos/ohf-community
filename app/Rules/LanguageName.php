@@ -3,10 +3,10 @@
 namespace App\Rules;
 
 use App;
-use Countries;
 use Illuminate\Contracts\Validation\Rule;
+use Languages;
 
-class CountryName implements Rule
+class LanguageName implements Rule
 {
     public function validate($attribute, $value, $params)
     {
@@ -22,7 +22,11 @@ class CountryName implements Rule
      */
     public function passes($attribute, $value)
     {
-        return in_array($value, Countries::getList(App::getLocale()));
+        $languageName = Languages::lookup(null, App::getLocale())
+            ->map(fn ($l) => strtolower($l))
+            ->flip()
+            ->get(strtolower($value));
+        return $languageName !== null;
     }
 
     /**
@@ -32,6 +36,6 @@ class CountryName implements Rule
      */
     public function message()
     {
-        return __('validation.country_name');
+        return __('validation.language_name');
     }
 }

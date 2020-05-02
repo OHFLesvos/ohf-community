@@ -12,8 +12,6 @@ $factory->define(Donor::class, function (Faker $faker) {
         return ! in_array($cc, ['HM', 'BV']); // not supported by country code library
     };
     $gender = $faker->randomElement(['male', 'female']);
-    $lc = $faker->optional(0.3)->languageCode;
-    $language = $lc != null ? \Languages::lookup([$lc])->first() : null;
     return [
         'salutation' => $faker->title($gender),
         'first_name' => $faker->firstName($gender),
@@ -25,7 +23,7 @@ $factory->define(Donor::class, function (Faker $faker) {
         'country_code' => $faker->valid($countryCodeValidator)->countryCode,
         'email' => $faker->optional(0.8)->email,
         'phone' => $faker->optional(0.5)->phoneNumber,
-        'language' => $language,
+        'language_code' => $faker->optional(0.6)->languageCode,
     ];
 });
 
