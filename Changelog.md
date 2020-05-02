@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT (2.17.0)
+
+* Improved donor search for phone numnber
+
 ## 2.16.0
 
 * New donor tag editor

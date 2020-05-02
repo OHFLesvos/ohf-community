@@ -190,7 +190,7 @@ class Donor extends Model
                     // Note: Countries filter only works for complete country code or country name
                     ->orWhere('country_code', $countries[strtolower($filter)] ?? $filter)
                     ->orWhere('email', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('phone', 'LIKE', '%' . $filter . '%');
+                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '+', ''), '(', ''), ')', '')"), 'LIKE', '%' . str_replace(['+', '(', ')', ' '], '', $filter) . '%');
             });
         }
 
