@@ -28,6 +28,8 @@
             <b-list-group-item
                 v-if="topTen && items.length > limit"
                 class="d-flex justify-content-between align-items-center"
+                href="javascript:;"
+                @click="topTen = !topTen"
             >
                 <em>{{ $t('app.others') }}</em>
                 <span>
