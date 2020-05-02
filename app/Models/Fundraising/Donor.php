@@ -78,6 +78,18 @@ class Donor extends Model
             : null;
     }
 
+    public static function countryDistribution(): array
+    {
+        return self::select('country_code')
+            ->selectRaw('COUNT(*) as amount')
+            ->groupBy('country_code')
+            ->whereNotNull('country_code')
+            ->orderBy('amount', 'desc')
+            ->get()
+            ->mapWithKeys(fn ($e) => [ $e->countryName => $e->amount ])
+            ->toArray();
+    }
+
     public function getFullAddressAttribute()
     {
         $str = '';
@@ -232,4 +244,19 @@ class Donor extends Model
             ->pluck('name', 'slug')
             ->toArray();
     }
+
+    /**
+     * Gets a sorted list of all emails used by donors
+     */
+    public static function emails(): Collection
+    {
+        return Donor::select('email')
+            ->whereNotNull('email')
+            ->distinct()
+            ->orderBy('email')
+            ->get()
+            ->pluck('email');
+    }
+
+
 }

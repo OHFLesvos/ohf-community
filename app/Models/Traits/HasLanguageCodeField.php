@@ -52,9 +52,7 @@ trait HasLanguageCodeField
             ->whereNotNull('language_code')
             ->orderBy('amount', 'desc')
             ->get()
-            ->mapWithKeys(fn ($l) => [
-                Languages::lookup([$l->language_code], App::getLocale())->first() => $l->amount
-            ])
+            ->mapWithKeys(fn ($e) => [ $e->language => $e->amount ])
             ->toArray();
     }
 }

@@ -93,7 +93,16 @@ Route::middleware(['language', 'auth'])
     ->name('api.fundraising.')
     ->namespace('Fundraising\API')
     ->group(function () {
-        Route::apiResource('donors', 'DonorController');
+        Route::get('donors/count', 'DonorController@count')
+            ->name('donors.count');
+        Route::get('donors/emails', 'DonorController@emails')
+            ->name('donors.emails');
+        Route::get('donors/languages', 'DonorController@languages')
+            ->name('donors.languages');
+        Route::get('donors/countries', 'DonorController@countries')
+            ->name('donors.countries');
+        Route::apiResource('donors', 'DonorController')
+            ->only('index');
         Route::apiResource('donations', 'DonationController')
             ->only('index');
         Route::apiResource('donors.comments', 'DonorCommentsController')
