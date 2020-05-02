@@ -430,7 +430,9 @@ export default {
             "with_registered_phone": "mit registrierter Telefonnummer",
             "countries": "Länder",
             "others": "Andere",
-            "numbers": "Zahlen"
+            "numbers": "Zahlen",
+            "value": "Wert",
+            "registrations": "Registrierungen"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1579,7 +1581,9 @@ export default {
             "with_registered_phone": "with registered phone number",
             "countries": "Countries",
             "others": "Others",
-            "numbers": "Numbers"
+            "numbers": "Numbers",
+            "value": "Value",
+            "registrations": "Registrations"
         },
         "auth": {
             "failed": "These credentials do not match our records.",

@@ -9,7 +9,7 @@ class BuilderMixin
      */
     public function groupByDateGranularity()
     {
-        return function ($granularity = 'days', $column = 'created_at', $orderDirection = 'asc') {
+        return function (?string $granularity = 'days', ?string $column = 'created_at', ?string $orderDirection = 'asc') {
             switch ($granularity) {
                 case 'years':
                     $this->query->selectRaw("YEAR($column) as date");

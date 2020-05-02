@@ -28,8 +28,12 @@ trait ValidatesDateRanges
 
         // Return as array (from, to)
         return [
-            $request->filled('from') ? new Carbon($request->input('from')) : Carbon::today()->subDays($defaultDays),
-            $request->filled('to') ? new Carbon($request->input('to')) : Carbon::today(),
+            $request->filled('from')
+                ? new Carbon($request->input('from'))
+                : Carbon::today()->subDays($defaultDays),
+            $request->filled('to')
+                ? new Carbon($request->input('to'))
+                : Carbon::today(),
         ];
     }
 

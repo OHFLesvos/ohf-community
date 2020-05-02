@@ -72,6 +72,17 @@
             </div>
 
         </div>
+
+        <div class="row">
+            <div class="col">
+                <bar-chart
+                    :title="$t('app.registrations')"
+                    :url="`${route('api.fundraising.donors.registrations')}?granularity=days`"
+                    :legend="false"
+                    class="mb-3"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -79,11 +90,13 @@
 import axios from '@/plugins/axios'
 import TwoColumnListGroupItem from '@/components/common/TwoColumnListGroupItem'
 import TwoColumnListCard from '@/components/common/TwoColumnListCard'
+import BarChart from '@/components/BarChart'
 import { handleAjaxError } from '@/utils'
 export default {
     components: {
         TwoColumnListGroupItem,
-        TwoColumnListCard
+        TwoColumnListCard,
+        BarChart
     },
     data () {
         return {

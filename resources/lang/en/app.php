@@ -369,4 +369,6 @@ return [
     'countries' => 'Countries',
     'others' => 'Others',
     'numbers' => 'Numbers',
+    'value' => 'Value',
+    'registrations' => 'Registrations',
  ];

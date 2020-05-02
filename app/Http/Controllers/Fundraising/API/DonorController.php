@@ -184,16 +184,23 @@ class DonorController extends Controller
 
         $granularity = $request->input('granularity');
 
-        $allDates = DateRangeUtil::createCollection($granularity, $dateFrom, $dateTo)
+        $allDates = DateRangeUtil::createDateCollection($dateFrom, $dateTo, $granularity)
             ->mapWithKeys(fn ($e) => [$e => 0]);
 
-        $queryData = Donor::registeredInDateRange($dateFrom, $dateTo)
+        $data = Donor::registeredInDateRange($dateFrom, $dateTo)
             ->groupByDateGranularity($granularity)
             ->selectRaw('COUNT(*) as amount')
             ->get()
-            ->pluck('amount', 'date');
+            ->mapWithKeys(fn ($e) => [$e->date => $e->amount])
+            ->union($allDates)
+            ->sortKeys();
 
-        return $allDates->merge($queryData);
+        return response()->json([
+            'labels' => $data->keys(),
+            'datasets' => [
+                __('app.registrations') => $data->values(),
+            ],
+        ]);
     }
 
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class DateRangeUtil
 {
-    public static function createCollection(string $type, Carbon $from, Carbon $to): Collection
+    public static function createDateCollection(Carbon $from, Carbon $to, ?string $type = 'days'): Collection
     {
         switch ($type) {
             case 'years':

@@ -369,4 +369,6 @@ return [
     'countries' => 'Länder',
     'others' => 'Andere',
     'numbers' => 'Zahlen',
+    'value' => 'Wert',
+    'registrations' => 'Registrierungen',
 ];
