@@ -27,78 +27,90 @@
             },
         },
         mounted () {
-            axios.get(this.url)
-                .then((res) => {
-                    // Assign lables and data
-                    var data = {
-                        'labels': res.data.labels,
-                        'datasets': [],
-                    };
-                    Object.keys(res.data.datasets).forEach(function (key) {
-                        data.datasets.push({
-                            label: key,
-                            data: res.data.datasets[key],
-                        });
+            this.loadData()
+        },
+        methods: {
+            loadData () {
+                console.log(`loaded chart data ${this.url}`)
+                axios.get(this.url)
+                    .then((res) => {
+                        console.log('loaded chart data')
+                        const chartData = this.parseDateFromResponse(res)
+                        this.renderChart(chartData, this.createOptions());
+                });
+            },
+            parseDateFromResponse (res) {
+                // Assign lables and data
+                const data = {
+                    'labels': res.data.labels,
+                    'datasets': [],
+                };
+                Object.keys(res.data.datasets).forEach(function (key) {
+                    data.datasets.push({
+                        label: key,
+                        data: res.data.datasets[key],
+                        barPercentage: 1
                     });
+                });
 
-                    // Assign colors to datasets
-                    for (var i = 0; i < data.datasets.length; i++) {
-                        data.datasets[i].backgroundColor = '#' + colorPalette[i %  colorPalette.length];
-                        data.datasets[i].borderColor = '#' + colorPalette[i %  colorPalette.length];
-                        data.datasets[i].fill = false;
-                    }
+                // Assign colors to datasets
+                for (var i = 0; i < data.datasets.length; i++) {
+                    data.datasets[i].backgroundColor = '#' + colorPalette[i %  colorPalette.length];
+                    data.datasets[i].borderColor = '#' + colorPalette[i %  colorPalette.length];
+                    data.datasets[i].fill = false;
+                }
 
-                    // Options
-                    var options = {
-                        title: {
+                return data
+            },
+            createOptions () {
+                const options = {
+                    title: {
+                        display: true,
+                        text: this.title,
+                    },
+                    legend: {
+                        display: this.legend,
+                        position: 'bottom'
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
                             display: true,
-                            text: this.title,
-                        },
-                        legend: {
-                            display: this.legend,
-                            position: 'bottom'
-                        },
-                        elements: {
-                            line: {
-                                tension: 0
+                            gridLines: {
+                                display: true,
                             }
-                        },
-                        scales: {
-                            xAxes: [{
-                                display: true,
-                                gridLines: {
-                                    display: true,
-                                },
-                                barPercentage: 1,
-                            }],
-                            yAxes: [{
-                                display: true,
-                                gridLines: {
-                                    display: true,
-                                },
-                                ticks: {
-                                    suggestedMin: 0,
-                                }
-                            }]
-                        },
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: {
-                            duration: 0
-                        },
-                    };
-
-                    // Add y-axis label
-                    if (this.ylabel) {
-                        options.scales.yAxes[0].scaleLabel= {
+                        }],
+                        yAxes: [{
                             display: true,
-                            labelString: this.ylabel,
-                        };
-                    }
+                            gridLines: {
+                                display: true,
+                            },
+                            ticks: {
+                                suggestedMin: 0,
+                            }
+                        }]
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 0
+                    },
+                };
 
-                    // Render chart
-                    this.renderChart(data, options);
-            });
+                // Add y-axis label
+                if (this.ylabel) {
+                    options.scales.yAxes[0].scaleLabel= {
+                        display: true,
+                        labelString: this.ylabel,
+                    };
+                }
+
+                return options
+            }
         }
     }
 </script>
