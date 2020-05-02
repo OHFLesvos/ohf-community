@@ -181,34 +181,11 @@ class DonorController extends Controller
 
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
-        $query = Donor::registeredInDateRange($dateFrom, $dateTo);
-        self::groupByDateGranularity($query, $request->input('granularity'));
-        $data = $query->selectRaw('COUNT(*) as amount')->get();
+        $data = Donor::registeredInDateRange($dateFrom, $dateTo)
+            ->groupByDateGranularity($request->input('granularity'))
+            ->selectRaw('COUNT(*) as amount')->get();
 
         return $data;
     }
 
-    private static function groupByDateGranularity(Builder $query, string $granularity) {
-        switch ($granularity) {
-            case 'years':
-                $query->selectRaw('YEAR(created_at) as year')
-                    ->groupBy('year')
-                    ->orderBy('year');
-                break;
-            case 'months':
-                $query->selectRaw('DATE_FORMAT(created_at, \'%Y-%m\') as month')
-                    ->groupBy('month')
-                    ->orderBy('month');
-                    break;
-            case 'weeks':
-                $query->selectRaw('DATE_FORMAT(created_at, \'%x-%v\') as week')
-                    ->groupBy('week')
-                    ->orderBy('week');
-                break;
-            default: // days
-                $query->selectRaw('DATE(created_at) as date')
-                    ->groupBy('date')
-                    ->orderBy('date');
-        }
-    }
 }

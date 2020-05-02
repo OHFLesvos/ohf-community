@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Mixins\BuilderMixin;
 use App\Providers\Traits\RegistersDashboardWidgets;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
@@ -10,6 +11,7 @@ use App\Rules\LanguageName;
 use App\Rules\Library\Isbn;
 use App\Services\Accounting\CurrentWalletService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -110,8 +112,14 @@ class AppServiceProvider extends ServiceProvider
         // UTF-8 support for Carbon time
         Carbon::setUtf8(true);
 
+        $this->registerQueryBuilderMacros();
         $this->registerRules();
         $this->registerDashboardWidgets();
+    }
+
+    private function registerQueryBuilderMacros()
+    {
+        Builder::mixin(new BuilderMixin());
     }
 
     private function registerRules()
