@@ -12,26 +12,20 @@ class BuilderMixin
         return function ($granularity = 'days', $column = 'created_at', $orderDirection = 'asc') {
             switch ($granularity) {
                 case 'years':
-                    $this->query->selectRaw("YEAR($column) as year")
-                        ->groupBy('year')
-                        ->orderBy($column, $orderDirection);
+                    $this->query->selectRaw("YEAR($column) as date");
                     break;
                 case 'months':
-                    $this->query->selectRaw("DATE_FORMAT($column, '%Y-%m') as month")
-                        ->groupBy('month')
-                        ->orderBy($column, $orderDirection);
+                    $this->query->selectRaw("DATE_FORMAT($column, '%Y-%m') as date");
                         break;
                 case 'weeks':
-                    $this->query->selectRaw("DATE_FORMAT($column, '%x-%v') as week")
-                        ->groupBy('week')
-                        ->orderBy($column, $orderDirection);
+                    $this->query->selectRaw("DATE_FORMAT($column, '%x-%v') as date");
                     break;
                 default: // days
-                    $this->query->selectRaw("DATE($column) as date")
-                        ->groupBy('date')
-                        ->orderBy($column, $orderDirection);
+                    $this->query->selectRaw("DATE($column) as date");
             }
-            return $this->query;
+            return $this->query
+                ->groupBy('date')
+                ->orderBy($column, $orderDirection);
         };
     }
 }

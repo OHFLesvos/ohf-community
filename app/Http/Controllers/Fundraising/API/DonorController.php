@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
+use App\Util\DateRangeUtil;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -181,11 +182,18 @@ class DonorController extends Controller
 
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
-        $data = Donor::registeredInDateRange($dateFrom, $dateTo)
-            ->groupByDateGranularity($request->input('granularity'))
-            ->selectRaw('COUNT(*) as amount')->get();
+        $granularity = $request->input('granularity');
 
-        return $data;
+        $allDates = DateRangeUtil::createCollection($granularity, $dateFrom, $dateTo)
+            ->mapWithKeys(fn ($e) => [$e => 0]);
+
+        $queryData = Donor::registeredInDateRange($dateFrom, $dateTo)
+            ->groupByDateGranularity($granularity)
+            ->selectRaw('COUNT(*) as amount')
+            ->get()
+            ->pluck('amount', 'date');
+
+        return $allDates->merge($queryData);
     }
 
 }
