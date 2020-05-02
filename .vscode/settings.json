@@ -6,5 +6,6 @@
         "**/public/css": true,
         "**/public/js": true
     },
-    "trailing-spaces.trimOnSave": true
+    "trailing-spaces.trimOnSave": true,
+    "cSpell.enabled": false
 }

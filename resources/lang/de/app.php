@@ -250,6 +250,7 @@ return [
     'login' => 'Anmelden',
     'logout' => 'Abmelden',
     'show_all' => 'Alle anzeigen',
+    'shop_top_ten' => 'Top 10 anzeigen',
     'no_tags_defined' => 'Keine Stichwörter definiert.',
     'found_num_tags' => ':num Stichwörter gefunden.',
     'popular_tags' => 'Beliebte Stichwörter',
@@ -360,4 +361,10 @@ return [
     'comment_deleted' => 'Kommentar gelöscht.',
     'tags_updated' => 'Stichwörter aktualisiert.',
     'contact' => 'Kontakt',
+    'individual_persons' => 'Individuelle Personen',
+    'companies' => 'Firmen',
+    'with_address' => 'Mit Adresse',
+    'with_email' => 'Mit E-Mail',
+    'with_phone' => 'Mit Telefon',
+    'countries' => 'Länder',
 ];

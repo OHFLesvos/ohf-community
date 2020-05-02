@@ -19,6 +19,12 @@ class DonorIndexContextButtons implements ContextButtons
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', Donor::class),
             ],
+            'report' => [
+                'url' => route('fundraising.donors.report'),
+                'caption' => __('app.report'),
+                'icon' => 'chart-pie',
+                'authorized' => Auth::user()->can('list', Donor::class),
+            ],
             'export' => [
                 'url' => route('fundraising.donors.export'),
                 'caption' => __('app.export'),

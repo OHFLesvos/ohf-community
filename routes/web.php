@@ -141,6 +141,8 @@ Route::middleware(['language', 'auth'])
             ->get('donors/export', 'DonorController@export');
         Route::name('donors.vcard')
             ->get('donors/{donor}/vcard', 'DonorController@vcard');
+        Route::view('donors/report', 'fundraising.donors.report')
+            ->name('donors.report');
         Route::resource('donors', 'DonorController');
 
         // Donations

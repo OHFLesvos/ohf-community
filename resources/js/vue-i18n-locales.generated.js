@@ -312,6 +312,7 @@ export default {
             "login": "Anmelden",
             "logout": "Abmelden",
             "show_all": "Alle anzeigen",
+            "shop_top_ten": "Top 10 anzeigen",
             "no_tags_defined": "Keine Stichwörter definiert.",
             "found_num_tags": "{num} Stichwörter gefunden.",
             "popular_tags": "Beliebte Stichwörter",
@@ -421,7 +422,13 @@ export default {
             "comment_updated": "Kommentar aktualisiert.",
             "comment_deleted": "Kommentar gelöscht.",
             "tags_updated": "Stichwörter aktualisiert.",
-            "contact": "Kontakt"
+            "contact": "Kontakt",
+            "individual_persons": "Individuelle Personen",
+            "companies": "Firmen",
+            "with_address": "Mit Adresse",
+            "with_email": "Mit E-Mail",
+            "with_phone": "Mit Telefon",
+            "countries": "Länder"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1064,6 +1071,7 @@ export default {
             "country_code": "Der {attribute} ist ungültig.",
             "country_name": "Der {attribute} ist ungültig.",
             "language_code": "Der {attribute} ist ungültig.",
+            "language_name": "Die {attribute} ist ungültig.",
             "isbn": "Die {attribute} ist ungültig.",
             "custom": {
                 "attribute-name": {
@@ -1105,6 +1113,7 @@ export default {
                 "file": "Datei",
                 "country_code": "Ländercode",
                 "country_name": "Ländername",
+                "language": "Sprache",
                 "quantity": "Menge",
                 "isbn": "ISBN"
             }
@@ -1450,6 +1459,7 @@ export default {
             "login": "Login",
             "logout": "Logout",
             "show_all": "Show all",
+            "shop_top_ten": "Show Top 10",
             "no_tags_defined": "No tags defined.",
             "found_num_tags": "Found {num} tags.",
             "popular_tags": "Popular tags",
@@ -1559,7 +1569,13 @@ export default {
             "comment_updated": "Comment updated.",
             "comment_deleted": "Comment deleted.",
             "tags_updated": "Tags updated.",
-            "contact": "Contact"
+            "contact": "Contact",
+            "individual_persons": "Individual persons",
+            "companies": "Companies",
+            "with_address": "With address",
+            "with_email": "With email",
+            "with_phone": "With phone",
+            "countries": "Countries"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -2229,6 +2245,7 @@ export default {
             "country_code": "The {attribute} is not valid.",
             "country_name": "The {attribute} is not valid.",
             "language_code": "The {attribute} is not valid.",
+            "language_name": "The {attribute} is not valid.",
             "isbn": "The {attribute} is not valid.",
             "custom": {
                 "attribute-name": {

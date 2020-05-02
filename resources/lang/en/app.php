@@ -250,6 +250,7 @@ return [
     'login' => 'Login',
     'logout' => 'Logout',
     'show_all' => 'Show all',
+    'shop_top_ten' => 'Show Top 10',
     'no_tags_defined' => 'No tags defined.',
     'found_num_tags' => 'Found :num tags.',
     'popular_tags' => 'Popular tags',
@@ -360,4 +361,10 @@ return [
     'comment_deleted' => 'Comment deleted.',
     'tags_updated' => 'Tags updated.',
     'contact' => 'Contact',
+    'individual_persons' => 'Individual persons',
+    'companies' => 'Companies',
+    'with_address' => 'With address',
+    'with_email' => 'With email',
+    'with_phone' => 'With phone',
+    'countries' => 'Countries',
  ];

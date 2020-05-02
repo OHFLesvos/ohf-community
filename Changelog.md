@@ -4,6 +4,7 @@
 
 * Improved donor search for phone numnber
 * Localized language for donors
+* Added simple donor report
 
 ## 2.16.0
 
