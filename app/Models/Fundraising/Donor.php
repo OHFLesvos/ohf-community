@@ -86,7 +86,10 @@ class Donor extends Model
             ->whereNotNull('country_code')
             ->orderBy('amount', 'desc')
             ->get()
-            ->mapWithKeys(fn ($e) => [ $e->countryName => $e->amount ])
+            ->map(fn ($e) => [
+                'name' => $e->countryName,
+                'amount' => $e->amount,
+            ])
             ->toArray();
     }
 

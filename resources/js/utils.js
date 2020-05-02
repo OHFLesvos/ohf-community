@@ -76,3 +76,7 @@ export function todayDate() {
 export function isAlphaNumeric(value) {
 	return /^[a-zA-Z0-9]+$/.test(value)
 }
+
+export function roundWithDecimals(value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}

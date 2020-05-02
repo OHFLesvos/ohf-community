@@ -312,7 +312,7 @@ export default {
             "login": "Anmelden",
             "logout": "Abmelden",
             "show_all": "Alle anzeigen",
-            "shop_top_ten": "Top 10 anzeigen",
+            "shop_top_x": "Top {num} anzeigen",
             "no_tags_defined": "Keine Stichwörter definiert.",
             "found_num_tags": "{num} Stichwörter gefunden.",
             "popular_tags": "Beliebte Stichwörter",
@@ -425,10 +425,12 @@ export default {
             "contact": "Kontakt",
             "individual_persons": "Individuelle Personen",
             "companies": "Firmen",
-            "with_address": "Mit Adresse",
-            "with_email": "Mit E-Mail",
-            "with_phone": "Mit Telefon",
-            "countries": "Länder"
+            "with_registered_address": "mit registrierter Adresse",
+            "with_registered_email": "mit registrierter E-Mail Adresse",
+            "with_registered_phone": "mit registrierter Telefonnummer",
+            "countries": "Länder",
+            "others": "Andere",
+            "numbers": "Zahlen"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1459,7 +1461,7 @@ export default {
             "login": "Login",
             "logout": "Logout",
             "show_all": "Show all",
-            "shop_top_ten": "Show Top 10",
+            "shop_top_x": "Show Top {num}",
             "no_tags_defined": "No tags defined.",
             "found_num_tags": "Found {num} tags.",
             "popular_tags": "Popular tags",
@@ -1572,10 +1574,12 @@ export default {
             "contact": "Contact",
             "individual_persons": "Individual persons",
             "companies": "Companies",
-            "with_address": "With address",
-            "with_email": "With email",
-            "with_phone": "With phone",
-            "countries": "Countries"
+            "with_registered_address": "with registered address",
+            "with_registered_email": "with registered email address",
+            "with_registered_phone": "with registered phone number",
+            "countries": "Countries",
+            "others": "Others",
+            "numbers": "Numbers"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
