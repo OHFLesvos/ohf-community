@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class DonorController extends Controller
 {
+    use ValidatesDateRanges;
+
     /**
      * Display a listing of the resource.
      *
@@ -156,5 +160,55 @@ class DonorController extends Controller
         return $request->input('format') == 'string'
             ? $data->implode(',')
             : $data;
+    }
+
+    /**
+     * Gets the number of registration per day.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function registrations(Request $request)
+    {
+        $this->authorize('list', Donor::class);
+
+        $request->validate([
+            'granularity' => [
+                'nullable',
+                Rule::in(['years', 'months', 'weeks', 'days']),
+            ],
+        ]);
+
+        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+
+        $query = Donor::registeredInDateRange($dateFrom, $dateTo);
+        self::groupByDateGranularity($query, $request->input('granularity'));
+        $data = $query->selectRaw('COUNT(*) as amount')->get();
+
+        return $data;
+    }
+
+    private static function groupByDateGranularity(Builder $query, string $granularity) {
+        switch ($granularity) {
+            case 'years':
+                $query->selectRaw('YEAR(created_at) as year')
+                    ->groupBy('year')
+                    ->orderBy('year');
+                break;
+            case 'months':
+                $query->selectRaw('DATE_FORMAT(created_at, \'%Y-%m\') as month')
+                    ->groupBy('month')
+                    ->orderBy('month');
+                    break;
+            case 'weeks':
+                $query->selectRaw('DATE_FORMAT(created_at, \'%x-%v\') as week')
+                    ->groupBy('week')
+                    ->orderBy('week');
+                break;
+            default: // days
+                $query->selectRaw('DATE(created_at) as date')
+                    ->groupBy('date')
+                    ->orderBy('date');
+        }
     }
 }

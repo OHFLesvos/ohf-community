@@ -24,6 +24,7 @@ $factory->define(Donor::class, function (Faker $faker) {
         'email' => $faker->optional(0.8)->email,
         'phone' => $faker->optional(0.5)->phoneNumber,
         'language_code' => $faker->optional(0.6)->languageCode,
+        'created_at' => $faker->dateTimeBetween('-5 years', 'now'),
     ];
 });
 
