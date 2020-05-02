@@ -5,9 +5,7 @@
 @section('content')
 
     <div id="bank-app">
-        <bank-transactions-page
-            api-url="{{ route('api.bank.withdrawal.transactions') }}"
-        ></bank-transactions-page>
+        <bank-transactions-page></bank-transactions-page>
     </div>
 
 @endsection

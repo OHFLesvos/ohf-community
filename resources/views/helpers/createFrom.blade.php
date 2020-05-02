@@ -9,11 +9,6 @@
             {!! Form::open(['route' => ['people.helpers.storeFrom']]) !!}
                 <person-search
                     name="person_id"
-                    api-url="{{ route('api.people.filterPersons') }}"
-                    placeholder="@lang('people.search_existing_person')"
-                    searching-label="@lang('app.searching')"
-                    found-label="@lang('people.select_existing_person_or_register_new_one')"
-                    not-found-label="@lang('app.not_found')"
                     @if($errors->has('person_id')) invalid="{{$errors->first('person_id')}}" @endif
                 >
                     <template v-slot:found>

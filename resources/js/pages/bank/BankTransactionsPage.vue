@@ -138,14 +138,9 @@ export default {
         BFormInput,
         PersonLabel
     },
-    props: {
-        apiUrl: {
-            type: String,
-            required: true
-        }
-    },
     data() {
         return {
+            apiUrl: this.route('api.bank.withdrawal.transactions'),
             fields: [
                 {
                     key: 'created_at',

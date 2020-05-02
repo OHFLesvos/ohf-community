@@ -35,10 +35,6 @@ export default {
         PersonFormFields
     },
     props: {
-        apiUrl: {
-            required: true,
-            type: String
-        },
         redirectUrl: {
             required: true,
             type: String
@@ -82,7 +78,8 @@ export default {
         onSubmit(evt) {
             evt.preventDefault()
             this.busy = true
-            axios.post(this.apiUrl, this.person)
+            const apiUrl = this.route('api.people.store')
+            axios.post(apiUrl, this.person)
                 .then(response => {
                     var data = response.data
                     showSnackbar(data.message);

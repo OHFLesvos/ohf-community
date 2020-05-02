@@ -6,7 +6,6 @@
 
     <div id="bank-app">
         <edit-person-page
-            api-url="{{ route('api.people.update', $person) }}"
             redirect-url="{{ route('bank.people.show', $person) }}"
             :value='@json($person)'
             :countries='@json($countries)'

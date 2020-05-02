@@ -6,7 +6,6 @@
 
     <div id="bank-app">
         <register-person-page
-            api-url="{{ route('api.people.store') }}"
             redirect-url="{{ route('bank.withdrawal.search') }}"
             :countries='@json($countries)'
             name="{{ request()->query('name') }}"

@@ -16,6 +16,9 @@ Vue.config.productionTip = false
 
 import i18n from '@/plugins/i18n'
 
+import ziggyMixin from '@/mixins/ziggyMixin'
+Vue.mixin(ziggyMixin)
+
 new Vue({
 	el: '#bank-app',
 	i18n,

@@ -12,7 +12,7 @@
                 debounce="400"
                 :trim="true"
                 type="search"
-                :placeholder="placeholder"
+                :placeholder="$t('people.search_existing_person')"
                 @keydown.enter.prevent="applyFilter"
                 @keydown.esc="clearFilter"
                 autocomplete="off"
@@ -29,14 +29,14 @@
         </b-input-group>
 
         <p v-if="processing">
-            <i class="fa fa-spinner fa-spin"></i> {{ searchingLabel }}
+            <i class="fa fa-spinner fa-spin"></i> {{ $t('app.searching') }}
         </p>
 
         <template v-else>
 
             <!-- Results -->
             <template v-if="suggestions.length > 0">
-                <b-form-group :label="foundLabel">
+                <b-form-group :label="$t('people.select_existing_person_or_register_new_one')">
                     <b-form-radio v-model="selected" v-for="sug in suggestions" :key="sug.data" name="some-radios" :value="sug.data">{{ sug.value }}</b-form-radio>
                 </b-form-group>
                 <input type="hidden" :name="name" :id="name" v-model="selected">
@@ -47,7 +47,7 @@
             <!-- No results found -->
             <template v-else-if="searched">
                 <b-alert variant="warning" :show="true">
-                    <i class="fa fa-exclamation-circle"></i> {{ notFoundLabel }}
+                    <i class="fa fa-exclamation-circle"></i> {{ $t('app.not_found') }}
                 </b-alert>
                 <slot name="not-found"></slot>
             </template>
@@ -64,30 +64,6 @@ export default {
         name: {
             type: String,
             required: true
-        },
-        apiUrl: {
-            type: String,
-            required: true
-        },
-        placeholder: {
-            type: String,
-            required: false,
-            default: 'Search person'
-        },
-        foundLabel: {
-            type: String,
-            required: false,
-            default: 'Select an existing person or register a new one:'
-        },
-        notFoundLabel: {
-            type: String,
-            required: false,
-            default: 'No person found.'
-        },
-        searchingLabel: {
-            type: String,
-            required: false,
-            default: 'Searching...'
         },
         invalid: {
             type: String,
@@ -116,8 +92,8 @@ export default {
             this.errorText = null
             this.selected = ''
             this.processing = true
-            let url = this.apiUrl + '?query=' + this.filterText;
-            axios.get(url)
+            const apiUrl = this.route('api.people.filterPersons')
+            axios.get(`${apiUrl}?query=${this.filterText}`)
                 .then(data => {
                     this.suggestions = data.data.suggestions;
                     this.searched = true

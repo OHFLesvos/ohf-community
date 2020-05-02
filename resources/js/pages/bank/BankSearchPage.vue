@@ -55,7 +55,7 @@
         </div>
         <bank-stats
             v-else-if="filter.length == 0"
-            :api-url="statsApiUrl"
+            :api-url="route('api.bank.withdrawal.dailyStats')"
         />
     </div>
 </template>
@@ -89,14 +89,6 @@ export default {
         BPagination
     },
     props: {
-        apiUrl: {
-            required: true,
-            type: String
-        },
-        statsApiUrl: {
-            required: true,
-            type: String
-        },
         canRegisterPerson: Boolean,
         registerPersonUrl: {
             type: String,
@@ -134,7 +126,7 @@ export default {
         }
     },
     watch: {
-        currentPage(val) {
+        currentPage() {
             this.search(this.filter)
         }
     },
@@ -152,7 +144,8 @@ export default {
             if (this.filter != filter) {
                 this.currentPage = 1
             }
-            axios.get(`${this.apiUrl}?filter=${filter}&page=${this.currentPage}`)
+            const apiUrl = this.route('api.bank.withdrawal.search')
+            axios.get(`${apiUrl}?filter=${filter}&page=${this.currentPage}`)
                 .then((res) => {
                     this.persons = res.data.data
                     this.totalRows = res.data.meta.total
