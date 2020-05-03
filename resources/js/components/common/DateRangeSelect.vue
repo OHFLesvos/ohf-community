@@ -1,13 +1,6 @@
 <template>
     <div class="form-row">
         <div class="col-sm">
-            <b-form-select
-                v-model="granularity"
-                :options="granularities"
-                class="mb-2"
-            />
-        </div>
-        <div class="col-sm">
             <b-form-datepicker
                 v-model="from"
                 :placeholder="$t('app.from')"
@@ -22,6 +15,13 @@
                 :placeholder="$t('app.to')"
                 :min="from"
                 :max="max"
+                class="mb-2"
+            />
+        </div>
+        <div class="col-sm">
+            <b-form-select
+                v-model="granularity"
+                :options="granularities"
                 class="mb-2"
             />
         </div>

@@ -1,43 +1,62 @@
 <template>
     <b-card
-        no-body
+        :no-body="!loading && items.length > 0"
+        :header="loading || items.length == 0 ? header : null"
         class="mb-4"
     >
-        <b-card-header header-class="d-flex justify-content-between">
-            <span>{{ header }}</span>
-            <a
-                v-if="items.length > this.limit"
-                href="javascript:;"
-                @click="topTen = !topTen"
-            >
-                {{ topTen ? $t('app.show_all') : $t('app.shop_top_x', { num: limit }) }}
-            </a>
-        </b-card-header>
-        <b-list-group flush>
-            <b-list-group-item
-                v-for="item in selectedItems"
-                :key="item.name"
-                class="d-flex justify-content-between align-items-center"
-            >
-                <span>{{ item.name }}</span>
-                <span>
-                    {{ item.amount }} &nbsp;
-                    <small class="text-muted">{{ roundWithDecimals(item.amount / totalAmount * 100, 1) }}%</small>
-                </span>
-            </b-list-group-item>
-            <b-list-group-item
-                v-if="topTen && items.length > limit"
-                class="d-flex justify-content-between align-items-center"
-                href="javascript:;"
-                @click="topTen = !topTen"
-            >
-                <em>{{ $t('app.others') }}</em>
-                <span>
-                    {{ unselectedItemsAmount }} &nbsp;
-                    <small class="text-muted">{{ roundWithDecimals(unselectedItemsAmount / totalAmount * 100, 1) }}%</small>
-                </span>
-            </b-list-group-item>
-        </b-list-group>
+        <!-- Loading -->
+        <b-card-text v-if="loading">
+            <em>{{ $t('app.loading') }}</em>
+        </b-card-text>
+
+        <!-- No items -->
+        <b-card-text v-else-if="items.length == 0">
+            <em>{{ $t('app.no_data_registered') }}</em>
+        </b-card-text>
+
+        <template v-else>
+            <!-- Interactive card header -->
+            <b-card-header header-class="d-flex justify-content-between">
+                <span>{{ header }}</span>
+                <a
+                    v-if="items.length > this.limit"
+                    href="javascript:;"
+                    @click="topTen = !topTen"
+                >
+                    {{ topTen ? $t('app.show_all_x', { num: items.length }) : $t('app.shop_top_x', { num: limit }) }}
+                </a>
+            </b-card-header>
+            <b-list-group flush>
+
+                <!-- Items -->
+                <b-list-group-item
+                    v-for="item in selectedItems"
+                    :key="item.name"
+                    class="d-flex justify-content-between align-items-center"
+                >
+                    <span>{{ item.name }}</span>
+                    <span>
+                        {{ item.amount }} &nbsp;
+                        <small class="text-muted">{{ roundWithDecimals(item.amount / totalAmount * 100, 1) }}%</small>
+                    </span>
+                </b-list-group-item>
+
+                <!-- Show other itmes -->
+                <b-list-group-item
+                    v-if="topTen && items.length > limit"
+                    class="d-flex justify-content-between align-items-center"
+                    href="javascript:;"
+                    @click="topTen = !topTen"
+                >
+                    <em>{{ $t('app.others') }}</em>
+                    <span>
+                        {{ unselectedItemsAmount }} &nbsp;
+                        <small class="text-muted">{{ roundWithDecimals(unselectedItemsAmount / totalAmount * 100, 1) }}%</small>
+                    </span>
+                </b-list-group-item>
+
+            </b-list-group>
+        </template>
     </b-card>
 
 </template>
@@ -58,7 +77,8 @@ export default {
             requireD: false,
             type: Number,
             default: 10
-        }
+        },
+        loading: Boolean
     },
     data () {
         return {

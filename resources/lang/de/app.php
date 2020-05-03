@@ -253,6 +253,7 @@ return [
     'login' => 'Anmelden',
     'logout' => 'Abmelden',
     'show_all' => 'Alle anzeigen',
+    'show_all_x' => 'Alle :num anzeigen',
     'shop_top_x' => 'Top :num anzeigen',
     'no_tags_defined' => 'Keine Stichwörter definiert.',
     'found_num_tags' => ':num Stichwörter gefunden.',

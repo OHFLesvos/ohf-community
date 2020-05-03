@@ -8,67 +8,62 @@
             <!-- General donor numbers -->
             <div class="col-md">
                 <b-card
-                    v-if="count"
-                    no-body
+                    :no-body="count"
                     :header="$t('app.numbers')"
                     class="mb-4"
                 >
-                    <b-list-group flush>
-                        <two-column-list-group-item
-                            :value1="$t('app.total')"
-                            :value2="count.total"
-                        />
-                        <two-column-list-group-item
-                            :value1="$t('app.individual_persons')"
-                            :value2="count.persons"
-                        />
-                        <two-column-list-group-item
-                            :value1="$t('app.companies')"
-                            :value2="count.companies"
-                        />
-                        <two-column-list-group-item
-                            :value1="$t('app.with_registered_address')"
-                            :value2="count.with_address"
-                        />
-                        <two-column-list-group-item
-                            :value1="$t('app.with_registered_email')"
-                            :value2="count.with_email"
-                        />
-                        <two-column-list-group-item
-                            :value1="$t('app.with_registered_phone')"
-                            :value2="count.with_phone"
-                        />
-                    </b-list-group>
+                    <b-card-text v-if="!count">
+                        <em>{{ $t('app.loading') }}</em>
+                    </b-card-text>
+                    <template v-else>
+                        <b-list-group flush>
+                            <two-column-list-group-item
+                                :value1="$t('app.total')"
+                                :value2="count.total"
+                            />
+                            <two-column-list-group-item
+                                :value1="$t('app.individual_persons')"
+                                :value2="count.persons"
+                            />
+                            <two-column-list-group-item
+                                :value1="$t('app.companies')"
+                                :value2="count.companies"
+                            />
+                            <two-column-list-group-item
+                                :value1="$t('app.with_registered_address')"
+                                :value2="count.with_address"
+                            />
+                            <two-column-list-group-item
+                                :value1="$t('app.with_registered_email')"
+                                :value2="count.with_email"
+                            />
+                            <two-column-list-group-item
+                                :value1="$t('app.with_registered_phone')"
+                                :value2="count.with_phone"
+                            />
+                        </b-list-group>
+                    </template>
                 </b-card>
-                <p v-else>
-                    <em>{{ $t('app.loading') }}</em>
-                </p>
             </div>
 
             <!-- Countries -->
             <div class="col-md">
                 <two-column-list-card
-                    v-if="languages"
                     :header="$t('app.countries')"
-                    :items="countries"
+                    :items="countries ? countries : []"
                     :limit="5"
+                    :loading="!countries"
                 />
-                 <p v-else>
-                    <em>{{ $t('app.loading') }}</em>
-                </p>
             </div>
 
             <!-- Languages -->
             <div class="col-md">
                 <two-column-list-card
-                    v-if="languages"
                     :header="$t('app.languages')"
-                    :items="languages"
+                    :items="languages ? languages : []"
                     :limit="5"
+                    :loading="!languages"
                 />
-                <p v-else>
-                    <em>{{ $t('app.loading') }}</em>
-                </p>
             </div>
 
         </div>

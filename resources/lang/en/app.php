@@ -253,6 +253,7 @@ return [
     'login' => 'Login',
     'logout' => 'Logout',
     'show_all' => 'Show all',
+    'show_all_x' => 'Show all :num',
     'shop_top_x' => 'Show Top :num',
     'no_tags_defined' => 'No tags defined.',
     'found_num_tags' => 'Found :num tags.',
