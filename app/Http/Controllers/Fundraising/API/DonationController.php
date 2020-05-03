@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\ChartResponse;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonationCollection;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
+use App\Support\ChartResponseBuilder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -16,7 +16,6 @@ use MrCage\EzvExchangeRates\EzvExchangeRates;
 class DonationController extends Controller
 {
     use ValidatesDateRanges;
-    use ChartResponse;
 
     /**
      * Display a listing of the resource.
@@ -177,28 +176,15 @@ class DonationController extends Controller
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
-        return $this->singleSetChartResponse(__('fundraising.donations'), $registrations);
-    }
-
-    /**
-     * Gets the number of registration per time unit.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function amounts(Request $request)
-    {
-        $this->authorize('list', Donation::class);
-
-        $this->validateDateGranularity($request);
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
-
         $amounts = Donation::inDateRange($dateFrom, $dateTo, 'date')
             ->groupByDateGranularity($request->input('granularity'), 'date')
             ->selectRaw('SUM(exchange_amount) AS `aggregated_value`')
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
-        return $this->singleSetChartResponse(__('fundraising.donation_amount'), $amounts, __('app.amount'));
+        return (new ChartResponseBuilder())
+            ->dataset(__('fundraising.donations'), $registrations)
+            ->dataset(__('fundraising.donation_amount') . ' (' . config('fundraising.base_currency').')', $amounts, __('app.amount'))
+            ->build();
     }
 }

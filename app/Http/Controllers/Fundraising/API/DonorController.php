@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\ChartResponse;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
+use App\Support\ChartResponseBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class DonorController extends Controller
 {
     use ValidatesDateRanges;
-    use ChartResponse;
 
     /**
      * Display a listing of the resource.
@@ -182,6 +181,8 @@ class DonorController extends Controller
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
-        return $this->singleSetChartResponse(__('app.registrations'), $registrations);
+        return (new ChartResponseBuilder())
+            ->dataset(__('app.registrations'), $registrations)
+            ->build();
     }
 }
