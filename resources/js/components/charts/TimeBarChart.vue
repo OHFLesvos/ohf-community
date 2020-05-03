@@ -66,6 +66,28 @@ export default {
             return `${this.baseUrl}?granularity=${this.granularity}&from=${this.dateFrom}&to=${this.dateTo}`
         },
         options () {
+            let timeUnit, timeTooltipFormat, timeParser
+            switch (this.granularity) {
+                case 'years':
+                    timeUnit = 'year'
+                    timeTooltipFormat = 'YYYY'
+                    timeParser = 'YYYY'
+                    break;
+                case 'months':
+                    timeUnit = 'month'
+                    timeTooltipFormat = 'MMMM YYYY'
+                    timeParser = 'YYYY-MM'
+                    break;
+                case 'weeks':
+                    timeUnit = 'week'
+                    timeTooltipFormat = '[W]WW GGGG'
+                    timeParser = undefined
+                    break;
+                default: // days
+                    timeUnit = 'day'
+                    timeTooltipFormat = 'dddd, LL'
+                    timeParser = 'YYYY-MM-DD'
+            }
             return {
                 title: {
                     display: true,
@@ -80,8 +102,9 @@ export default {
                         display: true,
                         type: 'time',
                         time: {
-                            tooltipFormat: 'LL',
-                            unit: 'day',
+                            tooltipFormat: timeTooltipFormat,
+                            unit: timeUnit,
+                            parser: timeParser,
                             minUnit: 'day',
                             isoWeekday: true,
                             displayFormats: {
@@ -119,7 +142,7 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 0
+                    duration: 500
                 }
             }
         }
@@ -164,30 +187,6 @@ export default {
                 chartData.datasets[i].backgroundColor = hexAToRGBA(hexcolor + '80')
                 chartData.datasets[i].borderColor = hexcolor
                 chartData.datasets[i].borderWidth = 1
-            }
-
-            if (resData.time_unit) {
-                switch (resData.time_unit) {
-                    case 'year':
-                        this.options.scales.xAxes[0].time.unit = 'year'
-                        this.options.scales.xAxes[0].time.tooltipFormat = 'YYYY'
-                        this.options.scales.xAxes[0].time.parser = 'YYYY'
-                        break;
-                    case 'month':
-                        this.options.scales.xAxes[0].time.unit = 'month'
-                        this.options.scales.xAxes[0].time.tooltipFormat = 'MMMM YYYY'
-                        this.options.scales.xAxes[0].time.parser = 'YYYY-MM'
-                        break;
-                    case 'week':
-                        this.options.scales.xAxes[0].time.unit = 'week'
-                        this.options.scales.xAxes[0].time.tooltipFormat = '[W]WW GGGG'
-                        this.options.scales.xAxes[0].time.parser = undefined
-                        break;
-                    default:
-                        this.options.scales.xAxes[0].time.unit = 'day'
-                        this.options.scales.xAxes[0].time.tooltipFormat = 'dddd, LL'
-                        this.options.scales.xAxes[0].time.parser = 'YYYY-MM-DD'
-                }
             }
 
             return chartData

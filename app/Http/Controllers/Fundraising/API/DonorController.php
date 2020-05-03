@@ -195,8 +195,7 @@ class DonorController extends Controller
             'labels' => $registrations->keys()->map(fn ($v) => strval($v)),
             'datasets' => [
                 __('app.registrations') => $registrations->values(),
-            ],
-            'time_unit' => Str::singular($granularity),
+            ]
         ]);
     }
 

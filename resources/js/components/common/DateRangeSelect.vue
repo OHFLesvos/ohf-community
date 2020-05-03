@@ -4,6 +4,7 @@
             <b-form-select
                 v-model="granularity"
                 :options="granularities"
+                class="mb-2"
             />
         </div>
         <div class="col-sm">
@@ -23,6 +24,15 @@
                 :max="max"
                 class="mb-2"
             />
+        </div>
+        <div class="col-auto">
+            <b-button
+                variant="secondary"
+                class="mb-2"
+                @click="reset()"
+            >
+                <font-awesome-icon icon="undo" />
+            </b-button>
         </div>
     </div>
 </template>
@@ -54,6 +64,7 @@ export default {
     },
     data () {
         return {
+            originalValues: { ...this.value },
             from: this.value.from,
             to: this.value.to,
             granularity: this.value.granularity,
@@ -97,6 +108,11 @@ export default {
                     granularity: this.granularity
                 })
             }
+        },
+        reset () {
+            this.from = this.originalValues.from
+            this.to = this.originalValues.to
+            this.granularity = this.originalValues.granularity
         }
     }
 }
