@@ -177,7 +177,7 @@ class DonationController extends Controller
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
-        return $this->simpleChartResponse(__('fundraising.donations'), $registrations);
+        return $this->singleSetChartResponse(__('fundraising.donations'), $registrations);
     }
 
     /**
@@ -199,6 +199,6 @@ class DonationController extends Controller
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
-        return $this->simpleChartResponse(__('fundraising.donation_amount'), $amounts);
+        return $this->singleSetChartResponse(__('fundraising.donation_amount'), $amounts);
     }
 }

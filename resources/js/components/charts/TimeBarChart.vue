@@ -179,10 +179,10 @@ export default {
             }
 
             // Assign lables and data
-            Object.keys(resData.datasets).forEach(function (key) {
+            resData.datasets.forEach(function (dataset) {
                 chartData.datasets.push({
-                    label: key,
-                    data: resData.datasets[key]
+                    label: dataset.label,
+                    data: dataset.data
                 })
             })
 

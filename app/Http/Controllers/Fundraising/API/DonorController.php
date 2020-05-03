@@ -182,6 +182,6 @@ class DonorController extends Controller
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
-        return $this->simpleChartResponse(__('app.registrations'), $registrations);
+        return $this->singleSetChartResponse(__('app.registrations'), $registrations);
     }
 }

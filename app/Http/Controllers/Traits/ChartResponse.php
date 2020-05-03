@@ -6,12 +6,15 @@ use Illuminate\Support\Collection;
 
 trait ChartResponse
 {
-    private function simpleChartResponse(string $title, Collection $data)
+    private function singleSetChartResponse(string $title, Collection $data)
     {
         return response()->json([
             'labels' => $data->keys()->map(fn ($v) => strval($v)),
             'datasets' => [
-                $title => $data->values(),
+                [
+                    'label' => $title,
+                    'data' => $data->values(),
+                ]
             ]
         ]);
     }
