@@ -7,48 +7,16 @@
 
             <!-- General donor numbers -->
             <div class="col-md">
-                <b-card
-                    :no-body="count"
+                <simple-two-column-list-card
                     :header="$t('app.numbers')"
-                    class="mb-4"
-                >
-                    <b-card-text v-if="!count">
-                        <em>{{ $t('app.loading') }}</em>
-                    </b-card-text>
-                    <template v-else>
-                        <b-list-group flush>
-                            <two-column-list-group-item
-                                :value1="$t('app.total')"
-                                :value2="count.total"
-                            />
-                            <two-column-list-group-item
-                                :value1="$t('app.individual_persons')"
-                                :value2="count.persons"
-                            />
-                            <two-column-list-group-item
-                                :value1="$t('app.companies')"
-                                :value2="count.companies"
-                            />
-                            <two-column-list-group-item
-                                :value1="$t('app.with_registered_address')"
-                                :value2="count.with_address"
-                            />
-                            <two-column-list-group-item
-                                :value1="$t('app.with_registered_email')"
-                                :value2="count.with_email"
-                            />
-                            <two-column-list-group-item
-                                :value1="$t('app.with_registered_phone')"
-                                :value2="count.with_phone"
-                            />
-                        </b-list-group>
-                    </template>
-                </b-card>
+                    :items="count ? count : []"
+                    :loading="!count"
+                />
             </div>
 
             <!-- Countries -->
             <div class="col-md">
-                <two-column-list-card
+                <advanced-two-column-list-card
                     :header="$t('app.countries')"
                     :items="countries ? countries : []"
                     :limit="5"
@@ -58,7 +26,7 @@
 
             <!-- Languages -->
             <div class="col-md">
-                <two-column-list-card
+                <advanced-two-column-list-card
                     :header="$t('app.languages')"
                     :items="languages ? languages : []"
                     :limit="5"
@@ -109,16 +77,16 @@
 
 <script>
 import axios from '@/plugins/axios'
-import TwoColumnListGroupItem from '@/components/common/TwoColumnListGroupItem'
-import TwoColumnListCard from '@/components/common/TwoColumnListCard'
+import SimpleTwoColumnListCard from '@/components/common/SimpleTwoColumnListCard'
+import AdvancedTwoColumnListCard from '@/components/common/AdvancedTwoColumnListCard'
 import TimeBarChart from '@/components/charts/TimeBarChart'
 import DateRangeSelect from '@/components/common/DateRangeSelect'
 import { handleAjaxError } from '@/utils'
 import moment from 'moment'
 export default {
     components: {
-        TwoColumnListGroupItem,
-        TwoColumnListCard,
+        SimpleTwoColumnListCard,
+        AdvancedTwoColumnListCard,
         TimeBarChart,
         DateRangeSelect
     },
@@ -136,7 +104,35 @@ export default {
     },
     mounted () {
         axios.get(this.route('api.fundraising.donors.count'))
-            .then(res => this.count = res.data)
+            .then(res => {
+                const data = res.data
+                this.count = [
+                    {
+                        name: this.$t('app.total'),
+                        value: data.total
+                    },
+                    {
+                        name: this.$t('app.individual_persons'),
+                        value: data.persons
+                    },
+                    {
+                        name: this.$t('app.companies'),
+                        value: data.companies
+                    },
+                    {
+                        name: this.$t('app.with_registered_address'),
+                        value: data.with_address
+                    },
+                    {
+                        name: this.$t('app.with_registered_email'),
+                        value: data.with_email
+                    },
+                    {
+                        name: this.$t('app.with_registered_phone'),
+                        value: data.with_phone
+                    },
+                ]
+            })
             .catch(handleAjaxError)
         axios.get(this.route('api.fundraising.donors.countries'))
             .then(res => this.countries = res.data)
