@@ -47,13 +47,15 @@ export default {
                     key: 'date',
                     label: this.$t('app.date'),
                     class: 'fit',
-                    sortable: true
+                    sortable: true,
+                    sortDirection: 'desc'
                 },
                 {
                     key: 'exchange_amount',
                     label: this.$t('app.amount'),
                     class: 'text-right fit',
-                    sortable: true
+                    sortable: true,
+                    sortDirection: 'desc'
                 },
                 {
                     key: 'donor',
