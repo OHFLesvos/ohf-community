@@ -15,10 +15,10 @@ trait InDateRangeScope
     public function scopeInDateRange($query, $dateFrom = null, $dateTo = null, $column = 'created_at')
     {
         if ($dateFrom !== null) {
-            $query->whereDate('created_at', '>=', $dateFrom);
+            $query->whereDate($column, '>=', $dateFrom);
         }
         if ($dateTo !== null) {
-            $query->whereDate('created_at', '<=', $dateTo);
+            $query->whereDate($column, '<=', $dateTo);
         }
         return $query;
     }

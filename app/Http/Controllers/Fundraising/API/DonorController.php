@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\ChartResponse;
 use App\Http\Controllers\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
-use App\Util\DateRangeUtil;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class DonorController extends Controller
 {
     use ValidatesDateRanges;
+    use ChartResponse;
 
     /**
      * Display a listing of the resource.
@@ -174,29 +173,15 @@ class DonorController extends Controller
     {
         $this->authorize('list', Donor::class);
 
-        $request->validate([
-            'granularity' => [
-                'nullable',
-                Rule::in(['years', 'months', 'weeks', 'days']),
-            ],
-        ]);
-
+        $this->validateDateGranularity($request);
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
-        $granularity = $request->input('granularity');
-
         $registrations = Donor::inDateRange($dateFrom, $dateTo)
-            ->groupByDateGranularity($granularity)
+            ->groupByDateGranularity($request->input('granularity'))
             ->selectRaw('COUNT(*) as amount')
             ->get()
             ->pluck('amount', 'date');
 
-        return response()->json([
-            'labels' => $registrations->keys()->map(fn ($v) => strval($v)),
-            'datasets' => [
-                __('app.registrations') => $registrations->values(),
-            ]
-        ]);
+        return $this->simpleChartResponse(__('app.registrations'), $registrations);
     }
-
 }

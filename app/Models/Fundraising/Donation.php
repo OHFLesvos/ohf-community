@@ -2,6 +2,7 @@
 
 namespace App\Models\Fundraising;
 
+use App\Models\Traits\InDateRangeScope;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 class Donation extends Model
 {
     use NullableFields;
+    use InDateRangeScope;
 
     protected $nullable = [
         'purpose',

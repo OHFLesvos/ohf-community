@@ -518,7 +518,8 @@ export default {
             "leave_empty_for_automatic_calculation": "Leerlassen für automatische Berechnung.",
             "thanked": "Verdankt",
             "donor_thanked": "Spende wurde verdankt",
-            "in_name_of": "Im Namen von"
+            "in_name_of": "Im Namen von",
+            "new_donor_registrations": "Neue Spenderregistrierungen"
         },
         "helpers": {
             "helper": "Helfer",
@@ -1672,7 +1673,8 @@ export default {
             "leave_empty_for_automatic_calculation": "Leave empty for automatic calculation",
             "thanked": "Thanked",
             "donor_thanked": "Donor has been thanked",
-            "in_name_of": "In the name of"
+            "in_name_of": "In the name of",
+            "new_donor_registrations": "New Donor registrations"
         },
         "helpers": {
             "helper": "Helper",

@@ -84,7 +84,7 @@
         <div class="row">
             <div class="col">
                 <time-bar-chart
-                    :title="$t('app.registrations')"
+                    :title="$t('fundraising.new_donor_registrations')"
                     :base-url="route('api.fundraising.donors.registrations')"
                     :date-from="this.dateRange.from"
                     :date-to="this.dateRange.to"

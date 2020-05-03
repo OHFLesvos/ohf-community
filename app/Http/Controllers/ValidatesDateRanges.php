@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 trait ValidatesDateRanges
 {
@@ -67,5 +68,15 @@ trait ValidatesDateRanges
             $from,
             $from->clone()->endOfMonth(),
         ];
+    }
+
+    private function validateDateGranularity(Request $request)
+    {
+        $request->validate([
+            'granularity' => [
+                'nullable',
+                Rule::in(['years', 'months', 'weeks', 'days']),
+            ],
+        ]);
     }
 }
