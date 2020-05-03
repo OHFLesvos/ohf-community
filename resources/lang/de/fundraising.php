@@ -39,4 +39,5 @@ return [
     'in_name_of' => 'Im Namen von',
     'new_donors_registered' => 'Neue Spender registriert',
     'donations_made' => 'Getätigte Spenden',
+    'donation_amount' => 'Spendebetrag',
 ];

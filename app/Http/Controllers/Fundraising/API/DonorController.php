@@ -178,9 +178,9 @@ class DonorController extends Controller
 
         $registrations = Donor::inDateRange($dateFrom, $dateTo)
             ->groupByDateGranularity($request->input('granularity'))
-            ->selectRaw('COUNT(*) as amount')
+            ->selectRaw('COUNT(*) AS `aggregated_value`')
             ->get()
-            ->pluck('amount', 'date_label');
+            ->pluck('aggregated_value', 'date_label');
 
         return $this->simpleChartResponse(__('app.registrations'), $registrations);
     }

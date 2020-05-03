@@ -39,4 +39,5 @@ return [
     'in_name_of' => 'In the name of',
     'new_donors_registered' => 'New Donors registered',
     'donations_made' => 'Donations made',
+    'donation_amount' => 'Donation amount',
 ];

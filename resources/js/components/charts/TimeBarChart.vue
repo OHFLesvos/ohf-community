@@ -53,6 +53,12 @@ export default {
             type: Number,
             required: false,
             default: 350
+        },
+        yAxesLabel: {
+            required: false,
+            default: function () {
+                return this.$t('app.quantity')
+            }
         }
     },
     data () {
@@ -131,7 +137,7 @@ export default {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: this.$t('app.quantity')
+                            labelString: this.yAxesLabel
                         },
                         ticks: {
                             suggestedMin: 0,

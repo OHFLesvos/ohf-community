@@ -173,10 +173,32 @@ class DonationController extends Controller
 
         $registrations = Donation::inDateRange($dateFrom, $dateTo, 'date')
             ->groupByDateGranularity($request->input('granularity'), 'date')
-            ->selectRaw('COUNT(*) as amount')
+            ->selectRaw('COUNT(*) AS `aggregated_value`')
             ->get()
-            ->pluck('amount', 'date_label');
+            ->pluck('aggregated_value', 'date_label');
 
         return $this->simpleChartResponse(__('fundraising.donations'), $registrations);
+    }
+
+    /**
+     * Gets the number of registration per time unit.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function amounts(Request $request)
+    {
+        $this->authorize('list', Donation::class);
+
+        $this->validateDateGranularity($request);
+        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+
+        $amounts = Donation::inDateRange($dateFrom, $dateTo, 'date')
+            ->groupByDateGranularity($request->input('granularity'), 'date')
+            ->selectRaw('SUM(exchange_amount) AS `aggregated_value`')
+            ->get()
+            ->pluck('aggregated_value', 'date_label');
+
+        return $this->simpleChartResponse(__('fundraising.donation_amount'), $amounts);
     }
 }
