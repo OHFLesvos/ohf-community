@@ -82,7 +82,7 @@
 
         <!-- Registrations over time chart -->
         <time-bar-chart
-            :title="$t('fundraising.new_donor_registrations')"
+            :title="$t('fundraising.new_donors_registered')"
             :base-url="route('api.fundraising.donors.registrations')"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
