@@ -76,32 +76,9 @@
         <hr class="mt-0">
 
         <!-- Date range selector -->
-        <div class="form-row">
-            <div class="col-sm">
-                <b-form-select
-                    v-model="dateGranularity"
-                    :options="dateGranularities"
-                />
-            </div>
-            <div class="col-sm">
-                <b-form-datepicker
-                    v-model="fromDate"
-                    :placeholder="$t('app.from')"
-                    :min="minDate"
-                    :max="toDate"
-                    class="mb-2"
-                />
-            </div>
-            <div class="col-sm">
-                <b-form-datepicker
-                    v-model="toDate"
-                    :placeholder="$t('app.to')"
-                    :min="fromDate"
-                    :max="maxDate"
-                    class="mb-2"
-                />
-            </div>
-        </div>
+        <date-range-select
+            v-model="dateRange"
+        />
 
         <!-- Registrations over time chart -->
         <div class="row">
@@ -121,49 +98,33 @@ import axios from '@/plugins/axios'
 import TwoColumnListGroupItem from '@/components/common/TwoColumnListGroupItem'
 import TwoColumnListCard from '@/components/common/TwoColumnListCard'
 import TimeBarChart from '@/components/charts/TimeBarChart'
-import { handleAjaxError, ucFirst } from '@/utils'
+import DateRangeSelect from '@/components/common/DateRangeSelect'
+import { handleAjaxError } from '@/utils'
 import moment from 'moment'
 export default {
     components: {
         TwoColumnListGroupItem,
         TwoColumnListCard,
-        TimeBarChart
+        TimeBarChart,
+        DateRangeSelect
     },
     data () {
         return {
             count: null,
             countries: null,
             languages: null,
-            dateGranularity: 'days',
-            dateGranularities: [
-                {
-                    value: 'days',
-                    text: ucFirst(this.$t('app.days'))
-                },
-                {
-                    value: 'weeks',
-                    text: ucFirst(this.$t('app.weeks'))
-                },
-                {
-                    value: 'months',
-                    text: ucFirst(this.$t('app.months'))
-                },
-                {
-                    value: 'years',
-                    text: ucFirst(this.$t('app.years'))
-                }
-            ],
-            fromDate: moment().subtract(3, 'months').format(moment.HTML5_FMT.DATE),
-            toDate: moment().format(moment.HTML5_FMT.DATE),
-            minDate: null,
-            maxDate: moment().format(moment.HTML5_FMT.DATE)
+            dateRange: {
+                from: moment().subtract(3, 'months').format(moment.HTML5_FMT.DATE),
+                to: moment().format(moment.HTML5_FMT.DATE),
+                granularity: 'days',
+            }
         }
     },
     computed: {
         registrationsChartUrl () {
-            let baseUrl = `${this.route('api.fundraising.donors.registrations')}?granularity=${this.dateGranularity}`
-            if (this.fromDate && this.toDate) {
-                return `${baseUrl}&from=${this.fromDate}&to=${this.toDate}`
+            let baseUrl = `${this.route('api.fundraising.donors.registrations')}?granularity=${this.dateRange.granularity}`
+            if (this.dateRange.from && this.dateRange.to) {
+                return `${baseUrl}&from=${this.dateRange.from}&to=${this.dateRange.to}`
             }
             return baseUrl
         }
