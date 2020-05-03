@@ -164,7 +164,7 @@ class DonorController extends Controller
     }
 
     /**
-     * Gets the number of registration per day.
+     * Gets the number of registration per time unit.
      *
      * @param Request $request
      * @return \Illuminate\Http\Response

@@ -519,7 +519,8 @@ export default {
             "thanked": "Verdankt",
             "donor_thanked": "Spende wurde verdankt",
             "in_name_of": "Im Namen von",
-            "new_donor_registrations": "Neue Spenderregistrierungen"
+            "new_donor_registrations": "Neue Spenderregistrierungen",
+            "donations_made": "Getätigte Spenden"
         },
         "helpers": {
             "helper": "Helfer",
@@ -1674,7 +1675,8 @@ export default {
             "thanked": "Thanked",
             "donor_thanked": "Donor has been thanked",
             "in_name_of": "In the name of",
-            "new_donor_registrations": "New Donor registrations"
+            "new_donor_registrations": "New Donor registrations",
+            "donations_made": "Donations made"
         },
         "helpers": {
             "helper": "Helper",

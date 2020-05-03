@@ -38,4 +38,5 @@ return [
     'donor_thanked' => 'Donor has been thanked',
     'in_name_of' => 'In the name of',
     'new_donor_registrations' => 'New Donor registrations',
+    'donations_made' => 'Donations made',
 ];

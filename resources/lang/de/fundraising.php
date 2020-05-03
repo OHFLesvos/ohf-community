@@ -38,4 +38,5 @@ return [
     'donor_thanked' => 'Spende wurde verdankt',
     'in_name_of' => 'Im Namen von',
     'new_donor_registrations' => 'Neue Spenderregistrierungen',
+    'donations_made' => 'Getätigte Spenden',
 ];

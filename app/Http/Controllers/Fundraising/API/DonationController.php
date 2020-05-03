@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\ChartResponse;
+use App\Http\Controllers\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonationCollection;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
@@ -13,6 +15,9 @@ use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationController extends Controller
 {
+    use ValidatesDateRanges;
+    use ChartResponse;
+
     /**
      * Display a listing of the resource.
      *
@@ -151,5 +156,27 @@ class DonationController extends Controller
         $donation->reference = $request->epp_transaction_id;
 
         $donor->addDonation($donation);
+    }
+
+    /**
+     * Gets the number of registration per time unit.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function registrations(Request $request)
+    {
+        $this->authorize('list', Donation::class);
+
+        $this->validateDateGranularity($request);
+        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+
+        $registrations = Donation::inDateRange($dateFrom, $dateTo, 'date')
+            ->groupByDateGranularity($request->input('granularity'), 'date')
+            ->selectRaw('COUNT(*) as amount')
+            ->get()
+            ->pluck('amount', 'date');
+
+        return $this->simpleChartResponse(__('fundraising.donations'), $registrations);
     }
 }

@@ -81,18 +81,24 @@
         />
 
         <!-- Registrations over time chart -->
-        <div class="row">
-            <div class="col">
-                <time-bar-chart
-                    :title="$t('fundraising.new_donor_registrations')"
-                    :base-url="route('api.fundraising.donors.registrations')"
-                    :date-from="this.dateRange.from"
-                    :date-to="this.dateRange.to"
-                    :granularity="this.dateRange.granularity"
-                    class="mb-3"
-                />
-            </div>
-        </div>
+        <time-bar-chart
+            :title="$t('fundraising.new_donor_registrations')"
+            :base-url="route('api.fundraising.donors.registrations')"
+            :date-from="this.dateRange.from"
+            :date-to="this.dateRange.to"
+            :granularity="this.dateRange.granularity"
+            class="mb-3"
+        />
+
+        <time-bar-chart
+            :title="$t('fundraising.donations_made')"
+            :base-url="route('api.fundraising.donations.registrations')"
+            :date-from="this.dateRange.from"
+            :date-to="this.dateRange.to"
+            :granularity="this.dateRange.granularity"
+            class="mb-3"
+        />
+
     </div>
 </template>
 
