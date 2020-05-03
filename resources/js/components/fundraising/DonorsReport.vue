@@ -85,7 +85,10 @@
             <div class="col">
                 <time-bar-chart
                     :title="$t('app.registrations')"
-                    :url="registrationsChartUrl"
+                    :base-url="route('api.fundraising.donors.registrations')"
+                    :date-from="this.dateRange.from"
+                    :date-to="this.dateRange.to"
+                    :granularity="this.dateRange.granularity"
                     class="mb-3"
                 />
             </div>
@@ -118,15 +121,6 @@ export default {
                 to: moment().format(moment.HTML5_FMT.DATE),
                 granularity: 'days',
             }
-        }
-    },
-    computed: {
-        registrationsChartUrl () {
-            let baseUrl = `${this.route('api.fundraising.donors.registrations')}?granularity=${this.dateRange.granularity}`
-            if (this.dateRange.from && this.dateRange.to) {
-                return `${baseUrl}&from=${this.dateRange.from}&to=${this.dateRange.to}`
-            }
-            return baseUrl
         }
     },
     mounted () {

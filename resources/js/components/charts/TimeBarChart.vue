@@ -1,44 +1,78 @@
+<template>
+    <bar-chart
+        v-if="loaded"
+        :chart-data="chartData"
+        :options="options"
+        :height="height"
+        class="border"
+    />
+    <div
+        v-else
+        class="d-flex border"
+        :style="`height: ${height}px`"
+    >
+        <p class="justify-content-center align-self-center text-center w-100">
+            <em>{{ $t('app.loading') }}</em>
+        </p>
+    </div>
+</template>
+
 <script>
 import palette from 'google-palette'
 import axios from '@/plugins/axios'
 import moment from 'moment'
 import { hexAToRGBA } from '@/utils'
-import { Bar, mixins } from 'vue-chartjs'
-const { reactiveData } = mixins
+import BarChart from './BarChart'
 export default {
-    extends: Bar,
-    mixins: [reactiveData],
+    components: {
+        BarChart
+    },
     props: {
         title: {
             type: String,
             required: true
         },
-        url: {
+        baseUrl: {
             type: String,
             required: true
         },
-        ylabel: {
+        dateFrom: {
+            type: String,
+            required: true
+        },
+        dateTo: {
+            type: String,
+            required: true
+        },
+        granularity: {
             type: String,
             required: false,
-            default: function() {
-                return this.$t('app.quantity')
-            }
+            value: 'days'
         },
-        legend: {
-            type: Boolean,
+        height: {
+            type: Number,
             required: false,
-            default: true
-        },
+            default: 350
+        }
     },
-    data() {
+    data () {
         return {
-            options: {
+            loaded: false,
+            chartData: {}
+        }
+    },
+    computed: {
+        url () {
+            return `${this.baseUrl}?granularity=${this.granularity}&from=${this.dateFrom}&to=${this.dateTo}`
+        },
+        options () {
+            return {
                 title: {
                     display: true,
                     text: this.title
                 },
                 legend: {
-                    display: this.legend,
+                    display: true,
                     position: 'bottom'
                 },
                 scales: {
@@ -55,6 +89,10 @@ export default {
                                 week: '[W]WW GGGG'
                             }
                         },
+                        ticks: {
+                            min: this.dateFrom,
+                            max: this.dateTo
+                        },
                         gridLines: {
                             display: true
                         },
@@ -69,8 +107,8 @@ export default {
                             display: true
                         },
                         scaleLabel: {
-                            display: (this.ylabel !== undefined),
-                            labelString: this.ylabel
+                            display: true,
+                            labelString: this.$t('app.quantity')
                         },
                         ticks: {
                             suggestedMin: 0,
@@ -90,12 +128,6 @@ export default {
         url () {
             this.loadData()
         },
-        'options': {
-            handler () {
-                this.renderChart(this.chartData, this.options)
-            },
-            deep: true
-        }
     },
     mounted () {
         moment.locale(this.$i18n.locale);
@@ -103,8 +135,12 @@ export default {
     },
     methods: {
         loadData () {
+            this.loaded = false
             axios.get(this.url)
-                .then(res => this.chartData = this.chartDataFromResponse(res.data))
+                .then(res => {
+                    this.chartData = this.chartDataFromResponse(res.data)
+                    this.loaded = true
+                })
                 .catch(err => console.error(err))
         },
         chartDataFromResponse (resData) {
@@ -157,5 +193,6 @@ export default {
             return chartData
         }
     }
+
 }
 </script>
