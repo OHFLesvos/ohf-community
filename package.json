@@ -38,6 +38,7 @@
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.26.5",
         "sass-loader": "^8.0.0",
+        "slugify": "^1.4.0",
         "summernote": "^0.8.16",
         "vue": "^2.6.11",
         "vue-chartjs": "^3.5.0",

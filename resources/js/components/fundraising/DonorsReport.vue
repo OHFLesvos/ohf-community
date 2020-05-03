@@ -68,7 +68,6 @@
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
-            :y-axes-label="$t('app.amount')"
             class="mb-3"
         />
 

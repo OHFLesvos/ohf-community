@@ -23,6 +23,7 @@ import axios from '@/plugins/axios'
 import moment from 'moment'
 import { hexAToRGBA } from '@/utils'
 import BarChart from './BarChart'
+import slugify from 'slugify'
 export default {
     components: {
         BarChart
@@ -54,17 +55,12 @@ export default {
             required: false,
             default: 350
         },
-        yAxesLabel: {
-            required: false,
-            default: function () {
-                return this.$t('app.quantity')
-            }
-        }
     },
     data () {
         return {
             loaded: false,
-            chartData: {}
+            chartData: {},
+            units: new Map()
         }
     },
     computed: {
@@ -94,6 +90,7 @@ export default {
                     timeTooltipFormat = 'dddd, LL'
                     timeParser = 'YYYY-MM-DD'
             }
+
             return {
                 title: {
                     display: true,
@@ -130,20 +127,7 @@ export default {
                             labelString: this.$t('app.date')
                         }
                     }],
-                    yAxes: [{
-                        display: true,
-                        gridLines: {
-                            display: true
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: this.yAxesLabel
-                        },
-                        ticks: {
-                            suggestedMin: 0,
-                            precision: 0
-                        }
-                    }]
+                    yAxes: this.yAxes()
                 },
                 responsive: true,
                 maintainAspectRatio: false,
@@ -179,12 +163,17 @@ export default {
             }
 
             // Assign lables and data
-            resData.datasets.forEach(function (dataset) {
+            let units = new Map()
+            resData.datasets.forEach((dataset) => {
+                const axisID = slugify(dataset.unit)
                 chartData.datasets.push({
                     label: dataset.label,
-                    data: dataset.data
+                    data: dataset.data,
+                    yAxisID: axisID
                 })
+                units.set(axisID, dataset.unit)
             })
+            this.units = units
 
             // Assign colors to datasets
             const colorPalette = palette('tol', Math.min(chartData.datasets.length, 12))
@@ -196,6 +185,29 @@ export default {
             }
 
             return chartData
+        },
+        yAxes () {
+            const yAxes = []
+            let i = 0
+            for (let [key, value] of this.units) {
+                yAxes.push({
+                    display: true,
+                    id: key,
+                    position: i++ % 2 == 1 ? 'right' : 'left',
+                    gridLines: {
+                        display: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: value
+                    },
+                    ticks: {
+                        suggestedMin: 0,
+                        precision: 0
+                    }
+                })
+            }
+            return yAxes
         }
     }
 
