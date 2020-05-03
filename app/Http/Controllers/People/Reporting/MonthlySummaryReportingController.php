@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\People\Reporting;
 
 use App\Http\Controllers\Reporting\BaseReportingController;
-use App\Http\Controllers\ValidatesDateRanges;
+use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Bank\CouponHandout;
 use App\Models\People\Person;
 use Carbon\Carbon;

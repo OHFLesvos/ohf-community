@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ChartResponse;
-use App\Http\Controllers\ValidatesDateRanges;
+use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
 use Illuminate\Http\Request;
