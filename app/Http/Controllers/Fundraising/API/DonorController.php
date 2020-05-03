@@ -9,6 +9,7 @@ use App\Models\Fundraising\Donor;
 use App\Util\DateRangeUtil;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class DonorController extends Controller
@@ -184,22 +185,18 @@ class DonorController extends Controller
 
         $granularity = $request->input('granularity');
 
-        $allDates = DateRangeUtil::createDateCollection($dateFrom, $dateTo, $granularity)
-            ->mapWithKeys(fn ($e) => [$e => 0]);
-
-        $data = Donor::registeredInDateRange($dateFrom, $dateTo)
+        $registrations = Donor::inDateRange($dateFrom, $dateTo)
             ->groupByDateGranularity($granularity)
             ->selectRaw('COUNT(*) as amount')
             ->get()
-            ->mapWithKeys(fn ($e) => [$e->date => $e->amount])
-            ->union($allDates)
-            ->sortKeys();
+            ->pluck('amount', 'date');
 
         return response()->json([
-            'labels' => $data->keys(),
+            'labels' => $registrations->keys()->map(fn ($v) => strval($v)),
             'datasets' => [
-                __('app.registrations') => $data->values(),
+                __('app.registrations') => $registrations->values(),
             ],
+            'time_unit' => Str::singular($granularity),
         ]);
     }
 

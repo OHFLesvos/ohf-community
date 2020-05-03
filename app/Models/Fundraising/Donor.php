@@ -4,7 +4,7 @@ namespace App\Models\Fundraising;
 
 use App\Models\HasComments;
 use App\Models\Traits\HasLanguageCodeField;
-use App\Models\Traits\RegisteredInDateRangeScope;
+use App\Models\Traits\InDateRangeScope;
 use App\Support\Traits\HasTags;
 use App\Tag;
 use Countries;
@@ -20,7 +20,7 @@ class Donor extends Model
     use HasComments;
     use HasLanguageCodeField;
     use NullableFields;
-    use RegisteredInDateRangeScope;
+    use InDateRangeScope;
 
     protected $nullable = [
         'salutation',

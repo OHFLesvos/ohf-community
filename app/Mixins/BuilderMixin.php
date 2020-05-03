@@ -18,7 +18,7 @@ class BuilderMixin
                     $this->query->selectRaw("DATE_FORMAT($column, '%Y-%m') as date");
                         break;
                 case 'weeks':
-                    $this->query->selectRaw("DATE_FORMAT($column, '%x-%v') as date");
+                    $this->query->selectRaw("DATE_FORMAT($column, '%x-W%v') as date");
                     break;
                 default: // days
                     $this->query->selectRaw("DATE($column) as date");

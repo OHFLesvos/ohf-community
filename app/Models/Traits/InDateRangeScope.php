@@ -2,17 +2,17 @@
 
 namespace App\Models\Traits;
 
-trait RegisteredInDateRangeScope
+trait InDateRangeScope
 {
     /**
-     * Scope a query to only include records registered in a given date range
+     * Scope a query to only include records in a given date range
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string|Carbon|null  $dateFrom
      * @param  string|Carbon|null  $dateTo
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeRegisteredInDateRange($query, $dateFrom = null, $dateTo = null)
+    public function scopeInDateRange($query, $dateFrom = null, $dateTo = null, $column = 'created_at')
     {
         if ($dateFrom !== null) {
             $query->whereDate('created_at', '>=', $dateFrom);

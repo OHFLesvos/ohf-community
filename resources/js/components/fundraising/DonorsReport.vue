@@ -75,6 +75,7 @@
 
         <hr class="mt-0">
 
+        <!-- Date range selector -->
         <div class="form-row">
             <div class="col-sm">
                 <b-form-select
@@ -102,12 +103,12 @@
             </div>
         </div>
 
+        <!-- Registrations over time chart -->
         <div class="row">
             <div class="col">
-                <bar-chart
+                <time-bar-chart
                     :title="$t('app.registrations')"
                     :url="registrationsChartUrl"
-                    :legend="false"
                     class="mb-3"
                 />
             </div>
@@ -119,14 +120,14 @@
 import axios from '@/plugins/axios'
 import TwoColumnListGroupItem from '@/components/common/TwoColumnListGroupItem'
 import TwoColumnListCard from '@/components/common/TwoColumnListCard'
-import BarChart from '@/components/BarChart'
-import { handleAjaxError } from '@/utils'
+import TimeBarChart from '@/components/charts/TimeBarChart'
+import { handleAjaxError, ucFirst } from '@/utils'
 import moment from 'moment'
 export default {
     components: {
         TwoColumnListGroupItem,
         TwoColumnListCard,
-        BarChart
+        TimeBarChart
     },
     data () {
         return {
@@ -135,15 +136,27 @@ export default {
             languages: null,
             dateGranularity: 'days',
             dateGranularities: [
-                { value: 'days', text: this.$t('app.days') },
-                { value: 'weeks', text: this.$t('app.weeks') },
-                { value: 'months', text: this.$t('app.months') },
-                { value: 'years', text: this.$t('app.years') }
+                {
+                    value: 'days',
+                    text: ucFirst(this.$t('app.days'))
+                },
+                {
+                    value: 'weeks',
+                    text: ucFirst(this.$t('app.weeks'))
+                },
+                {
+                    value: 'months',
+                    text: ucFirst(this.$t('app.months'))
+                },
+                {
+                    value: 'years',
+                    text: ucFirst(this.$t('app.years'))
+                }
             ],
-            fromDate: moment().subtract(1, 'months').format(moment.HTML5_FMT.DATE),
+            fromDate: moment().subtract(3, 'months').format(moment.HTML5_FMT.DATE),
             toDate: moment().format(moment.HTML5_FMT.DATE),
-            minDate: moment().subtract(1, 'years').startOf('year').format(moment.HTML5_FMT.DATE),
-            maxDate: moment().endOf('month').format(moment.HTML5_FMT.DATE)
+            minDate: null,
+            maxDate: moment().format(moment.HTML5_FMT.DATE)
         }
     },
     computed: {
