@@ -24,6 +24,7 @@ import moment from 'moment'
 import { hexAToRGBA } from '@/utils'
 import BarChart from './BarChart'
 import slugify from 'slugify'
+import numeral from 'numeral'
 export default {
     components: {
         BarChart
@@ -133,6 +134,14 @@ export default {
                 maintainAspectRatio: false,
                 animation: {
                     duration: 500
+                },
+                tooltips: {
+                    callbacks: {
+                        label: (tooltipItem, chart) => {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return `${datasetLabel}: ${this.numberFormat(tooltipItem.yLabel)}`
+                        }
+                    }
                 }
             }
         }
@@ -203,11 +212,15 @@ export default {
                     },
                     ticks: {
                         suggestedMin: 0,
-                        precision: 0
+                        precision: 0,
+                        callback: this.numberFormat
                     }
                 })
             }
             return yAxes
+        },
+        numberFormat (value) {
+            return numeral(value).format('0,0')
         }
     }
 
