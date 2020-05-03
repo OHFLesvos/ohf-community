@@ -175,7 +175,7 @@ class DonationController extends Controller
             ->groupByDateGranularity($request->input('granularity'), 'date')
             ->selectRaw('COUNT(*) as amount')
             ->get()
-            ->pluck('amount', 'date');
+            ->pluck('amount', 'date_label');
 
         return $this->simpleChartResponse(__('fundraising.donations'), $registrations);
     }
