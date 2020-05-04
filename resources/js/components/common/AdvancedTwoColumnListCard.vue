@@ -4,8 +4,13 @@
         :header="loading || items.length == 0 ? header : null"
         class="mb-4"
     >
+        <!-- Error -->
+        <b-card-text v-if="error">
+            <em v-if="error" class="text-danger">{{ error }}</em>
+        </b-card-text>
+
         <!-- Loading -->
-        <b-card-text v-if="loading">
+        <b-card-text v-else-if="loading">
             <em>{{ $t('app.loading') }}</em>
         </b-card-text>
 
@@ -78,7 +83,11 @@ export default {
             type: Number,
             default: 10
         },
-        loading: Boolean
+        loading: Boolean,
+        error: {
+            required: false,
+            type: String
+        }
     },
     data () {
         return {

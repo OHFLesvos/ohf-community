@@ -11,6 +11,7 @@
                     :header="$t('app.numbers')"
                     :items="count ? count : []"
                     :loading="!count"
+                    :error="countError"
                 />
             </div>
 
@@ -21,6 +22,7 @@
                     :items="countries ? countries : []"
                     :limit="5"
                     :loading="!countries"
+                    :error="countriesError"
                 />
             </div>
 
@@ -31,6 +33,7 @@
                     :items="languages ? languages : []"
                     :limit="5"
                     :loading="!languages"
+                    :error="languagesError"
                 />
             </div>
 
@@ -81,7 +84,7 @@ import SimpleTwoColumnListCard from '@/components/common/SimpleTwoColumnListCard
 import AdvancedTwoColumnListCard from '@/components/common/AdvancedTwoColumnListCard'
 import TimeBarChart from '@/components/charts/TimeBarChart'
 import DateRangeSelect from '@/components/common/DateRangeSelect'
-import { handleAjaxError } from '@/utils'
+import { getAjaxErrorMessage } from '@/utils'
 import moment from 'moment'
 export default {
     components: {
@@ -93,8 +96,11 @@ export default {
     data () {
         return {
             count: null,
+            countError: null,
             countries: null,
+            countriesError: null,
             languages: null,
+            languagesError: null,
             dateRange: {
                 from: moment().subtract(3, 'months').format(moment.HTML5_FMT.DATE),
                 to: moment().format(moment.HTML5_FMT.DATE),
@@ -103,6 +109,7 @@ export default {
         }
     },
     mounted () {
+        this.countError = null
         axios.get(this.route('api.fundraising.donors.count'))
             .then(res => {
                 const data = res.data
@@ -133,13 +140,17 @@ export default {
                     },
                 ]
             })
-            .catch(handleAjaxError)
+            .catch(err => this.countError = getAjaxErrorMessage(err))
+
+        this.countriesError = null
         axios.get(this.route('api.fundraising.donors.countries'))
             .then(res => this.countries = res.data)
-            .catch(handleAjaxError)
+            .catch(err => this.countriesError = getAjaxErrorMessage(err))
+
+        this.languagesError = null
         axios.get(this.route('api.fundraising.donors.languages'))
             .then(res => this.languages = res.data)
-            .catch(handleAjaxError)
+            .catch(err => this.languagesError = getAjaxErrorMessage(err))
     }
 }
 </script>
