@@ -62,6 +62,16 @@
             class="mb-3"
         />
 
+        <time-bar-chart
+            :title="$t('fundraising.total_donations_made')"
+            :base-url="route('api.fundraising.donations.registrations')"
+            :date-from="this.dateRange.from"
+            :date-to="this.dateRange.to"
+            :granularity="this.dateRange.granularity"
+            :cumulative="true"
+            class="mb-3"
+        />
+
     </div>
 </template>
 

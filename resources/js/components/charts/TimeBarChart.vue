@@ -1,5 +1,5 @@
 <template>
-    <bar-chart
+    <component :is="cumulative ? 'line-chart' : 'bar-chart'"
         v-if="loaded"
         :chart-data="chartData"
         :options="options"
@@ -23,11 +23,13 @@ import axios from '@/plugins/axios'
 import moment from 'moment'
 import { hexAToRGBA } from '@/utils'
 import BarChart from './BarChart'
+import LineChart from './LineChart'
 import slugify from 'slugify'
 import numeral from 'numeral'
 export default {
     components: {
-        BarChart
+        BarChart,
+        LineChart
     },
     props: {
         title: {
@@ -178,11 +180,11 @@ export default {
                 const axisID = slugify(dataset.unit)
                 let data = dataset.data
                 if (this.cumulative) {
-                    let sum = 0
+                    let previous = 0
                     for (let i = 0; i < data.length; i++) {
                         if (data[i]) {
-                            data[i] = data[i] + sum
-                            sum += data[i]
+                            data[i] += previous
+                            previous = data[i]
                         }
                     }
                 }
