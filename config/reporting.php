@@ -26,6 +26,18 @@ return [
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],
+        'fundraising' => [
+            'route' => 'fundraising.report',
+            'icon' => 'donate',
+            'gate' => 'view-fundraising-reports',
+            'featured' => true,
+        ],
+        'library' => [
+            'route' => 'library.report',
+            'icon' => 'book',
+            'gate' => 'operate-library',
+            'featured' => false,
+        ],
         'user-privileges' => [
             'route' => 'users.permissions',
             'icon' => 'key',
