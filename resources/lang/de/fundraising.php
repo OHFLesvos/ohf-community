@@ -41,4 +41,5 @@ return [
     'donations_made' => 'Getätigte Spenden',
     'total_donations_made' => 'Total getätigte Spenden',
     'donation_amount' => 'Spendebetrag',
+    'registered_donors' => 'Registrierte Spender',
 ];

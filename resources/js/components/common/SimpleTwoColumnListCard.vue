@@ -1,9 +1,17 @@
 <template>
     <b-card
         :no-body="!loading"
-        :header="header"
+        :header="loading ? header : null"
         class="mb-4"
     >
+        <b-card-header
+            v-if="!loading"
+             header-class="d-flex justify-content-between align-items-center"
+        >
+            <span>{{ header }}</span>
+            <small v-if="headerAddon">{{ headerAddon }}</small>
+        </b-card-header>
+
         <b-card-text v-if="error">
             <em v-if="error" class="text-danger">{{ error }}</em>
         </b-card-text>
@@ -30,6 +38,10 @@ export default {
     props: {
         header: {
             required: true,
+            type: String
+        },
+        headerAddon: {
+            required: false,
             type: String
         },
         items: {

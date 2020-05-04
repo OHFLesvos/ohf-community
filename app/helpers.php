@@ -131,7 +131,14 @@ if (! function_exists('format_number_in_k_notation')) {
 if (! function_exists('previous_route')) {
     function previous_route(): string
     {
-        return app('router')->getRoutes()->match(app('request')->create(URL::previous()))->getName();
+        return optional(
+            app('router')
+                ->getRoutes()
+                ->match(
+                    app('request')
+                        ->create(URL::previous())
+                )
+        )->getName();
     }
 }
 

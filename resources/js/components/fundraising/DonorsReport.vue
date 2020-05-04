@@ -1,14 +1,21 @@
 <template>
     <div>
+        <!-- Date range selector -->
+        <date-range-select
+            v-model="dateRange"
+        />
+
         <h2>
             {{ $t('fundraising.donors') }}
         </h2>
+
         <div class="row">
 
             <!-- General donor numbers -->
             <div class="col-md">
                 <simple-two-column-list-card
-                    :header="$t('app.numbers')"
+                    :header="$t('fundraising.registered_donors')"
+                    :headerAddon="$t('app.since_date', { date: firstDonorRegistration })"
                     :items="count ? count : []"
                     :loading="!count"
                     :error="countError"
@@ -39,13 +46,6 @@
 
         </div>
 
-        <hr class="mt-0">
-
-        <!-- Date range selector -->
-        <date-range-select
-            v-model="dateRange"
-        />
-
         <!-- Registrations over time chart -->
         <time-bar-chart
             :title="$t('fundraising.new_donors_registered')"
@@ -55,6 +55,10 @@
             :granularity="this.dateRange.granularity"
             class="mb-3"
         />
+
+        <h2>
+            {{ $t('fundraising.donations') }}
+        </h2>
 
         <time-bar-chart
             :title="$t('fundraising.donations_made')"
@@ -95,6 +99,7 @@ export default {
     },
     data () {
         return {
+            firstDonorRegistration: null,
             count: null,
             countError: null,
             countries: null,
@@ -108,49 +113,60 @@ export default {
             }
         }
     },
+    watch: {
+        dateRange () {
+            this.loadData()
+        }
+    },
     mounted () {
-        this.countError = null
-        axios.get(this.route('api.fundraising.donors.count'))
-            .then(res => {
-                const data = res.data
-                this.count = [
-                    {
-                        name: this.$t('app.total'),
-                        value: data.total
-                    },
-                    {
-                        name: this.$t('app.individual_persons'),
-                        value: data.persons
-                    },
-                    {
-                        name: this.$t('app.companies'),
-                        value: data.companies
-                    },
-                    {
-                        name: this.$t('app.with_registered_address'),
-                        value: data.with_address
-                    },
-                    {
-                        name: this.$t('app.with_registered_email'),
-                        value: data.with_email
-                    },
-                    {
-                        name: this.$t('app.with_registered_phone'),
-                        value: data.with_phone
-                    },
-                ]
-            })
-            .catch(err => this.countError = getAjaxErrorMessage(err))
+        this.loadData()
+    },
+    methods: {
+        loadData () {
+            this.countError = null
+            axios.get(`${this.route('api.fundraising.donors.count')}?date=${this.dateRange.to}`)
+                .then(res => this.count = this.mapCountData(res.data))
+                .catch(err => this.countError = getAjaxErrorMessage(err))
 
-        this.countriesError = null
-        axios.get(this.route('api.fundraising.donors.countries'))
-            .then(res => this.countries = res.data)
-            .catch(err => this.countriesError = getAjaxErrorMessage(err))
+            this.countriesError = null
+            axios.get(`${this.route('api.fundraising.donors.countries')}?date=${this.dateRange.to}`)
+                .then(res => this.countries = res.data)
+                .catch(err => this.countriesError = getAjaxErrorMessage(err))
 
-        this.languagesError = null
-        axios.get(this.route('api.fundraising.donors.languages'))
-            .then(res => this.languages = res.data)
-            .catch(err => this.languagesError = getAjaxErrorMessage(err))
+            this.languagesError = null
+            axios.get(`${this.route('api.fundraising.donors.languages')}?date=${this.dateRange.to}`)
+                .then(res => this.languages = res.data)
+                .catch(err => this.languagesError = getAjaxErrorMessage(err))
+        },
+        mapCountData (data) {
+            this.firstDonorRegistration = moment(data.first).format('LL')
+            return [
+                {
+                    name: this.$t('app.total'),
+                    value: data.total
+                },
+                {
+                    name: this.$t('app.individual_persons'),
+                    value: data.persons
+                },
+                {
+                    name: this.$t('app.companies'),
+                    value: data.companies
+                },
+                {
+                    name: this.$t('app.with_registered_address'),
+                    value: data.with_address
+                },
+                {
+                    name: this.$t('app.with_registered_email'),
+                    value: data.with_email
+                },
+                {
+                    name: this.$t('app.with_registered_phone'),
+                    value: data.with_phone
+                }
+            ]
+        }
     }
 }
 </script>

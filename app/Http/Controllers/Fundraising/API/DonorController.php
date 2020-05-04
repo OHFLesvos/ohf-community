@@ -121,6 +121,10 @@ class DonorController extends Controller
             'with_address' => Donor::createdUntil($date)->whereNotNull('city')->count(),
             'with_email' => Donor::createdUntil($date)->whereNotNull('email')->count(),
             'with_phone' => Donor::createdUntil($date)->whereNotNull('phone')->count(),
+            'first' =>Donor::orderBy('created_at', 'asc')
+                ->value('created_at'),
+            'last' => Donor::orderBy('created_at', 'desc')
+                ->value('created_at'),
         ]);
     }
 

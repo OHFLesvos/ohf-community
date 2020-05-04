@@ -41,4 +41,5 @@ return [
     'donations_made' => 'Donations made',
     'total_donations_made' => 'Total donations made',
     'donation_amount' => 'Donation amount',
+    'registered_donors' => 'Registered donors',
 ];

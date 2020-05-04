@@ -377,4 +377,5 @@ return [
     'numbers' => 'Numbers',
     'value' => 'Value',
     'registrations' => 'Registrations',
+    'since_date' => 'since :date',
  ];

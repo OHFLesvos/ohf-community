@@ -7,13 +7,14 @@ use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-class DonorReportContextButtons implements ContextButtons
+class ReportContextButtons implements ContextButtons
 {
     public function getItems(View $view): array
     {
+        $previous_route = previous_route();
         return [
             'back' => [
-                'url' => route('fundraising.donors.index'),
+                'url' => route($previous_route ?? 'fundraising.donors.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('create', Donor::class),

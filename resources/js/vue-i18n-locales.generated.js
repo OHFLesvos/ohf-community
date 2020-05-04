@@ -438,7 +438,8 @@ export default {
             "others": "Andere",
             "numbers": "Zahlen",
             "value": "Wert",
-            "registrations": "Registrierungen"
+            "registrations": "Registrierungen",
+            "since_date": "seit {date}"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -525,7 +526,8 @@ export default {
             "new_donors_registered": "Neue Spender registriert",
             "donations_made": "Getätigte Spenden",
             "total_donations_made": "Total getätigte Spenden",
-            "donation_amount": "Spendebetrag"
+            "donation_amount": "Spendebetrag",
+            "registered_donors": "Registrierte Spender"
         },
         "helpers": {
             "helper": "Helfer",
@@ -1599,7 +1601,8 @@ export default {
             "others": "Others",
             "numbers": "Numbers",
             "value": "Value",
-            "registrations": "Registrations"
+            "registrations": "Registrations",
+            "since_date": "since {date}"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -1686,7 +1689,8 @@ export default {
             "new_donors_registered": "New Donors registered",
             "donations_made": "Donations made",
             "total_donations_made": "Total donations made",
-            "donation_amount": "Donation amount"
+            "donation_amount": "Donation amount",
+            "registered_donors": "Registered donors"
         },
         "helpers": {
             "helper": "Helper",
