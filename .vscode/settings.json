@@ -1,10 +1,14 @@
 {
     "search.exclude": {
+        "_ide_helper.php": true,
+        ".phpstorm.meta.php": true,
         "**/.git": true,
+        "**/bootstrap/cache": true,
         "**/node_modules": true,
-        "**/vendor": true,
         "**/public/css": true,
-        "**/public/js": true
+        "**/public/js": true,
+        "**/vendor": true,
+        "**/vue-i18n-locales.generated.js": true
     },
     "trailing-spaces.trimOnSave": true,
     "cSpell.enabled": false
