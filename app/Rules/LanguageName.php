@@ -2,9 +2,7 @@
 
 namespace App\Rules;
 
-use App;
 use Illuminate\Contracts\Validation\Rule;
-use Languages;
 
 class LanguageName implements Rule
 {
@@ -22,7 +20,7 @@ class LanguageName implements Rule
      */
     public function passes($attribute, $value)
     {
-        $languageName = Languages::lookup(null, App::getLocale())
+        $languageName = localized_language_names()
             ->map(fn ($l) => strtolower($l))
             ->flip()
             ->get(strtolower($value));

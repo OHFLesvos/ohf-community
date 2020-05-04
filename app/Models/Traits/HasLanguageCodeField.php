@@ -29,7 +29,7 @@ trait HasLanguageCodeField
     public function setLanguageAttribute(?string $value)
     {
         if ($value !== null) {
-            $this->language_code = Languages::lookup(null, App::getLocale())
+            $this->language_code = localized_language_names()
                 ->map(fn ($l) => strtolower($l))
                 ->flip()
                 ->get(strtolower($value));

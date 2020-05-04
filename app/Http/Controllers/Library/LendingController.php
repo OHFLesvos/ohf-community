@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Library;
 
-use App;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Library\StoreExtendBook;
 use App\Http\Requests\Library\StoreExtendBookToPerson;
@@ -15,7 +14,6 @@ use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
 use App\Settings\Library\DefaultLendingDurationDays;
 use Carbon\Carbon;
-use Languages;
 use Setting;
 
 class LendingController extends Controller
@@ -78,7 +76,7 @@ class LendingController extends Controller
             'person' => $person,
             'lendings' => $person->bookLendings()->whereNull('returned_date')->orderBy('return_date', 'asc')->get(),
             'default_extend_duration' => Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE),
-            'languages' => Languages::lookup(null, App::getLocale()),
+            'languages' => localized_language_names(),
         ]);
     }
 

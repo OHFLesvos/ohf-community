@@ -292,3 +292,10 @@ if (! function_exists('localized_country_names')) {
         return collect(Countries::getList(App::getLocale()));
     }
 }
+
+if (! function_exists('localized_language_names')) {
+    function localized_language_names(): \Illuminate\Support\Collection
+    {
+        return Languages::lookup(null, App::getLocale());
+    }
+}

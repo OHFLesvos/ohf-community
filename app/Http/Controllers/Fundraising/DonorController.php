@@ -48,7 +48,7 @@ class DonorController extends Controller
         return view('fundraising.donors.create', [
             'salutations' => Donor::salutations(),
             'countries' => localized_country_names()->values()->toArray(),
-            'languages' => Donor::languages(),
+            'languages' => localized_language_names()->values()->toArray(),
             'tag_suggestions' => Donor::tagNames(),
         ]);
     }
@@ -120,7 +120,7 @@ class DonorController extends Controller
             'donor' => $donor,
             'salutations' => Donor::salutations(),
             'countries' => localized_country_names()->values()->toArray(),
-            'languages' => Donor::languages(),
+            'languages' => localized_language_names()->values()->toArray(),
             'tag_suggestions' => Donor::tagNames(),
         ]);
     }
