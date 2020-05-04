@@ -10,7 +10,7 @@ trait HasCountryCodeField
     /**
      * Get the country name based on the country code
      *
-     * @return string
+     * @return string|null
      */
     public function getCountryNameAttribute()
     {
@@ -23,7 +23,7 @@ trait HasCountryCodeField
     /**
      * Set the country code based on the country name
      *
-     * @param  string  $value
+     * @param string|null $value
      * @return void
      */
     public function setCountryNameAttribute($value)
@@ -33,6 +33,28 @@ trait HasCountryCodeField
             : null;
     }
 
+    /**
+     * Gets a sorted list of all countries used by the model type.
+     *
+     * @return array
+     */
+    public static function countries(): array
+    {
+        return self::select('country_code')
+            ->distinct()
+            ->whereNotNull('country_code')
+            ->orderBy('country_code')
+            ->get()
+            ->map(fn ($e) => $e->countryName)
+            ->toArray();
+    }
+
+    /**
+     * Gets an array of all countries assigned to donors, grouped and ordered by amount
+     *
+     * @param string|\Carbon\Carbon|null $untilDate
+     * @return array
+     */
     public static function countryDistribution($untilDate = null): array
     {
         return self::select('country_code')

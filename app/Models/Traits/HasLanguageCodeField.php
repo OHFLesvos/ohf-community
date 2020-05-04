@@ -7,7 +7,26 @@ use Languages;
 
 trait HasLanguageCodeField
 {
-    public function setLanguageAttribute($value)
+    /**
+     * Gets the language name based on the language code
+     *
+     * @return string|null
+     */
+    public function getLanguageAttribute(): ?string
+    {
+        if ($this->language_code !== null) {
+            return Languages::lookup([$this->language_code], App::getLocale())->first();
+        }
+        return null;
+    }
+
+    /**
+     * Sets the language code based on the language name
+     *
+     * @param string|null $value
+     * @return void
+     */
+    public function setLanguageAttribute(?string $value)
     {
         if ($value !== null) {
             $this->language_code = Languages::lookup(null, App::getLocale())
@@ -19,32 +38,28 @@ trait HasLanguageCodeField
         }
     }
 
-    public function getLanguageAttribute()
-    {
-        if ($this->language_code !== null) {
-            return Languages::lookup([$this->language_code], App::getLocale())->first();
-        }
-        return null;
-    }
-
     /**
      * Gets a sorted list of all languages used by the model type.
      *
      * @return array
      */
-    public static function languages($untilDate = null): array
+    public static function languages(): array
     {
         return self::select('language_code')
             ->distinct()
             ->whereNotNull('language_code')
-            ->createdUntil($untilDate)
             ->orderBy('language_code')
             ->get()
-            ->pluck('language_code')
-            ->map(fn ($lc) => Languages::lookup([$lc], App::getLocale())->first())
+            ->map(fn ($e) => $e->language)
             ->toArray();
     }
 
+    /**
+     * Gets an array of all languages assigned to donors, grouped and ordered by amount
+     *
+     * @param null|string|\Carbon\Carbon $untilDate
+     * @return array
+     */
     public static function languageDistribution($untilDate = null): array
     {
         return self::select('language_code')
