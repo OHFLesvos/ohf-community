@@ -1,29 +1,33 @@
 <template>
     <div class="form-row">
-        <div class="col-sm">
-            <b-form-datepicker
-                v-model="from"
-                :placeholder="$t('app.from')"
-                :min="min"
-                :max="to"
-                class="mb-2"
-            />
+        <div class="col-md-8">
+            <b-input-group :prepend="$t('app.date_range')" class="mb-2">
+                <b-form-datepicker
+                    v-model="from"
+                    :placeholder="$t('app.from')"
+                    :min="min"
+                    :max="to"
+                    :date-format-options="{ 'year': 'numeric', 'month': 'short', 'day': 'numeric', 'weekday': 'short' }"
+                />
+                <div class="input-group-prepend input-group-append">
+                    <span class="input-group-text">:</span>
+                </div>
+                <b-form-datepicker
+                    v-model="to"
+                    :placeholder="$t('app.to')"
+                    :min="from"
+                    :max="max"
+                    :date-format-options="{ 'year': 'numeric', 'month': 'short', 'day': 'numeric', 'weekday': 'short' }"
+                />
+            </b-input-group>
         </div>
-        <div class="col-sm">
-            <b-form-datepicker
-                v-model="to"
-                :placeholder="$t('app.to')"
-                :min="from"
-                :max="max"
-                class="mb-2"
-            />
-        </div>
-        <div class="col-sm">
-            <b-form-select
-                v-model="granularity"
-                :options="granularities"
-                class="mb-2"
-            />
+        <div class="col-md">
+            <b-input-group :prepend="$t('app.granularity')" class="mb-2">
+                <b-form-select
+                    v-model="granularity"
+                    :options="granularities"
+                />
+            </b-input-group>
         </div>
         <div class="col-auto">
             <b-button

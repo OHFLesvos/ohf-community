@@ -86,6 +86,8 @@ return [
     'disable' => 'Disable',
     'code' => 'Code',
     'date' => 'Date',
+    'date_range' => 'Date range',
+    'granularity' => 'Granularity',
     'severity' => 'Severity',
     'message' => 'Message',
     'no_log_entries_found' => 'No log entries found.',

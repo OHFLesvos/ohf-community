@@ -330,6 +330,8 @@ return [
     'new_query' => 'Neue Anfrage',
     'bulk_search' => 'Massensuche',
     'data' => 'Daten',
+    'date_range' => 'Zeitbereich',
+    'granularity' => 'Granularität',
     'valid_for_n_days' => 'Gültig für einen Tag.|Gültig für :days Tage.',
     'no_records_matching_your_request' => 'Es gibt keine Datensätze die deiner Anfrage entsprechen.',
     'only_letters_and_numbers_allowed' => 'Nur Zahlen und Nummern erlaubt!',
