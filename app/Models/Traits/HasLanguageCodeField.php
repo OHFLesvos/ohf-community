@@ -32,11 +32,12 @@ trait HasLanguageCodeField
      *
      * @return array
      */
-    public static function languages(): array
+    public static function languages($untilDate = null): array
     {
         return self::select('language_code')
             ->distinct()
             ->whereNotNull('language_code')
+            ->createdUntil($untilDate)
             ->orderBy('language_code')
             ->get()
             ->pluck('language_code')
@@ -44,12 +45,13 @@ trait HasLanguageCodeField
             ->toArray();
     }
 
-    public static function languageDistribution(): array
+    public static function languageDistribution($untilDate = null): array
     {
         return self::select('language_code')
             ->selectRaw('COUNT(*) as amount')
             ->groupBy('language_code')
             ->whereNotNull('language_code')
+            ->createdUntil($untilDate)
             ->orderBy('amount', 'desc')
             ->get()
             ->map(fn ($e) => [

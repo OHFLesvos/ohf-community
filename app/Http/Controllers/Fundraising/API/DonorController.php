@@ -102,17 +102,25 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function count()
+    public function count(Request $request)
     {
         $this->authorize('list', Donor::class);
 
+        $request->validate([
+            'date' => [
+                'nullable',
+                'date',
+            ]
+        ]);
+        $date = $request->input('date');
+
         return response()->json([
-            'total' => Donor::count(),
-            'persons' => Donor::whereNull('company')->count(),
-            'companies' => Donor::whereNotNull('company')->count(),
-            'with_address' => Donor::whereNotNull('city')->count(),
-            'with_email' => Donor::whereNotNull('email')->count(),
-            'with_phone' => Donor::whereNotNull('phone')->count(),
+            'total' => Donor::createdUntil($date)->count(),
+            'persons' => Donor::createdUntil($date)->whereNull('company')->count(),
+            'companies' => Donor::createdUntil($date)->whereNotNull('company')->count(),
+            'with_address' => Donor::createdUntil($date)->whereNotNull('city')->count(),
+            'with_email' => Donor::createdUntil($date)->whereNotNull('email')->count(),
+            'with_phone' => Donor::createdUntil($date)->whereNotNull('phone')->count(),
         ]);
     }
 
@@ -121,11 +129,19 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function languages()
+    public function languages(Request $request)
     {
         $this->authorize('list', Donor::class);
 
-        return Donor::languageDistribution();
+        $request->validate([
+            'date' => [
+                'nullable',
+                'date',
+            ]
+        ]);
+        $date = $request->input('date');
+
+        return Donor::languageDistribution($date);
     }
 
     /**
@@ -133,11 +149,19 @@ class DonorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function countries()
+    public function countries(Request $request)
     {
         $this->authorize('list', Donor::class);
 
-        return Donor::countryDistribution();
+        $request->validate([
+            'date' => [
+                'nullable',
+                'date',
+            ]
+        ]);
+        $date = $request->input('date');
+
+        return Donor::countryDistribution($date);
     }
 
     /**

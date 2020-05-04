@@ -3,6 +3,7 @@
 namespace App\Models\Fundraising;
 
 use App\Models\HasComments;
+use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\HasLanguageCodeField;
 use App\Models\Traits\InDateRangeScope;
 use App\Support\Traits\HasTags;
@@ -21,6 +22,7 @@ class Donor extends Model
     use HasLanguageCodeField;
     use NullableFields;
     use InDateRangeScope;
+    use CreatedUntilScope;
 
     protected $nullable = [
         'salutation',
