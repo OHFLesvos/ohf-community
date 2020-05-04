@@ -2,7 +2,7 @@
 
 namespace App\Models\Collaboration;
 
-use App\Models\Traits\HasTags;
+use App\Models\Traits\TagsRelation;
 use App\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -11,7 +11,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class WikiArticle extends Model implements Auditable
 {
-    use HasTags;
+    use TagsRelation;
     use Sluggable;
     use \OwenIt\Auditing\Auditable;
 

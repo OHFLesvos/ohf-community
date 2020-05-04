@@ -2,12 +2,12 @@
 
 namespace App\Models\Fundraising;
 
+use App\Models\Traits\CommentsRelation;
+use App\Models\Traits\CountryCodeField;
 use App\Models\Traits\CreatedUntilScope;
-use App\Models\Traits\HasComments;
-use App\Models\Traits\HasCountryCodeField;
-use App\Models\Traits\HasLanguageCodeField;
-use App\Models\Traits\HasTags;
 use App\Models\Traits\InDateRangeScope;
+use App\Models\Traits\LanguageCodeField;
+use App\Models\Traits\TagsRelation;
 use App\Tag;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\DB;
 
 class Donor extends Model
 {
-    use HasTags;
-    use HasComments;
-    use HasLanguageCodeField;
-    use HasCountryCodeField;
-    use NullableFields;
+    use TagsRelation;
+    use CommentsRelation;
+    use LanguageCodeField;
+    use CountryCodeField;
     use InDateRangeScope;
     use CreatedUntilScope;
+    use NullableFields;
 
     protected $nullable = [
         'salutation',

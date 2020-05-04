@@ -2,7 +2,9 @@
 
 namespace App\Models\Traits;
 
-trait HasComments
+use App\Models\Comment;
+
+trait CommentsRelation
 {
     public static function boot()
     {

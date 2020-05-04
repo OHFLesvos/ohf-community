@@ -5,7 +5,7 @@ namespace App\Models\Traits;
 use App;
 use Countries;
 
-trait HasCountryCodeField
+trait CountryCodeField
 {
     /**
      * Get the country name based on the country code

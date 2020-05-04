@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreComment;
 use App\Http\Resources\Comment as CommentResource;
 use App\Models\Comment;
-use Illuminate\Http\Response;
 
 class CommentsController extends Controller
 {

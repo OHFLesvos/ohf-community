@@ -5,7 +5,7 @@ namespace App\Models\Traits;
 use App;
 use Languages;
 
-trait HasLanguageCodeField
+trait LanguageCodeField
 {
     /**
      * Gets the language name based on the language code

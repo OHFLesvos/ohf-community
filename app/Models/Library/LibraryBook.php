@@ -2,7 +2,7 @@
 
 namespace App\Models\Library;
 
-use App\Models\Traits\HasLanguageCodeField;
+use App\Models\Traits\LanguageCodeField;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +14,7 @@ use Nicebooks\Isbn\Isbn;
 class LibraryBook extends Model
 {
     use NullableFields;
-    use HasLanguageCodeField;
+    use LanguageCodeField;
 
     protected $nullable = [
         'author',

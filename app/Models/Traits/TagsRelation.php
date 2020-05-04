@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 /**
  * Adds methods to @Illuminate\Database\Eloquent\Model to support tagging.
  */
-trait HasTags
+trait TagsRelation
 {
     /**
      * Get all of the tags of the model.
