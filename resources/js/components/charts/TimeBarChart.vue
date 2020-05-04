@@ -1,6 +1,6 @@
 <template>
     <component :is="cumulative ? 'line-chart' : 'bar-chart'"
-        v-if="loaded"
+        v-if="!error && loaded"
         :chart-data="chartData"
         :options="options"
         :height="height"
@@ -12,7 +12,8 @@
         :style="`height: ${height}px`"
     >
         <p class="justify-content-center align-self-center text-center w-100">
-            <em>{{ $t('app.loading') }}</em>
+            <em v-if="error" class="text-danger">{{ error }}</em>
+            <em v-else>{{ $t('app.loading') }}</em>
         </p>
     </div>
 </template>
@@ -21,7 +22,7 @@
 import palette from 'google-palette'
 import axios from '@/plugins/axios'
 import moment from 'moment'
-import { hexAToRGBA } from '@/utils'
+import { hexAToRGBA, getAjaxErrorMessage } from '@/utils'
 import BarChart from './BarChart'
 import LineChart from './LineChart'
 import slugify from 'slugify'
@@ -63,6 +64,7 @@ export default {
     data () {
         return {
             loaded: false,
+            error: null,
             chartData: {},
             units: new Map()
         }
@@ -160,13 +162,14 @@ export default {
     },
     methods: {
         loadData () {
+            this.error = null
             this.loaded = false
             axios.get(this.url)
                 .then(res => {
                     this.chartData = this.chartDataFromResponse(res.data)
                     this.loaded = true
                 })
-                .catch(err => console.error(err))
+                .catch(err => this.error = getAjaxErrorMessage(err))
         },
         chartDataFromResponse (resData) {
             const chartData = {
