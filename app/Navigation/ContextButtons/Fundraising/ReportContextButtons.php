@@ -14,7 +14,9 @@ class ReportContextButtons implements ContextButtons
         $previous_route = previous_route();
         return [
             'back' => [
-                'url' => route($previous_route ?? 'fundraising.donors.index'),
+                'url' => route($previous_route !== null && $previous_route != 'fundraising.report'
+                    ? $previous_route
+                    : 'fundraising.donors.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('create', Donor::class),
