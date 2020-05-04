@@ -4,6 +4,7 @@ namespace App\Models\Fundraising;
 
 use App\Models\HasComments;
 use App\Models\Traits\CreatedUntilScope;
+use App\Models\Traits\HasCountryCodeField;
 use App\Models\Traits\HasLanguageCodeField;
 use App\Models\Traits\InDateRangeScope;
 use App\Support\Traits\HasTags;
@@ -20,6 +21,7 @@ class Donor extends Model
     use HasTags;
     use HasComments;
     use HasLanguageCodeField;
+    use HasCountryCodeField;
     use NullableFields;
     use InDateRangeScope;
     use CreatedUntilScope;
@@ -54,47 +56,6 @@ class Donor extends Model
             $str .= $this->company;
         }
         return trim($str);
-    }
-
-    /**
-     * Get the country name based on the country code
-     *
-     * @return string
-     */
-    public function getCountryNameAttribute()
-    {
-        if ($this->country_code != null) {
-            return Countries::getOne($this->country_code, App::getLocale());
-        }
-        return null;
-    }
-
-    /**
-     * Set the country code based on the country name
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setCountryNameAttribute($value)
-    {
-        $this->attributes['country_code'] = $value != null
-            ? array_flip(Countries::getList(App::getLocale()))[$value] ?? null
-            : null;
-    }
-
-    public static function countryDistribution(): array
-    {
-        return self::select('country_code')
-            ->selectRaw('COUNT(*) as amount')
-            ->groupBy('country_code')
-            ->whereNotNull('country_code')
-            ->orderBy('amount', 'desc')
-            ->get()
-            ->map(fn ($e) => [
-                'name' => $e->countryName,
-                'amount' => $e->amount,
-            ])
-            ->toArray();
     }
 
     public function getFullAddressAttribute()

@@ -48,15 +48,15 @@ trait HasLanguageCodeField
     public static function languageDistribution($untilDate = null): array
     {
         return self::select('language_code')
-            ->selectRaw('COUNT(*) as amount')
+            ->selectRaw('COUNT(*) as languages_count')
             ->groupBy('language_code')
             ->whereNotNull('language_code')
             ->createdUntil($untilDate)
-            ->orderBy('amount', 'desc')
+            ->orderBy('languages_count', 'desc')
             ->get()
             ->map(fn ($e) => [
                 'name' => $e->language,
-                'amount' => $e->amount,
+                'amount' => $e->languages_count,
             ])
             ->toArray();
     }
