@@ -378,4 +378,8 @@ return [
     'value' => 'Wert',
     'registrations' => 'Registrierungen',
     'since_date' => 'seit :date',
+    'new_registrations_per_day' => 'Neuregistrierungen pro Tag',
+    'weekday' => 'Wochentag',
+    'week' => 'Woche',
+    'month' => 'Monat',
 ];

@@ -629,7 +629,7 @@ export default {
             "name": "Name",
             "family_name": "Familienname",
             "gender": "Geschlecht",
-            "ageDistribution": "Altersverteilung",
+            "age_distribution": "Altersverteilung",
             "date_of_birth": "Geburtsdatum",
             "age": "Alter",
             "nationality": "Nationalität",
@@ -842,6 +842,7 @@ export default {
             "view_fundraising_donations": "Spendenverwaltung: Spenden betrachten",
             "register_fundraising_donations": "Spendenverwaltung: Spenden registrieren",
             "edit_fundraising_donations": "Spendenverwaltung: Spenden bearbeiten",
+            "view_fundraising_reports": "Spendenverwaltung: Berichte betrachten",
             "accept_fundraising_donations_webhooks": "Spendenverwaltung: Webhooks akzeptieren",
             "view_transactions": "Buchhaltung: Transaktionen betrachten",
             "create_transactions": "Buchhaltung: Transaktionen erfassen",
@@ -880,6 +881,8 @@ export default {
             "people": "Personen",
             "bank-visitors": "Bank: Besucher",
             "bank-withdrawals": "Bank: Auszahlungen",
+            "fundraising": "Spender & Spenden",
+            "library": "Bibliothek",
             "user-privileges": "Benutzerberechtigungen",
             "role-privileges": " Rollenberechtigungen",
             "privacy": "Datenschutzbericht"
@@ -1602,7 +1605,8 @@ export default {
             "numbers": "Numbers",
             "value": "Value",
             "registrations": "Registrations",
-            "since_date": "since {date}"
+            "since_date": "since {date}",
+            "new_registrations_per_day": "New registrations per day"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -1792,7 +1796,7 @@ export default {
             "name": "Name",
             "family_name": "Family Name",
             "gender": "Gender",
-            "ageDistribution": "Age distribution",
+            "age_distribution": "Age distribution",
             "date_of_birth": "Date of birth",
             "age": "Age",
             "nationality": "Nationality",
@@ -2008,6 +2012,7 @@ export default {
             "view_fundraising_donations": "Donation management: View donations",
             "register_fundraising_donations": "Donation management: Register donations",
             "edit_fundraising_donations": "Donation management: Edit donations",
+            "view_fundraising_reports": "Donation management: View reports",
             "accept_fundraising_donations_webhooks": "Donation management: Accept Webhooks",
             "view_transactions": "Accounting: View transactions",
             "create_transactions": "Accounting: Register transactions",
@@ -2046,6 +2051,8 @@ export default {
             "people": "People",
             "bank-visitors": "Bank: Visitors",
             "bank-withdrawals": "Bank: Withdrawals",
+            "fundraising": "Fundraising",
+            "library": "Library",
             "user-privileges": "User privileges",
             "role-privileges": "Role privileges",
             "privacy": "Privacy report"

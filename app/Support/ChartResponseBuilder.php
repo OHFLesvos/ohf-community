@@ -14,10 +14,18 @@ class ChartResponseBuilder
         $this->labels = collect();
     }
 
-    public function dataset(string $title, Collection $data, ?string $unit = null)
+    public function dataset(string $title, Collection $data, ?string $unit = null, $sort = true)
     {
-        $labels = $data->keys()->map(fn ($v) => strval($v));
-        $this->labels = $this->labels->concat($labels)->unique()->sort()->values();
+        $labels = $data->keys()
+            ->map(fn ($v) => strval($v));
+
+        $unique_labels = $this->labels
+            ->concat($labels)
+            ->unique();
+        if ($sort) {
+            $unique_labels = $unique_labels->sort(SORT_NATURAL);
+        }
+        $this->labels = $unique_labels->values();
 
         $this->datasets[] = [
             'label' => $title,

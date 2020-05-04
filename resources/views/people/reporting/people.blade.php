@@ -34,11 +34,11 @@
 
                         {{-- Registrations per day --}}
                         <bar-chart
-                            title="New registrations per day"
-                            ylabel="# Registrations"
+                            title="@lang('app.new_registrations_per_day')"
+                            x-label="@lang('app.date')"
+                            y-label="@lang('app.quantity')"
                             url="{{ route('api.people.reporting.registrationsPerDay', [ 'from' => $dateFrom->toDateString(), 'to' => $dateTo->toDateString() ]) }}"
-                            :height=350
-                            :legend=false
+                            :height="350"
                             class="mb-0">
                         </bar-chart>
                     </div>
@@ -72,10 +72,10 @@
                 {{-- Age distribution --}}
                 @if(array_sum(array_values($ageDistribution)) > 0)
                     <div class="card mb-4">
-                        <div class="card-header">@lang('people.ageDistribution')</div>
+                        <div class="card-header">@lang('people.age_distribution')</div>
                         <div class="card-body">
                             <pie-chart
-                                title="@lang('people.ageDistribution')"
+                                title="@lang('people.age_distribution')"
                                 url="{{ route('api.people.reporting.ageDistribution') }}"
                                 :height=300
                                 :legend=false
@@ -110,7 +110,7 @@
                                     <div class="w-100 d-block d-sm-none"></div>
                                 @endforeach
                             </div>
-                        @endforeach                        
+                        @endforeach
                     </div>
                 </div>
 

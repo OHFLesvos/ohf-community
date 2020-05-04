@@ -6,6 +6,7 @@ use App\Http\Controllers\Reporting\BaseReportingController;
 use App\Http\Requests\SelectDateRange;
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
+use App\Support\ChartResponseBuilder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -89,7 +90,7 @@ class BankReportingController extends BaseReportingController
     {
         $from = new Carbon($request->from);
         $to = new Carbon($request->to);
-        $q = self::createDateCollectionEmpty($from, $to)
+        $data = self::createDateCollectionEmpty($from, $to)
             ->merge(
                 CouponHandout::where('coupon_type_id', $coupon->id)
                     ->whereDate('date', '>=', $from->toDateString())
@@ -99,15 +100,11 @@ class BankReportingController extends BaseReportingController
                     ->get()
                     ->mapWithKeys(fn ($item) => [ $item->date => $item->sum ])
             )
-            ->reverse()
-            ->toArray();
+            ->reverse();
 
-        return response()->json([
-            'labels' => array_keys($q),
-            'datasets' => [
-                'Value' => array_values($q),
-            ],
-        ]);
+        return (new ChartResponseBuilder())
+            ->dataset($coupon->name, $data)
+            ->build();
     }
 
     /**
@@ -151,12 +148,10 @@ class BankReportingController extends BaseReportingController
         $from = Carbon::now()->subMonth(3);
         $to = Carbon::now();
         $data = self::getvisitorsPerDay($from, $to);
-        return response()->json([
-            'labels' => array_keys($data),
-            'datasets' => [
-                'Visitors' => array_values($data),
-            ],
-        ]);
+
+        return (new ChartResponseBuilder())
+            ->dataset(__('people.visitors'), collect($data))
+            ->build();
     }
 
     private static function getvisitorsPerDay($from, $to)
@@ -179,12 +174,10 @@ class BankReportingController extends BaseReportingController
         $from = Carbon::now()->subMonth(6)->startOfWeek();
         $to = Carbon::now();
         $data = self::getvisitorsPerWeek($from, $to);
-        return response()->json([
-            'labels' => array_keys($data),
-            'datasets' => [
-                'Visitors' => array_values($data),
-            ],
-        ]);
+
+        return (new ChartResponseBuilder())
+            ->dataset(__('people.visitors'), collect($data), null, false)
+            ->build();
     }
 
     private static function getvisitorsPerWeek($from, $to)
@@ -213,12 +206,10 @@ class BankReportingController extends BaseReportingController
         $from = Carbon::now()->subMonth(12)->startOfMonth();
         $to = Carbon::now();
         $data = self::getVisitorsPerMonth($from, $to);
-        return response()->json([
-            'labels' => array_keys($data),
-            'datasets' => [
-                'Visitors' => array_values($data),
-            ],
-        ]);
+
+        return (new ChartResponseBuilder())
+            ->dataset(__('people.visitors'), collect($data), null, false)
+            ->build();
     }
 
     private static function getVisitorsPerMonth($from, $to)
@@ -246,12 +237,10 @@ class BankReportingController extends BaseReportingController
         $from = Carbon::now()->subYear(2)->startOfYear();
         $to = Carbon::now();
         $data = self::getvisitorsPerYear($from, $to);
-        return response()->json([
-            'labels' => array_keys($data),
-            'datasets' => [
-                'Visitors' => array_values($data),
-            ],
-        ]);
+
+        return (new ChartResponseBuilder())
+            ->dataset(__('people.visitors'), collect($data))
+            ->build();
     }
 
     private static function getvisitorsPerYear($from, $to)
@@ -279,12 +268,10 @@ class BankReportingController extends BaseReportingController
         $from = Carbon::now()->subMonth(3)->startOfWeek();
         $to = Carbon::now();
         $data = self::getVisitorsPerDayOfWeek($from, $to);
-        return response()->json([
-            'labels' => array_keys($data),
-            'datasets' => [
-                'Visitors' => array_values($data),
-            ],
-        ]);
+
+        return (new ChartResponseBuilder())
+            ->dataset(__('people.visitors'), collect($data), null, false)
+            ->build();
     }
 
     private static function getVisitorsPerDayOfWeek($from, $to)

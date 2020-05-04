@@ -19,10 +19,9 @@
 </template>
 
 <script>
-import palette from 'google-palette'
 import axios from '@/plugins/axios'
 import moment from 'moment'
-import { hexAToRGBA, getAjaxErrorMessage } from '@/utils'
+import { applyColorPaletteToDatasets, getAjaxErrorMessage } from '@/utils'
 import BarChart from './BarChart'
 import LineChart from './LineChart'
 import slugify from 'slugify'
@@ -201,13 +200,7 @@ export default {
             this.units = units
 
             // Assign colors to datasets
-            const colorPalette = palette('tol', Math.min(chartData.datasets.length, 12))
-            for (var i = 0; i < chartData.datasets.length; i++) {
-                const hexcolor = '#' + colorPalette[i %  colorPalette.length]
-                chartData.datasets[i].backgroundColor = hexAToRGBA(hexcolor + '80')
-                chartData.datasets[i].borderColor = hexcolor
-                chartData.datasets[i].borderWidth = 1
-            }
+            applyColorPaletteToDatasets(chartData.datasets)
 
             return chartData
         },

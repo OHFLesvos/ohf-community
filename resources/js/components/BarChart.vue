@@ -1,123 +1,114 @@
 <script>
-    import palette from 'google-palette'
-    const colorPalette = palette('tol', 12);
-
-    import axios from '@/plugins/axios'
-
-    import { Bar, mixins } from 'vue-chartjs'
-    const { reactiveData } = mixins
-    export default {
-        extends: Bar,
-        mixins: [reactiveData],
-        props: {
-            title: {
-                type: String,
-                required: true
-            },
-            url: {
-                type: String,
-                required: true
-            },
-            ylabel: {
-                type: String,
-                required: false
-            },
-            legend: {
-                type: Boolean,
-                required: false,
-                default: true
-            },
+import { applyColorPaletteToDatasets } from '@/utils'
+import axios from '@/plugins/axios'
+import { Bar, mixins } from 'vue-chartjs'
+const { reactiveData } = mixins
+export default {
+    extends: Bar,
+    mixins: [reactiveData],
+    props: {
+        title: {
+            type: String,
+            required: true
         },
-        data() {
-            return {
-                options: this.createOptions()
-            }
+        url: {
+            type: String,
+            required: true
         },
-        watch: {
-            url () {
-                this.loadData()
-            }
+        xLabel: {
+            type: String,
+            required: false
         },
-        mounted () {
+        yLabel: {
+            type: String,
+            required: false
+        }
+    },
+    data() {
+        return {
+            options: this.createOptions()
+        }
+    },
+    watch: {
+        url () {
             this.loadData()
+        }
+    },
+    mounted () {
+        this.loadData()
+    },
+    methods: {
+        loadData () {
+            axios.get(this.url)
+                .then(res => this.chartData = this.parseDateFromResponse(res.data))
         },
-        methods: {
-            loadData () {
-                axios.get(this.url)
-                    .then(res => this.chartData = this.parseDateFromResponse(res.data))
-            },
-            parseDateFromResponse (resData) {
-                // Assign lables and data
-                const data = {
-                    'labels': resData.labels,
-                    'datasets': [],
-                };
-                Object.keys(resData.datasets).forEach(function (key) {
-                    data.datasets.push({
-                        label: key,
-                        data: resData.datasets[key],
-                        barPercentage: 1
-                    });
-                });
+        parseDateFromResponse (resData) {
+            // Assign lables and data
+            const chartData = {
+                'labels': resData.labels,
+                'datasets': [],
+            };
+            resData.datasets.forEach((dataset) => {
+                chartData.datasets.push({
+                    label: dataset.label,
+                    data: dataset.data
+                })
+            })
 
-                // Assign colors to datasets
-                for (var i = 0; i < data.datasets.length; i++) {
-                    data.datasets[i].backgroundColor = '#' + colorPalette[i %  colorPalette.length];
-                    data.datasets[i].borderColor = '#' + colorPalette[i %  colorPalette.length];
-                    data.datasets[i].fill = false;
-                }
+            // Assign colors to datasets
+            applyColorPaletteToDatasets(chartData.datasets)
 
-                return data
-            },
-            createOptions () {
-                const options = {
-                    title: {
+            return chartData
+        },
+        createOptions () {
+            const options = {
+                title: {
+                    display: true,
+                    text: this.title,
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
                         display: true,
-                        text: this.title,
-                    },
-                    legend: {
-                        display: this.legend,
-                        position: 'bottom'
-                    },
-                    elements: {
-                        line: {
-                            tension: 0
+                        gridLines: {
+                            display: true,
+                        },
+                        scaleLabel: {
+                            display: this.xLabel,
+                            labelString: this.xLabel,
                         }
-                    },
-                    scales: {
-                        xAxes: [{
-                            display: true,
-                            gridLines: {
-                                display: true,
-                            }
-                        }],
-                        yAxes: [{
-                            display: true,
-                            gridLines: {
-                                display: true,
-                            },
-                            ticks: {
-                                suggestedMin: 0,
-                            }
-                        }]
-                    },
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                        duration: 0
-                    },
-                };
-
-                // Add y-axis label
-                if (this.ylabel) {
-                    options.scales.yAxes[0].scaleLabel= {
+                    }],
+                    yAxes: [{
                         display: true,
-                        labelString: this.ylabel,
-                    };
-                }
+                        gridLines: {
+                            display: true,
+                        },
+                        ticks: {
+                            suggestedMin: 0,
+                        },
+                        scaleLabel: {
+                            display: this.yLabel,
+                            labelString: this.yLabel,
+                        }
+                    }]
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 0
+                },
+            };
 
-                return options
-            }
+            return options
         }
     }
+}
 </script>

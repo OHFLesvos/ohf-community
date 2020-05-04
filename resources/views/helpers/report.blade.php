@@ -6,11 +6,11 @@
 
     <div id="app">
         <bar-chart
-            title="Age distribution"
-            ylabel="# Persons"
+            title="@lang('people.age_distribution')"
+            x-label="@lang('people.age')"
+            y-label="@lang('app.quantity')"
             url="{{ route('people.helpers.report.ages') }}"
-            :height=350
-            :legend=false
+            :height="350"
             class="mb-2">
         </bar-chart>
         <div class="row mb-4">

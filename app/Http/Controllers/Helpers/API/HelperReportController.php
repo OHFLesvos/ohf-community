@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Helpers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\People\Person;
+use App\Support\ChartResponseBuilder;
 use Carbon\Carbon;
 
 class HelperReportController extends Controller
@@ -99,11 +100,9 @@ class HelperReportController extends Controller
      */
     public function ages()
     {
-        $nationalities = self::getAges();
-        return response()->json([
-            'labels' => array_keys($nationalities),
-            'datasets' => [ __('people.persons') => array_values($nationalities)],
-        ]);
+        return (new ChartResponseBuilder())
+            ->dataset(__('people.persons'), collect(self::getAges()))
+            ->build();
     }
 
     private static function getAges()
@@ -120,6 +119,7 @@ class HelperReportController extends Controller
                     self::getPersonAges()
                         ->mapWithKeys(fn ($i) => [ $i['age'] . ' ' => $i['total'] ])
                 )
+                ->mapWithKeys(fn ($v, $k) => [intval($k) => $v])
                 ->toArray();
         }
         return [];

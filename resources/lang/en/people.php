@@ -14,7 +14,7 @@ return [
     'name' => 'Name',
     'family_name' => 'Family Name',
     'gender' => 'Gender',
-    'ageDistribution' => 'Age distribution',
+    'age_distribution' => 'Age distribution',
     'date_of_birth' => 'Date of birth',
     'age' => 'Age',
     'nationality' => 'Nationality',
@@ -217,4 +217,5 @@ return [
     'code_expiry' => 'Code expiry',
     'click_to_add_police_number' => 'Click to add police number...',
     'police_no_has_been_updated' => 'Police number of :person has been updated.',
+    'visitors' => 'Visitors',
 ];

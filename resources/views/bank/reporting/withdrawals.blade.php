@@ -40,14 +40,14 @@
         @foreach($coupons as $v)
             <bar-chart
                 title="@lang('people.num_x_handed_out_per_day', [ 'name' => $v['coupon']->name ])"
-                ylabel="# {{ $v['coupon']->name }}"
+                x-label="@lang('app.date')"
+                y-label="@lang('app.quantity')"
                 url="{{ route('reporting.bank.couponsHandedOutPerDay', $v['coupon']) }}?from={{ $from }}&to={{ $to }}"
-                :height=300
-                :legend=false
+                :height="300"
                 class="mb-2">
             </bar-chart>
         @endforeach
-        
+
     </div>
 
 @endsection

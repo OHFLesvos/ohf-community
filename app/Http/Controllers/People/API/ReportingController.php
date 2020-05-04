@@ -5,6 +5,7 @@ namespace App\Http\Controllers\People\API;
 use App\Http\Controllers\Reporting\BaseReportingController;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\People\Person;
+use App\Support\ChartResponseBuilder;
 use Illuminate\Http\Request;
 
 class ReportingController extends BaseReportingController
@@ -56,12 +57,9 @@ class ReportingController extends BaseReportingController
         [$dateFrom, $dateTo] = self::getDatePeriodFromRequest($request, 30);
 
         $data = Person::getRegistrationsPerDay($dateFrom, $dateTo);
-        return response()->json([
-            'labels' => array_keys($data),
-            'datasets' => [
-                'Registrations' => array_values($data),
-            ],
-        ]);
-    }
 
+        return (new ChartResponseBuilder())
+            ->dataset(__('app.registrations'), collect($data))
+            ->build();
+    }
 }

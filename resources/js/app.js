@@ -137,12 +137,8 @@ import Vue from 'vue'
 
 Vue.config.productionTip = false
 
-import LineChart from './components/LineChart.vue';
-Vue.component('line-chart', LineChart);
 import BarChart from './components/BarChart.vue';
 Vue.component('bar-chart', BarChart);
-import HorizontalBarChart from './components/HorizontalBarChart.vue';
-Vue.component('horizontal-bar-chart', HorizontalBarChart);
 import PieChart from './components/PieChart.vue';
 Vue.component('pie-chart', PieChart);
 

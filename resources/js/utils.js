@@ -1,4 +1,5 @@
 import Snackbar from 'node-snackbar'
+import palette from 'google-palette'
 
 export function showSnackbar(text, actionText, actionClass, callback) {
 	var args = {
@@ -109,4 +110,17 @@ export function hexAToRGBA(h) {
 
 export function ucFirst(value) {
     return value.replace(/^\w/, c => c.toUpperCase())
+}
+
+/**
+ * Assign colors to chart.js datasets
+ */
+export function applyColorPaletteToDatasets(datasets) {
+    const colorPalette = palette('tol', Math.min(datasets.length, 12))
+    for (var i = 0; i < datasets.length; i++) {
+        const hexcolor = '#' + colorPalette[i %  colorPalette.length]
+        datasets[i].backgroundColor = hexAToRGBA(hexcolor + '80')
+        datasets[i].borderColor = hexcolor
+        datasets[i].borderWidth = 1
+    }
 }
