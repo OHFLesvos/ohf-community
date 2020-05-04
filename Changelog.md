@@ -4,8 +4,8 @@
 
 * Improved donor search for phone numnber
 * Localized language for donors
-* Added simple donor report
-* Added charts for donors and donations
+* Added donor and donations report
+* Standardized languages and countries for donors
 * Added sentry user feedback button on error pages
 
 ## 2.16.0
