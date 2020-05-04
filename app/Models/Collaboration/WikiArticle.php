@@ -2,7 +2,7 @@
 
 namespace App\Models\Collaboration;
 
-use App\Support\Traits\HasTags;
+use App\Models\Traits\HasTags;
 use App\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use Cviebrock\EloquentSluggable\Sluggable;

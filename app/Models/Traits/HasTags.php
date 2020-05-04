@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Traits;
+namespace App\Models\Traits;
 
 use App\Tag;
 use Illuminate\Support\Collection;

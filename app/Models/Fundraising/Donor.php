@@ -2,12 +2,12 @@
 
 namespace App\Models\Fundraising;
 
-use App\Models\HasComments;
 use App\Models\Traits\CreatedUntilScope;
+use App\Models\Traits\HasComments;
 use App\Models\Traits\HasCountryCodeField;
 use App\Models\Traits\HasLanguageCodeField;
+use App\Models\Traits\HasTags;
 use App\Models\Traits\InDateRangeScope;
-use App\Support\Traits\HasTags;
 use App\Tag;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
