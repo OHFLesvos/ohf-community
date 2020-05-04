@@ -56,6 +56,7 @@ export default {
             required: false,
             default: 350
         },
+        cumulative: Boolean
     },
     data () {
         return {
@@ -175,9 +176,19 @@ export default {
             let units = new Map()
             resData.datasets.forEach((dataset) => {
                 const axisID = slugify(dataset.unit)
+                let data = dataset.data
+                if (this.cumulative) {
+                    let sum = 0
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i]) {
+                            data[i] = data[i] + sum
+                            sum += data[i]
+                        }
+                    }
+                }
                 chartData.datasets.push({
                     label: dataset.label,
-                    data: dataset.data,
+                    data: data,
                     yAxisID: axisID
                 })
                 units.set(axisID, dataset.unit)

@@ -180,7 +180,8 @@ class DonationController extends Controller
             ->groupByDateGranularity($request->input('granularity'), 'date')
             ->selectRaw('SUM(exchange_amount) AS `aggregated_value`')
             ->get()
-            ->pluck('aggregated_value', 'date_label');
+            ->pluck('aggregated_value', 'date_label')
+            ->map(fn ($e) => floatval($e));
 
         return (new ChartResponseBuilder())
             ->dataset(__('fundraising.donations'), $registrations)
