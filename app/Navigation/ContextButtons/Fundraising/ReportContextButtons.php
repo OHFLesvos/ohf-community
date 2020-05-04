@@ -5,6 +5,7 @@ namespace App\Navigation\ContextButtons\Fundraising;
 use App\Models\Fundraising\Donor;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
 class ReportContextButtons implements ContextButtons
@@ -14,7 +15,7 @@ class ReportContextButtons implements ContextButtons
         $previous_route = previous_route();
         return [
             'back' => [
-                'url' => route($previous_route !== null && $previous_route != 'fundraising.report'
+                'url' => route($previous_route !== null && $previous_route != Route::currentRouteName()
                     ? $previous_route
                     : 'fundraising.donors.index'),
                 'caption' => __('app.close'),

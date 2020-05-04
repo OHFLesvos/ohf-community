@@ -174,6 +174,10 @@ return [
             'label' => 'permissions.edit_fundraising_donations',
             'sensitive' => true,
         ],
+        'fundraising.reports.view' => [
+            'label' => 'permissions.view_fundraising_reports',
+            'sensitive' => true,
+        ],
         'fundraising.donations.accept_webhooks' => [
             'label' => 'permissions.accept_fundraising_donations_webhooks',
             'sensitive' => false,

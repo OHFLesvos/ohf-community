@@ -5,6 +5,7 @@ namespace App\Navigation\ContextButtons\Fundraising;
 use App\Models\Fundraising\Donor;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class DonorIndexContextButtons implements ContextButtons
@@ -23,7 +24,7 @@ class DonorIndexContextButtons implements ContextButtons
                 'url' => route('fundraising.report'),
                 'caption' => __('app.report'),
                 'icon' => 'chart-pie',
-                'authorized' => Auth::user()->can('list', Donor::class),
+                'authorized' => Gate::allows('view-fundraising-reports'),
             ],
             'export' => [
                 'url' => route('fundraising.donors.export'),

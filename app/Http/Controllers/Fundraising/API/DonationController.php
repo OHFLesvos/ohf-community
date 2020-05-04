@@ -165,7 +165,7 @@ class DonationController extends Controller
      */
     public function registrations(Request $request)
     {
-        $this->authorize('list', Donation::class);
+        $this->authorize('view-fundraising-reports');
 
         $this->validateDateGranularity($request);
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);

@@ -16,6 +16,7 @@ return [
     'view_fundraising_donations' => 'Spendenverwaltung: Spenden betrachten',
     'register_fundraising_donations' => 'Spendenverwaltung: Spenden registrieren',
     'edit_fundraising_donations' => 'Spendenverwaltung: Spenden bearbeiten',
+    'view_fundraising_reports' => 'Spendenverwaltung: Berichte betrachten',
     'accept_fundraising_donations_webhooks' => 'Spendenverwaltung: Webhooks akzeptieren',
 
     'view_transactions' => 'Buchhaltung: Transaktionen betrachten',

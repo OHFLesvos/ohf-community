@@ -104,7 +104,7 @@ class DonorController extends Controller
      */
     public function count(Request $request)
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('view-fundraising-reports');
 
         $request->validate([
             'date' => [
@@ -135,7 +135,7 @@ class DonorController extends Controller
      */
     public function languages(Request $request)
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('view-fundraising-reports');
 
         $request->validate([
             'date' => [
@@ -155,7 +155,7 @@ class DonorController extends Controller
      */
     public function countries(Request $request)
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('view-fundraising-reports');
 
         $request->validate([
             'date' => [
@@ -198,7 +198,7 @@ class DonorController extends Controller
      */
     public function registrations(Request $request)
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('view-fundraising-reports');
 
         $this->validateDateGranularity($request);
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
