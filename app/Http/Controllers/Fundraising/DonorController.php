@@ -8,7 +8,6 @@ use App\Http\Requests\Fundraising\StoreDonor;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
-use Countries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use JeroenDesloovere\VCard\VCard;
@@ -46,10 +45,9 @@ class DonorController extends Controller
     public function create()
     {
         $this->authorize('create', Donor::class);
-
         return view('fundraising.donors.create', [
             'salutations' => Donor::salutations(),
-            'countries' => array_values(Countries::getList(App::getLocale())),
+            'countries' => localized_country_names()->values()->toArray(),
             'languages' => Donor::languages(),
             'tag_suggestions' => Donor::tagNames(),
         ]);
@@ -121,7 +119,7 @@ class DonorController extends Controller
         return view('fundraising.donors.edit', [
             'donor' => $donor,
             'salutations' => Donor::salutations(),
-            'countries' => array_values(Countries::getList(App::getLocale())),
+            'countries' => localized_country_names()->values()->toArray(),
             'languages' => Donor::languages(),
             'tag_suggestions' => Donor::tagNames(),
         ]);

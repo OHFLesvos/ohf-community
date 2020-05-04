@@ -29,7 +29,7 @@ trait HasCountryCodeField
     public function setCountryNameAttribute($value)
     {
         $this->attributes['country_code'] = $value != null
-            ? array_flip(Countries::getList(App::getLocale()))[$value] ?? null
+            ? localized_country_names()->flip()[$value] ?? null
             : null;
     }
 

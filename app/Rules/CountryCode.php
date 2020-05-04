@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Countries;
 use Illuminate\Contracts\Validation\Rule;
 
 class CountryCode implements Rule
@@ -20,7 +21,7 @@ class CountryCode implements Rule
      */
     public function passes($attribute, $value)
     {
-        return in_array($value, array_keys(\Countries::getList()));
+        return collect(Countries::getList())->keys()->contains($value);
     }
 
     /**

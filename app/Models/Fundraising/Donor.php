@@ -9,11 +9,9 @@ use App\Models\Traits\HasLanguageCodeField;
 use App\Models\Traits\InDateRangeScope;
 use App\Support\Traits\HasTags;
 use App\Tag;
-use Countries;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class Donor extends Model
@@ -154,11 +152,9 @@ class Donor extends Model
     {
         if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
-                $countries = Countries::getList(App::getLocale());
-                array_walk($countries, function (&$value, $idx) {
-                    $value = strtolower($value);
-                });
-                $countries = array_flip($countries);
+                $countries = localized_country_names()
+                    ->map(fn ($name) => strtolower($name))
+                    ->flip();
                 return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere('company', 'LIKE', '%' . $filter . '%')

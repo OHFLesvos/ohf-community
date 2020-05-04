@@ -234,7 +234,7 @@ if (! function_exists('randomPercentages')) {
 if (! function_exists('weightedCountries')) {
     function weightedCountries(int $num): array
     {
-        $countries = \Countries::getList('en');
+        $countries = Countries::getList('en');
         $rand_keys = array_rand($countries, $num);
         $percentages = randomPercentages($num);
         $data = [];
@@ -242,7 +242,7 @@ if (! function_exists('weightedCountries')) {
             $percentage = array_pop($percentages);
             $country_id = array_pop($rand_keys);
             for ($i = 0; $i < $percentage; $i++) {
-                $data[] = \Countries::getOne($country_id);
+                $data[] = Countries::getOne($country_id);
             }
         }
         return $data;
@@ -283,5 +283,12 @@ if (! function_exists('getCategorizedPermissions')) {
         }
         ksort($permissions);
         return $permissions;
+    }
+}
+
+if (! function_exists('localized_country_names')) {
+    function localized_country_names(): \Illuminate\Support\Collection
+    {
+        return collect(Countries::getList(App::getLocale()));
     }
 }

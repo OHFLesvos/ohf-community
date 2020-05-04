@@ -2,8 +2,6 @@
 
 namespace App\Rules;
 
-use App;
-use Countries;
 use Illuminate\Contracts\Validation\Rule;
 
 class CountryName implements Rule
@@ -22,7 +20,7 @@ class CountryName implements Rule
      */
     public function passes($attribute, $value)
     {
-        return in_array($value, Countries::getList(App::getLocale()));
+        return localized_country_names()->contains($value);
     }
 
     /**
