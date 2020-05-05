@@ -39,53 +39,13 @@
             </div>
 
             <!-- Gender -->
-            <div class="card mb-4">
-                <div class="card-header">{{ $t('people.gender') }}</div>
-                <div class="card-body">
-                    <doughnut-chart
-                        :title="$t('people.gender')"
-                        :url="route('api.people.reporting.genderDistribution')"
-                        hide-legend
-                        :height="300"
-                        class="mb-2">
-                    </doughnut-chart>
-                </div>
-            </div>
+            <gender-distribution-widget/>
 
             <!-- Age distribution -->
-            <div v-if="ageDistributionTotal > 0" class="card mb-4">
-                <div class="card-header">{{ $t('people.age_distribution') }}</div>
-                <div class="card-body">
-                    <doughnut-chart
-                        :title="$t('people.age_distribution')"
-                        :url="route('api.people.reporting.ageDistribution')"
-                        :height="300"
-                        class="mb-2">
-                    </doughnut-chart>
-                </div>
-                <table class="table table-sm mb-0">
-                    <tr
-                        v-for="(v, k) in ageDistribution"
-                        :key="k"
-                    >
-                        <td class="fit">{{ k }}</td>
-                        <td class="align-middle d-none d-sm-table-cell">
-                            <b-progress
-                                :value="v"
-                                :max="ageDistributionTotal"
-                                :show-value="false"
-                                variant="secondary"
-                            />
-                        </td>
-                        <td class="fit text-right">
-                            {{ percentValue(v, ageDistributionTotal) }}%
-                        </td>
-                        <td class="fit text-right d-none d-sm-table-cell">
-                            {{ numberFormat(v) }}
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <age-distribution-widget
+                v-if="ageDistributionTotal > 0"
+                :data="ageDistribution"
+            />
 
             <!-- Cards -->
             <div class="card mb-4">
@@ -115,46 +75,10 @@
         <div class="col-xl-6">
 
             <!-- Nationalities -->
-            <div
+            <nationality-distribution
                 v-if="Object.keys(nationalities).length > 0"
-                class="card mb-4"
-            >
-                <div class="card-header">{{ $t('people.nationalities') }}</div>
-                <div class="card-body">
-                    <doughnut-chart
-                        :title="$t('people.nationalities')"
-                        :url="route('api.people.reporting.nationalities')"
-                        :height="300"
-                        class="mb-2">
-                    </doughnut-chart>
-                </div>
-                <div class="table-responsive mb-0">
-                    <table class="table table-sm my-0">
-                        <tr
-                            v-for="(v, nationality) in nationalities"
-                            :key="nationality"
-                        >
-                            <td class="fit">
-                                {{ nationality }}
-                            </td>
-                            <td class="align-middle d-none d-sm-table-cell">
-                                <b-progress
-                                    :value="v"
-                                    :max="nationalityTotal"
-                                    :show-value="false"
-                                    variant="secondary"
-                                />
-                            </td>
-                            <td class="fit text-right">
-                                {{ percentValue(v, nationalityTotal) }}%
-                            </td>
-                            <td class="fit text-right d-none d-sm-table-cell">
-                                {{ numberFormat(v) }}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                :data="nationalities"
+            />
 
         </div>
     </div>
@@ -163,12 +87,15 @@
 <script>
 import numeral from 'numeral'
 import BarChart from '@/components/BarChart'
-import DoughnutChart from '@/components/charts/DoughnutChart'
-import { roundWithDecimals } from '@/utils'
+import GenderDistributionWidget from '@/components/people/reporting/GenderDistributionWidget'
+import AgeDistributionWidget from '@/components/people/reporting/AgeDistributionWidget'
+import NationalityDistribution from '@/components/people/reporting/NationalityDistribution'
 export default {
     components: {
         BarChart,
-        DoughnutChart
+        GenderDistributionWidget,
+        AgeDistributionWidget,
+        NationalityDistribution
     },
     props: {
         people: {
@@ -190,20 +117,9 @@ export default {
             required: true
         }
     },
-    computed: {
-        ageDistributionTotal () {
-            return Object.values(this.ageDistribution).reduce((a,b) => a + b, 0)
-        },
-        nationalityTotal () {
-            return Object.values(this.nationalities).reduce((a,b) => a + b, 0)
-        }
-    },
     methods: {
         numberFormat (value) {
             return numeral(value).format('0,0')
-        },
-        percentValue (val, total) {
-            return roundWithDecimals(val / total * 100, 1)
         }
     }
 }
