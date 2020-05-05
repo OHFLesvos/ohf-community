@@ -66,8 +66,11 @@
 <script>
 import axios from '@/plugins/axios'
 import moment from 'moment'
-import numeral from 'numeral'
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
+    mixins: [
+        numberFormatMixin
+    ],
     data () {
         return {
             data: null,
@@ -160,9 +163,6 @@ export default {
                     this.data = res.data
                     this.selectedMonth = moment(this.data.monthDate).format('YYYY-MM')
                 })
-        },
-        numberFormat (value) {
-            return numeral(value).format('0,0')
         },
         percentVal (prev, cur) {
             return prev != 0 ? Math.round(((cur - prev) / prev) * 100) : null

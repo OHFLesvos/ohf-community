@@ -40,12 +40,14 @@
 
 <script>
 import DoughnutChart from '@/components/charts/DoughnutChart'
-import { roundWithDecimals } from '@/utils'
-import numeral from 'numeral'
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     components: {
         DoughnutChart
     },
+    mixins: [
+        numberFormatMixin
+    ],
     props: {
         data: {
             required: true,
@@ -63,14 +65,6 @@ export default {
     computed: {
         total () {
             return Object.values(this.data).reduce((a,b) => a + b, 0)
-        }
-    },
-    methods: {
-        numberFormat (value) {
-            return numeral(value).format('0,0')
-        },
-        percentValue (value, total) {
-            return roundWithDecimals(value / total * 100, 1)
         }
     }
 }

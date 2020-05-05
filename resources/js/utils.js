@@ -79,7 +79,7 @@ export function isAlphaNumeric(value) {
 }
 
 export function roundWithDecimals(value, decimals) {
-    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)
 }
 
 /**

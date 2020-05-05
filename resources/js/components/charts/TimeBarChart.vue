@@ -25,12 +25,15 @@ import { applyColorPaletteToDatasets, getAjaxErrorMessage } from '@/utils'
 import ReactiveBarChart from '@/components/charts/ReactiveBarChart'
 import ReactiveLineChart from '@/components/charts/ReactiveLineChart'
 import slugify from 'slugify'
-import numeral from 'numeral'
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     components: {
         ReactiveBarChart,
         ReactiveLineChart
     },
+    mixins: [
+        numberFormatMixin
+    ],
     props: {
         title: {
             type: String,
@@ -227,11 +230,7 @@ export default {
                 })
             }
             return yAxes
-        },
-        numberFormat (value) {
-            return numeral(value).format('0,0')
         }
     }
-
 }
 </script>

@@ -45,12 +45,15 @@
 
 <script>
 import axios from '@/plugins/axios'
-import numeral from 'numeral'
 import BarChart from '@/components/charts/BarChart'
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     components: {
         BarChart,
     },
+    mixins: [
+        numberFormatMixin
+    ],
     props: {
         dateRange: {
             required: true,
@@ -80,9 +83,6 @@ export default {
                 .then(res => {
                     this.data = res.data
                 })
-        },
-        numberFormat (value) {
-            return numeral(value).format('0,0')
         }
     }
 }

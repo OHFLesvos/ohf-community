@@ -63,12 +63,14 @@
             </b-list-group>
         </template>
     </b-card>
-
 </template>
 
 <script>
-import { roundWithDecimals } from '@/utils'
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
+    mixins: [
+        numberFormatMixin
+    ],
     props: {
         header: {
             required: true,
@@ -110,9 +112,6 @@ export default {
             }
             return 0
         }
-    },
-    methods: {
-        roundWithDecimals
     }
 }
 </script>

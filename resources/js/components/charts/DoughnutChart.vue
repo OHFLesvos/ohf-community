@@ -4,10 +4,13 @@ import axios from '@/plugins/axios'
 import { Doughnut } from 'vue-chartjs'
 import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels'
 import { Chart } from 'chart.js'
-import numeral from 'numeral'
 Chart.plugins.unregister(ChartJsPluginDataLabels)
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     extends: Doughnut,
+    mixins: [
+        numberFormatMixin
+    ],
     props: {
         title: {
             type: String,
@@ -101,9 +104,6 @@ export default {
         },
         toolTipTitle (tooltipItem, data) {
             return data.labels[tooltipItem[0].index]
-        },
-        numberFormat (value) {
-            return numeral(value).format('0,0')
         },
         dataLabelFormat (value, context) {
             const dataset = context.chart.data.datasets[0]
