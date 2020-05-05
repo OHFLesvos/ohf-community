@@ -39,18 +39,10 @@
             </div>
 
             <!-- Gender -->
-            <gender-distribution-widget
-                :title="$t('people.gender')"
-                :url="route('api.people.reporting.genderDistribution')"
-            />
+            <gender-distribution-widget />
 
             <!-- Age distribution -->
-            <age-distribution-widget
-                v-if="Object.keys(ageDistribution).length > 0"
-                :title="$t('people.age_distribution')"
-                :url="route('api.people.reporting.ageDistribution')"
-                :data="ageDistribution"
-            />
+            <age-distribution-widget />
 
             <!-- Cards -->
             <div class="card mb-4">
@@ -80,12 +72,7 @@
         <div class="col-xl-6">
 
             <!-- Nationalities -->
-            <nationality-distribution
-                v-if="Object.keys(nationalities).length > 0"
-                :data="nationalities"
-                :title="$t('people.nationalities')"
-                :url="route('api.people.reporting.nationalities')"
-            />
+            <nationality-distribution />
 
         </div>
     </div>
@@ -108,13 +95,7 @@ export default {
         people: {
             required: true
         },
-        ageDistribution: {
-            required: true
-        },
         cards: {
-            required: true
-        },
-        nationalities: {
             required: true
         },
         fromDate: {

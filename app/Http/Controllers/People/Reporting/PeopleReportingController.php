@@ -43,9 +43,6 @@ class PeopleReportingController extends BaseReportingController
                     __('people.average_new_registrations_per_day') => Person::getAvgRegistrationsPerDay($dateFrom, $dateTo),
                 ],
             ],
-            'nationalities' => Person::getNationalities(),
-            'gender' => Person::getGenderDistribution(),
-            'ageDistribution' => Person::getAgeDistribution(),
             'cards' => [
                 [
                     __('people.cards_issued') => Person::whereNotNull('card_no')->count(),

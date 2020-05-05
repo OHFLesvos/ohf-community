@@ -11,9 +11,7 @@
     <div id="people-app">
         <people-report-page
             :people='@json($people)'
-            :age-distribution='@json($ageDistribution)'
             :cards='@json($cards)'
-            :nationalities='@json($nationalities)'
             from-date="{{ $dateFrom->toDateString() }}"
             to-date="{{ $dateTo->toDateString() }}"
         >

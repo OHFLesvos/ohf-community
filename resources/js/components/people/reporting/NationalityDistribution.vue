@@ -1,77 +1,34 @@
 <template>
-    <div class="card mb-4">
-        <div class="card-header">{{ title }}</div>
-        <div class="card-body">
-            <doughnut-chart
-                :title="title"
-                :url="url"
-                :height="300"
-                class="mb-2">
-            </doughnut-chart>
-        </div>
-        <div class="table-responsive mb-0">
-            <table class="table table-sm my-0">
-                <tr
-                    v-for="(value, label) in data"
-                    :key="label"
-                >
-                    <td class="fit">
-                        {{ label }}
-                    </td>
-                    <td class="align-middle d-none d-sm-table-cell">
-                        <b-progress
-                            :value="v"
-                            :max="total"
-                            :show-value="false"
-                            variant="secondary"
-                        />
-                    </td>
-                    <td class="fit text-right">
-                        {{ percentValue(value, total) }}%
-                    </td>
-                    <td class="fit text-right d-none d-sm-table-cell">
-                        {{ numberFormat(value) }}
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <!-- TODO check length && Object.keys(data).length > 0 -->
+    <doughnut-chart-table-distribution-widget
+        v-if="data"
+        :data="data"
+        :title="$t('people.nationalities')"
+        :url="url"
+    />
+    <p v-else>
+        {{ $t('app.loading') }}
+    </p>
 </template>
 
 <script>
-import DoughnutChart from '@/components/charts/DoughnutChart'
-import { roundWithDecimals } from '@/utils'
-import numeral from 'numeral'
+import axios from '@/plugins/axios'
+import DoughnutChartTableDistributionWidget from '@/components/reporting/DoughnutChartTableDistributionWidget'
 export default {
     components: {
-        DoughnutChart
+        DoughnutChartTableDistributionWidget
     },
-    props: {
-        data: {
-            required: true,
-            type: Object
-        },
-        title: {
-            required: true,
-            type: String
-        },
-        url: {
-            required: true,
-            type: String
+    data () {
+        return {
+            data: null,
+            url: this.route('api.people.reporting.nationalities')
         }
     },
-    computed: {
-        total () {
-            return Object.values(this.data).reduce((a,b) => a + b, 0)
-        }
-    },
-    methods: {
-        numberFormat (value) {
-            return numeral(value).format('0,0')
-        },
-        percentValue (value, total) {
-            return roundWithDecimals(value / total * 100, 1)
-        }
+    mounted () {
+        axios.get(this.url)
+            .then(res => {
+                this.data = res.data
+            })
     }
 }
 </script>

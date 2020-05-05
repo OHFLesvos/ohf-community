@@ -1,33 +1,16 @@
 <template>
-    <div class="card mb-4">
-        <div class="card-header">{{ title }}</div>
-        <div class="card-body">
-            <doughnut-chart
-                :title="title"
-                :url="url"
-                hide-legend
-                :height="300"
-                class="mb-2">
-            </doughnut-chart>
-        </div>
-    </div>
+    <!-- TODO length check -->
+    <doughnut-chart-distribution-widget
+        :title="$t('people.gender')"
+        :url="route('api.people.reporting.genderDistribution')"
+    />
 </template>
 
 <script>
-import DoughnutChart from '@/components/charts/DoughnutChart'
+import DoughnutChartDistributionWidget from '@/components/reporting/DoughnutChartDistributionWidget'
 export default {
     components: {
-        DoughnutChart
-    },
-    props: {
-        title: {
-            required: true,
-            type: String
-        },
-        url: {
-            required: true,
-            type: String
-        }
+        DoughnutChartDistributionWidget
     }
 }
 </script>
