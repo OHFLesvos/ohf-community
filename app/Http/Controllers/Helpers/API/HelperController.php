@@ -14,31 +14,16 @@ class HelperController extends Controller
      */
     public function genders()
     {
-        return collect(self::getPersonGenders())
-            ->mapWithKeys(fn ($i) => [ self::getGenderLabel($i['gender']) => $i['total'] ])
-            ->toArray();
-    }
-
-    private static function getPersonGenders()
-    {
         return Person::query()
-            ->whereHas('helper', fn ($query) => $query->active())
             ->select('gender')
             ->selectRaw('COUNT(*) AS total')
-            ->groupBy('gender')
+            ->whereHas('helper', fn ($query) => $query->active())
             ->whereNotNull('gender')
-            ->get();
-    }
-
-    private static function getGenderLabel(string $value): string
-    {
-        if ($value == 'm') {
-            return __('app.male');
-        }
-        if ($value == 'f') {
-            return __('app.female');
-        }
-        return $value;
+            ->groupBy('gender')
+            ->orderBy('total', 'DESC')
+            ->get()
+            ->mapWithKeys(fn ($i) => [ gender_label($i['gender']) => $i['total'] ])
+            ->toArray();
     }
 
     /**
@@ -53,36 +38,20 @@ class HelperController extends Controller
                 'min:1',
             ]
         ]);
-        $limit = $request->input('limit', 10);
 
-        $nationalities = collect(self::getPersonNationalities())
-            ->mapWithKeys(fn ($i) => [ $i['nationality'] => $i['total'] ]);
-
-        return self::sliceData($nationalities, $limit);
-    }
-
-    private static function getPersonNationalities()
-    {
-        return Person::query()
-            ->whereHas('helper', fn ($query) => $query->active())
+        $nationalities = Person::query()
             ->select('nationality')
             ->selectRaw('COUNT(*) AS total')
-            ->groupBy('nationality')
+            ->whereHas('helper', fn ($query) => $query->active())
             ->whereNotNull('nationality')
+            ->groupBy('nationality')
             ->orderBy('total', 'DESC')
-            ->get();
-    }
-
-    private static function sliceData($source, $limit)
-    {
-        $data = $source->slice(0, $limit)
+            ->get()
+            ->mapWithKeys(fn ($i) => [ $i['nationality'] => $i['total'] ])
             ->toArray();
-        $other = $source->slice($limit)
-            ->reduce(fn ($carry, $item) => $carry + $item);
-        if ($other > 0) {
-            $data[__('app.others')] = $other;
-        }
-        return $data;
+
+        $limit = $request->input('limit', 10);
+        return slice_data_others($nationalities, $limit);
     }
 
     /**
@@ -118,8 +87,8 @@ class HelperController extends Controller
     private static function getYoungestPerson()
     {
         return Person::query()
-            ->whereHas('helper', fn ($query) => $query->active())
             ->select('date_of_birth')
+            ->whereHas('helper', fn ($query) => $query->active())
             ->whereNotNull('date_of_birth')
             ->orderBy('date_of_birth', 'desc')
             ->limit(1)
@@ -129,8 +98,8 @@ class HelperController extends Controller
     private static function getOldestPerson()
     {
         return Person::query()
-            ->whereHas('helper', fn ($query) => $query->active())
             ->select('date_of_birth')
+            ->whereHas('helper', fn ($query) => $query->active())
             ->whereNotNull('date_of_birth')
             ->orderBy('date_of_birth', 'asc')
             ->limit(1)
@@ -140,12 +109,12 @@ class HelperController extends Controller
     private static function getPersonAges()
     {
         return Person::query()
-            ->whereHas('helper', fn ($query) => $query->active())
             ->select('date_of_birth')
             ->selectRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age')
             ->selectRaw('COUNT(*) AS total')
-            ->groupBy('age')
+            ->whereHas('helper', fn ($query) => $query->active())
             ->whereNotNull('date_of_birth')
+            ->groupBy('age')
             ->orderBy('age', 'asc')
             ->get();
     }
