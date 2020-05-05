@@ -834,7 +834,12 @@ export default {
             "code_expiry": "Code Ablaufdatum",
             "click_to_add_police_number": "Klicke um Polizeinummer hinzuzufügen...",
             "police_no_has_been_updated": "Polizeinummer von {person} wurde aktualisiert.",
-            "visitors": "Besucher"
+            "visitors": "Besucher",
+            "toddlers": "Kleinkinder",
+            "adolescents": "Jugendliche",
+            "young_adults": "Junge Erwachsene",
+            "adults": "Erwachsene",
+            "elderly": "Senioren"
         },
         "permissions": {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
@@ -2009,7 +2014,12 @@ export default {
             "code_expiry": "Code expiry",
             "click_to_add_police_number": "Click to add police number...",
             "police_no_has_been_updated": "Police number of {person} has been updated.",
-            "visitors": "Visitors"
+            "visitors": "Visitors",
+            "toddlers": "Toddlers",
+            "adolescents": "Adolescents",
+            "young_adults": "Young Adults",
+            "adults": "Adults",
+            "elderly": "Elderly"
         },
         "permissions": {
             "view_usermgmt": "User management: View users and roles",
