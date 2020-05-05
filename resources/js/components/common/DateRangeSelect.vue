@@ -1,6 +1,6 @@
 <template>
     <div class="form-row">
-        <div class="col-md-8">
+        <div :class="[ noGranularity ? 'col-md' : 'col-md-8' ]">
             <b-input-group :prepend="$t('app.date_range')" class="mb-2">
                 <b-form-datepicker
                     v-model="from"
@@ -21,7 +21,10 @@
                 />
             </b-input-group>
         </div>
-        <div class="col-md">
+        <div
+            v-if="!noGranularity"
+            class="col-md"
+        >
             <b-input-group :prepend="$t('app.granularity')" class="mb-2">
                 <b-form-select
                     v-model="granularity"
@@ -50,9 +53,10 @@ export default {
             type: Object,
             required: true,
             validator: function (obj) {
-                return obj.from && obj.to && obj.granularity
+                return obj.from && obj.to
             }
         },
+        noGranularity: Boolean,
         min: {
             type: String,
             required: false,

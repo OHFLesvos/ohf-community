@@ -3,6 +3,9 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
+import FontAwesomeIcon from './components/common/FontAwesomeIcon'
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 import PeopleTable from '@/components/people/PeopleTable'
 import PeopleReportPage from '@/pages/people/PeopleReportPage'
 

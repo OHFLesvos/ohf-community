@@ -32,7 +32,10 @@
                 :title="$t('app.new_registrations_per_day')"
                 :x-label="$t('app.date')"
                 :y-label="$t('app.quantity')"
-                :url="route('api.people.reporting.registrationsPerDay', {from: fromDate, to: toDate})"
+                :url="route('api.people.reporting.registrationsPerDay', {
+                    from: dateRange.from,
+                    to: dateRange.to
+                })"
                 :height="350"
                 class="mb-0">
             </bar-chart>
@@ -49,26 +52,35 @@ export default {
         BarChart,
     },
     props: {
-        fromDate: {
-            required: true
-        },
-        toDate: {
-            required: true
+        dateRange: {
+            required: true,
+            type: Object
         }
     },
     data () {
         return {
-            data: null,
-            url: this.route('api.people.reporting.numbers')
+            data: null
+        }
+    },
+    watch: {
+        dateRange () {
+            this.loadData()
         }
     },
     mounted () {
-        axios.get(this.url)
-            .then(res => {
-                this.data = res.data
-            })
+        this.loadData()
     },
     methods: {
+        loadData () {
+            const url =this.route('api.people.reporting.numbers', {
+                from: this.dateRange.from,
+                to: this.dateRange.to
+            })
+            axios.get(url)
+                .then(res => {
+                    this.data = res.data
+                })
+        },
         numberFormat (value) {
             return numeral(value).format('0,0')
         }

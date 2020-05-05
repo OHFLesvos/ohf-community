@@ -292,7 +292,7 @@ Route::middleware(['auth', 'language'])
                     ->name('reporting.monthly-summary');
 
                 // People report
-                Route::get('people', 'PeopleReportingController@index')
+                Route::view('people', 'people.reporting.people')
                     ->name('reporting.people');
             });
     });

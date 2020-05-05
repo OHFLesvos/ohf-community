@@ -1,47 +1,59 @@
 <template>
-    <div class="row mb-0 mb-sm-2">
-        <div class="col-xl-6">
+    <div>
+        <!-- Date range selector -->
+        <date-range-select
+            v-model="dateRange"
+            no-granularity
+            class="mb-2"
+        />
 
-            <!-- Registrations -->
-            <numbers-widget
-                :from-date="fromDate"
-                :to-date="toDate"
-            />
+        <div class="row mb-0 mb-sm-2">
+            <div class="col-xl-6">
 
-            <!-- Gender -->
-            <gender-distribution-widget />
+                <!-- Registrations -->
+                <numbers-widget
+                    :date-range="dateRange"
+                />
 
-            <!-- Age distribution -->
-            <age-distribution-widget />
+                <!-- Gender -->
+                <gender-distribution-widget />
 
-        </div>
-        <div class="col-xl-6">
+                <!-- Age distribution -->
+                <age-distribution-widget />
 
-            <!-- Nationalities -->
-            <nationality-distribution />
+            </div>
+            <div class="col-xl-6">
 
+                <!-- Nationalities -->
+                <nationality-distribution />
+
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import moment from 'moment'
+import DateRangeSelect from '@/components/common/DateRangeSelect'
 import NumbersWidget from '@/components/people/reporting/NumbersWidget'
 import GenderDistributionWidget from '@/components/people/reporting/GenderDistributionWidget'
 import AgeDistributionWidget from '@/components/people/reporting/AgeDistributionWidget'
 import NationalityDistribution from '@/components/people/reporting/NationalityDistribution'
 export default {
     components: {
+        DateRangeSelect,
         NumbersWidget,
         GenderDistributionWidget,
         AgeDistributionWidget,
         NationalityDistribution
     },
-    props: {
-        fromDate: {
-            required: true
-        },
-        toDate: {
-            required: true
+    data () {
+        return {
+            dateRange: {
+                from: moment().subtract(30, 'days').format(moment.HTML5_FMT.DATE),
+                to: moment().format(moment.HTML5_FMT.DATE),
+                granularity: 'days',
+            }
         }
     }
 }
