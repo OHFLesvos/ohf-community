@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import PersonLabel from '@/components/PersonLabel'
+import PersonLabel from '@/components/shop/PersonLabel'
 export default {
     components: {
         PersonLabel
