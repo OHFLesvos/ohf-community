@@ -18,6 +18,7 @@
                 <doughnut-chart
                     title="@lang('people.gender')"
                     url="{{ route('api.people.helpers.genders') }}"
+                    hide-legend
                     :height="300"
                     class="mb-2">
                 </doughnut-chart>
@@ -26,7 +27,6 @@
                 <doughnut-chart
                     title="@lang('people.nationalities')"
                     url="{{ route('api.people.helpers.nationalities') }}"
-                    show-legend
                     :height="300"
                     class="mb-2">
                 </doughnut-chart>

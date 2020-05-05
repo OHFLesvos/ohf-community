@@ -22,7 +22,7 @@ export default {
             required: false,
             default: 'pie'
         },
-        showLegend: Boolean
+        hideLegend: Boolean
     },
     mounted () {
         this.addPlugin(ChartJsPluginDataLabels)
@@ -67,7 +67,7 @@ export default {
                     text: this.title
                 },
                 legend: {
-                    display: this.showLegend,
+                    display: !this.hideLegend,
                     position: 'bottom'
                 },
                 responsive: true,
@@ -112,7 +112,7 @@ export default {
             const currentValue = dataset.data[context.dataIndex]
             const label = context.chart.data.labels[context.dataIndex]
             const percentage = parseFloat((currentValue / total * 100).toFixed(1))
-            if (this.showLegend) {
+            if (!this.hideLegend) {
                 return `${percentage}%`
             }
             return `${label}\n(${percentage}%)`

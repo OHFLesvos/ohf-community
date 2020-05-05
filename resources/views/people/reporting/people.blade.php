@@ -51,6 +51,7 @@
                         <doughnut-chart
                             title="@lang('people.gender')"
                             url="{{ route('api.people.reporting.genderDistribution') }}"
+                            hide-legend
                             :height="300"
                             class="mb-2">
                         </doughnut-chart>
@@ -65,7 +66,6 @@
                             <doughnut-chart
                                 title="@lang('people.age_distribution')"
                                 url="{{ route('api.people.reporting.ageDistribution') }}"
-                                show-legend
                                 :height="300"
                                 class="mb-2">
                             </doughnut-chart>
