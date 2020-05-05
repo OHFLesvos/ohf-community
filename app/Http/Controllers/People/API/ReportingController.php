@@ -17,12 +17,7 @@ class ReportingController extends BaseReportingController
      */
     public function nationalities()
     {
-        return response()->json([
-            'labels' => null,
-            'datasets' => collect(Person::getNationalities())
-                ->map(fn ($e) => [$e])
-                ->toArray(),
-        ]);
+        return Person::getNationalities();
     }
 
     /**

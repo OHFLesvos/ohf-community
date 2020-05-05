@@ -109,6 +109,14 @@
                 @if(count($nationalities) > 0)
                     <div class="card mb-4">
                         <div class="card-header">@lang('people.nationalities')</div>
+                        <div class="card-body">
+                            <doughnut-chart
+                                title="@lang('people.nationalities')"
+                                url="{{ route('api.people.reporting.nationalities') }}"
+                                :height="300"
+                                class="mb-2">
+                            </doughnut-chart>
+                        </div>
                         <div class="table-responsive mb-0">
                             <table class="table table-sm my-0 colorize">
                                 @foreach ($nationalities as $nationality => $v)
