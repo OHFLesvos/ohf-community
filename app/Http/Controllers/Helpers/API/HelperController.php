@@ -7,7 +7,7 @@ use App\Models\People\Person;
 use App\Support\ChartResponseBuilder;
 use Illuminate\Http\Request;
 
-class HelperReportController extends Controller
+class HelperController extends Controller
 {
     /**
      * Gender distribution

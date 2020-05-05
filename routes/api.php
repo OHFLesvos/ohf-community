@@ -279,21 +279,21 @@ Route::middleware(['auth', 'language'])
 //
 
 Route::middleware(['auth', 'language'])
-    ->name('people.helpers.')
+    ->name('api.people.helpers.')
     ->prefix('helpers')
     ->namespace('Helpers\API')
     ->group(function () {
         // Age distribution
-        Route::get('report/ages', 'HelperReportController@ages')
-            ->name('report.ages')
+        Route::get('ages', 'HelperController@ages')
+            ->name('ages')
             ->middleware('can:list,App\Models\Helpers\Helper');
         // Nationality distribution
-        Route::get('report/nationalities', 'HelperReportController@nationalities')
-            ->name('report.nationalities')
+        Route::get('nationalities', 'HelperController@nationalities')
+            ->name('nationalities')
             ->middleware('can:list,App\Models\Helpers\Helper');
         // Gender distribution
-        Route::get('report/genders', 'HelperReportController@genders')
-            ->name('report.genders')
+        Route::get('genders', 'HelperController@genders')
+            ->name('genders')
             ->middleware('can:list,App\Models\Helpers\Helper');
     });
 

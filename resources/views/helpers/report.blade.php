@@ -9,7 +9,7 @@
             title="@lang('people.age_distribution')"
             x-label="@lang('people.age')"
             y-label="@lang('app.quantity')"
-            url="{{ route('people.helpers.report.ages') }}"
+            url="{{ route('api.people.helpers.ages') }}"
             :height="350"
             class="mb-2">
         </bar-chart>
@@ -17,7 +17,7 @@
             <div class="col-sm">
                 <doughnut-chart
                     title="@lang('people.gender')"
-                    url="{{ route('people.helpers.report.genders') }}"
+                    url="{{ route('api.people.helpers.genders') }}"
                     :height="300"
                     class="mb-2">
                 </doughnut-chart>
@@ -25,7 +25,7 @@
             <div class="col-sm">
                 <doughnut-chart
                     title="@lang('people.nationalities')"
-                    url="{{ route('people.helpers.report.nationalities') }}"
+                    url="{{ route('api.people.helpers.nationalities') }}"
                     show-legend
                     :height="300"
                     class="mb-2">
