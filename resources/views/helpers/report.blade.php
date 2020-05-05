@@ -18,8 +18,7 @@
                 <pie-chart
                     title="@lang('people.gender')"
                     url="{{ route('people.helpers.report.genders') }}"
-                    :height=300
-                    :legend=false
+                    :height="300"
                     class="mb-2">
                 </pie-chart>
             </div>
@@ -27,8 +26,7 @@
                 <pie-chart
                     title="@lang('people.nationalities')"
                     url="{{ route('people.helpers.report.nationalities') }}"
-                    :height=300
-                    :legend=false
+                    :height="300"
                     class="mb-2">
                 </pie-chart>
             </div>

@@ -30,11 +30,7 @@ class ReportingController extends BaseReportingController
      */
     public function genderDistribution()
     {
-        $gender = Person::getGenderDistribution();
-        return response()->json([
-            'labels' => array_keys($gender),
-            'datasets' => [array_values($gender)],
-        ]);
+        return Person::getGenderDistribution();
     }
 
     /**
@@ -42,11 +38,7 @@ class ReportingController extends BaseReportingController
      */
     public function ageDistribution()
     {
-        $data = Person::getAgeDistribution();
-        return response()->json([
-            'labels' => array_keys($data),
-            'datasets' => [array_values($data)],
-        ]);
+        return Person::getAgeDistribution();
     }
 
     /**

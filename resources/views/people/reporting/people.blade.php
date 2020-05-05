@@ -52,8 +52,7 @@
                             <pie-chart
                                 title="@lang('people.gender')"
                                 url="{{ route('api.people.reporting.genderDistribution') }}"
-                                :height=300
-                                :legend=false
+                                :height="300"
                                 class="mb-2">
                             </pie-chart>
                             <table class="table table-sm mb-0 colorize">
@@ -77,8 +76,7 @@
                             <pie-chart
                                 title="@lang('people.age_distribution')"
                                 url="{{ route('api.people.reporting.ageDistribution') }}"
-                                :height=300
-                                :legend=false
+                                :height="300"
                                 class="mb-2">
                             </pie-chart>
                             <table class="table table-sm mb-0 colorize">

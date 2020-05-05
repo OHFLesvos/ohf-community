@@ -41,6 +41,7 @@ export default {
         loadData () {
             axios.get(this.url)
                 .then(res => this.chartData = this.parseDateFromResponse(res.data))
+                .catch(err => console.error(err))
         },
         parseDateFromResponse (resData) {
             // Assign lables and data
@@ -61,10 +62,10 @@ export default {
             return chartData
         },
         createOptions () {
-            const options = {
+            return {
                 title: {
                     display: true,
-                    text: this.title,
+                    text: this.title
                 },
                 legend: {
                     display: true,
@@ -79,11 +80,11 @@ export default {
                     xAxes: [{
                         display: true,
                         gridLines: {
-                            display: true,
+                            display: true
                         },
                         scaleLabel: {
                             display: this.xLabel,
-                            labelString: this.xLabel,
+                            labelString: this.xLabel
                         }
                     }],
                     yAxes: [{
@@ -96,18 +97,16 @@ export default {
                         },
                         scaleLabel: {
                             display: this.yLabel,
-                            labelString: this.yLabel,
+                            labelString: this.yLabel
                         }
                     }]
                 },
                 responsive: true,
                 maintainAspectRatio: false,
                 animation: {
-                    duration: 0
-                },
-            };
-
-            return options
+                    duration: 500
+                }
+            }
         }
     }
 }

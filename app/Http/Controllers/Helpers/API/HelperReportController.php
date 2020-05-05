@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Helpers\API;
 use App\Http\Controllers\Controller;
 use App\Models\People\Person;
 use App\Support\ChartResponseBuilder;
+use Illuminate\Http\Request;
 
 class HelperReportController extends Controller
 {
@@ -12,15 +13,6 @@ class HelperReportController extends Controller
      * Gender distribution
      */
     public function genders()
-    {
-        $gender = self::getGenders();
-        return response()->json([
-            'labels' => array_keys($gender),
-            'datasets' => [array_values($gender)],
-        ]);
-    }
-
-    private static function getGenders()
     {
         return collect(self::getPersonGenders())
             ->mapWithKeys(fn ($i) => [ self::getGenderLabel($i['gender']) => $i['total'] ])
@@ -52,19 +44,20 @@ class HelperReportController extends Controller
     /**
      * Nationality distribution
      */
-    public function nationalities()
+    public function nationalities(Request $request)
     {
-        $nationalities = self::getNationalities();
-        return response()->json([
-            'labels' => array_keys($nationalities),
-            'datasets' => [array_values($nationalities)],
+        $request->validate([
+            'limit' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ]
         ]);
-    }
+        $limit = $request->input('limit', 10);
 
-    private static function getNationalities($limit = 10)
-    {
         $nationalities = collect(self::getPersonNationalities())
             ->mapWithKeys(fn ($i) => [ $i['nationality'] => $i['total'] ]);
+
         return self::sliceData($nationalities, $limit);
     }
 
@@ -87,7 +80,7 @@ class HelperReportController extends Controller
         $other = $source->slice($limit)
             ->reduce(fn ($carry, $item) => $carry + $item);
         if ($other > 0) {
-            $data['Other'] = $other;
+            $data[__('app.others')] = $other;
         }
         return $data;
     }
