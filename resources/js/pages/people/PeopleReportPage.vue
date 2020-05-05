@@ -44,30 +44,6 @@
             <!-- Age distribution -->
             <age-distribution-widget />
 
-            <!-- Cards -->
-            <div class="card mb-4">
-                <div class="card-header">{{ $t('app.cards') }}</div>
-                <div
-                    v-for="(row, idx) in cards"
-                    :key="idx"
-                    class="card-body"
-                >
-                    <div class="row mb-4 align-items-center">
-                        <div
-                            v-for="(v, k) in row"
-                            :key="k"
-                            class="col"
-                        >
-                            <div class="row align-items-center">
-                                <div class="col text-secondary">{{ k }}:</div>
-                                <div class="col display-4">{{ numberFormat(v) }}</div>
-                            </div>
-                        </div>
-                        <div class="w-100 d-block d-sm-none"></div>
-                    </div>
-                </div>
-            </div>
-
         </div>
         <div class="col-xl-6">
 
@@ -93,9 +69,6 @@ export default {
     },
     props: {
         people: {
-            required: true
-        },
-        cards: {
             required: true
         },
         fromDate: {

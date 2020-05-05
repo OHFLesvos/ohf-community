@@ -42,8 +42,6 @@ class PeopleReportingController extends BaseReportingController
                 [
                     __('people.average_new_registrations_per_day') => Person::getAvgRegistrationsPerDay($dateFrom, $dateTo),
                 ],
-            ],
-            'cards' => [
                 [
                     __('people.cards_issued') => Person::whereNotNull('card_no')->count(),
                     __('people.cards_revoked') => RevokedCard::count(),
@@ -51,5 +49,4 @@ class PeopleReportingController extends BaseReportingController
             ],
         ]);
     }
-
 }
