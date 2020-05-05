@@ -110,25 +110,6 @@ $(function(){
 });
 
 //
-// Vue
-//
-import Vue from 'vue'
-
-Vue.config.productionTip = false
-
-import BarChart from '@/components/BarChart.vue';
-Vue.component('bar-chart', BarChart);
-import Doughnut from '@/components/charts/DoughnutChart.vue';
-Vue.component('doughnut-chart', Doughnut);
-
-import i18n from '@/plugins/i18n'
-
-new Vue({
-    el: '#app',
-    i18n
-});
-
-//
 // Autocomplete
 //
 require('devbridge-autocomplete')
