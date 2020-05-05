@@ -72,8 +72,6 @@ export default {
         return {
             data: null,
             selectedMonth: null,
-            // from: moment().subtract(1, 'months').format(moment.HTML5_FMT.DATE),
-            // to: moment().format(moment.HTML5_FMT.DATE)
         }
     },
     computed: {
@@ -107,7 +105,7 @@ export default {
                     label: 'Days active',
                     value: this.data.current_days_active,
                     percent: this.percentVal(this.previous_days_active, this.current_days_active),
-                    ytd: this.year_days_active,
+                    ytd: this.data.year_days_active,
                 },
                 {
                     label: 'Unique visitors',
@@ -124,7 +122,7 @@ export default {
                 {
                     label: 'Average visitors / day',
                     value: current_average_visitors_per_day,
-                    percent: [previous_average_visitors_per_day, current_average_visitors_per_day],
+                    percent: this.percentVal(previous_average_visitors_per_day, current_average_visitors_per_day),
                 },
                 {
                     label: 'New registrations',
