@@ -8,6 +8,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import PeopleTable from '@/components/people/PeopleTable'
 import PeopleReportPage from '@/pages/people/PeopleReportPage'
+import MonthlySummaryReportPage from '@/pages/people/MonthlySummaryReportPage'
 
 import ziggyMixin from '@/mixins/ziggyMixin'
 Vue.mixin(ziggyMixin)
@@ -21,6 +22,7 @@ new Vue({
     i18n,
     components: {
         PeopleTable,
-        PeopleReportPage
+        PeopleReportPage,
+        MonthlySummaryReportPage
     }
 });

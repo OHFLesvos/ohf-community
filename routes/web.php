@@ -288,7 +288,7 @@ Route::middleware(['auth', 'language'])
             ->group(function () {
 
                 // Monthly summary report
-                Route::get('monthly-summary', 'MonthlySummaryReportingController@index')
+                Route::view('monthly-summary', 'people.reporting.monthly-summary')
                     ->name('reporting.monthly-summary');
 
                 // People report

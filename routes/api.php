@@ -245,6 +245,8 @@ Route::middleware(['auth', 'language'])
                     ->name('ageDistribution');
                 Route::get('registrationsPerDay', 'ReportingController@registrationsPerDay')
                     ->name('registrationsPerDay');
+                Route::get('monthlySummary', 'MonthlySummaryReportController@summary')
+                    ->name('monthlySummary');
             });
     });
 

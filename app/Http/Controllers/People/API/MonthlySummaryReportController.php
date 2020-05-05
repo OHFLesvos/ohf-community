@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\People\Reporting;
+namespace App\Http\Controllers\People\API;
 
+use App;
 use App\Http\Controllers\Reporting\BaseReportingController;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Bank\CouponHandout;
@@ -10,18 +11,23 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MonthlySummaryReportingController extends BaseReportingController
+class MonthlySummaryReportController extends BaseReportingController
 {
     use ValidatesDateRanges;
 
-    public function index(Request $request)
+    // public function __construct()
+    // {
+    //     setlocale(LC_TIME, App::getLocale());
+    // }
+
+    public function summary(Request $request)
     {
         [$from, $to] = self::getMonthRangeDatesFromRequest($request);
         $prev_from = (clone $from)->subMonth(1)->startOfMonth();
         $prev_to = (clone $prev_from)->endOfMonth();
         $year_from = (clone $from)->startOfYear();
 
-        return view('people.reporting.monthly-summary', [
+        return [
             'monthDate' => $from,
             'months' => self::monthsWithData(),
 
@@ -46,20 +52,20 @@ class MonthlySummaryReportingController extends BaseReportingController
             'current_new_registrations' => self::newRegistrations($from, $to),
             'previous_new_registrations' => self::newRegistrations($prev_from, $prev_to),
             'year_new_registrations' => self::newRegistrations($year_from, $to),
-        ]);
+        ];
     }
 
     private static function monthsWithData()
     {
         $months = CouponHandout::selectRaw('DATE_FORMAT(date, \'%Y-%m\') as y_m')
-            ->groupBy(DB::raw('YEAR(date)'))
-            ->groupBy(DB::raw('MONTH(date)'))
+            ->groupByRaw('YEAR(date)')
+            ->groupByRaw('MONTH(date)')
             ->get()
             ->pluck('y_m');
 
         $months = $months->merge(Person::withTrashed()->selectRaw('DATE_FORMAT(created_at, \'%Y-%m\') as y_m')
-            ->groupBy(DB::raw('YEAR(created_at)'))
-            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->groupByRaw('YEAR(created_at)')
+            ->groupByRaw('MONTH(created_at)')
             ->get()
             ->pluck('y_m'));
 
