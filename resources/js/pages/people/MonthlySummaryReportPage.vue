@@ -107,7 +107,7 @@ export default {
                 {
                     label: 'Days active',
                     value: this.data.current_days_active,
-                    percent: this.percentVal(this.previous_days_active, this.current_days_active),
+                    percent: this.percentVal(this.data.previous_days_active, this.data.current_days_active),
                     ytd: this.data.year_days_active,
                 },
                 {
