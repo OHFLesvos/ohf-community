@@ -62,7 +62,7 @@
 <script>
 import axios from '@/plugins/axios'
 import moment from 'moment'
-import BarChart from '@/components/BarChart'
+import BarChart from '@/components/charts/BarChart'
 export default {
     components: {
         BarChart

@@ -1,5 +1,5 @@
 <template>
-    <component :is="cumulative ? 'line-chart' : 'bar-chart'"
+    <component :is="cumulative ? 'reactive-line-chart' : 'reactive-bar-chart'"
         v-if="!error && loaded"
         :chart-data="chartData"
         :options="options"
@@ -22,14 +22,14 @@
 import axios from '@/plugins/axios'
 import moment from 'moment'
 import { applyColorPaletteToDatasets, getAjaxErrorMessage } from '@/utils'
-import BarChart from '@/components/charts/BarChart'
-import LineChart from '@/components/charts/LineChart'
+import ReactiveBarChart from '@/components/charts/ReactiveBarChart'
+import ReactiveLineChart from '@/components/charts/ReactiveLineChart'
 import slugify from 'slugify'
 import numeral from 'numeral'
 export default {
     components: {
-        BarChart,
-        LineChart
+        ReactiveBarChart,
+        ReactiveLineChart
     },
     props: {
         title: {

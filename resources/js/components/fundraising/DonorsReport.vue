@@ -84,8 +84,8 @@
 
 <script>
 import axios from '@/plugins/axios'
-import SimpleTwoColumnListCard from '@/components/common/SimpleTwoColumnListCard'
-import AdvancedTwoColumnListCard from '@/components/common/AdvancedTwoColumnListCard'
+import SimpleTwoColumnListCard from '@/components/ui/SimpleTwoColumnListCard'
+import AdvancedTwoColumnListCard from '@/components/ui/AdvancedTwoColumnListCard'
 import TimeBarChart from '@/components/charts/TimeBarChart'
 import DateRangeSelect from '@/components/common/DateRangeSelect'
 import { getAjaxErrorMessage } from '@/utils'

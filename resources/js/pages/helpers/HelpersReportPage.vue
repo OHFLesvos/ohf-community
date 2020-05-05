@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import BarChart from '@/components/BarChart'
+import BarChart from '@/components/charts/BarChart'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 export default {
     components: {
