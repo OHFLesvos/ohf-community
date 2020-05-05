@@ -4,6 +4,7 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import PeopleTable from '@/components/people/PeopleTable'
+import PeopleReportPage from '@/pages/people/PeopleReportPage'
 
 import ziggyMixin from '@/mixins/ziggyMixin'
 Vue.mixin(ziggyMixin)
@@ -16,6 +17,7 @@ new Vue({
     el: '#people-app',
     i18n,
     components: {
-        PeopleTable
+        PeopleTable,
+        PeopleReportPage
     }
 });

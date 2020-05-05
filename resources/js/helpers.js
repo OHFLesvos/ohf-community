@@ -15,8 +15,8 @@ Vue.mixin(ziggyMixin)
 
 new Vue({
     el: '#helper-app',
+    i18n,
     components: {
         HelpersReportPage
-    },
-    i18n
+    }
 });

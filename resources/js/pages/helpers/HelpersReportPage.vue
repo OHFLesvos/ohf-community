@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import BarChart from '@/components/BarChart.vue';
-import DoughnutChart from '@/components/charts/DoughnutChart.vue';
+import BarChart from '@/components/BarChart'
+import DoughnutChart from '@/components/charts/DoughnutChart'
 export default {
     components: {
         BarChart,
