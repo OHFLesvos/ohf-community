@@ -27,12 +27,13 @@ export default {
         }
     },
     watch: {
-        input () {
-            this.selectedItem = null
+        input (val) {
+            if (this.selectedItem && this.selectedItem.value != val) {
+                this.selectedItem = null
+            }
         },
         selectedItem (val) {
-            console.log(`Selected: ${JSON.stringify(val)}`)
-            this.$emit('select', val.id)
+            this.$emit('select', val ? val.data : null)
         }
     },
     methods: {
