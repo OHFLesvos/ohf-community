@@ -104,7 +104,7 @@
     {!! Form::open(['route' => ['library.lending.lendBookToPerson', $person], 'method' => 'post']) !!}
         @component('components.modal', [ 'id' => 'lendBookModal' ])
             @slot('title', __('library.lend_a_book'))
-            {{ Form::bsAutocomplete('book_id', null, route('library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
+            {{ Form::bsAutocomplete('book_id', null, route('api.library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }}
             @slot('footer')
                 <button type="submit" class="btn btn-primary" id="lend-existing-book-button">
                     @icon(check) @lang('library.lend_book')

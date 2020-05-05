@@ -1,4 +1,5 @@
 <?php
+namespace App;
 
 use Illuminate\Support\Facades\Route;
 
@@ -359,8 +360,13 @@ Route::middleware(['auth', 'language'])
 Route::middleware(['auth', 'language', 'can:operate-library'])
     ->namespace('Library\API')
     ->prefix('library')
-    ->name('library.')
+    ->name('api.library.')
     ->group(function () {
-        Route::get('books/filter', 'BookController@filter')->name('books.filter');
-        Route::get('books/findIsbn', 'BookController@findIsbn')->name('books.findIsbn');
+        Route::get('lending/stats', 'LendingController@stats')
+            ->name('lending.stats');
+
+        Route::get('books/filter', 'BookController@filter')
+            ->name('books.filter');
+        Route::get('books/findIsbn', 'BookController@findIsbn')
+            ->name('books.findIsbn');
     });

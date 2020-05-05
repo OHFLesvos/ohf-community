@@ -1,5 +1,30 @@
 import isIsbn from 'is-isbn'
 
+import Vue from 'vue'
+
+import FontAwesomeIcon from '@/components/common/FontAwesomeIcon'
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+
+import LendingPage from '@/pages/library/LendingPage'
+
+import i18n from '@/plugins/i18n'
+
+import ziggyMixin from '@/mixins/ziggyMixin'
+Vue.mixin(ziggyMixin)
+
+Vue.config.productionTip = false
+
+new Vue({
+    el: '#library-app',
+    i18n,
+    components: {
+        LendingPage
+    }
+});
+
 $(function(){
     $('#lendBookModal').on('shown.bs.modal', function (e) {
         $('input[name="book_id"]').val('').trigger('change');

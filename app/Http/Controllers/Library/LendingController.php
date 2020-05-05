@@ -20,18 +20,7 @@ class LendingController extends Controller
 {
     public function index()
     {
-        return view('library.lending.index', [
-            'num_borrowers' => Person::query()
-                ->whereHas('bookLendings', function ($query) {
-                    $query->whereNull('returned_date');
-                })
-                ->count(),
-            'num_lent_books' => LibraryBook::query()
-                ->whereHas('lendings', function ($query) {
-                    $query->whereNull('returned_date');
-                })
-                ->count(),
-        ]);
+        return view('library.lending.index');
     }
 
     public function persons()
