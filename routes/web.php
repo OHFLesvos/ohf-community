@@ -16,12 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('language')->group(function () {
 
     Route::middleware('auth')->group(function () {
-
         // Home (Dashboard)
-        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/', 'HomeController@index')
+            ->name('home');
 
         // Reporting
-        Route::view('reporting', 'reporting.index')->name('reporting.index')->middleware('can:view-reports');
+        Route::view('reporting', 'reporting.index')
+            ->name('reporting.index')
+            ->middleware('can:view-reports');
     });
 
     // Authentication
@@ -36,14 +38,14 @@ Route::middleware('language')->group(function () {
         ->where('driver', implode('|', $socialite_drivers));
 
     // Privacy policy
-    Route::get('userPrivacyPolicy', 'PrivacyPolicy@userPolicy')->name('userPrivacyPolicy');
+    Route::get('userPrivacyPolicy', 'PrivacyPolicy@userPolicy')
+        ->name('userPrivacyPolicy');
 
     // Settings
     Route::get('settings', 'Settings\SettingsController@edit')
         ->name('settings.edit');
     Route::put('settings', 'Settings\SettingsController@update')
         ->name('settings.update');
-
 });
 
 //
@@ -54,31 +56,32 @@ Route::middleware(['auth', 'language'])
     ->group(function () {
 
         // User management
-        Route::prefix('admin')->group(function () {
-            // Users
-            Route::put('users/{user}/disable2FA', 'UserController@disable2FA')
-                ->name('users.disable2FA');
-            Route::put('users/{user}/disableOAuth', 'UserController@disableOAuth')
-                ->name('users.disableOAuth');
-            Route::resource('users', 'UserController');
+        Route::prefix('admin')
+            ->group(function () {
+                // Users
+                Route::put('users/{user}/disable2FA', 'UserController@disable2FA')
+                    ->name('users.disable2FA');
+                Route::put('users/{user}/disableOAuth', 'UserController@disableOAuth')
+                    ->name('users.disableOAuth');
+                Route::resource('users', 'UserController');
 
-            // Roles
-            Route::get('roles/{role}/members', 'RoleController@manageMembers')
-                ->name('roles.manageMembers');
-            Route::put('roles/{role}/members', 'RoleController@updateMembers')
-                ->name('roles.updateMembers');
-            Route::resource('roles', 'RoleController');
+                // Roles
+                Route::get('roles/{role}/members', 'RoleController@manageMembers')
+                    ->name('roles.manageMembers');
+                Route::put('roles/{role}/members', 'RoleController@updateMembers')
+                    ->name('roles.updateMembers');
+                Route::resource('roles', 'RoleController');
 
-            // Reporting
-            Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {
-                Route::get('reporting/users/permissions', 'UserController@permissions')
-                    ->name('users.permissions');
-                Route::get('reporting/users/sensitiveData', 'UserController@sensitiveDataReport')
-                    ->name('reporting.privacy');
-                Route::get('reporting/roles/permissions', 'RoleController@permissions')
-                    ->name('roles.permissions');
+                // Reporting
+                Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {
+                    Route::get('reporting/users/permissions', 'UserController@permissions')
+                        ->name('users.permissions');
+                    Route::get('reporting/users/sensitiveData', 'UserController@sensitiveDataReport')
+                        ->name('reporting.privacy');
+                    Route::get('reporting/roles/permissions', 'RoleController@permissions')
+                        ->name('roles.permissions');
+                });
             });
-        });
 
         // User profile
         Route::get('/userprofile', 'UserProfileController@index')
@@ -311,7 +314,8 @@ Route::middleware(['auth', 'language'])
                     ->group(function () {
 
                         Route::get('', function () {
-                            return redirect()->route('bank.withdrawal.search');
+                            return redirect()
+                                ->route('bank.withdrawal.search');
                         })->name('index');
 
                         Route::view('withdrawal', 'bank.withdrawal.search')
@@ -397,38 +401,47 @@ Route::middleware(['auth', 'language'])
                 Route::view('helpers/report', 'helpers.report')
                     ->name('helpers.report')
                     ->middleware('can:list,App\Models\Helpers\Helper');
+
                 // Export view
                 Route::get('helpers/export', 'HelperExportImportController@export')
                     ->name('helpers.export')
                     ->middleware('can:export,App\Models\Helpers\Helper');
+
                 // Export download
                 Route::post('helpers/doExport', 'HelperExportImportController@doExport')
                     ->name('helpers.doExport')
                     ->middleware('can:export,App\Models\Helpers\Helper');
+
                 // Import view
                 Route::get('helpers/import', 'HelperExportImportController@import')
                     ->name('helpers.import')
                     ->middleware('can:import,App\Models\Helpers\Helper');
+
                 // Import upload
                 Route::post('helpers/doImport', 'HelperExportImportController@doImport')
                     ->name('helpers.doImport')
                     ->middleware('can:import,App\Models\Helpers\Helper');
+
                 // Download vCard
                 Route::get('helpers/{helper}/vcard', 'HelperExportImportController@vcard')
                     ->name('helpers.vcard');
-                // Create helper (decide what way)
+
+                    // Create helper (decide what way)
                 Route::get('helpers/createFrom', 'HelperListController@createFrom')
                     ->name('helpers.createFrom')
                     ->middleware('can:create,App\Models\Helpers\Helper');
-                // Store helper (decide what way)
+
+                    // Store helper (decide what way)
                 Route::post('helpers/createFrom', 'HelperListController@storeFrom')
                     ->name('helpers.storeFrom')
                     ->middleware('can:create,App\Models\Helpers\Helper');
-                // Responsibilities resource
+
+                    // Responsibilities resource
                 Route::name('helpers.')->group(function () {
                     Route::resource('helpers/responsibilities', 'ResponsibilitiesController')
                         ->except('show');
                 });
+
                 // Helpers resource
                 Route::resource('helpers', 'HelperListController');
             });
@@ -482,8 +495,9 @@ Route::middleware(['auth', 'language'])
     ->prefix('shop')
     ->name('shop.')
     ->group(function () {
-        Route::middleware(['can:validate-shop-coupons'])->group(function () {
-            Route::view('/', 'shop.index')->name('index');
-            Route::view('manageCards', 'shop.manageCards')->name('manageCards');
-        });
+        Route::middleware(['can:validate-shop-coupons'])
+            ->group(function () {
+                Route::view('/', 'shop.index')->name('index');
+                Route::view('manageCards', 'shop.manageCards')->name('manageCards');
+            });
     });
