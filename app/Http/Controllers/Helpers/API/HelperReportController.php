@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Helpers\API;
 use App\Http\Controllers\Controller;
 use App\Models\People\Person;
 use App\Support\ChartResponseBuilder;
-use Carbon\Carbon;
 
 class HelperReportController extends Controller
 {
@@ -31,7 +30,7 @@ class HelperReportController extends Controller
     private static function getPersonGenders()
     {
         return Person::query()
-            ->whereHas('helper', fn ($query) => self::getActiveHelperQuery($query))
+            ->whereHas('helper', fn ($query) => $query->active())
             ->select('gender')
             ->selectRaw('COUNT(*) AS total')
             ->groupBy('gender')
@@ -72,9 +71,7 @@ class HelperReportController extends Controller
     private static function getPersonNationalities()
     {
         return Person::query()
-            ->whereHas('helper', function ($query) {
-                return self::getActiveHelperQuery($query);
-            })
+            ->whereHas('helper', fn ($query) => $query->active())
             ->select('nationality')
             ->selectRaw('COUNT(*) AS total')
             ->groupBy('nationality')
@@ -128,9 +125,7 @@ class HelperReportController extends Controller
     private static function getYoungestPerson()
     {
         return Person::query()
-            ->whereHas('helper', function ($query) {
-                return self::getActiveHelperQuery($query);
-            })
+            ->whereHas('helper', fn ($query) => $query->active())
             ->select('date_of_birth')
             ->whereNotNull('date_of_birth')
             ->orderBy('date_of_birth', 'desc')
@@ -141,9 +136,7 @@ class HelperReportController extends Controller
     private static function getOldestPerson()
     {
         return Person::query()
-            ->whereHas('helper', function ($query) {
-                return self::getActiveHelperQuery($query);
-            })
+            ->whereHas('helper', fn ($query) => $query->active())
             ->select('date_of_birth')
             ->whereNotNull('date_of_birth')
             ->orderBy('date_of_birth', 'asc')
@@ -154,9 +147,7 @@ class HelperReportController extends Controller
     private static function getPersonAges()
     {
         return Person::query()
-            ->whereHas('helper', function ($query) {
-                return self::getActiveHelperQuery($query);
-            })
+            ->whereHas('helper', fn ($query) => $query->active())
             ->select('date_of_birth')
             ->selectRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age')
             ->selectRaw('COUNT(*) AS total')
@@ -164,16 +155,5 @@ class HelperReportController extends Controller
             ->whereNotNull('date_of_birth')
             ->orderBy('age', 'asc')
             ->get();
-    }
-
-    private static function getActiveHelperQuery($query)
-    {
-        return $query
-            ->whereNotNull('work_starting_date')
-            ->whereDate('work_starting_date', '<=', Carbon::today())
-            ->where(function ($q) {
-                return $q->whereNull('work_leaving_date')
-                    ->orWhereDate('work_leaving_date', '>=', Carbon::today());
-            });
     }
 }
