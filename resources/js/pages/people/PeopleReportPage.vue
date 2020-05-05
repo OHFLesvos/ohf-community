@@ -62,20 +62,29 @@
                         :height="300"
                         class="mb-2">
                     </doughnut-chart>
-                    <table class="table table-sm mb-0 colorize">
-                        <tr
-                            v-for="(v, k) in ageDistribution"
-                            :key="k"
-                        >
-                            <td
-                                class="colorize-background"
-                                style="width: 2em"
-                            >&nbsp;</td>
-                            <td>{{ k }}</td>
-                            <td class="text-right">{{ percentValue(v, ageDistributionTotal) }}%</td>
-                        </tr>
-                    </table>
                 </div>
+                <table class="table table-sm mb-0">
+                    <tr
+                        v-for="(v, k) in ageDistribution"
+                        :key="k"
+                    >
+                        <td class="fit">{{ k }}</td>
+                        <td class="align-middle d-none d-sm-table-cell">
+                            <b-progress
+                                :value="v"
+                                :max="ageDistributionTotal"
+                                :show-value="false"
+                                variant="secondary"
+                            />
+                        </td>
+                        <td class="fit text-right">
+                            {{ percentValue(v, ageDistributionTotal) }}%
+                        </td>
+                        <td class="fit text-right d-none d-sm-table-cell">
+                            {{ numberFormat(v) }}
+                        </td>
+                    </tr>
+                </table>
             </div>
 
             <!-- Cards -->
@@ -120,7 +129,7 @@
                     </doughnut-chart>
                 </div>
                 <div class="table-responsive mb-0">
-                    <table class="table table-sm my-0 colorize">
+                    <table class="table table-sm my-0">
                         <tr
                             v-for="(v, nationality) in nationalities"
                             :key="nationality"
@@ -139,7 +148,7 @@
                             <td class="fit text-right">
                                 {{ percentValue(v, nationalityTotal) }}%
                             </td>
-                            <td class="fit text-right">
+                            <td class="fit text-right d-none d-sm-table-cell">
                                 {{ numberFormat(v) }}
                             </td>
                         </tr>
