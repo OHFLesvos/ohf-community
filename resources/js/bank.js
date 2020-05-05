@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import FontAwesomeIcon from './components/common/FontAwesomeIcon'
+import FontAwesomeIcon from '@/components/common/FontAwesomeIcon'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import BankSearchPage from '@/pages/bank/BankSearchPage'

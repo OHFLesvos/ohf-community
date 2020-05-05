@@ -1,5 +1,5 @@
 <script>
-import BaseAlert from './BaseAlert'
+import BaseAlert from '@/components/alerts/BaseAlert'
 export default {
     extends: BaseAlert,
     data() {

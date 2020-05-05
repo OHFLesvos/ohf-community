@@ -100,13 +100,13 @@ import NameLabel from '@/components/people/NameLabel'
 import GenderSelector from '@/components/people/GenderSelector'
 import DateOfBirthSelector from '@/components/people/DateOfBirthSelector'
 import NationalitySelector from '@/components/people/NationalitySelector'
-import FrequentVisitorMarker from './FrequentVisitorMarker'
+import FrequentVisitorMarker from '@/components/bank/FrequentVisitorMarker'
 import EditLink from '@/components/people/EditLink'
 import CardNumberLabel from '@/components/people/CardNumberLabel'
 import PoliceNoLabel from '@/components/people/PoliceNoLabel'
 import RemarksLabel from '@/components/people/RemarksLabel'
 import OverdueBookLendingsLabel from '@/components/people/OverdueBookLendingsLabel'
-import CouponHandoutButton from './CouponHandoutButton'
+import CouponHandoutButton from '@/components/bank/CouponHandoutButton'
 
 export default {
     props: {

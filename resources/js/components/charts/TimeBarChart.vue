@@ -22,8 +22,8 @@
 import axios from '@/plugins/axios'
 import moment from 'moment'
 import { applyColorPaletteToDatasets, getAjaxErrorMessage } from '@/utils'
-import BarChart from './BarChart'
-import LineChart from './LineChart'
+import BarChart from '@/components/charts/BarChart'
+import LineChart from '@/components/charts/LineChart'
 import slugify from 'slugify'
 import numeral from 'numeral'
 export default {
