@@ -4,6 +4,7 @@ import axios from '@/plugins/axios'
 import { Doughnut } from 'vue-chartjs'
 import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels'
 import { Chart } from 'chart.js'
+import numeral from 'numeral'
 Chart.plugins.unregister(ChartJsPluginDataLabels)
 export default {
     extends: Doughnut,
@@ -84,33 +85,37 @@ export default {
                     datalabels: {
                         color: '#ffffff',
                         textAlign: 'center',
-                        formatter: (value, context) => {
-                            var dataset = context.chart.data.datasets[0]
-                            var meta = dataset._meta[Object.keys(dataset._meta)[0]]
-                            var total = meta.total
-                            var currentValue = dataset.data[context.dataIndex]
-                            var label = context.chart.data.labels[context.dataIndex]
-                            var percentage = parseFloat((currentValue / total * 100).toFixed(1))
-                            if (this.showLegend) {
-                                return `${percentage}%`
-                            }
-                            return `${label}\n(${percentage}%)`
-                        }
+                        formatter: this.dataLabelFormat
                     }
                 }
             }
         },
         toolTipLabel (tooltipItem, data) {
             // Percentage in tooltips (see https://stackoverflow.com/questions/37257034/chart-js-2-0-doughnut-tooltip-percentages/49717859#49717859)
-            var dataset = data.datasets[tooltipItem.datasetIndex]
-            var meta = dataset._meta[Object.keys(dataset._meta)[0]]
-            var total = meta.total
-            var currentValue = dataset.data[tooltipItem.index]
-            var percentage = parseFloat((currentValue/total*100).toFixed(1))
-            return `${currentValue} (${percentage}%)`
+            const dataset = data.datasets[tooltipItem.datasetIndex]
+            const meta = dataset._meta[Object.keys(dataset._meta)[0]]
+            const total = meta.total
+            const currentValue = dataset.data[tooltipItem.index]
+            const percentage = parseFloat((currentValue/total*100).toFixed(1))
+            return `${this.numberFormat(currentValue)} (${percentage}%)`
         },
         toolTipTitle (tooltipItem, data) {
             return data.labels[tooltipItem[0].index]
+        },
+        numberFormat (value) {
+            return numeral(value).format('0,0')
+        },
+        dataLabelFormat (value, context) {
+            const dataset = context.chart.data.datasets[0]
+            const meta = dataset._meta[Object.keys(dataset._meta)[0]]
+            const total = meta.total
+            const currentValue = dataset.data[context.dataIndex]
+            const label = context.chart.data.labels[context.dataIndex]
+            const percentage = parseFloat((currentValue / total * 100).toFixed(1))
+            if (this.showLegend) {
+                return `${percentage}%`
+            }
+            return `${label}\n(${percentage}%)`
         }
     }
 }
