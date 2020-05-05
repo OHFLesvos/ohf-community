@@ -1,10 +1,10 @@
 <template>
     <div class="card mb-4">
-        <div class="card-header">{{ $t('people.gender') }}</div>
+        <div class="card-header">{{ title }}</div>
         <div class="card-body">
             <doughnut-chart
-                :title="$t('people.gender')"
-                :url="route('api.people.reporting.genderDistribution')"
+                :title="title"
+                :url="url"
                 hide-legend
                 :height="300"
                 class="mb-2">
@@ -18,6 +18,16 @@ import DoughnutChart from '@/components/charts/DoughnutChart'
 export default {
     components: {
         DoughnutChart
+    },
+    props: {
+        title: {
+            required: true,
+            type: String
+        },
+        url: {
+            required: true,
+            type: String
+        }
     }
 }
 </script>

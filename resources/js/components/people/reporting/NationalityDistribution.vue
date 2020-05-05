@@ -1,10 +1,10 @@
 <template>
     <div class="card mb-4">
-        <div class="card-header">{{ $t('people.nationalities') }}</div>
+        <div class="card-header">{{ title }}</div>
         <div class="card-body">
             <doughnut-chart
-                :title="$t('people.nationalities')"
-                :url="route('api.people.reporting.nationalities')"
+                :title="title"
+                :url="url"
                 :height="300"
                 class="mb-2">
             </doughnut-chart>
@@ -50,6 +50,14 @@ export default {
         data: {
             required: true,
             type: Object
+        },
+        title: {
+            required: true,
+            type: String
+        },
+        url: {
+            required: true,
+            type: String
         }
     },
     computed: {

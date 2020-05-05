@@ -39,11 +39,16 @@
             </div>
 
             <!-- Gender -->
-            <gender-distribution-widget/>
+            <gender-distribution-widget
+                :title="$t('people.gender')"
+                :url="route('api.people.reporting.genderDistribution')"
+            />
 
             <!-- Age distribution -->
             <age-distribution-widget
-                v-if="ageDistributionTotal > 0"
+                v-if="Object.keys(ageDistribution).length > 0"
+                :title="$t('people.age_distribution')"
+                :url="route('api.people.reporting.ageDistribution')"
                 :data="ageDistribution"
             />
 
@@ -78,6 +83,8 @@
             <nationality-distribution
                 v-if="Object.keys(nationalities).length > 0"
                 :data="nationalities"
+                :title="$t('people.nationalities')"
+                :url="route('api.people.reporting.nationalities')"
             />
 
         </div>
