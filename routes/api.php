@@ -283,19 +283,24 @@ Route::middleware(['auth', 'language'])
             ->name('api.bank.reporting.')
             ->namespace('API')
             ->group(function () {
-                Route::get('withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'ReportingController@couponsHandedOutPerDay')
+                // Withdrawals
+                Route::get('withdrawals', 'WithdrawalReportingController@withdrawals')
+                    ->name('withdrawals');
+                Route::get('withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'WithdrawalReportingController@couponsHandedOutPerDay')
                     ->name('couponsHandedOutPerDay');
-                Route::get('visitors', 'ReportingController@visitors')
+
+                // Visitors
+                Route::get('visitors', 'VisitorReportingController@visitors')
                     ->name('visitors');
-                Route::get('visitors/chart/visitorsPerDay', 'ReportingController@visitorsPerDay')
+                Route::get('visitors/chart/visitorsPerDay', 'VisitorReportingController@visitorsPerDay')
                     ->name('visitorsPerDay');
-                Route::get('visitors/chart/visitorsPerWeek', 'ReportingController@visitorsPerWeek')
+                Route::get('visitors/chart/visitorsPerWeek', 'VisitorReportingController@visitorsPerWeek')
                     ->name('visitorsPerWeek');
-                Route::get('visitors/chart/visitorsPerMonth', 'ReportingController@visitorsPerMonth')
+                Route::get('visitors/chart/visitorsPerMonth', 'VisitorReportingController@visitorsPerMonth')
                     ->name('visitorsPerMonth');
-                Route::get('visitors/chart/visitorsPerYear', 'ReportingController@visitorsPerYear')
+                Route::get('visitors/chart/visitorsPerYear', 'VisitorReportingController@visitorsPerYear')
                     ->name('visitorsPerYear');
-                Route::get('visitors/chart/avgVisitorsPerDayOfWeek', 'ReportingController@avgVisitorsPerDayOfWeek')
+                Route::get('visitors/chart/avgVisitorsPerDayOfWeek', 'VisitorReportingController@avgVisitorsPerDayOfWeek')
                     ->name('avgVisitorsPerDayOfWeek');
             });
     });

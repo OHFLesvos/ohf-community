@@ -368,7 +368,7 @@ Route::middleware(['auth', 'language'])
             ->name('reporting.bank.')
             ->prefix('reporting/bank')
             ->group(function () {
-                Route::get('withdrawals', 'BankReportingController@withdrawals')
+                Route::view('withdrawals', 'bank.reporting.withdrawals')
                     ->name('withdrawals');
                 Route::view('visitors', 'bank.reporting.visitors')
                     ->name('visitors');

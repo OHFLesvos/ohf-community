@@ -11,36 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Setting;
 
-class ReportingController extends BaseReportingController
+class VisitorReportingController extends BaseReportingController
 {
-    /**
-     * Returns chart data for number of coupons handed out per day.
-     *
-     * @param  \App\Models\Bank\CouponType $coupon the coupon type
-     * @param  \App\Http\Requests\SelectDateRange  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function couponsHandedOutPerDay(CouponType $coupon, SelectDateRange $request)
-    {
-        $from = new Carbon($request->from);
-        $to = new Carbon($request->to);
-        $data = self::createDateCollectionEmpty($from, $to)
-            ->merge(
-                CouponHandout::where('coupon_type_id', $coupon->id)
-                    ->whereDate('date', '>=', $from->toDateString())
-                    ->whereDate('date', '<=', $to->toDateString())
-                    ->groupBy('date')
-                    ->select(DB::raw('SUM(amount) as sum'), 'date')
-                    ->get()
-                    ->mapWithKeys(fn ($item) => [ $item->date => $item->sum ])
-            )
-            ->reverse();
-
-        return (new ChartResponseBuilder())
-            ->dataset($coupon->name, $data)
-            ->build();
-    }
-
     /**
      * Visitors per day
      */

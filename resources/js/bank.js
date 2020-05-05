@@ -6,6 +6,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import BankSearchPage from '@/pages/bank/BankSearchPage'
 import BankTransactionsPage from '@/pages/bank/BankTransactionsPage'
 import BankVisitorReportPage from '@/pages/bank/BankVisitorReportPage'
+import BankWithdrawalsReportPage from '@/pages/bank/BankWithdrawalsReportPage'
 import RegisterPersonPage from '@/pages/people/RegisterPersonPage'
 import EditPersonPage from '@/pages/people/EditPersonPage'
 import ViewPersonPage from '@/pages/people/ViewPersonPage'
@@ -27,6 +28,7 @@ new Vue({
 		BankSearchPage,
         BankTransactionsPage,
         BankVisitorReportPage,
+        BankWithdrawalsReportPage,
 		RegisterPersonPage,
 		EditPersonPage,
 		ViewPersonPage
