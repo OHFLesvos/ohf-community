@@ -405,52 +405,32 @@ class Person extends Model
     public static function getAgeDistribution(): array
     {
         return [
-            '0 - 4' => Person::whereNotNull('date_of_birth')
+            __('people.toddlers') . ' (0 - 4)' => Person::whereNotNull('date_of_birth')
                 ->whereDate('date_of_birth', '>', Carbon::now()->subYears(5))
                 ->select('date_of_birth')
                 ->count(),
-            '5 - 11' => Person::whereNotNull('date_of_birth')
+            __('people.children') . ' (5 - 11)' => Person::whereNotNull('date_of_birth')
                 ->whereDate('date_of_birth', '>', Carbon::now()->subYears(12))
                 ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(5))
                 ->select('date_of_birth')
                 ->count(),
-            '12 - 17' => Person::whereNotNull('date_of_birth')
+            __('people.adolescents') . ' (12 - 17)' => Person::whereNotNull('date_of_birth')
                 ->whereDate('date_of_birth', '>', Carbon::now()->subYears(18))
                 ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(12))
                 ->select('date_of_birth')
                 ->count(),
-            '18 - 24' => Person::whereNotNull('date_of_birth')
-                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(25))
+            __('people.young_adults') . ' (18 - 34)' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(35))
                 ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(18))
                 ->select('date_of_birth')
                 ->count(),
-            '25 - 34' => Person::whereNotNull('date_of_birth')
-                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(35))
-                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(25))
-                ->select('date_of_birth')
-                ->count(),
-            '35 - 44' => Person::whereNotNull('date_of_birth')
-                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(45))
+            __('people.adults') . ' (35 - 64)' => Person::whereNotNull('date_of_birth')
+                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(65))
                 ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(35))
                 ->select('date_of_birth')
                 ->count(),
-            '45 - 54' => Person::whereNotNull('date_of_birth')
-                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(55))
-                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(45))
-                ->select('date_of_birth')
-                ->count(),
-            '55 - 64' => Person::whereNotNull('date_of_birth')
-                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(65))
-                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(55))
-                ->select('date_of_birth')
-                ->count(),
-            '65 - 74' => Person::whereNotNull('date_of_birth')
-                ->whereDate('date_of_birth', '>', Carbon::now()->subYears(75))
+            __('people.elderly') . ' (65+)' => Person::whereNotNull('date_of_birth')
                 ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(65))
-                ->select('date_of_birth')
-                ->count(),
-            '75+' => Person::whereNotNull('date_of_birth')
-                ->whereDate('date_of_birth', '<=', Carbon::now()->subYears(75))
                 ->select('date_of_birth')
                 ->count(),
         ];

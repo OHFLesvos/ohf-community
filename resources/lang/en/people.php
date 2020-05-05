@@ -218,4 +218,9 @@ return [
     'click_to_add_police_number' => 'Click to add police number...',
     'police_no_has_been_updated' => 'Police number of :person has been updated.',
     'visitors' => 'Visitors',
+    'toddlers' => 'Toddlers',
+    'adolescents' => 'Adolescents',
+    'young_adults' => 'Young Adults',
+    'adults' => 'Adults',
+    'elderly' => 'Elderly',
 ];

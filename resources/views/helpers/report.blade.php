@@ -15,20 +15,21 @@
         </bar-chart>
         <div class="row mb-4">
             <div class="col-sm">
-                <pie-chart
+                <doughnut-chart
                     title="@lang('people.gender')"
                     url="{{ route('people.helpers.report.genders') }}"
                     :height="300"
                     class="mb-2">
-                </pie-chart>
+                </doughnut-chart>
             </div>
             <div class="col-sm">
-                <pie-chart
+                <doughnut-chart
                     title="@lang('people.nationalities')"
                     url="{{ route('people.helpers.report.nationalities') }}"
+                    show-legend
                     :height="300"
                     class="mb-2">
-                </pie-chart>
+                </doughnut-chart>
             </div>
         </div>
     </div>

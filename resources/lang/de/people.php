@@ -215,4 +215,9 @@ return [
     'click_to_add_police_number' => 'Klicke um Polizeinummer hinzuzufügen...',
     'police_no_has_been_updated' => 'Polizeinummer von :person wurde aktualisiert.',
     'visitors' => 'Besucher',
+    'toddlers' => 'Kleinkinder',
+    'adolescents' => 'Jugendliche',
+    'young_adults' => 'Junge Erwachsene',
+    'adults' => 'Erwachsene',
+    'elderly' => 'Senioren',
 ];

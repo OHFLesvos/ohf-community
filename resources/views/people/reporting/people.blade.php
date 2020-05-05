@@ -45,40 +45,30 @@
                 </div>
 
                 {{-- Gender --}}
-                @if(count($gender) > 0)
-                    <div class="card mb-4">
-                        <div class="card-header">@lang('people.gender')</div>
-                        <div class="card-body">
-                            <pie-chart
-                                title="@lang('people.gender')"
-                                url="{{ route('api.people.reporting.genderDistribution') }}"
-                                :height="300"
-                                class="mb-2">
-                            </pie-chart>
-                            <table class="table table-sm mb-0 colorize">
-                                @foreach ($gender as $k => $v)
-                                    <tr>
-                                        <td class="colorize-background" style="width: 2em">&nbsp;</td>
-                                        <td>{{ $k }}</td>
-                                        <td class="text-right">{{ round($v / array_sum(array_values($gender)) * 100) }} %</td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        </div>
+                <div class="card mb-4">
+                    <div class="card-header">@lang('people.gender')</div>
+                    <div class="card-body">
+                        <doughnut-chart
+                            title="@lang('people.gender')"
+                            url="{{ route('api.people.reporting.genderDistribution') }}"
+                            :height="300"
+                            class="mb-2">
+                        </doughnut-chart>
                     </div>
-                @endif
+                </div>
 
                 {{-- Age distribution --}}
                 @if(array_sum(array_values($ageDistribution)) > 0)
                     <div class="card mb-4">
                         <div class="card-header">@lang('people.age_distribution')</div>
                         <div class="card-body">
-                            <pie-chart
+                            <doughnut-chart
                                 title="@lang('people.age_distribution')"
                                 url="{{ route('api.people.reporting.ageDistribution') }}"
+                                show-legend
                                 :height="300"
                                 class="mb-2">
-                            </pie-chart>
+                            </doughnut-chart>
                             <table class="table table-sm mb-0 colorize">
                                 @foreach ($ageDistribution as $k => $v)
                                     <tr>

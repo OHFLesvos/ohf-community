@@ -439,7 +439,12 @@ export default {
             "numbers": "Zahlen",
             "value": "Wert",
             "registrations": "Registrierungen",
-            "since_date": "seit {date}"
+            "since_date": "seit {date}",
+            "new_registrations_per_day": "Neuregistrierungen pro Tag",
+            "weekday": "Wochentag",
+            "week": "Woche",
+            "month": "Monat",
+            "no_data": "Keine Daten"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -828,7 +833,8 @@ export default {
             "no_permission_to_search_existing_persons": "Du hast keine Erlaubnis um nach existierenden Persondendatensätzen zu suchen.",
             "code_expiry": "Code Ablaufdatum",
             "click_to_add_police_number": "Klicke um Polizeinummer hinzuzufügen...",
-            "police_no_has_been_updated": "Polizeinummer von {person} wurde aktualisiert."
+            "police_no_has_been_updated": "Polizeinummer von {person} wurde aktualisiert.",
+            "visitors": "Besucher"
         },
         "permissions": {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
@@ -1606,7 +1612,11 @@ export default {
             "value": "Value",
             "registrations": "Registrations",
             "since_date": "since {date}",
-            "new_registrations_per_day": "New registrations per day"
+            "new_registrations_per_day": "New registrations per day",
+            "weekday": "Weekday",
+            "week": "Week",
+            "month": "Month",
+            "no_data": "No data"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -1998,7 +2008,8 @@ export default {
             "no_permission_to_search_existing_persons": "You don't have permission to search for existing person records.",
             "code_expiry": "Code expiry",
             "click_to_add_police_number": "Click to add police number...",
-            "police_no_has_been_updated": "Police number of {person} has been updated."
+            "police_no_has_been_updated": "Police number of {person} has been updated.",
+            "visitors": "Visitors"
         },
         "permissions": {
             "view_usermgmt": "User management: View users and roles",

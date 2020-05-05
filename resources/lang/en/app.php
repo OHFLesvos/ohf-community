@@ -382,4 +382,5 @@ return [
     'weekday' => 'Weekday',
     'week' => 'Week',
     'month' => 'Month',
+    'no_data' => 'No data',
  ];

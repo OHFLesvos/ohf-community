@@ -139,11 +139,14 @@ Vue.config.productionTip = false
 
 import BarChart from './components/BarChart.vue';
 Vue.component('bar-chart', BarChart);
-import PieChart from './components/PieChart.vue';
-Vue.component('pie-chart', PieChart);
+import Doughnut from './components/DoughnutChart.vue';
+Vue.component('doughnut-chart', Doughnut);
+
+import i18n from '@/plugins/i18n'
 
 new Vue({
-    el: '#app'
+    el: '#app',
+    i18n
 });
 
 //
