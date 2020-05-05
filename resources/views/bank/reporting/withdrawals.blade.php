@@ -42,7 +42,7 @@
                 title="@lang('people.num_x_handed_out_per_day', [ 'name' => $v['coupon']->name ])"
                 x-label="@lang('app.date')"
                 y-label="@lang('app.quantity')"
-                url="{{ route('reporting.bank.couponsHandedOutPerDay', $v['coupon']) }}?from={{ $from }}&to={{ $to }}"
+                url="{{ route('api.bank.reporting.couponsHandedOutPerDay', $v['coupon']) }}?from={{ $from }}&to={{ $to }}"
                 :height="300"
                 class="mb-2">
             </bar-chart>

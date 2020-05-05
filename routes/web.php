@@ -370,21 +370,8 @@ Route::middleware(['auth', 'language'])
             ->group(function () {
                 Route::get('withdrawals', 'BankReportingController@withdrawals')
                     ->name('withdrawals');
-                Route::get('withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'BankReportingController@couponsHandedOutPerDay')
-                    ->name('couponsHandedOutPerDay');
-
-                Route::get('visitors', 'BankReportingController@visitors')
+                Route::view('visitors', 'bank.reporting.visitors')
                     ->name('visitors');
-                Route::get('visitors/chart/visitorsPerDay', 'BankReportingController@visitorsPerDay')
-                    ->name('visitorsPerDay');
-                Route::get('visitors/chart/visitorsPerWeek', 'BankReportingController@visitorsPerWeek')
-                    ->name('visitorsPerWeek');
-                Route::get('visitors/chart/visitorsPerMonth', 'BankReportingController@visitorsPerMonth')
-                    ->name('visitorsPerMonth');
-                Route::get('visitors/chart/visitorsPerYear', 'BankReportingController@visitorsPerYear')
-                    ->name('visitorsPerYear');
-                Route::get('visitors/chart/avgVisitorsPerDayOfWeek', 'BankReportingController@avgVisitorsPerDayOfWeek')
-                    ->name('avgVisitorsPerDayOfWeek');
             });
     });
 

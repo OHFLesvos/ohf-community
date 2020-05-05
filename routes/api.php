@@ -255,6 +255,8 @@ Route::middleware(['auth', 'language'])
 Route::middleware(['auth', 'language'])
     ->namespace('Bank')
     ->group(function () {
+
+        // Withdrawals
         Route::middleware('can:do-bank-withdrawals')
             ->prefix('bank')
             ->name('api.bank.withdrawal.')
@@ -273,6 +275,28 @@ Route::middleware(['auth', 'language'])
                     ->name('handoutCoupon');
                 Route::delete('person/{person}/couponType/{couponType}/handout', 'WithdrawalController@undoHandoutCoupon')
                     ->name('undoHandoutCoupon');
+            });
+
+        // Reporting
+        Route::middleware('can:view-bank-reports')
+            ->prefix('bank')
+            ->name('api.bank.reporting.')
+            ->namespace('API')
+            ->group(function () {
+                Route::get('withdrawals/chart/couponsHandedOutPerDay/{coupon}', 'ReportingController@couponsHandedOutPerDay')
+                    ->name('couponsHandedOutPerDay');
+                Route::get('visitors', 'ReportingController@visitors')
+                    ->name('visitors');
+                Route::get('visitors/chart/visitorsPerDay', 'ReportingController@visitorsPerDay')
+                    ->name('visitorsPerDay');
+                Route::get('visitors/chart/visitorsPerWeek', 'ReportingController@visitorsPerWeek')
+                    ->name('visitorsPerWeek');
+                Route::get('visitors/chart/visitorsPerMonth', 'ReportingController@visitorsPerMonth')
+                    ->name('visitorsPerMonth');
+                Route::get('visitors/chart/visitorsPerYear', 'ReportingController@visitorsPerYear')
+                    ->name('visitorsPerYear');
+                Route::get('visitors/chart/avgVisitorsPerDayOfWeek', 'ReportingController@avgVisitorsPerDayOfWeek')
+                    ->name('avgVisitorsPerDayOfWeek');
             });
     });
 
