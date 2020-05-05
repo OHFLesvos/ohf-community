@@ -235,6 +235,8 @@ Route::middleware(['auth', 'language'])
             ->name('reporting.')
             ->middleware(['can:view-people-reports'])
             ->group(function () {
+                Route::get('numbers', 'ReportingController@numbers')
+                    ->name('numbers');
                 Route::get('nationalities', 'ReportingController@nationalities')
                     ->name('nationalities');
                 Route::get('genderDistribution', 'ReportingController@genderDistribution')

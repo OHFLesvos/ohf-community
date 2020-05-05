@@ -10,7 +10,6 @@
 
     <div id="people-app">
         <people-report-page
-            :people='@json($people)'
             from-date="{{ $dateFrom->toDateString() }}"
             to-date="{{ $dateTo->toDateString() }}"
         >
