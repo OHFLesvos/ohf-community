@@ -448,9 +448,8 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
 
         Route::get('lending/persons', 'LendingController@persons')->name('lending.persons');
         Route::get('lending/person/{person}', 'LendingController@person')->name('lending.person');
-        Route::post('lending/person/{person}/lendBook', 'LendingController@lendBookToPerson')->name('lending.lendBookToPerson');
-        Route::post('lending/person/{person}/extendBook', 'LendingController@extendBookToPerson')->name('lending.extendBookToPerson');
-        Route::post('lending/person/{person}/returnBook', 'LendingController@returnBookFromPerson')->name('lending.returnBookFromPerson');
+
+
         Route::get('lending/person/{person}/log', 'LendingController@personLog')->name('lending.personLog');
 
         Route::get('lending/books', 'LendingController@books')->name('lending.books');

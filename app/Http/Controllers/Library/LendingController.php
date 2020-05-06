@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Library;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Library\StoreExtendBook;
-use App\Http\Requests\Library\StoreExtendBookToPerson;
 use App\Http\Requests\Library\StoreLendBook;
-use App\Http\Requests\Library\StoreLendBookToPerson;
-use App\Http\Requests\Library\StoreReturnBookFromPerson;
 use App\Models\Library\LibraryBook;
 use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
@@ -39,9 +36,6 @@ class LendingController extends Controller
 
         return view('library.lending.person', [
             'person' => $person,
-            'lendings' => $person->bookLendings()->whereNull('returned_date')->orderBy('return_date', 'asc')->get(),
-            'default_extend_duration' => Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE),
-            'languages' => localized_language_names(),
         ]);
     }
 
@@ -86,33 +80,6 @@ class LendingController extends Controller
         ]);
     }
 
-    public function lendBookToPerson(Person $person, StoreLendBookToPerson $request)
-    {
-        $this->authorize('create', LibraryLending::class);
-
-        if (! empty($request->title)) {
-            $book = new LibraryBook();
-            $book->title = $request->title;
-            $book->author = $request->author;
-            $book->isbn = $request->isbn;
-            $book->language_code = $request->language_code;
-            $book->save();
-        } else {
-            $book = LibraryBook::findOrFail($request->book_id);
-        }
-        $lending = new LibraryLending();
-        $lending->lending_date = Carbon::today();
-        $duration = Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE);
-        $lending->return_date = Carbon::today()->addDays($duration);
-        $lending->person()->associate($person);
-        $lending->book()->associate($book);
-        $lending->save();
-
-        return redirect()
-            ->route('library.lending.person', $person)
-            ->with('success', __('library.book_lent'));
-    }
-
     public function lendBook(LibraryBook $book, StoreLendBook $request)
     {
         $this->authorize('create', LibraryLending::class);
@@ -132,21 +99,6 @@ class LendingController extends Controller
             ->with('success', __('library.book_lent'));
     }
 
-    public function extendBookToPerson(Person $person, StoreExtendBookToPerson $request)
-    {
-        $lending = LibraryLending::where('book_id', $request->book_id)
-            ->where('person_id', $person->id)
-            ->whereNull('returned_date')
-            ->firstOrFail();
-        $this->authorize('update', $lending);
-        $lending->return_date = $lending->return_date->addDays($request->days);
-        $lending->save();
-
-        return redirect()
-            ->route('library.lending.person', $person)
-            ->with('success', __('library.book_extended'));
-    }
-
     public function extendBook(LibraryBook $book, StoreExtendBook $request)
     {
         $lending = LibraryLending::where('book_id', $book->id)
@@ -159,21 +111,6 @@ class LendingController extends Controller
         return redirect()
             ->route('library.lending.book', $book)
             ->with('success', __('library.book_extended'));
-    }
-
-    public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request)
-    {
-        $lending = LibraryLending::where('book_id', $request->book_id)
-            ->where('person_id', $person->id)
-            ->whereNull('returned_date')
-            ->firstOrFail();
-        $this->authorize('update', $lending);
-        $lending->returned_date = Carbon::today();
-        $lending->save();
-
-        return redirect()
-            ->route('library.lending.person', $person)
-            ->with('success', __('library.book_returned'));
     }
 
     public function returnBook(LibraryBook $book)

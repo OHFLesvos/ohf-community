@@ -1,5 +1,7 @@
 <template>
     <div v-if="person">
+
+        <!-- Heading -->
         <h2 class="mb-3">
             {{ person.full_name }}
             <small class="d-block d-sm-inline">
@@ -7,6 +9,8 @@
                 {{ moment(person.date_of_birth).format("LL") }}
             </small>
         </h2>
+
+        <!-- Lendings -->
         <template v-if="lendings">
             <div
                 v-if="lendings.length > 0"
@@ -44,29 +48,27 @@
                                 {{ moment(lending.return_date).format("LL") }}
                             </td>
                             <td class="fit">
-                                <form
-                                    :action="route('library.lending.returnBookFromPerson', [person.id])"
-                                    method="post"
-                                    class="d-inline"
+
+                                <!-- Return book -->
+                                <b-button
+                                    variant="success"
+                                    size="sm"
+                                    @click="returnBook(lending.book.id)"
                                 >
-                                    <!-- {{ csrf_field() }} -->
-                                    <!-- {{ Form::hidden('book_id', $lending->book->id) }} -->
-                                    <button
-                                        type="submit"
-                                        class="btn btn-sm btn-success"
-                                    >
-                                        <font-awesome-icon icon="inbox" />
-                                        <span class="d-none d-sm-inline"> {{ $t('library.return') }}</span>
-                                    </button>
-                                </form>
-                                <button
-                                    type="button"
-                                    class="btn btn-sm btn-primary extend-lending-button"
-                                    :data-book="lending.book.id"
+                                    <font-awesome-icon icon="inbox" />
+                                    <span class="d-none d-sm-inline"> {{ $t('library.return') }}</span>
+                                </b-button>
+
+                                <!-- Extend lending  -->
+                                <b-button
+                                    variant="primary"
+                                    size="sm"
+                                    @click="extendLending(lending.book.id)"
                                 >
                                     <font-awesome-icon icon="calendar-plus-o" />
                                     <span class="d-none d-sm-inline"> {{ $t('library.extend') }}</span>
-                                </button>
+                                </b-button>
+
                             </td>
                         </tr>
                     </tbody>
@@ -79,17 +81,95 @@
                 {{ $t('library.no_books_lent') }}
             </b-alert>
         </template>
+
+        <!-- Lend button -->
         <p v-if="canLend">
-            <button
-                type="button"
-                class="btn btn-primary"
-                data-toggle="modal"
-                data-target="#lendBookModal"
+            <b-button
+                variant="primary"
+                v-b-modal.lendBookModal
             >
                 <font-awesome-icon icon="plus-circle" />
                 {{ $t('library.lend_a_book') }}
-            </button>
+            </b-button>
         </p>
+
+        <!-- Lend book modal -->
+        <b-modal
+            id="lendBookModal"
+            :title="$t('library.lend_a_book')"
+            @ok="lendBookToPerson"
+        >
+            <library-book-autocomplete-input @select="selectExistingBook" />
+            <template v-slot:modal-footer="{ ok }">
+
+                <!-- Lend book button -->
+                <b-button
+                    variant="primary"
+                    :disabled="!selectedBookId || busy"
+                    @click="ok()"
+                >
+                    <font-awesome-icon icon="check" />
+                    {{ $t('library.lend_book') }}
+                </b-button>
+
+                <!-- Register book button -->
+                <b-button
+                    v-if="canRegisterBook"
+                    variant="secondary"
+                    :disabled="busy"
+                    v-b-modal.registerBookModal
+                >
+                    <font-awesome-icon icon="plus-circle" />
+                    {{ $t('library.new_book') }}
+                </b-button>
+
+            </template>
+        </b-modal>
+
+        <!-- Register book modal -->
+        <b-modal
+            id="registerBookModal"
+            :title="$t('library.register_new_book')"
+            ok-only
+            @shown="loadLanguages"
+            @ok="handleOkRegisterBook"
+            @hidden="resetNewBook"
+        >
+            <b-form @submit.stop.prevent="registerAndLendBookToPerson">
+                <b-form-group>
+                    <b-form-input
+                        v-model="newBookForm.isbn"
+                        autocomplete="off"
+                        :placeholder="$t('library.isbn')"
+                    />
+                </b-form-group>
+                <b-form-group>
+                    <b-form-input
+                        v-model="newBookForm.title"
+                        autocomplete="off"
+                        :placeholder="$t('app.title')"
+                    />
+                </b-form-group>
+                <b-form-group>
+                    <b-form-input
+                        v-model="newBookForm.author"
+                        autocomplete="off"
+                        :placeholder="$t('library.author')"
+                    />
+                </b-form-group>
+                <b-form-group>
+                    <b-form-select
+                        v-model="newBookForm.language_code"
+                        :options="languages"
+                    />
+                </b-form-group>
+            </b-form>
+            <template v-slot:modal-ok>
+                <font-awesome-icon icon="check" />
+                {{ $t('library.register_and_lend_book') }}
+            </template>
+        </b-modal>
+
     </div>
     <p v-else>
         {{ $t('app.loading') }}
@@ -97,9 +177,14 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
 import moment from 'moment'
+import axios from '@/plugins/axios'
+import { handleAjaxError, showSnackbar } from '@/utils'
+import LibraryBookAutocompleteInput from '@/components/library/LibraryBookAutocompleteInput'
 export default {
+    components: {
+        LibraryBookAutocompleteInput
+    },
     props: {
         personId: {
             required: true
@@ -109,29 +194,135 @@ export default {
         return {
             person: null,
             lendings: null,
-            canLend: false
+            canLend: false,
+            canRegisterBook: false,
+            defaultExtendDuration: 0,
+            selectedBookId: null,
+            busy: false,
+            newBookForm: {
+                isbn: '',
+                title: '',
+                author: '',
+                language_code: null
+            },
+            languages: []
         }
     },
     created () {
-        axios.get(this.route('api.people.show', [this.personId]))
-            .then(res => {
-                this.person = res.data.data
-            })
-            .catch(err => console.error(err))
-        axios.get(this.route('api.library.lending.person', [this.personId]))
-            .then(res => {
-                this.lendings = res.data.data
-                this.canLend = res.data.meta.can_lend
-            })
-            .catch(err => console.error(err))
+        this.loadPerson()
+        this.loadLendings()
     },
     methods: {
         moment,
+        loadPerson () {
+            axios.get(this.route('api.people.show', [this.personId]))
+                .then(res => {
+                    this.person = res.data.data
+                })
+                .catch(err => console.error(err))
+        },
+        loadLendings () {
+            axios.get(this.route('api.library.lending.person', [this.personId]))
+                .then(res => {
+                    this.lendings = res.data.data
+                    this.canLend = res.data.meta.can_lend
+                    this.canRegisterBook = res.data.meta.can_register_book
+                    this.defaultExtendDuration = res.data.meta.default_extend_duration
+                })
+                .catch(err => console.error(err))
+        },
         isOverdue (lending) {
             return moment(lending.return_date).isBefore(moment(), 'day')
         },
         isSoonOverdue (lending) {
             return moment(lending.return_date).isSame(moment(), 'day')
+        },
+        selectExistingBook (bookId) {
+            this.selectedBookId = bookId
+        },
+        lendBookToPerson (bvModalEvt) {
+            bvModalEvt.preventDefault()
+            if (this.selectedBookId) {
+                this.busy = true
+                axios.post(this.route('api.library.lending.lendBookToPerson', [this.personId]), {
+                        book_id: this.selectedBookId
+                    })
+                    .then((res) => {
+                        showSnackbar(res.data.message)
+                        this.loadLendings()
+                        this.$nextTick(() => {
+                            this.$bvModal.hide('lendBookModal')
+                        })
+                    })
+                    .catch(handleAjaxError)
+                    .finally(() => this.busy = false)
+            }
+        },
+        loadLanguages () {
+            axios.get(this.route('api.languages'))
+                .then(res => {
+                    this.languages = Object.entries(res.data)
+                        .map(e => {
+                            return {
+                                value: e[0],
+                                text: e[1]
+                            }
+                        })
+                    this.languages.unshift({
+                        value: null,
+                        text: this.$t('app.choose_language')
+                    })
+                })
+        },
+        handleOkRegisterBook (evt) {
+            evt.preventDefault()
+            this.registerAndLendBookToPerson()
+        },
+        registerAndLendBookToPerson () {
+            this.busy = true
+            axios.post(this.route('api.library.lending.lendBookToPerson', [this.personId]), {
+                    ...this.newBookForm
+                })
+                .then((res) => {
+                    showSnackbar(res.data.message)
+                    this.loadLendings()
+                    this.$nextTick(() => {
+                        this.$bvModal.hide('registerBookModal')
+                        this.$bvModal.hide('lendBookModal')
+                    })
+                })
+                .catch(handleAjaxError)
+                .finally(() => this.busy = false)
+        },
+        resetNewBook () {
+            this.newBookForm = {
+                isbn: '',
+                title: '',
+                author: '',
+                language_code: null
+            }
+        },
+        extendLending (book_id) {
+            var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)
+            if (days != null && days > 0) {
+                axios.post(this.route('api.library.lending.extendBookToPerson', [this.personId]), {
+                        book_id: book_id,
+                        days: days
+                    })
+                    .then((res) => {
+                        showSnackbar(res.data.message)
+                        this.loadLendings()
+                    })
+            }
+        },
+        returnBook (book_id) {
+            axios.post(this.route('api.library.lending.returnBookFromPerson', [this.personId]), {
+                    book_id: book_id,
+                })
+                .then((res) => {
+                    showSnackbar(res.data.message)
+                    this.loadLendings()
+                })
         }
     }
 }

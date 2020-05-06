@@ -22,6 +22,8 @@ mix.webpackConfig({
     }
 });
 
+mix.disableSuccessNotifications();
+
 mix.options({
         processCssUrls: false,
         terser: {
