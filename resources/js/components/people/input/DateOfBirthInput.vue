@@ -4,8 +4,9 @@
             <b-form-input
                 v-model.trim="modelValue"
                 ref="input"
-                :placeholder="hideLabel ? label : null"
+                placeholder="YYYY-MM-DD"
                 autocomplete="off"
+                pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                 required
             />
         </b-input-group>
@@ -29,7 +30,7 @@ export default {
     },
     computed: {
         age () {
-            if (isDateString(this.modelValue)) {
+            if (this.modelValue && isDateString(this.modelValue)) {
                 return dateOfBirthToAge(this.modelValue)
             }
             return null

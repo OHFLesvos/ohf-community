@@ -84,22 +84,21 @@ export default {
         }
     },
     data () {
-        const val = this.value
         return {
             person: {
-                name: val.name ? val.name : '',
-                family_name: val.family_name ? val.family_name : '',
-                gender: val.gender ? val.gender : '',
-                date_of_birth: val.date_of_birth ? val.date_of_birth : '',
-                nationality: val.nationality ? val.nationality : '',
-                police_no: val.police_no ? val.police_no : ''
+                name: this.value.name,
+                family_name: this.value.family_name,
+                gender: this.value.gender,
+                date_of_birth: this.value.date_of_birth,
+                nationality: this.value.nationality,
+                police_no: this.value.police_no
             }
         }
     },
     watch: {
         person: {
             deep: true,
-            handler(val) {
+            handler (val) {
                 this.$emit('input', val)
             }
         }
