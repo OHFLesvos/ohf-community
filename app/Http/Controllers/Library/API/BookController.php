@@ -9,6 +9,12 @@ use Scriptotek\GoogleBooks\GoogleBooks;
 
 class BookController extends Controller
 {
+    /**
+     * Returns a list of filtered books for autocomplete input
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function filter(Request $request)
     {
         $this->authorize('list', LibraryBook::class);
@@ -32,6 +38,13 @@ class BookController extends Controller
         ]);
     }
 
+    /**
+     * Finds information about a book by ISBN from Google books API
+     *
+     * @param GoogleBooks $books
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function findIsbn(GoogleBooks $books, Request $request)
     {
         $request->validate([
@@ -40,10 +53,12 @@ class BookController extends Controller
                 'isbn',
             ],
         ]);
+
         $volume = $books->volumes->byIsbn($request->isbn);
         if ($volume == null || $volume->volumeInfo == null) {
             return response()->json([], 404);
         }
+
         return response()->json([
             'title' => $volume->volumeInfo->title,
             'author' => implode(', ', $volume->volumeInfo->authors),

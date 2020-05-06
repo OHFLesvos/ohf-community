@@ -8,6 +8,11 @@ use App\Models\People\Person;
 
 class LendingController extends Controller
 {
+    /**
+     * Gets core stats about lent books and borrowers
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function stats()
     {
         return [
