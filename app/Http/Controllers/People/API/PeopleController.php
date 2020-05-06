@@ -129,33 +129,25 @@ class PeopleController extends Controller
      */
     public function filterPersons(Request $request)
     {
-        $qry = Person::limit(10)
+        // TODO auth check
+
+        $filterQuery = $request->query('query');
+        $persons = Person::query()
+            ->when($filterQuery, function ($query, $filterQuery) {
+                return $query->forFilterTerms(split_by_whitespace($filterQuery));
+            })
             ->orderBy('name')
-            ->orderBy('family_name');
-        if (isset($request->query()['query'])) {
-            $terms = split_by_whitespace($request->query()['query']);
-            foreach ($terms as $term) {
-                $qry->where(function ($wq) use ($term) {
-                    $wq->where('search', 'LIKE', '%' . $term  . '%');
-                    $wq->orWhere('police_no', $term);
-                });
-            }
-        }
-        $persons = $qry->get()
-            ->map(function ($e) {
-                $val = $e->full_name;
-                if (! empty($e->date_of_birth)) {
-                    $val .= ', ' . $e->date_of_birth . ' (age ' . $e->age . ')';
-                }
-                if (! empty($e->nationality)) {
-                    $val .= ', ' . $e->nationality;
-                }
-                return [
-                    'value' => $val,
-                    'data' => $e->getRouteKey(),
-                ];
-            });
-        return response()->json(['suggestions' => $persons]);
+            ->orderBy('family_name')
+            ->limit(10)
+            ->get()
+            ->map(fn (Person $person) => [
+                'value' => $person->label,
+                'data' => $person->getRouteKey(),
+            ]);
+
+        return response()->json([
+            'suggestions' => $persons,
+        ]);
     }
 
     /**

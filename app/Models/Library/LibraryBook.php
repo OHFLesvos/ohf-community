@@ -40,6 +40,36 @@ class LibraryBook extends Model
         });
     }
 
+    /**
+     * Scope a query to only include records matching the given filter value
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter($query, string $filter)
+    {
+        $query->where('title', 'LIKE', '%' . $filter . '%')
+            ->orWhere('author', 'LIKE', '%' . $filter . '%');
+        if (preg_match('/^[0-9x-]+$/i', $filter)) {
+            $query->orWhere('isbn10', 'LIKE', preg_replace('/[^+0-9x]/i', '', $filter) . '%');
+            $query->orWhere('isbn13', 'LIKE', preg_replace('/[^+0-9x]/i', '', $filter) . '%');
+        }
+        return $query;
+    }
+
+    public function getLabelAttribute(): string
+    {
+        $label = $this->title;
+        if (! empty($this->author)) {
+            $label .= ' (' . $this->author . ')';
+        }
+        if (! empty($this->isbn)) {
+            $label .= ', ' . $this->isbn;
+        }
+        return $label;
+    }
+
     public function activeLending(): ?LibraryLending
     {
         return $this->lendings()->active()->first();

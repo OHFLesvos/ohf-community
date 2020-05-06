@@ -529,4 +529,34 @@ class Person extends Model
         }
         return $query;
     }
+
+    /**
+     * Simple filter by array of search terms
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array $terms
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilterTerms($query, array $terms)
+    {
+        foreach ($terms as $term) {
+            $query->where(function ($wq) use ($term) {
+                $wq->where('search', 'LIKE', '%' . $term  . '%');
+                $wq->orWhere('police_no', $term);
+            });
+        }
+        return $query;
+    }
+
+    public function getLabelAttribute(): string
+    {
+        $label = $this->full_name;
+        if (! empty($this->date_of_birth)) {
+            $label .= ', ' . $this->date_of_birth . ' (age ' . $this->age . ')';
+        }
+        if (! empty($this->nationality)) {
+            $label .= ', ' . $this->nationality;
+        }
+        return $label;
+    }
 }
