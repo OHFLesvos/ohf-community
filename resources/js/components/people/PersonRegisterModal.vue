@@ -5,20 +5,14 @@
         body-class="pb-0"
         centered
         ok-only
-        @show="resetModal"
+        :ok-disabled="busy"
         @shown="focusForm"
         @ok="handleOk"
-        @hidden="resetModal"
     >
-        <form
-            ref="form"
-            @submit.stop.prevent="handleSubmit"
-        >
-            <simple-person-editor
-                v-model="person"
-                ref="editor"
-            />
-        </form>
+        <simple-person-editor
+            ref="editor"
+            @submit="createPerson"
+        />
         <template v-slot:modal-ok>
             <font-awesome-icon icon="check" />
             {{ $t('app.register') }}
@@ -37,36 +31,23 @@ export default {
     data () {
         return {
             registerModalId: 'registerPersoModal',
-            person: {},
-            // nameState: null,
+            busy: false
         }
     },
     methods: {
         open () {
             this.$bvModal.show(this.registerModalId)
         },
-        resetModal() {
-            this.person = {}
-            // this.nameState = null
-        },
         focusForm () {
             this.$refs.editor.focus()
         },
-        checkFormValidity() {
-            const valid = this.$refs.form.checkValidity()
-            // this.nameState = valid
-            return valid
-        },
-        handleOk(bvModalEvt) {
+        handleOk (bvModalEvt) {
             bvModalEvt.preventDefault()
-            this.handleSubmit()
+            this.$refs.editor.submit()
         },
-        handleSubmit () {
-            if (!this.checkFormValidity()) {
-                alert('form is not valid')
-                return
-            }
-            axios.post(this.route('api.people.store'), this.person)
+        createPerson (person) {
+            this.busy = true
+            axios.post(this.route('api.people.store'), person)
                 .then(res => {
                     showSnackbar(res.data.message)
                     this.$nextTick(() => {
@@ -75,6 +56,7 @@ export default {
                     document.location = this.route('library.lending.person', [res.data.id])
                 })
                 .catch(handleAjaxError)
+                .finally(() => this.busy = false)
         }
     }
 }

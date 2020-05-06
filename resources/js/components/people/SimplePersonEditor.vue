@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <form
+        ref="form"
+        @submit.stop.prevent="submit()"
+    >
         <div class="form-row">
 
             <!-- Name -->
@@ -37,6 +40,7 @@
                     hide-label
                 />
             </div>
+
         </div>
 
         <div class="form-row">
@@ -58,7 +62,7 @@
             </div>
 
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
@@ -80,7 +84,10 @@ export default {
     props: {
         value: {
             type: Object,
-            required: true
+            required: false,
+            default: function () {
+                return {}
+            }
         }
     },
     data () {
@@ -93,20 +100,29 @@ export default {
                 nationality: this.value.nationality,
                 police_no: this.value.police_no
             }
-        }
-    },
-    watch: {
-        person: {
-            deep: true,
-            handler (val) {
-                this.$emit('input', val)
-            }
+            // nameState: null,
         }
     },
     methods: {
         focus () {
             this.$refs.focusThis.focus()
-        }
+        },
+        submit () {
+            if (!this.checkFormValidity()) {
+                alert('Form is not valid')
+                return
+            }
+            this.$emit('submit', this.person)
+        },
+        checkFormValidity() {
+            const valid = this.$refs.form.checkValidity()
+            // this.nameState = valid
+            return valid
+        },
+        reset() {
+            this.person = {}
+            // this.nameState = null
+        },
     }
 }
 </script>
