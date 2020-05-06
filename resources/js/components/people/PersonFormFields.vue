@@ -89,7 +89,7 @@
 
 <script>
 import { BFormInput, BFormGroup } from 'bootstrap-vue'
-import GenderRadioInput from '@/components/people/GenderRadioInput'
+import GenderRadioInput from '@/components/people/input/GenderRadioInput'
 import DateOfBirthInput from '@/components/people/DateOfBirthInput'
 import NationalityInput from '@/components/people/NationalityInput'
 import PoliceNumberInput from '@/components/people/PoliceNumberInput'

@@ -4,27 +4,19 @@
 
             <!-- Name -->
             <div class="col-md">
-                <b-form-group>
-                    <b-form-input
-                        v-model.trim="person.name"
-                        :placeholder="$t('people.name')"
-                        autocomplete="off"
-                        required
-                        ref="focusThis"
-                    />
-                </b-form-group>
+                <name-input
+                    ref="focusThis"
+                    v-model="person.name"
+                    hide-label
+                />
             </div>
 
             <!-- Family Name -->
             <div class="col-md">
-                <b-form-group>
-                    <b-form-input
-                        v-model.trim="person.family_name"
-                        autocomplete="off"
-                        required
-                        :placeholder="$t('people.family_name')"
-                    />
-                </b-form-group>
+                <family-name-input
+                    v-model="person.family_name"
+                    hide-label
+                />
             </div>
 
         </div>
@@ -40,17 +32,10 @@
 
             <!-- Date of birth -->
             <div class="col-md">
-                <b-form-group>
-                    <b-input-group
-                        :append="$t('people.age_n', {age: age != null ? age : '...'})"
-                    >
-                        <b-form-input
-                            v-model.trim="person.date_of_birth"
-                            :placeholder="$t('people.date_of_birth')"
-                            required
-                        />
-                    </b-input-group>
-                </b-form-group>
+                <date-of-birth-input
+                    v-model="person.date_of_birth"
+                    hide-label
+                />
             </div>
         </div>
 
@@ -58,33 +43,18 @@
 
             <!-- Nationality -->
             <div class="col-md">
-                <b-form-group>
-                    <b-form-input
-                        v-model.trim="person.nationality"
-                        :placeholder="$t('people.nationality')"
-                        list="country-list"
-                    />
-                    <b-form-datalist
-                        id="country-list"
-                        :options="countries"
-                    />
-                </b-form-group>
+                <nationality-input
+                    v-model="person.nationality"
+                    hide-label
+                />
             </div>
 
             <!-- Police number -->
             <div class="col-md">
-                <b-form-group>
-                    <b-input-group prepend="05/">
-                        <b-form-input
-                            v-model.number="person.police_no"
-                            type="number"
-                            autocomplete="off"
-                            no-wheel
-                            :placeholder="$t('people.police_number')"
-                        />
-                    </b-input-group>
-                </b-form-group>
-                <!-- TODO auto fill zeros -->
+                <police-number-input
+                    v-model="person.police_no"
+                    hide-label
+                />
             </div>
 
         </div>
@@ -92,12 +62,20 @@
 </template>
 
 <script>
-import { isDateString, dateOfBirthToAge } from '@/utils'
-import axios from '@/plugins/axios'
-import GenderRadioInput from '@/components/people/GenderRadioInput'
+import NameInput from '@/components/people/input/NameInput'
+import FamilyNameInput from '@/components/people/input/FamilyNameInput'
+import GenderRadioInput from '@/components/people/input/GenderRadioInput'
+import DateOfBirthInput from '@/components/people/input/DateOfBirthInput'
+import NationalityInput from '@/components/people/input/NationalityInput'
+import PoliceNumberInput from '@/components/people/input/PoliceNumberInput'
 export default {
     components: {
+        NameInput,
+        FamilyNameInput,
         GenderRadioInput,
+        DateOfBirthInput,
+        NationalityInput,
+        PoliceNumberInput
     },
     props: {
         value: {
@@ -115,16 +93,7 @@ export default {
                 date_of_birth: val.date_of_birth ? val.date_of_birth : '',
                 nationality: val.nationality ? val.nationality : '',
                 police_no: val.police_no ? val.police_no : ''
-            },
-            countries: []
-        }
-    },
-    computed: {
-        age () {
-            if (isDateString(this.person.date_of_birth)) {
-                return dateOfBirthToAge(this.person.date_of_birth)
             }
-            return null
         }
     },
     watch: {
@@ -139,10 +108,6 @@ export default {
         focus () {
             this.$refs.focusThis.focus()
         }
-    },
-    created() {
-        axios.get(this.route('api.countries'))
-            .then(res => this.countries = Object.values(res.data))
     }
 }
 </script>
