@@ -40,8 +40,8 @@
                         {{ $t('library.lent_books') }} ({{ num_lent_books }})
                     </a>
                 </div>
-                <div class="card-body pb-2">
-                    <!-- {{ Form::bsAutocomplete('book_id', null, route('api.library.books.filter'), ['placeholder' => __('library.search_title_author_isbn')], '') }} -->
+                <div class="card-body pb-4">
+                    <library-book-autocomplete-input @select="navigateToBook" />
                 </div>
             </div>
         </div>
@@ -52,9 +52,11 @@
 import { ucFirst } from '@/utils'
 import axios from '@/plugins/axios'
 import PersonAutocompleteInput from '@/components/people/PersonAutocompleteInput'
+import LibraryBookAutocompleteInput from '@/components/library/LibraryBookAutocompleteInput'
 export default {
     components: {
-        PersonAutocompleteInput
+        PersonAutocompleteInput,
+        LibraryBookAutocompleteInput
     },
     data () {
         return {
@@ -74,6 +76,11 @@ export default {
         navigateToPerson (val) {
             if (val) {
                 document.location = this.route('library.lending.person', [val])
+            }
+        },
+        navigateToBook (val) {
+            if (val) {
+                document.location = this.route('library.lending.book', [val])
             }
         }
     }

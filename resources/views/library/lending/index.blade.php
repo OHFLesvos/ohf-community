@@ -11,14 +11,7 @@
 @endsection
 
 @section('script')
-    function navigateToBook() {
-        if ($('#book_id').val()) {
-            document.location='/library/lending/book/' + $('#book_id').val();
-        }
-    }
     $(function () {
-        $('#book_id').on('change', navigateToBook);
-
         $('#button-register-person').on('click', function () {
             $('#registerPersoModal').modal('show');
         });
