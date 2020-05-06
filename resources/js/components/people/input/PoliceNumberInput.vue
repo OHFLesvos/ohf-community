@@ -7,7 +7,8 @@
         <b-input-group prepend="05/">
             <!-- TODO auto fill zeros -->
             <b-form-input
-                v-model.trim="modelValue"
+                v-model="modelValue"
+                number
                 ref="input"
                 :placeholder="hideLabel ? label : null"
                 type="number"

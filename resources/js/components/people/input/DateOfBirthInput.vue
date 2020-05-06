@@ -6,7 +6,8 @@
     >
         <b-input-group :append="$t('people.age_n', {age: age != null ? age : '...'})">
             <b-form-input
-                v-model.trim="modelValue"
+                v-model="modelValue"
+                trim
                 ref="input"
                 placeholder="YYYY-MM-DD"
                 autocomplete="off"

@@ -5,7 +5,8 @@
         :invalid-feedback="invalidFeedback"
     >
         <b-form-input
-            v-model.trim="modelValue"
+            v-model="modelValue"
+            trim
             ref="input"
             :placeholder="hideLabel ? label : null"
             autocomplete="off"

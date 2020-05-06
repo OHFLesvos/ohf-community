@@ -108,7 +108,7 @@ export default {
         },
         submit () {
             if (!this.checkFormValidity()) {
-                alert('Form is not valid')
+                alert(this.$t('app.validation_failed'))
                 return
             }
             this.$emit('submit', this.person)
