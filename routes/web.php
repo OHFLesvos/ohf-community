@@ -443,7 +443,8 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     ->prefix('library')
     ->name('library.')
     ->group(function () {
-        Route::get('lending', 'LendingController@index')->name('lending.index');
+        Route::view('lending', 'library.lending.index')
+            ->name('lending.index');
 
         Route::get('lending/persons', 'LendingController@persons')->name('lending.persons');
         Route::post('lending/persons/create', 'LendingController@storePerson')->name('lending.storePerson');

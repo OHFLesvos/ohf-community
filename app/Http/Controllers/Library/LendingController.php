@@ -18,11 +18,6 @@ use Setting;
 
 class LendingController extends Controller
 {
-    public function index()
-    {
-        return view('library.lending.index');
-    }
-
     public function persons()
     {
         $this->authorize('list', Person::class);
