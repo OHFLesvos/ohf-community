@@ -16,6 +16,7 @@ class Person extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
+        $data['full_name'] = $this->fullName;
         $data['police_no_formatted'] = $this->police_no_formatted;
         $data['languages'] = $this->languages_string;
         $data['url'] = Auth::user()->can('view', $this->resource) ? route('people.show', $this) : null;

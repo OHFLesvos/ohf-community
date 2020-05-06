@@ -191,6 +191,11 @@ Route::middleware(['auth', 'language'])
             ->name('store')
             ->middleware('can:create,App\Models\People\Person');
 
+        // Show person
+        Route::get('{person}', 'PeopleController@show')
+            ->name('show')
+            ->middleware('can:view,person');
+
         // Update person
         Route::put('{person}', 'PeopleController@update')
             ->name('update')
@@ -364,6 +369,8 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     ->group(function () {
         Route::get('lending/stats', 'LendingController@stats')
             ->name('lending.stats');
+        Route::get('lending/person/{person}', 'LendingController@person')
+            ->name('lending.person');
 
         Route::get('books/filter', 'BookController@filter')
             ->name('books.filter');

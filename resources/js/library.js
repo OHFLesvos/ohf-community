@@ -9,6 +9,7 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import LendingPage from '@/pages/library/LendingPage'
+import LendingPersonPage from '@/pages/library/LendingPersonPage'
 
 import i18n from '@/plugins/i18n'
 
@@ -21,7 +22,8 @@ new Vue({
     el: '#library-app',
     i18n,
     components: {
-        LendingPage
+        LendingPage,
+        LendingPersonPage
     }
 });
 

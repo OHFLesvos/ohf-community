@@ -11,6 +11,7 @@ use App\Http\Requests\People\UpdatePersonNationality;
 use App\Http\Requests\People\UpdatePersonPoliceNo;
 use App\Http\Requests\People\UpdatePersonRemarks;
 use App\Http\Resources\People\PersonCollection;
+use App\Http\Resources\People\Person as PersonResource;
 use App\Models\People\Person;
 use App\Models\People\RevokedCard;
 use Carbon\Carbon;
@@ -97,6 +98,19 @@ class PeopleController extends Controller
             'message' => __('people.person_added'),
             'id' => $person->getRouteKey(),
         ]);
+    }
+
+    /**
+     * Returns info about a person
+     *
+     * @param Person $person
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Person $person)
+    {
+        $this->authorize('view', $person);
+
+        return new PersonResource($person);
     }
 
     /**
