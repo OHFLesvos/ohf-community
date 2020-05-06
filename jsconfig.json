@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/js/*"]
+        }
+    },
+    "include": ["resources/js/**/*"],
+    "exclude": [
+        "app",
+        "bootstrap",
+        "config",
+        "database",
+        "node_modules",
+        "public",
+        "routes",
+        "storage",
+        "tests",
+        "vendor"
+    ]
+}
