@@ -81,6 +81,8 @@ class PeopleController extends Controller
      */
     public function store(StorePerson $request)
     {
+        $this->authorize('create', Person::class);
+
         $person = new Person();
         $person->fill($request->all());
 
@@ -93,6 +95,7 @@ class PeopleController extends Controller
 
         return response()->json([
             'message' => __('people.person_added'),
+            'id' => $person->getRouteKey(),
         ]);
     }
 

@@ -370,3 +370,10 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::get('books/findIsbn', 'BookController@findIsbn')
             ->name('books.findIsbn');
     });
+
+
+Route::get('countries', function() {
+        return localized_country_names();
+    })
+    ->middleware(['language'])
+    ->name('api.countries');

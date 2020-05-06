@@ -1,6 +1,5 @@
 <template>
-    <span>
-        <p>{{ $t('people.gender') }}</p>
+    <b-form-group :label="!hideLabel ? $t('people.gender') : null">
         <b-form-radio-group
             v-model="gender"
             required
@@ -14,20 +13,22 @@
                 {{ $t('app.female') }}
             </b-form-radio>
         </b-form-radio-group>
-    </span>
+    </b-form-group>
 </template>
 
 <script>
-import { BFormRadio, BFormRadioGroup } from 'bootstrap-vue'
+import { BFormGroup, BFormRadio, BFormRadioGroup } from 'bootstrap-vue'
 export default {
     components: {
+        BFormGroup,
         BFormRadio,
         BFormRadioGroup
     },
     props: {
         value: {
             type: String,
-        }
+        },
+        hideLabel: Boolean
     },
     computed: {
         gender: {

@@ -8,7 +8,6 @@ use App\Http\Requests\Library\StoreExtendBookToPerson;
 use App\Http\Requests\Library\StoreLendBook;
 use App\Http\Requests\Library\StoreLendBookToPerson;
 use App\Http\Requests\Library\StoreReturnBookFromPerson;
-use App\Http\Requests\People\StorePerson;
 use App\Models\Library\LibraryBook;
 use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
@@ -32,24 +31,6 @@ class LendingController extends Controller
         return view('library.lending.persons', [
             'persons' => $persons,
         ]);
-    }
-
-    public function storePerson(StorePerson $request)
-    {
-        $this->authorize('create', Person::class);
-
-        $person = new Person();
-        $person->name = $request->name;
-        $person->family_name = $request->family_name;
-        $person->gender = $request->gender;
-        $person->date_of_birth = $request->date_of_birth;
-        $person->police_no = ! empty($request->police_no) ? $request->police_no : null;
-        $person->nationality = ! empty($request->nationality) ? $request->nationality : null;
-        $person->save();
-
-        return redirect()
-            ->route('library.lending.person', $person)
-            ->with('success', __('people.person_registered'));
     }
 
     public function person(Person $person)
