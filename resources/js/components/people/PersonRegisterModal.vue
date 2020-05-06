@@ -9,7 +9,7 @@
         @shown="focusForm"
         @ok="handleOk"
     >
-        <simple-person-editor
+        <person-editor-form
             ref="editor"
             @submit="createPerson"
         />
@@ -23,10 +23,10 @@
 <script>
 import axios from '@/plugins/axios'
 import { handleAjaxError, showSnackbar } from '@/utils'
-import SimplePersonEditor from '@/components/people/SimplePersonEditor'
+import PersonEditorForm from '@/components/people/PersonEditorForm'
 export default {
     components: {
-        SimplePersonEditor
+        PersonEditorForm
     },
     data () {
         return {
