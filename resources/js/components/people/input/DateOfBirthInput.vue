@@ -1,5 +1,9 @@
 <template>
-    <b-form-group :label="!hideLabel ? label : null">
+    <b-form-group
+        :label="!hideLabel ? label : null"
+        :state="state"
+        :invalid-feedback="invalidFeedback"
+    >
         <b-input-group :append="$t('people.age_n', {age: age != null ? age : '...'})">
             <b-form-input
                 v-model.trim="modelValue"
@@ -8,6 +12,7 @@
                 autocomplete="off"
                 pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                 required
+                :state="state"
             />
         </b-input-group>
     </b-form-group>
@@ -25,7 +30,8 @@ export default {
     data () {
         return {
             modelValue: this.value,
-            label: this.$t('people.date_of_birth')
+            label: this.$t('people.date_of_birth'),
+            state: null
         }
     },
     computed: {
@@ -34,11 +40,19 @@ export default {
                 return dateOfBirthToAge(this.modelValue)
             }
             return null
+        },
+        invalidFeedback () {
+            if (this.modelValue) { /* NoOp */ }
+            if (this.$refs.input && this.$refs.input.validity.patternMismatch) {
+                return this.$t('validation.date', {attribute: this.label})
+            }
+            return this.$t('validation.required', {attribute: this.label})
         }
     },
     watch: {
         modelValue (val) {
             this.$emit('input', val)
+            this.state = this.$refs.input.checkValidity()
         }
     },
     methods: {

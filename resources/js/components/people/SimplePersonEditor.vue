@@ -100,7 +100,6 @@ export default {
                 nationality: this.value.nationality,
                 police_no: this.value.police_no
             }
-            // nameState: null,
         }
     },
     methods: {
@@ -114,15 +113,12 @@ export default {
             }
             this.$emit('submit', this.person)
         },
-        checkFormValidity() {
-            const valid = this.$refs.form.checkValidity()
-            // this.nameState = valid
-            return valid
+        checkFormValidity () {
+            return this.$refs.form.checkValidity()
         },
         reset() {
             this.person = {}
-            // this.nameState = null
-        },
+        }
     }
 }
 </script>

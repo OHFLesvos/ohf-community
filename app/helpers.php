@@ -287,16 +287,16 @@ if (! function_exists('getCategorizedPermissions')) {
 }
 
 if (! function_exists('localized_country_names')) {
-    function localized_country_names(): \Illuminate\Support\Collection
+    function localized_country_names($locale = null): \Illuminate\Support\Collection
     {
-        return collect(Countries::getList(App::getLocale()));
+        return collect(Countries::getList($locale ?? App::getLocale()));
     }
 }
 
 if (! function_exists('localized_language_names')) {
-    function localized_language_names(): \Illuminate\Support\Collection
+    function localized_language_names($locale = null): \Illuminate\Support\Collection
     {
-        return Languages::lookup(null, App::getLocale());
+        return Languages::lookup(null, $locale ?? App::getLocale());
     }
 }
 

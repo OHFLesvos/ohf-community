@@ -372,8 +372,10 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     });
 
 
-Route::get('countries', function() {
-        return localized_country_names();
-    })
+Route::get('countries', 'API\DataListController@countries')
     ->middleware(['language'])
     ->name('api.countries');
+
+Route::get('languages', 'API\DataListController@languages')
+    ->middleware(['language'])
+    ->name('api.languages');

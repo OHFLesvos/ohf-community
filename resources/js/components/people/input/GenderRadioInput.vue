@@ -1,5 +1,7 @@
 <template>
-    <b-form-group :label="!hideLabel ? $t('people.gender') : null">
+    <b-form-group
+        :label="!hideLabel ? label : null"
+    >
         <b-form-radio-group
             v-model="gender"
             required
@@ -29,6 +31,11 @@ export default {
             type: String,
         },
         hideLabel: Boolean
+    },
+    data () {
+        return {
+            label: this.$t('people.gender')
+        }
     },
     computed: {
         gender: {
