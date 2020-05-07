@@ -473,11 +473,11 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::view('books', 'library.books.index')
             ->middleware('can:list,App\Models\Library\LibraryBook')
             ->name('books.index');
-        Route::view('books', 'library.books.index')
-            ->middleware('can:list,App\Models\Library\LibraryBook')
-            ->name('books.index');
+        Route::view('books/create', 'library.books.create')
+            ->middleware('can:create,App\Models\Library\LibraryBook')
+            ->name('books.create');
         Route::resource('books', 'BookController')
-            ->except(['index']);
+            ->except(['index', 'create', 'store']);
     });
 
 //

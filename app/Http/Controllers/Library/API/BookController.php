@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Library\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Library\UpdateBook;
 use App\Models\Library\LibraryBook;
 use Illuminate\Http\Request;
 use Scriptotek\GoogleBooks\GoogleBooks;
@@ -56,6 +57,24 @@ class BookController extends Controller
             ->paginate($pageSize);
 
         return LibraryBookResource::collection($data);
+    }
+
+    public function store(UpdateBook $request)
+    {
+        $this->authorize('create', LibraryBook::class);
+
+        $book = new LibraryBook();
+        $book->fill($request->all());
+        // $book->title = $request->title;
+        // $book->author = $request->author;
+        // $book->language_code = $request->language_code;
+        // $book->isbn = $request->isbn;
+        $book->save();
+
+        return response()->json([
+            'message' => __('library.book_registered'),
+            'id' => $book->id,
+        ]);
     }
 
     /**

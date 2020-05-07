@@ -22,6 +22,13 @@ class LibraryBook extends Model
         'language',
     ];
 
+    protected $fillable = [
+        'title',
+        'author',
+        'language_code',
+        'isbn',
+    ];
+
     public function lendings()
     {
         return $this->hasMany(LibraryLending::class, 'book_id');

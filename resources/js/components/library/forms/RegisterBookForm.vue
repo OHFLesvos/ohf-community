@@ -6,23 +6,32 @@
         <isbn-input
             v-model="isbn"
             ref="isbnInput"
-            hide-label
+            :hide-label="compact"
         />
         <p v-if="searching">
             {{ $t('app.searching') }}
         </p>
         <title-input
             v-model="title"
-            hide-label
+            :hide-label="compact"
         />
         <author-input
             v-model="author"
-            hide-label
+            :hide-label="compact"
         />
         <language-code-input
             v-model="language_code"
-            hide-label
+            :hide-label="compact"
         />
+        <p v-if="!noButtons">
+            <b-button
+                variant="primary"
+                type="submit"
+            >
+                <font-awesome-icon icon="check" />
+                {{ $t('app.register') }}
+            </b-button>
+        </p>
     </b-form>
 </template>
 
@@ -31,7 +40,7 @@ import HttpStatus from 'http-status-codes'
 import { handleAjaxError } from '@/utils'
 import axios from '@/plugins/axios'
 import isIsbn from 'is-isbn'
-import { BForm } from 'bootstrap-vue'
+import { BForm, BButton } from 'bootstrap-vue'
 import IsbnInput from '@/components/library/input/IsbnInput'
 import TitleInput from '@/components/library/input/TitleInput'
 import AuthorInput from '@/components/library/input/AuthorInput'
@@ -39,10 +48,15 @@ import LanguageCodeInput from '@/components/library/input/LanguageCodeInput'
 export default {
     components: {
         BForm,
+        BButton,
         IsbnInput,
         TitleInput,
         AuthorInput,
         LanguageCodeInput
+    },
+    props: {
+        compact: Boolean,
+        noButtons: Boolean
     },
     data () {
         return {

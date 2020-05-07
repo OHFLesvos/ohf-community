@@ -139,6 +139,8 @@
         >
             <register-book-form
                 ref="registerBookForm"
+                compact
+                no-buttons
                 @submit="registerAndLendBookToPerson"
             />
             <template v-slot:modal-ok>
