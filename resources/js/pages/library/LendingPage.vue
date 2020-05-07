@@ -59,7 +59,7 @@
 import { ucFirst } from '@/utils'
 import axios from '@/plugins/axios'
 import PersonAutocompleteInput from '@/components/people/PersonAutocompleteInput'
-import LibraryBookAutocompleteInput from '@/components/library/LibraryBookAutocompleteInput'
+import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
 import PersonRegisterModal from '@/components/people/PersonRegisterModal'
 export default {
     components: {

@@ -156,7 +156,7 @@
 import moment from 'moment'
 import axios from '@/plugins/axios'
 import { handleAjaxError, showSnackbar } from '@/utils'
-import LibraryBookAutocompleteInput from '@/components/library/LibraryBookAutocompleteInput'
+import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
 import RegisterBookForm from '@/components/library/forms/RegisterBookForm'
 export default {
     components: {
