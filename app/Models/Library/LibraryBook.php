@@ -48,6 +48,20 @@ class LibraryBook extends Model
     }
 
     /**
+     * Scope a query to only include currently available.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->whereDoesntHave('lendings', function (Builder $query) {
+            $query->active();
+        })
+        ->orDoesntHave('lendings');
+    }
+
+    /**
      * Scope a query to only include records matching the given filter value
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

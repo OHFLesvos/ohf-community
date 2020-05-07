@@ -117,9 +117,13 @@ class BookController extends Controller
         $this->authorize('list', LibraryBook::class);
 
         $filterQuery = $request->query('query');
+        $availableOnly = $request->query('available') != null;
         $records = LibraryBook::query()
             ->when($filterQuery, function ($query, $filterQuery) {
                 return $query->forFilter($filterQuery);
+            })
+            ->when($availableOnly, function ($query, $filterQuery) {
+                return $query->available();
             })
             ->orderBy('title')
             ->orderBy('author')

@@ -100,6 +100,7 @@
             @ok="lendBookToPerson"
         >
             <library-book-autocomplete-input
+                available-only
                 @select="selectExistingBook"
             />
             <template v-slot:modal-footer="{ ok }">
