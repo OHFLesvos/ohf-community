@@ -27,7 +27,7 @@
                 :hide-label="compact"
                 :disabled="isDisabled"
             />
-            <p v-if="!noButtons">
+            <p v-show="!noButtons">
                 <b-button
                     variant="primary"
                     type="submit"
