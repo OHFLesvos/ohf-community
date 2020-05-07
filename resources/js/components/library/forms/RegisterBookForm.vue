@@ -8,26 +8,30 @@
                 v-model="isbn"
                 ref="isbnInput"
                 :hide-label="compact"
+                :disabled="isDisabled"
+                :busy="searching"
+                @lookup="updateDataByISBN"
             />
-            <p v-if="searching">
-                {{ $t('app.searching') }}
-            </p>
             <title-input
                 v-model="title"
                 :hide-label="compact"
+                :disabled="isDisabled"
             />
             <author-input
                 v-model="author"
                 :hide-label="compact"
+                :disabled="isDisabled"
             />
             <language-code-input
                 v-model="language_code"
                 :hide-label="compact"
+                :disabled="isDisabled"
             />
             <p v-if="!noButtons">
                 <b-button
                     variant="primary"
                     type="submit"
+                    :disabled="isDisabled"
                 >
                     <font-awesome-icon icon="check" />
                     {{ book ? $t('app.update') : $t('app.register') }}
@@ -42,7 +46,6 @@
 import HttpStatus from 'http-status-codes'
 import { handleAjaxError } from '@/utils'
 import axios from '@/plugins/axios'
-import isIsbn from 'is-isbn'
 import { BForm, BButton } from 'bootstrap-vue'
 import IsbnInput from '@/components/library/input/IsbnInput'
 import TitleInput from '@/components/library/input/TitleInput'
@@ -60,6 +63,7 @@ export default {
     props: {
         compact: Boolean,
         noButtons: Boolean,
+        disabled: Boolean,
         book: {
             required: false,
         }
@@ -73,12 +77,9 @@ export default {
             searching: false
         }
     },
-    watch: {
-        isbn (val) {
-            var isbn = val.toUpperCase().replace(/[^+0-9X]/gi, '');
-            if (isIsbn.validate(isbn)) {
-                this.updateDataByISBN(isbn)
-            }
+    computed: {
+        isDisabled () {
+            return this.disabled || this.searching
         }
     },
     methods: {
@@ -95,9 +96,6 @@ export default {
         },
         updateDataByISBN (isbn) {
             this.searching = true
-            this.title = ''
-            this.author = ''
-            this.language_code = null
             axios.get(this.route('api.library.books.findIsbn', {isbn: isbn}))
                 .then(res => {
                     this.title = res.data.title
@@ -109,7 +107,11 @@ export default {
                     })
                 })
                 .catch((err) => {
-                    if (err.response.status != HttpStatus.NOT_FOUND) {
+                    if (err.response.status == HttpStatus.NOT_FOUND) {
+                        this.title = ''
+                        this.author = ''
+                        this.language_code = null
+                    } else {
                         handleAjaxError(err)
                     }
                 })

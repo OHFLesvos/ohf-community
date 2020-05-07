@@ -3,7 +3,8 @@ export default {
         value: {
             type: String,
         },
-        hideLabel: Boolean
+        hideLabel: Boolean,
+        disabled: Boolean
     },
     computed: {
         modelValue: {

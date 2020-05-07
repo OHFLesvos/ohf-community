@@ -15,6 +15,7 @@
                 ref="input"
                 :options="languages"
                 :state="getValidationState(validationContext)"
+                :disabled="disabled"
             />
         </b-form-group>
     </validation-provider>

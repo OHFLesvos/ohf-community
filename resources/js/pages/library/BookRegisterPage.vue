@@ -1,6 +1,7 @@
 <template>
     <register-book-form
         ref="form"
+        :disabled="busy"
         @submit="registerBook"
     />
 </template>
@@ -12,6 +13,11 @@ import RegisterBookForm from '@/components/library/forms/RegisterBookForm'
 export default {
     components: {
         RegisterBookForm
+    },
+    data () {
+        return {
+            busy: false,
+        }
     },
     mounted () {
         this.$refs.form.focus()
@@ -26,8 +32,10 @@ export default {
                     showSnackbar(res.data.message)
                     document.location = this.route('library.lending.book', [res.data.id])
                 })
-                .catch(handleAjaxError)
-                .finally(() => this.busy = false)
+                .catch((err) => {
+                    handleAjaxError(err)
+                    this.busy = false
+                })
         }
     }
 }

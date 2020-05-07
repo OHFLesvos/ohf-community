@@ -18,6 +18,7 @@
                 autocomplete="off"
                 :state="getValidationState(validationContext)"
                 required
+                :disabled="disabled"
             />
         </b-form-group>
     </validation-provider>
