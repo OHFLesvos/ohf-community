@@ -1,5 +1,5 @@
 <template>
-    <register-book-form
+    <book-form
         v-if="book"
         :book="book"
         :disabled="busy"
@@ -15,7 +15,7 @@
             <font-awesome-icon icon="trash" />
             {{ $t('app.delete') }}
         </b-button>
-    </register-book-form>
+    </book-form>
     <p v-else>
         {{ $t('app.loading') }}
     </p>
@@ -24,10 +24,10 @@
 <script>
 import axios from '@/plugins/axios'
 import { handleAjaxError, showSnackbar } from '@/utils'
-import RegisterBookForm from '@/components/library/forms/RegisterBookForm'
+import BookForm from '@/components/library/forms/BookForm'
 export default {
     components: {
-        RegisterBookForm
+        BookForm
     },
     props: {
         bookId: {

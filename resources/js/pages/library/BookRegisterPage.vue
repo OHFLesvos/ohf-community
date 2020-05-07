@@ -1,5 +1,5 @@
 <template>
-    <register-book-form
+    <book-form
         ref="form"
         :disabled="busy"
         @submit="registerBook"
@@ -9,10 +9,10 @@
 <script>
 import axios from '@/plugins/axios'
 import { handleAjaxError, showSnackbar } from '@/utils'
-import RegisterBookForm from '@/components/library/forms/RegisterBookForm'
+import BookForm from '@/components/library/forms/BookForm'
 export default {
     components: {
-        RegisterBookForm
+        BookForm
     },
     data () {
         return {
@@ -23,10 +23,10 @@ export default {
         this.$refs.form.focus()
     },
     methods: {
-        registerBook (newBook) {
+        registerBook (data) {
             this.busy = true
             axios.post(this.route('api.library.books.store'), {
-                    ...newBook
+                    ...data
                 })
                 .then((res) => {
                     showSnackbar(res.data.message)

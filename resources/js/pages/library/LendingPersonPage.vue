@@ -134,14 +134,16 @@
             id="registerBookModal"
             :title="$t('library.register_new_book')"
             ok-only
+            :ok-disabled="busy"
             body-class="pb-0"
             @shown="$refs.registerBookForm.focus()"
             @ok="handleOkRegisterBook"
         >
-            <register-book-form
+            <book-form
                 ref="registerBookForm"
                 compact
                 no-buttons
+                :disabled="busy"
                 @submit="registerAndLendBookToPerson"
             />
             <template v-slot:modal-ok>
@@ -161,11 +163,11 @@ import moment from 'moment'
 import axios from '@/plugins/axios'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
-import RegisterBookForm from '@/components/library/forms/RegisterBookForm'
+import BookForm from '@/components/library/forms/BookForm'
 export default {
     components: {
         LibraryBookAutocompleteInput,
-        RegisterBookForm
+        BookForm
     },
     props: {
         personId: {
@@ -235,7 +237,7 @@ export default {
         },
         handleOkRegisterBook (evt) {
             evt.preventDefault()
-            this.$refs.registerBookForm.handleSubmit()
+            this.$refs.registerBookForm.submit()
         },
         registerAndLendBookToPerson (newBook) {
             this.busy = true

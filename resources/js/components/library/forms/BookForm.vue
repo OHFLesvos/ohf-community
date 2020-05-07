@@ -86,6 +86,14 @@ export default {
         focus () {
             this.$refs.isbnInput.focus()
         },
+        submit () {
+            this.$refs.observer.validate()
+                .then(valid => {
+                    if (valid) {
+                        this.onSubmit()
+                    }
+                })
+        },
         onSubmit () {
             this.$emit('submit', {
                 isbn: this.isbn,
@@ -102,9 +110,9 @@ export default {
                     this.author = res.data.author
                     this.language_code = res.data.language
 
-                    this.$nextTick(function () {
-                        this.$refs.observer.validate()
-                    })
+                    // this.$nextTick(function () {
+                    //     this.$refs.observer.validate()
+                    // })
                 })
                 .catch((err) => {
                     if (err.response.status == HttpStatus.NOT_FOUND) {
