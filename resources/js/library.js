@@ -36,7 +36,6 @@ $(function(){
     });
 
     $('#registerBookModal').on('shown.bs.modal', function (e) {
-        $('input[name="isbn"]').focus();
         var book_search = $('input[name="book_id_search"]').val().toUpperCase().replace(/[^+0-9X]/gi, '');
         if (isIsbn.validate(book_search)) {
             $('input[name="isbn"]').val(book_search).trigger('propertychange');

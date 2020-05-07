@@ -45,7 +45,7 @@ export default {
         invalidFeedback () {
             if (this.modelValue) { /* NoOp */ }
             if (this.$refs.input && this.$refs.input.validity.patternMismatch) {
-                return this.$t('validation.date', {attribute: this.label})
+                return this.$t('validation.regex', {attribute: this.label})
             }
             return this.$t('validation.required', {attribute: this.label})
         }

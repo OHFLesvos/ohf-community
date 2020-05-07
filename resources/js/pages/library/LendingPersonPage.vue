@@ -99,7 +99,9 @@
             :title="$t('library.lend_a_book')"
             @ok="lendBookToPerson"
         >
-            <library-book-autocomplete-input @select="selectExistingBook" />
+            <library-book-autocomplete-input
+                @select="selectExistingBook"
+            />
             <template v-slot:modal-footer="{ ok }">
 
                 <!-- Lend book button -->
@@ -131,38 +133,28 @@
             id="registerBookModal"
             :title="$t('library.register_new_book')"
             ok-only
-            @shown="loadLanguages"
+            @shown="$refs.isbnInput.focus()"
             @ok="handleOkRegisterBook"
             @hidden="resetNewBook"
         >
             <b-form @submit.stop.prevent="registerAndLendBookToPerson">
-                <b-form-group>
-                    <b-form-input
-                        v-model="newBookForm.isbn"
-                        autocomplete="off"
-                        :placeholder="$t('library.isbn')"
-                    />
-                </b-form-group>
-                <b-form-group>
-                    <b-form-input
-                        v-model="newBookForm.title"
-                        autocomplete="off"
-                        :placeholder="$t('app.title')"
-                    />
-                </b-form-group>
-                <b-form-group>
-                    <b-form-input
-                        v-model="newBookForm.author"
-                        autocomplete="off"
-                        :placeholder="$t('library.author')"
-                    />
-                </b-form-group>
-                <b-form-group>
-                    <b-form-select
-                        v-model="newBookForm.language_code"
-                        :options="languages"
-                    />
-                </b-form-group>
+                <isbn-input
+                    v-model="newBookForm.isbn"
+                    ref="isbnInput"
+                    hide-label
+                />
+                <title-input
+                    v-model="newBookForm.title"
+                    hide-label
+                />
+                <author-input
+                    v-model="newBookForm.author"
+                    hide-label
+                />
+                <language-code-input
+                    v-model="newBookForm.language_code"
+                    hide-label
+                />
             </b-form>
             <template v-slot:modal-ok>
                 <font-awesome-icon icon="check" />
@@ -181,9 +173,17 @@ import moment from 'moment'
 import axios from '@/plugins/axios'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import LibraryBookAutocompleteInput from '@/components/library/LibraryBookAutocompleteInput'
+import IsbnInput from '@/components/library/IsbnInput'
+import TitleInput from '@/components/library/TitleInput'
+import AuthorInput from '@/components/library/AuthorInput'
+import LanguageCodeInput from '@/components/library/LanguageCodeInput'
 export default {
     components: {
-        LibraryBookAutocompleteInput
+        LibraryBookAutocompleteInput,
+        IsbnInput,
+        TitleInput,
+        AuthorInput,
+        LanguageCodeInput
     },
     props: {
         personId: {
@@ -204,8 +204,7 @@ export default {
                 title: '',
                 author: '',
                 language_code: null
-            },
-            languages: []
+            }
         }
     },
     created () {
@@ -257,22 +256,6 @@ export default {
                     .catch(handleAjaxError)
                     .finally(() => this.busy = false)
             }
-        },
-        loadLanguages () {
-            axios.get(this.route('api.languages'))
-                .then(res => {
-                    this.languages = Object.entries(res.data)
-                        .map(e => {
-                            return {
-                                value: e[0],
-                                text: e[1]
-                            }
-                        })
-                    this.languages.unshift({
-                        value: null,
-                        text: this.$t('app.choose_language')
-                    })
-                })
         },
         handleOkRegisterBook (evt) {
             evt.preventDefault()
