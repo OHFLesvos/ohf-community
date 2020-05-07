@@ -1,52 +1,39 @@
 <template>
-    <b-form-group
-        :label="!hideLabel ? label : null"
-        :state="state"
-        :invalid-feedback="invalidFeedback"
+    <validation-provider
+        :name="label"
+        :vid="vid"
+        :rules="rules"
+        v-slot="validationContext"
     >
-        <b-form-input
-            v-model="modelValue"
-            trim
-            ref="input"
-            :placeholder="hideLabel ? label : null"
-            autocomplete="off"
-            required
-            :state="state"
-        />
-    </b-form-group>
+        <b-form-group
+            :label="!hideLabel ? label : null"
+            :state="getValidationState(validationContext)"
+            :invalid-feedback="validationContext.errors[0]"
+        >
+            <b-form-input
+                v-model="modelValue"
+                trim
+                ref="input"
+                :placeholder="hideLabel ? label : null"
+                autocomplete="off"
+                :state="getValidationState(validationContext)"
+                required
+            />
+        </b-form-group>
+    </validation-provider>
 </template>
 
 <script>
+import formInputMixin from '@/mixins/formInputMixin'
 export default {
-    props: {
-        value: {
-            type: String,
-        },
-        hideLabel: Boolean
-    },
+    mixins: [formInputMixin],
     data () {
         return {
             label: this.$t('app.title'),
-            state: null
-        }
-    },
-    computed: {
-        modelValue: {
-            get() {
-                return this.value
-            },
-            set(val) {
-                this.$emit('input', val)
-                this.state = this.$refs.input.checkValidity()
+            vid: 'title',
+            rules: {
+                required: true
             }
-        },
-        invalidFeedback () {
-            return this.$t('validation.required', {attribute: this.label})
-        }
-    },
-    methods: {
-        focus () {
-            this.$refs.input.focus()
         }
     }
 }

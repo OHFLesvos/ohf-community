@@ -1,39 +1,41 @@
 <template>
-    <b-form
-        ref="form"
-        @submit.stop.prevent="handleSubmit"
+    <validation-observer
+        ref="observer"
+        v-slot="{ handleSubmit }"
     >
-        <isbn-input
-            v-model="isbn"
-            ref="isbnInput"
-            :hide-label="compact"
-        />
-        <p v-if="searching">
-            {{ $t('app.searching') }}
-        </p>
-        <title-input
-            v-model="title"
-            :hide-label="compact"
-        />
-        <author-input
-            v-model="author"
-            :hide-label="compact"
-        />
-        <language-code-input
-            v-model="language_code"
-            :hide-label="compact"
-        />
-        <p v-if="!noButtons">
-            <b-button
-                variant="primary"
-                type="submit"
-            >
-                <font-awesome-icon icon="check" />
-                {{ this.book ? $t('app.update') : $t('app.register') }}
-            </b-button>
-            <slot></slot>
-        </p>
-    </b-form>
+        <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+            <isbn-input
+                v-model="isbn"
+                ref="isbnInput"
+                :hide-label="compact"
+            />
+            <p v-if="searching">
+                {{ $t('app.searching') }}
+            </p>
+            <title-input
+                v-model="title"
+                :hide-label="compact"
+            />
+            <author-input
+                v-model="author"
+                :hide-label="compact"
+            />
+            <language-code-input
+                v-model="language_code"
+                :hide-label="compact"
+            />
+            <p v-if="!noButtons">
+                <b-button
+                    variant="primary"
+                    type="submit"
+                >
+                    <font-awesome-icon icon="check" />
+                    {{ book ? $t('app.update') : $t('app.register') }}
+                </b-button>
+                <slot></slot>
+            </p>
+        </b-form>
+    </validation-observer>
 </template>
 
 <script>
@@ -83,9 +85,7 @@ export default {
         focus () {
             this.$refs.isbnInput.focus()
         },
-        handleSubmit (evt) {
-            if (evt) evt.preventDefault()
-
+        onSubmit () {
             this.$emit('submit', {
                 isbn: this.isbn,
                 title: this.title,
@@ -103,6 +103,10 @@ export default {
                     this.title = res.data.title
                     this.author = res.data.author
                     this.language_code = res.data.language
+
+                    this.$nextTick(function () {
+                        this.$refs.observer.validate()
+                    })
                 })
                 .catch((err) => {
                     if (err.response.status != HttpStatus.NOT_FOUND) {

@@ -14,6 +14,8 @@ import BookEditPage from '@/pages/library/BookEditPage'
 
 import i18n from '@/plugins/i18n'
 
+import './plugins/vee-validate'
+
 import ziggyMixin from '@/mixins/ziggyMixin'
 Vue.mixin(ziggyMixin)
 

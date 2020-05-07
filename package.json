@@ -43,6 +43,7 @@
         "sass-loader": "^8.0.0",
         "slugify": "^1.4.0",
         "summernote": "^0.8.16",
+        "vee-validate": "^3.3.0",
         "vue": "^2.6.11",
         "vue-chartjs": "^3.5.0",
         "vue-i18n": "^8.17.4",
