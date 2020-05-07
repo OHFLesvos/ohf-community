@@ -4,26 +4,31 @@
         @submit.stop.prevent="handleSubmit"
     >
         <isbn-input
-            v-model="newBookForm.isbn"
+            v-model="isbn"
             ref="isbnInput"
             hide-label
         />
+        <p v-if="searching">
+            {{ $t('app.searching') }}
+        </p>
         <title-input
-            v-model="newBookForm.title"
+            v-model="title"
             hide-label
         />
         <author-input
-            v-model="newBookForm.author"
+            v-model="author"
             hide-label
         />
         <language-code-input
-            v-model="newBookForm.language_code"
+            v-model="language_code"
             hide-label
         />
     </b-form>
 </template>
 
 <script>
+import HttpStatus from 'http-status-codes'
+import { handleAjaxError } from '@/utils'
 import axios from '@/plugins/axios'
 import isIsbn from 'is-isbn'
 import { BForm } from 'bootstrap-vue'
@@ -41,26 +46,18 @@ export default {
     },
     data () {
         return {
-            newBookForm: {
-                isbn: '',
-                title: '',
-                author: '',
-                language_code: null
-            }
+            isbn: '',
+            title: '',
+            author: '',
+            language_code: null,
+            searching: false
         }
     },
     watch: {
-        newBookForm: {
-            deep: true,
-            handler (val, oldVal) {
-                console.log(val.isbn)
-                console.log(oldVal.isbn)
-                if (val.isbn != oldVal.isbn) {
-                    var isbn = val.isbn.toUpperCase().replace(/[^+0-9X]/gi, '');
-                    if (isIsbn.validate(isbn)) {
-                        this.updateDataByISBN(isbn)
-                    }
-                }
+        isbn (val) {
+            var isbn = val.toUpperCase().replace(/[^+0-9X]/gi, '');
+            if (isIsbn.validate(isbn)) {
+                this.updateDataByISBN(isbn)
             }
         }
     },
@@ -71,18 +68,30 @@ export default {
         handleSubmit (evt) {
             if (evt) evt.preventDefault()
 
-            this.$emit('submit', this.newBookForm)
+            this.$emit('submit', {
+                isbn: this.isbn,
+                title: this.title,
+                author: this.author,
+                language_code: this.language_code
+            })
         },
         updateDataByISBN (isbn) {
+            this.searching = true
+            this.title = ''
+            this.author = ''
+            this.language_code = null
             axios.get(this.route('api.library.books.findIsbn', {isbn: isbn}))
                 .then(res => {
-                    this.newBookForm.title = res.data.title
-                    this.newBookForm.author = res.data.author
-                    this.newBookForm.language_code = res.data.language
+                    this.title = res.data.title
+                    this.author = res.data.author
+                    this.language_code = res.data.language
                 })
-                .catch(() => {
-                    // TODO
+                .catch((err) => {
+                    if (err.response.status != HttpStatus.NOT_FOUND) {
+                        handleAjaxError(err)
+                    }
                 })
+                .finally(() => this.searching = false)
         }
     }
 }

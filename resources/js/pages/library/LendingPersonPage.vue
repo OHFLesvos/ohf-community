@@ -47,7 +47,7 @@
                             <td class="align-middle">
                                 {{ moment(lending.return_date).format("LL") }}
                             </td>
-                            <td class="fit">
+                            <td class="fit align-middle">
 
                                 <!-- Return book -->
                                 <b-button
@@ -65,7 +65,7 @@
                                     size="sm"
                                     @click="extendLending(lending.book.id)"
                                 >
-                                    <font-awesome-icon icon="calendar-plus-o" />
+                                    <font-awesome-icon icon="calendar-plus" />
                                     <span class="d-none d-sm-inline"> {{ $t('library.extend') }}</span>
                                 </b-button>
 
@@ -133,6 +133,7 @@
             id="registerBookModal"
             :title="$t('library.register_new_book')"
             ok-only
+            body-class="pb-0"
             @shown="$refs.registerBookForm.focus()"
             @ok="handleOkRegisterBook"
         >
