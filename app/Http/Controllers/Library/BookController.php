@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Library;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Library\UpdateBook;
 use App\Models\Library\LibraryBook;
 
 class BookController extends Controller
