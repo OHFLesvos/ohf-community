@@ -6,9 +6,58 @@ use App\Http\Controllers\Controller;
 use App\Models\Library\LibraryBook;
 use Illuminate\Http\Request;
 use Scriptotek\GoogleBooks\GoogleBooks;
+use App\Http\Resources\Library\LibraryBook as LibraryBookResource;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
+    public function index(Request $request)
+    {
+        $this->authorize('list', LibraryBook::class);
+
+        $request->validate([
+            'filter' => [
+                'nullable',
+            ],
+            'page' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'pageSize' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'sortBy' => [
+                'nullable',
+                'alpha_dash',
+                'filled',
+                Rule::in([
+                    'title',
+                    'author',
+                    'created_at',
+                ]),
+            ],
+            'sortDirection' => [
+                'nullable',
+                'in:asc,desc',
+            ],
+        ]);
+
+        $sortBy = $request->input('sortBy', 'created_at');
+        $sortDirection = $request->input('sortDirection', 'desc');
+        $pageSize = $request->input('pageSize', 100);
+        $filter = trim($request->input('filter', ''));
+
+        $data = LibraryBook::query()
+            ->forFilter($filter)
+            ->orderBy($sortBy, $sortDirection)
+            ->paginate($pageSize);
+
+        return LibraryBookResource::collection($data);
+    }
+
     /**
      * Returns a list of filtered books for autocomplete input
      *

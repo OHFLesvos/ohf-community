@@ -382,6 +382,8 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
             ->name('books.filter');
         Route::get('books/findIsbn', 'BookController@findIsbn')
             ->name('books.findIsbn');
+        Route::apiResource('books', 'BookController')
+            ->only(['index']);
     });
 
 

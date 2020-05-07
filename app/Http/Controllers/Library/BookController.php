@@ -12,10 +12,7 @@ class BookController extends Controller
     {
         $this->authorize('list', LibraryBook::class);
 
-        return view('library.books.index', [
-            'books' => LibraryBook::orderBy('title')->paginate(100),
-            'num_books' => LibraryBook::count(),
-        ]);
+        return view('library.books.index');
     }
 
     public function create()

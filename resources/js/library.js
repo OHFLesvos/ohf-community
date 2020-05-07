@@ -8,6 +8,7 @@ Vue.use(BootstrapVue)
 
 import LendingPage from '@/pages/library/LendingPage'
 import LendingPersonPage from '@/pages/library/LendingPersonPage'
+import BooksPage from '@/pages/library/BooksPage'
 
 import i18n from '@/plugins/i18n'
 
@@ -21,6 +22,7 @@ new Vue({
     i18n,
     components: {
         LendingPage,
-        LendingPersonPage
+        LendingPersonPage,
+        BooksPage
     }
 })
