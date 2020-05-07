@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import { storeBook } from '@/api/books'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {
@@ -25,12 +25,10 @@ export default {
     methods: {
         registerBook (data) {
             this.busy = true
-            axios.post(this.route('api.library.books.store'), {
-                    ...data
-                })
-                .then((res) => {
-                    showSnackbar(res.data.message)
-                    document.location = this.route('library.lending.book', [res.data.id])
+            storeBook(data)
+                .then((data) => {
+                    showSnackbar(data.message)
+                    document.location = this.route('library.lending.book', [data.id])
                 })
                 .catch((err) => {
                     handleAjaxError(err)

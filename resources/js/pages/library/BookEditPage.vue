@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import { findBook, updateBook, deleteBook } from '@/api/books'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {
@@ -42,21 +42,19 @@ export default {
         }
     },
     created () {
-        axios.get(this.route('api.library.books.show', [this.bookId]))
-                .then((res) => {
-                    this.book = res.data.data
-                    this.canDelete = res.data.meta.can_delete
+        findBook(this.bookId)
+                .then((data) => {
+                    this.book = data.data
+                    this.canDelete = data.meta.can_delete
                 })
                 .catch(handleAjaxError)
     },
     methods: {
         updateBook (data) {
             this.busy = true
-            axios.put(this.route('api.library.books.update', [this.bookId]), {
-                    ...data
-                })
-                .then((res) => {
-                    showSnackbar(res.data.message)
+            updateBook(this.bookId, data)
+                .then((data) => {
+                    showSnackbar(data.message)
                     document.location = this.route('library.lending.book', [this.bookId])
                 })
                 .catch((err) => {
@@ -67,9 +65,9 @@ export default {
         deleteBook () {
             if (confirm(this.$t('library.confirm_delete_book'))) {
                 this.busy = true
-                axios.delete(this.route('api.library.books.destroy', [this.bookId]))
-                    .then((res) => {
-                        showSnackbar(res.data.message)
+                deleteBook(this.bookId)
+                    .then((data) => {
+                        showSnackbar(data.message)
                         document.location = this.route('library.books.index')
                     })
                     .catch((err) => {

@@ -43,9 +43,9 @@
 </template>
 
 <script>
+import { findIsbn } from '@/api/books'
 import HttpStatus from 'http-status-codes'
 import { handleAjaxError } from '@/utils'
-import axios from '@/plugins/axios'
 import { BForm, BButton } from 'bootstrap-vue'
 import IsbnInput from '@/components/library/input/IsbnInput'
 import TitleInput from '@/components/library/input/TitleInput'
@@ -104,11 +104,11 @@ export default {
         },
         updateDataByISBN (isbn) {
             this.searching = true
-            axios.get(this.route('api.library.books.findIsbn', {isbn: isbn}))
-                .then(res => {
-                    this.title = res.data.title
-                    this.author = res.data.author
-                    this.language_code = res.data.language
+            findIsbn(isbn)
+                .then(data => {
+                    this.title = data.title
+                    this.author = data.author
+                    this.language_code = data.language
 
                     this.$nextTick(function () {
                         this.$refs.observer.validate()
