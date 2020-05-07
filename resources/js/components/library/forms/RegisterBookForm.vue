@@ -29,8 +29,9 @@
                 type="submit"
             >
                 <font-awesome-icon icon="check" />
-                {{ $t('app.register') }}
+                {{ this.book ? $t('app.update') : $t('app.register') }}
             </b-button>
+            <slot></slot>
         </p>
     </b-form>
 </template>
@@ -56,14 +57,17 @@ export default {
     },
     props: {
         compact: Boolean,
-        noButtons: Boolean
+        noButtons: Boolean,
+        book: {
+            required: false,
+        }
     },
     data () {
         return {
-            isbn: '',
-            title: '',
-            author: '',
-            language_code: null,
+            isbn: this.book ? this.book.isbn : '',
+            title: this.book ? this.book.title : '',
+            author: this.book ? this.book.author : '',
+            language_code: this.book ? this.book.language_code : null,
             searching: false
         }
     },

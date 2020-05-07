@@ -477,7 +477,7 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
             ->middleware('can:create,App\Models\Library\LibraryBook')
             ->name('books.create');
         Route::resource('books', 'BookController')
-            ->except(['index', 'create', 'store']);
+            ->only(['edit']);
     });
 
 //

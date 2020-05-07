@@ -1,10 +1,8 @@
 <template>
-    <div>
-        <register-book-form
-            ref="form"
-            @submit="registerBook"
-        />
-    </div>
+    <register-book-form
+        ref="form"
+        @submit="registerBook"
+    />
 </template>
 
 <script>

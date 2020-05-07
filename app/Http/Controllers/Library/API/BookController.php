@@ -65,15 +65,44 @@ class BookController extends Controller
 
         $book = new LibraryBook();
         $book->fill($request->all());
-        // $book->title = $request->title;
-        // $book->author = $request->author;
-        // $book->language_code = $request->language_code;
-        // $book->isbn = $request->isbn;
         $book->save();
 
         return response()->json([
             'message' => __('library.book_registered'),
             'id' => $book->id,
+        ]);
+    }
+
+    public function show(LibraryBook $book, Request $request)
+    {
+        $this->authorize('view', $book);
+
+        return (new LibraryBookResource($book))
+            ->additional(['meta' => [
+                'can_delete' => $request->user()->can('delete', $book)
+            ]]);
+    }
+
+    public function update(LibraryBook $book, UpdateBook $request)
+    {
+        $this->authorize('update', $book);
+
+        $book->fill($request->all());
+        $book->save();
+
+        return response()->json([
+            'message' => __('library.book_updated'),
+        ]);
+    }
+
+    public function destroy(LibraryBook $book)
+    {
+        $this->authorize('delete', $book);
+
+        $book->delete();
+
+        return response()->json([
+            'message' => __('library.book_removed'),
         ]);
     }
 
