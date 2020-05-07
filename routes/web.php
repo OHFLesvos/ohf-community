@@ -469,7 +469,15 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::get('report', 'ReportController@index')
             ->name('report');
 
-        Route::resource('books', 'BookController');
+        // Books
+        Route::view('books', 'library.books.index')
+            ->middleware('can:list,App\Models\Library\LibraryBook')
+            ->name('books.index');
+        Route::view('books', 'library.books.index')
+            ->middleware('can:list,App\Models\Library\LibraryBook')
+            ->name('books.index');
+        Route::resource('books', 'BookController')
+            ->except(['index']);
     });
 
 //

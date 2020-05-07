@@ -8,13 +8,6 @@ use App\Models\Library\LibraryBook;
 
 class BookController extends Controller
 {
-    public function index()
-    {
-        $this->authorize('list', LibraryBook::class);
-
-        return view('library.books.index');
-    }
-
     public function create()
     {
         $this->authorize('create', LibraryBook::class);
