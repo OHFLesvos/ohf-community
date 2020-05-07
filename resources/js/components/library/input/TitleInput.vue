@@ -17,8 +17,8 @@
                 :placeholder="hideLabel ? label : null"
                 autocomplete="off"
                 :state="getValidationState(validationContext)"
-                required
                 :disabled="disabled"
+                required
             />
         </b-form-group>
     </validation-provider>

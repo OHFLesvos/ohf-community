@@ -35,7 +35,7 @@ export default {
     data () {
         return {
             label: this.$t('app.language'),
-            vid: 'title',
+            vid: 'language_code',
             rules: {},
             languages: [{
                 value: null,

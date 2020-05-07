@@ -110,9 +110,9 @@ export default {
                     this.author = res.data.author
                     this.language_code = res.data.language
 
-                    // this.$nextTick(function () {
-                    //     this.$refs.observer.validate()
-                    // })
+                    this.$nextTick(function () {
+                        this.$refs.observer.validate()
+                    })
                 })
                 .catch((err) => {
                     if (err.response.status == HttpStatus.NOT_FOUND) {
