@@ -57,7 +57,7 @@
 
 <script>
 import { ucFirst } from '@/utils'
-import axios from '@/plugins/axios'
+import { fetchLendingsStatistics } from '@/api/library'
 import PersonAutocompleteInput from '@/components/people/PersonAutocompleteInput'
 import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
 import PersonRegisterModal from '@/components/people/PersonRegisterModal'
@@ -74,10 +74,10 @@ export default {
         }
     },
     created () {
-        axios.get(this.route('api.library.lending.stats'))
-            .then(res => {
-                this.numBorrowers = res.data.num_borrowers
-                this.numLentBooks = res.data.num_lent_books
+        fetchLendingsStatistics()
+            .then((data) => {
+                this.numBorrowers = data.num_borrowers
+                this.numLentBooks = data.num_lent_books
             })
             .catch(err => console.error(err))
     },

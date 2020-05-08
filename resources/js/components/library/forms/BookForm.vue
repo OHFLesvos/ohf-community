@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { findIsbn } from '@/api/books'
+import { findIsbn } from '@/api/library'
 import HttpStatus from 'http-status-codes'
 import { handleAjaxError } from '@/utils'
 import { BForm, BButton } from 'bootstrap-vue'

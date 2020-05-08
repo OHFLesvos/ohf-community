@@ -160,7 +160,8 @@
 
 <script>
 import moment from 'moment'
-import axios from '@/plugins/axios'
+import { findLendingsOfPerson, lendBookToPerson, extendLending, returnBook } from '@/api/library'
+import { findPerson } from '@/api/people'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
 import BookForm from '@/components/library/forms/BookForm'
@@ -192,19 +193,19 @@ export default {
     methods: {
         moment,
         loadPerson () {
-            axios.get(this.route('api.people.show', [this.personId]))
-                .then(res => {
-                    this.person = res.data.data
+            findPerson(this.personId)
+                .then(data => {
+                    this.person = data.data
                 })
                 .catch(err => console.error(err))
         },
         loadLendings () {
-            axios.get(this.route('api.library.lending.person', [this.personId]))
-                .then(res => {
-                    this.lendings = res.data.data
-                    this.canLend = res.data.meta.can_lend
-                    this.canRegisterBook = res.data.meta.can_register_book
-                    this.defaultExtendDuration = res.data.meta.default_extend_duration
+            findLendingsOfPerson(this.personId)
+                .then(data => {
+                    this.lendings = data.data
+                    this.canLend = data.meta.can_lend
+                    this.canRegisterBook = data.meta.can_register_book
+                    this.defaultExtendDuration = data.meta.default_extend_duration
                 })
                 .catch(err => console.error(err))
         },
@@ -221,11 +222,9 @@ export default {
             bvModalEvt.preventDefault()
             if (this.selectedBookId) {
                 this.busy = true
-                axios.post(this.route('api.library.lending.lendBookToPerson', [this.personId]), {
-                        book_id: this.selectedBookId
-                    })
-                    .then((res) => {
-                        showSnackbar(res.data.message)
+                lendBookToPerson(this.selectedBookId, this.personId)
+                    .then((data) => {
+                        showSnackbar(data.message)
                         this.loadLendings()
                         this.$nextTick(() => {
                             this.$bvModal.hide('lendBookModal')
@@ -241,11 +240,9 @@ export default {
         },
         registerAndLendBookToPerson (newBook) {
             this.busy = true
-            axios.post(this.route('api.library.lending.lendBookToPerson', [this.personId]), {
-                    ...newBook
-                })
-                .then((res) => {
-                    showSnackbar(res.data.message)
+            lendBookToPerson(newBook, this.personId)
+                .then((data) => {
+                    showSnackbar(data.message)
                     this.loadLendings()
                     this.$nextTick(() => {
                         this.$bvModal.hide('registerBookModal')
@@ -258,22 +255,17 @@ export default {
         extendLending (book_id) {
             var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)
             if (days != null && days > 0) {
-                axios.post(this.route('api.library.lending.extendBookToPerson', [this.personId]), {
-                        book_id: book_id,
-                        days: days
-                    })
-                    .then((res) => {
-                        showSnackbar(res.data.message)
+                extendLending(book_id, this.personId, days)
+                    .then((data) => {
+                        showSnackbar(data.message)
                         this.loadLendings()
                     })
             }
         },
         returnBook (book_id) {
-            axios.post(this.route('api.library.lending.returnBookFromPerson', [this.personId]), {
-                    book_id: book_id,
-                })
-                .then((res) => {
-                    showSnackbar(res.data.message)
+            returnBook(book_id, this.personId)
+                .then((data) => {
+                    showSnackbar(data.message)
                     this.loadLendings()
                 })
         }

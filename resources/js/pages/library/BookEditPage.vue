@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { findBook, updateBook, deleteBook } from '@/api/books'
+import { findBook, updateBook, deleteBook } from '@/api/library'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {

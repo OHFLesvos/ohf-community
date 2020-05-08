@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { storeBook } from '@/api/books'
+import { storeBook } from '@/api/library'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {
