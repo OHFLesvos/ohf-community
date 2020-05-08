@@ -30,14 +30,10 @@ class LendingController extends Controller
     {
         return [
             'num_borrowers' => Person::query()
-                ->whereHas('bookLendings', function ($query) {
-                    $query->whereNull('returned_date');
-                })
+                ->whereHas('bookLendings', fn ($query) => $query->whereNull('returned_date'))
                 ->count(),
             'num_lent_books' => LibraryBook::query()
-                ->whereHas('lendings', function ($query) {
-                    $query->whereNull('returned_date');
-                })
+                ->whereHas('lendings', fn ($query) => $query->whereNull('returned_date'))
                 ->count(),
         ];
     }
@@ -49,9 +45,7 @@ class LendingController extends Controller
         $pageSize = $request->input('pageSize', 25);
 
         $persons = Person::query()
-            ->whereHas('bookLendings', function ($query) {
-                $query->active();
-            })
+            ->whereHas('bookLendings', fn ($query) => $query->active())
             ->with('bookLendings')
             ->get()
             ->sortBy('fullName')
@@ -68,9 +62,7 @@ class LendingController extends Controller
         $pageSize = $request->input('pageSize', 25);
 
         $books = LibraryBook::query()
-            ->whereHas('lendings', function ($query) {
-                $query->active();
-            })
+            ->whereHas('lendings', fn ($query) => $query->active())
             ->with('lendings')
             ->orderBy('title')
             ->get()

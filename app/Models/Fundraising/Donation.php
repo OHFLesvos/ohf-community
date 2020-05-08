@@ -57,13 +57,7 @@ class Donation extends Model
             $query->where(function ($wq) use ($filter) {
                 return $wq->where('date', $filter)
                     ->orWhere('amount', $filter)
-                    ->orWhereHas('donor', function ($query) use ($filter) {
-                        $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
-                            ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
-                            ->orWhere('company', 'LIKE', '%' . $filter . '%')
-                            ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-                            ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
-                    })
+                    ->orWhereHas('donor', fn ($query) => $query->forSimpleFilter($filter))
                     ->orWhere('channel', 'LIKE', '%' . $filter . '%')
                     ->orWhere('purpose', 'LIKE', '%' . $filter . '%')
                     ->orWhere('reference', $filter)

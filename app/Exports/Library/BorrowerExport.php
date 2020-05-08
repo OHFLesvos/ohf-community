@@ -23,13 +23,9 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
     {
         $query = Person::query();
         if ($this->overdueOnly) {
-            $query->whereHas('bookLendings', function (Builder $query) {
-                $query->overdue();
-            });
+            $query->whereHas('bookLendings', fn (Builder $query) => $query->overdue());
         } else if ($this->activeOnly) {
-            $query->whereHas('bookLendings', function (Builder $query) {
-                $query->active();
-            });
+            $query->whereHas('bookLendings', fn (Builder $query) => $query->active());
         } else {
             $query->has('bookLendings');
         }

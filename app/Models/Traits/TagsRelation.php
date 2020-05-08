@@ -77,9 +77,7 @@ trait TagsRelation
     {
         if (count($tags) > 0) {
             foreach ($tags as $tag) {
-                $query->whereHas('tags', function ($query) use ($tag) {
-                    $query->where('slug', $tag);
-                });
+                $query->whereHas('tags', fn ($query) => $query->where('slug', $tag));
             }
         }
         return $query;
@@ -96,9 +94,7 @@ trait TagsRelation
     public function scopeWithTags($query, ?array $tags = [])
     {
         if (count($tags) > 0) {
-            $query->whereHas('tags', function ($query) use ($tags) {
-                $query->whereIn('slug', $tags);
-            });
+            $query->whereHas('tags', fn ($query) => $query->whereIn('slug', $tags));
         }
         return $query;
     }

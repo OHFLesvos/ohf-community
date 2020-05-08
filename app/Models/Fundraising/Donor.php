@@ -176,6 +176,22 @@ class Donor extends Model
     }
 
     /**
+     * Scope a query to only include donors matching the given filter
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForSimpleFilter($query, string $filter)
+    {
+        return $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
+            ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+            ->orWhere('company', 'LIKE', '%' . $filter . '%')
+            ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
+    }
+
+    /**
      * Gets a sorted list of all salutations used by donors
      *
      * @return array

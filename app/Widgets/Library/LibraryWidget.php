@@ -22,12 +22,12 @@ class LibraryWidget implements Widget
     public function args(): array
     {
         return [
-            'num_borrowers' => Person::whereHas('bookLendings', function ($query) {
-                $query->whereNull('returned_date');
-            })->count(),
-            'num_lent_books' => LibraryBook::whereHas('lendings', function ($query) {
-                $query->whereNull('returned_date');
-            })->count(),
+            'num_borrowers' => Person::query()
+                ->whereHas('bookLendings', fn ($query) => $query->whereNull('returned_date'))
+                ->count(),
+            'num_lent_books' => LibraryBook::query()
+                ->whereHas('lendings', fn ($query) => $query->whereNull('returned_date'))
+                ->count(),
             'num_books' => LibraryBook::count(),
         ];
     }

@@ -19,14 +19,10 @@ class ReportController extends Controller
                 ->has('bookLendings')
                 ->count(),
             'borrowers_currently_borrowed_count' => Person::query()
-                ->whereHas('bookLendings', function (Builder $query) {
-                    $query->active();
-                })
+                ->whereHas('bookLendings', fn (Builder $query) => $query->active())
                 ->count(),
             'borrowers_currently_overdue_count' => Person::query()
-                ->whereHas('bookLendings', function (Builder $query) {
-                    $query->overdue();
-                })
+                ->whereHas('bookLendings', fn (Builder $query) => $query->overdue())
                 ->count(),
             'borrwer_lendings_top' => Person::query()
                 ->selectRaw('persons.*')
@@ -56,9 +52,7 @@ class ReportController extends Controller
             'book_count' => LibraryBook::count(),
             'books_currently_borrowed_count' => LibraryBook::lent()->count(),
             'books_currently_overdue_count' => LibraryBook::query()
-                ->whereHas('lendings', function (Builder $query) {
-                    $query->overdue();
-                })
+                ->whereHas('lendings', fn (Builder $query) => $query->overdue())
                 ->count(),
             'book_lendings_unique_count' => LibraryBook::has('lendings')->count(),
             'book_lendings_all_count' => LibraryLending::count(),

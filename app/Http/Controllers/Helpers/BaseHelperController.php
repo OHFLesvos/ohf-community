@@ -474,9 +474,7 @@ abstract class BaseHelperController extends Controller
                     ->get()
                     ->pluck('name')
                     ->toArray(),
-                'query' => fn ($q, $v) => $q->whereHas('responsibilities', function (Builder $query) use ($v) {
-                    $query->where('name', $v);
-                }),
+                'query' => fn ($q, $v) => $q->whereHas('responsibilities', fn (Builder $query) => $query->where('name', $v)),
             ],
             'pickup_locations' => [
                 'label' => __('people.pickup_locations'),

@@ -42,9 +42,7 @@ class LibraryBook extends Model
      */
     public function scopeLent($query)
     {
-        return $query->whereHas('lendings', function (Builder $query) {
-            $query->active();
-        });
+        return $query->whereHas('lendings', fn (Builder $query) => $query->active());
     }
 
     /**
@@ -55,10 +53,8 @@ class LibraryBook extends Model
      */
     public function scopeAvailable($query)
     {
-        return $query->whereDoesntHave('lendings', function (Builder $query) {
-            $query->active();
-        })
-        ->orDoesntHave('lendings');
+        return $query->whereDoesntHave('lendings', fn (Builder $query) => $query->active())
+            ->orDoesntHave('lendings');
     }
 
     /**
