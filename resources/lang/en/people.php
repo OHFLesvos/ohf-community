@@ -193,7 +193,6 @@ return [
     'has_tax_number' => 'Has tax number',
     'tax_numbers' => 'Tax numbers',
     'applied' => 'Applied',
-    'monthly_support' => 'Monthly support',
     'pickup_location' => 'Pickup location',
     'pickup_locations' => 'Pickup locations',
     'leading_zeros_added_automatically' => 'Leading zeros will be added automatically',

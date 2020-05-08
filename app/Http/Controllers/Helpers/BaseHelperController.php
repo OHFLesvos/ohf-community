@@ -388,19 +388,6 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people.monthly_support',
-                'icon' => 'euro-sign',
-                'value' => fn ($helper) => $helper->work_monthly_support,
-                'overview' => false,
-                'section' => 'occupation',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->work_monthly_support = ! empty($value) ? $value : null;
-                },
-                'form_type' => 'number',
-                'form_name' => 'monthly_support',
-                'form_validate' => 'nullable|numeric',
-            ],
-            [
                 'label_key' => 'people.background',
                 'icon' => null,
                 'value' => 'work_background',
@@ -992,10 +979,6 @@ abstract class BaseHelperController extends Controller
             'name_nationality_occupation' => [
                 'label' => __('people.name_nationality_occupation'),
                 'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities'],
-            ],
-            'monthly_support' => [
-                'label' => __('people.monthly_support'),
-                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities', 'working_since_days', 'monthly_support'],
             ],
             'contact_info' => [
                 'label' => __('people.contact_info'),

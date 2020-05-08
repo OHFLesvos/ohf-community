@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemoveWorkApplicationDateRejectionDateFromHelpersTable extends Migration
+class RemoveWorkMonthlySupportFromHelpersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class RemoveWorkApplicationDateRejectionDateFromHelpersTable extends Migration
     public function up()
     {
         Schema::table('helpers', function (Blueprint $table) {
-            $table->dropColumn('work_application_date');
-            $table->dropColumn('work_rejection_date');
+            $table->dropColumn('work_monthly_support');
         });
     }
 
@@ -27,12 +26,10 @@ class RemoveWorkApplicationDateRejectionDateFromHelpersTable extends Migration
     public function down()
     {
         Schema::table('helpers', function (Blueprint $table) {
-            $table->date('work_rejection_date')
+            $table->integer('work_monthly_support')
                 ->nullable()
-                ->after('residence');
-            $table->date('work_application_date')
-                ->nullable()
-                ->after('residence');
+                ->default(null)
+                ->after('work_leaving_date');
         });
     }
 }

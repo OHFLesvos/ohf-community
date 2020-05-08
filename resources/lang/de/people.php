@@ -194,7 +194,6 @@ return [
     'has_tax_number' => 'Hat eine Steuernummer',
     'tax_numbers' => 'Steuernummern',
     'applied' => 'Hat sich beworben',
-    'monthly_support' => 'Monatliche Unterstützung',
     'pickup_location' => 'Abholort',
     'pickup_locations' => 'Abholorte',
     'leading_zeros_added_automatically' => 'Führende Nullen werden automatisch hinzugefügt',

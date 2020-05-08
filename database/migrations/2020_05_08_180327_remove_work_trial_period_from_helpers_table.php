@@ -26,7 +26,9 @@ class RemoveWorkTrialPeriodFromHelpersTable extends Migration
     public function down()
     {
         Schema::table('helpers', function (Blueprint $table) {
-            $table->boolean('work_trial_period')->nullable()->after('work_starting_date');
+            $table->boolean('work_trial_period')
+                ->nullable()
+                ->after('work_starting_date');
         });
     }
 }
