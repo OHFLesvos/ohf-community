@@ -176,6 +176,7 @@ export default {
                 .catch(err => console.error(err))
         },
         loadLending () {
+            this.busy = true
             findLendingOfBook(this.bookId)
                 .then(data => {
                     if (data.data) {
@@ -186,6 +187,7 @@ export default {
                     }
                 })
                 .catch(err => console.error(err))
+                .finally(() => this.busy = false)
         },
         extendLending () {
             var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)

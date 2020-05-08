@@ -4,9 +4,9 @@
 
 @section('content')
     <div id="library-app">
-        <book-show-page book-id="{{ $book->id }}">
+        <lending-book-page book-id="{{ $book->id }}">
             @lang('app.loading')
-        </book-show-page>
+        </lending-book-page>
     </div>
 @endsection
 

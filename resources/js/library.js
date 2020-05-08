@@ -11,7 +11,7 @@ import LendingPersonPage from '@/pages/library/LendingPersonPage'
 import BooksPage from '@/pages/library/BooksPage'
 import BookRegisterPage from '@/pages/library/BookRegisterPage'
 import BookEditPage from '@/pages/library/BookEditPage'
-import BookShowPage from '@/pages/library/BookShowPage'
+import LendingBookPage from '@/pages/library/LendingBookPage'
 
 import i18n from '@/plugins/i18n'
 
@@ -31,6 +31,6 @@ new Vue({
         BooksPage,
         BookRegisterPage,
         BookEditPage,
-        BookShowPage
+        LendingBookPage
     }
 })

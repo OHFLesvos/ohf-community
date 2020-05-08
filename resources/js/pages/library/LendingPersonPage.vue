@@ -204,6 +204,7 @@ export default {
                 .catch(err => console.error(err))
         },
         loadLendings () {
+            this.busy = true
             findLendingsOfPerson(this.personId)
                 .then(data => {
                     this.lendings = data.data
@@ -212,6 +213,7 @@ export default {
                     this.defaultExtendDuration = data.meta.default_extend_duration
                 })
                 .catch(err => console.error(err))
+                .finally(() => this.busy = false)
         },
         isOverdue (lending) {
             return moment(lending.return_date).isBefore(moment(), 'day')
