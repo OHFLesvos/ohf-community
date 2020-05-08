@@ -13,11 +13,16 @@
             <div class="col-md">
                 <label for="icon">@lang('app.icon')</label>
                 <div class="input-group mb-3">
-                    {{ Form::text('icon', null, [ 'class' => 'form-control', 'id' => 'icon', 'aria-describedby' => 'icon-addon' ]) }}
+                    {{ Form::text('icon', null, [ 'class' => 'form-control', 'id' => 'icon', 'list' => 'icon-list', 'aria-describedby' => 'icon-addon' ]) }}
                     <div class="input-group-append">
                         <span class="input-group-text" id="icon-addon"></span>
                     </div>
                 </div>
+                <datalist id="icon-list">
+                    @foreach(list_fa_icons() as $icon)
+                        <option>{{ $icon }}</option>
+                    @endforeach
+                </datalist>
             </div>
         </div>
         <div class="form-row">
@@ -65,11 +70,8 @@
 
 @section('script')
 $(function () {
-    $('#icon').autocomplete({
-        lookup: {!! json_encode(list_fa_icons()) !!},
-        onSelect: function (suggestion) {
-            $('#icon-addon').html('<i class="fa fa-' + suggestion.value + '"></i>');
-        }
+    $('#icon').on('change', function() {
+        $('#icon-addon').html('<i class="fa fa-' + $(this).val() + '"></i>');
     });
 });
 @endsection
