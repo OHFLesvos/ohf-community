@@ -22,7 +22,6 @@ abstract class BaseHelperController extends Controller
             'general' => __('app.general'),
             'reachability' => __('people.reachability'),
             'occupation' => __('people.occupation'),
-            'identification' => __('people.identification'),
             'distribution' => __('people.distribution'),
         ];
     }
@@ -172,6 +171,22 @@ abstract class BaseHelperController extends Controller
                 'value' => fn ($helper) => $helper->person->age,
                 'overview' => true,
                 'section' => 'general',
+            ],
+            [
+                'label_key' => 'people.police_number',
+                'icon' => 'id-card',
+                'value' => fn ($helper) => $helper->person->police_no,
+                'overview' => false,
+                'prefix' => '05/',
+                'section' => 'general',
+                'import_labels' => [ 'Police No.' ],
+                'assign' => function ($person, $helper, $value) {
+                    $val = preg_replace('/^05\//', '', $value);
+                    $person->police_no = (! empty($val) ? $val : null);
+                },
+                'form_type' => 'number',
+                'form_name' => 'police_number',
+                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.languages',
@@ -365,22 +380,6 @@ abstract class BaseHelperController extends Controller
                 'form_type' => 'date',
                 'form_name' => 'leaving_date',
                 'form_validate' => 'nullable|date',
-            ],
-            [
-                'label_key' => 'people.police_number',
-                'icon' => 'id-card',
-                'value' => fn ($helper) => $helper->person->police_no,
-                'overview' => false,
-                'prefix' => '05/',
-                'section' => 'identification',
-                'import_labels' => [ 'Police No.' ],
-                'assign' => function ($person, $helper, $value) {
-                    $val = preg_replace('/^05\//', '', $value);
-                    $person->police_no = (! empty($val) ? $val : null);
-                },
-                'form_type' => 'number',
-                'form_name' => 'police_number',
-                'form_validate' => 'nullable|numeric',
             ],
             [
                 'label_key' => 'people.notes',
