@@ -1,3 +1,7 @@
+import jquery from 'jquery'
+import 'bootstrap'
+import popperJs from 'popper.js'
+import bsCustomFileInput from 'bs-custom-file-input'
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -6,10 +10,17 @@
  */
 
 try {
-    window.$ = window.jQuery = require('jquery');
-    window.Popper = require('popper.js');
-    require('bootstrap');
-} catch (e) {}
+    window.$ = window.jQuery = jquery
+    window.Popper = popperJs
+
+    // bs-custom-file-input
+    jquery(document).ready(function () {
+        bsCustomFileInput.init()
+    })
+
+} catch (e) {
+    // Noop
+}
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

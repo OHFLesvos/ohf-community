@@ -1,4 +1,5 @@
-require('./bootstrap');
+import './bootstrap'
+import $ from 'jquery'
 
 /*====================================
 =            ON DOM READY            =
@@ -94,13 +95,7 @@ $(function(){
 });
 
 // Lity Lightbox
-var lity = require('lity');
-
-// bs-custom-file-input
-import bsCustomFileInput from 'bs-custom-file-input'
-$(document).ready(function () {
-    bsCustomFileInput.init()
-})
+import 'lity'
 
 /**
  * Tags input
@@ -157,8 +152,8 @@ window.postRequest = function(path, params, method) {
         params._token = token.content;
     }
 
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
+    for (var key in params) {
+        if (Object.prototype.hasOwnProperty.call(params, key)) {
             var hiddenField = document.createElement("input");
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", key);
@@ -176,7 +171,7 @@ window.postRequest = function(path, params, method) {
 // Share an URL
 //
 $(function(){
-    $('[rel="share-url"]').on('click', function(e){
+    $('[rel="share-url"]').on('click', function() {
         var url = $(this).data('url');
         if (navigator.share) {
             navigator.share({
