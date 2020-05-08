@@ -4,7 +4,7 @@
             :title="$t('people.age_distribution')"
             :x-label="$t('people.age')"
             :y-label="$t('app.quantity')"
-            :url="route('api.people.helpers.ages')"
+            :url="route('api.people.helpers.ageDistribution')"
             :height="350"
             class="mb-2">
         </bar-chart>
@@ -12,7 +12,7 @@
             <div class="col-sm">
                 <doughnut-chart
                     :title="$t('people.gender')"
-                    :url="route('api.people.helpers.genders')"
+                    :url="route('api.people.helpers.genderDistribution')"
                     hide-legend
                     :height="300"
                     class="mb-2">
@@ -21,7 +21,7 @@
             <div class="col-sm">
                 <doughnut-chart
                     :title="$t('people.nationalities')"
-                    :url="route('api.people.helpers.nationalities')"
+                    :url="route('api.people.helpers.nationalityDistribution')"
                     :height="300"
                     class="mb-2">
                 </doughnut-chart>

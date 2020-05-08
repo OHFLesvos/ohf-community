@@ -13,6 +13,8 @@ import i18n from '@/plugins/i18n'
 import ziggyMixin from '@/mixins/ziggyMixin'
 Vue.mixin(ziggyMixin)
 
+Vue.config.productionTip = false
+
 new Vue({
     el: '#helper-app',
     i18n,
