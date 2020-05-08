@@ -19,9 +19,6 @@
             @lang('people.we_have_n_helpers', [
                 'active' => $active,
             ])<br>
-            @lang('people.n_helpers_on_waiting_list', [
-                'num' => $applicants,
-            ])<br>
         </p>
     </div>
 @endsection

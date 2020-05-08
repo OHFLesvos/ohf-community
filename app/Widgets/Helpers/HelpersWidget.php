@@ -22,7 +22,6 @@ class HelpersWidget implements Widget
     {
         return [
             'active' => Helper::active()->count(),
-            'applicants' => Helper::applicants()->count(),
         ];
     }
 }

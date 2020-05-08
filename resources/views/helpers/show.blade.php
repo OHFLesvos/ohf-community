@@ -5,19 +5,13 @@
 @section('content')
 
     @if($helper->work_starting_date == null)
-        @if($helper->work_rejection_date != null)
-            @component('components.alert.warning')
-                @lang('people.helper_application_rejection', ['date' => $helper->work_rejection_date->toDateString() ])
-            @endcomponent
-        @else
-            @component('components.alert.info')
-                @if($helper->work_application_date != null)
-                    @lang('people.person_on_helper_waiting_list_date', ['date' => $helper->work_application_date->toDateString(), 'diff' => $helper->work_application_date->diffForHumans() ])
-                @else
-                    @lang('people.person_on_helper_waiting_list')
-                @endif
-            @endcomponent
-        @endif
+        @component('components.alert.warning')
+            @lang('people.no_started_date_set')
+        @endcomponent
+    @elseif($helper->work_starting_date->gt(today()))
+        @component('components.alert.warning')
+            @lang('people.helper_has_not_started_yet', ['date' => $helper->work_starting_date->toDateString() ])
+        @endcomponent
     @else
         @if($helper->work_leaving_date != null)
             @component('components.alert.warning')

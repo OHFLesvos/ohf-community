@@ -30,8 +30,6 @@ class Helper extends Model implements Auditable
      */
     protected $dates = [
         'deleted_at',
-        'work_application_date',
-        'work_rejection_date',
         'work_starting_date',
         'casework_first_interview_date',
         'casework_second_interview_date',
@@ -58,8 +56,6 @@ class Helper extends Model implements Auditable
         'email',
         'skype',
         'residence',
-        'work_application_date',
-        'work_rejection_date',
         'work_starting_date',
         'work_background',
         'work_feedback_wishes',
@@ -94,19 +90,6 @@ class Helper extends Model implements Auditable
     }
 
     /**
-     * Scope a query to only include applicants.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeApplicants($query)
-    {
-        return $query
-            ->whereNull('work_starting_date')
-            ->orWhereDate('work_starting_date', '>', Carbon::today());
-    }
-
-    /**
      * Scope a query to only include active helpers.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -122,6 +105,20 @@ class Helper extends Model implements Auditable
                     ->orWhereDate('work_leaving_date', '>=', Carbon::today());
             });
     }
+
+    /**
+     * Scope a query to only include future helpers.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFuture($query)
+    {
+        return $query
+            ->whereNull('work_starting_date')
+            ->orWhereDate('work_starting_date', '>', Carbon::today());
+    }
+
 
     /**
      * Scope a query to only include alumni (former helpers).

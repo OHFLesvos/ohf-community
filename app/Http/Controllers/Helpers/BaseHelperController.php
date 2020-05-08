@@ -353,33 +353,6 @@ abstract class BaseHelperController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people.application_date',
-                'icon' => 'calendar',
-                'value' => fn ($helper) => optional($helper->work_application_date)->toDateString(),
-                'overview' => false,
-                'section' => 'occupation',
-                'import_labels' => [ 'Appliction date' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->work_application_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'application_date',
-                'form_validate' => 'nullable|date',
-            ],
-            [
-                'label_key' => 'people.rejection_date',
-                'icon' => 'calendar',
-                'value' => fn ($helper) => optional($helper->work_rejection_date)->toDateString(),
-                'overview' => false,
-                'section' => 'occupation',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->work_rejection_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'rejection_date',
-                'form_validate' => 'nullable|date',
-            ],
-            [
                 'label_key' => 'people.starting_date',
                 'icon' => 'calendar',
                 'value' => fn ($helper) => optional($helper->work_starting_date)->toDateString(),
@@ -880,9 +853,9 @@ abstract class BaseHelperController extends Controller
                 'label' => __('people.active'),
                 'scope' => 'active',
             ],
-            'applicants' => [
-                'label' => __('people.applicants'),
-                'scope' => 'applicants',
+            'future' => [
+                'label' => __('people.future'),
+                'scope' => 'future',
             ],
             'alumni' => [
                 'label' => __('people.alumni'),
@@ -1060,10 +1033,6 @@ abstract class BaseHelperController extends Controller
             'pickup_location' => [
                 'label' => __('people.pickup_location'),
                 'sorting' => 'pickup_location',
-            ],
-            'work_application_date' => [
-                'label' => __('people.application_date'),
-                'sorting' => 'work_application_date',
             ],
             'work_starting_date' => [
                 'label' => __('people.starting_date'),
