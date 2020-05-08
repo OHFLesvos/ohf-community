@@ -10,31 +10,11 @@ use Carbon\Carbon;
 use Countries;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 abstract class BaseHelperController extends Controller
 {
-    protected static array $asylum_request_states = [
-        'awaiting_interview',
-        'waiting_for_decision',
-        'first_rejection',
-        'second_rejection',
-        'subsidiary_protection',
-        'refugee_status',
-    ];
-
-    protected static function getTaxNumberStates()
-    {
-        return [
-            null => __('app.unspecified'),
-            'no' => __('app.no'),
-            'applied' => __('people.applied'),
-            'yes' => __('app.yes'),
-        ];
-    }
-
     protected function getSections()
     {
         return [
@@ -43,7 +23,6 @@ abstract class BaseHelperController extends Controller
             'reachability' => __('people.reachability'),
             'occupation' => __('people.occupation'),
             'identification' => __('people.identification'),
-            'casework' => __('people.casework'),
             'distribution' => __('people.distribution'),
         ];
     }
@@ -388,20 +367,6 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|date',
             ],
             [
-                'label_key' => 'people.background',
-                'icon' => null,
-                'value' => 'work_background',
-                'value_html' => fn ($helper) => nl2br($helper->work_background),
-                'overview' => false,
-                'section' => 'occupation',
-                'import_labels' => [ 'Profession before Lesbos, secret talents, ambitions' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->work_background = $value;
-                },
-                'form_type' => 'textarea',
-                'form_name' => 'background',
-            ],
-            [
                 'label_key' => 'people.police_number',
                 'icon' => 'id-card',
                 'value' => fn ($helper) => $helper->person->police_no,
@@ -416,156 +381,6 @@ abstract class BaseHelperController extends Controller
                 'form_type' => 'number',
                 'form_name' => 'police_number',
                 'form_validate' => 'nullable|numeric',
-            ],
-            [
-                'label_key' => 'people.has_tax_number',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->has_tax_number != null ? self::getTaxNumberStates()[$helper->has_tax_number] : null,
-                'overview' => false,
-                'section' => 'identification',
-                'import_labels' => [ 'Tax Number' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->has_tax_number = $value;
-                },
-                'form_type' => 'radio',
-                'form_name' => 'has_tax_number',
-                'form_list' => collect(self::getTaxNumberStates())
-                    ->mapWithKeys(fn ($s, $k) => [ $k => $s ])
-                    ->toArray(),
-                'form_validate' => [
-                    'nullable', Rule::in(array_keys(self::getTaxNumberStates())),
-                ],
-            ],
-            [
-                'label_key' => 'people.endorses_casework',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->endorses_casework !== null ? ($helper->endorses_casework ? __('app.yes') : __('app.no')) : null,
-                'overview' => false,
-                'section' => 'casework',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->endorses_casework = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null);
-                },
-                'form_type' => 'radio',
-                'form_name' => 'endorses_casework',
-                'form_list' => [
-                    null => __('app.unspecified'),
-                    __('app.yes') => __('app.yes'),
-                    __('app.no') => __('app.no'),
-                ],
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.case_number',
-                'icon' => 'id-card',
-                'value' => fn ($helper) => $helper->casework_case_number,
-                'overview' => false,
-                'section' => 'casework',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_case_number = $value;
-                },
-                'form_type' => 'number',
-                'form_name' => 'case_number',
-                'form_validate' => 'nullable|numeric',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.asylum_request_status',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->casework_asylum_request_status != null ? __('people.' . $helper->casework_asylum_request_status) : null,
-                'overview' => false,
-                'section' => 'casework',
-                'assign' => function ($person, $helper, $value) {
-                    foreach (self::$asylum_request_states as $s) {
-                        if (self::getAllTranslations('people.' . $s)->contains($value)) {
-                            $helper->casework_asylum_request_status = $s;
-                            break;
-                        }
-                    }
-                },
-                'form_type' => 'select',
-                'form_name' => 'asylum_request_status',
-                'form_list' => collect(self::$asylum_request_states)
-                    ->mapWithKeys(fn ($s) => [ __('people.' . $s) => __('people.' . $s) ])
-                    ->toArray(),
-                'form_placeholder' => __('app.select_status'),
-                'form_validate' => 'nullable', // TODO better validation
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.has_geo_restriction',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->casework_has_geo_restriction !== null ? ($helper->casework_has_geo_restriction ? __('app.yes') : __('app.no')) : null,
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ 'Geo Restriction' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_has_geo_restriction = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null);
-                },
-                'form_type' => 'radio',
-                'form_name' => 'has_geo_restriction',
-                'form_list' => [
-                    null => __('app.unspecified'),
-                    __('app.yes') => __('app.yes'),
-                    __('app.no') => __('app.no'),
-                ],
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.has_id_card',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->casework_has_id_card !== null ? ($helper->casework_has_id_card ? __('app.yes') : __('app.no')) : null,
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ 'Has ID Card' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_has_id_card = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null);
-                },
-                'form_type' => 'radio',
-                'form_name' => 'has_id_card',
-                'form_list' => [
-                    null => __('app.unspecified'),
-                    __('app.yes') => __('app.yes'),
-                    __('app.no') => __('app.no'),
-                ],
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.has_passport',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->casework_has_passport !== null ? ($helper->casework_has_passport ? __('app.yes') : __('app.no')) : null,
-                'overview' => false,
-                'section' => 'casework',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_has_passport = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null);
-                },
-                'form_type' => 'radio',
-                'form_name' => 'has_passport',
-                'form_list' => [
-                    null => __('app.unspecified'),
-                    __('app.yes') => __('app.yes'),
-                    __('app.no') => __('app.no'),
-                ],
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.vulnerability',
-                'icon' => null,
-                'value' => 'casework_vulnerability',
-                'overview' => false,
-                'section' => 'casework',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_vulnerability = $value;
-                },
-                'form_type' => 'text',
-                'form_name' => 'vulnerability',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
                 'label_key' => 'people.notes',
@@ -681,41 +496,6 @@ abstract class BaseHelperController extends Controller
                     ->where('pickup_location', $value),
                 'label_transform' => fn ($groups) => collect($groups)
                     ->map(fn ($s) => $s == null ? __('app.unspecified') : $s),
-            ],
-            'tax_numbers' => [
-                'label' => __('people.tax_numbers'),
-                'groups' => fn () => Helper::groupBy('has_tax_number')
-                    ->orderBy('has_tax_number')
-                    ->whereNotNull('has_tax_number')
-                    ->get()
-                    ->pluck('has_tax_number')
-                    ->unique()
-                    ->sort()
-                    ->push(null)
-                    ->toArray(),
-                'query' => fn ($query, $value) => $query
-                    ->select('helpers.*')
-                    ->join('persons', 'helpers.person_id', '=', 'persons.id')
-                    ->where('has_tax_number', $value),
-                'label_transform' => fn ($groups) => collect($groups)
-                    ->map(fn ($s) => self::getTaxNumberStates()[$s]),
-            ],
-            'asylum_request_status' => [
-                'label' => __('people.asylum_request_status'),
-                'groups' => fn () => Helper::groupBy('casework_asylum_request_status')
-                    ->orderBy('casework_asylum_request_status')
-                    ->whereNotNull('casework_asylum_request_status')
-                    ->get()
-                    ->pluck('casework_asylum_request_status')
-                    ->flatten()
-                    ->unique()
-                    ->sort()
-                    ->push(null)
-                    ->toArray(),
-                'query' => fn ($query, $value) => $query->where('casework_asylum_request_status', $value),
-                'label_transform' => fn ($groups) => collect($groups)
-                    ->map(fn ($s) => $s == null ? __('app.unspecified') : __('people.' . $s)),
-                'authorized' => Gate::allows('view-helpers-casework'),
             ],
         ]);
     }

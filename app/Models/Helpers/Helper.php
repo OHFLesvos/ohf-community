@@ -50,14 +50,7 @@ class Helper extends Model implements Auditable
         'skype',
         'residence',
         'work_starting_date',
-        'work_background',
         'work_leaving_date',
-        'endorses_casework',
-        'casework_asylum_request_status',
-        'casework_has_geo_restriction',
-        'casework_has_id_card',
-        'casework_has_passport',
-        'casework_vulnerability',
         'notes',
     ];
 

@@ -287,14 +287,6 @@ return [
             'label' => 'permissions.manage_helpers',
             'sensitive' => true,
         ],
-        'people.helpers.casework.view' => [
-            'label' => 'permissions.view_helpers_casework',
-            'sensitive' => true,
-        ],
-        'people.helpers.casework.manage' => [
-            'label' => 'permissions.manage_helpers_casework',
-            'sensitive' => true,
-        ],
 
         'library.operate' => [
             'label' => 'permissions.operate_library',

@@ -70,10 +70,7 @@ class AuthServiceProvider extends ServiceProvider
         'configure-shop'              => 'shop.configure',
     ];
 
-    protected $permission_gate_mappings_no_super_admin = [
-        'view-helpers-casework'       => 'people.helpers.casework.view',
-        'manage-helpers-casework'     => 'people.helpers.casework.manage',
-    ];
+    protected $permission_gate_mappings_no_super_admin = [ ];
 
     /**
      * Register any authentication / authorization services.
