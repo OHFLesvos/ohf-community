@@ -53,6 +53,7 @@
                                 <b-button
                                     variant="success"
                                     size="sm"
+                                    :disabled="busy"
                                     @click="returnBook(lending.book.id)"
                                 >
                                     <font-awesome-icon icon="inbox" />
@@ -63,6 +64,7 @@
                                 <b-button
                                     variant="primary"
                                     size="sm"
+                                    :disabled="busy"
                                     @click="extendLending(lending.book.id)"
                                 >
                                     <font-awesome-icon icon="calendar-plus" />
@@ -86,6 +88,7 @@
         <p v-if="canLend">
             <b-button
                 variant="primary"
+                :disabled="busy"
                 v-b-modal.lendBookModal
             >
                 <font-awesome-icon icon="plus-circle" />

@@ -146,7 +146,7 @@ export default {
         lentToPersonMessage () {
             if (this.lending.person) {
                 return this.$t('library.book_is_lent_to_person_until', {
-                    route: this.route('library.lending.person', [this.lending.person.id]),
+                    route: this.route('library.lending.person', [this.lending.person.public_id]),
                     person: this.lending.person.full_name,
                     until: moment(this.lending.return_date).format("LL")
                 })
