@@ -5,39 +5,40 @@
             active
         >
             <div class="row">
+
                 <div class="col-md">
-                    <div class="card mb-4">
-                        <div class="card-header d-flex justify-content-between">
-                            {{ ucFirst($t('people.persons')) }}
-                        </div>
-                        <div class="card-body pb-4">
-                            <div class="form-row">
-                                <div class="col">
-                                    <person-autocomplete-input @select="navigateToPerson" />
-                                </div>
-                                <div class="col-auto">
-                                    <b-button
-                                        variant="outline-secondary"
-                                        @click="registerPerson()"
-                                    >
-                                        <font-awesome-icon icon="plus-circle" />
-                                        <span class="d-none d-sm-inline">{{ $t('app.register') }}</span>
-                                    </b-button>
-                                </div>
+                    <b-card
+                        :header="ucFirst($t('people.persons'))"
+                        class="mb-4"
+                        body-class="pb-4"
+                    >
+                        <div class="form-row">
+                            <div class="col">
+                                <person-autocomplete-input @select="navigateToPerson" />
+                            </div>
+                            <div class="col-auto">
+                                <b-button
+                                    variant="outline-secondary"
+                                    @click="registerPerson()"
+                                >
+                                    <font-awesome-icon icon="plus-circle" />
+                                    <span class="d-none d-sm-inline">{{ $t('app.register') }}</span>
+                                </b-button>
                             </div>
                         </div>
-                    </div>
+                    </b-card>
                 </div>
+
                 <div class="col-md">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                            {{ $t('library.books') }}
-                        </div>
-                        <div class="card-body pb-4">
-                            <library-book-autocomplete-input @select="navigateToBook" />
-                        </div>
-                    </div>
+                    <b-card
+                        :header="$t('library.books')"
+                        class="mb-4"
+                        body-class="pb-4"
+                    >
+                        <library-book-autocomplete-input @select="navigateToBook" />
+                    </b-card>
                 </div>
+
             </div>
             <person-register-modal
                 ref="registerPersonModal"
@@ -51,6 +52,7 @@
                 <b-badge
                     v-if="numBorrowers !== null"
                     variant="primary"
+                    class="d-none d-sm-inline"
                 >
                     {{ numBorrowers }}
                 </b-badge>
@@ -64,6 +66,7 @@
                 <b-badge
                     v-if="numLentBooks !== null"
                     variant="primary"
+                    class="d-none d-sm-inline"
                 >
                     {{ numLentBooks }}
                 </b-badge>
@@ -81,13 +84,18 @@ import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBook
 import PersonRegisterModal from '@/components/people/PersonRegisterModal'
 import BorrowersTable from '@/components/library/BorrowersTable'
 import LentBooksTable from '@/components/library/LentBooksTable'
+import { BCard, BTabs, BTab, BBadge } from 'bootstrap-vue'
 export default {
     components: {
         PersonAutocompleteInput,
         LibraryBookAutocompleteInput,
         PersonRegisterModal,
         BorrowersTable,
-        LentBooksTable
+        LentBooksTable,
+        BCard,
+        BTabs,
+        BTab,
+        BBadge
     },
     data () {
         return {
