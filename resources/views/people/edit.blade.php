@@ -17,7 +17,7 @@
                 {{ Form::genderSelect('gender', null, __('people.gender')) }}
             </div>
             <div class="col-md-auto">
-                {{ Form::bsStringDate('date_of_birth', null, [ 'rel' => 'birthdate', 'data-age-element' => 'age' ], __('people.date_of_birth')) }}
+                {{ Form::bsStringDate('date_of_birth', null, [ ], __('people.date_of_birth')) }}
             </div>
             <div class="col-md-auto">
                 <p>@lang('people.age')</p>
