@@ -110,38 +110,6 @@ $(function(){
 });
 
 //
-// Autocomplete
-//
-require('devbridge-autocomplete')
-
-$(function(){
-    $('[rel="autocomplete"]').each(function(){
-        var opts = {
-            showNoSuggestionNotice: true,
-        };
-        if ($(this).data('autocomplete-url')) {
-            opts.serviceUrl = $(this).data('autocomplete-url');
-            opts.dataType = 'json';
-            opts.deferRequestBy = 100; //ms
-        }
-        if ($(this).data('autocomplete-update')) {
-            opts.onSelect = function (suggestion) {
-                $($(this).data('autocomplete-update')).val(suggestion.data);
-                $($(this).data('autocomplete-update')).change();
-            }
-            opts.onSearchError = function (suggestion) {
-                $($(this).data('autocomplete-update')).val('');
-                $($(this).data('autocomplete-update')).change();
-            }
-            opts.onSearchStart = function (suggestion) {
-                $($(this).data('autocomplete-update')).val('');
-            }
-        }
-        $(this).autocomplete(opts);
-    });
-});
-
-//
 // Snackbar
 //
 import Snackbar from 'node-snackbar'

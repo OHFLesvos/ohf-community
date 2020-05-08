@@ -193,31 +193,6 @@
   font-size: 5em;
 }
 
-/**
-* Autocomplete
-*/
-.autocomplete-suggestions { 
-  border: 1px solid #999; background: #FFF; overflow: auto; 
-}
-.autocomplete-suggestion, .autocomplete-no-suggestion { 
-  padding: 2px 5px; white-space: nowrap; overflow: hidden; 
-}
-.autocomplete-no-suggestion {
-  color: $danger;
-}
-.autocomplete-selected { 
-  background: #F0F0F0; 
-}
-.autocomplete-suggestions strong { 
-  font-weight: normal; color: #3399FF; 
-}
-.autocomplete-group { 
-  padding: 2px 5px; 
-}
-.autocomplete-group strong { 
-  display: block; border-bottom: 1px solid #000; 
-}
-
 /*
 * Snackbar
 */
@@ -279,7 +254,7 @@
 /**
 * Tables
 */
-.table td.fit, 
+.table td.fit,
 .table th.fit {
     white-space: nowrap;
     width: 1%;
@@ -329,7 +304,7 @@
 * Fix display of media emdeds
 */
 .media {
-  display: inherit;  
+  display: inherit;
 }
 
 /**
