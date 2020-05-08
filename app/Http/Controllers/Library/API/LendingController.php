@@ -8,6 +8,8 @@ use App\Http\Requests\Library\StoreExtendBookToPerson;
 use App\Http\Requests\Library\StoreLendBook;
 use App\Http\Requests\Library\StoreLendBookToPerson;
 use App\Http\Requests\Library\StoreReturnBookFromPerson;
+use App\Http\Resources\Library\Borrower;
+use App\Http\Resources\Library\LentBook;
 use App\Models\Library\LibraryBook;
 use App\Http\Resources\Library\LibraryLending as LibraryLendingResource;
 use App\Models\Library\LibraryLending;
@@ -38,6 +40,43 @@ class LendingController extends Controller
                 })
                 ->count(),
         ];
+    }
+
+    public function persons(Request $request)
+    {
+        $this->authorize('list', Person::class);
+
+        $pageSize = $request->input('pageSize', 25);
+
+        $persons = Person::query()
+            ->whereHas('bookLendings', function ($query) {
+                $query->active();
+            })
+            ->with('bookLendings')
+            ->get()
+            ->sortBy('fullName')
+            ->values()
+            ->paginate($pageSize);
+
+        return Borrower::collection($persons);
+    }
+
+    public function books(Request $request)
+    {
+        $this->authorize('list', LibraryBook::class);
+
+        $pageSize = $request->input('pageSize', 25);
+
+        $books = LibraryBook::query()
+            ->whereHas('lendings', function ($query) {
+                $query->active();
+            })
+            ->with('lendings')
+            ->orderBy('title')
+            ->get()
+            ->paginate($pageSize);
+
+        return LentBook::collection($books);
     }
 
     /**

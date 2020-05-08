@@ -369,6 +369,10 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     ->group(function () {
         Route::get('lending/stats', 'LendingController@stats')
             ->name('lending.stats');
+        Route::get('lending/persons', 'LendingController@persons')
+            ->name('lending.persons');
+        Route::get('lending/books', 'LendingController@books')
+            ->name('lending.books');
 
         Route::get('lending/person/{person}', 'LendingController@person')
             ->name('lending.person');

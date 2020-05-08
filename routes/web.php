@@ -445,12 +445,10 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     ->group(function () {
         Route::view('lending', 'library.lending.index')
             ->name('lending.index');
-
-        Route::get('lending/persons', 'LendingController@persons')->name('lending.persons');
-        Route::get('lending/person/{person}', 'LendingController@person')->name('lending.person');
-
-        Route::get('lending/books', 'LendingController@books')->name('lending.books');
-        Route::get('lending/book/{book}', 'LendingController@book')->name('lending.book');
+        Route::get('lending/person/{person}', 'LendingController@person')
+            ->name('lending.person');
+        Route::get('lending/book/{book}', 'LendingController@book')
+            ->name('lending.book');
 
         // Export
         Route::get('export', 'ExportController@export')

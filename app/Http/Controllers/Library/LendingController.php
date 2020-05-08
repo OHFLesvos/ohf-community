@@ -8,39 +8,12 @@ use App\Models\People\Person;
 
 class LendingController extends Controller
 {
-    public function persons()
-    {
-        $this->authorize('list', Person::class);
-
-        $persons = Person::query()
-            ->whereHas('bookLendings', function ($query) {
-                $query->whereNull('returned_date');
-            })
-            ->get()
-            ->sortBy('fullName');
-
-        return view('library.lending.persons', [
-            'persons' => $persons,
-        ]);
-    }
-
     public function person(Person $person)
     {
         $this->authorize('list', Person::class);
 
         return view('library.lending.person', [
             'person' => $person,
-        ]);
-    }
-
-    public function books()
-    {
-        $this->authorize('list', LibraryBook::class);
-
-        return view('library.lending.books', [
-            'books' => LibraryBook::whereHas('lendings', function ($query) {
-                $query->whereNull('returned_date');
-            })->get()->sortBy('title'),
         ]);
     }
 
