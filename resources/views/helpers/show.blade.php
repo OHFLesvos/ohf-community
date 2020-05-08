@@ -27,10 +27,6 @@
                     @lang('people.helper_will_leave', ['date' => $helper->work_leaving_date->toDateString() ])
                 @endif
             @endcomponent
-        @elseif($helper->work_trial_period)
-            @component('components.alert.warning')
-                @lang('people.helper_on_trial_period', ['date' => $helper->work_starting_date->toDateString(), 'diff' => $helper->work_starting_date->diffForHumans() ])
-            @endcomponent
         @endif
     @endif
 
@@ -39,7 +35,7 @@
             <div class="card mb-4 column-break-avoid">
                 <div class="card-header">
                     {{ $sections[$section] }}
-                    <a href="{{ route('people.helpers.edit', [$helper, 'section' => $section]) }}" class="float-right">@icon(edit)</a>                        
+                    <a href="{{ route('people.helpers.edit', [$helper, 'section' => $section]) }}" class="float-right">@icon(edit)</a>
                 </div>
                 <ul class="list-group list-group-flush">
                     @if(! empty($fields))

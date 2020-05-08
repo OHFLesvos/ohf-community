@@ -329,11 +329,7 @@ abstract class BaseHelperController extends Controller
                         if (! is_array($value)) {
                             $values = [];
                             foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
-                                if (preg_match('/^trial$|^trial\\s+|\\s+trial$/i', $v)) {
-                                    $helper->work_trial_period = true;
-                                } else {
-                                    $values[] = $v;
-                                }
+                                $values[] = $v;
                             }
                             $value = array_map('trim', $values);
                         }
@@ -354,23 +350,6 @@ abstract class BaseHelperController extends Controller
                     ->toArray(),
                 'form_validate' => fn () => [
                     Rule::in(Responsibility::select('name')->get()->pluck('name')->all()),
-                ],
-            ],
-            [
-                'label_key' => 'people.trial_period',
-                'icon' => 'calendar',
-                'value' => fn ($helper) => $helper->work_trial_period !== null ? ($helper->work_trial_period ? __('app.yes') : __('app.no')) : null,
-                'overview' => false,
-                'section' => 'occupation',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->work_trial_period = ($value != null ? (self::getAllTranslations('app.yes')->contains($value)) : null);
-                },
-                'form_type' => 'radio',
-                'form_name' => 'trial_period',
-                'form_list' => [
-                    null => __('app.unspecified'),
-                    __('app.yes') => __('app.yes'),
-                    __('app.no') => __('app.no'),
                 ],
             ],
             [
@@ -900,14 +879,6 @@ abstract class BaseHelperController extends Controller
             'active' => [
                 'label' => __('people.active'),
                 'scope' => 'active',
-            ],
-            'trial' => [
-                'label' => __('people.trial_period'),
-                'scope' => 'trial',
-            ],
-            'regular' => [
-                'label' => __('people.regular'),
-                'scope' => 'regular',
             ],
             'applicants' => [
                 'label' => __('people.applicants'),
