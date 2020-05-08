@@ -2,7 +2,7 @@
 
 namespace App\Settings\Bank;
 
-use App\Http\Controllers\Bank\Reporting\BankReportingController;
+use App\Http\Controllers\Bank\API\VisitorReportingController;
 use App\Models\People\Person;
 use App\Settings\BaseSettingsField;
 use Illuminate\Support\Facades\Gate;
@@ -48,7 +48,7 @@ class FrequentVisitorThreshold extends BaseSettingsField
     public function formHelp(): ?string
     {
         $current_num_people = Person::count();
-        $current_num_frequent_visitors = BankReportingController::getNumberOfFrequentVisitors();
+        $current_num_frequent_visitors = VisitorReportingController::getNumberOfFrequentVisitors();
         return __('bank.frequent_visitors_affected', [
             'freq' => $current_num_frequent_visitors,
             'total' => $current_num_people,

@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Bank\API;
 
 use App\Http\Controllers\Reporting\BaseReportingController;
-use App\Http\Requests\SelectDateRange;
-use App\Models\Bank\CouponHandout;
-use App\Models\Bank\CouponType;
 use App\Support\ChartResponseBuilder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
