@@ -432,19 +432,6 @@ abstract class BaseHelperController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people.staff_card_no',
-                'icon' => 'id-card',
-                'value' => fn ($helper) => $helper->person->staff_card_no,
-                'overview' => false,
-                'section' => 'identification',
-                'assign' => function ($person, $helper, $value) {
-                    $person->staff_card_no = $value;
-                },
-                // 'form_type' => 'number',
-                // 'form_name' => 'staff_card_no',
-                // 'form_validate' => 'nullable|numeric',
-            ],
-            [
                 'label_key' => 'people.has_tax_number',
                 'icon' => null,
                 'value' => fn ($helper) => $helper->has_tax_number != null ? self::getTaxNumberStates()[$helper->has_tax_number] : null,

@@ -189,9 +189,6 @@ class BadgeMakerController extends Controller
         if (isset($person['type']) && $person['type'] == 'helper' && isset($person['id'])) {
             $helper = Helper::find($person['id']);
             if ($helper != null) {
-                $helper->person->staff_card_no = substr(bin2hex(random_bytes(16)), 0, 7);
-                $helper->person->save();
-                $person['code'] = $helper->person->staff_card_no;
                 $person['picture'] = $helper->person->portrait_picture != null ? Storage::path($helper->person->portrait_picture) : null;
             }
         }
