@@ -402,20 +402,6 @@ abstract class BaseHelperController extends Controller
                 'form_name' => 'background',
             ],
             [
-                'label_key' => 'people.feedback_wishes',
-                'icon' => null,
-                'value' => 'work_feedback_wishes',
-                'value_html' => fn ($helper) => nl2br($helper->work_feedback_wishes),
-                'overview' => false,
-                'section' => 'occupation',
-                'import_labels' => [ 'Improvements in their OHF work' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->work_feedback_wishes = $value;
-                },
-                'form_type' => 'textarea',
-                'form_name' => 'feedback_wishes',
-            ],
-            [
                 'label_key' => 'people.police_number',
                 'icon' => 'id-card',
                 'value' => fn ($helper) => $helper->person->police_no,
@@ -568,102 +554,6 @@ abstract class BaseHelperController extends Controller
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
             [
-                'label_key' => 'people.first_interview_date',
-                'icon' => null,
-                'value' => fn ($helper) => optional($helper->casework_first_interview_date)->toDateString(),
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ '1st interview date' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_first_interview_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'first_interview_date',
-                'form_validate' => 'nullable|date',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.second_interview_date',
-                'icon' => null,
-                'value' => fn ($helper) => optional($helper->casework_second_interview_date)->toDateString(),
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ '2nd interview date' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_second_interview_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'second_interview_date',
-                'form_validate' => 'nullable|date',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.first_decision_date',
-                'icon' => null,
-                'value' => fn ($helper) => optional($helper->casework_first_decision_date)->toDateString(),
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ '1st decision date' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_first_decision_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'first_decision_date',
-                'form_validate' => 'nullable|date',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.appeal_date',
-                'icon' => null,
-                'value' => fn ($helper) => optional($helper->casework_appeal_date)->toDateString(),
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ 'Appeal date' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_appeal_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'appeal_date',
-                'form_validate' => 'nullable|date',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.second_decision_date',
-                'icon' => null,
-                'value' => fn ($helper) => optional($helper->casework_second_decision_date)->toDateString(),
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ '2nd decision date' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_second_decision_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'second_decision_date',
-                'form_validate' => 'nullable|date',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.vulnerability_assessment_date',
-                'icon' => null,
-                'value' => fn ($helper) => optional($helper->casework_vulnerability_assessment_date)->toDateString(),
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ 'Vulnerability assessment date' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_vulnerability_assessment_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'vulnerability_assessment_date',
-                'form_validate' => 'nullable|date',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
                 'label_key' => 'people.vulnerability',
                 'icon' => null,
                 'value' => 'casework_vulnerability',
@@ -674,69 +564,6 @@ abstract class BaseHelperController extends Controller
                 },
                 'form_type' => 'text',
                 'form_name' => 'vulnerability',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.card_expiry_date',
-                'icon' => null,
-                'value' => fn ($helper) => optional($helper->casework_card_expiry_date)->toDateString(),
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ 'Asylum card expiry' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_card_expiry_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'card_expiry_date',
-                'form_validate' => 'nullable|date',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.lawyer_name',
-                'icon' => null,
-                'value' => 'casework_lawyer_name',
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ 'Lawyer' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_lawyer_name = $value != 'No' ? $value : null;
-                },
-                'form_type' => 'text',
-                'form_name' => 'lawyer_name',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.lawyer_phone',
-                'icon' => null,
-                'value' => 'casework_lawyer_phone',
-                'value_html' => fn ($helper) => $helper->casework_lawyer_phone != null ? tel_link($helper->casework_lawyer_phone) : null,
-                'overview' => false,
-                'section' => 'casework',
-                'import_labels' => [ 'Contact' ],
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_lawyer_phone = $value;
-                },
-                'form_type' => 'text',
-                'form_name' => 'lawyer_phone',
-                'authorized_view' => Gate::allows('view-helpers-casework'),
-                'authorized_change' => Gate::allows('manage-helpers-casework'),
-            ],
-            [
-                'label_key' => 'people.lawyer_email',
-                'icon' => null,
-                'value' => 'casework_lawyer_email',
-                'value_html' => fn ($helper) => $helper->casework_lawyer_email != null ? email_link($helper->casework_lawyer_email) : null,
-                'overview' => false,
-                'section' => 'casework',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->casework_lawyer_email = $value;
-                },
-                'form_type' => 'email',
-                'form_name' => 'lawyer_email',
-                'form_validate' => 'nullable|email',
                 'authorized_view' => Gate::allows('view-helpers-casework'),
                 'authorized_change' => Gate::allows('manage-helpers-casework'),
             ],
@@ -753,56 +580,6 @@ abstract class BaseHelperController extends Controller
                 },
                 'form_type' => 'textarea',
                 'form_name' => 'notes',
-            ],
-            [
-                'label_key' => 'people.shirt_size',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->shirt_size,
-                'overview' => false,
-                'section' => 'distribution',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->shirt_size = $value;
-                },
-                'form_type' => 'text',
-                'form_name' => 'shirt_size',
-            ],
-            [
-                'label_key' => 'people.shoe_size',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->shirt_size,
-                'overview' => false,
-                'section' => 'distribution',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->shirt_size = $value;
-                },
-                'form_type' => 'text',
-                'form_name' => 'shoe_size',
-            ],
-            [
-                'label_key' => 'people.urgent_needs',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->urgent_needs,
-                'value_html' => fn ($helper) => nl2br($helper->urgent_needs),
-                'overview' => false,
-                'section' => 'distribution',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->urgent_needs = $value;
-                },
-                'form_type' => 'textarea',
-                'form_name' => 'urgent_needs',
-            ],
-            [
-                'label_key' => 'people.work_needs',
-                'icon' => null,
-                'value' => fn ($helper) => $helper->work_needs,
-                'value_html' => fn ($helper) => nl2br($helper->work_needs),
-                'overview' => false,
-                'section' => 'distribution',
-                'assign' => function ($person, $helper, $value) {
-                    $helper->work_needs = $value;
-                },
-                'form_type' => 'textarea',
-                'form_name' => 'work_needs',
             ],
             [
                 'label_key' => 'people.remarks',
