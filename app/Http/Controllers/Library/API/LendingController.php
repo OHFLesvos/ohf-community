@@ -150,6 +150,18 @@ class LendingController extends Controller
         ]);
     }
 
+    public function personLog(Person $person)
+    {
+        $this->authorize('list', Person::class);
+
+        $lendings = $person->bookLendings()
+            ->with('book')
+            ->orderBy('lending_date', 'desc')
+            ->paginate(25);
+
+        return LibraryLendingResource::collection($lendings);
+    }
+
     /**
      * Gets the lending of a book
      *

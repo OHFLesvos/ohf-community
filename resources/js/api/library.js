@@ -38,6 +38,16 @@ export async function deleteBook(id) {
     return res.data
 }
 
+// Lending
+
+export async function fetchLendingsStatistics() {
+    const url = route('api.library.lending.stats')
+    const res = await axios.get(url)
+    return res.data
+}
+
+// Lending (from person)
+
 export async function findLendingsOfPerson(id) {
     const url = route('api.library.lending.person', [id])
     const res = await axios.get(url)
@@ -77,11 +87,13 @@ export async function returnBookFromPerson(bookId, personId) {
     return res.data
 }
 
-export async function fetchLendingsStatistics() {
-    const url = route('api.library.lending.stats')
+export async function personLendingLog(id) {
+    const url = route('api.library.lending.personLog', [id])
     const res = await axios.get(url)
     return res.data
 }
+
+// Lending (from book)
 
 export async function findLendingOfBook(id) {
     const url = route('api.library.lending.book', [id])

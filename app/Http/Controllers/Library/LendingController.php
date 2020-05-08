@@ -3,14 +3,8 @@
 namespace App\Http\Controllers\Library;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Library\StoreExtendBook;
-use App\Http\Requests\Library\StoreLendBook;
 use App\Models\Library\LibraryBook;
-use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
-use App\Settings\Library\DefaultLendingDurationDays;
-use Carbon\Carbon;
-use Setting;
 
 class LendingController extends Controller
 {
@@ -36,16 +30,6 @@ class LendingController extends Controller
 
         return view('library.lending.person', [
             'person' => $person,
-        ]);
-    }
-
-    public function personLog(Person $person)
-    {
-        $this->authorize('list', Person::class);
-
-        return view('library.lending.personLog', [
-            'person' => $person,
-            'lendings' => $person->bookLendings()->orderBy('lending_date', 'desc')->paginate(25),
         ]);
     }
 

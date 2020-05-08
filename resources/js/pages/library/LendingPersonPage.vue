@@ -10,151 +10,99 @@
             </small>
         </h2>
 
-        <!-- Lendings -->
-        <template v-if="lendings">
-            <div
-                v-if="lendings.length > 0"
-                class="table-responsive"
-            >
-                <table class="table table-sm table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>{{ $t('library.book') }}</th>
-                            <th class="d-none d-sm-table-cell">{{ $t('library.lent') }}</th>
-                            <th>{{ $t('library.return') }}</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="lending in lendings"
-                            :key="lending.id"
-                            :class="{
-                                'table-danger': isOverdue(lending),
-                                'table-warning': isSoonOverdue(lending)
-                            }">
-                            <td class="align-middle">
-                                <a :href="route('library.lending.book', [lending.book.id])">
-                                    {{ lending.book.title }}
-                                    <template v-if="lending.book.author">
-                                        ({{ lending.book.author }})
-                                    </template>
-                                </a>
-                            </td>
-                            <td class="align-middle d-none d-sm-table-cell">
-                                {{ moment(lending.lending_date).format("LL") }}
-                            </td>
-                            <td class="align-middle">
-                                {{ moment(lending.return_date).format("LL") }}
-                            </td>
-                            <td class="fit align-middle">
+        <b-tabs content-class="mt-3">
 
-                                <!-- Return book -->
-                                <b-button
-                                    variant="success"
-                                    size="sm"
-                                    :disabled="busy"
-                                    @click="returnBook(lending.book.id)"
-                                >
-                                    <font-awesome-icon icon="inbox" />
-                                    <span class="d-none d-sm-inline"> {{ $t('library.return') }}</span>
-                                </b-button>
-
-                                <!-- Extend lending  -->
-                                <b-button
-                                    variant="primary"
-                                    size="sm"
-                                    :disabled="busy"
-                                    @click="extendLending(lending.book.id)"
-                                >
-                                    <font-awesome-icon icon="calendar-plus" />
-                                    <span class="d-none d-sm-inline"> {{ $t('library.extend') }}</span>
-                                </b-button>
-
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <b-alert
-                v-else
-                show
-            >
-                {{ $t('library.no_books_lent') }}
-            </b-alert>
-        </template>
-
-        <!-- Lend modal button -->
-        <p v-if="canLend">
-            <b-button
-                variant="primary"
-                :disabled="busy"
-                v-b-modal.lendBookModal
-            >
-                <font-awesome-icon icon="plus-circle" />
-                {{ $t('library.lend_a_book') }}
-            </b-button>
-        </p>
-
-        <!-- Lend book modal -->
-        <b-modal
-            id="lendBookModal"
-            :title="$t('library.lend_a_book')"
-            @ok="lendBookToPerson"
-            @hidden="selectedBookId = null"
-        >
-            <library-book-autocomplete-input
-                available-only
-                @select="selectedBookId = $event"
-            />
-            <template v-slot:modal-footer="{ ok }">
-
-                <!-- Lend book button -->
-                <b-button
-                    variant="primary"
-                    :disabled="!selectedBookId || busy"
-                    @click="ok()"
-                >
-                    <font-awesome-icon icon="check" />
-                    {{ $t('library.lend_book') }}
-                </b-button>
-
-                <!-- Register book button -->
-                <b-button
-                    v-if="canRegisterBook"
-                    variant="secondary"
+            <!-- Lendings -->
+            <b-tab :title="$t('library.lendings')" active>
+                <person-lendings-table
+                    v-if="lendings"
+                    :lendings="lendings"
                     :disabled="busy"
-                    v-b-modal.registerBookModal
+                    @return="returnBook"
+                    @extend="extendLending"
+                />
+
+                <!-- Lend modal button -->
+                <p v-if="canLend">
+                    <b-button
+                        variant="primary"
+                        :disabled="busy"
+                        v-b-modal.lendBookModal
+                    >
+                        <font-awesome-icon icon="plus-circle" />
+                        {{ $t('library.lend_a_book') }}
+                    </b-button>
+                </p>
+
+                <!-- Lend book modal -->
+                <b-modal
+                    id="lendBookModal"
+                    :title="$t('library.lend_a_book')"
+                    @ok="lendBookToPerson"
+                    @hidden="selectedBookId = null"
                 >
-                    <font-awesome-icon icon="plus-circle" />
-                    {{ $t('library.new_book') }}
-                </b-button>
+                    <library-book-autocomplete-input
+                        available-only
+                        @select="selectedBookId = $event"
+                    />
+                    <template v-slot:modal-footer="{ ok }">
 
-            </template>
-        </b-modal>
+                        <!-- Lend book button -->
+                        <b-button
+                            variant="primary"
+                            :disabled="!selectedBookId || busy"
+                            @click="ok()"
+                        >
+                            <font-awesome-icon icon="check" />
+                            {{ $t('library.lend_book') }}
+                        </b-button>
 
-        <!-- Register book modal -->
-        <b-modal
-            id="registerBookModal"
-            :title="$t('library.register_new_book')"
-            ok-only
-            :ok-disabled="busy"
-            body-class="pb-0"
-            @shown="$refs.registerBookForm.focus()"
-            @ok="handleOkRegisterBook"
-        >
-            <book-form
-                ref="registerBookForm"
-                compact
-                no-buttons
-                :disabled="busy"
-                @submit="registerAndLendBookToPerson"
-            />
-            <template v-slot:modal-ok>
-                <font-awesome-icon icon="check" />
-                {{ $t('library.register_and_lend_book') }}
-            </template>
-        </b-modal>
+                        <!-- Register book button -->
+                        <b-button
+                            v-if="canRegisterBook"
+                            variant="secondary"
+                            :disabled="busy"
+                            v-b-modal.registerBookModal
+                        >
+                            <font-awesome-icon icon="plus-circle" />
+                            {{ $t('library.new_book') }}
+                        </b-button>
+
+                    </template>
+                </b-modal>
+
+                <!-- Register book modal -->
+                <b-modal
+                    id="registerBookModal"
+                    :title="$t('library.register_new_book')"
+                    ok-only
+                    :ok-disabled="busy"
+                    body-class="pb-0"
+                    @shown="$refs.registerBookForm.focus()"
+                    @ok="handleOkRegisterBook"
+                >
+                    <book-form
+                        ref="registerBookForm"
+                        compact
+                        no-buttons
+                        :disabled="busy"
+                        @submit="registerAndLendBookToPerson"
+                    />
+                    <template v-slot:modal-ok>
+                        <font-awesome-icon icon="check" />
+                        {{ $t('library.register_and_lend_book') }}
+                    </template>
+                </b-modal>
+
+            </b-tab>
+
+            <!-- Logs -->
+            <b-tab :title="$t('app.log')" lazy>
+                <person-log-table
+                    :person-id="personId"
+                />
+            </b-tab>
+        </b-tabs>
 
     </div>
     <p v-else>
@@ -169,10 +117,14 @@ import { findPerson } from '@/api/people'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
 import BookForm from '@/components/library/forms/BookForm'
+import PersonLendingsTable from '@/components/library/PersonLendingsTable'
+import PersonLogTable from '@/components/library/PersonLogTable'
 export default {
     components: {
         LibraryBookAutocompleteInput,
-        BookForm
+        BookForm,
+        PersonLendingsTable,
+        PersonLogTable
     },
     props: {
         personId: {
@@ -214,12 +166,6 @@ export default {
                 })
                 .catch(err => console.error(err))
                 .finally(() => this.busy = false)
-        },
-        isOverdue (lending) {
-            return moment(lending.return_date).isBefore(moment(), 'day')
-        },
-        isSoonOverdue (lending) {
-            return moment(lending.return_date).isSame(moment(), 'day')
         },
         lendBookToPerson (bvModalEvt) {
             bvModalEvt.preventDefault()

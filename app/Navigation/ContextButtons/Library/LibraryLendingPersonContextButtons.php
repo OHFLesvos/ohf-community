@@ -14,12 +14,6 @@ class LibraryLendingPersonContextButtons implements ContextButtons
     {
         $person = $view->getData()['person'];
         return [
-            'log' => [
-                'url' => route('library.lending.personLog', $person),
-                'caption' => __('app.log'),
-                'icon' => 'list',
-                'authorized' => $person->bookLendings()->count() > 0 && Auth::user()->can('list', Person::class),
-            ],
             'person' => [
                 'url' => route('people.show', $person),
                 'caption' => __('people.view_person'),

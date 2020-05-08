@@ -378,6 +378,8 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
             ->name('lending.extendBookToPerson');
         Route::post('lending/person/{person}/returnBook', 'LendingController@returnBookFromPerson')
             ->name('lending.returnBookFromPerson');
+        Route::get('lending/person/{person}/log', 'LendingController@personLog')
+            ->name('lending.personLog');
 
         Route::get('lending/book/{book}', 'LendingController@book')
             ->name('lending.book');

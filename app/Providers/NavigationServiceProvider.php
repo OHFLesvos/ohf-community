@@ -133,7 +133,6 @@ class NavigationServiceProvider extends ServiceProvider
         'library.lending.persons'         => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
         'library.lending.books'           => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
         'library.lending.person'          => \App\Navigation\ContextButtons\Library\LibraryLendingPersonContextButtons::class,
-        'library.lending.personLog'       => \App\Navigation\ContextButtons\Library\LibraryLendingPersonLogContextButtons::class,
         'library.lending.book'            => \App\Navigation\ContextButtons\Library\LibraryLendingBookContextButtons::class,
         'library.lending.bookLog'         => \App\Navigation\ContextButtons\Library\LibraryLendingBookLogContextButtons::class,
         'library.books.index'             => \App\Navigation\ContextButtons\Library\LibraryBookIndexContextButtons::class,
