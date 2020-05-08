@@ -3,107 +3,13 @@
 @section('title', __('library.library') . ': ' .__('library.book'))
 
 @section('content')
-
-    <h2 class="mb-3">
-        {{ $book->title }}
-        <small class="d-block d-sm-inline">
-            {{ $book->author }}
-        </small>
-    </h2>
-    @isset($book->isbn13)
-        <p><strong>ISBN:</strong> {{ $book->isbn }}</p>
-    @endisset
-    @isset($book->language_code)
-        <p><strong>@lang('app.language'):</strong> {{ $book->language }}</p>
-    @endisset
-
-    @php
-        $lending = $book->lendings()->whereNull('returned_date')->first();
-    @endphp
-    @isset($lending)
-        @if($lending->return_date->lt(Carbon\Carbon::today()))
-            @component('components.alert.error')
-                @lang('library.book_is_overdue')
-            @endcomponent
-        @elseif($lending->return_date->eq(Carbon\Carbon::today()))
-            @component('components.alert.warning')
-                @lang('library.book_is_overdue_soon')
-            @endcomponent
-        @endif
-        @component('components.alert.info')
-            @isset($lending->person)
-                @lang('library.book_is_lent_to_person_until', [ 'route' => route('library.lending.person', $lending->person), 'person' => $lending->person->fullName, 'until' => $lending->return_date->toDateString() ])
-            @else
-                @php
-                    $thrashedPerson = $lending->person()->withTrashed()->first();
-                @endphp
-                @isset($thrashedPerson)
-                    @lang('library.book_is_lent_to_soft_deleted_person_until', [ 'person' => $thrashedPerson->fullName, 'until' => $lending->return_date->toDateString() ])
-                @else
-                    @lang('library.book_is_lent_to_deleted_person_until', [ 'until' => $lending->return_date->toDateString() ])
-                @endisset
-            @endisset
-        @endcomponent
-        {!! Form::open(['route' => ['library.lending.returnBook', $book], 'method' => 'post']) !!}
-            <p>
-                <button type="submit" class="btn btn-success">
-                    @icon(inbox) @lang('library.return')
-                </button>
-                <button type="button" class="btn btn-primary extend-lending-button">
-                    @icon(calendar-plus-o) @lang('library.extend')
-                </button>
-            </p>
-        {!! Form::close() !!}
-    @else
-        @component('components.alert.success')
-            @lang('library.book_is_available')
-        @endcomponent
-        <p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lendBookModal">
-                @icon(plus-circle) @lang('library.lend_book')
-            </button>
-        </p>
-    @endisset
-
-@endsection
-
-@section('script')
-    function toggleSubmit() {
-        if ($('#person_id').val()) {
-            $('#lend-existing-book-button').attr('disabled', false);
-        } else {
-            $('#lend-existing-book-button').attr('disabled', true);
-        }
-    }
-    $(function () {
-        $('#person_id').on('change', toggleSubmit);
-        toggleSubmit();
-
-        @if($errors->get('person_id') != null)
-            $('#lendBookModal').modal('show');
-        @endif
-    });
-
-    $('.extend-lending-button').on('click', function () {
-        var days = prompt('{{ __('app.number_of_days') }}:', {{ $default_extend_duration }});
-        if (days != null && days > 0) {
-            window.post('{{ route('library.lending.extendBook', $book) }}', {_token: '{{ csrf_token() }}', days: days});
-        }
-    });
+    <div id="library-app">
+        <book-show-page book-id="{{ $book->id }}">
+            @lang('app.loading')
+        </book-show-page>
+    </div>
 @endsection
 
 @section('footer')
     <script src="{{ asset('js/library.js') }}?v={{ $app_version }}"></script>
-@endsection
-
-@section('content-footer')
-    {!! Form::open(['route' => ['library.lending.lendBook', $book], 'method' => 'post']) !!}
-        @component('components.modal', [ 'id' => 'lendBookModal' ])
-            @slot('title', __('library.lend_book'))
-            {{ Form::bsAutocomplete('person_id', null, route('api.people.filterPersons'), ['placeholder' => __('people.search_existing_person')], '') }}
-            @slot('footer')
-                <button type="submit" class="btn btn-primary" id="lend-existing-book-button">@icon(check) @lang('library.lend_book')</button>
-            @endslot
-        @endcomponent
-    {!! Form::close() !!}
 @endsection

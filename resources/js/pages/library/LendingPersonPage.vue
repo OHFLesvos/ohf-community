@@ -82,7 +82,7 @@
             </b-alert>
         </template>
 
-        <!-- Lend button -->
+        <!-- Lend modal button -->
         <p v-if="canLend">
             <b-button
                 variant="primary"
@@ -98,10 +98,11 @@
             id="lendBookModal"
             :title="$t('library.lend_a_book')"
             @ok="lendBookToPerson"
+            @hidden="selectedBookId = null"
         >
             <library-book-autocomplete-input
                 available-only
-                @select="selectExistingBook"
+                @select="selectedBookId = $event"
             />
             <template v-slot:modal-footer="{ ok }">
 
@@ -160,7 +161,7 @@
 
 <script>
 import moment from 'moment'
-import { findLendingsOfPerson, lendBookToPerson, extendLending, returnBook } from '@/api/library'
+import { findLendingsOfPerson, lendBookToPerson, extendLendingToPerson, returnBookFromPerson } from '@/api/library'
 import { findPerson } from '@/api/people'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
@@ -215,9 +216,6 @@ export default {
         isSoonOverdue (lending) {
             return moment(lending.return_date).isSame(moment(), 'day')
         },
-        selectExistingBook (bookId) {
-            this.selectedBookId = bookId
-        },
         lendBookToPerson (bvModalEvt) {
             bvModalEvt.preventDefault()
             if (this.selectedBookId) {
@@ -255,19 +253,25 @@ export default {
         extendLending (book_id) {
             var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)
             if (days != null && days > 0) {
-                extendLending(book_id, this.personId, days)
+                this.busy = true
+                extendLendingToPerson(book_id, this.personId, days)
                     .then((data) => {
                         showSnackbar(data.message)
                         this.loadLendings()
                     })
+                    .catch(handleAjaxError)
+                    .finally(() => this.busy = false)
             }
         },
         returnBook (book_id) {
-            returnBook(book_id, this.personId)
+            this.busy = true
+            returnBookFromPerson(book_id, this.personId)
                 .then((data) => {
                     showSnackbar(data.message)
                     this.loadLendings()
                 })
+                .catch(handleAjaxError)
+                .finally(() => this.busy = false)
         }
     }
 }

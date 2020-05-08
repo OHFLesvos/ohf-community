@@ -454,9 +454,6 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
 
         Route::get('lending/books', 'LendingController@books')->name('lending.books');
         Route::get('lending/book/{book}', 'LendingController@book')->name('lending.book');
-        Route::post('lending/book/{book}/lend', 'LendingController@lendBook')->name('lending.lendBook');
-        Route::post('lending/book/{book}/extend', 'LendingController@extendBook')->name('lending.extendBook');
-        Route::post('lending/book/{book}/return', 'LendingController@returnBook')->name('lending.returnBook');
         Route::get('lending/book/{book}/log', 'LendingController@bookLog')->name('lending.bookLog');
 
         // Export

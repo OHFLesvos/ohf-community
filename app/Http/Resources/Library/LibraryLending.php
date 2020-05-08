@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Library;
 
 use App\Http\Resources\Library\LibraryBook as LibraryBookResource;
+use App\Http\Resources\People\Person as PersonResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LibraryLending extends JsonResource
@@ -17,7 +18,8 @@ class LibraryLending extends JsonResource
     {
         return [
             'id' => $this->id,
-            'book' => new LibraryBookResource($this->book),
+            'book' => $this->whenLoaded('book',fn () => new LibraryBookResource($this->book)),
+            'person' => $this->whenLoaded('person',fn () => new PersonResource($this->person)),
             'lending_date' => $this->lending_date,
             'return_date' => $this->return_date,
             'returned_date' => $this->returned_date,

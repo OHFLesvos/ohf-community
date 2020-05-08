@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Library\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Library\StoreExtendBook;
 use App\Http\Requests\Library\StoreExtendBookToPerson;
+use App\Http\Requests\Library\StoreLendBook;
 use App\Http\Requests\Library\StoreLendBookToPerson;
 use App\Http\Requests\Library\StoreReturnBookFromPerson;
 use App\Models\Library\LibraryBook;
@@ -38,11 +40,20 @@ class LendingController extends Controller
         ];
     }
 
+    /**
+     * Gets the book lendings of a person
+     *
+     * @param Person $person
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function person(Person $person, Request $request)
     {
-        $this->authorize('list', Person::class);
+        $this->authorize('view', $person);
+        $this->authorize('list', LibraryBook::class);
 
         $lendings = $person->bookLendings()
+            ->with('book')
             ->whereNull('returned_date')
             ->orderBy('return_date', 'asc')
             ->get();
@@ -57,6 +68,13 @@ class LendingController extends Controller
             ]]);
     }
 
+    /**
+     * Lends a book to a person
+     *
+     * @param Person $person
+     * @param StoreLendBookToPerson $request
+     * @return \Illuminate\Http\Response
+     */
     public function lendBookToPerson(Person $person, StoreLendBookToPerson $request)
     {
         $this->authorize('create', LibraryLending::class);
@@ -84,6 +102,13 @@ class LendingController extends Controller
         ]);
     }
 
+    /**
+     * Extends a book lending of a person
+     *
+     * @param Person $person
+     * @param StoreExtendBookToPerson $request
+     * @return \Illuminate\Http\Response
+     */
     public function extendBookToPerson(Person $person, StoreExtendBookToPerson $request)
     {
         $lending = LibraryLending::where('book_id', $request->book_id)
@@ -101,10 +126,96 @@ class LendingController extends Controller
         ]);
     }
 
+    /**
+     * Returns a book lent by a person
+     *
+     * @param Person $person
+     * @param StoreReturnBookFromPerson $request
+     * @return \Illuminate\Http\Response
+     */
     public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request)
     {
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
+            ->whereNull('returned_date')
+            ->firstOrFail();
+
+        $this->authorize('update', $lending);
+
+        $lending->returned_date = Carbon::today();
+        $lending->save();
+
+        return response()->json([
+            'message' => __('library.book_returned'),
+        ]);
+    }
+
+    /**
+     * Gets the lending of a book
+     *
+     * @param LibraryBook $book
+     * @return void
+     */
+    public function book(LibraryBook $book)
+    {
+        $this->authorize('view', $book);
+        $this->authorize('list', LibraryBook::class);
+
+        $lending = $book->lendings()
+            ->with('person')
+            ->whereNull('returned_date')
+            ->first();
+
+        if ($lending == null) {
+            return response()->json(null);
+        }
+
+        $default_extend_duration = Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE);
+
+        return (new LibraryLendingResource($lending))
+            ->additional(['meta' => [
+                'default_extend_duration' => intval($default_extend_duration),
+            ]]);
+    }
+
+    public function lendBook(LibraryBook $book, StoreLendBook $request)
+    {
+        $this->authorize('create', LibraryLending::class);
+        // TODO validate no date conflict
+
+        $person = Person::where('public_id', $request->person_id)->firstOrFail();
+        $lending = new LibraryLending();
+        $lending->lending_date = Carbon::today();
+        $duration = Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE);
+        $lending->return_date = Carbon::today()->addDays($duration);
+        $lending->person()->associate($person);
+        $lending->book()->associate($book);
+        $lending->save();
+
+        return response()->json([
+                'message' => __('library.book_lent'),
+            ]);
+    }
+
+    public function extendBook(LibraryBook $book, StoreExtendBook $request)
+    {
+        $lending = LibraryLending::where('book_id', $book->id)
+            ->whereNull('returned_date')
+            ->firstOrFail();
+
+        $this->authorize('update', $lending);
+
+        $lending->return_date = $lending->return_date->addDays($request->days);
+        $lending->save();
+
+        return response()->json([
+            'message' => __('library.book_extended'),
+        ]);
+    }
+
+    public function returnBook(LibraryBook $book)
+    {
+        $lending = LibraryLending::where('book_id', $book->id)
             ->whereNull('returned_date')
             ->firstOrFail();
 

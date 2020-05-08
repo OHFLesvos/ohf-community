@@ -60,7 +60,7 @@ export async function lendBookToPerson(book, personId) {
     return res.data
 }
 
-export async function extendLending(bookId, personId, days) {
+export async function extendLendingToPerson(bookId, personId, days) {
     const url = route('api.library.lending.extendBookToPerson', [personId])
     const res = await axios.post(url, {
         book_id: bookId,
@@ -69,7 +69,7 @@ export async function extendLending(bookId, personId, days) {
     return res.data
 }
 
-export async function returnBook(bookId, personId) {
+export async function returnBookFromPerson(bookId, personId) {
     const url = route('api.library.lending.returnBookFromPerson', [personId])
     const res = await axios.post(url, {
         book_id: bookId,
@@ -80,5 +80,33 @@ export async function returnBook(bookId, personId) {
 export async function fetchLendingsStatistics() {
     const url = route('api.library.lending.stats')
     const res = await axios.get(url)
+    return res.data
+}
+
+export async function findLendingOfBook(id) {
+    const url = route('api.library.lending.book', [id])
+    const res = await axios.get(url)
+    return res.data
+}
+
+export async function lendBook(bookId, personId) {
+    const url = route('api.library.lending.lendBook', [bookId])
+    const res = await axios.post(url, {
+        person_id: personId
+    })
+    return res.data
+}
+
+export async function extendLending(id, days) {
+    const url = route('api.library.lending.extendBook', [id])
+    const res = await axios.post(url, {
+        days: days
+    })
+    return res.data
+}
+
+export async function returnBook(id) {
+    const url = route('api.library.lending.returnBook', [id])
+    const res = await axios.post(url)
     return res.data
 }

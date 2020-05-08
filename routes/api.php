@@ -369,6 +369,7 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     ->group(function () {
         Route::get('lending/stats', 'LendingController@stats')
             ->name('lending.stats');
+
         Route::get('lending/person/{person}', 'LendingController@person')
             ->name('lending.person');
         Route::post('lending/person/{person}/lendBook', 'LendingController@lendBookToPerson')
@@ -378,13 +379,21 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::post('lending/person/{person}/returnBook', 'LendingController@returnBookFromPerson')
             ->name('lending.returnBookFromPerson');
 
+        Route::get('lending/book/{book}', 'LendingController@book')
+            ->name('lending.book');
+        Route::post('lending/book/{book}/lend', 'LendingController@lendBook')
+            ->name('lending.lendBook');
+        Route::post('lending/book/{book}/extend', 'LendingController@extendBook')
+            ->name('lending.extendBook');
+        Route::post('lending/book/{book}/return', 'LendingController@returnBook')
+            ->name('lending.returnBook');
+
         Route::get('books/filter', 'BookController@filter')
             ->name('books.filter');
         Route::get('books/findIsbn', 'BookController@findIsbn')
             ->name('books.findIsbn');
         Route::apiResource('books', 'BookController');
     });
-
 
 Route::get('countries', 'API\DataListController@countries')
     ->middleware(['language'])

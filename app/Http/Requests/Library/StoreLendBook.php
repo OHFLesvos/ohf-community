@@ -27,7 +27,7 @@ class StoreLendBook extends FormRequest
         return [
             'person_id' => [
                 'required',
-                'exists:persons,id',
+                'exists:persons,public_id',
             ],
         ];
     }
