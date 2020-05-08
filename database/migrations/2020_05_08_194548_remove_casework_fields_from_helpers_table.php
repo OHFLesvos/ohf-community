@@ -18,19 +18,19 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
             $notes = '';
 
             if (filled($helper->work_background)) {
-                $notes .= "Background: $helper->work_background\n\n";
+                $notes .= "Background: $helper->work_background\n";
             }
             if (filled($helper->has_tax_number)) {
                 $value = $helper->has_tax_number ? 'Yes' : 'No';
-                $notes .= "Tax number: $value\n\n";
+                $notes .= "Tax number: $value\n";
             }
             if (filled($helper->endorses_casework)) {
                 if ($helper->endorses_casework === false) {
-                    $notes .= "Case work: No\n\n";
+                    $notes .= "Case work: No\n";
                 } else {
-                    $notes .= "Case work: Yes\n\n";
+                    $notes .= "Case work: Yes\n";
                     if (filled($helper->casework_case_number)) {
-                        $notes .= "Case number: $helper->casework_case_number\n\n";
+                        $notes .= "Case number: $helper->casework_case_number\n";
                     }
                     if (filled($helper->casework_asylum_request_status)) {
                         $asylum_request_states = collect([
@@ -41,23 +41,23 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
                             'subsidiary_protection' => 'Subsidiary protection',
                             'refugee_status' => 'Refugee status',
                         ]);
-                        $notes .= "Asylum Request Status: " . $asylum_request_states->get($helper->casework_asylum_request_status, $helper->casework_asylum_request_status) . "\n\n";
+                        $notes .= "Asylum Request Status: " . $asylum_request_states->get($helper->casework_asylum_request_status, $helper->casework_asylum_request_status) . "\n";
                     }
                     if (filled($helper->casework_has_geo_restriction)) {
                         $value = $helper->casework_has_geo_restriction ? 'Yes' : 'No';
-                        $notes .= "Has geographical Restriction? $value\n\n";
+                        $notes .= "Has geographical Restriction? $value\n";
                     }
                     if (filled($helper->casework_has_id_card)) {
                         $value = $helper->casework_has_id_card ? 'Yes' : 'No';
-                        $notes .= "Has ID card? $value\n\n";
+                        $notes .= "Has ID card? $value\n";
                     }
                     if (filled($helper->casework_has_passport)) {
                         $value = $helper->casework_has_passport ? 'Yes' : 'No';
-                        $notes .= "Has passport? $value\n\n";
+                        $notes .= "Has passport? $value\n";
                     }
                     if (filled($helper->casework_vulnerability)) {
                         $value = $helper->casework_vulnerability ? 'Yes' : 'No';
-                        $notes .= "Vulnerability: $value\n\n";
+                        $notes .= "Vulnerability: $value\n";
                     }
                 }
             }
