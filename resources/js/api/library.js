@@ -87,12 +87,6 @@ export async function returnBookFromPerson(bookId, personId) {
     return res.data
 }
 
-export async function personLendingLog(id) {
-    const url = route('api.library.lending.personLog', [id])
-    const res = await axios.get(url)
-    return res.data
-}
-
 // Lending (from book)
 
 export async function findLendingOfBook(id) {

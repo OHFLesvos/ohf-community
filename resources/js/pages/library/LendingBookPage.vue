@@ -17,96 +17,112 @@
             <strong>{{ $t('app.language') }}:</strong> {{ book.language }}
         </p>
 
-        <!-- Lending -->
-        <template v-if="lending">
-            <b-alert
-                v-if="isOverdue"
-                variant="danger"
-                show
-            >
-                {{ $t('library.book_is_overdue') }}
-            </b-alert>
-            <b-alert
-                v-else-if="isSoonOverdue"
-                variant="warning"
-                show
-            >
-                {{ $t('library.book_is_overdue_soon') }}
-            </b-alert>
+        <b-tabs content-class="mt-3">
 
-            <!-- Person info -->
-            <b-alert
-                variant="info"
-                show
-                v-html="lentToPersonMessage"
-            >
-            </b-alert>
+            <!-- Lendings -->
+            <b-tab :title="$t('library.lendings')" active>
 
-            <p>
-                <!-- Return book -->
-                <b-button
-                    variant="success"
-                    :disabled="busy"
-                    @click="returnBook"
-                >
-                    <font-awesome-icon icon="inbox" />
-                    {{ $t('library.return') }}
-                </b-button>
-
-                <!-- Extend lending -->
-                <b-button
-                    variant="primary"
-                    :disabled="busy"
-                    @click="extendLending"
-                >
-                    <font-awesome-icon icon="calendar-plus" />
-                    {{ $t('library.extend') }}
-                </b-button>
-            </p>
-        </template>
-        <template v-else>
-            <b-alert variant="success">
-                {{ $t('library.book_is_available') }}
-            </b-alert>
-
-            <!-- Lend modal button -->
-            <p>
-                <b-button
-                    variant="primary"
-                    :disabled="busy"
-                    v-b-modal.lendBookModal
-                >
-                    <font-awesome-icon icon="plus-circle" />
-                    {{ $t('library.lend_book') }}
-                </b-button>
-            </p>
-
-            <!-- Lend book modal -->
-            <b-modal
-                id="lendBookModal"
-                :title="$t('library.lend_book')"
-                @ok="lendBook"
-                @hidden="selectedPersonId = null"
-            >
-                <person-autocomplete-input
-                    @select="selectedPersonId = $event"
-                />
-                <template v-slot:modal-footer="{ ok }">
-
-                    <!-- Lend book button -->
-                    <b-button
-                        variant="primary"
-                        :disabled="!selectedPersonId || busy"
-                        @click="ok()"
+                <template v-if="lending">
+                    <b-alert
+                        v-if="isOverdue"
+                        variant="danger"
+                        show
                     >
-                        <font-awesome-icon icon="check" />
-                        {{ $t('library.lend_book') }}
-                    </b-button>
+                        {{ $t('library.book_is_overdue') }}
+                    </b-alert>
+                    <b-alert
+                        v-else-if="isSoonOverdue"
+                        variant="warning"
+                        show
+                    >
+                        {{ $t('library.book_is_overdue_soon') }}
+                    </b-alert>
+
+                    <!-- Person info -->
+                    <b-alert
+                        variant="info"
+                        show
+                        v-html="lentToPersonMessage"
+                    >
+                    </b-alert>
+
+                    <p>
+                        <!-- Return book -->
+                        <b-button
+                            variant="success"
+                            :disabled="busy"
+                            @click="returnBook"
+                        >
+                            <font-awesome-icon icon="inbox" />
+                            {{ $t('library.return') }}
+                        </b-button>
+
+                        <!-- Extend lending -->
+                        <b-button
+                            variant="primary"
+                            :disabled="busy"
+                            @click="extendLending"
+                        >
+                            <font-awesome-icon icon="calendar-plus" />
+                            {{ $t('library.extend') }}
+                        </b-button>
+                    </p>
+                </template>
+                <template v-else>
+                    <b-alert variant="success">
+                        {{ $t('library.book_is_available') }}
+                    </b-alert>
+
+                    <!-- Lend modal button -->
+                    <p>
+                        <b-button
+                            variant="primary"
+                            :disabled="busy"
+                            v-b-modal.lendBookModal
+                        >
+                            <font-awesome-icon icon="plus-circle" />
+                            {{ $t('library.lend_book') }}
+                        </b-button>
+                    </p>
+
+                    <!-- Lend book modal -->
+                    <b-modal
+                        id="lendBookModal"
+                        :title="$t('library.lend_book')"
+                        @ok="lendBook"
+                        @hidden="selectedPersonId = null"
+                    >
+                        <person-autocomplete-input
+                            @select="selectedPersonId = $event"
+                        />
+                        <template v-slot:modal-footer="{ ok }">
+
+                            <!-- Lend book button -->
+                            <b-button
+                                variant="primary"
+                                :disabled="!selectedPersonId || busy"
+                                @click="ok()"
+                            >
+                                <font-awesome-icon icon="check" />
+                                {{ $t('library.lend_book') }}
+                            </b-button>
+
+                        </template>
+                    </b-modal>
 
                 </template>
-            </b-modal>
 
-        </template>
+            </b-tab>
+
+            <!-- Logs -->
+            <b-tab :title="$t('app.log')" lazy>
+                <book-log-table
+                    :book-id="bookId"
+                />
+            </b-tab>
+
+        </b-tabs>
+
     </div>
     <p v-else>
         {{ $t('app.loading') }}
@@ -118,9 +134,11 @@ import moment from 'moment'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import { findBook, findLendingOfBook, lendBook, extendLending, returnBook } from '@/api/library'
 import PersonAutocompleteInput from '@/components/people/PersonAutocompleteInput'
+import BookLogTable from '@/components/library/BookLogTable'
 export default {
     components: {
-        PersonAutocompleteInput
+        PersonAutocompleteInput,
+        BookLogTable
     },
     props: {
         bookId: {

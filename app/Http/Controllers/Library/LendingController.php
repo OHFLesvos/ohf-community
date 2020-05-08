@@ -52,14 +52,4 @@ class LendingController extends Controller
             'book' => $book,
         ]);
     }
-
-    public function bookLog(LibraryBook $book)
-    {
-        $this->authorize('view', $book);
-
-        return view('library.lending.bookLog', [
-            'book' => $book,
-            'lendings' => $book->lendings()->orderBy('lending_date', 'desc')->paginate(25),
-        ]);
-    }
 }

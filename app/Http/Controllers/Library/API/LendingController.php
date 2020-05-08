@@ -150,14 +150,16 @@ class LendingController extends Controller
         ]);
     }
 
-    public function personLog(Person $person)
+    public function personLog(Person $person, Request $request)
     {
         $this->authorize('list', Person::class);
+
+        $pageSize = $request->input('pageSize', 25);
 
         $lendings = $person->bookLendings()
             ->with('book')
             ->orderBy('lending_date', 'desc')
-            ->paginate(25);
+            ->paginate($pageSize);
 
         return LibraryLendingResource::collection($lendings);
     }
@@ -239,5 +241,19 @@ class LendingController extends Controller
         return response()->json([
             'message' => __('library.book_returned'),
         ]);
+    }
+
+    public function bookLog(LibraryBook $book, Request $request)
+    {
+        $this->authorize('view', $book);
+
+        $pageSize = $request->input('pageSize', 25);
+
+        $lendings = $book->lendings()
+            ->with('person')
+            ->orderBy('lending_date', 'desc')
+            ->paginate($pageSize);
+
+        return LibraryLendingResource::collection($lendings);
     }
 }

@@ -29,7 +29,7 @@
             ></tag-select-button>
         </p>
 
-        <b-input-group size="sm" class="mb-3">
+        <b-input-group v-if="!noFilter" size="sm" class="mb-3">
             <b-form-input
                 v-model="filterText"
                 debounce="400"
@@ -174,6 +174,7 @@ export default {
                 return this.$t('app.loading')
             }
         },
+        noFilter: Boolean
     },
     data() {
         return {

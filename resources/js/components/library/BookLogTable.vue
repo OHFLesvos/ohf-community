@@ -2,16 +2,16 @@
     <base-table
         id="lendingLogTable"
         :fields="fields"
-        :api-url="route('api.library.lending.personLog', [personId])"
+        :api-url="route('api.library.lending.bookLog', [bookId])"
         default-sort-by="lending_date"
         default-sort-desc
-        :empty-text="$t('library.no_books_lent_so_far')"
+        :empty-text="$t('library.not_lent_to_anyone_so_far')"
         no-filter
         :items-per-page="25"
     >
-        <template v-slot:cell(book)="data">
-            <a :href="route('library.lending.book', [data.item.book.id])">
-                {{ data.item.book.title }}
+        <template v-slot:cell(person)="data">
+            <a :href="route('library.lending.person', [data.item.person.public_id])">
+                {{ data.item.person.full_name }}
             </a>
         </template>
     </base-table>
@@ -25,7 +25,7 @@ export default {
         BaseTable
     },
     props: {
-        personId: {
+        bookId: {
             required: true,
         }
     },
@@ -33,8 +33,8 @@ export default {
         return {
             fields: [
                 {
-                    key: 'book',
-                    label: this.$t('library.book'),
+                    key: 'person',
+                    label: this.$t('people.person'),
                 },
                 {
                     key: 'lending_date',
