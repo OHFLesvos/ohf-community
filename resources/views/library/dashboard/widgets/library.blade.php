@@ -1,8 +1,8 @@
 @php
     $links = [
         [
-            'url' => route($num_lent_books > 0 ? 'library.lending.books' : 'library.lending.index'),
-            'title' => __($num_lent_books > 0 ? 'library.books' : 'app.search'),
+            'url' => route('library.lending.index'),
+            'title' => __('library.lendings'),
             'icon' => 'list',
             'authorized' => true,
         ],
@@ -19,3 +19,5 @@
         @lang('library.num_books_in_total', ['books' => $num_books])
     </div>
 @endsection
+
+
