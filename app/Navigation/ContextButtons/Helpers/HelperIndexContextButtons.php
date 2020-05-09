@@ -23,7 +23,7 @@ class HelperIndexContextButtons implements ContextButtons
                 'url' => route('people.helpers.report'),
                 'caption' => __('app.report'),
                 'icon' => 'chart-bar',
-                'authorized' => Auth::user()->can('list', Helper::class),
+                'authorized' => Auth::user()->can('viewAny', Helper::class),
             ],
             'export' => [
                 'url' => route('people.helpers.export'),

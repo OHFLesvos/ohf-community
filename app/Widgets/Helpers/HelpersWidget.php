@@ -10,7 +10,7 @@ class HelpersWidget implements Widget
 {
     public function authorize(): bool
     {
-        return Auth::user()->can('list', Helper::class);
+        return Auth::user()->can('viewAny', Helper::class);
     }
 
     public function view(): string

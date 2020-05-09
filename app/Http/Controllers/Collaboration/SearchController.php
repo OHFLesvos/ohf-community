@@ -19,7 +19,7 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('list', WikiArticle::class);
+        $this->authorize('viewAny', WikiArticle::class);
 
         // If previous route is from other module, forget search string
         if (! Str::startsWith(previous_route(), 'kb.')) {
@@ -86,7 +86,7 @@ class SearchController extends Controller
 
     public function latestChanges()
     {
-        $this->authorize('list', WikiArticle::class);
+        $this->authorize('viewAny', WikiArticle::class);
 
         return view('collaboration.kb.latest_changes', [
             'audits' => Audit::where('auditable_type', WikiArticle::class)

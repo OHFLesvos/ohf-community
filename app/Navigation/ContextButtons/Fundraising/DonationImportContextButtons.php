@@ -16,7 +16,7 @@ class DonationImportContextButtons implements ContextButtons
                 'url' => route('fundraising.donations.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Donation::class),
+                'authorized' => Auth::user()->can('viewAny', Donation::class),
             ],
         ];
     }

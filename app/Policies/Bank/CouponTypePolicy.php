@@ -23,7 +23,7 @@ class CouponTypePolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function list(User $user)
+    public function viewAny(User $user)
     {
         return $user->hasPermission('bank.configure');
     }

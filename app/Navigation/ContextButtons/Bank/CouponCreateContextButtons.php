@@ -16,7 +16,7 @@ class CouponCreateContextButtons implements ContextButtons
                 'url' => route('coupons.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', CouponType::class),
+                'authorized' => Auth::user()->can('viewAny', CouponType::class),
             ],
         ];
     }

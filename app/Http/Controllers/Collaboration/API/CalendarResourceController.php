@@ -22,7 +22,7 @@ class CalendarResourceController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', CalendarResource::class);
+        $this->authorize('viewAny', CalendarResource::class);
 
         return CalendarResourceResource::collection(CalendarResource::orderBy('title')->get());
     }

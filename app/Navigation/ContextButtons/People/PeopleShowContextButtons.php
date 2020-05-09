@@ -37,7 +37,7 @@ class PeopleShowContextButtons implements ContextButtons
                 'url' => route(session('peopleOverviewRouteName', 'people.index')),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Person::class),
+                'authorized' => Auth::user()->can('viewAny', Person::class),
             ],
         ];
     }

@@ -18,7 +18,7 @@ class TasksNavigationItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return Auth::user()->can('list', Task::class);
+        return Auth::user()->can('viewAny', Task::class);
     }
 
     public function getBadge()

@@ -24,7 +24,7 @@ class LibraryBookIndexContextButtons implements ContextButtons
                 'url' => route('library.report'),
                 'caption' => __('app.report'),
                 'icon' => 'chart-pie',
-                'authorized' => Auth::user()->can('list', LibraryBook::class),
+                'authorized' => Auth::user()->can('viewAny', LibraryBook::class),
             ],
             'export' => [
                 'url' => route('library.export'),

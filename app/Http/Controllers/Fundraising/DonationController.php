@@ -23,7 +23,7 @@ class DonationController extends Controller
      */
     public function index()
     {
-        $this->authorize('list', Donation::class);
+        $this->authorize('viewAny', Donation::class);
 
         return view('fundraising.donations.index', [ ]);
     }
@@ -190,7 +190,7 @@ class DonationController extends Controller
      */
     public function export()
     {
-        $this->authorize('list', Donation::class);
+        $this->authorize('viewAny', Donation::class);
 
         $file_name = config('app.name') . ' - ' .__('fundraising.donations') . ' (' . Carbon::now()->toDateString() . ')';
         $extension = 'xlsx';
@@ -206,7 +206,7 @@ class DonationController extends Controller
      */
     public function exportDonor(Donor $donor)
     {
-        $this->authorize('list', Donation::class);
+        $this->authorize('viewAny', Donation::class);
 
         $file_name = config('app.name') . ' - ' .__('fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
         $extension = 'xlsx';

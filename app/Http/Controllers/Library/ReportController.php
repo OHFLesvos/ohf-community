@@ -12,7 +12,7 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $this->authorize('list', LibraryBook::class);
+        $this->authorize('viewAny', LibraryBook::class);
 
         return view('library.report', [
             'borrwer_count' => Person::query()

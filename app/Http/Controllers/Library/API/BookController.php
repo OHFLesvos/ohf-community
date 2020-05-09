@@ -14,7 +14,7 @@ class BookController extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('list', LibraryBook::class);
+        $this->authorize('viewAny', LibraryBook::class);
 
         $request->validate([
             'filter' => [
@@ -114,7 +114,7 @@ class BookController extends Controller
      */
     public function filter(Request $request)
     {
-        $this->authorize('list', LibraryBook::class);
+        $this->authorize('viewAny', LibraryBook::class);
 
         $filterQuery = $request->query('query');
         $availableOnly = $request->query('available') != null;

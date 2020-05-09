@@ -16,7 +16,7 @@ class UserPermissionsContextButtons implements ContextButtons
                 'url' => url()->previous(),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', User::class),
+                'authorized' => Auth::user()->can('viewAny', User::class),
             ],
         ];
     }

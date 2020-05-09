@@ -16,7 +16,7 @@ class PeopleDuplicatesContextButtons implements ContextButtons
                 'url' => route('people.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Person::class),
+                'authorized' => Auth::user()->can('viewAny', Person::class),
             ],
         ];
     }

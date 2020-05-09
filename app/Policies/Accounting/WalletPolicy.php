@@ -17,11 +17,6 @@ class WalletPolicy
         }
     }
 
-    public function list(User $user)
-    {
-        return $this->viewAny($user);
-    }
-
     /**
      * Determine whether the user can view any models.
      *

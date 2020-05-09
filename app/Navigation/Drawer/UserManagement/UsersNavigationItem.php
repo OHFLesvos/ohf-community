@@ -19,6 +19,6 @@ class UsersNavigationItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return Auth::user()->can('list', User::class) || Auth::user()->can('list', Role::class);
+        return Auth::user()->can('viewAny', User::class) || Auth::user()->can('viewAny', Role::class);
     }
 }

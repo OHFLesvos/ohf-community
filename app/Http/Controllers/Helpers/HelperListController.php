@@ -12,7 +12,7 @@ class HelperListController extends BaseHelperController
 {
     public function index(Request $request)
     {
-        $this->authorize('list', Helper::class);
+        $this->authorize('viewAny', Helper::class);
 
         // Fields
         $fields = collect($this->getFields())

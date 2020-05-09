@@ -28,7 +28,7 @@ class MoneyTransactionsController extends Controller
      */
     public function index(Request $request, CurrentWalletService $currentWallet)
     {
-        $this->authorize('list', MoneyTransaction::class);
+        $this->authorize('viewAny', MoneyTransaction::class);
 
         $request->validate([
             'date_start' => [
@@ -332,7 +332,7 @@ class MoneyTransactionsController extends Controller
 
     protected function exportAuthorize()
     {
-        $this->authorize('list', MoneyTransaction::class);
+        $this->authorize('viewAny', MoneyTransaction::class);
     }
 
     protected function exportView(): string

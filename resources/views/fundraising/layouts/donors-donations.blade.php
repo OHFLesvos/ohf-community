@@ -5,14 +5,14 @@
             'label' => __('fundraising.donors'),
             'icon' => 'handshake',
             'active' => fn ($currentRouteName) => $currentRouteName == 'fundraising.donors.index',
-            'authorized' => Auth::user()->can('list', \App\Models\Fundraising\Donor::class)
+            'authorized' => Auth::user()->can('viewAny', \App\Models\Fundraising\Donor::class)
         ],
         [
             'url' => route('fundraising.donations.index'),
             'label' => __('fundraising.donations'),
             'icon' => 'money-bill-alt',
             'active' => fn ($currentRouteName) => $currentRouteName == 'fundraising.donations.index',
-            'authorized' => Auth::user()->can('list', \App\Models\Fundraising\Donation::class)
+            'authorized' => Auth::user()->can('viewAny', \App\Models\Fundraising\Donation::class)
         ]
     ]
 ])

@@ -16,7 +16,7 @@ class TransactionSummaryContextButtons implements ContextButtons
                 'url' => route('accounting.transactions.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', MoneyTransaction::class),
+                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
             ],
         ];
     }

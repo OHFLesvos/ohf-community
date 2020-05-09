@@ -23,7 +23,7 @@ class IndexContextButtons implements ContextButtons
                 'url' => route('kb.latestChanges'),
                 'caption' => __('app.latest_changes'),
                 'icon' => 'history',
-                'authorized' => Auth::user()->can('list', WikiArticle::class),
+                'authorized' => Auth::user()->can('viewAny', WikiArticle::class),
             ],
         ];
     }

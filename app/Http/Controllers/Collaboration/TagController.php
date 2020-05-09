@@ -12,7 +12,7 @@ class TagController extends Controller
 {
     public function tags()
     {
-        $this->authorize('list', Tag::class);
+        $this->authorize('viewAny', Tag::class);
 
         return view('collaboration.kb.tags', [
             'tags' => Tag::has('wikiArticles')

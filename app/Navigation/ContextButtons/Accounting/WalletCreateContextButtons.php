@@ -16,7 +16,7 @@ class WalletCreateContextButtons implements ContextButtons
                 'url' => route('accounting.wallets.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Wallet::class),
+                'authorized' => Auth::user()->can('viewAny', Wallet::class),
             ],
         ];
     }

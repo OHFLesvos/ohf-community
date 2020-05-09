@@ -10,7 +10,7 @@ class UsersWidget implements Widget
 {
     public function authorize(): bool
     {
-        return Auth::user()->can('list', User::class);
+        return Auth::user()->can('viewAny', User::class);
     }
 
     public function view(): string

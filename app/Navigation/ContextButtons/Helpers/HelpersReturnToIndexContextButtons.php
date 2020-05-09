@@ -16,7 +16,7 @@ class HelpersReturnToIndexContextButtons implements ContextButtons
                 'url' => route('people.helpers.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Helper::class),
+                'authorized' => Auth::user()->can('viewAny', Helper::class),
             ],
         ];
     }

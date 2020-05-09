@@ -49,7 +49,7 @@ class ArticleShowContextButtons implements ContextButtons
                 'url' => $back_url,
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user() != null && Auth::user()->can('list', WikiArticle::class),
+                'authorized' => Auth::user() != null && Auth::user()->can('viewAny', WikiArticle::class),
             ],
         ];
     }

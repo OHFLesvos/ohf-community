@@ -16,7 +16,7 @@ class LatestChangesContextButtons implements ContextButtons
                 'url' => route('kb.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', WikiArticle::class),
+                'authorized' => Auth::user()->can('viewAny', WikiArticle::class),
             ],
         ];
     }

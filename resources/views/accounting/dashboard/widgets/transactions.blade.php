@@ -10,7 +10,7 @@
             'url' => route('accounting.transactions.index'),
             'title' => __('app.overview'),
             'icon' => 'list',
-            'authorized' =>  Auth::user()->can('list', App\Models\Accounting\MoneyTransaction::class),
+            'authorized' =>  Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class),
         ] : null,
     ];
 @endphp

@@ -40,7 +40,7 @@ class LendingController extends Controller
 
     public function persons(Request $request)
     {
-        $this->authorize('list', Person::class);
+        $this->authorize('viewAny', Person::class);
 
         $pageSize = $request->input('pageSize', 25);
 
@@ -57,7 +57,7 @@ class LendingController extends Controller
 
     public function books(Request $request)
     {
-        $this->authorize('list', LibraryBook::class);
+        $this->authorize('viewAny', LibraryBook::class);
 
         $pageSize = $request->input('pageSize', 25);
 
@@ -81,7 +81,7 @@ class LendingController extends Controller
     public function person(Person $person, Request $request)
     {
         $this->authorize('view', $person);
-        $this->authorize('list', LibraryBook::class);
+        $this->authorize('viewAny', LibraryBook::class);
 
         $lendings = $person->bookLendings()
             ->with('book')
@@ -183,7 +183,7 @@ class LendingController extends Controller
 
     public function personLog(Person $person, Request $request)
     {
-        $this->authorize('list', Person::class);
+        $this->authorize('viewAny', Person::class);
 
         $pageSize = $request->input('pageSize', 25);
 
@@ -204,7 +204,7 @@ class LendingController extends Controller
     public function book(LibraryBook $book)
     {
         $this->authorize('view', $book);
-        $this->authorize('list', LibraryBook::class);
+        $this->authorize('viewAny', LibraryBook::class);
 
         $lending = $book->lendings()
             ->with('person')

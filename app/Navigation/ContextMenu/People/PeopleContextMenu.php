@@ -33,7 +33,7 @@ class PeopleContextMenu implements ContextMenu
                 'url' => route('people.bulkSearch'),
                 'caption' => __('app.bulk_search'),
                 'icon' => 'search',
-                'authorized' => Auth::user()->can('list', Person::class),
+                'authorized' => Auth::user()->can('viewAny', Person::class),
             ],
         ];
     }

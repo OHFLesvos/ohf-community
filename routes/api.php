@@ -184,12 +184,12 @@ Route::middleware(['auth', 'language'])
         // Get list of people
         Route::get('', 'PeopleController@index')
             ->name('index')
-            ->middleware('can:list,App\Models\People\Person');
+            ->middleware('can:viewAny,App\Models\People\Person');
 
         // Filter persons
         Route::get('filterPersons', 'PeopleController@filterPersons')
             ->name('filterPersons')
-            ->middleware('can:list,App\Models\People\Person');
+            ->middleware('can:viewAny,App\Models\People\Person');
 
         // Store new person
         Route::post('', 'PeopleController@store')
@@ -274,7 +274,7 @@ Route::middleware(['auth', 'language'])
                     ->name('dailyStats');
                 Route::get('withdrawal/transactions', 'WithdrawalController@transactions')
                     ->name('transactions')
-                    ->middleware('can:list,App\Models\People\Person');
+                    ->middleware('can:viewAny,App\Models\People\Person');
                 Route::get('withdrawal/search', 'WithdrawalController@search')
                     ->name('search');
                 Route::get('withdrawal/persons/{person}', 'WithdrawalController@person')
@@ -326,15 +326,15 @@ Route::middleware(['auth', 'language'])
         // Age distribution
         Route::get('ageDistribution', 'HelperReportController@ageDistribution')
             ->name('ageDistribution')
-            ->middleware('can:list,App\Models\Helpers\Helper');
+            ->middleware('can:viewAny,App\Models\Helpers\Helper');
         // Nationality distribution
         Route::get('nationalityDistribution', 'HelperReportController@nationalityDistribution')
             ->name('nationalityDistribution')
-            ->middleware('can:list,App\Models\Helpers\Helper');
+            ->middleware('can:viewAny,App\Models\Helpers\Helper');
         // Gender distribution
         Route::get('genderDistribution', 'HelperReportController@genderDistribution')
             ->name('genderDistribution')
-            ->middleware('can:list,App\Models\Helpers\Helper');
+            ->middleware('can:viewAny,App\Models\Helpers\Helper');
     });
 
 Route::middleware(['auth', 'language'])

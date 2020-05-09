@@ -16,7 +16,7 @@ class RoleCreateContextButtons implements ContextButtons
                 'url' => route('roles.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Role::class),
+                'authorized' => Auth::user()->can('viewAny', Role::class),
             ],
         ];
     }

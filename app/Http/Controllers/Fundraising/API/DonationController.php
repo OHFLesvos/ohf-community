@@ -24,7 +24,7 @@ class DonationController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('list', Donation::class);
+        $this->authorize('viewAny', Donation::class);
 
         $request->validate([
             'filter' => [

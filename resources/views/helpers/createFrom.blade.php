@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @can('list', App\Models\People\Person::class)
+    @can('viewAny', App\Models\People\Person::class)
         <div id="helper-app">
             {!! Form::open(['route' => ['people.helpers.storeFrom']]) !!}
                 <person-search

@@ -18,7 +18,7 @@ class UserRoleRelationshipController extends Controller
     public function index(User $user)
     {
         $this->authorize('view', $user);
-        $this->authorize('list', Role::class);
+        $this->authorize('viewAny', Role::class);
 
         return [
             'data' => [

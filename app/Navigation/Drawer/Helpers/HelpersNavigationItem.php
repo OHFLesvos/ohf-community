@@ -18,6 +18,6 @@ class HelpersNavigationItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return Auth::user()->can('list', Helper::class);
+        return Auth::user()->can('viewAny', Helper::class);
     }
 }

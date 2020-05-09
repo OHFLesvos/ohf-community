@@ -21,7 +21,7 @@ class DonorController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('viewAny', Donor::class);
 
         $request->validate([
             'filter' => [
@@ -175,7 +175,7 @@ class DonorController extends Controller
      */
     public function emails(Request $request)
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('viewAny', Donor::class);
 
         $request->validate([
             'format' => [

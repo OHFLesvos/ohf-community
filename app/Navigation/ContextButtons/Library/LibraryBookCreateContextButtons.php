@@ -16,7 +16,7 @@ class LibraryBookCreateContextButtons implements ContextButtons
                 'url' => route('library.books.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', LibraryBook::class),
+                'authorized' => Auth::user()->can('viewAny', LibraryBook::class),
             ],
         ];
     }

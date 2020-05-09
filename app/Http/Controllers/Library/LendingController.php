@@ -10,7 +10,7 @@ class LendingController extends Controller
 {
     public function person(Person $person)
     {
-        $this->authorize('list', Person::class);
+        $this->authorize('viewAny', Person::class);
 
         return view('library.lending.person', [
             'person' => $person,

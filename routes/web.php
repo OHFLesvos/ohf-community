@@ -221,7 +221,7 @@ Route::middleware(['language', 'auth'])
 
         Route::view('tasks', 'collaboration.tasklist')
             ->name('tasks')
-            ->middleware('can:list,App\Models\Collaboration\Task');
+            ->middleware('can:viewAny,App\Models\Collaboration\Task');
     });
 
 Route::middleware(['language'])
@@ -262,10 +262,10 @@ Route::middleware(['auth', 'language'])
         // People
         Route::get('/people/bulkSearch', 'PeopleController@bulkSearch')
             ->name('people.bulkSearch')
-            ->middleware('can:list,App\Models\People\Person');
+            ->middleware('can:viewAny,App\Models\People\Person');
         Route::post('/people/bulkSearch', 'PeopleController@doBulkSearch')
             ->name('people.doBulkSearch')
-            ->middleware('can:list,App\Models\People\Person');
+            ->middleware('can:viewAny,App\Models\People\Person');
         Route::get('/people/export', 'PeopleController@export')
             ->name('people.export')
             ->middleware('can:export,App\Models\People\Person');
@@ -323,7 +323,7 @@ Route::middleware(['auth', 'language'])
 
                         Route::view('withdrawal/transactions', 'bank.withdrawal.transactions')
                             ->name('withdrawal.transactions')
-                            ->middleware('can:list,App\Models\People\Person');
+                            ->middleware('can:viewAny,App\Models\People\Person');
 
                         Route::get('codeCard', 'CodeCardController@create')
                             ->name('prepareCodeCard');
@@ -387,7 +387,7 @@ Route::middleware(['auth', 'language'])
                 // Report view
                 Route::view('helpers/report', 'helpers.report')
                     ->name('helpers.report')
-                    ->middleware('can:list,App\Models\Helpers\Helper');
+                    ->middleware('can:viewAny,App\Models\Helpers\Helper');
 
                 // Export view
                 Route::get('helpers/export', 'HelperExportImportController@export')
@@ -462,7 +462,7 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
 
         // Books
         Route::view('books', 'library.books.index')
-            ->middleware('can:list,App\Models\Library\LibraryBook')
+            ->middleware('can:viewAny,App\Models\Library\LibraryBook')
             ->name('books.index');
         Route::view('books/create', 'library.books.create')
             ->middleware('can:create,App\Models\Library\LibraryBook')

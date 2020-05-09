@@ -25,7 +25,7 @@ class BadgeMakerController extends Controller
             [
                 'key' => 'helpers',
                 'label' => __('helpers.helpers'),
-                'allowed' => Auth::user()->can('list', Helper::class),
+                'allowed' => Auth::user()->can('viewAny', Helper::class),
             ],
             [
                 'key' => 'file',

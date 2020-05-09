@@ -11,7 +11,7 @@ class AccountingNavigationItem extends BaseNavigationItem
 {
     public function getRoute(): string
     {
-        return ! Auth::user()->can('list', MoneyTransaction::class) && Gate::allows('view-accounting-summary')
+        return ! Auth::user()->can('viewAny', MoneyTransaction::class) && Gate::allows('view-accounting-summary')
             ? route('accounting.transactions.summary')
             : route('accounting.transactions.index');
     }
@@ -24,6 +24,6 @@ class AccountingNavigationItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return Auth::user()->can('list', MoneyTransaction::class) || Gate::allows('view-accounting-summary');
+        return Auth::user()->can('viewAny', MoneyTransaction::class) || Gate::allows('view-accounting-summary');
     }
 }

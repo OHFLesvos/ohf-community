@@ -127,7 +127,7 @@ class UserController extends Controller
     public function roles(User $user)
     {
         $this->authorize('view', $user);
-        $this->authorize('list', Role::class);
+        $this->authorize('viewAny', Role::class);
 
         return new RoleCollection($user->roles()
             ->orderBy('name', 'asc')

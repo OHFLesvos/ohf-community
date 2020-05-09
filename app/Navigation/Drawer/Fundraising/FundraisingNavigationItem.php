@@ -18,6 +18,6 @@ class FundraisingNavigationItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return Auth::user()->can('list', Donor::class);
+        return Auth::user()->can('viewAny', Donor::class);
     }
 }

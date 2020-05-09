@@ -24,7 +24,7 @@ class ResponsibilitiesIndexContextButtons implements ContextButtons
                 'url' => route('people.helpers.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', Helper::class),
+                'authorized' => Auth::user()->can('viewAny', Helper::class),
             ],
         ];
     }

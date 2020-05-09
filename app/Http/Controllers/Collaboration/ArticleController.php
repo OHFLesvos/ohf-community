@@ -13,7 +13,7 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('list', WikiArticle::class);
+        $this->authorize('viewAny', WikiArticle::class);
 
         $request->validate([
             'order' => [

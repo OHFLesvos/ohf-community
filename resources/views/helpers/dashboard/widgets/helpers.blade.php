@@ -4,7 +4,7 @@
             'url' => route('people.helpers.index'),
             'title' =>  Auth::user()->can('manage-helpers') ? __('app.manage') : __('app.view'),
             'icon' => Auth::user()->can('manage-helpers') ? 'edit' : 'search',
-            'authorized' => Auth::user()->can('list', App\Models\Helpers\Helper::class),
+            'authorized' => Auth::user()->can('viewAny', App\Models\Helpers\Helper::class),
         ],
     ];
 @endphp

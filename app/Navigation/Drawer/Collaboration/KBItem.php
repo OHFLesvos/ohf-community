@@ -18,6 +18,6 @@ class KBItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return Auth::user()->can('list', WikiArticle::class);
+        return Auth::user()->can('viewAny', WikiArticle::class);
     }
 }

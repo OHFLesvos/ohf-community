@@ -21,7 +21,7 @@ class DonorController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('viewAny', Donor::class);
 
         $request->validate([
             'tag' => [
@@ -183,7 +183,7 @@ class DonorController extends Controller
      */
     public function export()
     {
-        $this->authorize('list', Donor::class);
+        $this->authorize('viewAny', Donor::class);
 
         $file_name = config('app.name') . ' - ' . __('fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')';
         $extension = 'xlsx';

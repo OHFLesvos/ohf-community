@@ -17,7 +17,7 @@ class ArticleCreateContextButtons implements ContextButtons
                 'url' => route($previous_route == 'kb.articles.index' ? 'kb.articles.index' : 'kb.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('list', WikiArticle::class),
+                'authorized' => Auth::user()->can('viewAny', WikiArticle::class),
             ],
         ];
     }

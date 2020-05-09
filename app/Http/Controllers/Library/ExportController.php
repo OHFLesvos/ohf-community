@@ -17,8 +17,8 @@ class ExportController extends Controller
     protected function exportAuthorize()
     {
         $this->authorize('operate-library');
-        // $this->authorize('list', LibraryBook::class);
-        // $this->authorize('list', Person::class);
+        // $this->authorize('viewAny', LibraryBook::class);
+        // $this->authorize('viewAny', Person::class);
     }
 
     protected function exportView(): string

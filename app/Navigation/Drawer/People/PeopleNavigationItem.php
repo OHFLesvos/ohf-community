@@ -18,6 +18,6 @@ class PeopleNavigationItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return Auth::user()->can('list', Person::class);
+        return Auth::user()->can('viewAny', Person::class);
     }
 }

@@ -38,11 +38,11 @@
                             @foreach($revenueByCategory as $v)
                                 <tr>
                                     <td>
-                                        @can('list', App\Models\Accounting\MoneyTransaction::class)
+                                        @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
                                             <a href="{{ route('accounting.transactions.index') }}?filter[category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                         @endcan
                                             {{ $v['name'] }}
-                                        @can('list', App\Models\Accounting\MoneyTransaction::class)
+                                        @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
                                             </a>
                                         @endcan
                                     </td>
@@ -68,11 +68,11 @@
                                 <tr>
                                     <td>
                                         @isset($v['name'])
-                                            @can('list', App\Models\Accounting\MoneyTransaction::class)
+                                            @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
                                                 <a href="{{ route('accounting.transactions.index') }}?filter[project]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                             @endcan
                                                 {{ $v['name'] }}
-                                            @can('list', App\Models\Accounting\MoneyTransaction::class)
+                                            @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
                                                 </a>
                                             @endcan
                                         @else

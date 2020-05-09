@@ -5,14 +5,14 @@
             'label' => __('app.users'),
             'icon' => 'users',
             'active' => fn ($currentRouteName) => $currentRouteName == 'users.index',
-            'authorized' => Auth::user()->can('list', \App\User::class)
+            'authorized' => Auth::user()->can('viewAny', \App\User::class)
         ],
         [
             'url' => route('roles.index'),
             'label' => __('app.roles'),
             'icon' => 'tags',
             'active' => fn ($currentRouteName) => $currentRouteName == 'roles.index',
-            'authorized' => Auth::user()->can('list', \App\Role::class)
+            'authorized' => Auth::user()->can('viewAny', \App\Role::class)
         ]
     ]
 ])

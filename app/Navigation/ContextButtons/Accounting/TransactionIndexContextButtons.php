@@ -30,7 +30,7 @@ class TransactionIndexContextButtons implements ContextButtons
                 'url' => route('accounting.transactions.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('list', MoneyTransaction::class),
+                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
             ],
         ];
     }

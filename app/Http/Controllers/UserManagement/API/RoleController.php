@@ -116,7 +116,7 @@ class RoleController extends Controller
     public function users(Role $role)
     {
         $this->authorize('view', $role);
-        $this->authorize('list', User::class);
+        $this->authorize('viewAny', User::class);
 
         return new UserCollection($role->users()
             ->orderBy('name', 'asc')
@@ -131,7 +131,7 @@ class RoleController extends Controller
     public function administrators(Role $role)
     {
         $this->authorize('view', $role);
-        $this->authorize('list', User::class);
+        $this->authorize('viewAny', User::class);
 
         return new UserCollection($role->administrators()
             ->orderBy('name', 'asc')

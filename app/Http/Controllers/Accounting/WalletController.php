@@ -111,7 +111,7 @@ class WalletController extends Controller
      */
     public function change(CurrentWalletService $currentWallet)
     {
-        $this->authorize('list', MoneyTransaction::class);
+        $this->authorize('viewAny', MoneyTransaction::class);
 
         return view('accounting.wallets.change', [
             'wallets' => Wallet::orderBy('name')
@@ -129,7 +129,7 @@ class WalletController extends Controller
      */
     public function doChange(Wallet $wallet, CurrentWalletService $currentWallet)
     {
-        $this->authorize('list', MoneyTransaction::class);
+        $this->authorize('viewAny', MoneyTransaction::class);
 
         $change = $currentWallet->get()->id != $wallet->id;
 

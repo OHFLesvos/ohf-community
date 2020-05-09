@@ -17,7 +17,7 @@ class HelpersContextMenu implements ContextMenu
                 'url' => route('badges.index', ['source' => 'helpers']),
                 'caption' => __('badges.badges'),
                 'icon' => 'id-card',
-                'authorized' => Auth::user()->can('list', Helper::class) && Gate::allows('create-badges'),
+                'authorized' => Auth::user()->can('viewAny', Helper::class) && Gate::allows('create-badges'),
             ],
             'import' => [
                 'url' => route('people.helpers.import'),
@@ -29,7 +29,7 @@ class HelpersContextMenu implements ContextMenu
                 'url' => route('people.helpers.responsibilities.index'),
                 'caption' => __('responsibilities.responsibilities'),
                 'icon' => 'tasks',
-                'authorized' => Auth::user()->can('list', Responsibility::class),
+                'authorized' => Auth::user()->can('viewAny', Responsibility::class),
             ],
         ];
     }

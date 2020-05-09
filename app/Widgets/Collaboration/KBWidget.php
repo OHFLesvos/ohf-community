@@ -10,7 +10,7 @@ class KBWidget implements Widget
 {
     public function authorize(): bool
     {
-        return Auth::user()->can('list', WikiArticle::class);
+        return Auth::user()->can('viewAny', WikiArticle::class);
     }
 
     public function view(): string

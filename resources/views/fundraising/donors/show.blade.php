@@ -170,7 +170,7 @@
                 @endcan
 
                 {{--  Individual donations  --}}
-                @can('list', App\Models\Fundraising\Donation::class)
+                @can('viewAny', App\Models\Fundraising\Donation::class)
                     @if(! $donations->isEmpty())
                         <div class="table-responsive">
                             <table class="table table-sm table-hover mt-2">

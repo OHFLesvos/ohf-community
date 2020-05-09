@@ -50,7 +50,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             __('app.tags'),
             __('app.comments'),
         ];
-        if (Auth::user()->can('list', Donation::class)) {
+        if (Auth::user()->can('viewAny', Donation::class)) {
             $headings[] = __('fundraising.donations') . ' ' . Carbon::now()->subYear()->year;
             $headings[] = __('fundraising.donations') . ' ' . Carbon::now()->year;
             foreach (config('fundraising.currencies') as $currency) {
@@ -81,7 +81,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             $donor->tags->sortBy('name')->pluck('name')->implode(', '),
             $donor->comments->sortBy('created_at')->pluck('content')->implode('; '),
         ];
-        if (Auth::user()->can('list', Donation::class)) {
+        if (Auth::user()->can('viewAny', Donation::class)) {
             $map[] = $donor->amountPerYear(Carbon::now()->subYear()->year) ?? 0;
             $map[] = $donor->amountPerYear(Carbon::now()->year) ?? 0;
 
@@ -99,7 +99,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     public function columnFormats(): array
     {
         $formats = [];
-        if (Auth::user()->can('list', Donation::class)) {
+        if (Auth::user()->can('viewAny', Donation::class)) {
             $formats['O'] = config('fundraising.base_currency_excel_format');
             $formats['P'] = config('fundraising.base_currency_excel_format');
             $i = Coordinate::columnIndexFromString('P');
