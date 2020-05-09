@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         \App\Widgets\Collaboration\KBWidget::class        => 6,
         \App\Widgets\People\PersonsWidget::class          => 1,
         \App\Widgets\Bank\BankWidget::class               => 0,
-        // \App\Widgets\Helpers\HelpersWidget::class         => 5, // temp disable
+        \App\Widgets\Helpers\HelpersWidget::class         => 5,
         \App\Widgets\Library\LibraryWidget::class         => 4,
         \App\Widgets\Shop\ShopWidget::class               => 2,
     ];
