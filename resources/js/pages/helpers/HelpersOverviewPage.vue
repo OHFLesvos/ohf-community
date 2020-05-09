@@ -7,7 +7,7 @@
             default-sort-by="name"
             :empty-text="$t('people.no_helpers_found')"
             :filter-placeholder="$t('app.search')"
-            :items-per-page="15"
+            :items-per-page="50"
         >
             <template v-slot:cell(name)="data">
                 <template v-if="data.item.url != null">
