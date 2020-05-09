@@ -14,21 +14,23 @@ class RemoveUnusedFieldsFromHelpersTable extends Migration
     public function up()
     {
         Schema::table('helpers', function (Blueprint $table) {
-			$table->dropColumn('work_feedback_wishes');
-            $table->dropColumn('casework_first_interview_date');
-            $table->dropColumn('casework_second_interview_date');
-            $table->dropColumn('casework_first_decision_date');
-            $table->dropColumn('casework_appeal_date');
-            $table->dropColumn('casework_second_decision_date');
-            $table->dropColumn('casework_vulnerability_assessment_date');
-            $table->dropColumn('casework_card_expiry_date');
-            $table->dropColumn('casework_lawyer_name');
-            $table->dropColumn('casework_lawyer_phone');
-            $table->dropColumn('casework_lawyer_email');
-            $table->dropColumn('shirt_size');
-            $table->dropColumn('shoe_size');
-            $table->dropColumn('urgent_needs');
-            $table->dropColumn('work_needs');
+			$table->dropColumn([
+                'work_feedback_wishes',
+                'casework_first_interview_date',
+                'casework_second_interview_date',
+                'casework_first_decision_date',
+                'casework_appeal_date',
+                'casework_second_decision_date',
+                'casework_vulnerability_assessment_date',
+                'casework_card_expiry_date',
+                'casework_lawyer_name',
+                'casework_lawyer_phone',
+                'casework_lawyer_email',
+                'shirt_size',
+                'shoe_size',
+                'urgent_needs',
+                'work_needs',
+            ]);
         });
     }
 

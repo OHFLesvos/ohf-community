@@ -14,8 +14,10 @@ class RemoveWorkApplicationDateRejectionDateFromHelpersTable extends Migration
     public function up()
     {
         Schema::table('helpers', function (Blueprint $table) {
-            $table->dropColumn('work_application_date');
-            $table->dropColumn('work_rejection_date');
+            $table->dropColumn([
+                'work_application_date',
+                'work_rejection_date',
+            ]);
         });
     }
 

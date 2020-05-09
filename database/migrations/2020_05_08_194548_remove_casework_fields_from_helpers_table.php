@@ -69,15 +69,17 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
         });
 
         Schema::table('helpers', function (Blueprint $table) {
-            $table->dropColumn('work_background');
-            $table->dropColumn('has_tax_number');
-            $table->dropColumn('endorses_casework');
-            $table->dropColumn('casework_case_number');
-            $table->dropColumn('casework_asylum_request_status');
-            $table->dropColumn('casework_has_geo_restriction');
-            $table->dropColumn('casework_has_id_card');
-            $table->dropColumn('casework_has_passport');
-            $table->dropColumn('casework_vulnerability');
+            $table->dropColumn([
+                'work_background',
+                'has_tax_number',
+                'endorses_casework',
+                'casework_case_number',
+                'casework_asylum_request_status',
+                'casework_has_geo_restriction',
+                'casework_has_id_card',
+                'casework_has_passport',
+                'casework_vulnerability',
+            ]);
         });
     }
 

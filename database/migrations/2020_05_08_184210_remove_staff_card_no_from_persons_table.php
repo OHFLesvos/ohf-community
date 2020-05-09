@@ -14,8 +14,10 @@ class RemoveStaffCardNoFromPersonsTable extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn('staff_card_issued');
-            $table->dropColumn('staff_card_no');
+            $table->dropColumn([
+                'staff_card_issued',
+                'staff_card_no',
+            ]);
         });
     }
 
