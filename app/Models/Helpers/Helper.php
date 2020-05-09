@@ -5,6 +5,7 @@ namespace App\Models\Helpers;
 use App\Models\People\Person;
 use Carbon\Carbon;
 use Iatstuti\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -129,5 +130,27 @@ class Helper extends Model implements Auditable
             ->get()
             ->pluck('pickup_location')
             ->toArray();
+    }
+
+    /**
+     * Scope a query to only include helpers matching the given filter
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter(Builder $query, string $filter)
+    {
+        return $query->where(fn (Builder $q) =>
+            $q->whereHas('person', fn (Builder $query) => $query->forFilter($filter))
+                ->orWhere('local_phone', 'LIKE', '%' . $filter . '%')
+                ->orWhere('other_phone', 'LIKE', '%' . $filter . '%')
+                ->orWhere('whatsapp', 'LIKE', '%' . $filter . '%')
+                ->orWhere('email', 'LIKE', '%' . $filter . '%')
+                ->orWhere('skype', 'LIKE', '%' . $filter . '%')
+                ->orWhere('residence', 'LIKE', '%' . $filter . '%')
+                ->orWhere('pickup_location', 'LIKE', '%' . $filter . '%')
+                ->orWhere('notes', 'LIKE', '%' . $filter . '%')
+        );
     }
 }

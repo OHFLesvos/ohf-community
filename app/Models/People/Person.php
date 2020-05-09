@@ -520,6 +520,7 @@ class Person extends Model
                 return $wq->where(DB::raw('CONCAT(name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere(DB::raw('CONCAT(family_name, \' \', name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere('name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('nickname', 'LIKE', '%' . $filter . '%')
                     ->orWhere('family_name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('date_of_birth', $filter)
                     ->orWhere('nationality', 'LIKE', '%' . $filter . '%')

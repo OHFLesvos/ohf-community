@@ -23,9 +23,10 @@ $factory->define(Person::class, function (Faker $faker) use ($countries) {
     return [
         'name' => $faker->firstName($gender),
         'family_name' => $faker->lastName,
+        'nickname' => $faker->optional(0.05)->firstName($gender),
         'police_no' => $faker->optional(0.6)->numberBetween(10000,99999),
         'nationality' => $nationality,
-        'languages' => $language,
+        'languages_string' => $language,
         'gender' => $gender != null ? ($gender == 'female' ? 'f' : 'm') : null,
         'date_of_birth' => $dob != null ? Carbon::instance($dob) : null,
         'remarks' => $faker->optional(0.05)->sentence,

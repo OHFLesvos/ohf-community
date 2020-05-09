@@ -11,6 +11,14 @@ $factory->define(Helper::class, function (Faker $faker) {
     return [
         'work_starting_date' => $start_date,
         'work_leaving_date' => $faker->optional()->dateTimeBetween($start_date, 'now'),
+        'local_phone' => $faker->optional(0.8)->phoneNumber,
+        'other_phone' => $faker->optional(0.2)->phoneNumber,
+        'whatsapp' => $faker->optional(0.8)->phoneNumber,
+        'email' => $faker->optional(0.1)->freeEmail,
+        'skype' => $faker->optional(0.1)->userName,
+        'residence' => $faker->optional(0.8)->city,
+        'pickup_location' => $faker->optional(0.6)->city,
+        'notes' => $faker->optional(0.1)->sentence,
     ];
 });
 

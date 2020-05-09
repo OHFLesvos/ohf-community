@@ -322,6 +322,7 @@ Route::middleware(['auth', 'language'])
     ->prefix('helpers')
     ->namespace('Helpers\API')
     ->group(function () {
+
         // Age distribution
         Route::get('ageDistribution', 'HelperReportController@ageDistribution')
             ->name('ageDistribution')
@@ -334,6 +335,14 @@ Route::middleware(['auth', 'language'])
         Route::get('genderDistribution', 'HelperReportController@genderDistribution')
             ->name('genderDistribution')
             ->middleware('can:list,App\Models\Helpers\Helper');
+    });
+
+Route::middleware(['auth', 'language'])
+    ->name('api.people.')
+    ->namespace('Helpers\API')
+    ->group(function () {
+        Route::apiResource('helpers', 'HelperController')
+            ->only('index', 'show');
     });
 
 //
