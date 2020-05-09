@@ -78,9 +78,11 @@ class BookController extends Controller
         $this->authorize('view', $book);
 
         return (new LibraryBookResource($book))
-            ->additional(['meta' => [
-                'can_delete' => $request->user()->can('delete', $book)
-            ]]);
+            ->additional([
+                'meta' => [
+                    'can_delete' => $request->user()->can('delete', $book)
+                ],
+            ]);
     }
 
     public function update(LibraryBook $book, UpdateBook $request)

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Accounting;
 
-use App\Http\Controllers\Accounting\AccountingSettingsController;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

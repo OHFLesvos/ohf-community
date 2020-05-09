@@ -110,7 +110,7 @@ class DonorController extends Controller
             'date' => [
                 'nullable',
                 'date',
-            ]
+            ],
         ]);
         $date = $request->input('date');
 
@@ -141,7 +141,7 @@ class DonorController extends Controller
             'date' => [
                 'nullable',
                 'date',
-            ]
+            ],
         ]);
         $date = $request->input('date');
 
@@ -161,7 +161,7 @@ class DonorController extends Controller
             'date' => [
                 'nullable',
                 'date',
-            ]
+            ],
         ]);
         $date = $request->input('date');
 
@@ -181,7 +181,7 @@ class DonorController extends Controller
             'format' => [
                 'nullable',
                 Rule::in(['json', 'string']),
-            ]
+            ],
         ]);
 
         $data = Donor::emails();

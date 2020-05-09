@@ -72,7 +72,7 @@ class WeblingApiController extends Controller
                         ->count(),
                     'date' => $date,
                 ];
-            });
+        });
     }
 
     /**

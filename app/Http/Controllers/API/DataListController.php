@@ -14,7 +14,7 @@ class DataListController extends Controller
                 'nullable',
                 'alpha',
                 'size:2',
-            ]
+            ],
         ]);
 
         return localized_country_names($request->input('locale'));
@@ -27,7 +27,7 @@ class DataListController extends Controller
                 'nullable',
                 'alpha',
                 'size:2',
-            ]
+            ],
         ]);
 
         return localized_language_names($request->input('locale'));

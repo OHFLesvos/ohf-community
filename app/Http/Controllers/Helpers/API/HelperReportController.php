@@ -36,7 +36,7 @@ class HelperReportController extends Controller
                 'nullable',
                 'integer',
                 'min:1',
-            ]
+            ],
         ]);
 
         $nationalities = Person::query()

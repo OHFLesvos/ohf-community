@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\People\API;
 
-use App;
 use App\Http\Controllers\Reporting\BaseReportingController;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Bank\CouponHandout;

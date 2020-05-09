@@ -17,17 +17,17 @@ class WithdrawalReportingController extends BaseReportingController
     *
     * @return \Illuminate\Http\Response
     */
-   public function withdrawals()
-   {
-       return CouponType::orderBy('order')
-               ->orderBy('name')
-               ->get()
-               ->map(fn ($coupon) => self::getCouponStatistics($coupon));
-   }
+    public function withdrawals()
+    {
+        return CouponType::orderBy('order')
+            ->orderBy('name')
+            ->get()
+            ->map(fn ($coupon) => self::getCouponStatistics($coupon));
+    }
 
-   private static function getCouponStatistics($coupon)
-   {
-       return [
+    private static function getCouponStatistics($coupon)
+    {
+        return [
             'coupon' => $coupon,
             'avg_sum' => self::getAvgTransactionSumPerDay($coupon),
             'highest_sum' => self::getHighestSumPerDay($coupon),
@@ -47,37 +47,37 @@ class WithdrawalReportingController extends BaseReportingController
                 Carbon::today()->startOfDay(),
                 Carbon::today()->endOfDay()),
        ];
-   }
+    }
 
-   private static function getAvgTransactionSumPerDay(CouponType $coupon)
-   {
-       $sub = CouponHandout::selectRaw('sum(amount) as sum')
-           ->where('coupon_type_id', $coupon->id)
-           ->groupBy('date');
-       $result = DB::table(DB::raw("({$sub->toSql()}) as sub"))
-           ->selectRaw('round(avg(sum), 1) as avg')
-           ->mergeBindings($sub->getQuery())
-           ->first();
-       return $result != null ? $result->avg : null;
-   }
+    private static function getAvgTransactionSumPerDay(CouponType $coupon)
+    {
+        $sub = CouponHandout::selectRaw('sum(amount) as sum')
+            ->where('coupon_type_id', $coupon->id)
+            ->groupBy('date');
+        $result = DB::table(DB::raw("({$sub->toSql()}) as sub"))
+            ->selectRaw('round(avg(sum), 1) as avg')
+            ->mergeBindings($sub->getQuery())
+            ->first();
+        return $result != null ? $result->avg : null;
+    }
 
-   private static function getHighestSumPerDay(CouponType $coupon)
-   {
-       return CouponHandout::selectRaw('sum(amount) as sum, date')
-           ->where('coupon_type_id', $coupon->id)
-           ->groupBy('date')
-           ->orderBy('sum', 'DESC')
-           ->limit(1)
-           ->first();
-   }
+    private static function getHighestSumPerDay(CouponType $coupon)
+    {
+        return CouponHandout::selectRaw('sum(amount) as sum, date')
+            ->where('coupon_type_id', $coupon->id)
+            ->groupBy('date')
+            ->orderBy('sum', 'DESC')
+            ->limit(1)
+            ->first();
+    }
 
-   private static function sumOfTransactions(CouponType $coupon, Carbon $from, Carbon $to)
-   {
-       $result = CouponHandout::whereDate('date', '>=', $from->toDateString())
-           ->whereDate('date', '<=', $to->toDateString())
-           ->where('coupon_type_id', $coupon->id)
-           ->selectRaw('sum(amount) as sum')
-           ->first();
+    private static function sumOfTransactions(CouponType $coupon, Carbon $from, Carbon $to)
+    {
+        $result = CouponHandout::whereDate('date', '>=', $from->toDateString())
+            ->whereDate('date', '<=', $to->toDateString())
+            ->where('coupon_type_id', $coupon->id)
+            ->selectRaw('sum(amount) as sum')
+            ->first();
 
         return $result != null ? $result->sum : null;
     }

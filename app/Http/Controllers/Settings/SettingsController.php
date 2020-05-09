@@ -63,7 +63,7 @@ class SettingsController extends Controller
         return view('settings.edit', [
             'sections' => self::getSections(),
             'fields' => $fields->mapWithKeys(fn (SettingsField $field, $key) => [
-                Str::slug($key) => self::mapSettingsField($field, $key)
+                Str::slug($key) => self::mapSettingsField($field, $key),
             ]),
         ]);
     }
@@ -108,10 +108,10 @@ class SettingsController extends Controller
         // Validate
         $request->validate(
             $fields->mapWithKeys(fn (SettingsField $field, $key) => [
-                Str::slug($key) => $field->formValidate(),
-            ])
-            ->filter()
-            ->toArray()
+                    Str::slug($key) => $field->formValidate(),
+                ])
+                ->filter()
+                ->toArray()
         );
 
         // Update

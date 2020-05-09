@@ -59,6 +59,11 @@ return [
         ForbiddenTraits::class,
         \SlevomatCodingStandard\Sniffs\Commenting\DocCommentSpacingSniff::class,
         \PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer::class,
+        \SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff::class,
+        \NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions::class,
+        \NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses::class,
+        \NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits::class,
+        \PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineEndingsSniff::class,
     ],
 
     'config' => [

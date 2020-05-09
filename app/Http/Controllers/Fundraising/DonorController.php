@@ -9,7 +9,6 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use JeroenDesloovere\VCard\VCard;
 
 class DonorController extends Controller

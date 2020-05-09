@@ -92,11 +92,13 @@ class LendingController extends Controller
         $default_extend_duration = Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE);
 
         return LibraryLendingResource::collection($lendings)
-            ->additional(['meta' => [
-                'can_lend' => $can_lend,
-                'can_register_book' => $request->user()->can('create', LibraryBook::class),
-                'default_extend_duration' => intval($default_extend_duration),
-            ]]);
+            ->additional([
+                'meta' => [
+                    'can_lend' => $can_lend,
+                    'can_register_book' => $request->user()->can('create', LibraryBook::class),
+                    'default_extend_duration' => intval($default_extend_duration),
+                ],
+            ]);
     }
 
     /**
@@ -218,9 +220,11 @@ class LendingController extends Controller
         $default_extend_duration = Setting::get('library.default_lending_duration_days', DefaultLendingDurationDays::DEFAULT_VALUE);
 
         return (new LibraryLendingResource($lending))
-            ->additional(['meta' => [
-                'default_extend_duration' => intval($default_extend_duration),
-            ]]);
+            ->additional([
+                'meta' => [
+                    'default_extend_duration' => intval($default_extend_duration),
+                ],
+            ]);
     }
 
     public function lendBook(LibraryBook $book, StoreLendBook $request)

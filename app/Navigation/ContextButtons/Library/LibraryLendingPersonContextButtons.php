@@ -2,7 +2,6 @@
 
 namespace App\Navigation\ContextButtons\Library;
 
-use App\Models\People\Person;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
