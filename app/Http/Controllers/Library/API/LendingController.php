@@ -10,8 +10,8 @@ use App\Http\Requests\Library\StoreLendBookToPerson;
 use App\Http\Requests\Library\StoreReturnBookFromPerson;
 use App\Http\Resources\Library\Borrower;
 use App\Http\Resources\Library\LentBook;
-use App\Models\Library\LibraryBook;
 use App\Http\Resources\Library\LibraryLending as LibraryLendingResource;
+use App\Models\Library\LibraryBook;
 use App\Models\Library\LibraryLending;
 use App\Models\People\Person;
 use App\Settings\Library\DefaultLendingDurationDays;
@@ -238,8 +238,8 @@ class LendingController extends Controller
         $lending->save();
 
         return response()->json([
-                'message' => __('library.book_lent'),
-            ]);
+            'message' => __('library.book_lent'),
+        ]);
     }
 
     public function extendBook(LibraryBook $book, StoreExtendBook $request)

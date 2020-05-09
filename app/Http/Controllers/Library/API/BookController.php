@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Library\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Library\UpdateBook;
+use App\Http\Resources\Library\LibraryBook as LibraryBookResource;
 use App\Models\Library\LibraryBook;
 use Illuminate\Http\Request;
-use Scriptotek\GoogleBooks\GoogleBooks;
-use App\Http\Resources\Library\LibraryBook as LibraryBookResource;
 use Illuminate\Validation\Rule;
+use Scriptotek\GoogleBooks\GoogleBooks;
 
 class BookController extends Controller
 {

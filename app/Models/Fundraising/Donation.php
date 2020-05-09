@@ -32,7 +32,7 @@ class Donation extends Model
      * Scope a query to only include donations from the given year, if specified.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  null|int $year
+     * @param  int|null $year
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForYear($query, ?int $year)
@@ -48,7 +48,7 @@ class Donation extends Model
      * If no filter is specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param null|string $filter
+     * @param string|null $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, ?string $filter = '')

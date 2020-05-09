@@ -2,11 +2,8 @@
 
 namespace App\Widgets\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Wallet;
-use App\Services\Accounting\CurrentWalletService;
 use App\Widgets\Widget;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 
 class TransactionsWidget implements Widget

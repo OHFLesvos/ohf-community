@@ -19,7 +19,7 @@ class PrivacyPolicy extends Controller
         $locale = App::getLocale();
         if ($locale != '') {
             $file_path = base_path() . '/resources/lang/' .  $locale . '/user-privacy-policy.md';
-            if (is_file(($file_path))) {
+            if (is_file($file_path)) {
                 $markdown = file_get_contents($file_path);
                 return MarkdownExtra::defaultTransform($markdown);
             }

@@ -24,7 +24,7 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
         $query = Person::query();
         if ($this->overdueOnly) {
             $query->whereHas('bookLendings', fn (Builder $query) => $query->overdue());
-        } else if ($this->activeOnly) {
+        } elseif ($this->activeOnly) {
             $query->whereHas('bookLendings', fn (Builder $query) => $query->active());
         } else {
             $query->has('bookLendings');
@@ -52,7 +52,7 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
         if ($this->overdueOnly) {
             $headings[] = __('library.books');
             $headings[] = __('library.lent_until');
-        } else if ($this->activeOnly) {
+        } elseif ($this->activeOnly) {
             $headings[] = __('library.books');
             $headings[] = __('library.lent_until');
             $headings[] = __('library.overdue');
@@ -79,7 +79,7 @@ class BorrowerExport extends BaseExport implements FromQuery, WithHeadings, With
             $mapping[] = $person->bookLendings()->overdue()->get()->pluck('book.title')->join(', ');
             $mapping[] = $person->bookLendings()->overdue()->orderBy('return_date', 'asc')->first()->return_date->toDateString();
 
-        } else if ($this->activeOnly) {
+        } elseif ($this->activeOnly) {
             $mapping[] = $person->bookLendings()->active()->count();
             $mapping[] = $person->bookLendings()->active()->get()->pluck('book.title')->join(', ');
             $mapping[] = $person->bookLendings()->active()->orderBy('return_date', 'asc')->first()->return_date->toDateString();

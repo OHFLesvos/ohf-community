@@ -79,7 +79,7 @@ class DonorController extends Controller
                 ->get()
                 ->$sortMethod('country_name')
                 ->paginate($pageSize);
-        } else if ($sortBy == 'language') {
+        } elseif ($sortBy == 'language') {
             $sortMethod = $sortDirection == 'desc' ? 'sortByDesc' : 'sortBy';
             $donors = Donor::query()
                 ->withAllTags($tags)

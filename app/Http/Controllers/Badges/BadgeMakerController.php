@@ -173,7 +173,7 @@ class BadgeMakerController extends Controller
         $badgeCreator = new BadgeCreator($persons);
         if ($request->hasFile('alt_logo')) {
             $badgeCreator->logo = $request->file('alt_logo');
-        } else if (Setting::has('badges.logo_file')) {
+        } elseif (Setting::has('badges.logo_file')) {
             $badgeCreator->logo = Storage::path(Setting::get('badges.logo_file'));
         }
         try {

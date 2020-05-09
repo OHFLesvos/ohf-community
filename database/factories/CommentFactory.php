@@ -19,7 +19,7 @@ $factory->afterMaking(Comment::class, function (Comment $comment, $faker) {
         if ($user !== null) {
             $comment->setUser($user);
         }
-    } else if ($rnd < 95) {
+    } elseif ($rnd < 95) {
         $comment->user_name = $faker->name;
     }
 });

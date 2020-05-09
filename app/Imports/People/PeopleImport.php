@@ -41,7 +41,7 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
         return new Person([
             'family_name' => $row['Family Name'],
             'name' => $row['Name'],
-            'date_of_birth' => !empty($row['Date of birth']) ? self::parseDate($row['Date of birth']) : null,
+            'date_of_birth' => ! empty($row['Date of birth']) ? self::parseDate($row['Date of birth']) : null,
             'gender' => $row['Gender'],
             'nationality' => $row['Nationality'],
             'police_no' => $row['Police Number'],

@@ -28,15 +28,13 @@ class ArticleFormat
         $content = preg_replace('/map:"(.+)"/', '<iframe style="width: 100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' . config('services.google.maps_api_key') . '&q=\1" allowfullscreen></iframe>', $content);
 
         // Link to other articles
-        $content = preg_replace_callback("/(\[\[([a-z0-9-]+)\]\])/", function ($matches) {
+        return preg_replace_callback("/(\[\[([a-z0-9-]+)\]\])/", function ($matches) {
             $article = WikiArticle::where('slug', $matches[2])->first();
             if ($article !== null) {
                 return '<a href="' . route('kb.articles.show', $article) . '">' . $article->title . '</a>';
             }
             return '<a href="' . route('kb.articles.create', ['title' => Str::title(str_replace('-', ' ', $matches[2])) ]) . '" class="text-danger">' . $matches[2] . '</a>';
         }, $content);
-
-        return $content;
     }
 
 }

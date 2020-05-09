@@ -57,7 +57,7 @@ trait LanguageCodeField
     /**
      * Gets an array of all languages assigned to donors, grouped and ordered by amount
      *
-     * @param null|string|\Carbon\Carbon $untilDate
+     * @param string|\Carbon\Carbon|null $untilDate
      * @return array
      */
     public static function languageDistribution($untilDate = null): array

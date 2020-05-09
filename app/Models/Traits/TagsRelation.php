@@ -30,7 +30,7 @@ trait TagsRelation
      * Sets thgs from the given JSON string which must have the form:
      * [{"value":"Tag 1"},{"value":"Tag 2"}]
      *
-     * @param null|string $json
+     * @param string|null $json
      * @return void
      */
     public function setTagsFromJson(?string $json = null)
@@ -70,7 +70,7 @@ trait TagsRelation
      * If no tags are specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param null|array<string> $tags list of tags (slug values)
+     * @param array<string>|null $tags list of tags (slug values)
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithAllTags($query, ?array $tags = [])
@@ -88,7 +88,7 @@ trait TagsRelation
      * If no tags are specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param null|array<string> $tags list of tags (slug values)
+     * @param array<string>|null $tags list of tags (slug values)
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithTags($query, ?array $tags = [])

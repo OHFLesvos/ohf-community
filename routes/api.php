@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use Illuminate\Support\Facades\Route;
@@ -81,7 +82,6 @@ Route::middleware(['auth', 'language'])
                                     ->name('destroy');
                             });
                     });
-
             });
     });
 

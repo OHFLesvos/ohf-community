@@ -10,7 +10,6 @@ use App\Http\Resources\RoleCollection;
 use App\Http\Resources\UserCollection;
 use App\Role;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class RoleController extends Controller
@@ -59,7 +58,7 @@ class RoleController extends Controller
             ->json([
                 'message' => __('app.role_added'),
             ], Response::HTTP_CREATED)
-            ->header('Location', route('api.roles.show', $role));;
+            ->header('Location', route('api.roles.show', $role));
     }
 
     /**

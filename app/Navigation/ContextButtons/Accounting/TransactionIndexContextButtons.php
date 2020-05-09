@@ -24,7 +24,7 @@ class TransactionIndexContextButtons implements ContextButtons
                 'url' => route('accounting.transactions.summary'),
                 'caption' => __('accounting.summary'),
                 'icon' => 'calculator',
-                'authorized' => Gate::allows('view-accounting-summary')
+                'authorized' => Gate::allows('view-accounting-summary'),
             ],
             'export' => [
                 'url' => route('accounting.transactions.export'),

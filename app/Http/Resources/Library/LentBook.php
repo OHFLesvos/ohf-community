@@ -27,7 +27,7 @@ class LentBook extends JsonResource
                     'public_id' => $lending->person->public_id,
                     'full_name' => $lending->person->fullName,
                 ] : null,
-            ]
+            ],
         ];
     }
 }

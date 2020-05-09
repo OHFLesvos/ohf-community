@@ -18,8 +18,8 @@ class LibraryLending extends JsonResource
     {
         return [
             'id' => $this->id,
-            'book' => $this->whenLoaded('book',fn () => new LibraryBookResource($this->book)),
-            'person' => $this->whenLoaded('person',fn () => new PersonResource($this->person)),
+            'book' => $this->whenLoaded('book', fn () => new LibraryBookResource($this->book)),
+            'person' => $this->whenLoaded('person', fn () => new PersonResource($this->person)),
             'lending_date' => $this->lending_date,
             'return_date' => $this->return_date,
             'returned_date' => $this->returned_date,

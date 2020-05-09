@@ -4,18 +4,17 @@ namespace App\Util\Bank;
 
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BankStatisticsProvider
 {
     /**
      * Date of the day for which the statistics are requested
-     *
-     * @var Carbon\Carbon
      */
-    private $date;
+    private Carbon $date;
 
-    public function __construct($date = null)
+    public function __construct(?Carbon $date = null)
     {
         $this->date = $date ?? today();
     }

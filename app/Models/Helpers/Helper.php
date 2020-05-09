@@ -148,17 +148,16 @@ class Helper extends Model implements Auditable
      */
     public function scopeForFilter(Builder $query, string $filter)
     {
-        return $query->where(fn (Builder $q) =>
-            $q->whereHas('person', fn (Builder $query) => $query->forFilter($filter))
-                ->orWhereHas('responsibilities', fn (Builder $query) => $query->forFilter($filter))
-                ->orWhere('local_phone', 'LIKE', '%' . $filter . '%')
-                ->orWhere('other_phone', 'LIKE', '%' . $filter . '%')
-                ->orWhere('whatsapp', 'LIKE', '%' . $filter . '%')
-                ->orWhere('email', 'LIKE', '%' . $filter . '%')
-                ->orWhere('skype', 'LIKE', '%' . $filter . '%')
-                ->orWhere('residence', 'LIKE', '%' . $filter . '%')
-                ->orWhere('pickup_location', 'LIKE', '%' . $filter . '%')
-                ->orWhere('notes', 'LIKE', '%' . $filter . '%')
+        return $query->where(fn (Builder $q) =>$q->whereHas('person', fn (Builder $query) => $query->forFilter($filter))
+            ->orWhereHas('responsibilities', fn (Builder $query) => $query->forFilter($filter))
+            ->orWhere('local_phone', 'LIKE', '%' . $filter . '%')
+            ->orWhere('other_phone', 'LIKE', '%' . $filter . '%')
+            ->orWhere('whatsapp', 'LIKE', '%' . $filter . '%')
+            ->orWhere('email', 'LIKE', '%' . $filter . '%')
+            ->orWhere('skype', 'LIKE', '%' . $filter . '%')
+            ->orWhere('residence', 'LIKE', '%' . $filter . '%')
+            ->orWhere('pickup_location', 'LIKE', '%' . $filter . '%')
+            ->orWhere('notes', 'LIKE', '%' . $filter . '%')
         );
     }
 }

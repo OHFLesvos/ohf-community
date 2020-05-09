@@ -38,7 +38,8 @@ class ChartResponseBuilder
 
     public function build()
     {
-        for ($i = 0; $i < count($this->datasets); $i++) {
+        $num_datasets = count($this->datasets);
+        for ($i = 0; $i < $num_datasets; $i++) {
             $this->datasets[$i]['data'] = $this->padData($this->datasets[$i]['data']);
         }
         return response()->json([

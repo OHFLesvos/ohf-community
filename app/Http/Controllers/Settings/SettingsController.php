@@ -108,10 +108,10 @@ class SettingsController extends Controller
         // Validate
         $request->validate(
             $fields->mapWithKeys(fn (SettingsField $field, $key) => [
-                    Str::slug($key) => $field->formValidate()
-                ])
-                ->filter()
-                ->toArray()
+                Str::slug($key) => $field->formValidate(),
+            ])
+            ->filter()
+            ->toArray()
         );
 
         // Update
@@ -151,7 +151,7 @@ class SettingsController extends Controller
         if ($request->hasFile($req_key)) {
             $value = $field->setter($request->file($req_key));
             Setting::set($key, $value->store($field->formFilePath()));
-        } else if ($request->has($req_key . '_delete')) {
+        } elseif ($request->has($req_key . '_delete')) {
             Setting::forget($key);
         }
     }

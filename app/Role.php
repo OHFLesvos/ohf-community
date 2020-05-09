@@ -59,7 +59,7 @@ class Role extends Model
      * Scope a query to only include records matching the filter.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  null|string  $filter
+     * @param  string|null  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFiltered($query, ?string $filter = '')

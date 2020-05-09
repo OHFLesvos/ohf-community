@@ -79,7 +79,7 @@ class WithdrawalReportingController extends BaseReportingController
            ->selectRaw('sum(amount) as sum')
            ->first();
 
-       return $result != null ? $result->sum : null;
+        return $result != null ? $result->sum : null;
     }
 
     /**

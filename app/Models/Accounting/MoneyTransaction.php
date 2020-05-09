@@ -79,7 +79,7 @@ class MoneyTransaction extends Model implements Auditable
      *
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param array $filter
-     * @param boolean|null $skipDates
+     * @param bool|null $skipDates
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, array $filter, ?bool $skipDates = false)

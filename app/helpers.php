@@ -287,6 +287,12 @@ if (! function_exists('getCategorizedPermissions')) {
 }
 
 if (! function_exists('localized_country_names')) {
+    /**
+     * Returns a list of localized country names
+     *
+     * @param string|null $locale
+     * @return \Illuminate\Support\Collection
+     */
     function localized_country_names($locale = null): \Illuminate\Support\Collection
     {
         return collect(Countries::getList($locale ?? App::getLocale()));
@@ -294,6 +300,12 @@ if (! function_exists('localized_country_names')) {
 }
 
 if (! function_exists('localized_language_names')) {
+    /**
+     * Returns a list of localized language names
+     *
+     * @param string|null $locale
+     * @return \Illuminate\Support\Collection
+     */
     function localized_language_names($locale = null): \Illuminate\Support\Collection
     {
         return Languages::lookup(null, $locale ?? App::getLocale());
