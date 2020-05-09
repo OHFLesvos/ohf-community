@@ -525,7 +525,8 @@ class Person extends Model
                     ->orWhere('date_of_birth', $filter)
                     ->orWhere('nationality', 'LIKE', '%' . $filter . '%')
                     ->orWhere('police_no', $filter)
-                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('languages', 'LIKE', '%' . $filter . '%');
             });
         }
         return $query;

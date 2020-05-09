@@ -41,6 +41,7 @@ class Helper extends JsonResource
             'pickup_location' => $this->pickup_location,
             'work_starting_date' => $this->work_starting_date,
             'work_leaving_date' => $this->work_leaving_date,
+            'responsibilities' => $this->responsibilities->pluck('name'),
             'notes' => $this->notes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

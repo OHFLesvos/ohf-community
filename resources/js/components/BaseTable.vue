@@ -85,7 +85,7 @@
             </template>
         </b-table>
 
-        <b-row align-v="center" class="mb-2">
+        <b-row align-v="center" class="mb-3">
             <b-col>
                 <b-pagination
                     v-if="totalRows > 0"

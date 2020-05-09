@@ -67,16 +67,14 @@ class HelperController extends Controller
         $sortDirection = $request->input('sortDirection', 'asc');
 
         $pageSize = $request->input('pageSize', 10);
-
-        $filter = trim($request->input('filter', ''));
-
+        $filter = $request->input('filter', '');
         $scopeMethod = $request->input('scope', 'active');
 
         $data = Helper::query()
             ->$scopeMethod()
-            ->when(filled($filter), fn (Builder $query) => $query->forFilter($filter))
+            ->when(filled($filter), fn (Builder $query) => $query->forFilter(trim($filter)))
+            ->with(['responsibilities:name'])
             ->get()
-            ->load('person')
             ->when($sortDirection == 'asc', fn (Collection $col) => $col->sortBy($sortBy))
             ->when($sortDirection == 'desc', fn (Collection $col) => $col->sortByDesc($sortBy))
             ->values()

@@ -3,6 +3,7 @@
 namespace App\Models\Helpers;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Responsibility extends Model
@@ -69,5 +70,17 @@ class Responsibility extends Model
     public function getNumberOfActiveHelpersAttribute()
     {
         return $this->helpers()->active()->count();
+    }
+
+    /**
+     * Scope a query to only include helpers matching the given filter
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter(Builder $query, string $filter)
+    {
+        return $query->where('name', 'LIKE', '%' . $filter . '%');
     }
 }

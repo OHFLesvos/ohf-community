@@ -384,6 +384,10 @@ Route::middleware(['auth', 'language'])
     ->group(function () {
         Route::name('people.')
             ->group(function () {
+                // Overview
+                Route::view('helpers/overview', 'helpers.overview')
+                    ->name('helpers.overview')
+                    ->middleware('can:viewAny,App\Models\Helpers\Helper');
                 // Report view
                 Route::view('helpers/report', 'helpers.report')
                     ->name('helpers.report')

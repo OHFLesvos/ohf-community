@@ -17,6 +17,13 @@ class Helper extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['person'];
+
+    /**
      * Get the person record associated with the helper.
      */
     public function person()
@@ -143,6 +150,7 @@ class Helper extends Model implements Auditable
     {
         return $query->where(fn (Builder $q) =>
             $q->whereHas('person', fn (Builder $query) => $query->forFilter($filter))
+                ->orWhereHas('responsibilities', fn (Builder $query) => $query->forFilter($filter))
                 ->orWhere('local_phone', 'LIKE', '%' . $filter . '%')
                 ->orWhere('other_phone', 'LIKE', '%' . $filter . '%')
                 ->orWhere('whatsapp', 'LIKE', '%' . $filter . '%')
