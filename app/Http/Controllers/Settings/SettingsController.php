@@ -108,8 +108,8 @@ class SettingsController extends Controller
         // Validate
         $request->validate(
             $fields->mapWithKeys(fn (SettingsField $field, $key) => [
-                    Str::slug($key) => $field->formValidate(),
-                ])
+                Str::slug($key) => $field->formValidate(),
+            ])
                 ->filter()
                 ->toArray()
         );

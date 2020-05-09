@@ -46,7 +46,7 @@ class WithdrawalReportingController extends BaseReportingController
             'today_sum' => self::sumOfTransactions($coupon,
                 Carbon::today()->startOfDay(),
                 Carbon::today()->endOfDay()),
-       ];
+        ];
     }
 
     private static function getAvgTransactionSumPerDay(CouponType $coupon)
