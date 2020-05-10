@@ -8,7 +8,6 @@ return [
     'no_active' => 'No active community volunteers.',
     'none_found' => 'No community volunteers found.',
     'view' => 'View community volunteer',
-    'allow_for' => 'Allow for community volunteers',
     'we_have_n_community_volunteers' => 'We have <strong>:active</strong> active community volunteers.',
     'already_exists' => 'Community volunteer already exists.',
     'has_not_started_yet' => 'This community volunteer will start on :date.',

@@ -8,7 +8,6 @@ return [
     'no_active' => 'Keine aktiven Community Volunteers.',
     'none_found' => 'Keine Community Volunteers gefunden.',
     'view' => 'Community Volunteer anzeigen',
-    'allow_for' => 'Für Community Volunteers erlauben',
     'we_have_n_community_volunteers' => 'Wir haben <strong>:active</strong> aktive Community Volunteers.',
     'already_exists' => 'Community Volunteer existiert bereits.',
     'has_not_started_yet' => 'Dieser Community Volunteer startet am :date.',

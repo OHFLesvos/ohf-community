@@ -235,7 +235,7 @@ class Person extends Model
                 return false;
             }
         }
-        return $couponType->allow_for_helpers || ! optional($this->helper)->isActive;
+        return ! optional($this->helper)->isActive;
     }
 
     public function canHandoutCoupon(CouponType $couponType)

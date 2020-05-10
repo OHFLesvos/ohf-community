@@ -74,7 +74,6 @@ class CouponTypesSeeder extends Seeder
             'daily_spending_limit' => 10,
             'order' => 6,
             'returnable' => false,
-            'allow_for_helpers' => true,
         ]);
     }
 }

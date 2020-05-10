@@ -23,7 +23,6 @@ class CouponType extends Model
         'enabled',
         'qr_code_enabled',
         'code_expiry_days',
-        'allow_for_helpers',
     ];
 
     protected $nullable = [
@@ -39,7 +38,6 @@ class CouponType extends Model
         'enabled' => 'boolean',
         'returnable' => 'boolean',
         'qr_code_enabled' => 'boolean',
-        'allow_for_helpers' => 'boolean',
     ];
 
     public function couponHandouts()

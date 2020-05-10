@@ -57,7 +57,6 @@ class CouponTypesController extends Controller
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);
         $coupon->qr_code_enabled = isset($request->qr_code_enabled);
-        $coupon->allow_for_helpers = isset($request->allow_for_helpers);
         $coupon->save();
 
         return redirect()
@@ -104,7 +103,6 @@ class CouponTypesController extends Controller
         $coupon->enabled = isset($request->enabled);
         $coupon->returnable = isset($request->returnable);
         $coupon->qr_code_enabled = isset($request->qr_code_enabled);
-        $coupon->allow_for_helpers = isset($request->allow_for_helpers);
         $coupon->save();
 
         return redirect()

@@ -93,12 +93,6 @@
         @endif
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('cmtyvol.allow_for')</strong></div>
-                <div class="col-sm">@if($coupon->allow_for_helpers) @icon(check) @else @icon(times) @endif</div>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="row">
                 <div class="col-sm"><strong>@lang('app.registered')</strong></div>
                 <div class="col-sm">{{ $coupon->created_at }}</div>
             </div>
