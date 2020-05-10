@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WikiArticleTableSeeder::class);
         $this->call(PeopleDatabaseSeeder::class);
         $this->call(CouponTypesSeeder::class);
+        $this->call(BankWithdrawalDatabaseSeeder::class);
         $this->call(CommunityVolunteersDatabaseSeeder::class);
         $this->call(LibraryDatabaseSeeder::class);
     }
