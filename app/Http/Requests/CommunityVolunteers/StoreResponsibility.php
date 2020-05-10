@@ -18,8 +18,8 @@ class StoreResponsibility extends FormRequest
             'name' => [
                 'required',
                 isset($this->responsibility)
-                    ? Rule::unique('helpers_responsibilities')->ignore($this->responsibility->id)
-                    : Rule::unique('helpers_responsibilities'),
+                    ? Rule::unique('community_volunteer_responsibilities')->ignore($this->responsibility->id)
+                    : Rule::unique('community_volunteer_responsibilities'),
             ],
             'capacity' => [
                 'nullable',

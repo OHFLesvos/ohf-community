@@ -10,7 +10,7 @@ class Responsibility extends Model
 {
     use Sluggable;
 
-    protected $table = 'helpers_responsibilities';
+    protected $table = 'community_volunteer_responsibilities';
 
     protected $fillable = [
         'name',
@@ -53,7 +53,11 @@ class Responsibility extends Model
 
     public function communityVolunteers()
     {
-        return $this->belongsToMany(CommunityVolunteer::class, 'helpers_helper_responsibility', 'responsibility_id', 'helper_id')
+        return $this->belongsToMany(CommunityVolunteer::class,
+                'community_volunteer_responsibility',
+                'responsibility_id',
+                'community_volunteer_id'
+            )
             ->withTimestamps();
     }
 

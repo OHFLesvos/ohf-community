@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -33,12 +32,20 @@ class CreateHelpersResponsibilitiesTable extends Migration
         DB::table('helpers')
             ->select('id', 'responsibilities')
             ->get()
-            ->each(function ($h) {
-                if ($h->responsibilities != null && ! empty($h->responsibilities)) {
-                    collect(json_decode($h->responsibilities))
-                        ->each(function ($r) use ($h) {
-                            $responsibility = Responsibility::firstOrCreate(['name' => $r]);
-                            $responsibility->helpers()->attach($h->id);
+            ->each(function ($helper) {
+                if ($helper->responsibilities != null && ! empty($helper->responsibilities)) {
+                    collect(json_decode($helper->responsibilities))
+                        ->each(function ($responsibilityName) use ($helper) {
+                            DB::table('helpers_responsibilities')
+                                ->updateOrInsert(['name' => $responsibilityName]);
+                            $responsibilityId = DB::table('helpers_responsibilities')
+                                ->where('name', $responsibilityName)
+                                ->value('id');
+                            DB::table('helpers_helper_responsibility')
+                                ->insert([
+                                    'helper_id' => $helper->id,
+                                    'responsibility_id' => $responsibilityId,
+                                ]);
                         });
                 }
             });

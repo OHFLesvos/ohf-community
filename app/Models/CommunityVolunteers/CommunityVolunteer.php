@@ -96,7 +96,11 @@ class CommunityVolunteer extends Model implements Auditable
 
     public function responsibilities()
     {
-        return $this->belongsToMany(Responsibility::class, 'helpers_helper_responsibility', 'helper_id', 'responsibility_id')
+        return $this->belongsToMany(Responsibility::class,
+                'community_volunteer_responsibility',
+                'community_volunteer_id',
+                'responsibility_id'
+            )
             ->withTimestamps();
     }
 
