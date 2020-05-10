@@ -46,8 +46,8 @@ return [
     'view_bank_statistics' => 'Bank: View reports',
     'configure_bank' => 'Bank: Configure settings',
 
-    'view_community_volunteers' => 'Community_volunteers: View community_volunteers',
-    'manage_community_volunteers' => 'Community_volunteers: Manage community_volunteers',
+    'view_community_volunteers' => 'Community volunteers: View community volunteers',
+    'manage_community_volunteers' => 'Community volunteers: Manage community volunteers',
 
     'operate_library' => 'Library: Operate library',
     'configure_library' => 'Library: Configure settings',
