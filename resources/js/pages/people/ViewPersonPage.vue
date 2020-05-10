@@ -2,8 +2,8 @@
     <div>
 
         <info-alert
-            v-if="person.is_active_helper"
-            :message="$t('people.person_registered_as_helper')"
+            v-if="person.is_active_community_volunteer"
+            :message="$t('people.person_registered_as_community_volunteer')"
         />
 
         <info-alert

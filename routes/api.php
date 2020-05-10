@@ -314,34 +314,32 @@ Route::middleware(['auth', 'language'])
     });
 
 //
-// Helpers
+// Community volunteers
 //
 
 Route::middleware(['auth', 'language'])
-    ->name('api.people.helpers.')
-    ->prefix('helpers')
-    ->namespace('Helpers\API')
+    ->name('api.')
+    ->namespace('CommunityVolunteers\API')
     ->group(function () {
+        Route::name('cmtyvol.')
+            ->prefix('cmtyvol')
+            ->group(function () {
 
-        // Age distribution
-        Route::get('ageDistribution', 'HelperReportController@ageDistribution')
-            ->name('ageDistribution')
-            ->middleware('can:viewAny,App\Models\Helpers\Helper');
-        // Nationality distribution
-        Route::get('nationalityDistribution', 'HelperReportController@nationalityDistribution')
-            ->name('nationalityDistribution')
-            ->middleware('can:viewAny,App\Models\Helpers\Helper');
-        // Gender distribution
-        Route::get('genderDistribution', 'HelperReportController@genderDistribution')
-            ->name('genderDistribution')
-            ->middleware('can:viewAny,App\Models\Helpers\Helper');
-    });
+                // Age distribution
+                Route::get('ageDistribution', 'ReportController@ageDistribution')
+                    ->name('ageDistribution')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+                // Nationality distribution
+                Route::get('nationalityDistribution', 'ReportController@nationalityDistribution')
+                    ->name('nationalityDistribution')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+                // Gender distribution
+                Route::get('genderDistribution', 'ReportController@genderDistribution')
+                    ->name('genderDistribution')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+            });
 
-Route::middleware(['auth', 'language'])
-    ->name('api.people.')
-    ->namespace('Helpers\API')
-    ->group(function () {
-        Route::apiResource('helpers', 'HelperController')
+        Route::apiResource('cmtyvol', 'CommunityVolunteerController')
             ->only('index', 'show');
     });
 

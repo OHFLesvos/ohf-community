@@ -376,66 +376,67 @@ Route::middleware(['auth', 'language'])
     });
 
 //
-// Helpers
+// Community volunteers
 //
 
 Route::middleware(['auth', 'language'])
-    ->namespace('Helpers')
+    ->namespace('CommunityVolunteers')
     ->group(function () {
-        Route::name('people.')
+        Route::name('cmtyvol.')
+            ->prefix('cmtyvol')
             ->group(function () {
+
                 // Overview
-                Route::view('helpers/overview', 'helpers.overview')
-                    ->name('helpers.overview')
-                    ->middleware('can:viewAny,App\Models\Helpers\Helper');
+                Route::view('overview', 'cmtyvol.overview')
+                    ->name('overview')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+
                 // Report view
-                Route::view('helpers/report', 'helpers.report')
-                    ->name('helpers.report')
-                    ->middleware('can:viewAny,App\Models\Helpers\Helper');
+                Route::view('report', 'cmtyvol.report')
+                    ->name('report')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Export view
-                Route::get('helpers/export', 'HelperExportImportController@export')
-                    ->name('helpers.export')
-                    ->middleware('can:export,App\Models\Helpers\Helper');
+                Route::get('export', 'ExportImportController@export')
+                    ->name('export')
+                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Export download
-                Route::post('helpers/doExport', 'HelperExportImportController@doExport')
-                    ->name('helpers.doExport')
-                    ->middleware('can:export,App\Models\Helpers\Helper');
+                Route::post('doExport', 'ExportImportController@doExport')
+                    ->name('doExport')
+                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Import view
-                Route::get('helpers/import', 'HelperExportImportController@import')
-                    ->name('helpers.import')
-                    ->middleware('can:import,App\Models\Helpers\Helper');
+                Route::get('import', 'ExportImportController@import')
+                    ->name('import')
+                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Import upload
-                Route::post('helpers/doImport', 'HelperExportImportController@doImport')
-                    ->name('helpers.doImport')
-                    ->middleware('can:import,App\Models\Helpers\Helper');
+                Route::post('doImport', 'ExportImportController@doImport')
+                    ->name('doImport')
+                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Download vCard
-                Route::get('helpers/{helper}/vcard', 'HelperExportImportController@vcard')
-                    ->name('helpers.vcard');
+                Route::get('{cmtyvol}/vcard', 'ExportImportController@vcard')
+                    ->name('vcard');
 
-                    // Create helper (decide what way)
-                Route::get('helpers/createFrom', 'HelperListController@createFrom')
-                    ->name('helpers.createFrom')
-                    ->middleware('can:create,App\Models\Helpers\Helper');
+                // Create community volunteer (decide what way)
+                Route::get('createFrom', 'ListController@createFrom')
+                    ->name('createFrom')
+                    ->middleware('can:create,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                    // Store helper (decide what way)
-                Route::post('helpers/createFrom', 'HelperListController@storeFrom')
-                    ->name('helpers.storeFrom')
-                    ->middleware('can:create,App\Models\Helpers\Helper');
+                // Store community volunteer (decide what way)
+                Route::post('createFrom', 'ListController@storeFrom')
+                    ->name('storeFrom')
+                    ->middleware('can:create,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                    // Responsibilities resource
-                Route::name('helpers.')->group(function () {
-                    Route::resource('helpers/responsibilities', 'ResponsibilitiesController')
-                        ->except('show');
-                });
-
-                // Helpers resource
-                Route::resource('helpers', 'HelperListController');
+                // Responsibilities resource
+                Route::resource('responsibilities', 'ResponsibilitiesController')
+                    ->except('show');
             });
+
+        // Community volunteers resource
+        Route::resource('cmtyvol', 'ListController');
     });
 
 //

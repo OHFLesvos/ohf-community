@@ -4,7 +4,7 @@ namespace App\Models\People;
 
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
-use App\Models\Helpers\Helper;
+use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\Library\LibraryLending;
 use Carbon\Carbon;
 use Exception;
@@ -116,7 +116,7 @@ class Person extends Model
      */
     public function helper()
     {
-        return $this->hasOne(Helper::class, 'person_id', 'id');
+        return $this->hasOne(CommunityVolunteer::class, 'person_id', 'id');
     }
 
     /**

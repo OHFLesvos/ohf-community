@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Badges;
 
 use App\Http\Controllers\Controller;
 use App\Imports\Badges\BadgeImport;
-use App\Models\Helpers\Helper;
+use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Util\Badges\BadgeCreator;
 use Exception;
 use Gumlet\ImageResize;
@@ -23,9 +23,9 @@ class BadgeMakerController extends Controller
     private static function getSources() {
         $sources = [
             [
-                'key' => 'helpers',
-                'label' => __('helpers.helpers'),
-                'allowed' => Auth::user()->can('viewAny', Helper::class),
+                'key' => 'cmtyvol',
+                'label' => __('cmtyvol.community_volunteers'),
+                'allowed' => Auth::user()->can('viewAny', CommunityVolunteer::class),
             ],
             [
                 'key' => 'file',
@@ -73,11 +73,11 @@ class BadgeMakerController extends Controller
 
         $persons = [];
 
-        // Source: Helpers
-        if ($request->source == 'helpers') {
-            $persons = Helper::active()
+        // Source: Community Volunteers
+        if ($request->source == 'cmtyvol') {
+            $persons = CommunityVolunteer::active()
                 ->get()
-                ->map(fn ($helper) => self::helperToBadgePerson($helper));
+                ->map(fn ($cmtyvol) => self::communityVolunteerToBadgePerson($cmtyvol));
         }
         // Source: File
         elseif ($request->source == 'file') {
@@ -159,7 +159,7 @@ class BadgeMakerController extends Controller
         // Retrieve data
         $data = $request->session()->get(self::BADGE_ITEMS_SESSION_KEY, []);
         $persons = collect($request->persons)
-            ->map(fn ($idx) => self::addHelperData($data[$idx]));
+            ->map(fn ($idx) => self::addCommunityVolunteerData($data[$idx]));
 
         // Ensure there are records
         if (count($persons) == 0) {
@@ -184,23 +184,23 @@ class BadgeMakerController extends Controller
         }
     }
 
-    private static function addHelperData($person)
+    private static function addCommunityVolunteerData($person)
     {
-        if (isset($person['type']) && $person['type'] == 'helper' && isset($person['id'])) {
-            $helper = Helper::find($person['id']);
-            if ($helper != null) {
-                $person['picture'] = $helper->person->portrait_picture != null ? Storage::path($helper->person->portrait_picture) : null;
+        if (isset($person['type']) && $person['type'] == 'cmtyvol' && isset($person['id'])) {
+            $cmtyvol = CommunityVolunteer::find($person['id']);
+            if ($cmtyvol != null) {
+                $person['picture'] = $cmtyvol->person->portrait_picture != null ? Storage::path($cmtyvol->person->portrait_picture) : null;
             }
         }
         return $person;
     }
 
-    private static function helperToBadgePerson($helper) {
+    private static function communityVolunteerToBadgePerson($cmtyvol) {
         return [
-            'type' => 'helper',
-            'id' => $helper->id,
-            'name' => $helper->person->nickname ?? $helper->person->name,
-            'position' => $helper->responsibilities->implode('name', ', '),
+            'type' => 'cmtyvol',
+            'id' => $cmtyvol->id,
+            'name' => $cmtyvol->person->nickname ?? $cmtyvol->person->name,
+            'position' => $cmtyvol->responsibilities->implode('name', ', '),
         ];
     }
 }

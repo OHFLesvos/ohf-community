@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Helpers\Helper;
+use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +14,7 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
      */
     public function up()
     {
-        Helper::all()->each(function (Helper $helper) {
+        CommunityVolunteer::all()->each(function (CommunityVolunteer $helper) {
             $notes = '';
 
             if (filled($helper->work_background)) {

@@ -4,10 +4,10 @@
 
 @section('content')
 
-    {{-- Helper --}}
+    {{-- Community volunteer --}}
     @if(optional($person->helper)->isActive)
         @component('components.alert.info')
-            @lang('people.person_registered_as_helper')
+            @lang('people.person_registered_as_community_volunteer')
         @endcomponent
     @endif
 

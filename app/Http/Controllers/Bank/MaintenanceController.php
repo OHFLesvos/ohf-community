@@ -39,7 +39,7 @@ class MaintenanceController extends Controller
     {
         return CouponHandout::groupBy('person_id')
             ->having(DB::raw('max(coupon_handouts.date)'), '<=', Carbon::today()->subMonth($months))
-            // TODO: consider helper status
+            // TODO: consider community volunteer status
             ->join('persons', function ($join) {
                 $join->on('persons.id', '=', 'coupon_handouts.person_id')
                     ->whereNull('deleted_at');
@@ -89,7 +89,7 @@ class MaintenanceController extends Controller
         if (isset($request->cleanup_no_coupons_since)) {
             $ids = CouponHandout::groupBy('person_id')
                 ->having(DB::raw('max(coupon_handouts.date)'), '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
-                // TODO: consider helper status
+                // TODO: consider community volunteer status
                 ->join('persons', function ($join) {
                     $join->on('persons.id', '=', 'coupon_handouts.person_id')
                         ->whereNull('deleted_at');
@@ -97,9 +97,13 @@ class MaintenanceController extends Controller
                 ->get()
                 ->pluck('person_id')
                 ->toArray();
-            // Ignore helpers
-            $ids_wo_helpers = Person::find($ids)->load('helper')->where('helper', null)->pluck('id')->toArray();
-            $cnt += Person::destroy($ids_wo_helpers);
+            // Ignore community volunteers
+            $ids_wo_cmtyvol = Person::find($ids)
+                ->load('helper')
+                ->where('helper', null)
+                ->pluck('id')
+                ->toArray();
+            $cnt += Person::destroy($ids_wo_cmtyvol);
         }
         if (isset($request->cleanup_no_coupons_ever)) {
             $ids = Person::query()

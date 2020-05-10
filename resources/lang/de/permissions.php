@@ -46,8 +46,8 @@ return [
     'view_bank_statistics' => 'Bank: Berichte betrachten',
     'configure_bank' => 'Bank: Einstellungen konfigurieren',
 
-    'view_helpers' => 'Helfer: Helfer betrachten',
-    'manage_helpers' => 'Helfer: Helfer verwalten',
+    'view_community_volunteers' => 'Community Volunteers: Community Volunteers betrachten',
+    'manage_community_volunteers' => 'Community Volunteers: Community Volunteers verwalten',
 
     'operate_library' => 'Bibliothek: Bibliothek betreiben',
     'configure_library' => 'Bibliothek: Einstellungen bearbeiten',

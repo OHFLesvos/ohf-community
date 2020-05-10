@@ -55,7 +55,7 @@
                 {{ Form::bsCheckbox('enabled', 1, null, __('app.enabled')) }}
                 {{ Form::bsCheckbox('returnable', 1, null, __('people.returnable')) }}
                 {{ Form::bsCheckbox('qr_code_enabled', 1, null, __('people.with_qr_code')) }}
-                {{ Form::bsCheckbox('allow_for_helpers', 1, null, __('people.allow_for_helpers')) }}
+                {{ Form::bsCheckbox('allow_for_helpers', 1, null, __('cmtyvol.allow_for')) }}
             </div>
             <div class="col-md">
                 {{ Form::bsNumber('code_expiry_days', null, [ ], __('people.code_expiry'), __('app.days')) }}

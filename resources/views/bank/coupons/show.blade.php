@@ -56,7 +56,7 @@
                     <div class="col-sm">{{ $coupon->newly_registered_block_days }} {{ trans_choice('app.day_days', $coupon->newly_registered_block_days) }}</div>
                 </div>
             </li>
-        @endisset        
+        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('app.order')</strong></div>
@@ -93,7 +93,7 @@
         @endif
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm"><strong>@lang('people.allow_for_helpers')</strong></div>
+                <div class="col-sm"><strong>@lang('cmtyvol.allow_for')</strong></div>
                 <div class="col-sm">@if($coupon->allow_for_helpers) @icon(check) @else @icon(times) @endif</div>
             </div>
         </li>

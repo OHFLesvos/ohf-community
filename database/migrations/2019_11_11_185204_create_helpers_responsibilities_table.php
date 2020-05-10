@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Helpers\Helper;
-use App\Models\Helpers\Responsibility;
+use App\Models\CommunityVolunteers\CommunityVolunteer;
+use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +58,7 @@ class CreateHelpersResponsibilitiesTable extends Migration
         Schema::table('helpers_helper_responsibility', function (Blueprint $table) {
             $table->timestamps();
         });
-        $map = Helper::all()->mapWithKeys(function ($helper) {
+        $map = CommunityVolunteer::all()->mapWithKeys(function ($helper) {
             $arr = $helper->responsibilities->pluck('name')->toArray();
             return [$helper->id => count($arr) > 0 ? json_encode($arr) : null];
         });

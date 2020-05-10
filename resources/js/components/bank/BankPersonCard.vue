@@ -8,9 +8,9 @@
         >
             <div class="form-row">
                 <div class="col">
-                    <helper-marker
-                        v-if="person.is_helper"
-                        :url="person.can_view_helper ? person.show_helper_url : null"
+                    <community-volunteer-marker
+                        v-if="person.is_community_volunteer"
+                        :url="person.can_view_community_volunteer ? person.show_community_volunteer_url : null"
                     />
                     <name-label
                         :url="person.can_view ? person.show_url : null"
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import HelperMarker from '@/components/people/HelperMarker'
+import CommunityVolunteerMarker from '@/components/people/CommunityVolunteerMarker'
 import NameLabel from '@/components/people/NameLabel'
 import GenderSelector from '@/components/people/GenderSelector'
 import DateOfBirthSelector from '@/components/people/DateOfBirthSelector'
@@ -118,7 +118,7 @@ export default {
         highlightTerms: {
             type: Array,
             required: false,
-            default: []
+            default: () => []
         },
         countries: {
             type: Array,
@@ -126,7 +126,7 @@ export default {
         }
     },
     components: {
-        HelperMarker,
+        CommunityVolunteerMarker,
         NameLabel,
         GenderSelector,
         DateOfBirthSelector,

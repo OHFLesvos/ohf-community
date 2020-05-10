@@ -279,12 +279,12 @@ return [
             'sensitive' => false,
         ],
 
-        'people.helpers.view' => [
-            'label' => 'permissions.view_helpers',
+        'cmtyvol.view' => [
+            'label' => 'permissions.view_community_volunteers',
             'sensitive' => true,
         ],
-        'people.helpers.manage' => [
-            'label' => 'permissions.manage_helpers',
+        'cmtyvol.manage' => [
+            'label' => 'permissions.manage_community_volunteers',
             'sensitive' => true,
         ],
 

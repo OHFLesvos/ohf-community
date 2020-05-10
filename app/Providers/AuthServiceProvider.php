@@ -27,8 +27,8 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Collaboration\WikiArticle::class      => \App\Policies\Collaboration\ArticlePolicy::class,
         \App\Models\People\Person::class                  => \App\Policies\People\PersonPolicy::class,
         \App\Models\Bank\CouponType::class                => \App\Policies\Bank\CouponTypePolicy::class,
-        \App\Models\Helpers\Helper::class                 => \App\Policies\Helpers\HelperPolicy::class,
-        \App\Models\Helpers\Responsibility::class         => \App\Policies\Helpers\ResponsibilityPolicy::class,
+        \App\Models\CommunityVolunteers\CommunityVolunteer::class => \App\Policies\CommunityVolunteers\CommunityVolunteerPolicy::class,
+        \App\Models\CommunityVolunteers\Responsibility::class => \App\Policies\CommunityVolunteers\ResponsibilityPolicy::class,
         \App\Models\Library\LibraryBook::class            => \App\Policies\Library\LibraryBookPolicy::class,
         \App\Models\Library\LibraryLending::class         => \App\Policies\Library\LibraryLendingPolicy::class,
     ];
@@ -61,7 +61,7 @@ class AuthServiceProvider extends ServiceProvider
         'view-bank-reports'           => 'bank.statistics.view',
         'configure-bank'              => 'bank.configure',
 
-        'manage-helpers'              => 'people.helpers.manage',
+        'manage-community-volunteers' => 'cmtyvol.manage',
 
         'operate-library'             => 'library.operate',
         'configure-library'           => 'library.configure',

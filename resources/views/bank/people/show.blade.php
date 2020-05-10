@@ -20,7 +20,7 @@
             'languages' => $person->languages,
             'portrait_picture' => $person->portrait_picture,
             'portrait_picture_url' => $person->portrait_picture != null ? Storage::url($person->portrait_picture) : null,
-            'is_active_helper' => optional($person->helper)->isActive,
+            'is_active_community_volunteer' => optional($person->helper)->isActive,
             'remarks' => $person->remarks,
             'card_no' => $person->card_no,
             'card_issued' => optional($person->card_issued)->toDateString(),
