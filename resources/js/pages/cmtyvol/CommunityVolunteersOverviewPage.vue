@@ -82,12 +82,12 @@ export default {
                     class: 'text-right'
                 },
                 {
-                    key: 'languages',
-                    label: this.$t('people.languages')
-                },
-                {
                     key: 'responsibilities',
                     label: this.$t('app.responsibilities')
+                },
+                {
+                    key: 'languages',
+                    label: this.$t('people.languages')
                 },
                 // {
                 //     key: 'created_at',
