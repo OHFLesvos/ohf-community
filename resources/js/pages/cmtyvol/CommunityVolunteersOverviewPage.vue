@@ -9,7 +9,7 @@
             :filter-placeholder="$t('app.search')"
             :items-per-page="50"
         >
-            <template v-slot:cell(name)="data">
+            <template v-slot:cell(first_name)="data">
                 <template v-if="data.item.url != null">
                     <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
                 </template>
