@@ -458,14 +458,8 @@ abstract class BaseController extends Controller
             ],
             'pickup_locations' => [
                 'label' => __('people.pickup_locations'),
-                'groups' => fn () => CommunityVolunteer::groupBy('pickup_location')
-                    ->orderBy('pickup_location')
-                    ->get()
-                    ->pluck('pickup_location')
-                    ->unique()
-                    ->sort()
-                    ->toArray(),
-                'query' => fn ($query, $value) => $query->where('pickup_location', $value),
+                'groups' => fn () => CommunityVolunteer::pickupLocations(true),
+                'query' => fn ($query, $value) => $query->withPickupLocation($value),
             ],
         ]);
     }

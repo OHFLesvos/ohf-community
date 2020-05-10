@@ -164,17 +164,6 @@ class CommunityVolunteer extends Model implements Auditable
         return 0;
     }
 
-    public static function pickupLocations(): array
-    {
-        return self::select('pickup_location')
-            ->distinct()
-            ->orderBy('pickup_location')
-            ->whereNotNull('pickup_location')
-            ->get()
-            ->pluck('pickup_location')
-            ->toArray();
-    }
-
     /**
      * Scope a query to only include community volunteers matching the given filter
      *
@@ -294,5 +283,34 @@ class CommunityVolunteer extends Model implements Auditable
     public function scopeSpeaksLanguage(Builder $query, ?string $language)
     {
         return $query->where('languages', 'like', '%"' . $language . '"%');
+    }
+
+    /**
+     * Returns a list of all pickup locations assigned to any record.
+     *
+     * @param bool|null $includeEmpty
+     * @return array
+     */
+    public static function pickupLocations(?bool $includeEmpty = false): array
+    {
+        return self::select('pickup_location')
+            ->distinct()
+            ->orderBy('pickup_location')
+            ->when(!$includeEmpty, fn ($qry) => $qry->whereNotNull('pickup_location'))
+            ->get()
+            ->pluck('pickup_location')
+            ->toArray();
+    }
+
+    /**
+     * Scope a query to only include community volunteers having assgined the pickup location specified
+     *
+     * @param Builder $query
+     * @param string|null $pickupLocation
+     * @return Builder
+     */
+    public function scopeWithPickupLocation(Builder $query, ?string $pickupLocation)
+    {
+        return $query->where('pickup_location', $pickupLocation);
     }
 }

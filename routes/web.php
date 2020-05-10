@@ -397,27 +397,27 @@ Route::middleware(['auth', 'language'])
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Export view
-                Route::get('export', 'ExportImportController@export')
+                Route::get('export', 'ExportController@export')
                     ->name('export')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Export download
-                Route::post('doExport', 'ExportImportController@doExport')
+                Route::post('doExport', 'ExportController@doExport')
                     ->name('doExport')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Import view
-                Route::get('import', 'ExportImportController@import')
+                Route::get('import', 'ImportController@import')
                     ->name('import')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Import upload
-                Route::post('doImport', 'ExportImportController@doImport')
+                Route::post('doImport', 'ImportController@doImport')
                     ->name('doImport')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Download vCard
-                Route::get('{cmtyvol}/vcard', 'ExportImportController@vcard')
+                Route::get('{cmtyvol}/vcard', 'ExportController@vcard')
                     ->name('vcard');
 
                 // Responsibilities resource
