@@ -382,6 +382,7 @@ Route::middleware(['auth', 'language'])
 Route::middleware(['auth', 'language'])
     ->namespace('CommunityVolunteers')
     ->group(function () {
+        Route::redirect('helpers', 'cmtyvol');
         Route::name('cmtyvol.')
             ->prefix('cmtyvol')
             ->group(function () {
