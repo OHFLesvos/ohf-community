@@ -17,23 +17,23 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
     private Collection $fields;
 
     /**
-     * Scope method name
+     * Work status
      */
-    private string $scopeMethod;
+    private string $workStatus;
 
     /**
      * Field to sort by
      */
     public string $sorting = 'first_name';
 
-    public function __construct(Collection $fields, string $scopeMethod) {
+    public function __construct(Collection $fields, string $workStatus) {
         $this->fields = $fields;
-        $this->scopeMethod = $scopeMethod;
+        $this->workStatus = $workStatus;
     }
 
     public function collection(): Collection
     {
-        return CommunityVolunteer::{$this->scopeMethod}()
+        return CommunityVolunteer::workStatus($this->workStatus)
             ->orderBy($this->sorting)
             ->get();
     }

@@ -75,7 +75,7 @@ class BadgeMakerController extends Controller
 
         // Source: Community Volunteers
         if ($request->source == 'cmtyvol') {
-            $persons = CommunityVolunteer::active()
+            $persons = CommunityVolunteer::workStatus('active')
                 ->get()
                 ->map(fn ($cmtyvol) => self::communityVolunteerToBadgePerson($cmtyvol));
         }

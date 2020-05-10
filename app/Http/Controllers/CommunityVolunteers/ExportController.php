@@ -29,10 +29,8 @@ class ExportController extends BaseController
     protected function exportViewArgs(): array
     {
         return [
-            'scopes' => $this->getScopes()
-                ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
-                ->toArray(),
-            'scope' => session('cmtyvol.export.scope', $this->getScopes()->keys()->first()),
+            'work_statuses' => $this->getWorkStatuses()->toArray(),
+            'work_status' => session('cmtyvol.export.workStatus', 'active'),
             'columnt_sets' => $this->getColumnSets()
                 ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
                 ->toArray(),
@@ -47,9 +45,9 @@ class ExportController extends BaseController
     protected function exportValidateArgs(): array
     {
         return [
-            'scope' => [
+            'work_status' => [
                 'required',
-                Rule::in($this->getScopes()->keys()->toArray()),
+                Rule::in($this->getWorkStatuses()->keys()),
             ],
             'column_set' => [
                 'required',
@@ -70,18 +68,18 @@ class ExportController extends BaseController
 
     protected function exportFilename(Request $request): string
     {
-        $scope = $this->getScopes()[$request->scope];
-        return __('cmtyvol.community_volunteers') . '_' . $scope['label'] . '_' . Carbon::now()->toDateString();
+        $workStatus = $this->getWorkStatuses()->get($request->work_status);
+        return __('cmtyvol.community_volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
     }
 
     protected function exportExportable(Request $request)
     {
         $columnSet = $this->getColumnSets()[$request->column_set];
         $fields = self::filterFieldsByColumnSet($this->getFields(), $columnSet);
-        $scope = $this->getScopes()[$request->scope];
+        $workStatus = $request->work_status;
         $sorting = $this->getSorters()[$request->sorting];
 
-        $export = new CommunityVolunteersExport($fields, $scope['scope']);
+        $export = new CommunityVolunteersExport($fields, $workStatus);
         $export->orientation = $request->orientation;
         $export->sorting = $sorting['sorting'];
         if ($request->has('fit_to_page')) {
@@ -111,7 +109,7 @@ class ExportController extends BaseController
     protected function exportDownload(Request $request, $export, $file_name, $file_ext)
     {
         // Remember parameters in session
-        session(['cmtyvol.export.scope' => $request->scope]);
+        session(['cmtyvol.export.work_status' => $request->work_status]);
         session(['cmtyvol.export.columnt_set' => $request->column_set]);
         session(['cmtyvol.export.sorting' => $request->sorting]);
 
@@ -122,8 +120,8 @@ class ExportController extends BaseController
             $export->store($temp_file);
             $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
             Storage::delete($temp_file);
-            $scopeMethod = $scope = $this->getScopes()[$request->scope]['scope'];
-            $cmtyvols = CommunityVolunteer::{$scopeMethod}()->get();
+            $workStatus = $request->work_status;
+            $cmtyvols = CommunityVolunteer::workStatus($workStatus)->get();
             foreach ($cmtyvols as $cmtyvol) {
                 if (isset($cmtyvol->portrait_picture)) {
                     $picture_path = storage_path('app/'.$cmtyvol->portrait_picture);

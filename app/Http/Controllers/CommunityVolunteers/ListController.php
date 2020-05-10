@@ -18,33 +18,33 @@ class ListController extends BaseController
             ->where('overview', true)
             ->filter(fn ($field) => self::isFieldViewAuthorized($field));
 
-        // Scope
-        $scopes = $this->getScopes();
-        if ($request->scope != null && $scopes->keys()->contains($request->scope)) {
-            $scope = $request->scope;
-            $request->session()->put('cmtyvol_scope', $scope);
+        // Work status
+        $workStatuses = $this->getWorkStatuses();
+        if ($request->work_status != null && $workStatuses->keys()->contains($request->work_status)) {
+            $workStatus = $request->work_status;
+            $request->session()->put('cmtyvol_work_status', $workStatus);
         } else {
-            $scope = $request->session()->get('cmtyvol_scope', $scopes->keys()->first());
+            $workStatus = $request->session()->get('cmtyvol_work_status', 'active');
         }
-        $scope_method = $scopes->get($scope)['scope'];
 
         // Groupings
         $groupings = $this->getGroupings()
             ->filter(fn ($e) => ! isset($e['authorized']) || $e['authorized']);
         if ($request->grouping != null && $groupings->keys()->contains($request->grouping)) {
             $grouping = $request->grouping;
-            $request->session()->put('hcmtyvol_grouping', $grouping);
+            $request->session()->put('cmtyvol_grouping', $grouping);
         } elseif ($request->has('grouping') && $request->grouping == null) {
             $request->session()->forget('cmtyvol_grouping');
             $grouping = null;
         } else {
             $grouping = $request->session()->get('cmtyvol_grouping', null);
         }
+
         $data = collect();
         if ($grouping != null) {
             $groups = $groupings->get($grouping)['groups']();
             foreach ($groups as $value) {
-                $q = CommunityVolunteer::$scope_method();
+                $q = CommunityVolunteer::workStatus($workStatus);
                 $groupings->get($grouping)['query']($q, $value);
                 $data->push($q->orderBy('first_name')
                     ->get()
@@ -62,7 +62,7 @@ class ListController extends BaseController
                 $groups = $groupings->get($grouping)['label_transform']($groups);
             }
         } else {
-            $data = CommunityVolunteer::$scope_method()
+            $data = CommunityVolunteer::workStatus($workStatus)
                 ->orderBy('first_name')
                 ->get()
                 ->mapWithKeys(fn ($cmtyvol) => [
@@ -91,10 +91,10 @@ class ListController extends BaseController
             ]),
             'groups' => $groups ?? null,
             'data' => $data,
-            'scopes' => $scopes->map(fn ($v, $k) => [
-                'label' => $v['label'],
-                'url' => route('cmtyvol.index', ['scope' => $k]),
-                'active' => ($scope == $k),
+            'work_statuses' => $workStatuses->map(fn ($v, $k) => [
+                'label' => $v,
+                'url' => route('cmtyvol.index', ['work_status' => $k]),
+                'active' => ($workStatus == $k),
             ]),
             'groupings' => $groupings->map(fn ($v, $k) => [
                 'label' => $v['label'],

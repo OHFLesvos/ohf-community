@@ -21,7 +21,7 @@ class CommunityVolunteersWidget implements Widget
     public function args(): array
     {
         return [
-            'active' => CommunityVolunteer::active()->count(),
+            'active' => CommunityVolunteer::workStatus('active')->count(),
         ];
     }
 }

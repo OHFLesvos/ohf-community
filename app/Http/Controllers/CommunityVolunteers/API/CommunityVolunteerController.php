@@ -46,7 +46,7 @@ class CommunityVolunteerController extends Controller
                 'nullable',
                 'in:asc,desc',
             ],
-            'scope' => [
+            'workStatus' => [
                 'nullable',
                 Rule::in([
                     'active',
@@ -62,10 +62,10 @@ class CommunityVolunteerController extends Controller
 
         $pageSize = $request->input('pageSize', 10);
         $filter = $request->input('filter', '');
-        $scopeMethod = $request->input('scope', 'active');
+        $workStatus = $request->input('workStatus', 'active');
 
         $query = CommunityVolunteer::query()
-            ->$scopeMethod()
+            ->workStatus($workStatus)
             ->when(filled($filter), fn (Builder $qry) => $qry->forFilter(trim($filter)))
             ->with(['responsibilities:name']);
 

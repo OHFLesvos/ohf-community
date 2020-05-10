@@ -6,11 +6,13 @@
 
     <div class="row">
 
-        {{-- Scopes --}}
+        {{-- Work status --}}
         <div class="col-md-auto text-nowrap" style="overflow-x: auto">
-            <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Scopes">
-                @foreach($scopes as $scope)
-                    <a href="{{ $scope['url'] }}" class="btn @if($scope['active']) btn-dark @else btn-secondary @endif">{{ $scope['label'] }}</a>
+            <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Work status">
+                @foreach($work_statuses as $work_status)
+                    <a href="{{ $work_status['url'] }}" class="btn @if($work_status['active']) btn-dark @else btn-secondary @endif">
+                        {{ $work_status['label'] }}
+                    </a>
                 @endforeach
             </div>
         </div>

@@ -553,7 +553,7 @@ class Person extends Model
 
     public function linkedCommunityVolunteer(): ?CommunityVolunteer
     {
-        return CommunityVolunteer::active()
+        return CommunityVolunteer::workStatus('active')
             ->where('first_name', $this->name)
             ->where('family_name', $this->family_name)
             ->where('date_of_birth', $this->date_of_birth)

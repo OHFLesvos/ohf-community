@@ -11,7 +11,7 @@
                     {{ Form::bsRadioList('format', $formats, $format, __('app.file_format')) }}
                 </div>
                 <div class="mb-3">
-                    {{ Form::bsRadioList('scope', $scopes, $scope, __('people.scope')) }}
+                    {{ Form::bsRadioList('work_status', $work_statuses, $work_status, __('cmtyvol.work_status')) }}
                 </div>
                 <div class="mb-3">
                     {{ Form::bsRadioList('column_set', $columnt_sets, $columnt_set, __('people.column_set')) }}

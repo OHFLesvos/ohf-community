@@ -105,46 +105,34 @@ class CommunityVolunteer extends Model implements Auditable
     }
 
     /**
-     * Scope a query to only include active community volunteers.
+     * Scope a query to only include community volunteers with a certain work status.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @param string $status One of [active, alumni, future]
+     * @return Builder
      */
-    public function scopeActive($query)
+    public function scopeWorkStatus(Builder $query, string $status)
     {
-        return $query
-            ->whereNotNull('work_starting_date')
-            ->whereDate('work_starting_date', '<=', Carbon::today())
-            ->where(function ($q) {
-                return $q->whereNull('work_leaving_date')
-                    ->orWhereDate('work_leaving_date', '>=', Carbon::today());
-            });
-    }
-
-    /**
-     * Scope a query to only include future community volunteers.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFuture($query)
-    {
-        return $query
-            ->whereNull('work_starting_date')
-            ->orWhereDate('work_starting_date', '>', Carbon::today());
-    }
-
-    /**
-     * Scope a query to only include alumni (former community volunteers).
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeAlumni($query)
-    {
-        return $query
-            ->whereNotNull('work_leaving_date')
-            ->whereDate('work_leaving_date', '<', Carbon::today());
+        if ($status == 'active') {
+            return $query
+                ->whereNotNull('work_starting_date')
+                ->whereDate('work_starting_date', '<=', Carbon::today())
+                ->where(function ($q) {
+                    return $q->whereNull('work_leaving_date')
+                        ->orWhereDate('work_leaving_date', '>=', Carbon::today());
+                });
+        }
+        if ($status == 'alumni') {
+            return $query
+                ->whereNotNull('work_leaving_date')
+                ->whereDate('work_leaving_date', '<', Carbon::today());
+        }
+        if ($status == 'future') {
+            return $query
+                ->whereNull('work_starting_date')
+                ->orWhereDate('work_starting_date', '>', Carbon::today());
+        }
+        throw new Exception('Unknown work status ' . $status);
     }
 
     public function getWorkingSinceDaysAttribute() {

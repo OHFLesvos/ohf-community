@@ -73,7 +73,7 @@ class Responsibility extends Model
 
     public function getCountActiveAttribute()
     {
-        return $this->communityVolunteers()->active()->count();
+        return $this->communityVolunteers()->workStatus('active')->count();
     }
 
     /**

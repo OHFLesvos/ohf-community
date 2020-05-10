@@ -17,8 +17,8 @@
             <div class="card mb-3">
                 <div class="card-header">@lang('cmtyvol.active')</div>
                 <div class="list-group list-group-flush">
-                    @if($responsibility->communityVolunteers()->active()->count() > 0)
-                        @foreach($responsibility->communityVolunteers()->active()->get() as $cmtyvol)
+                    @if($responsibility->communityVolunteers()->workStatus('active')->count() > 0)
+                        @foreach($responsibility->communityVolunteers()->workStatus('active')->get() as $cmtyvol)
                             <a href="{{ route('cmtyvol.show', $cmtyvol) }}" class="list-group-item list-group-item-action" target="_blank">{{ $cmtyvol->fullName }}</a>
                         @endforeach
                     @else

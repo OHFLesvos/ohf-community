@@ -4,6 +4,7 @@ return [
     'community_volunteer' => 'Community Volunteer',
     'community_volunteers' => 'Community Volunteers',
     'working_since_days' => 'Working since (days)',
+    'work_status' => 'Work status',
     'active' => 'Active community volunteers',
     'no_active' => 'No active community volunteers.',
     'none_found' => 'No community volunteers found.',

@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Countries;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -400,21 +401,12 @@ abstract class BaseController extends Controller
         ];
     }
 
-    protected function getScopes()
+    protected function getWorkStatuses(): Collection
     {
         return collect([
-            'active' => [
-                'label' => __('people.active'),
-                'scope' => 'active',
-            ],
-            'future' => [
-                'label' => __('people.future'),
-                'scope' => 'future',
-            ],
-            'alumni' => [
-                'label' => __('people.alumni'),
-                'scope' => 'alumni',
-            ],
+            'active' => __('people.active'),
+            'future' => __('people.future'),
+            'alumni' => __('people.alumni'),
         ]);
     }
 
