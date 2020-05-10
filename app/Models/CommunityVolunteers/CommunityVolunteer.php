@@ -147,6 +147,14 @@ class CommunityVolunteer extends Model implements Auditable
         return 0;
     }
 
+    public function scopeForFilterTerms($query, array $terms)
+    {
+        foreach ($terms as $term) {
+            $query->where(fn ($wq) => $wq->forFilter($term));
+        }
+        return $query;
+    }
+
     /**
      * Scope a query to only include community volunteers matching the given filter
      *

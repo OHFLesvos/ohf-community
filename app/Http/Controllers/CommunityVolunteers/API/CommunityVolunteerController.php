@@ -66,7 +66,7 @@ class CommunityVolunteerController extends Controller
 
         $query = CommunityVolunteer::query()
             ->workStatus($workStatus)
-            ->when(filled($filter), fn (Builder $qry) => $qry->forFilter(trim($filter)))
+            ->when(filled($filter), fn (Builder $qry) => $qry->forFilterTerms(split_by_whitespace(trim($filter))))
             ->with(['responsibilities:name']);
 
         if ($orderInDB) {
