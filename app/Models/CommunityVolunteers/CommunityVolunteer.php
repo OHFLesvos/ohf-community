@@ -208,17 +208,17 @@ class CommunityVolunteer extends Model implements Auditable
     /**
      * Returns a list of all genders assigned to any record.
      *
+     * @param bool|null $includeEmpty
      * @return array
      */
-    public static function genders(): array
+    public static function genders(?bool $includeEmpty = false): array
     {
         return self::select('gender')
             ->distinct()
-            ->whereNotNull('gender')
+            ->when(!$includeEmpty, fn ($qry) => $qry->whereNotNull('gender'))
             ->orderBy('gender')
             ->get()
             ->pluck('gender')
-            ->push(null)
             ->toArray();
     }
 
@@ -237,13 +237,14 @@ class CommunityVolunteer extends Model implements Auditable
     /**
      * Returns a list of all nationalities assigned to any record.
      *
+     * @param bool|null $includeEmpty
      * @return array
      */
-    public static function nationalities(): array
+    public static function nationalities(?bool $includeEmpty = false): array
     {
         return self::select('nationality')
             ->distinct()
-            ->whereNotNull('nationality')
+            ->when(!$includeEmpty, fn ($qry) => $qry->whereNotNull('nationality'))
             ->orderBy('nationality')
             ->get()
             ->pluck('nationality')
@@ -265,13 +266,14 @@ class CommunityVolunteer extends Model implements Auditable
     /**
      * Returns a list of all languages assigned to any record.
      *
+     * @param bool|null $includeEmpty
      * @return array
      */
-    public static function languages(): array
+    public static function languages(?bool $includeEmpty = false): array
     {
         return self::select('languages')
             ->distinct()
-            ->whereNotNull('languages')
+            ->when(!$includeEmpty, fn ($qry) => $qry->whereNotNull('languages'))
             ->orderBy('languages')
             ->get()
             ->pluck('languages')

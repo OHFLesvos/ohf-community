@@ -423,17 +423,17 @@ abstract class BaseController extends Controller
         return collect([
             'nationalities' => [
                 'label' => __('people.nationalities'),
-                'groups' => fn () => CommunityVolunteer::nationalities(),
+                'groups' => fn () => CommunityVolunteer::nationalities(true),
                 'query' => fn ($query, $value) => $query->hasNationality($value),
             ],
             'languages' => [
                 'label' => __('people.languages'),
-                'groups' => fn () => CommunityVolunteer::languages(),
+                'groups' => fn () => CommunityVolunteer::languages(true),
                 'query' => fn ($query, $value) => $query->speaksLanguage($value),
             ],
             'gender' => [
                 'label' => __('people.gender'),
-                'groups' => fn () => CommunityVolunteer::genders(),
+                'groups' => fn () => CommunityVolunteer::genders(true),
                 'query' => fn ($query, $value) => $query->hasGender($value),
                 'label_transform' => fn ($groups) => collect($groups)
                     ->map(function ($s) {
@@ -443,7 +443,7 @@ abstract class BaseController extends Controller
                             case 'm':
                                 return __('app.male');
                             default:
-                                return __('app.unspecified');
+                                return $s;
                         }
                     }),
             ],
@@ -460,16 +460,12 @@ abstract class BaseController extends Controller
                 'label' => __('people.pickup_locations'),
                 'groups' => fn () => CommunityVolunteer::groupBy('pickup_location')
                     ->orderBy('pickup_location')
-                    ->whereNotNull('pickup_location')
                     ->get()
                     ->pluck('pickup_location')
                     ->unique()
                     ->sort()
-                    ->push(null)
                     ->toArray(),
                 'query' => fn ($query, $value) => $query->where('pickup_location', $value),
-                'label_transform' => fn ($groups) => collect($groups)
-                    ->map(fn ($s) => $s == null ? __('app.unspecified') : $s),
             ],
         ]);
     }

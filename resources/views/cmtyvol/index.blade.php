@@ -44,7 +44,10 @@
                 @foreach($groups as $group)
                     @if($data[$loop->index]->count() > 0)
                         <tr class="table-secondary">
-                            <th colspan="{{ $fields->count() }}">{{ $group }} <small>({{ $data[$loop->index]->count() }})</small></th>
+                            <th colspan="{{ $fields->count() }}">
+                                {{ $group ?? __('app.unspecified') }}
+                                <small>({{ $data[$loop->index]->count() }})</small>
+                            </th>
                         </tr>
                         @include('cmtyvol.tablebody', ['data' => $data[$loop->index]])
                     @endif
