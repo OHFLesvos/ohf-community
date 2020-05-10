@@ -4,7 +4,7 @@
             id="communityVolunteerTable"
             :fields='fields'
             :api-url="route('api.cmtyvol.index')"
-            default-sort-by="name"
+            default-sort-by="first_name"
             :empty-text="$t('cmtyvol.none_found')"
             :filter-placeholder="$t('app.search')"
             :items-per-page="50"
@@ -52,8 +52,8 @@ export default {
         return {
             fields: [
                 {
-                    key: 'name',
-                    label: this.$t('app.name'),
+                    key: 'first_name',
+                    label: this.$t('people.first_name'),
                     sortable: true
                 },
                 {

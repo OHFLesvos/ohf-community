@@ -12,6 +12,7 @@ return [
     'in_n_days' => 'morgen|in :days Tagen',
     'no_number_registered' => 'Keine Nummer registriert!',
     'name' => 'Name',
+    'first_name' => 'Vorname',
     'family_name' => 'Familienname',
     'gender' => 'Geschlecht',
     'age_distribution' => 'Altersverteilung',

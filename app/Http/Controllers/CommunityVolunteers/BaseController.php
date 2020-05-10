@@ -5,7 +5,6 @@ namespace App\Http\Controllers\CommunityVolunteers;
 use App\Http\Controllers\Controller;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\CommunityVolunteers\Responsibility;
-use App\Models\People\Person;
 use Carbon\Carbon;
 use Countries;
 use Gumlet\ImageResize;
@@ -22,7 +21,6 @@ abstract class BaseController extends Controller
             'general' => __('app.general'),
             'reachability' => __('people.reachability'),
             'occupation' => __('people.occupation'),
-            'distribution' => __('people.distribution'),
         ];
     }
 
@@ -31,28 +29,28 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.portrait_picture',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->portrait_picture,
-                'value_html' => fn ($cmtyvol) => isset($cmtyvol->person->portrait_picture) ? '<img src="' . Storage::url($cmtyvol->person->portrait_picture) . '" class="img-fluid img-thumbnail">' : null,
+                'value' => fn ($cmtyvol) => $cmtyvol->portrait_picture,
+                'value_html' => fn ($cmtyvol) => isset($cmtyvol->portrait_picture) ? '<img src="' . Storage::url($cmtyvol->portrait_picture) . '" class="img-fluid img-thumbnail">' : null,
                 'overview' => false,
                 'exclude_export' => true,
                 'exclude_show' => false,
                 'section' => 'portrait',
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     if (isset($value)) {
-                        if ($person->portrait_picture != null) {
-                            Storage::delete($person->portrait_picture);
+                        if ($cmtyvol->portrait_picture != null) {
+                            Storage::delete($cmtyvol->portrait_picture);
                         }
                         $image = new ImageResize($value->getRealPath());
                         $image->resizeToBestFit(800, 800, true);
                         $image->crop(533, 800, true); // 2:3 aspect ratio
                         $image->save($value->getRealPath());
-                        $person->portrait_picture = $value->store('public/people/portrait_pictures');
+                        $cmtyvol->portrait_picture = $value->store('public/people/portrait_pictures');
                     }
                 },
-                'cleanup' => function ($person, $cmtyvol) {
-                    if ($person->portrait_picture != null) {
-                        Storage::delete($person->portrait_picture);
-                        $person->portrait_picture = null;
+                'cleanup' => function ($cmtyvol) {
+                    if ($cmtyvol->portrait_picture != null) {
+                        Storage::delete($cmtyvol->portrait_picture);
+                        $cmtyvol->portrait_picture = null;
                     }
                 },
                 'form_type' => 'image',
@@ -64,14 +62,14 @@ abstract class BaseController extends Controller
                 'form_help' => __('people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
-                'label_key' => 'people.name',
+                'label_key' => 'people.first_name',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->name,
+                'value' => fn ($cmtyvol) => $cmtyvol->first_name,
                 'overview' => true,
                 'detail_link' => true,
                 'section' => 'general',
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->name = $value;
+                'assign' => function ($cmtyvol, $value) {
+                    $cmtyvol->first_name = $value;
                 },
                 'form_type' => 'text',
                 'form_name' => 'name',
@@ -83,12 +81,12 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.family_name',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->family_name,
+                'value' => fn ($cmtyvol) => $cmtyvol->family_name,
                 'overview' => true,
                 'section' => 'general',
                 'import_labels' => [ 'Surname' ],
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->family_name = $value;
+                'assign' => function ($cmtyvol, $value) {
+                    $cmtyvol->family_name = $value;
                 },
                 'form_type' => 'text',
                 'form_name' => 'family_name',
@@ -100,11 +98,11 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.nickname',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->nickname,
+                'value' => fn ($cmtyvol) => $cmtyvol->nickname,
                 'overview' => true,
                 'section' => 'general',
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->nickname = $value;
+                'assign' => function ($cmtyvol, $value) {
+                    $cmtyvol->nickname = $value;
                 },
                 'form_type' => 'text',
                 'form_name' => 'nickname',
@@ -116,11 +114,11 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.nationality',
                 'icon' => 'globe',
-                'value' => fn ($cmtyvol) => $cmtyvol->person->nationality,
+                'value' => fn ($cmtyvol) => $cmtyvol->nationality,
                 'overview' => true,
                 'section' => 'general',
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->nationality = $value;
+                'assign' => function ($cmtyvol, $value) {
+                    $cmtyvol->nationality = $value;
                 },
                 'form_type' => 'text',
                 'form_name' => 'nationality',
@@ -134,12 +132,12 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.gender',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->gender != null ? ($cmtyvol->person->gender == 'f' ? __('app.female') : __('app.male')) : null,
-                'value_html' => fn ($cmtyvol) => $cmtyvol->person->gender != null ? ($cmtyvol->person->gender == 'f' ? icon('female') : icon('male')) : null,
+                'value' => fn ($cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? __('app.female') : __('app.male')) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? icon('female') : icon('male')) : null,
                 'overview' => true,
                 'section' => 'general',
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null);
+                'assign' => function ($cmtyvol, $value) {
+                    $cmtyvol->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null);
                 },
                 'form_type' => 'radio',
                 'form_name' => 'gender',
@@ -153,12 +151,12 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.date_of_birth',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->date_of_birth,
+                'value' => fn ($cmtyvol) => $cmtyvol->date_of_birth,
                 'overview' => false,
                 'section' => 'general',
                 'import_labels' => [ 'DOB' ],
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->date_of_birth = ! empty($value) ? Carbon::parse($value) : null;
+                'assign' => function ($cmtyvol, $value) {
+                    $cmtyvol->date_of_birth = ! empty($value) ? Carbon::parse($value) : null;
                 },
                 'form_type' => 'text',
                 'form_name' => 'date_of_birth',
@@ -168,21 +166,21 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.age',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->age,
+                'value' => fn ($cmtyvol) => $cmtyvol->age,
                 'overview' => true,
                 'section' => 'general',
             ],
             [
                 'label_key' => 'people.police_number',
                 'icon' => 'id-card',
-                'value' => fn ($cmtyvol) => $cmtyvol->person->police_no,
+                'value' => fn ($cmtyvol) => $cmtyvol->police_no,
                 'overview' => false,
                 'prefix' => '05/',
                 'section' => 'general',
                 'import_labels' => [ 'Police No.' ],
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $val = preg_replace('/^05\//', '', $value);
-                    $person->police_no = (! empty($val) ? $val : null);
+                    $cmtyvol->police_no = (! empty($val) ? $val : null);
                 },
                 'form_type' => 'number',
                 'form_name' => 'police_number',
@@ -191,17 +189,17 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'people.languages',
                 'icon' => 'language',
-                'value' => fn ($cmtyvol) => $cmtyvol->person->languages != null ? (is_array($cmtyvol->person->languages) ? implode(', ', $cmtyvol->person->languages) : $cmtyvol->person->languages) : null,
-                'value_html' => fn ($cmtyvol) => $cmtyvol->person->languages != null ? (is_array($cmtyvol->person->languages) ? implode('<br>', $cmtyvol->person->languages) : $cmtyvol->person->languages) : null,
+                'value' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode(', ', $cmtyvol->languages) : $cmtyvol->languages) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode('<br>', $cmtyvol->languages) : $cmtyvol->languages) : null,
                 'overview' => false,
                 'section' => 'general',
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value)) : null);
+                'assign' => function ($cmtyvol, $value) {
+                    $cmtyvol->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value)) : null);
                 },
                 'form_type' => 'text',
                 'form_name' => 'languages',
                 'form_help' => __('app.separate_by_comma'),
-                'form_autocomplete' => fn () => Person::languages(),
+                'form_autocomplete' => fn () => CommunityVolunteer::languages(),
             ],
             [
                 'label_key' => 'app.local_phone',
@@ -211,7 +209,7 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'section' => 'reachability',
                 'import_labels' => [ 'Greek No.' ],
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->local_phone = $value;
                 },
                 'form_type' => 'text',
@@ -225,7 +223,7 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'section' => 'reachability',
                 'import_labels' => [ 'Other No.' ],
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->other_phone = $value;
                 },
                 'form_type' => 'text',
@@ -235,10 +233,10 @@ abstract class BaseController extends Controller
                 'label_key' => 'app.whatsapp',
                 'icon' => 'whatsapp',
                 'value' => 'whatsapp',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->whatsapp != null ? whatsapp_link($cmtyvol->whatsapp, 'Hello ' . $cmtyvol->person->name . "\n") : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->whatsapp != null ? whatsapp_link($cmtyvol->whatsapp, 'Hello ' . $cmtyvol->first_name . "\n") : null,
                 'overview' => false,
                 'section' => 'reachability',
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->whatsapp = ($value == 'same' ? $cmtyvol->local_phone : $value);
                 },
                 'form_type' => 'text',
@@ -251,7 +249,7 @@ abstract class BaseController extends Controller
                 'value_html' => fn ($cmtyvol) => $cmtyvol->email != null ? email_link($cmtyvol->email) : null,
                 'overview' => false,
                 'section' => 'reachability',
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->email = $value;
                 },
                 'form_type' => 'email',
@@ -265,7 +263,7 @@ abstract class BaseController extends Controller
                 'value_html' => fn ($cmtyvol) => $cmtyvol->skype != null ? skype_link($cmtyvol->skype) : null,
                 'overview' => false,
                 'section' => 'reachability',
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->skype = $value;
                 },
                 'form_type' => 'text',
@@ -278,7 +276,7 @@ abstract class BaseController extends Controller
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->residence),
                 'overview' => false,
                 'section' => 'reachability',
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->residence = $value;
                 },
                 'form_type' => 'textarea',
@@ -291,7 +289,7 @@ abstract class BaseController extends Controller
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->pickup_location),
                 'overview' => false,
                 'section' => 'reachability',
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->pickup_location = $value;
                 },
                 'form_type' => 'text',
@@ -317,7 +315,7 @@ abstract class BaseController extends Controller
                 'overview' => true,
                 'section' => 'occupation',
                 'import_labels' => [ 'Project' ],
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $selected = [];
                     if ($value != null) {
                         if (! is_array($value)) {
@@ -343,7 +341,11 @@ abstract class BaseController extends Controller
                     ->pluck('name', 'name')
                     ->toArray(),
                 'form_validate' => fn () => [
-                    Rule::in(Responsibility::select('name')->get()->pluck('name')->all()),
+                    Rule::in(Responsibility::select('name')
+                        ->get()
+                        ->pluck('name')
+                        ->all()
+                    ),
                 ],
             ],
             [
@@ -353,7 +355,7 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'section' => 'occupation',
                 'import_labels' => [ 'Starting date at OHF' ],
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->work_starting_date = ! empty($value) ? Carbon::parse($value) : null;
                 },
                 'form_type' => 'date',
@@ -374,7 +376,7 @@ abstract class BaseController extends Controller
                 'value' => fn ($cmtyvol) => optional($cmtyvol->work_leaving_date)->toDateString(),
                 'overview' => false,
                 'section' => 'occupation',
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->work_leaving_date = ! empty($value) ? Carbon::parse($value) : null;
                 },
                 'form_type' => 'date',
@@ -389,24 +391,11 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'section' => 'general',
                 'import_labels' => [ 'Notes' ],
-                'assign' => function ($person, $cmtyvol, $value) {
+                'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->notes = $value;
                 },
                 'form_type' => 'textarea',
                 'form_name' => 'notes',
-            ],
-            [
-                'label_key' => 'people.remarks',
-                'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->person->remarks,
-                'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->person->remarks),
-                'overview' => false,
-                'section' => 'distribution',
-                'assign' => function ($person, $cmtyvol, $value) {
-                    $person->remarks = $value;
-                },
-                'form_type' => 'textarea',
-                'form_name' => 'remarks',
             ],
         ];
     }
@@ -434,27 +423,18 @@ abstract class BaseController extends Controller
         return collect([
             'nationalities' => [
                 'label' => __('people.nationalities'),
-                'groups' => fn () => Person::nationalities(),
-                'query' => fn ($query, $value) => $query
-                    ->select('helpers.*')
-                    ->join('persons', 'helpers.person_id', '=', 'persons.id')
-                    ->where('nationality', $value),
+                'groups' => fn () => CommunityVolunteer::nationalities(),
+                'query' => fn ($query, $value) => $query->hasNationality($value),
             ],
             'languages' => [
                 'label' => __('people.languages'),
-                'groups' => fn () => Person::languages(),
-                'query' => fn ($query, $value) => $query
-                    ->select('helpers.*')
-                    ->join('persons', 'helpers.person_id', '=', 'persons.id')
-                    ->where('languages', 'like', '%"' . $value . '"%'),
+                'groups' => fn () => CommunityVolunteer::languages(),
+                'query' => fn ($query, $value) => $query->speaksLanguage($value),
             ],
             'gender' => [
                 'label' => __('people.gender'),
-                'groups' => fn () => Person::genders(),
-                'query' => fn ($query, $value) => $query
-                    ->select('helpers.*')
-                    ->join('persons', 'helpers.person_id', '=', 'persons.id')
-                    ->where('gender', $value),
+                'groups' => fn () => CommunityVolunteer::genders(),
+                'query' => fn ($query, $value) => $query->hasGender($value),
                 'label_transform' => fn ($groups) => collect($groups)
                     ->map(function ($s) {
                         switch ($s) {
@@ -487,10 +467,7 @@ abstract class BaseController extends Controller
                     ->sort()
                     ->push(null)
                     ->toArray(),
-                'query' => fn ($query, $value) => $query
-                    ->select('helpers.*')
-                    ->join('persons', 'helpers.person_id', '=', 'persons.id')
-                    ->where('pickup_location', $value),
+                'query' => fn ($query, $value) => $query->where('pickup_location', $value),
                 'label_transform' => fn ($groups) => collect($groups)
                     ->map(fn ($s) => $s == null ? __('app.unspecified') : $s),
             ],
@@ -532,23 +509,23 @@ abstract class BaseController extends Controller
         return collect([
             'first_name' => [
                 'label' => __('app.first_name'),
-                'sorting' => 'person.name',
+                'sorting' => 'first_name',
             ],
             'last_name' => [
                 'label' => __('app.last_name'),
-                'sorting' => 'person.family_name',
+                'sorting' => 'family_name',
             ],
             'nationality' => [
                 'label' => __('people.nationality'),
-                'sorting' => 'person.nationality',
+                'sorting' => 'nationality',
             ],
             'gender' => [
                 'label' => __('people.gender'),
-                'sorting' => 'person.gender',
+                'sorting' => 'gender',
             ],
             'age' => [
                 'label' => __('people.age'),
-                'sorting' => 'person.age',
+                'sorting' => 'age',
             ],
             'residence' => [
                 'label' => __('people.residence'),

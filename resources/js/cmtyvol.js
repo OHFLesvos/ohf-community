@@ -6,9 +6,6 @@ Vue.use(BootstrapVue)
 import FontAwesomeIcon from '@/components/common/FontAwesomeIcon'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-import PersonSearch from '@/components/cmtyvol/PersonSearch'
-Vue.component('person-search', PersonSearch)
-
 import CommunityVolunteersReportPage from '@/pages/cmtyvol/CommunityVolunteersReportPage'
 import CommunityVolunteersOverviewPage from '@/pages/cmtyvol/CommunityVolunteersOverviewPage'
 

@@ -13,7 +13,7 @@ class CommunityVolunteersIndexContextButtons implements ContextButtons
     {
         return [
             'action' => [
-                'url' => route('cmtyvol.createFrom'),
+                'url' => route('cmtyvol.create'),
                 'caption' => __('app.register'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',

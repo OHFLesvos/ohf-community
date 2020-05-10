@@ -87,9 +87,6 @@ class Person extends Model
         });
 
         static::deleting(function ($model) {
-            if ($model->helper != null) {
-                $model->helper->delete();
-            }
             if ($model->isForceDeleting()) {
                 if ($model->portrait_picture != null) {
                     Storage::delete($model->portrait_picture);
@@ -109,14 +106,6 @@ class Person extends Model
     {
         $str = $model->name . ' ' . $model->family_name;
         return preg_replace('/\s+/', ' ', trim($str));
-    }
-
-    /**
-     * Get the helper record associated with the person.
-     */
-    public function helper()
-    {
-        return $this->hasOne(CommunityVolunteer::class, 'person_id', 'id');
     }
 
     /**
@@ -235,7 +224,7 @@ class Person extends Model
                 return false;
             }
         }
-        return ! optional($this->helper)->isActive;
+        return true;
     }
 
     public function canHandoutCoupon(CouponType $couponType)
@@ -560,5 +549,16 @@ class Person extends Model
             $label .= ', ' . $this->nationality;
         }
         return $label;
+    }
+
+    public function linkedCommunityVolunteer(): ?CommunityVolunteer
+    {
+        return CommunityVolunteer::active()
+            ->where('first_name', $this->name)
+            ->where('family_name', $this->family_name)
+            ->where('date_of_birth', $this->date_of_birth)
+            ->when($this->nationality !== null, fn ($qry) => $qry->where('nationality', $this->nationality))
+            ->when($this->police_no !== null, fn ($qry) => $qry->where('police_no', $this->police_no))
+            ->first();
     }
 }

@@ -20,12 +20,6 @@ class PeopleShowContextButtons implements ContextButtons
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $person),
             ],
-            'community_volunteer' => $person->helper != null ? [
-                'url' => route('cmtyvol.show', $person->helper),
-                'caption' => __('cmtyvol.view'),
-                'icon' => 'id-badge',
-                'authorized' => Auth::user()->can('view', $person->helper),
-            ] : null,
             'delete' => [
                 'url' => route('people.destroy', $person),
                 'caption' => __('app.delete'),

@@ -5,7 +5,7 @@
 @section('content')
 
     {{-- Community volunteer --}}
-    @if(optional($person->helper)->isActive)
+    @if($person->linkedCommunityVolunteer() !== null)
         @component('components.alert.info')
             @lang('people.person_registered_as_community_volunteer')
         @endcomponent

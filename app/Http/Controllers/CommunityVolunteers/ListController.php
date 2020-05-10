@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
-use App\Models\People\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
@@ -47,10 +46,8 @@ class ListController extends BaseController
             foreach ($groups as $value) {
                 $q = CommunityVolunteer::$scope_method();
                 $groupings->get($grouping)['query']($q, $value);
-                $data->push($q
+                $data->push($q->orderBy('first_name')
                     ->get()
-                    ->load('person')
-                    ->sortBy('person.name')
                     ->mapWithKeys(fn ($cmtyvol) => [
                         $cmtyvol->id => [
                             'model' => $cmtyvol,
@@ -66,9 +63,8 @@ class ListController extends BaseController
             }
         } else {
             $data = CommunityVolunteer::$scope_method()
+                ->orderBy('first_name')
                 ->get()
-                ->load('person')
-                ->sortBy('person.name')
                 ->mapWithKeys(fn ($cmtyvol) => [
                     $cmtyvol->id => [
                         'model' => $cmtyvol,
@@ -123,38 +119,6 @@ class ListController extends BaseController
         ];
     }
 
-    public function createFrom()
-    {
-        $this->authorize('create', CommunityVolunteer::class);
-
-        return view('cmtyvol.createFrom');
-    }
-
-    public function storeFrom(Request $request)
-    {
-        $this->authorize('create', CommunityVolunteer::class);
-
-        $request->validate([
-            'person_id' => [
-                'required',
-                Rule::exists('persons', 'public_id'),
-                function ($attribute, $value, $fail) {
-                    if (Person::where('public_id', $value)->has('helper')->first() != null) {
-                        return $fail(__('cmtyvol.already_exists'));
-                    }
-                },
-            ],
-        ]);
-
-        $person = Person::where('public_id', $request->person_id)->firstOrFail();
-        $cmtyvol = new CommunityVolunteer();
-        $person->helper()->save($cmtyvol);
-
-        return redirect()
-            ->route('cmtyvol.show', $cmtyvol)
-            ->with('success', __('cmtyvol.registered'));
-    }
-
     public function create()
     {
         $this->authorize('create', CommunityVolunteer::class);
@@ -203,13 +167,9 @@ class ListController extends BaseController
 
         $this->validateFormData($request);
 
-        $person = new Person();
         $cmtyvol = new CommunityVolunteer();
-
-        $this->applyFormData($request, $person, $cmtyvol);
-
-        $person->save();
-        $person->helper()->save($cmtyvol);
+        $this->applyFormData($request, $cmtyvol);
+        $cmtyvol->save();
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)
@@ -264,14 +224,14 @@ class ListController extends BaseController
         ];
     }
 
-    private function applyFormData(Request $request, Person $person, CommunityVolunteer $cmtyvol)
+    private function applyFormData(Request $request, CommunityVolunteer $cmtyvol)
     {
         collect($this->getFields())
             ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
             ->filter(fn ($field) => self::isAssignableField($field))
             ->filter(fn ($field) => self::matchesSelectedSection($field, $request))
-            ->each(function ($field) use ($person, $cmtyvol, $request) {
-                self::assignValueForField($request, $field, $person, $cmtyvol);
+            ->each(function ($field) use ($cmtyvol, $request) {
+                self::assignValueForField($request, $field, $cmtyvol);
             });
     }
 
@@ -291,12 +251,12 @@ class ListController extends BaseController
             && isset($field['assign']) && is_callable($field['assign']);
     }
 
-    private static function assignValueForField(Request $request, array $field, Person &$person, CommunityVolunteer &$cmtyvol)
+    private static function assignValueForField(Request $request, array $field, CommunityVolunteer &$cmtyvol)
     {
         if (isset($request->{$field['form_name'].'_delete'}) && isset($field['cleanup']) && is_callable($field['cleanup'])) {
-            $field['cleanup']($person, $cmtyvol);
+            $field['cleanup']($cmtyvol);
         }
-        $field['assign']($person, $cmtyvol, $request->{$field['form_name']});
+        $field['assign']($cmtyvol, $request->{$field['form_name']});
     }
 
     public function show(CommunityVolunteer $cmtyvol)
@@ -387,10 +347,8 @@ class ListController extends BaseController
 
         $this->validateFormData($request);
 
-        $this->applyFormData($request, $cmtyvol->person, $cmtyvol);
-
+        $this->applyFormData($request, $cmtyvol);
         $cmtyvol->save();
-        $cmtyvol->person->save();
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)

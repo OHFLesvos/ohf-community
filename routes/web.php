@@ -420,16 +420,6 @@ Route::middleware(['auth', 'language'])
                 Route::get('{cmtyvol}/vcard', 'ExportImportController@vcard')
                     ->name('vcard');
 
-                // Create community volunteer (decide what way)
-                Route::get('createFrom', 'ListController@createFrom')
-                    ->name('createFrom')
-                    ->middleware('can:create,App\Models\CommunityVolunteers\CommunityVolunteer');
-
-                // Store community volunteer (decide what way)
-                Route::post('createFrom', 'ListController@storeFrom')
-                    ->name('storeFrom')
-                    ->middleware('can:create,App\Models\CommunityVolunteers\CommunityVolunteer');
-
                 // Responsibilities resource
                 Route::resource('responsibilities', 'ResponsibilitiesController')
                     ->except('show');

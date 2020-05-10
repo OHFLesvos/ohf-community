@@ -35,7 +35,7 @@ class CommunityVolunteerController extends Controller
                 'alpha_dash',
                 'filled',
                 Rule::in([
-                    'name',
+                    'first_name',
                     'family_name',
                     'nationality',
                     'age',
@@ -56,29 +56,29 @@ class CommunityVolunteerController extends Controller
             ],
         ]);
 
-        $sortBy = $request->input('sortBy', 'person.name');
-        $sortMap = collect([
-            'name' => 'person.name',
-            'family_name' => 'person.family_name',
-            'nationality' => 'person.nationality',
-            'age' =>'person.age',
-        ]);
-        $sortBy = $sortMap->get($sortBy, $sortBy);
+        $sortBy = $request->input('sortBy', 'first_name');
         $sortDirection = $request->input('sortDirection', 'asc');
+        $orderInDB = !in_array($sortBy, ['age']);
 
         $pageSize = $request->input('pageSize', 10);
         $filter = $request->input('filter', '');
         $scopeMethod = $request->input('scope', 'active');
 
-        $data = CommunityVolunteer::query()
+        $query = CommunityVolunteer::query()
             ->$scopeMethod()
-            ->when(filled($filter), fn (Builder $query) => $query->forFilter(trim($filter)))
-            ->with(['responsibilities:name'])
-            ->get()
-            ->when($sortDirection == 'asc', fn (Collection $col) => $col->sortBy($sortBy))
-            ->when($sortDirection == 'desc', fn (Collection $col) => $col->sortByDesc($sortBy))
-            ->values()
-            ->paginate($pageSize);
+            ->when(filled($filter), fn (Builder $qry) => $qry->forFilter(trim($filter)))
+            ->with(['responsibilities:name']);
+
+        if ($orderInDB) {
+            $data = $query->orderBy($sortBy, $sortDirection)
+                ->paginate($pageSize);
+        } else {
+            $data = $query->get()
+                ->when($sortDirection == 'asc', fn (Collection $col) => $col->sortBy($sortBy))
+                ->when($sortDirection == 'desc', fn (Collection $col) => $col->sortByDesc($sortBy))
+                ->values()
+                ->paginate($pageSize);
+        }
 
         return CommunityVolunteerResource::collection($data);
     }

@@ -17,20 +17,19 @@ class CommunityVolunteer extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->person->name,
-            'family_name' => $this->person->family_name,
-            'nickname' => $this->person->nickname,
-            'full_name' => $this->person->fullName,
-            'date_of_birth' => $this->person->date_of_birth,
-            'age' => $this->person->age,
-            'gender' => $this->person->gender,
-            'remarks' => $this->person->remarks,
-            'nationality' => $this->person->nationality,
-            'languages' => $this->person->languages,
-            'police_no' => $this->person->police_no,
-            'portrait_picture' => $this->person->portrait_picture,
-            'portrait_picture_url' => $this->person->portrait_picture != null
-                ? Storage::url($this->person->portrait_picture)
+            'first_name' => $this->first_name,
+            'family_name' => $this->family_name,
+            'nickname' => $this->nickname,
+            'full_name' => $this->fullName,
+            'date_of_birth' => $this->date_of_birth,
+            'age' => $this->age,
+            'gender' => $this->gender,
+            'nationality' => $this->nationality,
+            'languages' => $this->languages,
+            'police_no' => $this->police_no,
+            'portrait_picture' => $this->portrait_picture,
+            'portrait_picture_url' => $this->portrait_picture != null
+                ? Storage::url($this->portrait_picture)
                 : null,
             'local_phone' => $this->local_phone,
             'other_phone' => $this->other_phone,

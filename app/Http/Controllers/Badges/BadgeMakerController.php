@@ -189,7 +189,7 @@ class BadgeMakerController extends Controller
         if (isset($person['type']) && $person['type'] == 'cmtyvol' && isset($person['id'])) {
             $cmtyvol = CommunityVolunteer::find($person['id']);
             if ($cmtyvol != null) {
-                $person['picture'] = $cmtyvol->person->portrait_picture != null ? Storage::path($cmtyvol->person->portrait_picture) : null;
+                $person['picture'] = $cmtyvol->portrait_picture != null ? Storage::path($cmtyvol->portrait_picture) : null;
             }
         }
         return $person;
@@ -199,7 +199,7 @@ class BadgeMakerController extends Controller
         return [
             'type' => 'cmtyvol',
             'id' => $cmtyvol->id,
-            'name' => $cmtyvol->person->nickname ?? $cmtyvol->person->name,
+            'name' => $cmtyvol->nickname ?? $cmtyvol->first_name,
             'position' => $cmtyvol->responsibilities->implode('name', ', '),
         ];
     }

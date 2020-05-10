@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Bank;
 
+use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Gate;
 
@@ -22,6 +23,7 @@ class BankPerson extends JsonResource
      */
     public function toArray($request)
     {
+        $community_volunteer = $this->linkedCommunityVolunteer();
         return [
             'id' => $this->{$this->getRouteKeyName()},
             'url' => route('api.bank.withdrawal.person', $this->resource),
@@ -42,9 +44,9 @@ class BankPerson extends JsonResource
             'remarks_update_url' => route('api.people.updateRemarks', $this),
             'card_no' => $this->card_no,
             'register_card_url' => route('api.people.registerCard', $this),
-            'is_community_volunteer' => optional($this->helper)->isActive,
-            'can_view_community_volunteer' => $this->helper != null && $request->user()->can('view', $this->helper),
-            'show_community_volunteer_url' => $this->helper != null ? route('cmtyvol.show', $this->helper) : null,
+            'is_community_volunteer' => $community_volunteer !== null,
+            'can_view_community_volunteer' => $community_volunteer !== null && $request->user()->can('view', $community_volunteer),
+            'show_community_volunteer_url' => $community_volunteer !== null ? route('cmtyvol.show', $community_volunteer) : null,
             'police_no' => $this->police_no,
             'police_no_formatted' => $this->police_no_formatted,
             'remarks' => $this->remarks,

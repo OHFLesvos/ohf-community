@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -58,10 +57,18 @@ class CreateHelpersResponsibilitiesTable extends Migration
         Schema::table('helpers_helper_responsibility', function (Blueprint $table) {
             $table->timestamps();
         });
-        $map = CommunityVolunteer::all()->mapWithKeys(function ($helper) {
-            $arr = $helper->responsibilities->pluck('name')->toArray();
-            return [$helper->id => count($arr) > 0 ? json_encode($arr) : null];
-        });
+
+        $map = DB::table('helpers')->get()
+            ->mapWithKeys(function ($helper) {
+                $arr = DB::table('helpers_responsibilities')
+                    ->select('name')
+                    ->join('helpers_helper_responsibility', 'helpers_responsibilities.id', '=', 'helpers_helper_responsibility.responsibility_id')
+                    ->where('helper_id', $helper->id)
+                    ->get()
+                    ->pluck('name')
+                    ->toArray();
+                return [$helper->id => count($arr) > 0 ? json_encode($arr) : null];
+            });
         Schema::table('helpers_helper_responsibility', function (Blueprint $table) {
             $table->dropTimestamps();
         });

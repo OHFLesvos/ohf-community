@@ -12,6 +12,7 @@ return [
     'in_n_days' => 'tomorrow|in :days days',
     'no_number_registered' => 'No number registered!',
     'name' => 'Name',
+    'first_name' => 'First Name',
     'family_name' => 'Family Name',
     'gender' => 'Gender',
     'age_distribution' => 'Age distribution',

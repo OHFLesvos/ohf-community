@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +13,7 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
      */
     public function up()
     {
-        CommunityVolunteer::all()->each(function (CommunityVolunteer $helper) {
+        DB::table('helpers')->get()->each(function ($helper) {
             $notes = '';
 
             if (filled($helper->work_background)) {
@@ -63,8 +62,11 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
                 $notes .= "Vulnerability: $value\n";
             }
             if (filled(trim($notes))) {
-                $helper->notes = trim($helper->notes . "\n\n" . $notes);
-                $helper->save();
+                DB::table('helpers')
+                    ->where('id', $helper->id)
+                    ->update([
+                        'notes' => trim($helper->notes . "\n\n" . $notes),
+                    ]);
             }
         });
 

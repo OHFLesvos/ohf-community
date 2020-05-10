@@ -39,7 +39,6 @@ class MaintenanceController extends Controller
     {
         return CouponHandout::groupBy('person_id')
             ->having(DB::raw('max(coupon_handouts.date)'), '<=', Carbon::today()->subMonth($months))
-            // TODO: consider community volunteer status
             ->join('persons', function ($join) {
                 $join->on('persons.id', '=', 'coupon_handouts.person_id')
                     ->whereNull('deleted_at');
@@ -61,7 +60,6 @@ class MaintenanceController extends Controller
                     ->whereNull('deleted_at');
             })
             ->whereNull('coupon_handouts.id')
-            ->doesntHave('helper')
             ->get()
             ->count();
     }
@@ -74,7 +72,6 @@ class MaintenanceController extends Controller
     private function getPersonsWithoutNumber(): int
     {
         return Person::whereNull('police_no')
-            ->doesntHave('helper')
             ->count();
     }
 
@@ -89,7 +86,6 @@ class MaintenanceController extends Controller
         if (isset($request->cleanup_no_coupons_since)) {
             $ids = CouponHandout::groupBy('person_id')
                 ->having(DB::raw('max(coupon_handouts.date)'), '<=', Carbon::today()->subMonth(self::MONTHS_NO_TRANSACTIONS_SINCE))
-                // TODO: consider community volunteer status
                 ->join('persons', function ($join) {
                     $join->on('persons.id', '=', 'coupon_handouts.person_id')
                         ->whereNull('deleted_at');
@@ -97,10 +93,8 @@ class MaintenanceController extends Controller
                 ->get()
                 ->pluck('person_id')
                 ->toArray();
-            // Ignore community volunteers
+
             $ids_wo_cmtyvol = Person::find($ids)
-                ->load('helper')
-                ->where('helper', null)
                 ->pluck('id')
                 ->toArray();
             $cnt += Person::destroy($ids_wo_cmtyvol);
@@ -112,7 +106,6 @@ class MaintenanceController extends Controller
                         ->whereNull('deleted_at');
                 })
                 ->whereNull('coupon_handouts.id')
-                ->doesntHave('helper')
                 ->select('persons.id')
                 ->get()
                 ->pluck('id')
@@ -121,7 +114,6 @@ class MaintenanceController extends Controller
         }
         if (isset($request->cleanup_no_number)) {
             $cnt += Person::whereNull('police_no')
-                ->doesntHave('helper')
                 ->delete();
         }
          return redirect()->route('bank.withdrawal.search')

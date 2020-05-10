@@ -3,7 +3,6 @@
 namespace App\Imports\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
-use App\Models\People\Person;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -28,49 +27,36 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $person = new Person();
             $cmtyvol = new CommunityVolunteer();
+            $this->assignImportedValues($row, $cmtyvol);
 
-            $this->assignImportedValues($row, $cmtyvol, $person);
-
-            if (isset($person->name) && isset($person->family_name)) {
-                $existing_person = Person::where('name', $person->name)
-                    ->where('family_name', $person->family_name)
-                    ->where('nationality', $person->nationality)
-                    ->where('date_of_birth', $person->date_of_birth)
+            if (isset($cmtyvol->name_first_name) && isset($cmtyvol->family_name)) {
+                $existing_cmtyvol = CommunityVolunteer::query()
+                    ->where('first_name', $cmtyvol->first_name)
+                    ->where('family_name', $cmtyvol->family_name)
+                    ->where('nationality', $cmtyvol->nationality)
+                    ->where('date_of_birth', $cmtyvol->date_of_birth)
                     ->first();
-                if ($existing_person != null) {
-                    $existing_cmtyvol = $existing_person->helper;
-                    $new_cmtyvol = false;
-                    if ($existing_cmtyvol == null) {
-                        $existing_cmtyvol = new CommunityVolunteer();
-                        $new_cmtyvol = true;
-                    }
-                    $this->assignImportedValues($row, $existing_cmtyvol, $existing_person);
-                    $existing_person->save();
-                    if ($new_cmtyvol) {
-                        $existing_person->helper()->save($existing_cmtyvol);
-                    } else {
-                        $existing_cmtyvol->save();
-                    }
+                if ($existing_cmtyvol !== null) {
+                    $this->assignImportedValues($row, $existing_cmtyvol);
+                    $existing_cmtyvol->save();
                 } else {
-                    $person->save();
-                    $person->helper()->save($cmtyvol);
+                    $cmtyvol->save();
                 }
             }
         }
     }
 
-    private function assignImportedValues($row, $cmtyvol, $person)
+    private function assignImportedValues($row, CommunityVolunteer $cmtyvol)
     {
-        $row->each(function ($value, $label) use ($cmtyvol, $person) {
+        $row->each(function ($value, $label) use ($cmtyvol) {
             if ($value == 'N/A') {
                 $value = null;
             }
-            $this->fields->each(function ($f) use ($cmtyvol, $person, $label, $value) {
+            $this->fields->each(function ($f) use ($cmtyvol, $label, $value) {
                 if ($f['labels']->containsStrict(strtolower($label))) {
                     try {
-                        $f['assign']($person, $cmtyvol, $value);
+                        $f['assign']($cmtyvol, $value);
                     } catch (Exception $e) {
                         Log::warning('Cannot import community volunteer: ' . $e->getMessage());
                     }

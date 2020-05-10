@@ -125,15 +125,13 @@ class ExportImportController extends BaseController
             $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
             Storage::delete($temp_file);
             $scopeMethod = $scope = $this->getScopes()[$request->scope]['scope'];
-            $cmtyvols = CommunityVolunteer::{$scopeMethod}()
-                ->get()
-                ->load('person');
+            $cmtyvols = CommunityVolunteer::{$scopeMethod}()->get();
             foreach ($cmtyvols as $cmtyvol) {
-                if (isset($cmtyvol->person->portrait_picture)) {
-                    $picture_path = storage_path('app/'.$cmtyvol->person->portrait_picture);
+                if (isset($cmtyvol->portrait_picture)) {
+                    $picture_path = storage_path('app/'.$cmtyvol->portrait_picture);
                     if (is_file($picture_path)) {
                         $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
-                        $zip->addFileFromPath('portraits/' . $cmtyvol->person->fullName . '.' . $ext, $picture_path);
+                        $zip->addFileFromPath('portraits/' . $cmtyvol->fullName . '.' . $ext, $picture_path);
                     }
                 }
             }
@@ -196,8 +194,8 @@ class ExportImportController extends BaseController
         // }
         $vcard->addCompany(config('app.name'));
 
-        if ($cmtyvol->person->family_name != null || $cmtyvol->person->name != null) {
-            $vcard->addName($cmtyvol->person->family_name, $cmtyvol->person->name, '', '', '');
+        if ($cmtyvol->family_name != null || $cmtyvol->first_name != null) {
+            $vcard->addName($cmtyvol->family_name, $cmtyvol->first_name, '', '', '');
         }
         if ($cmtyvol->email != null) {
             $vcard->addEmail($cmtyvol->email);
@@ -209,8 +207,8 @@ class ExportImportController extends BaseController
             $vcard->addPhoneNumber(preg_replace('/[^+0-9]/', '', $cmtyvol->whatsapp), 'WORK');
         }
 
-        if (isset($cmtyvol->person->portrait_picture)) {
-            $contents = Storage::get($cmtyvol->person->portrait_picture);
+        if (isset($cmtyvol->portrait_picture)) {
+            $contents = Storage::get($cmtyvol->portrait_picture);
             if ($contents != null) {
                 $vcard->addPhotoContent($contents);
             }

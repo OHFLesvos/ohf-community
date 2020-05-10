@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\CommunityVolunteers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\People\Person;
+use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Support\ChartResponseBuilder;
 use Illuminate\Http\Request;
 
@@ -14,10 +14,10 @@ class ReportController extends Controller
      */
     public function genderDistribution()
     {
-        return Person::query()
+        return CommunityVolunteer::query()
             ->select('gender')
             ->selectRaw('COUNT(*) AS total')
-            ->whereHas('helper', fn ($query) => $query->active())
+            ->active()
             ->whereNotNull('gender')
             ->groupBy('gender')
             ->orderBy('total', 'DESC')
@@ -39,10 +39,10 @@ class ReportController extends Controller
             ],
         ]);
 
-        $nationalities = Person::query()
+        $nationalities = CommunityVolunteer::query()
             ->select('nationality')
             ->selectRaw('COUNT(*) AS total')
-            ->whereHas('helper', fn ($query) => $query->active())
+            ->active()
             ->whereNotNull('nationality')
             ->groupBy('nationality')
             ->orderBy('total', 'DESC')
@@ -86,9 +86,9 @@ class ReportController extends Controller
 
     private static function getYoungestPerson()
     {
-        return Person::query()
+        return CommunityVolunteer::query()
             ->select('date_of_birth')
-            ->whereHas('helper', fn ($query) => $query->active())
+            ->active()
             ->whereNotNull('date_of_birth')
             ->orderBy('date_of_birth', 'desc')
             ->limit(1)
@@ -97,9 +97,9 @@ class ReportController extends Controller
 
     private static function getOldestPerson()
     {
-        return Person::query()
+        return CommunityVolunteer::query()
             ->select('date_of_birth')
-            ->whereHas('helper', fn ($query) => $query->active())
+            ->active()
             ->whereNotNull('date_of_birth')
             ->orderBy('date_of_birth', 'asc')
             ->limit(1)
@@ -108,11 +108,11 @@ class ReportController extends Controller
 
     private static function getPersonAges()
     {
-        return Person::query()
+        return CommunityVolunteer::query()
             ->select('date_of_birth')
             ->selectRaw('TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age')
             ->selectRaw('COUNT(*) AS total')
-            ->whereHas('helper', fn ($query) => $query->active())
+            ->active()
             ->whereNotNull('date_of_birth')
             ->groupBy('age')
             ->orderBy('age', 'asc')
