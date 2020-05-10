@@ -365,7 +365,7 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'cmtyvol.working_since_days',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->working_since_days,
+                'value' => fn ($cmtyvol) => $cmtyvol->workingSinceDays,
                 'overview' => false,
                 'section' => 'occupation',
                 'form_name' => 'working_since_days',

@@ -134,7 +134,6 @@ class CommunityVolunteer extends Model implements Auditable
             ->orWhereDate('work_starting_date', '>', Carbon::today());
     }
 
-
     /**
      * Scope a query to only include alumni (former community volunteers).
      *
@@ -146,10 +145,6 @@ class CommunityVolunteer extends Model implements Auditable
         return $query
             ->whereNotNull('work_leaving_date')
             ->whereDate('work_leaving_date', '<', Carbon::today());
-    }
-
-    public function getIsActiveAttribute() {
-        return $this->work_starting_date != null && $this->work_leaving_date == null;
     }
 
     public function getWorkingSinceDaysAttribute() {
