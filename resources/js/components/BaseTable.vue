@@ -225,9 +225,19 @@ export default {
         itemProvider (ctx) {
             this.isBusy = true
             this.errorText = null
-            let url = ctx.apiUrl + '?filter=' + ctx.filter + '&page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc')
+            const params = new URLSearchParams({
+                filter: ctx.filter,
+                page: ctx.currentPage,
+                pageSize: ctx.perPage,
+                sortBy: ctx.sortBy,
+                sortDirection: ctx.sortDesc ? 'desc' : 'asc'
+            })
             for (let i = 0; i < this.selectedTags.length; i++) {
-                url += '&tags[]=' + this.selectedTags[i]
+                params.append('tags[]', this.selectedTags[i])
+            }
+            let url = ctx.apiUrl;
+            if (params.toString().length > 0) {
+                url += '?' + params.toString()
             }
             return axios.get(url).then(data => {
                 this.isBusy = false
