@@ -51,10 +51,10 @@
 @endsection
 
 @section('script')
-    var listEventsUrl = '{{ route('calendar.events.index') }}';
-    var storeEventUrl = '{{ route('calendar.events.store') }}';
-    var listResourcesUrl = '{{ route('calendar.resources.index') }}';
-    var storeResourceUrl = '{{ route('calendar.resources.store') }}';
+    var listEventsUrl = '{{ route('api.calendar.events.index') }}';
+    var storeEventUrl = '{{ route('api.calendar.events.store') }}';
+    var listResourcesUrl = '{{ route('api.calendar.resources.index') }}';
+    var storeResourceUrl = '{{ route('api.calendar.resources.store') }}';
     var createEventAllowed = @can('create', App\Models\Collaboration\CalendarEvent::class) true @else false @endcan;
     var manageResourcesAllowed = @can('create', App\Models\Collaboration\CalendarResource::class) true @else false @endcan;
     var currentUserId = {{ Auth::id() }};

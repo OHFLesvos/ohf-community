@@ -20,7 +20,7 @@ class CalendarResourceResource extends JsonResource
             'group' => $this->group,
             'eventColor' => $this->color,
             'default' => $this->default,
-            'url' => route('calendar.resources.show', $this),
+            'url' => route('api.calendar.resources.show', $this),
         ];
     }
 }

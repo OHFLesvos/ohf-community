@@ -155,7 +155,7 @@ Route::middleware(['language', 'auth'])
 Route::middleware('auth')
     ->namespace('Collaboration\API')
     ->prefix('calendar')
-    ->name('calendar.')
+    ->name('api.calendar.')
     ->group(function () {
         Route::apiResource('events', 'CalendarEventController');
         Route::patch('events/{event}/date', 'CalendarEventController@updateDate')

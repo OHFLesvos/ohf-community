@@ -26,8 +26,8 @@ class CalendarEventResource extends JsonResource
             'resourceId' => $this->resource->resource->id,
             'user' => new UserResource($this->user),
             'editable' => Auth::user()->can('update', $this->resource),
-            'url' => route('calendar.events.show', $this),
-            'updateDateUrl' => route('calendar.events.updateDate', $this),
+            'url' => route('api.calendar.events.show', $this),
+            'updateDateUrl' => route('api.calendar.events.updateDate', $this),
         ];
     }
 }
