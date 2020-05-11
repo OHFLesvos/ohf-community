@@ -132,7 +132,7 @@
 <script>
 import moment from 'moment'
 import { handleAjaxError, showSnackbar } from '@/utils'
-import { findBook, findLendingOfBook, lendBook, extendLending, returnBook } from '@/api/library'
+import libraryApi from '@/api/library'
 import PersonAutocompleteInput from '@/components/people/PersonAutocompleteInput'
 import BookLogTable from '@/components/library/BookLogTable'
 export default {
@@ -187,7 +187,7 @@ export default {
     methods: {
         moment,
         loadBook () {
-            findBook(this.bookId)
+            libraryApi.findBook(this.bookId)
                 .then(data => {
                     this.book = data.data
                 })
@@ -195,7 +195,7 @@ export default {
         },
         loadLending () {
             this.busy = true
-            findLendingOfBook(this.bookId)
+            libraryApi.findLendingOfBook(this.bookId)
                 .then(data => {
                     if (data.data) {
                         this.lending = data.data
@@ -211,7 +211,7 @@ export default {
             var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)
             if (days != null && days > 0) {
                 this.busy = true
-                extendLending(this.bookId, days)
+                libraryApi.extendLending(this.bookId, days)
                     .then((data) => {
                         showSnackbar(data.message)
                         this.loadLending()
@@ -222,7 +222,7 @@ export default {
         },
         returnBook () {
             this.busy = true
-            returnBook(this.bookId)
+            libraryApi.returnBook(this.bookId)
                 .then((data) => {
                     showSnackbar(data.message)
                     this.loadLending()
@@ -234,7 +234,7 @@ export default {
             bvModalEvt.preventDefault()
             if (this.selectedPersonId) {
                 this.busy = true
-                lendBook(this.bookId, this.selectedPersonId)
+                libraryApi.lendBook(this.bookId, this.selectedPersonId)
                     .then((data) => {
                         showSnackbar(data.message)
                         this.loadLending()
@@ -245,7 +245,7 @@ export default {
                     .catch(handleAjaxError)
                     .finally(() => this.busy = false)
             }
-        },
+        }
     }
 }
 </script>

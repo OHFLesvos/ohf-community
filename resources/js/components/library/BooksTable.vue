@@ -2,7 +2,7 @@
     <base-table
         id="booksTable"
         :fields="fields"
-        :api-url="route('api.library.books.index')"
+        :api-method="listBooks"
         default-sort-by="title"
         :empty-text="$t('library.no_books_registered')"
         :filter-placeholder="$t('app.search_ellipsis')"
@@ -17,6 +17,7 @@
 <script>
 import moment from 'moment'
 import BaseTable from '@/components/BaseTable'
+import libraryApi from '@/api/library'
 export default {
     components: {
         BaseTable
@@ -58,6 +59,9 @@ export default {
                 }
             ]
         }
+    },
+    methods: {
+        listBooks: libraryApi.listBooks
     }
 }
 </script>

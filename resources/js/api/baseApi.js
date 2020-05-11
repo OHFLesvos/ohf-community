@@ -6,7 +6,7 @@ import { getAjaxErrorMessage } from '@/utils'
 export const api = {
     async get (url) {
         try {
-            let res = await axios.get(url)
+            const res = await axios.get(url)
             return res.data
         } catch (err) {
             throw getAjaxErrorMessage(err)

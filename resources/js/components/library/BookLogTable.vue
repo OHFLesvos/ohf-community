@@ -2,7 +2,7 @@
     <base-table
         id="lendingLogTable"
         :fields="fields"
-        :api-url="route('api.library.lending.bookLog', [bookId])"
+        :api-method="fetchBookLog"
         default-sort-by="lending_date"
         default-sort-desc
         :empty-text="$t('library.not_lent_to_anyone_so_far')"
@@ -20,6 +20,7 @@
 <script>
 import moment from 'moment'
 import BaseTable from '@/components/BaseTable'
+import libraryApi from '@/api/library'
 export default {
     components: {
         BaseTable
@@ -47,6 +48,11 @@ export default {
                     formatter: (value) => value ? moment(value).format('LL') : null
                 },
             ]
+        }
+    },
+    methods: {
+        fetchBookLog () {
+            return libraryApi.fetchBookLog(this.bookId)
         }
     }
 }

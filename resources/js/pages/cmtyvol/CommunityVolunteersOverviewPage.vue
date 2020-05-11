@@ -3,7 +3,7 @@
         <base-table
             id="communityVolunteerTable"
             :fields='fields'
-            :api-url="route('api.cmtyvol.index')"
+            :api-method="list"
             default-sort-by="first_name"
             :empty-text="$t('cmtyvol.none_found')"
             :filter-placeholder="$t('app.search')"
@@ -43,6 +43,7 @@
 // import moment from 'moment'
 import Nl2br from 'vue-nl2br'
 import BaseTable from '@/components/BaseTable'
+import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
 export default {
     components: {
         BaseTable,
@@ -108,7 +109,8 @@ export default {
                 return value.join('\n')
             }
             return value
-        }
+        },
+        list: cmtyvolApi.list
     }
 }
 </script>

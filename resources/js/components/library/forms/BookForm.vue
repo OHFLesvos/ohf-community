@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { findIsbn } from '@/api/library'
+import libraryApi from '@/api/library'
 import HttpStatus from 'http-status-codes'
 import { handleAjaxError } from '@/utils'
 import { BForm, BButton } from 'bootstrap-vue'
@@ -104,7 +104,7 @@ export default {
         },
         updateDataByISBN (isbn) {
             this.searching = true
-            findIsbn(isbn)
+            libraryApi.findIsbn(isbn)
                 .then(data => {
                     this.title = data.title
                     this.author = data.author

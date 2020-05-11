@@ -112,8 +112,8 @@
 
 <script>
 import moment from 'moment'
-import { findLendingsOfPerson, lendBookToPerson, extendLendingToPerson, returnBookFromPerson } from '@/api/library'
-import { findPerson } from '@/api/people'
+import libraryApi from '@/api/library'
+import peopleApi from '@/api/people'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
 import BookForm from '@/components/library/forms/BookForm'
@@ -149,15 +149,13 @@ export default {
     methods: {
         moment,
         loadPerson () {
-            findPerson(this.personId)
-                .then(data => {
-                    this.person = data.data
-                })
+            peopleApi.find(this.personId)
+                .then(data => this.person = data.data)
                 .catch(err => console.error(err))
         },
         loadLendings () {
             this.busy = true
-            findLendingsOfPerson(this.personId)
+            libraryApi.findLendingsOfPerson(this.personId)
                 .then(data => {
                     this.lendings = data.data
                     this.canLend = data.meta.can_lend
@@ -171,7 +169,7 @@ export default {
             bvModalEvt.preventDefault()
             if (this.selectedBookId) {
                 this.busy = true
-                lendBookToPerson(this.selectedBookId, this.personId)
+                libraryApi.lendBookToPerson(this.selectedBookId, this.personId)
                     .then((data) => {
                         showSnackbar(data.message)
                         this.loadLendings()
@@ -189,7 +187,7 @@ export default {
         },
         registerAndLendBookToPerson (newBook) {
             this.busy = true
-            lendBookToPerson(newBook, this.personId)
+            libraryApi.lendBookToPerson(newBook, this.personId)
                 .then((data) => {
                     showSnackbar(data.message)
                     this.loadLendings()
@@ -205,7 +203,7 @@ export default {
             var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)
             if (days != null && days > 0) {
                 this.busy = true
-                extendLendingToPerson(book_id, this.personId, days)
+                libraryApi.extendLendingToPerson(book_id, this.personId, days)
                     .then((data) => {
                         showSnackbar(data.message)
                         this.loadLendings()
@@ -216,7 +214,7 @@ export default {
         },
         returnBook (book_id) {
             this.busy = true
-            returnBookFromPerson(book_id, this.personId)
+            libraryApi.returnBookFromPerson(book_id, this.personId)
                 .then((data) => {
                     showSnackbar(data.message)
                     this.loadLendings()

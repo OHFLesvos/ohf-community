@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import commonApi from '@/api/common'
 import formInputMixin from '@/mixins/formInputMixin'
 export default {
     mixins: [formInputMixin],
@@ -48,9 +48,9 @@ export default {
     },
     methods: {
         loadLanguages () {
-            axios.get(this.route('api.languages'))
-                .then(res => {
-                    const languages = Object.entries(res.data)
+            commonApi.listLanguages()
+                .then(data => {
+                    const languages = Object.entries(data)
                         .map(e => {
                             return {
                                 value: e[0],

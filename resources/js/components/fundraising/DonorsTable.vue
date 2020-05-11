@@ -2,7 +2,7 @@
     <base-table
         id="donorsTable"
         :fields="fields"
-        :api-url="route('api.fundraising.donors.index')"
+        :api-method="list"
         :tags="tags"
         :tag="tag"
         default-sort-by="first_name"
@@ -31,6 +31,7 @@ import moment from 'moment'
 import PhoneLink from '@/components/common/PhoneLink'
 import EmailLink from '@/components/common/EmailLink'
 import BaseTable from '@/components/BaseTable'
+import donorsApi from '@/api/fundraising/donors'
 export default {
     components: {
         BaseTable,
@@ -124,6 +125,9 @@ export default {
                 },
             ]
         }
+    },
+    methods: {
+        list: donorsApi.list
     }
 }
 </script>

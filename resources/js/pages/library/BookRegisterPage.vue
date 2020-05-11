@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { storeBook } from '@/api/library'
+import libraryApi from '@/api/library'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {
@@ -25,7 +25,7 @@ export default {
     methods: {
         registerBook (data) {
             this.busy = true
-            storeBook(data)
+            libraryApi.storeBook(data)
                 .then((data) => {
                     showSnackbar(data.message)
                     document.location = this.route('library.lending.book', [data.id])

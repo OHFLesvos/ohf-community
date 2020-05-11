@@ -2,7 +2,7 @@
     <base-table
         id="donationsTable"
         :fields="fields"
-        :api-url="route('api.fundraising.donations.index')"
+        :api-method="list"
         default-sort-by="created_at"
         default-sort-desc
         :empty-text="$t('fundraising.no_donations_found')"
@@ -36,6 +36,7 @@
 <script>
 import moment from 'moment'
 import BaseTable from '@/components/BaseTable'
+import donationsApi from '@/api/fundraising/donations'
 export default {
     components: {
         BaseTable
@@ -102,6 +103,9 @@ export default {
                 }
             ]
         }
+    },
+    methods: {
+        list: donationsApi.list
     }
 }
 </script>

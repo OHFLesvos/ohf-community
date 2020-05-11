@@ -2,7 +2,7 @@
     <base-table
         id="peopleTable"
         :fields='fields'
-        :api-url="route('api.people.index')"
+        :api-method="list"
         default-sort-by="name"
         :empty-text="$t('people.no_persons_found')"
         :filter-placeholder="$t('people.bank_search_text')"
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import peopleApi from '@/api/people'
 import BaseTable from '@/components/BaseTable'
 export default {
     components: {
@@ -73,6 +74,9 @@ export default {
                 }
             ]
         }
+    },
+    methods: {
+        list: peopleApi.list
     }
 }
 </script>

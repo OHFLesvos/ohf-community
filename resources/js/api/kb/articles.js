@@ -1,6 +1,6 @@
 import { api, route } from '@/api/baseApi'
 export default {
-    async findAll () {
+    async list () {
         const url = route('api.kb.articles.index')
         return await api.get(url)
     },

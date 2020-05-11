@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { findBook, updateBook, deleteBook } from '@/api/library'
+import libraryApi from '@/api/library'
 import { handleAjaxError, showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {
@@ -42,7 +42,7 @@ export default {
         }
     },
     created () {
-        findBook(this.bookId)
+        libraryApi.findBook(this.bookId)
                 .then((data) => {
                     this.book = data.data
                     this.canDelete = data.meta.can_delete
@@ -52,7 +52,7 @@ export default {
     methods: {
         updateBook (data) {
             this.busy = true
-            updateBook(this.bookId, data)
+            libraryApi.updateBook(this.bookId, data)
                 .then((data) => {
                     showSnackbar(data.message)
                     document.location = this.route('library.lending.book', [this.bookId])
@@ -65,7 +65,7 @@ export default {
         deleteBook () {
             if (confirm(this.$t('library.confirm_delete_book'))) {
                 this.busy = true
-                deleteBook(this.bookId)
+                libraryApi.deleteBook(this.bookId)
                     .then((data) => {
                         showSnackbar(data.message)
                         document.location = this.route('library.books.index')

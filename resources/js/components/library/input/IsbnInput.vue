@@ -24,7 +24,7 @@
                 <b-input-group-append>
                     <b-button
                         variant="outline-secondary"
-                        :disabled="disabled || !(modelValue.length > 0 && validationContext.valid)"
+                        :disabled="disabled || !(modelValue && modelValue.length > 0 && validationContext.valid)"
                         @click="$emit('lookup', modelValue)"
                     >
                         <font-awesome-icon :icon="busy ? 'spinner' : 'search'" :spin="busy" />

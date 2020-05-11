@@ -2,7 +2,7 @@
     <base-table
         id="lentBooksTable"
         :fields="fields"
-        :api-url="route('api.library.lending.books')"
+        :api-method="listLentBooks"
         default-sort-by="book"
         :empty-text="$t('library.no_books_lent')"
         no-filter
@@ -27,6 +27,7 @@
 <script>
 import moment from 'moment'
 import BaseTable from '@/components/BaseTable'
+import libraryApi from '@/api/library'
 export default {
     components: {
         BaseTable
@@ -60,6 +61,9 @@ export default {
                 }
             ]
         }
+    },
+    methods: {
+        listLentBooks: libraryApi.listLentBooks
     }
 }
 </script>

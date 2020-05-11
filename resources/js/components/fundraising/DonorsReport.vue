@@ -83,13 +83,12 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
 import SimpleTwoColumnListCard from '@/components/ui/SimpleTwoColumnListCard'
 import AdvancedTwoColumnListCard from '@/components/ui/AdvancedTwoColumnListCard'
 import TimeBarChart from '@/components/charts/TimeBarChart'
 import DateRangeSelect from '@/components/common/DateRangeSelect'
-import { getAjaxErrorMessage } from '@/utils'
 import moment from 'moment'
+import donorsApi from '@/api/fundraising/donors'
 export default {
     components: {
         SimpleTwoColumnListCard,
@@ -124,19 +123,19 @@ export default {
     methods: {
         loadData () {
             this.countError = null
-            axios.get(`${this.route('api.fundraising.donors.count')}?date=${this.dateRange.to}`)
-                .then(res => this.count = this.mapCountData(res.data))
-                .catch(err => this.countError = getAjaxErrorMessage(err))
+            donorsApi.getCount(this.dateRange.to)
+                .then(data => this.count = this.mapCountData(data))
+                .catch(err => this.countError = err)
 
             this.countriesError = null
-            axios.get(`${this.route('api.fundraising.donors.countries')}?date=${this.dateRange.to}`)
-                .then(res => this.countries = res.data)
-                .catch(err => this.countriesError = getAjaxErrorMessage(err))
+            donorsApi.getCountries(this.dateRange.to)
+                .then(data => this.countries = data)
+                .catch(err => this.countriesError = err)
 
             this.languagesError = null
-            axios.get(`${this.route('api.fundraising.donors.languages')}?date=${this.dateRange.to}`)
-                .then(res => this.languages = res.data)
-                .catch(err => this.languagesError = getAjaxErrorMessage(err))
+            donorsApi.getLanguages(this.dateRange.to)
+                .then(data => this.languages = data)
+                .catch(err => this.languagesError = err)
         },
         mapCountData (data) {
             this.firstDonorRegistration = moment(data.first).format('LL')

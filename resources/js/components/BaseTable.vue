@@ -65,7 +65,6 @@
             :sort-desc.sync="sortDesc"
             :per-page="perPage"
             :current-page="currentPage"
-            :api-url="apiUrl"
             :show-empty="true"
             :empty-text="emptyText"
             :empty-filtered-text="$t('app.no_records_matching_your_request')"
@@ -110,7 +109,6 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
 import TagSelectButton from '@/components/tags/TagSelectButton'
 import { getAjaxErrorMessage } from '@/utils'
 export default {
@@ -126,9 +124,9 @@ export default {
             required: false,
             type: Array
         },
-        apiUrl: {
+        apiMethod: {
             required: true,
-            type: String
+            type: Function
         },
         defaultSortBy: {
             required: true,
@@ -225,27 +223,24 @@ export default {
         itemProvider (ctx) {
             this.isBusy = true
             this.errorText = null
-            const params = new URLSearchParams({
+            const params = {
                 filter: ctx.filter,
                 page: ctx.currentPage,
                 pageSize: ctx.perPage,
                 sortBy: ctx.sortBy,
-                sortDirection: ctx.sortDesc ? 'desc' : 'asc'
-            })
+                sortDirection: ctx.sortDesc ? 'desc' : 'asc',
+                tags: []
+            }
             for (let i = 0; i < this.selectedTags.length; i++) {
-                params.append('tags[]', this.selectedTags[i])
+                params.tags.push(this.selectedTags[i])
             }
-            let url = ctx.apiUrl;
-            if (params.toString().length > 0) {
-                url += '?' + params.toString()
-            }
-            return axios.get(url).then(data => {
+            return this.apiMethod(params).then(data => {
                 this.isBusy = false
-                this.totalRows = data.data.meta.total
+                this.totalRows = data.meta.total
                 sessionStorage.setItem(this.id + '.sortBy', ctx.sortBy)
                 sessionStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
                 sessionStorage.setItem(this.id + '.currentPage', ctx.currentPage)
-                return data.data.data || []
+                return data.data || []
             }).catch((err) => {
                 this.handleAjaxError(err)
                 this.totalRows = 0

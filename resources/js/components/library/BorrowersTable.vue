@@ -2,7 +2,7 @@
     <base-table
         id="borrowersTable"
         :fields="fields"
-        :api-url="route('api.library.lending.persons')"
+        :api-method="listBorrowers"
         default-sort-by="person"
         :empty-text="$t('library.no_books_lent')"
         no-filter
@@ -18,6 +18,7 @@
 
 <script>
 import BaseTable from '@/components/BaseTable'
+import libraryApi from '@/api/library'
 export default {
     components: {
         BaseTable
@@ -37,6 +38,9 @@ export default {
                 }
             ]
         }
+    },
+    methods: {
+        listBorrowers: libraryApi.listBorrowers
     }
 }
 </script>
