@@ -313,10 +313,7 @@ Route::middleware(['auth', 'language'])
                 Route::middleware('can:do-bank-withdrawals')
                     ->group(function () {
 
-                        Route::get('', function () {
-                            return redirect()
-                                ->route('bank.withdrawal.search');
-                        })->name('index');
+                        Route::redirect('', 'bank/withdrawal')->name('index');
 
                         Route::view('withdrawal', 'bank.withdrawal.search')
                             ->name('withdrawal.search');
