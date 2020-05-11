@@ -15,14 +15,13 @@ class ShopCard extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'date' => $this->date,
             'code_short' => substr($this->code, 0, 7),
             'code_redeemed' => $this->code_redeemed,
             'expired' => $this->isCodeExpired(),
             'updated_diff_formatted' => $this->updated_at->diffForHumans(),
             'validity_formatted' => $this->couponType->code_expiry_days != null ? trans_choice('app.valid_for_n_days', $this->couponType->code_expiry_days, ['days' => $this->couponType->code_expiry_days]) : null,
-            'redeem_url' => route('shop.cards.redeem', $this),
-            'cancel_url' => route('shop.cards.cancel', $this),
             'person' => $this->getPersonData(),
         ];
     }

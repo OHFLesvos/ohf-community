@@ -65,69 +65,49 @@
 </template>
 
 <script>
-    import { getAjaxErrorMessage } from '@/utils'
-    import showSnackbar from '@/snackbar'
-    import ErrorAlert from '@/components/alerts/ErrorAlert'
-    import axios from '@/plugins/axios'
-    export default {
-        components: {
-            ErrorAlert
-        },
-        props: {
-            summaryUrl: {
-                type: String,
-                required: true
-            },
-            deleteUrl: {
-                type: String,
-                required: true
+import showSnackbar from '@/snackbar'
+import ErrorAlert from '@/components/alerts/ErrorAlert'
+import shopApi from '@/api/shop'
+export default {
+    components: {
+        ErrorAlert
+    },
+    data () {
+        return {
+            items: [],
+            error: null,
+            busy: false,
+        }
+    },
+    created () {
+        this.loadSummary()
+    },
+    methods: {
+        async loadSummary () {
+            this.busy = true
+            this.error = false
+            try {
+                let data = await shopApi.listNonRedeemedByDay()
+                this.items = data
+            } catch (err) {
+                this.error = err
             }
+            this.busy = false
         },
-        data() {
-            return {
-                items: [],
-                error: null,
-                busy: false,
-            }
-        },
-        mounted() {
-            this.loadSummary()
-        },
-        methods: {
-            loadSummary() {
+        async deleteCards(date) {
+            if (window.confirm(`Really delete all non-redeemed cards from ${date}?`)) {
                 this.busy = true
-                this.error = false
-                axios.get(this.summaryUrl)
-                    .then(res => {
-                        this.items = res.data
-                    })
-                    .catch(err => {
-                        this.error = getAjaxErrorMessage(err)
-                    })
-                    .then(() => {
-                        this.busy = false
-                    })
-            },
-            deleteCards(date) {
-                if (window.confirm(`Really delete all non-redeemed cards from ${date}?`)) {
-                    this.busy = true
-                    axios.post(this.deleteUrl, {
-                            date: date
-                        })
-                        .then(res => {
-                            this.items = this.items.filter(i => i.date != date)
-                            this.loadSummary()
-                            showSnackbar(res.data.message)
-                        })
-                        .catch(err => {
-                            this.error = getAjaxErrorMessage(err)
-                            console.error(err)
-                        })
-                        .then(() => {
-                            this.busy = false
-                        });
+                try {
+                    let data = await shopApi.deleteNonRedeemedByDay(date)
+                    this.items = this.items.filter(i => i.date != date)
+                    this.loadSummary()
+                    showSnackbar(data.message)
+                } catch(err) {
+                    this.error = err
                 }
+                this.busy = false
             }
         }
     }
+}
 </script>

@@ -12,7 +12,7 @@
                 <!-- Card scanner -->
                 <card-scanner-area
                     :busy="searching"
-                    :validator="validateCode"
+                    :validator="isAlphaNumeric"
                     :validator-message="$t('app.only_letters_and_numbers_allowed')"
                     :enabled="scannerEnabled"
                     @decode="onDecode"
@@ -68,11 +68,10 @@ import showSnackbar from '@/snackbar'
 import ErrorAlert from '@/components/alerts/ErrorAlert'
 import WarningAlert from '@/components/alerts/WarningAlert'
 import InfoAlert from '@/components/alerts/InfoAlert'
-import { getAjaxErrorMessage } from '@/utils'
 import ShopCardDetails from '@/components/shop/ShopCardDetails'
 import CardScannerArea from '@/components/shop/CardScannerArea'
 import { isAlphaNumeric } from '@/utils'
-import axios from '@/plugins/axios'
+import shopApi from '@/api/shop'
 export default {
     components: {
         ShopCardDetails,
@@ -80,12 +79,6 @@ export default {
         WarningAlert,
         InfoAlert,
         CardScannerArea
-    },
-    props: {
-        getCardUrl: {
-            type: String,
-            required: true,
-        }
     },
     data() {
         return {
@@ -119,58 +112,47 @@ export default {
                 this.code = code
             }
         },
-        searchCode(code) {
+        async searchCode(code) {
             this.error = null
             this.handout = null
             this.busy = true
             this.searching = true
-            const url = `${this.getCardUrl}?code=${code}`
-            return axios.get(url)
-                .then(res => this.handout = res.data.data)
-                .catch(err => {
-                    if (!err.response || err.response.status != 404) {
-                        this.error = getAjaxErrorMessage(err)
-                        console.error(err)
-                    }
-                })
-                .then(() => {
-                    this.busy = false
-                    this.searching = false
-                });
+            try {
+                let data = await shopApi.findCard(code)
+                this.handout = data ? data.data : null
+            } catch (err) {
+                this.error = err
+            }
+            this.busy = false
+            this.searching = false
         },
-        redeemCard() {
+        async redeemCard() {
             this.busy = true
-            axios.patch(this.handout.redeem_url)
-                .then(res => {
-                    this.code = null
-                    this.handout = null
-                    showSnackbar(res.data.message)
-                })
-                .catch(err => {
-                    this.error = getAjaxErrorMessage(err)
-                    console.error(err)
-                })
-                .then(() => this.busy = false)
+            try {
+                let data = await shopApi.redeemCard(this.handout.id)
+                this.code = null
+                this.handout = null
+                showSnackbar(data.message)
+            } catch (err) {
+                this.error = err
+            }
+            this.busy = false
         },
-        cancelCard() {
+        async cancelCard() {
             if (window.confirm(this.$t('shop.should_card_be_cancelled'))) {
                 this.busy = true
-                axios.delete(this.handout.cancel_url)
-                    .then(res => {
-                        this.code = null
-                        this.handout = null
-                        showSnackbar(res.data.message)
-                    })
-                    .catch(err => {
-                        this.error = getAjaxErrorMessage(err)
-                        console.error(err)
-                    })
-                    .then(() => this.busy = false)
+                try {
+                    let data = await shopApi.cancelCard(this.handout.id)
+                    this.code = null
+                    this.handout = null
+                    showSnackbar(data.message)
+                } catch (err) {
+                    this.error = err
+                }
+                this.busy = false
             }
         },
-        validateCode(val) {
-            return isAlphaNumeric(val)
-        }
+        isAlphaNumeric
     }
 }
 </script>

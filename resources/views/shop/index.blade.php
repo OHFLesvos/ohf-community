@@ -3,13 +3,11 @@
 @section('title', __('shop.shop'))
 
 @section('content')
-
     <div id="shop-app">
-        <shop-scanner-page
-            get-card-url="{{ route('shop.cards.searchByCode') }}"
-        ></shop-scanner-page>
+        <shop-scanner-page>
+            @lang('app.loading')
+        </shop-scanner-page>
     </div>
-
 @endsection
 
 @section('footer')

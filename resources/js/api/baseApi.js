@@ -10,6 +10,10 @@ const handleError = function(err) {
 }
 
 export const api = {
+    async getNoCatch (url) {
+        const res = await axios.get(url)
+        return res.data
+    },
     async get (url) {
         try {
             const res = await axios.get(url)
