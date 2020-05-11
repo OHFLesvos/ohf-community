@@ -4,7 +4,7 @@
         v-if="data"
         :data="data"
         :title="$t('people.age_distribution')"
-        :url="url"
+        :url="route('api.people.reporting.ageDistribution')"
     />
     <p v-else>
         {{ $t('app.loading') }}
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
 import DoughnutChartTableDistributionWidget from '@/components/reporting/DoughnutChartTableDistributionWidget'
 export default {
     components: {
@@ -20,15 +20,11 @@ export default {
     },
     data () {
         return {
-            data: null,
-            url: this.route('api.people.reporting.ageDistribution')
+            data: null
         }
     },
-    mounted () {
-        axios.get(this.url)
-            .then(res => {
-                this.data = res.data
-            })
+    async created () {
+        this.data = await peopleApi.fetchAgeDistribution()
     }
 }
 </script>

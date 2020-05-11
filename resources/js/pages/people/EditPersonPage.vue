@@ -1,5 +1,5 @@
 <template>
-    <b-form @submit="onSubmit">
+    <b-form @submit.stop.prevent="onSubmit">
 
         <person-form-fields
             v-model="person"
@@ -23,11 +23,9 @@ const rememberedFilter = new SessionVariable('bank.withdrawal.filter')
 
 import { BForm, BButton } from 'bootstrap-vue'
 import showSnackbar from '@/snackbar'
-import { handleAjaxError } from '@/utils'
 import PersonFormFields from '@/components/people/PersonFormFields'
 
-import axios from '@/plugins/axios'
-
+import peopleApi from '@/api/people'
 export default {
     components: {
         BForm,
@@ -55,22 +53,20 @@ export default {
         }
     },
     methods: {
-        onSubmit(evt) {
-            evt.preventDefault()
+        async onSubmit () {
             this.busy = true
-            const apiUrl = this.route('api.people.update', this.person.public_id)
-            axios.put(apiUrl, this.person)
-                .then(response => {
-                    var data = response.data
-                    showSnackbar(data.message);
+            try {
+                let data = await peopleApi.update(this.person.public_id, this.person)
+                showSnackbar(data.message);
 
-                    const filter = this.person.police_no ? this.person.police_no : `${this.person.name} ${this.person.family_name}`
-                    rememberedFilter.set(filter)
+                const filter = this.person.police_no ? this.person.police_no : `${this.person.name} ${this.person.family_name}`
+                rememberedFilter.set(filter)
 
-                    window.location.href = this.redirectUrl
-                })
-                .catch(err => handleAjaxError(err))
-                .then(() => this.busy = false)
+                window.location.href = this.redirectUrl
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+            }
+            this.busy = false
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <b-form @submit="onSubmit">
+    <b-form @submit.stop.prevent="onSubmit">
 
         <person-form-fields
             ref="formfields"
@@ -26,8 +26,8 @@ const rememberedFilter = new SessionVariable('bank.withdrawal.filter')
 import { BForm, BButton, BModal } from 'bootstrap-vue'
 import showSnackbar from '@/snackbar'
 import PersonFormFields from '@/components/people/PersonFormFields'
-import { handleAjaxError } from '@/utils'
-import axios from '@/plugins/axios'
+
+import peopleApi from '@/api/people'
 export default {
     components: {
         BForm,
@@ -75,39 +75,37 @@ export default {
         }
     },
     methods: {
-        onSubmit(evt) {
-            evt.preventDefault()
+        async onSubmit () {
             this.busy = true
-            const apiUrl = this.route('api.people.store')
-            axios.post(apiUrl, this.person)
-                .then(response => {
-                    var data = response.data
-                    showSnackbar(data.message);
+            try {
+                let data = await peopleApi.store(this.person)
+                showSnackbar(data.message);
 
-                    const filter = this.person.police_no ? this.person.police_no : `${this.person.name} ${this.person.family_name}`
-                    rememberedFilter.set(filter)
+                const filter = this.person.police_no ? this.person.police_no : `${this.person.name} ${this.person.family_name}`
+                rememberedFilter.set(filter)
 
-                    this.$bvModal.msgBoxConfirm('Do you want to add another family nember?', {
-                            title: 'Add family member',
-                            okTitle: 'Yes',
-                            cancelTitle: 'No',
-                            centered: true
-                        })
-                        .then(value => {
-                            if (value) {
-                                this.person.name = ''
-                                this.person.gender = ''
-                                this.person.date_of_birth = ''
-                                this.person.remarks = ''
-                                this.person.card_no = ''
-                                this.$refs.formfields.focus()
-                            } else {
-                                window.location.href = this.redirectUrl
-                            }
-                        })
-                })
-                .catch(err => handleAjaxError(err))
-                .then(() => this.busy = false)
+                this.$bvModal.msgBoxConfirm('Do you want to add another family nember?', {
+                        title: 'Add family member',
+                        okTitle: 'Yes',
+                        cancelTitle: 'No',
+                        centered: true
+                    })
+                    .then(value => {
+                        if (value) {
+                            this.person.name = ''
+                            this.person.gender = ''
+                            this.person.date_of_birth = ''
+                            this.person.remarks = ''
+                            this.person.card_no = ''
+                            this.$refs.formfields.focus()
+                        } else {
+                            window.location.href = this.redirectUrl
+                        }
+                    })
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+            }
+            this.busy = false
         }
     }
 }

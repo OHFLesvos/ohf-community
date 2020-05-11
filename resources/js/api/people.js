@@ -4,9 +4,17 @@ export default {
         const url = route('api.people.index', params)
         return await api.get(url)
     },
+    async store (data) {
+        const url = route('api.people.store')
+        return await api.post(url, data)
+    },
     async find (id) {
         const url = route('api.people.show', id)
         return await api.get(url)
+    },
+    async update (id, data) {
+        const url = route('api.people.update', id)
+        return await api.put(url, data)
     },
     async updateGender (id, value) {
         const url = route('api.people.updateGender', id)
@@ -53,6 +61,22 @@ export default {
             }
         }
         const url = route('api.people.reporting.monthlySummary', params)
+        return await api.get(url)
+    },
+    async fetchNumberReportData (from, to) {
+        const params = {
+            from: from,
+            to: to
+        }
+        const url = route('api.people.reporting.numbers', params)
+        return await api.get(url)
+    },
+    async fetchAgeDistribution () {
+        const url = route('api.people.reporting.ageDistribution')
+        return await api.get(url)
+    },
+    async fetchNationalityDistribution () {
+        const url = route('api.people.reporting.nationalities')
         return await api.get(url)
     }
 }

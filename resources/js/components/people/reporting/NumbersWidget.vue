@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
 import BarChart from '@/components/charts/BarChart'
 import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
@@ -70,19 +70,12 @@ export default {
             this.loadData()
         }
     },
-    mounted () {
+    created () {
         this.loadData()
     },
     methods: {
-        loadData () {
-            const url =this.route('api.people.reporting.numbers', {
-                from: this.dateRange.from,
-                to: this.dateRange.to
-            })
-            axios.get(url)
-                .then(res => {
-                    this.data = res.data
-                })
+        async loadData () {
+            this.data = await peopleApi.fetchNumberReportData(this.dateRange.from, this.dateRange.to)
         }
     }
 }

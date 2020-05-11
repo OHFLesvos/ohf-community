@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
-import { handleAjaxError, showSnackbar } from '@/utils'
+import peopleApi from '@/api/people'
+import { showSnackbar } from '@/utils'
 import PersonEditorForm from '@/components/people/PersonEditorForm'
 export default {
     components: {
@@ -45,18 +45,19 @@ export default {
             bvModalEvt.preventDefault()
             this.$refs.editor.submit()
         },
-        createPerson (person) {
+        async createPerson (person) {
             this.busy = true
-            axios.post(this.route('api.people.store'), person)
-                .then(res => {
-                    showSnackbar(res.data.message)
-                    this.$nextTick(() => {
-                        this.$bvModal.hide(this.registerModalId)
-                    })
-                    document.location = this.route('library.lending.person', [res.data.id])
+            try {
+                let data = await peopleApi.store(person)
+                showSnackbar(data.message)
+                this.$nextTick(() => {
+                    this.$bvModal.hide(this.registerModalId)
                 })
-                .catch(handleAjaxError)
-                .finally(() => this.busy = false)
+                document.location = this.route('library.lending.person', [data.id])
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+            }
+            this.busy = false
         }
     }
 }
