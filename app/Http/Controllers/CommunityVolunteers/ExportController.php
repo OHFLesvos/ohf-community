@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use JeroenDesloovere\VCard\VCard;
 use ZipStream\ZipStream;
+use ZipStream\Option\Archive;
 
 class ExportController extends BaseController
 {
@@ -115,7 +116,9 @@ class ExportController extends BaseController
 
         // Download as ZIP with portraits
         if ($request->has('include_portraits')) {
-            $zip = new ZipStream($file_name . '.zip');
+            $options = new Archive();
+            $options->setSendHttpHeaders(true);
+            $zip = new ZipStream($file_name . '.zip', $options);
             $temp_file = 'temp/' . uniqid() . '.' . $file_ext;
             $export->store($temp_file);
             $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
