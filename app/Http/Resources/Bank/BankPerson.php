@@ -26,7 +26,6 @@ class BankPerson extends JsonResource
         $community_volunteer = $this->linkedCommunityVolunteer();
         return [
             'id' => $this->{$this->getRouteKeyName()},
-            'url' => route('api.bank.withdrawal.person', $this->resource),
             'full_name' => $this->full_name,
             'gender' => $this->gender,
             'date_of_birth' => $this->date_of_birth,
@@ -71,7 +70,6 @@ class BankPerson extends JsonResource
             'max_age' => $coupon->max_age,
             'qr_code_enabled' => $coupon->qr_code_enabled,
             'last_handout' => $this->canHandoutCoupon($coupon),
-            'handout_url' => route('api.bank.withdrawal.handoutCoupon', [$this, $coupon]),
             'returning_possible' => optional($this->couponHandouts()
                 ->where('coupon_type_id', $coupon->id)
                 ->orderBy('date', 'desc')

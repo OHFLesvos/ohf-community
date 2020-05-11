@@ -29,14 +29,10 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
 const DEFAULT_RELOAD_INTERVAL = 60
+import bankApi from '@/api/bank'
 export default {
     props: {
-        apiUrl: {
-            type: String,
-            required: true
-        },
         reloadInterval: {
             type: Number,
             required: false,
@@ -62,9 +58,9 @@ export default {
     },
     methods: {
         loadStats() {
-            axios.get(this.apiUrl)
-                .then(res => {
-                    this.stats = res.data
+            bankApi.fetchDailyStats()
+                .then(data => {
+                    this.stats = data
                     this.loaded = true
                 })
                 .catch(console.error);

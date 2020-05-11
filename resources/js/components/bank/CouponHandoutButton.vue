@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import bankApi from '@/api/bank'
 import { showSnackbar, handleAjaxError } from '@/utils'
 import { isAlphaNumeric } from '@/utils'
 import CodeScannerModal from '@/components/ui/CodeScannerModal'
@@ -48,13 +48,15 @@ export default {
         CodeScannerModal
     },
     props: {
+        personId: {
+            required: true
+        },
         coupon: {
             type: Object,
             required: true,
             validator: function (obj) {
                 return 'qr_code_enabled' in obj &&
                     'daily_amount' in obj &&
-                    'handout_url' in obj &&
                     'last_handout' in obj &&
                     'returning_possible' in obj &&
                     'icon' in obj &&
@@ -91,9 +93,8 @@ export default {
         },
         sendHandoutRequest(postData) {
             this.busy = true
-            axios.post(this.handout_url, postData)
-                .then(response => {
-                    const data = response.data
+            bankApi.handoutCoupon(this.personId, this.coupon.id, postData)
+                .then(data => {
                     this.last_handout = data.countdown
                     this.returning_possible = true
                     setTimeout(this.disableCouponReturn, data.return_grace_period * 1000)
@@ -112,9 +113,8 @@ export default {
         },
         undoHandoutCoupon(){
             this.busy = true
-            axios.delete(this.handout_url)
-                .then(resonse => {
-                    const data = resonse.data
+            bankApi.undoHandoutCoupon(this.personId, this.coupon.id)
+                .then(data => {
                     this.last_handout = null
                     showSnackbar(data.message);
                 })

@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import bankApi from '@/api/bank'
 import moment from 'moment'
 import BarChart from '@/components/charts/BarChart'
 export default {
@@ -79,11 +79,8 @@ export default {
     },
     methods: {
         loadData () {
-            const url =this.route('api.bank.reporting.withdrawals')
-            axios.get(url)
-                .then(res => {
-                    this.coupons = res.data
-                })
+            bankApi.fetchWithdrawalReportData()
+                .then(data => this.coupons = data)
         }
     }
 }

@@ -55,7 +55,6 @@
         </div>
         <bank-stats
             v-else-if="filter.length == 0"
-            :api-url="route('api.bank.withdrawal.dailyStats')"
         />
     </div>
 </template>
@@ -77,8 +76,7 @@ import { BPagination } from 'bootstrap-vue'
 
 import { EventBus } from '@/event-bus';
 
-import axios from '@/plugins/axios'
-
+import bankApi from '@/api/bank'
 export default {
     components: {
         PersonFilterInput,
@@ -144,20 +142,19 @@ export default {
             if (this.filter != filter) {
                 this.currentPage = 1
             }
-            const apiUrl = this.route('api.bank.withdrawal.search')
-            axios.get(`${apiUrl}?filter=${filter}&page=${this.currentPage}`)
-                .then((res) => {
-                    this.persons = res.data.data
-                    this.totalRows = res.data.meta.total
-                    this.perPage = res.data.meta.per_page
-                    this.registerQuery = res.data.meta.register_query
+            bankApi.searchPersons(filter, this.currentPage)
+                .then((data) => {
+                    this.persons = data.data
+                    this.totalRows = data.meta.total
+                    this.perPage = data.meta.per_page
+                    this.registerQuery = data.meta.register_query
                     this.loaded = true
                     this.filter = filter
                     if (this.persons.length > 0) {
                         rememberedFilter.set(filter)
                     }
-                    if (res.data.meta.terms.length > 0) {
-                        this.searchTerms = res.data.meta.terms
+                    if (data.meta.terms.length > 0) {
+                        this.searchTerms = data.meta.terms
                     }
                 })
                 .catch(err => handleAjaxError(err))
@@ -172,11 +169,11 @@ export default {
             if (person.url) {
                 this.disableSearch = true
                 this.disabledCards.push(person.id)
-                axios.get(person.url)
-                    .then((res) => {
-                        if (res.data.data) {
+                bankApi.findPerson(person.id)
+                    .then((data) => {
+                        if (data.data) {
                             const idx = this.persons.findIndex(p => p.id == person.id)
-                            this.persons[idx] = res.data.data
+                            this.persons[idx] = data.data
                         }
                         this.disabledCards.splice(this.disabledCards.indexOf(person.id))
                     })

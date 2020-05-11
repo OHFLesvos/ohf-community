@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import bankApi from '@/api/bank'
 import BarChart from '@/components/charts/BarChart'
 export default {
     components: {
@@ -99,11 +99,8 @@ export default {
     },
     methods: {
         loadData () {
-            const url =this.route('api.bank.reporting.visitors')
-            axios.get(url)
-                .then(res => {
-                    this.visitors = res.data
-                })
+            bankApi.fetchVisitorReportData()
+                .then(data => this.visitors = data)
         }
     }
 }

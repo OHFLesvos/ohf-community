@@ -78,6 +78,7 @@
                     class="col-sm-auto mb-2"
                 >
                     <coupon-handout-button
+                        :personId="person.id"
                         :coupon="coupon"
                         :disabled="disabled"
                     />
