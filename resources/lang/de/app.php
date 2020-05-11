@@ -78,6 +78,7 @@ return [
     'x_out_of_y' => ':x von :y',
     'export' => 'Exportieren',
     'an_error_happened' => 'Es ist ein Fehler aufgetreten',
+    'error_err' => 'Fehler: :err',
     'dismiss' => 'Ausblenden',
     'user_is_admin_has_all_permissions' => 'Dieser Benutzer ist ein Administrator und hat daher alle Berechtigungen.',
     'remarks' => 'Bemerkungen',

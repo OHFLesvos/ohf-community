@@ -13,7 +13,7 @@
             v-else-if="gender == 'f'"
             icon="female"
         />
-        <template v-else-if="apiUrl != null">
+        <template v-else-if="allowUpdate">
             <button
                 class="btn btn-warning btn-sm"
                 title="Male"
@@ -36,43 +36,32 @@
 
 <script>
 import showSnackbar from '@/snackbar'
-import { handleAjaxError } from '@/utils'
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
 export default {
     props: {
-        apiUrl: {
-            type: String,
-            required: false,
-            default: null
+        person: {
+            required: true
         },
-        value: {
-            type: String,
-            required: false,
-            default: null
-        },
+        allowUpdate: Boolean,
         disabled: Boolean
     },
-    data() {
+    data () {
         return {
             busy: false,
-            gender: this.value
+            gender: this.person.gender
         }
     },
     methods: {
-        setGender(value) {
+        async setGender (value) {
             this.busy = true
-            axios.patch(this.apiUrl, {
-                    'gender': value
-                })
-                .then(response => {
-                    var data = response.data
-                    this.gender = value
-                    showSnackbar(data.message);
-                })
-                .catch(handleAjaxError)
-                .then(() => {
-                    this.busy = false
-                })
+            try {
+                let data = await peopleApi.updateGender(this.person.id, value)
+                this.gender = value
+                showSnackbar(data.message);
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+            }
+            this.busy = false
         }
     }
 }

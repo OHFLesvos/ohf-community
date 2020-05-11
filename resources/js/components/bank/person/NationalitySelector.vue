@@ -8,7 +8,7 @@
         <template v-else-if="nationality != null">
             {{ nationality }}
         </template>
-        <template v-else-if="apiUrl != null">
+        <template v-else-if="allowUpdate">
             <template v-if="form">
                 <b-form-input
                     ref="input"
@@ -51,9 +51,9 @@
 
 <script>
 import showSnackbar from '@/snackbar'
-import { handleAjaxError } from '@/utils'
 import { BButton, BFormInput, BFormDatalist } from 'bootstrap-vue'
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
+import commonApi from '@/api/common'
 export default {
     components: {
         BButton,
@@ -61,36 +61,28 @@ export default {
         BFormDatalist
     },
     props: {
-        apiUrl: {
-            type: String,
-            required: false,
-            default: null
+        person: {
+            required: true
         },
-        value: {
-            type: String,
-            required: false,
-            default: null
-        },
-        countries: {
-            type: Array,
-            required: true,
-        },
+        allowUpdate: Boolean,
         disabled: Boolean
     },
-    data() {
+    data () {
         return {
             busy: false,
             form: false,
-            nationality: this.value != null && this.value.length > 0 ? this.value : null,
-            newNationality: null
+            nationality: this.person.nationality != null && this.person.nationality.length > 0 ? this.person.nationality : null,
+            newNationality: null,
+            countries: []
         }
     },
     watch: {
-        form(val, oldVal) {
+        form (val, oldVal) {
             if (val && !oldVal) {
-                this.$nextTick(() => {
-                    this.$refs.input.focus();
-                })
+                if (this.countries.length == 0) {
+                    this.loadCountries()
+                }
+                this.$nextTick(() => this.$refs.input.focus())
             }
             if (!val && oldVal) {
                 this.newNationality = null
@@ -98,33 +90,27 @@ export default {
         }
     },
     methods: {
-        setNationality() {
+        async loadCountries () {
+            let data = await commonApi.listCountries('en')
+            this.countries = Object.values(data)
+        },
+        async setNationality() {
             if (this.newNationality == null || this.newNationality.length == 0) {
-                this.$nextTick(() => {
-                    this.$refs.input.select();
-                })
+                this.$refs.input.select()
                 return
             }
             this.busy = true
-            axios.patch(this.apiUrl, {
-                    'nationality': this.newNationality
-                })
-                .then(response => {
-                    var data = response.data
-                    this.nationality = this.newNationality
-                    this.form = false
-                    showSnackbar(data.message);
-                })
-                .catch(err => {
-                    handleAjaxError(err);
-                    this.busy = false
-                    this.$nextTick(() => {
-                        this.$refs.input.select();
-                    })
-                })
-                .then(() => {
-                    this.busy = false
-                })
+            try {
+                let data = await peopleApi.updateNationality(this.person.id, this.newNationality)
+                this.nationality = this.newNationality
+                this.form = false
+                showSnackbar(data.message)
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+                this.busy = false // Important to set busy to false before nextTick
+                this.$nextTick(() => this.$refs.input.select())
+            }
+            this.busy = false
         }
     }
 }

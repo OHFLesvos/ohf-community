@@ -173,4 +173,5 @@ return [
     'young_adults' => 'Young Adults',
     'adults' => 'Adults',
     'elderly' => 'Elderly',
+    'really_replace_card_with_new_one' => 'Do you really want to replace the card :cardNo with a new one?',
 ];

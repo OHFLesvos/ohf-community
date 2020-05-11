@@ -1,5 +1,5 @@
 <template>
-    <div v-if="apiUrl != null || remarks">
+    <div v-if="remarks || allowUpdate">
         <inline-value-editor
             v-if="form"
             :value="editValue"
@@ -10,8 +10,8 @@
             @cancel="cancelEdit"
         />
         <template v-else>
-            <font-awesome-icon icon="comment-dots"/>
-            <template v-if="apiUrl != null">
+            <font-awesome-icon icon="comment-dots" />
+            <template v-if="allowUpdate">
                 <span
                     v-if="remarks"
                     class="text-info clickable"
@@ -39,53 +39,46 @@
 <script>
 import InlineValueEditor from '@/components/ui/InlineValueEditor'
 import showSnackbar from '@/snackbar'
-import { handleAjaxError } from '@/utils'
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
 export default {
     components: {
         InlineValueEditor
     },
     props: {
-        apiUrl: {
-            type: String,
-            required: false,
-            default: null
-        },
-        value: {
+        person: {
             required: true
         },
+        allowUpdate: Boolean,
         disabled: Boolean
     },
-    data() {
+    data () {
         return {
             busy: false,
             form: false,
-            remarks: this.value != null && this.value.length > 0 ? this.value : null,
+            remarks: this.person.remarks != null && this.person.remarks.length > 0 ? this.person.remarks : null,
             editValue: ''
         }
     },
     methods: {
-        startEdit() {
+        startEdit () {
             this.form = true
             this.editValue = this.remarks
         },
-        cancelEdit() {
+        cancelEdit () {
             this.form = false
         },
-        saveEdit(val) {
+        async saveEdit (value) {
             this.busy = true
-            this.editValue = val
-            axios.patch(this.apiUrl, {
-                    'remarks': val
-                })
-                .then(response => {
-                    var data = response.data
-                    this.remarks = data.remarks
-                    this.form = false
-                    showSnackbar(data.message)
-                })
-                .catch(err => handleAjaxError(err))
-                .then(() => this.busy = false)
+            this.editValue = value
+            try {
+                let data = await peopleApi.updateRemarks(this.person.id, value)
+                this.remarks = data.remarks
+                this.form = false
+                showSnackbar(data.message)
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+            }
+            this.busy = false
         }
     }
 }

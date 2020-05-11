@@ -8,7 +8,7 @@
         <template v-else-if="dateOfBirth != null">
             {{ dateOfBirth }}  ({{ $t('people.age_n', {age: age}) }})
         </template>
-        <template v-else-if="apiUrl != null">
+        <template v-else-if="allowUpdate">
             <template v-if="form">
                 <input
                     ref="input"
@@ -52,44 +52,36 @@
 
 <script>
 import showSnackbar from '@/snackbar'
-import { handleAjaxError, isDateString, dateOfBirthToAge, todayDate } from '@/utils'
-import axios from '@/plugins/axios'
+import { isDateString, dateOfBirthToAge, todayDate } from '@/utils'
+import peopleApi from '@/api/people'
 export default {
     props: {
-        apiUrl: {
-            type: String,
-            required: false,
-            default: null
+        person: {
+            required: true
         },
-        value: {
-            type: String,
-            required: false,
-            default: null
-        },
+        allowUpdate: Boolean,
         disabled: Boolean
     },
-    data() {
+    data () {
         return {
             busy: false,
             form: false,
-            dateOfBirth: this.value != null && this.value.length > 0 ? this.value : null,
+            dateOfBirth: this.person.date_of_birth != null && this.person.date_of_birth.length > 0 ? this.person.date_of_birth : null,
             newDateOfBirth: null
         }
     },
     computed: {
-        age() {
+        age () {
             return dateOfBirthToAge(this.dateOfBirth)
         },
-        today() {
+        today () {
             return todayDate()
         }
     },
     watch: {
-        form(val, oldVal) {
+        form (val, oldVal) {
             if (val && !oldVal) {
-                this.$nextTick(() => {
-                    this.$refs.input.focus();
-                })
+                this.$nextTick(() => this.$refs.input.focus())
             }
             if (!val && oldVal) {
                 this.newDateOfBirth = null
@@ -97,33 +89,25 @@ export default {
         }
     },
     methods: {
-        setDateOfBirth() {
+        async setDateOfBirth () {
             if (this.newDateOfBirth == null || !isDateString(this.newDateOfBirth)) {
-                this.$refs.input.select();
-                return;
+                this.$refs.input.select()
+                return
             }
             this.busy = true
-            axios.patch(this.apiUrl, {
-                    'date_of_birth': this.newDateOfBirth
-                })
-                .then(response => {
-                    var data = response.data
-                    this.dateOfBirth = this.newDateOfBirth
-                    this.form = false
-                    showSnackbar(data.message);
-                    this.$emit('setAge', this.age)
-                })
-                .catch(err => {
-                    handleAjaxError(err);
-                    this.busy = false
-                    this.$nextTick(() => {
-                        this.$refs.input.select();
-                    })
-                })
-                .then(() => {
-                    this.busy = false
-                })
-        },
+            try {
+                let data = await peopleApi.updateDateOfBirth(this.person.id, this.newDateOfBirth)
+                this.dateOfBirth = this.newDateOfBirth
+                this.form = false
+                showSnackbar(data.message)
+                this.$emit('changed', this.age)
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+                this.busy = false // Important to set busy to false before nextTick
+                this.$nextTick(() => this.$refs.input.select())
+            }
+            this.busy = false
+        }
     }
 }
 </script>

@@ -141,6 +141,7 @@ export default {
             "x_out_of_y": "{x} von {y}",
             "export": "Export",
             "an_error_happened": "Es ist ein Fehler aufgetreten",
+            "error_err": "Fehler: {err}",
             "dismiss": "Ausblenden",
             "user_is_admin_has_all_permissions": "Dieser Benutzer ist ein Administrator und hat daher alle Berechtigungen.",
             "remarks": "Bemerkungen",
@@ -474,6 +475,7 @@ export default {
             "community_volunteer": "Community Volunteer",
             "community_volunteers": "Community Volunteers",
             "working_since_days": "Arbeitet seit (Tage)",
+            "work_status": "Arbeitsstatus",
             "active": "Aktive Community Volunteers",
             "no_active": "Keine aktiven Community Volunteers.",
             "none_found": "Keine Community Volunteers gefunden.",
@@ -804,7 +806,8 @@ export default {
             "adolescents": "Jugendliche",
             "young_adults": "Junge Erwachsene",
             "adults": "Erwachsene",
-            "elderly": "Senioren"
+            "elderly": "Senioren",
+            "really_replace_card_with_new_one": "Soll die Karte {cardNo} wirklich durch eine neue ersetzt werden?"
         },
         "permissions": {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
@@ -1281,6 +1284,7 @@ export default {
             "x_out_of_y": "{x} out of {y}",
             "export": "Export",
             "an_error_happened": "An error happened",
+            "error_err": "Error: {err}",
             "dismiss": "Dismiss",
             "user_is_admin_has_all_permissions": "This user is an administrator and has therefore all permissions.",
             "remarks": "Remarks",
@@ -1614,6 +1618,7 @@ export default {
             "community_volunteer": "Community Volunteer",
             "community_volunteers": "Community Volunteers",
             "working_since_days": "Working since (days)",
+            "work_status": "Work status",
             "active": "Active community volunteers",
             "no_active": "No active community volunteers.",
             "none_found": "No community volunteers found.",
@@ -1947,7 +1952,8 @@ export default {
             "adolescents": "Adolescents",
             "young_adults": "Young Adults",
             "adults": "Adults",
-            "elderly": "Elderly"
+            "elderly": "Elderly",
+            "really_replace_card_with_new_one": "Do you really want to replace the card {cardNo} with a new one?"
         },
         "permissions": {
             "view_usermgmt": "User management: View users and roles",
@@ -1986,8 +1992,8 @@ export default {
             "do_bank_withdrawals": "Bank: Handout coupons",
             "view_bank_statistics": "Bank: View reports",
             "configure_bank": "Bank: Configure settings",
-            "view_community_volunteers": "Community_volunteers: View community_volunteers",
-            "manage_community_volunteers": "Community_volunteers: Manage community_volunteers",
+            "view_community_volunteers": "Community volunteers: View community volunteers",
+            "manage_community_volunteers": "Community volunteers: Manage community volunteers",
             "operate_library": "Library: Operate library",
             "configure_library": "Library: Configure settings",
             "validate_shop_coupons": "Shop: Validate coupons",

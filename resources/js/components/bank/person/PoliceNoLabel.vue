@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="police_no || allowUpdate">
         <inline-value-editor
             ref="input"
             v-if="form"
@@ -11,7 +11,7 @@
             @cancel="cancelEdit"
         />
         <template v-else>
-            <font-awesome-icon icon="hashtag"/>
+            <font-awesome-icon icon="hashtag" />
             <template v-if="police_no">
                 <small class="text-muted">{{ $t('people.police_number') }}:</small>
                 <span class="pr-2">
@@ -19,9 +19,9 @@
                 </span>
             </template>
             <em
-                v-else
-                @click="startEdit"
+                v-else-if="allowUpdate"
                 class="text-muted clickable"
+                @click="startEdit"
             >
                 {{ $t('people.click_to_add_police_number') }}
             </em>
@@ -33,65 +33,56 @@
 import InlineValueEditor from '@/components/ui/InlineValueEditor'
 import TextHighlight from 'vue-text-highlight'
 import showSnackbar from '@/snackbar'
-import { handleAjaxError } from '@/utils'
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
 export default {
     components: {
         InlineValueEditor,
         TextHighlight
     },
     props: {
-        apiUrl: {
-            type: String,
-            required: false,
-            default: null
-        },
-        value: {
+        person: {
             required: true
         },
+        allowUpdate: Boolean,
         highlightTerms: {
             type: Array,
             required: false,
-            default: []
+            default: () => []
         },
         disabled: Boolean
     },
-    data() {
+    data () {
         return {
             form: false,
             busy: false,
-            police_no: this.value != null && this.value.length > 0 ? this.value : null,
+            police_no: this.person.police_no_formatted != null && this.person.police_no_formatted.length > 0 ? this.person.police_no_formatted : null,
             editValue: ''
         }
     },
     methods: {
-        startEdit() {
+        startEdit () {
             this.form = true
             this.editValue = this.police_no
         },
-        cancelEdit() {
+        cancelEdit () {
             this.form = false
         },
-        saveEdit(val) {
-            if (val == null || val.length == 0) {
-                this.$nextTick(() => {
-                    this.$refs.input.focus();
-                })
+        async saveEdit (value) {
+            if (value == null || value.length == 0) {
+                this.$refs.input.focus();
                 return
             }
             this.busy = true
-            this.editValue = val
-            axios.patch(this.apiUrl, {
-                    'police_no': val
-                })
-                .then(response => {
-                    var data = response.data
-                    this.police_no = data.police_no
-                    this.form = false
-                    showSnackbar(data.message)
-                })
-                .catch(err => handleAjaxError(err))
-                .then(() => this.busy = false)
+            this.editValue = value
+            try {
+                let data = await peopleApi.updatePoliceNo(this.person.id, value)
+                this.police_no = data.police_no
+                this.form = false
+                showSnackbar(data.message)
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+            }
+            this.busy = false
         }
     }
 }

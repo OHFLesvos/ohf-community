@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Bank;
 
-use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Gate;
 
@@ -36,13 +35,7 @@ class BankPerson extends JsonResource
             'can_update' => $request->user()->can('update', $this->resource),
             'show_url' => route('bank.people.show', $this),
             'edit_url' => route('bank.people.edit', $this),
-            'gender_update_url' => route('api.people.updateGender', $this),
-            'date_of_birth_update_url' => route('api.people.updateDateOfBirth', $this),
-            'nationality_update_url' => route('api.people.updateNationality', $this),
-            'police_no_update_url' => route('api.people.updatePoliceNo', $this),
-            'remarks_update_url' => route('api.people.updateRemarks', $this),
             'card_no' => $this->card_no,
-            'register_card_url' => route('api.people.registerCard', $this),
             'is_community_volunteer' => $community_volunteer !== null,
             'can_view_community_volunteer' => $community_volunteer !== null && $request->user()->can('view', $community_volunteer),
             'show_community_volunteer_url' => $community_volunteer !== null ? route('cmtyvol.show', $community_volunteer) : null,
@@ -74,8 +67,7 @@ class BankPerson extends JsonResource
                 ->where('coupon_type_id', $coupon->id)
                 ->orderBy('date', 'desc')
                 ->first()
-            )
-                ->isReturningPossible,
+            )->isReturningPossible,
         ];
     }
 }

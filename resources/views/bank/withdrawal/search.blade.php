@@ -6,10 +6,11 @@
 
     <div id="bank-app">
         <bank-search-page
-            :countries='@json(array_values(Countries::getList('en')))'
             @can('create', App\Models\People\Person::class)can-register-person
             register-person-url="{{ route('bank.people.create') }}" @endcan
-        ></bank-search-page>
+        >
+            @lang('app.loading')
+        </bank-search-page>
     </div>
 
 @endsection

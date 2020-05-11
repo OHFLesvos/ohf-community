@@ -170,4 +170,5 @@ return [
     'young_adults' => 'Junge Erwachsene',
     'adults' => 'Erwachsene',
     'elderly' => 'Senioren',
+    'really_replace_card_with_new_one' => 'Soll die Karte :cardNo wirklich durch eine neue ersetzt werden?',
 ];

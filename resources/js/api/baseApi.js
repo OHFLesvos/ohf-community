@@ -3,13 +3,19 @@ import ziggyMixin from '@/mixins/ziggyMixin'
 export const route = ziggyMixin.methods.route
 
 import { getAjaxErrorMessage } from '@/utils'
+
+const handleError = function(err) {
+    console.error(err)
+    throw getAjaxErrorMessage(err)
+}
+
 export const api = {
     async get (url) {
         try {
             const res = await axios.get(url)
             return res.data
         } catch (err) {
-            throw getAjaxErrorMessage(err)
+            handleError(err)
         }
     },
     async post (url, data) {
@@ -17,7 +23,7 @@ export const api = {
             const res = await axios.post(url, data)
             return res.data
         } catch (err) {
-            throw getAjaxErrorMessage(err)
+            handleError(err)
         }
     },
     async put (url, data) {
@@ -25,7 +31,15 @@ export const api = {
             const res = await axios.put(url, data)
             return res.data
         } catch (err) {
-            throw getAjaxErrorMessage(err)
+            handleError(err)
+        }
+    },
+    async patch (url, data) {
+        try {
+            const res = await axios.patch(url, data)
+            return res.data
+        } catch (err) {
+            handleError(err)
         }
     },
     async delete (url) {
@@ -33,7 +47,7 @@ export const api = {
             const res = await axios.delete(url)
             return res.data
         } catch (err) {
-            throw getAjaxErrorMessage(err)
+            handleError(err)
         }
     }
 }

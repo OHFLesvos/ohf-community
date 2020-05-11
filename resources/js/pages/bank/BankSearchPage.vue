@@ -18,7 +18,6 @@
                     :key="person.id"
                     :person="person"
                     :highlight-terms="searchTerms"
-                    :countries="countries"
                     :disabled="disabledCards.indexOf(person.id) >= 0"
                     @change="reloadPerson(person)"
                 />
@@ -92,10 +91,6 @@ export default {
             type: String,
             required: false,
             default: null
-        },
-        countries: {
-            type: Array,
-            required: true,
         }
     },
     data() {

@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
 import moment from 'moment'
 import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
@@ -153,14 +153,15 @@ export default {
     },
     methods: {
         loadData () {
-            let url = this.route('api.people.reporting.monthlySummary')
+            let year, month
             if (this.selectedMonth != null) {
-                let parts = this.selectedMonth.split('-');
-                url += `?year=${parts[0]}&month=${parts[1]}`
+                const parts = this.selectedMonth.split('-');
+                year = parts[0],
+                month = parts[1]
             }
-            axios.get(url)
-                .then(res => {
-                    this.data = res.data
+            peopleApi.fetchMonthlySummaryReportData(year, month)
+                .then(data => {
+                    this.data = data
                     this.selectedMonth = moment(this.data.monthDate).format('YYYY-MM')
                 })
         },

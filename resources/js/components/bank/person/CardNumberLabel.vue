@@ -1,6 +1,6 @@
 <template>
     <span>
-        <template v-if="apiUrl != null && !disabled">
+        <template v-if="allowUpdate && !disabled">
             <font-awesome-icon icon="id-card"/>
             <font-awesome-icon
                 v-if="busy"
@@ -32,59 +32,52 @@
 </template>
 
 <script>
-import { showSnackbar, handleAjaxError } from '@/utils'
+import { showSnackbar } from '@/utils'
 import { isAlphaNumeric } from '@/utils'
 import CodeScannerModal from '@/components/ui/CodeScannerModal'
-import axios from '@/plugins/axios'
+import peopleApi from '@/api/people'
 export default {
     components: {
         CodeScannerModal
     },
     props: {
-        apiUrl: {
-            type: String,
-            required: false,
-            default: null
+        person: {
+            required: true
         },
-        value: {
-            type: String,
-            required: false,
-            default: null
-        },
+        allowUpdate: Boolean,
         disabled: Boolean
     },
-    data() {
+    data () {
         return {
             busy: false,
-            cardNo: this.value
+            cardNo: this.person.card_no
         }
     },
     computed: {
-        cardNoShort() {
+        cardNoShort () {
             return this.cardNo != null ? this.cardNo.substr(0,7) : null
         }
     },
     methods: {
-        registerCard() {
-            if (this.cardNo && !confirm('Do you really want to replace the card ' + this.cardNoShort + ' with a new one?')) {
-                return;
+        registerCard () {
+            if (this.cardNo && !confirm(this.$t('people.really_replace_card_with_new_one', { cardNo: this.cardNoShort }))) {
+                return
             }
             this.$refs.codeScanner.open()
         },
-        validateCode(val) {
+        validateCode (val) {
             return isAlphaNumeric(val)
         },
-        submitScannedCard(value) {
+        async submitScannedCard (value) {
             this.busy = true
-            axios.patch(this.apiUrl, {
-                    "card_no": value,
-                })
-                .then(response => {
-                    this.cardNo = value
-                    showSnackbar(response.data.message);
-                })
-                .catch(handleAjaxError)
-                .then(() => this.busy = false)
+            try {
+                let data = await peopleApi.updateCardNo(this.person.id, value)
+                this.cardNo = value
+                showSnackbar(data.message)
+            } catch (err) {
+                alert(this.$t('app.error_err', { err: err }))
+            }
+            this.busy = false
         }
     }
 }

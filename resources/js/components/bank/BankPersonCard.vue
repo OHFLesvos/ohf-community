@@ -18,21 +18,20 @@
                         :highlight-terms="highlightTerms"
                     />
                     <gender-selector
-                        :api-url="person.can_update ? person.gender_update_url : null"
-                        :value="person.gender"
+                        :person="person"
+                        :allow-update="person.can_update"
                         :disabled="disabled"
                     />
                     <date-of-birth-selector
-                        :api-url="person.can_update ? person.date_of_birth_update_url : null"
-                        :value="person.date_of_birth"
+                        :person="person"
+                        :allow-update="person.can_update"
                         :disabled="disabled"
-                        @setAge="$emit('change')"
+                        @changed="$emit('change')"
                     />
                     <nationality-selector
-                        :api-url="person.can_update ? person.nationality_update_url : null"
-                        :value="person.nationality"
+                        :person="person"
+                        :allow-update="person.can_update"
                         :disabled="disabled"
-                        :countries="countries"
                     />
                     <frequent-visitor-marker
                         v-if="person.frequent_visitor"
@@ -44,8 +43,8 @@
                 </div>
                 <div class="col-auto">
                     <card-number-label
-                        :api-url="person.can_update ? person.register_card_url : null"
-                        :value="person.card_no"
+                        :person="person"
+                        :allow-update="person.can_update"
                         :disabled="disabled"
                     />
                 </div>
@@ -55,13 +54,13 @@
         <!-- Card body -->
         <div class="card-body p-2">
             <police-no-label
-                :value="person.police_no_formatted"
+                :person="person"
                 :highlight-terms="highlightTerms"
-                :api-url="person.can_update ? person.police_no_update_url : null"
+                :allow-update="person.can_update"
             />
             <remarks-label
-                :value="person.remarks"
-                :api-url="person.can_update ? person.remarks_update_url : null"
+                :person="person"
+                :allow-update="person.can_update"
             />
             <overdue-book-lendings-label
                 v-if="person.has_overdue_book_lendings"
@@ -78,7 +77,7 @@
                     class="col-sm-auto mb-2"
                 >
                     <coupon-handout-button
-                        :personId="person.id"
+                        :person-id="person.id"
                         :coupon="coupon"
                         :disabled="disabled"
                     />
@@ -98,17 +97,16 @@
 <script>
 import CommunityVolunteerMarker from '@/components/people/CommunityVolunteerMarker'
 import NameLabel from '@/components/people/NameLabel'
-import GenderSelector from '@/components/people/GenderSelector'
-import DateOfBirthSelector from '@/components/people/DateOfBirthSelector'
-import NationalitySelector from '@/components/people/NationalitySelector'
+import GenderSelector from '@/components/bank/person/GenderSelector'
+import DateOfBirthSelector from '@/components/bank/person/DateOfBirthSelector'
+import NationalitySelector from '@/components/bank/person/NationalitySelector'
 import FrequentVisitorMarker from '@/components/bank/FrequentVisitorMarker'
 import EditLink from '@/components/people/EditLink'
-import CardNumberLabel from '@/components/people/CardNumberLabel'
-import PoliceNoLabel from '@/components/people/PoliceNoLabel'
-import RemarksLabel from '@/components/people/RemarksLabel'
+import CardNumberLabel from '@/components/bank/person/CardNumberLabel'
+import PoliceNoLabel from '@/components/bank/person/PoliceNoLabel'
+import RemarksLabel from '@/components/bank/person/RemarksLabel'
 import OverdueBookLendingsLabel from '@/components/people/OverdueBookLendingsLabel'
 import CouponHandoutButton from '@/components/bank/CouponHandoutButton'
-
 export default {
     props: {
         person: {
@@ -120,10 +118,6 @@ export default {
             type: Array,
             required: false,
             default: () => []
-        },
-        countries: {
-            type: Array,
-            required: true,
         }
     },
     components: {
