@@ -39,7 +39,7 @@
         "scriptotek/google-books": "^0.2.4",
         "sentry/sentry-laravel": "^1.7",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
-        "spomky-labs/otphp": "^9.1",
+        "spomky-labs/otphp": "^10.0",
         "tightenco/ziggy": "^0.9.1",
         "unisharp/laravel-filemanager": "~1.8",
         "usystems/webling-api-php": "^1.2",
