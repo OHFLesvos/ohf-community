@@ -24,8 +24,6 @@
         "cross-env": "^7.0",
         "eslint": "^6.8.0",
         "eslint-plugin-vue": "^6.2.2",
-        "fullcalendar": "^3.10.1",
-        "fullcalendar-scheduler": "^1.10.0",
         "google-palette": "^1.1.0",
         "http-status-codes": "^1.4.0",
         "is-isbn": "^1.1.0",

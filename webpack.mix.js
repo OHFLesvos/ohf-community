@@ -47,9 +47,4 @@ mix.options({
     .copy('node_modules/summernote/dist/summernote-bs4.js', 'public/js')
     .copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')
     .copy('node_modules/summernote/dist/font', 'public/css/font')
-    .copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')
-    .copy('node_modules/fullcalendar/dist/fullcalendar.min.js', 'public/js')
-    .copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.css', 'public/css')
-    .copy('node_modules/fullcalendar-scheduler/dist/scheduler.min.js', 'public/js')
-    .copy('node_modules/moment/min/moment-with-locales.min.js', 'public/js')
     .sourceMaps();
