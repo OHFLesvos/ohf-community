@@ -4,8 +4,7 @@ import VueInternationalization from 'vue-i18n'
 Vue.use(VueInternationalization)
 
 import Locale from '@/vue-i18n-locales.generated';
-const hl = window.document.head.querySelector('meta[name="lang"]');
-const lang = hl ? hl.content : 'en'
+import lang from '@/plugins/locale'
 
 import moment from 'moment'
 moment.locale(lang);
