@@ -410,6 +410,22 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
         Route::apiResource('books', 'BookController');
     });
 
+//
+// Collaboration
+//
+
+Route::middleware(['auth', 'language'])
+    ->namespace('Collaboration\API')
+    ->prefix('kb')
+    ->name('api.kb.')
+    ->group(function () {
+        Route::resource('articles', 'ArticleController');
+    });
+
+//
+// Common data
+//
+
 Route::get('countries', 'API\DataListController@countries')
     ->middleware(['language'])
     ->name('api.countries');

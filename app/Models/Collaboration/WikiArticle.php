@@ -17,6 +17,24 @@ class WikiArticle extends Model implements Auditable
 
     protected $table = 'kb_articles';
 
+    protected $fillable = [
+        'title',
+        'slug',
+        'content',
+        'public',
+        'featured',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'public' => 'boolean',
+        'featured' => 'boolean',
+    ];
+
     /**
      * Return the sluggable configuration array for this model.
      *
