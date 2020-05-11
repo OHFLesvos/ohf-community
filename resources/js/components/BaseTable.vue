@@ -225,12 +225,11 @@ export default {
         itemProvider (ctx) {
             this.isBusy = true
             this.errorText = null
-            let url = this.apiUrl + '?filter=' + ctx.filter + '&page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc')
+            let url = ctx.apiUrl + '?filter=' + ctx.filter + '&page=' + ctx.currentPage + '&pageSize=' + ctx.perPage + '&sortBy=' + ctx.sortBy  + '&sortDirection=' + (ctx.sortDesc ? 'desc' : 'asc')
             for (let i = 0; i < this.selectedTags.length; i++) {
                 url += '&tags[]=' + this.selectedTags[i]
             }
-            const promise = axios.get(url)
-            return promise.then(data => {
+            return axios.get(url).then(data => {
                 this.isBusy = false
                 this.totalRows = data.data.meta.total
                 sessionStorage.setItem(this.id + '.sortBy', ctx.sortBy)
