@@ -4,7 +4,9 @@
 
 @section('content')
     <div id='tasks-app'>
-        <task-list></task-list>
+        <task-list>
+            @lang('app.loading')
+        </task-list>
     </div>
 @endsection
 

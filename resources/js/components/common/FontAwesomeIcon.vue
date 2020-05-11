@@ -1,5 +1,5 @@
 <template>
-    <i class="fa" :class="classes"></i>
+    <i :class="classes"></i>
 </template>
 
 <script>
@@ -8,6 +8,11 @@
             icon: {
                 type: String,
                 required: true
+            },
+            variant: {
+                type: String,
+                required: false,
+                default: 'fa'
             },
             spin: {
                 type: Boolean,
@@ -18,11 +23,14 @@
                 type: Boolean,
                 required: false,
                 default: false
-            }
+            },
         },
         computed: {
             classes() {
-                let classes = [`fa-${this.icon}`]
+                let classes = [
+                    this.variant,
+                    `fa-${this.icon}`
+                ]
                 if (this.spin) {
                     classes.push('fa-spin')
                 }
