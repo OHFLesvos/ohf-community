@@ -1,5 +1,13 @@
 <template>
     <div>
+        <!-- Error message -->
+        <b-alert
+            variant="danger"
+            :show="apiError != null"
+        >
+            {{ apiError }}
+        </b-alert>
+
         <!-- Filter input field -->
         <b-form-input
             v-model="filter"
@@ -7,6 +15,7 @@
             debounce="500"
             :placeholder="$t('app.filter')"
             class="mb-3"
+            autocomplete="off"
             size="sm"
         ></b-form-input>
 
@@ -20,7 +29,6 @@
             :fields="fields"
             :current-page="currentPage"
             :per-page="perPage"
-            :api-url="apiUrl"
             :show-empty="initialized"
             :empty-text="$t('people.no_transactions_so_far')"
             :empty-filtered-text="$t('app.no_records_matching_your_request')"
@@ -124,12 +132,12 @@
 
 <script>
 const ITEMS_PER_PAGE = 100
-import { BTable, BPagination, BButton, BRow, BCol, BFormInput } from 'bootstrap-vue'
+import { BAlert, BTable, BPagination, BButton, BRow, BCol, BFormInput } from 'bootstrap-vue'
 import PersonLabel from '@/components/people/PersonLabel'
-import { handleAjaxError } from '@/utils'
-import axios from '@/plugins/axios'
+import bankApi from '@/api/bank'
 export default {
     components: {
+        BAlert,
         BTable,
         BPagination,
         BButton,
@@ -140,7 +148,6 @@ export default {
     },
     data() {
         return {
-            apiUrl: this.route('api.bank.withdrawal.transactions'),
             fields: [
                 {
                     key: 'created_at',
@@ -164,7 +171,8 @@ export default {
             currentPage: 1,
             isBusy: false,
             initialized: false,
-            filter: ''
+            filter: '',
+            apiError: null
         }
     },
     methods: {
@@ -173,16 +181,22 @@ export default {
         },
         itemProvider(ctx) {
             this.isBusy = true
-            return axios.get(`${ctx.apiUrl}?page=${ctx.currentPage}&perPage=${ctx.perPage}&filter=${ctx.filter}`)
-                .then(res => {
-                    const items = res.data.data
-                    this.totalRows = res.data.meta && res.data.meta ? res.data.meta.total : 0
+            const params = {
+                page: ctx.currentPage,
+                perPage: ctx.perPage,
+                filter: ctx.filter
+            }
+            this.apiError = null
+            return bankApi.listTransactions(params)
+                .then(data => {
+                    const items = data.data
+                    this.totalRows = data.meta && data.meta ? data.meta.total : 0
                     this.isBusy = false
                     this.initialized = true
                     return items || []
                 })
                 .catch(err => {
-                    handleAjaxError(err)
+                    this.apiError = err
                     this.isBusy = false
                     return []
                 })
