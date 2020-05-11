@@ -20,7 +20,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class => 5,
         \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class   => 7,
         \App\Navigation\Drawer\Collaboration\KBItem::class                  => 6,
-        \App\Navigation\Drawer\Collaboration\CalendarNavigationItem::class  => 11,
         \App\Navigation\Drawer\Collaboration\TasksNavigationItem::class     => 12,
         \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
         \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,

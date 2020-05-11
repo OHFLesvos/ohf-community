@@ -214,11 +214,6 @@ Route::middleware(['language', 'auth'])
 Route::middleware(['language', 'auth'])
     ->namespace('Collaboration')
     ->group(function () {
-
-        Route::view('calendar', 'collaboration.calendar')
-            ->name('calendar')
-            ->middleware('can:view-calendar');
-
         Route::view('tasks', 'collaboration.tasklist')
             ->name('tasks')
             ->middleware('can:viewAny,App\Models\Collaboration\Task');

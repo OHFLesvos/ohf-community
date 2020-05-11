@@ -212,22 +212,6 @@ return [
             'sensitive' => false,
         ],
 
-        'calendar.events.view' => [
-            'label' => 'permissions.view_calendar_events',
-            'sensitive' => false,
-        ],
-        'calendar.events.create' => [
-            'label' => 'permissions.create_calendar_events',
-            'sensitive' => false,
-        ],
-        'calendar.events.manage' => [
-            'label' => 'permissions.manage_calendar_events',
-            'sensitive' => false,
-        ],
-        'calendar.resources.manage' => [
-            'label' => 'permissions.manage_calendar_resources',
-            'sensitive' => false,
-        ],
         'tasks.use' => [
             'label' => 'permissions.use_tasks',
             'sensitive' => false,

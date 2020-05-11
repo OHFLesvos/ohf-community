@@ -154,17 +154,6 @@ Route::middleware(['language', 'auth'])
 
 Route::middleware('auth')
     ->namespace('Collaboration\API')
-    ->prefix('calendar')
-    ->name('api.calendar.')
-    ->group(function () {
-        Route::apiResource('events', 'CalendarEventController');
-        Route::patch('events/{event}/date', 'CalendarEventController@updateDate')
-            ->name('events.updateDate');
-        Route::apiResource('resources', 'CalendarResourceController');
-    });
-
-Route::middleware('auth')
-    ->namespace('Collaboration\API')
     ->name('api.')
     ->group(function () {
         Route::apiResource('tasks', 'TasksController');

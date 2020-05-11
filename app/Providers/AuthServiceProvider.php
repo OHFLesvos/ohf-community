@@ -21,8 +21,6 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Fundraising\Donation::class           => \App\Policies\Fundraising\DonationPolicy::class,
         \App\Models\Accounting\MoneyTransaction::class    => \App\Policies\Accounting\MoneyTransactionPolicy::class,
         \App\Models\Accounting\Wallet::class              => \App\Policies\Accounting\WalletPolicy::class,
-        \App\Models\Collaboration\CalendarEvent::class    => \App\Policies\Collaboration\CalendarEventPolicy::class,
-        \App\Models\Collaboration\CalendarResource::class => \App\Policies\Collaboration\ResourcePolicy::class,
         \App\Models\Collaboration\Task::class             => \App\Policies\Collaboration\TaskPolicy::class,
         \App\Models\Collaboration\WikiArticle::class      => \App\Policies\Collaboration\ArticlePolicy::class,
         \App\Models\People\Person::class                  => \App\Policies\People\PersonPolicy::class,
@@ -50,8 +48,6 @@ class AuthServiceProvider extends ServiceProvider
         'view-accounting-summary'     => 'accounting.summary.view',
         'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',
         'configure-accounting'        => 'accounting.configure',
-
-        'view-calendar'               => 'calendar.events.view',
 
         'manage-people'               => 'people.manage',
         'view-people-reports'         => 'people.reports.view',
