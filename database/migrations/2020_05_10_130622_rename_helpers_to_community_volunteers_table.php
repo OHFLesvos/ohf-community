@@ -19,8 +19,10 @@ class RenameHelpersToCommunityVolunteersTable extends Migration
 
         Schema::table('community_volunteers', function (Blueprint $table) {
             $table->string('first_name')
+                ->nullable()
                 ->after('id');
             $table->string('family_name')
+                ->nullable()
                 ->after('first_name');
             $table->string('nickname')
                 ->nullable()
@@ -64,6 +66,15 @@ class RenameHelpersToCommunityVolunteersTable extends Migration
                     : $cmtyvol->notes;
                 $cmtyvol->save();
             });
+
+        Schema::table('community_volunteers', function (Blueprint $table) {
+            $table->string('first_name')
+                ->nullable(false)
+                ->change();
+            $table->string('family_name')
+                ->nullable(false)
+                ->change();
+        });
 
         Schema::table('community_volunteers', function (Blueprint $table) {
             $table->dropForeign('helpers_person_id_foreign');
