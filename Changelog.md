@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.18.0
+
+* Code cleanup
+* Removed unused, broken calendar feature
+* Added new users table with search and sort features
+* Updated styles for charts in reports
+* Updated library user interface
+* Removed obsolete fields from helpers table
+* Renamed helpers to community volunteers
+
 ## 2.17.0
 
 * Improved donor search for phone numnber
