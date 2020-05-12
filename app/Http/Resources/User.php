@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Role as RoleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class User extends JsonResource
@@ -22,6 +23,7 @@ class User extends JsonResource
             'is_super_admin' => $this->is_super_admin,
             'is_2fa_enabled' => $this->tfa_secret !== null,
             'avatar' => $this->avatar,
+            'avatar_url_site_header' => $this->avatarUrl('site_header'),
             'provider_name' => $this->provider_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -35,6 +37,8 @@ class User extends JsonResource
         return [
             'self' => route('api.users.show', $this->resource),
             'parent' => route('api.users.index'),
+            'show' => route('users.show', $this->resource),
+            'edit' => route('users.edit', $this->resource),
         ];
     }
 
@@ -42,6 +46,7 @@ class User extends JsonResource
     {
         return [
             'roles' => [
+                'data' => RoleResource::collection($this->whenLoaded('roles')),
                 'links' => [
                     'self' => route('api.users.relationships.roles.index', $this->resource),
                     'related' => route('api.users.roles.index', $this->resource),

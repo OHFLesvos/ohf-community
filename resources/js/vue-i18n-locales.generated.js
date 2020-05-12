@@ -83,6 +83,7 @@ export default {
             "delete": "Löschen",
             "name": "Name",
             "email": "E-Mail Adresse",
+            "admin": "Admin",
             "administrator": "Administrator",
             "registered": "Registriert",
             "created": "Erstellt",
@@ -355,6 +356,7 @@ export default {
             "or": "oder",
             "google_sign_in": "Mit Google anmelden",
             "facebook_sign_in": "Mit Facebook anmelden",
+            "oauth": "OAuth",
             "oauth_provider": "OAuth provider",
             "selection": "Auswahl",
             "all_records": "Alle Datensätze",
@@ -463,9 +465,6 @@ export default {
             "frequent_visitors_affected": "Aktuelle Einstellungen: {freq} Personen betroffen, von total {total} ({percentage} %)",
             "label_on_code_card": "Text auf Codekarte",
             "logo_on_code_card": "Logo auf Codekarte"
-        },
-        "calendar": {
-            "calendar": "Kalender"
         },
         "changelog": {
             "changelog": "Änderungshistorie",
@@ -830,10 +829,6 @@ export default {
             "book_externally": "Buchhaltung: Transaktionen extern verbuchen",
             "view_summary": "Buchhaltung: Zusammenfassung ansehen",
             "configure_accounting": "Buchhaltung: Einstellungen bearbeiten",
-            "view_calendar_events": "Kalender: Termine betrachten",
-            "create_calendar_events": "Kalender: Termine erstellen",
-            "manage_calendar_events": "Kalender: Alle Termine bearbeiten und löschen",
-            "manage_calendar_resources": "Kalender: Ressourcen verwalten",
             "use_tasks": "Aufgabenmodul benutzen",
             "view_wiki": "Wiki: Artikel betrachten",
             "edit_wiki": "Wiki: Artikel erstellen und bearbeiten",
@@ -1226,6 +1221,7 @@ export default {
             "delete": "Delete",
             "name": "Name",
             "email": "E-Mail Address",
+            "admin": "Admin",
             "administrator": "Administrator",
             "registered": "Registered",
             "created": "Created",
@@ -1500,6 +1496,7 @@ export default {
             "or": "or",
             "google_sign_in": "Sign in with Google",
             "facebook_sign_in": "Sign in with Facebook",
+            "oauth": "OAuth",
             "oauth_provider": "OAuth provider",
             "selection": "Selection",
             "all_records": "All records",
@@ -1606,9 +1603,6 @@ export default {
             "frequent_visitors_affected": "Current settings: {freq} persons affected, out of {total} ({percentage} %)",
             "label_on_code_card": "Label on code card",
             "logo_on_code_card": "Logo on code card"
-        },
-        "calendar": {
-            "calendar": "Calendar"
         },
         "changelog": {
             "changelog": "Changelog",
@@ -1976,10 +1970,6 @@ export default {
             "book_externally": "Accounting: Book transactions externally",
             "view_summary": "Accounting: View summary",
             "configure_accounting": "Accounting: Configure settings",
-            "view_calendar_events": "Calendar: View events",
-            "create_calendar_events": "Calendar: Create events",
-            "manage_calendar_events": "Calendar: Edit and delete all events",
-            "manage_calendar_resources": "Calendar: Manage resources",
             "use_tasks": "Use tasks",
             "view_wiki": "Wiki: View articles",
             "edit_wiki": "Wiki: Create and edit articles",

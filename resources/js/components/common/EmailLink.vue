@@ -4,9 +4,9 @@
             v-if="iconOnly"
             :href="mailToHref"
             class="btn btn-light btn-sm"
-            ><font-awesome-icon icon="envelope" /></a>
+        ><font-awesome-icon icon="envelope" /></a>
         <template v-else>
-            <font-awesome-icon icon="envelope" />
+            <font-awesome-icon v-if="!labelOnly" icon="envelope" />
             <a :href="mailToHref">{{ value }}</a>
         </template>
     </span>
@@ -18,7 +18,8 @@ export default {
             required: true,
             type: String
         },
-        iconOnly: Boolean
+        iconOnly: Boolean,
+        labelOnly: Boolean
     },
     computed: {
         mailToHref () {

@@ -44,6 +44,7 @@ class UserController extends Controller
         $this->validatePagination();
 
         return new UserCollection(User::filtered($this->getFilter())
+            ->when(in_array('roles', $this->getIncludes()), fn ($qry) => $qry->with(['roles' => fn ($qry) => $qry->orderBy('name')]))
             ->orderBy($this->getSortBy('name'), $this->getSortDirection())
             ->paginate($this->getPageSize()));
     }

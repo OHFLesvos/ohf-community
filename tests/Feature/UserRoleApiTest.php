@@ -95,6 +95,8 @@ class UserRoleApiTest extends TestCase
                         'links' => [
                             'parent' => route('api.roles.index'),
                             'self' => route('api.roles.show', $role1),
+                            'show' => route('roles.show', $role1),
+                            'edit' => route('roles.edit', $role1),
                         ],
                         'relationships' => [
                             'administrators' => [
@@ -119,6 +121,8 @@ class UserRoleApiTest extends TestCase
                         'links' => [
                             'parent' => route('api.roles.index'),
                             'self' => route('api.roles.show', $role2),
+                            'show' => route('roles.show', $role2),
+                            'edit' => route('roles.edit', $role2),
                         ],
                         'relationships' => [
                             'administrators' => [

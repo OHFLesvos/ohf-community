@@ -86,12 +86,15 @@ class UserApiTest extends TestCase
                         'is_super_admin' => $user->is_super_admin,
                         'is_2fa_enabled' => false,
                         'avatar' => $user->avatar,
+                        'avatar_url_site_header' => $user->avatarUrl('site_header'),
                         'provider_name' => $user->provider_name,
                         'created_at' => $user->created_at->toJSON(),
                         'updated_at' => $user->updated_at->toJSON(),
                         'links' => [
                             'parent' => route('api.users.index'),
                             'self' => route('api.users.show', $user),
+                            'show' => route('users.show', $user),
+                            'edit' => route('users.edit', $user),
                         ],
                         'relationships' => [
                             'roles' => [
@@ -398,12 +401,15 @@ class UserApiTest extends TestCase
                     'is_super_admin' => $user->is_super_admin,
                     'is_2fa_enabled' => false,
                     'avatar' => $user->avatar,
+                    'avatar_url_site_header' => $user->avatarUrl('site_header'),
                     'provider_name' => $user->provider_name,
                     'created_at' => $user->created_at->toJSON(),
                     'updated_at' => $user->updated_at->toJSON(),
                     'links' => [
                         'parent' => route('api.users.index'),
                         'self' => route('api.users.show', $user),
+                        'show' => route('users.show', $user),
+                        'edit' => route('users.edit', $user),
                     ],
                     'relationships' => [
                         'roles' => [

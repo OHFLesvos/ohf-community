@@ -3,7 +3,6 @@
 @section('title', __('bank.bank'))
 
 @section('content')
-
     <div id="bank-app">
         <bank-search-page
             @can('create', App\Models\People\Person::class)can-register-person
@@ -12,7 +11,6 @@
             @lang('app.loading')
         </bank-search-page>
     </div>
-
 @endsection
 
 @section('footer')

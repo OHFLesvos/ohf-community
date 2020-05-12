@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Role extends JsonResource
@@ -32,6 +33,8 @@ class Role extends JsonResource
         return [
             'self' => route('api.roles.show', $this->resource),
             'parent' => route('api.roles.index'),
+            'show' => route('roles.show', $this->resource),
+            'edit' => route('roles.edit', $this->resource),
         ];
     }
 
@@ -39,6 +42,7 @@ class Role extends JsonResource
     {
         return [
             'users' => [
+                'data' => UserResource::collection($this->whenLoaded('users')),
                 'links' => [
                     'self' => route('api.roles.relationships.users.index', $this->resource),
                     'related' => route('api.roles.users.index', $this->resource),

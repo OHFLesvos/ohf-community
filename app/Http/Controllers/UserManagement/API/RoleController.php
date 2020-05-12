@@ -36,7 +36,7 @@ class RoleController extends Controller
         ]);
 
         return new RoleCollection(Role::filtered($this->getFilter())
-            ->with('users')
+            ->when(in_array('users', $this->getIncludes()), fn ($qry) => $qry->with(['users' => fn ($qry) => $qry->orderBy('name')]))
             ->orderBy($this->getSortBy('name'), $this->getSortDirection())
             ->get());
     }

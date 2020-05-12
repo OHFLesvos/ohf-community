@@ -47,7 +47,7 @@ trait ValidatesResourceIndex
         ]);
     }
 
-    protected function getFilter(): string
+    protected function getFilter(): ?string
     {
         return request()->input('filter', '');
     }
@@ -65,5 +65,13 @@ trait ValidatesResourceIndex
     protected function getPageSize(?int $defaultSize = 10): int
     {
         return request()->input('pageSize', $defaultSize);
+    }
+
+    protected function getIncludes(): array
+    {
+        if (request()->filled('include')) {
+            return preg_split('/,/', request()->input('include'));
+        }
+        return [];
     }
 }
