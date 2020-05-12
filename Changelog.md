@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.19.1
+
+* Added counting of next free receipt number separetely by wallet
+
 ## 2.19.0
 
 * Added support for role-based access to accounting wallets and related transactions

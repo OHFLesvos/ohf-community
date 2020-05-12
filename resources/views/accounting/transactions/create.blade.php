@@ -4,14 +4,14 @@
 
 @section('content')
     {!! Form::open(['route' => ['accounting.transactions.store' ], 'files' => true]) !!}
-        @if(count($wallets) > 1)
-            {{ Form::bsSelect('wallet_id', $wallets, optional($wallet)->id, [], __('accounting.wallet')) }}
+        @if($wallets->count() > 1)
+            {{ Form::bsSelect('wallet_id', $wallets->pluck('name', 'id'), optional($wallet)->id, [], __('accounting.wallet')) }}
         @else
-            {{ Form::hidden('wallet_id', array_keys($wallets)[0]) }}
+            {{ Form::hidden('wallet_id', $wallets[0]['id']) }}
         @endif
         <div class="form-row">
             <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', $newReceiptNo, [ 'disabled' ], __('accounting.receipt_no')) }}
+                {{ Form::bsNumber('receipt_no', $wallets->count() == 1 ? $wallets[0]['new_receipt_no'] : '', [ 'disabled' ], __('accounting.receipt_no')) }}
             </div>
             <div class="col-sm">
                 {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required', 'autofocus' ], __('app.date')) }}
@@ -64,12 +64,23 @@
             <button type="submit" name="submit" value="save_and_continue" class="btn btn-secondary">@icon(arrow-right) @lang('app.save_and_continue')</button>
         </p>
     {!! Form::close() !!}
+
 @endsection
 
 @section('script')
+var new_receipt_numbers = @json($wallets->pluck('new_receipt_no', 'id'));
+function setNewReceiptNumber() {
+    var value = new_receipt_numbers[$('select[name="wallet_id"]').val()];
+    $('input[name="receipt_no"]').val(value);
+}
+
 $(function () {
     $('input[name="date"]').on('change', function () {
         $('input[name="amount"]').focus();
     });
+    @if($wallets->count() > 1)
+    $('select[name="wallet_id"]').on('change', setNewReceiptNumber);
+    setNewReceiptNumber();
+    @endif
 });
 @endsection

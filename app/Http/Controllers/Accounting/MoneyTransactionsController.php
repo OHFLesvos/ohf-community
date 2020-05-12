@@ -155,11 +155,15 @@ class MoneyTransactionsController extends Controller
         $wallets = Wallet::orderBy('name')
             ->get()
             ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
-            ->pluck('name', 'id')
-            ->toArray();
-        if (count($wallets) == 0) {
+            ->map(fn ($wallet) => [
+                'id' => $wallet->id,
+                'name' => $wallet->name,
+                'new_receipt_no' => MoneyTransaction::getNextFreeReceiptNo($wallet->id),
+            ]);
+        if ($wallets->isEmpty()) {
             return redirect()->route('accounting.wallets.change');
         }
+        $wallet = $currentWallet->get();
 
         return view('accounting.transactions.create', [
             'beneficiaries' => MoneyTransaction::beneficiaries(),
@@ -167,8 +171,7 @@ class MoneyTransactionsController extends Controller
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
-            'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
-            'wallet' => $currentWallet->get(),
+            'wallet' => $wallet,
             'wallets' => $wallets,
         ]);
     }
