@@ -19,7 +19,7 @@ return [
 
     'product_url' => 'https://github.com/OHFLesvos/ohf-community',
 
-    'version' => 'v2.18.0',
+    'version' => 'v2.19.0',
     /*
     |--------------------------------------------------------------------------
     | Application Environment
