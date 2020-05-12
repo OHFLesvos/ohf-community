@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use App\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -83,4 +84,12 @@ class Wallet extends Model
             ->first())->created_at;
     }
 
+    /**
+     * The roles that can access the wallet.
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'accounting_wallet_role')
+            ->withTimestamps();
+    }
 }

@@ -12,6 +12,7 @@
                     <th class="text-right">@lang('app.amount')</th>
                     <th class="text-right">@lang('accounting.transactions')</th>
                     <th class="fit text-center">@lang('app.default')</th>
+                    <th class="fit text-center">@lang('app.restricted')</th>
                     <th class="text-right">@lang('app.latest_activity')</th>
                     <th class="fit">@lang('app.created')</th>
                 </tr>
@@ -20,7 +21,7 @@
                 @foreach ($wallets as $wallet)
                     <tr>
                         <td>
-                            <a href="{{ route('accounting.wallets.edit', $wallet) }}" title="View Role">{{ $wallet->name }}</a>
+                            <a href="{{ route('accounting.wallets.edit', $wallet) }}">{{ $wallet->name }}</a>
                         </td>
                         <td class="text-right">
                             {{ number_format($wallet->amount, 2) }}
@@ -30,6 +31,9 @@
                         </td>
                         <td class="fit text-center">
                             @if($wallet->is_default)@icon(check)@else @icon(times) @endif
+                        </td>
+                        <td class="fit text-center">
+                            @if($wallet->roles()->exists())@icon(check)@else @icon(times) @endif
                         </td>
                         <td class="fit">
                             {{ optional($wallet->latestActivity)->toDateTimeString() }}

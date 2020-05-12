@@ -28,7 +28,7 @@ class StoreTransaction extends FormRequest
     {
         return [
             'wallet_id' => [
-                'nullable',
+                isset($this->transaction) ? 'nullable' : 'required',
                 'exists:accounting_wallets,id',
             ],
             'date' => [

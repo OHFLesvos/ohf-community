@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreWallet;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Wallet;
+use App\Role;
 use App\Services\Accounting\CurrentWalletService;
 
 class WalletController extends Controller
@@ -36,7 +37,9 @@ class WalletController extends Controller
      */
     public function create()
     {
-        return view('accounting.wallets.create', [ ]);
+        return view('accounting.wallets.create', [
+            'roles' => Role::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -51,6 +54,10 @@ class WalletController extends Controller
         $wallet->fill($request->all());
         $wallet->is_default = isset($request->is_default);
         $wallet->save();
+
+        if ($request->user()->can('viewAny', Role::class)) {
+            $wallet->roles()->sync($request->input('roles', []));
+        }
 
         return redirect()
             ->route('accounting.wallets.index')
@@ -67,6 +74,7 @@ class WalletController extends Controller
     {
         return view('accounting.wallets.edit', [
             'wallet' => $wallet,
+            'roles' => Role::orderBy('name')->get(),
         ]);
     }
 
@@ -82,6 +90,10 @@ class WalletController extends Controller
         $wallet->fill($request->all());
         $wallet->is_default = isset($request->is_default);
         $wallet->save();
+
+        if ($request->user()->can('viewAny', Role::class)) {
+            $wallet->roles()->sync($request->input('roles', []));
+        }
 
         return redirect()
             ->route('accounting.wallets.index')
@@ -115,7 +127,8 @@ class WalletController extends Controller
 
         return view('accounting.wallets.change', [
             'wallets' => Wallet::orderBy('name')
-                ->get(),
+                ->get()
+                ->filter(fn ($wallet) => request()->user()->can('view', $wallet)),
             'active' => $currentWallet->get(),
         ]);
     }
@@ -130,8 +143,9 @@ class WalletController extends Controller
     public function doChange(Wallet $wallet, CurrentWalletService $currentWallet)
     {
         $this->authorize('viewAny', MoneyTransaction::class);
+        $this->authorize('view', $wallet);
 
-        $change = $currentWallet->get()->id != $wallet->id;
+        $change = optional($currentWallet->get())->id != $wallet->id;
 
         $currentWallet->set($wallet);
 

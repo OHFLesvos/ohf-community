@@ -21,11 +21,15 @@
 
 @section('widget-content')
     <div class="list-group list-group-flush">
-        @foreach($wallets as $wallet)
+        @forelse($wallets as $wallet)
             <a href="{{ route('accounting.transactions.index', ['wallet_id' => $wallet->id]) }}" class="list-group-item list-group-item-action">
                 @if($has_multiple_wallets){{ $wallet->name }}@else @lang('accounting.wallet') @endif
                 <span class="float-right">{{ number_format($wallet->amount, 2) }}</span>
             </a>
-        @endforeach
+        @empty
+            <a class="list-group-item">
+                @lang('accounting.no_wallets_found')
+            </a>
+        @endforelse
     </div>
 @endsection

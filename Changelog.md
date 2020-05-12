@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.19.0
+
+* Added support for role-based access to accounting wallets and related transactions
+
 ## 2.18.0
 
 * Code cleanup

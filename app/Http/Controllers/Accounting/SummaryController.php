@@ -33,6 +33,9 @@ class SummaryController extends Controller
         ]);
 
         $wallet = $currentWallet->get();
+        if ($wallet === null) {
+            return redirect()->route('accounting.wallets.change');
+        }
 
         if ($request->filled('year') && $request->filled('month')) {
             $year = $request->year;

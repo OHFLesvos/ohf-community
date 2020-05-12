@@ -56,7 +56,14 @@ class MoneyTransactionsController extends Controller
         ]);
 
         if ($request->has('wallet_id')) {
-            $currentWallet->set(Wallet::find($request->input('wallet_id')));
+            $wallet = Wallet::find($request->input('wallet_id'));
+            $this->authorize('view', $wallet);
+            $currentWallet->set($wallet);
+        }
+
+        $wallet = $currentWallet->get();
+        if ($wallet === null) {
+            return redirect()->route('accounting.wallets.change');
         }
 
         $sortColumns = [
@@ -123,7 +130,7 @@ class MoneyTransactionsController extends Controller
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'projects' => self::getProjects(true),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
-            'wallet' => $currentWallet->get(),
+            'wallet' => $wallet,
             'has_multiple_wallets' => Wallet::count() > 1,
         ]);
     }
@@ -145,6 +152,15 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('create', MoneyTransaction::class);
 
+        $wallets = Wallet::orderBy('name')
+            ->get()
+            ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
+            ->pluck('name', 'id')
+            ->toArray();
+        if (count($wallets) == 0) {
+            return redirect()->route('accounting.wallets.change');
+        }
+
         return view('accounting.transactions.create', [
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
@@ -153,9 +169,7 @@ class MoneyTransactionsController extends Controller
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'newReceiptNo' => MoneyTransaction::getNextFreeReceiptNo(),
             'wallet' => $currentWallet->get(),
-            'wallets' => Wallet::orderBy('name')
-                ->pluck('name', 'id')
-                ->toArray(),
+            'wallets' => $wallets,
         ]);
     }
 
@@ -197,7 +211,9 @@ class MoneyTransactionsController extends Controller
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
         $transaction->wallet_owner = $request->wallet_owner;
-        $transaction->wallet()->associate($request->input('wallet_id', $currentWallet->get()));
+
+        $transaction->wallet()->associate($request->input('wallet_id'));
+        $this->authorize('view', $transaction->wallet);
 
         if (isset($request->receipt_picture)) {
             $transaction->addReceiptPicture($request->file('receipt_picture'));
@@ -205,7 +221,7 @@ class MoneyTransactionsController extends Controller
 
         $transaction->save();
 
-        if ($transaction->wallet->id !== $currentWallet->get()->id) {
+        if ($transaction->wallet->id !== optional($currentWallet->get())->id) {
             $currentWallet->set($transaction->wallet);
         }
 

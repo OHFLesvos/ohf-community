@@ -37,7 +37,16 @@ class WalletPolicy
      */
     public function view(User $user, Wallet $wallet)
     {
-        return $user->hasPermission('accounting.configure');
+        if ($user->hasPermission('accounting.configure')) {
+            return true;
+        }
+        if ($user->hasPermission('accounting.transactions.view')) {
+            return ! $wallet->roles()->exists()
+                || $user->roles()
+                    ->whereIn('roles.id', $wallet->roles->pluck('id'))
+                    ->exists();
+        }
+        return false;
     }
 
     /**
