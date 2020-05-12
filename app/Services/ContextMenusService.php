@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Collection;
+
 class ContextMenusService
 {
     private $menus = [];
@@ -11,12 +13,12 @@ class ContextMenusService
         $this->menus[$routeName] = $menuClass;
     }
 
-    public function get(string $routeName)
+    public function get(string $routeName): Collection
     {
         if (isset($this->menus[$routeName])) {
             $menu = new $this->menus[$routeName]();
-            return $menu->getItems();
+            return collect($menu->getItems());
         }
-        return [];
+        return collect();
     }
 }

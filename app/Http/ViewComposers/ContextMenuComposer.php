@@ -19,7 +19,9 @@ class ContextMenuComposer
     {
         $currentRouteName = Route::currentRouteName();
 
-        $view->with('menu', ContextMenus::get($currentRouteName));
-        $view->with('buttons', ContextButtons::get($currentRouteName, $view));
+        $view->with('menu', ContextMenus::get($currentRouteName)
+            ->filter(fn ($item) => $item['authorized']));
+        $view->with('buttons', ContextButtons::get($currentRouteName, $view)
+            ->filter(fn ($item) => $item['authorized']));
     }
 }

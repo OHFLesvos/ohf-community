@@ -12,16 +12,14 @@
         {{-- Navigation --}}
         <ul class="nav flex-column nav-pills my-3 mt-0">
             @foreach ($nav as $n)
-                @if ($n->isAuthorized())
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is($n->getActive()) ? 'active' : '' }}" href="{{ $n->getRoute() }}">
-                            <i class="fa fa-{{ $n->getIcon() }}" title="{{ $n->getCaption() }}"></i> {{ $n->getCaption() }}
-                            @if ($n->getBadge() != null)
-                                <span class="badge badge-secondary ml-2">{{ $n->getBadge() }}</span>
-                            @endif
-                        </a>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is($n->getActive()) ? 'active' : '' }}" href="{{ $n->getRoute() }}">
+                        <i class="fa fa-{{ $n->getIcon() }}" title="{{ $n->getCaption() }}"></i> {{ $n->getCaption() }}
+                        @if ($n->getBadge() != null)
+                            <span class="badge badge-secondary ml-2">{{ $n->getBadge() }}</span>
+                        @endif
+                    </a>
+                </li>
             @endforeach
         </ul>
 

@@ -17,6 +17,8 @@ class NavigationItemsService
 
     public function items()
     {
-        return collect($this->items)->sortBy('position')->pluck('item')->toArray();
+        return collect($this->items)
+            ->sortBy('position')
+            ->pluck('item');
     }
 }

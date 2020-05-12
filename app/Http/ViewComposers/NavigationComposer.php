@@ -17,7 +17,8 @@ class NavigationComposer
     public function compose(View $view)
     {
         if (Auth::check()) {
-            $view->with('nav', NavigationItems::items());
+            $view->with('nav', NavigationItems::items()
+                ->filter(fn ($item) => $item->isAuthorized()));
         }
     }
 }
