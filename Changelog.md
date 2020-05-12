@@ -9,6 +9,8 @@
 * Updated library user interface
 * Removed obsolete fields from helpers table
 * Renamed helpers to community volunteers
+* Updated code libraries
+* Reduced amount of data transfered to client in bank person search
 
 ## 2.17.0
 

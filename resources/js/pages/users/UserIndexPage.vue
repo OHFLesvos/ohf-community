@@ -100,6 +100,7 @@ export default {
                     label: this.$t('app.admin'),
                     class: 'align-middle d-none d-md-table-cell text-center fit',
                     sortable: true,
+                    sortDirection: 'desc',
                 },
                 {
                     key: 'created_at',
