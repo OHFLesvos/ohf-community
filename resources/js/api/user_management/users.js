@@ -5,6 +5,9 @@ export default {
         return await api.get(url)
     },
     async listWithRoles (params) {
+        if (!params) {
+            params = {}
+        }
         params.include = 'roles'
         const url = route('api.users.index', params)
         return await api.get(url)
