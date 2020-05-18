@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::model($donation, ['route' => ['fundraising.donations.update', $donor, $donation], 'method' => 'put']) !!}
+    {!! Form::model($donation, ['route' => ['fundraising.donations.update', [$donor, $donation]], 'method' => 'put']) !!}
         <div class="form-row">
             <div class="col-md">
                 {{ Form::bsDate('date', null, [ 'required', 'max' => Carbon\Carbon::today()->toDateString() ], __('app.date')) }}
