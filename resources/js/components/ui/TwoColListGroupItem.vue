@@ -1,20 +1,24 @@
 <template>
-        <li class="list-group-item">
-        <div class="row">
-            <div class="col-sm-5">
-                <strong>
-                    {{ title }}
-                </strong>
-            </div>
-            <div class="col-sm">
+    <b-list-group-item>
+        <b-row>
+            <b-col sm="5">
+                <strong>{{ title }}</strong>
+            </b-col>
+            <b-col sm>
                 <slot></slot>
-            </div>
-        </div>
-    </li>
+            </b-col>
+        </b-row>
+    </b-list-group-item>
 </template>
 
 <script>
+import { BListGroupItem, BRow, BCol } from 'bootstrap-vue'
 export default {
+    components: {
+        BListGroupItem,
+        BRow,
+        BCol
+    },
     props: {
         title: {
             type: String,

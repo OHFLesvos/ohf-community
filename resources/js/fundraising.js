@@ -9,8 +9,7 @@ Vue.use(BootstrapVue)
 import DonorsTable from '@/components/fundraising/DonorsTable'
 import DonationsTable from '@/components/fundraising/DonationsTable'
 import DonorsReport from '@/components/fundraising/DonorsReport'
-import CommentsList from '@/components/comments/CommentsList'
-import TagManager from '@/components/tags/TagManager'
+import DonorShowPage from '@/pages/fundraising/DonorShowPage'
 
 import i18n from '@/plugins/i18n'
 
@@ -26,7 +25,6 @@ new Vue({
         DonationsTable,
         DonorsTable,
         DonorsReport,
-        CommentsList,
-        TagManager
+        DonorShowPage
     }
 });

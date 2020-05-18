@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
+use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JeroenDesloovere\VCard\VCard;
@@ -90,17 +91,35 @@ class DonorController extends Controller
      * @param  \App\Models\Fundraising\Donor  $donor
      * @return \Illuminate\Http\Response
      */
-    public function show(Donor $donor)
+    public function show(Donor $donor, Request $request)
     {
         $this->authorize('view', $donor);
 
+        $can_view_donations = $request->user()->can('viewAny', Donation::class);
+
         return view('fundraising.donors.show', [
             'donor' => $donor,
-            'donations' => $donor->donations()
-                ->orderBy('date', 'desc')
-                ->orderBy('created_at', 'desc')
-                ->paginate(),
-            'currencies' => config('fundraising.currencies'),
+            'donorResource' => [
+                'id' => $donor->id,
+                'salutation' => $donor->salutation,
+                'first_name' => $donor->first_name,
+                'last_name' => $donor->last_name,
+                'company' => $donor->company,
+                'fullAddress' => $donor->fullAddress,
+                'email' => $donor->email,
+                'phone' => $donor->phone,
+                'language' => $donor->language,
+                'created_at' => $donor->created_at,
+                'updated_at' => $donor->updated_at,
+                'can_create_tag' => $request->user()->can('create', Tag::class),
+                'can_create_donation' => $request->user()->can('create', Donation::class),
+                'can_view_donations' => $can_view_donations,
+                'donations' => $can_view_donations ? $donor->donations()
+                    ->orderBy('date', 'desc')
+                    ->orderBy('created_at', 'desc')
+                    ->get() : null,
+                'donations_per_year' => $can_view_donations ? $donor->donationsPerYear() : null
+            ],
             'channels' => Donation::channels(),
         ]);
     }

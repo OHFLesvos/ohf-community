@@ -116,6 +116,11 @@ Route::middleware(['language', 'auth'])
             ->only('index', 'store');
         Route::apiResource('tags', 'TagsController')
             ->only('index');
+        Route::prefix('donors/{donor}')
+            ->group(function () {
+                Route::apiResource('donations', 'DonationController')
+                    ->only('store');
+            });
     });
 
 Route::middleware(['language', 'auth'])
