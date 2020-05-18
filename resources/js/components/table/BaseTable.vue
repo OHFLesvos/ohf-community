@@ -17,12 +17,10 @@
             <b-col>
                 <table-filter
                     v-if="!noFilter"
-                    v-model="filterText"
+                    v-model="filter"
                     :placeholder="filterPlaceholder"
                     :is-busy="isBusy"
                     :total-rows="totalRows"
-                    @apply="applyFilter"
-                    @clear="clearFilter"
                 />
             </b-col>
             <b-col v-if="!!$slots['filter-append']" cols="auto">
@@ -70,6 +68,7 @@
             v-model="currentPage"
             :total-rows="totalRows"
             :per-page="perPage"
+            :disabled="isBusy"
         />
 
     </div>
@@ -149,24 +148,16 @@ export default {
             errorText: null,
             filter: sessionStorage.getItem(this.id + '.filter')
                 ? sessionStorage.getItem(this.id + '.filter')
-                : '',
-            filterText: sessionStorage.getItem(this.id + '.filter')
-                ? sessionStorage.getItem(this.id + '.filter')
                 : ''
         }
     },
+    watch: {
+        filter () {
+            this.currentPage = 1
+        }
+    },
     methods: {
-        applyFilter () {
-            this.filter = this.filterText
-            this.currentPage = 1
-        },
-        clearFilter () {
-            this.filterText = ''
-            this.filter = ''
-            this.currentPage = 1
-        },
         async itemProvider (ctx) {
-            this.isBusy = true
             this.errorText = null
             const params = {
                 filter: ctx.filter,
@@ -177,28 +168,28 @@ export default {
             }
             try {
                 let data = await this.apiMethod(params)
-                this.isBusy = false
                 this.totalRows = data.meta.total
                 sessionStorage.setItem(this.id + '.sortBy', ctx.sortBy)
                 sessionStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
                 sessionStorage.setItem(this.id + '.currentPage', ctx.currentPage)
+                if (ctx.filter.length > 0) {
+                    sessionStorage.setItem(this.id + '.filter', ctx.filter)
+                } else {
+                    sessionStorage.removeItem(this.id + '.filter')
+                }
                 return data.data || []
             } catch (err) {
                 this.errorText = err
                 this.totalRows = 0
+                sessionStorage.removeItem(this.id + '.sortBy')
+                sessionStorage.removeItem(this.id + '.sortDesc')
+                sessionStorage.removeItem(this.id + '.currentPage')
+                sessionStorage.removeItem(this.id + '.filter')
                 return []
             }
         },
         refresh () {
             this.$root.$emit('bv::refresh::table', this.id)
-        }
-    },
-    watch: {
-        filter (val) {
-            sessionStorage.setItem(this.id + '.filter', val)
-        },
-        filterText () {
-            this.applyFilter()
         }
     }
 }

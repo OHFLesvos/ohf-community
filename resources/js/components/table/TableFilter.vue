@@ -2,13 +2,12 @@
     <b-input-group size="sm" class="mb-3">
         <b-form-input
             v-model="filterText"
-            debounce="400"
-            :trim="true"
+            :debounce="400"
+            trim
             type="search"
             :placeholder="placeholder"
             autocomplete="off"
-            @keyup.enter="$emit('apply')"
-            @keyup.esc="$emit('clear')"
+            @keyup.esc="filterText = ''"
         ></b-form-input>
         <b-input-group-append class="d-none d-sm-block">
             <b-input-group-text v-if="isBusy">
@@ -30,7 +29,7 @@ export default {
         placeholder: {
             required: false,
             type: String,
-               default: function() {
+            default: function() {
                 return this.$t('app.type_to_search')
             }
         },

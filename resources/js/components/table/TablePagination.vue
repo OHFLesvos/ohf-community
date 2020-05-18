@@ -7,6 +7,7 @@
                 v-model="currentPage"
                 :total-rows="totalRows"
                 :per-page="perPage"
+                :disabled="disabled"
                 class="mb-0"
             ></b-pagination>
         </b-col>
@@ -26,7 +27,8 @@ export default {
     props: {
         value: Number,
         totalRows: Number,
-        perPage: Number
+        perPage: Number,
+        disabled: Boolean
     },
     computed: {
         currentPage: {

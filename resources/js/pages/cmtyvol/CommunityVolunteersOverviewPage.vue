@@ -6,7 +6,7 @@
             v-if="viewType == 'list'"
             ref="table"
             id="communityVolunteerTable"
-            :fields='fields'
+            :fields="fields"
             :api-method="fetchData"
             default-sort-by="first_name"
             :empty-text="$t('cmtyvol.none_found')"
@@ -53,6 +53,7 @@
             v-else-if="viewType == 'grid'"
             ref="grid"
             :api-method="fetchData"
+            :items-per-page="itemsPerPage"
         >
             <template v-slot:filter-prepend>
                 <work-status-selector v-model="workStatus" />
@@ -139,7 +140,7 @@ export default {
             viewType: sessionStorage.getItem('cmtyvol.viewType')
                 ? sessionStorage.getItem('cmtyvol.viewType')
                 : 'list',
-            itemsPerPage: 10
+            itemsPerPage: 12
         }
     },
     watch: {

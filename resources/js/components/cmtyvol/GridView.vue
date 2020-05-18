@@ -1,6 +1,12 @@
 <template>
     <div>
 
+        <!-- Error -->
+        <table-alert
+            :value="errorText"
+            @retry="refresh"
+        />
+
         <!-- Filter -->
         <div class="form-row">
             <div v-if="!!$slots['filter-prepend']" class="col-auto">
@@ -8,12 +14,10 @@
             </div>
             <div class="col">
                 <table-filter
-                    v-model="filterText"
+                    v-model="filter"
                     :placeholder="filterPlaceholder"
                     :is-busy="isBusy"
                     :total-rows="totalRows"
-                    @apply="applyFilter"
-                    @clear="clearFilter"
                 />
             </div>
             <div v-if="!!$slots['filter-append']" class="col-auto">
@@ -21,13 +25,10 @@
             </div>
         </div>
 
-        <!-- <p>Filter Text: {{ filterText }}</p>
-        <p>Filter: {{ filter }}</p> -->
-
         <!-- Loading or busy -->
-        <div v-if="data == null || isBusy">
+        <p v-if="data == null || isBusy">
             {{ $t('app.loading') }}
-        </div>
+        </p>
 
         <!-- Grid -->
         <div v-else-if="data.length > 0" class="row">
@@ -45,43 +46,64 @@
             {{ $t('app.no_records_matching_your_request') }}
         </b-alert>
 
+        <!-- Pagination -->
+        <table-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            :disabled="isBusy"
+        />
+
     </div>
 </template>
 
 <script>
+import TableAlert from '@/components/table/TableAlert'
 import TableFilter from '@/components/table/TableFilter'
+import TablePagination from '@/components/table/TablePagination'
 import GridItem from '@/components/cmtyvol/GridItem'
 export default {
     components: {
+        TableAlert,
         TableFilter,
+        TablePagination,
         GridItem
     },
     props:  {
         apiMethod: {
             required: true,
             type: Function
+        },
+        itemsPerPage: {
+            required: false,
+            type: Number,
+            default: 25
         }
     },
     data () {
+        const id = 'communityVolunteerGrid'
         return {
+            id: id,
             data: null,
-            busy: false,
+            isBusy: false,
             errorText: null,
-            filter: '',
-            filterText: '',
-            currentPage: 1,
-            perPage: 50,
+            currentPage: sessionStorage.getItem(id + '.currentPage')
+                ? parseInt(sessionStorage.getItem(id + '.currentPage'))
+                : 1,
+            perPage: this.itemsPerPage,
             sortBy: 'first_name',
             sortDesc: false,
             totalRows: 0,
+            filter: '',
             filterPlaceholder: this.$t('app.search')
         }
     },
     watch: {
-        filterText () {
-            this.applyFilter()
-        },
         filter () {
+            this.currentPage = 1
+            this.refresh()
+        },
+        currentPage () {
             this.refresh()
         }
     },
@@ -103,6 +125,7 @@ export default {
                 let data = await this.apiMethod(params)
                 this.totalRows = data.meta.total
                 this.isBusy = false
+                sessionStorage.setItem(this.id + '.currentPage', this.currentPage)
                 return data.data || []
             } catch (err) {
                 this.isBusy = false
@@ -112,15 +135,6 @@ export default {
         },
         async refresh () {
             this.data = await this.itemProvider()
-        },
-        applyFilter () {
-            this.filter = this.filterText
-            this.currentPage = 1
-        },
-        clearFilter () {
-            this.filterText = ''
-            this.filter = ''
-            this.currentPage = 1
         }
     }
 }
