@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class Comment extends JsonResource
 {
@@ -22,13 +21,13 @@ class Comment extends JsonResource
             'user_name' => $this->user_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'update_url' => Auth::user()->can('update', $this->resource)
+            'update_url' => $request->user()->can('update', $this->resource)
                 ? route('api.comments.update', $this->resource)
                 : null,
-            'delete_url' => Auth::user()->can('delete', $this->resource)
+            'delete_url' => $request->user()->can('delete', $this->resource)
                 ? route('api.comments.destroy', $this->resource)
                 : null,
-            'user_url' => $this->user_id !== null && Auth::user()->can('view', $this->user)
+            'user_url' => $this->user_id !== null && $request->user()->can('view', $this->user)
                 ? route('users.show', $this->user)
                 : null,
         ];

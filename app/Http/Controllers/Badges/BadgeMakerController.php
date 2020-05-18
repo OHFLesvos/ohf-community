@@ -9,7 +9,6 @@ use App\Util\Badges\BadgeCreator;
 use Exception;
 use Gumlet\ImageResize;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -25,7 +24,7 @@ class BadgeMakerController extends Controller
             [
                 'key' => 'cmtyvol',
                 'label' => __('cmtyvol.community_volunteers'),
-                'allowed' => Auth::user()->can('viewAny', CommunityVolunteer::class),
+                'allowed' => request()->user()->can('viewAny', CommunityVolunteer::class),
             ],
             [
                 'key' => 'file',
