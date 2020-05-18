@@ -16,7 +16,7 @@
 
 <script>
 import moment from 'moment'
-import BaseTable from '@/components/BaseTable'
+import BaseTable from '@/components/table/BaseTable'
 import libraryApi from '@/api/library'
 export default {
     components: {

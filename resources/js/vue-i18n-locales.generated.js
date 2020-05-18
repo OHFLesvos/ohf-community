@@ -72,6 +72,10 @@ export default {
             "role": "Rolle",
             "roles": "Rollen",
             "role_name": "Rolle '{name}'",
+            "roles_with_access": "Benutzerrollen mit Zugriff (Whitelist)",
+            "specifying_no_role_will_allow_access_by_any": "Wenn keine Rollen angegeben sind, hat jede Rolle Zugriff.",
+            "whitelist": "Whitelist",
+            "restricted": "Eingeschränkt",
             "manage_roles": "Rollen verwalten",
             "add": "Hinzufügen",
             "register": "Registrieren",
@@ -447,7 +451,8 @@ export default {
             "weekday": "Wochentag",
             "week": "Woche",
             "month": "Monat",
-            "no_data": "Keine Daten"
+            "no_data": "Keine Daten",
+            "retry": "Erneut versuchen"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1210,6 +1215,10 @@ export default {
             "role": "Role",
             "roles": "Roles",
             "role_name": "Role '{name}'",
+            "roles_with_access": "User roles with access (Whitelist)",
+            "specifying_no_role_will_allow_access_by_any": "Specifying no role will allow access by all roles.",
+            "whitelist": "Whitelist",
+            "restricted": "Restricted",
             "manage_roles": "Manage Roles",
             "add": "Add",
             "register": "Register",
@@ -1585,7 +1594,8 @@ export default {
             "weekday": "Weekday",
             "week": "Week",
             "month": "Month",
-            "no_data": "No data"
+            "no_data": "No data",
+            "retry": "Retry"
         },
         "auth": {
             "failed": "These credentials do not match our records.",

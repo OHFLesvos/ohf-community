@@ -29,7 +29,7 @@
 
 <script>
 import peopleApi from '@/api/people'
-import BaseTable from '@/components/BaseTable'
+import BaseTable from '@/components/table/BaseTable'
 export default {
     components: {
         BaseTable

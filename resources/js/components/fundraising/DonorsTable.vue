@@ -30,7 +30,7 @@
 import moment from 'moment'
 import PhoneLink from '@/components/common/PhoneLink'
 import EmailLink from '@/components/common/EmailLink'
-import BaseTable from '@/components/BaseTable'
+import BaseTable from '@/components/table/BaseTable'
 import donorsApi from '@/api/fundraising/donors'
 export default {
     components: {

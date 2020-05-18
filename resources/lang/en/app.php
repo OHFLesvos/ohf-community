@@ -390,4 +390,5 @@ return [
     'week' => 'Week',
     'month' => 'Month',
     'no_data' => 'No data',
+    'retry' => 'Retry',
  ];

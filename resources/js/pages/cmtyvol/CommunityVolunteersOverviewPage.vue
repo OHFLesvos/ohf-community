@@ -1,13 +1,17 @@
 <template>
     <div>
+
+        <!-- Table -->
         <base-table
+            v-if="viewType == 'list'"
+            ref="table"
             id="communityVolunteerTable"
             :fields='fields'
-            :api-method="list"
+            :api-method="fetchData"
             default-sort-by="first_name"
             :empty-text="$t('cmtyvol.none_found')"
             :filter-placeholder="$t('app.search')"
-            :items-per-page="50"
+            :items-per-page="itemsPerPage"
         >
             <template v-slot:cell(first_name)="data">
                 <template v-if="data.item.url != null">
@@ -35,19 +39,47 @@
             <template v-slot:cell(responsibilities)="data">
                 <nl2br tag="span" :text="arrayToString(data.value)" />
             </template>
+
+            <template v-slot:filter-prepend>
+                <work-status-selector v-model="workStatus" />
+            </template>
+            <template v-slot:filter-append>
+                <view-type-selector v-model="viewType" />
+            </template>
         </base-table>
+
+        <!-- Grid -->
+        <grid-view
+            v-else-if="viewType == 'grid'"
+            ref="grid"
+            :api-method="fetchData"
+        >
+            <template v-slot:filter-prepend>
+                <work-status-selector v-model="workStatus" />
+            </template>
+            <template v-slot:filter-append>
+                <view-type-selector v-model="viewType" />
+            </template>
+        </grid-view>
+
     </div>
 </template>
 
 <script>
 // import moment from 'moment'
 import Nl2br from 'vue-nl2br'
-import BaseTable from '@/components/BaseTable'
+import BaseTable from '@/components/table/BaseTable'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
+import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector'
+import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector'
+import GridView from '@/components/cmtyvol/GridView'
 export default {
     components: {
         BaseTable,
-        Nl2br
+        Nl2br,
+        WorkStatusSelector,
+        ViewTypeSelector,
+        GridView
     },
     data() {
         return {
@@ -100,17 +132,44 @@ export default {
                 //         return moment(value).fromNow()
                 //     }
                 // }
-            ]
+            ],
+            workStatus: sessionStorage.getItem('cmtyvol.workStatus')
+                ? sessionStorage.getItem('cmtyvol.workStatus')
+                : 'active',
+            viewType: sessionStorage.getItem('cmtyvol.viewType')
+                ? sessionStorage.getItem('cmtyvol.viewType')
+                : 'list',
+            itemsPerPage: 10
+        }
+    },
+    watch: {
+        workStatus (val) {
+            let table = this.$refs.table
+            if (table) {
+                table.refresh()
+            }
+            let grid = this.$refs.grid
+            if (grid) {
+                grid.refresh()
+            }
+
+            sessionStorage.setItem('cmtyvol.workStatus', val)
+        },
+        viewType (val) {
+            sessionStorage.setItem('cmtyvol.viewType', val)
         }
     },
     methods: {
+        fetchData (params) {
+            params.workStatus = this.workStatus
+            return cmtyvolApi.list(params)
+        },
         arrayToString (value) {
             if (Array.isArray(value)) {
                 return value.join('\n')
             }
             return value
-        },
-        list: cmtyvolApi.list
+        }
     }
 }
 </script>

@@ -35,7 +35,7 @@
 
 <script>
 import moment from 'moment'
-import BaseTable from '@/components/BaseTable'
+import BaseTable from '@/components/table/BaseTable'
 import donationsApi from '@/api/fundraising/donations'
 export default {
     components: {

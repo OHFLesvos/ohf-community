@@ -52,7 +52,7 @@
 
 <script>
 import moment from 'moment'
-import BaseTable from '@/components/BaseTable'
+import BaseTable from '@/components/table/BaseTable'
 import EmailLink from '@/components/common/EmailLink'
 import usersApi from '@/api/user_management/users'
 export default {
