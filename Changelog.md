@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.19.2
+
+* Updated handling of JS/CSS assets
+
 ## 2.19.1
 
 * Added counting of next free receipt number separetely by wallet

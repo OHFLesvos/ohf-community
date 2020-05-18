@@ -72,10 +72,15 @@ Create assets (CSS/JavaScript) using npm:
     php artisan ziggy:generate "resources/js/ziggy.js"
     npm run dev
 
-Compile assets for production release:
+Releasing
+---------
 
-    npm install
-    npm run prod
+* Update `Changelog.md` file
+* Set version number of format `major.minor.patch` in property `version` in `config/app.php` file
+* Compile assets for production release: `npm install && npm run prod`
+* Commit into VCS
+* Create VCS tag
+* Push VCS changes to origin repository
 
 Deployment onto production server
 ---------------------------------
