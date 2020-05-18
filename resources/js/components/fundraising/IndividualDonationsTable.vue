@@ -4,6 +4,7 @@
             responsive
             small
             hover
+            striped
             :fields="fields"
             :items="donations"
             show-empty

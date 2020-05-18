@@ -1,30 +1,30 @@
 <template>
     <div>
-        <b-row>
+
+        <b-tabs content-class="mt-3">
 
             <!-- Donor -->
-            <b-col
-                md
-                class="mb-4"
+            <b-tab
+                :title="$t('fundraising.donor')"
+                active
             >
                 <donor-details :donor="donor" />
-
-                <!-- Comments -->
-                <comments-list
-                    :api-list-url="route('api.fundraising.donors.comments.index', donor.id)"
-                    :api-create-url="route('api.fundraising.donors.comments.store', donor.id)"
-                />
-
-            </b-col>
+            </b-tab>
 
             <!-- Donations -->
-            <b-col
+            <b-tab
                 v-if="donor.can_create_donation || donor.can_view_donations"
-                md
-                class="mb-4"
+                :title="$t('fundraising.donations')"
             >
-
-                <h3>{{ $t('fundraising.donations') }}</h3>
+                <template v-slot:title>
+                    {{ $t('fundraising.donations') }}
+                    <b-badge
+                        v-if="donor.donations !== null && donor.donations.length > 0"
+                        class="d-none d-sm-inline"
+                    >
+                        {{ donor.donations.length }}
+                    </b-badge>
+                </template>
 
                 <!-- Register new donation -->
                 <template v-if="donor.can_create_donation">
@@ -43,36 +43,63 @@
                             @cancel="showForm = false"
                         />
                     </b-card>
-                    <b-button
-                        v-else
-                        variant="primary"
-                        @click="showForm = true"
-                    >
-                        <font-awesome-icon icon="plus-circle" />
-                        {{ $t('fundraising.register_new_donation') }}
-                    </b-button>
+                    <p v-else>
+                        <b-button
+                            variant="primary"
+                            @click="showForm = true"
+                        >
+                            <font-awesome-icon icon="plus-circle" />
+                            {{ $t('fundraising.register_new_donation') }}
+                        </b-button>
+                    </p>
                  </template>
 
                 <!-- Existing donations -->
                 <template v-if="donor.can_view_donations">
-                    <!-- Individual donations  -->
-                    <individual-donations-table
-                        v-if="donor.donations"
-                        :donor-id="donor.id"
-                        :donations="donor.donations"
-                        :base-currency="baseCurrency"
-                        />
-
-                    <!-- Donations per year -->
-                    <donations-per-year-table
-                        v-if="donor.donations_per_year && donor.donations_per_year.length > 0"
-                        :donations="donor.donations_per_year"
-                        :base-currency="baseCurrency"
-                    />
+                    <b-row>
+                        <b-col lg="9" xl="10">
+                            <!-- Individual donations  -->
+                            <individual-donations-table
+                                v-if="donor.donations"
+                                :donor-id="donor.id"
+                                :donations="donor.donations"
+                                :base-currency="baseCurrency"
+                            />
+                        </b-col>
+                        <b-col lg="3" xl="2">
+                            <!-- Donations per year -->
+                            <donations-per-year-table
+                                v-if="donor.donations_per_year && donor.donations_per_year.length > 0"
+                                :donations="donor.donations_per_year"
+                                :base-currency="baseCurrency"
+                            />
+                        </b-col>
+                    </b-row>
                 </template>
 
-            </b-col>
-        </b-row>
+            </b-tab>
+
+            <!-- Comments -->
+            <b-tab
+                :title="$t('app.comments')"
+            >
+                <template v-slot:title>
+                    {{ $t('app.comments') }}
+                    <b-badge
+                        v-if="commentCount > 0"
+                        class="d-none d-sm-inline"
+                    >
+                        {{ commentCount }}
+                    </b-badge>
+                </template>
+                <comments-list
+                    :api-list-url="route('api.fundraising.donors.comments.index', donor.id)"
+                    :api-create-url="route('api.fundraising.donors.comments.store', donor.id)"
+                    @count="commentCount = $event"
+                />
+            </b-tab>
+
+        </b-tabs>
     </div>
 </template>
 
@@ -113,7 +140,8 @@ export default {
     data () {
         return {
             showForm: false,
-            isBusy: false
+            isBusy: false,
+            commentCount: 0,
         }
     },
     methods: {

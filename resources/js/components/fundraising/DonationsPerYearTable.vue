@@ -1,7 +1,7 @@
 <template>
     <b-table-simple
         small
-        class="mt-5"
+        striped
     >
         <b-thead>
             <b-tr>

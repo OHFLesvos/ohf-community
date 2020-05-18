@@ -1,7 +1,7 @@
 <template>
     <b-list-group-item>
         <b-row>
-            <b-col sm="5">
+            <b-col sm="5" md="4" lg="3" xl="2">
                 <strong>{{ title }}</strong>
             </b-col>
             <b-col sm>

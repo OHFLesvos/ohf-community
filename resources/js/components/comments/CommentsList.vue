@@ -99,6 +99,11 @@ export default {
     mounted () {
         this.loadComments()
     },
+    watch: {
+        comments (val) {
+            this.$emit('count', val.length)
+        }
+    },
     methods: {
         loadComments() {
             this.error = null
