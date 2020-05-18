@@ -16,10 +16,6 @@ yarn-error.log
 /nbproject/private/
 Modules/*/node_modules
 modules_statuses.json
-/public/mix-manifest.json
-/public/css
-/public/
-/public/webfonts
 _ide_helper.php
 .phpstorm.meta.php
 /storage/settings.json

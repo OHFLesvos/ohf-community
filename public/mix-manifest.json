@@ -1,0 +1,16 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/js/bank.js": "/js/bank.js",
+    "/js/cmtyvol.js": "/js/cmtyvol.js",
+    "/js/editor.js": "/js/editor.js",
+    "/js/fundraising.js": "/js/fundraising.js",
+    "/js/library.js": "/js/library.js",
+    "/js/people.js": "/js/people.js",
+    "/js/shop.js": "/js/shop.js",
+    "/js/tasks.js": "/js/tasks.js",
+    "/js/user_management.js": "/js/user_management.js",
+    "/css/styles.css": "/css/styles.css",
+    "/js/summernote-bs4.js": "/js/summernote-bs4.js",
+    "/css/summernote-bs4.css": "/css/summernote-bs4.css"
+}

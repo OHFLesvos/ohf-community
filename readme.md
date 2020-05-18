@@ -7,11 +7,11 @@ Requirements
 ------------
 
 * PHP >= 7.4.0
-    * OpenSSL PHP Extension
-    * PDO PHP Extension
-    * Mbstring PHP Extension
-    * Tokenizer PHP Extension
-    * XML PHP Extension
+  * OpenSSL PHP Extension
+  * PDO PHP Extension
+  * Mbstring PHP Extension
+  * Tokenizer PHP Extension
+  * XML PHP Extension
 * Composer
 * MySQL Database
 
@@ -36,6 +36,24 @@ Create/migrate database tables:
 
     php artisan migrate
 
+For more information see https://laravel.com/docs/installation
+
+Login with Google OAuth
+-----------------------
+
+Obtain OAuth 2.0 credentials from the Google API Console. For more info see https://developers.google.com/identity/protocols/oauth2
+
+In your `.env` file, set the values of the following variables according to the information from Google.
+
+* GOOGLE_CLIENT_ID
+* GOOGLE_CLIENT_SECRET
+* GOOGLE_REDIRECT
+
+Once set, a new "Google Login" button should appear on the login view.
+
+Testing
+-------
+
 Run tests:
 
     php artisan test
@@ -44,23 +62,33 @@ Run code quality checks:
 
     php artisan insights
 
-Create assets (development)
+Assets
+------
+
+Create assets (CSS/JavaScript) using npm:
 
     npm install
     php artisan vue-i18n:generate
     php artisan ziggy:generate "resources/js/ziggy.js"
     npm run dev
 
-For more information see https://laravel.com/docs/installation
-
-Assets
-------
-
-Compile assets (CSS/JavaScript) using npm:
+Compile assets for production release:
 
     npm install
-    php artisan vue-i18n:generate
     npm run prod
+
+Deployment onto production server
+---------------------------------
+
+It is recommended to execute a production deployment / upgrade as follows:
+
+    php artisan down --message="Upgrading Application, please wait..." --retry=60
+    php composer install --optimize-autoloader --no-dev
+    php artisan cache:clear
+    php artisan view:cache
+    php artisan config:cache
+    php artisan migrate --force
+    php artisan up
 
 Development notes
 -----------------
@@ -87,33 +115,6 @@ The following commands creates a custom self-signed TLS certificate:
 
     cd c:\devel\xampp\apache
     bin\openssl.exe req -newkey rsa:2048 -sha256 -nodes -keyout conf\ssl.key\ohf.test.key -x509 -days 365 -out conf\ssl.crt\ohf.test.crt -config conf\openssl.cnf
-
-Login with Google OAuth
------------------------
-
-Obtain OAuth 2.0 credentials from the Google API Console. For more info see https://developers.google.com/identity/protocols/oauth2
-
-In your `.env` file, set the values of the following variables according to the information from Google.
-
-* GOOGLE_CLIENT_ID
-* GOOGLE_CLIENT_SECRET
-* GOOGLE_REDIRECT
-
-Once set, a new "Google Login" button should appear on the login view.
-
-Deployment onto production server
----------------------------------
-
-It is recommended to execute a production deployment / upgrade as follows:
-
-    php artisan down --message="Upgrading Application, please wait..." --retry=60
-    php composer install --optimize-autoloader --no-dev
-    php artisan cache:clear
-    php artisan view:cache
-    php artisan config:cache
-    php artisan migrate --force
-    php artisan up
-    npm install && npm run prod
 
 License
 -------
