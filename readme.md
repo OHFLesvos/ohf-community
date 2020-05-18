@@ -87,6 +87,7 @@ It is recommended to execute a production deployment / upgrade as follows:
     php artisan cache:clear
     php artisan view:cache
     php artisan config:cache
+    php artisan route:cache
     php artisan migrate --force
     php artisan up
 

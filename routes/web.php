@@ -474,3 +474,7 @@ Route::middleware(['auth', 'language'])
                 Route::view('manageCards', 'shop.manageCards')->name('manageCards');
             });
     });
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
