@@ -1,12 +1,12 @@
 <template>
-    <div class="mt-4">
-        <h3>{{ $t('app.comments') }}</h3>
-
+    <div>
+        <!-- Error -->
         <error-alert
             v-if="error"
             :message="error"
         />
 
+        <!-- Loading -->
         <p v-if="!loaded">
             <font-awesome-icon
                 icon="spinner"
@@ -15,6 +15,7 @@
             {{ $t('app.loading') }}
         </p>
 
+        <!-- Comments -->
         <template
             v-else-if="comments.length > 0"
         >
@@ -42,6 +43,7 @@
             <em>{{ $t('app.no_comments_found') }}</em>
         </p>
 
+        <!-- New comment -->
         <template v-if="apiCreateUrl">
             <comment-editor
                 v-if="editor"
@@ -67,7 +69,7 @@ import axios from '@/plugins/axios'
 import { BButton } from 'bootstrap-vue'
 import CommentEditor from '@/components/comments/CommentEditor'
 import CommentCard from '@/components/comments/CommentCard'
-import { handleAjaxError, getAjaxErrorMessage, showSnackbar } from '@/utils'
+import { getAjaxErrorMessage, showSnackbar } from '@/utils'
 import ErrorAlert from '@/components/alerts/ErrorAlert'
 export default {
     components: {
@@ -105,14 +107,15 @@ export default {
         }
     },
     methods: {
-        loadComments() {
+        async loadComments() {
             this.error = null
-            axios.get(this.apiListUrl)
-                .then((res) => {
-                    this.comments = res.data.data
-                    this.loaded = true
-                })
-                .catch(err => this.error = getAjaxErrorMessage(err))
+            try {
+               let res = await axios.get(this.apiListUrl)
+                this.comments = res.data.data
+                this.loaded = true
+            } catch (err) {
+                this.error = getAjaxErrorMessage(err)
+            }
         },
         openEditor() {
             this.editor = true
@@ -120,46 +123,49 @@ export default {
         closeEditor() {
             this.editor = false
         },
-        addComment(comment) {
+        async addComment(comment) {
             this.error = null
             this.busy = true
-            axios.post(this.apiCreateUrl, comment)
-                .then((res) => {
-                    this.comments.push(res.data.data)
-                    this.closeEditor()
-                    showSnackbar(res.data.message)
-                })
-                .catch(handleAjaxError)
-                .finally(() => this.busy = false)
+            try {
+                let res = await axios.post(this.apiCreateUrl, comment)
+                this.comments.push(res.data.data)
+                this.closeEditor()
+                showSnackbar(res.data.message)
+            } catch (err) {
+                this.error = getAjaxErrorMessage(err)
+            }
+            this.busy = false
         },
-        updateComment(comment) {
+        async updateComment(comment) {
             this.error = null
             this.busy = true
-            axios.put(comment.update_url, comment)
-                .then((res) => {
-                    const idx = this.comments.findIndex(elem => elem.id === comment.id)
-                    if (idx >= 0) {
-                        this.$set(this.comments, idx, res.data.data)
-                    }
-                    this.editComment = null
-                    showSnackbar(res.data.message)
-                })
-                .catch(handleAjaxError)
-                .finally(() => this.busy = false)
+            try {
+                let res = await axios.put(comment.update_url, comment)
+                const idx = this.comments.findIndex(elem => elem.id === comment.id)
+                if (idx >= 0) {
+                    this.$set(this.comments, idx, res.data.data)
+                }
+                this.editComment = null
+                showSnackbar(res.data.message)
+            } catch (err) {
+                this.error = getAjaxErrorMessage(err)
+            }
+            this.busy = false
         },
-        deleteComment(comment) {
+        async deleteComment(comment) {
             if (confirm(this.$t('app.confirm_delete_comment'))) {
                 this.busy = true
-                axios.delete(comment.delete_url)
-                    .then((res) => {
-                        const idx = this.comments.findIndex(elem => elem.id === comment.id)
-                        if (idx >= 0) {
-                            this.comments.splice(idx, 1)
-                        }
-                        showSnackbar(res.data.message)
-                    })
-                    .catch(handleAjaxError)
-                    .finally(() => this.busy = false)
+                try {
+                    let res = await axios.delete(comment.delete_url)
+                    const idx = this.comments.findIndex(elem => elem.id === comment.id)
+                    if (idx >= 0) {
+                        this.comments.splice(idx, 1)
+                    }
+                    showSnackbar(res.data.message)
+                } catch (err) {
+                    this.error = getAjaxErrorMessage(err)
+                }
+                this.busy = false
             }
         }
     }
