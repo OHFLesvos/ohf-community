@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Fundraising;
 use App\Exports\Fundraising\DonorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
+use App\Models\Comment;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use App\Tag;
@@ -112,6 +113,7 @@ class DonorController extends Controller
                 'created_at' => $donor->created_at,
                 'updated_at' => $donor->updated_at,
                 'can_create_tag' => $request->user()->can('create', Tag::class),
+                'can_create_comment' => $request->user()->can('create', Comment::class),
                 'can_create_donation' => $request->user()->can('create', Donation::class),
                 'can_view_donations' => $can_view_donations,
                 'donations' => $can_view_donations ? $donor->donations()

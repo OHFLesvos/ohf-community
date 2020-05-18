@@ -1,12 +1,15 @@
 <template>
     <div>
 
-        <b-tabs content-class="mt-3">
+        <b-tabs
+            v-model="tabIndex"
+            content-class="mt-3"
+        >
 
             <!-- Donor -->
             <b-tab
                 :title="$t('fundraising.donor')"
-                active
+                lazy
             >
                 <donor-details :donor="donor" />
             </b-tab>
@@ -15,6 +18,7 @@
             <b-tab
                 v-if="donor.can_create_donation || donor.can_view_donations"
                 :title="$t('fundraising.donations')"
+                lazy
             >
                 <template v-slot:title>
                     {{ $t('fundraising.donations') }}
@@ -94,8 +98,8 @@
                     </b-badge>
                 </template>
                 <comments-list
-                    :api-list-url="route('api.fundraising.donors.comments.index', donor.id)"
-                    :api-create-url="route('api.fundraising.donors.comments.store', donor.id)"
+                    :api-list-method="listComments"
+                    :api-create-method="donor.can_create_comment ? storeComment : null"
                     @count="commentCount = $event"
                 />
             </b-tab>
@@ -111,6 +115,7 @@ import IndividualDonationsTable from '@/components/fundraising/IndividualDonatio
 import DonationsPerYearTable from '@/components/fundraising/DonationsPerYearTable'
 import CommentsList from '@/components/comments/CommentsList'
 import donationsApi from '@/api/fundraising/donations'
+import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
 export default {
     components: {
@@ -142,7 +147,15 @@ export default {
         return {
             showForm: false,
             isBusy: false,
+            tabIndex: sessionStorage.getItem('donors.tabIndex')
+                ? parseInt(sessionStorage.getItem('donors.tabIndex'))
+                : 0,
             commentCount: this.donor.comments_count,
+        }
+    },
+    watch: {
+        tabIndex (val) {
+            sessionStorage.setItem('donors.tabIndex', val)
         }
     },
     methods: {
@@ -157,6 +170,12 @@ export default {
                 alert(err)
             }
             this.isBusy = false
+        },
+        listComments () {
+            return donorsApi.listComments(this.donor.id)
+        },
+        storeComment (data) {
+            return donorsApi.storeComment(this.donor.id, data)
         }
     }
 }

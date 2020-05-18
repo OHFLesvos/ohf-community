@@ -44,7 +44,7 @@
         </p>
 
         <!-- New comment -->
-        <template v-if="apiCreateUrl">
+        <template v-if="apiCreateMethod">
             <comment-editor
                 v-if="editor"
                 :disabled="busy"
@@ -53,6 +53,7 @@
             />
             <b-button
                 v-else
+                variant="primary"
                 :disabled="busy"
                 @click="openEditor(); editComment = null"
             >
@@ -65,11 +66,11 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import commentsApi from '@/api/comments'
 import { BButton } from 'bootstrap-vue'
 import CommentEditor from '@/components/comments/CommentEditor'
 import CommentCard from '@/components/comments/CommentCard'
-import { getAjaxErrorMessage, showSnackbar } from '@/utils'
+import { showSnackbar } from '@/utils'
 import ErrorAlert from '@/components/alerts/ErrorAlert'
 export default {
     components: {
@@ -79,12 +80,12 @@ export default {
         ErrorAlert
     },
     props: {
-        apiListUrl: {
-            type: String,
+        apiListMethod: {
+            type: Function,
             required: true
         },
-        apiCreateUrl: {
-            type: String,
+        apiCreateMethod: {
+            type: Function,
             required: false
         }
     },
@@ -110,11 +111,11 @@ export default {
         async loadComments() {
             this.error = null
             try {
-                let res = await axios.get(this.apiListUrl)
-                this.comments = res.data.data
+                let data = await this.apiListMethod()
+                this.comments = data.data
                 this.loaded = true
             } catch (err) {
-                this.error = getAjaxErrorMessage(err)
+                this.error = err
             }
         },
         openEditor() {
@@ -127,12 +128,12 @@ export default {
             this.error = null
             this.busy = true
             try {
-                let res = await axios.post(this.apiCreateUrl, comment)
-                this.comments.push(res.data.data)
+                let data = await this.apiCreateMethod(comment)
+                this.comments.push(data.data)
                 this.closeEditor()
-                showSnackbar(res.data.message)
+                showSnackbar(data.message)
             } catch (err) {
-                this.error = getAjaxErrorMessage(err)
+                this.error = err
             }
             this.busy = false
         },
@@ -140,15 +141,15 @@ export default {
             this.error = null
             this.busy = true
             try {
-                let res = await axios.put(comment.update_url, comment)
+                let data = await commentsApi.update(comment.id, comment)
                 const idx = this.comments.findIndex(elem => elem.id === comment.id)
                 if (idx >= 0) {
-                    this.$set(this.comments, idx, res.data.data)
+                    this.$set(this.comments, idx, data.data)
                 }
                 this.editComment = null
-                showSnackbar(res.data.message)
+                showSnackbar(data.message)
             } catch (err) {
-                this.error = getAjaxErrorMessage(err)
+                this.error = err
             }
             this.busy = false
         },
@@ -156,14 +157,14 @@ export default {
             if (confirm(this.$t('app.confirm_delete_comment'))) {
                 this.busy = true
                 try {
-                    let res = await axios.delete(comment.delete_url)
+                    let data = await commentsApi.delete(comment.id)
                     const idx = this.comments.findIndex(elem => elem.id === comment.id)
                     if (idx >= 0) {
                         this.comments.splice(idx, 1)
                     }
-                    showSnackbar(res.data.message)
+                    showSnackbar(data.message)
                 } catch (err) {
-                    this.error = getAjaxErrorMessage(err)
+                    this.error = err
                 }
                 this.busy = false
             }

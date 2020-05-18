@@ -19,7 +19,7 @@
             </small>
             <span>
                 <b-button
-                    v-if="comment.update_url"
+                    v-if="comment.can_update"
                     variant="link"
                     size="sm"
                     :disabled="busy"
@@ -28,7 +28,7 @@
                     <font-awesome-icon icon="pencil-alt" />
                 </b-button>
                 <b-button
-                    v-if="comment.delete_url"
+                    v-if="comment.can_delete"
                     variant="link"
                     size="sm"
                     :disabled="busy"
