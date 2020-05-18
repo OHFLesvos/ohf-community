@@ -110,6 +110,8 @@ Route::middleware(['language', 'auth'])
             ->name('donations.registrations');
         Route::apiResource('donations', 'DonationController')
             ->only('index');
+        Route::get('donors/{donor}/comments/count', 'DonorCommentsController@count')
+            ->name('donors.comments.count');
         Route::apiResource('donors.comments', 'DonorCommentsController')
             ->only('index', 'store');
         Route::apiResource('donors.tags', 'DonorTagsController')

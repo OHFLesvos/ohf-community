@@ -110,7 +110,7 @@ export default {
         async loadComments() {
             this.error = null
             try {
-               let res = await axios.get(this.apiListUrl)
+                let res = await axios.get(this.apiListUrl)
                 this.comments = res.data.data
                 this.loaded = true
             } catch (err) {

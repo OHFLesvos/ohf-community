@@ -82,6 +82,7 @@
             <!-- Comments -->
             <b-tab
                 :title="$t('app.comments')"
+                lazy
             >
                 <template v-slot:title>
                     {{ $t('app.comments') }}
@@ -104,6 +105,7 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 import DonorDetails from '@/components/fundraising/DonorDetails'
 import DonationRegisterForm from '@/components/fundraising/DonationRegisterForm'
 import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
@@ -144,6 +146,9 @@ export default {
             commentCount: 0,
         }
     },
+    async created () {
+        this.countComments()
+    },
     methods: {
         async registerDonation (formData) {
             this.isBusy = true
@@ -156,6 +161,15 @@ export default {
                 alert(err)
             }
             this.isBusy = false
+        },
+        async countComments () {
+            let url = this.route('api.fundraising.donors.comments.count', this.donor.id)
+            try {
+                let res = await axios.get(url)
+                this.commentCount = parseInt(res.data)
+            } catch (err) {
+                console.error(err)
+            }
         }
     }
 }
