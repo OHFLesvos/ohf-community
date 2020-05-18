@@ -106,13 +106,13 @@ export default {
                 {
                     key: 'gender',
                     label: this.$t('people.gender'),
-                    class: 'text-center'
+                    class: 'text-center fit'
                 },
                 {
                     key: 'age',
                     label: this.$t('people.age'),
                     sortable: true,
-                    class: 'text-right'
+                    class: 'text-right fit'
                 },
                 {
                     key: 'responsibilities',

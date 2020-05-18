@@ -7,17 +7,7 @@
             @retry="refresh"
         />
 
-        <!-- Tags -->
-        <p v-if="Object.keys(tags).length > 0" class="mb-3">
-            {{ $t('app.tags') }}:
-            <tag-select-button
-                :label="tag_name"
-                :value="tag_key"
-                :toggled="tagSelected(tag_key)"
-                @toggled="toggleTag"
-                v-for="(tag_name, tag_key) in tags" :key="tag_key"
-            ></tag-select-button>
-        </p>
+        <slot name="top"></slot>
 
         <!-- Filter  -->
         <b-form-row>
@@ -86,13 +76,11 @@
 </template>
 
 <script>
-import TagSelectButton from '@/components/tags/TagSelectButton'
 import TableAlert from '@/components/table/TableAlert'
 import TableFilter from '@/components/table/TableFilter'
 import TablePagination from '@/components/table/TablePagination'
 export default {
     components: {
-        TagSelectButton,
         TableAlert,
         TableFilter,
         TablePagination
@@ -135,18 +123,6 @@ export default {
                 return this.$t('app.type_to_search')
             }
         },
-        tags: {
-            require: false,
-            type: Object,
-            default: () => {
-                return {}
-            }
-        },
-        tag: {
-            require: false,
-            type: String,
-            default: null
-        },
         loadingLabel: {
             type: String,
             required: false,
@@ -176,23 +152,10 @@ export default {
                 : '',
             filterText: sessionStorage.getItem(this.id + '.filter')
                 ? sessionStorage.getItem(this.id + '.filter')
-                : '',
-            selectedTags: this.getSelectedTags()
+                : ''
         }
     },
     methods: {
-        getSelectedTags () {
-            let tags
-            if (this.tag) {
-                tags = [this.tag]
-                sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(tags))
-            } else if (sessionStorage.getItem(this.id + '.selectedTags')) {
-                tags = JSON.parse(sessionStorage.getItem(this.id + '.selectedTags'))
-            } else {
-                tags = []
-            }
-            return tags.filter(e => Object.keys(this.tags).indexOf(e) >= 0)
-        },
         applyFilter () {
             this.filter = this.filterText
             this.currentPage = 1
@@ -210,11 +173,7 @@ export default {
                 page: ctx.currentPage,
                 pageSize: ctx.perPage,
                 sortBy: ctx.sortBy,
-                sortDirection: ctx.sortDesc ? 'desc' : 'asc',
-                tags: []
-            }
-            for (let i = 0; i < this.selectedTags.length; i++) {
-                params.tags.push(this.selectedTags[i])
+                sortDirection: ctx.sortDesc ? 'desc' : 'asc'
             }
             try {
                 let data = await this.apiMethod(params)
@@ -229,17 +188,6 @@ export default {
                 this.totalRows = 0
                 return []
             }
-        },
-        toggleTag (value, toggled) {
-            this.selectedTags = this.selectedTags.filter((v) => v != value)
-            if (toggled) {
-                this.selectedTags.push(value)
-            }
-            sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(this.selectedTags))
-            this.refresh()
-        },
-        tagSelected (key) {
-            return this.selectedTags.indexOf(key) >= 0
         },
         refresh () {
             this.$root.$emit('bv::refresh::table', this.id)
