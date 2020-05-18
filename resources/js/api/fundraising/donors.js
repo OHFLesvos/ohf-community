@@ -15,5 +15,13 @@ export default {
     async getLanguages (date) {
         const url = `${route('api.fundraising.donors.languages')}?date=${date}`
         return await api.get(url)
+    },
+    async listComments (donorId) {
+        const url = route('api.fundraising.donors.comments.index', donorId)
+        return await api.get(url)
+    },
+    async storeComment (donorId, data) {
+        const url = route('api.fundraising.donors.comments.store', donorId)
+        return await api.post(url, data)
     }
 }

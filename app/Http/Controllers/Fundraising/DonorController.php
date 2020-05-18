@@ -118,7 +118,8 @@ class DonorController extends Controller
                     ->orderBy('date', 'desc')
                     ->orderBy('created_at', 'desc')
                     ->get() : null,
-                'donations_per_year' => $can_view_donations ? $donor->donationsPerYear() : null
+                'donations_per_year' => $can_view_donations ? $donor->donationsPerYear() : null,
+                'comments_count' => $donor->comments()->count(),
             ],
             'channels' => Donation::channels(),
         ]);

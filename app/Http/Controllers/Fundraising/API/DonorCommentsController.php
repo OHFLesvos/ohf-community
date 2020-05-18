@@ -11,19 +11,6 @@ use App\Models\Fundraising\Donor;
 class DonorCommentsController extends Controller
 {
     /**
-     * Display a count of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function count(Donor $donor)
-    {
-        $this->authorize('view', $donor);
-        $this->authorize('viewAny', Comment::class);
-
-        return $donor->comments()->count();
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

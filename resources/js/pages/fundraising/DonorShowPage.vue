@@ -105,7 +105,6 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
 import DonorDetails from '@/components/fundraising/DonorDetails'
 import DonationRegisterForm from '@/components/fundraising/DonationRegisterForm'
 import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
@@ -143,11 +142,8 @@ export default {
         return {
             showForm: false,
             isBusy: false,
-            commentCount: 0,
+            commentCount: this.donor.comments_count,
         }
-    },
-    async created () {
-        this.countComments()
     },
     methods: {
         async registerDonation (formData) {
@@ -161,15 +157,6 @@ export default {
                 alert(err)
             }
             this.isBusy = false
-        },
-        async countComments () {
-            let url = this.route('api.fundraising.donors.comments.count', this.donor.id)
-            try {
-                let res = await axios.get(url)
-                this.commentCount = parseInt(res.data)
-            } catch (err) {
-                console.error(err)
-            }
         }
     }
 }
