@@ -205,6 +205,7 @@ class DonationController extends Controller
         $donation->purpose = $request->purpose;
         $donation->reference = $request->reference;
         $donation->in_name_of = $request->in_name_of;
+        $donation->thanked = ! empty($request->thanked) ? Carbon::now() : null;
 
         $donor->addDonation($donation);
 
