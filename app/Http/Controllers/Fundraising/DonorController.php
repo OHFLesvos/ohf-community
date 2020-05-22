@@ -116,11 +116,7 @@ class DonorController extends Controller
                 'can_create_comment' => $request->user()->can('create', Comment::class),
                 'can_create_donation' => $request->user()->can('create', Donation::class),
                 'can_view_donations' => $can_view_donations,
-                'donations' => $can_view_donations ? $donor->donations()
-                    ->orderBy('date', 'desc')
-                    ->orderBy('created_at', 'desc')
-                    ->get() : null,
-                'donations_per_year' => $can_view_donations ? $donor->donationsPerYear() : null,
+                'donations_count' => $can_view_donations ? $donor->donations()->count() : null,
                 'comments_count' => $donor->comments()->count(),
             ],
             'channels' => Donation::channels(),

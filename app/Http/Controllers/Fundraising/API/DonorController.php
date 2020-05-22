@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
+use App\Http\Resources\Fundraising\DonationCollection;
 use App\Http\Resources\Fundraising\DonorCollection;
+use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use App\Support\ChartResponseBuilder;
 use Illuminate\Http\Request;
@@ -95,6 +97,33 @@ class DonorController extends Controller
                 ->paginate($pageSize);
         }
         return new DonorCollection($donors);
+    }
+
+    /**
+     * Display a listing of all donatons of the donor.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function donations(Donor $donor, Request $request)
+    {
+        $this->authorize('viewAny', Donation::class);
+        $this->authorize('view', $donor);
+
+        $request->validate([
+            'year' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+        ]);
+        $year = $request->input('year');
+
+        $donations = $donor->donations()
+            ->when($year, fn ($qry) => $qry->forYear($year))
+            ->orderBy('date', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return new DonationCollection($donations);
     }
 
     /**

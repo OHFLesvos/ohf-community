@@ -23,64 +23,20 @@
                 <template v-slot:title>
                     {{ $t('fundraising.donations') }}
                     <b-badge
-                        v-if="donor.donations !== null && donor.donations.length > 0"
+                        v-if="donationsCount > 0"
                         class="d-none d-sm-inline"
                     >
-                        {{ donor.donations.length }}
+                        {{ donationsCount }}
                     </b-badge>
                 </template>
 
-                <!-- Register new donation -->
-                <template v-if="donor.can_create_donation">
-                    <b-card
-                        v-if="showForm"
-                        :header="$t('fundraising.register_new_donation')"
-                        class="mb-4"
-                        body-class="pb-0"
-                    >
-                        <donation-register-form
-                            :currencies="currencies"
-                            :channels="channels"
-                            :base-currency="baseCurrency"
-                            :disabled="isBusy"
-                            @submit="registerDonation"
-                            @cancel="showForm = false"
-                        />
-                    </b-card>
-                    <p v-else>
-                        <b-button
-                            variant="primary"
-                            @click="showForm = true"
-                        >
-                            <font-awesome-icon icon="plus-circle" />
-                            {{ $t('fundraising.register_new_donation') }}
-                        </b-button>
-                    </p>
-                 </template>
-
-                <!-- Existing donations -->
-                <template v-if="donor.can_view_donations">
-                    <b-row>
-                        <b-col lg="9" xl="10">
-                            <!-- Individual donations  -->
-                            <individual-donations-table
-                                v-if="donor.donations"
-                                :donor-id="donor.id"
-                                :donations="donor.donations"
-                                :base-currency="baseCurrency"
-                            />
-                        </b-col>
-                        <b-col lg="3" xl="2">
-                            <!-- Donations per year -->
-                            <donations-per-year-table
-                                v-if="donor.donations_per_year && donor.donations_per_year.length > 0"
-                                :donations="donor.donations_per_year"
-                                :base-currency="baseCurrency"
-                            />
-                        </b-col>
-                    </b-row>
-                </template>
-
+                <donor-donations
+                    :donor="donor"
+                    :base-currency="baseCurrency"
+                    :currencies="currencies"
+                    :channels="channels"
+                    @count="donationsCount = $event"
+                />
             </b-tab>
 
             <!-- Comments -->
@@ -110,19 +66,13 @@
 
 <script>
 import DonorDetails from '@/components/fundraising/DonorDetails'
-import DonationRegisterForm from '@/components/fundraising/DonationRegisterForm'
-import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
-import DonationsPerYearTable from '@/components/fundraising/DonationsPerYearTable'
+import DonorDonations from '@/components/fundraising/DonorDonations'
 import CommentsList from '@/components/comments/CommentsList'
-import donationsApi from '@/api/fundraising/donations'
 import donorsApi from '@/api/fundraising/donors'
-import { showSnackbar } from '@/utils'
 export default {
     components: {
         DonorDetails,
-        DonationRegisterForm,
-        IndividualDonationsTable,
-        DonationsPerYearTable,
+        DonorDonations,
         CommentsList
     },
     props: {
@@ -145,11 +95,10 @@ export default {
     },
     data () {
         return {
-            showForm: false,
-            isBusy: false,
             tabIndex: sessionStorage.getItem('donors.tabIndex')
                 ? parseInt(sessionStorage.getItem('donors.tabIndex'))
                 : 0,
+            donationsCount: this.donor.donations_count,
             commentCount: this.donor.comments_count,
         }
     },
@@ -159,18 +108,6 @@ export default {
         }
     },
     methods: {
-        async registerDonation (formData) {
-            this.isBusy = true
-            try {
-                let data = await donationsApi.store(this.donor.id, formData)
-                showSnackbar(data.message)
-                this.showForm = false
-                window.location.href = this.route('fundraising.donors.show', this.donor.id)
-            } catch (err) {
-                alert(err)
-            }
-            this.isBusy = false
-        },
         listComments () {
             return donorsApi.listComments(this.donor.id)
         },

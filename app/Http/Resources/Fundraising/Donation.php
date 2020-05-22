@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Fundraising;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Donation extends JsonResource
@@ -15,7 +16,9 @@ class Donation extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'date' => $this->date,
+            'year' => (new Carbon($this->date))->year,
             'amount' => $this->amount,
             'exchange_amount' => $this->exchange_amount,
             'currency' => $this->currency,

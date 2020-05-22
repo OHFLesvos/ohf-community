@@ -4,6 +4,13 @@ export default {
         const url = route('api.fundraising.donors.index', params)
         return await api.get(url)
     },
+    async listDonations (donorId, year = null) {
+        let url = route('api.fundraising.donors.donations', donorId)
+        if (year) {
+            url += `?year=${year}`
+        }
+        return await api.get(url)
+    },
     async getCount (date) {
         const url = `${route('api.fundraising.donors.count')}?date=${date}`
         return await api.get(url)

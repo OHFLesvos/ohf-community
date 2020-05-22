@@ -106,6 +106,8 @@ Route::middleware(['language', 'auth'])
             ->name('donors.registrations');
         Route::apiResource('donors', 'DonorController')
             ->only('index');
+        Route::get('donors/{donor}/donations', 'DonorController@donations')
+            ->name('donors.donations');
         Route::get('donations/registrations', 'DonationController@registrations')
             ->name('donations.registrations');
         Route::apiResource('donations', 'DonationController')
