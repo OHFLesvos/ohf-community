@@ -2,18 +2,44 @@
     <div>
         <!-- Register new donation -->
         <template v-if="donor.can_create_donation">
-            <donation-register-form-modal
+            <b-container v-if="showForm" class="px-0">
+                <b-card
+
+                    :header="$t('fundraising.register_new_donation')"
+                    class="mb-4"
+                    body-class="pb-0"
+                >
+                    <donation-register-form
+                        :currencies="currencies"
+                        :channels="channels"
+                        :base-currency="baseCurrency"
+                        :disabled="isBusy"
+                        @submit="registerDonation"
+                        @cancel="showForm = false"
+                    />
+                </b-card>
+            </b-container>
+            <p v-else>
+                <b-button
+                    variant="primary"
+                    @click="showForm = true"
+                >
+                    <font-awesome-icon icon="plus-circle" />
+                    {{ $t('fundraising.register_new_donation') }}
+                </b-button>
+            </p>
+            <!-- <donation-register-form-modal
                 ref="modal"
                 :currencies="currencies"
                 :channels="channels"
                 :base-currency="baseCurrency"
                 :disabled="isBusy"
                 @submit="registerDonation"
-            />
+            /> -->
         </template>
 
         <!-- Existing donations -->
-        <template v-if="donor.can_view_donations">
+        <template v-if="donor.can_view_donations && !showForm">
             <template v-if="donations && donations.length > 0">
                 <div v-for="year in years" :key="year">
                     <h3>{{ year }}</h3>
@@ -38,11 +64,11 @@
 import donationsApi from '@/api/fundraising/donations'
 import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
-import DonationRegisterFormModal from '@/components/fundraising/DonationRegisterFormModal'
+import DonationRegisterForm from '@/components/fundraising/DonationRegisterForm'
 import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
 export default {
     components: {
-        DonationRegisterFormModal,
+        DonationRegisterForm,
         IndividualDonationsTable
     },
     props: {
@@ -101,7 +127,6 @@ export default {
             this.isBusy = true
             try {
                 let data = await donationsApi.store(this.donor.id, formData)
-                this.$refs.modal.close()
                 showSnackbar(data.message)
                 this.showForm = false
                 this.fetchDonations()
