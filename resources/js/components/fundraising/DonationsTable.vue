@@ -9,21 +9,28 @@
         :filter-placeholder="$t('app.search_ellipsis')"
         :items-per-page="100"
     >
+        <!-- Date / Link to edit -->
         <template v-slot:cell(date)="data">
             <a :href="data.item.edit_url" v-if="data.value != ''">{{ data.value }}</a>
         </template>
+
+        <!-- Amount -->
         <template v-slot:cell(exchange_amount)="data">
-            <template v-if="data.item.base_currency != data.item.currency">
-                {{ data.item.currency }} {{ data.item.amount }}
-                ({{ data.item.base_currency }} {{ data.value }})
-            </template>
-            <template v-else>
-                {{ data.item.base_currency }} {{ data.value }}
-            </template>
+            <small
+                v-if="data.item.currency != baseCurrency"
+                class="text-muted ml-1"
+            >
+                {{ data.item.currency }} {{ numberFormat(data.item.amount) }}
+            </small>
+            {{ baseCurrency }} {{ numberFormat(data.value) }}
         </template>
+
+        <!-- Donor -->
         <template v-slot:cell(donor)="data">
             <a :href="data.item.donor_url" v-if="data.value != ''">{{ data.value }}</a>
         </template>
+
+        <!-- Thanked -->
         <template v-slot:head(thanked)>
             <font-awesome-icon icon="handshake" />
         </template>
@@ -35,6 +42,7 @@
 
 <script>
 import moment from 'moment'
+import numeral from 'numeral'
 import BaseTable from '@/components/table/BaseTable'
 import donationsApi from '@/api/fundraising/donations'
 export default {
@@ -101,11 +109,19 @@ export default {
                     class: 'fit',
                     sortable: false
                 }
-            ]
+            ],
+            baseCurrency: null
         }
     },
     methods: {
-        list: donationsApi.list
+        async list (params) {
+            let data = await donationsApi.list(params)
+            this.baseCurrency = data.meta.base_currency
+            return data
+        },
+        numberFormat (value) {
+            return numeral(value).format('0,0.00')
+        }
     }
 }
 </script>

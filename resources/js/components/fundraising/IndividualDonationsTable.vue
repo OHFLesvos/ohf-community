@@ -10,17 +10,34 @@
             show-empty
             :empty-text="$t('fundraising.no_donations_found')"
         >
+            <!-- Date / Link -->
             <template v-slot:cell(date)="data">
-                <a :href="route('fundraising.donations.edit', [donorId, data.item.id])">
+                <a
+                    v-if="data.item.can_update"
+                    href="javascript:;"
+                    @click="$emit('select', data.item)"
+                >
                     {{ data.value }}
                 </a>
+                <template v-else>
+                    {{ data.value }}
+                </template>
             </template>
 
-            <template v-slot:cell(amount)="data">
-                {{ data.item.currency }} {{ data.value }}
-                <span v-if="data.item.currency != baseCurrency">({{ baseCurrency }} {{ data.item.exchange_amount }})</span>
+            <!-- Amount / Currency -->
+            <template v-slot:cell(exchange_amount)="data">
+                <span
+                    v-if="data.item.currency != baseCurrency"
+                    class="mr-1"
+                >
+                    <small class="text-muted">
+                        {{ data.item.currency }} {{ numberFormat(data.item.amount) }}
+                    </small>
+                </span>
+                {{ baseCurrency }} {{ numberFormat(data.value) }}
             </template>
 
+            <!-- Colgroup -->
             <template v-slot:table-colgroup="scope">
                 <col
                     v-for="field in scope.fields"
@@ -29,27 +46,26 @@
                 >
             </template>
 
+            <!-- Footer -->
             <template v-slot:custom-foot="data">
-                <b-tr>
-                    <b-th :colspan="data.columns - 1"></b-th>
+                <b-tr v-if="data.items.length > 0">
+                    <b-th :colspan="1"></b-th>
                     <b-th class="text-right">
-                        <u>{{ baseCurrency }} {{ data.items.reduce((a,b) => a + parseFloat(b.exchange_amount), 0) }}</u>
+                        <u>{{ baseCurrency }} {{ numberFormat(totalAmount(data.items)) }}</u>
                     </b-th>
+                    <b-th :colspan="5"></b-th>
                 </b-tr>
             </template>
-
         </b-table>
     </div>
 </template>
 
 <script>
 import moment from 'moment'
+import numeral from 'numeral'
+import { roundWithDecimals } from '@/utils'
 export default {
     props: {
-        donorId: {
-            type: Number,
-            required: true
-        },
         donations: {
             type: Array,
             required: true
@@ -71,9 +87,14 @@ export default {
                     width: '10em'
                 },
                 {
+                    key: 'exchange_amount',
+                    label: this.$t('app.amount'),
+                    class: 'text-right',
+                    width: '12em'
+                },
+                {
                     key: 'channel',
                     label: this.$t('fundraising.channel'),
-                    // class: 'd-none d-sm-table-cell',
                     width: '10em'
                 },
                 {
@@ -83,30 +104,39 @@ export default {
                 {
                     key: 'reference',
                     label: this.$t('fundraising.reference'),
-                    // class: 'd-none d-sm-table-cell',
                     width: '12em'
                 },
                 {
                     key: 'in_name_of',
                     label: this.$t('fundraising.in_name_of'),
-                    // class: 'd-none d-sm-table-cell',
                     width: '10em'
+                },
+                {
+                    key: 'created_at',
+                    label: this.$t('app.registered'),
+                    width: '12em',
+                    formatter: value => {
+                        return moment(value).format('LLL')
+                    }
                 },
                 {
                     key: 'thanked',
                     label: this.$t('fundraising.thanked'),
-                    class: 'fit',
+                    width: '12em',
                     formatter: value => {
-                        return value ? moment(value).format('LL') : null
+                        return value ? moment(value).format('LLL') : null
                     }
-                },
-                {
-                    key: 'amount',
-                    label: this.$t('app.amount'),
-                    class: 'text-right',
-                    width: '8em'
                 }
             ]
+        }
+    },
+    methods: {
+        numberFormat (value) {
+            return numeral(value).format('0,0.00')
+        },
+        totalAmount (items) {
+            let sum = items.reduce((a,b) => a + parseFloat(b.exchange_amount), 0)
+            return roundWithDecimals(sum, 2)
         }
     }
 }

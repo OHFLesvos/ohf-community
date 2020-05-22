@@ -7,5 +7,13 @@ export default {
     async store (donorId, data) {
         const url = route('api.fundraising.donations.store', donorId)
         return await api.post(url, data)
+    },
+    async update (id, data) {
+        const url = route('api.fundraising.donations.update', id)
+        return await api.put(url, data)
+    },
+    async delete (id) {
+        const url = route('api.fundraising.donations.destroy', id)
+        return await api.delete(url)
     }
 }

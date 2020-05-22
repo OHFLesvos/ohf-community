@@ -8,7 +8,6 @@
             :donor='@json($donorResource)'
             :channels='@json($channels)'
             :currencies='@json(config('fundraising.currencies'))'
-            base-currency="{{ config('fundraising.base_currency') }}"
         >
             @lang('app.loading')
         </donor-show-page>

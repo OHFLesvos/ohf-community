@@ -22,6 +22,11 @@ class Donation extends Model
         'thanked',
     ];
 
+    protected $casts = [
+        'amount' => 'float',
+        'exchange_amount' => 'float',
+    ];
+
     public function donor()
     {
         return $this->belongsTo(Donor::class);

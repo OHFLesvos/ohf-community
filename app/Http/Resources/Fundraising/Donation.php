@@ -18,20 +18,21 @@ class Donation extends JsonResource
         return [
             'id' => $this->id,
             'date' => $this->date,
-            'year' => (new Carbon($this->date))->year,
             'amount' => $this->amount,
             'exchange_amount' => $this->exchange_amount,
             'currency' => $this->currency,
-            'base_currency' => config('fundraising.base_currency'),
-            'donor' => $this->donor->full_name,
+            'donor' => $this->whenLoaded('donor', fn () => $this->donor->full_name),
             'channel' => $this->channel,
             'purpose' => $this->purpose,
             'reference' => $this->reference,
             'in_name_of' => $this->in_name_of,
+            'thanked' => $this->thanked,
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
+            'edit_url' => $this->whenLoaded('donor', fn () => route('fundraising.donations.edit', [$this->donor, $this->resource])),
+            'donor_url' => $this->whenLoaded('donor', fn () => route('fundraising.donors.show', $this->donor)),
             'created_at' => $this->created_at,
-            'thanked' => optional($this->thanked)->toDateString(),
-            'edit_url' => route('fundraising.donations.edit', [$this->donor, $this->resource]),
-            'donor_url' => route('fundraising.donors.show', $this->donor),
+            'updated_at' => $this->updated_at,
         ];
     }
 }

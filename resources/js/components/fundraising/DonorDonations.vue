@@ -1,46 +1,83 @@
 <template>
     <div>
-        <!-- Register new donation -->
-        <template v-if="donor.can_create_donation">
-            <b-container v-if="showForm" class="px-0">
-                <b-card
+        <!-- Edit donation form -->
+        <b-container
+            v-if="selectedDonation"
+            class="px-0"
+        >
+            <b-card
+                class="mb-4"
+                body-class="pb-0"
+            >
+                <template v-slot:header>
+                    {{ $t('fundraising.edit_donation') }}
+                    <small class="float-right d-none d-sm-inline">
+                        {{ $t('app.last_updated') }}
+                        {{ dateFormat(selectedDonation.updated_at) }}
+                    </small>
+                </template>
 
-                    :header="$t('fundraising.register_new_donation')"
-                    class="mb-4"
-                    body-class="pb-0"
-                >
-                    <donation-register-form
-                        :currencies="currencies"
-                        :channels="channels"
-                        :base-currency="baseCurrency"
-                        :disabled="isBusy"
-                        @submit="registerDonation"
-                        @cancel="showForm = false"
-                    />
-                </b-card>
-            </b-container>
-            <p v-else>
+                <donation-register-form
+                    :donation="selectedDonation"
+                    :currencies="currencies"
+                    :channels="channels"
+                    :base-currency="baseCurrency"
+                    :disabled="isBusy"
+                    @submit="updateDonation"
+                    @cancel="selectedDonation = false"
+                    @delete="deleteDonation"
+                />
+            </b-card>
+        </b-container>
+
+        <!-- Create new donation form -->
+        <b-container
+            v-else-if="newDonationForm"
+            class="px-0"
+        >
+            <b-card
+                :header="$t('fundraising.register_new_donation')"
+                class="mb-4"
+                body-class="pb-0"
+            >
+                <donation-register-form
+                    :currencies="currencies"
+                    :channels="channels"
+                    :base-currency="baseCurrency"
+                    :disabled="isBusy"
+                    @submit="registerDonation"
+                    @cancel="newDonationForm = false"
+                />
+            </b-card>
+        </b-container>
+
+        <template v-else>
+
+            <!-- Register new donation button -->
+            <p v-if="canCreate">
                 <b-button
                     variant="primary"
-                    @click="showForm = true"
+                    @click="newDonationForm = true"
                 >
                     <font-awesome-icon icon="plus-circle" />
                     {{ $t('fundraising.register_new_donation') }}
                 </b-button>
             </p>
-        </template>
 
-        <!-- Existing donations -->
-        <template v-if="donor.can_view_donations && !showForm">
+            <!-- Existing donations -->
             <template v-if="donations && donations.length > 0">
                 <div v-for="year in years" :key="year">
-                    <h3>{{ year }}</h3>
+                    <h4>{{ year }}</h4>
                     <individual-donations-table
-                        :donor-id="donor.id"
                         :donations="donations.filter(d => d.year == year)"
                         :base-currency="baseCurrency"
+                        @select="editDonation"
                     />
                 </div>
+                <p>
+                    {{ $t('fundraising.total_donations_made') }}:<br>
+                    <u><strong>{{ baseCurrency }} {{ numberFormat(totalAmount) }}</strong></u>
+                </p>
             </template>
             <b-alert v-else-if="donations" show variant="info">
                 {{ $t('fundraising.no_donations_found') }}
@@ -48,26 +85,30 @@
             <p v-else>
                 {{ $t('app.loading') }}
             </p>
+
         </template>
     </div>
 </template>
 
 <script>
+import moment from 'moment'
 import donationsApi from '@/api/fundraising/donations'
 import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
 import DonationRegisterForm from '@/components/fundraising/DonationRegisterForm'
 import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
+import numeral from 'numeral'
+import { roundWithDecimals } from '@/utils'
 export default {
     components: {
         DonationRegisterForm,
         IndividualDonationsTable
     },
     props: {
-        donor: {
-            type: Object,
+        donorId: {
             required: true
         },
+        canCreate: Boolean,
         currencies: {
             required: true,
             type: Object
@@ -75,16 +116,14 @@ export default {
         channels: {
             required: true,
             type: Array
-        },
-        baseCurrency: {
-            required: true,
-            type: String
         }
     },
     data () {
         return {
             donations: null,
-            showForm: false,
+            baseCurrency: null,
+            selectedDonation: null,
+            newDonationForm: false,
             isBusy: false
         }
     },
@@ -92,9 +131,6 @@ export default {
         donations (val) {
             this.$emit('count', val.length)
         }
-    },
-    created () {
-        this.fetchDonations()
     },
     computed: {
         years () {
@@ -104,13 +140,24 @@ export default {
                     .filter((v, i, a) => a.indexOf(v) === i)
             }
             return []
+        },
+        totalAmount () {
+            let sum = this.donations.reduce((a,b) => a + parseFloat(b.exchange_amount), 0)
+            return roundWithDecimals(sum, 2)
         }
+    },
+    created () {
+        this.fetchDonations()
     },
     methods: {
         async fetchDonations () {
             try {
-                let data = await donorsApi.listDonations(this.donor.id)
-                this.donations = data.data
+                let data = await donorsApi.listDonations(this.donorId)
+                this.donations = data.data.map(donation => ({
+                    ...donation,
+                    year: moment(donation.date).year()
+                }))
+                this.baseCurrency = data.meta.base_currency
             } catch (err) {
                 alert(err)
             }
@@ -118,14 +165,47 @@ export default {
         async registerDonation (formData) {
             this.isBusy = true
             try {
-                let data = await donationsApi.store(this.donor.id, formData)
+                let data = await donationsApi.store(this.donorId, formData)
                 showSnackbar(data.message)
-                this.showForm = false
+                this.newDonationForm = false
                 this.fetchDonations()
             } catch (err) {
                 alert(err)
             }
             this.isBusy = false
+        },
+        async editDonation (donation) {
+            this.selectedDonation = donation
+        },
+        async updateDonation (formData) {
+            this.isBusy = true
+            try {
+                let data = await donationsApi.update(this.selectedDonation.id, formData)
+                showSnackbar(data.message)
+                this.selectedDonation = false
+                this.fetchDonations()
+            } catch (err) {
+                alert(err)
+            }
+            this.isBusy = false
+        },
+        async deleteDonation () {
+            this.isBusy = true
+            try {
+                let data = await donationsApi.delete(this.selectedDonation.id)
+                showSnackbar(data.message)
+                this.selectedDonation = false
+                this.fetchDonations()
+            } catch (err) {
+                alert(err)
+            }
+            this.isBusy = false
+        },
+        numberFormat (value) {
+            return numeral(value).format('0,0.00')
+        },
+        dateFormat (value) {
+            return moment(value).format('LLL')
         }
     }
 }

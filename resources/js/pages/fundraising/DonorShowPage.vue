@@ -16,7 +16,7 @@
 
             <!-- Donations -->
             <b-tab
-                v-if="donor.can_create_donation || donor.can_view_donations"
+                v-if="donor.can_view_donations"
                 :title="$t('fundraising.donations')"
                 lazy
             >
@@ -31,10 +31,10 @@
                 </template>
 
                 <donor-donations
-                    :donor="donor"
-                    :base-currency="baseCurrency"
+                    :donorId="donor.id"
                     :currencies="currencies"
                     :channels="channels"
+                    :can-create="donor.can_create_donation"
                     @count="donationsCount = $event"
                 />
             </b-tab>
@@ -87,10 +87,6 @@ export default {
         channels: {
             required: true,
             type: Array
-        },
-        baseCurrency: {
-            required: true,
-            type: String
         }
     },
     data () {

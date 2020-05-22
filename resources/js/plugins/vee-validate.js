@@ -29,5 +29,29 @@ extend('isbn', (value) => {
     return i18n.t('validation.isbn', {attribute: i18n.t('validation.attributes.isbn')})
 })
 
+extend("decimal", {
+    validate: (value, { decimals = '*', separator = '.' } = {}) => {
+        if (value === null || value === undefined || value === '') {
+            return {
+                valid: false
+            }
+        }
+        if (Number(decimals) === 0) {
+            return {
+                valid: /^-?\d*$/.test(value),
+            }
+        }
+        const regexPart = decimals === '*' ? '+' : `{1,${decimals}}`;
+        const regex = new RegExp(`^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE]{1}[-]?\\d+)?$`);
+        return {
+            valid: regex.test(value),
+            data: {
+                serverMessage: 'Only decimal values are available'
+            }
+        }
+    },
+    message: `{serverMessage}`
+})
+
 Vue.component('validation-provider', ValidationProvider)
 Vue.component('validation-observer', ValidationObserver)
