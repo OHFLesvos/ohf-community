@@ -44,7 +44,7 @@
         </p>
 
         <!-- New comment -->
-        <template v-if="apiCreateMethod">
+        <template v-if="apiCreateMethod && editComment == null">
             <comment-editor
                 v-if="editor"
                 :disabled="busy"
