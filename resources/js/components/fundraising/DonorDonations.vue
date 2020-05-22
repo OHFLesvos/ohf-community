@@ -28,14 +28,6 @@
                     {{ $t('fundraising.register_new_donation') }}
                 </b-button>
             </p>
-            <!-- <donation-register-form-modal
-                ref="modal"
-                :currencies="currencies"
-                :channels="channels"
-                :base-currency="baseCurrency"
-                :disabled="isBusy"
-                @submit="registerDonation"
-            /> -->
         </template>
 
         <!-- Existing donations -->
