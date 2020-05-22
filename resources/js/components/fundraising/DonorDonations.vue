@@ -106,8 +106,12 @@ export default {
     },
     methods: {
         async fetchDonations () {
-            let data = await donorsApi.listDonations(this.donor.id)
-            this.donations = data.data
+            try {
+                let data = await donorsApi.listDonations(this.donor.id)
+                this.donations = data.data
+            } catch (err) {
+                alert(err)
+            }
         },
         async registerDonation (formData) {
             this.isBusy = true

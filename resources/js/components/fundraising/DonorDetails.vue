@@ -46,7 +46,7 @@
             v-if="donor.language"
             :title="$t('app.correspondence_language')"
         >
-            <phone-link :value="donor.language" />
+            {{ donor.language }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
