@@ -186,6 +186,16 @@ class MoneyTransaction extends Model implements Auditable
             ->toArray();
     }
 
+    public static function secondaryCategories(): array
+    {
+        return self::select('secondary_category')
+            ->distinct()
+            ->orderBy('secondary_category')
+            ->get()
+            ->pluck('secondary_category')
+            ->toArray();
+    }
+
     public static function projects(): array
     {
         return self::select('project')
@@ -193,6 +203,26 @@ class MoneyTransaction extends Model implements Auditable
             ->orderBy('project')
             ->get()
             ->pluck('project')
+            ->toArray();
+    }
+
+    public static function locations(): array
+    {
+        return self::select('location')
+            ->distinct()
+            ->orderBy('location')
+            ->get()
+            ->pluck('location')
+            ->toArray();
+    }
+
+    public static function costCenters(): array
+    {
+        return self::select('cost_center')
+            ->distinct()
+            ->orderBy('cost_center')
+            ->get()
+            ->pluck('cost_center')
             ->toArray();
     }
 }

@@ -45,7 +45,10 @@
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
                         <th class="@isset($filter['category']) text-info @endisset">@lang('app.category')</th>
+                        <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('app.secondary_category')</th>
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
+                        <th class="@isset($filter['location']) text-info @endisset">@lang('app.location')</th>
+                        <th class="@isset($filter['cost_center']) text-info @endisset">@lang('app.cost_center')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
@@ -55,7 +58,12 @@
                     @foreach ($transactions as $transaction)
                         <tr>
                             <td class="@if(empty($transaction->receipt_pictures) && isset($transaction->receipt_no)) table-warning receipt-picture-missing @endif text-center" data-transaction-id="{{ $transaction->id }}">
-                                {{ $transaction->receipt_no }}
+                                @if(empty($transaction->receipt_no_correction))
+                                    {{ $transaction->receipt_no }}
+                                @else
+                                    <strike>{{ $transaction->receipt_no }}</strike> &rarr;
+                                    <span>{{ $transaction->receipt_no_correction }}</span>
+                                @endif
                             </td>
                             <td class="fit">
                                 <a href="{{ route('accounting.transactions.show', $transaction) }}"
@@ -69,7 +77,10 @@
                             <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif</td>
                             <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif</td>
                             <td>{{ $transaction->category }}</td>
+                            <td>{{ $transaction->secondary_category }}</td>
                             <td>{{ $transaction->project }}</td>
+                            <td>{{ $transaction->location }}</td>
+                            <td>{{ $transaction->cost_center }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
                             @php

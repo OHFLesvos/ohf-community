@@ -8,9 +8,14 @@
             <div class="col-sm-auto">
                 {{ Form::bsNumber('receipt_no', null, [ 'disabled' ], __('accounting.receipt_no')) }}
             </div>
-            <div class="col-sm">
+            <div class="col-sm-auto">
+                {{ Form::bsNumber('receipt_no_correction', null, [ 'step' => '1', 'min' => 1 ], __('accounting.receipt_no_correction')) }}
+            </div>
+            <div class="col-sm-auto">
                 {{ Form::bsDate('date', null, [ 'required' ], __('app.date')) }}
             </div>
+        </div>
+        <div class="form-row">
             <div class="col-sm-auto pb-3">
             {{ Form::bsRadioInlineList('type', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending') ], 'spending', __('app.type')) }}
             </div>
@@ -22,21 +27,46 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 @if($fixed_categories)
                     {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -', 'error' => ! in_array($transaction->category, $categories) ? __('app.invalid_category_x', ['category' => $transaction->category]) : null ], __('app.category')) }}
                 @else
                     {{ Form::bsText('category', null, [ 'required', 'list' => $categories ], __('app.category')) }}
                 @endif
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
+                @if($fixed_secondary_categories)
+                    {{ Form::bsSelect('secondary_category', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.secondary_category') . ' -', 'error' => $transaction->secondary_category != null && ! in_array($transaction->secondary_category, $secondary_categories) ? __('app.invalid_secondary_category_x', ['secondary_category' => $transaction->secondary_category]) : null ], __('app.secondary_category')) }}
+                @else
+                    {{ Form::bsText('secondary_category', null, [ 'list' => $secondary_categories ], __('app.secondary_category')) }}
+                @endif
+            </div>
+            <div class="col-sm-4">
                 @if($fixed_projects)
                     {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.project') . ' -', 'error' => $transaction->project != null && ! in_array($transaction->project, $projects) ? __('app.invalid_project_x', ['project' => $transaction->project]) : null ], __('app.project')) }}
                 @else
                     {{ Form::bsText('project', null, [ 'list' => $projects ], __('app.project')) }}
                 @endif
             </div>
-            <div class="col-sm">
+        </div>
+        <div class="form-row">
+            <div class="col-sm-4">
+                @if($fixed_locations)
+                    {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.location') . ' -', 'error' => $transaction->location != null && ! in_array($transaction->location, $locations) ? __('app.invalid_location_x', ['location' => $transaction->location]) : null ], __('app.location')) }}
+                @else
+                    {{ Form::bsText('location', null, [ 'list' => $locations ], __('app.location')) }}
+                @endif
+            </div>
+            <div class="col-sm-4">
+                @if($fixed_cost_centers)
+                    {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.cost_center') . ' -', 'error' => $transaction->cost_center != null && ! in_array($transaction->cost_center, $cost_centers) ? __('app.invalid_cost_center_x', ['cost_center' => $transaction->cost_center]) : null ], __('app.cost_center')) }}
+                @else
+                    {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('app.cost_center')) }}
+                @endif
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-sm-12">
                 {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
             </div>
         </div>
