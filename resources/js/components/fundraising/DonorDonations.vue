@@ -2,30 +2,14 @@
     <div>
         <!-- Register new donation -->
         <template v-if="donor.can_create_donation">
-            <b-card
-                v-if="showForm"
-                :header="$t('fundraising.register_new_donation')"
-                class="mb-4"
-                body-class="pb-0"
-            >
-                <donation-register-form
-                    :currencies="currencies"
-                    :channels="channels"
-                    :base-currency="baseCurrency"
-                    :disabled="isBusy"
-                    @submit="registerDonation"
-                    @cancel="showForm = false"
-                />
-            </b-card>
-            <p v-else>
-                <b-button
-                    variant="primary"
-                    @click="showForm = true"
-                >
-                    <font-awesome-icon icon="plus-circle" />
-                    {{ $t('fundraising.register_new_donation') }}
-                </b-button>
-            </p>
+            <donation-register-form-modal
+                ref="modal"
+                :currencies="currencies"
+                :channels="channels"
+                :base-currency="baseCurrency"
+                :disabled="isBusy"
+                @submit="registerDonation"
+            />
         </template>
 
         <!-- Existing donations -->
@@ -54,11 +38,11 @@
 import donationsApi from '@/api/fundraising/donations'
 import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
-import DonationRegisterForm from '@/components/fundraising/DonationRegisterForm'
+import DonationRegisterFormModal from '@/components/fundraising/DonationRegisterFormModal'
 import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
 export default {
     components: {
-        DonationRegisterForm,
+        DonationRegisterFormModal,
         IndividualDonationsTable
     },
     props: {
@@ -117,6 +101,7 @@ export default {
             this.isBusy = true
             try {
                 let data = await donationsApi.store(this.donor.id, formData)
+                this.$refs.modal.close()
                 showSnackbar(data.message)
                 this.showForm = false
                 this.fetchDonations()
