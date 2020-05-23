@@ -138,6 +138,11 @@ class DonationController extends Controller
         ]);
     }
 
+    /**
+     * Gets all channels assigned to donations
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function channels()
     {
         return response()->json([
@@ -145,6 +150,11 @@ class DonationController extends Controller
         ]);
     }
 
+    /**
+     * Gets all currencies
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function currencies()
     {
         return response()->json([

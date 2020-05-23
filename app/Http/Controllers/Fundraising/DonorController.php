@@ -30,7 +30,6 @@ class DonorController extends Controller
         ]);
 
         return view('fundraising.donors.index', [
-            'tags' => Donor::tagMap(),
             'tag' => $request->input('tag', null),
         ]);
     }

@@ -26,8 +26,11 @@
 
         <!-- Tags -->
         <template v-slot:top>
-            <p v-if="Object.keys(tags).length > 0" class="mb-3">
-                {{ $t('app.tags') }}:
+            <p
+                v-if="Object.keys(tags).length > 0"
+                class="mb-3 d-flex align-items-center"
+            >
+                <span class="mr-2">{{ $t('app.tags') }}:</span>
                 <tag-select-button
                     v-for="(tag_name, tag_key) in tags"
                     :key="tag_key"
@@ -71,8 +74,9 @@ export default {
         }
     },
     data() {
+        let id = 'donorsTable'
         return {
-            id: 'donorsTable',
+            id: id,
             fields: [
                 {
                     key: 'first_name',
@@ -143,7 +147,7 @@ export default {
                     }
                 },
             ],
-            selectedTags: this.getSelectedTags()
+            selectedTags: this.getSelectedTags(id)
         }
     },
     methods: {
@@ -154,13 +158,13 @@ export default {
             }
             return donorsApi.list(params)
         },
-        getSelectedTags () {
+        getSelectedTags (id) {
             let tags
             if (this.tag) {
                 tags = [this.tag]
-                sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(tags))
-            } else if (sessionStorage.getItem(this.id + '.selectedTags')) {
-                tags = JSON.parse(sessionStorage.getItem(this.id + '.selectedTags'))
+                sessionStorage.setItem(id + '.selectedTags', JSON.stringify(tags))
+            } else if (sessionStorage.getItem(id + '.selectedTags')) {
+                tags = JSON.parse(sessionStorage.getItem(id + '.selectedTags'))
             } else {
                 tags = []
             }

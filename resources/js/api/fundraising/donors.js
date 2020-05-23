@@ -19,5 +19,9 @@ export default {
     async storeComment (donorId, data) {
         const url = route('api.fundraising.donors.comments.store', donorId)
         return await api.post(url, data)
+    },
+    async listTags () {
+        const url = route('api.fundraising.tags.index')
+        return await api.get(url)
     }
 }

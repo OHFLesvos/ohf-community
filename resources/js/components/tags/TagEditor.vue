@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submit" class="form-row">
+    <form @submit.prevent="submit" class="form-row align-items-center">
         <div class="col">
             <tag-input
                 v-model="value"

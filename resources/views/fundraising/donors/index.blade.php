@@ -4,12 +4,11 @@
 
 @section('wrapped-content')
     <div id="fundraising-app">
-        <donors-table
-            :tags='@json((object)$tags)'
+        <donors-index-page
             @isset($tag) tag="{{ $tag }}" @endisset
         >
             @lang('app.loading')
-        </donors-table>
+        </donors-index-page>
     </div>
 @endsection
 

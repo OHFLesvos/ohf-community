@@ -216,15 +216,6 @@ class Donor extends Model
             ->toArray();
     }
 
-    public static function tagMap(): array
-    {
-        return Tag::has('donors')
-            ->orderBy('name')
-            ->get()
-            ->pluck('name', 'slug')
-            ->toArray();
-    }
-
     /**
      * Gets a sorted list of all emails used by donors
      */
@@ -237,6 +228,4 @@ class Donor extends Model
             ->get()
             ->pluck('email');
     }
-
-
 }

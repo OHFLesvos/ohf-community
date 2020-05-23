@@ -6,10 +6,10 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
-import DonorsTable from '@/components/fundraising/DonorsTable'
-import DonorsReport from '@/components/fundraising/DonorsReport'
+import DonorsIndexPage from '@/pages/fundraising/DonorsIndexPage'
 import DonorShowPage from '@/pages/fundraising/DonorShowPage'
 import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
+import DonorsReport from '@/components/fundraising/DonorsReport'
 
 import i18n from '@/plugins/i18n'
 
@@ -24,9 +24,9 @@ new Vue({
     el: '#fundraising-app',
     i18n,
     components: {
+        DonorsIndexPage,
+        DonorShowPage,
         DonationsIndexPage,
-        DonorsTable,
-        DonorsReport,
-        DonorShowPage
+        DonorsReport
     }
 });
