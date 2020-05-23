@@ -104,7 +104,7 @@ eval("$(document).ready(function () {\n  // Define function to open filemanager 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\Entwicklung\Webs\ohf\ohf-community\resources\js\editor.js */"./resources/js/editor.js");
+module.exports = __webpack_require__(/*! C:\devel\web\ohf.test\resources\js\editor.js */"./resources/js/editor.js");
 
 
 /***/ })

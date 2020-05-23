@@ -91,8 +91,8 @@ export default {
     },
     data () {
         return {
-            tabIndex: sessionStorage.getItem('donors.tabIndex')
-                ? parseInt(sessionStorage.getItem('donors.tabIndex'))
+            tabIndex: sessionStorage.getItem(`donors.${this.donor.id}.tabIndex`)
+                ? parseInt(sessionStorage.getItem(`donors.${this.donor.id}.tabIndex`))
                 : 0,
             donationsCount: this.donor.donations_count,
             commentCount: this.donor.comments_count,
@@ -100,7 +100,7 @@ export default {
     },
     watch: {
         tabIndex (val) {
-            sessionStorage.setItem('donors.tabIndex', val)
+            sessionStorage.setItem(`donors.${this.donor.id}.tabIndex`, val)
         }
     },
     methods: {
