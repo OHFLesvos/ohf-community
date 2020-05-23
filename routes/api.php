@@ -119,8 +119,6 @@ Route::middleware(['language', 'auth'])
             ->group(function () {
                 Route::get('donors/count', 'ReportController@count')
                     ->name('donors.count');
-                Route::get('donors/emails', 'ReportController@emails')
-                    ->name('donors.emails');
                 Route::get('donors/languages', 'ReportController@languages')
                     ->name('donors.languages');
                 Route::get('donors/countries', 'ReportController@countries')

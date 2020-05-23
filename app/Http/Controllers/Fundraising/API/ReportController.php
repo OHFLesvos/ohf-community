@@ -8,7 +8,6 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use App\Support\ChartResponseBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
 {
@@ -83,28 +82,6 @@ class ReportController extends Controller
         $date = $request->input('date');
 
         return Donor::countryDistribution($date);
-    }
-
-    /**
-     * Display all emails of donors.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function emails(Request $request)
-    {
-        $this->authorize('viewAny', Donor::class);
-
-        $request->validate([
-            'format' => [
-                'nullable',
-                Rule::in(['json', 'string']),
-            ],
-        ]);
-
-        $data = Donor::emails();
-        return $request->input('format') == 'string'
-            ? $data->implode(',')
-            : $data;
     }
 
     /**
