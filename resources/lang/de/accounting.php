@@ -15,6 +15,7 @@ return [
     'transactions_deleted' => 'Transaktion gelöscht.',
     'receipt' => 'Beleg',
     'receipt_no' => 'Beleg Nr.',
+    'receipt_no_correction' => 'Beleg Nr. Korrektur',
     'show_transaction' => 'Transaktion anzeigen',
     'wallet' => 'Kasse',
     'wallets' => 'Kassen',
