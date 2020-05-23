@@ -12,7 +12,7 @@ import DonorShowPage from '@/pages/fundraising/DonorShowPage'
 import DonorEditPage from '@/pages/fundraising/DonorEditPage'
 import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
 import DonationsImportPage from '@/pages/fundraising/DonationsImportPage'
-import DonorsReportPage from '@/pages/fundraising/DonorsReportPage'
+import ReportPage from '@/pages/fundraising/ReportPage'
 
 import i18n from '@/plugins/i18n'
 
@@ -33,6 +33,6 @@ new Vue({
         DonorEditPage,
         DonationsIndexPage,
         DonationsImportPage,
-        DonorsReportPage
+        ReportPage
     }
 });

@@ -4,9 +4,9 @@
 
 @section('content')
     <div id="fundraising-app">
-        <donors-report-page>
+        <report-page>
             @lang('app.loading')
-        </donors-report-page>
+        </report-page>
     </div>
 @endsection
 
