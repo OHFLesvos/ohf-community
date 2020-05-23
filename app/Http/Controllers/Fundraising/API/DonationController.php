@@ -9,6 +9,7 @@ use App\Models\Fundraising\Donation;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
@@ -96,10 +97,9 @@ class DonationController extends Controller
                     $exchange_rate = EzvExchangeRates::getExchangeRate($request->currency, $date);
                 } catch (Exception $e) {
                     Log::error($e);
-                    return redirect()
-                        ->back()
-                        ->withInput()
-                        ->with('error', __('app.an_error_happened'). ': ' . $e->getMessage());
+                    return response()->json([
+                        'message' =>  __('app.an_error_happened'). ': ' . $e->getMessage(),
+                    ], Response::HTTP_SERVICE_UNAVAILABLE);
                 }
             }
             $exchange_amount = $request->amount * $exchange_rate;
