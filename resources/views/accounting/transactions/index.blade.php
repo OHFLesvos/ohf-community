@@ -64,12 +64,7 @@
                     @foreach ($transactions as $transaction)
                         <tr>
                             <td class="@if(empty($transaction->receipt_pictures) && isset($transaction->receipt_no)) table-warning receipt-picture-missing @endif text-center" data-transaction-id="{{ $transaction->id }}">
-                                @if(empty($transaction->receipt_no_correction))
-                                    {{ $transaction->receipt_no }}
-                                @else
-                                    <strike>{{ $transaction->receipt_no }}</strike> &rarr;
-                                    <span>{{ $transaction->receipt_no_correction }}</span>
-                                @endif
+                                {{ $transaction->receipt_no }}
                             </td>
                             <td class="fit">
                                 <a href="{{ route('accounting.transactions.show', $transaction) }}"

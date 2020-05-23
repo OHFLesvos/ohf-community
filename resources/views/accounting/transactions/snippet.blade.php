@@ -4,12 +4,7 @@
                 <div class="row">
                     <div class="col-sm-4"><strong>@lang('accounting.receipt') #</strong></div>
                     <div class="col-sm">
-                        @if(empty($transaction->receipt_no_correction))
                         {{ $transaction->receipt_no }}
-                        @else
-                        <strike>{{ $transaction->receipt_no }}</strike> &rarr;
-                        <span>{{ $transaction->receipt_no_correction }}</span>
-                        @endif
                     </div>
                 </div>
             </li>

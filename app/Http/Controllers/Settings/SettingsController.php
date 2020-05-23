@@ -30,7 +30,6 @@ class SettingsController extends Controller
         'branding.favicon_32_file' => \App\Settings\Branding\Favicon32File::class,
         'branding.favicon_180_file' => \App\Settings\Branding\Favicon180File::class,
         'branding.favicon_192_file' => \App\Settings\Branding\Favicon192File::class,
-        'accounting.transactions.use_receipt_no_correction' => \App\Settings\Accounting\TransactionReceiptNoCorrectionUse::class,
         'accounting.transactions.categories' => \App\Settings\Accounting\TransactionCategories::class,
         'accounting.transactions.use_secondary_categories' => \App\Settings\Accounting\TransactionSecondaryCategoriesUse::class,
         'accounting.transactions.secondary_categories' => \App\Settings\Accounting\TransactionSecondaryCategories::class,

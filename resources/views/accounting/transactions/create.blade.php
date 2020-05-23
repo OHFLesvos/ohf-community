@@ -11,15 +11,10 @@
         @endif
         <div class="form-row">
             <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', $wallets->count() == 1 ? $wallets[0]['new_receipt_no'] : '', [ 'disabled' ], __('accounting.receipt_no')) }}
+                {{ Form::bsNumber('receipt_no', $wallets->count() == 1 ? $wallets[0]['new_receipt_no'] : '', [ 'required', 'step' => '1', 'min' => 1 ], __('accounting.receipt_no')) }}
             </div>
-            @if($use_receipt_no_correction)
-                <div class="col-sm-auto">
-                    {{ Form::bsNumber('receipt_no_correction', null, [ 'step' => '1', 'min' => 1 ], __('accounting.receipt_no_correction')) }}
-                </div>
-            @endif
             <div class="col-sm-auto">
-                {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required', 'autofocus' ], __('app.date')) }}
+                {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required' ], __('app.date')) }}
             </div>
         </div>
         <div class="form-row">

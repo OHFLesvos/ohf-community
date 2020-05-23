@@ -6,13 +6,8 @@
     {!! Form::model($transaction, ['route' => ['accounting.transactions.update', $transaction], 'method' => 'put', 'files' => true]) !!}
         <div class="form-row">
             <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', null, [ 'disabled' ], __('accounting.receipt_no')) }}
+                {{ Form::bsNumber('receipt_no', null, [ 'required', 'step' => '1', 'min' => 1 ], __('accounting.receipt_no')) }}
             </div>
-            @if($use_receipt_no_correction)
-                <div class="col-sm-auto">
-                    {{ Form::bsNumber('receipt_no_correction', null, [ 'step' => '1', 'min' => 1 ], __('accounting.receipt_no_correction')) }}
-                </div>
-            @endif
             <div class="col-sm-auto">
                 {{ Form::bsDate('date', null, [ 'required' ], __('app.date')) }}
             </div>

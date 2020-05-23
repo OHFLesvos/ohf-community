@@ -15,8 +15,6 @@ return [
     'transactions_deleted' => 'Transaction deleted.',
     'receipt' => 'Receipt',
     'receipt_no' => 'Receipt No.',
-    'receipt_no_correction' => 'Receipt No. Correction',
-    'use_receipt_no_correction' => 'Use receipt No. correction',
     'show_transaction' => 'Show transaction',
     'wallet' => 'Wallet',
     'wallets' => 'Wallets',

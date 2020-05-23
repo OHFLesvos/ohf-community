@@ -19,10 +19,6 @@ class MoneyTransaction extends Model implements Auditable
 
     public static function boot()
     {
-        static::creating(function ($model) {
-            $model->receipt_no = self::getNextFreeReceiptNo($model->wallet_id);
-        });
-
         static::deleting(function ($model) {
             $model->deleteReceiptPictures();
         });
@@ -121,14 +117,6 @@ class MoneyTransaction extends Model implements Auditable
     public function scopeNotBooked($query)
     {
         return $query->where('booked', false);
-    }
-
-    public static function getNextFreeReceiptNo($wallet_id = null)
-    {
-        return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
-            ->when($wallet_id !== null, fn ($qry) => $qry->where('wallet_id', $wallet_id))
-            ->first())
-            ->val + 1;
     }
 
     public function getExternalUrlAttribute()

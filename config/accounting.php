@@ -11,7 +11,6 @@ return [
         'beneficiary',
         'description',
         'receipt_no',
-        'receipt_no_correction',
         'today',
         'no_receipt',
         'wallet_owner',

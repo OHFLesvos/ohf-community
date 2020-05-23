@@ -168,7 +168,7 @@ class MoneyTransactionsController extends Controller
             ->map(fn ($wallet) => [
                 'id' => $wallet->id,
                 'name' => $wallet->name,
-                'new_receipt_no' => MoneyTransaction::getNextFreeReceiptNo($wallet->id),
+                'new_receipt_no' => self::getNextFreeReceiptNo($wallet),
             ]);
         if ($wallets->isEmpty()) {
             return redirect()->route('accounting.wallets.change');
@@ -176,7 +176,6 @@ class MoneyTransactionsController extends Controller
         $wallet = $currentWallet->get();
 
         return view('accounting.transactions.create', [
-            'use_receipt_no_correction' => self::useReceiptNoCorrection(),
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
@@ -193,9 +192,12 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    private static function useReceiptNoCorrection(): bool
+    private static function getNextFreeReceiptNo(?Wallet $wallet = null)
     {
-        return Setting::get('accounting.transactions.use_receipt_no_correction') ?? false;
+        return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
+            ->when($wallet !== null, fn ($qry) => $qry->forWallet($wallet))
+            ->first())
+            ->val + 1;
     }
 
     private static function getCategories(?bool $onlyExisting = false): array
@@ -275,9 +277,7 @@ class MoneyTransactionsController extends Controller
 
         $transaction = new MoneyTransaction();
         $transaction->date = $request->date;
-        if (self::useReceiptNoCorrection()) {
-            $transaction->receipt_no_correction = $request->receipt_no_correction;
-        }
+        $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
@@ -369,7 +369,6 @@ class MoneyTransactionsController extends Controller
 
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
-            'use_receipt_no_correction' => self::useReceiptNoCorrection(),
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
@@ -396,9 +395,7 @@ class MoneyTransactionsController extends Controller
         $this->authorize('update', $transaction);
 
         $transaction->date = $request->date;
-        if (self::useReceiptNoCorrection()) {
-            $transaction->receipt_no_correction = $request->receipt_no_correction;
-        }
+        $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
