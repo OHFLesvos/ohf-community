@@ -49,7 +49,7 @@
         <!-- Registrations over time chart -->
         <time-bar-chart
             :title="$t('fundraising.new_donors_registered')"
-            :base-url="route('api.fundraising.donors.registrations')"
+            :base-url="route('api.fundraising.report.donors.registrations')"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -62,7 +62,7 @@
 
         <time-bar-chart
             :title="$t('fundraising.donations_made')"
-            :base-url="route('api.fundraising.donations.registrations')"
+            :base-url="route('api.fundraising.report.donations.registrations')"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -71,7 +71,7 @@
 
         <time-bar-chart
             :title="$t('fundraising.total_donations_made')"
-            :base-url="route('api.fundraising.donations.registrations')"
+            :base-url="route('api.fundraising.report.donations.registrations')"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -88,7 +88,7 @@ import AdvancedTwoColumnListCard from '@/components/ui/AdvancedTwoColumnListCard
 import TimeBarChart from '@/components/charts/TimeBarChart'
 import DateRangeSelect from '@/components/common/DateRangeSelect'
 import moment from 'moment'
-import donorsApi from '@/api/fundraising/donors'
+import reportApi from '@/api/fundraising/report'
 export default {
     components: {
         SimpleTwoColumnListCard,
@@ -123,17 +123,17 @@ export default {
     methods: {
         loadData () {
             this.countError = null
-            donorsApi.getCount(this.dateRange.to)
+            reportApi.getCount(this.dateRange.to)
                 .then(data => this.count = this.mapCountData(data))
                 .catch(err => this.countError = err)
 
             this.countriesError = null
-            donorsApi.getCountries(this.dateRange.to)
+            reportApi.getCountries(this.dateRange.to)
                 .then(data => this.countries = data)
                 .catch(err => this.countriesError = err)
 
             this.languagesError = null
-            donorsApi.getLanguages(this.dateRange.to)
+            reportApi.getLanguages(this.dateRange.to)
                 .then(data => this.languages = data)
                 .catch(err => this.languagesError = err)
         },

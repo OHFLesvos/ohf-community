@@ -94,22 +94,11 @@ Route::middleware(['language', 'auth'])
     ->name('api.fundraising.')
     ->namespace('Fundraising\API')
     ->group(function () {
-        Route::get('donors/count', 'DonorController@count')
-            ->name('donors.count');
-        Route::get('donors/emails', 'DonorController@emails')
-            ->name('donors.emails');
-        Route::get('donors/languages', 'DonorController@languages')
-            ->name('donors.languages');
-        Route::get('donors/countries', 'DonorController@countries')
-            ->name('donors.countries');
-        Route::get('donors/registrations', 'DonorController@registrations')
-            ->name('donors.registrations');
+
         Route::apiResource('donors', 'DonorController')
             ->only('index');
         Route::get('donors/{donor}/donations', 'DonorController@donations')
             ->name('donors.donations');
-        Route::get('donations/registrations', 'DonationController@registrations')
-            ->name('donations.registrations');
         Route::apiResource('donations', 'DonationController')
             ->only('index', 'update', 'destroy');
         Route::apiResource('donors.comments', 'DonorCommentsController')
@@ -122,6 +111,24 @@ Route::middleware(['language', 'auth'])
             ->group(function () {
                 Route::apiResource('donations', 'DonationController')
                     ->only('store');
+            });
+
+        // Report
+        Route::prefix('report')
+            ->name('report.')
+            ->group(function () {
+                Route::get('donors/count', 'ReportController@count')
+                    ->name('donors.count');
+                Route::get('donors/emails', 'ReportController@emails')
+                    ->name('donors.emails');
+                Route::get('donors/languages', 'ReportController@languages')
+                    ->name('donors.languages');
+                Route::get('donors/countries', 'ReportController@countries')
+                    ->name('donors.countries');
+                Route::get('donors/registrations', 'ReportController@donorRegistrations')
+                    ->name('donors.registrations');
+                Route::get('donations/registrations', 'ReportController@donationRegistrations')
+                    ->name('donations.registrations');
             });
     });
 

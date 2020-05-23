@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Requests\Fundraising\StoreDonation;
 use App\Http\Resources\Fundraising\DonationCollection;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
-use App\Support\ChartResponseBuilder;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,8 +16,6 @@ use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationController extends Controller
 {
-    use ValidatesDateRanges;
-
     /**
      * Display a listing of the resource.
      *
@@ -279,37 +275,5 @@ class DonationController extends Controller
         return response()->json([
             'message' => __('fundraising.donation_deleted'),
         ]);
-    }
-
-    /**
-     * Gets the number of registrations per time unit.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function registrations(Request $request)
-    {
-        $this->authorize('view-fundraising-reports');
-
-        $this->validateDateGranularity($request);
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
-
-        $registrations = Donation::inDateRange($dateFrom, $dateTo, 'date')
-            ->groupByDateGranularity($request->input('granularity'), 'date')
-            ->selectRaw('COUNT(*) AS `aggregated_value`')
-            ->get()
-            ->pluck('aggregated_value', 'date_label');
-
-        $amounts = Donation::inDateRange($dateFrom, $dateTo, 'date')
-            ->groupByDateGranularity($request->input('granularity'), 'date')
-            ->selectRaw('SUM(exchange_amount) AS `aggregated_value`')
-            ->get()
-            ->pluck('aggregated_value', 'date_label')
-            ->map(fn ($e) => floatval($e));
-
-        return (new ChartResponseBuilder())
-            ->dataset(__('fundraising.donations'), $registrations)
-            ->dataset(__('fundraising.donation_amount') . ' (' . config('fundraising.base_currency').')', $amounts, __('app.amount'))
-            ->build();
     }
 }

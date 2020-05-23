@@ -3,19 +3,15 @@
 namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Resources\Fundraising\DonationCollection;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
-use App\Support\ChartResponseBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class DonorController extends Controller
 {
-    use ValidatesDateRanges;
-
     /**
      * Display a listing of the resource.
      *
@@ -124,122 +120,5 @@ class DonorController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         return new DonationCollection($donations);
-    }
-
-    /**
-     * Display the amount of donors.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function count(Request $request)
-    {
-        $this->authorize('view-fundraising-reports');
-
-        $request->validate([
-            'date' => [
-                'nullable',
-                'date',
-            ],
-        ]);
-        $date = $request->input('date');
-
-        return response()->json([
-            'total' => Donor::createdUntil($date)->count(),
-            'persons' => Donor::createdUntil($date)->whereNull('company')->count(),
-            'companies' => Donor::createdUntil($date)->whereNotNull('company')->count(),
-            'with_address' => Donor::createdUntil($date)->whereNotNull('city')->count(),
-            'with_email' => Donor::createdUntil($date)->whereNotNull('email')->count(),
-            'with_phone' => Donor::createdUntil($date)->whereNotNull('phone')->count(),
-            'first' =>Donor::orderBy('created_at', 'asc')
-                ->value('created_at'),
-            'last' => Donor::orderBy('created_at', 'desc')
-                ->value('created_at'),
-        ]);
-    }
-
-    /**
-     * Display all languages of donors.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function languages(Request $request)
-    {
-        $this->authorize('view-fundraising-reports');
-
-        $request->validate([
-            'date' => [
-                'nullable',
-                'date',
-            ],
-        ]);
-        $date = $request->input('date');
-
-        return Donor::languageDistribution($date);
-    }
-
-    /**
-     * Display all countries of donors.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function countries(Request $request)
-    {
-        $this->authorize('view-fundraising-reports');
-
-        $request->validate([
-            'date' => [
-                'nullable',
-                'date',
-            ],
-        ]);
-        $date = $request->input('date');
-
-        return Donor::countryDistribution($date);
-    }
-
-    /**
-     * Display all emails of donors.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function emails(Request $request)
-    {
-        $this->authorize('viewAny', Donor::class);
-
-        $request->validate([
-            'format' => [
-                'nullable',
-                Rule::in(['json', 'string']),
-            ],
-        ]);
-
-        $data = Donor::emails();
-        return $request->input('format') == 'string'
-            ? $data->implode(',')
-            : $data;
-    }
-
-    /**
-     * Gets the number of registration per time unit.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function registrations(Request $request)
-    {
-        $this->authorize('view-fundraising-reports');
-
-        $this->validateDateGranularity($request);
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
-
-        $registrations = Donor::inDateRange($dateFrom, $dateTo)
-            ->groupByDateGranularity($request->input('granularity'))
-            ->selectRaw('COUNT(*) AS `aggregated_value`')
-            ->get()
-            ->pluck('aggregated_value', 'date_label');
-
-        return (new ChartResponseBuilder())
-            ->dataset(__('app.registrations'), $registrations)
-            ->build();
     }
 }
