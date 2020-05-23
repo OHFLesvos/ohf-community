@@ -119,7 +119,6 @@ class DonorController extends Controller
                 'donations_count' => $can_view_donations ? $donor->donations()->count() : null,
                 'comments_count' => $donor->comments()->count(),
             ],
-            'channels' => Donation::channels(),
         ]);
     }
 

@@ -6,8 +6,6 @@
     <div id="fundraising-app">
         <donor-show-page
             :donor='@json($donorResource)'
-            :channels='@json($channels)'
-            :currencies='@json(config('fundraising.currencies'))'
         >
             @lang('app.loading')
         </donor-show-page>

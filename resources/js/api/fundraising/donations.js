@@ -11,5 +11,13 @@ export default {
     async delete (id) {
         const url = route('api.fundraising.donations.destroy', id)
         return await api.delete(url)
+    },
+    async listChannels () {
+        const url = route('api.fundraising.donations.channels')
+        return await api.get(url)
+    },
+    async listCurrencies () {
+        const url = route('api.fundraising.donations.currencies')
+        return await api.get(url)
     }
 }

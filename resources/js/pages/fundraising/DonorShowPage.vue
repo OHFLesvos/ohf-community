@@ -32,8 +32,6 @@
 
                 <donor-donations
                     :donorId="donor.id"
-                    :currencies="currencies"
-                    :channels="channels"
                     :can-create="donor.can_create_donation"
                     @count="donationsCount = $event"
                 />
@@ -79,14 +77,6 @@ export default {
         donor: {
             required: true,
             type: Object
-        },
-        currencies: {
-            required: true,
-            type: Object
-        },
-        channels: {
-            required: true,
-            type: Array
         }
     },
     data () {

@@ -109,15 +109,7 @@ export default {
         donorId: {
             required: true
         },
-        canCreate: Boolean,
-        currencies: {
-            required: true,
-            type: Object
-        },
-        channels: {
-            required: true,
-            type: Array
-        }
+        canCreate: Boolean
     },
     data () {
         return {
@@ -125,12 +117,26 @@ export default {
             baseCurrency: null,
             selectedDonation: null,
             newDonationForm: false,
-            isBusy: false
+            isBusy: false,
+            currencies: {},
+            channels: []
         }
     },
     watch: {
         donations (val) {
             this.$emit('count', val.length)
+        },
+        async newDonationForm (val, oldVal) {
+            if (!oldVal) {
+                this.fetchChannels()
+                this.fetchCurrencies()
+            }
+        },
+        async selectedDonation (val, oldVal) {
+            if (!oldVal) {
+                this.fetchChannels()
+                this.fetchCurrencies()
+            }
         }
     },
     computed: {
@@ -159,6 +165,22 @@ export default {
                     year: moment(donation.date).year()
                 }))
                 this.baseCurrency = data.meta.base_currency
+            } catch (err) {
+                alert(err)
+            }
+        },
+        async fetchChannels () {
+            try {
+                let data = await donationsApi.listChannels()
+                this.channels = data.data
+            } catch (err) {
+                alert(err)
+            }
+        },
+        async fetchCurrencies () {
+            try {
+                let data = await donationsApi.listCurrencies()
+                this.currencies = data.data
             } catch (err) {
                 alert(err)
             }

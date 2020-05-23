@@ -136,4 +136,18 @@ class DonationController extends Controller
             'message' => __('fundraising.donation_deleted'),
         ]);
     }
+
+    public function channels()
+    {
+        return response()->json([
+            'data' => Donation::channels(),
+        ]);
+    }
+
+    public function currencies()
+    {
+        return response()->json([
+            'data' => config('fundraising.currencies'),
+        ]);
+    }
 }

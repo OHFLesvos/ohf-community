@@ -114,6 +114,10 @@ Route::middleware(['language', 'auth'])
             ->only('index');
 
         // Donations
+        Route::get('donations/channels', 'DonationController@channels')
+            ->name('donations.channels');
+        Route::get('donations/currencies', 'DonationController@currencies')
+            ->name('donations.currencies');
         Route::apiResource('donations', 'DonationController')
             ->only('index', 'update', 'destroy');
 
