@@ -6,6 +6,14 @@
     <div class="mb-3">{{ Form::bsCheckbox($field_key, 1, $field['value'], $field['label'], $field['help'] ?? null) }}</div>
 @elseif($field['type'] == 'textarea')
     {{ Form::bsTextarea($field_key, $field['value'], $field['args'] ?? [ 'placeholder' => $field['placeholder'] ?? null, 'rows' => 5 ], $field['label'], $field['help'] ?? null) }}
+@elseif($field['type'] == 'checkbox')
+    <div class="mb-3">
+        {{ Form::bsCheckbox($field['name'], __('app.yes'), $field['value'] == __('app.yes'), $field['label'], $field['help'] ?? null) }}
+    </div>
+@elseif($field['type'] == 'radio')
+    <div class="mb-3 column-break-avoid">
+        {{ Form::bsRadioList($field['name'], $field['list'], $field['value'], $field['label'], $field['help'] ?? null) }}
+    </div>
 @elseif($field['type'] == 'file')
     <div class="mb-2">
         <label for="{{ $field_key }}">{{ $field['label'] }}</label>

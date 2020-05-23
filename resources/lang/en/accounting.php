@@ -16,6 +16,7 @@ return [
     'receipt' => 'Receipt',
     'receipt_no' => 'Receipt No.',
     'receipt_no_correction' => 'Receipt No. Correction',
+    'use_receipt_no_correction' => 'Use receipt No. correction',
     'show_transaction' => 'Show transaction',
     'wallet' => 'Wallet',
     'wallets' => 'Wallets',
@@ -67,4 +68,5 @@ return [
     'cost_centers' => 'Cost Centers',
     'no_cost_center' => 'No cost center',
     'invalid_cost_center_x' => 'Invalid cost center \':cost_center\'',
+    'use_cost_centers' => 'Use cost centers',
 ];

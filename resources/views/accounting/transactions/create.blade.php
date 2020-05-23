@@ -13,9 +13,11 @@
             <div class="col-sm-auto">
                 {{ Form::bsNumber('receipt_no', $wallets->count() == 1 ? $wallets[0]['new_receipt_no'] : '', [ 'disabled' ], __('accounting.receipt_no')) }}
             </div>
-            <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no_correction', null, [ 'step' => '1', 'min' => 1 ], __('app.receipt_no_correction')) }}
-            </div>
+            @if($use_receipt_no_correction)
+                <div class="col-sm-auto">
+                    {{ Form::bsNumber('receipt_no_correction', null, [ 'step' => '1', 'min' => 1 ], __('accounting.receipt_no_correction')) }}
+                </div>
+            @endif
             <div class="col-sm-auto">
                 {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required', 'autofocus' ], __('app.date')) }}
             </div>
@@ -32,21 +34,23 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-sm-4">
+            <div class="col-sm">
                 @if($fixed_categories)
                     {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
                 @else
                     {{ Form::bsText('category', null, [ 'required', 'list' => $categories ], __('app.category')) }}
                 @endif
             </div>
-            <div class="col-sm-4">
-                @if($fixed_secondary_categories)
-                    {{ Form::bsSelect('secondary_category', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.secondary_category') . ' -' ], __('app.secondary_category')) }}
-                @else
-                    {{ Form::bsText('secondary_category', null, [ 'required', 'list' => $secondary_categories ], __('app.secondary_category')) }}
-                @endif
-            </div>
-            <div class="col-sm-4">
+            @if($secondary_categories !== null)
+                <div class="col-sm">
+                    @if($fixed_secondary_categories)
+                        {{ Form::bsSelect('secondary_category', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.secondary_category') . ' -' ], __('app.secondary_category')) }}
+                    @else
+                        {{ Form::bsText('secondary_category', null, [ 'required', 'list' => $secondary_categories ], __('app.secondary_category')) }}
+                    @endif
+                </div>
+            @endif
+            <div class="col-sm">
                 @if($fixed_projects)
                     {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
                 @else
@@ -55,20 +59,24 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-sm-4">
-                @if($fixed_locations)
-                    {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.location') . ' -' ], __('app.location')) }}
-                @else
-                    {{ Form::bsText('location', null, [ 'list' => $locations ], __('app.location')) }}
-                @endif
-            </div>
-            <div class="col-sm-4">
-                @if($fixed_cost_centers)
-                    {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('accounting.cost_center') . ' -' ], __('accounting.cost_center')) }}
-                @else
-                    {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('accounting.cost_center')) }}
-                @endif
-            </div>
+            @if($locations !== null)
+                <div class="col-sm">
+                    @if($fixed_locations)
+                        {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.location') . ' -' ], __('app.location')) }}
+                    @else
+                        {{ Form::bsText('location', null, [ 'list' => $locations ], __('app.location')) }}
+                    @endif
+                </div>
+            @endif
+            @if($cost_centers !== null)
+                <div class="col-sm">
+                    @if($fixed_cost_centers)
+                        {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('accounting.cost_center') . ' -' ], __('accounting.cost_center')) }}
+                    @else
+                        {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('accounting.cost_center')) }}
+                    @endif
+                </div>
+            @endif
         </div>
         <div class="form-row">
             <div class="col-sm-12">

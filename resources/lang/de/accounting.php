@@ -16,6 +16,7 @@ return [
     'receipt' => 'Beleg',
     'receipt_no' => 'Beleg Nr.',
     'receipt_no_correction' => 'Beleg Nr. Korrektur',
+    'use_receipt_no_correction' => 'Beleg Nr. Korrektur verwenden',
     'show_transaction' => 'Transaktion anzeigen',
     'wallet' => 'Kasse',
     'wallets' => 'Kassen',
@@ -67,4 +68,5 @@ return [
     'cost_centers' => 'Kostenstellen',
     'no_cost_center' => 'Keine Kostenstelle',
     'invalid_cost_center_x' => 'Ungültige Kostenstelle \':cost_center\'',
+    'use_cost_centers' => 'Kostenstellen verwenden',
 ];

@@ -169,6 +169,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function beneficiaries(): array
     {
         return self::select('beneficiary')
+            ->whereNotNull('beneficiary')
             ->distinct()
             ->orderBy('beneficiary')
             ->get()
@@ -179,6 +180,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function categories(): array
     {
         return self::select('category')
+            ->whereNotNull('category')
             ->distinct()
             ->orderBy('category')
             ->get()
@@ -189,6 +191,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function secondaryCategories(): array
     {
         return self::select('secondary_category')
+            ->whereNotNull('secondary_category')
             ->distinct()
             ->orderBy('secondary_category')
             ->get()
@@ -199,6 +202,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function projects(): array
     {
         return self::select('project')
+            ->whereNotNull('project')
             ->distinct()
             ->orderBy('project')
             ->get()
@@ -209,6 +213,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function locations(): array
     {
         return self::select('location')
+            ->whereNotNull('location')
             ->distinct()
             ->orderBy('location')
             ->get()
@@ -219,6 +224,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function costCenters(): array
     {
         return self::select('cost_center')
+            ->whereNotNull('cost_center')
             ->distinct()
             ->orderBy('cost_center')
             ->get()
