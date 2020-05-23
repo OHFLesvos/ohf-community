@@ -62,4 +62,9 @@ return [
     'wallet_deleted' => 'Walled deleted.',
     'there_must_be_one_default_wallet' => 'There must be one default wallet.',
     'confirm_delete_wallet' => 'Really delete this wallet?',
+    'cost_center' => 'Cost Center',
+    'cost_centers' => 'Cost Centers',
+    'no_cost_center' => 'No cost center',
+    'invalid_cost_center_x' => 'Invalid cost center \':cost_center\'',
+    'use_cost_centers' => 'Use cost centers',
 ];

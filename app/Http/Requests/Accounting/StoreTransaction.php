@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Accounting;
 
+use App\Models\Accounting\MoneyTransaction;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -30,6 +31,24 @@ class StoreTransaction extends FormRequest
             'wallet_id' => [
                 isset($this->transaction) ? 'nullable' : 'required',
                 'exists:accounting_wallets,id',
+            ],
+            'receipt_no' => [
+                'required',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    $exists = MoneyTransaction::query()
+                        ->when($this->transaction,
+                            fn ($qry) => $qry->where('wallet_id', $this->transaction->wallet_id)
+                                ->where('id', '!=', $this->transaction->id),
+                            fn ($qry) => $qry->where('wallet_id', $this->wallet_id),
+                        )
+                        ->where('receipt_no', $value)
+                        ->exists();
+                    if ($exists) {
+                        $fail(__('validation.unique', [ 'attribute' => __('accounting.receipt_no') ]));
+                    }
+                },
             ],
             'date' => [
                 'required',

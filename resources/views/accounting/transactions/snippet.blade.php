@@ -8,7 +8,7 @@
                     </div>
                 </div>
             </li>
-        @endisset    
+        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('app.date')</strong></div>
@@ -36,12 +36,42 @@
                 </div>
             </div>
         </li>
+        @isset($transaction->secondary_category)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('app.secondary_category')</strong></div>
+                    <div class="col-sm">
+                        {{ $transaction->secondary_category }}
+                    </div>
+                </div>
+            </li>
+        @endisset
         @isset($transaction->project)
             <li class="list-group-item">
                 <div class="row">
                     <div class="col-sm-4"><strong>@lang('app.project')</strong></div>
                     <div class="col-sm">
                         {{ $transaction->project }}
+                    </div>
+                </div>
+            </li>
+        @endisset
+        @isset($transaction->location)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('app.location')</strong></div>
+                    <div class="col-sm">
+                        {{ $transaction->location }}
+                    </div>
+                </div>
+            </li>
+        @endisset
+        @isset($transaction->cost_center)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting.cost_center')</strong></div>
+                    <div class="col-sm">
+                        {{ $transaction->cost_center }}
                     </div>
                 </div>
             </li>
@@ -71,7 +101,7 @@
                     </div>
                 </div>
             </li>
-        @endisset  
+        @endisset
         @isset($transaction->remarks)
             <li class="list-group-item">
                 <div class="row">
@@ -108,7 +138,7 @@
                                 @php
                                     $url = $transaction->externalUrl;
                                 @endphp
-                                Webling: 
+                                Webling:
                                 @isset($url)
                                     <a href="{{ $url }}" target="_blank">{{ $transaction->external_id }}</a>
                                 @else
@@ -128,7 +158,7 @@
                     </div>
                 </div>
             </li>
-        @endif 
+        @endif
 
         <li class="list-group-item">
             <div class="row">

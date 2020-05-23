@@ -45,7 +45,16 @@
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
                         <th class="@isset($filter['category']) text-info @endisset">@lang('app.category')</th>
+                        @if($secondary_categories !== null)
+                            <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('app.secondary_category')</th>
+                        @endif
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
+                        @if($locations !== null)
+                            <th class="@isset($filter['location']) text-info @endisset">@lang('app.location')</th>
+                        @endif
+                        @if($cost_centers !== null)
+                            <th class="@isset($filter['cost_center']) text-info @endisset">@lang('accounting.cost_center')</th>
+                        @endif
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
@@ -69,7 +78,16 @@
                             <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif</td>
                             <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif</td>
                             <td>{{ $transaction->category }}</td>
+                            @if($secondary_categories !== null)
+                                <td>{{ $transaction->secondary_category }}</td>
+                            @endif
                             <td>{{ $transaction->project }}</td>
+                            @if($locations !== null)
+                                <td>{{ $transaction->location }}</td>
+                            @endif
+                            @if($cost_centers !== null)
+                                <td>{{ $transaction->cost_center }}</td>
+                            @endif
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
                             <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
                             @php
@@ -233,6 +251,15 @@
                         {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'list' => $categories ], __('app.category')) }}
                     @endif
                 </div>
+                @if($secondary_categories !== null)
+                    <div class="col-sm">
+                        @if($fixed_categories)
+                            {{ Form::bsSelect('filter[secondary_category]', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['secondary_category'] ?? null, [ 'placeholder' => '- ' . __('app.secondary_category') . ' -' ], __('app.category')) }}
+                        @else
+                            {{ Form::bsText('filter[secondary_category]', $filter['secondary_category'] ?? null, [ 'list' => $secondary_categories ], __('app.secondary_category')) }}
+                        @endif
+                    </div>
+                @endif
                 <div class="col-sm">
                     @if($fixed_projects)
                         {{ Form::bsSelect('filter[project]', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['project'] ?? null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
@@ -240,6 +267,26 @@
                         {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'list' => $projects ], __('app.project')) }}
                     @endif
                 </div>
+            </div>
+            <div class="form-row">
+                @if($locations !== null)
+                    <div class="col-sm">
+                        @if($fixed_locations)
+                            {{ Form::bsSelect('filter[location]', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['location'] ?? null, [ 'placeholder' => '- ' . __('app.location') . ' -' ], __('app.location')) }}
+                        @else
+                            {{ Form::bsText('filter[location]', $filter['location'] ?? null, [ 'list' => $locations ], __('app.location')) }}
+                        @endif
+                    </div>
+                @endif
+                @if($cost_centers !== null)
+                    <div class="col-sm">
+                        @if($fixed_cost_centers)
+                            {{ Form::bsSelect('filter[cost_center]', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['cost_center'] ?? null, [ 'placeholder' => '- ' . __('accounting.cost_center') . ' -' ], __('accounting.cost_center')) }}
+                        @else
+                            {{ Form::bsText('filter[cost_center]', $filter['cost_center'] ?? null, [ 'list' => $cost_centers ], __('accounting.cost_center')) }}
+                        @endif
+                    </div>
+                @endif
             </div>
             <div class="form-row">
                 <div class="col-sm">

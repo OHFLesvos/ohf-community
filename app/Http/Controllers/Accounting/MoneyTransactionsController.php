@@ -47,7 +47,7 @@ class MoneyTransactionsController extends Controller
             ],
             'month' => 'nullable|regex:/[0-1]?[1-9]/',
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
-            'sortColumn' => 'nullable|in:date,created_at,category,project,beneficiary,receipt_no',
+            'sortColumn' => 'nullable|in:date,created_at,category,secondary_category,project,location,cost_center,beneficiary,receipt_no',
             'sortOrder' => 'nullable|in:asc,desc',
             'wallet_id' => [
                 'nullable',
@@ -69,7 +69,10 @@ class MoneyTransactionsController extends Controller
         $sortColumns = [
             'date' => __('app.date'),
             'category' => __('app.category'),
+            'secondary_category' => __('accounting.secondary_category'),
             'project' => __('app.project'),
+            'location' => __('app.location'),
+            'cost_center' => __('accounting.cost_center'),
             'beneficiary' => __('accounting.beneficiary'),
             'receipt_no' => __('accounting.receipt'),
             'created_at' => __('app.registered'),
@@ -128,14 +131,21 @@ class MoneyTransactionsController extends Controller
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(true),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
+            'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
+            'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(true),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
+            'locations' => self::useLocations() ? self::getLocations(true) : null,
+            'fixed_locations' => Setting::has('accounting.transactions.locations'),
+            'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
+            'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
             'wallet' => $wallet,
             'has_multiple_wallets' => Wallet::count() > 1,
         ]);
     }
 
-    private static function createIndexQuery(array $filter, string $sortColumn, string $sortOrder) {
+    private static function createIndexQuery(array $filter, string $sortColumn, string $sortOrder)
+    {
         return MoneyTransaction::query()
             ->forWallet(resolve(CurrentWalletService::class)->get())
             ->forFilter($filter)
@@ -158,7 +168,7 @@ class MoneyTransactionsController extends Controller
             ->map(fn ($wallet) => [
                 'id' => $wallet->id,
                 'name' => $wallet->name,
-                'new_receipt_no' => MoneyTransaction::getNextFreeReceiptNo($wallet->id),
+                'new_receipt_no' => self::getNextFreeReceiptNo($wallet),
             ]);
         if ($wallets->isEmpty()) {
             return redirect()->route('accounting.wallets.change');
@@ -169,14 +179,29 @@ class MoneyTransactionsController extends Controller
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
+            'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
+            'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
+            'locations' => self::useLocations() ? self::getLocations() : null,
+            'fixed_locations' => Setting::has('accounting.transactions.locations'),
+            'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
+            'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
             'wallet' => $wallet,
             'wallets' => $wallets,
         ]);
     }
 
-    private static function getCategories(?bool $onlyExisting = false): array {
+    private static function getNextFreeReceiptNo(?Wallet $wallet = null)
+    {
+        return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
+            ->when($wallet !== null, fn ($qry) => $qry->forWallet($wallet))
+            ->first())
+            ->val + 1;
+    }
+
+    private static function getCategories(?bool $onlyExisting = false): array
+    {
         if (! $onlyExisting && Setting::has('accounting.transactions.categories')) {
             return collect(Setting::get('accounting.transactions.categories'))
                 ->sort()
@@ -185,13 +210,59 @@ class MoneyTransactionsController extends Controller
         return MoneyTransaction::categories();
     }
 
-    private static function getProjects(?bool $onlyExisting = false): array {
+    private static function useSecondaryCategories(): bool
+    {
+        return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
+    }
+
+    private static function getSecondaryCategories(?bool $onlyExisting = false): array
+    {
+        if (! $onlyExisting && Setting::has('accounting.transactions.secondary_categories')) {
+            return collect(Setting::get('accounting.transactions.secondary_categories'))
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::secondaryCategories();
+    }
+
+    private static function getProjects(?bool $onlyExisting = false): array
+    {
         if (! $onlyExisting && Setting::has('accounting.transactions.projects')) {
             return collect(Setting::get('accounting.transactions.projects'))
                 ->sort()
                 ->toArray();
         }
         return MoneyTransaction::projects();
+    }
+
+    private static function useLocations(): bool
+    {
+        return Setting::get('accounting.transactions.use_locations') ?? false;
+    }
+
+    private static function getLocations(?bool $onlyExisting = false): array
+    {
+        if (! $onlyExisting && Setting::has('accounting.transactions.locations')) {
+            return collect(Setting::get('accounting.transactions.locations'))
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::locations();
+    }
+
+    private static function useCostCenters(): bool
+    {
+        return Setting::get('accounting.transactions.use_cost_centers') ?? false;
+    }
+
+    private static function getCostCenters(?bool $onlyExisting = false): array
+    {
+        if (! $onlyExisting && Setting::has('accounting.transactions.cost_centers')) {
+            return collect(Setting::get('accounting.transactions.cost_centers'))
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::costCenters();
     }
 
     /**
@@ -206,11 +277,21 @@ class MoneyTransactionsController extends Controller
 
         $transaction = new MoneyTransaction();
         $transaction->date = $request->date;
+        $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
         $transaction->category = $request->category;
+        if (self::useSecondaryCategories()) {
+            $transaction->secondary_category = $request->secondary_category;
+        }
         $transaction->project = $request->project;
+        if (self::useLocations()) {
+            $transaction->location = $request->location;
+        }
+        if (self::useCostCenters()) {
+            $transaction->cost_center = $request->cost_center;
+        }
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
         $transaction->wallet_owner = $request->wallet_owner;
@@ -291,8 +372,14 @@ class MoneyTransactionsController extends Controller
             'beneficiaries' => MoneyTransaction::beneficiaries(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
+            'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
+            'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(),
             'fixed_projects' => Setting::has('accounting.transactions.projects'),
+            'locations' => self::useLocations() ? self::getLocations() : null,
+            'fixed_locations' => Setting::has('accounting.transactions.locations'),
+            'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
+            'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
         ]);
     }
 
@@ -308,11 +395,21 @@ class MoneyTransactionsController extends Controller
         $this->authorize('update', $transaction);
 
         $transaction->date = $request->date;
+        $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->beneficiary = $request->beneficiary;
         $transaction->category = $request->category;
+        if (self::useSecondaryCategories()) {
+            $transaction->secondary_category = $request->secondary_category;
+        }
         $transaction->project = $request->project;
+        if (self::useLocations()) {
+            $transaction->location = $request->location;
+        }
+        if (self::useCostCenters()) {
+            $transaction->cost_center = $request->cost_center;
+        }
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
         $transaction->wallet_owner = $request->wallet_owner;

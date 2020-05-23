@@ -19,10 +19,6 @@ class MoneyTransaction extends Model implements Auditable
 
     public static function boot()
     {
-        static::creating(function ($model) {
-            $model->receipt_no = self::getNextFreeReceiptNo($model->wallet_id);
-        });
-
         static::deleting(function ($model) {
             $model->deleteReceiptPictures();
         });
@@ -123,14 +119,6 @@ class MoneyTransaction extends Model implements Auditable
         return $query->where('booked', false);
     }
 
-    public static function getNextFreeReceiptNo($wallet_id = null)
-    {
-        return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
-            ->when($wallet_id !== null, fn ($qry) => $qry->where('wallet_id', $wallet_id))
-            ->first())
-            ->val + 1;
-    }
-
     public function getExternalUrlAttribute()
     {
         if ($this->external_id != null)
@@ -169,6 +157,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function beneficiaries(): array
     {
         return self::select('beneficiary')
+            ->whereNotNull('beneficiary')
             ->distinct()
             ->orderBy('beneficiary')
             ->get()
@@ -179,6 +168,7 @@ class MoneyTransaction extends Model implements Auditable
     public static function categories(): array
     {
         return self::select('category')
+            ->whereNotNull('category')
             ->distinct()
             ->orderBy('category')
             ->get()
@@ -186,13 +176,47 @@ class MoneyTransaction extends Model implements Auditable
             ->toArray();
     }
 
+    public static function secondaryCategories(): array
+    {
+        return self::select('secondary_category')
+            ->whereNotNull('secondary_category')
+            ->distinct()
+            ->orderBy('secondary_category')
+            ->get()
+            ->pluck('secondary_category')
+            ->toArray();
+    }
+
     public static function projects(): array
     {
         return self::select('project')
+            ->whereNotNull('project')
             ->distinct()
             ->orderBy('project')
             ->get()
             ->pluck('project')
+            ->toArray();
+    }
+
+    public static function locations(): array
+    {
+        return self::select('location')
+            ->whereNotNull('location')
+            ->distinct()
+            ->orderBy('location')
+            ->get()
+            ->pluck('location')
+            ->toArray();
+    }
+
+    public static function costCenters(): array
+    {
+        return self::select('cost_center')
+            ->whereNotNull('cost_center')
+            ->distinct()
+            ->orderBy('cost_center')
+            ->get()
+            ->pluck('cost_center')
             ->toArray();
     }
 }
