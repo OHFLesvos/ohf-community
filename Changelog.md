@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.20.1
+
+* Added additional categorization fields to accounting transactions export
+
 ## 2.20.0
 
 * Added additional categorization fields to accounting transactions
