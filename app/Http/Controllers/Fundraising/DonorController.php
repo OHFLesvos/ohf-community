@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Fundraising;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Fundraising\Donor as DonorResource;
-use App\Models\Comment;
-use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
-use App\Tag;
 use Illuminate\Http\Request;
 
 class DonorController extends Controller
@@ -43,7 +40,7 @@ class DonorController extends Controller
     {
         $this->authorize('create', Donor::class);
 
-        return view('fundraising.donors.create', []);
+        return view('fundraising.donors.create');
     }
 
     /**
@@ -56,29 +53,9 @@ class DonorController extends Controller
     {
         $this->authorize('view', $donor);
 
-        $can_view_donations = $request->user()->can('viewAny', Donation::class);
-
         return view('fundraising.donors.show', [
             'donor' => $donor,
-            'donorResource' => [
-                'id' => $donor->id,
-                'salutation' => $donor->salutation,
-                'first_name' => $donor->first_name,
-                'last_name' => $donor->last_name,
-                'company' => $donor->company,
-                'fullAddress' => $donor->fullAddress,
-                'email' => $donor->email,
-                'phone' => $donor->phone,
-                'language' => $donor->language,
-                'created_at' => $donor->created_at,
-                'updated_at' => $donor->updated_at,
-                'can_create_tag' => $request->user()->can('create', Tag::class),
-                'can_create_comment' => $request->user()->can('create', Comment::class),
-                'can_create_donation' => $request->user()->can('create', Donation::class),
-                'can_view_donations' => $can_view_donations,
-                'donations_count' => $can_view_donations ? $donor->donations()->count() : null,
-                'comments_count' => $donor->comments()->count(),
-            ],
+            'donorResource' => (new DonorResource($donor, true))->resolve(),
         ]);
     }
 

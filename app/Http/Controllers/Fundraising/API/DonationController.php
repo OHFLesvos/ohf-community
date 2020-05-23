@@ -6,6 +6,7 @@ use App\Exports\Fundraising\DonationsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonation;
 use App\Http\Resources\Fundraising\DonationCollection;
+use App\Imports\Fundraising\DonationsImport;
 use App\Models\Fundraising\Donation;
 use Carbon\Carbon;
 use Exception;
@@ -184,5 +185,34 @@ class DonationController extends Controller
         );
 
         return (new DonationsExport())->download($file_name);
+    }
+
+    /**
+     * Imports donations from uploaded file
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request)
+    {
+        $this->authorize('create', Donation::class);
+
+        $request->validate([
+            'type' => [
+                'required',
+                Rule::in([ 'stripe' ]),
+            ],
+            'file' => [
+                'required',
+                'file',
+                'mimes:xlsx,xls,csv'
+            ],
+        ]);
+
+        (new DonationsImport())->import($request->file('file'));
+
+        return response()->json([
+            'message' => __('app.import_successful'),
+        ]);
     }
 }

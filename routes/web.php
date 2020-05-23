@@ -149,10 +149,9 @@ Route::middleware(['language', 'auth'])
             ->middleware('can:viewAny,App\Models\Fundraising\Donation');
 
         // Donations import
-        Route::get('donations/import', 'DonationController@import')
-            ->name('donations.import');
-        Route::post('donations/import', 'DonationController@doImport')
-            ->name('donations.doImport');
+        Route::view('donations/import', 'fundraising.donations.import')
+            ->name('donations.import')
+            ->middleware('can:create,App\Models\Fundraising\Donation');
 
         // Report
         Route::view('report', 'fundraising.report')

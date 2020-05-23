@@ -30,6 +30,18 @@ export const api = {
             handleError(err)
         }
     },
+    async postFormData (url, formData) {
+        try {
+            const res = await axios.post(url, formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+            })
+            return res.data
+        } catch (err) {
+            handleError(err)
+        }
+    },
     async put (url, data) {
         try {
             const res = await axios.put(url, data)

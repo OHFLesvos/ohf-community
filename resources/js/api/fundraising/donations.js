@@ -19,5 +19,12 @@ export default {
     async listCurrencies () {
         const url = route('api.fundraising.donations.currencies')
         return await api.get(url)
-    }
+    },
+    async import (type, file) {
+        const formData = new FormData();
+        formData.append('type', type)
+        formData.append('file', file)
+        const url = route('api.fundraising.donations.import')
+        return await api.postFormData(url, formData)
+    },
 }

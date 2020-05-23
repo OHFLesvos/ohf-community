@@ -128,6 +128,8 @@ Route::middleware(['language', 'auth'])
             ->name('donations.currencies');
         Route::get('donations/export', 'DonationController@export')
             ->name('donations.export');
+        Route::post('donations/import', 'DonationController@import')
+            ->name('donations.import');
         Route::apiResource('donations', 'DonationController')
             ->only('index', 'update', 'destroy');
 
