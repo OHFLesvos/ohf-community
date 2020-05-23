@@ -43,15 +43,21 @@ extend("decimal", {
         }
         const regexPart = decimals === '*' ? '+' : `{1,${decimals}}`;
         const regex = new RegExp(`^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE]{1}[-]?\\d+)?$`);
-        return {
-            valid: regex.test(value),
-            data: {
-                serverMessage: 'Only decimal values are available'
-            }
-        }
+        return regex.test(value)
     },
-    message: `{serverMessage}`
+    message: i18n.t('validation.numeric', { attribute: '{_field_}' })
 })
+
+extend('required_without', {
+    ...rules.required_if,
+    // params: ['target']
+    // TODO make it work with multiple fields
+    validate: (value, args) => {
+        let target_value = args.target;
+        return Boolean(target_value || value);
+    },
+    message: i18n.t('validation.required_without', { attribute: '{_field_}', values: '{target}' })
+});
 
 Vue.component('validation-provider', ValidationProvider)
 Vue.component('validation-observer', ValidationObserver)

@@ -98,8 +98,10 @@ Route::middleware(['language', 'auth'])
         // Donor
         Route::get('donors/export', 'DonorController@export')
             ->name('donors.export');
+        Route::get('donors/salutations', 'DonorController@salutations')
+            ->name('donors.salutations');
         Route::apiResource('donors', 'DonorController')
-            ->only('index');
+            ->except('show');
         Route::get('donors/{donor}/vcard', 'DonorController@vcard')
             ->name('donors.vcard');
 

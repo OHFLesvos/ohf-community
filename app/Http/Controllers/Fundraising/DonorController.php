@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Fundraising;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Fundraising\StoreDonor;
+use App\Http\Resources\Fundraising\Donor as DonorResource;
 use App\Models\Comment;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
@@ -42,44 +42,8 @@ class DonorController extends Controller
     public function create()
     {
         $this->authorize('create', Donor::class);
-        return view('fundraising.donors.create', [
-            'salutations' => Donor::salutations(),
-            'countries' => localized_country_names()->values()->toArray(),
-            'languages' => localized_language_names()->values()->toArray(),
-            'tag_suggestions' => Donor::tagNames(),
-        ]);
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreDonor $request)
-    {
-        $this->authorize('create', Donor::class);
-
-        $donor = new Donor();
-        $donor->salutation = $request->salutation;
-        $donor->first_name = $request->first_name;
-        $donor->last_name = $request->last_name;
-        $donor->company = $request->company;
-        $donor->street = $request->street;
-        $donor->zip = $request->zip;
-        $donor->city = $request->city;
-        $donor->country_name = $request->country_name;
-        $donor->email = $request->email;
-        $donor->phone = $request->phone;
-        $donor->language = $request->language;
-        $donor->save();
-
-        // Tags
-        $donor->setTagsFromJson($request->tags);
-
-        return redirect()
-            ->route('fundraising.donors.show', $donor)
-            ->with('success', __('fundraising.donor_added'));
+        return view('fundraising.donors.create', []);
     }
 
     /**
@@ -130,61 +94,7 @@ class DonorController extends Controller
 
         return view('fundraising.donors.edit', [
             'donor' => $donor,
-            'salutations' => Donor::salutations(),
-            'countries' => localized_country_names()->values()->toArray(),
-            'languages' => localized_language_names()->values()->toArray(),
-            'tag_suggestions' => Donor::tagNames(),
+            'donorResource' => (new DonorResource($donor))->resolve(),
         ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreDonor $request, Donor $donor)
-    {
-        $this->authorize('update', $donor);
-
-        $donor->salutation = $request->salutation;
-        $donor->first_name = $request->first_name;
-        $donor->last_name = $request->last_name;
-        $donor->company = $request->company;
-        $donor->street = $request->street;
-        $donor->zip = $request->zip;
-        $donor->city = $request->city;
-        $donor->country_name = $request->country_name;
-        $donor->email = $request->email;
-        $donor->phone = $request->phone;
-        $donor->language = $request->language;
-        $donor->save();
-
-        // Tags
-        $donor->setTagsFromJson($request->tags);
-
-        return redirect()
-            ->route('fundraising.donors.show', $donor)
-            ->with('success', __('fundraising.donor_updated'));
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Donor $donor)
-    {
-        $this->authorize('delete', $donor);
-
-        $donor->tags()->detach();
-
-        $donor->delete();
-
-        return redirect()
-            ->route('fundraising.donors.index')
-            ->with('success', __('fundraising.donor_deleted'));
     }
 }

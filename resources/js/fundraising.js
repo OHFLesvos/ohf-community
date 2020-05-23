@@ -7,7 +7,9 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import DonorsIndexPage from '@/pages/fundraising/DonorsIndexPage'
+import DonorCreatePage from '@/pages/fundraising/DonorCreatePage'
 import DonorShowPage from '@/pages/fundraising/DonorShowPage'
+import DonorEditPage from '@/pages/fundraising/DonorEditPage'
 import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
 import DonorsReportPage from '@/pages/fundraising/DonorsReportPage'
 
@@ -25,7 +27,9 @@ new Vue({
     i18n,
     components: {
         DonorsIndexPage,
+        DonorCreatePage,
         DonorShowPage,
+        DonorEditPage,
         DonationsIndexPage,
         DonorsReportPage
     }

@@ -38,6 +38,30 @@ class Donor extends Model
         'language_code',
     ];
 
+    protected $fillable = [
+        'salutation',
+        'first_name',
+        'last_name',
+        'company',
+        'street',
+        'zip',
+        'city',
+        'country_name',
+        'country_code',
+        'email',
+        'phone',
+        'language',
+        'language_code',
+    ];
+
+    public static function boot()
+    {
+        static::deleting(function ($model) {
+            $model->tags()->detach();
+        });
+        parent::boot();
+    }
+
     public function getFullNameAttribute()
     {
         $str = '';

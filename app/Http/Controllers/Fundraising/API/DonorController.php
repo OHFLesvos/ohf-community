@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fundraising\API;
 
 use App\Exports\Fundraising\DonorsExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Fundraising\StoreDonor;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
@@ -94,6 +95,75 @@ class DonorController extends Controller
                 ->paginate($pageSize);
         }
         return new DonorCollection($donors);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreDonor $request)
+    {
+        $this->authorize('create', Donor::class);
+
+        $donor = new Donor();
+        $donor->fill($request->all());
+
+        $donor->save();
+
+        return response()->json([
+            'message' => __('fundraising.donor_added'),
+            'id' => $donor->id,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
+     * @param  \App\Models\Fundraising\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function update(StoreDonor $request, Donor $donor)
+    {
+        $this->authorize('update', $donor);
+
+        $donor->fill($request->all());
+        $donor->save();
+
+        return response()->json([
+            'message' => __('fundraising.donor_updated'),
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Fundraising\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Donor $donor)
+    {
+        $this->authorize('delete', $donor);
+
+        $donor->delete();
+
+        return response()->json([
+            'message' => __('fundraising.donor_deleted'),
+        ]);
+    }
+
+    /**
+     * Gets all salutations assigned to donors
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function salutations()
+    {
+        return response()->json([
+            'data' => Donor::salutations(),
+        ]);
     }
 
     /**

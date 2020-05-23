@@ -134,7 +134,7 @@ export default {
                     sortable: true
                 },
                 {
-                    key: 'country',
+                    key: 'country_name',
                     label: this.$t('app.country'),
                     class: 'd-none d-sm-table-cell',
                     tdClass: 'align-middle',

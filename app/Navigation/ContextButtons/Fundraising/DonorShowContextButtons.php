@@ -12,7 +12,6 @@ class DonorShowContextButtons implements ContextButtons
 {
     public function getItems(View $view): array
     {
-        $previous_route = previous_route();
         $donor = $view->getData()['donor'];
         return [
             'action' => [
@@ -34,17 +33,8 @@ class DonorShowContextButtons implements ContextButtons
                 'icon' => 'address-card',
                 'authorized' => request()->user()->can('view', $donor),
             ],
-            'delete' => [
-                'url' => route('fundraising.donors.destroy', $donor),
-                'caption' => __('app.delete'),
-                'icon' => 'trash',
-                'authorized' =>request()->user()->can('delete', $donor),
-                'confirmation' => __('fundraising.confirm_delete_donor'),
-            ],
             'back' => [
-                'url' => route($previous_route !== null && $previous_route != Route::currentRouteName()
-                    ? $previous_route
-                    : 'fundraising.donors.index'),
+                'url' => route('fundraising.donors.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => request()->user()->can('viewAny', Donor::class),

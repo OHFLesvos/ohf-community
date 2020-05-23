@@ -140,7 +140,8 @@ Route::middleware(['language', 'auth'])
     ->name('fundraising.')
     ->group(function () {
         // Donors
-        Route::resource('donors', 'DonorController');
+        Route::resource('donors', 'DonorController')
+            ->only('index', 'show', 'create', 'edit');
 
         // Donations
         Route::view('donations', 'fundraising.donations.index')
