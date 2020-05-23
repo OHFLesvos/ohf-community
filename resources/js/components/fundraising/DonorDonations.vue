@@ -17,7 +17,7 @@
                     </small>
                 </template>
 
-                <donation-register-form
+                <donation-form
                     :donation="selectedDonation"
                     :currencies="currencies"
                     :channels="channels"
@@ -40,7 +40,7 @@
                 class="mb-4"
                 body-class="pb-0"
             >
-                <donation-register-form
+                <donation-form
                     :currencies="currencies"
                     :channels="channels"
                     :base-currency="baseCurrency"
@@ -95,13 +95,13 @@ import moment from 'moment'
 import donationsApi from '@/api/fundraising/donations'
 import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
-import DonationRegisterForm from '@/components/fundraising/DonationRegisterForm'
+import DonationForm from '@/components/fundraising/DonationForm'
 import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
 import numeral from 'numeral'
 import { roundWithDecimals } from '@/utils'
 export default {
     components: {
-        DonationRegisterForm,
+        DonationForm,
         IndividualDonationsTable
     },
     props: {
