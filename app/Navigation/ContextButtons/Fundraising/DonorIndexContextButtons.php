@@ -4,7 +4,6 @@ namespace App\Navigation\ContextButtons\Fundraising;
 
 use App\Models\Fundraising\Donor;
 use App\Navigation\ContextButtons\ContextButtons;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -18,7 +17,7 @@ class DonorIndexContextButtons implements ContextButtons
                 'caption' => __('app.add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', Donor::class),
+                'authorized' => request()->user()->can('create', Donor::class),
             ],
             'report' => [
                 'url' => route('fundraising.report'),
@@ -27,10 +26,10 @@ class DonorIndexContextButtons implements ContextButtons
                 'authorized' => Gate::allows('view-fundraising-reports'),
             ],
             'export' => [
-                'url' => route('fundraising.donors.export'),
+                'url' => route('api.fundraising.donors.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('viewAny', Donor::class),
+                'authorized' => request()->user()->can('viewAny', Donor::class),
             ],
         ];
     }

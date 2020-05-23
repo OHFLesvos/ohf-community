@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fundraising\API;
 
+use App\Exports\Fundraising\DonationsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonation;
 use App\Http\Resources\Fundraising\DonationCollection;
@@ -152,5 +153,26 @@ class DonationController extends Controller
                 'base_currency' => config('fundraising.base_currency'),
             ],
         ]);
+    }
+
+    /**
+     * Exports all donations
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        $this->authorize('viewAny', Donation::class);
+
+        $extension = 'xlsx';
+
+        $file_name = sprintf('%s - %s (%s).%s',
+            config('app.name'),
+            __('fundraising.donations'),
+            Carbon::now()->toDateString(),
+            $extension
+        );
+
+        return (new DonationsExport())->download($file_name);
     }
 }

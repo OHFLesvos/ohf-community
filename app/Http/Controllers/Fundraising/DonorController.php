@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Fundraising;
 
-use App\Exports\Fundraising\DonorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
 use App\Models\Comment;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use App\Tag;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DonorController extends Controller
@@ -189,20 +187,5 @@ class DonorController extends Controller
         return redirect()
             ->route('fundraising.donors.index')
             ->with('success', __('fundraising.donor_deleted'));
-    }
-
-    /**
-     * Exports a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function export()
-    {
-        $this->authorize('viewAny', Donor::class);
-
-        $file_name = config('app.name') . ' - ' . __('fundraising.donors') . ' (' . Carbon::now()->toDateString() . ')';
-        $extension = 'xlsx';
-
-        return (new DonorsExport())->download($file_name . '.' . $extension);
     }
 }

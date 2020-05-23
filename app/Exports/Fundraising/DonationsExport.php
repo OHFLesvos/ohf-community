@@ -35,22 +35,30 @@ class DonationsExport implements WithMultipleSheets, WithEvents
     {
         $sheets = [];
 
-        $years = Donation::selectRaw('YEAR(date) as year')
+        $years = $this->getDonationsQuery()
+            ->selectRaw('YEAR(date) as year')
             ->groupBy('year')
             ->orderBy('year')
             ->get()
             ->pluck('year');
-        foreach ($years as $year) {
-            if ($this->getDonationsQuery()->forYear($year)->count() > 0) {
-                $data = $this->getDonationsQuery()
-                    ->forYear($year)
-                    ->orderBy('date', 'asc')
-                    ->orderBy('created_at', 'asc')
-                    ->get();
-                $sheets[] = $this->donor != null
-                    ? new DonationsSheet($data, $year)
-                    : new DonationsWithDonorSheet($data, $year);
+        if ($years->count() > 0) {
+            foreach ($years as $year) {
+                if ($this->getDonationsQuery()->forYear($year)->count() > 0) {
+                    $data = $this->getDonationsQuery()
+                        ->forYear($year)
+                        ->orderBy('date', 'asc')
+                        ->orderBy('created_at', 'asc')
+                        ->get();
+                    $sheets[] = $this->donor != null
+                        ? new DonationsSheet($data, $year)
+                        : new DonationsWithDonorSheet($data, $year);
+                }
             }
+        } else {
+            $data = collect();
+            $sheets[] = $this->donor != null
+                ? new DonationsSheet($data)
+                : new DonationsWithDonorSheet($data);
         }
 
         return $sheets;

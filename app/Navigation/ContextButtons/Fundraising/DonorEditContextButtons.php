@@ -3,7 +3,6 @@
 namespace App\Navigation\ContextButtons\Fundraising;
 
 use App\Navigation\ContextButtons\ContextButtons;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class DonorEditContextButtons implements ContextButtons
@@ -16,7 +15,7 @@ class DonorEditContextButtons implements ContextButtons
                 'url' => route('fundraising.donors.show', $donor),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('view', $donor),
+                'authorized' => request()->user()->can('view', $donor),
             ],
         ];
     }

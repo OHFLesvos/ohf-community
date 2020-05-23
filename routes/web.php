@@ -140,8 +140,6 @@ Route::middleware(['language', 'auth'])
     ->name('fundraising.')
     ->group(function () {
         // Donors
-        Route::name('donors.export')
-            ->get('donors/export', 'DonorController@export');
         Route::resource('donors', 'DonorController');
 
         // Donations
@@ -150,8 +148,6 @@ Route::middleware(['language', 'auth'])
             ->middleware('can:viewAny,App\Models\Fundraising\Donation');
         Route::name('donations.import')
             ->get('donations/import', 'DonationController@import');
-        Route::name('donations.export')
-            ->get('donations/export', 'DonationController@export');
         Route::name('donations.doImport')
             ->post('donations/import', 'DonationController@doImport');
 

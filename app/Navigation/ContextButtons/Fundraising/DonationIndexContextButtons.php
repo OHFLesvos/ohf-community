@@ -4,7 +4,6 @@ namespace App\Navigation\ContextButtons\Fundraising;
 
 use App\Models\Fundraising\Donation;
 use App\Navigation\ContextButtons\ContextButtons;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
@@ -23,13 +22,13 @@ class DonationIndexContextButtons implements ContextButtons
                 'url' => route('fundraising.donations.import'),
                 'caption' => __('app.import'),
                 'icon' => 'upload',
-                'authorized' => Auth::user()->can('create', Donation::class),
+                'authorized' => request()->user()->can('create', Donation::class),
             ],
             'export' => [
-                'url' => route('fundraising.donations.export'),
+                'url' => route('api.fundraising.donations.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('viewAny', Donation::class),
+                'authorized' => request()->user()->can('viewAny', Donation::class),
             ],
         ];
     }

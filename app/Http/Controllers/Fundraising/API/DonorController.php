@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Fundraising\API;
 
+use App\Exports\Fundraising\DonorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use JeroenDesloovere\VCard\VCard;
@@ -122,5 +124,26 @@ class DonorController extends Controller
 
         // return vcard as a download
         return $vcard->download();
+    }
+
+    /**
+     * Exports a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        $this->authorize('viewAny', Donor::class);
+
+        $extension = 'xlsx';
+
+        $file_name = sprintf('%s - %s (%s).%s',
+            config('app.name'),
+            __('fundraising.donors'),
+            Carbon::now()->toDateString(),
+            $extension
+        );
+
+        return (new DonorsExport())->download($file_name);
     }
 }

@@ -20,7 +20,7 @@ class ReportContextButtons implements ContextButtons
                     : 'fundraising.donors.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('create', Donor::class),
+                'authorized' => request()->user()->can('create', Donor::class),
             ],
         ];
     }

@@ -96,6 +96,8 @@ Route::middleware(['language', 'auth'])
     ->group(function () {
 
         // Donor
+        Route::name('donors.export')
+            ->get('donors/export', 'DonorController@export');
         Route::apiResource('donors', 'DonorController')
             ->only('index');
         Route::name('donors.vcard')
@@ -122,6 +124,8 @@ Route::middleware(['language', 'auth'])
             ->name('donations.channels');
         Route::get('donations/currencies', 'DonationController@currencies')
             ->name('donations.currencies');
+        Route::get('donations/export', 'DonationController@export')
+            ->name('donations.export');
         Route::apiResource('donations', 'DonationController')
             ->only('index', 'update', 'destroy');
 
