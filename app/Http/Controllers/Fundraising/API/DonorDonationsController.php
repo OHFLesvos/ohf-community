@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Fundraising\API;
 
+use App\Exports\Fundraising\DonationsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonation;
 use App\Http\Resources\Fundraising\DonationCollection;
@@ -94,5 +95,28 @@ class DonorDonationsController extends Controller
         return response()->json([
             'message' => __('fundraising.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]),
         ]);
+    }
+
+    /**
+     * Exports the donations of a donor
+     *
+     * @param  \App\Models\Fundraising\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Donor $donor)
+    {
+        $this->authorize('viewAny', Donation::class);
+
+        $extension = 'xlsx';
+
+        $file_name = sprintf('%s - %s - %s (%s).%s',
+            config('app.name'),
+            __('fundraising.donations'),
+            $donor->full_name,
+            Carbon::now()->toDateString(),
+            $extension
+        );
+
+        return (new DonationsExport($donor))->download($file_name);
     }
 }

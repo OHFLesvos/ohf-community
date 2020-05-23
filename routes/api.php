@@ -98,10 +98,14 @@ Route::middleware(['language', 'auth'])
         // Donor
         Route::apiResource('donors', 'DonorController')
             ->only('index');
+        Route::name('donors.vcard')
+            ->get('donors/{donor}/vcard', 'DonorController@vcard');
 
         // Donor's donations
         Route::apiResource('donors.donations', 'DonorDonationsController')
             ->only('index', 'store');
+        Route::get('donors/{donor}/donations/export', 'DonorDonationsController@export')
+            ->name('donors.donations.export');
 
         // Donor's comments
         Route::apiResource('donors.comments', 'DonorCommentsController')

@@ -7,6 +7,7 @@ use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use JeroenDesloovere\VCard\VCard;
 
 class DonorController extends Controller
 {
@@ -91,5 +92,35 @@ class DonorController extends Controller
                 ->paginate($pageSize);
         }
         return new DonorCollection($donors);
+    }
+
+    /**
+     * Download vcard
+     *
+     * @param  \App\Models\Fundraising\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function vcard(Donor $donor)
+    {
+        $this->authorize('view', $donor);
+
+        // define vcard
+        $vcard = new VCard();
+        if ($donor->company != null) {
+            $vcard->addCompany($donor->company);
+        }
+        if ($donor->last_name != null || $donor->first_name != null) {
+            $vcard->addName($donor->last_name, $donor->first_name, '', '', '');
+        }
+        if ($donor->email != null) {
+            $vcard->addEmail($donor->email);
+        }
+        if ($donor->phone != null) {
+            $vcard->addPhoneNumber($donor->phone, $donor->company != null ? 'WORK' : 'HOME');
+        }
+        $vcard->addAddress(null, null, $donor->street, $donor->city, null, $donor->zip, $donor->country_name, ($donor->company != null ? 'WORK' : 'HOME') . ';POSTAL');
+
+        // return vcard as a download
+        return $vcard->download();
     }
 }

@@ -6,7 +6,6 @@ use App\Exports\Fundraising\DonationsExport;
 use App\Http\Controllers\Controller;
 use App\Imports\Fundraising\DonationsImport;
 use App\Models\Fundraising\Donation;
-use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -27,22 +26,6 @@ class DonationController extends Controller
         $extension = 'xlsx';
 
         return (new DonationsExport())->download($file_name . '.' . $extension);
-    }
-
-    /**
-     * Exports the donations of a donor
-     *
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function exportDonor(Donor $donor)
-    {
-        $this->authorize('viewAny', Donation::class);
-
-        $file_name = config('app.name') . ' - ' .__('fundraising.donations') . ' - ' . $donor->full_name . ' (' . Carbon::now()->toDateString() . ')';
-        $extension = 'xlsx';
-
-        return (new DonationsExport($donor))->download($file_name . '.' . $extension);
     }
 
     public function import()

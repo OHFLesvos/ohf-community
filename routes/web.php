@@ -142,8 +142,6 @@ Route::middleware(['language', 'auth'])
         // Donors
         Route::name('donors.export')
             ->get('donors/export', 'DonorController@export');
-        Route::name('donors.vcard')
-            ->get('donors/{donor}/vcard', 'DonorController@vcard');
         Route::resource('donors', 'DonorController');
 
         // Donations
@@ -156,12 +154,8 @@ Route::middleware(['language', 'auth'])
             ->get('donations/export', 'DonationController@export');
         Route::name('donations.doImport')
             ->post('donations/import', 'DonationController@doImport');
-        Route::prefix('donors/{donor}')
-            ->group(function () {
-                Route::name('donations.exportDonor')
-                    ->get('export', 'DonationController@exportDonor');
-            });
 
+        // Report
         Route::view('report', 'fundraising.report')
             ->name('report');
     });
