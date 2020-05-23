@@ -144,7 +144,8 @@ Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
     ->name('fundraising.')
     ->namespace('Fundraising\API')
     ->group(function () {
-        Route::name('donations.raiseNowWebHookListener')->post('raiseNowWebHookListener', 'DonationController@raiseNowWebHookListener');
+        Route::name('donations.raiseNowWebHookListener')
+            ->post('raiseNowWebHookListener', 'WebhookController@raiseNowWebHookListener');
     });
 
 //
