@@ -9,7 +9,7 @@ Vue.use(BootstrapVue)
 import DonorsIndexPage from '@/pages/fundraising/DonorsIndexPage'
 import DonorShowPage from '@/pages/fundraising/DonorShowPage'
 import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
-import DonorsReport from '@/components/fundraising/DonorsReport'
+import DonorsReportPage from '@/pages/fundraising/DonorsReportPage'
 
 import i18n from '@/plugins/i18n'
 
@@ -27,6 +27,6 @@ new Vue({
         DonorsIndexPage,
         DonorShowPage,
         DonationsIndexPage,
-        DonorsReport
+        DonorsReportPage
     }
 });

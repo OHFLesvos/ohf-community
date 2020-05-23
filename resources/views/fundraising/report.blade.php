@@ -3,13 +3,11 @@
 @section('title', __('app.report'))
 
 @section('content')
-
     <div id="fundraising-app">
-        <donors-report>
+        <donors-report-page>
             @lang('app.loading')
-        </donors-report>
+        </donors-report-page>
     </div>
-
 @endsection
 
 @section('footer')
