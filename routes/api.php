@@ -96,12 +96,12 @@ Route::middleware(['language', 'auth'])
     ->group(function () {
 
         // Donor
-        Route::name('donors.export')
-            ->get('donors/export', 'DonorController@export');
+        Route::get('donors/export', 'DonorController@export')
+            ->name('donors.export');
         Route::apiResource('donors', 'DonorController')
             ->only('index');
-        Route::name('donors.vcard')
-            ->get('donors/{donor}/vcard', 'DonorController@vcard');
+        Route::get('donors/{donor}/vcard', 'DonorController@vcard')
+            ->name('donors.vcard');
 
         // Donor's donations
         Route::apiResource('donors.donations', 'DonorDonationsController')

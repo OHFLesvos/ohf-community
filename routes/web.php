@@ -146,14 +146,17 @@ Route::middleware(['language', 'auth'])
         Route::view('donations', 'fundraising.donations.index')
             ->name('donations.index')
             ->middleware('can:viewAny,App\Models\Fundraising\Donation');
-        Route::name('donations.import')
-            ->get('donations/import', 'DonationController@import');
-        Route::name('donations.doImport')
-            ->post('donations/import', 'DonationController@doImport');
+
+        // Donations import
+        Route::get('donations/import', 'DonationController@import')
+            ->name('donations.import');
+        Route::post('donations/import', 'DonationController@doImport')
+            ->name('donations.doImport');
 
         // Report
         Route::view('report', 'fundraising.report')
-            ->name('report');
+            ->name('report')
+            ->middleware('can:view-fundraising-reports');
     });
 
 //
