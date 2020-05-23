@@ -147,8 +147,9 @@ Route::middleware(['language', 'auth'])
         Route::resource('donors', 'DonorController');
 
         // Donations
-        Route::name('donations.index')
-            ->get('donations', 'DonationController@index');
+        Route::view('donations', 'fundraising.donations.index')
+            ->name('donations.index')
+            ->middleware('can:viewAny,App\Models\Fundraising\Donation');
         Route::name('donations.import')
             ->get('donations/import', 'DonationController@import');
         Route::name('donations.export')
@@ -160,7 +161,7 @@ Route::middleware(['language', 'auth'])
                 Route::name('donations.exportDonor')
                     ->get('export', 'DonationController@exportDonor');
                 Route::resource('donations', 'DonationController')
-                    ->except('show', 'index');
+                    ->except('show', 'index', 'create', 'store');
             });
 
         Route::view('report', 'fundraising.report')
