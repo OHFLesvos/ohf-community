@@ -15,7 +15,6 @@ export default {
             "transactions_deleted": "Transaktion gelöscht.",
             "receipt": "Beleg",
             "receipt_no": "Beleg Nr.",
-            "receipt_no_correction": "Beleg Nr. Korrektur",
             "show_transaction": "Transaktion anzeigen",
             "wallet": "Kasse",
             "wallets": "Kassen",
@@ -66,7 +65,8 @@ export default {
             "cost_center": "Kostenstelle",
             "cost_centers": "Kostenstellen",
             "no_cost_center": "Keine Kostenstelle",
-            "invalid_cost_center_x": "Ungültige Kostenstelle '{cost_center}'"
+            "invalid_cost_center_x": "Ungültige Kostenstelle '{cost_center}'",
+            "use_cost_centers": "Kostenstellen verwenden"
         },
         "app": {
             "validation_failed": "Validierung fehlgeschlagen, es wurden ungültige Werte eingegeben!",
@@ -337,6 +337,7 @@ export default {
             "secondary_category": "Sekundär-Kategorie",
             "secondary_categories": "Sekundär-Kategorien",
             "invalid_secondary_category_x": "Ungültige Sekundär-Kategorie '{secondary_category}'",
+            "use_secondary_categories": "Sekundär-Kategorien verwenden",
             "project": "Projekt",
             "projects": "Projekte",
             "no_project": "Kein Projekt",
@@ -345,6 +346,7 @@ export default {
             "locations": "Standorte",
             "no_location": "Kein Standort",
             "invalid_location_x": "Ungültiger Standort '{location}'",
+            "use_locations": "Standorte verwenden",
             "name_local": "Name in lokaler Sprache",
             "address_local": "Adresse in lokaler Sprache",
             "street_local": "Strasse in lokaler Sprache",
@@ -1170,7 +1172,6 @@ export default {
             "transactions_deleted": "Transaction deleted.",
             "receipt": "Receipt",
             "receipt_no": "Receipt No.",
-            "receipt_no_correction": "Receipt No. Correction",
             "show_transaction": "Show transaction",
             "wallet": "Wallet",
             "wallets": "Wallets",
@@ -1221,7 +1222,8 @@ export default {
             "cost_center": "Cost Center",
             "cost_centers": "Cost Centers",
             "no_cost_center": "No cost center",
-            "invalid_cost_center_x": "Invalid cost center '{cost_center}'"
+            "invalid_cost_center_x": "Invalid cost center '{cost_center}'",
+            "use_cost_centers": "Use cost centers"
         },
         "app": {
             "validation_failed": "Validation failed, you have entered invalid values!",
@@ -1494,6 +1496,7 @@ export default {
             "secondary_category": "Secondary Category",
             "secondary_categories": "Secondary Categories",
             "invalid_secondary_category_x": "Invalid secondary category '{secondary_category}'",
+            "use_secondary_categories": "Use secondary categories",
             "project": "Project",
             "projects": "Projects",
             "no_project": "No project",
@@ -1502,6 +1505,7 @@ export default {
             "locations": "Locations",
             "no_location": "No location",
             "invalid_location_x": "Invalid location '{location}'",
+            "use_locations": "Use locations",
             "name_local": "Name in local language",
             "address_local": "Address in local language",
             "street_local": "Street in local language",
