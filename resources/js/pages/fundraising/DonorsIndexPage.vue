@@ -4,6 +4,7 @@
             v-if="tags != null"
             :tags="tags"
             :tag="tag"
+            @select="selectDonor"
         />
         <template v-else>
             {{ $t('app.loading') }}
@@ -36,6 +37,11 @@ export default {
             map[obj.slug] = obj.name
             return map
         }, {})
+    },
+    methods: {
+        selectDonor (donor) {
+            window.location.href = this.route('fundraising.donors.show', donor.id)
+        }
     }
 }
 </script>

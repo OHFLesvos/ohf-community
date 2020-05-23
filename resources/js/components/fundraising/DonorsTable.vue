@@ -11,13 +11,31 @@
     >
         <!-- Cells -->
         <template v-slot:cell(first_name)="data">
-            <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
+            <a
+                v-if="data.value != ''"
+                href="javascript:;"
+                @click="$emit('select', data.item)"
+            >
+                {{ data.value }}
+            </a>
         </template>
         <template v-slot:cell(last_name)="data">
-            <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
+            <a
+                v-if="data.value != ''"
+                href="javascript:;"
+                @click="$emit('select', data.item)"
+            >
+                {{ data.value }}
+            </a>
         </template>
         <template v-slot:cell(company)="data">
-            <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
+            <a
+                v-if="data.value != ''"
+                href="javascript:;"
+                @click="$emit('select', data.item)"
+            >
+                {{ data.value }}
+            </a>
         </template>
         <template v-slot:cell(contact)="data">
             <email-link v-if="data.item.email" :value="data.item.email" icon-only></email-link>

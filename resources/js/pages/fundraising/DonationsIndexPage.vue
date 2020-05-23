@@ -61,7 +61,6 @@ export default {
             currencies: {},
             channels: [],
             isBusy: false
-
         }
     },
     watch: {

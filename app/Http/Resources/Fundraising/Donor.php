@@ -27,7 +27,7 @@ class Donor extends JsonResource
             'phone' => $this->phone,
             'language' => $this->language,
             'created_at' => $this->created_at,
-            'url' => route('fundraising.donors.show', $this->resource),
+            'updated_at' => $this->updated_at,
         ];
     }
 }
