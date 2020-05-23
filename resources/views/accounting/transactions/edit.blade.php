@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-sm-4">
+            <div class="col-sm">
                 @if($fixed_categories)
                     {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -', 'error' => ! in_array($transaction->category, $categories) ? __('app.invalid_category_x', ['category' => $transaction->category]) : null ], __('app.category')) }}
                 @else
@@ -32,7 +32,7 @@
                 @endif
             </div>
             @if($secondary_categories !== null)
-                <div class="col-sm-4">
+                <div class="col-sm">
                     @if($fixed_secondary_categories)
                         {{ Form::bsSelect('secondary_category', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.secondary_category') . ' -', 'error' => $transaction->secondary_category != null && ! in_array($transaction->secondary_category, $secondary_categories) ? __('app.invalid_secondary_category_x', ['secondary_category' => $transaction->secondary_category]) : null ], __('app.secondary_category')) }}
                     @else
@@ -40,7 +40,7 @@
                     @endif
                 </div>
             @endif
-            <div class="col-sm-4">
+            <div class="col-sm">
                 @if($fixed_projects)
                     {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.project') . ' -', 'error' => $transaction->project != null && ! in_array($transaction->project, $projects) ? __('app.invalid_project_x', ['project' => $transaction->project]) : null ], __('app.project')) }}
                 @else
@@ -50,7 +50,7 @@
         </div>
         <div class="form-row">
             @if($locations !== null)
-                <div class="col-sm-4">
+                <div class="col-sm">
                     @if($fixed_locations)
                         {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.location') . ' -', 'error' => $transaction->location != null && ! in_array($transaction->location, $locations) ? __('app.invalid_location_x', ['location' => $transaction->location]) : null ], __('app.location')) }}
                     @else
@@ -59,7 +59,7 @@
                 </div>
             @endif
             @if($cost_centers !== null)
-                <div class="col-sm-4">
+                <div class="col-sm">
                     @if($fixed_cost_centers)
                         {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('accounting.cost_center') . ' -', 'error' => $transaction->cost_center != null && ! in_array($transaction->cost_center, $cost_centers) ? __('accounting.invalid_cost_center_x', ['cost_center' => $transaction->cost_center]) : null ], __('accounting.cost_center')) }}
                     @else

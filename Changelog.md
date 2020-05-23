@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.20.0
+
+* Added additional categorization fields to accounting transactions
+* Accounting transaction receipt number can now be edited
+* New user interface for donor details
+
 ## 2.19.2
 
 * Updated handling of JS/CSS assets
