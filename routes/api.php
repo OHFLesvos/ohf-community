@@ -95,23 +95,27 @@ Route::middleware(['language', 'auth'])
     ->namespace('Fundraising\API')
     ->group(function () {
 
+        // Donor
         Route::apiResource('donors', 'DonorController')
             ->only('index');
-        Route::get('donors/{donor}/donations', 'DonorController@donations')
-            ->name('donors.donations');
-        Route::apiResource('donations', 'DonationController')
-            ->only('index', 'update', 'destroy');
+
+        // Donor's donations
+        Route::apiResource('donors.donations', 'DonorDonationsController')
+            ->only('index', 'store');
+
+        // Donor's comments
         Route::apiResource('donors.comments', 'DonorCommentsController')
             ->only('index', 'store');
+
+        // Donor's tags
         Route::apiResource('donors.tags', 'DonorTagsController')
             ->only('index', 'store');
         Route::apiResource('tags', 'TagsController')
             ->only('index');
-        Route::prefix('donors/{donor}')
-            ->group(function () {
-                Route::apiResource('donations', 'DonationController')
-                    ->only('store');
-            });
+
+        // Donations
+        Route::apiResource('donations', 'DonationController')
+            ->only('index', 'update', 'destroy');
 
         // Report
         Route::prefix('report')

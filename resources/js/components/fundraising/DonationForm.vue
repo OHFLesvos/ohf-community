@@ -73,6 +73,7 @@
                                 min="1"
                                 required
                                 step="any"
+                                autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -101,6 +102,7 @@
                                 type="number"
                                 min="0"
                                 step="any"
+                                autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -127,6 +129,7 @@
                                 v-model="form.channel"
                                 required
                                 list="channel-list"
+                                autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -176,6 +179,7 @@
                         >
                             <b-form-input
                                 v-model="form.reference"
+                                autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -197,6 +201,7 @@
                         >
                             <b-form-input
                                 v-model="form.in_name_of"
+                                autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>

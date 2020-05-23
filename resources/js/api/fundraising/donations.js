@@ -4,10 +4,6 @@ export default {
         const url = route('api.fundraising.donations.index', params)
         return await api.get(url)
     },
-    async store (donorId, data) {
-        const url = route('api.fundraising.donations.store', donorId)
-        return await api.post(url, data)
-    },
     async update (id, data) {
         const url = route('api.fundraising.donations.update', id)
         return await api.put(url, data)

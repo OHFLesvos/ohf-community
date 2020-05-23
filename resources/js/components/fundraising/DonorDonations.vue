@@ -8,11 +8,12 @@
             <b-card
                 class="mb-4"
                 body-class="pb-0"
+                header-class="d-flex justify-content-between align-items-center"
             >
                 <template v-slot:header>
                     {{ $t('fundraising.edit_donation') }}
-                    <small class="float-right d-none d-sm-inline">
-                        {{ $t('app.last_updated') }}
+                    <small class="d-none d-sm-inline">
+                        {{ $t('app.last_updated') }}:
                         {{ dateFormat(selectedDonation.updated_at) }}
                     </small>
                 </template>
@@ -165,7 +166,7 @@ export default {
         async registerDonation (formData) {
             this.isBusy = true
             try {
-                let data = await donationsApi.store(this.donorId, formData)
+                let data = await donorsApi.storeDonation(this.donorId, formData)
                 showSnackbar(data.message)
                 this.newDonationForm = false
                 this.fetchDonations()
