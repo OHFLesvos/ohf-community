@@ -215,17 +215,4 @@ class Donor extends Model
             ->pluck('name')
             ->toArray();
     }
-
-    /**
-     * Gets a sorted list of all emails used by donors
-     */
-    public static function emails(): Collection
-    {
-        return Donor::select('email')
-            ->whereNotNull('email')
-            ->distinct()
-            ->orderBy('email')
-            ->get()
-            ->pluck('email');
-    }
 }
