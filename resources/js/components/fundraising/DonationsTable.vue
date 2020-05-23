@@ -11,7 +11,16 @@
     >
         <!-- Date / Link to edit -->
         <template v-slot:cell(date)="data">
-            <a :href="data.item.edit_url" v-if="data.value != ''">{{ data.value }}</a>
+            <a
+                v-if="data.value != '' && data.item.can_update"
+                href="javascript:;"
+                @click="$emit('select', data.item)"
+            >
+                {{ data.value }}
+            </a>
+            <template v-else>
+                {{ data.value }}
+            </template>
         </template>
 
         <!-- Amount -->
@@ -27,7 +36,16 @@
 
         <!-- Donor -->
         <template v-slot:cell(donor)="data">
-            <a :href="data.item.donor_url" v-if="data.value != ''">{{ data.value }}</a>
+            <a
+                v-if="data.value !='' && data.item.donor_id"
+                href="javascript:;"
+                @click="$emit('select-donor', data.item.donor_id)"
+            >
+                {{ data.value }}
+            </a>
+            <template v-else>
+                {{ data.value }}
+            </template>
         </template>
 
         <!-- Thanked -->

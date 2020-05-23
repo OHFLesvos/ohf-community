@@ -60,7 +60,6 @@ class NavigationServiceProvider extends ServiceProvider
         'fundraising.donors.edit'         => \App\Navigation\ContextButtons\Fundraising\DonorEditContextButtons::class,
         'fundraising.donations.index'     => \App\Navigation\ContextButtons\Fundraising\DonationIndexContextButtons::class,
         'fundraising.donations.import'    => \App\Navigation\ContextButtons\Fundraising\DonationImportContextButtons::class,
-        'fundraising.donations.edit'      => \App\Navigation\ContextButtons\Fundraising\DonationEditContextButtons::class,
         'fundraising.report'              => \App\Navigation\ContextButtons\Fundraising\ReportContextButtons::class,
 
         'accounting.transactions.index'   => \App\Navigation\ContextButtons\Accounting\TransactionIndexContextButtons::class,

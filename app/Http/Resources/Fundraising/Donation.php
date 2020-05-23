@@ -21,6 +21,7 @@ class Donation extends JsonResource
             'amount' => $this->amount,
             'exchange_amount' => $this->exchange_amount,
             'currency' => $this->currency,
+            'donor_id' => $this->whenLoaded('donor', fn () => $this->donor->id),
             'donor' => $this->whenLoaded('donor', fn () => $this->donor->full_name),
             'channel' => $this->channel,
             'purpose' => $this->purpose,
@@ -29,8 +30,6 @@ class Donation extends JsonResource
             'thanked' => $this->thanked,
             'can_update' => $request->user()->can('update', $this->resource),
             'can_delete' => $request->user()->can('delete', $this->resource),
-            'edit_url' => $this->whenLoaded('donor', fn () => route('fundraising.donations.edit', [$this->donor, $this->resource])),
-            'donor_url' => $this->whenLoaded('donor', fn () => route('fundraising.donors.show', $this->donor)),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

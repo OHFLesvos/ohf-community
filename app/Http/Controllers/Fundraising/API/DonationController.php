@@ -148,6 +148,9 @@ class DonationController extends Controller
     {
         return response()->json([
             'data' => config('fundraising.currencies'),
+            'meta' => [
+                'base_currency' => config('fundraising.base_currency'),
+            ],
         ]);
     }
 }

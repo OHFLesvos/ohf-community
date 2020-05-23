@@ -7,9 +7,9 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import DonorsTable from '@/components/fundraising/DonorsTable'
-import DonationsTable from '@/components/fundraising/DonationsTable'
 import DonorsReport from '@/components/fundraising/DonorsReport'
 import DonorShowPage from '@/pages/fundraising/DonorShowPage'
+import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
 
 import i18n from '@/plugins/i18n'
 
@@ -24,7 +24,7 @@ new Vue({
     el: '#fundraising-app',
     i18n,
     components: {
-        DonationsTable,
+        DonationsIndexPage,
         DonorsTable,
         DonorsReport,
         DonorShowPage

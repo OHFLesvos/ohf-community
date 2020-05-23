@@ -65,7 +65,7 @@
                 </b-button>
             </p>
 
-            <!-- Existing donations -->
+            <!-- Existing donations table -->
             <template v-if="donations && donations.length > 0">
                 <div v-for="year in years" :key="year">
                     <h4>{{ year }}</h4>
@@ -114,10 +114,10 @@ export default {
     data () {
         return {
             donations: null,
-            baseCurrency: null,
             selectedDonation: null,
             newDonationForm: false,
             isBusy: false,
+            baseCurrency: null,
             currencies: {},
             channels: []
         }

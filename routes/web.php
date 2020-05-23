@@ -160,8 +160,6 @@ Route::middleware(['language', 'auth'])
             ->group(function () {
                 Route::name('donations.exportDonor')
                     ->get('export', 'DonationController@exportDonor');
-                Route::resource('donations', 'DonationController')
-                    ->except('show', 'index', 'create', 'store');
             });
 
         Route::view('report', 'fundraising.report')

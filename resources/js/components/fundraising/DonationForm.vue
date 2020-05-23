@@ -272,8 +272,7 @@ export default {
             type: Array
         },
         baseCurrency: {
-            required: true,
-            type: String
+            required: true
         },
         disabled: Boolean
     },
