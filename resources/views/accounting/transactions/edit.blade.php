@@ -59,9 +59,9 @@
             </div>
             <div class="col-sm-4">
                 @if($fixed_cost_centers)
-                    {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.cost_center') . ' -', 'error' => $transaction->cost_center != null && ! in_array($transaction->cost_center, $cost_centers) ? __('app.invalid_cost_center_x', ['cost_center' => $transaction->cost_center]) : null ], __('app.cost_center')) }}
+                    {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('accounting.cost_center') . ' -', 'error' => $transaction->cost_center != null && ! in_array($transaction->cost_center, $cost_centers) ? __('accounting.invalid_cost_center_x', ['cost_center' => $transaction->cost_center]) : null ], __('accounting.cost_center')) }}
                 @else
-                    {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('app.cost_center')) }}
+                    {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('accounting.cost_center')) }}
                 @endif
             </div>
         </div>

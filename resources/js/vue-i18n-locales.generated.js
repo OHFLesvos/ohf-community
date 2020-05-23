@@ -62,7 +62,11 @@ export default {
             "wallet_updated": "Kasse aktualisert.",
             "wallet_deleted": "Kasse gelöscht.",
             "there_must_be_one_default_wallet": "Es muss eine Standard-Kasse geben.",
-            "confirm_delete_wallet": "Soll diese Kasse wirklich gelöscht werden?"
+            "confirm_delete_wallet": "Soll diese Kasse wirklich gelöscht werden?",
+            "cost_center": "Kostenstelle",
+            "cost_centers": "Kostenstellen",
+            "no_cost_center": "Keine Kostenstelle",
+            "invalid_cost_center_x": "Ungültige Kostenstelle '{cost_center}'"
         },
         "app": {
             "validation_failed": "Validierung fehlgeschlagen, es wurden ungültige Werte eingegeben!",
@@ -341,10 +345,6 @@ export default {
             "locations": "Standorte",
             "no_location": "Kein Standort",
             "invalid_location_x": "Ungültiger Standort '{location}'",
-            "cost_center": "Kostenstelle",
-            "cost_centers": "Kostenstellen",
-            "no_cost_center": "Keine Kostenstelle",
-            "invalid_cost_center_x": "Ungültige Kostenstelle '{cost_center}'",
             "name_local": "Name in lokaler Sprache",
             "address_local": "Adresse in lokaler Sprache",
             "street_local": "Strasse in lokaler Sprache",
@@ -1217,7 +1217,11 @@ export default {
             "wallet_updated": "Wallet updated.",
             "wallet_deleted": "Walled deleted.",
             "there_must_be_one_default_wallet": "There must be one default wallet.",
-            "confirm_delete_wallet": "Really delete this wallet?"
+            "confirm_delete_wallet": "Really delete this wallet?",
+            "cost_center": "Cost Center",
+            "cost_centers": "Cost Centers",
+            "no_cost_center": "No cost center",
+            "invalid_cost_center_x": "Invalid cost center '{cost_center}'"
         },
         "app": {
             "validation_failed": "Validation failed, you have entered invalid values!",
@@ -1498,10 +1502,6 @@ export default {
             "locations": "Locations",
             "no_location": "No location",
             "invalid_location_x": "Invalid location '{location}'",
-            "cost_center": "Cost Center",
-            "cost_centers": "Cost Centers",
-            "no_cost_center": "No cost center",
-            "invalid_cost_center_x": "Invalid cost center '{cost_center}'",
             "name_local": "Name in local language",
             "address_local": "Address in local language",
             "street_local": "Street in local language",

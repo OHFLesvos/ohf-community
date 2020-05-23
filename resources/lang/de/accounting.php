@@ -63,4 +63,8 @@ return [
     'wallet_deleted' => 'Kasse gelöscht.',
     'there_must_be_one_default_wallet' => 'Es muss eine Standard-Kasse geben.',
     'confirm_delete_wallet' => 'Soll diese Kasse wirklich gelöscht werden?',
+    'cost_center' => 'Kostenstelle',
+    'cost_centers' => 'Kostenstellen',
+    'no_cost_center' => 'Keine Kostenstelle',
+    'invalid_cost_center_x' => 'Ungültige Kostenstelle \':cost_center\'',
 ];

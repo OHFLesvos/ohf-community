@@ -14,7 +14,7 @@ class TransactionCostCenters extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.cost_centers');
+        return __('accounting.cost_centers');
     }
 
     public function defaultValue()

@@ -74,7 +74,7 @@
         @isset($transaction->cost_center)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('app.cost_center')</strong></div>
+                    <div class="col-sm-4"><strong>@lang('accounting.cost_center')</strong></div>
                     <div class="col-sm">
                         {{ $transaction->cost_center }}
                     </div>

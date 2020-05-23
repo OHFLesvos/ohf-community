@@ -48,7 +48,7 @@
                         <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('app.secondary_category')</th>
                         <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
                         <th class="@isset($filter['location']) text-info @endisset">@lang('app.location')</th>
-                        <th class="@isset($filter['cost_center']) text-info @endisset">@lang('app.cost_center')</th>
+                        <th class="@isset($filter['cost_center']) text-info @endisset">@lang('accounting.cost_center')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
