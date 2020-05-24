@@ -41,8 +41,6 @@ mix.options({
     .js('resources/js/user_management.js', 'public/js')
     .js('resources/js/editor.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .styles([
-    ], 'public/css/styles.css')
     .copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
     .copy('node_modules/summernote/dist/summernote-bs4.js', 'public/js')
     .copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')

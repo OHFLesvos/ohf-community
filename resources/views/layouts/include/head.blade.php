@@ -9,7 +9,6 @@
 
         <title>@if(View::hasSection('title')) @yield('title') - @endif{{ config('app.name') }} - {{ config('app.product_name') }}</title>
 
-        <link href="{{ asset('css/styles.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('css/app.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
 
         @yield('head-meta')
