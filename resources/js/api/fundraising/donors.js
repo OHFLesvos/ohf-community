@@ -8,6 +8,13 @@ export default {
         const url = route('api.fundraising.donors.store')
         return await api.post(url, data)
     },
+    async find (id, extended = false) {
+        let url = route('api.fundraising.donors.show', id)
+        if (extended) {
+            url += '?extended'
+        }
+        return await api.get(url)
+    },
     async update (id, data) {
         const url = route('api.fundraising.donors.update', id)
         return await api.put(url, data)

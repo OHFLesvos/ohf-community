@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="donor">
 
         <b-tabs
             v-model="tabIndex"
@@ -60,6 +60,9 @@
 
         </b-tabs>
     </div>
+    <p v-else>
+        {{ $t('app.loading') }}
+    </p>
 </template>
 
 <script>
@@ -74,31 +77,42 @@ export default {
         CommentsList
     },
     props: {
-        donor: {
+        id: {
             required: true,
-            type: Object
+            type: Number
         }
     },
     data () {
         return {
-            tabIndex: sessionStorage.getItem(`donors.${this.donor.id}.tabIndex`)
-                ? parseInt(sessionStorage.getItem(`donors.${this.donor.id}.tabIndex`))
+            donor: null,
+            tabIndex: sessionStorage.getItem(`donors.${this.id}.tabIndex`)
+                ? parseInt(sessionStorage.getItem(`donors.${this.id}.tabIndex`))
                 : 0,
-            donationsCount: this.donor.donations_count,
-            commentCount: this.donor.comments_count,
+            donationsCount: null,
+            commentCount: null
         }
     },
     watch: {
         tabIndex (val) {
-            sessionStorage.setItem(`donors.${this.donor.id}.tabIndex`, val)
+            sessionStorage.setItem(`donors.${this.id}.tabIndex`, val)
+        }
+    },
+    async created () {
+        try {
+            let data = await donorsApi.find(this.id, true)
+            this.donor = data.data
+            this.donationsCount = this.donor.donations_count
+            this.commentCount = this.donor.comments_count
+        } catch (err) {
+            alert(err)
         }
     },
     methods: {
         listComments () {
-            return donorsApi.listComments(this.donor.id)
+            return donorsApi.listComments(this.id)
         },
         storeComment (data) {
-            return donorsApi.storeComment(this.donor.id, data)
+            return donorsApi.storeComment(this.id, data)
         }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Fundraising\API;
 use App\Exports\Fundraising\DonorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
+use App\Http\Resources\Fundraising\Donor as DonorResource;
 use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
@@ -116,6 +117,19 @@ class DonorController extends Controller
             'message' => __('fundraising.donor_added'),
             'id' => $donor->id,
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Fundraising\Donor  $donor
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Donor $donor, Request $request)
+    {
+        $this->authorize('view', $donor);
+
+        return new DonorResource($donor, $request->has('extended'));
     }
 
     /**

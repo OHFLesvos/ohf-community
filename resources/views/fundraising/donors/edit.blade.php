@@ -5,7 +5,7 @@
 @section('content')
     <div id="fundraising-app">
         <donor-edit-page
-            :donor='@json($donorResource)'
+            :id="{{ $donor->id }}"
         >
             @lang('app.loading')
         </donor-edit-page>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Fundraising;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Fundraising\Donor as DonorResource;
 use App\Models\Fundraising\Donor;
 use Illuminate\Http\Request;
 
@@ -55,7 +54,6 @@ class DonorController extends Controller
 
         return view('fundraising.donors.show', [
             'donor' => $donor,
-            'donorResource' => (new DonorResource($donor, true))->resolve(),
         ]);
     }
 
@@ -71,7 +69,6 @@ class DonorController extends Controller
 
         return view('fundraising.donors.edit', [
             'donor' => $donor,
-            'donorResource' => (new DonorResource($donor))->resolve(),
         ]);
     }
 }
