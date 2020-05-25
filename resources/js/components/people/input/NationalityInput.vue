@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import commonApi from '@/api/common'
 export default {
     props: {
         value: {
@@ -47,9 +47,9 @@ export default {
             this.state = this.$refs.input.checkValidity() && (!val || this.countries.indexOf(val) >= 0)
         }
     },
-    created() {
-        axios.get(`${this.route('api.countries')}?locale=en`)
-            .then(res => this.countries = Object.values(res.data))
+    async created() {
+        let data = await commonApi.listCountries('en')
+        this.countries = Object.values(data)
     },
     methods: {
         focus () {
