@@ -1,6 +1,5 @@
 <script>
 import { applyColorPaletteToDatasets } from '@/utils'
-import axios from '@/plugins/axios'
 import { Bar, mixins } from 'vue-chartjs'
 const { reactiveData } = mixins
 export default {
@@ -11,8 +10,8 @@ export default {
             type: String,
             required: true
         },
-        url: {
-            type: String,
+        dataProvider: {
+            type: Function,
             required: true
         },
         xLabel: {
@@ -29,19 +28,20 @@ export default {
             options: this.createOptions()
         }
     },
-    watch: {
-        url () {
-            this.loadData()
-        }
-    },
     mounted () {
         this.loadData()
     },
     methods: {
-        loadData () {
-            axios.get(this.url)
-                .then(res => this.chartData = this.parseDateFromResponse(res.data))
-                .catch(err => console.error(err))
+        refresh () {
+            this.loadData()
+        },
+        async loadData () {
+            try {
+                let data = await this.dataProvider()
+                this.chartData = this.parseDateFromResponse(data)
+            } catch (err) {
+                console.error(err)
+            }
         },
         parseDateFromResponse (resData) {
             // Assign lables and data

@@ -1,14 +1,9 @@
 <template>
     <!-- TODO check length && Object.keys(data).length > 0 -->
     <doughnut-chart-table-distribution-widget
-        v-if="data"
-        :data="data"
         :title="$t('people.nationalities')"
-        :url="route('api.people.reporting.nationalities')"
+        :data-provider="api.fetchNationalityDistribution"
     />
-    <p v-else>
-        {{ $t('app.loading') }}
-    </p>
 </template>
 
 <script>
@@ -20,11 +15,8 @@ export default {
     },
     data () {
         return {
-            data: null
+            api: peopleApi
         }
-    },
-    async created () {
-        this.data = await peopleApi.fetchNationalityDistribution()
     }
 }
 </script>

@@ -4,7 +4,7 @@
             :title="$t('people.age_distribution')"
             :x-label="$t('people.age')"
             :y-label="$t('app.quantity')"
-            :url="route('api.cmtyvol.ageDistribution')"
+            :data-provider="api.ageDistribution"
             :height="350"
             class="mb-2">
         </bar-chart>
@@ -12,7 +12,7 @@
             <div class="col-sm">
                 <doughnut-chart
                     :title="$t('people.gender')"
-                    :url="route('api.cmtyvol.genderDistribution')"
+                    :data-provider="api.genderDistribution"
                     hide-legend
                     :height="300"
                     class="mb-2">
@@ -21,7 +21,7 @@
             <div class="col-sm">
                 <doughnut-chart
                     :title="$t('people.nationalities')"
-                    :url="route('api.cmtyvol.nationalityDistribution')"
+                    :data-provider="api.nationalityDistribution"
                     :height="300"
                     class="mb-2">
                 </doughnut-chart>
@@ -31,12 +31,18 @@
 </template>
 
 <script>
+import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
 import BarChart from '@/components/charts/BarChart'
 import DoughnutChart from '@/components/charts/DoughnutChart'
 export default {
     components: {
         BarChart,
         DoughnutChart
+    },
+    data () {
+        return {
+            api: cmtyvolApi
+        }
     }
 }
 </script>

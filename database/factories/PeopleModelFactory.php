@@ -6,7 +6,7 @@ use App\Models\People\Person;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
 
-$countries = weightedCountries(10);
+$countries = weightedCountries(15);
 
 $factory->define(Person::class, function (Faker $faker) use ($countries) {
     // $faker = \Faker\Factory::create('ar_JO');

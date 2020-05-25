@@ -1,6 +1,5 @@
 <script>
 import palette from 'google-palette'
-import axios from '@/plugins/axios'
 import { Doughnut } from 'vue-chartjs'
 import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels'
 import { Chart } from 'chart.js'
@@ -16,8 +15,8 @@ export default {
             type: String,
             required: true
         },
-        url: {
-            type: String,
+        dataProvider: {
+            type: Function,
             required: true
         },
         type: {
@@ -27,13 +26,19 @@ export default {
         },
         hideLegend: Boolean
     },
-    mounted () {
+    async mounted () {
         this.addPlugin(ChartJsPluginDataLabels)
-        axios.get(this.url)
-            .then((res) => this.renderChart(this.getChartData(res.data), this.getOptions()))
-            .catch(err => console.error(err))
+        this.loadData()
     },
     methods: {
+        async loadData () {
+            try {
+                let data = await this.dataProvider()
+                this.renderChart(this.getChartData(data), this.getOptions())
+            } catch (err) {
+                console.error(err)
+            }
+        },
         getChartData(resData) {
             const labels = Object.keys(resData)
             if (labels.length == 0) {

@@ -64,11 +64,10 @@ export default {
         return await api.get(url)
     },
     async fetchNumberReportData (from, to) {
-        const params = {
+        const url = route('api.people.reporting.numbers', {
             from: from,
             to: to
-        }
-        const url = route('api.people.reporting.numbers', params)
+        })
         return await api.get(url)
     },
     async fetchAgeDistribution () {
@@ -77,6 +76,17 @@ export default {
     },
     async fetchNationalityDistribution () {
         const url = route('api.people.reporting.nationalities')
+        return await api.get(url)
+    },
+    async fetchGenderDistribution () {
+        const url = route('api.people.reporting.genderDistribution')
+        return await api.get(url)
+    },
+    async fetchRegistrationsPerDay (dateFrom, dateTo) {
+        const url = route('api.people.reporting.registrationsPerDay', {
+            from: dateFrom,
+            to: dateTo
+        })
         return await api.get(url)
     }
 }

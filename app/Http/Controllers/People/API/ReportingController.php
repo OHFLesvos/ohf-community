@@ -52,7 +52,7 @@ class ReportingController extends BaseReportingController
      */
     public function nationalities()
     {
-        return Person::getNationalities();
+        return []; Person::getNationalities();
     }
 
     /**

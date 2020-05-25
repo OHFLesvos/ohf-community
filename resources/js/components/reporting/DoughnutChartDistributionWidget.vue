@@ -1,16 +1,16 @@
 <template>
-    <div class="card mb-4">
-        <div class="card-header">{{ title }}</div>
-        <div class="card-body">
-            <doughnut-chart
-                :title="title"
-                :url="url"
-                hide-legend
-                :height="300"
-                class="mb-2">
-            </doughnut-chart>
-        </div>
-    </div>
+    <b-card
+        :header="title"
+        class="mb-4"
+    >
+        <doughnut-chart
+            :title="title"
+            :data-provider="dataProvider"
+            hide-legend
+            :height="300"
+            class="mb-2">
+        </doughnut-chart>
+    </b-card>
 </template>
 
 <script>
@@ -24,9 +24,9 @@ export default {
             required: true,
             type: String
         },
-        url: {
-            required: true,
-            type: String
+        dataProvider: {
+            type: Function,
+            required: true
         }
     }
 }

@@ -29,13 +29,11 @@
 
             <!-- Registrations per day -->
             <bar-chart
+                ref="registrationsPerDayChart"
                 :title="$t('app.new_registrations_per_day')"
                 :x-label="$t('app.date')"
                 :y-label="$t('app.quantity')"
-                :url="route('api.people.reporting.registrationsPerDay', {
-                    from: dateRange.from,
-                    to: dateRange.to
-                })"
+                :data-provider="registrationsPerDay"
                 :height="350"
                 class="mb-0">
             </bar-chart>
@@ -68,6 +66,7 @@ export default {
     watch: {
         dateRange () {
             this.loadData()
+            this.$refs.registrationsPerDayChart.refresh()
         }
     },
     created () {
@@ -76,6 +75,9 @@ export default {
     methods: {
         async loadData () {
             this.data = await peopleApi.fetchNumberReportData(this.dateRange.from, this.dateRange.to)
+        },
+        registrationsPerDay () {
+            return peopleApi.fetchRegistrationsPerDay(this.dateRange.from, this.dateRange.to)
         }
     }
 }
