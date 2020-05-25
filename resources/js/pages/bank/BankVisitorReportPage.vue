@@ -32,7 +32,7 @@
                     title="Average visitors per day of week"
                     :x-label="$t('app.weekday')"
                     :y-label="$t('app.quantity')"
-                    :url="route('api.bank.reporting.avgVisitorsPerDayOfWeek')"
+                    :data="api.fetchAvgVisitorsPerDayOfWeek"
                     :height="270">
                 </bar-chart>
 
@@ -44,7 +44,7 @@
                     title="Visitors per day"
                     :x-label="$t('app.day')"
                     :y-label="$t('app.quantity')"
-                    :url="route('api.bank.reporting.visitorsPerDay')"
+                    :data="api.fetchVisitorsPerDay"
                     :height="270">
                 </bar-chart>
 
@@ -53,7 +53,7 @@
                     title="Visitors per week"
                     :x-label="$t('app.week')"
                     :y-label="$t('app.quantity')"
-                    :url="route('api.bank.reporting.visitorsPerWeek')"
+                    :data="api.fetchVisitorsPerWeek"
                     :height="270">
                 </bar-chart>
 
@@ -62,7 +62,7 @@
                     title="Visitors per month"
                     :x-label="$t('app.month')"
                     :y-label="$t('app.quantity')"
-                    :url="route('api.bank.reporting.visitorsPerMonth')"
+                    :data="api.fetchVisitorsPerMonth"
                     :height="270">
                 </bar-chart>
 
@@ -71,7 +71,7 @@
                     title="Visitors per year"
                     :x-label="$t('app.year')"
                     :y-label="$t('app.quantity')"
-                    :url="route('api.bank.reporting.visitorsPerYear')"
+                    :data="api.fetchVisitorsPerYear"
                     :height="270">
                 </bar-chart>
 
@@ -91,16 +91,16 @@ export default {
     },
     data () {
         return {
-            visitors: null
+            visitors: null,
+            api: bankApi
         }
     },
     mounted () {
         this.loadData()
     },
     methods: {
-        loadData () {
-            bankApi.fetchVisitorReportData()
-                .then(data => this.visitors = data)
+        async loadData () {
+            this.visitors = await bankApi.fetchVisitorReportData()
         }
     }
 }

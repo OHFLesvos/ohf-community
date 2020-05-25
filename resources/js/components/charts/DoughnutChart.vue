@@ -15,14 +15,14 @@ export default {
             type: String,
             required: true
         },
-        dataProvider: {
-            type: Function,
+        data: {
+            type: [Function, Object],
             required: true
         },
-        type: {
-            type: String,
+        limit: {
+            type: Number,
             required: false,
-            default: 'pie'
+            default: 12 // Max number of colors in 'tol' palette
         },
         hideLegend: Boolean
     },
@@ -33,19 +33,33 @@ export default {
     methods: {
         async loadData () {
             try {
-                let data = await this.dataProvider()
-                this.renderChart(this.getChartData(data), this.getOptions())
+                let chartData;
+                if (typeof this.data === 'function') {
+                    chartData = await this.data()
+                } else {
+                    chartData = this.data
+                }
+                this.renderChart(this.getChartData(chartData), this.getOptions())
             } catch (err) {
                 console.error(err)
             }
         },
         getChartData(resData) {
-            const labels = Object.keys(resData)
+            let labels = Object.keys(resData)
             if (labels.length == 0) {
                 return this.noDataData()
             }
-            const dataset = Object.values(resData)
-            const colorPalette = palette('tol', Math.min(dataset.length, 12))
+            let dataset = Object.values(resData)
+
+            if (dataset.length > this.limit) {
+                let others = dataset.slice(this.limit - 1).reduce((a, item) => a + item, 0)
+                dataset = dataset.slice(0, this.limit - 1)
+                dataset.push(others)
+                labels = labels.slice(0, this.limit - 1)
+                labels.push(this.$t('app.others'))
+            }
+
+            const colorPalette = palette('tol', Math.min(dataset.length, this.limit))
             const colors = Array(colorPalette.length)
                 .fill()
                 .map((e, i) => '#' + colorPalette[i %  colorPalette.length])

@@ -10,8 +10,8 @@ export default {
             type: String,
             required: true
         },
-        dataProvider: {
-            type: Function,
+        data: {
+            type: [Function, Object],
             required: true
         },
         xLabel: {
@@ -37,8 +37,13 @@ export default {
         },
         async loadData () {
             try {
-                let data = await this.dataProvider()
-                this.chartData = this.parseDateFromResponse(data)
+                let resolvedData;
+                if (typeof this.data === 'function') {
+                    resolvedData = await this.data()
+                } else {
+                    resolvedData = this.data
+                }
+                this.chartData = this.parseDateFromResponse(resolvedData)
             } catch (err) {
                 console.error(err)
             }

@@ -1,8 +1,7 @@
 <template>
-    <!-- TODO length check -->
     <doughnut-chart-distribution-widget
         :title="$t('people.gender')"
-        :data-provider="api.fetchGenderDistribution"
+        :data="api.fetchGenderDistribution"
     />
 </template>
 

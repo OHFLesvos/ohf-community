@@ -1,9 +1,6 @@
 <template>
-    <div>
-        <div
-            v-if="coupons"
-            class="table-responsive"
-        >
+    <div v-if="coupons">
+        <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover mb-4">
                 <thead>
                     <tr>
@@ -39,10 +36,6 @@
                 </tbody>
             </table>
         </div>
-        <p v-else>
-            {{ $t('app.loading') }}
-        </p>
-
         <div class="mb-3">
             <bar-chart
                 v-for="v in coupons"
@@ -50,13 +43,15 @@
                 :title="$t('people.num_x_handed_out_per_day', { name: v.coupon.name })"
                 :x-label="$t('app.date')"
                 :y-label="$t('app.quantity')"
-                :url="`${route('api.bank.reporting.couponsHandedOutPerDay', [ v.coupon.id ])}?from=${from}&to=${to}`"
+                :data="v.handedOutPerday"
                 :height="300"
                 class="mb-2">
             </bar-chart>
         </div>
-
     </div>
+    <p v-else>
+        {{ $t('app.loading') }}
+    </p>
 </template>
 
 <script>
@@ -78,9 +73,12 @@ export default {
         this.loadData()
     },
     methods: {
-        loadData () {
-            bankApi.fetchWithdrawalReportData()
-                .then(data => this.coupons = data)
+        async loadData () {
+            let coupons = await bankApi.fetchWithdrawalReportData()
+            for (let i = 0; i < coupons.length; i++) {
+                coupons[i].handedOutPerday = await bankApi.fetchCouponsHandedOutPerDay(coupons[i].coupon.id, this.from, this.to)
+            }
+            this.coupons = coupons
         }
     }
 }

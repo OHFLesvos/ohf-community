@@ -35,5 +35,29 @@ export default {
     async fetchWithdrawalReportData () {
         const url = route('api.bank.reporting.withdrawals')
         return await api.get(url)
+    },
+    async fetchAvgVisitorsPerDayOfWeek () {
+        const url = route('api.bank.reporting.avgVisitorsPerDayOfWeek')
+        return await api.get(url)
+    },
+    async fetchVisitorsPerDay () {
+        const url = route('api.bank.reporting.visitorsPerDay')
+        return await api.get(url)
+    },
+    async fetchVisitorsPerWeek () {
+        const url = route('api.bank.reporting.visitorsPerWeek')
+        return await api.get(url)
+    },
+    async fetchVisitorsPerMonth () {
+        const url = route('api.bank.reporting.visitorsPerMonth')
+        return await api.get(url)
+    },
+    async fetchVisitorsPerYear () {
+        const url = route('api.bank.reporting.visitorsPerYear')
+        return await api.get(url)
+    },
+    async fetchCouponsHandedOutPerDay (couponId, from, to) {
+        const url = `${route('api.bank.reporting.couponsHandedOutPerDay', couponId)}?from=${from}&to=${to}`
+        return await api.get(url)
     }
 }

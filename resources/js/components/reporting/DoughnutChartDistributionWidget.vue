@@ -5,7 +5,7 @@
     >
         <doughnut-chart
             :title="title"
-            :data-provider="dataProvider"
+            :data="data"
             hide-legend
             :height="300"
             class="mb-2">
@@ -24,8 +24,8 @@ export default {
             required: true,
             type: String
         },
-        dataProvider: {
-            type: Function,
+        data: {
+            type: [Function, Object],
             required: true
         }
     }

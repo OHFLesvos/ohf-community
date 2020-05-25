@@ -33,7 +33,7 @@
                 :title="$t('app.new_registrations_per_day')"
                 :x-label="$t('app.date')"
                 :y-label="$t('app.quantity')"
-                :data-provider="registrationsPerDay"
+                :data="registrationsPerDay"
                 :height="350"
                 class="mb-0">
             </bar-chart>

@@ -4,46 +4,48 @@
         class="mb-4"
         no-body
     >
-        <b-card-body>
-            <template v-if="!data">
-                {{ $t('app.loading') }}
-            </template>
-            <doughnut-chart
-                :title="title"
-                :data-provider="fetchData"
-                :height="300"
-                class="mb-2">
-            </doughnut-chart>
-        </b-card-body>
-        <b-table-simple
-            v-if="data"
-            responsive
-            small
-            class="my-0"
-        >
-            <b-tr
-                v-for="(value, label) in data"
-                :key="label"
+        <template v-if="myData">
+            <b-card-body>
+                <doughnut-chart
+                    :title="title"
+                    :data="myData"
+                    :height="300"
+                    class="mb-2">
+                </doughnut-chart>
+            </b-card-body>
+            <b-table-simple
+                v-if="Object.keys(myData).length > 0"
+                responsive
+                small
+                class="my-0"
             >
-                <b-td class="fit">
-                    {{ label }}
-                </b-td>
-                <b-td class="align-middle d-none d-sm-table-cell">
-                    <b-progress
-                        :value="value"
-                        :max="total"
-                        :show-value="false"
-                        variant="secondary"
-                    />
-                </b-td>
-                <b-td class="fit text-right">
-                    {{ percentValue(value, total) }}%
-                </b-td>
-                <b-td class="fit text-right d-none d-sm-table-cell">
-                    {{ numberFormat(value) }}
-                </b-td>
-            </b-tr>
-        </b-table-simple>
+                <b-tr
+                    v-for="(value, label) in myData"
+                    :key="label"
+                >
+                    <b-td class="fit">
+                        {{ label }}
+                    </b-td>
+                    <b-td class="align-middle d-none d-sm-table-cell">
+                        <b-progress
+                            :value="value"
+                            :max="total"
+                            :show-value="false"
+                            variant="secondary"
+                        />
+                    </b-td>
+                    <b-td class="fit text-right">
+                        {{ percentValue(value, total) }}%
+                    </b-td>
+                    <b-td class="fit text-right d-none d-sm-table-cell">
+                        {{ numberFormat(value) }}
+                    </b-td>
+                </b-tr>
+            </b-table-simple>
+        </template>
+        <b-card-body v-else>
+            {{ $t('app.loading') }}
+        </b-card-body>
     </b-card>
 </template>
 
@@ -62,25 +64,26 @@ export default {
             required: true,
             type: String
         },
-        dataProvider: {
-            type: Function,
+        data: {
+            type: [Function, Object],
             required: true
         }
     },
     data () {
         return {
-            data: null,
+            myData: null,
         }
     },
     computed: {
         total () {
-            return Object.values(this.data).reduce((a,b) => a + b, 0)
+            return Object.values(this.myData).reduce((a,b) => a + b, 0)
         }
     },
-    methods: {
-        async fetchData () {
-            this.data = await this.dataProvider()
-            return this.data
+    async created () {
+        if (typeof this.data === 'function') {
+            this.myData = await this.data()
+        } else {
+            this.myData = this.data
         }
     }
 }
