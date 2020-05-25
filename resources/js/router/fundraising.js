@@ -35,6 +35,7 @@ import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
 import DonationEditPage from '@/pages/fundraising/DonationEditPage'
 import DonationsImportPage from '@/pages/fundraising/DonationsImportPage'
 import ReportPage from '@/pages/fundraising/ReportPage'
+import NotFoundPage from '@/pages/NotFoundPage'
 
 import { can } from '@/plugins/laravel'
 
@@ -54,8 +55,8 @@ const overviewNavItems = [
 ]
 
 export default new VueRouter({
-    // mode: 'history',
-    // base: '/fundraising/',
+    mode: 'history',
+    base: '/fundraising/',
     routes: [
         {
             path: '/',
@@ -129,7 +130,7 @@ export default new VueRouter({
         {
             // Display the specified donor.
             // TODO $this->authorize('view', $donor);
-            path: '/donors/:id',
+            path: '/donors/:id(\\d+)',
             components: {
                 default: DonorShowPage,
                 header: PageHeader
@@ -198,7 +199,7 @@ export default new VueRouter({
         {
             // Show the form for editing the donor.
             // TODO $this->authorize('update', $donor);
-            path: '/donors/:id/edit',
+            path: '/donors/:id(\\d+)/edit',
             name: 'fundraising.donors.edit',
             components: {
                 default: DonorEditPage,
@@ -262,7 +263,7 @@ export default new VueRouter({
         {
             // Show the form for editing the donation.
             // TODO $this->authorize('update', $donation);
-            path: '/donations/:id/edit',
+            path: '/donations/:id(\\d+)/edit',
             name: 'fundraising.donations.edit',
             components: {
                 default: DonationEditPage,
@@ -332,6 +333,10 @@ export default new VueRouter({
                 rememberRoute(to, from)
                 next()
             }
+        },
+        {
+            path: '*',
+            component: NotFoundPage
         }
     ]
 })
