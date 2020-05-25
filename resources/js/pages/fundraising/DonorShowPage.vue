@@ -1,5 +1,10 @@
 <template>
-    <div v-if="loaded">
+    <table-alert
+        v-if="error"
+        :value="error"
+        @retry="fetchData"
+    />
+    <div v-else-if="loaded">
         <tab-nav :items="tabNavItems">
             <template v-slot:after(donations)>
                 <b-badge
@@ -27,9 +32,11 @@
 
 <script>
 import donorsApi from '@/api/fundraising/donors'
+import TableAlert from '@/components/table/TableAlert'
 import TabNav from '@/components/ui/TabNav'
 export default {
     components: {
+        TableAlert,
         TabNav
     },
     props: {
@@ -40,6 +47,7 @@ export default {
     data () {
         return {
             loaded: false,
+            error: null,
             canViewDonations: false,
             donationsCount: null,
             commentCount: null,
@@ -75,6 +83,7 @@ export default {
     },
     methods: {
         async fetchData () {
+            this.error = null
             try {
                 let data = await donorsApi.find(this.id, true)
                 let donor = data.data
@@ -83,7 +92,7 @@ export default {
                 this.commentCount = donor.comments_count
                 this.loaded = true
             } catch (err) {
-                alert(err)
+                this.error = err
             }
         },
         updateCount (evt) {
