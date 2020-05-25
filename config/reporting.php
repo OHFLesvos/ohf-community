@@ -26,13 +26,12 @@ return [
             'gate' => 'view-bank-reports',
             'featured' => true,
         ],
-        // TODO
-        // 'fundraising' => [
-        //     'route' => 'fundraising.report',
-        //     'icon' => 'donate',
-        //     'gate' => 'view-fundraising-reports',
-        //     'featured' => true,
-        // ],
+        'fundraising' => [
+            'url' => '/fundraising#/report', // TODO
+            'icon' => 'donate',
+            'gate' => 'view-fundraising-reports',
+            'featured' => true,
+        ],
         'library' => [
             'route' => 'library.report',
             'icon' => 'book',

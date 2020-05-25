@@ -28,7 +28,7 @@ class ReportingWidget implements Widget
         return collect(config('reporting.reports'))
             ->filter(fn ($e) => $e['featured'] && Gate::allows($e['gate']))
             ->map(fn ($item, $key) => (object) [
-                'url' => route($item['route']),
+                'url' => isset($item['route']) ? route($item['route']) : $item['url'],
                 'name' => __('reporting.' . $key),
             ]);
     }
