@@ -4,6 +4,10 @@ export default {
         const url = route('api.fundraising.donations.index', params)
         return await api.get(url)
     },
+    async find (id) {
+        let url = route('api.fundraising.donations.show', id)
+        return await api.get(url)
+    },
     async update (id, data) {
         const url = route('api.fundraising.donations.update', id)
         return await api.put(url, data)

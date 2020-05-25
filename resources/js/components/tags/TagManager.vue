@@ -17,19 +17,24 @@
             v-else-if="editor"
             :tags="tagNames"
             :disabled="busy"
-            :suggestionsUrl="apiSuggestionsUrl"
+            :suggestions-provider="suggestionsProvider"
             :preload="preload"
             @cancel="editor = false"
             @submit="storeTags"
         />
         <template v-else>
             <template v-for="(tag, idx) in tags">
-                <a :key="tag.slug"
-                    :href="url(tag)"
-                    class="btn btn-secondary btn-sm">{{ tag.name }}</a><template v-if="idx + 1 < tags.length">{{ ' ' }}</template>
+                <b-button
+                    :key="tag.slug"
+                    variant="secondary"
+                    size="sm"
+                    @click="$emit('tag-click', tag.slug)"
+                >
+                    {{ tag.name }}
+                </b-button><template v-if="idx + 1 < tags.length">{{ ' ' }}</template>
             </template>
             <b-button
-                v-if="apiStoreUrl"
+                v-if="storeProvider"
                 variant="primary"
                 size="sm"
                 key="edit"
@@ -43,31 +48,26 @@
 
 <script>
 import _ from 'lodash'
-import axios from '@/plugins/axios'
 import { BButton } from 'bootstrap-vue'
 import TagEditor from '@/components/tags/TagEditor'
-import { handleAjaxError, getAjaxErrorMessage, showSnackbar } from '@/utils'
+import { showSnackbar } from '@/utils'
 export default {
     components: {
         BButton,
         TagEditor
     },
     props: {
-        apiListUrl: {
+        listProvider: {
             required: true,
-            type: String
+            type: Function
         },
-        apiStoreUrl: {
+        storeProvider: {
             required: false,
-            type: String
+            type: Function
         },
-        apiSuggestionsUrl: {
+        suggestionsProvider: {
             required: false,
-            type: String
-        },
-        tagUrl: {
-            required: false,
-            type: String
+            type: Function
         },
         preload: Boolean
     },
@@ -92,38 +92,32 @@ export default {
         }
     },
     methods: {
-        loadTags () {
+        async loadTags () {
             this.error = null
-            axios.get(this.apiListUrl)
-                .then((res) => {
-                    this.tags = res.data.data
-                    this.loaded = true
-                })
-                .catch(err => this.error = getAjaxErrorMessage(err))
+            try {
+                let data = await this.listProvider()
+                this.tags = data.data
+                this.loaded = true
+            } catch (err) {
+                this.error = err
+            }
         },
-        storeTags (tags) {
+        async storeTags (tags) {
             if (_.isEqual(this.tagNames, tags)) {
                 this.editor = false
                 return
             }
             this.error = null
             this.busy = true
-            axios.post(this.apiStoreUrl, {
-                    tags: tags
-                })
-                .then((res) => {
-                    this.tags = res.data.data
-                    this.editor = false
-                    showSnackbar(res.data.message)
-                })
-                .catch(handleAjaxError)
-                .finally(() => this.busy = false)
-        },
-        url (tag) {
-            if (this.tagUrl) {
-                return this.tagUrl + tag.slug
+            try {
+                let data = await this.storeProvider({ tags: tags })
+                this.tags = data.data
+                this.editor = false
+                showSnackbar(data.message)
+            } catch(err) {
+                alert(err)
             }
-            return null
+            this.busy = false
         }
     }
 }

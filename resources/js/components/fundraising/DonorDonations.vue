@@ -106,37 +106,20 @@ export default {
         IndividualDonationsTable
     },
     props: {
-        donorId: {
+        id: {
             required: true
-        },
-        canCreate: Boolean
+        }
     },
     data () {
         return {
             donations: null,
+            canCreate: false,
             selectedDonation: null,
             newDonationForm: false,
             isBusy: false,
             baseCurrency: null,
             currencies: {},
             channels: []
-        }
-    },
-    watch: {
-        donations (val) {
-            this.$emit('count', val.length)
-        },
-        async newDonationForm (val, oldVal) {
-            if (!oldVal) {
-                this.fetchChannels()
-                this.fetchCurrencies()
-            }
-        },
-        async selectedDonation (val, oldVal) {
-            if (!oldVal) {
-                this.fetchChannels()
-                this.fetchCurrencies()
-            }
         }
     },
     computed: {
@@ -153,18 +136,39 @@ export default {
             return roundWithDecimals(sum, 2)
         }
     },
+    watch: {
+        $route() {
+            this.fetchDonations()
+        },
+        donations (val) {
+            this.$emit('count', { type: 'donations', value: val.length })
+        },
+        async newDonationForm (val, oldVal) {
+            if (!oldVal) {
+                this.fetchChannels()
+                this.fetchCurrencies()
+            }
+        },
+        async selectedDonation (val, oldVal) {
+            if (!oldVal) {
+                this.fetchChannels()
+                this.fetchCurrencies()
+            }
+        }
+    },
     created () {
         this.fetchDonations()
     },
     methods: {
         async fetchDonations () {
             try {
-                let data = await donorsApi.listDonations(this.donorId)
+                let data = await donorsApi.listDonations(this.id)
                 this.donations = data.data.map(donation => ({
                     ...donation,
                     year: moment(donation.date).year()
                 }))
                 this.baseCurrency = data.meta.base_currency
+                this.canCreate = data.meta.can_create
             } catch (err) {
                 alert(err)
             }
@@ -188,7 +192,7 @@ export default {
         async registerDonation (formData) {
             this.isBusy = true
             try {
-                let data = await donorsApi.storeDonation(this.donorId, formData)
+                let data = await donorsApi.storeDonation(this.id, formData)
                 showSnackbar(data.message)
                 this.newDonationForm = false
                 this.fetchDonations()

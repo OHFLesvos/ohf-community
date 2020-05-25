@@ -51,15 +51,16 @@
                 @submit="addComment($event)"
                 @cancel="closeEditor()"
             />
-            <b-button
-                v-else
-                variant="primary"
-                :disabled="busy"
-                @click="openEditor(); editComment = null"
-            >
-                <font-awesome-icon icon="plus-circle" />
-                {{ $t('app.add_comment') }}
-            </b-button>
+            <p v-else>
+                <b-button
+                    variant="primary"
+                    :disabled="busy"
+                    @click="openEditor(); editComment = null"
+                >
+                    <font-awesome-icon icon="plus-circle" />
+                    {{ $t('app.add_comment') }}
+                </b-button>
+            </p>
         </template>
 
     </div>

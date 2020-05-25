@@ -9,34 +9,26 @@
         :filter-placeholder="`${$t('fundraising.search_for_name_address_email_phone')}...`"
         :items-per-page="25"
     >
-        <!-- Cells -->
+        <!-- Name -->
         <template v-slot:cell(first_name)="data">
-            <a
-                v-if="data.value != ''"
-                href="javascript:;"
-                @click="$emit('select', data.item)"
-            >
+            <slot name="primary-cell" :value="data.value" :item="data.item">
                 {{ data.value }}
-            </a>
+            </slot>
         </template>
         <template v-slot:cell(last_name)="data">
-            <a
-                v-if="data.value != ''"
-                href="javascript:;"
-                @click="$emit('select', data.item)"
-            >
+            <slot name="primary-cell" :value="data.value" :item="data.item">
                 {{ data.value }}
-            </a>
+            </slot>
         </template>
+
+        <!-- Company -->
         <template v-slot:cell(company)="data">
-            <a
-                v-if="data.value != ''"
-                href="javascript:;"
-                @click="$emit('select', data.item)"
-            >
+            <slot name="primary-cell" :value="data.value" :item="data.item">
                 {{ data.value }}
-            </a>
+            </slot>
         </template>
+
+        <!-- Contact -->
         <template v-slot:cell(contact)="data">
             <email-link v-if="data.item.email" :value="data.item.email" icon-only></email-link>
             <phone-link v-if="data.item.phone" :value="data.item.phone" icon-only></phone-link>
@@ -45,16 +37,16 @@
         <!-- Tags -->
         <template v-slot:top>
             <p
-                v-if="Object.keys(tags).length > 0"
+                v-if="myTags.length > 0"
                 class="mb-3 d-flex align-items-center"
             >
                 <span class="mr-2">{{ $t('app.tags') }}:</span>
                 <tag-select-button
-                    v-for="(tag_name, tag_key) in tags"
-                    :key="tag_key"
-                    :label="tag_name"
-                    :value="tag_key"
-                    :toggled="tagSelected(tag_key)"
+                    v-for="tag in myTags"
+                    :key="`${tag.value}-${tag.selected}`"
+                    :label="tag.text"
+                    :value="tag.value"
+                    :toggled="tag.selected"
                     @toggled="toggleTag"
                 />
             </p>
@@ -165,39 +157,45 @@ export default {
                     }
                 },
             ],
-            selectedTags: this.getSelectedTags(id)
+            myTags: this.getSelectedTags(id)
+        }
+    },
+    watch: {
+        tag () {
+            this.myTags = this.getSelectedTags(this.id)
+        },
+        myTags: {
+            deep: true,
+            handler () {
+                this.$refs.table.refresh()
+            }
         }
     },
     methods: {
         fetchData (params) {
-            params.tags = []
-            for (let i = 0; i < this.selectedTags.length; i++) {
-                params.tags.push(this.selectedTags[i])
-            }
+            params.tags = this.myTags.filter(t => t.selected).map(t => t.value)
             return donorsApi.list(params)
         },
         getSelectedTags (id) {
-            let tags
+            let selectedValues
             if (this.tag) {
-                tags = [this.tag]
-                sessionStorage.setItem(id + '.selectedTags', JSON.stringify(tags))
+                selectedValues = [this.tag]
+                sessionStorage.setItem(id + '.selectedTags', JSON.stringify(selectedValues))
             } else if (sessionStorage.getItem(id + '.selectedTags')) {
-                tags = JSON.parse(sessionStorage.getItem(id + '.selectedTags'))
+                selectedValues = JSON.parse(sessionStorage.getItem(id + '.selectedTags'))
             } else {
-                tags = []
+                selectedValues = []
             }
-            return tags.filter(e => Object.keys(this.tags).indexOf(e) >= 0)
+            return Object.entries(this.tags).map(item => ({
+                value: item[0],
+                text: item[1],
+                selected: selectedValues.indexOf(item[0]) >= 0
+            }))
         },
         toggleTag (value, toggled) {
-            this.selectedTags = this.selectedTags.filter((v) => v != value)
-            if (toggled) {
-                this.selectedTags.push(value)
-            }
-            sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(this.selectedTags))
-            this.$refs.table.refresh()
-        },
-        tagSelected (key) {
-            return this.selectedTags.indexOf(key) >= 0
+            let idx = this.myTags.findIndex((v) => v.value == value)
+            this.myTags[idx].selected = toggled
+            sessionStorage.setItem(this.id + '.selectedTags', JSON.stringify(this.myTags.filter(t => t.selected).map(t => t.value)))
         }
     }
 }

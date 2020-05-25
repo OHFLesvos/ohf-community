@@ -4,7 +4,7 @@
             <tag-input
                 v-model="value"
                 :suggestions="suggestions"
-                :suggestionsUrl="suggestionsUrl"
+                :suggestions-provider="suggestionsProvider"
                 :preload="preload"
                 :disabled="disabled"
             />
@@ -50,9 +50,9 @@ export default {
             type: Array,
             default: () => []
         },
-        suggestionsUrl: {
+        suggestionsProvider: {
             required: false,
-            type: String
+            type: Function
         },
         preload: Boolean,
         disabled: Boolean,

@@ -43,8 +43,16 @@ export default {
         const url = route('api.fundraising.donors.comments.store', donorId)
         return await api.post(url, data)
     },
-    async listTags () {
-        const url = route('api.fundraising.tags.index')
+    async listTags (filter) {
+        const url = route('api.fundraising.tags.index', { filter: filter })
         return await api.get(url)
+    },
+    async listDonorsTags (donorId) {
+        const url = route('api.fundraising.donors.tags.index', donorId)
+        return await api.get(url)
+    },
+    async storeDonorsTags (donorId, data) {
+        const url = route('api.fundraising.donors.tags.store', donorId)
+        return await api.post(url, data)
     }
 }

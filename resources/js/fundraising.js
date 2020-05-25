@@ -6,33 +6,26 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
-import DonorsIndexPage from '@/pages/fundraising/DonorsIndexPage'
-import DonorCreatePage from '@/pages/fundraising/DonorCreatePage'
-import DonorShowPage from '@/pages/fundraising/DonorShowPage'
-import DonorEditPage from '@/pages/fundraising/DonorEditPage'
-import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
-import DonationsImportPage from '@/pages/fundraising/DonationsImportPage'
-import ReportPage from '@/pages/fundraising/ReportPage'
+import store from '@/store/fundraising'
 
 import i18n from '@/plugins/i18n'
+import router from '@/router/fundraising'
 
-import './plugins/vee-validate'
+import '@/plugins/vee-validate'
 
 import ziggyMixin from '@/mixins/ziggyMixin'
 Vue.mixin(ziggyMixin)
 
 Vue.config.productionTip = false
 
+import FundraisingApp from '@/app/FundraisingApp'
+
 new Vue({
     el: '#fundraising-app',
+    store,
+    router,
     i18n,
     components: {
-        DonorsIndexPage,
-        DonorCreatePage,
-        DonorShowPage,
-        DonorEditPage,
-        DonationsIndexPage,
-        DonationsImportPage,
-        ReportPage
+        FundraisingApp
     }
 });

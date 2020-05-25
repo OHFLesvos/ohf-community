@@ -6,6 +6,7 @@ use App\Exports\Fundraising\DonationsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonation;
 use App\Http\Resources\Fundraising\DonationCollection;
+use App\Http\Resources\Fundraising\Donation as DonationResource;
 use App\Imports\Fundraising\DonationsImport;
 use App\Models\Fundraising\Donation;
 use Carbon\Carbon;
@@ -71,6 +72,19 @@ class DonationController extends Controller
             ->paginate($pageSize);
 
         return new DonationCollection($donations);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Fundraising\Donation  $donation
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Donation $donation)
+    {
+        $this->authorize('view', $donation);
+
+        return new DonationResource($donation->load('donor'));
     }
 
     /**

@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources\Fundraising;
 
-use App\Models\Comment;
-use App\Models\Fundraising\Donor as DonorModel;
+use App\Models\Fundraising\Donation;
 use App\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -27,7 +26,7 @@ class Donor extends JsonResource
     public function toArray($request)
     {
         if ($this->extended) {
-            $can_view_donations = $request->user()->can('viewAny', DonorModel::class);
+            $can_view_donations = $request->user()->can('viewAny', Donation::class);
             return [
                 'id' => $this->id,
                 'salutation' => $this->salutation,
@@ -41,8 +40,6 @@ class Donor extends JsonResource
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
                 'can_create_tag' => $request->user()->can('create', Tag::class),
-                'can_create_comment' => $request->user()->can('create', Comment::class),
-                'can_create_donation' => $request->user()->can('create', DonorModel::class),
                 'can_view_donations' => $can_view_donations,
                 'donations_count' => $can_view_donations ? $this->donations()->count() : null,
                 'comments_count' => $this->comments()->count(),

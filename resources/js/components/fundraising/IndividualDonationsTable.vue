@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-table
-            responsive
+            stacked="md"
             small
             hover
             striped
@@ -89,7 +89,7 @@ export default {
                 {
                     key: 'exchange_amount',
                     label: this.$t('app.amount'),
-                    class: 'text-right',
+                    class: 'text-md-right',
                     width: '12em'
                 },
                 {

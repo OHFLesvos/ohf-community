@@ -4,27 +4,20 @@
         fluid
         class="px-0"
     >
-        <b-card
-            class="mb-4"
-            body-class="pb-0"
-            header-class="d-flex justify-content-between align-items-center"
-        >
-            <template v-slot:header>
-                {{ $t('fundraising.edit_donor') }}
-                <small class="d-none d-sm-inline">
-                    {{ $t('app.last_updated') }}:
-                    {{ dateFormat(donor.updated_at) }}
-                </small>
-            </template>
-
-            <donor-form
-                :donor="donor"
-                :disabled="isBusy"
-                @submit="updateDonor"
-                @cancel="handleCnacel"
-                @delete="deleteDonor"
-            />
-        </b-card>
+        <donor-form
+            :donor="donor"
+            :disabled="isBusy"
+            @submit="updateDonor"
+            @cancel="$router.push({ name: 'fundraising.donors.show', params: { id: id }})"
+            @delete="deleteDonor"
+        />
+        <hr>
+        <p class="text-right">
+            <small>
+                {{ $t('app.last_updated') }}:
+                {{ dateFormat(donor.updated_at) }}
+            </small>
+        </p>
     </b-container>
     <p v-else>
         {{ $t('app.loading') }}
@@ -42,8 +35,7 @@ export default {
     },
     props: {
         id: {
-            required: true,
-            type: Number
+            required: true
         }
     },
     data () {
@@ -52,21 +44,29 @@ export default {
             isBusy: false
         }
     },
-    async created () {
-        try {
-            let data = await donorsApi.find(this.id)
-            this.donor = data.data
-        } catch (err) {
-            alert(err)
+    watch: {
+        $route() {
+            this.fetchDonor()
         }
     },
+    async created () {
+        this.fetchDonor()
+    },
     methods: {
+        async fetchDonor () {
+            try {
+                let data = await donorsApi.find(this.id)
+                this.donor = data.data
+            } catch (err) {
+                alert(err)
+            }
+        },
         async updateDonor (formData) {
             this.isBusy = true
             try {
                 let data = await donorsApi.update(this.id, formData)
                 showSnackbar(data.message)
-                window.location.href = this.route('fundraising.donors.show', this.id)
+                this.$router.push({ name: 'fundraising.donors.show', params: { id: this.id }})
             } catch (err) {
                 alert(err)
             }
@@ -77,14 +77,11 @@ export default {
             try {
                 let data = await donorsApi.delete(this.id)
                 showSnackbar(data.message)
-                window.location.href = this.route('fundraising.donors.index')
+                this.$router.push({ name: 'fundraising.donors.index' })
             } catch (err) {
                 alert(err)
             }
             this.isBusy = false
-        },
-        handleCnacel () {
-            window.location.href = this.route('fundraising.donors.show', this.id)
         },
         dateFormat (value) {
             return moment(value).format('LLL')

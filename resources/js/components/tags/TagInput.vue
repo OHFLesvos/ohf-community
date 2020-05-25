@@ -10,9 +10,7 @@
 
 <script>
 import _ from 'lodash'
-import axios from '@/plugins/axios'
 import Tagify from '@yaireo/tagify'
-import { getAjaxErrorMessage } from '@/utils'
 export default {
     props: {
         value: {
@@ -24,9 +22,9 @@ export default {
             type: Array,
             default: () => []
         },
-        suggestionsUrl: {
+        suggestionsProvider: {
             required: false,
-            type: String
+            type: Function
         },
         preload: Boolean,
         disabled: Boolean
@@ -50,7 +48,7 @@ export default {
             this.$emit('input', this.tagify.value.map(t => t.value))
         })
 
-        if (this.suggestionsUrl) {
+        if (this.suggestionsProvider) {
             if (this.preload) {
                 this.preloadTags()
             } else {
@@ -59,16 +57,15 @@ export default {
         }
     },
     methods: {
-        preloadTags () {
-            axios.get(this.suggestionsUrl)
-                .then(res => {
-                    this.tagify.settings.whitelist = res.data.data.map(t => t.name)
-                })
-                .catch(err => {
-                    console.log(getAjaxErrorMessage(err))
-                })
+        async preloadTags () {
+            try {
+                let data = await this.suggestionsProvider()
+                this.tagify.settings.whitelist = data.data.map(t => t.name)
+            } catch (err) {
+                console.log(err)
+            }
         },
-        fetchTags (value) {
+        async fetchTags (value) {
             if (value.length <= 1) {
                 return
             }
@@ -78,16 +75,15 @@ export default {
             // show loading animation and hide the suggestions dropdown
             this.tagify.loading(true).dropdown.hide.call(this.tagify)
 
-            axios.get(`${this.suggestionsUrl}?filter=${value}`)
-                .then(res => {
-                    // update inwhitelist Array in-place
-                    const whitelist = res.data.data.map(t => t.name)
-                    this.tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
-                    this.tagify.loading(false).dropdown.show.call(this.tagify, value) // render the suggestions dropdown
-                })
-                .catch(err => {
-                    console.log(getAjaxErrorMessage(err))
-                })
+            try {
+                let data = await this.suggestionsProvider(value)
+                // update inwhitelist Array in-place
+                const whitelist = data.data.map(t => t.name)
+                this.tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
+                this.tagify.loading(false).dropdown.show.call(this.tagify, value) // render the suggestions dropdown
+            } catch (err) {
+                console.log(err)
+            }
         }
     }
 }

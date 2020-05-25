@@ -1,16 +1,13 @@
 <template>
-    <b-container fluid class="px-0">
-        <b-card
-            class="mb-4"
-            body-class="pb-0"
-            :header="$t('fundraising.create_donor')"
-        >
-            <donor-form
-                :disabled="isBusy"
-                @submit="registerDonor"
-                @cancel="handleCnacel"
-            />
-        </b-card>
+    <b-container
+        fluid
+        class="px-0"
+    >
+        <donor-form
+            :disabled="isBusy"
+            @submit="registerDonor"
+            @cancel="handleCnacel"
+        />
     </b-container>
 </template>
 
@@ -34,14 +31,14 @@ export default {
             try {
                 let data = await donorsApi.store(formData)
                 showSnackbar(data.message)
-                window.location.href = this.route('fundraising.donors.show', data.id)
+                this.$router.push({ name: 'fundraising.donors.show', params: { id: data.id }})
             } catch (err) {
                 alert(err)
             }
             this.isBusy = false
         },
         handleCnacel () {
-            window.location.href = this.route('fundraising.donors.index')
+            this.$router.push({ name: 'fundraising.donors.index' })
         },
         dateFormat (value) {
             return moment(value).format('LLL')

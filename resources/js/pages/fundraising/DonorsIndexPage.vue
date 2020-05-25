@@ -1,15 +1,18 @@
 <template>
-    <div>
-        <donors-table
-            v-if="tags != null"
-            :tags="tags"
-            :tag="tag"
-            @select="selectDonor"
-        />
-        <template v-else>
-            {{ $t('app.loading') }}
+    <donors-table
+        v-if="tags != null"
+        :tags="tags"
+        :tag="tag"
+    >
+        <template v-slot:primary-cell="data">
+            <router-link :to="{ name: 'fundraising.donors.show', params: { id: data.item.id } }">
+                {{ data.value }}
+            </router-link>
         </template>
-    </div>
+    </donors-table>
+    <p v-else>
+        {{ $t('app.loading') }}
+    </p>
 </template>
 
 <script>
@@ -32,15 +35,15 @@ export default {
         }
     },
     async created () {
-        let data = await donorsApi.listTags()
-        this.tags = data.data.reduce((map, obj) => {
-            map[obj.slug] = obj.name
-            return map
-        }, {})
+        this.fetchTags()
     },
     methods: {
-        selectDonor (donor) {
-            window.location.href = this.route('fundraising.donors.show', donor.id)
+        async fetchTags () {
+            let data = await donorsApi.listTags()
+            this.tags = data.data.reduce((map, obj) => {
+                map[obj.slug] = obj.name
+                return map
+            }, {})
         }
     }
 }

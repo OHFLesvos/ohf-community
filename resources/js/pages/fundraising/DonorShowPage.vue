@@ -1,64 +1,24 @@
 <template>
-    <div v-if="donor">
-
-        <b-tabs
-            v-model="tabIndex"
-            content-class="mt-3"
-        >
-
-            <!-- Donor -->
-            <b-tab
-                :title="$t('fundraising.donor')"
-                lazy
-            >
-                <donor-details :donor="donor" />
-            </b-tab>
-
-            <!-- Donations -->
-            <b-tab
-                v-if="donor.can_view_donations"
-                :title="$t('fundraising.donations')"
-                lazy
-            >
-                <template v-slot:title>
-                    {{ $t('fundraising.donations') }}
-                    <b-badge
-                        v-if="donationsCount > 0"
-                        class="d-none d-sm-inline"
-                    >
-                        {{ donationsCount }}
-                    </b-badge>
-                </template>
-
-                <donor-donations
-                    :donorId="donor.id"
-                    :can-create="donor.can_create_donation"
-                    @count="donationsCount = $event"
-                />
-            </b-tab>
-
-            <!-- Comments -->
-            <b-tab
-                :title="$t('app.comments')"
-                lazy
-            >
-                <template v-slot:title>
-                    {{ $t('app.comments') }}
-                    <b-badge
-                        v-if="commentCount > 0"
-                        class="d-none d-sm-inline"
-                    >
-                        {{ commentCount }}
-                    </b-badge>
-                </template>
-                <comments-list
-                    :api-list-method="listComments"
-                    :api-create-method="donor.can_create_comment ? storeComment : null"
-                    @count="commentCount = $event"
-                />
-            </b-tab>
-
-        </b-tabs>
+    <div v-if="loaded">
+        <tab-nav :items="tabNavItems">
+            <template v-slot:after(donations)>
+                <b-badge
+                    v-if="donationsCount > 0"
+                    class="ml-1"
+                >
+                    {{ donationsCount }}
+                </b-badge>
+            </template>
+            <template v-slot:after(comments)>
+                <b-badge
+                    v-if="commentCount > 0"
+                    class="ml-1"
+                >
+                    {{ commentCount }}
+                </b-badge>
+            </template>
+        </tab-nav>
+        <router-view @count="updateCount" />
     </div>
     <p v-else>
         {{ $t('app.loading') }}
@@ -66,53 +26,73 @@
 </template>
 
 <script>
-import DonorDetails from '@/components/fundraising/DonorDetails'
-import DonorDonations from '@/components/fundraising/DonorDonations'
-import CommentsList from '@/components/comments/CommentsList'
 import donorsApi from '@/api/fundraising/donors'
+import TabNav from '@/components/ui/TabNav'
 export default {
     components: {
-        DonorDetails,
-        DonorDonations,
-        CommentsList
+        TabNav
     },
     props: {
         id: {
-            required: true,
-            type: Number
+            required: true
         }
     },
     data () {
         return {
-            donor: null,
-            tabIndex: sessionStorage.getItem(`donors.${this.id}.tabIndex`)
-                ? parseInt(sessionStorage.getItem(`donors.${this.id}.tabIndex`))
-                : 0,
+            loaded: false,
+            canViewDonations: false,
             donationsCount: null,
-            commentCount: null
+            commentCount: null,
+            tabNavItems: [
+                {
+                    to: { name: 'fundraising.donors.show' },
+                    icon: 'user',
+                    text: this.$t('fundraising.donor')
+                },
+                {
+                    to: { name: 'fundraising.donors.show.donations' },
+                    icon: 'donate',
+                    text: this.$t('fundraising.donations'),
+                    key: 'donations',
+                    show: () => this.canViewDonations
+                },
+                {
+                    to: { name: 'fundraising.donors.show.comments' },
+                    icon: 'comments',
+                    text: this.$t('app.comments'),
+                    key: 'comments'
+                },
+            ]
         }
     },
     watch: {
-        tabIndex (val) {
-            sessionStorage.setItem(`donors.${this.id}.tabIndex`, val)
+        $route() {
+            this.fetchData()
         }
     },
     async created () {
-        try {
-            let data = await donorsApi.find(this.id, true)
-            this.donor = data.data
-            this.donationsCount = this.donor.donations_count
-            this.commentCount = this.donor.comments_count
-        } catch (err) {
-            alert(err)
-        }
+        this.fetchData()
     },
     methods: {
-        listComments () {
-            return donorsApi.listComments(this.id)
+        async fetchData () {
+            try {
+                let data = await donorsApi.find(this.id, true)
+                let donor = data.data
+                this.canViewDonations = donor.can_view_donations
+                this.donationsCount = donor.donations_count
+                this.commentCount = donor.comments_count
+                this.loaded = true
+            } catch (err) {
+                alert(err)
+            }
         },
-        storeComment (data) {
-            return donorsApi.storeComment(this.id, data)
+        updateCount (evt) {
+            if (evt.type == 'donations') {
+                this.donationsCount = evt.value
+            }
+            else if (evt.type == 'comments') {
+                this.commentCount = evt.value
+            }
         }
     }
 }

@@ -82,7 +82,7 @@ export default {
             try {
                 let data = await donationsApi.import(this.form.type, this.form.file)
                 showSnackbar(data.message)
-                window.location.href = this.route('fundraising.donations.index')
+                this.$router.push({ name: 'fundraising.donations.index' })
             } catch (err) {
                 alert(err)
             }

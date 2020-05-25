@@ -139,6 +139,11 @@ Route::middleware(['language', 'auth'])
     ->prefix('fundraising')
     ->name('fundraising.')
     ->group(function () {
+        // Overview
+        Route::view('', 'fundraising.index')
+            ->name('index')
+            ->middleware('can:viewAny,App\Models\Fundraising\Donor');
+
         // Donors
         Route::resource('donors', 'DonorController')
             ->only('index', 'show', 'create', 'edit');

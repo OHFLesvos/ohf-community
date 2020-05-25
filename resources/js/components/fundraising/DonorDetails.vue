@@ -1,5 +1,8 @@
 <template>
-    <b-list-group flush>
+    <b-list-group
+        v-if="donor"
+        flush
+    >
         <two-col-list-group-item
             v-if="donor.salutation"
             :title="$t('app.salutation')"
@@ -9,7 +12,7 @@
 
         <two-col-list-group-item
             v-if="donor.first_name || donor.last_name"
-            :title="$t('app.salutation')"
+            :title="$t('app.name')"
         >
             {{ donor.first_name }} {{ donor.last_name }}
         </two-col-list-group-item>
@@ -65,20 +68,25 @@
 
         <two-col-list-group-item :title="$t('app.tags')">
             <tag-manager
-                :api-list-url="route('api.fundraising.donors.tags.index', donor.id)"
-                :api-store-url="donor.can_create_tag ? route('api.fundraising.donors.tags.store', donor.id) : null"
-                :api-suggestions-url="route('api.fundraising.tags.index')"
-                :tag-url="route('fundraising.donors.index', { 'tag': '' })"
+                :key="id"
+                :list-provider="listTags"
+                :store-provider="donor.can_create_tag ? storeTags : null"
+                :suggestions-provider="listAllTags"
                 preload
+                @tag-click="$router.push({ name: 'fundraising.donors.index', query: { tag: $event } })"
             >
                 {{ $t('app.loading') }}
             </tag-manager>
         </two-col-list-group-item>
     </b-list-group>
+    <p v-else>
+        {{ $t('app.loading') }}
+    </p>
 </template>
 
 <script>
 import moment from 'moment'
+import donorsApi from '@/api/fundraising/donors'
 import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
 import PhoneLink from '@/components/common/PhoneLink'
 import EmailLink from '@/components/common/EmailLink'
@@ -91,13 +99,40 @@ export default {
         TagManager
     },
     props: {
-        donor: {
-            type: Object,
+        id: {
             required: true
         }
     },
+    data () {
+        return {
+            donor: null
+        }
+    },
+    watch: {
+        $route() {
+            this.fetchData()
+        }
+    },
+    async created () {
+        this.fetchData()
+    },
     methods: {
-        moment
+        async fetchData () {
+            try {
+                let data = await donorsApi.find(this.id, true)
+                this.donor = data.data
+            } catch (err) {
+                alert(err)
+            }
+        },
+        moment,
+        listAllTags: donorsApi.listTags,
+        listTags () {
+            return donorsApi.listDonorsTags(this.id)
+        },
+        storeTags (data) {
+            return donorsApi.storeDonorsTags(this.id, data)
+        }
     }
 }
 </script>

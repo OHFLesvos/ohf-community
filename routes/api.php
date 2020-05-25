@@ -129,8 +129,7 @@ Route::middleware(['language', 'auth'])
             ->name('donations.export');
         Route::post('donations/import', 'DonationController@import')
             ->name('donations.import');
-        Route::apiResource('donations', 'DonationController')
-            ->only('index', 'update', 'destroy');
+        Route::apiResource('donations', 'DonationController');
 
         // Report
         Route::prefix('report')

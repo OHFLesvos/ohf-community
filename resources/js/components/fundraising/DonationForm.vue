@@ -218,33 +218,34 @@
                 </b-form-checkbox>
             </p>
 
-            <p>
+            <p class="d-flex justify-content-between align-items-start">
+                <span>
+                    <!-- Submit -->
+                    <b-button
+                        type="submit"
+                        variant="primary"
+                        :disabled="disabled || invalid"
+                    >
+                        <font-awesome-icon icon="check" />
+                        {{ donation ? $t('app.update') : $t('app.add') }}
+                    </b-button>
 
-                <!-- Submit -->
-                <b-button
-                    type="submit"
-                    variant="primary"
-                    :disabled="disabled || invalid"
-                >
-                    <font-awesome-icon icon="check" />
-                    {{ donation ? $t('app.update') : $t('app.add') }}
-                </b-button>
-
-                <!-- Cancel -->
-                <b-button
-                    variant="link"
-                    :disabled="disabled"
-                    @click="$emit('cancel')"
-                >
-                    {{ $t('app.cancel') }}
-                </b-button>
+                    <!-- Cancel -->
+                    <b-button
+                        variant="link"
+                        :disabled="disabled"
+                        @click="$emit('cancel')"
+                    >
+                        {{ $t('app.cancel') }}
+                    </b-button>
+                </span>
 
                 <!-- Delete -->
                 <b-button
                     v-if="donation && donation.can_delete"
                     variant="link"
                     :disabled="disabled"
-                    class="text-danger float-right"
+                    class="text-danger"
                     @click="onDelete"
                 >
                     {{ $t('app.delete') }}

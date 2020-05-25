@@ -42,7 +42,12 @@ class DonorDonationsController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return new DonationCollection($donations);
+        return (new DonationCollection($donations))
+            ->additional([
+                'meta' => [
+                    'can_create' => $request->user()->can('create', Donation::class),
+                ]
+            ]);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Requests\Fundraising\StoreComment;
 use App\Http\Resources\Comment as CommentResource;
 use App\Models\Comment;
 use App\Models\Fundraising\Donor;
+use Illuminate\Http\Request;
 
 class DonorCommentsController extends Controller
 {
@@ -15,14 +16,19 @@ class DonorCommentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Donor $donor)
+    public function index(Donor $donor, Request $request)
     {
         $this->authorize('view', $donor);
         $this->authorize('viewAny', Comment::class);
 
         return CommentResource::collection($donor->comments()
             ->orderBy('created_at', 'asc')
-            ->get());
+            ->get())
+            ->additional([
+                'meta' => [
+                    'can_create' => $request->user()->can('create', Comment::class)
+                ]
+            ]);
     }
 
     /**
