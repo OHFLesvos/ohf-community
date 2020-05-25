@@ -49,7 +49,7 @@
         <!-- Registrations over time chart -->
         <time-bar-chart
             :title="$t('fundraising.new_donors_registered')"
-            :base-url="route('api.fundraising.report.donors.registrations')"
+            :data-provider="reportApi.fetchDonorRegistrations"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -62,7 +62,7 @@
 
         <time-bar-chart
             :title="$t('fundraising.donations_made')"
-            :base-url="route('api.fundraising.report.donations.registrations')"
+            :data-provider="reportApi.fetchDonationRegistrations"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -71,7 +71,7 @@
 
         <time-bar-chart
             :title="$t('fundraising.total_donations_made')"
-            :base-url="route('api.fundraising.report.donations.registrations')"
+            :data-provider="reportApi.fetchDonationRegistrations"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -109,7 +109,8 @@ export default {
                 from: moment().subtract(3, 'months').format(moment.HTML5_FMT.DATE),
                 to: moment().format(moment.HTML5_FMT.DATE),
                 granularity: 'days',
-            }
+            },
+            reportApi
         }
     },
     watch: {

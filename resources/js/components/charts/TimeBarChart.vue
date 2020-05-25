@@ -19,9 +19,8 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
 import moment from 'moment'
-import { applyColorPaletteToDatasets, getAjaxErrorMessage } from '@/utils'
+import { applyColorPaletteToDatasets } from '@/utils'
 import ReactiveBarChart from '@/components/charts/ReactiveBarChart'
 import ReactiveLineChart from '@/components/charts/ReactiveLineChart'
 import slugify from 'slugify'
@@ -39,8 +38,8 @@ export default {
             type: String,
             required: true
         },
-        baseUrl: {
-            type: String,
+        dataProvider: {
+            type: Function,
             required: true
         },
         dateFrom: {
@@ -72,9 +71,6 @@ export default {
         }
     },
     computed: {
-        url () {
-            return `${this.baseUrl}?granularity=${this.granularity}&from=${this.dateFrom}&to=${this.dateTo}`
-        },
         options () {
             let timeUnit, timeTooltipFormat, timeParser
             switch (this.granularity) {
@@ -154,24 +150,31 @@ export default {
         }
     },
     watch: {
-        url () {
+        granularity () {
             this.loadData()
         },
+        dateFrom () {
+            this.loadData()
+        },
+        dateTo () {
+            this.loadData()
+        }
     },
     mounted () {
         moment.locale(this.$i18n.locale);
         this.loadData()
     },
     methods: {
-        loadData () {
+        async loadData () {
             this.error = null
             this.loaded = false
-            axios.get(this.url)
-                .then(res => {
-                    this.chartData = this.chartDataFromResponse(res.data)
-                    this.loaded = true
-                })
-                .catch(err => this.error = getAjaxErrorMessage(err))
+            try {
+                let data = await this.dataProvider(this.granularity, this.dateFrom, this.dateTo)
+                this.chartData = this.chartDataFromResponse(data)
+                this.loaded = true
+            } catch (err) {
+                this.error = err
+            }
         },
         chartDataFromResponse (resData) {
             const chartData = {

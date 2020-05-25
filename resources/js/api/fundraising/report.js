@@ -11,5 +11,23 @@ export default {
     async getLanguages (date) {
         const url = `${route('api.fundraising.report.donors.languages')}?date=${date}`
         return await api.get(url)
-    }
+    },
+    async fetchDonorRegistrations (granularity, dateFrom, dateTo) {
+        const params = {
+            granularity: granularity,
+            from: dateFrom,
+            to: dateTo
+        }
+        const url = route('api.fundraising.report.donors.registrations', params)
+        return await api.get(url)
+    },
+    async fetchDonationRegistrations (granularity, dateFrom, dateTo) {
+        const params = {
+            granularity: granularity,
+            from: dateFrom,
+            to: dateTo
+        }
+        const url = route('api.fundraising.report.donations.registrations', params)
+        return await api.get(url)
+    },
 }
