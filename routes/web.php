@@ -139,29 +139,9 @@ Route::middleware(['language', 'auth'])
     ->prefix('fundraising')
     ->name('fundraising.')
     ->group(function () {
-        // Overview
         Route::view('', 'fundraising.index')
             ->name('index')
             ->middleware('can:viewAny,App\Models\Fundraising\Donor');
-
-        // Donors
-        Route::resource('donors', 'DonorController')
-            ->only('index', 'show', 'create', 'edit');
-
-        // Donations
-        Route::view('donations', 'fundraising.donations.index')
-            ->name('donations.index')
-            ->middleware('can:viewAny,App\Models\Fundraising\Donation');
-
-        // Donations import
-        Route::view('donations/import', 'fundraising.donations.import')
-            ->name('donations.import')
-            ->middleware('can:create,App\Models\Fundraising\Donation');
-
-        // Report
-        Route::view('report', 'fundraising.report')
-            ->name('report')
-            ->middleware('can:view-fundraising-reports');
     });
 
 //

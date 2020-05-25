@@ -160,6 +160,8 @@ class DonationController extends Controller
      */
     public function channels()
     {
+        $this->authorize('viewAny', Donation::class);
+
         return response()->json([
             'data' => Donation::channels(),
         ]);
@@ -172,6 +174,8 @@ class DonationController extends Controller
      */
     public function currencies()
     {
+        $this->authorize('viewAny', Donation::class);
+
         return response()->json([
             'data' => config('fundraising.currencies'),
             'meta' => [

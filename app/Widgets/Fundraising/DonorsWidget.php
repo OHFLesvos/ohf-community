@@ -12,7 +12,7 @@ class DonorsWidget implements Widget
 {
     public function authorize(): bool
     {
-        return Auth::user()->can('viewAny', Donor::class);
+        return request()->user()->can('viewAny', Donor::class);
     }
 
     public function view(): string

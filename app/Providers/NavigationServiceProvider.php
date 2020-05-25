@@ -54,14 +54,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'badges.selection'  => \App\Navigation\ContextButtons\Badges\BadgeSelectionContextButtons::class,
 
-        'fundraising.donors.index'        => \App\Navigation\ContextButtons\Fundraising\DonorIndexContextButtons::class,
-        'fundraising.donors.create'       => \App\Navigation\ContextButtons\Fundraising\DonorCreateContextButtons::class,
-        'fundraising.donors.show'         => \App\Navigation\ContextButtons\Fundraising\DonorShowContextButtons::class,
-        'fundraising.donors.edit'         => \App\Navigation\ContextButtons\Fundraising\DonorEditContextButtons::class,
-        'fundraising.donations.index'     => \App\Navigation\ContextButtons\Fundraising\DonationIndexContextButtons::class,
-        'fundraising.donations.import'    => \App\Navigation\ContextButtons\Fundraising\DonationImportContextButtons::class,
-        'fundraising.report'              => \App\Navigation\ContextButtons\Fundraising\ReportContextButtons::class,
-
         'accounting.transactions.index'   => \App\Navigation\ContextButtons\Accounting\TransactionIndexContextButtons::class,
         'accounting.transactions.summary' => \App\Navigation\ContextButtons\Accounting\TransactionSummaryContextButtons::class,
         'accounting.transactions.create'  => \App\Navigation\ContextButtons\Accounting\TransactionReturnToIndexContextButtons::class,

@@ -8,7 +8,10 @@
             active-class="active"
             exact-active-class="active"
         >
-            <font-awesome-icon :icon="item.icon" />
+            <font-awesome-icon
+                v-if="item.icon"
+                :icon="item.icon"
+            />
             <span class="d-none d-sm-inline">
                 {{ item.text }}
             </span>

@@ -1,7 +1,7 @@
 @php
     $links = [
         [
-            'url' => route('fundraising.donors.index'),
+            'url' => route('fundraising.index'),
             'title' => __('app.manage'),
             'icon' => 'edit',
             'authorized' => true,

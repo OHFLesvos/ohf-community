@@ -62,6 +62,8 @@ export default new VueRouter({
             redirect: { name: 'fundraising.donors.index' }
         },
         {
+            // Display a listing of the donors.
+            // TODO $this->authorize('viewAny', Donor::class);
             path: '/donors',
             name: 'fundraising.donors.index',
             components: {
@@ -102,6 +104,8 @@ export default new VueRouter({
             }
         },
         {
+            // Show the form for creating a new donor.
+            // TODO $this->authorize('create', Donor::class);
             path: '/donors/create',
             name: 'fundraising.donors.create',
             components: {
@@ -123,6 +127,8 @@ export default new VueRouter({
             }
         },
         {
+            // Display the specified donor.
+            // TODO $this->authorize('view', $donor);
             path: '/donors/:id',
             components: {
                 default: DonorShowPage,
@@ -190,6 +196,8 @@ export default new VueRouter({
             }
         },
         {
+            // Show the form for editing the donor.
+            // TODO $this->authorize('update', $donor);
             path: '/donors/:id/edit',
             name: 'fundraising.donors.edit',
             components: {
@@ -212,6 +220,8 @@ export default new VueRouter({
             }
         },
         {
+            // Display a listing of the donations.
+            // TODO can:viewAny,App\Models\Fundraising\Donation
             path: '/donations',
             name: 'fundraising.donations.index',
             components: {
@@ -250,6 +260,8 @@ export default new VueRouter({
             }
         },
         {
+            // Show the form for editing the donation.
+            // TODO $this->authorize('update', $donation);
             path: '/donations/:id/edit',
             name: 'fundraising.donations.edit',
             components: {
@@ -272,6 +284,8 @@ export default new VueRouter({
             }
         },
         {
+            // Show the form for importing donations
+            // TODO can:create,App\Models\Fundraising\Donation
             path: '/donations/import',
             name: 'fundraising.donations.import',
             components: {
@@ -293,6 +307,8 @@ export default new VueRouter({
             }
         },
         {
+            // Display an overall report
+            // TODO can:view-fundraising-reports
             path: '/report',
             name: 'fundraising.report',
             components: {
