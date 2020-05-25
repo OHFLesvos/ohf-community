@@ -271,17 +271,21 @@ export default new VueRouter({
             },
             props: {
                 default: true,
-                header: {
+                header: () => ({
                     title: i18n.t('fundraising.edit_donation'),
                     buttons: [
                         {
-                            to: { name: 'fundraising.donations.index' },
+                            to: previouslyRememberedRoute('fundraising.donors.show', { name: 'fundraising.donations.index' } ),
                             icon: 'times-circle',
                             text: i18n.t('app.cancel'),
                             show: can('view-donations')
                         }
                     ]
-                }
+                })
+            },
+            beforeEnter: (to, from, next) => {
+                rememberRoute(to, from)
+                next()
             }
         },
         {
