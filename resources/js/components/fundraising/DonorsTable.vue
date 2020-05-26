@@ -38,7 +38,7 @@
         <template v-slot:top>
             <p
                 v-if="myTags.length > 0"
-                class="mb-3 d-flex align-items-center"
+                class="mb-3 d-flex align-items-center overflow-auto"
             >
                 <span class="mr-2">{{ $t('app.tags') }}:</span>
                 <tag-select-button
