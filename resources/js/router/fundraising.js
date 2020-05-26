@@ -128,7 +128,7 @@ export default new VueRouter({
                     title: i18n.t('fundraising.donor'),
                     buttons: [
                         {
-                            to: { name: 'fundraising.donors.edit', props: { id: route.params.id } },
+                            to: { name: 'fundraising.donors.edit', params: { id: route.params.id } },
                             variant: 'primary',
                             icon: 'pencil-alt',
                             text: i18n.t('app.edit')
@@ -198,7 +198,7 @@ export default new VueRouter({
                     title: i18n.t('fundraising.edit_donor'),
                     buttons: [
                         {
-                            to: { name: 'fundraising.donors.show', props: { id: route.params.id } },
+                            to: { name: 'fundraising.donors.show', params: { id: route.params.id } },
                             icon: 'times-circle',
                             text: i18n.t('app.cancel')
                             // TODO 'authorized' => request()->user()->can('view', $donor),

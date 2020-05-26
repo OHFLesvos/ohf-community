@@ -28,7 +28,7 @@ export default {
             try {
                 let data = await libraryApi.storeBook(payload)
                 showSnackbar(data.message)
-                document.location = this.route('library.lending.book', [data.id])
+                this.$router.push({ name: 'library.lending.book', params: { bookId: data.id }})
             } catch (err) {
                 alert(err)
                 this.busy = false

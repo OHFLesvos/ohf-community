@@ -9,7 +9,9 @@
         :items-per-page="100"
     >
         <template v-slot:cell(title)="data">
-            <a :href="route('library.lending.book', [data.item.id])">{{ data.value }}</a>
+            <b-link :to="{ name: 'library.lending.book', params: { bookId: data.item.id }}">
+                {{ data.value }}
+            </b-link>
         </template>
     </base-table>
 </template>

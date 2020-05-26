@@ -116,12 +116,12 @@ export default {
         ucFirst,
         navigateToPerson (val) {
             if (val) {
-                document.location = this.route('library.lending.person', [val])
+                this.$router.push({ name: 'library.lending.person', params: { personId: val }})
             }
         },
         navigateToBook (val) {
             if (val) {
-                document.location = this.route('library.lending.book', [val])
+                this.$router.push({ name: 'library.lending.book', params: { bookId: val }})
             }
         },
         registerPerson () {

@@ -59,7 +59,7 @@ export default {
             try {
                 let data = await libraryApi.updateBook(this.bookId, payload)
                 showSnackbar(data.message)
-                document.location = this.route('library.lending.book', [this.bookId])
+                this.$router.push({ name: 'library.lending.book', params: { bookId: this.bookId }})
             } catch (err) {
                 alert(err)
                 this.busy = false
@@ -71,7 +71,7 @@ export default {
                 try {
                     let data = await libraryApi.deleteBook(this.bookId)
                     showSnackbar(data.message)
-                    document.location = this.route('library.books.index')
+                    this.$router.push({ name: 'library.books.index' })
                 } catch (err) {
                     alert(err)
                     this.busy = false

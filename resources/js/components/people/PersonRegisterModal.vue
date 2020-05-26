@@ -53,7 +53,7 @@ export default {
                 this.$nextTick(() => {
                     this.$bvModal.hide(this.registerModalId)
                 })
-                document.location = this.route('library.lending.person', [data.id])
+                this.$router.push({ name: 'library.lending.person', params: { personId: data.id }})
             } catch (err) {
                 alert(this.$t('app.error_err', { err: err }))
             }

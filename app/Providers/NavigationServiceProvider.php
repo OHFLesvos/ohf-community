@@ -117,17 +117,6 @@ class NavigationServiceProvider extends ServiceProvider
         'cmtyvol.responsibilities.create' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesCreateContextButtons::class,
         'cmtyvol.responsibilities.edit'   => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesEditContextButtons::class,
 
-        'library.lending.index'           => \App\Navigation\ContextButtons\Library\LibraryLendingIndexContextButtons::class,
-        'library.lending.persons'         => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
-        'library.lending.books'           => \App\Navigation\ContextButtons\Library\LibraryReturnToIndexContextButtons::class,
-        'library.lending.person'          => \App\Navigation\ContextButtons\Library\LibraryLendingPersonContextButtons::class,
-        'library.lending.book'            => \App\Navigation\ContextButtons\Library\LibraryLendingBookContextButtons::class,
-        'library.books.index'             => \App\Navigation\ContextButtons\Library\LibraryBookIndexContextButtons::class,
-        'library.books.create'            => \App\Navigation\ContextButtons\Library\LibraryBookCreateContextButtons::class,
-        'library.books.edit'              => \App\Navigation\ContextButtons\Library\LibraryBookEditContextButtons::class,
-        'library.report'                  => \App\Navigation\ContextButtons\Library\LibraryReportContextButtons::class,
-        'library.export'                  => \App\Navigation\ContextButtons\Library\LibraryExportContextButtons::class,
-
         'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,
         'shop.manageCards'                => \App\Navigation\ContextButtons\Shop\ShopManageCardsContextButtons::class,
     ];

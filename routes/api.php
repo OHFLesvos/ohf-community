@@ -440,6 +440,12 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
             ->name('books.findIsbn');
         Route::apiResource('books', 'BookController');
 
+        // Export
+        Route::get('export', 'ExportController@export')
+            ->name('export');
+        Route::post('export', 'ExportController@doExport')
+            ->name('doExport');
+
         // Report
         Route::get('report', 'ReportController@index')
             ->name('report');

@@ -6,15 +6,12 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
-import LendingPage from '@/pages/library/LendingPage'
-import LendingPersonPage from '@/pages/library/LendingPersonPage'
-import BooksPage from '@/pages/library/BooksPage'
-import BookRegisterPage from '@/pages/library/BookRegisterPage'
-import BookEditPage from '@/pages/library/BookEditPage'
-import LendingBookPage from '@/pages/library/LendingBookPage'
-import ReportPage from '@/pages/library/ReportPage'
+import LibraryApp from '@/app/LibraryApp'
+
+import store from '@/store'
 
 import i18n from '@/plugins/i18n'
+import router from '@/router/library'
 
 import '@/plugins/vee-validate'
 
@@ -26,13 +23,9 @@ Vue.config.productionTip = false
 new Vue({
     el: '#library-app',
     i18n,
+    router,
+    store,
     components: {
-        LendingPage,
-        LendingPersonPage,
-        BooksPage,
-        BookRegisterPage,
-        BookEditPage,
-        LendingBookPage,
-        ReportPage
+        LibraryApp
     }
 })

@@ -139,6 +139,7 @@ Route::middleware(['language', 'auth'])
     ->prefix('fundraising')
     ->name('fundraising.')
     ->group(function () {
+        // SPA
         Route::get('', 'FundraisingController@index')
             ->name('index');
         Route::get('/{any}', 'FundraisingController@index')
@@ -409,33 +410,11 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
     ->prefix('library')
     ->name('library.')
     ->group(function () {
-        Route::view('lending', 'library.lending.index')
-            ->name('lending.index');
-        Route::get('lending/person/{person}', 'LendingController@person')
-            ->name('lending.person');
-        Route::get('lending/book/{book}', 'LendingController@book')
-            ->name('lending.book');
-
-        // Export
-        Route::get('export', 'ExportController@export')
-            ->name('export');
-        Route::post('doExport', 'ExportController@doExport')
-            ->name('doExport');
-
-        // Report
-        Route::view('report', 'library.report')
-            ->name('report')
-            ->middleware('can:viewAny, App\Models\Library\LibraryBook');
-
-        // Books
-        Route::view('books', 'library.books.index')
-            ->middleware('can:viewAny,App\Models\Library\LibraryBook')
-            ->name('books.index');
-        Route::view('books/create', 'library.books.create')
-            ->middleware('can:create,App\Models\Library\LibraryBook')
-            ->name('books.create');
-        Route::resource('books', 'BookController')
-            ->only(['edit']);
+        // SPA
+        Route::get('', 'LibraryController@index')
+            ->name('index');
+        Route::get('/{any}', 'LibraryController@index')
+            ->where('any', '.*');
     });
 
 //

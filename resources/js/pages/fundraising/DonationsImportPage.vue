@@ -1,57 +1,55 @@
 <template>
-    <div>
-        <validation-observer
-            ref="observer"
-            v-slot="{ handleSubmit }"
-            slim
-        >
-            <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+    <validation-observer
+        ref="observer"
+        v-slot="{ handleSubmit }"
+        slim
+    >
+        <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
 
-                <!-- Type -->
+            <!-- Type -->
+            <b-form-group
+                :label="$t('app.type')"
+            >
+                <b-form-radio-group
+                    v-model="form.type"
+                    :options="types"
+                />
+            </b-form-group>
+
+            <!-- File -->
+            <validation-provider
+                :name="$t('app.file')"
+                vid="file"
+                :rules="{ required: true, ext: ['xlsx', 'xls', 'csv'] }"
+                v-slot="validationContext"
+            >
                 <b-form-group
-                    :label="$t('app.type')"
+                    :label="$t('app.file')"
+                    :state="getValidationState(validationContext)"
+                    :invalid-feedback="validationContext.errors[0]"
                 >
-                    <b-form-radio-group
-                        v-model="form.type"
-                        :options="types"
+                    <b-form-file
+                        v-model="form.file"
+                        :placeholder="$t('app.choose_file')"
+                        accept=".xlsx, .xls, .csv"
+                        required
+                        :state="getValidationState(validationContext)"
                     />
                 </b-form-group>
+            </validation-provider>
 
-                <!-- File -->
-                <validation-provider
-                    :name="$t('app.file')"
-                    vid="file"
-                    :rules="{ required: true, ext: ['xlsx', 'xls', 'csv'] }"
-                    v-slot="validationContext"
+            <p>
+                <b-button
+                    type="submit"
+                    variant="primary"
+                    :disabled="isBusy"
                 >
-                    <b-form-group
-                        :label="$t('app.file')"
-                        :state="getValidationState(validationContext)"
-                        :invalid-feedback="validationContext.errors[0]"
-                    >
-                        <b-form-file
-                            v-model="form.file"
-                            :placeholder="$t('app.choose_file')"
-                            accept=".xlsx, .xls, .csv"
-                            required
-                            :state="getValidationState(validationContext)"
-                        />
-                    </b-form-group>
-                </validation-provider>
-
-                <p>
-                    <b-button
-                        type="submit"
-                        variant="primary"
-                        :disabled="isBusy"
-                    >
-                        <font-awesome-icon icon="upload" />
-                        {{ $t('app.import') }}
-                    </b-button>
-                </p>
-            </b-form>
-        </validation-observer>
-    </div>
+                    <font-awesome-icon icon="upload" />
+                    {{ $t('app.import') }}
+                </b-button>
+            </p>
+        </b-form>
+    </validation-observer>
 </template>
 
 <script>

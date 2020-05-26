@@ -110,5 +110,9 @@ export default {
     async fetchReportData () {
         const url = route('api.library.report')
         return await api.get(url)
+    },
+    async fetchExportData () {
+        const url = route('api.library.export')
+        return await api.get(url)
     }
 }

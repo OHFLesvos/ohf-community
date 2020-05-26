@@ -1,7 +1,7 @@
 @php
     $links = [
         [
-            'url' => route('library.lending.index'),
+            'url' => route('library.index'),
             'title' => __('library.lendings'),
             'icon' => 'list',
             'authorized' => true,

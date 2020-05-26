@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Gate;
 
 class LibraryNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'library.lending.index';
+    protected $route = 'library.index';
 
     protected $caption = 'library.library';
 

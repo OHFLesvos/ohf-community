@@ -9,17 +9,17 @@
         :items-per-page="25"
     >
         <template v-slot:cell(book)="data">
-            <a :href="route('library.lending.book', [data.item.id])">
+            <b-link :to="{ name: 'library.lending.book', params: { bookId: data.item.id }}">
                 {{ data.item.title }}<template v-if="data.item.author">, {{ data.item.author }}</template>
-            </a>
+            </b-link>
         </template>
         <template v-slot:cell(person)="data">
-            <a
+            <b-link
                 v-if="data.item.lending.person"
-                :href="route('library.lending.person', [data.item.lending.person.public_id])"
+                :to="{ name: 'library.lending.person', params: { personId: data.item.lending.person.public_id }}"
             >
                 {{ data.item.lending.person.full_name }}
-            </a>
+            </b-link>
         </template>
     </base-table>
 </template>

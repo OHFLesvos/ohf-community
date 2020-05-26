@@ -28,6 +28,8 @@ class LendingController extends Controller
      */
     public function stats()
     {
+        $this->authorize('operate-library');
+
         return [
             'num_borrowers' => Person::query()
                 ->whereHas('bookLendings', fn ($query) => $query->whereNull('returned_date'))
@@ -144,6 +146,8 @@ class LendingController extends Controller
      */
     public function extendBookToPerson(Person $person, StoreExtendBookToPerson $request)
     {
+        $this->authorize('operate-library');
+
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
             ->whereNull('returned_date')
@@ -168,6 +172,8 @@ class LendingController extends Controller
      */
     public function returnBookFromPerson(Person $person, StoreReturnBookFromPerson $request)
     {
+        $this->authorize('operate-library');
+
         $lending = LibraryLending::where('book_id', $request->book_id)
             ->where('person_id', $person->id)
             ->whereNull('returned_date')
@@ -248,6 +254,8 @@ class LendingController extends Controller
 
     public function extendBook(LibraryBook $book, StoreExtendBook $request)
     {
+        $this->authorize('operate-library');
+
         $lending = LibraryLending::where('book_id', $book->id)
             ->whereNull('returned_date')
             ->firstOrFail();
@@ -264,6 +272,8 @@ class LendingController extends Controller
 
     public function returnBook(LibraryBook $book)
     {
+        $this->authorize('operate-library');
+
         $lending = LibraryLending::where('book_id', $book->id)
             ->whereNull('returned_date')
             ->firstOrFail();

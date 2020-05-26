@@ -47,6 +47,14 @@
                     </b-alert>
 
                     <p>
+                        <b-button
+                            :to="{ name: 'library.lending.person', params: { personId: lending.person.public_id }}"
+                            variant="primary"
+                        >
+                            <font-awesome-icon icon="user" />
+                            {{ $t('library.borrower') }}
+                        </b-button>
+
                         <!-- Return book -->
                         <b-button
                             variant="success"
@@ -164,7 +172,6 @@ export default {
         lentToPersonMessage () {
             if (this.lending.person) {
                 return this.$t('library.book_is_lent_to_person_until', {
-                    route: this.route('library.lending.person', [this.lending.person.public_id]),
                     person: this.lending.person.full_name,
                     until: moment(this.lending.return_date).format("LL")
                 })

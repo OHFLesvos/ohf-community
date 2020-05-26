@@ -21,12 +21,12 @@
                         'table-warning': isSoonOverdue(lending)
                     }">
                     <td class="align-middle">
-                        <a :href="route('library.lending.book', [lending.book.id])">
+                        <b-link :to="{ name: 'library.lending.book', params: { bookId: lending.book.id }}">
                             {{ lending.book.title }}
                             <template v-if="lending.book.author">
                                 ({{ lending.book.author }})
                             </template>
-                        </a>
+                        </b-link>
                     </td>
                     <td class="align-middle d-none d-sm-table-cell">
                         {{ moment(lending.lending_date).format("LL") }}

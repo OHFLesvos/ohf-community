@@ -2,6 +2,7 @@
     <header class="d-flex justify-content-between mb-2">
         <h1 class="display-4">
             {{ title }}
+            <small v-if="subtitle">{{ subtitle }}</small>
         </h1>
         <span class="text-right pt-2">
             <span
@@ -14,6 +15,7 @@
                     :href="button.href"
                     :variant="button.variant ? button.variant : 'secondary'"
                     class="mb-1"
+                    @click="handleClick(button)"
                 >
                     <font-awesome-icon :icon="button.icon" />
                     <span class="d-none d-md-inline">{{ button.text }}</span>
@@ -31,7 +33,11 @@ export default {
             required: true,
             type: String
         },
-        // Button props: [(to, href), variant, icon, text]
+        subtitle: {
+            required: false,
+            type: String
+        },
+        // Button props: [(to, href, click), variant, icon, text]
         buttons: {
             required: false,
             type: Array,
@@ -51,6 +57,13 @@ export default {
                 }
                 return true
             })
+        }
+    },
+    methods: {
+        handleClick (button) {
+            if (typeof button.click == 'function') {
+                button.click()
+            }
         }
     }
 }
