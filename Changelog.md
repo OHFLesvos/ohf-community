@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.21.0
+
+* SPA for Fundraising module
+* SPA for Library module
+* Extended fundraising report with new charts
+* Library updates
+* Fixed user management super admin checkbox
+* Removed unused code
+* Upated dependencies
+
 ## 2.20.1
 
 * Added additional categorization fields to accounting transactions export
