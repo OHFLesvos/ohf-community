@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import i18n from '@/plugins/i18n'
-import ziggy from '@/plugins/ziggy'
+import ziggyRoute from '@/plugins/ziggy'
 
 import { rememberRoute, previouslyRememberedRoute } from '@/utils/router'
 
@@ -78,7 +78,7 @@ export default new VueRouter({
                             show: can('view-fundraising-reports')
                         },
                         {
-                            href: ziggy.route('api.fundraising.donors.export'),
+                            href: ziggyRoute('api.fundraising.donors.export'),
                             icon: 'download',
                             text: i18n.t('app.export'),
                             show: can('view-donors')
@@ -135,13 +135,13 @@ export default new VueRouter({
                             // TODO 'authorized' => request()->user()->can('update', $donor),
                         },
                         {
-                            href: ziggy.route('api.fundraising.donors.donations.export', route.params.id),
+                            href: ziggyRoute('api.fundraising.donors.donations.export', route.params.id),
                             icon: 'download',
                             text: i18n.t('app.export'),
                             show: can('view-donations')
                         },
                         {
-                            href: ziggy.route('api.fundraising.donors.vcard', route.params.id),
+                            href: ziggyRoute('api.fundraising.donors.vcard', route.params.id),
                             icon: 'address-card',
                             text: i18n.t('app.vcard')
                             // TODO 'authorized' => request()->user()->can('view', $donor),
@@ -229,7 +229,7 @@ export default new VueRouter({
                             show: can('view-fundraising-reports')
                         },
                         {
-                            href: ziggy.route('api.fundraising.donations.export'),
+                            href: ziggyRoute('api.fundraising.donations.export'),
                             icon: 'download',
                             text: i18n.t('app.export'),
                             show: can('view-donations')

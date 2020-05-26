@@ -1,6 +1,6 @@
-import ziggy from '@/plugins/ziggy'
+import route from '@/plugins/ziggy'
 export default {
     methods: {
-        route: ziggy.route
+        route: route
     }
 }
