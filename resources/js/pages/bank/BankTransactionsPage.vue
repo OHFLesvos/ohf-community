@@ -179,7 +179,7 @@ export default {
         refresh() {
             this.$refs.table.refresh()
         },
-        itemProvider(ctx) {
+        async itemProvider(ctx) {
             this.isBusy = true
             const params = {
                 page: ctx.currentPage,
@@ -187,19 +187,18 @@ export default {
                 filter: ctx.filter
             }
             this.apiError = null
-            return bankApi.listTransactions(params)
-                .then(data => {
-                    const items = data.data
-                    this.totalRows = data.meta && data.meta ? data.meta.total : 0
-                    this.isBusy = false
-                    this.initialized = true
-                    return items || []
-                })
-                .catch(err => {
-                    this.apiError = err
-                    this.isBusy = false
-                    return []
-                })
+            try {
+                let data = await bankApi.listTransactions(params)
+                const items = data.data
+                this.totalRows = data.meta && data.meta ? data.meta.total : 0
+                this.isBusy = false
+                this.initialized = true
+                return items || []
+            } catch (err) {
+                this.apiError = err
+                this.isBusy = false
+                return []
+            }
         }
     }
 }

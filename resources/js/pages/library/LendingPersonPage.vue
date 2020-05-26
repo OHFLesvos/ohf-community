@@ -148,22 +148,26 @@ export default {
     },
     methods: {
         moment,
-        loadPerson () {
-            peopleApi.find(this.personId)
-                .then(data => this.person = data.data)
-                .catch(err => console.error(err))
+        async loadPerson () {
+            try {
+                let data = await peopleApi.find(this.personId)
+                this.person = data.data
+            } catch (err) {
+                alert(err)
+            }
         },
-        loadLendings () {
+        async loadLendings () {
             this.busy = true
-            libraryApi.findLendingsOfPerson(this.personId)
-                .then(data => {
-                    this.lendings = data.data
-                    this.canLend = data.meta.can_lend
-                    this.canRegisterBook = data.meta.can_register_book
-                    this.defaultExtendDuration = data.meta.default_extend_duration
-                })
-                .catch(err => console.error(err))
-                .finally(() => this.busy = false)
+            try {
+                let data = await libraryApi.findLendingsOfPerson(this.personId)
+                this.lendings = data.data
+                this.canLend = data.meta.can_lend
+                this.canRegisterBook = data.meta.can_register_book
+                this.defaultExtendDuration = data.meta.default_extend_duration
+            } catch (err) {
+                alert(err)
+            }
+            this.busy = false
         },
         async lendBookToPerson (bvModalEvt) {
             bvModalEvt.preventDefault()

@@ -103,13 +103,14 @@ export default {
             numLentBooks: null,
         }
     },
-    created () {
-        libraryApi.fetchLendingsStatistics()
-            .then((data) => {
-                this.numBorrowers = data.num_borrowers
-                this.numLentBooks = data.num_lent_books
-            })
-            .catch(err => console.error(err))
+    async created () {
+        try {
+            let data = await libraryApi.fetchLendingsStatistics()
+            this.numBorrowers = data.num_borrowers
+            this.numLentBooks = data.num_lent_books
+        } catch (err) {
+            // Noop
+        }
     },
     methods: {
         ucFirst,

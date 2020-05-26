@@ -57,13 +57,14 @@ export default {
         }
     },
     methods: {
-        loadStats() {
-            bankApi.fetchDailyStats()
-                .then(data => {
-                    this.stats = data
-                    this.loaded = true
-                })
-                .catch(console.error);
+        async loadStats() {
+            try {
+                let data = await bankApi.fetchDailyStats()
+                this.stats = data
+                this.loaded = true
+            } catch (err) {
+                // Noop
+            }
         }
     }
 }

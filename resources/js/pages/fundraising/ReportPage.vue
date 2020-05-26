@@ -118,25 +118,41 @@ export default {
             this.loadData()
         }
     },
-    mounted () {
+    created () {
         this.loadData()
     },
     methods: {
         loadData () {
+            this.loadCount()
+            this.loadCountries()
+            this.loadLanguages()
+        },
+        async loadCount () {
             this.countError = null
-            reportApi.getCount(this.dateRange.to)
-                .then(data => this.count = this.mapCountData(data))
-                .catch(err => this.countError = err)
-
+            try {
+                let data = await reportApi.getCount(this.dateRange.to)
+                this.count = this.mapCountData(data)
+            } catch (err) {
+                this.countError = err
+            }
+        },
+        async loadCountries () {
             this.countriesError = null
-            reportApi.getCountries(this.dateRange.to)
-                .then(data => this.countries = data)
-                .catch(err => this.countriesError = err)
-
+             try {
+                let data = await reportApi.getCountries(this.dateRange.to)
+                this.countries = data
+            } catch (err) {
+                this.countriesError = err
+            }
+        },
+        async loadLanguages () {
             this.languagesError = null
-            reportApi.getLanguages(this.dateRange.to)
-                .then(data => this.languages = data)
-                .catch(err => this.languagesError = err)
+            try {
+                let data = await reportApi.getLanguages(this.dateRange.to)
+                this.languages = data
+            } catch (err) {
+                this.languagesError = err
+            }
         },
         mapCountData (data) {
             this.firstDonorRegistration = moment(data.first).format('LL')

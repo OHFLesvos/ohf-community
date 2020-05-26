@@ -47,18 +47,20 @@ export default {
         this.loadLanguages()
     },
     methods: {
-        loadLanguages () {
-            commonApi.listLanguages()
-                .then(data => {
-                    const languages = Object.entries(data)
-                        .map(e => {
-                            return {
-                                value: e[0],
-                                text: e[1]
-                            }
-                        })
-                    this.languages.push(...languages)
-                })
+        async loadLanguages () {
+            try {
+                let data = await commonApi.listLanguages()
+                const languages = Object.entries(data)
+                    .map(e => {
+                        return {
+                            value: e[0],
+                            text: e[1]
+                        }
+                    })
+                this.languages.push(...languages)
+            } catch (err) {
+                // Noop
+            }
         }
     }
 }

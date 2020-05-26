@@ -152,18 +152,20 @@ export default {
         this.loadData()
     },
     methods: {
-        loadData () {
+        async loadData () {
             let year, month
             if (this.selectedMonth != null) {
                 const parts = this.selectedMonth.split('-');
                 year = parts[0],
                 month = parts[1]
             }
-            peopleApi.fetchMonthlySummaryReportData(year, month)
-                .then(data => {
-                    this.data = data
-                    this.selectedMonth = moment(this.data.monthDate).format('YYYY-MM')
-                })
+            try {
+                let data = await peopleApi.fetchMonthlySummaryReportData(year, month)
+                this.data = data
+                this.selectedMonth = moment(this.data.monthDate).format('YYYY-MM')
+            } catch (err) {
+                alert(err)
+            }
         },
         percentVal (prev, cur) {
             return prev != 0 ? Math.round(((cur - prev) / prev) * 100) : null

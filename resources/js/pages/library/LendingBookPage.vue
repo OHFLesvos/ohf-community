@@ -169,6 +169,7 @@ export default {
                     until: moment(this.lending.return_date).format("LL")
                 })
             }
+            // TODO
             // @php
             //     $thrashedPerson = $lending->person()->withTrashed()->first();
             // @endphp
@@ -186,26 +187,28 @@ export default {
     },
     methods: {
         moment,
-        loadBook () {
-            libraryApi.findBook(this.bookId)
-                .then(data => {
-                    this.book = data.data
-                })
-                .catch(err => console.error(err))
+        async loadBook () {
+            try {
+                let data = await libraryApi.findBook(this.bookId)
+                this.book = data.data
+            } catch (err) {
+                alert(err)
+            }
         },
-        loadLending () {
+        async loadLending () {
             this.busy = true
-            libraryApi.findLendingOfBook(this.bookId)
-                .then(data => {
-                    if (data.data) {
-                        this.lending = data.data
-                        this.defaultExtendDuration = data.meta.default_extend_duration
-                    } else {
-                        this.lending = null
-                    }
-                })
-                .catch(err => console.error(err))
-                .finally(() => this.busy = false)
+            try {
+                let data = await libraryApi.findLendingOfBook(this.bookId)
+                if (data.data) {
+                    this.lending = data.data
+                    this.defaultExtendDuration = data.meta.default_extend_duration
+                } else {
+                    this.lending = null
+                }
+            } catch (err) {
+                alert(err)
+            }
+            this.busy = false
         },
         async extendLending () {
             var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)
