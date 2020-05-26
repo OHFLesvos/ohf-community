@@ -101,7 +101,7 @@ class Donation extends Model
             ->groupBy('currency')
             ->whereNotNull('currency')
             ->createdUntil($untilDate)
-            ->orderBy('currency', 'desc')
+            ->orderBy('currencies_sum', 'desc')
             ->get()
             ->mapWithKeys(fn ($e) => [ $e->currency => floatVal($e->currencies_sum) ])
             ->toArray();
@@ -120,7 +120,7 @@ class Donation extends Model
             ->groupBy('channel')
             ->whereNotNull('channel')
             ->createdUntil($untilDate)
-            ->orderBy('channel', 'desc')
+            ->orderBy('channels_count', 'desc')
             ->get()
             ->mapWithKeys(fn ($e) => [ $e->channel => floatVal($e->channels_count) ])
             ->toArray();
