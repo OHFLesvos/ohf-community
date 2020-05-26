@@ -18,33 +18,6 @@ export function showSnackbar(text, actionText, actionClass, callback) {
 	Snackbar.show(args);
 }
 
-export function getAjaxErrorMessage(err) {
-	var msg;
-	if (err.response) {
-		if (err.response.data.message) {
-			msg = err.response.data.message;
-		}
-		if (err.response.data.errors) {
-			msg += "\n" + Object.entries(err.response.data.errors).map(([k, v]) => {
-				return v.join('. ');
-			});
-		} else if (err.response.data.error) {
-			msg = err.response.data.error;
-		}
-		if (!msg) {
-			msg = `Error ${err.response.status}: ${err.response.statusText}`
-		}
-	} else {
-		msg = err
-	}
-	return msg;
-}
-
-export function handleAjaxError(err) {
-	console.log(err)
-    alert('Error: ' + getAjaxErrorMessage(err));
-}
-
 export function isDateString(value) {
 	return value.match('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
 }

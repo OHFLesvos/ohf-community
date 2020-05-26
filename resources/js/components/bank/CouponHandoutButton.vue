@@ -40,7 +40,7 @@
 
 <script>
 import bankApi from '@/api/bank'
-import { showSnackbar, handleAjaxError } from '@/utils'
+import { showSnackbar } from '@/utils'
 import { isAlphaNumeric } from '@/utils'
 import CodeScannerModal from '@/components/ui/CodeScannerModal'
 export default {
@@ -76,13 +76,13 @@ export default {
         validateCode(val) {
             return isAlphaNumeric(val)
         },
-        submitScannedCode(value) {
+        async submitScannedCode(value) {
             this.sendHandoutRequest({
                 "amount": this.daily_amount,
                 'code': value,
             });
         },
-        handoutCoupon(){
+        async handoutCoupon(){
             if (this.qr_code_enabled) {
                 this.$refs.codeScanner.open()
             } else {
@@ -91,35 +91,37 @@ export default {
                 });
             }
         },
-        sendHandoutRequest(postData) {
+        async sendHandoutRequest(postData) {
             this.busy = true
-            bankApi.handoutCoupon(this.personId, this.coupon.id, postData)
-                .then(data => {
-                    this.last_handout = data.countdown
-                    this.returning_possible = true
-                    setTimeout(this.disableCouponReturn, data.return_grace_period * 1000)
-                    showSnackbar(data.message, this.$t('app.undo'), 'warning', (element) => {
-                        element.style.opacity = 0
-                        this.undoHandoutCoupon()
-                    });
-                })
-                .catch(handleAjaxError)
-                .then(() => this.busy = false);
+            try {
+                let data = await bankApi.handoutCoupon(this.personId, this.coupon.id, postData)
+                this.last_handout = data.countdown
+                this.returning_possible = true
+                setTimeout(this.disableCouponReturn, data.return_grace_period * 1000)
+                showSnackbar(data.message, this.$t('app.undo'), 'warning', (element) => {
+                    element.style.opacity = 0
+                    this.undoHandoutCoupon()
+                });
+            } catch (err) {
+                alert(err)
+            }
+            this.busy = false
         },
         disableCouponReturn() {
             if (this.last_handout) {
                 this.returning_possible = false
             }
         },
-        undoHandoutCoupon(){
+        async undoHandoutCoupon(){
             this.busy = true
-            bankApi.undoHandoutCoupon(this.personId, this.coupon.id)
-                .then(data => {
-                    this.last_handout = null
-                    showSnackbar(data.message);
-                })
-                .catch(handleAjaxError)
-                .then(() => this.busy = false);
+            try {
+                let data = await bankApi.undoHandoutCoupon(this.personId, this.coupon.id)
+                this.last_handout = null
+                showSnackbar(data.message);
+            } catch (err) {
+                alert(err)
+            }
+            this.busy = false
         }
     }
 }

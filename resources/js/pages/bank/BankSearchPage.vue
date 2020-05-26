@@ -63,8 +63,6 @@
 import SessionVariable from '@/sessionVariable'
 const rememberedFilter = new SessionVariable('bank.withdrawal.filter')
 
-import { handleAjaxError } from '@/utils'
-
 import PersonFilterInput from '@/components/people/PersonFilterInput'
 import BankPersonCard from '@/components/bank/BankPersonCard'
 import RegisterPersonButton from '@/components/people/RegisterPersonButton'
@@ -129,7 +127,7 @@ export default {
         }
     },
     methods: {
-        search(filter) {
+        async search (filter) {
             this.busy = true
             this.message = null
             this.searchTerms = []
@@ -137,43 +135,43 @@ export default {
             if (this.filter != filter) {
                 this.currentPage = 1
             }
-            bankApi.searchPersons(filter, this.currentPage)
-                .then((data) => {
-                    this.persons = data.data
-                    this.totalRows = data.meta.total
-                    this.perPage = data.meta.per_page
-                    this.registerQuery = data.meta.register_query
-                    this.loaded = true
-                    this.filter = filter
-                    if (this.persons.length > 0) {
-                        rememberedFilter.set(filter)
-                    }
-                    if (data.meta.terms.length > 0) {
-                        this.searchTerms = data.meta.terms
-                    }
-                })
-                .catch(err => handleAjaxError(err))
-                .then(() => this.busy = false)
-                .then(() => {
-                    if (this.totalRows == 0) {
-                        EventBus.$emit('zero-results');
-                    }
-                })
+            try {
+                let data = await bankApi.searchPersons(filter, this.currentPage)
+                this.persons = data.data
+                this.totalRows = data.meta.total
+                this.perPage = data.meta.per_page
+                this.registerQuery = data.meta.register_query
+                this.loaded = true
+                this.filter = filter
+                if (this.persons.length > 0) {
+                    rememberedFilter.set(filter)
+                }
+                if (data.meta.terms.length > 0) {
+                    this.searchTerms = data.meta.terms
+                }
+            } catch (err) {
+                alert(err)
+            }
+            this.busy = false
+            if (this.totalRows == 0) {
+                EventBus.$emit('zero-results');
+            }
         },
-        reloadPerson(person) {
-            if (person.url) {
+        async reloadPerson(person) {
+            if (person.id) {
                 this.disableSearch = true
                 this.disabledCards.push(person.id)
-                bankApi.findPerson(person.id)
-                    .then((data) => {
-                        if (data.data) {
-                            const idx = this.persons.findIndex(p => p.id == person.id)
-                            this.persons[idx] = data.data
-                        }
-                        this.disabledCards.splice(this.disabledCards.indexOf(person.id))
-                    })
-                    .catch(err => handleAjaxError(err))
-                    .then(() => this.disableSearch = false)
+                try {
+                    let data = await bankApi.findPerson(person.id)
+                    if (data.data) {
+                        const idx = this.persons.findIndex(p => p.id == person.id)
+                        this.persons[idx] = data.data
+                    }
+                    this.disabledCards.splice(this.disabledCards.indexOf(person.id))
+                } catch (err) {
+                    alert(err)
+                }
+                this.disableSearch = false
             }
         },
         reset() {

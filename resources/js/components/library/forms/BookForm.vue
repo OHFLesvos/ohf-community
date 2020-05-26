@@ -44,8 +44,8 @@
 
 <script>
 import libraryApi from '@/api/library'
+import { getAjaxErrorMessage } from '@/api/baseApi'
 import HttpStatus from 'http-status-codes'
-import { handleAjaxError } from '@/utils'
 import { BForm, BButton } from 'bootstrap-vue'
 import IsbnInput from '@/components/library/input/IsbnInput'
 import TitleInput from '@/components/library/input/TitleInput'
@@ -102,28 +102,27 @@ export default {
                 language_code: this.language_code
             })
         },
-        updateDataByISBN (isbn) {
+        async updateDataByISBN (isbn) {
             this.searching = true
-            libraryApi.findIsbn(isbn)
-                .then(data => {
-                    this.title = data.title
-                    this.author = data.author
-                    this.language_code = data.language
+            try {
+                let data = await libraryApi.findIsbn(isbn)
+                this.title = data.title
+                this.author = data.author
+                this.language_code = data.language
 
-                    this.$nextTick(function () {
-                        this.$refs.observer.validate()
-                    })
+                this.$nextTick(function () {
+                    this.$refs.observer.validate()
                 })
-                .catch((err) => {
-                    if (err.response.status == HttpStatus.NOT_FOUND) {
-                        this.title = ''
-                        this.author = ''
-                        this.language_code = null
-                    } else {
-                        handleAjaxError(err)
-                    }
-                })
-                .finally(() => this.searching = false)
+            } catch (err) {
+                if (err.response.status == HttpStatus.NOT_FOUND) {
+                    this.title = ''
+                    this.author = ''
+                    this.language_code = null
+                } else {
+                    alert(getAjaxErrorMessage(err))
+                }
+            }
+            this.searching = false
         }
     }
 }

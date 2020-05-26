@@ -1,5 +1,4 @@
-import { api, route } from '@/api/baseApi'
-import { getAjaxErrorMessage } from '@/utils'
+import { api, route, getAjaxErrorMessage } from '@/api/baseApi'
 export default {
     async findCard (code) {
         const params = {

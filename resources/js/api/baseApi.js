@@ -2,7 +2,27 @@ import axios from '@/plugins/axios'
 import ziggyMixin from '@/mixins/ziggyMixin'
 export const route = ziggyMixin.methods.route
 
-import { getAjaxErrorMessage } from '@/utils'
+export const getAjaxErrorMessage = function (err) {
+	var msg;
+	if (err.response) {
+		if (err.response.data.message) {
+			msg = err.response.data.message;
+		}
+		if (err.response.data.errors) {
+			msg += "\n" + Object.entries(err.response.data.errors).map(([k, v]) => {
+				return v.join('. ');
+			});
+		} else if (err.response.data.error) {
+			msg = err.response.data.error;
+		}
+		if (!msg) {
+			msg = `Error ${err.response.status}: ${err.response.statusText}`
+		}
+	} else {
+		msg = err
+	}
+	return msg;
+}
 
 const handleError = function(err) {
     console.error(err)

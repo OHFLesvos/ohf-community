@@ -7,7 +7,7 @@ export default {
         const url = route('api.library.books.findIsbn', {
             isbn: isbn
         })
-        return await api.get(url)
+        return await api.getNoCatch(url)
     },
     async listBooks (params) {
         const url = route('api.library.books.index', params)
