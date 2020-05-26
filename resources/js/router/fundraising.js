@@ -6,20 +6,7 @@ Vue.use(VueRouter)
 import i18n from '@/plugins/i18n'
 import ziggy from '@/plugins/ziggy'
 
-import store from '@/store/fundraising'
-
-const rememberRoute = function(to, from, ignore = []) {
-    if (from.name != null && !ignore.find(e => e == from.name)) {
-        store.commit('SET_PREVIOUS_ROUTE', {
-            name: to.name,
-            value: from
-        })
-    }
-}
-
-const previouslyRememberedRoute = function(name, defaultValue) {
-    return store.getters.getPreviousRoute(name, defaultValue)
-}
+import { rememberRoute, previouslyRememberedRoute } from '@/utils/router'
 
 import PageHeader from '@/components/ui/PageHeader'
 import TabNav from '@/components/ui/TabNav'

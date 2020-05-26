@@ -6,7 +6,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
-import store from '@/store/fundraising'
+import store from '@/store'
 
 import i18n from '@/plugins/i18n'
 import router from '@/router/fundraising'
