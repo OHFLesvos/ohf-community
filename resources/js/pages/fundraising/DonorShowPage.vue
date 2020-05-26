@@ -1,5 +1,5 @@
 <template>
-    <table-alert
+    <alert-with-retry
         v-if="error"
         :value="error"
         @retry="fetchData"
@@ -32,11 +32,11 @@
 
 <script>
 import donorsApi from '@/api/fundraising/donors'
-import TableAlert from '@/components/table/TableAlert'
+import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 import TabNav from '@/components/ui/TabNav'
 export default {
     components: {
-        TableAlert,
+        AlertWithRetry,
         TabNav
     },
     props: {

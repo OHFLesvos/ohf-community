@@ -2,7 +2,7 @@
     <div>
 
         <!-- Error -->
-        <table-alert
+        <alert-with-retry
             :value="errorText"
             @retry="refresh"
         />
@@ -58,13 +58,13 @@
 </template>
 
 <script>
-import TableAlert from '@/components/table/TableAlert'
+import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 import TableFilter from '@/components/table/TableFilter'
 import TablePagination from '@/components/table/TablePagination'
 import GridItem from '@/components/cmtyvol/GridItem'
 export default {
     components: {
-        TableAlert,
+        AlertWithRetry,
         TableFilter,
         TablePagination,
         GridItem
