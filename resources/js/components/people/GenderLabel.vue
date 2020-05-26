@@ -3,13 +3,19 @@
         <font-awesome-icon
             icon="male"
         />
-        {{ $t('app.male') }}
+        <span v-if="!iconOnly">{{ $t('app.male') }}</span>
     </span>
     <span v-else-if="value == 'f'">
         <font-awesome-icon
             icon="female"
         />
-        {{ $t('app.female') }}
+        <span v-if="!iconOnly">{{ $t('app.female') }}</span>
+    </span>
+    <span v-else>
+        <font-awesome-icon
+            icon="genderless"
+        />
+        <span v-if="!iconOnly">{{ $t('app.unknown') }}</span>
     </span>
 </template>
 
@@ -18,8 +24,9 @@ export default {
     props: {
         value: {
             type: String,
-            required: true
-        }
+            required: false
+        },
+        iconOnly: Boolean
     }
 }
 </script>

@@ -106,5 +106,9 @@ export default {
     async returnBook(id) {
         const url = route('api.library.lending.returnBook', id)
         return await api.post(url)
+    },
+    async fetchReportData () {
+        const url = route('api.library.report')
+        return await api.get(url)
     }
 }

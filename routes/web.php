@@ -423,8 +423,9 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
             ->name('doExport');
 
         // Report
-        Route::get('report', 'ReportController@index')
-            ->name('report');
+        Route::view('report', 'library.report')
+            ->name('report')
+            ->middleware('can:viewAny, App\Models\Library\LibraryBook');
 
         // Books
         Route::view('books', 'library.books.index')
