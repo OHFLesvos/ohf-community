@@ -4,46 +4,7 @@
             :title="$t('app.search')"
             active
         >
-            <div class="row">
-
-                <div class="col-md">
-                    <b-card
-                        :header="ucFirst($t('people.persons'))"
-                        class="mb-4"
-                        body-class="pb-4"
-                    >
-                        <div class="form-row">
-                            <div class="col">
-                                <person-autocomplete-input @select="navigateToPerson" />
-                            </div>
-                            <div class="col-auto">
-                                <b-button
-                                    variant="outline-secondary"
-                                    @click="registerPerson()"
-                                >
-                                    <font-awesome-icon icon="plus-circle" />
-                                    <span class="d-none d-sm-inline">{{ $t('app.register') }}</span>
-                                </b-button>
-                            </div>
-                        </div>
-                    </b-card>
-                </div>
-
-                <div class="col-md">
-                    <b-card
-                        :header="$t('library.books')"
-                        class="mb-4"
-                        body-class="pb-4"
-                    >
-                        <library-book-autocomplete-input @select="navigateToBook" />
-                    </b-card>
-                </div>
-
-            </div>
-            <person-register-modal
-                ref="registerPersonModal"
-            />
-
+            <lendig-search />
         </b-tab>
 
         <b-tab lazy>
@@ -77,25 +38,15 @@
 </template>
 
 <script>
-import { ucFirst } from '@/utils'
 import libraryApi from '@/api/library'
-import PersonAutocompleteInput from '@/components/people/PersonAutocompleteInput'
-import LibraryBookAutocompleteInput from '@/components/library/input/LibraryBookAutocompleteInput'
-import PersonRegisterModal from '@/components/people/PersonRegisterModal'
+import LendigSearch from '@/components/library/LendigSearch'
 import BorrowersTable from '@/components/library/BorrowersTable'
 import LentBooksTable from '@/components/library/LentBooksTable'
-import { BCard, BTabs, BTab, BBadge } from 'bootstrap-vue'
 export default {
     components: {
-        PersonAutocompleteInput,
-        LibraryBookAutocompleteInput,
-        PersonRegisterModal,
+        LendigSearch,
         BorrowersTable,
-        LentBooksTable,
-        BCard,
-        BTabs,
-        BTab,
-        BBadge
+        LentBooksTable
     },
     data () {
         return {
@@ -110,22 +61,6 @@ export default {
             this.numLentBooks = data.num_lent_books
         } catch (err) {
             // Noop
-        }
-    },
-    methods: {
-        ucFirst,
-        navigateToPerson (val) {
-            if (val) {
-                this.$router.push({ name: 'library.lending.person', params: { personId: val }})
-            }
-        },
-        navigateToBook (val) {
-            if (val) {
-                this.$router.push({ name: 'library.lending.book', params: { bookId: val }})
-            }
-        },
-        registerPerson () {
-            this.$refs.registerPersonModal.open()
         }
     }
 }
