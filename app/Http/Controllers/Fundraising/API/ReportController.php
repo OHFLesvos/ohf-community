@@ -139,4 +139,44 @@ class ReportController extends Controller
             ->dataset(__('fundraising.donation_amount') . ' (' . config('fundraising.base_currency').')', $amounts, __('app.amount'))
             ->build();
     }
+
+    /**
+     * Display all currencies of donations.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function currencies(Request $request)
+    {
+        $this->authorize('view-fundraising-reports');
+
+        $request->validate([
+            'date' => [
+                'nullable',
+                'date',
+            ],
+        ]);
+        $date = $request->input('date');
+
+        return Donation::currencyDistribution($date);
+    }
+
+    /**
+     * Display all channels of donations.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function channels(Request $request)
+    {
+        $this->authorize('view-fundraising-reports');
+
+        $request->validate([
+            'date' => [
+                'nullable',
+                'date',
+            ],
+        ]);
+        $date = $request->input('date');
+
+        return Donation::channelDistribution($date);
+    }
 }

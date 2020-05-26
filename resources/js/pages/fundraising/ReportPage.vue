@@ -81,6 +81,20 @@
             class="mb-3"
         />
 
+        <b-row>
+            <b-col md>
+                <doughnut-chart-table-distribution-widget
+                    :title="$t('fundraising.currencies')"
+                    :data="reportApi.fechCurrencyDistribution"
+                />
+            </b-col>
+            <b-col md>
+                <doughnut-chart-table-distribution-widget
+                    :title="$t('fundraising.channels')"
+                    :data="reportApi.fetchChannelDistribution"
+                />
+            </b-col>
+        </b-row>
     </div>
 </template>
 
@@ -88,6 +102,7 @@
 import SimpleTwoColumnListCard from '@/components/ui/SimpleTwoColumnListCard'
 import AdvancedTwoColumnListCard from '@/components/ui/AdvancedTwoColumnListCard'
 import TimeBarChart from '@/components/charts/TimeBarChart'
+import DoughnutChartTableDistributionWidget from '@/components/reporting/DoughnutChartTableDistributionWidget'
 import DateRangeSelect from '@/components/common/DateRangeSelect'
 import moment from 'moment'
 import reportApi from '@/api/fundraising/report'
@@ -96,6 +111,7 @@ export default {
         SimpleTwoColumnListCard,
         AdvancedTwoColumnListCard,
         TimeBarChart,
+        DoughnutChartTableDistributionWidget,
         DateRangeSelect
     },
     data () {

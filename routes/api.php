@@ -145,6 +145,10 @@ Route::middleware(['language', 'auth'])
                     ->name('donors.registrations');
                 Route::get('donations/registrations', 'ReportController@donationRegistrations')
                     ->name('donations.registrations');
+                Route::get('donations/currencies', 'ReportController@currencies')
+                    ->name('donations.currencies');
+                Route::get('donations/channels', 'ReportController@channels')
+                    ->name('donations.channels');
             });
     });
 

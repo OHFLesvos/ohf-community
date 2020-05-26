@@ -30,4 +30,12 @@ export default {
         const url = route('api.fundraising.report.donations.registrations', params)
         return await api.get(url)
     },
+    async fechCurrencyDistribution () {
+        const url = route('api.fundraising.report.donations.currencies')
+        return await api.get(url)
+    },
+    async fetchChannelDistribution () {
+        const url = route('api.fundraising.report.donations.channels')
+        return await api.get(url)
+    },
 }

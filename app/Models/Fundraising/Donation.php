@@ -2,6 +2,7 @@
 
 namespace App\Models\Fundraising;
 
+use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ class Donation extends Model
 {
     use NullableFields;
     use InDateRangeScope;
+    use CreatedUntilScope;
 
     protected $nullable = [
         'purpose',
@@ -83,6 +85,44 @@ class Donation extends Model
             ->orderBy('channel')
             ->get()
             ->pluck('channel')
+            ->toArray();
+    }
+
+    /**
+     * Gets an array of all currencies assigned to donations, grouped and ordered by amount
+     *
+     * @param string|\Carbon\Carbon|null $untilDate
+     * @return array
+     */
+    public static function currencyDistribution($untilDate = null): array
+    {
+        return self::select('currency')
+            ->selectRaw('SUM(amount) as currencies_sum')
+            ->groupBy('currency')
+            ->whereNotNull('currency')
+            ->createdUntil($untilDate)
+            ->orderBy('currency', 'desc')
+            ->get()
+            ->mapWithKeys(fn ($e) => [ $e->currency => floatVal($e->currencies_sum) ])
+            ->toArray();
+    }
+
+    /**
+     * Gets an array of all channels assigned to donations, grouped and ordered by amount
+     *
+     * @param string|\Carbon\Carbon|null $untilDate
+     * @return array
+     */
+    public static function channelDistribution($untilDate = null): array
+    {
+        return self::select('channel')
+            ->selectRaw('COUNT(*) as channels_count')
+            ->groupBy('channel')
+            ->whereNotNull('channel')
+            ->createdUntil($untilDate)
+            ->orderBy('channel', 'desc')
+            ->get()
+            ->mapWithKeys(fn ($e) => [ $e->channel => floatVal($e->channels_count) ])
             ->toArray();
     }
 }
