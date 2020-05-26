@@ -11,11 +11,8 @@ return [
 
     'create_badges' => 'Badges: Create badges',
 
-    'view_fundraising_donors' => 'Donation management: View donors',
-    'manage_fundraising_donors' => 'Donation management: Manage donors',
-    'view_fundraising_donations' => 'Donation management: View donations',
-    'register_fundraising_donations' => 'Donation management: Register donations',
-    'edit_fundraising_donations' => 'Donation management: Edit donations',
+    'view_fundraising_donors_donations' => 'Donation management: View donors & donations',
+    'manage_fundraising_donors_donations' => 'Donation management: Manage donors & donations',
     'view_fundraising_reports' => 'Donation management: View reports',
     'accept_fundraising_donations_webhooks' => 'Donation management: Accept Webhooks',
 

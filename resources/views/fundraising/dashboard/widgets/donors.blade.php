@@ -2,7 +2,7 @@
     $links = [
         [
             'url' => route('fundraising.index'),
-            'title' => __('app.manage'),
+            'title' => __('app.view'),
             'icon' => 'edit',
             'authorized' => true,
         ],

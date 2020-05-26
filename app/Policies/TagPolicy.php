@@ -26,7 +26,7 @@ class TagPolicy
     public function viewAny(User $user)
     {
         return $user->hasPermission('wiki.view')
-            || $user->hasPermission('fundraising.donors.view');
+            || $user->hasPermission('fundraising.donors_donations.view');
     }
 
     /**
@@ -42,7 +42,7 @@ class TagPolicy
             return self::hasPublicArticles($tag);
         }
         return $user->hasPermission('wiki.view')
-            || $user->hasPermission('fundraising.donors.view')
+            || $user->hasPermission('fundraising.donors_donations.view')
             || self::hasPublicArticles($tag);
     }
 
@@ -60,7 +60,7 @@ class TagPolicy
     public function create(User $user)
     {
         return $user->hasPermission('wiki.edit')
-            || $user->hasPermission('fundraising.donors.manage');
+            || $user->hasPermission('fundraising.donors_donations.manage');
     }
 
     /**
@@ -73,7 +73,7 @@ class TagPolicy
     public function update(User $user, Tag $tag)
     {
         return $user->hasPermission('wiki.edit')
-            || $user->hasPermission('fundraising.donors.manage');
+            || $user->hasPermission('fundraising.donors_donations.manage');
     }
 
     /**
@@ -86,7 +86,7 @@ class TagPolicy
     public function delete(User $user, Tag $tag)
     {
         return $user->hasPermission('wiki.edit')
-            || $user->hasPermission('fundraising.donors.manage');
+            || $user->hasPermission('fundraising.donors_donations.manage');
     }
 
 }

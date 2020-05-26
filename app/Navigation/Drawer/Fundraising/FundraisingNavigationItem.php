@@ -2,7 +2,6 @@
 
 namespace App\Navigation\Drawer\Fundraising;
 
-use App\Models\Fundraising\Donor;
 use App\Navigation\Drawer\BaseNavigationItem;
 
 class FundraisingNavigationItem extends BaseNavigationItem
@@ -17,6 +16,6 @@ class FundraisingNavigationItem extends BaseNavigationItem
 
     public function isAuthorized(): bool
     {
-        return request()->user()->can('viewAny', Donor::class);
+        return request()->user()->can('view-fundraising');
     }
 }

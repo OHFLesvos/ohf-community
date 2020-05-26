@@ -31,13 +31,13 @@ const overviewNavItems = [
         to: { name: 'fundraising.donors.index' },
         icon: 'users',
         text: i18n.t('fundraising.donors'),
-        show: can('view-donors')
+        show: can('view-fundraising-entities')
     },
     {
         to: { name: 'fundraising.donations.index' },
         icon: 'donate',
         text: i18n.t('fundraising.donations'),
-        show: can('view-donations')
+        show: can('view-fundraising-entities')
     }
 ]
 
@@ -47,11 +47,12 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            redirect: { name: 'fundraising.donors.index' }
+            redirect: { name: !can('view-fundraising-entities') && can('view-fundraising-reports')
+                ? 'fundraising.report'
+                : 'fundraising.donors.index' }
         },
         {
             // Display a listing of the donors.
-            // TODO $this->authorize('viewAny', Donor::class);
             path: '/donors',
             name: 'fundraising.donors.index',
             components: {
@@ -69,7 +70,7 @@ export default new VueRouter({
                             variant: 'primary',
                             icon: 'plus-circle',
                             text: i18n.t('app.add'),
-                            show: can('create-donors')
+                            show: can('manage-fundraising-entities')
                         },
                         {
                             to: { name: 'fundraising.report' },
@@ -81,7 +82,7 @@ export default new VueRouter({
                             href: ziggyRoute('api.fundraising.donors.export'),
                             icon: 'download',
                             text: i18n.t('app.export'),
-                            show: can('view-donors')
+                            show: can('view-fundraising-entities')
                         }
                     ]
                 },
@@ -93,7 +94,6 @@ export default new VueRouter({
         },
         {
             // Show the form for creating a new donor.
-            // TODO $this->authorize('create', Donor::class);
             path: '/donors/create',
             name: 'fundraising.donors.create',
             components: {
@@ -108,7 +108,7 @@ export default new VueRouter({
                             to: { name: 'fundraising.donors.index' },
                             icon: 'times-circle',
                             text: i18n.t('app.cancel'),
-                            show: can('view-donors')
+                            show: can('view-fundraising-entities')
                         }
                     ]
                 }
@@ -116,7 +116,6 @@ export default new VueRouter({
         },
         {
             // Display the specified donor.
-            // TODO $this->authorize('view', $donor);
             path: '/donors/:id(\\d+)',
             components: {
                 default: DonorShowPage,
@@ -131,26 +130,26 @@ export default new VueRouter({
                             to: { name: 'fundraising.donors.edit', params: { id: route.params.id } },
                             variant: 'primary',
                             icon: 'pencil-alt',
-                            text: i18n.t('app.edit')
-                            // TODO 'authorized' => request()->user()->can('update', $donor),
+                            text: i18n.t('app.edit'),
+                            show: can('manage-fundraising-entities')
                         },
                         {
                             href: ziggyRoute('api.fundraising.donors.donations.export', route.params.id),
                             icon: 'download',
                             text: i18n.t('app.export'),
-                            show: can('view-donations')
+                            show: can('view-fundraising-entities')
                         },
                         {
                             href: ziggyRoute('api.fundraising.donors.vcard', route.params.id),
                             icon: 'address-card',
-                            text: i18n.t('app.vcard')
-                            // TODO 'authorized' => request()->user()->can('view', $donor),
+                            text: i18n.t('app.vcard'),
+                            show: can('view-fundraising-entities')
                         },
                         {
                             to: previouslyRememberedRoute('fundraising.donors.show', { name: 'fundraising.donors.index' }),
                             icon: 'times-circle',
                             text: i18n.t('app.close'),
-                            show: can('view-donor') || can('view-donations')
+                            show: can('view-fundraising-entities')
                         }
                     ]
                 })
@@ -185,7 +184,6 @@ export default new VueRouter({
         },
         {
             // Show the form for editing the donor.
-            // TODO $this->authorize('update', $donor);
             path: '/donors/:id(\\d+)/edit',
             name: 'fundraising.donors.edit',
             components: {
@@ -200,8 +198,8 @@ export default new VueRouter({
                         {
                             to: { name: 'fundraising.donors.show', params: { id: route.params.id } },
                             icon: 'times-circle',
-                            text: i18n.t('app.cancel')
-                            // TODO 'authorized' => request()->user()->can('view', $donor),
+                            text: i18n.t('app.cancel'),
+                            show: can('view-fundraising-entities')
                         }
                     ]
                 })
@@ -209,7 +207,6 @@ export default new VueRouter({
         },
         {
             // Display a listing of the donations.
-            // TODO can:viewAny,App\Models\Fundraising\Donation
             path: '/donations',
             name: 'fundraising.donations.index',
             components: {
@@ -232,13 +229,13 @@ export default new VueRouter({
                             href: ziggyRoute('api.fundraising.donations.export'),
                             icon: 'download',
                             text: i18n.t('app.export'),
-                            show: can('view-donations')
+                            show: can('view-fundraising-entities')
                         },
                         {
                             to: { name: 'fundraising.donations.import' },
                             icon: 'upload',
                             text: i18n.t('app.import'),
-                            show: can('create-donations')
+                            show: can('manage-fundraising-entities')
                         },
                     ]
                 },
@@ -249,7 +246,6 @@ export default new VueRouter({
         },
         {
             // Show the form for editing the donation.
-            // TODO $this->authorize('update', $donation);
             path: '/donations/:id(\\d+)/edit',
             name: 'fundraising.donations.edit',
             components: {
@@ -265,7 +261,7 @@ export default new VueRouter({
                             to: previouslyRememberedRoute('fundraising.donors.show', { name: 'fundraising.donations.index' } ),
                             icon: 'times-circle',
                             text: i18n.t('app.cancel'),
-                            show: can('view-donations')
+                            show: can('view-fundraising-entities')
                         }
                     ]
                 })
@@ -277,7 +273,6 @@ export default new VueRouter({
         },
         {
             // Show the form for importing donations
-            // TODO can:create,App\Models\Fundraising\Donation
             path: '/donations/import',
             name: 'fundraising.donations.import',
             components: {
@@ -292,7 +287,7 @@ export default new VueRouter({
                             to: { name: 'fundraising.donations.index' },
                             icon: 'times-circle',
                             text: i18n.t('app.cancel'),
-                            show: can('view-donations')
+                            show: can('view-fundraising-entities')
                         }
                     ]
                 }
@@ -300,7 +295,6 @@ export default new VueRouter({
         },
         {
             // Display an overall report
-            // TODO can:view-fundraising-reports
             path: '/report',
             name: 'fundraising.report',
             components: {
@@ -315,7 +309,7 @@ export default new VueRouter({
                             to: previouslyRememberedRoute('fundraising.report', { name: 'fundraising.donors.index' }),
                             icon: 'times-circle',
                             text: i18n.t('app.close'),
-                            show: can('view-donor') || can('view-donations')
+                            show: can('view-fundraising-entities')
                         }
                     ]
                 })

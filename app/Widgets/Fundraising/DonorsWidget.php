@@ -6,13 +6,12 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use App\Widgets\Widget;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 class DonorsWidget implements Widget
 {
     public function authorize(): bool
     {
-        return request()->user()->can('viewAny', Donor::class);
+        return request()->user()->can('view-fundraising');
     }
 
     public function view(): string

@@ -42,6 +42,9 @@ class AuthServiceProvider extends ServiceProvider
 
         'create-badges'               => 'badges.create',
 
+        'view-fundraising'            => ['fundraising.donors_donations.view', 'fundraising.reports.view'],
+        'view-fundraising-entities'   => 'fundraising.donors_donations.view',
+        'manage-fundraising-entities' => 'fundraising.donors_donations.manage',
         'view-fundraising-reports'    => 'fundraising.reports.view',
         'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
 

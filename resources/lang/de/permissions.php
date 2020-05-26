@@ -11,11 +11,8 @@ return [
 
     'create_badges' => 'Badges: Badges erstellen',
 
-    'view_fundraising_donors' => 'Spendenverwaltung: Spender betrachten',
-    'manage_fundraising_donors' => 'Spendenverwaltung: Spender verwalten',
-    'view_fundraising_donations' => 'Spendenverwaltung: Spenden betrachten',
-    'register_fundraising_donations' => 'Spendenverwaltung: Spenden registrieren',
-    'edit_fundraising_donations' => 'Spendenverwaltung: Spenden bearbeiten',
+    'view_fundraising_donors_donations' => 'Spendenverwaltung: Spender & Spenden betrachten',
+    'manage_fundraising_donors_donations' => 'Spendenverwaltung: Spender & Spenden verwalten',
     'view_fundraising_reports' => 'Spendenverwaltung: Berichte betrachten',
     'accept_fundraising_donations_webhooks' => 'Spendenverwaltung: Webhooks akzeptieren',
 

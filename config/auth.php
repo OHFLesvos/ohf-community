@@ -154,24 +154,12 @@ return [
             'sensitive' => false,
         ],
 
-        'fundraising.donors.view' => [
-            'label' => 'permissions.view_fundraising_donors',
+        'fundraising.donors_donations.view' => [
+            'label' => 'permissions.view_fundraising_donors_donations',
             'sensitive' => true,
         ],
-        'fundraising.donors.manage' => [
-            'label' => 'permissions.manage_fundraising_donors',
-            'sensitive' => true,
-        ],
-        'fundraising.donations.view' => [
-            'label' => 'permissions.view_fundraising_donations',
-            'sensitive' => true,
-        ],
-        'fundraising.donations.register' => [
-            'label' => 'permissions.register_fundraising_donations',
-            'sensitive' => true,
-        ],
-        'fundraising.donations.edit' => [
-            'label' => 'permissions.edit_fundraising_donations',
+        'fundraising.donors_donations.manage' => [
+            'label' => 'permissions.manage_fundraising_donors_donations',
             'sensitive' => true,
         ],
         'fundraising.reports.view' => [

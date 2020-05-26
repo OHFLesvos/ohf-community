@@ -25,7 +25,7 @@ class DonorPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('fundraising.donors.view');
+        return $user->hasPermission('fundraising.donors_donations.view');
     }
 
     /**
@@ -37,7 +37,7 @@ class DonorPolicy
      */
     public function view(User $user, Donor $donor)
     {
-        return $user->hasPermission('fundraising.donors.view');
+        return $user->hasPermission('fundraising.donors_donations.view');
     }
 
     /**
@@ -48,7 +48,7 @@ class DonorPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('fundraising.donors.manage');
+        return $user->hasPermission('fundraising.donors_donations.manage');
     }
 
     /**
@@ -60,7 +60,7 @@ class DonorPolicy
      */
     public function update(User $user, Donor $donor)
     {
-        return $user->hasPermission('fundraising.donors.manage');
+        return $user->hasPermission('fundraising.donors_donations.manage');
     }
 
     /**
@@ -72,6 +72,6 @@ class DonorPolicy
      */
     public function delete(User $user, Donor $donor)
     {
-        return $user->hasPermission('fundraising.donors.manage');
+        return $user->hasPermission('fundraising.donors_donations.manage');
     }
 }
