@@ -70,7 +70,10 @@ class ReportController extends Controller
                 ->orderBy('quantity', 'desc')
                 ->orderBy('title')
                 ->limit('10')
-                ->get(),
+                ->get()
+                ->map(fn ($e) => array_merge($e->toArray(), [
+                    'language' => $e->language,
+                ])),
             'book_languages' => LibraryBook::query()
                 ->select('language_code')
                 ->selectRaw('COUNT(*) as quantity')

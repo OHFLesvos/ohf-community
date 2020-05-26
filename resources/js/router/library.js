@@ -7,12 +7,14 @@ import i18n from '@/plugins/i18n'
 import ziggyRoute from '@/plugins/ziggy'
 
 import PageHeader from '@/components/ui/PageHeader'
-import TabNav from '@/components/ui/TabNav'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 import { can } from '@/plugins/laravel'
 
 import LendingPage from '@/pages/library/LendingPage'
+import LendigSearch from '@/components/library/LendigSearch'
+import BorrowersTable from '@/components/library/BorrowersTable'
+import LentBooksTable from '@/components/library/LentBooksTable'
 import LendingPersonPage from '@/pages/library/LendingPersonPage'
 import BooksPage from '@/pages/library/BooksPage'
 import BookRegisterPage from '@/pages/library/BookRegisterPage'
@@ -20,21 +22,6 @@ import BookEditPage from '@/pages/library/BookEditPage'
 import LendingBookPage from '@/pages/library/LendingBookPage'
 import ExportPage from '@/pages/library/ExportPage'
 import ReportPage from '@/pages/library/ReportPage'
-
-const overviewNavItems = [
-    {
-        to: { name: 'library.lending.index' },
-        icon: 'inbox',
-        text: i18n.t('library.lending'),
-        show: can('operate-library')
-    },
-    {
-        to: { name: 'library.books.index' },
-        icon: 'book',
-        text: i18n.t('library.books'),
-        show: can('operate-library')
-    }
-]
 
 const router = new VueRouter({
     mode: 'history',
@@ -48,16 +35,21 @@ router.addRoutes([
     {
         // Lending overview
         path: '/lending',
-        name: 'library.lending.index',
         components: {
             default: LendingPage,
-            header: PageHeader,
-            beforeContent: TabNav
+            header: PageHeader
         },
         props: {
             header:  {
                 title: i18n.t('app.overview'),
                 buttons: [
+                    {
+                        to: { name: 'library.books.create' },
+                        variant: 'primary',
+                        icon: 'plus-circle',
+                        text: i18n.t('library.register_new_book'),
+                        show: can('create-books')
+                    },
                     {
                         to: { name: 'library.report' },
                         icon: 'chart-pie',
@@ -71,11 +63,30 @@ router.addRoutes([
                         show: can('operate-library')
                     }
                 ]
-            },
-            beforeContent: {
-                items: overviewNavItems
             }
-        }
+        },
+        children: [
+            {
+                path: '',
+                name: 'library.lending.index',
+                component: LendigSearch
+            },
+            {
+                path: 'borrowers',
+                name: 'library.lending.borrowers',
+                component: BorrowersTable
+            },
+            {
+                path: 'lent_books',
+                name: 'library.lending.lent_books',
+                component: LentBooksTable
+            },
+            {
+                path: '/books',
+                name: 'library.books.index',
+                component: BooksPage,
+            }
+        ]
     },
     {
         // Lending person (borrower)
@@ -135,45 +146,6 @@ router.addRoutes([
                     }
                 ]
             })
-        }
-    },
-    {
-        // List books
-        path: '/books',
-        name: 'library.books.index',
-        components: {
-            default: BooksPage,
-            header: PageHeader,
-            beforeContent: TabNav
-        },
-        props: {
-            header:  {
-                title: i18n.t('app.overview'),
-                buttons: [
-                    {
-                        to: { name: 'library.books.create' },
-                        variant: 'primary',
-                        icon: 'plus-circle',
-                        text: i18n.t('app.add'),
-                        show: can('create-books')
-                    },
-                    {
-                        to: { name: 'library.report' },
-                        icon: 'chart-pie',
-                        text: i18n.t('app.report'),
-                        show: can('view-books')
-                    },
-                    {
-                        to: { name: 'library.export' },
-                        icon: 'download',
-                        text: i18n.t('app.export'),
-                        show: can('view-books')
-                    }
-                ]
-            },
-            beforeContent: {
-                items: overviewNavItems
-            }
         }
     },
     {

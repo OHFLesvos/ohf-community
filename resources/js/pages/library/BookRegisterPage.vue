@@ -1,9 +1,11 @@
 <template>
-    <book-form
-        ref="form"
-        :disabled="busy"
-        @submit="registerBook"
-    />
+    <b-container class="px-0">
+        <book-form
+            ref="form"
+            :disabled="busy"
+            @submit="registerBook"
+        />
+    </b-container>
 </template>
 
 <script>

@@ -21,7 +21,7 @@
 
                 <!-- Popular -->
                 <h3>{{ $t('app.regulars') }}</h3>
-                <b-table-simple small bordered striped hover>
+                <b-table-simple small bordered striped hover responsive>
                     <b-thead>
                         <b-tr>
                             <b-th>{{ $t('app.title') }}</b-th>
@@ -53,7 +53,7 @@
 
                 <!-- Nationalities -->
                 <h3>{{ $t('people.nationalities') }}</h3>
-                <b-table-simple small bordered striped hover>
+                <b-table-simple small bordered striped hover responsive>
                     <b-thead>
                         <b-tr>
                             <b-th>{{ $t('app.country') }}</b-th>
@@ -72,7 +72,7 @@
 
                 <!-- Genders -->
                 <h3>{{ $t('people.gender') }}</h3>
-                <b-table-simple small bordered striped hover>
+                <b-table-simple small bordered striped hover responsive>
                     <b-thead>
                         <b-tr>
                             <b-th>{{ $t('people.gender') }}</b-th>
@@ -123,7 +123,7 @@
             <!-- Popular -->
             <template v-if="book_lendings_top.length > 0">
                 <h3>{{ $t('app.popular') }}</h3>
-                <b-table-simple small bordered striped hover>
+                <b-table-simple small bordered striped hover responsive>
                     <b-thead>
                         <b-tr>
                             <b-th>{{ $t('app.title') }}</b-th>
@@ -152,22 +152,22 @@
                         percentage: roundWithDecimals(book_languages_undefined_count / book_count * 100, 1)
                     }) }}</em>
                 </p>
-                <table class="table table-sm table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>{{ $t('app.language') }}</th>
-                            <th class="text-right">{{ $t('app.quantity') }}</th>
-                            <th class="text-right">{{ $t('app.percentage') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="language in book_languages_defined" :key="language.language">
-                            <td>{{ language.language ? language.language : $t('app.unspecified') }}</td>
-                            <td class="text-right">{{ language.quantity }}</td>
-                            <td class="text-right">{{ roundWithDecimals(language.quantity / (book_count - book_languages_undefined_count) * 100, 1) }} %</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <b-table-simple small bordered striped hover responsive>
+                    <b-thead>
+                        <b-tr>
+                            <b-th>{{ $t('app.language') }}</b-th>
+                            <b-th class="text-right">{{ $t('app.quantity') }}</b-th>
+                            <b-th class="text-right">{{ $t('app.percentage') }}</b-th>
+                        </b-tr>
+                    </b-thead>
+                    <b-tbody>
+                        <b-tr v-for="language in book_languages_defined" :key="language.language">
+                            <b-td>{{ language.language ? language.language : $t('app.unspecified') }}</b-td>
+                            <b-td class="text-right">{{ language.quantity }}</b-td>
+                            <b-td class="text-right">{{ roundWithDecimals(language.quantity / (book_count - book_languages_undefined_count) * 100, 1) }} %</b-td>
+                        </b-tr>
+                    </b-tbody>
+                </b-table-simple>
 
             </template>
 

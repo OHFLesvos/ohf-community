@@ -1,21 +1,25 @@
 <template>
-    <book-form
+    <b-container
         v-if="book"
-        :book="book"
-        :disabled="busy"
-        @submit="updateBook"
+        class="px-0"
     >
-        <b-button
-            v-if="canDelete"
-            variant="danger"
-            type="button"
+        <book-form
+            :book="book"
             :disabled="busy"
-            @click="deleteBook"
+            @submit="updateBook"
         >
-            <font-awesome-icon icon="trash" />
-            {{ $t('app.delete') }}
-        </b-button>
-    </book-form>
+            <b-button
+                v-if="canDelete"
+                variant="danger"
+                type="button"
+                :disabled="busy"
+                @click="deleteBook"
+            >
+                <font-awesome-icon icon="trash" />
+                {{ $t('app.delete') }}
+            </b-button>
+        </book-form>
+    </b-container>
     <p v-else>
         {{ $t('app.loading') }}
     </p>
