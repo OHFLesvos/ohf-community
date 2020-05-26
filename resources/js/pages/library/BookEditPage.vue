@@ -23,7 +23,7 @@
 
 <script>
 import libraryApi from '@/api/library'
-import { handleAjaxError, showSnackbar } from '@/utils'
+import { showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {
     components: {
@@ -42,38 +42,40 @@ export default {
         }
     },
     created () {
-        libraryApi.findBook(this.bookId)
-                .then((data) => {
-                    this.book = data.data
-                    this.canDelete = data.meta.can_delete
-                })
-                .catch(handleAjaxError)
+        this.loadBook()
     },
     methods: {
-        updateBook (data) {
-            this.busy = true
-            libraryApi.updateBook(this.bookId, data)
-                .then((data) => {
-                    showSnackbar(data.message)
-                    document.location = this.route('library.lending.book', [this.bookId])
-                })
-                .catch((err) => {
-                    handleAjaxError(err)
-                    this.busy = false
-                })
+        async loadBook () {
+            try {
+                let data = await libraryApi.findBook(this.bookId)
+                this.book = data.data
+                this.canDelete = data.meta.can_delete
+            } catch (err) {
+                alert(err)
+            }
         },
-        deleteBook () {
+        async updateBook (payload) {
+            this.busy = true
+            try {
+                let data = await libraryApi.updateBook(this.bookId, payload)
+                showSnackbar(data.message)
+                document.location = this.route('library.lending.book', [this.bookId])
+            } catch (err) {
+                alert(err)
+                this.busy = false
+            }
+        },
+        async deleteBook () {
             if (confirm(this.$t('library.confirm_delete_book'))) {
                 this.busy = true
-                libraryApi.deleteBook(this.bookId)
-                    .then((data) => {
-                        showSnackbar(data.message)
-                        document.location = this.route('library.books.index')
-                    })
-                    .catch((err) => {
-                        handleAjaxError(err)
-                        this.busy = false
-                    })
+                try {
+                    let data = await libraryApi.deleteBook(this.bookId)
+                    showSnackbar(data.message)
+                    document.location = this.route('library.books.index')
+                } catch (err) {
+                    alert(err)
+                    this.busy = false
+                }
             }
         }
     }

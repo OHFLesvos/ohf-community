@@ -131,7 +131,7 @@
 
 <script>
 import moment from 'moment'
-import { handleAjaxError, showSnackbar } from '@/utils'
+import { showSnackbar } from '@/utils'
 import libraryApi from '@/api/library'
 import PersonAutocompleteInput from '@/components/people/PersonAutocompleteInput'
 import BookLogTable from '@/components/library/BookLogTable'
@@ -207,43 +207,46 @@ export default {
                 .catch(err => console.error(err))
                 .finally(() => this.busy = false)
         },
-        extendLending () {
+        async extendLending () {
             var days = prompt(`${this.$t('app.number_of_days')}:`, this.defaultExtendDuration)
             if (days != null && days > 0) {
                 this.busy = true
-                libraryApi.extendLending(this.bookId, days)
-                    .then((data) => {
-                        showSnackbar(data.message)
-                        this.loadLending()
-                    })
-                    .catch(handleAjaxError)
-                    .finally(() => this.busy = false)
-            }
-        },
-        returnBook () {
-            this.busy = true
-            libraryApi.returnBook(this.bookId)
-                .then((data) => {
+                try {
+                    let data = await libraryApi.extendLending(this.bookId, days)
                     showSnackbar(data.message)
                     this.loadLending()
-                })
-                .catch(handleAjaxError)
-                .finally(() => this.busy = false)
+                } catch (err) {
+                    alert(err)
+                }
+                this.busy = false
+            }
         },
-        lendBook (bvModalEvt) {
+        async returnBook () {
+            this.busy = true
+            try {
+                let data = await libraryApi.returnBook(this.bookId)
+                showSnackbar(data.message)
+                this.loadLending()
+            } catch (err) {
+                alert(err)
+            }
+            this.busy = false
+        },
+        async lendBook (bvModalEvt) {
             bvModalEvt.preventDefault()
             if (this.selectedPersonId) {
                 this.busy = true
-                libraryApi.lendBook(this.bookId, this.selectedPersonId)
-                    .then((data) => {
-                        showSnackbar(data.message)
-                        this.loadLending()
-                        this.$nextTick(() => {
-                            this.$bvModal.hide('lendBookModal')
-                        })
+                try {
+                    let data = await libraryApi.lendBook(this.bookId, this.selectedPersonId)
+                    showSnackbar(data.message)
+                    this.loadLending()
+                    this.$nextTick(() => {
+                        this.$bvModal.hide('lendBookModal')
                     })
-                    .catch(handleAjaxError)
-                    .finally(() => this.busy = false)
+                } catch (err) {
+                    alert(err)
+                }
+                this.busy = false
             }
         }
     }

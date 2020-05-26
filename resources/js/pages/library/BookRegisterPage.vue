@@ -8,7 +8,7 @@
 
 <script>
 import libraryApi from '@/api/library'
-import { handleAjaxError, showSnackbar } from '@/utils'
+import { showSnackbar } from '@/utils'
 import BookForm from '@/components/library/forms/BookForm'
 export default {
     components: {
@@ -23,17 +23,16 @@ export default {
         this.$refs.form.focus()
     },
     methods: {
-        registerBook (data) {
+        async registerBook (payload) {
             this.busy = true
-            libraryApi.storeBook(data)
-                .then((data) => {
-                    showSnackbar(data.message)
-                    document.location = this.route('library.lending.book', [data.id])
-                })
-                .catch((err) => {
-                    handleAjaxError(err)
-                    this.busy = false
-                })
+            try {
+                let data = await libraryApi.storeBook(payload)
+                showSnackbar(data.message)
+                document.location = this.route('library.lending.book', [data.id])
+            } catch (err) {
+                alert(err)
+                this.busy = false
+            }
         }
     }
 }
