@@ -1,6 +1,7 @@
 <template>
-    <component :is="cumulative ? 'reactive-line-chart' : 'reactive-bar-chart'"
-        v-if="!error && loaded"
+    <component
+        :is="cumulative ? 'reactive-line-chart' : 'reactive-bar-chart'"
+        v-if="!asyncError && !error && loaded"
         :chart-data="chartData"
         :options="options"
         :height="height"
@@ -12,7 +13,7 @@
         :style="`height: ${height}px`"
     >
         <p class="justify-content-center align-self-center text-center w-100">
-            <em v-if="error" class="text-danger">{{ error }}</em>
+            <em v-if="asyncError || error" class="text-danger">{{ asyncError }} {{ error }}</em>
             <em v-else>{{ $t('app.loading') }}</em>
         </p>
     </div>
@@ -38,9 +39,13 @@ export default {
             type: String,
             required: true
         },
-        dataProvider: {
-            type: Function,
-            required: true
+        data: {
+            type: [Function, Object],
+            required: false
+        },
+        error: {
+            type: String,
+            required: false
         },
         dateFrom: {
             type: String,
@@ -65,7 +70,7 @@ export default {
     data () {
         return {
             loaded: false,
-            error: null,
+            asyncError: null,
             chartData: {},
             units: new Map()
         }
@@ -158,6 +163,9 @@ export default {
         },
         dateTo () {
             this.loadData()
+        },
+        data () {
+            this.loadData()
         }
     },
     mounted () {
@@ -166,14 +174,21 @@ export default {
     },
     methods: {
         async loadData () {
-            this.error = null
+            this.asyncError = null
             this.loaded = false
-            try {
-                let data = await this.dataProvider(this.granularity, this.dateFrom, this.dateTo)
-                this.chartData = this.chartDataFromResponse(data)
-                this.loaded = true
-            } catch (err) {
-                this.error = err
+            if (this.data) {
+                try {
+                    let data;
+                    if (typeof this.data === 'function') {
+                        data = await this.data(this.granularity, this.dateFrom, this.dateTo)
+                    } else {
+                        data = this.data
+                    }
+                    this.chartData = this.chartDataFromResponse(data)
+                    this.loaded = true
+                } catch (err) {
+                    this.asyncError = err
+                }
             }
         },
         chartDataFromResponse (resData) {

@@ -27,7 +27,7 @@ return [
             'featured' => true,
         ],
         'fundraising' => [
-            'url' => '/fundraising#/report', // TODO
+            'url' => '/fundraising/report',
             'icon' => 'donate',
             'gate' => 'view-fundraising-reports',
             'featured' => true,

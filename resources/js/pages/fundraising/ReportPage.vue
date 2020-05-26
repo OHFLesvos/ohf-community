@@ -49,7 +49,7 @@
         <!-- Registrations over time chart -->
         <time-bar-chart
             :title="$t('fundraising.new_donors_registered')"
-            :data-provider="reportApi.fetchDonorRegistrations"
+            :data="reportApi.fetchDonorRegistrations"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -62,7 +62,8 @@
 
         <time-bar-chart
             :title="$t('fundraising.donations_made')"
-            :data-provider="reportApi.fetchDonationRegistrations"
+            :data="donationRegistrations"
+            :error="donationRegistrationsError"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -71,7 +72,8 @@
 
         <time-bar-chart
             :title="$t('fundraising.total_donations_made')"
-            :data-provider="reportApi.fetchDonationRegistrations"
+            :data="donationRegistrations"
+            :error="donationRegistrationsError"
             :date-from="this.dateRange.from"
             :date-to="this.dateRange.to"
             :granularity="this.dateRange.granularity"
@@ -105,6 +107,8 @@ export default {
             countriesError: null,
             languages: null,
             languagesError: null,
+            donationRegistrations: null,
+            donationRegistrationsError: null,
             dateRange: {
                 from: moment().subtract(3, 'months').format(moment.HTML5_FMT.DATE),
                 to: moment().format(moment.HTML5_FMT.DATE),
@@ -126,6 +130,7 @@ export default {
             this.loadCount()
             this.loadCountries()
             this.loadLanguages()
+            this.fetchDonationRegistrations()
         },
         async loadCount () {
             this.countError = null
@@ -134,24 +139,6 @@ export default {
                 this.count = this.mapCountData(data)
             } catch (err) {
                 this.countError = err
-            }
-        },
-        async loadCountries () {
-            this.countriesError = null
-             try {
-                let data = await reportApi.getCountries(this.dateRange.to)
-                this.countries = data
-            } catch (err) {
-                this.countriesError = err
-            }
-        },
-        async loadLanguages () {
-            this.languagesError = null
-            try {
-                let data = await reportApi.getLanguages(this.dateRange.to)
-                this.languages = data
-            } catch (err) {
-                this.languagesError = err
             }
         },
         mapCountData (data) {
@@ -182,7 +169,34 @@ export default {
                     value: data.with_phone
                 }
             ]
-        }
+        },
+        async loadCountries () {
+            this.countriesError = null
+             try {
+                let data = await reportApi.getCountries(this.dateRange.to)
+                this.countries = data
+            } catch (err) {
+                this.countriesError = err
+            }
+        },
+        async loadLanguages () {
+            this.languagesError = null
+            try {
+                let data = await reportApi.getLanguages(this.dateRange.to)
+                this.languages = data
+            } catch (err) {
+                this.languagesError = err
+            }
+        },
+        async fetchDonationRegistrations () {
+            this.donationRegistrationsError = null
+            try {
+                let data = await reportApi.fetchDonationRegistrations(this.granularity, this.dateRange.from, this.dateRange.to)
+                this.donationRegistrations = data
+            } catch (err) {
+                this.donationRegistrationsError = err
+            }
+        },
     }
 }
 </script>
