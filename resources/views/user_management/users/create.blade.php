@@ -45,7 +45,7 @@
                             <em>@lang('app.no_roles_defined')</em>
                         @endempty
                         <hr>
-                        {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}
+                        {{ Form::bsCheckbox('is_super_admin', true, null, __('app.this_user_is_admin')) }}
                     </div>
                 </div>
             </div>

@@ -46,7 +46,7 @@
                         @endempty
                         @if (App\User::count() > 1)
                             <hr>
-                            {{ Form::bsCheckbox('is_super_admin', null, null, __('app.this_user_is_admin')) }}
+                            {{ Form::bsCheckbox('is_super_admin', true, null, __('app.this_user_is_admin')) }}
                         @endif
 
                     </div>
