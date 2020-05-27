@@ -33,7 +33,7 @@ return [
             'featured' => true,
         ],
         'library' => [
-            'route' => 'library.report',
+            'url' => '/library/report',
             'icon' => 'book',
             'gate' => 'operate-library',
             'featured' => false,
