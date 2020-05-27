@@ -7,7 +7,7 @@ use App\Models\Fundraising\Donor;
 use App\Widgets\Widget;
 use Carbon\Carbon;
 
-class DonorsWidget implements Widget
+class FundraisingWidget implements Widget
 {
     public function authorize(): bool
     {

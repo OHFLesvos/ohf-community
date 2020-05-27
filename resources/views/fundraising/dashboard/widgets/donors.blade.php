@@ -11,7 +11,7 @@
 
 @extends('dashboard.widgets.base')
 
-@section('widget-title', __('fundraising.donors'))
+@section('widget-title', __('fundraising.donation_management'))
 
 @section('widget-content')
     <div class="card-body pb-2">
