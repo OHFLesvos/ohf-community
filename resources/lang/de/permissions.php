@@ -24,7 +24,6 @@ return [
     'view_summary' => 'Buchhaltung: Zusammenfassung ansehen',
     'configure_accounting'  => 'Buchhaltung: Einstellungen bearbeiten',
 
-    'use_tasks' => 'Aufgabenmodul benutzen',
     'view_wiki' => 'Wiki: Artikel betrachten',
     'edit_wiki' => 'Wiki: Artikel erstellen und bearbeiten',
     'delete_wiki' => 'Wiki: Artikel löschen',

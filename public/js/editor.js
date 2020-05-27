@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -97,7 +97,7 @@ eval("$(document).ready(function () {\n  // Define function to open filemanager 
 
 /***/ }),
 
-/***/ 9:
+/***/ 8:
 /*!**************************************!*\
   !*** multi ./resources/js/editor.js ***!
   \**************************************/

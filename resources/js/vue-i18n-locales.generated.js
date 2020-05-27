@@ -837,11 +837,8 @@ export default {
             "configure_common_settings": "Allgemeine Einstellungen konfigurieren",
             "view_changelogs": "Änderungshistorie betrachten",
             "create_badges": "Badges: Badges erstellen",
-            "view_fundraising_donors": "Spendenverwaltung: Spender betrachten",
-            "manage_fundraising_donors": "Spendenverwaltung: Spender verwalten",
-            "view_fundraising_donations": "Spendenverwaltung: Spenden betrachten",
-            "register_fundraising_donations": "Spendenverwaltung: Spenden registrieren",
-            "edit_fundraising_donations": "Spendenverwaltung: Spenden bearbeiten",
+            "view_fundraising_donors_donations": "Spendenverwaltung: Spender & Spenden betrachten",
+            "manage_fundraising_donors_donations": "Spendenverwaltung: Spender & Spenden verwalten",
             "view_fundraising_reports": "Spendenverwaltung: Berichte betrachten",
             "accept_fundraising_donations_webhooks": "Spendenverwaltung: Webhooks akzeptieren",
             "view_transactions": "Buchhaltung: Transaktionen betrachten",
@@ -851,7 +848,6 @@ export default {
             "book_externally": "Buchhaltung: Transaktionen extern verbuchen",
             "view_summary": "Buchhaltung: Zusammenfassung ansehen",
             "configure_accounting": "Buchhaltung: Einstellungen bearbeiten",
-            "use_tasks": "Aufgabenmodul benutzen",
             "view_wiki": "Wiki: Artikel betrachten",
             "edit_wiki": "Wiki: Artikel erstellen und bearbeiten",
             "delete_wiki": "Wiki: Artikel löschen",
@@ -932,9 +928,6 @@ export default {
             "configured_coupon_type_does_not_exist": "Der konfigurierte Kartentyp existiert nicht.",
             "please_enable_scanner_to_scan_cards": "Bitte schalte den Scanner ein um Karten einzulesen.",
             "please_scan_next_card": "Bitte scanne die nächste Karte."
-        },
-        "tasks": {
-            "tasks": "Aufgaben"
         },
         "userprofile": {
             "title": "Benutzerprofil",
@@ -2000,11 +1993,8 @@ export default {
             "configure_common_settings": "Configure common settings",
             "view_changelogs": "View application changelogs",
             "create_badges": "Badges: Create badges",
-            "view_fundraising_donors": "Donation management: View donors",
-            "manage_fundraising_donors": "Donation management: Manage donors",
-            "view_fundraising_donations": "Donation management: View donations",
-            "register_fundraising_donations": "Donation management: Register donations",
-            "edit_fundraising_donations": "Donation management: Edit donations",
+            "view_fundraising_donors_donations": "Donation management: View donors & donations",
+            "manage_fundraising_donors_donations": "Donation management: Manage donors & donations",
             "view_fundraising_reports": "Donation management: View reports",
             "accept_fundraising_donations_webhooks": "Donation management: Accept Webhooks",
             "view_transactions": "Accounting: View transactions",
@@ -2014,7 +2004,6 @@ export default {
             "book_externally": "Accounting: Book transactions externally",
             "view_summary": "Accounting: View summary",
             "configure_accounting": "Accounting: Configure settings",
-            "use_tasks": "Use tasks",
             "view_wiki": "Wiki: View articles",
             "edit_wiki": "Wiki: Create and edit articles",
             "delete_wiki": "Wiki: Delete articles",
@@ -2095,9 +2084,6 @@ export default {
             "configured_coupon_type_does_not_exist": "Configured coupon type does not exist.",
             "please_enable_scanner_to_scan_cards": "Please enable the scanner to scan cards.",
             "please_scan_next_card": "Please scan the next card."
-        },
-        "tasks": {
-            "tasks": "Tasks"
         },
         "userprofile": {
             "title": "User Profile",

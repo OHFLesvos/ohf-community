@@ -184,19 +184,6 @@ Route::middleware(['language', 'auth'])
     });
 
 //
-// Collaboration
-//
-
-Route::middleware('auth')
-    ->namespace('Collaboration\API')
-    ->name('api.')
-    ->group(function () {
-        Route::apiResource('tasks', 'TasksController');
-        Route::patch('tasks/{task}/done', 'TasksController@done')
-            ->name('tasks.done');
-    });
-
-//
 // People
 //
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Removed unused tasks module
+
 ## 2.21.0
 
 * SPA for Fundraising module

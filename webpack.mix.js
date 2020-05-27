@@ -32,7 +32,6 @@ mix.options({
     })
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/fundraising.js', 'public/js')
-    .js('resources/js/tasks.js', 'public/js')
     .js('resources/js/people.js', 'public/js')
     .js('resources/js/bank.js', 'public/js')
     .js('resources/js/library.js', 'public/js')

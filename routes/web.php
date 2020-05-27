@@ -190,14 +190,6 @@ Route::middleware(['language', 'auth'])
 // Collaboration
 //
 
-Route::middleware(['language', 'auth'])
-    ->namespace('Collaboration')
-    ->group(function () {
-        Route::view('tasks', 'collaboration.tasklist')
-            ->name('tasks')
-            ->middleware('can:viewAny,App\Models\Collaboration\Task');
-    });
-
 Route::middleware(['language'])
     ->namespace('Collaboration')
     ->prefix('kb')

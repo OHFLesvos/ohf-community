@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Models\Collaboration\Task;
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -118,11 +117,6 @@ class User extends Authenticatable implements HasLocalePreference
             ->intersect(collect($permissions)->map(fn ($permission) => $permission->key))
             ->unique()
             ->values();
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
     }
 
     public function avatarUrl(?string $profile = null): string

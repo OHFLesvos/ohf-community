@@ -200,10 +200,6 @@ return [
             'sensitive' => false,
         ],
 
-        'tasks.use' => [
-            'label' => 'permissions.use_tasks',
-            'sensitive' => false,
-        ],
         'wiki.view' => [
             'label' => 'permissions.view_wiki',
             'sensitive' => false,
