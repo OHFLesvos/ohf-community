@@ -11,7 +11,5 @@
         "**/storage": true,
         "**/vue-i18n-locales.generated.js": true
     },
-    "trailing-spaces.trimOnSave": true,
-    "files.eol": "\n",
-    "cSpell.enabled": false
+    "trailing-spaces.trimOnSave": true
 }
