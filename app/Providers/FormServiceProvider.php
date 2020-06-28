@@ -14,6 +14,13 @@ class FormServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Return immediately if run in a console.
+        // This fixes an issue during setup where the app key needs to be generated
+        // but it fails due to below form macros requiring an app key aready being present.
+        if (app()->runningInConsole()) {
+            return;
+        }
+
         Form::component('bsText', 'components.form.bsText', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsNumber', 'components.form.bsNumber', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsPassword', 'components.form.bsPassword', [ 'name', 'attributes' => [], 'label' => null, 'help' => null ]);

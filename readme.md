@@ -18,7 +18,7 @@ Requirements
 Installation
 ------------
 
-Copy `.env.example` to `.env` and adopt database credentials accordingly.
+Copy `.env.example` to `.env` and adapt database credentials and other settings accordingly.
 
 Install dependencies:
 
