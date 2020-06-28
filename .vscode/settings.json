@@ -10,6 +10,5 @@
         "**/vendor": true,
         "**/storage": true,
         "**/vue-i18n-locales.generated.js": true
-    },
-    "trailing-spaces.trimOnSave": true
+    }
 }
