@@ -12218,7 +12218,7 @@ input[type=color].form-control:disabled {
 }
 
 /*!
- * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.14.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 .fa,
@@ -12775,6 +12775,14 @@ readers do not read off random characters that represent icons */
   content: "\F7E5";
 }
 
+.fa-bacteria:before {
+  content: "\E059";
+}
+
+.fa-bacterium:before {
+  content: "\E05A";
+}
+
 .fa-bahai:before {
   content: "\F666";
 }
@@ -13028,7 +13036,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-box-tissue:before {
-  content: "\F95B";
+  content: "\E05B";
 }
 
 .fa-boxes:before {
@@ -13796,7 +13804,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-dailymotion:before {
-  content: "\F952";
+  content: "\E052";
 }
 
 .fa-dashcube:before {
@@ -13809,6 +13817,10 @@ readers do not read off random characters that represent icons */
 
 .fa-deaf:before {
   content: "\F2A4";
+}
+
+.fa-deezer:before {
+  content: "\E077";
 }
 
 .fa-delicious:before {
@@ -14055,6 +14067,10 @@ readers do not read off random characters that represent icons */
   content: "\F282";
 }
 
+.fa-edge-legacy:before {
+  content: "\E078";
+}
+
 .fa-edit:before {
   content: "\F044";
 }
@@ -14228,7 +14244,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-faucet:before {
-  content: "\F905";
+  content: "\E005";
 }
 
 .fa-fax:before {
@@ -14392,7 +14408,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-firefox-browser:before {
-  content: "\F907";
+  content: "\E007";
 }
 
 .fa-first-aid:before {
@@ -14711,6 +14727,10 @@ readers do not read off random characters that represent icons */
   content: "\F3AA";
 }
 
+.fa-google-pay:before {
+  content: "\E079";
+}
+
 .fa-google-play:before {
   content: "\F3AB";
 }
@@ -14880,7 +14900,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-hand-holding-medical:before {
-  content: "\F95C";
+  content: "\E05C";
 }
 
 .fa-hand-holding-usd:before {
@@ -14936,7 +14956,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-hand-sparkles:before {
-  content: "\F95D";
+  content: "\E05D";
 }
 
 .fa-hand-spock:before {
@@ -14952,7 +14972,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-hands-wash:before {
-  content: "\F95E";
+  content: "\E05E";
 }
 
 .fa-handshake:before {
@@ -14960,11 +14980,11 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-handshake-alt-slash:before {
-  content: "\F95F";
+  content: "\E05F";
 }
 
 .fa-handshake-slash:before {
-  content: "\F960";
+  content: "\E060";
 }
 
 .fa-hanukiah:before {
@@ -14996,19 +15016,19 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-head-side-cough:before {
-  content: "\F961";
+  content: "\E061";
 }
 
 .fa-head-side-cough-slash:before {
-  content: "\F962";
+  content: "\E062";
 }
 
 .fa-head-side-mask:before {
-  content: "\F963";
+  content: "\E063";
 }
 
 .fa-head-side-virus:before {
-  content: "\F964";
+  content: "\E064";
 }
 
 .fa-heading:before {
@@ -15148,7 +15168,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-house-user:before {
-  content: "\F965";
+  content: "\E065";
 }
 
 .fa-houzz:before {
@@ -15196,7 +15216,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-ideal:before {
-  content: "\F913";
+  content: "\E013";
 }
 
 .fa-igloo:before {
@@ -15244,7 +15264,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-instagram-square:before {
-  content: "\F955";
+  content: "\E055";
 }
 
 .fa-intercom:before {
@@ -15400,7 +15420,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-laptop-house:before {
-  content: "\F966";
+  content: "\E066";
 }
 
 .fa-laptop-medical:before {
@@ -15564,7 +15584,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-lungs-virus:before {
-  content: "\F967";
+  content: "\E067";
 }
 
 .fa-lyft:before {
@@ -15736,7 +15756,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-microblog:before {
-  content: "\F91A";
+  content: "\E01A";
 }
 
 .fa-microchip:before {
@@ -15792,7 +15812,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-mixer:before {
-  content: "\F956";
+  content: "\E056";
 }
 
 .fa-mizuni:before {
@@ -16112,7 +16132,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-people-arrows:before {
-  content: "\F968";
+  content: "\E068";
 }
 
 .fa-people-carry:before {
@@ -16200,7 +16220,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-pied-piper-square:before {
-  content: "\F91E";
+  content: "\E01E";
 }
 
 .fa-piggy-bank:before {
@@ -16244,7 +16264,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-plane-slash:before {
-  content: "\F969";
+  content: "\E069";
 }
 
 .fa-play:before {
@@ -16348,11 +16368,11 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-pump-medical:before {
-  content: "\F96A";
+  content: "\E06A";
 }
 
 .fa-pump-soap:before {
-  content: "\F96B";
+  content: "\E06B";
 }
 
 .fa-pushed:before {
@@ -16607,6 +16627,10 @@ readers do not read off random characters that represent icons */
   content: "\F156";
 }
 
+.fa-rust:before {
+  content: "\E07A";
+}
+
 .fa-sad-cry:before {
   content: "\F5B3";
 }
@@ -16736,7 +16760,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-shield-virus:before {
-  content: "\F96C";
+  content: "\E06C";
 }
 
 .fa-ship:before {
@@ -16756,7 +16780,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-shopify:before {
-  content: "\F957";
+  content: "\E057";
 }
 
 .fa-shopping-bag:before {
@@ -16813,6 +16837,10 @@ readers do not read off random characters that represent icons */
 
 .fa-simplybuilt:before {
   content: "\F215";
+}
+
+.fa-sink:before {
+  content: "\E06D";
 }
 
 .fa-sistrix:before {
@@ -16940,7 +16968,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-soap:before {
-  content: "\F96E";
+  content: "\E06E";
 }
 
 .fa-socks:before {
@@ -17164,7 +17192,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-stopwatch-20:before {
-  content: "\F96F";
+  content: "\E06F";
 }
 
 .fa-store:before {
@@ -17176,11 +17204,11 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-store-alt-slash:before {
-  content: "\F970";
+  content: "\E070";
 }
 
 .fa-store-slash:before {
-  content: "\F971";
+  content: "\E071";
 }
 
 .fa-strava:before {
@@ -17463,6 +17491,10 @@ readers do not read off random characters that represent icons */
   content: "\F3FF";
 }
 
+.fa-tiktok:before {
+  content: "\E07B";
+}
+
 .fa-times:before {
   content: "\F00D";
 }
@@ -17500,7 +17532,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-toilet-paper-slash:before {
-  content: "\F972";
+  content: "\E072";
 }
 
 .fa-toolbox:before {
@@ -17540,7 +17572,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-trailer:before {
-  content: "\F941";
+  content: "\E041";
 }
 
 .fa-train:before {
@@ -17688,7 +17720,7 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-unity:before {
-  content: "\F949";
+  content: "\E049";
 }
 
 .fa-universal-access:before {
@@ -17709,6 +17741,10 @@ readers do not read off random characters that represent icons */
 
 .fa-unlock-alt:before {
   content: "\F13E";
+}
+
+.fa-unsplash:before {
+  content: "\E07C";
 }
 
 .fa-untappd:before {
@@ -17831,6 +17867,10 @@ readers do not read off random characters that represent icons */
   content: "\F509";
 }
 
+.fa-users-slash:before {
+  content: "\E073";
+}
+
 .fa-usps:before {
   content: "\F7E1";
 }
@@ -17920,15 +17960,15 @@ readers do not read off random characters that represent icons */
 }
 
 .fa-virus:before {
-  content: "\F974";
+  content: "\E074";
 }
 
 .fa-virus-slash:before {
-  content: "\F975";
+  content: "\E075";
 }
 
 .fa-viruses:before {
-  content: "\F976";
+  content: "\E076";
 }
 
 .fa-vk:before {
@@ -18212,7 +18252,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.14.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
@@ -18229,7 +18269,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.14.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
@@ -18247,7 +18287,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.13.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.14.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
@@ -18570,12 +18610,15 @@ readers do not read off random characters that represent icons */
   --tag-invalid-color: #D39494;
   --tag-invalid-bg: rgba(211, 148, 148, 0.5);
   --tag-remove-bg: rgba(211, 148, 148, 0.3);
+  --tag-remove-btn-color: black;
   --tag-remove-btn-bg: none;
   --tag-remove-btn-bg--hover: #c77777;
+  --input-color: #495057;
   --tag--min-width: 1ch;
   --tag--max-width: auto;
   --tag-hide-transition: .3s;
-  --placeholder-color: black;
+  --placeholder-color: rgba(0, 0, 0, 0.4);
+  --placeholder-color-focus: rgba(0, 0, 0, 0.25);
   --loader-size: .8em;
   display: flex;
   align-items: flex-start;
@@ -18618,22 +18661,22 @@ readers do not read off random characters that represent icons */
   border-color: #3595f6;
   border-color: var(--tags-focus-border-color);
 }
-.tagify[readonly] {
+.tagify[readonly]:not(.tagify--mix) {
   cursor: default;
 }
-.tagify[readonly] > .tagify__input {
+.tagify[readonly]:not(.tagify--mix) > .tagify__input {
   visibility: hidden;
   width: 0;
   margin: 5px 0;
 }
-.tagify[readonly] .tagify__tag__removeBtn {
+.tagify[readonly]:not(.tagify--mix) .tagify__tag__removeBtn {
   display: none;
 }
-.tagify[readonly] .tagify__tag > div {
+.tagify[readonly]:not(.tagify--mix) .tagify__tag > div {
   padding: 0.3em 0.5em;
   padding: var(--tag-pad);
 }
-.tagify[readonly] .tagify__tag > div::before {
+.tagify[readonly]:not(.tagify--mix) .tagify__tag > div::before {
   background: linear-gradient(45deg, var(--tag-bg) 25%, transparent 25%, transparent 50%, var(--tag-bg) 50%, var(--tag-bg) 75%, transparent 75%, transparent) 0/5px 5px;
   box-shadow: none;
   -webkit-filter: brightness(0.95);
@@ -18757,11 +18800,11 @@ readers do not read off random characters that represent icons */
           animation: rotateLoader 0.4s infinite linear;
   margin: 0 0.5em 0 -0.1em;
 }
-.tagify__tag.tagify--noAnim > div::before {
+.tagify__tag--flash div::before {
   -webkit-animation: none;
           animation: none;
 }
-.tagify__tag.tagify--hide {
+.tagify__tag--hide {
   width: 0 !important;
   padding-left: 0;
   padding-right: 0;
@@ -18773,7 +18816,7 @@ readers do not read off random characters that represent icons */
   transition: var(--tag-hide-transition);
   pointer-events: none;
 }
-.tagify__tag.tagify--mark div::before {
+.tagify__tag.tagify--noAnim > div::before {
   -webkit-animation: none;
           animation: none;
 }
@@ -18813,11 +18856,11 @@ readers do not read off random characters that represent icons */
   justify-content: center;
   border-radius: 50px;
   cursor: pointer;
-  font: 14px Serif;
+  font: 14px/1 monospace;
   background: none;
   background: var(--tag-remove-btn-bg);
   color: black;
-  color: var(--tag-text-color);
+  color: var(--tag-remove-btn-color);
   width: 14px;
   height: 14px;
   margin-right: 4.6666666667px;
@@ -18848,7 +18891,7 @@ readers do not read off random characters that represent icons */
   white-space: nowrap;
 }
 .tagify__input {
-  flex: 1;
+  flex-grow: 1;
   display: block;
   min-width: 110px;
   margin: 5px;
@@ -18857,6 +18900,8 @@ readers do not read off random characters that represent icons */
   line-height: inherit;
   position: relative;
   white-space: pre-line;
+  color: #495057;
+  color: var(--input-color);
   /* Seems firefox newer versions don't need this any more
           @supports ( -moz-appearance:none ){
               &::before{
@@ -18873,14 +18918,10 @@ readers do not read off random characters that represent icons */
   display: inline-block;
   width: 0;
 }
-@supports (-moz-appearance: none) {
-  .tagify__input:empty {
-    display: flex;
-  }
-}
+@-moz-document url-prefix() {}
 .tagify__input:empty::before {
   transition: 0.2s ease-out;
-  opacity: 0.5;
+  opacity: 1;
   transform: none;
   width: auto;
 }
@@ -18895,7 +18936,7 @@ readers do not read off random characters that represent icons */
   /* IE10+ CSS styles go here */
   /* IE Edge 12+ CSS styles go here */
 }
-@supports (-moz-appearance: none) {
+@-moz-document url-prefix() {
   .tagify__input:focus::before {
     display: none;
   }
@@ -18912,24 +18953,28 @@ readers do not read off random characters that represent icons */
 }
 .tagify__input:focus:empty::before {
   transition: 0.2s ease-out;
-  opacity: 0.3;
+  opacity: 1;
   transform: none;
+  color: rgba(0, 0, 0, 0.25);
+  color: var(--placeholder-color-focus);
 }
-@supports (-moz-appearance: none) {
+@-moz-document url-prefix() {
   .tagify__input:focus:empty::before {
-    display: inline-block;
+    content: unset;
+  }
+}
+@-moz-document url-prefix() {
+  .tagify__input:focus:empty::after {
+    display: none;
   }
 }
 .tagify__input::before {
   content: attr(data-placeholder);
-  position: absolute;
-  top: 0;
-  bottom: 0;
   height: 1em;
   line-height: 1em;
   margin: auto 0;
   z-index: 1;
-  color: black;
+  color: rgba(0, 0, 0, 0.4);
   color: var(--placeholder-color);
   white-space: nowrap;
   pointer-events: none;
@@ -19009,26 +19054,10 @@ readers do not read off random characters that represent icons */
   z-index: 9999;
   transform: translateY(1px);
   overflow: hidden;
-  /* CURRENTLY NOT USED
-  &__addNewBtn{
-    width: 1.22em;
-    height: 1.22em;
-    line-height: 1;
-    font-size: 1.2em;
-    border-radius: 50%;
-    text-align: center;
-    background: $tags-focus-border-color;
-    background: var(--tagify-dd-color-primary);
-    color: white;
-    color: var(--tagify-dd-bg-color);
-    border: none;
-    cursor: pointer;
-  }
-  */
 }
 .tagify__dropdown[placement=top] {
   margin-top: 0;
-  transform: translateY(-2px);
+  transform: translateY(-100%);
 }
 .tagify__dropdown[placement=top] .tagify__dropdown__wrapper {
   border-top-width: 1px;
