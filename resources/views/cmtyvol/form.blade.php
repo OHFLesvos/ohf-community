@@ -13,6 +13,8 @@
         <div class="mb-3 column-break-avoid">{{ Form::bsRadioList($field['name'], $field['list'], $field['value'], $field['label'], $field['help'] ?? null) }}</div>
     @elseif($field['type'] == 'checkboxes')
         <div class="mb-3 column-break-avoid">{{ Form::bsCheckboxList($field['name'].'[]', $field['list'], $field['value'], $field['label'], $field['help'] ?? null) }}</div>
+    @elseif($field['type'] == 'checkboxeswithdescription')
+        <div class="mb-3 column-break-avoid">{{ Form::bsCheckboxListWithDescription($field['name'].'[]', $field['list'], $field['value'], $field['label'], $field['help'] ?? null) }}</div>
     @elseif($field['type'] == 'select')
         {{ Form::bsSelect($field['name'], $field['list'], $field['value'], [ 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
     @elseif($field['type'] == 'image')

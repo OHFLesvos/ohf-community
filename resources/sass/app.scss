@@ -314,3 +314,31 @@ mark {
   background: #ffe660;
   padding: 0.2em 0;
 }
+
+/**
+* Description Text
+*/
+.text-formatted {
+  white-space: pre-wrap;
+}
+
+div.long-description.collapse[aria-expanded="false"] {
+  max-height: 120px;
+  height: auto !important;
+  overflow: hidden;
+  -webkit-line-clamp: 5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+div.long-description.collapsing[aria-expanded="false"] {
+  max-height: 120px;
+  height: auto !important;
+}
+
+.description-tooltip {
+  color: $blue;
+}
+
+.popover-body {
+  white-space: pre-wrap;
+}

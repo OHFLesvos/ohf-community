@@ -46,6 +46,7 @@ $factory->define(CommunityVolunteer::class, function (Faker $faker) use ($countr
 $factory->define(Responsibility::class, function (Faker $faker) {
     return [
         'name' => $faker->unique()->jobTitle,
+        'description' => $faker->realText($faker->numberBetween(300, 1000)),
         'capacity' => $faker->optional(0.7)->numberBetween(1, 6),
         'available' => mt_rand(0, 100) > 30,
     ];

@@ -303,7 +303,8 @@ abstract class BaseController extends Controller
                 'value' => fn ($cmtyvol) => $cmtyvol->responsibilities->pluck('name')->all(),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->responsibilities
                     ->map(function ($r) {
-                        $str = $r->name;
+                        $str = htmlspecialchars($r->name);
+                        $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="' . htmlspecialchars($r->description) . '"></a>';
                         if ($r->hasAssignedAltoughNotAvailable) {
                             $str .= ' <span class="text-danger">(' . __('app.not_available') . ')</span>';
                         }
@@ -333,13 +334,13 @@ abstract class BaseController extends Controller
                     }
                     $cmtyvol->responsibilities()->sync($selected);
                 },
-                'form_type' => 'checkboxes',
+                'form_type' => 'checkboxeswithdescription',
                 'form_name' => 'responsibilities',
                 'form_list' => Responsibility::where('available', true)
                     ->orderBy('name')
                     ->get()
                     ->filter(fn ($responsibility) => ! $responsibility->isCapacityExhausted)
-                    ->pluck('name', 'name')
+                    ->pluck('description', 'name')
                     ->toArray(),
                 'form_validate' => fn () => [
                     Rule::in(Responsibility::select('name')
