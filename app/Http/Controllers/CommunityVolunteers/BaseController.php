@@ -339,9 +339,13 @@ abstract class BaseController extends Controller
                 'form_list' => Responsibility::where('available', true)
                     ->orderBy('name')
                     ->get()
-                    ->filter(fn ($responsibility) => ! $responsibility->isCapacityExhausted)
-                    ->pluck('description', 'name')
-                    ->toArray(),
+                    ->map(function ($responsibility) {
+                        return [
+                            "text" => $responsibility->name,
+                            "description" => $responsibility->description,
+                            "hidden" => $responsibility->isCapacityExhausted,
+                        ];
+                    }),
                 'form_validate' => fn () => [
                     Rule::in(Responsibility::select('name')
                         ->get()
