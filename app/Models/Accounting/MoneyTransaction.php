@@ -102,6 +102,12 @@ class MoneyTransaction extends Model implements Auditable
             if (!empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());
+                } elseif ($col == 'controlled') {
+                    if ($filter[$col] == 'yes') {
+                        $query->whereNotNull('controlled_at');
+                    } elseif ($filter[$col] == 'no') {
+                        $query->whereNull('controlled_at');
+                    }
                 } elseif ($col == 'no_receipt') {
                     $query->where(function ($query) {
                         $query->whereNull('receipt_no');

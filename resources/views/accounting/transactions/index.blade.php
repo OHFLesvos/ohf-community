@@ -217,6 +217,7 @@
                         .html(footer_html)
                         .show();
                 }
+                @include('accounting.transactions.controlled')
             });
         });
     });
@@ -230,6 +231,9 @@
             <div class="form-row">
                 <div class="col-sm mb-3">
                     {{ Form::bsRadioList('filter[type]', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending'), null => __('app.any') ], $filter['type'] ?? null, __('app.type')) }}
+                </div>
+                <div class="col-sm mb-3">
+                    {{ Form::bsRadioList('filter[controlled]', [ 'yes' => __('app.yes'), 'no' => __('app.no'), null => __('app.any') ], $filter['controlled'] ?? null, __('accounting.controlled')) }}
                 </div>
                 <div class="col-sm">
                     {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('accounting.receipt') . ' #') }}

@@ -38,6 +38,8 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
         return array_merge($headings, [
             __('app.description'),
             __('app.registered'),
+            __('accounting.controlled_at'),
+            __('accounting.controlled_by'),
             __('accounting.booked'),
             __('app.author'),
             __('accounting.wallet_owner'),
@@ -72,6 +74,8 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
         return array_merge($data, [
             $transaction->description,
             $transaction->created_at,
+            $transaction->controlled_at,
+            $transaction->controlled_by !== null ? $transaction->controller->name : null,
             $transaction->booked ? __('app.yes') : __('app.no'),
             isset($audit) ? $audit->getMetadata()['user_name'] : '',
             $transaction->wallet_owner,
@@ -90,8 +94,8 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
-        $sheet->getStyle('B2:B'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
-        $sheet->getStyle('C2:C'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('B2:B' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
     }
 
     private static function useSecondaryCategories(): bool

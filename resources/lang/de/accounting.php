@@ -69,4 +69,8 @@ return [
     'use_cost_centers' => 'Kostenstellen verwenden',
     'controlling' => 'Controlling',
     'controlled' => 'Kontrolliert',
+    'mark_controlled' => 'Als kontrolliert markieren',
+    'controlled_at' => 'Kontrolliert am',
+    'controlled_by' => 'Kontrolliert von',
+
 ];

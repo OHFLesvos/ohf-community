@@ -20,3 +20,7 @@
     </p>
 
 @endsection
+
+@section('script')
+    @include('accounting.transactions.controlled')
+@endsection
