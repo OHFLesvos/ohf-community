@@ -57,7 +57,7 @@
                                         {{ Form::bsSelect('credit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('accounting.paid_from') ], '') }}
                                     @endif
                                 </td>
-                                <td class="fit">{{ $transaction->receipt_no }}</td>^
+                                <td class="fit">{{ $transaction->receipt_no }}</td>
                                 <td class="fit">
                                     @isset($transaction->controlled_at)
                                         @icon(check)
