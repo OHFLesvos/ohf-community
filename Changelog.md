@@ -2,7 +2,7 @@
 
 ## NEXT
 
-* Added more controlled checks to accounting transactions
+* Extended checks for controlled transactions in accounting module
 
 ## 2.21.1
 
