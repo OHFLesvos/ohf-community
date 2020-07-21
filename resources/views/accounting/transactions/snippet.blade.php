@@ -128,6 +128,27 @@
                 </div>
             </li>
         @endunless
+
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-sm-4"><strong>@lang('accounting.controlled')</strong></div>
+                <div class="col-sm">
+                    @if($transaction->controlled_at)
+                        {{ $transaction->controlled_at }}
+                        @isset($transaction->controlled_by)
+                            ({{ $transaction->controller->name }})
+                        @endif
+                    @else
+                        <button class="btn btn-primary btn-sm mark-controlled"
+                            data-url="{{ route('accounting.transactions.markControlled', $transaction) }}"
+                        >
+                            @lang('accounting.mark_controlled')
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </li>
+
         @if($transaction->booked)
             <li class="list-group-item">
                 <div class="row">

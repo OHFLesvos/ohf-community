@@ -14,6 +14,7 @@ return [
         'today',
         'no_receipt',
         'wallet_owner',
+        'controlled',
     ],
     'webling' => [
         'api' => [

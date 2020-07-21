@@ -67,4 +67,9 @@ return [
     'no_cost_center' => 'No cost center',
     'invalid_cost_center_x' => 'Invalid cost center \':cost_center\'',
     'use_cost_centers' => 'Use cost centers',
+    'controlling' => 'Controlling',
+    'controlled' => 'Controlled',
+    'mark_controlled' => 'Mark as controlled',
+    'controlled_at' => 'Controlled at',
+    'controlled_by' => 'Controlled by',
 ];

@@ -67,4 +67,10 @@ return [
     'no_cost_center' => 'Keine Kostenstelle',
     'invalid_cost_center_x' => 'Ungültige Kostenstelle \':cost_center\'',
     'use_cost_centers' => 'Kostenstellen verwenden',
+    'controlling' => 'Controlling',
+    'controlled' => 'Kontrolliert',
+    'mark_controlled' => 'Als kontrolliert markieren',
+    'controlled_at' => 'Kontrolliert am',
+    'controlled_by' => 'Kontrolliert von',
+
 ];

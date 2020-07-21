@@ -35,7 +35,7 @@ Route::middleware(['auth', 'language'])
                             ->name('roles.')
                             ->group(function () {
                                 Route::get('', 'UserRoleRelationshipController@index')
-                                ->name('index');
+                                    ->name('index');
                                 Route::post('', 'UserRoleRelationshipController@store')
                                     ->name('store');
                                 Route::put('', 'UserRoleRelationshipController@update')
@@ -182,6 +182,19 @@ Route::middleware(['language', 'auth'])
         Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')
             ->name('transactions.updateReceipt');
     });
+
+
+Route::middleware(['language', 'auth'])
+    ->prefix('accounting')
+    ->name('accounting.')
+    ->namespace('Accounting\API')
+    ->group(function () {
+        Route::get('transactions/{transaction}/controlled', 'ControllingController@controlled')
+            ->name('transactions.controlled');
+        Route::post('transactions/{transaction}/controlled', 'ControllingController@markControlled')
+            ->name('transactions.markControlled');
+    });
+
 
 //
 // People
