@@ -129,23 +129,25 @@
             </li>
         @endunless
 
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.controlled')</strong></div>
-                    <div class="col-sm">
-                        @if($transaction->controlled_at)
-                            {{ $transaction->controlled_at }}
-                            @isset($transaction->controlled_by)
-                                ({{ $transaction->controller->name }})
-                            @endif
-                        @else
-                            {!! Form::open(['route' => ['accounting.transactions.markControlled', $transaction ]]) !!}
-                            {{ Form::bsSubmitButton(__('accounting.controlled')) }}
-                            {!! Form::close() !!}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-sm-4"><strong>@lang('accounting.controlled')</strong></div>
+                <div class="col-sm">
+                    @if($transaction->controlled_at)
+                        {{ $transaction->controlled_at }}
+                        @isset($transaction->controlled_by)
+                            ({{ $transaction->controller->name }})
                         @endif
-                    </div>
+                    @else
+                        <button class="btn btn-primary btn-sm mark-controlled"
+                            data-url="{{ route('accounting.transactions.markControlled', $transaction) }}"
+                        >
+                            @lang('accounting.controlled')
+                        </button>
+                    @endif
                 </div>
-            </li>
+            </div>
+        </li>
 
         @if($transaction->booked)
             <li class="list-group-item">
@@ -191,3 +193,34 @@
             </div>
         </li>
     </ul>
+    <script>
+    $('.mark-controlled').on('click', function () {
+        var url = $(this).data('url');
+        var btn = $(this);
+        btn.attr('disabled', true);
+        $.post(url)
+            .done(function () {
+                btn.text('Done');
+                btn.addClass('btn-success');
+                btn.removeClass('btn-primary');
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                var message;
+                if (jqXHR.responseJSON.message) {
+                    if (jqXHR.responseJSON.errors) {
+                        message = "";
+                        var errors = jqXHR.responseJSON.errors;
+                        Object.keys(errors).forEach(function (key) {
+                            message += errors[key] + "\n";
+                        });
+                    } else {
+                        message = jqXHR.responseJSON.message;
+                    }
+                } else {
+                    message = textStatus + ': ' + jqXHR.responseText;
+                }
+                alert(message);
+                btn.attr('disabled', false);
+            })
+        });
+    </script>
