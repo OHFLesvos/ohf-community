@@ -128,6 +128,25 @@
                 </div>
             </li>
         @endunless
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting.controlled')</strong></div>
+                    <div class="col-sm">
+                        @if($transaction->controlled_at)
+                            {{ $transaction->controlled_at }}
+                            @isset($transaction->controlled_by)
+                                ({{ $transaction->controller->name }})
+                            @endif
+                        @else
+                            {!! Form::open(['route' => ['accounting.transactions.markControlled', $transaction ]]) !!}
+                            {{ Form::bsSubmitButton(__('accounting.controlled')) }}
+                            {!! Form::close() !!}
+                        @endif
+                    </div>
+                </div>
+            </li>
+
         @if($transaction->booked)
             <li class="list-group-item">
                 <div class="row">

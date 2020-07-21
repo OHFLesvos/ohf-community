@@ -4,6 +4,7 @@ namespace App\Models\Accounting;
 
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
+use App\User;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Model;
@@ -32,11 +33,28 @@ class MoneyTransaction extends Model implements Auditable
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'controlled_at',
+    ];
+
+    /**
      * Get the wallet that owns this transaction.
      */
     public function wallet()
     {
         return $this->belongsTo(Wallet::class);
+    }
+
+    /**
+     * Get the wallet that owns this transaction.
+     */
+    public function controller()
+    {
+        return $this->belongsTo(User::class, 'controlled_by');
     }
 
     /**
@@ -81,7 +99,7 @@ class MoneyTransaction extends Model implements Auditable
     public function scopeForFilter($query, array $filter, ?bool $skipDates = false)
     {
         foreach (config('accounting.filter_columns') as $col) {
-            if (! empty($filter[$col])) {
+            if (!empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());
                 } elseif ($col == 'no_receipt') {
@@ -97,11 +115,11 @@ class MoneyTransaction extends Model implements Auditable
                 }
             }
         }
-        if (! $skipDates) {
-            if (! empty($filter['date_start'])) {
+        if (!$skipDates) {
+            if (!empty($filter['date_start'])) {
                 $query->whereDate('date', '>=', $filter['date_start']);
             }
-            if (! empty($filter['date_end'])) {
+            if (!empty($filter['date_end'])) {
                 $query->whereDate('date', '<=', $filter['date_end']);
             }
         }
@@ -121,8 +139,7 @@ class MoneyTransaction extends Model implements Auditable
 
     public function getExternalUrlAttribute()
     {
-        if ($this->external_id != null)
-        {
+        if ($this->external_id != null) {
             try {
                 return optional(Entrygroup::find($this->external_id))->url();
             } catch (ConnectionException $e) {
@@ -146,7 +163,7 @@ class MoneyTransaction extends Model implements Auditable
 
     public function deleteReceiptPictures()
     {
-        if (! empty($this->receipt_pictures)) {
+        if (!empty($this->receipt_pictures)) {
             foreach ($this->receipt_pictures as $file) {
                 Storage::delete($file);
             }
