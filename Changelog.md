@@ -1,7 +1,8 @@
 # Changelog
 
-## NEXT
+## 2.21.1
 
+* Added "controlled" field to accounting transactions
 * Removed unused tasks module
 
 ## 2.21.0
