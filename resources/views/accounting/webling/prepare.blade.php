@@ -58,11 +58,11 @@
                                     @endif
                                 </td>
                                 <td class="fit">{{ $transaction->receipt_no }}</td>
-                                <td class="fit">
+                                <td class="fit text-center">
                                     @isset($transaction->controlled_at)
-                                        @icon(check)
+                                        <span class="text-success">@icon(check)</span>
                                     @else
-                                        @icon(times)
+                                        <span class="text-danger">@icon(times)</span>
                                     @endisset
                                 </td>
                                 <td class="fit">
