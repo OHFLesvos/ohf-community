@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Added more controlled checks to accounting transactions
+
 ## 2.21.1
 
 * Added "controlled" field to accounting transactions

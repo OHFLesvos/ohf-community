@@ -183,7 +183,6 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.updateReceipt');
     });
 
-
 Route::middleware(['language', 'auth'])
     ->prefix('accounting')
     ->name('accounting.')
@@ -193,8 +192,9 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.controlled');
         Route::post('transactions/{transaction}/controlled', 'ControllingController@markControlled')
             ->name('transactions.markControlled');
+        Route::delete('transactions/{transaction}/controlled', 'ControllingController@undoControlled')
+            ->name('transactions.undoControlled');
     });
-
 
 //
 // People

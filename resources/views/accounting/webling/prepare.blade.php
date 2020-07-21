@@ -20,6 +20,7 @@
                             <th>@lang('accounting.debit_side')</th>
                             <th>@lang('accounting.credit_side')</th>
                             <th class="fit">@lang('accounting.receipt_no')</th>
+                            <th class="fit">@lang('accounting.controlled')</th>
                             <th class="fit">@lang('app.action')</th>
                         </tr>
                     </thead>
@@ -56,7 +57,14 @@
                                         {{ Form::bsSelect('credit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('accounting.paid_from') ], '') }}
                                     @endif
                                 </td>
-                                <td class="fit">{{ $transaction->receipt_no }}</td>
+                                <td class="fit">{{ $transaction->receipt_no }}</td>^
+                                <td class="fit">
+                                    @isset($transaction->controlled_at)
+                                        @icon(check)
+                                    @else
+                                        @icon(times)
+                                    @endisset
+                                </td>
                                 <td class="fit">
                                     {{ Form::bsRadioList('action['.$transaction->id.']', $actions, $defaultAction, '') }}
                                 </td>

@@ -38,7 +38,8 @@ class StoreTransaction extends FormRequest
                 'min:1',
                 function ($attribute, $value, $fail) {
                     $exists = MoneyTransaction::query()
-                        ->when($this->transaction,
+                        ->when(
+                            $this->transaction,
                             fn ($qry) => $qry->where('wallet_id', $this->transaction->wallet_id)
                                 ->where('id', '!=', $this->transaction->id),
                             fn ($qry) => $qry->where('wallet_id', $this->wallet_id),
@@ -46,7 +47,7 @@ class StoreTransaction extends FormRequest
                         ->where('receipt_no', $value)
                         ->exists();
                     if ($exists) {
-                        $fail(__('validation.unique', [ 'attribute' => __('accounting.receipt_no') ]));
+                        $fail(__('validation.unique', ['attribute' => __('accounting.receipt_no')]));
                     }
                 },
             ],
@@ -82,5 +83,20 @@ class StoreTransaction extends FormRequest
                 'required',
             ],
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (optional($this->transaction)->controlled_at !== null) {
+                $validator->errors()->add('controlled_at', __('accounting.cannot_update_already_controlled_transaction'));
+            }
+        });
     }
 }

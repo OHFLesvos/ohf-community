@@ -137,6 +137,13 @@
                         {{ $transaction->controlled_at }}
                         @isset($transaction->controlled_by)
                             ({{ $transaction->controller->name }})
+                            @can('undoControlling', $transaction)
+                                <button class="btn btn-secondary btn-sm undo-controlled"
+                                    data-url="{{ route('accounting.transactions.undoControlled', $transaction) }}"
+                                >
+                                    @lang('app.undo')
+                                </button>
+                            @endcan
                         @endif
                     @else
                         <button class="btn btn-primary btn-sm mark-controlled"

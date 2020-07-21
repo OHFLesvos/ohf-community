@@ -12,7 +12,7 @@ class MoneyTransactionPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin() && ! in_array($ability, ['update', 'delete', 'undoBooking'])) {
+        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete', 'undoBooking'])) {
             return true;
         }
     }
@@ -60,7 +60,7 @@ class MoneyTransactionPolicy
      */
     public function update(User $user, MoneyTransaction $moneyTransaction)
     {
-        if (! $moneyTransaction->booked) {
+        if (!$moneyTransaction->booked && $moneyTransaction->controlled_at === null) {
             return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
         }
         return false;
@@ -75,7 +75,7 @@ class MoneyTransactionPolicy
      */
     public function delete(User $user, MoneyTransaction $moneyTransaction)
     {
-        if (! $moneyTransaction->booked) {
+        if (!$moneyTransaction->booked && $moneyTransaction->controlled_at === null) {
             return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.delete');
         }
         return false;
@@ -96,4 +96,18 @@ class MoneyTransactionPolicy
         return false;
     }
 
+    /**
+     * Determine whether the user can mark a controlled transaction as uncontrolled again.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Models\Accounting\MoneyTransaction  $moneyTransaction
+     * @return mixed
+     */
+    public function undoControlling(User $user, MoneyTransaction $moneyTransaction)
+    {
+        if ($moneyTransaction->booked) {
+            return $user->isSuperAdmin() || $user->id === $moneyTransaction->controlled_by;
+        }
+        return false;
+    }
 }

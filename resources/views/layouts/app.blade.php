@@ -47,13 +47,13 @@
                         @if (count($errors) > 0)
                             <div class="alert alert-danger alert-dismissible fade show">
                                 @icon(exclamation-triangle) @lang('app.validation_failed')
-{{--
-                                <ul>
+
+                                <ul class="mb-0 pb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
-                                --}}
+
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
