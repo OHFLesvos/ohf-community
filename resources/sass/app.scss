@@ -336,7 +336,8 @@ div.long-description.collapsing[aria-expanded="false"] {
 }
 
 .description-tooltip {
-  color: $blue;
+  color: inherit;
+  cursor: pointer;
 }
 
 .popover-body {

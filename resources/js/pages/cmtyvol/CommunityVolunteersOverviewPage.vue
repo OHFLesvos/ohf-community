@@ -37,7 +37,13 @@
                 <nl2br tag="span" :text="arrayToString(data.value)" />
             </template>
             <template v-slot:cell(responsibilities)="data">
-                <nl2br tag="span" :text="arrayToString(data.value)" />
+                <template v-for="(description, name) in data.value" >
+                    {{name}}
+                    <b-button :key="name + '-a'" v-b-popover.focus="description" class="description-tooltip p-0" variant="link" href="#">
+                        <font-awesome-icon :key="name + '-i'" icon="info-circle" />
+                    </b-button>
+                    <br :key="name + '-b'" />
+                </template>
             </template>
 
             <template v-slot:filter-prepend>
