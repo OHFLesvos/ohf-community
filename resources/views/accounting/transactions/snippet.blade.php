@@ -118,11 +118,19 @@
                     <div class="col-sm-4"><strong>@lang('accounting.receipt')</strong></div>
                     <div class="col-sm">
                         @foreach($transaction->receipt_pictures as $picture)
-                            <a href="{{ Storage::url($picture) }}" data-lity>
-                                @component('components.thumbnail', ['size' => 150])
-                                    {{ Storage::url($picture) }}
-                                @endcomponent
-                            </a>
+                            @if(Storage::exists($picture))
+                                @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
+                                    <a href="{{ Storage::url($picture) }}" data-lity>
+                                        @component('components.thumbnail', ['size' => 150])
+                                            {{ Storage::url($picture) }}
+                                        @endcomponent
+                                    </a>
+                                @else
+                                    <a href="{{ Storage::url($picture) }}" target="_blank">
+                                        File: {{ Storage::mimeType($picture) }}</a>
+                                    {{ bytes_to_human(Storage::size($picture)) }}
+                                @endif
+                            @endif
                         @endforeach
                     </div>
                 </div>

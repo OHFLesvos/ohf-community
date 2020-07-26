@@ -10,6 +10,7 @@ use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class MoneyTransaction extends Model implements Auditable
@@ -157,10 +158,12 @@ class MoneyTransaction extends Model implements Auditable
 
     public function addReceiptPicture($file)
     {
-        // Resize image
-        $image = new ImageResize($file->getRealPath());
-        $image->resizeToBestFit(1024, 1024);
-        $image->save($file->getRealPath());
+        $img_max_dimensions = 1024;
+        if (Str::startsWith($file->getMimeType(), 'image/')) {
+            $image = new ImageResize($file->getRealPath());
+            $image->resizeToBestFit($img_max_dimensions, $img_max_dimensions);
+            $image->save($file->getRealPath());
+        }
 
         $pictures = $this->receipt_pictures ?? [];
         $pictures[] = $file->store(self::RECEIPT_PICTURE_PATH);

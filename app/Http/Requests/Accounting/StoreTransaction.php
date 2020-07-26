@@ -66,7 +66,8 @@ class StoreTransaction extends FormRequest
             ],
             'receipt_picture' => [
                 'nullable',
-                'image',
+                'file',
+                'mimetypes:image/*,application/pdf',
             ],
             'beneficiary' => [
                 'required',

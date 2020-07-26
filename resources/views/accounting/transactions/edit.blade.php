@@ -78,7 +78,7 @@
                 <label>@lang('accounting.receipt')</label>
                 <div class="form-row">
                     <div class="col-sm">
-                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*' ], __(! empty($transaction->receipt_pictures) ? 'accounting.change_picture_of_receipt' : 'accounting.choose_picture_of_receipt')) }}
+                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*,application/pdf' ], __(! empty($transaction->receipt_pictures) ? 'accounting.change_picture_of_receipt' : 'accounting.choose_picture_of_receipt')) }}
                     </div>
                     @if(! empty($transaction->receipt_pictures))
                         <div class="col-sm-auto">
