@@ -121,8 +121,8 @@
                             @if(Storage::exists($picture))
                                 @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
                                     <a href="{{ Storage::url($picture) }}" data-lity>
-                                        @component('components.thumbnail', ['size' => 150])
-                                            {{ Storage::url($picture) }}
+                                        @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                            {{ Storage::url(thumb_path($picture)) }}
                                         @endcomponent
                                     </a>
                                 @else

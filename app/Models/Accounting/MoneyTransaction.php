@@ -158,16 +158,26 @@ class MoneyTransaction extends Model implements Auditable
 
     public function addReceiptPicture($file)
     {
-        $img_max_dimensions = 1024;
+        $storedFile = $file->store(self::RECEIPT_PICTURE_PATH);
+
         if (Str::startsWith($file->getMimeType(), 'image/')) {
-            $image = new ImageResize($file->getRealPath());
-            $image->resizeToBestFit($img_max_dimensions, $img_max_dimensions);
-            $image->save($file->getRealPath());
+            self::createThumbnail(
+                Storage::path($storedFile),
+                config('accounting.thumbnail_size')
+            );
         }
 
         $pictures = $this->receipt_pictures ?? [];
-        $pictures[] = $file->store(self::RECEIPT_PICTURE_PATH);
+        $pictures[] = $storedFile;
         $this->receipt_pictures = $pictures;
+    }
+
+    private static function createThumbnail($path, $dimentions)
+    {
+        $thumbPath = thumb_path($path);
+        $image = new ImageResize($path);
+        $image->crop($dimentions, $dimentions);
+        $image->save($thumbPath);
     }
 
     public function deleteReceiptPictures()
@@ -175,6 +185,7 @@ class MoneyTransaction extends Model implements Auditable
         if (!empty($this->receipt_pictures)) {
             foreach ($this->receipt_pictures as $file) {
                 Storage::delete($file);
+                Storage::delete(thumb_path($file));
             }
         }
         $this->receipt_pictures = [];

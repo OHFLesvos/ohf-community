@@ -352,3 +352,10 @@ if (! function_exists('gender_label')) {
         return $value;
     }
 }
+
+if (! function_exists('thumb_path')) {
+    function thumb_path(string $orig_path): string {
+        $pi = pathinfo($orig_path);
+        return $pi['dirname'] . DIRECTORY_SEPARATOR . $pi['filename'] . '_thumb.' . $pi['extension'];
+    }
+}

@@ -22,4 +22,5 @@ return [
             'key' => env('WEBLING_API_KEY'),
         ],
     ],
+    'thumbnail_size' => 150,
 ];
