@@ -127,7 +127,8 @@
                                     </a>
                                 @else
                                     <a href="{{ Storage::url($picture) }}" target="_blank">
-                                        File: {{ Storage::mimeType($picture) }}</a>
+                                        <span class="display-4" title="{{ Storage::mimeType($picture) }}">
+                                            @if(Str::contains(Storage::mimeType($picture), 'pdf'))@icon(file-pdf)@else @icon(file)@endif</span></a>
                                     {{ bytes_to_human(Storage::size($picture)) }}
                                 @endif
                             @endif
