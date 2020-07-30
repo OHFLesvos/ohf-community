@@ -1,8 +1,11 @@
 # Changelog
 
-## NEXT
+## 2.22.0
 
+* PDF support for receipt pictures in accounting module
+* Added description field for community volunteer responsibilities
 * Extended checks for controlled transactions in accounting module
+* Updated code libraries fixing some security vulnerabilities
 
 ## 2.21.1
 
