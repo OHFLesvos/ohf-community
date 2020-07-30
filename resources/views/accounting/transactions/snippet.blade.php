@@ -118,11 +118,27 @@
                     <div class="col-sm-4"><strong>@lang('accounting.receipt')</strong></div>
                     <div class="col-sm">
                         @foreach($transaction->receipt_pictures as $picture)
-                            <a href="{{ Storage::url($picture) }}" data-lity>
-                                @component('components.thumbnail', ['size' => 150])
-                                    {{ Storage::url($picture) }}
-                                @endcomponent
-                            </a>
+                            @if(Storage::exists($picture))
+                                @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
+                                    <a href="{{ Storage::url($picture) }}" data-lity>
+                                        @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                            {{ Storage::url(thumb_path($picture)) }}
+                                        @endcomponent
+                                    </a>
+                                @else
+                                    @if(Storage::exists(thumb_path($picture, 'jpeg')))
+                                        <a href="{{ Storage::url($picture) }}" target="_blank">
+                                            @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                                {{ Storage::url(thumb_path($picture, 'jpeg')) }}
+                                            @endcomponent
+                                        </a>
+                                    @else
+                                        <a href="{{ Storage::url($picture) }}" target="_blank">
+                                        <span class="display-4" title="{{ Storage::mimeType($picture) }}">
+                                            @if(Storage::mimeType($picture) == 'application/pdf')@icon(file-pdf)@else @icon(file)@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
+                                    @endif
+                                @endif
+                            @endif
                         @endforeach
                     </div>
                 </div>

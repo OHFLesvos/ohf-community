@@ -131,7 +131,7 @@
         @foreach ($transactions->filter(fn ($e) => $e->receipt_no != null && empty($e->receipt_pictures)) as $transaction)
             <form action="{{ route('accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-none upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
                 {{ csrf_field() }}
-                {{ Form::file('img', [ 'accept' => 'image/*', 'class' => 'd-none' ]) }}
+                {{ Form::file('img', [ 'accept' => 'image/*,application/pdf', 'class' => 'd-none' ]) }}
             </form>
         @endforeach
     @else

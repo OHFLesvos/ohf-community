@@ -12,6 +12,13 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('update', $transaction);
 
+        $request->validate([
+            'img' => [
+                'file',
+                'mimetypes:image/*,application/pdf',
+            ],
+        ]);
+
         $transaction->deleteReceiptPictures(); // TODO no need to clear pictures for multi picture support
         $transaction->addReceiptPicture($request->file('img'));
         $transaction->save();
