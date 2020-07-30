@@ -213,7 +213,8 @@ class ListController extends BaseController
     private static function getFormRulesMap(array $field): array
     {
         $rules = is_callable($field['form_validate']) ? $field['form_validate']() : $field['form_validate'];
-        if ($field['form_type'] == 'checkboxes') {
+        if ($field['form_type'] == 'checkboxes'
+            || $field['form_type'] == 'checkboxeswithdescription') {
             return [
                 $field['form_name'] = 'array',
                 $field['form_name'] . '.*' => $rules,

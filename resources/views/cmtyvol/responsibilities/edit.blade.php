@@ -8,6 +8,7 @@
         <div class="col-md">
             {!! Form::model($responsibility, ['route' => ['cmtyvol.responsibilities.update', $responsibility], 'method' => 'put']) !!}
                 {{ Form::bsText('name', null, [ 'required' ], __('app.name')) }}
+                {{ Form::bsTextarea('description', null, [], __('app.description')) }}
                 {{ Form::bsNumber('capacity', null, [ 'min' => 0 ], __('app.capacity')) }}
                 <p>{{ Form::bsCheckbox('available', 1, null, __('app.available')) }}</p>
                 <p>{{ Form::bsSubmitButton(__('app.update')) }}</p>

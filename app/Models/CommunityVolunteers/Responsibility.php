@@ -14,6 +14,7 @@ class Responsibility extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'capacity',
         'available',
     ];
