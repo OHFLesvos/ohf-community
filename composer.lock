@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8eb147fd47ff55f821ba541d719486e0",
+    "content-hash": "33a0566b94542a07606b755973fcbb4d",
     "packages": [
         {
             "name": "akaunting/language",
@@ -3830,6 +3830,44 @@
             "time": "2020-06-17T14:59:55+00:00"
         },
         {
+            "name": "org_heigl/ghostscript",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/heiglandreas/Org_Heigl_Ghostscript.git",
+                "reference": "2bcd115f047589c28243a66e6bbea993fc91da21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/heiglandreas/Org_Heigl_Ghostscript/zipball/2bcd115f047589c28243a66e6bbea993fc91da21",
+                "reference": "2bcd115f047589c28243a66e6bbea993fc91da21",
+                "shasum": ""
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpdocumentor/phpdocumentor": "^2.9",
+                "phpunit/phpunit": "^5.5||^6.0||^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Org_Heigl\\Ghostscript\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Heigl",
+                    "email": "andreas@heigl.org"
+                }
+            ],
+            "description": "A PHP-Wrapper around the Ghostscript-CLI",
+            "time": "2018-02-22T08:37:21+00:00"
+        },
+        {
             "name": "owen-it/laravel-auditing",
             "version": "v10.0.0",
             "source": {
@@ -5689,6 +5727,57 @@
                 "model"
             ],
             "time": "2020-04-02T07:31:25+00:00"
+        },
+        {
+            "name": "spatie/pdf-to-image",
+            "version": "v2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/pdf-to-image.git",
+                "reference": "6718a89065c34dfadfbb2ca61eb1c3e6a956e503"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/pdf-to-image/zipball/6718a89065c34dfadfbb2ca61eb1c3e6a956e503",
+                "reference": "6718a89065c34dfadfbb2ca61eb1c3e6a956e503",
+                "shasum": ""
+            },
+            "require": {
+                "org_heigl/ghostscript": "^2.2",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.2",
+                "spatie/temporary-directory": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\PdfToImage\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert a pdf to an image",
+            "homepage": "https://github.com/spatie/pdf-to-image",
+            "keywords": [
+                "convert",
+                "image",
+                "pdf",
+                "pdf-to-image",
+                "spatie"
+            ],
+            "time": "2017-06-20T05:58:45+00:00"
         },
         {
             "name": "spomky-labs/otphp",

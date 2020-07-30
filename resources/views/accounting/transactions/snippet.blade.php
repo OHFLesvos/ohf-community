@@ -126,10 +126,17 @@
                                         @endcomponent
                                     </a>
                                 @else
-                                    <a href="{{ Storage::url($picture) }}" target="_blank">
+                                    @if(Storage::exists(thumb_path($picture, 'jpeg')))
+                                        <a href="{{ Storage::url($picture) }}" target="_blank">
+                                            @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                                {{ Storage::url(thumb_path($picture, 'jpeg')) }}
+                                            @endcomponent
+                                        </a>
+                                    @else
+                                        <a href="{{ Storage::url($picture) }}" target="_blank">
                                         <span class="display-4" title="{{ Storage::mimeType($picture) }}">
-                                            @if(Str::contains(Storage::mimeType($picture), 'pdf'))@icon(file-pdf)@else @icon(file)@endif</span></a>
-                                    {{ bytes_to_human(Storage::size($picture)) }}
+                                            @if(Storage::mimeType($picture) == 'application/pdf')@icon(file-pdf)@else @icon(file)@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
+                                    @endif
                                 @endif
                             @endif
                         @endforeach

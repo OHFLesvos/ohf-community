@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Org_Heigl\Ghostscript\Ghostscript;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class MoneyTransaction extends Model implements Auditable
@@ -159,12 +160,15 @@ class MoneyTransaction extends Model implements Auditable
     public function addReceiptPicture($file)
     {
         $storedFile = $file->store(self::RECEIPT_PICTURE_PATH);
+        $storedFilePath = Storage::path($storedFile);
+        $thumbSize = config('accounting.thumbnail_size');
+        $maxImageDimension = config('accounting.max_image_size');
 
         if (Str::startsWith($file->getMimeType(), 'image/')) {
-            self::createThumbnail(
-                Storage::path($storedFile),
-                config('accounting.thumbnail_size')
-            );
+            self::createThumbnail($storedFilePath, $thumbSize);
+            self::resizeImage($storedFilePath, $maxImageDimension);
+        } elseif ($file->getMimeType() == 'application/pdf') {
+            self::createPdfThumbnail($storedFilePath, $thumbSize);
         }
 
         $pictures = $this->receipt_pictures ?? [];
@@ -172,11 +176,31 @@ class MoneyTransaction extends Model implements Auditable
         $this->receipt_pictures = $pictures;
     }
 
-    private static function createThumbnail($path, $dimentions)
+    private static function createThumbnail($path, $dimensions)
     {
         $thumbPath = thumb_path($path);
         $image = new ImageResize($path);
-        $image->crop($dimentions, $dimentions);
+        $image->crop($dimensions, $dimensions);
+        $image->save($thumbPath);
+    }
+
+    private static function resizeImage($path, $dimensions)
+    {
+        $image = new ImageResize($path);
+        $image->resizeToBestFit($dimensions, $dimensions);
+        $image->save($path);
+    }
+
+    private static function createPdfThumbnail($path, $dimensions)
+    {
+        $thumbPath = thumb_path($path, "jpeg");
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            Ghostscript::setGsPath("C:\Program Files\gs\gs9.52\bin\gswin64c.exe");
+        }
+        $pdf = new \Spatie\PdfToImage\Pdf($path);
+        $pdf->saveImage($thumbPath);
+        $image = new ImageResize($thumbPath);
+        $image->crop($dimensions, $dimensions);
         $image->save($thumbPath);
     }
 
@@ -186,6 +210,7 @@ class MoneyTransaction extends Model implements Auditable
             foreach ($this->receipt_pictures as $file) {
                 Storage::delete($file);
                 Storage::delete(thumb_path($file));
+                Storage::delete(thumb_path($file, 'jpeg'));
             }
         }
         $this->receipt_pictures = [];
