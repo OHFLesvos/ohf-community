@@ -76,15 +76,26 @@
         <div class="form-row">
             <div class="col-sm">
                 <label>@lang('accounting.receipt')</label>
+                @if(! empty($transaction->receipt_pictures))
+                    <div class="form-row">
+                        @foreach($transaction->receipt_pictures as $picture)
+                            <div class="col-auto">
+                                @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                    @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
+                                       {{ Storage::url(thumb_path($picture)) }}
+                                    @else
+                                       {{ Storage::url(thumb_path($picture, 'jpeg')) }}
+                                    @endif
+                                @endcomponent
+                                {{ Form::bsCheckbox('remove_receipt_picture[]', $picture, null, __('app.remove'), 'remove_receipt_picture'.$loop->index) }}<br>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="form-row">
                     <div class="col-sm">
-                        {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*,application/pdf' ], __(! empty($transaction->receipt_pictures) ? 'accounting.change_picture_of_receipt' : 'accounting.choose_picture_of_receipt')) }}
+                        {{ Form::bsFile('add_receipt_picture[]', [ 'accept' => 'image/*,application/pdf' ], __('accounting.add_picture_of_receipt')) }}
                     </div>
-                    @if(! empty($transaction->receipt_pictures))
-                        <div class="col-sm-auto">
-                            {{ Form::bsCheckbox('remove_receipt_picture', 1, null, __('accounting.remove_receipt_picture')) }}<br>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>

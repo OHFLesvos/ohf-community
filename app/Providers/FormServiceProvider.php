@@ -28,7 +28,7 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsEmail', 'components.form.bsEmail', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsDate', 'components.form.bsDate', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsStringDate', 'components.form.bsStringDate', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
-        Form::component('bsCheckbox', 'components.form.bsCheckbox', [ 'name', 'value' => null, 'checked' => null, 'label' => null ]);
+        Form::component('bsCheckbox', 'components.form.bsCheckbox', [ 'name', 'value' => null, 'checked' => null, 'label' => null, 'id' => null ]);
         Form::component('bsCheckboxList', 'components.form.bsCheckboxList', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);
         Form::component('bsCheckboxListWithDescription', 'components.form.bsCheckboxListWithDescription', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);
         Form::component('bsCheckboxInlineList', 'components.form.bsCheckboxInlineList', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);

@@ -21,7 +21,7 @@ return [
     'confirm_delete_transaction' => 'Do you really want to delete this transaction?',
     'edit_transaction_number' => 'Edit transaction #:number',
     'choose_picture_of_receipt' => 'Choose picture of receipt',
-    'change_picture_of_receipt' => 'Change picture of receipt',
+    'add_picture_of_receipt' => 'Add picture of receipt',
     'remove_receipt_picture' => 'Remove picture of receipt',
     'registered_today' => 'Registered today',
     'no_receipt' => 'No receipt',
