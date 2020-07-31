@@ -304,7 +304,9 @@ abstract class BaseController extends Controller
                 'value_html' => fn ($cmtyvol) => $cmtyvol->responsibilities
                     ->map(function ($r) {
                         $str = htmlspecialchars($r->name);
-                        $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="' . htmlspecialchars($r->description) . '"></a>';
+                        if ($r->description !== null) {
+                            $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="' . htmlspecialchars($r->description) . '"></a>';
+                        }
                         if ($r->hasAssignedAltoughNotAvailable) {
                             $str .= ' <span class="text-danger">(' . __('app.not_available') . ')</span>';
                         }

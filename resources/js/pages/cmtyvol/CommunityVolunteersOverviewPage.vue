@@ -39,7 +39,7 @@
             <template v-slot:cell(responsibilities)="data">
                 <template v-for="(description, name) in data.value" >
                     {{name}}
-                    <b-button :key="name + '-a'" v-b-popover.focus="description" class="description-tooltip p-0" variant="link" href="#">
+                    <b-button v-if="description" :key="name + '-a'" v-b-popover.focus="description" class="description-tooltip p-0" variant="link" href="#">
                         <font-awesome-icon :key="name + '-i'" icon="info-circle" />
                     </b-button>
                     <br :key="name + '-b'" />

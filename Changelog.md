@@ -3,6 +3,7 @@
 ## 2.22.1
 
 * Added multi-receipt feature for accounting receipts
+* Show community volunteer responsibility description icon only if description available
 
 ## 2.22.0
 
