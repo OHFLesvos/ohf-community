@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.22.1
+
+* Added multi-receipt feature for accounting receipts
+
 ## 2.22.0
 
 * PDF support for receipt pictures in accounting module
