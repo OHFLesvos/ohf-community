@@ -14,13 +14,18 @@ class MoneyTransactionsController extends Controller
 
         $request->validate([
             'img' => [
+                'array',
+            ],
+            'img.*' => [
                 'file',
                 'mimetypes:image/*,application/pdf',
             ],
         ]);
 
-        $transaction->deleteReceiptPictures(); // TODO no need to clear pictures for multi picture support
-        $transaction->addReceiptPicture($request->file('img'));
+        $transaction->deleteReceiptPictures();
+        for ($i = 0; $i < count($request->img); $i++) {
+            $transaction->addReceiptPicture($request->file('img')[$i]);
+        }
         $transaction->save();
 
         return response(null, 204);

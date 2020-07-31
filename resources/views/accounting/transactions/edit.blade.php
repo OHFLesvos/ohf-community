@@ -98,7 +98,7 @@
                 @endif
                 <div class="form-row">
                     <div class="col-sm">
-                        {{ Form::bsFile('add_receipt_picture[]', [ 'accept' => 'image/*,application/pdf' ], __('accounting.add_picture_of_receipt')) }}
+                        {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('accounting.add_picture_of_receipt')) }}
                     </div>
                 </div>
             </div>

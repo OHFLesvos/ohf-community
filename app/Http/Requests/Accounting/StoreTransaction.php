@@ -65,7 +65,9 @@ class StoreTransaction extends FormRequest
                 'min:0.05',
             ],
             'receipt_picture' => [
-                'nullable',
+                'array',
+            ],
+            'receipt_picture.*' => [
                 'file',
                 'mimetypes:image/*,application/pdf',
             ],

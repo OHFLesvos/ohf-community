@@ -81,7 +81,7 @@
         <div class="form-row">
             <div class="col-sm">
                 <label>@lang('accounting.receipt')</label>
-                {{ Form::bsFile('receipt_picture', [ 'accept' => 'image/*,application/pdf' ], __('accounting.choose_picture_of_receipt')) }}
+                {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('accounting.choose_picture_of_receipt')) }}
             </div>
         </div>
         <div class="form-row">

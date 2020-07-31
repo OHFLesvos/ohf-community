@@ -299,8 +299,10 @@ class MoneyTransactionsController extends Controller
         $transaction->wallet()->associate($request->input('wallet_id'));
         $this->authorize('view', $transaction->wallet);
 
-        if (isset($request->receipt_picture)) {
-            $transaction->addReceiptPicture($request->file('receipt_picture'));
+        if (isset($request->receipt_picture) && is_array($request->receipt_picture)) {
+            for ($i = 0; $i < count($request->receipt_picture); $i++) {
+                $transaction->addReceiptPicture($request->file('receipt_picture')[$i]);
+            }
         }
 
         $transaction->save();
@@ -419,9 +421,9 @@ class MoneyTransactionsController extends Controller
                 $transaction->deleteReceiptPicture($picture);
             }
         }
-        elseif (isset($request->add_receipt_picture) && is_array($request->add_receipt_picture)) {
-            for ($i = 0; $i < count($request->add_receipt_picture); $i++) {
-                $transaction->addReceiptPicture($request->file('add_receipt_picture')[$i]);
+        elseif (isset($request->receipt_picture) && is_array($request->receipt_picture)) {
+            for ($i = 0; $i < count($request->receipt_picture); $i++) {
+                $transaction->addReceiptPicture($request->file('receipt_picture')[$i]);
             }
         }
 
