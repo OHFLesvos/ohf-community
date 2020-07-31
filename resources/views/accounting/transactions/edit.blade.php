@@ -82,7 +82,11 @@
                             <div class="col-auto">
                                 @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
                                     @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
-                                       {{ Storage::url(thumb_path($picture)) }}
+                                        @if(Storage::exists(thumb_path($picture)))
+                                            {{ Storage::url(thumb_path($picture)) }}
+                                        @else
+                                            {{ Storage::url($picture) }}
+                                        @endif
                                     @else
                                        {{ Storage::url(thumb_path($picture, 'jpeg')) }}
                                     @endif
