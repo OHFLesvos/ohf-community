@@ -21,7 +21,7 @@ return [
     'confirm_delete_transaction' => 'Soll diese Transaktion wirklich gelöscht werden?',
     'edit_transaction_number' => 'Transaktion #:number bearbeiten',
     'choose_picture_of_receipt' => 'Beleg-Bild auswählen',
-    'change_picture_of_receipt' => 'Beleg-Bild ändern',
+    'add_picture_of_receipt' => 'Beleg-Bild hinzufügen',
     'remove_receipt_picture' => 'Beleg-Bild entfernen',
     'registered_today' => 'Heute registriert',
     'no_receipt' => 'Kein Beleg',

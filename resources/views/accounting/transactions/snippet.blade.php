@@ -112,39 +112,21 @@
                 </div>
             </li>
         @endisset
-        @unless(empty($transaction->receipt_pictures))
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.receipt')</strong></div>
-                    <div class="col-sm">
-                        @foreach($transaction->receipt_pictures as $picture)
-                            @if(Storage::exists($picture))
-                                @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
-                                    <a href="{{ Storage::url($picture) }}" data-lity>
-                                        @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
-                                            {{ Storage::url(thumb_path($picture)) }}
-                                        @endcomponent
-                                    </a>
-                                @else
-                                    @if(Storage::exists(thumb_path($picture, 'jpeg')))
-                                        <a href="{{ Storage::url($picture) }}" target="_blank">
-                                            @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
-                                                {{ Storage::url(thumb_path($picture, 'jpeg')) }}
-                                            @endcomponent
-                                        </a>
-                                    @else
-                                        <a href="{{ Storage::url($picture) }}" target="_blank">
-                                        <span class="display-4" title="{{ Storage::mimeType($picture) }}">
-                                            @if(Storage::mimeType($picture) == 'application/pdf')@icon(file-pdf)@else @icon(file)@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
-                                    @endif
-                                @endif
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-            </li>
-        @endunless
 
+        {{-- Registered --}}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-sm-4"><strong>@lang('app.registered')</strong></div>
+                <div class="col-sm">
+                    @php
+                        $audit = $transaction->audits()->first();
+                    @endphp
+                    {{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset
+                </div>
+            </div>
+        </li>
+
+        {{-- Controlled --}}
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('accounting.controlled')</strong></div>
@@ -172,6 +154,7 @@
             </div>
         </li>
 
+        {{-- Booked --}}
         @if($transaction->booked)
             <li class="list-group-item">
                 <div class="row">
@@ -203,16 +186,36 @@
                 </div>
             </li>
         @endif
-
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm-4"><strong>@lang('app.registered')</strong></div>
-                <div class="col-sm">
-                    @php
-                        $audit = $transaction->audits()->first();
-                    @endphp
-                    {{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset
-                </div>
-            </div>
-        </li>
     </ul>
+
+    {{-- Pictures --}}
+    @unless(empty($transaction->receipt_pictures))
+        <hr class="mt-0">
+            <div class="form-row mx-3 mb-2">
+                @foreach($transaction->receipt_pictures as $picture)
+                    @if(Storage::exists($picture))
+                    <div class="col-auto mb-2">
+                        @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
+                            <a href="{{ Storage::url($picture) }}" data-lity>
+                                @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                    {{ Storage::url(thumb_path($picture)) }}
+                                @endcomponent
+                            </a>
+                        @else
+                            @if(Storage::exists(thumb_path($picture, 'jpeg')))
+                                <a href="{{ Storage::url($picture) }}" target="_blank">
+                                    @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                        {{ Storage::url(thumb_path($picture, 'jpeg')) }}
+                                    @endcomponent
+                                </a>
+                            @else
+                                <a href="{{ Storage::url($picture) }}" target="_blank">
+                                <span class="display-4" title="{{ Storage::mimeType($picture) }}">
+                                    @if(Storage::mimeType($picture) == 'application/pdf')@icon(file-pdf)@else @icon(file)@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
+                            @endif
+                        @endif
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    @endunless

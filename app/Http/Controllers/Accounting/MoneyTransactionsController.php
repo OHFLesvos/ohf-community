@@ -414,12 +414,15 @@ class MoneyTransactionsController extends Controller
         $transaction->remarks = $request->remarks;
         $transaction->wallet_owner = $request->wallet_owner;
 
-        if (isset($request->remove_receipt_picture)) {
-            $transaction->deleteReceiptPictures();
+        if (isset($request->remove_receipt_picture) && is_array($request->remove_receipt_picture)) {
+            foreach ($request->remove_receipt_picture as $picture) {
+                $transaction->deleteReceiptPicture($picture);
+            }
         }
-        elseif (isset($request->receipt_picture)) {
-            $transaction->deleteReceiptPictures(); // TODO no need to clear pictures for multi picture support
-            $transaction->addReceiptPicture($request->file('receipt_picture'));
+        elseif (isset($request->add_receipt_picture) && is_array($request->add_receipt_picture)) {
+            for ($i = 0; $i < count($request->add_receipt_picture); $i++) {
+                $transaction->addReceiptPicture($request->file('add_receipt_picture')[$i]);
+            }
         }
 
         $transaction->save();
