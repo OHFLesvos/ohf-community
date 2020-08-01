@@ -74,4 +74,7 @@ return [
     'cannot_update_already_controlled_transaction' => 'Kann bereits kontrollierte Transaktion nicht ändern.',
     'already_controlled' => 'Bereits kontrolliert.',
     'controlling_by_user_who_created_not_allowed' => 'Der Benutzer welche eine Transaktion registriert hat ist nicht ermächtigt sie auch als kontrolliert zu markieren.',
+    'global_summary' => 'All wallets',
+    'all_wallets' => 'All wallets',
+    'sum_of_all_wallets' => 'Sum across all wallets',
 ];

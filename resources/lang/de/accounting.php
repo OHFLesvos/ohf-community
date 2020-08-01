@@ -74,4 +74,7 @@ return [
     'cannot_update_already_controlled_transaction' => 'Cannot update already controlled transaction.',
     'already_controlled' => 'Already controlled.',
     'controlling_by_user_who_created_not_allowed' => 'The user who registered the transaction is not allowed to mark it as controlled.',
+    'global_summary' => 'Alle Kassen',
+    'all_wallets' => 'Alle Kassen',
+    'sum_of_all_wallets' => 'Summe aller Kassen',
 ];
