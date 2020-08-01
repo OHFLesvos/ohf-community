@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accounting;
 
+use App\User;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\SignedMoneyTransaction;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Setting;
 
-class SummaryController extends Controller
+class GlobalSummaryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +21,7 @@ class SummaryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function summary(Request $request, CurrentWalletService $currentWallet)
+    public function summary(Request $request)
     {
         $this->authorize('view-accounting-summary');
 
@@ -32,11 +33,6 @@ class SummaryController extends Controller
             'month' => 'nullable|integer|min:1|max:12',
             'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
         ]);
-
-        $wallet = $currentWallet->get();
-        if ($wallet === null) {
-            return redirect()->route('accounting.wallets.change');
-        }
 
         if ($request->filled('year') && $request->filled('month')) {
             $year = $request->year;
@@ -110,21 +106,35 @@ class SummaryController extends Controller
             array_push($filters, ['location', '=', $location]);
         }
 
-        $revenueByCategory = self::revenueByField('category', $wallet, $dateFrom, $dateTo, $filters);
-        $revenueByProject = self::revenueByField('project', $wallet, $dateFrom, $dateTo, $filters);
+        $revenueByCategory = self::revenueByField('category', $dateFrom, $dateTo, $request->user(), $filters);
+        $revenueByProject = self::revenueByField('project', $dateFrom, $dateTo, $request->user(), $filters);
         if (self::useSecondaryCategories()) {
-            $revenueBySecondaryCategory = self::revenueByField2('secondary_category', $wallet, $dateFrom, $dateTo, $filters);
+            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $dateFrom, $dateTo, $request->user(), $filters);
         } else {
             $revenueBySecondaryCategory = null;
         }
 
-        $spending = self::totalByType('spending', $wallet, $dateFrom, $dateTo, $filters);
-        $income = self::totalByType('income', $wallet, $dateFrom, $dateTo, $filters);
+        $spendingByWallet = self::totalByType('spending', $dateFrom, $dateTo, $request->user(), $filters)
+            ->pluck('sum', 'wallet_id');
+        $incomeByWallet = self::totalByType('income', $dateFrom, $dateTo, $request->user(), $filters)
+            ->pluck('sum', 'wallet_id');
+
+        $spending = $spendingByWallet->sum();
+        $income = $incomeByWallet->sum();
+
+        $wallets = Wallet::all()
+            ->filter(fn ($w) => request()->user()->can('view', $w))
+            ->map(fn($w) => [
+                'wallet' => $w,
+                'income' => isset($incomeByWallet[$w->id]) ? $incomeByWallet[$w->id] : 0,
+                'spending' => isset($spendingByWallet[$w->id]) ? $spendingByWallet[$w->id] : 0,
+                'amount' => $w->calculatedSum($dateTo),
+            ]);
+        $wallet_amount = $wallets->sum('amount');
 
         $months = MoneyTransaction::query()
             ->selectRaw('MONTH(date) as month')
             ->selectRaw('YEAR(date) as year')
-            ->forWallet($wallet)
             ->groupByRaw('MONTH(date)')
             ->groupByRaw('YEAR(date)')
             ->orderBy('year', 'desc')
@@ -136,7 +146,6 @@ class SummaryController extends Controller
 
         $years = MoneyTransaction::query()
             ->selectRaw('YEAR(date) as year')
-            ->forWallet($wallet)
             ->groupByRaw('YEAR(date)')
             ->orderBy('year', 'desc')
             ->get()
@@ -144,7 +153,7 @@ class SummaryController extends Controller
             ->prepend($currentMonth->format('Y'), $currentMonth->format('Y'))
             ->toArray();
 
-        return view('accounting.transactions.summary', [
+        return view('accounting.transactions.global_summary', [
             'heading' => $heading,
             'currentRange' => $currentRange,
             'currentProject' => $project,
@@ -154,15 +163,12 @@ class SummaryController extends Controller
             'projects' => self::getProjects(true),
             'locations' => self::useLocations() ? self::getLocations(true) : [],
             'revenueByCategory' => $revenueByCategory,
+            'revenueBySecondaryCategory' => $revenueBySecondaryCategory,
             'revenueByProject' => $revenueByProject,
-            'revenueBySecondaryCategory' => $revenueByProject,
-            'wallet_amount' => $wallet->calculatedSum($dateTo),
+            'wallet_amount' => $wallet_amount,
             'spending' => $spending,
             'income' => $income,
-            'filterDateStart' => optional($dateFrom)->toDateString(),
-            'filterDateEnd' => optional($dateTo)->toDateString(),
-            'wallet' => $wallet,
-            'has_multiple_wallets' => Wallet::count() > 1,
+            'wallets' => $wallets,
         ]);
     }
 
@@ -172,48 +178,40 @@ class SummaryController extends Controller
         return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
     }
 
-    private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
-    {
-        return SignedMoneyTransaction::query()
-            ->select($field)
-            ->selectRaw('SUM(amount) as sum')
-            ->forWallet($wallet)
-            ->forDateRange($dateFrom, $dateTo)
-            ->groupBy($field)
-            ->orderBy($field)
-            ->get()
-            ->map(fn ($e) => [
-                'name' => $e->$field,
-                'amount' => $e->sum,
-            ]);
-    }
-
-    private static function revenueByField2(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    private static function revenueByField(string $field, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
-            ->select($field)
+            ->select($field, 'wallet_id')
             ->selectRaw('SUM(IF(type = \'income\', amount, -1*amount)) as sum')
-            ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
             ->groupBy($field)
             ->orderBy($field)
+            ->where($filters)
             ->get()
+            ->when($user != null,
+                fn($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e->wallet_id))))
             ->map(fn ($e) => [
                 'name' => $e->$field,
                 'amount' => $e->sum,
+                'wallet_id' => $e->wallet_id,
             ]);
     }
 
-    private static function totalByType(string $type, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
+    private static function totalByType(string $type, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
-        $result = MoneyTransaction::query()
+
+        return MoneyTransaction::query()
+            ->select('wallet_id')
             ->selectRaw('SUM(amount) as sum')
-            ->forWallet($wallet)
+            ->groupBy('wallet_id')
             ->forDateRange($dateFrom, $dateTo)
             ->where('type', $type)
-            ->first();
-
-        return optional($result)->sum;
+            ->where($filters)
+            ->get()
+            ->when($user != null,
+                fn($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))));
     }
 
     private static function useSecondaryCategories(): bool
