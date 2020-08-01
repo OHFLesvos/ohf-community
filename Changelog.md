@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.23.0
+
+* Added global wallet summary
+
 ## 2.22.2
 
 * Fixed minor bugs in the accounting receipt upload and thumbnails
