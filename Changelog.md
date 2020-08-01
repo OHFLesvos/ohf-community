@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.22.2
+
+* Fixed minor bugs in the accounting receipt upload and thumbnails
+
 ## 2.22.1
 
 * Added multi-receipt feature for accounting receipts
