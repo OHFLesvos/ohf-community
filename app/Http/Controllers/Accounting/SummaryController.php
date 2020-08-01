@@ -60,9 +60,29 @@ class SummaryController extends Controller
             $year = $currentMonth->year;
             $month = $currentMonth->month;
         }
+        if ($request->filled('project')) {
+            $project = $request->project;
+        } elseif ($request->has('project')) {
+            $project = null;
+        } elseif ($request->session()->has('accounting.summary_range.project')) {
+            $project = $request->session()->get('accounting.summary_range.project');
+        } else {
+            $project = null;
+        }
+        if ($request->filled('location')) {
+            $location = $request->location;
+        } elseif ($request->has('location')) {
+            $location = null;
+        } elseif ($request->session()->has('accounting.summary_range.location')) {
+            $location = $request->session()->get('accounting.summary_range.location');
+        } else {
+            $location = null;
+        }
         session([
             'accounting.summary_range.year' => $year,
             'accounting.summary_range.month' => $month,
+            'accounting.summary_range.project' => $project,
+            'accounting.summary_range.location' => $location,
         ]);
 
         if ($year != null && $month != null) {
@@ -82,16 +102,24 @@ class SummaryController extends Controller
             $currentRange = null;
         }
 
-        $revenueByCategory = self::revenueByField('category', $wallet, $dateFrom, $dateTo);
-        $revenueByProject = self::revenueByField('project', $wallet, $dateFrom, $dateTo);
+        $filters = [];
+        if ($project != null) {
+            array_push($filters, ['project', '=', $project]);
+        }
+        if ($location != null) {
+            array_push($filters, ['location', '=', $location]);
+        }
+
+        $revenueByCategory = self::revenueByField('category', $wallet, $dateFrom, $dateTo, $filters);
+        $revenueByProject = self::revenueByField('project', $wallet, $dateFrom, $dateTo, $filters);
         if (self::useSecondaryCategories()) {
-            $revenueBySecondaryCategory = self::revenueByField2('secondary_category', $wallet, $dateFrom, $dateTo);
+            $revenueBySecondaryCategory = self::revenueByField2('secondary_category', $wallet, $dateFrom, $dateTo, $filters);
         } else {
             $revenueBySecondaryCategory = null;
         }
 
-        $spending = self::totalByType('spending', $wallet, $dateFrom, $dateTo);
-        $income = self::totalByType('income', $wallet, $dateFrom, $dateTo);
+        $spending = self::totalByType('spending', $wallet, $dateFrom, $dateTo, $filters);
+        $income = self::totalByType('income', $wallet, $dateFrom, $dateTo, $filters);
 
         $months = MoneyTransaction::query()
             ->selectRaw('MONTH(date) as month')
@@ -119,8 +147,12 @@ class SummaryController extends Controller
         return view('accounting.transactions.summary', [
             'heading' => $heading,
             'currentRange' => $currentRange,
+            'currentProject' => $project,
+            'currentLocation' => $location,
             'months' => $months,
             'years' => $years,
+            'projects' => self::getProjects(true),
+            'locations' => self::useLocations() ? self::getLocations(true) : [],
             'revenueByCategory' => $revenueByCategory,
             'revenueByProject' => $revenueByProject,
             'revenueBySecondaryCategory' => $revenueByProject,
@@ -187,6 +219,31 @@ class SummaryController extends Controller
     private static function useSecondaryCategories(): bool
     {
         return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
+    }
+
+    private static function getProjects(?bool $onlyExisting = false): array
+    {
+        if (! $onlyExisting && Setting::has('accounting.transactions.projects')) {
+            return collect(Setting::get('accounting.transactions.projects'))
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::projects();
+    }
+
+    private static function useLocations(): bool
+    {
+        return Setting::get('accounting.transactions.use_locations') ?? false;
+    }
+
+    private static function getLocations(?bool $onlyExisting = false): array
+    {
+        if (! $onlyExisting && Setting::has('accounting.transactions.locations')) {
+            return collect(Setting::get('accounting.transactions.locations'))
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::locations();
     }
 
 }

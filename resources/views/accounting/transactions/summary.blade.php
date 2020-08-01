@@ -14,15 +14,29 @@
                 @endif
             </h2>
         </div>
-        <div class="col-sm-auto">
-            @if(sizeof($months) > 0)
-                {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- ' . __('app.by_month') . ' -' ], '') }}
-            @endif
-        </div>
-        <div class="col-sm-auto">
-            @if(sizeof($years) > 0)
-                {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- ' . __('app.by_year') . ' -' ], '') }}
-            @endif
+        <div class="col-xl-auto col-md">
+            <div class="row">
+                @if(sizeof($months) > 0)
+                    <div class="col-xl col-sm-6">
+                        {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- ' . __('app.by_month') . ' -' ], '') }}
+                    </div>
+                @endif
+                @if(sizeof($years) > 0)
+                    <div class="col-xl col-sm-6">
+                        {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- ' . __('app.by_year') . ' -' ], '') }}
+                    </div>
+                @endif
+                @if(sizeof($projects) > 0)
+                    <div class="col-xl col-sm-6">
+                        {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentProject, [ 'id' => 'project', 'placeholder' => '- ' . __('app.all_projects') . ' -' ], '') }}
+                    </div>
+                @endif
+                @if(sizeof($locations) > 0)
+                    <div class="col-xl col-sm-6">
+                        {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentLocation, [ 'id' => 'location', 'placeholder' => '- ' . __('app.all_locations') . ' -' ], '') }}
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 
@@ -171,6 +185,14 @@ $(function () {
     $('#yearrange').on('change', function () {
         var val = $(this).val();
         document.location = '{{ route('accounting.transactions.summary') }}?year=' + val;
+    });
+    $('#project').on('change', function () {
+        var val = $(this).val();
+        document.location = '{{ route('accounting.transactions.globalSummary') }}?project=' + val;
+    });
+    $('#location').on('change', function () {
+        var val = $(this).val();
+        document.location = '{{ route('accounting.transactions.globalSummary') }}?location=' + val;
     });
 });
 @endsection

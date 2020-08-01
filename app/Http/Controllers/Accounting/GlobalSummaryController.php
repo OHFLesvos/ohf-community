@@ -56,9 +56,29 @@ class GlobalSummaryController extends Controller
             $year = $currentMonth->year;
             $month = $currentMonth->month;
         }
+        if ($request->filled('project')) {
+            $project = $request->project;
+        } elseif ($request->has('project')) {
+            $project = null;
+        } elseif ($request->session()->has('accounting.summary_range.project')) {
+            $project = $request->session()->get('accounting.summary_range.project');
+        } else {
+            $project = null;
+        }
+        if ($request->filled('location')) {
+            $location = $request->location;
+        } elseif ($request->has('location')) {
+            $location = null;
+        } elseif ($request->session()->has('accounting.summary_range.location')) {
+            $location = $request->session()->get('accounting.summary_range.location');
+        } else {
+            $location = null;
+        }
         session([
             'accounting.summary_range.year' => $year,
             'accounting.summary_range.month' => $month,
+            'accounting.summary_range.project' => $project,
+            'accounting.summary_range.location' => $location,
         ]);
 
         if ($year != null && $month != null) {
@@ -78,17 +98,25 @@ class GlobalSummaryController extends Controller
             $currentRange = null;
         }
 
-        $revenueByCategory = self::revenueByField('category', $dateFrom, $dateTo, $request->user());
+        $filters = [];
+        if ($project != null) {
+            array_push($filters, ['project', '=', $project]);
+        }
+        if ($location != null) {
+            array_push($filters, ['location', '=', $location]);
+        }
+
+        $revenueByCategory = self::revenueByField('category', $dateFrom, $dateTo, $request->user(), $filters);
+        $revenueByProject = self::revenueByField('project', $dateFrom, $dateTo, $request->user(), $filters);
         if (self::useSecondaryCategories()) {
-            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $dateFrom, $dateTo, $request->user());
+            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $dateFrom, $dateTo, $request->user(), $filters);
         } else {
             $revenueBySecondaryCategory = null;
         }
-        $revenueByProject = self::revenueByField('project', $dateFrom, $dateTo, $request->user());
 
-        $spendingByWallet = self::totalByType('spending', $dateFrom, $dateTo, $request->user())
+        $spendingByWallet = self::totalByType('spending', $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
-        $incomeByWallet = self::totalByType('income', $dateFrom, $dateTo, $request->user())
+        $incomeByWallet = self::totalByType('income', $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
 
         $spending = $spendingByWallet->sum();
@@ -128,8 +156,12 @@ class GlobalSummaryController extends Controller
         return view('accounting.transactions.global_summary', [
             'heading' => $heading,
             'currentRange' => $currentRange,
+            'currentProject' => $project,
+            'currentLocation' => $location,
             'months' => $months,
             'years' => $years,
+            'projects' => self::getProjects(true),
+            'locations' => self::useLocations() ? self::getLocations(true) : [],
             'revenueByCategory' => $revenueByCategory,
             'revenueBySecondaryCategory' => $revenueBySecondaryCategory,
             'revenueByProject' => $revenueByProject,
@@ -146,7 +178,7 @@ class GlobalSummaryController extends Controller
         return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
     }
 
-    private static function revenueByField(string $field, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null): Collection
+    private static function revenueByField(string $field, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select($field, 'wallet_id')
@@ -154,6 +186,7 @@ class GlobalSummaryController extends Controller
             ->forDateRange($dateFrom, $dateTo)
             ->groupBy($field)
             ->orderBy($field)
+            ->where($filters)
             ->get()
             ->when($user != null,
                 fn($q) => $q->filter(
@@ -165,7 +198,7 @@ class GlobalSummaryController extends Controller
             ]);
     }
 
-    private static function totalByType(string $type, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null): Collection
+    private static function totalByType(string $type, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
 
         return MoneyTransaction::query()
@@ -174,6 +207,7 @@ class GlobalSummaryController extends Controller
             ->groupBy('wallet_id')
             ->forDateRange($dateFrom, $dateTo)
             ->where('type', $type)
+            ->where($filters)
             ->get()
             ->when($user != null,
                 fn($q) => $q->filter(
@@ -183,6 +217,31 @@ class GlobalSummaryController extends Controller
     private static function useSecondaryCategories(): bool
     {
         return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
+    }
+
+    private static function getProjects(?bool $onlyExisting = false): array
+    {
+        if (! $onlyExisting && Setting::has('accounting.transactions.projects')) {
+            return collect(Setting::get('accounting.transactions.projects'))
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::projects();
+    }
+
+    private static function useLocations(): bool
+    {
+        return Setting::get('accounting.transactions.use_locations') ?? false;
+    }
+
+    private static function getLocations(?bool $onlyExisting = false): array
+    {
+        if (! $onlyExisting && Setting::has('accounting.transactions.locations')) {
+            return collect(Setting::get('accounting.transactions.locations'))
+                ->sort()
+                ->toArray();
+        }
+        return MoneyTransaction::locations();
     }
 
 }
