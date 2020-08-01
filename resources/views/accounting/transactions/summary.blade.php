@@ -29,7 +29,7 @@
     <div class="row">
 
         {{-- Revenue by categories --}}
-        <div class="col-sm">
+        <div class="col-sm-6 col-md">
             <div class="card mb-4">
                 <div class="card-header">@lang('app.categories')</div>
                 <table class="table table-strsiped mb-0">
@@ -57,8 +57,43 @@
             </div>
         </div>
 
+        @if($revenueBySecondaryCategory !== null)
+            {{-- Revenue by secondary category --}}
+            <div class="col-sm-6 col-md">
+                <div class="card mb-4">
+                    <div class="card-header">@lang('app.secondary_categories')</div>
+                    <table class="table mb-0">
+                        <tbody>
+                            @if(count($revenueBySecondaryCategory) > 0)
+                                @foreach($revenueBySecondaryCategory as $v)
+                                    <tr>
+                                        <td>
+                                            @isset($v['name'])
+                                                @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
+                                                    <a href="{{ route('accounting.transactions.index') }}?filter[secondary_category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                                @endcan
+                                                    {{ $v['name'] }}
+                                                @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
+                                                    </a>
+                                                @endcan
+                                            @else
+                                                <em>@lang('app.no_secondary_category')</em>
+                                            @endif
+                                        </td>
+                                        <td class="text-right {{ $v['amount'] > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($v['amount'], 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+
         {{-- Revenue by project --}}
-        <div class="col-sm">
+        <div class="col-sm-6 col-md">
             <div class="card mb-4">
                 <div class="card-header">@lang('app.projects')</div>
                 <table class="table table-strsiped mb-0">
@@ -91,7 +126,7 @@
         </div>
 
         {{-- Wallet --}}
-        <div class="col-sm">
+        <div class="col-sm-6 col-md">
             <div class="card mb-4">
                 <div class="card-header">@lang('app.total')</div>
                 <table class="table table-strsiped mb-0">

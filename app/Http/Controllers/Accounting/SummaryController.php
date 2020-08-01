@@ -10,6 +10,7 @@ use App\Services\Accounting\CurrentWalletService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Setting;
 
 class SummaryController extends Controller
 {
@@ -83,6 +84,11 @@ class SummaryController extends Controller
 
         $revenueByCategory = self::revenueByField('category', $wallet, $dateFrom, $dateTo);
         $revenueByProject = self::revenueByField('project', $wallet, $dateFrom, $dateTo);
+        if (self::useSecondaryCategories()) {
+            $revenueBySecondaryCategory = self::revenueByField2('secondary_category', $wallet, $dateFrom, $dateTo);
+        } else {
+            $revenueBySecondaryCategory = null;
+        }
 
         $spending = self::totalByType('spending', $wallet, $dateFrom, $dateTo);
         $income = self::totalByType('income', $wallet, $dateFrom, $dateTo);
@@ -117,6 +123,7 @@ class SummaryController extends Controller
             'years' => $years,
             'revenueByCategory' => $revenueByCategory,
             'revenueByProject' => $revenueByProject,
+            'revenueBySecondaryCategory' => $revenueByProject,
             'wallet_amount' => $wallet->calculatedSum($dateTo),
             'spending' => $spending,
             'income' => $income,
@@ -149,6 +156,22 @@ class SummaryController extends Controller
             ]);
     }
 
+    private static function revenueByField2(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    {
+        return MoneyTransaction::query()
+            ->select($field)
+            ->selectRaw('SUM(IF(type = \'income\', amount, -1*amount)) as sum')
+            ->forWallet($wallet)
+            ->forDateRange($dateFrom, $dateTo)
+            ->groupBy($field)
+            ->orderBy($field)
+            ->get()
+            ->map(fn ($e) => [
+                'name' => $e->$field,
+                'amount' => $e->sum,
+            ]);
+    }
+
     private static function totalByType(string $type, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
     {
         $result = MoneyTransaction::query()
@@ -159,6 +182,11 @@ class SummaryController extends Controller
             ->first();
 
         return optional($result)->sum;
+    }
+
+    private static function useSecondaryCategories(): bool
+    {
+        return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
     }
 
 }
