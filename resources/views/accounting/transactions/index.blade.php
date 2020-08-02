@@ -44,6 +44,9 @@
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
+                        @if($intermediate_balances !== null)
+                            <th class="fit text-right">@lang('accounting.intermediate_balance')</th>
+                        @endif
                         <th class="@isset($filter['category']) text-info @endisset">@lang('app.category')</th>
                         @if($secondary_categories !== null)
                             <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('app.secondary_category')</th>
@@ -77,6 +80,9 @@
                             <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
                             <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif</td>
                             <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif</td>
+                            @if($intermediate_balances !== null)
+                                <td class="fit text-right">{{ number_format($intermediate_balances[$transaction->id], 2) }}</td>
+                            @endif
                             <td>{{ $transaction->category }}</td>
                             @if($secondary_categories !== null)
                                 <td>{{ $transaction->secondary_category }}</td>

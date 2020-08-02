@@ -77,7 +77,7 @@ class MoneyTransactionsController extends Controller
             'receipt_no' => __('accounting.receipt'),
             'created_at' => __('app.registered'),
         ];
-        $sortColumn = session('accounting.sortColumn', 'created_at');
+        $sortColumn = session('accounting.sortColumn', self::showIntermediateBalances() ? 'receipt_no' : 'created_at');
         $sortOrder = session('accounting.sortOrder', 'desc');
         if (isset($request->sortColumn)) {
             $sortColumn = $request->sortColumn;
@@ -141,6 +141,7 @@ class MoneyTransactionsController extends Controller
             'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
             'wallet' => $wallet,
             'has_multiple_wallets' => Wallet::count() > 1,
+            'intermediate_balances' => ($sortColumn == 'receipt_no' && self::showIntermediateBalances()) ? self::getIntermediateBalances($wallet) : null,
         ]);
     }
 
@@ -534,5 +535,31 @@ class MoneyTransactionsController extends Controller
         return redirect()
             ->route('accounting.transactions.show', $transaction)
             ->with('info', __('accounting.transactions_updated'));
+    }
+
+    private static function showIntermediateBalances(): bool
+    {
+        return Setting::get('accounting.transactions.show_intermediate_balances') ?? false;
+    }
+
+    private static function getIntermediateBalances(Wallet $wallet): array
+    {
+        $transactions = MoneyTransaction::query()
+            ->forWallet($wallet)
+            ->orderBy('receipt_no', 'ASC')
+            ->get();
+
+        $intermediate_balances = [];
+        $intermediate_balance = 0;
+        foreach ($transactions as $transaction) {
+            if ($transaction->type == 'income') {
+                $intermediate_balance += $transaction->amount;
+            } else {
+                $intermediate_balance -= $transaction->amount;
+            }
+            $intermediate_balances[$transaction->id] = $intermediate_balance;
+        }
+
+        return $intermediate_balances;
     }
 }

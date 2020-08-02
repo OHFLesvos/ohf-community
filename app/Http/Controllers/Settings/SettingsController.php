@@ -38,6 +38,7 @@ class SettingsController extends Controller
         'accounting.transactions.locations' => \App\Settings\Accounting\TransactionLocations::class,
         'accounting.transactions.use_cost_centers' => \App\Settings\Accounting\TransactionCostCentersUse::class,
         'accounting.transactions.cost_centers' => \App\Settings\Accounting\TransactionCostCenters::class,
+        'accounting.transactions.show_intermediate_balances' => \App\Settings\Accounting\TransactionShowIntermediateBalances::class,
         'bank.undo_coupon_handout_grace_period' => \App\Settings\Bank\UndoCouponHandoutGracePeriod::class,
         'bank.frequent_visitor_weeks' => \App\Settings\Bank\FrequentVisitorWeeks::class,
         'bank.frequent_visitor_threshold' => \App\Settings\Bank\FrequentVisitorThreshold::class,

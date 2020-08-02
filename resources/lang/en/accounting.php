@@ -76,4 +76,6 @@ return [
     'global_summary' => 'All wallets',
     'all_wallets' => 'All wallets',
     'sum_of_all_wallets' => 'Sum across all wallets',
+    'intermediate_balance' => 'Intermediate balance',
+    'show_intermediate_balances' => 'Calculate intermediate balances, when sorted by receipt number',
 ];

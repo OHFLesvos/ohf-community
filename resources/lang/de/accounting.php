@@ -76,4 +76,6 @@ return [
     'global_summary' => 'Alle Kassen',
     'all_wallets' => 'Alle Kassen',
     'sum_of_all_wallets' => 'Summe aller Kassen',
+    'intermediate_balance' => 'Zwischensaldo',
+    'show_intermediate_balances' => 'Zwischensalden berechnen, wenn nach Belegnummer sortiert',
 ];
