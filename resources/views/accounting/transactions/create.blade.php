@@ -74,22 +74,17 @@
             @endif
         </div>
         <div class="form-row">
-            <div class="col-sm-12">
+            <div class="col-sm">
                 {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
+            </div>
+            <div class="col-sm">
+                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-sm">
                 <label>@lang('accounting.receipt')</label>
                 {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('accounting.choose_picture_of_receipt')) }}
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-sm-4">
-                {{ Form::bsText('wallet_owner', Auth::user()->name, [ ], __('accounting.wallet_owner')) }}
-            </div>
-            <div class="col-sm-8">
-                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
             </div>
         </div>
         <p>

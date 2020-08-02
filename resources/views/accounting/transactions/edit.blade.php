@@ -69,8 +69,11 @@
             @endif
         </div>
         <div class="form-row">
-            <div class="col-sm-12">
+            <div class="col-sm">
                 {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
+            </div>
+            <div class="col-sm">
+                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
             </div>
         </div>
         <div class="form-row">
@@ -103,15 +106,6 @@
                 </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-sm-4">
-                {{ Form::bsText('wallet_owner', null, [ ], __('accounting.wallet_owner')) }}
-            </div>
-            <div class="col-sm-8">
-                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
-            </div>
-        </div>
-
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
         </p>

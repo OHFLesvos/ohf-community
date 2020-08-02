@@ -92,16 +92,6 @@
                 </div>
             </div>
         </li>
-        @isset($transaction->wallet_owner)
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.wallet_owner')</strong></div>
-                    <div class="col-sm">
-                        {{ $transaction->wallet_owner }}
-                    </div>
-                </div>
-            </li>
-        @endisset
         @isset($transaction->remarks)
             <li class="list-group-item">
                 <div class="row">

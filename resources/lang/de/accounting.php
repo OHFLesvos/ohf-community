@@ -27,7 +27,6 @@ return [
     'no_receipt' => 'Kein Beleg',
     'difference' => 'Differenz',
     'month' => 'Monat',
-    'wallet_owner' => 'Kasseninhaber',
     'confirm_delete_receipt' => 'Diesen Beleg wirklich löschen?',
     'selection_for_webling' => 'Auswal für Webling-Buchhaltung',
     'credit' => 'Gutschrift',

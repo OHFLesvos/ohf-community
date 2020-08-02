@@ -294,7 +294,6 @@ class MoneyTransactionsController extends Controller
         }
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
-        $transaction->wallet_owner = $request->wallet_owner;
 
         $transaction->wallet()->associate($request->input('wallet_id'));
         $this->authorize('view', $transaction->wallet);
@@ -414,7 +413,6 @@ class MoneyTransactionsController extends Controller
         }
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
-        $transaction->wallet_owner = $request->wallet_owner;
 
         if (isset($request->remove_receipt_picture) && is_array($request->remove_receipt_picture)) {
             foreach ($request->remove_receipt_picture as $picture) {

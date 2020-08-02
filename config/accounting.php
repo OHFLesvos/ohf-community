@@ -13,7 +13,6 @@ return [
         'receipt_no',
         'today',
         'no_receipt',
-        'wallet_owner',
         'controlled',
     ],
     'webling' => [

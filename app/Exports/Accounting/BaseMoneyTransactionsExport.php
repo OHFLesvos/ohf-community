@@ -42,7 +42,6 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             __('accounting.controlled_by'),
             __('accounting.booked'),
             __('app.author'),
-            __('accounting.wallet_owner'),
             __('app.remarks'),
         ]);
     }
@@ -78,7 +77,6 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             $transaction->controlled_by !== null ? $transaction->controller->name : null,
             $transaction->booked ? __('app.yes') : __('app.no'),
             isset($audit) ? $audit->getMetadata()['user_name'] : '',
-            $transaction->wallet_owner,
             $transaction->remarks,
         ]);
     }
