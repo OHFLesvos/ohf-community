@@ -8,7 +8,7 @@ return [
         'project',
         'location',
         'cost_center',
-        'beneficiary',
+        'attendee',
         'description',
         'receipt_no',
         'today',

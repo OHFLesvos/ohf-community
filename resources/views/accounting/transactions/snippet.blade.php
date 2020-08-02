@@ -86,9 +86,9 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('accounting.beneficiary')</strong></div>
+                <div class="col-sm-4"><strong>@lang('accounting.attendee')</strong></div>
                 <div class="col-sm">
-                    {{ $transaction->beneficiary }}
+                    {{ $transaction->attendee }}
                 </div>
             </div>
         </li>

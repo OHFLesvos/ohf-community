@@ -47,7 +47,7 @@ class MoneyTransactionsController extends Controller
             ],
             'month' => 'nullable|regex:/[0-1]?[1-9]/',
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
-            'sortColumn' => 'nullable|in:date,created_at,category,secondary_category,project,location,cost_center,beneficiary,receipt_no',
+            'sortColumn' => 'nullable|in:date,created_at,category,secondary_category,project,location,cost_center,attendee,receipt_no',
             'sortOrder' => 'nullable|in:asc,desc',
             'wallet_id' => [
                 'nullable',
@@ -73,7 +73,7 @@ class MoneyTransactionsController extends Controller
             'project' => __('app.project'),
             'location' => __('app.location'),
             'cost_center' => __('accounting.cost_center'),
-            'beneficiary' => __('accounting.beneficiary'),
+            'attendee' => __('accounting.attendee'),
             'receipt_no' => __('accounting.receipt'),
             'created_at' => __('app.registered'),
         ];
@@ -128,7 +128,7 @@ class MoneyTransactionsController extends Controller
             'sortColumns' => $sortColumns,
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
-            'beneficiaries' => MoneyTransaction::beneficiaries(),
+            'attendees' => MoneyTransaction::attendees(),
             'categories' => self::getCategories(true),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
@@ -176,7 +176,7 @@ class MoneyTransactionsController extends Controller
         $wallet = $currentWallet->get();
 
         return view('accounting.transactions.create', [
-            'beneficiaries' => MoneyTransaction::beneficiaries(),
+            'attendees' => MoneyTransaction::attendees(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
@@ -280,7 +280,7 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
-        $transaction->beneficiary = $request->beneficiary;
+        $transaction->attendee = $request->attendee;
         $transaction->category = $request->category;
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;
@@ -370,7 +370,7 @@ class MoneyTransactionsController extends Controller
 
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
-            'beneficiaries' => MoneyTransaction::beneficiaries(),
+            'attendees' => MoneyTransaction::attendees(),
             'categories' => self::getCategories(),
             'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
@@ -399,7 +399,7 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
-        $transaction->beneficiary = $request->beneficiary;
+        $transaction->attendee = $request->attendee;
         $transaction->category = $request->category;
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;

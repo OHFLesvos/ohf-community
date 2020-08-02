@@ -116,7 +116,7 @@ class MoneyTransaction extends Model implements Auditable
                         $query->orWhereNull('receipt_pictures');
                         $query->orWhere('receipt_pictures', '[]');
                     });
-                } elseif ($col == 'beneficiary' || $col == 'description') {
+                } elseif ($col == 'attendee' || $col == 'description') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
                 } else {
                     $query->where($col, $filter[$col]);
@@ -230,14 +230,14 @@ class MoneyTransaction extends Model implements Auditable
         $this->receipt_pictures = [];
     }
 
-    public static function beneficiaries(): array
+    public static function attendees(): array
     {
-        return self::select('beneficiary')
-            ->whereNotNull('beneficiary')
+        return self::select('attendee')
+            ->whereNotNull('attendee')
             ->distinct()
-            ->orderBy('beneficiary')
+            ->orderBy('attendee')
             ->get()
-            ->pluck('beneficiary')
+            ->pluck('attendee')
             ->toArray();
     }
 

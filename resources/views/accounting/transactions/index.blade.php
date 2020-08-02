@@ -56,7 +56,7 @@
                             <th class="@isset($filter['cost_center']) text-info @endisset">@lang('accounting.cost_center')</th>
                         @endif
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
-                        <th class="d-none d-sm-table-cell @isset($filter['beneficiary']) text-info @endisset">@lang('accounting.beneficiary')</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">@lang('accounting.attendee')</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
                     </tr>
                 </thead>
@@ -89,7 +89,7 @@
                                 <td>{{ $transaction->cost_center }}</td>
                             @endif
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
-                            <td class="d-none d-sm-table-cell">{{ $transaction->beneficiary }}</td>
+                            <td class="d-none d-sm-table-cell">{{ $transaction->attendee }}</td>
                             @php
                                 $audit = $transaction->audits()->first();
                             @endphp
@@ -294,7 +294,7 @@
             </div>
             <div class="form-row">
                 <div class="col-sm">
-                    {{ Form::bsText('filter[beneficiary]', $filter['beneficiary'] ?? null, [ 'list' => $beneficiaries ], __('accounting.beneficiary')) }}
+                    {{ Form::bsText('filter[attendee]', $filter['attendee'] ?? null, [ 'list' => $attendees ], __('accounting.attendee')) }}
                 </div>
                 <div class="col-sm">
                     {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}

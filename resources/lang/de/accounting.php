@@ -9,7 +9,7 @@ return [
     'income' => 'Einnahmen',
     'spending' => 'Ausgaben',
     'register_new_transaction' => 'Neue Transaktion registrieren',
-    'beneficiary' => 'Empfänger',
+    'attendee' => 'Teilnehmer',
     'transactions_registered' => 'Transaktion registriert.',
     'transactions_updated' => 'Transaktion aktualisiert.',
     'transactions_deleted' => 'Transaktion gelöscht.',

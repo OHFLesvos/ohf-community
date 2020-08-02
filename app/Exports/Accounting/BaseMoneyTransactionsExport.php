@@ -22,7 +22,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             __('accounting.income'),
             __('accounting.spending'),
             __('accounting.receipt_no'),
-            __('accounting.beneficiary'),
+            __('accounting.attendee'),
             __('app.category'),
         ];
         if (self::useSecondaryCategories()) {
@@ -57,7 +57,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             $transaction->type == 'income' ? $transaction->amount : '',
             $transaction->type == 'spending' ? $transaction->amount : '',
             $transaction->receipt_no,
-            $transaction->beneficiary,
+            $transaction->attendee,
             $transaction->category,
         ];
         if (self::useSecondaryCategories()) {

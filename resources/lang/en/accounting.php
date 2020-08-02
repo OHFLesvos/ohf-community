@@ -9,7 +9,7 @@ return [
     'income' => 'Income',
     'spending' => 'Spending',
     'register_new_transaction' => 'Register new transaction',
-    'beneficiary' => 'Beneficiary',
+    'attendee' => 'Attendee',
     'transactions_registered' => 'Transaction registered.',
     'transactions_updated' => 'Transaction updated.',
     'transactions_deleted' => 'Transaction deleted.',

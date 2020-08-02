@@ -25,7 +25,7 @@
                 {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('app.write_decimal_point_as_comma')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsText('beneficiary', null, [ 'required', 'list' => $beneficiaries ], __('accounting.beneficiary')) }}
+                {{ Form::bsText('attendee', null, [ 'list' => $attendees ], __('accounting.attendee')) }}
             </div>
         </div>
         <div class="form-row">

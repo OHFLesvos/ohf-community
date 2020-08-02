@@ -71,8 +71,8 @@ class StoreTransaction extends FormRequest
                 'file',
                 'mimetypes:image/*,application/pdf',
             ],
-            'beneficiary' => [
-                'required',
+            'attendee' => [
+                'nullable',
             ],
             'category' => [
                 'required',
