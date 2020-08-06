@@ -403,4 +403,7 @@ return [
     'month' => 'Month',
     'no_data' => 'No data',
     'retry' => 'Retry',
+    'from_date' => 'from :from',
+    'until_date' => 'until :until',
+    'from_until_date' => ':from - :until',
  ];

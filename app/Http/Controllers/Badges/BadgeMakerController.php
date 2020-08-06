@@ -199,7 +199,7 @@ class BadgeMakerController extends Controller
             'type' => 'cmtyvol',
             'id' => $cmtyvol->id,
             'name' => $cmtyvol->nickname ?? $cmtyvol->first_name,
-            'position' => $cmtyvol->responsibilities->implode('name', ', '),
+            'position' => $cmtyvol->responsibilities->unique('name')->implode('name', ', '),
         ];
     }
 }

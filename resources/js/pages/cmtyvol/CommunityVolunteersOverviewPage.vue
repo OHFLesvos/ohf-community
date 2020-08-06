@@ -37,11 +37,20 @@
                 <nl2br tag="span" :text="arrayToString(data.value)" />
             </template>
             <template v-slot:cell(responsibilities)="data">
-                <template v-for="(description, name) in data.value" >
+                <template v-for="(attributes, name) in data.value" >
                     {{name}}
-                    <b-button v-if="description" :key="name + '-a'" v-b-popover.focus="description" class="description-tooltip p-0" variant="link" href="#">
+                    <b-button v-if="attributes.description" :key="name + '-a'" v-b-popover.focus="attributes.description" class="description-tooltip p-0" variant="link" href="#">
                         <font-awesome-icon :key="name + '-i'" icon="info-circle" />
                     </b-button>
+                    <template v-if="attributes.start_date && attributes.end_date">
+                        ({{ $t('app.from_until_date', { 'from': attributes.start_date, 'until': attributes.end_date }) }})
+                    </template>
+                    <template v-else-if="attributes.start_date">
+                        ({{ $t('app.from_date', { 'date': attributes.start_date }) }})
+                    </template>
+                    <template v-else-if="attributes.end_date">
+                        ({{ $t('app.until_date', { 'date': attributes.end_date }) }})
+                    </template>
                     <br :key="name + '-b'" />
                 </template>
             </template>

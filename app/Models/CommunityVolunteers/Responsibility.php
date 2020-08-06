@@ -5,6 +5,7 @@ namespace App\Models\CommunityVolunteers;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Responsibility extends Model
 {
@@ -59,6 +60,8 @@ class Responsibility extends Model
                 'responsibility_id',
                 'community_volunteer_id'
             )
+            ->using('\App\Models\CommunityVolunteers\CommunityVolunteerResponsibility')
+            ->withPivot([ 'start_date', 'end_date' ])
             ->withTimestamps();
     }
 
@@ -74,7 +77,13 @@ class Responsibility extends Model
 
     public function getCountActiveAttribute()
     {
-        return $this->communityVolunteers()->workStatus('active')->count();
+        return $this->communityVolunteers()->get()->filter(function($volunteer) {
+            if ($volunteer->pivot->hasDateRange()) {
+                return $volunteer->pivot->isInsideDateRange(Carbon::now());
+            }
+            return ($volunteer->work_starting_date == null || Carbon::now() >= $volunteer->work_starting_date)
+                && ($volunteer->work_leaving_date == null || Carbon::now() <= $volunteer->work_leaving_date);
+        })->count();
     }
 
     /**

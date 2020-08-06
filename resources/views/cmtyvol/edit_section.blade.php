@@ -17,10 +17,3 @@
     {!! Form::close() !!}
 
 @endsection
-
-@section('script')
-    $(function () {
-        // Make popovers work
-        $('[data-toggle="popover"]').popover();
-    });
-@endsection
