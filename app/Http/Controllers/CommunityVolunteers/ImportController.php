@@ -7,6 +7,7 @@ use App\Imports\CommunityVolunteers\CommunityVolunteersImport;
 use App\Imports\CommunityVolunteers\HeadingRowImport;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Http\Request;
+use App\Models\ImportFieldMapping;
 
 class ImportController extends BaseController
 {
@@ -24,6 +25,13 @@ class ImportController extends BaseController
         $fields = self::getImportFields($this->getFields());
 
         if ($request->map != null) {
+            collect($request->map)->each(fn ($m) => ImportFieldMapping::updateOrCreate([
+                'model' => 'cmtyvol',
+                'from' => $m['from'],
+            ], [
+                'to' => $m['to'],
+            ]));
+
             $fields = collect($request->map)->filter(fn ($m) => $m['to'] != null)
                 ->map(fn ($m) => [
                     'labels' => collect([ strtolower($m['from']) ]),
@@ -67,14 +75,17 @@ class ImportController extends BaseController
             $f['labels']->mapWithKeys(fn ($l) => [ $l => $f['key'] ])
         );
 
-        $defaults = $table_headers->mapWithKeys(function ($f) use ($variations) {
-            if (isset($variations[strtolower($f)])) {
-                return [ $f => $variations[strtolower($f)] ];
-            }
-            return [];
-        });
+        $cached_mappings = ImportFieldMapping::model('cmtyvol')
+            ->whereIn('from', $table_headers)
+            ->get();
 
-        $available = collect([ '' => '-- ' . __('app.dont_import') . ' --' ])
+        $defaults = $table_headers->mapWithKeys(fn ($f) => [
+            $f => $cached_mappings->contains('from', $f)
+                ? $cached_mappings->firstWhere('from', $f)['to']
+                : $variations->get(strtolower($f)),
+        ]);
+
+        $available = collect([ null => '-- ' . __('app.dont_import') . ' --' ])
             ->merge($fields->mapWithKeys(fn ($f) => [ $f['key'] => __($f['key']) ]));
 
         return [ 'headers' => $table_headers, 'available' => $available, 'defaults' => $defaults ];
