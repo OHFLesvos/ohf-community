@@ -25,6 +25,8 @@ class ImportCommunityVolunteers extends FormRequest
     {
         return [
             'file' => 'required|file',
+            'map' => 'array',
+            'map.*.from' => 'required_with:map.*.to',
         ];
     }
 }

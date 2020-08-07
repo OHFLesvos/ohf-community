@@ -91,7 +91,7 @@ class CommunityVolunteer extends Model implements Auditable
 
     public function setLanguagesStringAttribute($value)
     {
-        $this->languages = ! empty($value) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) : null;
+        $this->languages = ! empty($value) ? preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value) : null;
     }
 
     public function responsibilities()

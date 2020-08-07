@@ -30,7 +30,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
             $cmtyvol = new CommunityVolunteer();
             $this->assignImportedValues($row, $cmtyvol);
 
-            if (isset($cmtyvol->name_first_name) && isset($cmtyvol->family_name)) {
+            if (isset($cmtyvol->first_name) && isset($cmtyvol->family_name)) {
                 $existing_cmtyvol = CommunityVolunteer::query()
                     ->where('first_name', $cmtyvol->first_name)
                     ->where('family_name', $cmtyvol->family_name)

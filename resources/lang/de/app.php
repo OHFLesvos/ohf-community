@@ -406,4 +406,7 @@ return [
     'from_date' => 'ab dem :from',
     'until_date' => 'bis zum :until',
     'from_until_date' => ':from - :until',
+    'field_to_import' => 'Zu importierendes Feld',
+    'field_in_database' => 'Feld in Datenbank',
+    'dont_import' => 'nicht importieren',
 ];

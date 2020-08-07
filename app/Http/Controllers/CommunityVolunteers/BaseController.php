@@ -139,7 +139,20 @@ abstract class BaseController extends Controller
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null);
+                    $female = self::getAllTranslations('app.female')
+                        ->concat([ 'f', 'w', 'Frau', 'Fräulein', 'Fr.', 'Fr', 'Frl.', 'Frl', 'Missus', 'Missis', 'Miss', 'Mrs.', 'Mrs', 'Ms.', 'Ms' ])
+                        ->map(fn ($t) => strtolower($t));
+                    $male = self::getAllTranslations('app.male')
+                        ->concat([ 'm', 'Herr', 'Hr.', 'Hr', 'Mister', 'Mr.', 'Mr' ])
+                        ->map(fn ($t) => strtolower($t));
+
+                    if ($female->contains(strtolower($value))) {
+                        $cmtyvol->gender = 'f';
+                    } else if ($male->contains(strtolower($value))) {
+                        $cmtyvol->gender = 'm';
+                    } else {
+                        $cmtyvol->gender = null;
+                    }
                 },
                 'form_type' => 'radio',
                 'form_name' => 'gender',
@@ -196,7 +209,7 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value)) : null);
+                    $cmtyvol->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value)) : null);
                 },
                 'form_type' => 'text',
                 'form_name' => 'languages',
@@ -559,5 +572,4 @@ abstract class BaseController extends Controller
             ->keys()
             ->map(fn ($lk) => __($key, [], $lk));
     }
-
 }
