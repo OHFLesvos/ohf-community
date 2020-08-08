@@ -209,7 +209,7 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value)) : null);
+                    $cmtyvol->languages = ($value != null ? array_unique(array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value))) : null);
                 },
                 'form_type' => 'text',
                 'form_name' => 'languages',

@@ -30,12 +30,16 @@ class ImportController extends BaseController
                 'from' => $m['from'],
             ], [
                 'to' => $m['to'],
+                'append' => isset($m['append']),
             ]));
 
             $fields = collect($request->map)->filter(fn ($m) => $m['to'] != null)
                 ->map(fn ($m) => [
+                    'key' => $m['to'],
                     'labels' => collect([ strtolower($m['from']) ]),
+                    'append' => isset($m['append']),
                     'assign' => $fields->firstWhere('key', $m['to'])['assign'],
+                    'get' => $fields->firstWhere('key', $m['to'])['get'],
                 ]);
         }
 
@@ -57,7 +61,9 @@ class ImportController extends BaseController
                 'labels' => self::getAllTranslations($f['label_key'])
                     ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
                     ->map(fn ($l) => strtolower($l)),
+                'append' => false,
                 'assign' => $f['assign'],
+                'get' => $f['value'],
             ]);
     }
 
@@ -80,9 +86,13 @@ class ImportController extends BaseController
             ->get();
 
         $defaults = $table_headers->mapWithKeys(fn ($f) => [
-            $f => $cached_mappings->contains('from', $f)
-                ? $cached_mappings->firstWhere('from', $f)['to']
-                : $variations->get(strtolower($f)),
+            $f => $cached_mappings->contains('from', $f) ? [
+                'value' => $cached_mappings->firstWhere('from', $f)['to'],
+                'append' => $cached_mappings->firstWhere('from', $f)['append'],
+            ] : [
+                'value' => $variations->get(strtolower($f)),
+                'append' => false,
+            ],
         ]);
 
         $available = collect([ null => '-- ' . __('app.dont_import') . ' --' ])

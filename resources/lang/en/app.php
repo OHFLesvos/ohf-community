@@ -409,4 +409,5 @@ return [
     'field_to_import' => 'Field to import',
     'field_in_database' => 'Field in database',
     'dont_import' => 'don\'t import',
+    'add_to_existing_values' => 'Add to existing values',
  ];

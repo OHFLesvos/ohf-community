@@ -229,8 +229,13 @@ $(function() {
                     Object.keys(data.available).forEach(function(value) {
                         $('<option>', { 'value': value }).text(data.available[value]).appendTo(select);
                     });
+
+                    var td2 = $('<td>').appendTo(row);
+                    var checkbox = $('<input>', { 'type': 'checkbox', 'name': 'map[' + index + '][append]', 'value': 'true' }).appendTo(td2);
+
                     if(header in data.defaults) {
-                        select.val(data.defaults[header]);
+                        select.val(data.defaults[header].value);
+                        checkbox.prop('checked', data.defaults[header].append);
                     }
                 }
             },

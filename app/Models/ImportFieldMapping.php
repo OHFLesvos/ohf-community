@@ -18,6 +18,7 @@ class ImportFieldMapping extends Model
         'model',
         'from',
         'to',
+        'append',
     ];
 
     public function scopeModel(Builder $query, string $model)

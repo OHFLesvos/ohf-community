@@ -3,6 +3,7 @@
 namespace App\Imports\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
+use App\Models\CommunityVolunteers\Responsibility;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -22,13 +23,16 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
         HeadingRowFormatter::default('none');
 
         $this->fields = $fields;
+
+        $this->has_dates = $this->fields->where('key', 'people.starting_date')->first() != null
+            && $this->fields->where('key', 'people.leaving_date')->first() != null;
     }
 
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
             $cmtyvol = new CommunityVolunteer();
-            $this->assignImportedValues($row, $cmtyvol);
+            $this->assignImportedValues($row, $cmtyvol, false);
 
             if (isset($cmtyvol->first_name) && isset($cmtyvol->family_name)) {
                 $existing_cmtyvol = CommunityVolunteer::query()
@@ -42,26 +46,80 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
                     $existing_cmtyvol->save();
                 } else {
                     $cmtyvol->save();
+                    // assign responsibilities
+                    $this->assignImportedValues($row, $cmtyvol);
                 }
             }
         }
     }
 
-    private function assignImportedValues($row, CommunityVolunteer $cmtyvol)
+    private function assignImportedValues($row, CommunityVolunteer $cmtyvol, bool $assign_responsibilities = true)
     {
-        $row->each(function ($value, $label) use ($cmtyvol) {
+        $responsibilities = [];
+        $row->each(function ($value, $label) use ($cmtyvol, &$responsibilities) {
             if ($value == 'N/A') {
                 $value = null;
             }
-            $this->fields->each(function ($f) use ($cmtyvol, $label, $value) {
+            $this->fields->each(function ($f) use ($cmtyvol, $label, $value, &$responsibilities) {
                 if ($f['labels']->containsStrict(strtolower($label))) {
                     try {
-                        $f['assign']($cmtyvol, $value);
+                        if ($f['key'] == 'app.responsibilities') {
+                            if ($value != null) {
+                                foreach (preg_split('/(\s*[,;|]\s*)/', $value) as $responsibility) {
+                                    $responsibilities[] = $responsibility;
+                                }
+                            }
+                        } else if ($f['append']) {
+                            self::appendToField($cmtyvol, $f['get'], $f['assign'], $value);
+                        } else {
+                            $f['assign']($cmtyvol, $value);
+                        }
                     } catch (Exception $e) {
                         Log::warning('Cannot import community volunteer: ' . $e->getMessage());
                     }
                 }
             });
         });
+
+        if ($assign_responsibilities) {
+            foreach ($responsibilities as $responsibility_name) {
+                $responsibility = Responsibility::updateOrCreate([ 'name' => $responsibility_name ]);
+                $from = $this->has_dates ? $cmtyvol->work_starting_date : null;
+                $to = $this->has_dates ? $cmtyvol->work_leaving_date : null;
+
+                if (!$cmtyvol->responsibilities()->wherePivot('start_date', $from)->wherePivot('end_date', $to)->find($responsibility) != null) {
+                    $cmtyvol->responsibilities()->attach($responsibility, [
+                        'start_date' => $from,
+                        'end_date' => $to,
+                    ]);
+                    if ($this->has_dates) {
+                        $start_dates = $cmtyvol->responsibilities->map(fn ($r) => $r->pivot->start_date);
+                        $cmtyvol->work_starting_date = $start_dates->contains(null) ? null : $start_dates->min();
+
+                        $end_dates = $cmtyvol->responsibilities->map(fn ($r) => $r->pivot->end_date);
+                        $cmtyvol->work_leaving_date = $end_dates->contains(null) ? null : $end_dates->max();
+                    }
+                }
+            }
+        }
+    }
+
+    private static function appendToField(CommunityVolunteer $cmtyvol, $get, $assign, $value) {
+        $old_value = is_callable($get) ? $get($cmtyvol) : $cmtyvol[$get];
+        $assign($cmtyvol, $value);
+
+        if ($old_value != null) {
+            $new_value = is_callable($get) ? $get($cmtyvol) : $cmtyvol[$get];
+
+            if (is_array($old_value)) {
+                $assign($cmtyvol, array_merge($old_value, $new_value));
+            } else if (is_string($old_value)) {
+                $assign($cmtyvol, $old_value . ', ' . $new_value);
+            } else if (is_object($old_value) && get_class($old_value) == 'Illuminate\Database\Eloquent\Collection') {
+                $assign($cmtyvol, $old_value->concat($new_value));
+            } else {
+                Log::warning('Cannot append value of type: ' . gettype($old_value));
+            }
+        }
     }
 }
