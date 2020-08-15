@@ -91,7 +91,7 @@ class CommunityVolunteer extends Model implements Auditable
 
     public function setLanguagesStringAttribute($value)
     {
-        $this->languages = ! empty($value) ? preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) : null;
+        $this->languages = ! empty($value) ? preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value) : null;
     }
 
     public function responsibilities()
@@ -101,6 +101,8 @@ class CommunityVolunteer extends Model implements Auditable
                 'community_volunteer_id',
                 'responsibility_id'
             )
+            ->using('\App\Models\CommunityVolunteers\CommunityVolunteerResponsibility')
+            ->withPivot('start_date', 'end_date')
             ->withTimestamps();
     }
 

@@ -10,6 +10,7 @@ use Countries;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -138,7 +139,20 @@ abstract class BaseController extends Controller
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->gender = ($value != null ? (self::getAllTranslations('app.female')->contains($value) ? 'f' : 'm') : null);
+                    $female = self::getAllTranslations('app.female')
+                        ->concat([ 'f', 'w', 'Frau', 'Fräulein', 'Fr.', 'Fr', 'Frl.', 'Frl', 'Missus', 'Missis', 'Miss', 'Mrs.', 'Mrs', 'Ms.', 'Ms' ])
+                        ->map(fn ($t) => strtolower($t));
+                    $male = self::getAllTranslations('app.male')
+                        ->concat([ 'm', 'Herr', 'Hr.', 'Hr', 'Mister', 'Mr.', 'Mr' ])
+                        ->map(fn ($t) => strtolower($t));
+
+                    if ($female->contains(strtolower($value))) {
+                        $cmtyvol->gender = 'f';
+                    } else if ($male->contains(strtolower($value))) {
+                        $cmtyvol->gender = 'm';
+                    } else {
+                        $cmtyvol->gender = null;
+                    }
                 },
                 'form_type' => 'radio',
                 'form_name' => 'gender',
@@ -195,7 +209,7 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->languages = ($value != null ? array_map('trim', preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value)) : null);
+                    $cmtyvol->languages = ($value != null ? array_unique(array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value))) : null);
                 },
                 'form_type' => 'text',
                 'form_name' => 'languages',
@@ -300,12 +314,20 @@ abstract class BaseController extends Controller
             [
                 'label_key' => 'app.responsibilities',
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->responsibilities->pluck('name')->all(),
+                'value' => fn ($cmtyvol) => $cmtyvol->responsibilities
+                    ->map(fn ($r) => [
+                        'value' => $r->name,
+                        'from' => $r->pivot->start_date,
+                        'to' => $r->pivot->end_date,
+                    ]),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->responsibilities
                     ->map(function ($r) {
                         $str = htmlspecialchars($r->name);
                         if ($r->description !== null) {
                             $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="' . htmlspecialchars($r->description) . '"></a>';
+                        }
+                        if($r->pivot->hasDateRange()) {
+                            $str .= ' (' . $r->pivot->date_range_string . ')';
                         }
                         if ($r->hasAssignedAltoughNotAvailable) {
                             $str .= ' <span class="text-danger">(' . __('app.not_available') . ')</span>';
@@ -320,23 +342,31 @@ abstract class BaseController extends Controller
                 'section' => 'occupation',
                 'import_labels' => [ 'Project' ],
                 'assign' => function ($cmtyvol, $value) {
-                    $selected = [];
-                    if ($value != null) {
-                        if (! is_array($value)) {
-                            $values = [];
-                            foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
-                                $values[] = $v;
+                    DB::transaction(function() use ($cmtyvol, $value) {
+                        $cmtyvol->responsibilities()->detach();
+                        if ($value != null) {
+                            if (! is_array($value)) {
+                                $values = [];
+                                foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
+                                    $values[] = $v;
+                                }
+                                $value = array_map('trim', $values);
                             }
-                            $value = array_map('trim', $values);
+
+                            collect($value)->map(function($entry) use ($cmtyvol) {
+                                if (! is_array($entry)) {
+                                    $entry = [ 'name' => $entry ];
+                                }
+                                $responsibility = Responsibility::where('name', $entry['name'])->first();
+                                $cmtyvol->responsibilities()->attach($responsibility, [
+                                    'start_date' => isset($entry['from']) ? $entry['from'] : null,
+                                    'end_date' => isset($entry['to']) ? $entry['to'] : null,
+                                ]);
+                            });
                         }
-                        $selected = Responsibility::whereIn('name', $value)
-                            ->get()
-                            ->pluck('id')
-                            ->all();
-                    }
-                    $cmtyvol->responsibilities()->sync($selected);
+                    });
                 },
-                'form_type' => 'checkboxeswithdescription',
+                'form_type' => 'listwithdaterange',
                 'form_name' => 'responsibilities',
                 'form_list' => Responsibility::where('available', true)
                     ->orderBy('name')
@@ -348,12 +378,18 @@ abstract class BaseController extends Controller
                             "hidden" => $responsibility->isCapacityExhausted,
                         ];
                     }),
-                'form_validate' => fn () => [
-                    Rule::in(Responsibility::select('name')
-                        ->get()
-                        ->pluck('name')
-                        ->all()
-                    ),
+                'form_validate' => 'array',
+                'form_validate_extra' => fn () => [
+                    'responsibilities.*.name' => [
+                        Rule::in(Responsibility::select('name')
+                            ->get()
+                            ->pluck('name')
+                            ->all()
+                        ),
+                        'required_with:responsibilities.*.from,responsibilities.*.to',
+                    ],
+                    'responsibilities.*.from' => 'nullable|date',
+                    'responsibilities.*.to' => 'required_with:responsibilities.*.from|nullable|date',
                 ],
             ],
             [
@@ -536,5 +572,4 @@ abstract class BaseController extends Controller
             ->keys()
             ->map(fn ($lk) => __($key, [], $lk));
     }
-
 }

@@ -403,4 +403,11 @@ return [
     'month' => 'Month',
     'no_data' => 'No data',
     'retry' => 'Retry',
+    'from_date' => 'from :from',
+    'until_date' => 'until :until',
+    'from_until_date' => ':from - :until',
+    'field_to_import' => 'Field to import',
+    'field_in_database' => 'Field in database',
+    'dont_import' => 'don\'t import',
+    'add_to_existing_values' => 'Add to existing values',
  ];

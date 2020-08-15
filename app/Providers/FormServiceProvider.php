@@ -30,7 +30,6 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsStringDate', 'components.form.bsStringDate', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsCheckbox', 'components.form.bsCheckbox', [ 'name', 'value' => null, 'checked' => null, 'label' => null, 'id' => null ]);
         Form::component('bsCheckboxList', 'components.form.bsCheckboxList', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);
-        Form::component('bsCheckboxListWithDescription', 'components.form.bsCheckboxListWithDescription', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);
         Form::component('bsCheckboxInlineList', 'components.form.bsCheckboxInlineList', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);
         Form::component('bsRadio', 'components.form.bsRadio', [ 'name', 'value' => null, 'checked' => null, 'label' => null ]);
         Form::component('bsRadioInline', 'components.form.bsRadioInline', [ 'name', 'value' => null, 'checked' => null, 'label' => null ]);
@@ -44,6 +43,7 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsButtonLink', 'components.form.bsButtonLink', [ 'href', 'label', 'icon', 'class' => 'secondary' ]);
         Form::component('genderSelect', 'components.form.genderSelect', [ 'name', 'value' => null, 'label' => 'Gender' ]);
         Form::component('bsTags', 'components.form.bsTags', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
+        Form::component('bsListWithDateRange', 'components.form.bsListWithDateRange', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);
     }
 
     /**

@@ -362,6 +362,10 @@ Route::middleware(['auth', 'language'])
                 Route::get('genderDistribution', 'ReportController@genderDistribution')
                     ->name('genderDistribution')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+
+                Route::post('getHeaderMappings', '\App\Http\Controllers\CommunityVolunteers\ImportController@getHeaderMappings')
+                    ->name('getHeaderMappings')
+                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
             });
 
         Route::apiResource('cmtyvol', 'CommunityVolunteerController')

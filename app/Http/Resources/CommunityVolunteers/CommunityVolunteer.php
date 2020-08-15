@@ -40,7 +40,13 @@ class CommunityVolunteer extends JsonResource
             'pickup_location' => $this->pickup_location,
             'work_starting_date' => $this->work_starting_date,
             'work_leaving_date' => $this->work_leaving_date,
-            'responsibilities' => $this->responsibilities->pluck('description', 'name'),
+            'responsibilities' => $this->responsibilities->mapWithKeys(fn ($r) => [
+                $r->name => [
+                    'description' => $r->description,
+                    'start_date' => $r->pivot->start_date_string,
+                    'end_date' => $r->pivot->end_date_string,
+                ],
+            ]),
             'notes' => $this->notes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
