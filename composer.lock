@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33a0566b94542a07606b755973fcbb4d",
+    "content-hash": "fa7f04f6398af02ccdcceddd73152e38",
     "packages": [
         {
             "name": "akaunting/language",
@@ -3602,22 +3602,25 @@
         },
         {
             "name": "mrcage/chf-exchange-rates",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrcage/chf-exchange-rates-php.git",
-                "reference": "843c48ff8f6bd7a95730004d1e755b4b469791fc"
+                "reference": "3ad72e50e3f1b5da16270cf727e2e8cf3bde090f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrcage/chf-exchange-rates-php/zipball/843c48ff8f6bd7a95730004d1e755b4b469791fc",
-                "reference": "843c48ff8f6bd7a95730004d1e755b4b469791fc",
+                "url": "https://api.github.com/repos/mrcage/chf-exchange-rates-php/zipball/3ad72e50e3f1b5da16270cf727e2e8cf3bde090f",
+                "reference": "3ad72e50e3f1b5da16270cf727e2e8cf3bde090f",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^6.0 || ^7.0",
+                "illuminate/support": "^6.0 || ^7.0 || ^8.0",
                 "nesbot/carbon": "^1.0 || ^2.0",
                 "php": ">=7.1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7"
             },
             "type": "library",
             "autoload": {
@@ -3636,7 +3639,7 @@
                 }
             ],
             "description": "Retrieves Swiss Franc exchange rates for foreign currencies based on data from the website of the Swiss Federal Customs Administration.",
-            "time": "2020-06-28T10:08:32+00:00"
+            "time": "2020-09-22T06:10:50+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -5411,16 +5414,16 @@
         },
         {
             "name": "scriptotek/google-books",
-            "version": "v0.2.5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/scriptotek/php-google-books.git",
-                "reference": "3e443573c236d2d69c9899d3a40a3fb242316e30"
+                "url": "https://github.com/clptwebdev/php-google-books.git",
+                "reference": "682caa47b9950342e06210414523a2b0d19a7b4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scriptotek/php-google-books/zipball/3e443573c236d2d69c9899d3a40a3fb242316e30",
-                "reference": "3e443573c236d2d69c9899d3a40a3fb242316e30",
+                "url": "https://api.github.com/repos/clptwebdev/php-google-books/zipball/682caa47b9950342e06210414523a2b0d19a7b4e",
+                "reference": "682caa47b9950342e06210414523a2b0d19a7b4e",
                 "shasum": ""
             },
             "require": {
@@ -5458,7 +5461,7 @@
             ],
             "description": "Package for interacting with the Google Books API",
             "homepage": "http://github.com/scriptotek/google-books",
-            "time": "2019-12-09T12:22:36+00:00"
+            "time": "2020-05-02T16:30:28+00:00"
         },
         {
             "name": "sentry/sdk",
@@ -10537,6 +10540,7 @@
                 "laravel",
                 "vue-i18n"
             ],
+            "abandoned": true,
             "time": "2020-03-10T18:55:52+00:00"
         },
         {
@@ -12388,6 +12392,7 @@
             ],
             "description": "FinderFacade is a convenience wrapper for Symfony's Finder component.",
             "homepage": "https://github.com/sebastianbergmann/finder-facade",
+            "abandoned": true,
             "time": "2020-02-08T06:07:58+00:00"
         },
         {
@@ -13343,7 +13348,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "scriptotek/google-books": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
