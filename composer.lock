@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "197175c40a8a104da13429ce8680ae72",
+    "content-hash": "73e3b3451c0f4865358881b4f27e945a",
     "packages": [
         {
             "name": "akaunting/language",
@@ -1324,6 +1324,48 @@
             "time": "2019-03-31T00:38:28+00:00"
         },
         {
+            "name": "dyrynda/laravel-nullable-fields",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michaeldyrynda/laravel-nullable-fields.git",
+                "reference": "8c4572c6d6a90bbd335ff50b9a9209e5e0dbb92b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michaeldyrynda/laravel-nullable-fields/zipball/8c4572c6d6a90bbd335ff50b9a9209e5e0dbb92b",
+                "reference": "8c4572c6d6a90bbd335ff50b9a9209e5e0dbb92b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^7.0",
+                "illuminate/events": "^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "utility",
+            "autoload": {
+                "psr-4": {
+                    "Iatstuti\\Database\\Support\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dyrynda",
+                    "email": "michael@dyrynda.com.au",
+                    "homepage": "https://dyrynda.com.au"
+                }
+            ],
+            "description": "This trait allows you to easily flag attributes that should be set as null when being persisted to the database using the Laravel PHP Framework.",
+            "time": "2020-03-10T00:02:41+00:00"
+        },
+        {
             "name": "egulias/email-validator",
             "version": "2.1.21",
             "source": {
@@ -1925,49 +1967,6 @@
                 "psr-7"
             ],
             "time": "2018-07-31T19:32:56+00:00"
-        },
-        {
-            "name": "iatstuti/laravel-nullable-fields",
-            "version": "3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/michaeldyrynda/laravel-nullable-fields.git",
-                "reference": "8c4572c6d6a90bbd335ff50b9a9209e5e0dbb92b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/michaeldyrynda/laravel-nullable-fields/zipball/8c4572c6d6a90bbd335ff50b9a9209e5e0dbb92b",
-                "reference": "8c4572c6d6a90bbd335ff50b9a9209e5e0dbb92b",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "^7.0",
-                "illuminate/events": "^7.0",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5"
-            },
-            "type": "utility",
-            "autoload": {
-                "psr-4": {
-                    "Iatstuti\\Database\\Support\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Dyrynda",
-                    "email": "michael@dyrynda.com.au",
-                    "homepage": "https://dyrynda.com.au"
-                }
-            ],
-            "description": "This trait allows you to easily flag attributes that should be set as null when being persisted to the database using the Laravel PHP Framework.",
-            "abandoned": "dyrynda/laravel-nullable-fields",
-            "time": "2020-03-10T00:02:41+00:00"
         },
         {
             "name": "intervention/image",

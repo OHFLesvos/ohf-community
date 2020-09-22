@@ -28,7 +28,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "gumlet/php-image-resize": "1.9.*",
         "guzzlehttp/guzzle": "^6.3",
-        "iatstuti/laravel-nullable-fields": "^3.0",
+        "dyrynda/laravel-nullable-fields": "^3.0",
         "jeroendesloovere/vcard": "^1.6",
         "laravel/framework": "^7.0",
         "laravel/socialite": "^4.1",
