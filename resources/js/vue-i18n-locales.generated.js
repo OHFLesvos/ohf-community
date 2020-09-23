@@ -498,7 +498,8 @@ export default {
             "checked_out": "Ausgecheckt.",
             "checkout_everyone": "Alle auschecken",
             "really_checkout_everyone": "Sollen wirklich alle ausgecheckt werden?",
-            "everyone_checked_out": "Alle wurden ausgecheckt."
+            "everyone_checked_out": "Alle wurden ausgecheckt.",
+            "back": "Zurück"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -897,7 +898,8 @@ export default {
             "configure_library": "Bibliothek: Einstellungen bearbeiten",
             "validate_shop_coupons": "Markt: Coupons validieren",
             "configure_shop": "Markt: Einstellungen bearbeiten",
-            "register_visitors": "Besucher: Registrieren"
+            "register_visitors": "Besucher: Registrieren",
+            "export_visitors": "Besucher: Exportieren"
         },
         "reporting": {
             "monthly_summary": "Monatliche Zusammenfassung",
@@ -1688,7 +1690,8 @@ export default {
             "checked_out": "Checked out.",
             "checkout_everyone": "Checkout everyone",
             "really_checkout_everyone": "Really checkout everyone?",
-            "everyone_checked_out": "Everyone has been checked out."
+            "everyone_checked_out": "Everyone has been checked out.",
+            "back": "Back"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -2090,7 +2093,8 @@ export default {
             "configure_library": "Library: Configure settings",
             "validate_shop_coupons": "Shop: Validate coupons",
             "configure_shop": "Shop: Configure settings",
-            "register_visitors": "Visitors: Register"
+            "register_visitors": "Visitors: Register",
+            "export_visitors": "Visitors: Export"
         },
         "reporting": {
             "monthly_summary": "Monthly summary",

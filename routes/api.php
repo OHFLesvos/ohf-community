@@ -485,6 +485,8 @@ Route::middleware(['auth', 'language'])
             ->name('checkoutAll');
         Route::get('export', 'VisitorController@export')
             ->name('export');
+        Route::get('dailyVisitors', 'VisitorController@dailyVisitors')
+            ->name('dailyVisitors');
     });
 
 //

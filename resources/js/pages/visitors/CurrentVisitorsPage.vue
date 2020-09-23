@@ -12,25 +12,36 @@
                 @cancel="showRegisterForm = false"
             />
         </b-card>
-        <p
+        <b-row
           v-if="!showRegisterForm"
-          class="d-flex justify-content-between"
+          class="mb-4"
         >
-            <b-button
-                variant="primary"
-                @click="showRegisterForm = true"
-            >
-                <font-awesome-icon icon="sign-in-alt"/>
-                {{ $t('app.check_in') }}
-            </b-button>
-            <b-button
-                variant="secondary"
-                @click="checkoutAll"
-            >
-                <font-awesome-icon icon="trash"/>
-                {{ $t('app.checkout_everyone') }}
-            </b-button>
-        </p>
+            <b-col>
+                <b-button
+                    variant="primary"
+                    @click="showRegisterForm = true"
+                >
+                    <font-awesome-icon icon="sign-in-alt"/>
+                    {{ $t('app.check_in') }}
+                </b-button>
+            </b-col>
+            <b-col class="text-right">
+                <b-button
+                    variant="secondary"
+                    :to="{ name: 'visitors.report' }"
+                >
+                    <font-awesome-icon icon="chart-bar"/>
+                    {{ $t('app.report') }}
+                </b-button>
+                <b-button
+                    variant="secondary"
+                    @click="checkoutAll"
+                >
+                    <font-awesome-icon icon="door-closed"/>
+                    {{ $t('app.checkout_everyone') }}
+                </b-button>
+            </b-col>
+        </b-row>
         <h3>{{ $t('visitors.current_visitors') }} ({{ count }})</h3>
         <base-table
             ref="table"

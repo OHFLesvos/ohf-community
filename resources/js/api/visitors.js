@@ -15,5 +15,9 @@ export default {
     async checkoutAll () {
         const url = route('api.visitors.checkoutAll')
         return await api.post(url)
+    },
+    async dailyVisitors () {
+        const url = route('api.visitors.dailyVisitors')
+        return await api.get(url)
     }
 }

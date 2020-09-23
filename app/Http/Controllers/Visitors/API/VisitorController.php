@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Visitors\API;
 
 use App\Exports\Visitors\VisitorExport;
 use App\Http\Controllers\Controller;
-use App\Models\Visitors\Visitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
+use App\Models\Visitors\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
@@ -126,5 +126,17 @@ class VisitorController extends Controller
         $file_name = __('visitors.visitors') . ' as of ' . now()->toDateString();
         $extension = 'xlsx';
         return (new VisitorExport())->download($file_name . '.' . $extension);
+    }
+
+    public function dailyVisitors()
+    {
+        $this->authorize('viewAny', Visitor::class);
+
+        return Visitor::query()
+            ->selectRaw('DATE(entered_at) as day')
+            ->selectRaw('COUNT(*) as amount')
+            ->groupByRaw('DATE(entered_at)')
+            ->orderBy('day', 'desc')
+            ->get();
     }
 }

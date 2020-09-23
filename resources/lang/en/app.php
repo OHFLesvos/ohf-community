@@ -421,4 +421,5 @@ return [
     'checkout_everyone' => 'Checkout everyone',
     'really_checkout_everyone' => 'Really checkout everyone?',
     'everyone_checked_out' => 'Everyone has been checked out.',
+    'back' => 'Back',
  ];
