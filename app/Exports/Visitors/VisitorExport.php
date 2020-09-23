@@ -17,7 +17,10 @@ class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithM
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return Visitor::orderBy('entered_at', 'desc')
+        $retention_date = today()->subDays(config('visitors.retention_days'))->toDateString();
+        return Visitor::query()
+            ->whereDate('entered_at', '>=', $retention_date)
+            ->orderBy('entered_at', 'desc')
             ->orderBy('last_name', 'asc')
             ->orderBy('first_name', 'asc');
     }
