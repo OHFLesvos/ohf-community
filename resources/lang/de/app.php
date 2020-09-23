@@ -410,4 +410,9 @@ return [
     'field_in_database' => 'Feld in Datenbank',
     'dont_import' => 'nicht importieren',
     'add_to_existing_values' => 'Zu bestehenden Werten hinzufügen',
+    'id_number' => 'ID Nummer',
+    'place_of_residence' => 'Aufenthaltsort',
+    'check_in' => 'Einchecken',
+    'checkout' => 'Auschecken',
+    'time' => 'Zeit',
 ];

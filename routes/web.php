@@ -427,6 +427,20 @@ Route::middleware(['auth', 'language'])
             });
     });
 
+//
+// Visitors
+//
+Route::middleware(['auth', 'language'])
+    ->namespace('Visitors')
+    ->prefix('visitors')
+    ->name('visitors.')
+    ->group(function () {
+        // TODO authorization
+        Route::view('', 'visitors.index')->name('index');
+        Route::view('/{any}', 'visitors.index')
+            ->where('any', '.*');
+    });
+
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });

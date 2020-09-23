@@ -28,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\CommunityVolunteers\Responsibility::class => \App\Policies\CommunityVolunteers\ResponsibilityPolicy::class,
         \App\Models\Library\LibraryBook::class            => \App\Policies\Library\LibraryBookPolicy::class,
         \App\Models\Library\LibraryLending::class         => \App\Policies\Library\LibraryLendingPolicy::class,
+        \App\Models\Visitors\Visitor::class               => \App\Policies\Visitors\VisitorPolicy::class,
     ];
 
     protected $permission_gate_mappings = [
@@ -66,6 +67,8 @@ class AuthServiceProvider extends ServiceProvider
 
         'validate-shop-coupons'       => 'shop.coupons.validate',
         'configure-shop'              => 'shop.configure',
+
+        'register-visitors'           => 'visitors.register',
     ];
 
     protected $permission_gate_mappings_no_super_admin = [ ];

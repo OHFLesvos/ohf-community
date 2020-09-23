@@ -410,4 +410,9 @@ return [
     'field_in_database' => 'Field in database',
     'dont_import' => 'don\'t import',
     'add_to_existing_values' => 'Add to existing values',
+    'id_number' => 'ID Number',
+    'place_of_residence' => 'Place of residence',
+    'check_in' => 'Check-in',
+    'checkout' => 'Checkout',
+    'time' => 'Time',
  ];

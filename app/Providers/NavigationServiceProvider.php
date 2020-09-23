@@ -25,6 +25,7 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\CommunityVolunteers\CommunityVolunteersNavigationItem::class         => 3,
         \App\Navigation\Drawer\Library\LibraryNavigationItem::class         => 10,
         \App\Navigation\Drawer\Shop\ShopNavigationItem::class               => 8,
+        \App\Navigation\Drawer\Visitors\VisitorsNavigationItem::class       => 9,
     ];
 
     protected $contextMenus = [
