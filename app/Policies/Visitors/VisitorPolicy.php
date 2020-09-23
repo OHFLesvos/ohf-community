@@ -64,6 +64,17 @@ class VisitorPolicy
     }
 
     /**
+     * Determine whether the user can update any model.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function updateAny(User $user)
+    {
+        return $user->hasPermission('visitors.register');
+    }
+
+    /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user

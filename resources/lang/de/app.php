@@ -414,5 +414,11 @@ return [
     'place_of_residence' => 'Aufenthaltsort',
     'check_in' => 'Einchecken',
     'checkout' => 'Auschecken',
+    'checkout_all' => 'Alle auschecken',
     'time' => 'Zeit',
+    'checked_in' => 'Eingecheckt.',
+    'checked_out' => 'Ausgecheckt.',
+    'checkout_everyone' => 'Alle auschecken',
+    'really_checkout_everyone' => 'Sollen wirklich alle ausgecheckt werden?',
+    'everyone_checked_out' => 'Alle wurden ausgecheckt.',
 ];

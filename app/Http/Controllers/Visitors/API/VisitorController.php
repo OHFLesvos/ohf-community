@@ -92,4 +92,25 @@ class VisitorController extends Controller
         return response()
             ->json([], Response::HTTP_NO_CONTENT);
     }
+
+    public function checkoutAll()
+    {
+        $this->authorize('updateAny', Visitor::class);
+
+        Visitor::query()
+            ->whereNull('left_at')
+            ->update([
+                'left_at' => now(),
+            ]);
+
+        return response()
+            ->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    public function export(Request $request)
+    {
+        $this->authorize('viewAny', Visitor::class);
+
+        // TODO
+    }
 }

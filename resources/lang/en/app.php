@@ -414,5 +414,11 @@ return [
     'place_of_residence' => 'Place of residence',
     'check_in' => 'Check-in',
     'checkout' => 'Checkout',
+    'checkout_all' => 'Checkout all',
     'time' => 'Time',
+    'checked_in' => 'Checked-in.',
+    'checked_out' => 'Checked out.',
+    'checkout_everyone' => 'Checkout everyone',
+    'really_checkout_everyone' => 'Really checkout everyone?',
+    'everyone_checked_out' => 'Everyone has been checked out.',
  ];

@@ -8,14 +8,23 @@
                 @cancel="showRegisterForm = false"
             />
         </div>
-        <p>
+        <p
+          v-if="!showRegisterForm"
+          class="d-flex justify-content-between"
+        >
             <b-button
-                v-if="!showRegisterForm"
                 variant="primary"
                 @click="showRegisterForm = true"
             >
                 <font-awesome-icon icon="sign-in-alt"/>
                 {{ $t('app.check_in') }}
+            </b-button>
+            <b-button
+                variant="secondary"
+                @click="checkoutAll"
+            >
+                <font-awesome-icon icon="trash"/>
+                {{ $t('app.checkout_everyone') }}
             </b-button>
         </p>
         <hr>
@@ -26,6 +35,7 @@
             :fields="fields"
             :api-method="fetchData"
             default-sort-by="entered_at"
+            default-sort-desc
             :empty-text="$t('app.no_data_registered')"
             :items-per-page="100"
             @count="count = $event"
@@ -113,7 +123,7 @@ export default {
             this.isBusy = true
             try {
                 await visitorsApi.checkin(formData)
-                showSnackbar('Checked-in')
+                showSnackbar(this.$t('app.checked_in'))
                 this.isBusy = false
                 this.$refs.table.refresh()
             } catch (err) {
@@ -126,11 +136,25 @@ export default {
             try {
                 await visitorsApi.checkout(id)
                 this.isBusy = false
-                showSnackbar('Checked out')
+                showSnackbar(this.$t('app.checked_out'))
                 this.$refs.table.refresh()
             } catch (err) {
                 alert(err)
                 this.isBusy = false
+            }
+        },
+        async checkoutAll() {
+            if (confirm(this.$t('app.really_checkout_everyone'))) {
+                this.isBusy = true
+                try {
+                    await visitorsApi.checkoutAll()
+                    this.isBusy = false
+                    showSnackbar(this.$t('app.everyone_checked_out'))
+                    this.$refs.table.refresh()
+                } catch (err) {
+                    alert(err)
+                    this.isBusy = false
+                }
             }
         }
     }

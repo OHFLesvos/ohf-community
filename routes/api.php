@@ -481,6 +481,10 @@ Route::middleware(['auth', 'language'])
             ->name('checkin');
         Route::put('{visitor}/checkout', 'VisitorController@checkout')
             ->name('checkout');
+        Route::post('checkoutAll', 'VisitorController@checkoutAll')
+            ->name('checkoutAll');
+        Route::get('export', 'VisitorController@export')
+            ->name('export');
     });
 
 //

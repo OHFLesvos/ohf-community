@@ -492,7 +492,13 @@ export default {
             "place_of_residence": "Aufenthaltsort",
             "check_in": "Einchecken",
             "checkout": "Auschecken",
-            "time": "Zeit"
+            "checkout_all": "Alle auschecken",
+            "time": "Zeit",
+            "checked_in": "Eingecheckt.",
+            "checked_out": "Ausgecheckt.",
+            "checkout_everyone": "Alle auschecken",
+            "really_checkout_everyone": "Sollen wirklich alle ausgecheckt werden?",
+            "everyone_checked_out": "Alle wurden ausgecheckt."
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1676,7 +1682,13 @@ export default {
             "place_of_residence": "Place of residence",
             "check_in": "Check-in",
             "checkout": "Checkout",
-            "time": "Time"
+            "checkout_all": "Checkout all",
+            "time": "Time",
+            "checked_in": "Checked-in.",
+            "checked_out": "Checked out.",
+            "checkout_everyone": "Checkout everyone",
+            "really_checkout_everyone": "Really checkout everyone?",
+            "everyone_checked_out": "Everyone has been checked out."
         },
         "auth": {
             "failed": "These credentials do not match our records.",

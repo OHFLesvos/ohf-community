@@ -11,5 +11,9 @@ export default {
     async checkout (id) {
         const url = route('api.visitors.checkout', id)
         return await api.put(url)
+    },
+    async checkoutAll () {
+        const url = route('api.visitors.checkoutAll')
+        return await api.post(url)
     }
 }
