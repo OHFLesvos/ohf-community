@@ -59,7 +59,13 @@ class VisitorController extends Controller
             ->forFilter($filter)
             ->orderBy($sortBy, $sortDirection)
             ->orderBy('first_name')
-            ->paginate($pageSize ));
+            ->paginate($pageSize ))
+            ->additional(['meta' => [
+                'total_visiting' => Visitor::query()
+                    ->whereNull('left_at')
+                    ->whereDate('entered_at', today())
+                    ->count(),
+            ]]);
     }
 
     public function checkin(Request $request)

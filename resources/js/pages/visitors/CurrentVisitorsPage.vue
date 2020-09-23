@@ -38,7 +38,7 @@
             default-sort-desc
             :empty-text="$t('app.no_data_registered')"
             :items-per-page="100"
-            @count="count = $event"
+            @metadata="count = $event.total_visiting"
         >
             <template v-slot:cell(checkout)="data">
                 <b-button
