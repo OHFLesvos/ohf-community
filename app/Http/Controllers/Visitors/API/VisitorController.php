@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Visitors\API;
 
+use App\Exports\Visitors\VisitorExport;
 use App\Http\Controllers\Controller;
 use App\Models\Visitors\Visitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
@@ -117,6 +118,8 @@ class VisitorController extends Controller
     {
         $this->authorize('viewAny', Visitor::class);
 
-        // TODO
+        $file_name = __('visitors.visitors') . ' as of ' . now()->toDateString();
+        $extension = 'xlsx';
+        return (new VisitorExport())->download($file_name . '.' . $extension);
     }
 }

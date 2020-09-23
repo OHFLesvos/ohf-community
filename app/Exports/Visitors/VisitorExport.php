@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Exports\Visitors;
+
+use App\Exports\BaseExport;
+use App\Models\Visitors\Visitor;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+
+class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithMapping
+{
+    public function __construct()
+    {
+        $this->orientation = 'portrait';
+    }
+
+    public function query(): \Illuminate\Database\Eloquent\Builder
+    {
+        return Visitor::orderBy('entered_at', 'desc')
+            ->orderBy('last_name', 'asc')
+            ->orderBy('first_name', 'asc');
+    }
+
+    public function title(): string
+    {
+        return __('visitors.visitors');
+    }
+
+    public function headings(): array
+    {
+        return [
+            __('app.date'),
+            __('app.check_in'),
+            __('app.checkout'),
+            __('app.last_name'),
+            __('app.first_name'),
+            __('app.id_number'),
+            __('app.place_of_residence'),
+        ];
+    }
+
+    /**
+     * @param Visitor $visitor
+     */
+    public function map($visitor): array
+    {
+        return [
+            $visitor->entered_at->format('Y-m-d'),
+            $visitor->entered_at->format('H:i'),
+            optional($visitor->left_at)->format('H:i'),
+            $visitor->last_name,
+            $visitor->first_name,
+            $visitor->id_number,
+            $visitor->place_of_residence,
+        ];
+    }
+}

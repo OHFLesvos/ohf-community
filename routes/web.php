@@ -436,9 +436,11 @@ Route::middleware(['auth', 'language'])
     ->name('visitors.')
     ->group(function () {
         // TODO authorization
-        Route::view('', 'visitors.index')->name('index');
+        Route::view('', 'visitors.index')
+            ->name('index');
         Route::view('/{any}', 'visitors.index')
-            ->where('any', '.*');
+            ->where('any', '.*')
+            ->name('any');
     });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
