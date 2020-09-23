@@ -36,7 +36,9 @@ class Visitor extends Model
                 return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
                     ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
+                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('id_number', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('place_of_residence', 'LIKE', '%' . $filter . '%');
             });
         }
 

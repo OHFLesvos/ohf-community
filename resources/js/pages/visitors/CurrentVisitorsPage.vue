@@ -1,13 +1,17 @@
 <template>
     <b-container>
-        <div v-if="showRegisterForm">
-            <h3>{{ $t('app.check_in') }}</h3>
+        <b-card
+          v-if="showRegisterForm"
+          :header="$t('app.check_in')"
+          body-class="pb-0"
+          class="mb-4"
+        >
             <register-visitor-form
                 :disabled="isBusy"
                 @submit="registerVisitor"
                 @cancel="showRegisterForm = false"
             />
-        </div>
+        </b-card>
         <p
           v-if="!showRegisterForm"
           class="d-flex justify-content-between"
@@ -27,7 +31,6 @@
                 {{ $t('app.checkout_everyone') }}
             </b-button>
         </p>
-        <hr>
         <h3>{{ $t('visitors.current_visitors') }} ({{ count }})</h3>
         <base-table
             ref="table"

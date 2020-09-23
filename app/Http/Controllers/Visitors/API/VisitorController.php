@@ -73,6 +73,11 @@ class VisitorController extends Controller
     {
         $this->authorize('create', Visitor::class);
 
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+        ]);
+
         $visitor = new Visitor();
         $visitor->first_name = $request->first_name;
         $visitor->last_name = $request->last_name;
