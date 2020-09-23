@@ -5,7 +5,7 @@
     >
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
             <b-form-row>
-                <b-col>
+                <b-col sm>
                     <validation-provider
                         :name="$t('app.first_name')"
                         vid="first_name"
@@ -28,7 +28,7 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-                <b-col>
+                <b-col sm>
                     <validation-provider
                         :name="$t('app.last_name')"
                         vid="last_name"
@@ -52,7 +52,7 @@
                 </b-col>
             </b-form-row>
             <b-form-row>
-                <b-col cols="4">
+                <b-col sm="4">
                     <validation-provider
                         :name="$t('app.id_number')"
                         vid="id_number"
@@ -74,7 +74,7 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-                <b-col cols="8">
+                <b-col sm="8">
                     <validation-provider
                         :name="$t('app.place_of_residence')"
                         vid="place_of_residence"
