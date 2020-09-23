@@ -169,6 +169,7 @@ export default {
             try {
                 let data = await this.apiMethod(params)
                 this.totalRows = data.meta.total
+                this.$emit('metadata', data.meta)
                 sessionStorage.setItem(this.id + '.sortBy', ctx.sortBy)
                 sessionStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)
                 sessionStorage.setItem(this.id + '.currentPage', ctx.currentPage)

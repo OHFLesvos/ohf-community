@@ -19,6 +19,8 @@
     "/js/shop.js.map": "/js/shop.js.map",
     "/js/user_management.js": "/js/user_management.js",
     "/js/user_management.js.map": "/js/user_management.js.map",
+    "/js/visitors.js": "/js/visitors.js",
+    "/js/visitors.js.map": "/js/visitors.js.map",
     "/js/summernote-bs4.js": "/js/summernote-bs4.js",
     "/css/summernote-bs4.css": "/css/summernote-bs4.css"
 }

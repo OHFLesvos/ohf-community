@@ -273,5 +273,14 @@ return [
             'label' => 'permissions.configure_shop',
             'sensitive' => false,
         ],
+
+        'visitors.register' => [
+            'label' => 'permissions.register_visitors',
+            'sensitive' => true,
+        ],
+        'visitors.export' => [
+            'label' => 'permissions.export_visitors',
+            'sensitive' => true,
+        ],
     ],
 ];

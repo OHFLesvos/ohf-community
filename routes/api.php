@@ -468,6 +468,28 @@ Route::middleware(['auth', 'language'])
     });
 
 //
+// Visitors
+//
+Route::middleware(['auth', 'language'])
+    ->namespace('Visitors\API')
+    ->prefix('visitors')
+    ->name('api.visitors.')
+    ->group(function () {
+        Route::get('current', 'VisitorController@listCurrent')
+            ->name('listCurrent');
+        Route::post('checkin', 'VisitorController@checkin')
+            ->name('checkin');
+        Route::put('{visitor}/checkout', 'VisitorController@checkout')
+            ->name('checkout');
+        Route::post('checkoutAll', 'VisitorController@checkoutAll')
+            ->name('checkoutAll');
+        Route::get('export', 'VisitorController@export')
+            ->name('export');
+        Route::get('dailyVisitors', 'VisitorController@dailyVisitors')
+            ->name('dailyVisitors');
+    });
+
+//
 // Common data
 //
 

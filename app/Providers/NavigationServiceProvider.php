@@ -25,6 +25,7 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\CommunityVolunteers\CommunityVolunteersNavigationItem::class         => 3,
         \App\Navigation\Drawer\Library\LibraryNavigationItem::class         => 10,
         \App\Navigation\Drawer\Shop\ShopNavigationItem::class               => 8,
+        \App\Navigation\Drawer\Visitors\VisitorsNavigationItem::class       => 9,
     ];
 
     protected $contextMenus = [
@@ -116,6 +117,9 @@ class NavigationServiceProvider extends ServiceProvider
         'cmtyvol.responsibilities.index'  => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesIndexContextButtons::class,
         'cmtyvol.responsibilities.create' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesCreateContextButtons::class,
         'cmtyvol.responsibilities.edit'   => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesEditContextButtons::class,
+
+        'visitors.index'                  => \App\Navigation\ContextButtons\Visitors\VisitorIndexContextButtons::class,
+        'visitors.any'                    => \App\Navigation\ContextButtons\Visitors\VisitorIndexContextButtons::class,
 
         'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,
         'shop.manageCards'                => \App\Navigation\ContextButtons\Shop\ShopManageCardsContextButtons::class,
