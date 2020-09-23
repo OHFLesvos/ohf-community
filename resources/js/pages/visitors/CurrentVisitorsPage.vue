@@ -34,7 +34,9 @@
                     {{ $t('app.report') }}
                 </b-button>
                 <b-button
+                    v-if="count !== 0"
                     variant="secondary"
+                    :disabled="isBusy"
                     @click="checkoutAll"
                 >
                     <font-awesome-icon icon="door-closed"/>
