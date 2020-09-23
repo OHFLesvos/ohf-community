@@ -69,6 +69,7 @@ class AuthServiceProvider extends ServiceProvider
         'configure-shop'              => 'shop.configure',
 
         'register-visitors'           => 'visitors.register',
+        'export-visitors'           => 'visitors.export',
     ];
 
     protected $permission_gate_mappings_no_super_admin = [ ];

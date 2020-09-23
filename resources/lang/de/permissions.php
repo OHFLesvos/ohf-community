@@ -48,4 +48,5 @@ return [
     'configure_shop' => 'Markt: Einstellungen bearbeiten',
 
     'register_visitors' => 'Besucher: Registrieren',
+    'export_visitors' => 'Besucher: Exportieren',
 ];

@@ -17,7 +17,7 @@ class VisitorIndexContextButtons implements ContextButtons
                 'url' => route('api.visitors.export'),
                 'caption' => __('app.export'),
                 'icon' => 'download',
-                'authorized' => Gate::allows('register-visitors'),
+                'authorized' => Gate::allows('export-visitors'),
             ],
         ];
     }

@@ -48,4 +48,5 @@ return [
     'configure_shop' => 'Shop: Configure settings',
 
     'register_visitors' => 'Visitors: Register',
+    'export_visitors' => 'Visitors: Export',
 ];

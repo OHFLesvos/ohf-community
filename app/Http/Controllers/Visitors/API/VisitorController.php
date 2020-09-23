@@ -116,7 +116,7 @@ class VisitorController extends Controller
 
     public function export(Request $request)
     {
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('export-visitors');
 
         $file_name = __('visitors.visitors') . ' as of ' . now()->toDateString();
         $extension = 'xlsx';

@@ -278,5 +278,9 @@ return [
             'label' => 'permissions.register_visitors',
             'sensitive' => true,
         ],
+        'visitors.export' => [
+            'label' => 'permissions.export_visitors',
+            'sensitive' => true,
+        ],
     ],
 ];
