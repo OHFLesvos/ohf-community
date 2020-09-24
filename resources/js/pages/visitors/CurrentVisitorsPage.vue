@@ -1,15 +1,28 @@
 <template>
-    <b-container>
+    <b-container
+      fluid="md"
+      class="px-0"
+    >
         <b-card
           v-if="showRegisterForm"
-          :header="$t('app.check_in')"
           body-class="pb-0"
           class="mb-4"
+          header-class="d-flex justify-content-between"
         >
+            <template v-slot:header>
+                <span>{{ $t('app.check_in') }}</span>
+                <span
+                    variant="link"
+                    type="button"
+                    size="sm"
+                    @click="showRegisterForm = false"
+                >
+                    <font-awesome-icon icon="times" />
+                </span>
+            </template>
             <register-visitor-form
                 :disabled="isBusy"
                 @submit="registerVisitor"
-                @cancel="showRegisterForm = false"
             />
         </b-card>
         <b-row

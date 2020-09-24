@@ -115,15 +115,6 @@
                     <font-awesome-icon icon="eraser" />
                     {{ $t('app.reset') }}
                 </b-button>
-                <b-button
-                    variant="secondary"
-                    type="button"
-                    :disabled="isDisabled"
-                    @click="cancel"
-                >
-                    <font-awesome-icon icon="times" />
-                    {{ $t('app.cancel') }}
-                </b-button>
             </p>
         </b-form>
     </validation-observer>
@@ -175,9 +166,6 @@ export default {
             }
             this.$refs.observer.reset()
             this.focus()
-        },
-        cancel () {
-            this.$emit('cancel')
         },
         focus () {
             this.$refs.firstNameInput.focus()
