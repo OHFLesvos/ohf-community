@@ -1,6 +1,6 @@
 # Changelog
 
-## NEXT
+## 2.24.0
 
 * Remove wallet owner field from money transactions in accounting module
 * Rename beneficiary field to attendee in accounting module
