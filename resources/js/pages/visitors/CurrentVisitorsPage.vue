@@ -26,8 +26,8 @@
             />
         </b-card>
         <b-row
-          v-if="!showRegisterForm"
-          class="mb-4"
+            v-if="!showRegisterForm"
+            class="mb-4"
         >
             <b-col>
                 <b-button
@@ -39,22 +39,43 @@
                 </b-button>
             </b-col>
             <b-col class="text-right">
-                <b-button
-                    variant="secondary"
-                    :to="{ name: 'visitors.report' }"
+                <b-dropdown
+                    class="d-block d-md-none"
+                    right
+                    :text="$t('app.actions')"
                 >
-                    <font-awesome-icon icon="chart-bar"/>
-                    {{ $t('app.report') }}
-                </b-button>
-                <b-button
-                    v-if="count !== 0"
-                    variant="secondary"
-                    :disabled="isBusy"
-                    @click="checkoutAll"
-                >
-                    <font-awesome-icon icon="door-closed"/>
-                    {{ $t('app.checkout_everyone') }}
-                </b-button>
+                    <b-dropdown-item
+                        v-if="count !== 0"
+                        @click="checkoutAll"
+                    >
+                        <font-awesome-icon icon="door-closed"/>
+                        {{ $t('app.checkout_everyone') }}
+                    </b-dropdown-item>
+                    <b-dropdown-item
+                      :to="{ name: 'visitors.report' }"
+                    >
+                        <font-awesome-icon icon="chart-bar"/>
+                        {{ $t('app.report') }}
+                    </b-dropdown-item>
+                </b-dropdown>
+                <span class="d-none d-md-inline">
+                    <b-button
+                        variant="secondary"
+                        :to="{ name: 'visitors.report' }"
+                    >
+                        <font-awesome-icon icon="chart-bar"/>
+                        {{ $t('app.report') }}
+                    </b-button>
+                    <b-button
+                        v-if="count !== 0"
+                        variant="secondary"
+                        :disabled="isBusy"
+                        @click="checkoutAll"
+                    >
+                        <font-awesome-icon icon="door-closed"/>
+                        {{ $t('app.checkout_everyone') }}
+                    </b-button>
+                </span>
             </b-col>
         </b-row>
         <h3>{{ $t('visitors.current_visitors') }} ({{ count }})</h3>
