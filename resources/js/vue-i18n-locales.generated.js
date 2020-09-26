@@ -501,7 +501,8 @@ export default {
             "everyone_checked_out": "Alle wurden ausgecheckt.",
             "back": "Zurück",
             "organization": "Organisation",
-            "additional_info": "Zusatzinformationen"
+            "additional_info": "Zusatzinformationen",
+            "showing_latest_n_active_days": "Zeigt die letzten {days} aktiven Tage."
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1173,6 +1174,7 @@ export default {
             "external_visitor": "Externer Besucher",
             "external_visitors": "Externe Besucher",
             "visitors_by_day": "Besucher nach Tag",
+            "visitors_by_month": "Besucher nach Monat",
             "activity_program": "Aktivität / Programm"
         },
         "wiki": {
@@ -1705,7 +1707,8 @@ export default {
             "everyone_checked_out": "Everyone has been checked out.",
             "back": "Back",
             "organization": "Organization",
-            "additional_info": "Additional Information"
+            "additional_info": "Additional Information",
+            "showing_latest_n_active_days": "Showing the latest {days} active days."
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -2369,6 +2372,7 @@ export default {
             "external_visitor": "External visitor",
             "external_visitors": "External visitors",
             "visitors_by_day": "Visitors by day",
+            "visitors_by_month": "Visitors by month",
             "activity_program": "Activity / Program"
         },
         "wiki": {

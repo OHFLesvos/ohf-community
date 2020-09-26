@@ -12,5 +12,6 @@ return [
     'external_visitor' => 'External visitor',
     'external_visitors' => 'External visitors',
     'visitors_by_day' => 'Visitors by day',
+    'visitors_by_month' => 'Visitors by month',
     'activity_program' => 'Activity / Program',
 ];

@@ -487,6 +487,8 @@ Route::middleware(['auth', 'language'])
             ->name('export');
         Route::get('dailyVisitors', 'VisitorController@dailyVisitors')
             ->name('dailyVisitors');
+        Route::get('monthlyVisitors', 'VisitorController@monthlyVisitors')
+            ->name('monthlyVisitors');
     });
 
 //

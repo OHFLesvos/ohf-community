@@ -12,6 +12,13 @@ use Illuminate\Validation\Rule;
 
 class VisitorController extends Controller
 {
+    const TYPES = [
+        'visitors' => 'visitor',
+        'participants' => 'participant',
+        'staff' => 'staff',
+        'external' => 'external',
+    ];
+
     public function listCurrent(Request $request)
     {
         $this->authorize('viewAny', Visitor::class);
@@ -141,18 +148,14 @@ class VisitorController extends Controller
     {
         $this->authorize('viewAny', Visitor::class);
 
-        $types = [
-            'visitors' => 'visitor',
-            'participants' => 'participant',
-            'staff' => 'staff',
-            'external' => 'external',
-        ];
+        $maxNumberOfActiveDays = 30;
+
         return Visitor::query()
             ->selectRaw('DATE(entered_at) as day')
-            ->addSelect(collect($types)
+            ->addSelect(collect(self::TYPES)
                 ->mapWithKeys(fn ($t, $k) => [
                     $k => Visitor::selectRaw('COUNT(*)')
-                        ->whereRaw('DATE(entered_at)=day')
+                        ->whereRaw('DATE(entered_at) = day')
                         ->where('type', $t)
                 ])
                 ->toArray()
@@ -160,6 +163,32 @@ class VisitorController extends Controller
             ->selectRaw('COUNT(*) as total')
             ->groupByRaw('DATE(entered_at)')
             ->orderBy('day', 'desc')
+            ->limit($maxNumberOfActiveDays)
             ->get();
     }
+
+    public function monthlyVisitors()
+    {
+        $this->authorize('viewAny', Visitor::class);
+
+        return Visitor::query()
+            ->selectRaw('MONTH(entered_at) as month')
+            ->selectRaw('YEAR(entered_at) as year')
+            ->addSelect(collect(self::TYPES)
+                ->mapWithKeys(fn ($t, $k) => [
+                    $k => Visitor::selectRaw('COUNT(*)')
+                        ->whereRaw('MONTH(entered_at) = month')
+                        ->whereRaw('YEAR(entered_at) = year')
+                        ->where('type', $t)
+                ])
+                ->toArray()
+            )
+            ->selectRaw('COUNT(*) as total')
+            ->groupByRaw('MONTH(entered_at)')
+            ->groupByRaw('YEAR(entered_at)')
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->get();
+    }
+
 }
