@@ -13,6 +13,7 @@ class Visitor extends Model
     protected $nullable = [
         'id_number',
         'place_of_residence',
+        'activity',
         'organization',
         'left_at',
     ];
@@ -40,6 +41,7 @@ class Visitor extends Model
                     ->orWhere('last_name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('id_number', 'LIKE', '%' . $filter . '%')
                     ->orWhere('place_of_residence', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('activity', 'LIKE', '%' . $filter . '%')
                     ->orWhere('organization', 'LIKE', '%' . $filter . '%');
             });
         }

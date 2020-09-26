@@ -138,8 +138,11 @@ export default {
                     label: this.$t('app.type'),
                     tdClass: 'align-middle',
                     formatter: value => {
-                        if (value == 'beneficiary') {
-                            return this.$t('visitors.beneficiary')
+                        if (value == 'visitor') {
+                            return this.$t('visitors.visitor')
+                        }
+                        if (value == 'participant') {
+                            return this.$t('visitors.participant')
                         }
                         if (value == 'staff') {
                             return this.$t('visitors.volunteer_staff')
@@ -161,6 +164,9 @@ export default {
                         }
                         if (item.place_of_residence) {
                             items.push(`${this.$t('app.place_of_residence')}: ${item.place_of_residence}`)
+                        }
+                        if (item.activity) {
+                            items.push(`${this.$t('visitors.activity_program')}: ${item.activity}`)
                         }
                         if (item.organization) {
                             items.push(`${this.$t('app.organization')}: ${item.organization}`)

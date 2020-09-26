@@ -44,8 +44,13 @@ export default {
                     label: this.$t('app.date')
                 },
                 {
-                    key: 'beneficiaries',
-                    label: this.$t('visitors.beneficiaries'),
+                    key: 'visitors',
+                    label: this.$t('visitors.visitors'),
+                    class: 'text-right'
+                },
+                {
+                    key: 'participants',
+                    label: this.$t('visitors.participants'),
                     class: 'text-right'
                 },
                 {

@@ -65,7 +65,7 @@
                     </b-form-group>
                 </b-col>
                 <b-col
-                  v-if="formData.type == 'beneficiary'"
+                  v-if="formData.type == 'visitor'"
                   sm
                 >
                     <validation-provider
@@ -91,7 +91,7 @@
                     </validation-provider>
                 </b-col>
                 <b-col
-                  v-if="formData.type == 'beneficiary'"
+                  v-if="formData.type == 'visitor'"
                   sm
                 >
                     <validation-provider
@@ -107,6 +107,32 @@
                         >
                             <b-form-input
                                 v-model="formData.place_of_residence"
+                                trim
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                                :disabled="isDisabled"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+                <b-col
+                  v-if="formData.type == 'participant'"
+                  sm
+                >
+                    <validation-provider
+                        :name="$t('visitors.activity_program')"
+                        vid="activity"
+                        :rules="{ }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('visitors.activity_program')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                ref="activityInput"
+                                v-model="formData.activity"
                                 trim
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
@@ -176,7 +202,8 @@ export default {
         return {
             formData: this.initialFormData(),
             types: [
-                { value: 'beneficiary', text: this.$t('visitors.beneficiary') },
+                { value: 'visitor', text: this.$t('visitors.visitor') },
+                { value: 'participant', text: this.$t('visitors.participant') },
                 { value: 'staff', text: this.$t('visitors.volunteer_staff') },
                 { value: 'external', text: this.$t('visitors.external_visitor') },
             ]
@@ -207,6 +234,18 @@ export default {
                 })
         },
         onSubmit () {
+            if (this.formData.type == 'visitor') {
+                this.formData.activity = ''
+                this.formData.organization = ''
+            } else if (this.formData.type == 'participant') {
+                this.formData.id_number = ''
+                this.formData.place_of_residence = ''
+                this.formData.organization = ''
+            } else if (this.formData.type == 'staff' || this.formData.type == 'external') {
+                this.formData.id_number = ''
+                this.formData.place_of_residence = ''
+                this.formData.activity = ''
+            }
             this.$emit('submit', this.formData)
         },
         reset () {
@@ -218,9 +257,10 @@ export default {
             return {
                 first_name: '',
                 last_name: '',
+                type: 'visitor',
                 id_number: '',
                 place_of_residence: '',
-                type: 'beneficiary',
+                activity: '',
                 organization: ''
             }
         },
@@ -233,6 +273,8 @@ export default {
         changeType (value) {
             if (value == 'staff' || value == 'external') {
                 this.$nextTick(() => this.$refs.organizationInput.focus())
+            } else if (value == 'participant') {
+                this.$nextTick(() => this.$refs.activityInput.focus())
             } else {
                 this.$nextTick(() => this.$refs.idNumberInput.focus())
             }

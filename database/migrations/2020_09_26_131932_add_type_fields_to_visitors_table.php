@@ -14,12 +14,15 @@ class AddTypeFieldsToVisitorsTable extends Migration
     public function up()
     {
         Schema::table('visitors', function (Blueprint $table) {
-            $table->enum('type', ['beneficiary', 'staff', 'external'])
-                ->default('beneficiary')
+            $table->enum('type', ['visitor', 'participant', 'staff', 'external'])
+                ->default('visitor')
                 ->after('last_name');
             $table->string('organization')
                 ->after('place_of_residence')
                 ->nullable();
+            $table->string('activity')
+                ->after('organization')
+                ->nullable();                
         });
     }
 
@@ -31,6 +34,7 @@ class AddTypeFieldsToVisitorsTable extends Migration
     public function down()
     {
         Schema::table('visitors', function (Blueprint $table) {
+            $table->dropColumn('activity');
             $table->dropColumn('organization');
             $table->dropColumn('type');
         });

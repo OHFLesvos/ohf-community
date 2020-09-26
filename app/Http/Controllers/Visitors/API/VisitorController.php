@@ -39,6 +39,7 @@ class VisitorController extends Controller
                     'last_name',
                     'id_number',
                     'place_of_residence',
+                    'activity',
                     'organization',
                     'entered_at',
                 ]),
@@ -79,7 +80,7 @@ class VisitorController extends Controller
             'last_name' => 'required',
             'type' => [
                 'required',
-                Rule::in(['beneficiary', 'staff', 'external']),
+                Rule::in(['visitor', 'participant', 'staff', 'external']),
             ],
         ]);
 
@@ -89,6 +90,7 @@ class VisitorController extends Controller
         $visitor->type = $request->type;
         $visitor->id_number = $request->id_number;
         $visitor->place_of_residence = $request->place_of_residence;
+        $visitor->activity = $request->activity;
         $visitor->organization = $request->organization;
         $visitor->entered_at = now();
         $visitor->save();
@@ -140,7 +142,8 @@ class VisitorController extends Controller
         $this->authorize('viewAny', Visitor::class);
 
         $types = [
-            'beneficiaries' => 'beneficiary',
+            'visitors' => 'visitor',
+            'participants' => 'participant',
             'staff' => 'staff',
             'external' => 'external',
         ];

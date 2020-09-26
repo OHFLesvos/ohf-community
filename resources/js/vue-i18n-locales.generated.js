@@ -1165,10 +1165,15 @@ export default {
             "visitors": "Besucher",
             "current_visitors": "Aktuelle Besucher",
             "we_have_n_people_visiting_and_m_people_total_today": "Wir haben aktuell <strong>{current}</strong> besucher und heute <strong>{total}</strong> Besucher in total.",
-            "beneficiary": "Leistungsempfänger",
+            "visitor": "Besucher",
+            "participant": "Teilnehmer",
+            "participants": "Teilnehmer",
             "volunteer_staff": "Freiwilliger / Mitarbeiter",
+            "volunteers_staff": "Freiwillige / Mitarbeiter",
             "external_visitor": "Externer Besucher",
-            "visitors_by_day": "Besucher nach Tag"
+            "external_visitors": "Externe Besucher",
+            "visitors_by_day": "Besucher nach Tag",
+            "activity_program": "Aktivität / Programm"
         },
         "wiki": {
             "wiki": "Wiki",
@@ -2356,13 +2361,15 @@ export default {
             "visitors": "Visitors",
             "current_visitors": "Current Visitors",
             "we_have_n_people_visiting_and_m_people_total_today": "We are having <strong>{current}</strong> people visiting and <strong>{total}</strong> visitors in total today.",
-            "beneficiary": "Beneficiary",
-            "beneficiaries": "Beneficiaries",
+            "visitor": "Visitor",
+            "participant": "Participant",
+            "participants": "Participants",
             "volunteer_staff": "Volunteer / Staff",
             "volunteers_staff": "Volunteers / Staff",
             "external_visitor": "External visitor",
             "external_visitors": "External visitors",
-            "visitors_by_day": "Visitors by day"
+            "visitors_by_day": "Visitors by day",
+            "activity_program": "Activity / Program"
         },
         "wiki": {
             "wiki": "Wiki",
