@@ -39,6 +39,7 @@ class VisitorController extends Controller
                     'last_name',
                     'id_number',
                     'place_of_residence',
+                    'organization',
                     'entered_at',
                 ]),
             ],
@@ -76,13 +77,19 @@ class VisitorController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
+            'type' => [
+                'required',
+                Rule::in(['beneficiary', 'staff', 'external']),
+            ],
         ]);
 
         $visitor = new Visitor();
         $visitor->first_name = $request->first_name;
         $visitor->last_name = $request->last_name;
+        $visitor->type = $request->type;
         $visitor->id_number = $request->id_number;
         $visitor->place_of_residence = $request->place_of_residence;
+        $visitor->organization = $request->organization;
         $visitor->entered_at = now();
         $visitor->save();
 

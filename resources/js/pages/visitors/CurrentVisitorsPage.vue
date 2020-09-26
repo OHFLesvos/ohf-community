@@ -134,6 +134,23 @@ export default {
                     tdClass: 'align-middle'
                 },
                 {
+                    key: 'type',
+                    label: this.$t('app.type'),
+                    tdClass: 'align-middle',
+                    formatter: value => {
+                        if (value == 'beneficiary') {
+                            return this.$t('visitors.beneficiary')
+                        }
+                        if (value == 'staff') {
+                            return this.$t('visitors.volunteer_staff')
+                        }
+                        if (value == 'external') {
+                            return this.$t('visitors.external_visitor')
+                        }
+                        return value
+                    },
+                },
+                {
                     key: 'id_number',
                     label: this.$t('app.id_number'),
                     sortable: true,
@@ -142,6 +159,12 @@ export default {
                 {
                     key: 'place_of_residence',
                     label: this.$t('app.place_of_residence'),
+                    sortable: true,
+                    tdClass: 'align-middle'
+                },
+                {
+                    key: 'organization',
+                    label: this.$t('app.organization'),
                     sortable: true,
                     tdClass: 'align-middle'
                 },

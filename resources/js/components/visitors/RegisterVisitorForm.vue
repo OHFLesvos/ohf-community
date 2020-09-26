@@ -52,7 +52,20 @@
                 </b-col>
             </b-form-row>
             <b-form-row>
-                <b-col sm="4">
+                <b-col cols="auto" class="pr-3">
+                    <b-form-group :label="$t('app.type')">
+                        <b-form-radio-group
+                            v-model="formData.type"
+                            :options="types"
+                            stacked
+                            @change="changeType"
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col
+                  v-if="formData.type == 'beneficiary'"
+                  sm
+                >
                     <validation-provider
                         :name="$t('app.id_number')"
                         vid="id_number"
@@ -65,16 +78,21 @@
                             :invalid-feedback="validationContext.errors[0]"
                         >
                             <b-form-input
+                                ref="idNumberInput"
                                 v-model="formData.id_number"
                                 trim
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="isDisabled"
+                                placeholder="05/000012345"
                             />
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-                <b-col sm="8">
+                <b-col
+                  v-if="formData.type == 'beneficiary'"
+                  sm
+                >
                     <validation-provider
                         :name="$t('app.place_of_residence')"
                         vid="place_of_residence"
@@ -88,6 +106,33 @@
                         >
                             <b-form-input
                                 v-model="formData.place_of_residence"
+                                trim
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                                :disabled="isDisabled"
+                                placeholder="Address / Camp X, Section Y, Shelter Z"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+                <b-col
+                  v-if="formData.type != 'beneficiary'"
+                  sm
+                >
+                    <validation-provider
+                        :name="$t('app.organization')"
+                        vid="organization"
+                        :rules="{ }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('app.organization')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                ref="organizationInput"
+                                v-model="formData.organization"
                                 trim
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
@@ -129,17 +174,24 @@ export default {
     mixins: [ formInputMixin ],
     data () {
         return {
-            formData: {
-                first_name: '',
-                last_name: '',
-                id_number: '',
-                place_of_residence: '',
-            }
+            formData: this.initialFormData(),
+            types: [
+                { value: 'beneficiary', text: this.$t('visitors.beneficiary') },
+                { value: 'staff', text: this.$t('visitors.volunteer_staff') },
+                { value: 'external', text: this.$t('visitors.external_visitor') },
+            ]
         }
     },
     computed: {
         isDisabled () {
             return this.disabled
+        }
+    },
+    watch: {
+        disabled (val, oldVal) {
+            if (!val && oldVal) {
+                this.$nextTick(() => this.selectFirstName())
+            }
         }
     },
     mounted () {
@@ -158,17 +210,32 @@ export default {
             this.$emit('submit', this.formData)
         },
         reset () {
-            this.formData = {
+            this.formData = this.initialFormData()
+            this.$refs.observer.reset()
+            this.focus()
+        },
+        initialFormData () {
+            return {
                 first_name: '',
                 last_name: '',
                 id_number: '',
                 place_of_residence: '',
+                type: 'beneficiary',
+                organization: ''
             }
-            this.$refs.observer.reset()
-            this.focus()
         },
         focus () {
             this.$refs.firstNameInput.focus()
+        },
+        selectFirstName () {
+            this.$refs.firstNameInput.select()
+        },
+        changeType (value) {
+            if (value != 'beneficiary') {
+                this.$nextTick(() => this.$refs.organizationInput.focus())
+            } else {
+                this.$nextTick(() => this.$refs.idNumberInput.focus())
+            }
         }
     }
 }

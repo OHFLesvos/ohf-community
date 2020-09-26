@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.24.1
+
+* UI improvements to visitor registration
+* Added visitor type and organization field
+
 ## 2.24.0
 
 * Remove wallet owner field from money transactions in accounting module

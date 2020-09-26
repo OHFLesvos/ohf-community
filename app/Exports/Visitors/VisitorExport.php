@@ -38,8 +38,10 @@ class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithM
             __('app.checkout'),
             __('app.last_name'),
             __('app.first_name'),
+            __('app.type'),
             __('app.id_number'),
             __('app.place_of_residence'),
+            __('app.organization'),
         ];
     }
 
@@ -48,14 +50,21 @@ class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithM
      */
     public function map($visitor): array
     {
+        $types = [
+            'beneficiary' => __('visitors.beneficiary'),
+            'staff' => __('visitors.volunteer_staff'),
+            'external' => __('visitors.external_visitor'),
+        ];
         return [
             $visitor->entered_at->format('Y-m-d'),
             $visitor->entered_at->format('H:i'),
             optional($visitor->left_at)->format('H:i'),
             $visitor->last_name,
             $visitor->first_name,
+            isset ($types[$visitor->type]) ? $types[$visitor->type] : $visitor->type,
             $visitor->id_number,
             $visitor->place_of_residence,
+            $visitor->organization,
         ];
     }
 }

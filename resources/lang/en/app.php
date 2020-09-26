@@ -422,4 +422,5 @@ return [
     'really_checkout_everyone' => 'Really checkout everyone?',
     'everyone_checked_out' => 'Everyone has been checked out.',
     'back' => 'Back',
+    'organization' => 'Organization',
  ];

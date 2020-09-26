@@ -422,4 +422,5 @@ return [
     'really_checkout_everyone' => 'Sollen wirklich alle ausgecheckt werden?',
     'everyone_checked_out' => 'Alle wurden ausgecheckt.',
     'back' => 'Zurück',
+    'organization' => 'Organisation',
 ];
