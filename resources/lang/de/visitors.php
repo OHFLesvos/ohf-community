@@ -7,4 +7,5 @@ return [
     'beneficiary' => 'Leistungsempfänger',
     'volunteer_staff' => 'Freiwilliger / Mitarbeiter',
     'external_visitor' => 'Externer Besucher',
+    'visitors_by_day' => 'Besucher nach Tag',
 ];

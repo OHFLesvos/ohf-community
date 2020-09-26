@@ -423,4 +423,5 @@ return [
     'everyone_checked_out' => 'Alle wurden ausgecheckt.',
     'back' => 'Zurück',
     'organization' => 'Organisation',
+    'additional_info' => 'Zusatzinformationen',
 ];

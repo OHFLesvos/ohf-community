@@ -9,7 +9,7 @@
                 {{ $t('app.back') }}
             </b-button>
         </p>
-        <h3>Visitors by day</h3>
+        <h3>{{ $t('visitors.visitors_by_day') }}</h3>
         <b-table
             :items="itemProvider"
             :fields="fields"
@@ -44,8 +44,24 @@ export default {
                     label: this.$t('app.date')
                 },
                 {
-                    key: 'amount',
-                    label: this.$t('app.amount')
+                    key: 'beneficiaries',
+                    label: this.$t('visitors.beneficiaries'),
+                    class: 'text-right'
+                },
+                {
+                    key: 'staff',
+                    label: this.$t('visitors.volunteers_staff'),
+                    class: 'text-right'
+                },
+                {
+                    key: 'external',
+                    label: this.$t('visitors.external_visitors'),
+                    class: 'text-right'
+                },
+                {
+                    key: 'total',
+                    label: this.$t('app.total'),
+                    class: 'text-right'
                 },
             ]
         }

@@ -500,7 +500,8 @@ export default {
             "really_checkout_everyone": "Sollen wirklich alle ausgecheckt werden?",
             "everyone_checked_out": "Alle wurden ausgecheckt.",
             "back": "Zurück",
-            "organization": "Organisation"
+            "organization": "Organisation",
+            "additional_info": "Zusatzinformationen"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1166,7 +1167,8 @@ export default {
             "we_have_n_people_visiting_and_m_people_total_today": "Wir haben aktuell <strong>{current}</strong> besucher und heute <strong>{total}</strong> Besucher in total.",
             "beneficiary": "Leistungsempfänger",
             "volunteer_staff": "Freiwilliger / Mitarbeiter",
-            "external_visitor": "Externer Besucher"
+            "external_visitor": "Externer Besucher",
+            "visitors_by_day": "Besucher nach Tag"
         },
         "wiki": {
             "wiki": "Wiki",
@@ -1697,7 +1699,8 @@ export default {
             "really_checkout_everyone": "Really checkout everyone?",
             "everyone_checked_out": "Everyone has been checked out.",
             "back": "Back",
-            "organization": "Organization"
+            "organization": "Organization",
+            "additional_info": "Additional Information"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -2354,8 +2357,12 @@ export default {
             "current_visitors": "Current Visitors",
             "we_have_n_people_visiting_and_m_people_total_today": "We are having <strong>{current}</strong> people visiting and <strong>{total}</strong> visitors in total today.",
             "beneficiary": "Beneficiary",
+            "beneficiaries": "Beneficiaries",
             "volunteer_staff": "Volunteer / Staff",
-            "external_visitor": "External visitor"
+            "volunteers_staff": "Volunteers / Staff",
+            "external_visitor": "External visitor",
+            "external_visitors": "External visitors",
+            "visitors_by_day": "Visitors by day"
         },
         "wiki": {
             "wiki": "Wiki",

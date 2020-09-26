@@ -16,6 +16,7 @@
                             :label="$t('app.first_name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
+                            class="required-marker"
                         >
                             <b-form-input
                                 v-model="formData.first_name"
@@ -39,6 +40,7 @@
                             :label="$t('app.last_name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
+                            class="required-marker"
                         >
                             <b-form-input
                                 v-model="formData.last_name"
@@ -84,7 +86,6 @@
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="isDisabled"
-                                placeholder="05/000012345"
                             />
                         </b-form-group>
                     </validation-provider>
@@ -110,13 +111,12 @@
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="isDisabled"
-                                placeholder="Address / Camp X, Section Y, Shelter Z"
                             />
                         </b-form-group>
                     </validation-provider>
                 </b-col>
                 <b-col
-                  v-if="formData.type != 'beneficiary'"
+                  v-if="formData.type == 'staff' || formData.type == 'external'"
                   sm
                 >
                     <validation-provider
@@ -231,7 +231,7 @@ export default {
             this.$refs.firstNameInput.select()
         },
         changeType (value) {
-            if (value != 'beneficiary') {
+            if (value == 'staff' || value == 'external') {
                 this.$nextTick(() => this.$refs.organizationInput.focus())
             } else {
                 this.$nextTick(() => this.$refs.idNumberInput.focus())
@@ -240,3 +240,11 @@ export default {
     }
 }
 </script>
+
+<style>
+    .required-marker legend:after {
+        content: '*';
+        color: red;
+        margin-left: 3px;
+    }
+</style>

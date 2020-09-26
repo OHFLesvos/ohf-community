@@ -151,22 +151,22 @@ export default {
                     },
                 },
                 {
-                    key: 'id_number',
-                    label: this.$t('app.id_number'),
-                    sortable: true,
-                    tdClass: 'align-middle'
-                },
-                {
-                    key: 'place_of_residence',
-                    label: this.$t('app.place_of_residence'),
-                    sortable: true,
-                    tdClass: 'align-middle'
-                },
-                {
-                    key: 'organization',
-                    label: this.$t('app.organization'),
-                    sortable: true,
-                    tdClass: 'align-middle'
+                    key: 'additional_info',
+                    label: this.$t('app.additional_info'),
+                    tdClass: 'align-middle',
+                    formatter: (value, key, item) => {
+                        const items = Array()
+                        if (item.id_number) {
+                            items.push(`${this.$t('app.id_number')}: ${item.id_number}`)
+                        }
+                        if (item.place_of_residence) {
+                            items.push(`${this.$t('app.place_of_residence')}: ${item.place_of_residence}`)
+                        }
+                        if (item.organization) {
+                            items.push(`${this.$t('app.organization')}: ${item.organization}`)
+                        }
+                        return items.join(', ')
+                    }
                 },
                 {
                     key: 'entered_at',

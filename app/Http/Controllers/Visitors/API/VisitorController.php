@@ -139,9 +139,22 @@ class VisitorController extends Controller
     {
         $this->authorize('viewAny', Visitor::class);
 
+        $types = [
+            'beneficiaries' => 'beneficiary',
+            'staff' => 'staff',
+            'external' => 'external',
+        ];
         return Visitor::query()
             ->selectRaw('DATE(entered_at) as day')
-            ->selectRaw('COUNT(*) as amount')
+            ->addSelect(collect($types)
+                ->mapWithKeys(fn ($t, $k) => [
+                    $k => Visitor::selectRaw('COUNT(*)')
+                        ->whereRaw('DATE(entered_at)=day')
+                        ->where('type', $t)
+                ])
+                ->toArray()
+            )
+            ->selectRaw('COUNT(*) as total')
             ->groupByRaw('DATE(entered_at)')
             ->orderBy('day', 'desc')
             ->get();
