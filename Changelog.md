@@ -3,7 +3,8 @@
 ## 2.24.1
 
 * UI improvements to visitor registration
-* Added visitor type and organization field
+* Added visitor type, activity and organization fields
+* Added Monthly visitor statistics
 
 ## 2.24.0
 
