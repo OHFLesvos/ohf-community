@@ -11,14 +11,13 @@
         >
             <template v-slot:header>
                 <span>{{ $t('app.check_in') }}</span>
-                <span
+                <b-button
                     variant="link"
-                    type="button"
                     size="sm"
                     @click="showRegisterForm = false"
                 >
                     <font-awesome-icon icon="times" />
-                </span>
+                </b-button>
             </template>
             <register-visitor-form
                 :disabled="isBusy"
