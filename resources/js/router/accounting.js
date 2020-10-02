@@ -12,6 +12,8 @@ import NotFoundPage from '@/pages/NotFoundPage'
 
 import i18n from '@/plugins/i18n'
 
+import { can } from '@/plugins/laravel'
+
 export default new VueRouter({
     mode: 'history',
     base: '/accounting/',
@@ -32,7 +34,7 @@ export default new VueRouter({
                             variant: 'primary',
                             icon: 'plus-circle',
                             text: i18n.t('app.add'),
-                            show: true // can('manage-fundraising-entities')
+                            show: can('configure-accounting')
                         },
                     ]
                 }
@@ -75,7 +77,7 @@ export default new VueRouter({
                             variant: 'primary',
                             icon: 'edit',
                             text: i18n.t('app.edit'),
-                            show: true // can('manage-fundraising-entities') // supplier.can_update
+                            show: can('configure-accounting')
                         },
                     ]
                 })

@@ -11,5 +11,14 @@
 @endsection
 
 @section('footer')
+    @php
+        $permissions = [
+            'configure-accounting' => Gate::allows('configure-accounting'),
+        ];
+    @endphp
+    @endphp
+    <script>
+        window.Laravel.permissions = @json($permissions)
+    </script>
     <script src="{{ asset('js/accounting.js') }}?v={{ $app_version }}"></script>
 @endsection

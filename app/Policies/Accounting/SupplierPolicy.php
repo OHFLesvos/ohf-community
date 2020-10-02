@@ -25,7 +25,7 @@ class SupplierPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('accounting.suppliers.view');
+        return $user->hasPermission('accounting.transactions.view');
     }
 
     /**
@@ -37,7 +37,7 @@ class SupplierPolicy
      */
     public function view(User $user, Supplier $supplier)
     {
-        return $user->hasPermission('accounting.suppliers.view');
+        return $user->hasPermission('accounting.transactions.view');
     }
 
     /**
@@ -48,7 +48,7 @@ class SupplierPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('accounting.suppliers.manage');
+        return $user->hasPermission('accounting.configure');
     }
 
     /**
@@ -60,7 +60,7 @@ class SupplierPolicy
      */
     public function update(User $user, Supplier $supplier)
     {
-        return $user->hasPermission('accounting.suppliers.manage');
+        return $user->hasPermission('accounting.configure');
     }
 
     /**
@@ -72,6 +72,6 @@ class SupplierPolicy
      */
     public function delete(User $user, Supplier $supplier)
     {
-        return $user->hasPermission('accounting.suppliers.manage');
+        return $user->hasPermission('accounting.configure');
     }
 }
