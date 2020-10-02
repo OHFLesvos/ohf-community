@@ -4,7 +4,6 @@
         fluid
         class="px-0"
     >
-        <h2>{{ $t('accounting.edit_supplier') }}</h2>
         <supplier-form
             :supplier="supplier" 
             :disabled="isBusy"

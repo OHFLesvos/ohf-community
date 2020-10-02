@@ -3,7 +3,6 @@
         fluid
         class="px-0"
     >
-        <h2>{{ $t('accounting.register_supplier') }}</h2>
         <supplier-form
             :disabled="isBusy"
             @submit="registerSupplier"

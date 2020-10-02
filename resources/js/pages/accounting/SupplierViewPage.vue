@@ -1,10 +1,16 @@
 <template>
     <b-container
         v-if="supplier"
+        fluid
         class="px-0"
     >
-        <h2>{{ supplier.name }}</h2>
         <b-list-group class="mb-3">
+
+            <two-col-list-group-item
+                :title="$t('app.name')"
+            >
+                {{ supplier.name }}
+            </two-col-list-group-item>
 
             <two-col-list-group-item
                 v-if="supplier.category"
@@ -70,24 +76,6 @@
             </two-col-list-group-item>
 
         </b-list-group>
-
-        <p class="d-flex justify-content-between">
-            <b-button
-                variant="secondary"
-                :to="{ name: 'accounting.suppliers.index' }"
-            >
-                <font-awesome-icon icon="arrow-left" />
-                {{ $t('app.overview') }}
-            </b-button>
-            <b-button
-                v-if="supplier.can_update"
-                variant="primary"
-                :to="{ name: 'accounting.suppliers.edit',  }"
-            >
-                <font-awesome-icon icon="edit" />
-                {{ $t('app.edit') }}
-            </b-button>
-        </p>
     </b-container>
     <p v-else>
         {{ $t('app.loading') }}
