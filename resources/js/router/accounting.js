@@ -3,9 +3,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-import SuppliersPage from '@/pages/accounting/SuppliersPage'
-import SupplierEditPage from '@/pages/accounting/SupplierEditPage'
+import SuppliersIndexPage from '@/pages/accounting/SuppliersIndexPage'
 import SupplierCreatePage from '@/pages/accounting/SupplierCreatePage'
+import SupplierViewPage from '@/pages/accounting/SupplierViewPage'
+import SupplierEditPage from '@/pages/accounting/SupplierEditPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 export default new VueRouter({
@@ -15,7 +16,7 @@ export default new VueRouter({
         {
             path: '/suppliers',
             name: 'accounting.suppliers.index',
-            component: SuppliersPage
+            component: SuppliersIndexPage
         },
         {
             path: '/suppliers/create',
@@ -24,6 +25,12 @@ export default new VueRouter({
         },        
         {
             path: '/suppliers/:id',
+            name: 'accounting.suppliers.show',
+            component: SupplierViewPage,
+            props: true
+        },
+        {
+            path: '/suppliers/:id/edit',
             name: 'accounting.suppliers.edit',
             component: SupplierEditPage,
             props: true
