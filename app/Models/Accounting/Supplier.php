@@ -33,6 +33,14 @@ class Supplier extends Model
     ];
 
     /**
+     * Get the transactions for the supplier.
+     */
+    public function transactions()
+    {
+        return $this->hasMany(MoneyTransaction::class);
+    }
+
+    /**
      * Scope a query to only include donors matching the given filter
      * If no filter is specified, all records will be returned.
      *

@@ -27,6 +27,11 @@ class CreateSuppliersTable extends Migration
             $table->timestamps();
             $table->index('name');
         });
+
+        Schema::table('money_transactions', function (Blueprint $table) {
+            $table->foreignId('supplier_id')->nullable()->after('remarks');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null');
+        });
     }
 
     /**
@@ -36,6 +41,11 @@ class CreateSuppliersTable extends Migration
      */
     public function down()
     {
+        Schema::table('money_transactions', function (Blueprint $table) {
+            $table->dropForeign(['supplier_id']);
+            $table->dropColumn('supplier_id');
+        });
+
         Schema::dropIfExists('suppliers');
     }
 }
