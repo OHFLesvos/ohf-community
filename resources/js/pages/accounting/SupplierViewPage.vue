@@ -23,7 +23,10 @@
                 v-if="supplier.address"
                 :title="$t('app.address')"
             >
-                {{ supplier.address }}
+                <maps-link
+                  :value="`${supplier.name}, ${supplier.address}`"
+                  :label="supplier.address" 
+                />
             </two-col-list-group-item>
 
             <two-col-list-group-item
@@ -87,11 +90,13 @@ import suppliersApi from '@/api/accounting/suppliers'
 import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
 import PhoneLink from '@/components/common/PhoneLink'
 import EmailLink from '@/components/common/EmailLink'
+import MapsLink from '@/components/common/MapsLink'
 export default {
     components: {
         TwoColListGroupItem,
         EmailLink,
-        PhoneLink
+        PhoneLink,
+        MapsLink
     },
     props: {
         id: {
