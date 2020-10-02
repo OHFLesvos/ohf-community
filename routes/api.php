@@ -194,6 +194,13 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.markControlled');
         Route::delete('transactions/{transaction}/controlled', 'ControllingController@undoControlled')
             ->name('transactions.undoControlled');
+    });
+
+Route::middleware(['language', 'auth'])
+    ->prefix('accounting')
+    ->name('api.accounting.')
+    ->namespace('Accounting\API')
+    ->group(function () {
         Route::resource('suppliers', 'SuppliersController');
     });
 

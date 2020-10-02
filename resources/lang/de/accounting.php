@@ -79,4 +79,5 @@ return [
     'intermediate_balance' => 'Zwischensaldo',
     'show_intermediate_balances' => 'Zwischensalden berechnen, wenn nach Belegnummer sortiert',
     'supplier' => 'Lieferant',
+    'suppliers' => 'Lieferanten',
 ];

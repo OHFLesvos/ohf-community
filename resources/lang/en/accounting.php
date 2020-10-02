@@ -79,4 +79,5 @@ return [
     'intermediate_balance' => 'Intermediate balance',
     'show_intermediate_balances' => 'Calculate intermediate balances, when sorted by receipt number',
     'supplier' => 'Supplier',
+    'suppliers' => 'Suppliers',
 ];
