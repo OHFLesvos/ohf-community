@@ -17,6 +17,12 @@ class AccountingContextMenu implements ContextMenu
                 'icon' => 'wallet',
                 'authorized' => Gate::allows('configure-accounting'),
             ],
+            'suppliers' => [
+                'url' => route('accounting.suppliers'),
+                'caption' => __('accounting.suppliers'),
+                'icon' => 'truck',
+                'authorized' => Gate::allows('configure-accounting'),
+            ],
             'book' => [
                 'url' => route('accounting.webling.index'),
                 'caption' => __('accounting.book_to_webling'),

@@ -186,6 +186,11 @@ Route::middleware(['language', 'auth'])
             ->name('webling.store');
         Route::get('webling/sync', 'WeblingApiController@sync')
             ->name('webling.sync');
+
+        Route::view('suppliers', 'accounting.suppliers')
+            ->name('suppliers'); 
+        Route::view('suppliers/{any}', 'accounting.suppliers')
+            ->where('any', '.*');            
     });
 
 //

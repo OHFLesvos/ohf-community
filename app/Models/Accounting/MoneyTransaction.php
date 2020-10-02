@@ -52,6 +52,14 @@ class MoneyTransaction extends Model implements Auditable
     }
 
     /**
+     * Get the supplier that owns this transaction.
+     */
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    /**
      * Get the wallet that owns this transaction.
      */
     public function controller()

@@ -196,6 +196,14 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.undoControlled');
     });
 
+Route::middleware(['language', 'auth'])
+    ->prefix('accounting')
+    ->name('api.accounting.')
+    ->namespace('Accounting\API')
+    ->group(function () {
+        Route::resource('suppliers', 'SuppliersController');
+    });
+
 //
 // People
 //

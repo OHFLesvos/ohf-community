@@ -77,14 +77,19 @@
             <div class="col-sm">
                 {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
             </div>
-            <div class="col-sm">
-                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
-            </div>
+            @if($suppliers->count() > 0)
+                <div class="col-sm">
+                    {{ Form::bsSelect('supplier_id', collect($suppliers)->pluck('name', 'id'), null, [ 'placeholder' => '- ' . __('accounting.supplier') . ' -' ], __('accounting.supplier')) }}
+                </div>
+            @endif
         </div>
         <div class="form-row">
             <div class="col-sm">
                 <label>@lang('accounting.receipt')</label>
                 {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('accounting.choose_picture_of_receipt')) }}
+            </div>
+            <div class="col-sm">
+                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
             </div>
         </div>
         <p>

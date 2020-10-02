@@ -84,6 +84,19 @@
                 </div>
             </div>
         </li>
+        @isset($transaction->supplier)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting.supplier')</strong></div>
+                    <div class="col-sm">
+                        {{ $transaction->supplier->name }}
+                        @isset($transaction->supplier->category)
+                            <br><small>{{ $transaction->supplier->category }}</small>
+                        @endisset
+                    </div>
+                </div>
+            </li>
+        @endisset        
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('accounting.attendee')</strong></div>

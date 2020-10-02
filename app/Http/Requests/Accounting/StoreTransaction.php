@@ -85,6 +85,10 @@ class StoreTransaction extends FormRequest
             'description' => [
                 'required',
             ],
+            'supplier_id' => [
+                'nullable',
+                'exists:suppliers,id',
+            ],
         ];
     }
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
 use App\Services\Accounting\CurrentWalletService;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
@@ -188,6 +189,7 @@ class MoneyTransactionsController extends Controller
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
             'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
+            'suppliers' => Supplier::select('id', 'name', 'category')->orderBy('name')->get(),
             'wallet' => $wallet,
             'wallets' => $wallets,
         ]);
@@ -296,6 +298,8 @@ class MoneyTransactionsController extends Controller
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
 
+        $transaction->supplier()->associate($request->input('supplier_id'));
+
         $transaction->wallet()->associate($request->input('wallet_id'));
         $this->authorize('view', $transaction->wallet);
 
@@ -382,6 +386,7 @@ class MoneyTransactionsController extends Controller
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
             'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
+            'suppliers' => Supplier::select('id', 'name', 'category')->orderBy('name')->get(),
         ]);
     }
 
@@ -414,6 +419,8 @@ class MoneyTransactionsController extends Controller
         }
         $transaction->description = $request->description;
         $transaction->remarks = $request->remarks;
+
+        $transaction->supplier()->associate($request->input('supplier_id'));
 
         if (isset($request->remove_receipt_picture) && is_array($request->remove_receipt_picture)) {
             foreach ($request->remove_receipt_picture as $picture) {

@@ -5,7 +5,7 @@
         class="mb-4"
     >
         <b-card-header
-            v-if="!loading"
+            v-if="!loading && header"
              header-class="d-flex justify-content-between align-items-center"
         >
             <span>{{ header }}</span>
@@ -37,7 +37,6 @@
 export default {
     props: {
         header: {
-            required: true,
             type: String
         },
         headerAddon: {
