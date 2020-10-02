@@ -194,6 +194,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.markControlled');
         Route::delete('transactions/{transaction}/controlled', 'ControllingController@undoControlled')
             ->name('transactions.undoControlled');
+        Route::resource('suppliers', 'SuppliersController');
     });
 
 //
