@@ -1,6 +1,11 @@
 <template>
     <div>
-        <h2>{{ $t('accounting.suppliers') }}</h2>
+        <div class="d-flex justify-content-between align-items-start">
+            <h2>{{ $t('accounting.suppliers') }}</h2>
+            <b-button variant="primary" :to="{ name: 'accounting.suppliers.create' }">
+                {{ $t('app.register') }}
+            </b-button>
+        </div>
         <base-table
             ref="table"
             id="suppliers-table"
@@ -10,6 +15,15 @@
             :empty-text="$t('app.no_data_registered')"
             :items-per-page="25"
         >
+            <template v-slot:cell(name)="data">
+                <b-link
+                    v-if="data.item.can_update"
+                    :to="{ name: 'accounting.suppliers.edit', params: { id: data.item.id } }"
+                >
+                    {{ data.value }}
+                </b-link>
+                <template v-else>{{ data.value }}</template>
+            </template>
             <template v-slot:cell(contact)="data">
                 <phone-link
                   v-if="data.item.phone"
@@ -60,8 +74,8 @@ export default {
                     label: this.$t('app.contact'),
                     class: 'fit',
                     tdClass: 'align-middle'
-                },
-            ],
+                }
+            ]
         }
     },
     methods: {

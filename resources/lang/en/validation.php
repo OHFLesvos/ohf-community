@@ -118,6 +118,7 @@ return [
     'language_code'        => 'The :attribute is not valid.',
     'language_name'        => 'The :attribute is not valid.',
     'isbn'                 => 'The :attribute is not valid.',
+    'iban'                 => 'The :attribute is not valid.',
 
     /*
     |--------------------------------------------------------------------------
@@ -150,6 +151,7 @@ return [
     'attributes' => [
         'date_of_birth' => 'Date of birth',
         'isbn' => 'ISBN',
+        'iban' => 'IBAN',
     ],
 
 ];

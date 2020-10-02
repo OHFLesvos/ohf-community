@@ -80,4 +80,13 @@ return [
     'show_intermediate_balances' => 'Calculate intermediate balances, when sorted by receipt number',
     'supplier' => 'Supplier',
     'suppliers' => 'Suppliers',
+    'register_supplier' => 'Register Supplier',
+    'supplier_registered' => 'Supplier registered.',
+    'edit_supplier' => 'Edit Supplier',
+    'confirm_delete_supplier' => 'Should this supplier really be deleted?',
+    'supplier_updated' => 'Supplier updated.',
+    'supplier_deleted' => 'Supplier deleted.',
+    'tax_number' => 'Tax number',
+    'bank' => 'Bank',
+    'iban' => 'IBAN',
 ];

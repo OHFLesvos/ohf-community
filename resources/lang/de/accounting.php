@@ -80,4 +80,13 @@ return [
     'show_intermediate_balances' => 'Zwischensalden berechnen, wenn nach Belegnummer sortiert',
     'supplier' => 'Lieferant',
     'suppliers' => 'Lieferanten',
+    'register_supplier' => 'Lieferant registrieren',
+    'supplier_registered' => 'Lieferant registriert.',
+    'edit_supplier' => 'Lieferant bearbeiten',
+    'confirm_delete_supplier' => 'Should this supplier really be deleted?',
+    'supplier_updated' => 'Lieferant aktualisiert.',
+    'supplier_deleted' => 'Lieferant gelöscht.',
+    'tax_number' => 'Steuernummer',
+    'bank' => 'Bank',
+    'iban' => 'IBAN',
 ];

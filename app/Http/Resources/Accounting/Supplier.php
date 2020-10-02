@@ -14,6 +14,9 @@ class Supplier extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        $data['can_update'] = $request->user()->can('update', $this->resource);
+        $data['can_delete'] = $request->user()->can('delete', $this->resource);
+        return $data;
     }
 }

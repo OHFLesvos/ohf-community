@@ -335,6 +335,7 @@ export default {
             "language_code": "Der {attribute} ist ungültig.",
             "language_name": "Die {attribute} ist ungültig.",
             "isbn": "Die {attribute} ist ungültig.",
+            "iban": "Die {attribute} ist ungültig.",
             "custom": {
                 "attribute-name": {
                     "rule-name": "custom-message"
@@ -377,7 +378,8 @@ export default {
                 "country_name": "Ländername",
                 "language": "Sprache",
                 "quantity": "Menge",
-                "isbn": "ISBN"
+                "isbn": "ISBN",
+                "iban": "IBAN"
             }
         },
         "fundraising": {
@@ -866,7 +868,8 @@ export default {
             "back": "Zurück",
             "organization": "Organisation",
             "additional_info": "Zusatzinformationen",
-            "showing_latest_n_active_days": "Zeigt die letzten {days} aktiven Tage."
+            "showing_latest_n_active_days": "Zeigt die letzten {days} aktiven Tage.",
+            "mobile": "Mobiltelefon"
         },
         "wiki": {
             "wiki": "Wiki",
@@ -1110,7 +1113,16 @@ export default {
             "intermediate_balance": "Zwischensaldo",
             "show_intermediate_balances": "Zwischensalden berechnen, wenn nach Belegnummer sortiert",
             "supplier": "Lieferant",
-            "suppliers": "Lieferanten"
+            "suppliers": "Lieferanten",
+            "register_supplier": "Lieferant registrieren",
+            "supplier_registered": "Lieferant registriert.",
+            "edit_supplier": "Lieferant bearbeiten",
+            "confirm_delete_supplier": "Should this supplier really be deleted?",
+            "supplier_updated": "Lieferant aktualisiert.",
+            "supplier_deleted": "Lieferant gelöscht.",
+            "tax_number": "Steuernummer",
+            "bank": "Bank",
+            "iban": "IBAN"
         },
         "library": {
             "library": "Bibliothek",
@@ -1570,6 +1582,7 @@ export default {
             "language_code": "The {attribute} is not valid.",
             "language_name": "The {attribute} is not valid.",
             "isbn": "The {attribute} is not valid.",
+            "iban": "The {attribute} is not valid.",
             "custom": {
                 "attribute-name": {
                     "rule-name": "custom-message"
@@ -1577,7 +1590,8 @@ export default {
             },
             "attributes": {
                 "date_of_birth": "Date of birth",
-                "isbn": "ISBN"
+                "isbn": "ISBN",
+                "iban": "IBAN"
             }
         },
         "fundraising": {
@@ -2066,7 +2080,8 @@ export default {
             "back": "Back",
             "organization": "Organization",
             "additional_info": "Additional Information",
-            "showing_latest_n_active_days": "Showing the latest {days} active days."
+            "showing_latest_n_active_days": "Showing the latest {days} active days.",
+            "mobile": "Mobile"
         },
         "wiki": {
             "wiki": "Wiki",
@@ -2312,7 +2327,16 @@ export default {
             "intermediate_balance": "Intermediate balance",
             "show_intermediate_balances": "Calculate intermediate balances, when sorted by receipt number",
             "supplier": "Supplier",
-            "suppliers": "Suppliers"
+            "suppliers": "Suppliers",
+            "register_supplier": "Register Supplier",
+            "supplier_registered": "Supplier registered.",
+            "edit_supplier": "Edit Supplier",
+            "confirm_delete_supplier": "Should this supplier really be deleted?",
+            "supplier_updated": "Supplier updated.",
+            "supplier_deleted": "Supplier deleted.",
+            "tax_number": "Tax number",
+            "bank": "Bank",
+            "iban": "IBAN"
         },
         "library": {
             "library": "Library",

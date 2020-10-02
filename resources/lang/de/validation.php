@@ -93,6 +93,7 @@ return [
     'language_code' => 'Der :attribute ist ungültig.',
     'language_name' => 'Die :attribute ist ungültig.',
     'isbn' => 'Die :attribute ist ungültig.',
+    'iban' => 'Die :attribute ist ungültig.',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,5 +161,6 @@ return [
         'language' => 'Sprache',
         'quantity' => 'Menge',
         'isbn' => 'ISBN',
+        'iban' => 'IBAN',
     ],
 ];
