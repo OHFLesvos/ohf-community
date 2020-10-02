@@ -71,10 +71,15 @@ class VisitorController extends Controller
             ->orderBy('first_name')
             ->paginate($pageSize ))
             ->additional(['meta' => [
-                'total_visiting' => Visitor::query()
-                    ->whereNull('left_at')
-                    ->whereDate('entered_at', today())
-                    ->count(),
+                'currently_visiting' => collect(self::TYPES)
+                    ->mapWithKeys(fn ($t, $k) => [
+                        $k => Visitor::query()
+                                ->whereNull('left_at')
+                                ->whereDate('entered_at', today())
+                                ->where('type', $t)
+                                ->count()
+                    ])
+                    ->toArray(),
             ]]);
     }
 

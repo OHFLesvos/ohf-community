@@ -77,7 +77,13 @@
                 </span>
             </b-col>
         </b-row>
-        <h3>{{ $t('visitors.current_visitors') }} ({{ count }})</h3>
+        <h3>{{ $t('visitors.current_visitors') }}</h3>
+        <p class="text-muted">
+            <span v-for="(v, k) in currentlyVisiting" :key="k">
+                {{ getTypeLabel(k) }}: <strong>{{ v }}</strong>,
+            </span>
+            {{ $t('app.total') }}: <strong>{{ count }}</strong>
+        </p>
         <base-table
             ref="table"
             id="visitors-table"
@@ -87,7 +93,7 @@
             default-sort-desc
             :empty-text="$t('app.no_data_registered')"
             :items-per-page="100"
-            @metadata="count = $event.total_visiting"
+            @metadata="currentlyVisiting = $event.currently_visiting"
         >
             <template v-slot:cell(checkout)="data">
                 <b-button
@@ -136,21 +142,7 @@ export default {
                     key: 'type',
                     label: this.$t('app.type'),
                     tdClass: 'align-middle',
-                    formatter: value => {
-                        if (value == 'visitor') {
-                            return this.$t('visitors.visitor')
-                        }
-                        if (value == 'participant') {
-                            return this.$t('visitors.participant')
-                        }
-                        if (value == 'staff') {
-                            return this.$t('visitors.volunteer_staff')
-                        }
-                        if (value == 'external') {
-                            return this.$t('visitors.external_visitor')
-                        }
-                        return value
-                    },
+                    formatter: this.getTypeLabel,
                 },
                 {
                     key: 'additional_info',
@@ -190,7 +182,12 @@ export default {
                     class: 'fit'
                 }
             ],
-            count: 0
+            currentlyVisiting: {}
+        }
+    },
+    computed: {
+        count () {
+            return Object.values(this.currentlyVisiting).reduce((a, b) => a + b, 0)
         }
     },
     methods: {
@@ -234,6 +231,27 @@ export default {
                     this.isBusy = false
                 }
             }
+        },
+        getTypeLabel (value) {
+            if (value == 'visitor') {
+                return this.$t('visitors.visitor')
+            }
+            if (value == 'visitors') {
+                return this.$t('visitors.visitors')
+            }
+            if (value == 'participant') {
+                return this.$t('visitors.participant')
+            }
+            if (value == 'participants') {
+                return this.$t('visitors.participants')
+            }
+            if (value == 'staff') {
+                return this.$t('visitors.volunteer_staff')
+            }
+            if (value == 'external') {
+                return this.$t('visitors.external_visitor')
+            }
+            return value
         }
     }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.24.2
+
+* Added detailed current visitor numbers
+
 ## 2.24.1
 
 * UI improvements to visitor registration
