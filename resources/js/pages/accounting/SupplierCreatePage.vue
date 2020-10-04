@@ -30,7 +30,7 @@ export default {
             try {
                 let data = await suppliersApi.store(formData)
                 showSnackbar(this.$t('accounting.supplier_registered'))
-                this.$router.push({ name: 'accounting.suppliers.show', params: { id: data.data.id } })
+                this.$router.push({ name: 'accounting.suppliers.show', params: { id: data.data.slug } })
             } catch (err) {
                 alert(err)
             }

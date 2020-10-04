@@ -11,7 +11,7 @@
         <template v-slot:cell(name)="data">
             <b-link
                 v-if="data.item.can_update"
-                :to="{ name: 'accounting.suppliers.show', params: { id: data.item.id } }"
+                :to="{ name: 'accounting.suppliers.show', params: { id: data.item.slug } }"
             >
                 {{ data.value }}
             </b-link>

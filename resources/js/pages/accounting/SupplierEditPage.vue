@@ -66,7 +66,7 @@ export default {
             try {
                 await suppliersApi.update(this.id, formData)
                 showSnackbar(this.$t('accounting.supplier_updated'))
-                this.$router.push({ name: 'accounting.suppliers.show', parms: { id: this.supplier.id } })
+                this.$router.push({ name: 'accounting.suppliers.show', parms: { id: this.supplier.slug } })
             } catch (err) {
                 alert(err)
             }
@@ -84,7 +84,7 @@ export default {
             this.isBusy = false
         },
         handleCnacel () {
-            this.$router.push({ name: 'accounting.suppliers.show', parms: { id: this.supplier.id } })
+            this.$router.push({ name: 'accounting.suppliers.show', parms: { id: this.supplier.slug } })
         },
         dateFormat (value) {
             return moment(value).format('LLL')

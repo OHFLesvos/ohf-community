@@ -4,10 +4,12 @@ namespace App\Models\Accounting;
 
 use Iatstuti\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Supplier extends Model
 {
     use NullableFields;
+    use Sluggable;
 
     protected $fillable = [
         'name',
@@ -39,6 +41,31 @@ class Supplier extends Model
         'iban',
         'remarks',
     ];
+
+        /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => true,
+            ],
+        ];
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * Get the transactions for the supplier.
