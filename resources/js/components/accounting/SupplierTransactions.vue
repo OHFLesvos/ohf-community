@@ -22,7 +22,7 @@ export default {
         BaseTable
     },
     props: {
-        supplierId: {
+        id: {
             required: true
         }
     },
@@ -84,7 +84,7 @@ export default {
     },
     methods: {
         fetchTransactions (ctx) {
-            return suppliersApi.transactions(this.supplierId, ctx)
+            return suppliersApi.transactions(this.id, ctx)
         },
         dateFormat (value) {
             return moment(value).format('LL')

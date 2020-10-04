@@ -17,6 +17,7 @@ class Supplier extends JsonResource
         $data = parent::toArray($request);
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
+        $data['transactions_count'] = $this->transactions()->count();
         return $data;
     }
 }

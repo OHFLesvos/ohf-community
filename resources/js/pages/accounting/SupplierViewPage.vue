@@ -1,26 +1,25 @@
 <template>
-    <b-container
-        v-if="supplier"
-        fluid
-        class="px-0"
-    >
-        <supplier-details :supplier="supplier" />
-        <h4>{{ $t('accounting.transactions') }}</h4>
-        <supplier-transactions :supplier-id="id" />
-    </b-container>
-    <p v-else>
-        {{ $t('app.loading') }}
-    </p>
+    <div>
+        <tab-nav :items="tabNavItems">
+            <template v-slot:after(transactions)>
+                <b-badge
+                    v-if="transactionsCount > 0"
+                    class="ml-1"
+                >
+                    {{ transactionsCount }}
+                </b-badge>
+            </template>                  
+        </tab-nav>
+        <router-view />
+    </div>
 </template>
 
 <script>
+import TabNav from '@/components/ui/TabNav'
 import suppliersApi from '@/api/accounting/suppliers'
-import SupplierDetails from '@/components/accounting/SupplierDetails'
-import SupplierTransactions from '@/components/accounting/SupplierTransactions'
 export default {
     components: {
-        SupplierDetails,
-        SupplierTransactions
+        TabNav
     },
     props: {
         id: {
@@ -29,26 +28,39 @@ export default {
     },
     data () {
         return {
-            supplier: null
+            transactionsCount: null,
+            tabNavItems: [
+                {
+                    to: { name: 'accounting.suppliers.show' },
+                    icon: 'info',
+                    text: this.$t('app.details')
+                },
+                {
+                    to: { name: 'accounting.suppliers.show.transactions' },
+                    icon: 'list',
+                    text: this.$t('accounting.transactions'),
+                    key: 'transactions'
+                },
+            ]            
         }
     },
     watch: {
         $route() {
-            this.fetchSupplier()
+            this.fetchData()
         }
     },
     async created () {
-        this.fetchSupplier()
+        this.fetchData()
     },
     methods: {
-        async fetchSupplier () {
+        async fetchData () {
             try {
                 let data = await suppliersApi.find(this.id)
-                this.supplier = data.data
+                this.transactionsCount = data.data.transactions_count
             } catch (err) {
-                alert(err)
+                this.error = err
             }
-        }
-    }  
+        },
+    }    
 }
 </script>

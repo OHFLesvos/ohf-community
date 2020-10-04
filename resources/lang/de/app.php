@@ -427,4 +427,5 @@ return [
     'showing_latest_n_active_days' => 'Zeigt die letzten :days aktiven Tage.',
     'mobile' => 'Mobiltelefon',
     'place_id' => 'Place ID',
+    'details' => 'Details',
 ];

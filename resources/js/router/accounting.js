@@ -7,6 +7,8 @@ import PageHeader from '@/components/ui/PageHeader'
 import SuppliersIndexPage from '@/pages/accounting/SuppliersIndexPage'
 import SupplierCreatePage from '@/pages/accounting/SupplierCreatePage'
 import SupplierViewPage from '@/pages/accounting/SupplierViewPage'
+import SupplierDetails from '@/components/accounting/SupplierDetails'
+import SupplierTransactions from '@/components/accounting/SupplierTransactions'
 import SupplierEditPage from '@/pages/accounting/SupplierEditPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
@@ -55,7 +57,6 @@ export default new VueRouter({
         },
         {
             path: '/suppliers/:id',
-            name: 'accounting.suppliers.show',
             components: {
                 default: SupplierViewPage,
                 header: PageHeader
@@ -81,7 +82,21 @@ export default new VueRouter({
                         },
                     ]
                 })
-            }            
+            },
+            children: [
+                {
+                    path: '',
+                    name: 'accounting.suppliers.show',
+                    component: SupplierDetails,
+                    props: true
+                },
+                {
+                    path: 'transactions',
+                    name: 'accounting.suppliers.show.transactions',
+                    component: SupplierTransactions,
+                    props: true
+                }
+            ],                      
         },
         {
             path: '/suppliers/:id/edit',

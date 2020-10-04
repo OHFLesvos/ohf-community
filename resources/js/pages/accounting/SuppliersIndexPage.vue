@@ -62,6 +62,12 @@ export default {
                     tdClass: 'align-middle'
                 },
                 {
+                    key: 'transactions_count',
+                    label: this.$t('accounting.transactions'),
+                    tdClass: 'align-middle',
+                    class: 'fit text-right d-none d-md-table-cell'
+                },                
+                {
                     key: 'contact',
                     label: this.$t('app.contact'),
                     class: 'fit',

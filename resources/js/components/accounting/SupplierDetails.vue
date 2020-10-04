@@ -1,5 +1,5 @@
 <template>
-    <b-list-group class="mb-3">
+    <b-list-group v-if="supplier" class="mb-3">
 
         <two-col-list-group-item
             :title="$t('app.name')"
@@ -96,9 +96,13 @@
         </two-col-list-group-item>
 
     </b-list-group>
+    <p v-else>
+        {{ $t('app.loading') }}
+    </p>
 </template>
 
 <script>
+import suppliersApi from '@/api/accounting/suppliers'
 import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
 import PhoneLink from '@/components/common/PhoneLink'
 import EmailLink from '@/components/common/EmailLink'
@@ -111,10 +115,27 @@ export default {
         MapsLink
     },    
     props: {
-        supplier: {
-            required: true,
-            type: Object
+        id: {
+            required: true
         }
-    }
+    },
+    data () {
+        return {
+            supplier: null         
+        }
+    },
+    async created () {
+        this.fetchSupplier()
+    },
+    methods: {
+        async fetchSupplier () {
+            try {
+                let data = await suppliersApi.find(this.id)
+                this.supplier = data.data
+            } catch (err) {
+                alert(err)
+            }
+        }
+    }  
 }
 </script>
