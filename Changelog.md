@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.25.0
+
+* Added supplier info to transactions
+
 ## 2.24.2
 
 * Added detailed current visitor numbers
