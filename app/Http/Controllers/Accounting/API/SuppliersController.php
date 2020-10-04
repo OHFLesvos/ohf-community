@@ -72,6 +72,8 @@ class SuppliersController extends Controller
         $supplier = new Supplier();
         $supplier->fill($request->all());
         $supplier->save();
+
+        return new SupplierResource( $supplier);
     }
 
     /**
@@ -96,6 +98,8 @@ class SuppliersController extends Controller
     {
         $supplier->fill($request->all());
         $supplier->save();
+
+        return new SupplierResource( $supplier);
     }
 
     /**

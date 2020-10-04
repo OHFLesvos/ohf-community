@@ -61,7 +61,8 @@ class Supplier extends Model
         if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
                 return $wq->where('name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('category', 'LIKE', '%' . $filter . '%');
+                    ->orWhere('category', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
             });
         }
 

@@ -16,7 +16,6 @@
             'configure-accounting' => Gate::allows('configure-accounting'),
         ];
     @endphp
-    @endphp
     <script>
         window.Laravel.permissions = @json($permissions)
     </script>
