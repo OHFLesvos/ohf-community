@@ -426,4 +426,5 @@ return [
     'additional_info' => 'Additional Information',
     'showing_latest_n_active_days' => 'Showing the latest :days active days.',
     'mobile' => 'Mobile',
+    'place_id' => 'Place ID',
  ];

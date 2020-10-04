@@ -87,6 +87,7 @@ return [
     'supplier_updated' => 'Supplier updated.',
     'supplier_deleted' => 'Supplier deleted.',
     'tax_number' => 'Tax number',
+    'tax_office' => 'Tax office',
     'bank' => 'Bank',
     'iban' => 'IBAN',
 ];

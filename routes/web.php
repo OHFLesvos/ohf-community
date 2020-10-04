@@ -190,7 +190,8 @@ Route::middleware(['language', 'auth'])
         Route::view('suppliers', 'accounting.suppliers')
             ->name('suppliers'); 
         Route::view('suppliers/{any}', 'accounting.suppliers')
-            ->where('any', '.*');            
+            ->where('any', '.*')
+            ->name('suppliers.any');            
     });
 
 //

@@ -15,20 +15,28 @@
 <script>
 export default {
     props: {
-        value: {
+        label: {
+            required: true,
+            type: String
+        },        
+        query: {
             required: true,
             type: String
         },
-        label: {
-            required: true,
-            type: String,
+        placeId: {
+            required: false,
+            type: String
         },
         iconOnly: Boolean,
         labelOnly: Boolean
     },
     computed: {
         mapsHref () {
-            return `https://www.google.com/maps/search/?api=1&query=${this.value}`
+            let str = `https://www.google.com/maps/search/?api=1&query=${this.query}`
+            if (this.placeId) {
+                str += `&query_place_id=${this.placeId}`
+            }
+            return encodeURI(str)
         }
     }
 }

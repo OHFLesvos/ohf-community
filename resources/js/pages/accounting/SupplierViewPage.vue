@@ -24,8 +24,9 @@
                 :title="$t('app.address')"
             >
                 <maps-link
-                  :value="`${supplier.name}, ${supplier.address}`"
-                  :label="supplier.address" 
+                    :label="supplier.address"
+                    :query="supplier.address"
+                    :place-id="supplier.place_id"
                 />
             </two-col-list-group-item>
 
@@ -58,10 +59,24 @@
             </two-col-list-group-item>
 
             <two-col-list-group-item
+                v-if="supplier.website"
+                :title="$t('app.website')"
+            >
+                <a :href="supplier.website" target="_blank">{{ supplier.website }}</a>
+            </two-col-list-group-item>
+
+            <two-col-list-group-item
                 v-if="supplier.tax_number"
                 :title="$t('accounting.tax_number')"
             >
                 {{ supplier.tax_number }}
+            </two-col-list-group-item>
+
+            <two-col-list-group-item
+                v-if="supplier.tax_office"
+                :title="$t('accounting.tax_office')"
+            >
+                {{ supplier.tax_office }}
             </two-col-list-group-item>
 
             <two-col-list-group-item
@@ -76,6 +91,13 @@
                 :title="$t('accounting.iban')"
             >
                 {{ supplier.iban }}
+            </two-col-list-group-item>
+
+            <two-col-list-group-item
+                v-if="supplier.remarks"
+                :title="$t('app.remarks')"
+            >
+                {{ supplier.remarks }}
             </two-col-list-group-item>
 
         </b-list-group>

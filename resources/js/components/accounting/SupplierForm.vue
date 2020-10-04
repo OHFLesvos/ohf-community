@@ -57,7 +57,7 @@
             <b-form-row>
 
                 <!-- Address -->
-                <b-col md>
+                <b-col md="10">
                     <validation-provider
                         :name="$t('app.address')"
                         vid="address"
@@ -77,6 +77,28 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+
+                <!-- Place ID -->
+                <b-col md="2">
+                    <validation-provider
+                        :name="$t('app.place_id')"
+                        vid="place_id"
+                        :rules="{ }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('app.place_id')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.place_id"
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>                
 
             </b-form-row>
 
@@ -126,6 +148,10 @@
                     </validation-provider>
                 </b-col>
 
+            </b-form-row>
+
+            <b-form-row>
+
                 <!-- E-Mail -->
                 <b-col md>
                     <validation-provider
@@ -143,6 +169,28 @@
                                 v-model="form.email"
                                 autocomplete="off"
                                 type="email"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <!-- Website -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('app.website')"
+                        vid="website"
+                        :rules="{ }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('app.website')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.website"
+                                autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -174,6 +222,32 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+
+                <!-- Tax office -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('accounting.tax_office')"
+                        vid="tax_office"
+                        :rules="{ }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('accounting.tax_office')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.tax_office"
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+            </b-form-row>
+
+            <b-form-row>
 
                 <!-- Bank -->
                 <b-col md>
@@ -212,6 +286,32 @@
                         >
                             <b-form-input
                                 v-model="form.iban"
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+            </b-form-row>
+
+            <b-form-row>
+
+                <!-- Remarks -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('app.remarks')"
+                        vid="remarks"
+                        :rules="{ }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('app.remarks')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.remarks"
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
@@ -274,22 +374,30 @@ export default {
                 name: this.supplier.name,
                 category: this.supplier.category,
                 address: this.supplier.address,
+                place_id: this.supplier.place_id,
                 phone: this.supplier.phone,
                 mobile: this.supplier.mobile,
                 email: this.supplier.email,
+                website: this.supplier.website,
                 tax_number: this.supplier.tax_number,
+                tax_office: this.supplier.tax_office,
                 bank: this.supplier.bank,
                 iban: this.supplier.iban,
+                remarks: this.supplier.remarks
             } : {
                 name: null,
                 category: null,
                 address: null,
+                place_id: null,
                 phone: null,
                 mobile: null,
                 email: null,
+                website: null,
                 tax_number: null,
+                tax_office: null,
                 bank: null,
                 iban: null,
+                remarks: null
             }
         }
     },

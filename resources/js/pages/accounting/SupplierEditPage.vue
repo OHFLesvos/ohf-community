@@ -64,7 +64,7 @@ export default {
         async updateSupplier (formData) {
             this.isBusy = true
             try {
-                let data = await suppliersApi.update(this.id, formData)
+                await suppliersApi.update(this.id, formData)
                 showSnackbar(this.$t('accounting.supplier_updated'))
                 this.$router.push({ name: 'accounting.suppliers.show', parms: { id: this.supplier.id } })
             } catch (err) {
@@ -75,7 +75,7 @@ export default {
         async deleteSupplier () {
             this.isBusy = true
             try {
-                let data = await suppliersApi.delete(this.id)
+                await suppliersApi.delete(this.id)
                 showSnackbar(this.$t('accounting.supplier_deleted'))
                 this.$router.push({ name: 'accounting.suppliers.index' })
             } catch (err) {

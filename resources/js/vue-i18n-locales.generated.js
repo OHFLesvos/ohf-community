@@ -869,7 +869,8 @@ export default {
             "organization": "Organisation",
             "additional_info": "Zusatzinformationen",
             "showing_latest_n_active_days": "Zeigt die letzten {days} aktiven Tage.",
-            "mobile": "Mobiltelefon"
+            "mobile": "Mobiltelefon",
+            "place_id": "Place ID"
         },
         "wiki": {
             "wiki": "Wiki",
@@ -1121,6 +1122,7 @@ export default {
             "supplier_updated": "Lieferant aktualisiert.",
             "supplier_deleted": "Lieferant gelöscht.",
             "tax_number": "Steuernummer",
+            "tax_office": "Steuerbüro",
             "bank": "Bank",
             "iban": "IBAN"
         },
@@ -2081,7 +2083,8 @@ export default {
             "organization": "Organization",
             "additional_info": "Additional Information",
             "showing_latest_n_active_days": "Showing the latest {days} active days.",
-            "mobile": "Mobile"
+            "mobile": "Mobile",
+            "place_id": "Place ID"
         },
         "wiki": {
             "wiki": "Wiki",
@@ -2335,6 +2338,7 @@ export default {
             "supplier_updated": "Supplier updated.",
             "supplier_deleted": "Supplier deleted.",
             "tax_number": "Tax number",
+            "tax_office": "Tax office",
             "bank": "Bank",
             "iban": "IBAN"
         },

@@ -13,23 +13,31 @@ class Supplier extends Model
         'name',
         'category',
         'address',
+        'place_id',
         'phone',
         'mobile',
         'email',
+        'website',
         'tax_number',
+        'tax_office',
         'bank',
         'iban',
+        'remarks',
     ];
 
     protected $nullable = [
         'category',
         'address',
+        'place_id',
         'phone',
         'mobile',
         'email',
+        'website',
         'tax_number',
+        'tax_office',
         'bank',
         'iban',
+        'remarks',
     ];
 
     /**

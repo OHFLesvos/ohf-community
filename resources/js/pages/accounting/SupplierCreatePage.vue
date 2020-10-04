@@ -28,7 +28,7 @@ export default {
         async registerSupplier (formData) {
             this.isBusy = true
             try {
-                let data = await suppliersApi.store(formData)
+                await suppliersApi.store(formData)
                 showSnackbar(this.$t('accounting.supplier_registered'))
                 this.$router.push({ name: 'accounting.suppliers.index' })
             } catch (err) {

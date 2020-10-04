@@ -31,6 +31,14 @@ class StoreSupplier extends FormRequest
                 'nullable',
                 'email',
             ],
+            'website' => [
+                'nullable',
+                'url',
+            ],
+            'iban' => [
+                'nullable',
+                'iban',
+            ],                      
         ];
     }
 }

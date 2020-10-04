@@ -425,5 +425,6 @@ return [
     'organization' => 'Organisation',
     'additional_info' => 'Zusatzinformationen',
     'showing_latest_n_active_days' => 'Zeigt die letzten :days aktiven Tage.',
-    'mobile' => 'Mobiltelefon', 
+    'mobile' => 'Mobiltelefon',
+    'place_id' => 'Place ID',
 ];
