@@ -20,4 +20,8 @@ export default {
         const url = route('api.accounting.suppliers.destroy', id)
         return await api.delete(url)
     },
+    async transactions (id, params = {}) {
+        const url = route('api.accounting.suppliers.transactions', { supplier: id, ...params})
+        return await api.get(url)
+    },
 }

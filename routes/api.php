@@ -202,6 +202,8 @@ Route::middleware(['language', 'auth'])
     ->namespace('Accounting\API')
     ->group(function () {
         Route::resource('suppliers', 'SuppliersController');
+        Route::get('suppliers/{supplier}/transactions', 'SuppliersController@transactions')
+            ->name('suppliers.transactions');
     });
 
 //

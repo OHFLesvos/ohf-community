@@ -5,12 +5,19 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreSupplier;
 use App\Models\Accounting\Supplier;
+use App\Models\Accounting\MoneyTransaction;
 use App\Http\Resources\Accounting\Supplier as SupplierResource;
+use App\Http\Resources\Accounting\MoneyTransaaction as MoneyTransaactionResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class SuppliersController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Supplier::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -111,5 +118,57 @@ class SuppliersController extends Controller
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Accounting\Supplier  $supplier
+     * @return \Illuminate\Http\Response
+     */
+    public function transactions(Supplier $supplier, Request $request)
+    {
+        $this->authorize('viewAny', MoneyTransaction::class);
+
+        $request->validate([
+            'filter' => [
+                'nullable',
+            ],
+            'page' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'pageSize' => [
+                'nullable',
+                'integer',
+                'min:1',
+            ],
+            'sortBy' => [
+                'nullable',
+                'alpha_dash',
+                'filled',
+                Rule::in([
+                    'date',
+                    'receipt_no',
+                    'created_at',
+                ]),
+            ],
+            'sortDirection' => [
+                'nullable',
+                'in:asc,desc',
+            ],
+        ]);
+
+        // Sorting, pagination and filter
+        $sortBy = $request->input('sortBy', 'created_at');
+        $sortDirection = $request->input('sortDirection', 'desc');
+        $pageSize = $request->input('pageSize', 25);
+        $filter = trim($request->input('filter', ''));
+
+        return MoneyTransaactionResource::collection($supplier->transactions()
+            ->orderBy($sortBy, $sortDirection)
+            ->forFilter(['description' => $filter])
+            ->paginate($pageSize));
     }
 }
