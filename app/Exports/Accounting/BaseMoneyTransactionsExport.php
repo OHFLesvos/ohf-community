@@ -37,6 +37,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
         }
         return array_merge($headings, [
             __('app.description'),
+            __('accounting.supplier'),
             __('app.registered'),
             __('accounting.controlled_at'),
             __('accounting.controlled_by'),
@@ -72,6 +73,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
         }
         return array_merge($data, [
             $transaction->description,
+            optional($transaction->supplier)->name,
             $transaction->created_at,
             $transaction->controlled_at,
             $transaction->controlled_by !== null ? $transaction->controller->name : null,
