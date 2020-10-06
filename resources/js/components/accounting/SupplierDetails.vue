@@ -95,6 +95,13 @@
             {{ supplier.remarks }}
         </two-col-list-group-item>
 
+        <two-col-list-group-item
+            v-if="supplier.spending"
+            :title="$t('accounting.spending')"
+        >
+            {{ numberFormat(supplier.spending) }}
+        </two-col-list-group-item>
+
     </b-list-group>
     <p v-else>
         {{ $t('app.loading') }}
@@ -102,6 +109,7 @@
 </template>
 
 <script>
+import numeral from 'numeral'
 import suppliersApi from '@/api/accounting/suppliers'
 import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
 import PhoneLink from '@/components/common/PhoneLink'
@@ -130,11 +138,14 @@ export default {
     methods: {
         async fetchSupplier () {
             try {
-                let data = await suppliersApi.find(this.id)
+                let data = await suppliersApi.find(this.id, { with_spending: true })
                 this.supplier = data.data
             } catch (err) {
                 alert(err)
             }
+        },
+        numberFormat (val) {
+            return numeral(val).format('0,0.00')
         }
     }  
 }

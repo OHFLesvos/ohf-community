@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accounting\API;
 
+use App\Exports\Accounting\SuppliersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreSupplier;
 use App\Models\Accounting\Supplier;
@@ -170,5 +171,14 @@ class SuppliersController extends Controller
             ->orderBy($sortBy, $sortDirection)
             ->forFilter(['description' => $filter])
             ->paginate($pageSize));
+    }
+
+    public function export()
+    {
+        $this->authorize('viewAny', Supplier::class);
+
+        $file_name = __('accounting.suppliers') . ' - ' . now()->toDateString();
+        $extension = 'xlsx';
+        return (new SuppliersExport())->download($file_name . '.' . $extension);
     }
 }

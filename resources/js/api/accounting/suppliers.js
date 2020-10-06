@@ -8,8 +8,8 @@ export default {
         const url = route('api.accounting.suppliers.store')
         return await api.post(url, data)
     },
-    async find (id) {
-        let url = route('api.accounting.suppliers.show', id)
+    async find (id, params = {}) {
+        let url = route('api.accounting.suppliers.show', { supplier: id, ...params })
         return await api.get(url)
     },
     async update (id, data) {
