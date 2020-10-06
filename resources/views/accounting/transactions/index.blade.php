@@ -59,6 +59,9 @@
                             <th class="@isset($filter['cost_center']) text-info @endisset">@lang('accounting.cost_center')</th>
                         @endif
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
+                        @if($has_suppliers)
+                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">@lang('accounting.supplier')</th>
+                        @endif
                         <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">@lang('accounting.attendee')</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
                     </tr>
@@ -95,6 +98,9 @@
                                 <td>{{ $transaction->cost_center }}</td>
                             @endif
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
+                            @if($has_suppliers)
+                                <td class="d-none d-sm-table-cell">{{ optional($transaction->supplier)->name }}</td>
+                            @endif
                             <td class="d-none d-sm-table-cell">{{ $transaction->attendee }}</td>
                             @php
                                 $audit = $transaction->audits()->first();

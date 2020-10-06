@@ -143,6 +143,7 @@ class MoneyTransactionsController extends Controller
             'wallet' => $wallet,
             'has_multiple_wallets' => Wallet::count() > 1,
             'intermediate_balances' => ($sortColumn == 'receipt_no' && self::showIntermediateBalances()) ? self::getIntermediateBalances($wallet) : null,
+            'has_suppliers' => Supplier::count() > 0,
         ]);
     }
 
