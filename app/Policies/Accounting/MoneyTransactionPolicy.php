@@ -60,10 +60,10 @@ class MoneyTransactionPolicy
      */
     public function update(User $user, MoneyTransaction $moneyTransaction)
     {
-        if (!$moneyTransaction->booked /* && $moneyTransaction->controlled_at === null */) {
+        // if (!$moneyTransaction->booked /* && $moneyTransaction->controlled_at === null */) {
             return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
-        }
-        return false;
+        // }
+        // return false;
     }
 
     /**
