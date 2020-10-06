@@ -101,9 +101,9 @@ class StoreTransaction extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (optional($this->transaction)->controlled_at !== null) {
-                $validator->errors()->add('controlled_at', __('accounting.cannot_update_already_controlled_transaction'));
-            }
+            // if (optional($this->transaction)->controlled_at !== null) {
+            //     $validator->errors()->add('controlled_at', __('accounting.cannot_update_already_controlled_transaction'));
+            // }
         });
     }
 }
