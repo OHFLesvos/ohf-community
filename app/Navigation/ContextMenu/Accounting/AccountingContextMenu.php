@@ -2,6 +2,7 @@
 
 namespace App\Navigation\ContextMenu\Accounting;
 
+use App\Models\Accounting\Supplier;
 use App\Navigation\ContextMenu\ContextMenu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -21,7 +22,7 @@ class AccountingContextMenu implements ContextMenu
                 'url' => route('accounting.suppliers'),
                 'caption' => __('accounting.suppliers'),
                 'icon' => 'truck',
-                'authorized' => Gate::allows('configure-accounting'),
+                'authorized' => Auth::user()->can('viewAny', Supplier::class) || Gate::allows('manage-suppliers'),
             ],
             'book' => [
                 'url' => route('accounting.webling.index'),
