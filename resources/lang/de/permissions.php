@@ -22,6 +22,7 @@ return [
     'delete_transactions' => 'Buchhaltung: Transaktionen löschen',
     'book_externally' => 'Buchhaltung: Transaktionen extern verbuchen',
     'view_summary' => 'Buchhaltung: Zusammenfassung ansehen',
+    'manage_suppliers' => 'Buchhaltung: Lieferanten verwalten',
     'configure_accounting'  => 'Buchhaltung: Einstellungen bearbeiten',
 
     'view_wiki' => 'Wiki: Artikel betrachten',

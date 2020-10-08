@@ -89,14 +89,20 @@
                 <div class="row">
                     <div class="col-sm-4"><strong>@lang('accounting.supplier')</strong></div>
                     <div class="col-sm">
-                        {{ $transaction->supplier->name }}
+                        @can('view', $transaction->supplier)
+                            <a href="{{ route('accounting.suppliers.show', $transaction->supplier) }}">
+                                {{ $transaction->supplier->name }}
+                            </a>
+                        @else
+                            {{ $transaction->supplier->name }}
+                        @endcan
                         @isset($transaction->supplier->category)
                             <br><small>{{ $transaction->supplier->category }}</small>
                         @endisset
                     </div>
                 </div>
             </li>
-        @endisset        
+        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('accounting.attendee')</strong></div>

@@ -51,6 +51,7 @@ class AuthServiceProvider extends ServiceProvider
 
         'view-accounting-summary'     => 'accounting.summary.view',
         'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',
+        'manage-suppliers'            => 'accounting.suppliers.manage',
         'configure-accounting'        => 'accounting.configure',
 
         'manage-people'               => 'people.manage',

@@ -13,7 +13,7 @@
 @section('footer')
     @php
         $permissions = [
-            'configure-accounting' => Gate::allows('configure-accounting'),
+            'manage-suppliers' => Gate::allows('manage-suppliers'),
         ];
     @endphp
     <script>

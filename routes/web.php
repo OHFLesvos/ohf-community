@@ -188,10 +188,12 @@ Route::middleware(['language', 'auth'])
             ->name('webling.sync');
 
         Route::view('suppliers', 'accounting.suppliers')
-            ->name('suppliers'); 
+            ->name('suppliers');
+        Route::view('suppliers/{supplier}', 'accounting.suppliers')
+            ->name('suppliers.show');
         Route::view('suppliers/{any}', 'accounting.suppliers')
             ->where('any', '.*')
-            ->name('suppliers.any');            
+            ->name('suppliers.any');
     });
 
 //

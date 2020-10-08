@@ -10,6 +10,7 @@ return [
         'cost_center',
         'attendee',
         'description',
+        'supplier',
         'receipt_no',
         'today',
         'no_receipt',

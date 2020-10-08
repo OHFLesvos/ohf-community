@@ -195,6 +195,10 @@ return [
             'label' => 'permissions.view_summary',
             'sensitive' => false,
         ],
+        'accounting.suppliers.manage' => [
+            'label' => 'permissions.manage_suppliers',
+            'sensitive' => true,
+        ],
         'accounting.configure' => [
             'label' => 'permissions.configure_accounting',
             'sensitive' => false,

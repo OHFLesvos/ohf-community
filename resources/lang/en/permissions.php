@@ -22,6 +22,7 @@ return [
     'delete_transactions' => 'Accounting: Delete transactions',
     'book_externally' => 'Accounting: Book transactions externally',
     'view_summary' => 'Accounting: View summary',
+    'manage_suppliers' => 'Accounting: Manage suppliers',
     'configure_accounting'  => 'Accounting: Configure settings',
 
     'view_wiki' => 'Wiki: View articles',

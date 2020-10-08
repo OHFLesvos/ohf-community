@@ -36,7 +36,7 @@ export default new VueRouter({
                             variant: 'primary',
                             icon: 'plus-circle',
                             text: i18n.t('app.add'),
-                            show: can('configure-accounting')
+                            show: can('manage-suppliers')
                         },
                     ]
                 }
@@ -78,7 +78,7 @@ export default new VueRouter({
                             variant: 'primary',
                             icon: 'edit',
                             text: i18n.t('app.edit'),
-                            show: can('configure-accounting')
+                            show: can('manage-suppliers')
                         },
                     ]
                 })
@@ -96,7 +96,7 @@ export default new VueRouter({
                     component: SupplierTransactions,
                     props: true
                 }
-            ],                      
+            ],
         },
         {
             path: '/suppliers/:id/edit',
@@ -110,7 +110,7 @@ export default new VueRouter({
                 header: {
                     title: i18n.t('accounting.edit_supplier'),
                 }
-            } 
+            }
         },
         {
             path: '*',

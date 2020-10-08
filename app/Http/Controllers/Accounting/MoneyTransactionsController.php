@@ -123,6 +123,8 @@ class MoneyTransactionsController extends Controller
             return redirect()->route('accounting.transactions.show', $transactions->first());
         }
 
+        $hasSuppliers = Supplier::count() > 0;
+
         return view('accounting.transactions.index', [
             'transactions' => $transactions,
             'filter' => $filter,
@@ -143,7 +145,12 @@ class MoneyTransactionsController extends Controller
             'wallet' => $wallet,
             'has_multiple_wallets' => Wallet::count() > 1,
             'intermediate_balances' => ($sortColumn == 'receipt_no' && self::showIntermediateBalances()) ? self::getIntermediateBalances($wallet) : null,
-            'has_suppliers' => Supplier::count() > 0,
+            'has_suppliers' => $hasSuppliers,
+            'suppliers' => $hasSuppliers ? Supplier::query()
+                ->has('transactions')
+                ->select('id', 'name', 'category')
+                ->orderBy('name')
+                ->get() : [],
         ]);
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class SupplierPolicy
 {
     use HandlesAuthorization;
-    
+
     public function before($user, $ability)
     {
         if ($user->isSuperAdmin()) {
@@ -48,7 +48,7 @@ class SupplierPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('accounting.configure');
+        return $user->hasPermission('accounting.suppliers.manage');
     }
 
     /**
@@ -60,7 +60,7 @@ class SupplierPolicy
      */
     public function update(User $user, Supplier $supplier)
     {
-        return $user->hasPermission('accounting.configure');
+        return $user->hasPermission('accounting.suppliers.manage');
     }
 
     /**
@@ -72,6 +72,6 @@ class SupplierPolicy
      */
     public function delete(User $user, Supplier $supplier)
     {
-        return $user->hasPermission('accounting.configure');
+        return $user->hasPermission('accounting.suppliers.manage');
     }
 }

@@ -9,6 +9,11 @@
         :empty-text="$t('app.no_data_registered')"
         :items-per-page="25"
     >
+        <template v-slot:cell(receipt_no)="data">
+            <a :href="route('accounting.transactions.show', data.item)">
+                {{ data.value }}
+            </a>
+        </template>
     </base-table>
 </template>
 
@@ -34,14 +39,14 @@ export default {
                     label: this.$t('accounting.receipt_no'),
                     sortable: true,
                     class: 'text-right fit'
-                },    
+                },
                 {
                     key: 'date',
                     label: this.$t('app.date'),
                     sortable: true,
                     formatter: this.dateFormat,
                     class: 'fit'
-                },            
+                },
                 {
                     key: 'amount',
                     label: this.$t('app.amount'),
@@ -78,8 +83,8 @@ export default {
                     sortable: true,
                     formatter: this.dateTimeFormat,
                     class: 'fit'
-                }                                                                 
-            ]            
+                }
+            ]
         }
     },
     methods: {

@@ -7,6 +7,7 @@ use App\Support\Accounting\Webling\Exceptions\ConnectionException;
 use App\User;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -123,6 +124,12 @@ class MoneyTransaction extends Model implements Auditable
                         $query->whereNull('receipt_no');
                         $query->orWhereNull('receipt_pictures');
                         $query->orWhere('receipt_pictures', '[]');
+                    });
+                } elseif ($col == 'supplier') {
+                    $query->whereHas('supplier', function (Builder $query) use ($filter, $col) {
+                        $query->where('id', $filter[$col])
+                            ->orWhere('slug', $filter[$col])
+                            ->orWhere('name', $filter[$col]);
                     });
                 } elseif ($col == 'attendee' || $col == 'description') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');

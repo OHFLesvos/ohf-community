@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.25.1
+
+* Improvements to suppliers and transactions
+
 ## 2.25.0
 
 * Added supplier info to transactions

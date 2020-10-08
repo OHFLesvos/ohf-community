@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreControlled;
 use App\Models\Accounting\MoneyTransaction;
-use Illuminate\Http\Request;
 
 class ControllingController extends Controller
 {

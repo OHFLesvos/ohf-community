@@ -99,7 +99,17 @@
                             @endif
                             <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
                             @if($has_suppliers)
-                                <td class="d-none d-sm-table-cell">{{ optional($transaction->supplier)->name }}</td>
+                                <td class="d-none d-sm-table-cell">
+                                    @isset($transaction->supplier)
+                                        @can('view', $transaction->supplier)
+                                            <a href="{{ route('accounting.suppliers.show', $transaction->supplier) }}">
+                                                {{ $transaction->supplier->name }}
+                                            </a>
+                                        @else
+                                            {{ $transaction->supplier->name }}
+                                        @endcan
+                                    @endisset
+                                </td>
                             @endif
                             <td class="d-none d-sm-table-cell">{{ $transaction->attendee }}</td>
                             @php
@@ -313,10 +323,16 @@
                 </div>
             </div>
             <div class="form-row">
+                @if($has_suppliers)
+                    <div class="col-sm">
+                        {{ Form::bsText('filter[supplier]', $filter['supplier'] ?? null, [ 'list' => $suppliers->pluck('name')->toArray(), 'autocomplete' => 'off' ], __('accounting.supplier')) }}
+                    </div>
+                @endif
                 <div class="col-sm">
+                    @if($has_suppliers)
+                    <br>
+                    @endif
                     {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('accounting.registered_today')) }}
-                </div>
-                <div class="col-sm">
                     {{ Form::bsCheckbox('filter[no_receipt]', 1, $filter['no_receipt'] ?? false, __('accounting.no_receipt')) }}
                 </div>
             </div>
