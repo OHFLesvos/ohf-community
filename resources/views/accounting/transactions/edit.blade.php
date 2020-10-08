@@ -74,7 +74,7 @@
             </div>
             @if($suppliers->count() > 0)
                 <div class="col-sm">
-                    {{ Form::bsSelect('supplier_id', collect($suppliers)->pluck('name', 'id'), null, [ 'placeholder' => '- ' . __('accounting.supplier') . ' -' ], __('accounting.supplier')) }}
+                    {{ Form::bsSelect('supplier_id', collect($suppliers)->mapWithKeys(fn ($e) => [$e->id => $e->name . ($e->category !== null ? ' (' . $e->category . ')' : '')]), null, [ 'placeholder' => '- ' . __('accounting.supplier') . ' -' ], __('accounting.supplier')) }}
                 </div>
             @endisset
         </div>
