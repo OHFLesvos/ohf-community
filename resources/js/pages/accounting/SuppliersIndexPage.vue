@@ -9,13 +9,9 @@
         :items-per-page="25"
     >
         <template v-slot:cell(name)="data">
-            <b-link
-                v-if="data.item.can_update"
-                :to="{ name: 'accounting.suppliers.show', params: { id: data.item.slug } }"
-            >
+            <b-link :to="{ name: 'accounting.suppliers.show', params: { id: data.item.slug } }">
                 {{ data.value }}
             </b-link>
-            <template v-else>{{ data.value }}</template>
         </template>
         <template v-slot:cell(contact)="data">
             <phone-link
@@ -66,7 +62,7 @@ export default {
                     label: this.$t('accounting.transactions'),
                     tdClass: 'align-middle',
                     class: 'fit text-right d-none d-md-table-cell'
-                },                
+                },
                 {
                     key: 'contact',
                     label: this.$t('app.contact'),

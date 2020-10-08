@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Navigation\Drawer\Accounting;
+
+use App\Models\Accounting\MoneyTransaction;
+use App\Navigation\Drawer\BaseNavigationItem;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
+class SuppliersNavigationItem extends BaseNavigationItem
+{
+    public function getRoute(): string
+    {
+        return route('accounting.suppliers');
+    }
+
+    protected $caption = 'accounting.suppliers';
+
+    protected $icon = 'truck';
+
+    protected $active = 'accounting/suppliers*';
+
+    public function isAuthorized(): bool
+    {
+        return Auth::user()->can('viewAny', Supplier::class) || Gate::allows('manage-suppliers');
+    }
+}

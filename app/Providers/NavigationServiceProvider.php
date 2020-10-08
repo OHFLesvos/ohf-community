@@ -19,6 +19,7 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Badges\BadgesNavigationItem::class           => 13,
         \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class => 5,
         \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class   => 7,
+        \App\Navigation\Drawer\Accounting\SuppliersNavigationItem::class    => 7,
         \App\Navigation\Drawer\Collaboration\KBItem::class                  => 6,
         \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
         \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,

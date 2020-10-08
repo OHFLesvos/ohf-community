@@ -20,7 +20,7 @@ class AccountingNavigationItem extends BaseNavigationItem
 
     protected $icon = 'money-bill-alt';
 
-    protected $active = 'accounting/*';
+    protected $active = 'accounting/transactions*';
 
     public function isAuthorized(): bool
     {
