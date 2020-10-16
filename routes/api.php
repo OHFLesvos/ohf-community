@@ -179,6 +179,8 @@ Route::middleware(['language', 'auth'])
     ->name('api.accounting.')
     ->namespace('Accounting\API')
     ->group(function () {
+        Route::resource('wallets', 'WalletsController');
+
         Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')
             ->name('transactions.updateReceipt');
 

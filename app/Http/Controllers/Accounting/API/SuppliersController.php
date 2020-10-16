@@ -10,6 +10,7 @@ use App\Models\Accounting\MoneyTransaction;
 use App\Http\Resources\Accounting\Supplier as SupplierResource;
 use App\Http\Resources\Accounting\MoneyTransaction as MoneyTransactionResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
 class SuppliersController extends Controller
@@ -81,7 +82,7 @@ class SuppliersController extends Controller
         $supplier->fill($request->all());
         $supplier->save();
 
-        return new SupplierResource( $supplier);
+        return new SupplierResource($supplier);
     }
 
     /**
@@ -107,7 +108,7 @@ class SuppliersController extends Controller
         $supplier->fill($request->all());
         $supplier->save();
 
-        return new SupplierResource( $supplier);
+        return new SupplierResource($supplier);
     }
 
     /**
@@ -119,6 +120,8 @@ class SuppliersController extends Controller
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
