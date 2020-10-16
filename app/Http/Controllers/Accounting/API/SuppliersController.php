@@ -8,7 +8,7 @@ use App\Http\Requests\Accounting\StoreSupplier;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\MoneyTransaction;
 use App\Http\Resources\Accounting\Supplier as SupplierResource;
-use App\Http\Resources\Accounting\MoneyTransaaction as MoneyTransaactionResource;
+use App\Http\Resources\Accounting\MoneyTransaction as MoneyTransactionResource;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -167,7 +167,7 @@ class SuppliersController extends Controller
         $pageSize = $request->input('pageSize', 25);
         $filter = trim($request->input('filter', ''));
 
-        return MoneyTransaactionResource::collection($supplier->transactions()
+        return MoneyTransactionResource::collection($supplier->transactions()
             ->orderBy($sortBy, $sortDirection)
             ->forFilter(['description' => $filter])
             ->paginate($pageSize));
