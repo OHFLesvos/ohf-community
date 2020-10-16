@@ -146,7 +146,7 @@
                             ({{ $transaction->controller->name }})
                             @can('undoControlling', $transaction)
                                 <button class="btn btn-secondary btn-sm undo-controlled"
-                                    data-url="{{ route('accounting.transactions.undoControlled', $transaction) }}"
+                                    data-url="{{ route('api.accounting.transactions.undoControlled', $transaction) }}"
                                 >
                                     @lang('app.undo')
                                 </button>
@@ -154,7 +154,7 @@
                         @endif
                     @else
                         <button class="btn btn-primary btn-sm mark-controlled"
-                            data-url="{{ route('accounting.transactions.markControlled', $transaction) }}"
+                            data-url="{{ route('api.accounting.transactions.markControlled', $transaction) }}"
                         >
                             @lang('accounting.mark_controlled')
                         </button>

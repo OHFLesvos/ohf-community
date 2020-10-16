@@ -176,31 +176,19 @@ Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
 
 Route::middleware(['language', 'auth'])
     ->prefix('accounting')
-    ->name('accounting.')
+    ->name('api.accounting.')
     ->namespace('Accounting\API')
     ->group(function () {
         Route::post('transactions/{transaction}/receipt', 'MoneyTransactionsController@updateReceipt')
             ->name('transactions.updateReceipt');
-    });
 
-Route::middleware(['language', 'auth'])
-    ->prefix('accounting')
-    ->name('accounting.')
-    ->namespace('Accounting\API')
-    ->group(function () {
         Route::get('transactions/{transaction}/controlled', 'ControllingController@controlled')
             ->name('transactions.controlled');
         Route::post('transactions/{transaction}/controlled', 'ControllingController@markControlled')
             ->name('transactions.markControlled');
         Route::delete('transactions/{transaction}/controlled', 'ControllingController@undoControlled')
             ->name('transactions.undoControlled');
-    });
 
-Route::middleware(['language', 'auth'])
-    ->prefix('accounting')
-    ->name('api.accounting.')
-    ->namespace('Accounting\API')
-    ->group(function () {
         Route::get('suppliers/export', 'SuppliersController@export')
             ->name('suppliers.export');
         Route::resource('suppliers', 'SuppliersController');
