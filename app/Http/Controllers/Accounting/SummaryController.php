@@ -155,7 +155,7 @@ class SummaryController extends Controller
             'locations' => self::useLocations() ? self::getLocations(true) : [],
             'revenueByCategory' => $revenueByCategory,
             'revenueByProject' => $revenueByProject,
-            'revenueBySecondaryCategory' => $revenueByProject,
+            'revenueBySecondaryCategory' => $revenueBySecondaryCategory,
             'wallet_amount' => $wallet->calculatedSum($dateTo),
             'spending' => $spending,
             'income' => $income,
