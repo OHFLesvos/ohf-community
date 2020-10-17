@@ -53,7 +53,7 @@
                             <tr>
                                 <td>
                                     @can('viewAny', App\Models\Accounting\Wallet::class)
-                                        <a href="{{ route('accounting.wallets.doChange', $w['wallet']) }}">
+                                        <a href="{{ route('accounting.transactions.index', $w['wallet']) }}">
                                     @endcan
                                         {{ $w['wallet']->name }}
                                     @can('viewAny', App\Models\Accounting\MoneyTransaction::class)

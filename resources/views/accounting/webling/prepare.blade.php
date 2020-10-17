@@ -5,7 +5,7 @@
 @section('content')
     <p>@lang('accounting.the_following_transactions_in_period_can_be_booked', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ])</p>
     @unless($transactions->isEmpty())
-        {!! Form::open(['route' => ['accounting.webling.store' ]]) !!}
+        {!! Form::open(['route' => ['accounting.webling.store', $wallet ]]) !!}
             {{ Form::hidden('period', $period->id) }}
             {{ Form::hidden('from', $from->toDateString()) }}
             {{ Form::hidden('to', $to->toDateString()) }}

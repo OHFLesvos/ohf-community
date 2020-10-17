@@ -21,7 +21,7 @@ class TransactionEditContextButtons implements ContextButtons
                 'confirmation' => __('accounting.confirm_delete_transaction'),
             ],
             'back' => [
-                'url' => route('accounting.transactions.index'),
+                'url' => route('accounting.transactions.index', $transaction->wallet),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),

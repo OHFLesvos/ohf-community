@@ -4,7 +4,7 @@ namespace App\Exports\Accounting;
 
 use App\Exports\BaseExport;
 use App\Models\Accounting\MoneyTransaction;
-use App\Services\Accounting\CurrentWalletService;
+use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -21,13 +21,16 @@ class WeblingMoneyTransactionsExport extends BaseExport implements FromQuery, Wi
      */
     private array $filter;
 
+    private Wallet $wallet;
+
     /**
      * Constructor
      *
      * @param array<string>|null $filter
      */
-    public function __construct(?array $filter = [])
+    public function __construct(Wallet $wallet, ?array $filter = [])
     {
+        $this->wallet = $wallet;
         $this->filter = $filter;
         $this->orientation = 'landscape';
     }
@@ -35,7 +38,7 @@ class WeblingMoneyTransactionsExport extends BaseExport implements FromQuery, Wi
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
         return MoneyTransaction::query()
-            ->forWallet(resolve(CurrentWalletService::class)->get())
+            ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC');

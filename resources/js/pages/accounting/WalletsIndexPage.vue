@@ -21,7 +21,7 @@
             </template>
         </template>
         <template v-slot:cell(num_transactions)="data">
-            <a :href="route('accounting.wallets.doChange', data.item)">
+            <a :href="route('accounting.transactions.index', data.item)">
                 {{ data.value }}
             </a>
         </template>

@@ -26,7 +26,7 @@
         </div>
         <div class="text-right">
             @if(count($filter) > 0)
-                <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-sm btn-primary mb-3">@icon(eraser) @lang('app.reset_filter')</a>
+                <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3">@icon(eraser) @lang('app.reset_filter')</a>
             @endif
             <button type="button" class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">
                 @icon(search) @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
@@ -246,7 +246,7 @@
 @endsection
 
 @section('content-footer')
-    {!! Form::open(['route' => ['accounting.transactions.index' ], 'method' => 'get']) !!}
+    {!! Form::open(['route' => ['accounting.transactions.index', $wallet ], 'method' => 'get']) !!}
         @component('components.modal', [ 'id' => 'filterModal' ])
             @slot('title', __('app.filter'))
 
@@ -348,7 +348,7 @@
 
             @slot('footer')
                 @if(count($filter) > 0)
-                    <a href="{{ route('accounting.transactions.index') }}?reset_filter=1" class="btn btn-secondary" tabindex="-1">@icon(eraser) @lang('app.reset_filter')</a>
+                    <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1">@icon(eraser) @lang('app.reset_filter')</a>
                 @endif
                 {{ Form::bsSubmitButton(__('app.update'), 'search') }}
             @endslot

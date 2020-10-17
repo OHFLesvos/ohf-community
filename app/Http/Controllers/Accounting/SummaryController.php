@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\SignedMoneyTransaction;
 use App\Models\Accounting\Wallet;
-use App\Services\Accounting\CurrentWalletService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -20,7 +19,7 @@ class SummaryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function summary(Request $request, CurrentWalletService $currentWallet)
+    public function summary(Wallet $wallet, Request $request)
     {
         $this->authorize('view-accounting-summary');
 
@@ -33,7 +32,6 @@ class SummaryController extends Controller
             'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
         ]);
 
-        $wallet = $currentWallet->get();
         if ($wallet === null) {
             return redirect()->route('accounting.wallets.change');
         }

@@ -3,15 +3,10 @@
 @section('title', __('accounting.register_new_transaction'))
 
 @section('content')
-    {!! Form::open(['route' => ['accounting.transactions.store' ], 'files' => true]) !!}
-        @if($wallets->count() > 1)
-            {{ Form::bsSelect('wallet_id', $wallets->pluck('name', 'id'), optional($wallet)->id, [], __('accounting.wallet')) }}
-        @else
-            {{ Form::hidden('wallet_id', $wallets[0]['id']) }}
-        @endif
+    {!! Form::open(['route' => ['accounting.transactions.store', $wallet], 'files' => true]) !!}
         <div class="form-row">
             <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', $wallets->count() == 1 ? $wallets[0]['new_receipt_no'] : '', [ 'required', 'step' => '1', 'min' => 1 ], __('accounting.receipt_no')) }}
+                {{ Form::bsNumber('receipt_no', $wallet->nextFreeReceiptNumber, [ 'required', 'step' => '1', 'min' => 1 ], __('accounting.receipt_no')) }}
             </div>
             <div class="col-sm-auto">
                 {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required' ], __('app.date')) }}
@@ -101,19 +96,9 @@
 @endsection
 
 @section('script')
-var new_receipt_numbers = @json($wallets->pluck('new_receipt_no', 'id'));
-function setNewReceiptNumber() {
-    var value = new_receipt_numbers[$('select[name="wallet_id"]').val()];
-    $('input[name="receipt_no"]').val(value);
-}
-
 $(function () {
     $('input[name="date"]').on('change', function () {
         $('input[name="amount"]').focus();
     });
-    @if($wallets->count() > 1)
-    $('select[name="wallet_id"]').on('change', setNewReceiptNumber);
-    setNewReceiptNumber();
-    @endif
 });
 @endsection

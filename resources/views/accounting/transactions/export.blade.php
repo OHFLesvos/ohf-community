@@ -4,7 +4,7 @@
 
 @section('content')
 
-    {!! Form::open(['route' => 'accounting.transactions.doExport']) !!}
+    {!! Form::open(['route' => ['accounting.transactions.doExport', $wallet]]) !!}
         <div class="mb-3">
             {{ Form::bsRadioList('format', $formats, $format, __('app.file_format')) }}
         </div>
@@ -24,6 +24,6 @@
             {{ Form::bsSubmitButton(__('app.export'), 'download') }}
         </p>
     {!! Form::close() !!}
-    
+
 @endsection
 

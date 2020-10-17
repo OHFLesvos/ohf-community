@@ -5,10 +5,11 @@ namespace App\Navigation\ContextMenu\People;
 use App\Models\People\Person;
 use App\Navigation\ContextMenu\ContextMenu;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class PeopleContextMenu implements ContextMenu
 {
-    public function getItems(): array
+    public function getItems(View $view): array
     {
         return [
             [

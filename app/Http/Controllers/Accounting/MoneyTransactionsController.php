@@ -11,7 +11,6 @@ use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
-use App\Services\Accounting\CurrentWalletService;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,9 +26,10 @@ class MoneyTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, CurrentWalletService $currentWallet)
+    public function index(Wallet $wallet, Request $request)
     {
         $this->authorize('viewAny', MoneyTransaction::class);
+        $this->authorize('view', $wallet);
 
         $request->validate([
             'date_start' => [
@@ -50,22 +50,7 @@ class MoneyTransactionsController extends Controller
             'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
             'sortColumn' => 'nullable|in:date,created_at,category,secondary_category,project,location,cost_center,attendee,receipt_no',
             'sortOrder' => 'nullable|in:asc,desc',
-            'wallet_id' => [
-                'nullable',
-                'exists:accounting_wallets,id',
-            ],
         ]);
-
-        if ($request->has('wallet_id')) {
-            $wallet = Wallet::find($request->input('wallet_id'));
-            $this->authorize('view', $wallet);
-            $currentWallet->set($wallet);
-        }
-
-        $wallet = $currentWallet->get();
-        if ($wallet === null) {
-            return redirect()->route('accounting.wallets.change');
-        }
 
         $sortColumns = [
             'date' => __('app.date'),
@@ -112,7 +97,7 @@ class MoneyTransactionsController extends Controller
         }
         session(['accounting.filter' => $filter]);
 
-        $query = self::createIndexQuery($filter, $sortColumn, $sortOrder);
+        $query = self::createIndexQuery($wallet, $filter, $sortColumn, $sortOrder);
 
         // Get results
         $transactions = $query->paginate(250);
@@ -154,10 +139,10 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    private static function createIndexQuery(array $filter, string $sortColumn, string $sortOrder)
+    private static function createIndexQuery(Wallet $wallet, array $filter, string $sortColumn, string $sortOrder)
     {
         return MoneyTransaction::query()
-            ->forWallet(resolve(CurrentWalletService::class)->get())
+            ->forWallet($wallet)
             ->forFilter($filter)
             ->orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
@@ -168,22 +153,9 @@ class MoneyTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CurrentWalletService $currentWallet)
+    public function create(Wallet $wallet)
     {
         $this->authorize('create', MoneyTransaction::class);
-
-        $wallets = Wallet::orderBy('name')
-            ->get()
-            ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
-            ->map(fn ($wallet) => [
-                'id' => $wallet->id,
-                'name' => $wallet->name,
-                'new_receipt_no' => self::getNextFreeReceiptNo($wallet),
-            ]);
-        if ($wallets->isEmpty()) {
-            return redirect()->route('accounting.wallets.change');
-        }
-        $wallet = $currentWallet->get();
 
         return view('accounting.transactions.create', [
             'attendees' => MoneyTransaction::attendees(),
@@ -199,16 +171,7 @@ class MoneyTransactionsController extends Controller
             'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
             'suppliers' => Supplier::select('id', 'name', 'category')->orderBy('name')->get(),
             'wallet' => $wallet,
-            'wallets' => $wallets,
         ]);
-    }
-
-    private static function getNextFreeReceiptNo(?Wallet $wallet = null)
-    {
-        return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
-            ->when($wallet !== null, fn ($qry) => $qry->forWallet($wallet))
-            ->first())
-            ->val + 1;
     }
 
     private static function getCategories(?bool $onlyExisting = false): array
@@ -282,9 +245,10 @@ class MoneyTransactionsController extends Controller
      * @param  \App\Http\Requests\Accounting\StoreTransaction  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTransaction $request, CurrentWalletService $currentWallet)
+    public function store(Wallet $wallet, StoreTransaction $request)
     {
         $this->authorize('create', MoneyTransaction::class);
+        $this->authorize('view', $wallet);
 
         $transaction = new MoneyTransaction();
         $transaction->date = $request->date;
@@ -308,8 +272,7 @@ class MoneyTransactionsController extends Controller
 
         $transaction->supplier()->associate($request->input('supplier_id'));
 
-        $transaction->wallet()->associate($request->input('wallet_id'));
-        $this->authorize('view', $transaction->wallet);
+        $transaction->wallet()->associate($wallet);
 
         if (isset($request->receipt_picture) && is_array($request->receipt_picture)) {
             for ($i = 0; $i < count($request->receipt_picture); $i++) {
@@ -319,12 +282,8 @@ class MoneyTransactionsController extends Controller
 
         $transaction->save();
 
-        if ($transaction->wallet->id !== optional($currentWallet->get())->id) {
-            $currentWallet->set($transaction->wallet);
-        }
-
         return redirect()
-            ->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index')
+            ->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index', $transaction->wallet)
             ->with('info', __('accounting.transactions_registered'));
     }
 
@@ -341,7 +300,7 @@ class MoneyTransactionsController extends Controller
         $sortColumn = session('accounting.sortColumn', 'created_at');
         $sortOrder = session('accounting.sortOrder', 'desc');
         $filter = session('accounting.filter', []);
-        $query = self::createIndexQuery($filter, $sortColumn, $sortOrder);
+        $query = self::createIndexQuery($transaction->wallet, $filter, $sortColumn, $sortOrder);
         // TODO: can this be optimized, e.g. with a cursor??
         $res = $query->select('id')->get()->pluck('id')->toArray();
         $prev_id = null;
@@ -444,7 +403,7 @@ class MoneyTransactionsController extends Controller
         $transaction->save();
 
         return redirect()
-            ->route('accounting.transactions.index')
+            ->route('accounting.transactions.index', $transaction->wallet)
             ->with('info', __('accounting.transactions_updated'));
     }
 
@@ -458,10 +417,12 @@ class MoneyTransactionsController extends Controller
     {
         $this->authorize('delete', $transaction);
 
+        $wallet = $transaction->wallet;
+
         $transaction->delete();
 
         return redirect()
-            ->route('accounting.transactions.index')
+            ->route('accounting.transactions.index', $wallet)
             ->with('info', __('accounting.transactions_deleted'));
     }
 
@@ -479,6 +440,7 @@ class MoneyTransactionsController extends Controller
     {
         $filter = session('accounting.filter', []);
         return [
+            'wallet' => Wallet::findOrFail(request()->route('wallet')),
             'columnsSelection' => [
                 'all' => __('app.all'),
                 'webling' => __('accounting.selection_for_webling'),
@@ -517,20 +479,21 @@ class MoneyTransactionsController extends Controller
 
     protected function exportFilename(Request $request): string
     {
-        $wallet = resolve(CurrentWalletService::class)->get();
+        $wallet = Wallet::findOrFail($request->route('wallet'));
         return config('app.name') . ' ' . __('accounting.accounting') . ' [' . $wallet->name . '] (' . Carbon::now()->toDateString() . ')';
     }
 
     protected function exportExportable(Request $request)
     {
+        $wallet = Wallet::findOrFail($request->route('wallet'));
         $filter = $request->selection == 'filtered' ? session('accounting.filter', []) : [];
         if ($request->grouping == 'monthly') {
-            return new MoneyTransactionsMonthsExport($filter);
+            return new MoneyTransactionsMonthsExport($wallet, $filter);
         }
         if ($request->columns == 'webling') {
-            return new WeblingMoneyTransactionsExport($filter);
+            return new WeblingMoneyTransactionsExport($wallet, $filter);
         }
-        return new MoneyTransactionsExport($filter);
+        return new MoneyTransactionsExport($wallet, $filter);
     }
 
     public function undoBooking(MoneyTransaction $transaction)
