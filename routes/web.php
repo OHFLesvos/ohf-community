@@ -172,8 +172,8 @@ Route::middleware(['language', 'auth'])
         Route::resource('transactions', 'MoneyTransactionsController');
 
         // Wallets
-        Route::get('wallets/change', 'WalletController@change')
-            ->name('wallets.change');
+        Route::get('', 'WalletController@index')
+            ->name('index');
         Route::get('wallets/change/{wallet}', 'WalletController@doChange')
             ->name('wallets.doChange');
         Route::view('wallets', 'accounting.wallets')

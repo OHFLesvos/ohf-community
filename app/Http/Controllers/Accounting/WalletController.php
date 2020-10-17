@@ -12,18 +12,16 @@ class WalletController extends Controller
     /**
      * List wallets so the user can change the default one in his session
      *
-     * @param CurrentWalletService $currentWallet
      * @return void
      */
-    public function change(CurrentWalletService $currentWallet)
+    public function index()
     {
         $this->authorize('viewAny', MoneyTransaction::class);
 
-        return view('accounting.wallets.change', [
+        return view('accounting.index', [
             'wallets' => Wallet::orderBy('name')
                 ->get()
                 ->filter(fn ($wallet) => request()->user()->can('view', $wallet)),
-            'active' => $currentWallet->get(),
         ]);
     }
 

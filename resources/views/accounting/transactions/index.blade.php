@@ -16,10 +16,10 @@
             </span>
             <u>{{ number_format($wallet->amount, 2) }}</u>
             @if($has_multiple_wallets)
-                <a href="{{ route('accounting.wallets.change') }}" class="d-none d-sm-inline">
+                <a href="{{ route('accounting.index') }}" class="d-none d-sm-inline">
                     @lang('app.change')
                 </a>
-                <a href="{{ route('accounting.wallets.change') }}" class="d-inline d-sm-none btn btn-sm">
+                <a href="{{ route('accounting.index') }}" class="d-inline d-sm-none btn btn-sm">
                     @icon(folder-open)
                 </a>
             @endif

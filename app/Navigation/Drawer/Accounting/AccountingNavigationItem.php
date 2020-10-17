@@ -11,16 +11,14 @@ class AccountingNavigationItem extends BaseNavigationItem
 {
     public function getRoute(): string
     {
-        return ! Auth::user()->can('viewAny', MoneyTransaction::class) && Gate::allows('view-accounting-summary')
-            ? route('accounting.transactions.summary')
-            : route('accounting.transactions.index');
+        return route('accounting.index');
     }
 
     protected $caption = 'accounting.accounting';
 
     protected $icon = 'money-bill-alt';
 
-    protected $active = 'accounting/transactions*';
+    protected $active = 'accounting*';
 
     public function isAuthorized(): bool
     {
