@@ -4,6 +4,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import PageHeader from '@/components/ui/PageHeader'
+import WalletsIndexPage from '@/pages/accounting/WalletsIndexPage'
+import WalletCreatePage from '@/pages/accounting/WalletCreatePage'
+import WalletEditPage from '@/pages/accounting/WalletEditPage'
 import SuppliersIndexPage from '@/pages/accounting/SuppliersIndexPage'
 import SupplierCreatePage from '@/pages/accounting/SupplierCreatePage'
 import SupplierViewPage from '@/pages/accounting/SupplierViewPage'
@@ -20,6 +23,55 @@ export default new VueRouter({
     mode: 'history',
     base: '/accounting/',
     routes: [
+        {
+            path: '/wallets',
+            name: 'accounting.wallets.index',
+            components: {
+                default: WalletsIndexPage,
+                header: PageHeader
+            },
+            props: {
+                header:  {
+                    title: i18n.t('app.overview'),
+                    buttons: [
+                        {
+                            to: { name: 'accounting.wallets.create' },
+                            variant: 'primary',
+                            icon: 'plus-circle',
+                            text: i18n.t('app.add'),
+                            show: can('configure-accounting')
+                        },
+                    ]
+                }
+            }
+        },
+        {
+            path: '/wallets/create',
+            name: 'accounting.wallets.create',
+            components: {
+                default: WalletCreatePage,
+                header: PageHeader
+            },
+            props: {
+                header:  {
+                    title: i18n.t('accounting.create_wallet')
+                }
+            }
+        },
+        {
+            path: '/wallets/:id/edit',
+            name: 'accounting.wallets.edit',
+            components: {
+                default: WalletEditPage,
+                header: PageHeader
+            },
+            props: {
+                default: true,
+                header: {
+                    title: i18n.t('accounting.edit_wallet'),
+                }
+            }
+        },
         {
             path: '/suppliers',
             name: 'accounting.suppliers.index',

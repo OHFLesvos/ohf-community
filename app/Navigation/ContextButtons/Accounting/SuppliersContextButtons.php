@@ -19,7 +19,7 @@ class SuppliersContextButtons implements ContextButtons
                 'caption' => __('app.export'),
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('viewAny', Supplier::class),
-            ],            
+            ],
             'transactions' => [
                 'url' => route('accounting.transactions.index'),
                 'caption' => __('accounting.transactions'),

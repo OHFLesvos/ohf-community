@@ -14,7 +14,7 @@ class WalletChangeContextButtons implements ContextButtons
     {
         return [
             'manage' => [
-                'url' => route('accounting.wallets.index'),
+                'url' => route('accounting.wallets'),
                 'caption' => __('app.manage'),
                 'icon' => 'cogs',
                 'authorized' => Gate::allows('configure-accounting'),

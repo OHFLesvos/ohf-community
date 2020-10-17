@@ -13,7 +13,7 @@ class AccountingContextMenu implements ContextMenu
     {
         return [
             'wallets' => [
-                'url' => route('accounting.wallets.index'),
+                'url' => route('accounting.wallets'),
                 'caption' => __('accounting.wallets'),
                 'icon' => 'wallet',
                 'authorized' => Gate::allows('configure-accounting'),

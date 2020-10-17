@@ -5,11 +5,11 @@
         class="px-0"
     >
         <supplier-form
-            :supplier="supplier" 
+            :supplier="supplier"
             :disabled="isBusy"
             @submit="updateSupplier"
             @cancel="handleCnacel"
-            @delete="deleteSupplier"          
+            @delete="deleteSupplier"
         />
         <hr>
         <p class="text-right">
@@ -48,7 +48,7 @@ export default {
         $route() {
             this.fetchSupplier()
         }
-    },    
+    },
     async created () {
         this.fetchSupplier()
     },
@@ -64,9 +64,9 @@ export default {
         async updateSupplier (formData) {
             this.isBusy = true
             try {
-                await suppliersApi.update(this.id, formData)
+                let data = await suppliersApi.update(this.id, formData)
                 showSnackbar(this.$t('accounting.supplier_updated'))
-                this.$router.push({ name: 'accounting.suppliers.show', parms: { id: this.supplier.slug } })
+                this.$router.push({ name: 'accounting.suppliers.show', parms: { id: data.data.slug } })
             } catch (err) {
                 alert(err)
             }
