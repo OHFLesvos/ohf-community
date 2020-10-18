@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Accounting\StoreWallet;
 use App\Models\Accounting\Wallet;
 use Illuminate\Http\Request;
 use App\Http\Resources\Accounting\Wallet as WalletResource;
+use App\Role;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
@@ -60,14 +62,18 @@ class WalletsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Accounting\StoreWallet  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWallet $request)
     {
         $wallet = new Wallet();
         $wallet->fill($request->all());
         $wallet->save();
+
+        if ($request->user()->can('viewAny', Role::class)) {
+            $wallet->roles()->sync($request->input('roles', []));
+        }
 
         return new WalletResource($wallet);
     }
@@ -86,14 +92,18 @@ class WalletsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Accounting\StoreWallet  $request
      * @param  \App\Models\Accounting\Wallet  $wallet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Wallet $wallet)
+    public function update(StoreWallet $request, Wallet $wallet)
     {
         $wallet->fill($request->all());
         $wallet->save();
+
+        if ($request->user()->can('viewAny', Role::class)) {
+            $wallet->roles()->sync($request->input('roles', []));
+        }
 
         return new WalletResource($wallet);
     }

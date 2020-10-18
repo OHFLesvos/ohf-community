@@ -53,7 +53,7 @@
                                 <tr>
                                     <td>
                                         @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
-                                            <a href="{{ route('accounting.transactions.index') }}?filter[category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                            <a href="{{ route('accounting.transactions.index', $wallet) }}?filter[category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                         @endcan
                                             {{ $v['name'] }}
                                         @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
@@ -84,7 +84,7 @@
                                         <td>
                                             @isset($v['name'])
                                                 @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
-                                                    <a href="{{ route('accounting.transactions.index') }}?filter[secondary_category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                                    <a href="{{ route('accounting.transactions.index', $wallet) }}?filter[secondary_category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                                 @endcan
                                                     {{ $v['name'] }}
                                                 @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
@@ -118,7 +118,7 @@
                                     <td>
                                         @isset($v['name'])
                                             @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
-                                                <a href="{{ route('accounting.transactions.index') }}?filter[project]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                                <a href="{{ route('accounting.transactions.index', $wallet) }}?filter[project]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                             @endcan
                                                 {{ $v['name'] }}
                                             @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
@@ -180,11 +180,11 @@ $(function () {
             month = parseInt(arr[1]);
             year = arr[0]
         }
-        document.location = '{{ route('accounting.transactions.summary') }}?month=' + month + '&year=' + year;
+        document.location = '{{ route('accounting.transactions.summary', $wallet) }}?month=' + month + '&year=' + year;
     });
     $('#yearrange').on('change', function () {
         var val = $(this).val();
-        document.location = '{{ route('accounting.transactions.summary') }}?year=' + val;
+        document.location = '{{ route('accounting.transactions.summary', $wallet) }}?year=' + val;
     });
     $('#project').on('change', function () {
         var val = $(this).val();

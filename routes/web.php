@@ -156,37 +156,56 @@ Route::middleware(['language', 'auth'])
     ->name('accounting.')
     ->group(function () {
 
-        // Transactions
-        Route::get('transactions/export', 'MoneyTransactionsController@export')
-            ->name('transactions.export');
-        Route::post('transactions/doExport', 'MoneyTransactionsController@doExport')
-            ->name('transactions.doExport');
-        Route::get('transactions/summary', 'SummaryController@summary')
-            ->name('transactions.summary');
-        Route::get('transactions/summary/all', 'GlobalSummaryController@summary')
+        // Overview
+        Route::get('', 'WalletController@index')
+            ->name('index');
+        Route::get('transactions/summary', 'GlobalSummaryController@summary')
             ->name('transactions.globalSummary');
+
+        // Transactions
+        Route::get('wallets/{wallet}/transactions/export', 'MoneyTransactionsController@export')
+            ->name('transactions.export');
+        Route::post('wallets/{wallet}/transactions/doExport', 'MoneyTransactionsController@doExport')
+            ->name('transactions.doExport');
+        Route::get('wallets/{wallet}/transactions/summary', 'SummaryController@summary')
+            ->name('transactions.summary');
         Route::get('transactions/{transaction}/snippet', 'MoneyTransactionsController@snippet')
             ->name('transactions.snippet');
         Route::put('transactions/{transaction}/undoBooking', 'MoneyTransactionsController@undoBooking')
             ->name('transactions.undoBooking');
-        Route::resource('transactions', 'MoneyTransactionsController');
-
-        Route::get('wallets/change', 'WalletController@change')
-            ->name('wallets.change');
-        Route::get('wallets/change/{wallet}', 'WalletController@doChange')
-            ->name('wallets.doChange');
-        Route::resource('wallets', 'WalletController');
+        Route::get('wallets/{wallet}/transactions', 'MoneyTransactionsController@index')
+            ->name('transactions.index');
+        Route::get('wallets/{wallet}/transactions/create', 'MoneyTransactionsController@create')
+            ->name('transactions.create');
+        Route::post('wallets/{wallet}/transactions', 'MoneyTransactionsController@store')
+            ->name('transactions.store');
+        Route::get('transactions/{transaction}', 'MoneyTransactionsController@show')
+            ->name('transactions.show');
+        Route::get('transactions/{transaction}/edit', 'MoneyTransactionsController@edit')
+            ->name('transactions.edit');
+        Route::put('transactions/{transaction}', 'MoneyTransactionsController@update')
+            ->name('transactions.update');
+        Route::delete('transactions/{transaction}', 'MoneyTransactionsController@destroy')
+            ->name('transactions.destroy');
 
         // Webling
-        Route::get('webling', 'WeblingApiController@index')
+        Route::get('wallets/{wallet}/webling', 'WeblingApiController@index')
             ->name('webling.index');
-        Route::get('webling/prepare', 'WeblingApiController@prepare')
+        Route::get('wallets/{wallet}/webling/prepare', 'WeblingApiController@prepare')
             ->name('webling.prepare');
-        Route::post('webling', 'WeblingApiController@store')
+        Route::post('wallets/{wallet}/webling', 'WeblingApiController@store')
             ->name('webling.store');
-        Route::get('webling/sync', 'WeblingApiController@sync')
+        Route::get('wallets/{wallet}/webling/sync', 'WeblingApiController@sync')
             ->name('webling.sync');
 
+        // Wallets
+        Route::view('wallets', 'accounting.wallets')
+            ->name('wallets');
+        Route::view('wallets/{any}', 'accounting.wallets')
+            ->where('any', '.*')
+            ->name('wallets.any');
+
+        // Suppliers
         Route::view('suppliers', 'accounting.suppliers')
             ->name('suppliers');
         Route::view('suppliers/{supplier}', 'accounting.suppliers')

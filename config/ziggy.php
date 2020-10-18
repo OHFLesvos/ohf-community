@@ -5,5 +5,6 @@ return [
         'api.*',
         'people.*', // TODO temporary fix
         'accounting.transactions.show',
+        'accounting.transactions.index',
     ],
 ];

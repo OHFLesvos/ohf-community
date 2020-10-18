@@ -12,6 +12,7 @@ class TransactionSummaryContextButtons implements ContextButtons
 {
     public function getItems(View $view): array
     {
+        $wallet = $view->getData()['wallet'];
         return [
             'globalSummary' => [
                 'url' => route('accounting.transactions.globalSummary'),
@@ -20,7 +21,7 @@ class TransactionSummaryContextButtons implements ContextButtons
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],
             'back' => [
-                'url' => route('accounting.transactions.index'),
+                'url' => route('accounting.transactions.index', $wallet),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),

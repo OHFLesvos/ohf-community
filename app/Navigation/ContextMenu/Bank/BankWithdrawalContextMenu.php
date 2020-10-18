@@ -6,10 +6,11 @@ use App\Models\People\Person;
 use App\Navigation\ContextMenu\ContextMenu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class BankWithdrawalContextMenu implements ContextMenu
 {
-    public function getItems(): array
+    public function getItems(View $view): array
     {
         return [
             [

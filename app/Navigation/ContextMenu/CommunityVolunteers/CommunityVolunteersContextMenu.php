@@ -7,10 +7,11 @@ use App\Models\CommunityVolunteers\Responsibility;
 use App\Navigation\ContextMenu\ContextMenu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 
 class CommunityVolunteersContextMenu implements ContextMenu
 {
-    public function getItems(): array
+    public function getItems(View $view): array
     {
         return [
             'badges' => [

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Accounting;
 use App\Exceptions\ConfigurationException;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
-use App\Services\Accounting\CurrentWalletService;
+use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Entities\Period;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
@@ -21,7 +21,7 @@ class WeblingApiController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Wallet $wallet)
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -35,7 +35,7 @@ class WeblingApiController extends Controller
                         'title' => $period->title,
                         'from' => $period->from,
                         'to' => $period->to,
-                        'months' => self::getMonthsForPeriod($period->from, $period->to),
+                        'months' => self::getMonthsForPeriod($wallet, $period->from, $period->to),
                     ],
                 ]);
         } catch (ConnectionException|ConfigurationException $e) {
@@ -43,13 +43,13 @@ class WeblingApiController extends Controller
             $periods = collect();
         }
         return view('accounting.webling.index', [
+            'wallet' => $wallet,
             'periods' => $periods,
         ]);
     }
 
-    private static function getMonthsForPeriod($from, $to): Collection
+    private static function getMonthsForPeriod(Wallet $wallet, $from, $to): Collection
     {
-        $wallet = resolve(CurrentWalletService::class)->get();
         $monthsWithTransactions = MoneyTransaction::query()
             ->forWallet($wallet)
             ->forDateRange($from, $to)
@@ -79,7 +79,7 @@ class WeblingApiController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function prepare(Request $request, CurrentWalletService $currentWallet)
+    public function prepare(Wallet $wallet, Request $request)
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -88,7 +88,7 @@ class WeblingApiController extends Controller
         $period = Period::find($request->period);
 
         $transactions = MoneyTransaction::query()
-            ->forWallet($currentWallet->get())
+            ->forWallet($wallet)
             ->forDateRange($request->from, $request->to)
             ->forDateRange($period->from, $period->to)
             ->notBooked()
@@ -100,6 +100,7 @@ class WeblingApiController extends Controller
         }
 
         return view('accounting.webling.prepare', [
+            'wallet' => $wallet,
             'period' => $period,
             'from' => new Carbon($request->from),
             'to' => new Carbon($request->to),
@@ -152,7 +153,7 @@ class WeblingApiController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Wallet $wallet, Request $request)
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -187,7 +188,7 @@ class WeblingApiController extends Controller
             }
 
         return redirect()
-            ->route('accounting.webling.index')
+            ->route('accounting.webling.index', $wallet)
             ->with('info', __('accounting.num_transactions_booked', ['num' => count($bookedTransactions)]));
     }
 
@@ -229,7 +230,7 @@ class WeblingApiController extends Controller
         return null;
     }
 
-    public function sync(Request $request, CurrentWalletService $currentWallet)
+    public function sync(Wallet $wallet, Request $request)
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -261,7 +262,7 @@ class WeblingApiController extends Controller
                 foreach ($entryGroup->entries as $entry) {
                     $transaction = MoneyTransaction::query()
                         ->whereDate('date', $entryGroup->date)
-                        ->forWallet($currentWallet->get())
+                        ->forWallet($wallet)
                         ->notBooked()
                         ->where('receipt_no', $entry->receipt)
                         ->first();
@@ -280,7 +281,7 @@ class WeblingApiController extends Controller
         }
 
         return redirect()
-            ->route('accounting.webling.index')
+            ->route('accounting.webling.index', $wallet)
             ->with('info', __('accounting.num_transactions_synced', ['num' => $synced]));
     }
 }
