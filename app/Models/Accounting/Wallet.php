@@ -59,12 +59,13 @@ class Wallet extends Model
      */
     public function calculatedSum(?Carbon $date = null): ?float
     {
-        $result = SignedMoneyTransaction::selectRaw('SUM(amount) as sum')
+        $result = SignedMoneyTransaction::selectRaw('SUM(amount) as amount_sum')
+            ->selectRaw('SUM(fees) as fees_sum')
             ->forDateRange(null, $date)
             ->forWallet($this)
             ->first();
 
-        return optional($result)->sum;
+        return optional($result)->amount_sum - optional($result)->fees_sum;
     }
 
     /**

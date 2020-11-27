@@ -255,6 +255,7 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
+        $transaction->fees = $request->fees;
         $transaction->attendee = $request->attendee;
         $transaction->category = $request->category;
         if (self::useSecondaryCategories()) {
@@ -372,6 +373,7 @@ class MoneyTransactionsController extends Controller
         $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
+        $transaction->fees = $request->fees;
         $transaction->attendee = $request->attendee;
         $transaction->category = $request->category;
         if (self::useSecondaryCategories()) {

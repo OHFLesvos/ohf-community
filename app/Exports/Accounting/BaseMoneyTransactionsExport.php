@@ -19,9 +19,10 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
     {
         $headings = [
             __('app.date'),
+            __('accounting.receipt_no'),
             __('accounting.income'),
             __('accounting.spending'),
-            __('accounting.receipt_no'),
+            __('accounting.fees'),
             __('accounting.attendee'),
             __('app.category'),
         ];
@@ -55,9 +56,10 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
         $audit = $transaction->audits()->first();
         $data = [
             $transaction->date,
+            $transaction->receipt_no,
             $transaction->type == 'income' ? $transaction->amount : '',
             $transaction->type == 'spending' ? $transaction->amount : '',
-            $transaction->receipt_no,
+            $transaction->fees,
             $transaction->attendee,
             $transaction->category,
         ];
@@ -86,16 +88,18 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
     public function columnFormats(): array
     {
         return [
-            'B' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
             'C' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'D' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'E' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
         ];
     }
 
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
-        $sheet->getStyle('B2:B' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
-        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('E2:E' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
     }
 
     private static function useSecondaryCategories(): bool

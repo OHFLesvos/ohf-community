@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.26.0
+
+* Added fees to money transaction
+
 ## 2.25.1
 
 * Improvements to suppliers and transactions

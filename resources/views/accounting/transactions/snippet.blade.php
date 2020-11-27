@@ -28,6 +28,16 @@
                 </div>
             </div>
         </li>
+        @isset($transaction->fees)
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm-4"><strong>@lang('accounting.transaction_fees')</strong></div>
+                    <div class="col-sm text-danger">
+                        {{ number_format($transaction->fees, 2) }}
+                    </div>
+                </div>
+            </li>
+        @endisset
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('app.category')</strong></div>

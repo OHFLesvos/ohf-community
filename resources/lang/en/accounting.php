@@ -90,4 +90,6 @@ return [
     'tax_office' => 'Tax office',
     'bank' => 'Bank',
     'iban' => 'IBAN',
+    'fees' => 'Fees',
+    'transaction_fees' => 'Transaction fees',
 ];
