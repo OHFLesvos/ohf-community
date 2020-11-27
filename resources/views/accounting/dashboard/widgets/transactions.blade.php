@@ -4,7 +4,7 @@
             'url' => route('accounting.index'),
             'title' => __('app.overview'),
             'icon' => 'list',
-            'authorized' => Auth::user()->can('view', App\Models\Accounting\Wallet::class),
+            'authorized' => Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class),
         ],
     ];
 @endphp
