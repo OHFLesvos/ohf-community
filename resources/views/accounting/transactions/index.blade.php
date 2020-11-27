@@ -115,7 +115,7 @@
                             @php
                                 $audit = $transaction->audits()->first();
                             @endphp
-                            <td class="fit d-none d-md-table-cell">{{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset</td>
+                            <td class="fit d-none d-md-table-cell">{{ $transaction->created_at }} @if(isset($audit) && isset($audit->getMetadata()['user_name']))({{ $audit->getMetadata()['user_name'] }})@endif</td>
                         </tr>
                     @endforeach
                 </tbody>

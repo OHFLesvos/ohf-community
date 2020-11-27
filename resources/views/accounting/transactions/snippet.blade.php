@@ -130,7 +130,7 @@
                     @php
                         $audit = $transaction->audits()->first();
                     @endphp
-                    {{ $transaction->created_at }} @isset($audit)({{ $audit->getMetadata()['user_name'] }})@endisset
+                    {{ $transaction->created_at }} @if(isset($audit) && isset($audit->getMetadata()['user_name']))({{ $audit->getMetadata()['user_name'] }})@endif
                 </div>
             </div>
         </li>
