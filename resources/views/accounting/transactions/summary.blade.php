@@ -154,6 +154,10 @@
                             <td class="text-right"><u>{{ number_format($spending, 2) }}</u></td>
                         </tr>
                         <tr>
+                            <td>@lang('accounting.transaction_fees')</td>
+                            <td class="text-right"><u>{{ number_format($fees, 2) }}</u></td>
+                        </tr>
+                        <tr>
                             <td>@lang('accounting.difference')</td>
                             <td class="text-right"><u>{{ number_format($income - $spending, 2) }}</u></td>
                         </tr>

@@ -118,6 +118,7 @@ class SummaryController extends Controller
 
         $spending = self::totalByType('spending', $wallet, $dateFrom, $dateTo, $filters);
         $income = self::totalByType('income', $wallet, $dateFrom, $dateTo, $filters);
+        $fees = self::totalFees($wallet, $dateFrom, $dateTo, $filters);
 
         $months = MoneyTransaction::query()
             ->selectRaw('MONTH(date) as month')
@@ -157,6 +158,7 @@ class SummaryController extends Controller
             'wallet_amount' => $wallet->calculatedSum($dateTo),
             'spending' => $spending,
             'income' => $income,
+            'fees' => $fees,
             'filterDateStart' => optional($dateFrom)->toDateString(),
             'filterDateEnd' => optional($dateTo)->toDateString(),
             'wallet' => $wallet,
@@ -209,6 +211,17 @@ class SummaryController extends Controller
             ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
             ->where('type', $type)
+            ->first();
+
+        return optional($result)->sum;
+    }
+
+    private static function totalFees(Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
+    {
+        $result = MoneyTransaction::query()
+            ->selectRaw('SUM(fees) as sum')
+            ->forWallet($wallet)
+            ->forDateRange($dateFrom, $dateTo)
             ->first();
 
         return optional($result)->sum;

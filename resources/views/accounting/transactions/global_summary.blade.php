@@ -45,6 +45,7 @@
                         <th></th>
                         <th class="text-right">@lang('accounting.income')</th>
                         <th class="text-right">@lang('accounting.spending')</th>
+                        <th class="text-right">@lang('accounting.fees')</th>
                         <th class="text-right">@lang('accounting.difference')</th>
                         <th class="text-right">@lang('accounting.wallet')</th>
                     </thead>
@@ -62,6 +63,7 @@
                                 </td>
                                 <td class="text-right">{{ number_format($w['income'], 2) }}</td>
                                 <td class="text-right">{{ number_format($w['spending'], 2) }}</td>
+                                <td class="text-right">{{ number_format($w['fees'], 2) }}</td>
                                 <td class="text-right {{ $w['income'] > $w['spending'] ? 'text-success' : 'text-danger' }}">{{ number_format($w['income'] - $w['spending'], 2) }}</td>
                                 <td class="text-right {{ $w['amount'] > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($w['amount'], 2) }}</td>
                             </tr>
@@ -70,6 +72,7 @@
                             <td><b>@lang('accounting.sum_of_all_wallets')</b></td>
                             <td class="text-right"><b>{{ number_format($income, 2) }}</b></td>
                             <td class="text-right"><b>{{ number_format($spending, 2) }}</b></td>
+                            <td class="text-right"><b>{{ number_format($fees, 2) }}</b></td>
                             <td class="text-right {{ $income > $spending ? 'text-success' : 'text-danger' }}"><b>{{ number_format($income - $spending, 2) }}</b></td>
                             <td class="text-right {{ $wallet_amount > 0 ? 'text-success' : 'text-danger' }}"><b>{{ number_format($wallet_amount, 2) }}</b></td>
                         </tr>

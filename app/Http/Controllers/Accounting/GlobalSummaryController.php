@@ -116,9 +116,12 @@ class GlobalSummaryController extends Controller
             ->pluck('sum', 'wallet_id');
         $incomeByWallet = self::totalByType('income', $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
+        $feesByWallet = self::totalFees($dateFrom, $dateTo,  $request->user(), $filters)
+            ->pluck('sum', 'wallet_id');
 
         $spending = $spendingByWallet->sum();
         $income = $incomeByWallet->sum();
+        $fees = $feesByWallet->sum();
 
         $wallets = Wallet::all()
             ->filter(fn ($w) => request()->user()->can('view', $w))
@@ -126,6 +129,7 @@ class GlobalSummaryController extends Controller
                 'wallet' => $w,
                 'income' => isset($incomeByWallet[$w->id]) ? $incomeByWallet[$w->id] : 0,
                 'spending' => isset($spendingByWallet[$w->id]) ? $spendingByWallet[$w->id] : 0,
+                'fees' => isset($feesByWallet[$w->id]) ? $feesByWallet[$w->id] : 0,
                 'amount' => $w->calculatedSum($dateTo),
             ]);
         $wallet_amount = $wallets->sum('amount');
@@ -166,6 +170,7 @@ class GlobalSummaryController extends Controller
             'wallet_amount' => $wallet_amount,
             'spending' => $spending,
             'income' => $income,
+            'fees' => $fees,
             'wallets' => $wallets,
         ]);
     }
@@ -198,13 +203,26 @@ class GlobalSummaryController extends Controller
 
     private static function totalByType(string $type, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
-
         return MoneyTransaction::query()
             ->select('wallet_id')
             ->selectRaw('SUM(amount) as sum')
             ->groupBy('wallet_id')
             ->forDateRange($dateFrom, $dateTo)
             ->where('type', $type)
+            ->where($filters)
+            ->get()
+            ->when($user != null,
+                fn($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))));
+    }
+
+    private static function totalFees(?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
+    {
+        return MoneyTransaction::query()
+            ->select('wallet_id')
+            ->selectRaw('SUM(fees) as sum')
+            ->groupBy('wallet_id')
+            ->forDateRange($dateFrom, $dateTo)
             ->where($filters)
             ->get()
             ->when($user != null,
