@@ -45,7 +45,7 @@
 <script>
 import libraryApi from '@/api/library'
 import { getAjaxErrorMessage } from '@/api/baseApi'
-import HttpStatus from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 import { BForm, BButton } from 'bootstrap-vue'
 import IsbnInput from '@/components/library/input/IsbnInput'
 import TitleInput from '@/components/library/input/TitleInput'
@@ -114,7 +114,7 @@ export default {
                     this.$refs.observer.validate()
                 })
             } catch (err) {
-                if (err.response.status == HttpStatus.NOT_FOUND) {
+                if (err.response.status == StatusCodes.NOT_FOUND) {
                     this.title = ''
                     this.author = ''
                     this.language_code = null
