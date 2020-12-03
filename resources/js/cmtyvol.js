@@ -8,6 +8,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import CommunityVolunteersReportPage from '@/pages/cmtyvol/CommunityVolunteersReportPage'
 import CommunityVolunteersOverviewPage from '@/pages/cmtyvol/CommunityVolunteersOverviewPage'
+import CmtyvolComments from '@/components/cmtyvol/CmtyvolComments'
 
 import i18n from '@/plugins/i18n'
 
@@ -21,6 +22,7 @@ new Vue({
     i18n,
     components: {
         CommunityVolunteersReportPage,
-        CommunityVolunteersOverviewPage
+        CommunityVolunteersOverviewPage,
+        CmtyvolComments
     }
 });

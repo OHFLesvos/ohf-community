@@ -15,5 +15,13 @@ export default {
     async nationalityDistribution () {
         const url = route('api.cmtyvol.nationalityDistribution')
         return await api.get(url)
-    }
+    },
+    async listComments (donorId) {
+        const url = route('api.cmtyvol.comments.index', donorId)
+        return await api.get(url)
+    },
+    async storeComment (donorId, data) {
+        const url = route('api.cmtyvol.comments.store', donorId)
+        return await api.post(url, data)
+    },
 }

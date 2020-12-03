@@ -372,6 +372,10 @@ Route::middleware(['auth', 'language'])
 
         Route::apiResource('cmtyvol', 'CommunityVolunteerController')
             ->only('index', 'show');
+
+        // Comments
+        Route::apiResource('cmtyvol.comments', 'CommunityVolunteerCommentsController')
+            ->only('index', 'store');
     });
 
 //

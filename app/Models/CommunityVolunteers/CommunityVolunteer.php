@@ -2,6 +2,7 @@
 
 namespace App\Models\CommunityVolunteers;
 
+use App\Models\Traits\CommentsRelation;
 use Carbon\Carbon;
 use Exception;
 use Iatstuti\Database\Support\NullableFields;
@@ -15,6 +16,7 @@ class CommunityVolunteer extends Model implements Auditable
 {
     use NullableFields;
     use \OwenIt\Auditing\Auditable;
+    use CommentsRelation;
 
     protected $table = 'community_volunteers';
 

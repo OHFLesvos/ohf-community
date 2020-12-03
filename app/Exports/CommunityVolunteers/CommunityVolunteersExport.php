@@ -50,8 +50,12 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
 
     private static function mapField($field, $communityVolunteer)
     {
-        if (gettype($field['value']) == 'string') {
+        if (isset($field['value_export'])  && gettype($field['value_export']) == 'string') {
+            $value = $communityVolunteer->{$field['value_export']};
+        } else if (gettype($field['value']) == 'string') {
             $value = $communityVolunteer->{$field['value']};
+        } else if (isset($field['value_export'])) {
+            $value = $field['value_export']($communityVolunteer);
         } else {
             $value = $field['value']($communityVolunteer);
         }

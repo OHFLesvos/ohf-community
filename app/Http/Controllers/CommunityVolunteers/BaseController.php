@@ -320,6 +320,16 @@ abstract class BaseController extends Controller
                         'from' => $r->pivot->start_date,
                         'to' => $r->pivot->end_date,
                     ]),
+                'value_export' => fn ($cmtyvol) => $cmtyvol->responsibilities()
+                    ->orderBy('start_date')
+                    ->get()
+                    ->map(fn ($r) => [
+                        'value' => $r->name,
+                        'from' => $r->pivot->start_date,
+                        'to' => $r->pivot->end_date,
+                    ])
+                    ->pluck('value')
+                    ->implode('; '),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->responsibilities
                     ->map(function ($r) {
                         $str = htmlspecialchars($r->name);
@@ -441,6 +451,17 @@ abstract class BaseController extends Controller
                 'form_type' => 'textarea',
                 'form_name' => 'notes',
             ],
+            [
+                'label_key' => 'app.comments',
+                'value' => fn ($cmtyvol) => $cmtyvol->comments
+                    ->sortBy('created_at')
+                    ->pluck('content')
+                    ->implode('; '),
+                'overview' => false,
+                'exclude_export' => false,
+                'exclude_show' => true,
+                'form_name' => 'comments',
+            ],
         ];
     }
 
@@ -526,6 +547,10 @@ abstract class BaseController extends Controller
             'contact_info' => [
                 'label' => __('people.contact_info'),
                 'columns' => ['name', 'family_name', 'nickname', 'local_phone', 'other_phone', 'whatsapp', 'email', 'skype', 'residence'],
+            ],
+            'name_nationality_comments' => [
+                'label' => __('app.comments'),
+                'columns' => ['name', 'family_name', 'nickname', 'nationality', 'comments'],
             ],
         ]);
     }

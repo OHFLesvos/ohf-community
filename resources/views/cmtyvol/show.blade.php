@@ -56,6 +56,14 @@
         @endforeach
     </div>
 
+    <hr>
+    <h4>@lang('app.comments')</h4>
+    <div id="cmtyvol-app">
+        <cmtyvol-comments id="{{ $cmtyvol->id }}">
+            @lang('app.loading')
+        </cmtyvol-comments>
+    </div>
+
 @endsection
 
 @section('script')
@@ -63,4 +71,8 @@
         // Make popovers work
         $('[data-toggle="popover"]').popover();
     });
+@endsection
+
+@section('footer')
+    <script src="{{ asset('js/cmtyvol.js') }}?v={{ $app_version }}"></script>
 @endsection
