@@ -164,7 +164,7 @@ class BookController extends Controller
 
         return response()->json([
             'title' => $volume->volumeInfo->title,
-            'author' => implode(', ', $volume->volumeInfo->authors),
+            'author' => isset($volume->volumeInfo->authors) ? implode(', ', $volume->volumeInfo->authors) : null,
             'language' => $volume->volumeInfo->language,
         ]);
     }
