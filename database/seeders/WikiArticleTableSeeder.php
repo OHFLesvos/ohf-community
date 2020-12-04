@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Collaboration\WikiArticle;
-use App\Tag;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 

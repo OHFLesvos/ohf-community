@@ -7,7 +7,7 @@ use App\Http\Requests\Accounting\StoreWallet;
 use App\Models\Accounting\Wallet;
 use Illuminate\Http\Request;
 use App\Http\Resources\Accounting\Wallet as WalletResource;
-use App\Role;
+use App\Models\Role;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 

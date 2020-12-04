@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Comment;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
-use App\Tag;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class FundraisingDatabaseSeeder extends Seeder

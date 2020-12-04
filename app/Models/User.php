@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;

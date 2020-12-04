@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -87,7 +87,7 @@ class RoleAdministratorRelationshipController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role, Request $request)

@@ -3,7 +3,7 @@
 namespace App\Policies\Library;
 
 use App\Models\Library\LibraryLending;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class LibraryLendingPolicy
@@ -20,7 +20,7 @@ class LibraryLendingPolicy
     /**
      * Determine whether the user can list library lendings.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class LibraryLendingPolicy
     /**
      * Determine whether the user can view the library lending.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Library\LibraryLending  $libraryLending
      * @return mixed
      */
@@ -43,7 +43,7 @@ class LibraryLendingPolicy
     /**
      * Determine whether the user can create library lendings.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -54,7 +54,7 @@ class LibraryLendingPolicy
     /**
      * Determine whether the user can update the library lending.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Library\LibraryLending  $libraryLending
      * @return mixed
      */
@@ -66,7 +66,7 @@ class LibraryLendingPolicy
     /**
      * Determine whether the user can delete the library lending.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Library\LibraryLending  $libraryLending
      * @return mixed
      */

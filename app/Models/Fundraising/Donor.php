@@ -8,7 +8,7 @@ use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
 use App\Models\Traits\LanguageCodeField;
 use App\Models\Traits\TagsRelation;
-use App\Tag;
+use App\Models\Tag;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

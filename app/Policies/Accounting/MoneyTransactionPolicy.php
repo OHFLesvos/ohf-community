@@ -3,7 +3,7 @@
 namespace App\Policies\Accounting;
 
 use App\Models\Accounting\MoneyTransaction;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MoneyTransactionPolicy
@@ -20,7 +20,7 @@ class MoneyTransactionPolicy
     /**
      * Determine whether the user can list donors.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class MoneyTransactionPolicy
     /**
      * Determine whether the user can view the money transaction.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\MoneyTransaction  $moneyTransaction
      * @return mixed
      */
@@ -43,7 +43,7 @@ class MoneyTransactionPolicy
     /**
      * Determine whether the user can create money transactions.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -54,7 +54,7 @@ class MoneyTransactionPolicy
     /**
      * Determine whether the user can update the money transaction.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\MoneyTransaction  $moneyTransaction
      * @return mixed
      */
@@ -69,7 +69,7 @@ class MoneyTransactionPolicy
     /**
      * Determine whether the user can delete the money transaction.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\MoneyTransaction  $moneyTransaction
      * @return mixed
      */
@@ -84,7 +84,7 @@ class MoneyTransactionPolicy
     /**
      * Determine whether the user can mark a booked transaction as unbooked again.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\MoneyTransaction  $moneyTransaction
      * @return mixed
      */
@@ -99,7 +99,7 @@ class MoneyTransactionPolicy
     /**
      * Determine whether the user can mark a controlled transaction as uncontrolled again.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\MoneyTransaction  $moneyTransaction
      * @return mixed
      */

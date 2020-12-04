@@ -2,9 +2,7 @@
 
 namespace App\Tests\Feature\Fundraising;
 
-use App\Role;
-use App\RolePermission;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -24,7 +22,7 @@ class DonationWebhookTest extends TestCase
 
     public function testRequireAuthorization()
     {
-        $user = factory(User::class)->make();
+        $user = User::factory()->make();
 
         $response = $this
             ->actingAs($user)

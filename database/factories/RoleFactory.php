@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Role;
-use App\RolePermission;
+use App\Models\Role;
+use App\Models\RolePermission;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

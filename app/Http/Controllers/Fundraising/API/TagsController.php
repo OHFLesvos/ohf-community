@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Tag as TagResource;
-use App\Tag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class TagsController extends Controller

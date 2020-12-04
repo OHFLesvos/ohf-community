@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
@@ -25,7 +25,7 @@ class RoleApiTest extends TestCase
 
     public function testIndexWithoutAuthorization()
     {
-        $authUser = factory(User::class)->make();
+        $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
             ->getJson('api/roles', []);
@@ -50,7 +50,7 @@ class RoleApiTest extends TestCase
 
     public function testIndexWithOneRecord()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -93,13 +93,13 @@ class RoleApiTest extends TestCase
 
     public function testIndexWithOrderedRecordsByName()
     {
-        $role1 = factory(Role::class)->create([
+        $role1 = Role::factory()->create([
             'name' => 'Role A',
         ]);
-        $role2 = factory(Role::class)->create([
+        $role2 = Role::factory()->create([
             'name' => 'Role C',
         ]);
-        $role3 = factory(Role::class)->create([
+        $role3 = Role::factory()->create([
             'name' => 'Role B',
         ]);
 
@@ -151,16 +151,16 @@ class RoleApiTest extends TestCase
 
     public function testIndexWithFilteredRecords()
     {
-        $role1 = factory(Role::class)->create([
+        $role1 = Role::factory()->create([
             'name' => 'Accountant',
         ]);
-        $role2 = factory(Role::class)->create([
+        $role2 = Role::factory()->create([
             'name' => 'Security Officer',
         ]);
-        $role3 = factory(Role::class)->create([
+        $role3 = Role::factory()->create([
             'name' => 'Finance Officer',
         ]);
-        $role4 = factory(Role::class)->create([
+        $role4 = Role::factory()->create([
             'name' => 'Security Guard',
         ]);
 
@@ -224,7 +224,7 @@ class RoleApiTest extends TestCase
 
     public function testStoreWithDuplicateName()
     {
-        $existingRole = factory(Role::class)->create([
+        $existingRole = Role::factory()->create([
             'name' => $this->faker->jobTitle,
         ]);
 
@@ -281,7 +281,7 @@ class RoleApiTest extends TestCase
 
     public function testShowExisting()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -322,7 +322,7 @@ class RoleApiTest extends TestCase
 
     public function testUpdateWithInsufficientPermissions()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -337,7 +337,7 @@ class RoleApiTest extends TestCase
 
     public function testUpdateWithoutRequiredFields()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -351,7 +351,7 @@ class RoleApiTest extends TestCase
 
     public function testUpdateWithDuplicateName()
     {
-        $roles = factory(Role::class, 2)->create();
+        $roles =Role::factory()Role::class, 2)->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -367,7 +367,7 @@ class RoleApiTest extends TestCase
 
     public function testUpdateWithNoChanges()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -389,7 +389,7 @@ class RoleApiTest extends TestCase
 
     public function testUpdateWithValidInput()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
         $data = [
             'name' => $this->faker->jobTitle,
         ];
@@ -412,7 +412,7 @@ class RoleApiTest extends TestCase
 
     public function testDestroyWithInsufficientPermissions()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -425,7 +425,7 @@ class RoleApiTest extends TestCase
 
     public function testDestroyWithCorrectPermissions()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 

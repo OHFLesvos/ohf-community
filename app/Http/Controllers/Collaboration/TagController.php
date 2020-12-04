@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Collaboration;
 
 use App\Http\Controllers\Controller;
-use App\Tag;
+use App\Models\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use App\Util\Collaboration\ArticlePdfExport;
 use Illuminate\Support\Facades\Gate;

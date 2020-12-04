@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits;
 
-use App\Tag;
+use App\Models\Tag;
 use Illuminate\Support\Collection;
 
 /**

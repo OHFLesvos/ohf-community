@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Accounting;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Wallet;

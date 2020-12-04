@@ -9,8 +9,8 @@ use App\Http\Requests\UserManagement\UpdateUser;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserCollection;
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
@@ -73,7 +73,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\User $user
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -85,7 +85,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\UserManagement\UpdateUser $request
-     * @param \App\User $user
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUser $request, User $user)
@@ -106,7 +106,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\User $user
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -122,7 +122,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \App\User $user
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function roles(User $user)

@@ -3,7 +3,7 @@
 namespace App\Policies\Accounting;
 
 use App\Models\Accounting\Wallet;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class WalletPolicy
@@ -20,7 +20,7 @@ class WalletPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class WalletPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\Wallet  $wallet
      * @return mixed
      */
@@ -52,7 +52,7 @@ class WalletPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -63,7 +63,7 @@ class WalletPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\Wallet  $wallet
      * @return mixed
      */
@@ -75,7 +75,7 @@ class WalletPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Accounting\Wallet  $wallet
      * @return mixed
      */

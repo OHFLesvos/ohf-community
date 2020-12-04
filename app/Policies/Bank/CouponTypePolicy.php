@@ -3,7 +3,7 @@
 namespace App\Policies\Bank;
 
 use App\Models\Bank\CouponType;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CouponTypePolicy
@@ -20,7 +20,7 @@ class CouponTypePolicy
     /**
      * Determine whether the user can list couponTypes.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class CouponTypePolicy
     /**
      * Determine whether the user can view the couponType.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Bank\CouponType  $couponType
      * @return mixed
      */
@@ -43,7 +43,7 @@ class CouponTypePolicy
     /**
      * Determine whether the user can create couponTypes.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -54,7 +54,7 @@ class CouponTypePolicy
     /**
      * Determine whether the user can update the couponType.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Bank\CouponType  $couponType
      * @return mixed
      */
@@ -66,7 +66,7 @@ class CouponTypePolicy
     /**
      * Determine whether the user can delete the couponType.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Bank\CouponType  $couponType
      * @return mixed
      */

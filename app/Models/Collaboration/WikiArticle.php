@@ -3,7 +3,7 @@
 namespace App\Models\Collaboration;
 
 use App\Models\Traits\TagsRelation;
-use App\Tag;
+use App\Models\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

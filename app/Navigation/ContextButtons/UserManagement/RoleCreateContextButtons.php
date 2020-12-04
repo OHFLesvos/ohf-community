@@ -3,7 +3,7 @@
 namespace App\Navigation\ContextButtons\UserManagement;
 
 use App\Navigation\ContextButtons\ContextButtons;
-use App\Role;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 

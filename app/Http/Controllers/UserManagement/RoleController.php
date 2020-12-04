@@ -5,9 +5,9 @@ namespace App\Http\Controllers\UserManagement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserManagement\StoreRole;
 use App\Http\Requests\UserManagement\UpdateMembers;
-use App\Role;
-use App\RolePermission;
-use App\User;
+use App\Models\Role;
+use App\Models\RolePermission;
+use App\Models\User;
 
 class RoleController extends Controller
 {

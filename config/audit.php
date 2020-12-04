@@ -37,7 +37,7 @@ return [
     'user' => [
         'primary_key' => 'id',
         'foreign_key' => 'user_id',
-        'model'       => App\User::class,
+        'model'       => App\Models\User::class,
     ],
 
     /*

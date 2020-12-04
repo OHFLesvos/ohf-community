@@ -4,7 +4,7 @@ namespace App\Models\Accounting;
 
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;

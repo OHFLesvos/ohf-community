@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Comment;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentFactory extends Factory

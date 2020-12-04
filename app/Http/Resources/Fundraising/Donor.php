@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Fundraising;
 
 use App\Models\Fundraising\Donation;
-use App\Tag;
+use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Donor extends JsonResource

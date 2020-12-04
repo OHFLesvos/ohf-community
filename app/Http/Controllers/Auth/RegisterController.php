@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\UserSelfRegistered;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;

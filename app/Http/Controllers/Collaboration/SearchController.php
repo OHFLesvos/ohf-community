@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Collaboration;
 
 use App\Http\Controllers\Controller;
 use App\Models\Collaboration\WikiArticle;
-use App\Tag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
