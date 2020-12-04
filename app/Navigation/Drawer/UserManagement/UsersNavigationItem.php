@@ -3,8 +3,8 @@
 namespace App\Navigation\Drawer\UserManagement;
 
 use App\Navigation\Drawer\BaseNavigationItem;
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UsersNavigationItem extends BaseNavigationItem

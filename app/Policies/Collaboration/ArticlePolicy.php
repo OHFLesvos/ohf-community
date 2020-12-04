@@ -3,7 +3,7 @@
 namespace App\Policies\Collaboration;
 
 use App\Models\Collaboration\WikiArticle;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ArticlePolicy
@@ -20,7 +20,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can list articles.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can view the wiki article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Collaboration\WikiArticle  $wikiArticle
      * @return mixed
      */
@@ -46,7 +46,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can create wiki articles.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -57,7 +57,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can update the wiki article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Collaboration\WikiArticle  $wikiArticle
      * @return mixed
      */
@@ -69,7 +69,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can delete the wiki article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Collaboration\WikiArticle  $wikiArticle
      * @return mixed
      */

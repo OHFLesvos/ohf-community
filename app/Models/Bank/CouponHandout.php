@@ -4,13 +4,15 @@ namespace App\Models\Bank;
 
 use App\Models\People\Person;
 use Carbon\Carbon;
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class CouponHandout extends Model implements Auditable
 {
+    use HasFactory;
     use \OwenIt\Auditing\Auditable;
     use NullableFields;
 

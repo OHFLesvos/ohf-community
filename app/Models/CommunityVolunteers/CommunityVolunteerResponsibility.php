@@ -2,7 +2,7 @@
 
 namespace App\Models\CommunityVolunteers;
 
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Carbon;
 

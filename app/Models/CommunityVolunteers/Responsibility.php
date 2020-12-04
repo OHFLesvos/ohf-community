@@ -4,11 +4,13 @@ namespace App\Models\CommunityVolunteers;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 class Responsibility extends Model
 {
+    use HasFactory;
     use Sluggable;
 
     protected $table = 'community_volunteer_responsibilities';
@@ -34,7 +36,7 @@ class Responsibility extends Model
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [

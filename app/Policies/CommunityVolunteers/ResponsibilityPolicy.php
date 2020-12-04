@@ -3,7 +3,7 @@
 namespace App\Policies\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\Responsibility;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ResponsibilityPolicy
@@ -20,7 +20,7 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can list responsibilities.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can view the responsibility.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\Responsibility  $responsibility
      * @return mixed
      */
@@ -43,7 +43,7 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can create responsibilities.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -54,7 +54,7 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can update the responsibility.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\Responsibility  $responsibility
      * @return mixed
      */
@@ -66,7 +66,7 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can delete the responsibility.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\Responsibility  $responsibility
      * @return mixed
      */

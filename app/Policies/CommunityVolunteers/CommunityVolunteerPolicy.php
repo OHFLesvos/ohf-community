@@ -3,7 +3,7 @@
 namespace App\Policies\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CommunityVolunteerPolicy
@@ -20,7 +20,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can list community volunteers.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can export community volunteers.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function export(User $user)
@@ -42,7 +42,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can import community volunteers.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function import(User $user)
@@ -53,7 +53,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can view the community volunteer.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\CommunityVolunteer  $communityVolunteer
      * @return mixed
      */
@@ -65,7 +65,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can create community volunteers.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -76,7 +76,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can update the community volunteer.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\CommunityVolunteer  $communityVolunteer
      * @return mixed
      */
@@ -88,7 +88,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can delete the community volunteer.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\CommunityVolunteer  $communityVolunteer
      * @return mixed
      */
@@ -100,7 +100,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can restore the community volunteer.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\CommunityVolunteer  $communityVolunteer
      * @return mixed
      */
@@ -112,7 +112,7 @@ class CommunityVolunteerPolicy
     /**
      * Determine whether the user can permanently delete the community volunteer.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\CommunityVolunteers\CommunityVolunteer  $communityVolunteer
      * @return mixed
      */

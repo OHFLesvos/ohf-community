@@ -4,11 +4,13 @@ namespace App\Models\Fundraising;
 
 use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Donation extends Model
 {
+    use HasFactory;
     use NullableFields;
     use InDateRangeScope;
     use CreatedUntilScope;

@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use App\User;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class Comment extends Model
 {
+    use HasFactory;
+
     public static function boot()
     {
         static::creating(function ($model) {

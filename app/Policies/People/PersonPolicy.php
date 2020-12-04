@@ -3,7 +3,7 @@
 namespace App\Policies\People;
 
 use App\Models\People\Person;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PersonPolicy
@@ -20,7 +20,7 @@ class PersonPolicy
     /**
      * Determine whether the user can list persons.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -32,7 +32,7 @@ class PersonPolicy
     /**
      * Determine whether the user can export persons.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function export(User $user)
@@ -43,7 +43,7 @@ class PersonPolicy
     /**
      * Determine whether the user can view the person.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\People\Person  $person
      * @return mixed
      */
@@ -55,7 +55,7 @@ class PersonPolicy
     /**
      * Determine whether the user can create persons.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -67,7 +67,7 @@ class PersonPolicy
     /**
      * Determine whether the user can update the person.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\People\Person  $person
      * @return mixed
      */
@@ -79,7 +79,7 @@ class PersonPolicy
     /**
      * Determine whether the user can delete the person.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\People\Person  $person
      * @return mixed
      */
@@ -91,7 +91,7 @@ class PersonPolicy
     /**
      * Determine whether the user can ckeanup persons.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function cleanup(User $user)

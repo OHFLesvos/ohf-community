@@ -3,8 +3,9 @@
 namespace App\Models\Library;
 
 use App\Models\Traits\LanguageCodeField;
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Nicebooks\Isbn\Exception\InvalidIsbnException;
@@ -13,6 +14,7 @@ use Nicebooks\Isbn\Isbn;
 
 class LibraryBook extends Model
 {
+    use HasFactory;
     use NullableFields;
     use LanguageCodeField;
 

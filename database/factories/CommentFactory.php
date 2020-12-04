@@ -1,25 +1,49 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\Comment;
-use App\User;
-use Faker\Generator as Faker;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Comment::class, function (Faker $faker) {
-    return [
-        'content' => $faker->sentence,
-    ];
-});
+class CommentFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Comment::class;
 
-$factory->afterMaking(Comment::class, function (Comment $comment, $faker) {
-    $rnd = mt_rand(0, 100);
-    if ($rnd < 75) {
-        $user = User::inRandomOrder()->limit(1)->first();
-        if ($user !== null) {
-            $comment->setUser($user);
-        }
-    } elseif ($rnd < 95) {
-        $comment->user_name = $faker->name;
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'content' => $this->faker->sentence,
+        ];
     }
-});
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterMaking(function (Comment $comment) {
+            $rnd = mt_rand(0, 100);
+            if ($rnd < 75) {
+                $user = User::inRandomOrder()->limit(1)->first();
+                if ($user !== null) {
+                    $comment->setUser($user);
+                }
+            } elseif ($rnd < 95) {
+                $comment->user_name = $this->faker->name;
+            }
+        });
+    }
+}

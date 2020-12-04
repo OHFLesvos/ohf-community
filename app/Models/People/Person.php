@@ -8,8 +8,9 @@ use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\Library\LibraryLending;
 use Carbon\Carbon;
 use Exception;
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,8 @@ use Illuminate\Support\Str;
 
 class Person extends Model
 {
+    use HasFactory;
+
     public const PUBLIC_ID_LENGTH = 10;
 
     use SoftDeletes;

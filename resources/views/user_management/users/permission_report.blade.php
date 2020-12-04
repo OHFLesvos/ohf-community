@@ -11,12 +11,12 @@
                     <div class="mb-4 column-break-avoid">
                         <p class="mb-1">{{ $label }}:</p>
                         @php
-                            $roles = App\RolePermission::where('key', $key)
+                            $roles = App\Models\RolePermission::where('key', $key)
                                 ->get()
                                 ->map(fn ($e) => $e->role)
                                 ->sortBy('name');
                             $users = $roles->flatMap(fn ($e) => $e->users)
-                                ->concat(App\User::where('is_super_admin', true)->get())
+                                ->concat(App\Models\User::where('is_super_admin', true)->get())
                                 ->unique('id')
                                 ->sortBy('name');
                         @endphp

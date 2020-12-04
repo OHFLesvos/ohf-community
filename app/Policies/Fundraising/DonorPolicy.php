@@ -3,7 +3,7 @@
 namespace App\Policies\Fundraising;
 
 use App\Models\Fundraising\Donor;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DonorPolicy
@@ -20,7 +20,7 @@ class DonorPolicy
     /**
      * Determine whether the user can list donors.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,7 +31,7 @@ class DonorPolicy
     /**
      * Determine whether the user can view the donor.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Fundraising\Donor  $donor
      * @return mixed
      */
@@ -43,7 +43,7 @@ class DonorPolicy
     /**
      * Determine whether the user can create donors.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -54,7 +54,7 @@ class DonorPolicy
     /**
      * Determine whether the user can update the donor.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Fundraising\Donor  $donor
      * @return mixed
      */
@@ -66,7 +66,7 @@ class DonorPolicy
     /**
      * Determine whether the user can delete the donor.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Fundraising\Donor  $donor
      * @return mixed
      */

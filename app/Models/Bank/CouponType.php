@@ -2,7 +2,7 @@
 
 namespace App\Models\Bank;
 
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 
 class CouponType extends Model

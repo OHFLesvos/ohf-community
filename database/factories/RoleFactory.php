@@ -1,21 +1,46 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Role;
-use App\RolePermission;
-use Faker\Generator as Faker;
+use App\Models\Role;
+use App\Models\RolePermission;
 use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Role::class, function (Faker $faker) {
-    return [
-        'name' => $faker->unique()->jobTitle,
-    ];
-});
-$factory->afterCreating(Role::class, function ($role, $faker) {
-    $keys = array_keys(config('auth.permissions'));
-    $selected_keys = Arr::random($keys, mt_rand(0, min(10, count($keys))));
-    $permissions = collect($selected_keys)
-        ->map(fn ($key) => (new RolePermission())->withKey($key));
-    $role->permissions()->saveMany($permissions);
-});
+class RoleFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Role::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->unique()->jobTitle,
+        ];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function (Role $role) {
+            $keys = array_keys(config('auth.permissions'));
+            $selected_keys = Arr::random($keys, mt_rand(0, min(10, count($keys))));
+            $permissions = collect($selected_keys)
+                ->map(fn ($key) => (new RolePermission())->withKey($key));
+            $role->permissions()->saveMany($permissions);
+        });
+    }
+}

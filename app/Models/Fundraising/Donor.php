@@ -8,14 +8,16 @@ use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
 use App\Models\Traits\LanguageCodeField;
 use App\Models\Traits\TagsRelation;
-use App\Tag;
-use Iatstuti\Database\Support\NullableFields;
+use App\Models\Tag;
+use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Donor extends Model
 {
+    use HasFactory;
     use TagsRelation;
     use CommentsRelation;
     use LanguageCodeField;

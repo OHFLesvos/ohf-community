@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use App\Role;
-use App\RolePermission;
-use App\User;
+use App\Models\Role;
+use App\Models\RolePermission;
+use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -19,11 +19,11 @@ abstract class TestCase extends BaseTestCase
         //     ->with('fundraising.donations.accept_webhooks')
         //     ->willReturn(true);
 
-        $user = factory(User::class)->make([
+        $user = User::factory()->make([
             'id' => 99999,
             'locale' => config('app.locale'),
         ]);
-        $role = factory(Role::class)->make();
+        $role = Role::factory()->make();
         $user->roles[0] = $role;
         $role->permissions[0] = RolePermission::make([
             'key' => $permission,

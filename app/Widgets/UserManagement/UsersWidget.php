@@ -2,7 +2,7 @@
 
 namespace App\Widgets\UserManagement;
 
-use App\User;
+use App\Models\User;
 use App\Widgets\Widget;
 use Illuminate\Support\Facades\Auth;
 

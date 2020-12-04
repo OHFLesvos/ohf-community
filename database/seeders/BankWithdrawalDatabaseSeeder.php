@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
 use App\Models\People\Person;
@@ -23,7 +25,7 @@ class BankWithdrawalDatabaseSeeder extends Seeder
                 $numCouponTypes = mt_rand(0, $couponTypes->count());
                 $couponTypes->random($numCouponTypes)
                     ->each(function (CouponType $couponType) use($person) {
-                        $handout = factory(CouponHandout::class)->make();
+                        $handout = CouponHandout::factory()->make();
                         $handout->person()->associate($person);
                         $handout->couponType()->associate($couponType);
                         $handout->save();

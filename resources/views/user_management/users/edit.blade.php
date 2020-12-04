@@ -44,7 +44,7 @@
                         @empty($roles)
                             <em>@lang('app.no_roles_defined')</em>
                         @endempty
-                        @if (App\User::count() > 1)
+                        @if (App\Models\User::count() > 1)
                             <hr>
                             {{ Form::bsCheckbox('is_super_admin', true, null, __('app.this_user_is_admin')) }}
                         @endif

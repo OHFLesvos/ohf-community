@@ -4,10 +4,11 @@ namespace App\Models\Accounting;
 
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 class MoneyTransaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+    use HasFactory;
 
     private const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 

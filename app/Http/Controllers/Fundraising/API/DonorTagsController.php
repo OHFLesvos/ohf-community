@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTags;
 use App\Http\Resources\Tag as TagResource;
 use App\Models\Fundraising\Donor;
-use App\Tag;
+use App\Models\Tag;
 
 class DonorTagsController extends Controller
 {

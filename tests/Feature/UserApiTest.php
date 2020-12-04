@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
@@ -27,7 +27,7 @@ class UserApiTest extends TestCase
 
     public function testIndexWithoutAuthorization()
     {
-        $authUser = factory(User::class)->make();
+        $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
             ->getJson('api/users', []);
@@ -67,7 +67,7 @@ class UserApiTest extends TestCase
 
     public function testIndexWithOneRecord()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -116,13 +116,13 @@ class UserApiTest extends TestCase
 
     public function testIndexWithOrderedRecordsByName()
     {
-        $user1 = factory(User::class)->create([
+        $user1 = User::factory()->create([
             'name' => 'User A',
         ]);
-        $user2 = factory(User::class)->create([
+        $user2 = User::factory()->create([
             'name' => 'User C',
         ]);
-        $user3 = factory(User::class)->create([
+        $user3 = User::factory()->create([
             'name' => 'User B',
         ]);
 
@@ -174,19 +174,19 @@ class UserApiTest extends TestCase
 
     public function testIndexWithFilteredRecords()
     {
-        $user1 = factory(User::class)->create([
+        $user1 = User::factory()->create([
             'name' => 'John Doe',
             'email' => 'jonny@example.con'
         ]);
-        $user2 = factory(User::class)->create([
+        $user2 = User::factory()->create([
             'name' => 'Paul Smith',
             'email' => 'mister.s@example.com',
         ]);
-        $user3 = factory(User::class)->create([
+        $user3 = User::factory()->create([
             'name' => 'Anna Smith',
             'email' => 'miss.s@example.com',
         ]);
-        $user4 = factory(User::class)->create([
+        $user4 = User::factory()->create([
             'name' => 'Andrew Brown',
             'email' => 'blacksmith@example.com',
         ]);
@@ -257,7 +257,7 @@ class UserApiTest extends TestCase
 
     public function testStoreWithDuplicateEmail()
     {
-        $existingUser = factory(User::class)->create();
+        $existingUser = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
@@ -377,13 +377,13 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [App\\User] 123',
+                'message' => 'No query results for model [' . User::class . '] 123',
             ]);
     }
 
     public function testShowExisting()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -425,7 +425,7 @@ class UserApiTest extends TestCase
 
     public function testUpdateWithInsufficientPermissions()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -441,7 +441,7 @@ class UserApiTest extends TestCase
 
     public function testUpdateWithoutRequiredFields()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
@@ -455,7 +455,7 @@ class UserApiTest extends TestCase
 
     public function testUpdateWithDuplicateEmail()
     {
-        $users = factory(User::class, 2)->create();
+        $users = User::factory()->count(2)->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
@@ -472,7 +472,7 @@ class UserApiTest extends TestCase
 
     public function testUpdateWithNoChanges()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
@@ -497,7 +497,7 @@ class UserApiTest extends TestCase
     public function testUpdateWithValidInputWithoutTouchingPassword()
     {
         $password = Str::random(40);
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'password' => Hash::make($password),
         ]);
         $data = [
@@ -527,7 +527,7 @@ class UserApiTest extends TestCase
 
     public function testUpdateWithNewPassword()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $data = [
             'name' => $user->name,
             'email' => $user->email,
@@ -556,7 +556,7 @@ class UserApiTest extends TestCase
 
     public function testUpdateWithValidInputWithAllFields()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'is_super_admin' => true,
         ]);
         $data = [
@@ -591,7 +591,7 @@ class UserApiTest extends TestCase
 
     public function testDestroyWithInsufficientPermissions()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -604,7 +604,7 @@ class UserApiTest extends TestCase
 
     public function testDestroyWithCorrectPermissions()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
@@ -624,7 +624,7 @@ class UserApiTest extends TestCase
 
     public function testDestroyLastSuperAdmin()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'is_super_admin' => true,
         ]);
 
@@ -639,7 +639,7 @@ class UserApiTest extends TestCase
 
     public function testDestroySuperAdminWithRemainingSuperAdmin()
     {
-        $users = factory(User::class, 2)->create([
+        $users = User::factory()->count(2)->create([
             'is_super_admin' => true,
         ]);
 

@@ -1,15 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 
 class User extends Authenticatable implements HasLocalePreference
 {
+    use HasFactory;
     use Notifiable;
     use NullableFields;
 

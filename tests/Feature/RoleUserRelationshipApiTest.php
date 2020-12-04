@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
@@ -19,7 +19,7 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testIndexWithoutAuthentication()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $response = $this->getJson('api/roles/' . $role->id . '/relationships/users', []);
 
@@ -29,9 +29,9 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testIndexWithoutAuthorization()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
-        $authUser = factory(User::class)->make();
+        $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
             ->getJson('api/roles/' . $role->id . '/relationships/users', []);
@@ -52,13 +52,13 @@ class RoleUserRelationshipApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [App\\Role] 1234',
+                'message' => 'No query results for model [' . Role::class . '] 1234',
             ]);
     }
 
     public function testIndexWithoutRecords()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -76,11 +76,11 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testIndexWithRecords()
     {
-        $role = factory(Role::class)->create();
-        $user1 = factory(User::class)->create([
+        $role = Role::factory()->create();
+        $user1 = User::factory()->create([
             'name' => 'User A',
         ]);
-        $user2 = factory(User::class)->create([
+        $user2 = User::factory()->create([
             'name' => 'User B',
         ]);
         $role->users()->sync([$user1->id, $user2->id]);
@@ -108,8 +108,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testStoreWithInsufficientPermissions()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -126,7 +126,7 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testStoreWithNonExistingRole()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -143,7 +143,7 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testStoreWithNonExistingUser()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -161,8 +161,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testStoreWithValidUser()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -187,8 +187,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testStoreWithAlreadyAttachedUser()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user = User::factory()->create();
         $role->users()->attach($user);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
@@ -219,8 +219,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testUpdateWithInsufficientPermissions()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -237,7 +237,7 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testUpdateWithNonExistingRole()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -254,8 +254,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testUpdateWithNonExistingUser()
     {
-        $user1 = factory(User::class)->create();
-        $role = factory(Role::class)->create();
+        $user1 = User::factory()->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -274,10 +274,10 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testUpdateWithValidUsers()
     {
-        $role = factory(Role::class)->create();
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
-        $user3 = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $user3 = User::factory()->create();
         $role->users()->attach([$user1->id, $user2->id]);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
@@ -312,9 +312,9 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testUpdateWithEmptyUsers()
     {
-        $role = factory(Role::class)->create();
-        $user1 = factory(User::class)->create();
-        $user2 = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
         $role->users()->attach([$user1->id, $user2->id]);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
@@ -346,8 +346,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testDestroyWithInsufficientPermissions()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -364,7 +364,7 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testDestroyWithNonExistingRole()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -381,7 +381,7 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testDestroyWithNonExistingUser()
     {
-        $role = factory(Role::class)->create();
+        $role = Role::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -399,8 +399,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testDestroyWithoutAttachedUser()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
@@ -420,8 +420,8 @@ class RoleUserRelationshipApiTest extends TestCase
 
     public function testDestroyWitAttachedRole()
     {
-        $role = factory(Role::class)->create();
-        $user = factory(User::class)->create();
+        $role = Role::factory()->create();
+        $user = User::factory()->create();
         $role->users()->attach($user);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');

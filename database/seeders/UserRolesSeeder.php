@@ -1,8 +1,9 @@
 <?php
 
-use App\Role;
-use App\RolePermission;
-use App\User;
+namespace Database\Seeders;
+
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -15,13 +16,22 @@ class UserRolesSeeder extends Seeder
      */
     public function run()
     {
-        $roles = factory(Role::class, 15)->create();
-        factory(User::class, 100)->create()->each(function ($user) use ($roles) {
-            $user->roles()->attach($roles->random(mt_rand(0, 5))->unique()->values());
-        });
+        $roles = Role::factory()
+            ->count(15)
+            ->create();
+        User::factory()
+            ->count(100)
+            ->create()
+            ->each(function (User $user) use ($roles) {
+                $user->roles()
+                    ->attach($roles->random(mt_rand(0, 5))
+                        ->unique()
+                        ->values()
+                    );
+            });
 
         // Assign administrators to roles
-        $roles->each(function ($role) {
+        $roles->each(function (Role $role) {
             $num_users = $role->users->count();
             if ($num_users > 0) {
                 $num_admins = mt_rand(0, min(3, $num_users));

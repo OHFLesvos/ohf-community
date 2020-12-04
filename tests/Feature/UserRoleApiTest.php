@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Tests\TestCase;
@@ -14,7 +14,7 @@ class UserRoleApiTest extends TestCase
 
     public function testIndexWithoutAuthentication()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->getJson('api/users/' . $user->id . '/roles', []);
 
@@ -24,9 +24,9 @@ class UserRoleApiTest extends TestCase
 
     public function testIndexWithoutAuthorization()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $authUser = factory(User::class)->make();
+        $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
             ->getJson('api/users/' . $user->id . '/roles', []);
@@ -47,13 +47,13 @@ class UserRoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [App\\User] 1234',
+                'message' => 'No query results for model [' . User::class . '] 1234',
             ]);
     }
 
     public function testIndexWithoutRecords()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -69,11 +69,11 @@ class UserRoleApiTest extends TestCase
 
     public function testIndexWithRecords()
     {
-        $user = factory(User::class)->create();
-        $role1 = factory(Role::class)->create([
+        $user = User::factory()->create();
+        $role1 = Role::factory()->create([
             'name' => 'Role A',
         ]);
-        $role2 = factory(Role::class)->create([
+        $role2 = Role::factory()->create([
             'name' => 'Role B',
         ]);
         $user->roles()->sync([$role1->id, $role2->id]);
