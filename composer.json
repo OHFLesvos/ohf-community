@@ -46,7 +46,7 @@
         "owen-it/laravel-auditing": "^11.0",
         "petercoles/multilingual-language-list": "^1.1",
         "scriptotek/google-books": "dev-master",
-        "sentry/sentry-laravel": "^1.9",
+        "sentry/sentry-laravel": "^2.3",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spatie/pdf-to-image": "^2.0",
         "spomky-labs/otphp": "^10.0",

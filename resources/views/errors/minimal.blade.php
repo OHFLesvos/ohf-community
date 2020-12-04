@@ -57,12 +57,12 @@
                 border: 1px solid #1D87CE;
                 box-shadow: 0 1px 1px rgba(0,0,0, .12);
             }
-        </style>
 
-        {{-- Sentry SDK --}}
-        @if(config('sentry.dsn') != '')
-            <script src="https://browser.sentry-cdn.com/5.15.5/bundle.min.js" integrity="sha384-wF7Jc4ZlWVxe/L8Ji3hOIBeTgo/HwFuaeEfjGmS3EXAG7Y+7Kjjr91gJpJtr+PAT" crossorigin="anonymous"></script>
-        @endif
+            .error-id {
+                margin-left: 1em;
+                color: grey;
+            }
+        </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
@@ -71,20 +71,22 @@
             </div>
             <div class="message" style="padding: 10px;">
                 @yield('message')
+                @if(filled(config('sentry.dsn')) && app()->bound('sentry') && app('sentry')->getLastEventId())
+                    <small class="error-id">
+                        Error ID: {{ app('sentry')->getLastEventId() }}
+                    </small>
+                @endif
             </div>
-            @if(config('sentry.dsn') != '' && Sentry\State\Hub::getCurrent()->getLastEventId())
-                <button class="report-button">Report this issue</button>
-            @endif
         </div>
-        {{-- Sentry user feedback report form --}}
-        @if(config('sentry.dsn') != '' && Sentry\State\Hub::getCurrent()->getLastEventId())
+        @if(filled(config('sentry.dsn')) && app()->bound('sentry') && app('sentry')->getLastEventId())
+            <script
+                src="https://browser.sentry-cdn.com/5.28.0/bundle.min.js"
+                integrity="sha384-1HcgUzJmxPL9dRnZD2wMIj5+xsJfHS+WR+pT2yJNEldbOr9ESTzgHMQOcsb2yyDl"
+                crossorigin="anonymous"
+            ></script>
             <script>
-                window.onload = function(e) {
-                    document.querySelector(".report-button").addEventListener('click', function() {
-                        Sentry.init({ dsn: '{{ config('sentry.dsn') }}' });
-                        Sentry.showReportDialog({ eventId: '{{ Sentry\State\Hub::getCurrent()->getLastEventId() }}' })
-                    })
-                }
+                Sentry.init({ dsn: '{{ config('sentry.dsn') }}' });
+                Sentry.showReportDialog({ eventId: '{{ app('sentry')->getLastEventId() }}' });
             </script>
         @endif
     </body>
