@@ -182,14 +182,8 @@ return [
         App\Providers\ComposerServiceProvider::class,
         App\Providers\FormServiceProvider::class,
         App\Providers\NavigationServiceProvider::class,
-
         App\Providers\Accounting\WeblingServiceProvider::class,
 
-        Collective\Html\HtmlServiceProvider::class,
-
-        anlutro\LaravelSettings\ServiceProvider::class,
-
-        Monarobase\CountryList\CountryListServiceProvider::class,
     ],
 
     /*
@@ -241,13 +235,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-
         'Setting' => anlutro\LaravelSettings\Facade::class,
-
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
+
     ],
 
 ];
