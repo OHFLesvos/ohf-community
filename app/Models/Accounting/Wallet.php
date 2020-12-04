@@ -4,10 +4,13 @@ namespace App\Models\Accounting;
 
 use App\Role;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Wallet extends Model
 {
+    use HasFactory;
+
     protected $table = 'accounting_wallets';
 
     protected $fillable = [

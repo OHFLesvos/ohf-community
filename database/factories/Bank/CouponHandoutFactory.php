@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Bank;
 
-use App\Tag;
+use App\Models\Bank\CouponHandout;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TagFactory extends Factory
+class CouponHandoutFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Tag::class;
+    protected $model = CouponHandout::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,8 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'name' => ucfirst($this->faker->word),
+            'date' => $this->faker->dateTimeBetween('-24 months', 'now'),
+            'amount' => mt_rand(1, 2),
         ];
     }
 }

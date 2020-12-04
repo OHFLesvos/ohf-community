@@ -2,12 +2,14 @@
 
 namespace App\Models\Accounting;
 
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Supplier extends Model
 {
+    use HasFactory;
     use NullableFields;
     use Sluggable;
 

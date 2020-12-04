@@ -3,10 +3,13 @@
 namespace App\Models\Library;
 
 use App\Models\People\Person;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LibraryLending extends Model
 {
+    use HasFactory;
+
     protected $dates = [
         'lending_date',
         'return_date',

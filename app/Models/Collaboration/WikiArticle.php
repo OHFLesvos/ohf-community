@@ -6,11 +6,13 @@ use App\Models\Traits\TagsRelation;
 use App\Tag;
 use App\Util\Collaboration\ArticleFormat;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class WikiArticle extends Model implements Auditable
 {
+    use HasFactory;
     use TagsRelation;
     use Sluggable;
     use \OwenIt\Auditing\Auditable;
@@ -40,7 +42,7 @@ class WikiArticle extends Model implements Auditable
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [

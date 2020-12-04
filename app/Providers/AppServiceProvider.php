@@ -64,6 +64,8 @@ class AppServiceProvider extends ServiceProvider
             \URL::forceScheme('https');
         }
 
+        Paginator::useBootstrap();
+
         // Pagination method for collections
         if (! Collection::hasMacro('paginate')) {
             Collection::macro('paginate',

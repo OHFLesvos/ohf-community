@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Collaboration;
 
-use App\Tag;
+use App\Models\Collaboration\WikiArticle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TagFactory extends Factory
+class WikiArticleFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Tag::class;
+    protected $model = WikiArticle::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,8 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'name' => ucfirst($this->faker->word),
+            'title' => $this->faker->unique()->catchPhrase,
+            'content' => implode("\n\n", $this->faker->paragraphs(4)),
         ];
     }
 }

@@ -5,8 +5,9 @@ namespace App\Models\CommunityVolunteers;
 use App\Models\Traits\CommentsRelation;
 use Carbon\Carbon;
 use Exception;
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,6 +15,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class CommunityVolunteer extends Model implements Auditable
 {
+    use HasFactory;
     use NullableFields;
     use \OwenIt\Auditing\Auditable;
     use CommentsRelation;

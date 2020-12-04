@@ -17,53 +17,53 @@
     "require": {
         "php": "^7.4.0",
         "akaunting/language": "^1.0",
-        "anlutro/l4-settings": "^0.11",
+        "anlutro/l4-settings": "^1.0",
         "creativeorange/gravatar": "~1.0",
-        "cviebrock/eloquent-sluggable": "^7.0",
+        "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^2.6",
         "dompdf/dompdf": "^0.8.2",
-        "dyrynda/laravel-nullable-fields": "^3.0",
+        "dyrynda/laravel-nullable-fields": "^4.0",
         "endroid/qr-code": "^3.1",
         "exolnet/laravel-sqlite-fluent-drop-foreign": "^1.1",
         "fideloper/proxy": "^4.2",
-        "fruitcake/laravel-cors": "^1.0",
-        "gumlet/php-image-resize": "1.9.*",
-        "guzzlehttp/guzzle": "^6.3",
+        "fruitcake/laravel-cors": "^2.0.2",
+        "gumlet/php-image-resize": "^2.0",
+        "guzzlehttp/guzzle": "^7.0.1",
         "intervention/validation": "^2.5",
         "jeroendesloovere/vcard": "^1.6",
-        "laravel/framework": "^7.0",
-        "laravel/socialite": "^4.1",
-        "laravel/ui": "^2.0",
+        "laravel/framework": "^8.0",
+        "laravel/socialite": "^5.0",
+        "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.0",
         "maatwebsite/excel": "^3.1",
         "maennchen/zipstream-php": "^2.0",
         "michelf/php-markdown": "^1.8",
-        "monarobase/country-list": "^3.0",
+        "monarobase/country-list": "^3.2",
         "mpdf/mpdf": "^8.0",
         "mrcage/chf-exchange-rates": "^1.0",
         "nicebooks/isbn": "^0.2.20",
         "org_heigl/ghostscript": "^2.3",
-        "owen-it/laravel-auditing": "^10.0",
+        "owen-it/laravel-auditing": "^11.0",
         "petercoles/multilingual-language-list": "^1.1",
         "scriptotek/google-books": "dev-master",
-        "sentry/sentry-laravel": "^1.7",
+        "sentry/sentry-laravel": "^1.9",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spatie/pdf-to-image": "^2.0",
         "spomky-labs/otphp": "^10.0",
         "tightenco/ziggy": "^0.9.1",
-        "unisharp/laravel-filemanager": "^2.0",
+        "unisharp/laravel-filemanager": "^2.2",
         "usystems/webling-api-php": "^1.2",
         "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
-        "facade/ignition": "^2.0",
+        "djedaini/laravel-vue-i18n-generator": "^0.1.47",
+        "facade/ignition": "^2.3.6",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "^1.9.1",
-        "martinlindhe/laravel-vue-i18n-generator": "^0.1.45",
         "mockery/mockery": "^1.3.1",
-        "nunomaduro/collision": "^4.1",
-        "phpunit/phpunit": "^8.5 || ^9.0"
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -80,12 +80,10 @@
             "app/helpers.php"
         ],
         "psr-4": {
-            "App\\": "app/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
     },
     "autoload-dev": {
         "psr-4": {

@@ -2,7 +2,7 @@
 
 namespace App\Models\Visitors;
 
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
@@ -14,12 +16,18 @@ class AccountingDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(Supplier::class, 100)->create();
+        Supplier::factory()
+            ->create();
 
-        factory(Wallet::class, 3)->create()
-           ->each(function ($wallet) {
+        Wallet::factory()
+            ->count(3)
+            ->create()
+            ->each(function (Wallet $wallet) {
                 $wallet->transactions()->createMany(
-                    factory(MoneyTransaction::class, mt_rand(50, 250))->make()->toArray()
+                    MoneyTransaction::factory()
+                        ->count(mt_rand(50, 250))
+                        ->make()
+                        ->toArray()
                 );
             });
     }

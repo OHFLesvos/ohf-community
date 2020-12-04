@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Iatstuti\Database\Support\NullableFields;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
