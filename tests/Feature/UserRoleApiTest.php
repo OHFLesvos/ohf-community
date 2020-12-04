@@ -47,7 +47,7 @@ class UserRoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [App\\User] 1234',
+                'message' => 'No query results for model [' . User::class . '] 1234',
             ]);
     }
 

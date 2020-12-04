@@ -377,7 +377,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [App\\User] 123',
+                'message' => 'No query results for model [' . User::class . '] 123',
             ]);
     }
 

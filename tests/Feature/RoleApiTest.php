@@ -275,7 +275,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [App\\Role] 123',
+                'message' => 'No query results for model [' . Role::class . '] 123',
             ]);
     }
 
@@ -351,7 +351,7 @@ class RoleApiTest extends TestCase
 
     public function testUpdateWithDuplicateName()
     {
-        $roles =Role::factory()Role::class, 2)->create();
+        $roles = Role::factory()->count(2)->create();
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
