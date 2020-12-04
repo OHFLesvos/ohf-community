@@ -105,7 +105,7 @@ class CommunityVolunteer extends Model implements Auditable
                 'community_volunteer_id',
                 'responsibility_id'
             )
-            ->using('\App\Models\CommunityVolunteers\CommunityVolunteerResponsibility')
+            ->using(CommunityVolunteerResponsibility::class)
             ->withPivot('start_date', 'end_date')
             ->withTimestamps();
     }

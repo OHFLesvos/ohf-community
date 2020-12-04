@@ -62,7 +62,7 @@ class Responsibility extends Model
                 'responsibility_id',
                 'community_volunteer_id'
             )
-            ->using('\App\Models\CommunityVolunteers\CommunityVolunteerResponsibility')
+            ->using(CommunityVolunteerResponsibility::class)
             ->withPivot([ 'start_date', 'end_date' ])
             ->withTimestamps();
     }

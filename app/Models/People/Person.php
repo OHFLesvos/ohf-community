@@ -213,7 +213,7 @@ class Person extends Model
 
     public function couponHandouts()
     {
-        return $this->hasMany(\App\Models\Bank\CouponHandout::class);
+        return $this->hasMany(CouponHandout::class);
     }
 
     public function eligibleForCoupon(CouponType $couponType): bool
