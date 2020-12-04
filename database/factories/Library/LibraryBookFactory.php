@@ -14,12 +14,7 @@ class LibraryBookFactory extends Factory
      */
     protected $model = LibraryBook::class;
 
-    private array $language_codes;
-
-    public function __construct()
-    {
-        $this->language_codes = weightedLanguages(15);
-    }
+    private array $language_codes = [];
 
     /**
      * Define the model's default state.
@@ -29,6 +24,9 @@ class LibraryBookFactory extends Factory
     public function definition()
     {
         $sentence = $this->faker->sentence;
+        if (empty($this->language_codes)) {
+            $this->language_codes = weightedLanguages(15);
+        }
         return [
             'title' => substr($sentence, 0, strlen($sentence) - 1),
             'author' => $this->faker->optional(0.9)->name,

@@ -15,12 +15,7 @@ class PersonFactory extends Factory
      */
     protected $model = Person::class;
 
-    private array $countries;
-
-    public function __construct()
-    {
-        $this->countries = weightedCountries(15);
-    }
+    private array $countries = [];
 
     /**
      * Define the model's default state.
@@ -34,6 +29,9 @@ class PersonFactory extends Factory
         $lc = $this->faker->optional(0.3)->languageCode;
         $language = $lc != null ? \Languages::lookup([$lc])->first() : null;
 
+        if (empty($this->countries)) {
+            $this->countries = weightedCountries(15);
+        }
         $nationality = $this->faker->optional(0.9)->randomElement($this->countries);
 
         $dob = $this->faker->optional(0.9)->dateTimeBetween('-70 years', 'now');
