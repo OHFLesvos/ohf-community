@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fce4faf00b973c2cc343eef02694c680",
+    "content-hash": "ca0ad7b04cc216a962d5bf66f8067165",
     "packages": [
         {
             "name": "akaunting/language",
@@ -12411,7 +12411,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4.0"
+        "php": "^7.4.0|^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"

@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "^7.4.0",
+        "php": "^7.4.0|^8.0",
         "akaunting/language": "^1.0",
         "anlutro/l4-settings": "^1.0",
         "creativeorange/gravatar": "~1.0",
