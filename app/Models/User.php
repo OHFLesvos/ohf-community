@@ -114,7 +114,7 @@ class User extends Authenticatable implements HasLocalePreference
                 $permissions[] = $permission;
             }
         }
-        return collect(config('auth.permissions'))
+        return collect(config('permissions.keys'))
             ->keys()
             ->intersect(collect($permissions)->map(fn ($permission) => $permission->key))
             ->unique()

@@ -175,7 +175,7 @@ class UserController extends Controller
      */
     public function sensitiveDataReport()
     {
-        $available_permissions = collect(config('auth.permissions'));
+        $available_permissions = collect(config('permissions.keys'));
         $sensitive_permissions = $available_permissions->where('sensitive', true);
 
         return view('user_management.users.privacy_report', [

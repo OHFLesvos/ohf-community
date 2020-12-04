@@ -138,7 +138,7 @@ class RoleController extends Controller
         }
 
         // Remove non-requested permissions
-        $valid_keys = array_keys(config('auth.permissions'));
+        $valid_keys = array_keys(config('permissions.keys'));
         $not_requested_keys = collect($valid_keys)
             ->filter(fn ($key) => ! $requested_keys->contains($key))
             ->toArray();

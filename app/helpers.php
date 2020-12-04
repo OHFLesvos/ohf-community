@@ -283,7 +283,7 @@ if (! function_exists('weightedLanguages')) {
 if (! function_exists('getCategorizedPermissions')) {
     function getCategorizedPermissions(): array
     {
-        $map = collect(config('auth.permissions'))
+        $map = collect(config('permissions.keys'))
             ->map(fn ($p) => __($p['label']))
             ->toArray();
         $permissions = [];

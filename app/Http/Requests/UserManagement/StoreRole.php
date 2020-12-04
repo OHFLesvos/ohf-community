@@ -42,7 +42,7 @@ class StoreRole extends FormRequest
             ],
             'permissions' => [
                 'array',
-                Rule::in(array_keys(config('auth.permissions'))),
+                Rule::in(array_keys(config('permissions.keys'))),
             ],
         ];
     }

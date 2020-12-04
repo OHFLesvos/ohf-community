@@ -36,7 +36,7 @@ class RoleFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Role $role) {
-            $keys = array_keys(config('auth.permissions'));
+            $keys = array_keys(config('permissions.keys'));
             $selected_keys = Arr::random($keys, mt_rand(0, min(10, count($keys))));
             $permissions = collect($selected_keys)
                 ->map(fn ($key) => (new RolePermission())->withKey($key));
