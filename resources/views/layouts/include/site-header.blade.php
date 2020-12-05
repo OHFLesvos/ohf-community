@@ -90,7 +90,9 @@
 
         @auth
             <div class="position-relative d-none d-md-inline-block">
-                <button class="context-nav-toggle btn btn-link text-light px-3"><img src="{{ Auth::user()->avatarUrl('site_header') }}" alt="Gravatar" class="bg-white rounded-circle" style="width: 30px; height: 30px;"></button>
+                <button class="context-nav-toggle btn btn-link text-light px-3">
+                    <x-avatar :user="Auth::user()" size="30"/>
+                </button>
                 <ul class="context-nav userprofile-nav">
                     <li>
                         <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block">

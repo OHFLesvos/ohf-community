@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\UserManagement\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,9 @@ Route::middleware(['auth', 'language'])
                             });
                     });
             });
+
+        Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
+            ->name('users.avatar');
 
         Route::apiResource('roles', 'RoleController');
         Route::prefix('roles/{role}')

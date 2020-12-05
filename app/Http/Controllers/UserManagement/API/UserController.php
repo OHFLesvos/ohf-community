@@ -11,8 +11,11 @@ use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserCollection;
 use App\Models\Role;
 use App\Models\User;
+use App\View\Components\Avatar;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use LasseRafn\InitialAvatarGenerator\InitialAvatar;
 
 class UserController extends Controller
 {
@@ -133,5 +136,29 @@ class UserController extends Controller
         return new RoleCollection($user->roles()
             ->orderBy('name', 'asc')
             ->get());
+    }
+
+    /**
+     * Display the avatar of the user.
+     *
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function avatar(User $user, Request $request)
+    {
+        $request->validate([
+            'size' => [
+                'nullable',
+                'integer',
+                'min:10',
+                'max:250',
+            ],
+        ]);
+
+        $avatar = new InitialAvatar();
+        return $avatar->name($user->name)
+            ->size($request->input('size', Avatar::DEFAULT_SIZE))
+            ->generate()
+            ->response('png', 100);
     }
 }
