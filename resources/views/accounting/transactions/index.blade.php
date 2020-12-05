@@ -350,7 +350,7 @@
                 @if(count($filter) > 0)
                     <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1"><x-icon icon="eraser"/> @lang('app.reset_filter')</a>
                 @endif
-                {{ Form::bsSubmitButton(__('app.update'), 'search') }}
+                <x-form.bs-submit-button :label="__('app.update')" icon="search"/>
             @endslot
         @endcomponent
     {!! Form::close() !!}

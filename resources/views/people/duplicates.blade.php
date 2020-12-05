@@ -31,7 +31,9 @@
                     </div>
                 </div>
             @endforeach
-            <p>{{ Form::bsSubmitButton('Apply') }}</p>
+            <p>
+                <x-form.bs-submit-button :label="__('app.apply')"/>
+            </p>
         {!! Form::close() !!}
     @else
         <x-alert type="info">

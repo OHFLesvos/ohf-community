@@ -11,9 +11,9 @@
             </div>
         </div>
         <p>
-            {{ Form::bsSubmitButton(__('app.export')) }}
+            <x-form.bs-submit-button :label="__('app.export')"/>
         </p>
     {!! Form::close() !!}
-    
+
 @endsection
 

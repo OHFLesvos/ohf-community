@@ -53,7 +53,7 @@
         </div>
 
         <p>
-            {{ Form::bsSubmitButton(__('app.create')) }}
+            <x-form.bs-submit-button :label="__('app.create')"/>
         </p>
 
     {!! Form::close() !!}

@@ -70,7 +70,7 @@
                 </table>
             </div>
             <p>
-                {{ Form::bsSubmitButton(__('app.submit')) }}
+                <x-form.bs-submit-button :label="__('app.submit')"/>
             </p>
         {!! Form::close() !!}
     @else

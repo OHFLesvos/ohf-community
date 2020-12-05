@@ -10,7 +10,7 @@
         <p>@lang('userprofile.tfa_scan_explanation')</p>
         {{  Form::bsNumber('code', null, [ 'required', 'autofocus' ], '') }}
         <p>
-            {{ Form::bsSubmitButton(__('app.enable')) }}
+            <x-form.bs-submit-button :label="__('app.enable')"/>
         </p>
     {!! Form::close() !!}
 @endsection

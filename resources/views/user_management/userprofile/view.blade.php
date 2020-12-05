@@ -12,7 +12,7 @@
                     {!! Form::open(['route' => ['userprofile.update']]) !!}
                         {{ Form::bsText('name', $user->name, [ 'required' ], __('userprofile.name')) }}
                         {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
-                        {{ Form::bsSubmitButton(__('userprofile.update')) }}
+                        <x-form.bs-submit-button :label="__('userprofile.update')"/>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -25,7 +25,7 @@
                             {{ Form::bsPassword('old_password', [ 'required' ], __('userprofile.old_password')) }}
                             {{ Form::bsPassword('password', [ 'required' ], __('userprofile.new_password')) }}
                             {{ Form::bsPassword('password_confirmation', [ 'required' ], __('userprofile.confirm_password')) }}
-                            {{ Form::bsSubmitButton(__('userprofile.update_password')) }}
+                            <x-form.bs-submit-button :label="__('userprofile.update_password')"/>
                         {!! Form::close() !!}
                     </div>
                 </div>

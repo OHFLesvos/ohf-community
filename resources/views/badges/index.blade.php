@@ -21,7 +21,7 @@
         <div id="input_list" class="mb-3">
         </div>
         <p>
-            {{ Form::bsSubmitButton(__('app.next')) }}
+            <x-form.bs-submit-button :label="__('app.next')"/>
         </p>
     {!! Form::close() !!}
 @endsection

@@ -9,7 +9,7 @@
     {{ Form::open(['route' => 'bank.createCodeCard']) }}
         {{ Form::bsNumber('amount', 10, ['min' => 1], __('app.amount'), 'Number of code cards to generate') }}
         <p>
-            {{ Form::bsSubmitButton(__('people.create_pdf'), 'create') }}
+            <x-form.bs-submit-button :label="__('people.create_pdf')" icon="create"/>
         </p>
     {{ Form::close() }}
     <div id="patience-notice" style="display:none">

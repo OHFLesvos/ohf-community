@@ -11,7 +11,9 @@
                 {{ Form::bsTextarea('description', null, [], __('app.description')) }}
                 {{ Form::bsNumber('capacity', null, [ 'min' => 0 ], __('app.capacity')) }}
                 <p>{{ Form::bsCheckbox('available', 1, null, __('app.available')) }}</p>
-                <p>{{ Form::bsSubmitButton(__('app.update')) }}</p>
+                <p>
+                    <x-form.bs-submit-button :label="__('app.update')"/>
+                </p>
             {!! Form::close() !!}
         </div>
         <div class="col-md">
