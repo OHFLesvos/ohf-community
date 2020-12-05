@@ -21,7 +21,6 @@
         "creativeorange/gravatar": "~1.0",
         "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^2.6",
-        "dompdf/dompdf": "^0.8.2",
         "dyrynda/laravel-nullable-fields": "^4.0",
         "endroid/qr-code": "^3.1",
         "exolnet/laravel-sqlite-fluent-drop-foreign": "^1.1",

@@ -2,18 +2,20 @@
 
 namespace App\Util\Collaboration;
 
+use Mpdf\HTMLParserMode;
+use Mpdf\Mpdf;
+use Mpdf\Output\Destination;
+
 class ArticlePdfExport
 {
     public static function createPDF($title, $content)
     {
-        $mpdf = new \Mpdf\Mpdf([
+        $mpdf = new Mpdf([
             'format' => 'A4',
             'margin_left' => 20,
             'margin_right' => 20,
             'margin_top' => 20,
             'margin_bottom' => 20,
-            // 'margin_header' => 0,
-            // 'margin_footer' => 0,
         ]);
         $mpdf->showImageErrors = true;
 
@@ -39,7 +41,7 @@ class ArticlePdfExport
                 font-family: Helvetica;
             }
         ';
-        $mpdf->WriteHTML($style, \Mpdf\HTMLParserMode::HEADER_CSS);
+        $mpdf->WriteHTML($style, HTMLParserMode::HEADER_CSS);
 
         // Content
 
@@ -48,6 +50,6 @@ class ArticlePdfExport
 
         $mpdf->WriteHTML($content);
 
-        $mpdf->Output($title . '.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        $mpdf->Output($title . '.pdf', Destination::DOWNLOAD);
     }
 }
