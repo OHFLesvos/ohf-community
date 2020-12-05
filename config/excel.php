@@ -114,7 +114,7 @@ return [
         | Available options: Excel::MPDF | Excel::TCPDF | Excel::DOMPDF
         |
         */
-        'pdf'      => Excel::DOMPDF,
+        'pdf'      => Excel::MPDF,
     ],
 
     'value_binder' => [
