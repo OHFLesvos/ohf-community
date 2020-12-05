@@ -38,7 +38,7 @@
     <div class="col text-right">
 
         {{-- Buttons --}}
-        @if (isset($buttons) && sizeof($buttons) > 0)
+        @if(isset($buttons) && sizeof($buttons) > 0)
             @foreach($buttons as $key => $button)
                 @if($key == 'delete')
                     <form method="POST" action="{{ $button['url'] }}" class="d-inline">
@@ -89,9 +89,9 @@
         @endif
 
         @auth
-            <div class="position-relative d-none d-md-inline-block">
-                <button class="context-nav-toggle btn btn-link text-light px-3">
-                    <x-user-avatar :user="Auth::user()" size="30"/>
+            <div class="position-relative @if((isset($menu) && sizeof($menu) > 0) || (isset($buttons) && sizeof($buttons) > 0)) d-none d-md-inline-block @endif">
+                <button class="context-nav-toggle btn btn-link text-light px-3 py-0">
+                    <x-user-avatar :user="Auth::user()" size="32"/>
                 </button>
                 <ul class="context-nav userprofile-nav">
                     <li>
