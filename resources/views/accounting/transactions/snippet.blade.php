@@ -216,20 +216,20 @@
                     <div class="col-auto mb-2">
                         @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
                             <a href="{{ Storage::url($picture) }}" data-lity>
-                                @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                <x-thumbnail :size="config('accounting.thumbnail_size')">
                                     @if(Storage::exists(thumb_path($picture)))
                                         {{ Storage::url(thumb_path($picture)) }}
                                     @else
                                         {{ Storage::url($picture) }}
                                     @endif
-                                @endcomponent
+                                </x-thumbnail>
                             </a>
                         @else
                             @if(Storage::exists(thumb_path($picture, 'jpeg')))
                                 <a href="{{ Storage::url($picture) }}" target="_blank">
-                                    @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                    <x-thumbnail :size="config('accounting.thumbnail_size')">
                                         {{ Storage::url(thumb_path($picture, 'jpeg')) }}
-                                    @endcomponent
+                                    </x-thumbnail>
                                 </a>
                             @else
                                 <a href="{{ Storage::url($picture) }}" target="_blank">
