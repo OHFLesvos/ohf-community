@@ -1,6 +1,6 @@
 <template>
     <img
-        :src="route('users.avatar', { user, size: size })"
+        :src="url"
         class="avatar"
         :width="size"
         :height="size"
@@ -10,7 +10,7 @@
 <script>
 export default {
     props: {
-        user: {
+        url: {
             required: true
         },
         size: {

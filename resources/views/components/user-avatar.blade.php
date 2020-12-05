@@ -1,5 +1,5 @@
 <img
-    src="{{ route('users.avatar', [$user, 'size' => $size]) }}"
+    src="{{ $user->avatarUrl($size) }}"
     class="avatar"
     width="{{ $size }}"
     height="{{ $size }}"

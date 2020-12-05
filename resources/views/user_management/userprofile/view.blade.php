@@ -47,21 +47,6 @@
                         @endempty
                     </div>
                 </div>
-
-                <div class="card mb-4">
-                    <div class="card-header">@lang('userprofile.avatar')</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-auto">
-                                <img src="{{ Auth::user()->avatarUrl('userprofile') }}" alt="Gravatar" class="img-responsive">
-                            </div>
-                            <div class="col align-self-center">
-                                <p><a href="https://gravatar.com/emails/" target="_blank" class="btn btn-secondary">@icon(sync) @lang('userprofile.change_picture')</a></p>
-                                @lang('userprofile.avatars_provided_by_gravatar')
-                            </div>
-                        </div>
-                    </div>
-                </div>
             @endunless
 
             <div class="card mb-4">
@@ -87,15 +72,19 @@
             <div class="card mb-4">
                 <div class="card-header">@lang('userprofile.account_information')</div>
                 <div class="card-body pb-2">
+                    <p>
+                        <x-user-avatar :user="Auth::user()" size="80"/>
+                    </p>
                     <p>@lang('userprofile.account_created_on') <strong>{{ $user->created_at }}</strong>
                         @lang('userprofile.account_updated_on') <strong>{{ $user->updated_at }}</strong>.
                     </p>
                     @if (! $user->roles->isEmpty())
-                        <p>@lang('userprofile.your_roles'):
+                        <p>@lang('userprofile.your_roles'):</p>
+                        <ul>
                             @foreach ($user->roles->sortBy('name') as $role)
-                                {{ $role->name }}@if (! $loop->last), @endif
+                                <li>{{ $role->name }}</li>
                             @endforeach
-                        </p>
+                        </ul>
                     @endif
                     @isset($user->provider_name)
                         <p>@lang('app.oauth_provider'): {{ $user->provider_name }}</p>

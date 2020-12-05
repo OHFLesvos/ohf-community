@@ -18,7 +18,6 @@
         "php": "^7.4.0|^8.0",
         "akaunting/language": "^1.0",
         "anlutro/l4-settings": "^1.0",
-        "creativeorange/gravatar": "~1.0",
         "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^2.6",
         "dyrynda/laravel-nullable-fields": "^4.0",

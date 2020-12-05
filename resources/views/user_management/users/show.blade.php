@@ -11,6 +11,9 @@
     @endif
 
     <div class="row">
+        <div class="col-md-auto text-center">
+            <x-user-avatar :user="Auth::user()" size="120"/>
+        </div>
 
         <div class="col-md">
             <ul class="list-group list-group-flush mb-2">

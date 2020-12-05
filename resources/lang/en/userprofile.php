@@ -43,11 +43,11 @@ return [
     'tfa_authentication' => 'Two-Factor Authentication',
     'tfa_authentication_not_enabled' => 'Two-Factor Authentication is not enabled.',
     'tfa_explanation' => 'Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code
-    is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands, 
+    is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands,
     a second factor is still required to login successfully into this application.',
-    'tfa_apps' => 'A mobile app is required to generate the Two-Factor code. Such apps can be found in the app store of your mobile device. We recommend 
-    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a>, 
-    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.authy.authy">Authy</a> or 
+    'tfa_apps' => 'A mobile app is required to generate the Two-Factor code. Such apps can be found in the app store of your mobile device. We recommend
+    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a>,
+    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.authy.authy">Authy</a> or
     <a target="_blank" href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp">FreeOTP Authenticator</a>.',
     'tfa_scan_explanation' => 'Scan the QR code with your authenticator app (e.g. "Google-Authenticator") and enter the numeric code into the field below.',
     'tfa_enabled' => 'Two-Factor Authentication enabled',
@@ -62,7 +62,6 @@ return [
     'oauth_disable_for_user' => 'Do you really want to disable OAuth for :name?',
     'avatar' => 'Avatar',
     'change_picture' => 'Change picture',
-    'avatars_provided_by_gravatar' => 'Avatars are provided by <a href="https://gravatar.com" target="_blank">Gravatar.com</a>.',
     'new_account_registered_at_app_name' => 'New user account registered at :app_name',
     'new_user_registered_name' => 'New user registered: :name',
     'registration_message' => 'Hello :name. Thanks for registering with :app_name. Your account has been created, and the administrator has been informed, in order to grand you the appropriate permissions.',

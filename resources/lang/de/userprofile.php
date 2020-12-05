@@ -42,12 +42,12 @@ return [
     '2FA_inactive' => '2FA inaktiv',
     'tfa_authentication' => 'Zwei-Faktor-Authentifizierung',
     'tfa_authentication_not_enabled' => 'Zwei-Faktor-Authentifizierung ist nicht aktiv.',
-    'tfa_explanation' => 'Zwei-Faktor-Authentifizierung verbessert die Sicherheit deines Accounts, indem beim Login zusätzlich zum Passwort auch ein 
+    'tfa_explanation' => 'Zwei-Faktor-Authentifizierung verbessert die Sicherheit deines Accounts, indem beim Login zusätzlich zum Passwort auch ein
     Code abgefragt wird, welcher sich auf einem zweiten Gerät (zum Beispiel einem Smartphone mit Android oder iOS) befindet und jede Minute neu generiert wird.
     Selbst wenn dein Passwort in falsche Hände gerät, wird so immer noch ein zweiter Faktor benötigt um sich in diese Applikation einzuloggen.',
     'tfa_apps' => 'Um den Code zu generieren wird eine Mobile-App benötigt, welche du im App-Store deines Mobilgerätes herunterladen kannst. Wir empfehlen
-    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a>, 
-    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.authy.authy">Authy</a> oder 
+    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a>,
+    <a target="_blank" href="https://play.google.com/store/apps/details?id=com.authy.authy">Authy</a> oder
     <a target="_blank" href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp">FreeOTP Authenticator</a>.',
     'tfa_scan_explanation' => 'Scanne den QR-Code mit deiner Authenticator App (z.B. "Google Authenticator") und gib danach den Zahlencode in das untenstehende Feld ein.',
     'tfa_enabled' => 'Zwei-Faktor-Authentifizierung aktiviert',
@@ -62,7 +62,6 @@ return [
     'oauth_disable_for_user' => 'Soll OAuth für :name wirklich deaktiviert werden?',
     'avatar' => 'Avatar',
     'change_picture' => 'Bild ändern',
-    'avatars_provided_by_gravatar' => 'Avatare werden von <a href="https://gravatar.com" target="_blank">Gravatar.com</a> angeboten.',
     'new_account_registered_at_app_name' => 'Neues Benutzerkonto registriert bei :app_name',
     'new_user_registered_name' => 'Neuer Benutzer registriert: :name',
     'registration_message' => 'Hallo :name. Vielen Dank für deine Registrierung bei :app_name. Dein Konto wurde erstellt, und der Administrator wurde informiert, um dir die nötigen Berechtigungen zuzuweisen.',

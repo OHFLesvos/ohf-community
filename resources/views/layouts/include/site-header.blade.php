@@ -76,7 +76,7 @@
         @endif
 
         {{-- Context menu --}}
-        @if (isset($menu) && sizeof($menu) > 0)
+        @if(isset($menu) && sizeof($menu) > 0)
             @component('components.context-nav')
                 @foreach($menu as $item)
                     <li>

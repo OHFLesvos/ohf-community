@@ -7,9 +7,9 @@
         :empty-text="$t('app.no_users_found')"
         :items-per-page="25"
     >
-        <template v-slot:cell(avatar)="data">
+        <template v-slot:cell(avatar_url)="data">
             <user-avatar
-                :user="data.item"
+                :url="data.value"
                 size="30"
             />
         </template>
@@ -65,7 +65,7 @@ export default {
         return {
             fields: [
                 {
-                    key: 'avatar',
+                    key: 'avatar_url',
                     label: this.$t('userprofile.avatar'),
                     class: 'fit align-middle text-center'
                 },
