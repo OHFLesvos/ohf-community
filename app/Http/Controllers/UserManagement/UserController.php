@@ -7,11 +7,11 @@ use App\Http\Requests\UserManagement\StoreUser;
 use App\Http\Requests\UserManagement\UpdateUser;
 use App\Models\Role;
 use App\Models\User;
+use App\Util\AutoColorInitialAvatar;
 use App\View\Components\UserAvatar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use LasseRafn\InitialAvatarGenerator\InitialAvatar;
 
 class UserController extends Controller
 {
@@ -242,9 +242,10 @@ class UserController extends Controller
             ],
         ]);
 
-        $avatar = new InitialAvatar();
+        $avatar = new AutoColorInitialAvatar();
         return $avatar->name($user->name)
             ->size($request->input('size', UserAvatar::DEFAULT_SIZE))
+            ->autoColor()
             ->generate()
             ->response('png', 100);
     }
