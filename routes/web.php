@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChangelogController;
+use App\Http\Controllers\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -100,6 +101,9 @@ Route::middleware(['auth', 'language'])
         Route::delete('/userprofile/2FA', 'UserProfileController@disable2FA')
             ->name('userprofile.disable2FA');
     });
+
+Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
+    ->name('users.avatar');
 
 //
 // Changelog

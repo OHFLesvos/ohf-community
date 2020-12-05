@@ -6,5 +6,6 @@ return [
         'people.*', // TODO temporary fix
         'accounting.transactions.show',
         'accounting.transactions.index',
+        'users.avatar',
     ],
 ];
