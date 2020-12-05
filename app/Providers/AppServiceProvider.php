@@ -27,7 +27,6 @@ class AppServiceProvider extends ServiceProvider
     protected $dashboardWidgets = [
         \App\Widgets\ReportingWidget::class               => 9,
         \App\Widgets\UserManagement\UsersWidget::class    => 11,
-        \App\Widgets\Changelog\ChangelogWidget::class     => 12,
         \App\Widgets\Fundraising\FundraisingWidget::class => 8,
         \App\Widgets\Accounting\TransactionsWidget::class => 7,
         \App\Widgets\Collaboration\KBWidget::class        => 6,

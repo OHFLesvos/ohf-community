@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Removed changelog widget & permissions
+
 ## 2.29.0
 
 * Code cleanup

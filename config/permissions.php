@@ -18,10 +18,6 @@ return [
             'label' => 'permissions.configure_common_settings',
             'sensitive' => false,
         ],
-        'app.changelogs.view' => [
-            'label' => 'permissions.view_changelogs',
-            'sensitive' => false,
-        ],
         'badges.create' => [
             'label' => 'permissions.create_badges',
             'sensitive' => false,
@@ -159,7 +155,6 @@ return [
         ],
         'view-usermgmt-reports' => 'app.usermgmt.view',
         'configure-common-settings' => 'app.settings.commonbr.configure',
-        'view-changelogs' => 'app.changelogs.view',
         'create-badges'=> 'badges.create',
         'view-fundraising' => [
             'fundraising.donors_donations.view',

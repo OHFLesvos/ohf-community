@@ -428,4 +428,5 @@ return [
     'mobile' => 'Mobiltelefon',
     'place_id' => 'Place ID',
     'details' => 'Details',
+    'changelog' => 'Änderungshistorie',
 ];

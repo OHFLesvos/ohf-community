@@ -428,4 +428,5 @@ return [
     'mobile' => 'Mobile',
     'place_id' => 'Place ID',
     'details' => 'Details',
+    'changelog' => 'Changelog',
  ];

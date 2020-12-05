@@ -7,8 +7,6 @@ return [
 
     'configure_common_settings' => 'Configure common settings',
 
-    'view_changelogs' => 'View application changelogs',
-
     'create_badges' => 'Badges: Create badges',
 
     'view_fundraising_donors_donations' => 'Donation management: View donors & donations',

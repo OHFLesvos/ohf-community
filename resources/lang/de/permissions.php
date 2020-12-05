@@ -7,8 +7,6 @@ return [
 
     'configure_common_settings' => 'Allgemeine Einstellungen konfigurieren',
 
-    'view_changelogs' => 'Änderungshistorie betrachten',
-
     'create_badges' => 'Badges: Badges erstellen',
 
     'view_fundraising_donors_donations' => 'Spendenverwaltung: Spender & Spenden betrachten',

@@ -47,11 +47,7 @@
         <hr>
         <p class="copyright text-muted px-3">
             <a href="{{ config('app.product_url') }}" target="_blank" class="text-dark">{{ config('app.product_name') }}</a>
-            @can('view-changelogs')
-                <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
-            @else
-                {{ $app_version }}<br>
-            @endcan
+            <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
             &copy; Nicolas Perrenoud<br>
             Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms
         </p>

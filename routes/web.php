@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Changelog\ChangelogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -104,10 +105,10 @@ Route::middleware(['auth', 'language'])
 // Changelog
 //
 
-Route::middleware(['language', 'auth', 'can:view-changelogs'])
+Route::middleware(['language'])
     ->namespace('Changelog')
     ->group(function () {
-        Route::get('changelog', 'ChangelogController@index')
+        Route::get('changelog', [ChangelogController::class, 'index'])
             ->name('changelog');
     });
 
