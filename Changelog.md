@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.29.0
+
+* Code cleanup
+* Added GS_PATH env variable for Ghostscript on Windows (PDF to Image conversion)
+* Removed DOMPDF dependency
+* Updated ziggy library
+* Separate config file for permissions
+* Updated Sentry.io integration
+* PHP 8 compatibility
+
 ## 2.28.0
 
 * Updated to Laravel 8
