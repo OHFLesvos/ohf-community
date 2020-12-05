@@ -5,9 +5,9 @@
 @section('content')
 
     @if($role->administrators()->find(Auth::id()) != null)
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('app.you_are_administrator_of_this_role')
-        @endcomponent
+        </x-alert>
     @endif
 
     <ul class="list-group list-group-flush mb-4">

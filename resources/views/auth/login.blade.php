@@ -38,14 +38,16 @@
                 @if(array_elements_not_blank(config('services.google'), ['client_id', 'client_secret', 'redirect']))
                     <div class="col-sm text-center mb-2">
                         <a href="{{ route('login.provider', 'google') }}" class="btn btn-secondary btn-sm btn-block">
-                            <i class="fab fa-google"></i> {{ __('app.google_sign_in') }}
+                            <x-icon icon="google" style="fab" class="mr-1"/>
+                            {{ __('app.google_sign_in') }}
                         </a>
                     </div>
                 @endif
                 @if(array_elements_not_blank(config('services.facebook'), ['client_id', 'client_secret', 'redirect']))
                     <div class="col-sm text-center mb-2">
                         <a href="{{ route('login.provider', 'facebook') }}" class="btn btn-secondary btn-sm btn-block">
-                            <i class="fab fa-facebook"></i> {{ __('app.facebook_sign_in') }}
+                            <x-icon icon="facebook" style="fab" class="mr-1" />
+                            {{ __('app.facebook_sign_in') }}
                         </a>
                     </div>
                 @endif

@@ -12,12 +12,12 @@
                         <div class="col-sm">
                             <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a><br>
                             @empty($user->tfa_secret)
-                                <small class="text-warning">@icon(ticket-alt) @lang('userprofile.2FA_inactive')</small>
+                                <small class="text-warning"><x-icon icon="ticket-alt"/> @lang('userprofile.2FA_inactive')</small>
                             @else
-                                <small class="text-success">@icon(ticket-alt) @lang('userprofile.2FA_active')</small>
+                                <small class="text-success"><x-icon icon="ticket-alt"/> @lang('userprofile.2FA_active')</small>
                             @endempty
                             @if($user->isSuperAdmin())
-                                <br><small class="text-danger">@icon(user-tie) @lang('app.administrator')</small>
+                                <br><small class="text-danger"><x-icon icon="user-tie"/> @lang('app.administrator')</small>
                             @endif
                     </div>
                         <div class="col-sm mt-2 mt-sm-0">
@@ -38,8 +38,8 @@
             @endforeach
         </ul>
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('app.no_users_found')
-        @endcomponent
+        </x-alert>
     @endif
 @endsection

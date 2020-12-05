@@ -92,7 +92,7 @@
         </div>
         <p>
             {{ Form::bsSubmitButton(__('app.add')) }}
-            <button type="submit" name="submit" value="save_and_continue" class="btn btn-secondary">@icon(arrow-right) @lang('app.save_and_continue')</button>
+            <button type="submit" name="submit" value="save_and_continue" class="btn btn-secondary"><x-icon icon="arrow-right"/> @lang('app.save_and_continue')</button>
         </p>
     {!! Form::close() !!}
 

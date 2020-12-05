@@ -21,8 +21,12 @@
                             <td class="fit">
                                 <a href="{{ route('cmtyvol.responsibilities.edit', $responsibility) }}">{{ $responsibility->name }}</a>
                             </td>
-                            <td class="text-right fit">{{ $responsibility->countActive }} / {{ $responsibility->capacity ?? '∞'}}</td>
-                            <td class="text-center fit">@if($responsibility->available) @icon(check) @else @icon(times) @endif</td>
+                            <td class="text-right fit">
+                                {{ $responsibility->countActive }} / {{ $responsibility->capacity ?? '∞'}}
+                            </td>
+                            <td class="text-center fit">
+                                <x-icon-status :check="$responsibility->available"/>
+                            </td>
                             <td>
                                 <div class="text-formatted long-description collapse" id="description{{ $responsibility->id }}" data-toggle="collapse" data-target="#description{{ $responsibility->id }}" aria-expanded="false">{{ $responsibility->description }}</div>
                             </td>
@@ -32,9 +36,9 @@
             </table>
         </div>
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('responsibilities.no_responsibilities_defined')
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

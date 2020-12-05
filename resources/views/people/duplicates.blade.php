@@ -34,9 +34,9 @@
             <p>{{ Form::bsSubmitButton('Apply') }}</p>
         {!! Form::close() !!}
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             No duplicates found.
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

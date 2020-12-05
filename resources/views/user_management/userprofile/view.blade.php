@@ -34,16 +34,20 @@
                     <div class="card-header">@lang('userprofile.tfa_authentication')</div>
                     <div class="card-body">
                         @empty($user->tfa_secret)
-                            @component('components.alert.info')
+                            <x-alert type="info">
                                 @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
-                            @endcomponent
-                            @component('components.alert.warning')
+                            </x-alert>
+                            <x-alert type="warning">
                                 @lang('userprofile.tfa_authentication_not_enabled')
-                            @endcomponent
-                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(check) @lang('app.enable')</a>
+                            </x-alert>
+                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
+                                <x-icon icon="check"/> @lang('app.enable')
+                            </a>
                         @else
                             <p>@lang('userprofile.tfa_authentication_enabled')</p>
-                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(times) @lang('app.disable')</a>
+                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
+                                <x-icon icon="times"/> @lang('app.disable')
+                            </a>
                         @endempty
                     </div>
                 </div>
@@ -56,7 +60,7 @@
                         @foreach (language()->allowed() as $code => $name)
                             <li class="list-group-item">
                                 @if(App::getLocale() == $code)
-                                    <span class="text-success">@icon(check)</span>
+                                    <x-icon icon="check" class="text-success"/>
                                 @else
                                     <span class="d-inline-block" style="width: 1em"></span>
                                 @endif

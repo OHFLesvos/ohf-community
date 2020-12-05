@@ -3,19 +3,19 @@
 @section('title', __('people.create_code_card'))
 
 @section('content')
-    @component('components.alert.info')
+    <x-alert type="info">
         @lang('people.code_card_unique')
-    @endcomponent
+    </x-alert>
     {{ Form::open(['route' => 'bank.createCodeCard']) }}
         {{ Form::bsNumber('amount', 10, ['min' => 1], __('app.amount'), 'Number of code cards to generate') }}
         <p>
-            {{ Form::bsSubmitButton('@icon(file-pdf-o) ' . __('people.create_pdf'), 'create') }}
+            {{ Form::bsSubmitButton(__('people.create_pdf'), 'create') }}
         </p>
     {{ Form::close() }}
     <div id="patience-notice" style="display:none">
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('people.creating_code_card_be_patient')
-        @endcomponent
+        </x-alert>
     </div>
 @endsection
 

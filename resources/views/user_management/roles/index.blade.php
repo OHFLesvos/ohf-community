@@ -32,9 +32,9 @@
         </table>
         {{ $roles->links() }}
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('app.no_roles_found')
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

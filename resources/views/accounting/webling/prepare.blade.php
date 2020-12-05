@@ -59,11 +59,7 @@
                                 </td>
                                 <td class="fit">{{ $transaction->receipt_no }}</td>
                                 <td class="fit text-center">
-                                    @isset($transaction->controlled_at)
-                                        <span class="text-success">@icon(check)</span>
-                                    @else
-                                        <span class="text-danger">@icon(times)</span>
-                                    @endisset
+                                    <x-icon-status :check="$transaction->controlled_at" colors/>
                                 </td>
                                 <td class="fit">
                                     {{ Form::bsRadioList('action['.$transaction->id.']', $actions, $defaultAction, '') }}
@@ -78,9 +74,9 @@
             </p>
         {!! Form::close() !!}
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('accounting.no_transactions_found')
-        @endcomponent
+        </x-alert>
     @endunless
 @endsection
 

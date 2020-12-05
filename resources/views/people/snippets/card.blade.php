@@ -23,7 +23,7 @@
         </table>
     </div>
 @else
-    @component('components.alert.info')
+    <x-alert type="info">
         @lang('app.no_cards_registered')
-    @endcomponent
+    </x-alert>
 @endisset

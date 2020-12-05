@@ -5,22 +5,22 @@
 @section('content')
 
     @if($cmtyvol->work_starting_date == null)
-        @component('components.alert.warning')
+        <x-alert type="warning">
             @lang('people.no_started_date_set')
-        @endcomponent
+        </x-alert>
     @elseif($cmtyvol->work_starting_date->gt(today()))
-        @component('components.alert.warning')
+        <x-alert type="warning">
             @lang('cmtyvol.has_not_started_yet', ['date' => $cmtyvol->work_starting_date->toDateString() ])
-        @endcomponent
+        </x-alert>
     @else
         @if($cmtyvol->work_leaving_date != null)
-            @component('components.alert.warning')
+            <x-alert type="info">
                 @if($cmtyvol->work_leaving_date < Carbon\Carbon::today())
                     @lang('cmtyvol.left_on_date', ['date' => $cmtyvol->work_leaving_date->toDateString() ])
                 @else
                     @lang('cmtyvol.will_leave_on_date', ['date' => $cmtyvol->work_leaving_date->toDateString() ])
                 @endif
-            @endcomponent
+            </x-alert>
         @endif
     @endif
 
@@ -29,7 +29,7 @@
             <div class="card mb-4 column-break-avoid">
                 <div class="card-header">
                     {{ $sections[$section] }}
-                    <a href="{{ route('cmtyvol.edit', [$cmtyvol, 'section' => $section]) }}" class="float-right">@icon(edit)</a>
+                    <a href="{{ route('cmtyvol.edit', [$cmtyvol, 'section' => $section]) }}" class="float-right"><x-icon icon="edit"/></a>
                 </div>
                 <ul class="list-group list-group-flush">
                     @if(! empty($fields))
@@ -37,7 +37,9 @@
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-sm-5">
-                                        @isset($field['icon'])@icon({{$field['icon']}}) @endisset
+                                        @isset($field['icon'])
+                                            <x-icon :icon="$field['icon']"/>
+                                        @endisset
                                         <strong>{{ $field['label'] }}</strong>
                                     </div>
                                     <div class="col-sm">

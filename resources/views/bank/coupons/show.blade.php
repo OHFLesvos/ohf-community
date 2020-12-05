@@ -8,7 +8,7 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('app.name')</strong></div>
-                <div class="col-sm">@icon({{ $coupon->icon }}) {{ $coupon->name }}</div>
+                <div class="col-sm"><x-icon :icon="$coupon->icon"/> {{ $coupon->name }}</div>
             </div>
         </li>
         <li class="list-group-item">
@@ -66,19 +66,19 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('app.enabled')</strong></div>
-                <div class="col-sm">@if($coupon->enabled) @icon(check) @else @icon(times) @endif</div>
+                <div class="col-sm"><x-icon-status :check="$coupon->enabled"/></div>
             </div>
         </li>
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('people.returnable')</strong></div>
-                <div class="col-sm">@if($coupon->returnable) @icon(check) @else @icon(times) @endif</div>
+                <div class="col-sm"><x-icon-status :check="$coupon->returnable"/></div>
             </div>
         </li>
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm"><strong>@lang('people.with_qr_code')</strong></div>
-                <div class="col-sm">@if($coupon->qr_code_enabled) @icon(check) @else @icon(times) @endif</div>
+                <div class="col-sm"><x-icon-status :check="$coupon->qr_code_enabled"/></div>
             </div>
         </li>
         @if($coupon->qr_code_enabled)
@@ -86,7 +86,10 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-sm"><strong>@lang('people.code_expiry')</strong></div>
-                        <div class="col-sm">{{ $coupon->code_expiry_days }} {{ trans_choice('app.day_days', $coupon->code_expiry_days) }}</div>
+                        <div class="col-sm">
+                            {{ $coupon->code_expiry_days }}
+                            {{ trans_choice('app.day_days', $coupon->code_expiry_days) }}
+                        </div>
                     </div>
                 </li>
             @endisset

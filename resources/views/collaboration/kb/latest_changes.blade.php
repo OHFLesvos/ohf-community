@@ -21,11 +21,11 @@
                             <td>{{ optional($audit->user)->name }}</td>
                             <td class="fit">
                                 @if($audit->event == 'created')
-                                    <span class="text-success" title="{{ $audit->event }}">@icon(star-of-life)</span>
+                                    <span class="text-success" title="{{ $audit->event }}"><x-icon icon="star-of-life"/></span>
                                 @elseif($audit->event == 'updated')
-                                    <span class="text-info" title="{{ $audit->event }}">@icon(pencil-alt)</span>
+                                    <span class="text-info" title="{{ $audit->event }}"><x-icon icon="pencil-alt"/></span>
                                 @elseif($audit->event == 'deleted')
-                                    <span class="text-danger" title="{{ $audit->event }}">@icon(trash-alt)</span>
+                                    <span class="text-danger" title="{{ $audit->event }}"><x-icon icon="trash-alt"/></span>
                                 @endif
                             </td>
                             <td>
@@ -46,9 +46,9 @@
         </div>
         {{ $audits->links() }}
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('wiki.no_articles_found')
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

@@ -77,9 +77,6 @@ class AppServiceProvider extends ServiceProvider
                 });
         }
 
-        // Blade directive for showing a Font Awesome icon
-        Blade::directive('icon', fn ($name) => '<i class="fa fa-' . $name . '"></i>');
-
         // Exposes checks agains a specific gate
         Blade::if('allowed', function ($gate) {
             if (is_array($gate)) {

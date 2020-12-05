@@ -234,7 +234,7 @@
                             @else
                                 <a href="{{ Storage::url($picture) }}" target="_blank">
                                 <span class="display-4" title="{{ Storage::mimeType($picture) }}">
-                                    @if(Storage::mimeType($picture) == 'application/pdf')@icon(file-pdf)@else @icon(file)@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
+                                    @if(Storage::mimeType($picture) == 'application/pdf')<x-icon icon="file-pdf"/>@else <x-icon icon="file"/>@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
                             @endif
                         @endif
                     </div>

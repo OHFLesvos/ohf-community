@@ -3,9 +3,7 @@
 @section('title', __('app.settings'))
 
 @section('content')
-
-    @component('components.alert.info')
+    <x-alert type="info">
         @lang('app.no_content_available_to_you')
-    @endcomponent
-
+    </x-alert>
 @endsection

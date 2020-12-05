@@ -15,15 +15,10 @@
                 <div class="col">{{ Form::bsText('name[]', null, ['placeholder' => __('app.name')], '') }}</div>
                 <div class="col-4">{{ Form::bsText('position[]', null, ['placeholder' => __('app.position')], '') }}</div>
                 <div class="col-4">{{ Form::bsFile('picture[]', ['accept' => 'image/*'], __('app.picture')) }}</div>
-                <div class="col-auto"><button type="button" class="btn btn-success">@icon(plus-circle)</button></div>
+                <div class="col-auto"><button type="button" class="btn btn-success"><x-icon icon="plus-circle"/></button></div>
             </div>
         </template>
         <div id="input_list" class="mb-3">
-            {{-- <div class="form-row">
-                <div class="col">{{ Form::bsText('name', null, ['placeholder' => __('app.name')], '') }}</div>
-                <div class="col-4">{{ Form::bsText('position', null, ['placeholder' => __('app.position')], '') }}</div>
-                <div class="col-auto"><button type="button" class="btn btn-danger">@icon(minus-circle)</button></div>
-            </div> --}}
         </div>
         <p>
             {{ Form::bsSubmitButton(__('app.next')) }}

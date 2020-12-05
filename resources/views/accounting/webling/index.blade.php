@@ -19,14 +19,14 @@
                     @endforeach
                 </div>
             @else
-                @component('components.alert.info')
+                <x-alert type="info">
                     @lang('accounting.no_months_with_unbooked_transactions_found')
-                @endcomponent
+                </x-alert>
             @endunless
         @endforeach
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('accounting.no_open_periods_found')
-        @endcomponent
+        </x-alert>
     @endunless
 @endsection

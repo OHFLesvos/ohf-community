@@ -41,7 +41,7 @@
         <p>
             {{ Form::bsSubmitButton(__('app.update')) }}
             <button class="btn btn-secondary" type="submit" name="reset" onclick="return confirm('@lang('app.confirm_reset_to_default_settings')')">
-                @icon(undo) @lang('app.reset_to_default_settings')
+                <x-icon icon="undo"/> @lang('app.reset_to_default_settings')
             </button>
         </p>
 
