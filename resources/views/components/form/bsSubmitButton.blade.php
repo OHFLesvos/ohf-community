@@ -1,1 +1,4 @@
-{{ Form::button((isset($icon) ? '<i class="fa fa-' . $icon. '"></i> ' : '') . $label, [ 'type' => 'submit', 'class' => 'btn btn-primary' ]) }}
+<button type="submit" class="btn btn-primary">
+    @isset($icon) <x-icon :icon="$icon"/> @endisset
+    {{ $label }}
+</button>

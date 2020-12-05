@@ -44,8 +44,21 @@
                     <form method="POST" action="{{ $button['url'] }}" class="d-inline">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
-                        {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i> ' . $button['caption'], [ 'type' => 'submit', 'class' => 'btn btn-danger d-none d-md-inline-block delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
-                        {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i>', [ 'type' => 'submit', 'class' => 'btn btn-link text-light d-md-none delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
+                        <button
+                            type="submit"
+                            class="btn btn-danger d-none d-md-inline-block delete-confirmation"
+                            data-confirmation="{{ $button['confirmation']  }}"
+                        >
+                            <x-icon :icon="$button['icon']"/>
+                            {{ $button['caption'] }}
+                        </button>
+                        <button
+                            type="submit"
+                            class="btn btn-link text-light d-md-none delete-confirmation"
+                            data-confirmation="{{ $button['confirmation']  }}"
+                        >
+                            <x-icon :icon="$button['icon']"/>
+                        </button>
                     </form>
                 @elseif($key == 'action')
                     <a href="{{ $button['url'] }}" class="btn btn-primary d-none d-md-inline-block">
