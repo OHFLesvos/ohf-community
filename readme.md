@@ -69,7 +69,7 @@ Create assets (CSS/JavaScript) using npm:
 
     npm install
     php artisan vue-i18n:generate
-    php artisan ziggy:generate "resources/js/ziggy.js"
+    php artisan ziggy:generate
     npm run dev
 
 Releasing

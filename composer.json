@@ -50,7 +50,7 @@
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spatie/pdf-to-image": "^2.0",
         "spomky-labs/otphp": "^10.0",
-        "tightenco/ziggy": "^0.9.1",
+        "tightenco/ziggy": "^1.0",
         "unisharp/laravel-filemanager": "^2.2",
         "usystems/webling-api-php": "^1.2",
         "valorin/pwned-validator": "^1.0"

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'whitelist' => [
+    'only' => [
         'api.*',
         'people.*', // TODO temporary fix
         'accounting.transactions.show',
