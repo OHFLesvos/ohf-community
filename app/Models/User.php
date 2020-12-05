@@ -121,9 +121,11 @@ class User extends Authenticatable implements HasLocalePreference
             ->values();
     }
 
-    public function avatarUrl(?string $profile = null): string
+    public function avatarUrl(?int $size = null): string
     {
-        return $this->avatar !== null ? $this->avatar : \Gravatar::get($this->email, $profile);
+        return $this->avatar !== null
+            ? $this->avatar
+            : route('users.avatar', [$this, 'size' => $size]);
     }
 
     /**

@@ -30,9 +30,9 @@
 
         <hr>
         <div class="text-center">
-            <a href="{{ route('userprofile') }}">
-                <img src="{{ Auth::user()->avatarUrl() }}" alt="Gravatar" style="width: 80px; height: 80px;">
-            </a><br>
+            <a href="{{ route('userprofile') }}" class="d-block mb-1">
+                <x-user-avatar :user="Auth::user()" size="80"/>
+            </a>
             {{ Auth::user()->name }}
         </div>
 

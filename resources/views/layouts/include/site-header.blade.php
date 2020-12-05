@@ -38,7 +38,7 @@
     <div class="col text-right">
 
         {{-- Buttons --}}
-        @if (isset($buttons) && sizeof($buttons) > 0)
+        @if(isset($buttons) && sizeof($buttons) > 0)
             @foreach($buttons as $key => $button)
                 @if($key == 'delete')
                     <form method="POST" action="{{ $button['url'] }}" class="d-inline">
@@ -76,7 +76,7 @@
         @endif
 
         {{-- Context menu --}}
-        @if (isset($menu) && sizeof($menu) > 0)
+        @if(isset($menu) && sizeof($menu) > 0)
             @component('components.context-nav')
                 @foreach($menu as $item)
                     <li>
@@ -89,8 +89,10 @@
         @endif
 
         @auth
-            <div class="position-relative d-none d-md-inline-block">
-                <button class="context-nav-toggle btn btn-link text-light px-3"><img src="{{ Auth::user()->avatarUrl('site_header') }}" alt="Gravatar" class="bg-white rounded-circle" style="width: 30px; height: 30px;"></button>
+            <div class="position-relative @if((isset($menu) && sizeof($menu) > 0) || (isset($buttons) && sizeof($buttons) > 0)) d-none d-md-inline-block @endif">
+                <button class="context-nav-toggle btn btn-link text-light px-3 py-0">
+                    <x-user-avatar :user="Auth::user()" size="32"/>
+                </button>
                 <ul class="context-nav userprofile-nav">
                     <li>
                         <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block">

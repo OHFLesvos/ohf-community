@@ -4,6 +4,7 @@
 
 * Removed changelog widget & permissions
 * Added tab navigation for settings
+* Replaced Gravatar with initial-based Avatar image
 
 ## 2.29.0
 
