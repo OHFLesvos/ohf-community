@@ -12,7 +12,7 @@
 
     <div class="row">
         <div class="col-md-auto text-center">
-            <x-user-avatar :user="Auth::user()" size="120"/>
+            <x-user-avatar :user="$user" size="120"/>
         </div>
 
         <div class="col-md">
