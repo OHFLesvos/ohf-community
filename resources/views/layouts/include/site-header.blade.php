@@ -80,16 +80,19 @@
 
         {{-- Context menu --}}
         @if(isset($menu) && sizeof($menu) > 0)
-            @component('components.context-nav')
-                @foreach($menu as $item)
-                    <li>
-                        <a href="{{ $item['url'] }}" class="btn btn-light btn-block">
-                            <x-icon :icon="$item['icon']" class="mr-1"/>
-                            {{ $item['caption'] }}
-                        </a>
-                    </li>
-                @endforeach
-            @endcomponent
+            <div class="position-relative d-inline-block">
+                <button class="context-nav-toggle btn btn-link text-light px-3"><x-icon icon="ellipsis-v"/></button>
+                <ul class="context-nav">
+                    @foreach($menu as $item)
+                        <li>
+                            <a href="{{ $item['url'] }}" class="btn btn-light btn-block">
+                                <x-icon :icon="$item['icon']" class="mr-1"/>
+                                {{ $item['caption'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         @auth
