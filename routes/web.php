@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Changelog\ChangelogController;
+use App\Http\Controllers\ChangelogController;
 use Illuminate\Support\Facades\Route;
 
 /*

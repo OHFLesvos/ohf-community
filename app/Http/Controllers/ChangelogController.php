@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Changelog;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Michelf\MarkdownExtra;
