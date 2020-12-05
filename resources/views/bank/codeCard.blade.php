@@ -4,7 +4,7 @@
         <tr>
         @endif
         <td class="code-cell">
-            <img src="data:image/png;base64,{{ $code }}">
+            <img src="{{ $code }}">
         </td>
         <td class="logo-cell">
             @isset($logo)

@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Storage;
 use Mpdf\HTMLParserMode;
 use Mpdf\Mpdf;
 use Mpdf\Output\Destination;
-use Setting;
 
 class CodeCardCreator
 {
-    private string $firstCode = '';
+    const QR_CODE_SIZE = 500;
+    const QR_CODE_LABEL_FONT_SIZE = 20;
+    const CODE_LENGTH = 16;
+    const CODE_SHORT_LENGTH = 7;
 
     private ?string $logo = null;
 
@@ -28,13 +30,9 @@ class CodeCardCreator
         $this->label = $label;
     }
 
-    /**
-     * Create new code card sheet and return PDF for download.
-     *
-     * @param  \App\Http\Requests\People\Bank\CreateCodeCard  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(int $pages) {
+    public function create(int $amount)
+    {
+        assert($amount > 0, 'Amount needs to be larger than 0');
 
         $mpdf = new Mpdf([
             'format' => 'A4',
@@ -49,12 +47,12 @@ class CodeCardCreator
             'margin_footer' => 0,
         ]);
         $mpdf->SetDisplayMode('fullpage');
-
         $mpdf->WriteHTML($this->getCss(), HTMLParserMode::HEADER_CSS);
 
-        $mpdf->writeHTML($this->getContent($pages));
+        $codes = $this->generateCodes($amount);
+        $mpdf->writeHTML($this->getContent($codes));
 
-        $name = __('people.code_cards') . ' ' . substr($this->firstCode, 0, 7);
+        $name = __('people.code_cards') . ' ' . substr($codes[0], 0, self::CODE_SHORT_LENGTH);
         $mpdf->Output($name . '.pdf', Destination::DOWNLOAD);
     }
 
@@ -63,46 +61,47 @@ class CodeCardCreator
         return file_get_contents(resource_path('css/codeCard.css'));
     }
 
-    private function getContent(int $pages): string
+    private function generateCodes(int $amount): array
+    {
+        $codes = [];
+        for ($i = 0; $i < $amount; $i++) {
+            $codes[] = bin2hex(random_bytes(self::CODE_LENGTH));
+        }
+        return $codes;
+    }
+
+    private function getContent(array $codes): string
     {
         return view('bank.codeCard', [
-            'codes' => $this->getCodes($pages),
+            'codes' => $this->getCodeImages($codes),
             'logo' => $this->getLogoImage(),
             'label' => $this->label,
         ])->render();
     }
 
-    private function getCodes(int $pages)
+    private function getCodeImages(array $codes)
     {
-        $codes = [];
-        for ($i = 0; $i < 10 * $pages; $i++) {
-            $code = bin2hex(random_bytes(16));
-            $codes[] = base64_encode($this->createQrCode($code, substr($code, 0, 7), 500));
-            if ($i == 0) {
-                $this->firstCode = $code;
-            }
-        }
-        return $codes;
-    }
-
-    private function getLogoImage()
-    {
-        if ($this->logo !== null) {
-            return 'data:image/png;base64,' . base64_encode(Storage::get($this->logo));
-        }
-        return null;
+        return array_map(fn ($code) => $this->createQrCode($code, substr($code, 0, self::CODE_SHORT_LENGTH)), $codes);
     }
 
     /**
      * Create a QR code image
      *
-     * @return string string containing the generated image
+     * @return string Data URI string containing the generated image
      */
-    private function createQrCode(string $value, string $label, int $size): string
+    private function createQrCode(string $value, string $label): string
     {
         $qrCode = new QrCode($value);
-        $qrCode->setSize($size);
-        $qrCode->setLabel($label, 20, null, LabelAlignment::CENTER);
-        return $qrCode->writeString();
+        $qrCode->setSize(self::QR_CODE_SIZE);
+        $qrCode->setLabel($label, self::QR_CODE_LABEL_FONT_SIZE, null, LabelAlignment::CENTER);
+        return $qrCode->writeDataUri();
+    }
+
+    private function getLogoImage()
+    {
+        if ($this->logo !== null) {
+            return Storage::path($this->logo);
+        }
+        return null;
     }
 }

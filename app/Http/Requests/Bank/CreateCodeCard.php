@@ -24,7 +24,7 @@ class CreateCodeCard extends FormRequest
     public function rules()
     {
         return [
-            'pages' => [
+            'amount' => [
                 'required',
                 'numeric',
                 'min:1',

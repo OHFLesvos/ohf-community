@@ -7,7 +7,7 @@
         @lang('people.code_card_unique')
     @endcomponent
     {{ Form::open(['route' => 'bank.createCodeCard']) }}
-        {{ Form::bsNumber('pages', 1, ['min' => 1], __('people.number_of_pages')) }}
+        {{ Form::bsNumber('amount', 10, ['min' => 1], __('app.amount'), 'Number of code cards to generate') }}
         <p>
             {{ Form::bsSubmitButton('@icon(file-pdf-o) ' . __('people.create_pdf'), 'create') }}
         </p>

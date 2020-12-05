@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Bank;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Bank\CreateCodeCard;
 use App\Util\Bank\CodeCardCreator;
-use Illuminate\Support\Facades\Storage;
 use Setting;
 
 class CodeCardController extends Controller
@@ -30,6 +29,6 @@ class CodeCardController extends Controller
         $cardCreator = new CodeCardCreator();
         $cardCreator->setLogo(Setting::get('bank.code_card.logo'));
         $cardCreator->setLabel(Setting::get('bank.code_card.label'));
-        $cardCreator->create($request->pages);
+        $cardCreator->create($request->amount);
     }
 }
