@@ -38,7 +38,6 @@ class FormServiceProvider extends ServiceProvider
         Form::component('bsSelect', 'components.form.bsSelect', [ 'name', 'entries', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsFile', 'components.form.bsFile', [ 'name', 'attributes' => [], 'label' => 'Choose file', 'help' => null ]);
         Form::component('bsSubmitButton', 'components.form.bsSubmitButton', [ 'label', 'icon' => 'check' ]);
-        Form::component('bsDeleteButton', 'components.form.bsDeleteButton', [ 'label' => 'Delete', 'icon' => 'trash', 'confirmation' => 'Do you really want to delete this item?' ]);
         Form::component('genderSelect', 'components.form.genderSelect', [ 'name', 'value' => null, 'label' => 'Gender' ]);
         Form::component('bsTags', 'components.form.bsTags', [ 'name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null ]);
         Form::component('bsListWithDateRange', 'components.form.bsListWithDateRange', [ 'name', 'entries', 'value' => null, 'label' => null, 'help' => null ]);

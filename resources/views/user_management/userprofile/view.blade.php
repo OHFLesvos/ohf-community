@@ -101,7 +101,11 @@
                 <div class="card-body">
                     <p>@lang('userprofile.account_remove_desc')</p>
                     {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
-                        {{ Form::bsDeleteButton(__('userprofile.delete_account'), 'user-times', __('userprofile.delete_confirm')) }}
+                        <x-form.bs-delete-button
+                            :label="__('userprofile.delete_account')"
+                            icon="user-times"
+                            :confirmation="__('userprofile.delete_confirm')"
+                        />
                     {!! Form::close() !!}
                 </div>
             </div>

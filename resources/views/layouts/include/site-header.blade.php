@@ -42,16 +42,14 @@
             @foreach($buttons as $key => $button)
                 @if($key == 'delete')
                     <form method="POST" action="{{ $button['url'] }}" class="d-inline">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                        <button
-                            type="submit"
-                            class="btn btn-danger d-none d-md-inline-block delete-confirmation"
-                            data-confirmation="{{ $button['confirmation']  }}"
-                        >
-                            <x-icon :icon="$button['icon']"/>
-                            {{ $button['caption'] }}
-                        </button>
+                        @csrf
+                        @method('DELETE')
+                        <x-form.bs-delete-button
+                            :label="$button['caption']"
+                            :icon="$button['icon']"
+                            :confirmation="$button['confirmation']"
+                            class="d-none d-md-inline-block"
+                        />
                         <button
                             type="submit"
                             class="btn btn-link text-light d-md-none delete-confirmation"
