@@ -3,6 +3,7 @@
 ## NEXT
 
 * Removed changelog widget & permissions
+* Added tab navigation for settings
 
 ## 2.29.0
 

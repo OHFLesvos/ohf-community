@@ -61,17 +61,20 @@ class SettingsController extends Controller
 
     public function edit()
     {
-        $fields = self::getSettings();
+        $settings = self::getSettings();
 
-        if ($fields->isEmpty()) {
+        if ($settings->isEmpty()) {
             return view('settings.empty');
         }
 
+        $fields = $settings->mapWithKeys(fn (SettingsField $field, $key) => [
+            Str::slug($key) => self::mapSettingsField($field, $key),
+        ]);
         return view('settings.edit', [
-            'sections' => self::getSections(),
-            'fields' => $fields->mapWithKeys(fn (SettingsField $field, $key) => [
-                Str::slug($key) => self::mapSettingsField($field, $key),
-            ]),
+            'sections' => collect(self::getSections())
+                ->filter(fn ($sl, $sk) => $fields->where('section', $sk)->count() > 0)
+                ->toArray(),
+            'fields' => $fields,
         ]);
     }
 
