@@ -8,11 +8,10 @@
         :items-per-page="25"
     >
         <template v-slot:cell(avatar)="data">
-            <img
-                :src="data.item.avatar_url_site_header"
-                alt="Gravatar"
-                style="width: 30px; height: 30px;"
-            >
+            <user-avatar
+                :user="data.item"
+                size="30"
+            />
         </template>
         <template v-slot:cell(name)="data">
             <a :href="data.item.links.show">
@@ -54,11 +53,13 @@
 import moment from 'moment'
 import BaseTable from '@/components/table/BaseTable'
 import EmailLink from '@/components/common/EmailLink'
+import UserAvatar from '@/components/UserAvatar'
 import usersApi from '@/api/user_management/users'
 export default {
     components: {
         BaseTable,
-        EmailLink
+        EmailLink,
+        UserAvatar
     },
     data() {
         return {

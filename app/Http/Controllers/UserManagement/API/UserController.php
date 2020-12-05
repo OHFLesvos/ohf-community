@@ -11,7 +11,7 @@ use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserCollection;
 use App\Models\Role;
 use App\Models\User;
-use App\View\Components\Avatar;
+use App\View\Components\UserAvatar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -157,7 +157,7 @@ class UserController extends Controller
 
         $avatar = new InitialAvatar();
         return $avatar->name($user->name)
-            ->size($request->input('size', Avatar::DEFAULT_SIZE))
+            ->size($request->input('size', UserAvatar::DEFAULT_SIZE))
             ->generate()
             ->response('png', 100);
     }

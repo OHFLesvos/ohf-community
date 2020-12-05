@@ -47,9 +47,6 @@ Route::middleware(['auth', 'language'])
                     });
             });
 
-        Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
-            ->name('users.avatar');
-
         Route::apiResource('roles', 'RoleController');
         Route::prefix('roles/{role}')
             ->name('roles.')
@@ -88,6 +85,10 @@ Route::middleware(['auth', 'language'])
                     });
             });
     });
+
+
+Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
+    ->name('api.users.avatar');
 
 //
 // Fundraising

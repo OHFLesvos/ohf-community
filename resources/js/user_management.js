@@ -8,6 +8,9 @@ Vue.use(BootstrapVue)
 
 import i18n from '@/plugins/i18n'
 
+import ziggyMixin from '@/mixins/ziggyMixin'
+Vue.mixin(ziggyMixin)
+
 Vue.config.productionTip = false
 
 import UserIndexPage from '@/pages/users/UserIndexPage'

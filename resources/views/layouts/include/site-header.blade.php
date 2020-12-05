@@ -91,7 +91,7 @@
         @auth
             <div class="position-relative d-none d-md-inline-block">
                 <button class="context-nav-toggle btn btn-link text-light px-3">
-                    <x-avatar :user="Auth::user()" size="30"/>
+                    <x-user-avatar :user="Auth::user()" size="30"/>
                 </button>
                 <ul class="context-nav userprofile-nav">
                     <li>
