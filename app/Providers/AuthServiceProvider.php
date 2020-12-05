@@ -43,21 +43,25 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPermissionGateMappings();
     }
 
-    protected function registerPermissionGateMappings() {
-        foreach (config('permissions.gate_mapping') as $gate => $permission) {
-            Gate::define($gate, function ($user) use ($permission) {
-                if ($user->isSuperAdmin()) {
-                    return true;
-                }
-                if (is_array($permission)) {
-                    $hasPermission = false;
-                    foreach ($permission as $pe) {
-                        $hasPermission |= $user->hasPermission($pe);
+    protected function registerPermissionGateMappings()
+    {
+        $mapping = config('permissions.gate_mapping');
+        if (is_array($mapping)) {
+            foreach ($mapping as $gate => $permission) {
+                Gate::define($gate, function ($user) use ($permission) {
+                    if ($user->isSuperAdmin()) {
+                        return true;
                     }
-                    return $hasPermission;
-                }
-                return $user->hasPermission($permission);
-            });
+                    if (is_array($permission)) {
+                        $hasPermission = false;
+                        foreach ($permission as $pe) {
+                            $hasPermission |= $user->hasPermission($pe);
+                        }
+                        return $hasPermission;
+                    }
+                    return $user->hasPermission($permission);
+                });
+            }
         }
     }
 }
