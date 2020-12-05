@@ -77,19 +77,6 @@ class AppServiceProvider extends ServiceProvider
                 });
         }
 
-        // Exposes checks agains a specific gate
-        Blade::if('allowed', function ($gate) {
-            if (is_array($gate)) {
-                foreach ($gate as $g) {
-                    if (Gate::allows($g)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            return Gate::allows($gate);
-        });
-
         // UTF-8 support for Carbon time
         Carbon::setUtf8(true);
 
