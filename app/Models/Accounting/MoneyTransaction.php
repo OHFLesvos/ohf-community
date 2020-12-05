@@ -212,7 +212,7 @@ class MoneyTransaction extends Model implements Auditable
     {
         $thumbPath = thumb_path($path, "jpeg");
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            Ghostscript::setGsPath("C:\Program Files\gs\gs9.52\bin\gswin64c.exe");
+            Ghostscript::setGsPath(config('accounting.gs_path'));
         }
         $pdf = new \Spatie\PdfToImage\Pdf($path);
         $pdf->saveImage($thumbPath);
