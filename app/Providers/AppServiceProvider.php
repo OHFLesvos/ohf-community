@@ -90,18 +90,6 @@ class AppServiceProvider extends ServiceProvider
             return Gate::allows($gate);
         });
 
-        // Blade directive to create a link to a telephone number
-        Blade::directive('tel', fn ($expression) => "<?php echo tel_link(${expression}); ?>");
-
-        // Blade directive to create a link to a WhatsApp number
-        Blade::directive('whatsapp', fn ($expression) => "<?php echo whatsapp_link(${expression}); ?>");
-
-        // Blade directive to create a link to an email address
-        Blade::directive('email', fn ($expression) => "<?php echo email_link(${expression}); ?>");
-
-        // Blade directive to create a link to call a skype name
-        Blade::directive('skype', fn ($expression) => "<?php echo skype_link(${expression}); ?>");
-
         // UTF-8 support for Carbon time
         Carbon::setUtf8(true);
 
