@@ -62,7 +62,12 @@
 
                         {{-- Floating action button --}}
                         @if(isset($buttons['action']) && $buttons['action']['authorized'] )
-                            @include('components.action-button', [ 'route' => $buttons['action']['url'], 'icon' => $buttons['action']['icon_floating'] ])
+                            <a
+                                href="{{ $buttons['action']['url'] }}"
+                                class="btn btn-primary btn-lg d-md-none floating-action-button"
+                            >
+                                <x-icon :icon="$buttons['action']['icon_floating']"/>
+                            </a>
                         @endif
 
                     </article>
