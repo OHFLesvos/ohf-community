@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-sm"><strong>@lang('app.email')</strong></div>
                         <div class="col-sm">
-                            <a href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                            <x-links.email>{{ $user->email }}</x-links.email>
                         </div>
                     </div>
                 </li>
