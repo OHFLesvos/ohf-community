@@ -120,29 +120,6 @@ if (! function_exists('previous_route')) {
     }
 }
 
-if (! function_exists('gmaps_url')) {
-    function gmaps_url(string $value): string
-    {
-        return 'http://maps.google.com/maps?q=' . urlencode($value);
-    }
-}
-
-if (! function_exists('gmaps_link')) {
-    function gmaps_link(string $label, string $value, ?array $classes = []): string
-    {
-        $class = count($classes) > 0 ? 'class="' . implode(' ', $classes) . '"' : '';
-        return '<a href="' . gmaps_url($value) . '" target="_blank"' . $class . '>' . $label . '</a>';
-    }
-}
-
-if (! function_exists('gmaps_embedd')) {
-    function gmaps_embedd(string $query): string
-    {
-        $q = urlencode($query);
-        return '<iframe style="width: 100%; border:0;" height="450" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=' . config('services.google.maps_api_key') . '&amp;q=' . $q . '" allowfullscreen></iframe>';
-    }
-}
-
 if (! function_exists('array_insert')) {
     /**
      * @param array      $array

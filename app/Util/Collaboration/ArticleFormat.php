@@ -24,9 +24,6 @@ class ArticleFormat
         // Create links from e-mail addresses
         $content = emailize($content);
 
-        // Create emedded maps
-        $content = preg_replace('/map:"(.+)"/', '<iframe style="width: 100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=' . config('services.google.maps_api_key') . '&q=\1" allowfullscreen></iframe>', $content);
-
         // Link to other articles
         return preg_replace_callback("/(\[\[([a-z0-9-]+)\]\])/", function ($matches) {
             $article = WikiArticle::where('slug', $matches[2])->first();
