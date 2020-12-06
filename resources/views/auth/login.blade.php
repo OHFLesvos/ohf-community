@@ -31,26 +31,25 @@
             </button>
         </p>
 
-        @if(array_elements_not_blank(config('services.google'), ['client_id', 'client_secret', 'redirect']) || array_elements_not_blank(config('services.facebook'), ['client_id', 'client_secret', 'redirect']))
+        @php
+            $hasServices = collect(config('auth.socialite.drivers'))
+                ->filter(fn ($driver) => config('services.' . $driver) !== null && array_elements_not_blank(config('services.' . $driver), ['client_id', 'client_secret', 'redirect']))
+                ->isNotEmpty();
+        @endphp
+        @if($hasServices)
             <p class="text-center">@lang('app.or')</p>
             <p class="text-center">
             <div class="row">
-                @if(array_elements_not_blank(config('services.google'), ['client_id', 'client_secret', 'redirect']))
-                    <div class="col-sm text-center mb-2">
-                        <a href="{{ route('login.provider', 'google') }}" class="btn btn-secondary btn-sm btn-block">
-                            <x-icon icon="google" style="fab" class="mr-1"/>
-                            {{ __('app.google_sign_in') }}
-                        </a>
-                    </div>
-                @endif
-                @if(array_elements_not_blank(config('services.facebook'), ['client_id', 'client_secret', 'redirect']))
-                    <div class="col-sm text-center mb-2">
-                        <a href="{{ route('login.provider', 'facebook') }}" class="btn btn-secondary btn-sm btn-block">
-                            <x-icon icon="facebook" style="fab" class="mr-1" />
-                            {{ __('app.facebook_sign_in') }}
-                        </a>
-                    </div>
-                @endif
+                @foreach(config('auth.socialite.drivers') as $driver)
+                    @if(config('services.' . $driver) !== null && array_elements_not_blank(config('services.' . $driver), ['client_id', 'client_secret', 'redirect']))
+                        <div class="col-sm text-center mb-2">
+                            <a href="{{ route('login.provider', $driver) }}" class="btn btn-secondary btn-sm btn-block">
+                                <x-icon :icon="$driver" style="fab" class="mr-1"/>
+                                {{ __('app.' . $driver . '_sign_in') }}
+                            </a>
+                        </div>
+                    @endif
+                @endforeach
             </div>
         @endif
 

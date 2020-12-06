@@ -176,7 +176,7 @@ if (! function_exists('array_elements_not_blank')) {
     function array_elements_not_blank(array $array, array $keys): bool
     {
         foreach ($keys as $key) {
-            if (! isset($array[$key]) || blank($array[$key])) {
+            if (! filled($array[$key])) {
                 return false;
             }
         }
