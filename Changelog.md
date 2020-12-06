@@ -7,6 +7,7 @@
 * Replaced Gravatar with initial-based Avatar image
 * Added alert and icon blade components
 * Removed unnecesary coupon type details view
+* Only show webling booking button if configured
 
 ## 2.29.0
 

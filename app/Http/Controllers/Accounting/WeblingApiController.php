@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Accounting;
 
-use App\Exceptions\ConfigurationException;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Wallet;
@@ -27,21 +26,17 @@ class WeblingApiController extends Controller
 
         setlocale(LC_TIME, \App::getLocale());
 
-        try {
-            $periods = Period::all()
-                ->where('state', 'open')
-                ->mapWithKeys(fn ($period) => [
-                    $period->id => (object) [
-                        'title' => $period->title,
-                        'from' => $period->from,
-                        'to' => $period->to,
-                        'months' => self::getMonthsForPeriod($wallet, $period->from, $period->to),
-                    ],
-                ]);
-        } catch (ConnectionException|ConfigurationException $e) {
-            session()->now('error', $e->getMessage());
-            $periods = collect();
-        }
+        $periods = Period::all()
+            ->where('state', 'open')
+            ->mapWithKeys(fn ($period) => [
+                $period->id => (object) [
+                    'title' => $period->title,
+                    'from' => $period->from,
+                    'to' => $period->to,
+                    'months' => self::getMonthsForPeriod($wallet, $period->from, $period->to),
+                ],
+            ]);
+
         return view('accounting.webling.index', [
             'wallet' => $wallet,
             'periods' => $periods,

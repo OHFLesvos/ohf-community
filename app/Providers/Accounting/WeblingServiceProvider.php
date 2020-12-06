@@ -16,8 +16,8 @@ class WeblingServiceProvider extends ServiceProvider implements DeferrableProvid
     public function register()
     {
         $this->app->singleton(WeblingClient::class, fn ($app) => new WeblingClient(
-            config('accounting.webling.api.url'),
-            config('accounting.webling.api.key')
+            config('services.webling.api_url'),
+            config('services.webling.api_key')
         ));
     }
 
