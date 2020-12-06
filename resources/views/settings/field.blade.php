@@ -19,9 +19,9 @@
         <label for="{{ $field_key }}">{{ $field['label'] }}</label>
         {{ Form::bsFile($field_key, $field['args'] ?? [], $field['placeholder'] ?? __('app.choose_file'), $field['help'] ?? null) }}
         @isset($field['value'])
-            <a href="{{ Storage::url($field['value']) }}" target="_blank">
+            <a href="{{ Storage::url($field['value']) }}" data-fslightbox>
                 @if(Str::startsWith(mime_content_type(Storage::path($field['value'])), 'image/'))
-                    <img src="{{ Storage::url($field['value']) }}" class="img-fluid img-thumbnail mb-2" style="max-height: 200px" data-lity>
+                    <img src="{{ Storage::url($field['value']) }}" class="img-fluid img-thumbnail mb-2" style="max-height: 200px">
                 @else
                     <p>@lang('app.view_file')</p>
                 @endif

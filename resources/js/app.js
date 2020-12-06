@@ -94,8 +94,8 @@ $(function(){
     });
 });
 
-// Lity Lightbox
-import 'lity'
+// Fullscreen lightbox
+import 'fslightbox'
 
 /**
  * Tags input

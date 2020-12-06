@@ -224,7 +224,7 @@
                     @if(Storage::exists($picture))
                     <div class="col-auto mb-2">
                         @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
-                            <a href="{{ Storage::url($picture) }}" data-lity>
+                            <a href="{{ Storage::url($picture) }}" data-fslightbox="gallery">
                                 <x-thumbnail :size="config('accounting.thumbnail_size')">
                                     @if(Storage::exists(thumb_path($picture)))
                                         {{ Storage::url(thumb_path($picture)) }}

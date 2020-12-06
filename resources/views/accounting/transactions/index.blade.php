@@ -240,6 +240,7 @@
                             .show();
                     }
                     @include('accounting.transactions.controlled')
+                    refreshFsLightbox()
                 });
             });
         });
