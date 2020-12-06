@@ -25,7 +25,7 @@
 
         {{-- Logo, Name --}}
         <a class="navbar-brand d-none d-md-inline-block" href="{{ route('home') }}">
-            @isset($signet_url)<img src="{{ $signet_url }}" />@endisset {{ config('app.name') }}
+            @isset($signet_url)<img src="{{ $signet_url }}" alt="Brand" />@endisset {{ config('app.name') }}
         </a>
         {{-- Title --}}
         @if(View::hasSection('title'))

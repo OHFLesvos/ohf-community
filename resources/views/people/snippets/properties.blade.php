@@ -114,7 +114,7 @@
                     </strong>
                 </div>
                 <div class="col-sm">
-                    <img src="{{ Storage::url($person->portrait_picture) }}" class="img-fluid img-thumbnail">
+                    <img src="{{ Storage::url($person->portrait_picture) }}" class="img-fluid img-thumbnail" alt="Portrait">
                 </div>
             </div>
         </li>

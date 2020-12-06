@@ -30,11 +30,13 @@
                     v-if="item.portrait_picture_url"
                     :src="item.portrait_picture_url"
                     class="img-fluid"
+                    alt="Portrait"
                 >
                 <img
                     v-else
                     :src="placeholderPicture"
                     class="img-fluid"
+                    alt="Placeholder"
                 >
             </a>
         </b-card-body>

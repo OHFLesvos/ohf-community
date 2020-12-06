@@ -5,7 +5,7 @@
         {{-- Logo --}}
         <div class="px-3 pt-3">
             <span class="navbar-brand">
-                @isset($signet_url)<img src="{{ $signet_url }}" />@endisset {{ config('app.name') }}
+                @isset($signet_url)<img src="{{ $signet_url }}" alt="Brand"/>@endisset {{ config('app.name') }}
             </span>
         </div>
 

@@ -15,9 +15,9 @@
                         <a href="{{ route('cmtyvol.show', $item['model']) }}">
                     @endcan
                     @isset($item['model']->portrait_picture)
-                        <img src="{{ Storage::url($item['model']->portrait_picture) }}" class="img-fluid">
+                        <img src="{{ Storage::url($item['model']->portrait_picture) }}" class="img-fluid" alt="Portrait">
                     @else
-                        <img src="{{ asset('img/portrait_placeholder.png') }}" class="img-fluid">
+                        <img src="{{ asset('img/portrait_placeholder.png') }}" class="img-fluid" alt="Placeholder">
                     @endisset
                     @can('view', $item['model'])
                         </a>

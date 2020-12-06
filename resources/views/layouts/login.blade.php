@@ -8,7 +8,9 @@
                 <div class="col-md-8 col-lg-6 mt-md-4">
 
                     @isset($logo_url)
-                        <div class="px-5 px-sm-0"><img src="{{ $logo_url }}" class="img-fluid text-center my-sm-0 p-4" /></div>
+                        <div class="px-5 px-sm-0">
+                            <img src="{{ $logo_url }}" class="img-fluid text-center my-sm-0 p-4" alt="Logo"/>
+                        </div>
                     @endisset
 
                     <div class="card mb-4 @unless($logo_url)mt-5 @endunless">
