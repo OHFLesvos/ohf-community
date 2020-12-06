@@ -1,17 +1,14 @@
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        {{-- CSRF --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <meta name="lang" content="{{ App::getLocale() }}">
 
+        {{-- Title --}}
         <title>@if(View::hasSection('title')) @yield('title') - @endif{{ config('app.name') }} - {{ config('app.product_name') }}</title>
 
-        <link href="{{ asset('css/app.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
-
-        @yield('head-meta')
-
+        {{-- Favicon --}}
         @isset($favicon_32_url)
             <link rel="icon" href="{{ $favicon_32_url }}" sizes="32x32" />
         @endisset
@@ -22,8 +19,14 @@
             <link rel="apple-touch-icon-precomposed" href="{{ $favicon_180_url }}" />
         @endisset
 
-        <!-- Scripts -->
+        {{-- CSS --}}
+        <link href="{{ asset('css/app.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
+
+        {{-- Scripts --}}
         <script>
             window.Laravel = {}
         </script>
+
+        {{-- Stack for additional CSS / scripts --}}
+        @stack('head')
     </head>

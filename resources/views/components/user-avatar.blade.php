@@ -3,4 +3,5 @@
     class="avatar"
     width="{{ $size }}"
     height="{{ $size }}"
+    alt="Avatar"
 />

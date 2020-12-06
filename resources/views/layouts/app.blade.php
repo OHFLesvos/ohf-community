@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="{{ config('app.locale') }}" class="h-100">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-100">
     @include('layouts.include.head')
     <body class="h-100 d-flex flex-column">
 
