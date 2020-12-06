@@ -39,7 +39,7 @@
             <table class="table table-sm table-bordered table-striped table-hover">
                 <thead>
                     <tr>
-                        <th class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
+                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
                         <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
@@ -69,7 +69,28 @@
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
-                            <td class="@if(empty($transaction->receipt_pictures) && isset($transaction->receipt_no)) table-warning receipt-picture-missing @endif text-center" data-transaction-id="{{ $transaction->id }}">
+                            <td class="fit text-center cursor-pointer @if(empty($transaction->receipt_pictures) && isset($transaction->receipt_no)) table-warning receipt-picture-missing @else table-success @endif" data-transaction-id="{{ $transaction->id }}">
+                                @isset($transaction->receipt_no)
+                                    @if(filled($transaction->receipt_pictures))
+                                        @php
+                                            $urls = collect($transaction->receipt_pictures)
+                                                ->filter(fn ($picture) => Storage::exists($picture))
+                                                ->map(fn ($picture) => [ 'url' => Storage::url($picture), 'image' => Str::startsWith(Storage::mimeType($picture), 'image/')]);
+                                            if ($urls->filter(fn ($data) => $data['image'])->isNotEmpty()) {
+                                                $icon = $urls->count() > 1 ? 'images' : 'image';
+                                            } else {
+                                                $icon = 'file';
+                                            }
+                                        @endphp
+                                        @if(filled($urls))
+                                            <x-icon :icon="$icon" :data-urls='$urls->toJson()' class="lightbox" />
+                                        @endif
+                                    @else
+                                        <x-icon icon="upload" />
+                                    @endif
+                                @endisset
+                            </td>
+                            <td class="fit text-right" >
                                 {{ $transaction->receipt_no }}
                             </td>
                             <td class="fit">
@@ -164,11 +185,12 @@
 
 @push('footer')
     <script>
+        var selectFile = function (evt) {
+            var tr_id = $(evt.target).data('transaction-id');
+            $('#receipt_upload_' + tr_id).find('input[type=file]').click();
+        }
         $(function () {
-            $('.receipt-picture-missing').on('click', function () {
-                var tr_id = $(this).data('transaction-id');
-                $('#receipt_upload_' + tr_id).find('input[type=file]').click();
-            });
+            $('.receipt-picture-missing').on('click', selectFile);
             $('.upload-receipt-form input[type="file"]').on('change', function () {
                 $(this).parents('form').submit();
             });
@@ -176,9 +198,13 @@
                 e.preventDefault();
                 var tr_id = $(this).attr('id').substr('#receipt_upload_'.length - 1);
                 var td = $('.receipt-picture-missing[data-transaction-id="' + tr_id + '"]');
+                var icon = td.children('i');
                 td.removeClass('table-warning')
                     .addClass('table-info')
+                    .removeClass('cursor-pointer')
                     .off('click');
+                icon.removeClass('fa-upload')
+                    .addClass('fa-spin fa-spinner')
                 $.ajax({
                     url: $(this).attr('action'),
                     type: "POST",
@@ -188,10 +214,17 @@
                     processData:false,
                     success: function () {
                         td.removeClass('table-info receipt-picture-missing')
-                            .addClass('text-success');
+                            .addClass('table-success');
+                        icon.removeClass('fa-spin fa-spinner')
+                            .addClass('fa-check');
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        td.removeClass('table-info').addClass('table-warning');
+                        td.removeClass('table-info')
+                            .addClass('table-warning')
+                            .addClass('cursor-pointer')
+                            .on('click', selectFile);
+                        icon.removeClass('fa-spin fa-spinner')
+                            .addClass('fa-upload');
                         var message;
                         if (jqXHR.responseJSON.message) {
                             if (jqXHR.responseJSON.errors) {
@@ -243,6 +276,20 @@
                     refreshFsLightbox()
                 });
             });
+
+            $('.lightbox').each(function(){
+                var data = $(this).data('urls');
+                const lightbox = new FsLightbox();
+                var images = data.filter(d => d.image)
+                lightbox.props.sources = images.map(i => i.url);
+                $(this).parents('td').on('click', function() {
+                    if (images.length > 0) {
+                        lightbox.open()
+                    } else {
+                        window.open(data[0].url, '_blank');
+                    }
+                 });
+            })
         });
     </script>
 
