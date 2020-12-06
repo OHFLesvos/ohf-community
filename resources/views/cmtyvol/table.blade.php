@@ -5,7 +5,7 @@
                 @foreach($fields as $field)
                     <th>
                         @isset($field['icon'])
-                            <x-icon :icon="$field['icon']" class="d-none d-sm-inline"/>
+                            <x-icon :icon="$field['icon']" :style="$field['icon_style']" class="d-none d-sm-inline"/>
                         @endisset
                         {{ $field['label'] }}
                     </th>

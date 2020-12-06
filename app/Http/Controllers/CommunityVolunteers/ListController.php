@@ -88,6 +88,7 @@ class ListController extends BaseController
             'fields' => $fields->map(fn ($f) => [
                 'label' => __($f['label_key']),
                 'icon' => $f['icon'],
+                'icon_style' => $f['icon_style'] ?? null,
             ]),
             'groups' => $groups ?? null,
             'data' => $data,
@@ -283,6 +284,7 @@ class ListController extends BaseController
                         ->map(fn ($f) => [
                             'label' => __($f['label_key']),
                             'icon' => $f['icon'],
+                            'icon_style' => $f['icon_style'] ?? null,
                             'value' => self::getFieldValue($f, $cmtyvol),
                         ])
                         ->whereNotIn('value', [null])

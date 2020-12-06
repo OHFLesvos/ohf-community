@@ -38,7 +38,7 @@
                                 <div class="row">
                                     <div class="col-sm-5">
                                         @isset($field['icon'])
-                                            <x-icon :icon="$field['icon']"/>
+                                            <x-icon :icon="$field['icon']" :style="$field['icon_style']"/>
                                         @endisset
                                         <strong>{{ $field['label'] }}</strong>
                                     </div>
