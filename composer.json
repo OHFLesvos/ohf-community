@@ -58,8 +58,8 @@
         "barryvdh/laravel-ide-helper": "^2.6",
         "djedaini/laravel-vue-i18n-generator": "^0.1.47",
         "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.12",
         "filp/whoops": "~2.0",
-        "fzaninotto/faker": "^1.9.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.0"
