@@ -21,13 +21,6 @@ if (! function_exists('list_fa_icons')) {
     }
 }
 
-if (! function_exists('icon')) {
-    function icon(string $value): string
-    {
-        return '<i class="fa fa-' . $value . '"></i>';
-    }
-}
-
 if (! function_exists('simplified_url')) {
     function simplified_url(string $value): string
     {

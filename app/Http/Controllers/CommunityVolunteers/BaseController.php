@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\View\ComponentAttributeBag;
 
 abstract class BaseController extends Controller
 {
@@ -135,7 +136,11 @@ abstract class BaseController extends Controller
                 'label_key' => 'people.gender',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? __('app.female') : __('app.male')) : null,
-                'value_html' => fn ($cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? icon('female') : icon('male')) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->gender != null
+                    ? view('components.icon-gender', [
+                        'gender' => $cmtyvol->gender,
+                        'attributes' => new ComponentAttributeBag(),
+                    ]) : null,
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
@@ -220,9 +225,11 @@ abstract class BaseController extends Controller
                 'label_key' => 'app.local_phone',
                 'icon' => 'phone',
                 'value' => 'local_phone',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->local_phone != null ? view('tel', [
-                    'number' => $cmtyvol->local_phone,
-                ]) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->local_phone != null
+                    ? view('components.links.tel', [
+                        'slot' => $cmtyvol->local_phone,
+                        'attributes' => new ComponentAttributeBag(),
+                    ]) : null,
                 'overview' => false,
                 'section' => 'reachability',
                 'import_labels' => [ 'Greek No.' ],
@@ -236,9 +243,11 @@ abstract class BaseController extends Controller
                 'label_key' => 'app.other_phone',
                 'icon' => 'phone',
                 'value' => 'other_phone',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->other_phone != null ? view('tel', [
-                    'number' => $cmtyvol->other_phone,
-                ]) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->other_phone != null
+                    ? view('components.links.tel', [
+                        'slot' => $cmtyvol->other_phone,
+                        'attributes' => new ComponentAttributeBag(),
+                    ]) : null,
                 'overview' => false,
                 'section' => 'reachability',
                 'import_labels' => [ 'Other No.' ],
@@ -253,10 +262,12 @@ abstract class BaseController extends Controller
                 'icon' => 'whatsapp',
                 'icon_style' => 'fab',
                 'value' => 'whatsapp',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->whatsapp != null ? view('whatsapp', [
-                    'number' => $cmtyvol->whatsapp,
-                    'message' => 'Hello ' . $cmtyvol->first_name . "\n",
-                ]) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->whatsapp != null
+                    ? view('components.links.whatsapp', [
+                        'slot' => $cmtyvol->whatsapp,
+                        'message' => 'Hello ' . $cmtyvol->first_name . "\n",
+                        'attributes' => new ComponentAttributeBag(),
+                    ]) : null,
                 'overview' => false,
                 'section' => 'reachability',
                 'assign' => function ($cmtyvol, $value) {
@@ -269,9 +280,11 @@ abstract class BaseController extends Controller
                 'label_key' => 'app.email',
                 'icon' => 'envelope',
                 'value' => 'email',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->email != null ? view('email', [
-                    'email' => $cmtyvol->email,
-                ]) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->email != null
+                    ? view('components.links.email', [
+                        'slot' => $cmtyvol->email,
+                        'attributes' => new ComponentAttributeBag(),
+                    ]) : null,
                 'overview' => false,
                 'section' => 'reachability',
                 'assign' => function ($cmtyvol, $value) {
@@ -286,9 +299,11 @@ abstract class BaseController extends Controller
                 'icon' => 'skype',
                 'icon_style' => 'fab',
                 'value' => 'skype',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->skype != null ? view('skype', [
-                    'username' => $cmtyvol->skype,
-                ]) : null,
+                'value_html' => fn ($cmtyvol) => $cmtyvol->skype != null
+                    ? view('components.links.skype', [
+                        'slot' => $cmtyvol->skype,
+                        'attributes' => new ComponentAttributeBag(),
+                    ]) : null,
                 'overview' => false,
                 'section' => 'reachability',
                 'assign' => function ($cmtyvol, $value) {
