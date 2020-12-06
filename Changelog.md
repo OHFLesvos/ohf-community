@@ -1,6 +1,6 @@
 # Changelog
 
-## NEXT
+## 2.30.0
 
 * Removed changelog widget & permissions
 * Added tab navigation for settings
