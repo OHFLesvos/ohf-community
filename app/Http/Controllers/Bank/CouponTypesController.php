@@ -65,19 +65,6 @@ class CouponTypesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Bank\CouponType  $coupon
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CouponType $coupon)
-    {
-        return view('bank.coupons.show', [
-            'coupon' => $coupon,
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Bank\CouponType  $coupon
@@ -106,7 +93,7 @@ class CouponTypesController extends Controller
         $coupon->save();
 
         return redirect()
-            ->route('coupons.show', $coupon)
+            ->route('coupons.index')
             ->with('info', __('coupons.coupon_updated'));
     }
 

@@ -103,7 +103,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,
         'coupons.create'                  => \App\Navigation\ContextButtons\Bank\CouponCreateContextButtons::class,
-        'coupons.show'                    => \App\Navigation\ContextButtons\Bank\CouponShowContextButtons::class,
         'coupons.edit'                    => \App\Navigation\ContextButtons\Bank\CouponEditContextButtons::class,
 
         'bank.people.create'              => \App\Navigation\ContextButtons\Bank\PeopleCreateContextButtons::class,

@@ -28,9 +28,13 @@
                         <tr>
                             <td>
                                 <x-icon :icon="$coupon->icon"/>
-                                <a href="{{ route('coupons.show', $coupon) }}">
+                                @can('update', $coupon)
+                                    <a href="{{ route('coupons.edit', $coupon) }}">
+                                        {{ $coupon->name }}
+                                    </a>
+                                @else
                                     {{ $coupon->name }}
-                                </a>
+                                @endcan
                             </td>
                             <td class="text-right fit">{{ $coupon->daily_amount }}</td>
                             <td>{{ $coupon->retention_period != null ? $coupon->retention_period . ' ' . trans_choice('app.day_days', $coupon->retention_period) : __('people.one_time') }}</td>

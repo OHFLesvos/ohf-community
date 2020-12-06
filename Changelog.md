@@ -6,6 +6,7 @@
 * Added tab navigation for settings
 * Replaced Gravatar with initial-based Avatar image
 * Added alert and icon blade components
+* Removed unnecesary coupon type details view
 
 ## 2.29.0
 
