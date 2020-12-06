@@ -68,13 +68,12 @@
 
 @endsection
 
-@section('script')
-    $(function () {
-        // Make popovers work
-        $('[data-toggle="popover"]').popover();
-    });
-@endsection
-
 @push('footer')
+    <script>
+        $(function () {
+            // Make popovers work
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
     <script src="{{ asset('js/cmtyvol.js') }}?v={{ $app_version }}"></script>
 @endpush

@@ -26,42 +26,44 @@
     {!! Form::close() !!}
 @endsection
 
-@section('script')
-    function toggleFileUplad() {
-        if ($('input[name="source"]:checked').val() == 'file')
-            $('#file_upload').show();
-        else
-            $('#file_upload').hide();
-    }
-    function toggleInputList() {
-        if ($('input[name="source"]:checked').val() == 'list') {
-            $('#input_list').show();
-            if ($('#input_list').children().empty()) {
-                addNewInputListRow();
-            }
+@push('footer')
+    <script>
+        function toggleFileUplad() {
+            if ($('input[name="source"]:checked').val() == 'file')
+                $('#file_upload').show();
+            else
+                $('#file_upload').hide();
         }
-        else
-            $('#input_list').hide();
-    }
-    function addNewInputListRow() {
-        var elem = $('#new_input_list_row').clone().html();
-        $('#input_list').find('button')
-            .removeClass('btn-success')
-            .addClass('btn-danger')
-            .off('click')
-            .on('click', removeInputListRow)
-            .html('<i class="fa fa-minus-circle"></i>');
-        $('#input_list').append(elem);
-        $('#input_list').find('button').last().on('click', addNewInputListRow);
-        $('#input_list').find('input[name="name[]"]').last().focus();
-    }
-    function removeInputListRow() {
-        $(this).parents('div[class="form-row"]').remove();
-    }
-    $(function () {
-        $('input[name="source"]').on('change', toggleFileUplad);
-        toggleFileUplad();
-        $('input[name="source"]').on('change', toggleInputList);
-        toggleInputList();
-    });
-@endsection
+        function toggleInputList() {
+            if ($('input[name="source"]:checked').val() == 'list') {
+                $('#input_list').show();
+                if ($('#input_list').children().empty()) {
+                    addNewInputListRow();
+                }
+            }
+            else
+                $('#input_list').hide();
+        }
+        function addNewInputListRow() {
+            var elem = $('#new_input_list_row').clone().html();
+            $('#input_list').find('button')
+                .removeClass('btn-success')
+                .addClass('btn-danger')
+                .off('click')
+                .on('click', removeInputListRow)
+                .html('<i class="fa fa-minus-circle"></i>');
+            $('#input_list').append(elem);
+            $('#input_list').find('button').last().on('click', addNewInputListRow);
+            $('#input_list').find('input[name="name[]"]').last().focus();
+        }
+        function removeInputListRow() {
+            $(this).parents('div[class="form-row"]').remove();
+        }
+        $(function () {
+            $('input[name="source"]').on('change', toggleFileUplad);
+            toggleFileUplad();
+            $('input[name="source"]').on('change', toggleInputList);
+            toggleInputList();
+        });
+    </script>
+@endpush

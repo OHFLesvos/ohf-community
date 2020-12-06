@@ -80,40 +80,41 @@
     @endunless
 @endsection
 
-@section('script')
-    function updateStatus(row) {
-        var id = row.data('id');
+@push('footer')
+    <script>
+        function updateStatus(row) {
+            var id = row.data('id');
 
-        var message = row.find('input[name="posting_text['+id+']"]').val();
-        var debit_side = row.find('select[name="debit_side['+id+']"]').val();
-        var credit_side = row.find('select[name="credit_side['+id+']"]').val();
-        var action = row.find('input[name="action['+id+']"]:checked').val();
+            var message = row.find('input[name="posting_text['+id+']"]').val();
+            var debit_side = row.find('select[name="debit_side['+id+']"]').val();
+            var credit_side = row.find('select[name="credit_side['+id+']"]').val();
+            var action = row.find('input[name="action['+id+']"]:checked').val();
 
-        row.removeClass('table-success');
-        row.removeClass('table-warning');
-        row.removeClass('table-info');
+            row.removeClass('table-success');
+            row.removeClass('table-warning');
+            row.removeClass('table-info');
 
-        if (action == 'book') {
-            if (message != '' && debit_side != '' && credit_side != '') {
-                row.addClass('table-success');
+            if (action == 'book') {
+                if (message != '' && debit_side != '' && credit_side != '') {
+                    row.addClass('table-success');
+                } else {
+                    row.addClass('table-warning');
+                }
             } else {
-                row.addClass('table-warning');
-            }
-        } else {
-            if (message != '' && debit_side != '' && credit_side != '') {
-                row.addClass('table-secondary');
+                if (message != '' && debit_side != '' && credit_side != '') {
+                    row.addClass('table-secondary');
+                }
             }
         }
-    }
 
-    $('#bookings_table input, #bookings_table select').on('change propertychange keyup', function () {
-        var row = $(this).parents('tr');
-        updateStatus(row);
-    });
+        $('#bookings_table input, #bookings_table select').on('change propertychange keyup', function () {
+            var row = $(this).parents('tr');
+            updateStatus(row);
+        });
 
-    $('#bookings_table tbody tr').each(function () {
-        var row = $(this);
-        updateStatus(row);
-    });
-
-@endsection
+        $('#bookings_table tbody tr').each(function () {
+            var row = $(this);
+            updateStatus(row);
+        });
+    </script>
+@endpush

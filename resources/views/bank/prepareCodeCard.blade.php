@@ -19,10 +19,12 @@
     </div>
 @endsection
 
-@section('script')
-    $(function () {
-        $('form').on('submit', function () {
-            $('#patience-notice').fadeIn();
+@push('footer')
+    <script>
+        $(function () {
+            $('form').on('submit', function () {
+                $('#patience-notice').fadeIn();
+            });
         });
-    });
-@endsection
+    </script>
+@endpush

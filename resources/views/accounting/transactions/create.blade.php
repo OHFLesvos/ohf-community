@@ -103,10 +103,12 @@
 
 @endsection
 
-@section('script')
-$(function () {
-    $('input[name="date"]').on('change', function () {
-        $('input[name="amount"]').focus();
-    });
-});
-@endsection
+@push('footer')
+    <script>
+        $(function () {
+            $('input[name="date"]').on('change', function () {
+                $('input[name="amount"]').focus();
+            });
+        });
+    </script>
+@endpush

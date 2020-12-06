@@ -49,16 +49,18 @@
 
 @endsection
 
-@section('script')
-$(function(){
-    const value = sessionStorage.getItem('settings.tab')
-    if (value !== undefined && value != null && value.length > 0) {
-        $('#' + value).tab('show')
-    } else {
-        $('#{{ array_keys($sections)[0] }}-tab').tab('show')
-    }
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        sessionStorage.setItem('settings.tab', e.target.id)
-    })
-})
-@endsection
+@push('footer')
+    <script>
+        $(function(){
+            const value = sessionStorage.getItem('settings.tab')
+            if (value !== undefined && value != null && value.length > 0) {
+                $('#' + value).tab('show')
+            } else {
+                $('#{{ array_keys($sections)[0] }}-tab').tab('show')
+            }
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                sessionStorage.setItem('settings.tab', e.target.id)
+            })
+        })
+    </script>
+@endpush

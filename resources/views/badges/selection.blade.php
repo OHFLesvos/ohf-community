@@ -17,13 +17,15 @@
     {!! Form::close() !!}
 @endsection
 
-@section('script')
-    $(function () {
-        $('#select_all').on('click', function () {
-            $('input[type="checkbox"]').prop('checked', true);
+@push('footer')
+    <script>
+        $(function () {
+            $('#select_all').on('click', function () {
+                $('input[type="checkbox"]').prop('checked', true);
+            });
+            $('#select_none').on('click', function () {
+                $('input[type="checkbox"]').prop('checked', false);
+            });
         });
-        $('#select_none').on('click', function () {
-            $('input[type="checkbox"]').prop('checked', false);
-        });
-    });
-@endsection
+    </script>
+@endpush

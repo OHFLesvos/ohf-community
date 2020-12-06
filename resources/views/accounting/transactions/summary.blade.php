@@ -173,30 +173,32 @@
 
 @endsection
 
-@section('script')
-$(function () {
-    $('#monthrange').on('change', function () {
-        var val = $(this).val();
-        var month = ''
-        var year = ''
-        if (val != '') {
-            var arr = val.split('-');
-            month = parseInt(arr[1]);
-            year = arr[0]
-        }
-        document.location = '{{ route('accounting.transactions.summary', $wallet) }}?month=' + month + '&year=' + year;
-    });
-    $('#yearrange').on('change', function () {
-        var val = $(this).val();
-        document.location = '{{ route('accounting.transactions.summary', $wallet) }}?year=' + val;
-    });
-    $('#project').on('change', function () {
-        var val = $(this).val();
-        document.location = '{{ route('accounting.transactions.globalSummary') }}?project=' + val;
-    });
-    $('#location').on('change', function () {
-        var val = $(this).val();
-        document.location = '{{ route('accounting.transactions.globalSummary') }}?location=' + val;
-    });
-});
-@endsection
+@push('footer')
+    <script>
+        $(function () {
+            $('#monthrange').on('change', function () {
+                var val = $(this).val();
+                var month = ''
+                var year = ''
+                if (val != '') {
+                    var arr = val.split('-');
+                    month = parseInt(arr[1]);
+                    year = arr[0]
+                }
+                document.location = '{{ route('accounting.transactions.summary', $wallet) }}?month=' + month + '&year=' + year;
+            });
+            $('#yearrange').on('change', function () {
+                var val = $(this).val();
+                document.location = '{{ route('accounting.transactions.summary', $wallet) }}?year=' + val;
+            });
+            $('#project').on('change', function () {
+                var val = $(this).val();
+                document.location = '{{ route('accounting.transactions.globalSummary') }}?project=' + val;
+            });
+            $('#location').on('change', function () {
+                var val = $(this).val();
+                document.location = '{{ route('accounting.transactions.globalSummary') }}?location=' + val;
+            });
+        });
+    </script>
+@endpush

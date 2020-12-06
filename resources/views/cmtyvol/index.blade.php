@@ -80,9 +80,11 @@
 
 @endsection
 
-@section('script')
-    $(function () {
-        // Make popovers work
-        $('[data-toggle="popover"]').popover();
-    });
-@endsection
+@push('footer')
+    <script>
+        $(function () {
+            // Make popovers work
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+@endpush

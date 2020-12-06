@@ -162,87 +162,89 @@
     @endif
 @endsection
 
-@section('script')
-    $(function () {
-        $('.receipt-picture-missing').on('click', function () {
-            var tr_id = $(this).data('transaction-id');
-            $('#receipt_upload_' + tr_id).find('input[type=file]').click();
-        });
-        $('.upload-receipt-form input[type="file"]').on('change', function () {
-            $(this).parents('form').submit();
-        });
-        $('.upload-receipt-form').on('submit', function (e) {
-            e.preventDefault();
-            var tr_id = $(this).attr('id').substr('#receipt_upload_'.length - 1);
-            var td = $('.receipt-picture-missing[data-transaction-id="' + tr_id + '"]');
-            td.removeClass('table-warning')
-                .addClass('table-info')
-                .off('click');
-            $.ajax({
-                url: $(this).attr('action'),
-                type: "POST",
-                data:  new FormData(this),
-                contentType: false,
-                cache: false,
-                processData:false,
-                success: function () {
-                    td.removeClass('table-info receipt-picture-missing')
-                        .addClass('text-success');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    td.removeClass('table-info').addClass('table-warning');
-                    var message;
-                    if (jqXHR.responseJSON.message) {
-                        if (jqXHR.responseJSON.errors) {
-                            message = "";
-                            var errors = jqXHR.responseJSON.errors;
-                            Object.keys(errors).forEach(function (key) {
-                                message += errors[key] + "\n";
-                            });
+@push('footer')
+    <script>
+        $(function () {
+            $('.receipt-picture-missing').on('click', function () {
+                var tr_id = $(this).data('transaction-id');
+                $('#receipt_upload_' + tr_id).find('input[type=file]').click();
+            });
+            $('.upload-receipt-form input[type="file"]').on('change', function () {
+                $(this).parents('form').submit();
+            });
+            $('.upload-receipt-form').on('submit', function (e) {
+                e.preventDefault();
+                var tr_id = $(this).attr('id').substr('#receipt_upload_'.length - 1);
+                var td = $('.receipt-picture-missing[data-transaction-id="' + tr_id + '"]');
+                td.removeClass('table-warning')
+                    .addClass('table-info')
+                    .off('click');
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: "POST",
+                    data:  new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    success: function () {
+                        td.removeClass('table-info receipt-picture-missing')
+                            .addClass('text-success');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        td.removeClass('table-info').addClass('table-warning');
+                        var message;
+                        if (jqXHR.responseJSON.message) {
+                            if (jqXHR.responseJSON.errors) {
+                                message = "";
+                                var errors = jqXHR.responseJSON.errors;
+                                Object.keys(errors).forEach(function (key) {
+                                    message += errors[key] + "\n";
+                                });
+                            } else {
+                                message = jqXHR.responseJSON.message;
+                            }
                         } else {
-                            message = jqXHR.responseJSON.message;
+                            message = textStatus + ': ' + jqXHR.responseText;
                         }
-                    } else {
-                        message = textStatus + ': ' + jqXHR.responseText;
+                        alert(message);
                     }
-                    alert(message);
-                }
+                });
             });
-        });
 
-        $('.details-link').on('click', function (e) {
-            e.preventDefault();
-            var container = $('#detailsModal');
-            var edit_url =  $(this).data('edit-url');
-            container.modal('show');
-            container.find('.modal-header')
-                .hide();
-            container.find('.modal-footer')
-                .hide();
-            container.find('.modal-body')
-                .removeClass('pb-0')
-                .removeClass('p-0')
-                .html('<div class="text-center p-4"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
-            $.get($(this).data('url'), function (result) {
+            $('.details-link').on('click', function (e) {
+                e.preventDefault();
+                var container = $('#detailsModal');
+                var edit_url =  $(this).data('edit-url');
+                container.modal('show');
                 container.find('.modal-header')
-                    .show();
+                    .hide();
+                container.find('.modal-footer')
+                    .hide();
                 container.find('.modal-body')
-                    .addClass('p-0')
-                    .html(result);
-                var footer_html = '';
-                if (edit_url) {
-                    footer_html += '<a href="' + edit_url +'" class="btn btn-secondary"><i class="fa fa-edit"></i> Edit</a>';
-                }
-                if (footer_html.length > 0) {
-                    container.find('.modal-footer')
-                        .html(footer_html)
+                    .removeClass('pb-0')
+                    .removeClass('p-0')
+                    .html('<div class="text-center p-4"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
+                $.get($(this).data('url'), function (result) {
+                    container.find('.modal-header')
                         .show();
-                }
-                @include('accounting.transactions.controlled')
+                    container.find('.modal-body')
+                        .addClass('p-0')
+                        .html(result);
+                    var footer_html = '';
+                    if (edit_url) {
+                        footer_html += '<a href="' + edit_url +'" class="btn btn-secondary"><i class="fa fa-edit"></i> Edit</a>';
+                    }
+                    if (footer_html.length > 0) {
+                        container.find('.modal-footer')
+                            .html(footer_html)
+                            .show();
+                    }
+                    @include('accounting.transactions.controlled')
+                });
             });
         });
-    });
-@endsection
+    </script>
+@endpush
 
 @section('content-footer')
     {!! Form::open(['route' => ['accounting.transactions.index', $wallet ], 'method' => 'get']) !!}

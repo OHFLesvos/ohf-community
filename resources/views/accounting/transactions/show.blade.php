@@ -21,6 +21,9 @@
 
 @endsection
 
-@section('script')
-    @include('accounting.transactions.controlled')
-@endsection
+@push('footer')
+    <script>
+        @include('accounting.transactions.controlled')
+    </script>
+@endpush
+
