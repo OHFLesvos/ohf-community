@@ -7,13 +7,6 @@
         "laravel"
     ],
     "license": "MIT",
-    "repositories":
-    [
-        {
-            "type": "vcs",
-            "url": "https://github.com/clptwebdev/php-google-books"
-        }
-    ],
     "require": {
         "php": "^7.4.0|^8.0",
         "akaunting/language": "^1.0",
@@ -44,7 +37,6 @@
         "org_heigl/ghostscript": "^2.3",
         "owen-it/laravel-auditing": "^11.0",
         "petercoles/multilingual-language-list": "^1.1",
-        "scriptotek/google-books": "dev-master",
         "sentry/sentry-laravel": "^2.3",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spatie/pdf-to-image": "^2.0",

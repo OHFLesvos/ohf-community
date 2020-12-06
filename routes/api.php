@@ -446,8 +446,6 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
 
         Route::get('books/filter', 'BookController@filter')
             ->name('books.filter');
-        Route::get('books/findIsbn', 'BookController@findIsbn')
-            ->name('books.findIsbn');
         Route::apiResource('books', 'BookController');
 
         // Export

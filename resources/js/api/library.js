@@ -1,13 +1,18 @@
 import { api, route } from '@/api/baseApi'
-export default {
+import isbnApi from 'node-isbn'
+ export default {
     //
     // Books
     //
     async findIsbn (isbn) {
-        const url = route('api.library.books.findIsbn', {
-            isbn: isbn
-        })
-        return await api.getNoCatch(url)
+        let data = await isbnApi
+            .provider([isbnApi.PROVIDER_NAMES.GOOGLE, isbnApi.PROVIDER_NAMES.OPENLIBRARY])
+            .resolve(isbn)
+        return {
+            title: data.title,
+            author: data.authors ? data.authors.join(', ') : null,
+            language: data.language
+        }
     },
     async listBooks (params) {
         const url = route('api.library.books.index', params)

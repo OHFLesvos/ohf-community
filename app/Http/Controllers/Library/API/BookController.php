@@ -8,7 +8,6 @@ use App\Http\Resources\Library\LibraryBook as LibraryBookResource;
 use App\Models\Library\LibraryBook;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Scriptotek\GoogleBooks\GoogleBooks;
 
 class BookController extends Controller
 {
@@ -138,34 +137,6 @@ class BookController extends Controller
 
         return response()->json([
             'suggestions' => $records,
-        ]);
-    }
-
-    /**
-     * Finds information about a book by ISBN from Google books API
-     *
-     * @param GoogleBooks $books
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function findIsbn(GoogleBooks $books, Request $request)
-    {
-        $request->validate([
-            'isbn' => [
-                'required',
-                'isbn',
-            ],
-        ]);
-
-        $volume = $books->volumes->byIsbn($request->isbn);
-        if ($volume == null || $volume->volumeInfo == null) {
-            return response()->json([], 404);
-        }
-
-        return response()->json([
-            'title' => $volume->volumeInfo->title,
-            'author' => isset($volume->volumeInfo->authors) ? implode(', ', $volume->volumeInfo->authors) : null,
-            'language' => $volume->volumeInfo->language,
         ]);
     }
 }
