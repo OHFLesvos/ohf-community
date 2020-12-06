@@ -5,11 +5,11 @@
 @section('content')
 
     @if (session('status'))
-        @component('components.alert.success')
+        <x-alert type="success">
             {{ session('status') }}
-        @endcomponent
+        </x-alert>
     @endif
-    
+
     <p>@lang('userprofile.reset_password_instructions')</p>
 
     {{ Form::open(['route' => 'password.email']) }}

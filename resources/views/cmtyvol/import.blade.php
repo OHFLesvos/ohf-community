@@ -15,7 +15,7 @@
             <tbody></tbody>
         </table>
         <p>
-            {{ Form::bsSubmitButton(__('app.import'), 'upload') }}
+            <x-form.bs-submit-button :label="__('app.import')" icon="upload"/>
         </p>
     {!! Form::close() !!}
 

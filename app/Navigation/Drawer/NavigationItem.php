@@ -13,6 +13,4 @@ interface NavigationItem
     public function getActive();
 
     public function isAuthorized(): bool;
-
-    public function getBadge();
 }

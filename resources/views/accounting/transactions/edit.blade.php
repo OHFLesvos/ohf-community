@@ -88,7 +88,7 @@
                     <div class="form-row">
                         @foreach($transaction->receipt_pictures as $picture)
                             <div class="col-auto">
-                                @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                <x-thumbnail :size="config('accounting.thumbnail_size')">
                                     @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
                                         @if(Storage::exists(thumb_path($picture)))
                                             {{ Storage::url(thumb_path($picture)) }}
@@ -98,7 +98,7 @@
                                     @else
                                        {{ Storage::url(thumb_path($picture, 'jpeg')) }}
                                     @endif
-                                @endcomponent
+                                </x-thumbnail>
                                 {{ Form::bsCheckbox('remove_receipt_picture[]', $picture, null, __('app.remove'), 'remove_receipt_picture'.$loop->index) }}<br>
                             </div>
                         @endforeach
@@ -115,7 +115,7 @@
             </div>
         </div>
         <p>
-            {{ Form::bsSubmitButton(__('app.update')) }}
+            <x-form.bs-submit-button :label="__('app.update')"/>
         </p>
     {!! Form::close() !!}
 @endsection

@@ -12,7 +12,8 @@
             @foreach($nav_elements as $element)
                 @if($element['authorized'])
                     <a href="{{ $element['url'] }}" class="text-center p-3  @if($element['active']($currentRouteName)) tab-active @else tab-inactive @endif col">
-                        @icon({{ $element['icon'] }}) {{ $element['label'] }}
+                        <x-icon :icon="$element['icon']"/>
+                        {{ $element['label'] }}
                     </a>
                 @endif
             @endforeach

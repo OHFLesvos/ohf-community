@@ -4,9 +4,9 @@
 
 @section('content')
 
-    @component('components.alert.info')
+    <x-alert type="info">
         @lang('userprofile.account_deleted')
-    @endcomponent
+    </x-alert>
 
      <div class="text-center mt-4">
         <a href="{{ route('login') }}">@lang('userprofile.return_to_login')</a>

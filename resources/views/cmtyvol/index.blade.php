@@ -25,7 +25,7 @@
                     <a href="{{ $grouping['url'] }}" class="btn @if($grouping['active']) btn-dark @else btn-secondary @endif">{{ $grouping['label'] }}</a>
                 @endforeach
                 @if($groupings->where('active', true)->count() > 0)
-                    <a href="{{ route('cmtyvol.index') }}?grouping=" class="btn btn-secondary">@icon(times)</a>
+                    <a href="{{ route('cmtyvol.index') }}?grouping=" class="btn btn-secondary"><x-icon icon="times"/></a>
                 @endif
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="col-md-auto">
             <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Displays">
                 @foreach($displays as $display)
-                    <a href="{{ $display['url'] }}" class="btn @if($display['active']) btn-dark @else btn-secondary @endif" title="{{ $display['label'] }}">@icon({{ $display['icon'] }})</a>
+                    <a href="{{ $display['url'] }}" class="btn @if($display['active']) btn-dark @else btn-secondary @endif" title="{{ $display['label'] }}"><x-icon :icon="$display['icon']"/></a>
                 @endforeach
             </div>
         </div>
@@ -73,9 +73,9 @@
         @endif
         <p><small>@lang('app.n_results_found', [ 'num' => $data->count() ])</small></p>
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('cmtyvol.none_found')
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

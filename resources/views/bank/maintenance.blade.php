@@ -23,12 +23,12 @@
                             'num' => $persons_without_number,
                         ])) }}
                         <br>
-                        {{ Form::bsSubmitButton(__('people.cleanup')) }}
+                        <x-form.bs-submit-button :label="__('app.cleanup')"/>
                     </div>
                 </div>
             </div>
         </div>
 
     {!! Form::close() !!}
-    
+
 @endsection

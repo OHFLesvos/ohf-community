@@ -5,18 +5,18 @@
             @if(isset($buttons['back']))
                 {{-- Back button --}}
                 <a href="{{ $buttons['back']['url'] }}" class="btn btn-link text-light">
-                    @icon(arrow-left)
+                    <x-icon icon="arrow-left"/>
                 </a>
             @else
                 {{-- Sidebar navigation toggle --}}
                 <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button">
-                    @icon(bars)
+                    <x-icon icon="bars"/>
                 </a>
             @endif
         </div>
 
         <a href="javascript:;" class="toggle-nav btn btn-link text-light toggle-button d-none d-md-inline-block ml-3">
-            @icon(bars)
+            <x-icon icon="bars"/>
         </a>
     @endauth
 
@@ -42,18 +42,31 @@
             @foreach($buttons as $key => $button)
                 @if($key == 'delete')
                     <form method="POST" action="{{ $button['url'] }}" class="d-inline">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                        {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i> ' . $button['caption'], [ 'type' => 'submit', 'class' => 'btn btn-danger d-none d-md-inline-block delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
-                        {{ Form::button('<i class="fa fa-' . $button['icon'] .'"></i>', [ 'type' => 'submit', 'class' => 'btn btn-link text-light d-md-none delete-confirmation', 'data-confirmation' => $button['confirmation'] ]) }}
+                        @csrf
+                        @method('DELETE')
+                        <x-form.bs-delete-button
+                            :label="$button['caption']"
+                            :icon="$button['icon']"
+                            :confirmation="$button['confirmation']"
+                            class="d-none d-md-inline-block"
+                        />
+                        <button
+                            type="submit"
+                            class="btn btn-link text-light d-md-none delete-confirmation"
+                            data-confirmation="{{ $button['confirmation']  }}"
+                        >
+                            <x-icon :icon="$button['icon']"/>
+                        </button>
                     </form>
                 @elseif($key == 'action')
                     <a href="{{ $button['url'] }}" class="btn btn-primary d-none d-md-inline-block">
-                        @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                        <x-icon :icon="$button['icon']"/>
+                        {{ $button['caption'] }}
                     </a>
                 @elseif($key == 'back')
                     <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
-                        @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                        <x-icon :icon="$button['icon']"/>
+                        {{ $button['caption'] }}
                     </a>
                 @else
                     @php
@@ -66,10 +79,11 @@
                         }
                     @endphp
                     <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block" @if($key == 'help') target="_blank"@endif {!! $attributes !!}>
-                        @icon({{ $button['icon'] }}) {{ $button['caption'] }}
+                        <x-icon :icon="$button['icon']"/>
+                        {{ $button['caption'] }}
                     </a>
                     <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}" @if($key == 'help') target="_blank"@endif  {!! $attributes !!}>
-                        @icon({{ $button['icon'] }})
+                        <x-icon :icon="$button['icon']"/>
                     </a>
                 @endif
             @endforeach
@@ -77,15 +91,19 @@
 
         {{-- Context menu --}}
         @if(isset($menu) && sizeof($menu) > 0)
-            @component('components.context-nav')
-                @foreach($menu as $item)
-                    <li>
-                        <a href="{{ $item['url'] }}" class="btn btn-light btn-block">
-                            @icon({{ $item['icon'] }} mr-1) {{ $item['caption'] }}
-                        </a>
-                    </li>
-                @endforeach
-            @endcomponent
+            <div class="position-relative d-inline-block">
+                <button class="context-nav-toggle btn btn-link text-light px-3"><x-icon icon="ellipsis-v"/></button>
+                <ul class="context-nav">
+                    @foreach($menu as $item)
+                        <li>
+                            <a href="{{ $item['url'] }}" class="btn btn-light btn-block">
+                                <x-icon :icon="$item['icon']" class="mr-1"/>
+                                {{ $item['caption'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         @auth
@@ -96,19 +114,21 @@
                 <ul class="context-nav userprofile-nav">
                     <li>
                         <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block">
-                            @icon(user mr-1) @lang('userprofile.profile')
+                            <x-icon icon="user" class="mr-1"/>
+                            @lang('userprofile.profile')
                         </a>
                     </li>
                     <li>
                         <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block">
-                            @icon(sign-out-alt mr-1) @lang('app.logout')
+                            <x-icon icon="sign-out-alt" class="mr-1"/>
+                            @lang('app.logout')
                         </a>
                     </li>
                 </ul>
             </div>
         @else
-            <a href="{{ route('login') }}" class="btn btn-secondary d-none d-md-inline-block">@icon(sign-in-alt) @lang('app.login')</a>
-            <a href="{{ route('login') }}" class="btn text-light d-md-none">@icon(sign-in-alt)</a>
+            <a href="{{ route('login') }}" class="btn btn-secondary d-none d-md-inline-block"><x-icon icon="sign-in-alt"/> @lang('app.login')</a>
+            <a href="{{ route('login') }}" class="btn text-light d-md-none"><x-icon icon="sign-in-alt"/></a>
         @endauth
 
     </div>

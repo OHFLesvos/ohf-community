@@ -12,7 +12,7 @@
                     {!! Form::open(['route' => ['userprofile.update']]) !!}
                         {{ Form::bsText('name', $user->name, [ 'required' ], __('userprofile.name')) }}
                         {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
-                        {{ Form::bsSubmitButton(__('userprofile.update')) }}
+                        <x-form.bs-submit-button :label="__('userprofile.update')"/>
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -25,7 +25,7 @@
                             {{ Form::bsPassword('old_password', [ 'required' ], __('userprofile.old_password')) }}
                             {{ Form::bsPassword('password', [ 'required' ], __('userprofile.new_password')) }}
                             {{ Form::bsPassword('password_confirmation', [ 'required' ], __('userprofile.confirm_password')) }}
-                            {{ Form::bsSubmitButton(__('userprofile.update_password')) }}
+                            <x-form.bs-submit-button :label="__('userprofile.update_password')"/>
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -34,16 +34,20 @@
                     <div class="card-header">@lang('userprofile.tfa_authentication')</div>
                     <div class="card-body">
                         @empty($user->tfa_secret)
-                            @component('components.alert.info')
+                            <x-alert type="info">
                                 @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
-                            @endcomponent
-                            @component('components.alert.warning')
+                            </x-alert>
+                            <x-alert type="warning">
                                 @lang('userprofile.tfa_authentication_not_enabled')
-                            @endcomponent
-                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(check) @lang('app.enable')</a>
+                            </x-alert>
+                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
+                                <x-icon icon="check"/> @lang('app.enable')
+                            </a>
                         @else
                             <p>@lang('userprofile.tfa_authentication_enabled')</p>
-                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">@icon(times) @lang('app.disable')</a>
+                            <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
+                                <x-icon icon="times"/> @lang('app.disable')
+                            </a>
                         @endempty
                     </div>
                 </div>
@@ -56,7 +60,7 @@
                         @foreach (language()->allowed() as $code => $name)
                             <li class="list-group-item">
                                 @if(App::getLocale() == $code)
-                                    <span class="text-success">@icon(check)</span>
+                                    <x-icon icon="check" class="text-success"/>
                                 @else
                                     <span class="d-inline-block" style="width: 1em"></span>
                                 @endif
@@ -97,7 +101,11 @@
                 <div class="card-body">
                     <p>@lang('userprofile.account_remove_desc')</p>
                     {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
-                        {{ Form::bsDeleteButton(__('userprofile.delete_account'), 'user-times', __('userprofile.delete_confirm')) }}
+                        <x-form.bs-delete-button
+                            :label="__('userprofile.delete_account')"
+                            icon="user-times"
+                            :confirmation="__('userprofile.delete_confirm')"
+                        />
                     {!! Form::close() !!}
                 </div>
             </div>

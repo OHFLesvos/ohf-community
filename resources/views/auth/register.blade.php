@@ -4,9 +4,9 @@
 
 @section('content')
 
-    @component('components.alert.info')
+    <x-alert type="info">
         @lang('app.privacy_policy_agreement_link', [ 'url' => route('userPrivacyPolicy') ])
-    @endcomponent
+    </x-alert>
 
     {{ Form::open(['route' => 'register']) }}
 

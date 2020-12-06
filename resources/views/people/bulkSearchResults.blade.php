@@ -25,9 +25,7 @@
                             <td class="">{{ $person->date_of_birth}}</td>
                             <td class=" text-right">{{ $person->age}}</td>
                             <td class=" text-center">
-                                @if($person->gender == 'f')@icon(female)
-                                @elseif($person->gender == 'm')@icon(male)
-                                @endif    
+                                <x-icon-gender :gender="$person->gender"/>
                             </td>
                             <td>{{ $person->remarks}}</td>
                         </tr>
@@ -37,9 +35,9 @@
         </div>
         <p><small>@lang('app.n_results_found', [ 'num' => $persons->count() ])</small></p>
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('app.not_found')
-        @endcomponent
+        </x-alert>
     @endif
     <p><a href="{{ route('people.bulkSearch') }}" class="btn btn-primary">@lang('app.new_query')</a></p>
 

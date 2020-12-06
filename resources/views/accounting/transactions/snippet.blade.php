@@ -198,7 +198,16 @@
                         @endcan
                         @can('undoBooking', $transaction)
                             {!! Form::model($transaction, ['route' => ['accounting.transactions.undoBooking', $transaction], 'method' => 'put']) !!}
-                                <p class="mb-0 mt-2">{{ Form::button('<i class="fa fa-undo"></i> '.__('accounting.undo_booking'), [ 'type' => 'submit', 'class' => 'btn btn-sm btn-outline-danger', 'onclick' => "return confirm('".__('accounting.really_undo_booking')."')" ] ) }}</p>
+                                <p class="mb-0 mt-2">
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('@lang('accounting.really_undo_booking')')"
+                                    >
+                                        <x-icon icon="undo"/>
+                                        @lang('accounting.undo_booking')
+                                    </button>
+                                </p>
                             {!! Form::close() !!}
                         @endcan
                     </div>
@@ -216,25 +225,25 @@
                     <div class="col-auto mb-2">
                         @if(Str::startsWith(Storage::mimeType($picture), 'image/'))
                             <a href="{{ Storage::url($picture) }}" data-lity>
-                                @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                <x-thumbnail :size="config('accounting.thumbnail_size')">
                                     @if(Storage::exists(thumb_path($picture)))
                                         {{ Storage::url(thumb_path($picture)) }}
                                     @else
                                         {{ Storage::url($picture) }}
                                     @endif
-                                @endcomponent
+                                </x-thumbnail>
                             </a>
                         @else
                             @if(Storage::exists(thumb_path($picture, 'jpeg')))
                                 <a href="{{ Storage::url($picture) }}" target="_blank">
-                                    @component('components.thumbnail', ['size' => config('accounting.thumbnail_size')])
+                                    <x-thumbnail :size="config('accounting.thumbnail_size')">
                                         {{ Storage::url(thumb_path($picture, 'jpeg')) }}
-                                    @endcomponent
+                                    </x-thumbnail>
                                 </a>
                             @else
                                 <a href="{{ Storage::url($picture) }}" target="_blank">
                                 <span class="display-4" title="{{ Storage::mimeType($picture) }}">
-                                    @if(Storage::mimeType($picture) == 'application/pdf')@icon(file-pdf)@else @icon(file)@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
+                                    @if(Storage::mimeType($picture) == 'application/pdf')<x-icon icon="file-pdf"/>@else <x-icon icon="file"/>@endif</span></a> {{ bytes_to_human(Storage::size($picture)) }}
                             @endif
                         @endif
                     </div>

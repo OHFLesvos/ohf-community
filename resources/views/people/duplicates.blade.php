@@ -31,12 +31,14 @@
                     </div>
                 </div>
             @endforeach
-            <p>{{ Form::bsSubmitButton('Apply') }}</p>
+            <p>
+                <x-form.bs-submit-button :label="__('app.apply')"/>
+            </p>
         {!! Form::close() !!}
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             No duplicates found.
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

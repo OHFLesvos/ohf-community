@@ -21,7 +21,7 @@
         @endisset
 
         <p>
-            {{ Form::bsSubmitButton(__('app.export'), 'download') }}
+            <x-form.bs-submit-button :label="__('app.export')" icon="download"/>
         </p>
     {!! Form::close() !!}
 

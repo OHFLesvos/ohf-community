@@ -6,16 +6,16 @@
 
     {{-- Community volunteer --}}
     @if($person->linkedCommunityVolunteer() !== null)
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('people.person_registered_as_community_volunteer')
-        @endcomponent
+        </x-alert>
     @endif
 
     {{-- Remarks --}}
     @isset($person->remarks)
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('people.remarks'): {{ $person->remarks }}
-        @endcomponent
+        </x-alert>
     @endisset
 
     <div class="row mb-3">

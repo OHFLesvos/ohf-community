@@ -5,23 +5,21 @@
 @section('content')
 
     @if (session()->has('login_message'))
-        <div class="alert alert-success">
-        {{-- @component('components.alert.success') --}}
-            @icon(hand-paper) {!! session('login_message') !!}
-        {{-- @endcomponent --}}
-        </div>
+        <x-alert type="success" icon="hand-paper">
+            {!! session('login_message') !!}
+        </x-alert>
     @endif
 
-    @if(count($widgets) > 0 )
+    @if(count($widgets) > 0)
         <div class="card-columns">
             @foreach($widgets as $widget)
                 {!! $widget !!}
             @endforeach
         </div>
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('app.no_content_available_to_you')
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

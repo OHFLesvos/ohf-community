@@ -15,9 +15,9 @@
             </div>
         </div>
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('wiki.no_articles_found')
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

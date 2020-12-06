@@ -4,7 +4,9 @@
             <tr>
                 @foreach($fields as $field)
                     <th>
-                        @isset($field['icon'])<span class="d-none d-sm-inline">@icon({{$field['icon']}}) </span>@endisset
+                        @isset($field['icon'])
+                            <x-icon :icon="$field['icon']" :style="$field['icon_style']" class="d-none d-sm-inline"/>
+                        @endisset
                         {{ $field['label'] }}
                     </th>
                 @endforeach
@@ -12,4 +14,4 @@
         </thead>
         {{ $slot }}
     </table>
-</div>        
+</div>

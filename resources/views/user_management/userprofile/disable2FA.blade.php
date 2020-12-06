@@ -7,7 +7,7 @@
         <p>@lang('userprofile.tfa_enter_code')</p>
         {{  Form::bsNumber('code', null, [ 'required', 'autofocus' ], '') }}
         <p>
-            {{ Form::bsSubmitButton(__('app.disable'), 'times') }}
+            <x-form.bs-submit-button :label="__('app.disable')" icon="times"/>
         </p>
     {!! Form::close() !!}
 @endsection

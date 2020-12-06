@@ -1,1 +1,0 @@
-<a href="{{ $href }}" class="btn btn-{{ $class }}">@icon({{ $icon }}) {{ $label }}</a>

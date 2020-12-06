@@ -5,6 +5,7 @@
 * Removed changelog widget & permissions
 * Added tab navigation for settings
 * Replaced Gravatar with initial-based Avatar image
+* Added alert and icon blade components
 
 ## 2.29.0
 

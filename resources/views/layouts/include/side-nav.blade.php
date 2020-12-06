@@ -14,10 +14,8 @@
             @foreach ($nav as $n)
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is($n->getActive()) ? 'active' : '' }}" href="{{ $n->getRoute() }}">
-                        <i class="fa fa-{{ $n->getIcon() }}" title="{{ $n->getCaption() }}"></i> {{ $n->getCaption() }}
-                        @if ($n->getBadge() != null)
-                            <span class="badge badge-secondary ml-2">{{ $n->getBadge() }}</span>
-                        @endif
+                        <x-icon :icon="$n->getIcon()"/>
+                        {{ $n->getCaption() }}
                     </a>
                 </li>
             @endforeach
@@ -39,8 +37,8 @@
         {{-- Logout --}}
         <div class="px-3 mt-3">
             <form class="form-inline" action="{{ route('logout') }}" method="POST">
-                {{ csrf_field() }}
-                <button type="submit" class="btn btn-block btn-secondary">@icon(sign-out-alt) @lang('app.logout')</button>
+                @csrf
+                <button type="submit" class="btn btn-block btn-secondary"><x-icon icon="sign-out-alt"/> @lang('app.logout')</button>
             </form>
         </div>
 

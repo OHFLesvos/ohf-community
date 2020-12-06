@@ -42,11 +42,6 @@ abstract class BaseNavigationItem implements NavigationItem
         return $this->authorized;
     }
 
-    public function getBadge()
-    {
-        return null;
-    }
-
     private function assertDefined($variable)
     {
         if (! isset($this->$variable) || empty($this->$variable)) {

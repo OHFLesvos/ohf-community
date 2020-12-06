@@ -48,34 +48,6 @@ if (! function_exists('emailize')) {
     }
 }
 
-if (! function_exists('email_url')) {
-    function email_url(string $value): string
-    {
-        return 'mailto:' . $value;
-    }
-}
-
-if (! function_exists('email_link')) {
-    function email_link(string $value): string
-    {
-        return '<a href="' . email_url($value) . '">' . $value . '</a>';
-    }
-}
-
-if (! function_exists('tel_url')) {
-    function tel_url(string $value): string
-    {
-        return 'tel:' . preg_replace('/[^+0-9]/', '', $value);
-    }
-}
-
-if (! function_exists('tel_link')) {
-    function tel_link(string $value): string
-    {
-        return '<a href="' . tel_url($value) . '">' . $value . '</a>';
-    }
-}
-
 if (! function_exists('whatsapp_link')) {
     function whatsapp_link(string $value, ?string $text = null): string
     {
@@ -96,13 +68,6 @@ if (! function_exists('whatsapp_link')) {
         }
         $suffix = $text !== null ? '&text=' . urlencode($text) : '';
         return $prefix . preg_replace('/[^0-9]/', '', $value) . $suffix . '">' . $value . '</a>';
-    }
-}
-
-if (! function_exists('skype_link')) {
-    function skype_link(string $value): string
-    {
-        return '<a href="skype:' . $value . '?chat">' . $value . '</a>';
     }
 }
 
@@ -211,7 +176,7 @@ if (! function_exists('array_elements_not_blank')) {
     function array_elements_not_blank(array $array, array $keys): bool
     {
         foreach ($keys as $key) {
-            if (! isset($array[$key]) || blank($array[$key])) {
+            if (! filled($array[$key])) {
                 return false;
             }
         }

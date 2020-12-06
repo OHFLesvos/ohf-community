@@ -20,7 +20,7 @@
         </div>
 
         <p>
-            {{ Form::bsSubmitButton(__('app.update')) }}
+            <x-form.bs-submit-button :label="__('app.update')"/>
         </p>
 
     {!! Form::close() !!}

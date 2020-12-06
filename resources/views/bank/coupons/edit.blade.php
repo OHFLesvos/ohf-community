@@ -16,7 +16,7 @@
                     {{ Form::text('icon', null, [ 'class' => 'form-control', 'id' => 'icon', 'list' => 'icon-list', 'aria-describedby' => 'icon-addon' ]) }}
                     <div class="input-group-append">
                         <span class="input-group-text" id="icon-addon">
-                            @icon({{ $coupon->icon }})
+                            <x-icon :icon="$coupon->icon"/>
                         </span>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
         </div>
 
         <p>
-            {{ Form::bsSubmitButton(__('app.update')) }}
+            <x-form.bs-submit-button :label="__('app.update')"/>
         </p>
 
     {!! Form::close() !!}

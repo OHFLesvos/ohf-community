@@ -97,6 +97,7 @@ return [
     'severity' => 'Severity',
     'message' => 'Message',
     'no_log_entries_found' => 'No log entries found.',
+    'apply' => 'Apply',
     'filter' => 'Filter',
     'apply_filter' => 'Apply filter',
     'reset_filter' => 'Reset filter',

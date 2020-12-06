@@ -14,7 +14,7 @@
             @foreach ($articles as $article)
                 <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
                 @if($article->public)
-                    <small class="text-muted" title="@lang('wiki.article_publicly_available')">@icon(eye)</small>
+                    <small class="text-muted" title="@lang('wiki.article_publicly_available')"><x-icon icon="eye"/></small>
                 @endif
                 @if($order == 'popularity')
                     <small class="text-muted d-block d-sm-inline">@lang('app.num_views', ['num' => $article->viewCount ])</small>
@@ -38,9 +38,9 @@
         </div>
 
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('wiki.no_articles_found')
-        @endcomponent
+        </x-alert>
     @endif
 
 @endsection

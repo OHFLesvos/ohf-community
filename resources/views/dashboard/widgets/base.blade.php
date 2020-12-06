@@ -9,7 +9,7 @@
                 @isset($links)
                     @foreach(collect($links)->where('authorized', true) as $link)
                         <a href="{{ $link['url'] }}" class="btn btn-sm btn-outline-primary @if(!$loop->last) mr-1 @endif" title="{{ $link['title'] }}">
-                            @icon({{ $link['icon'] }})
+                            <x-icon :icon="$link['icon']"/>
                             <span class="d-none d-xl-inline"> {{ $link['title'] }}</span>
                         </a>
                     @endforeach

@@ -8,9 +8,9 @@
         <div class="input-group mb-3">
             {{ Form::search('search', isset($search) ? $search : null, [ 'class' => 'form-control'.(isset($search) && $article_results->isEmpty() ? ' focus-tail' : ''), 'placeholder' => __('app.search') . '...' ]) }}
             <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">@icon(search)</button>
+                <button class="btn btn-primary" type="submit"><x-icon icon="search"/></button>
                 @if(isset($search))
-                    <a class="btn btn-secondary" href="{{ route('kb.index', ['reset_search']) }}">@icon(eraser)</a>
+                    <a class="btn btn-secondary" href="{{ route('kb.index', ['reset_search']) }}"><x-icon icon="eraser"/></a>
                 @endif
             </div>
         </div>
@@ -28,9 +28,9 @@
             {{ $article_results->links() }}
 
         @else
-            @component('components.alert.info')
+            <x-alert type="info">
                 @lang('wiki.no_articles_found')
-            @endcomponent
+            </x-alert>
         @endif
     @else
 

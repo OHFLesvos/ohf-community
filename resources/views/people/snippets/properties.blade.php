@@ -32,9 +32,7 @@
                     </strong>
                 </div>
                 <div class="col-sm">
-                    @if($person->gender == 'f')@icon(female) Female
-                    @elseif($person->gender == 'm')@icon(male) Male
-                    @endif
+                    <x-icon-gender :gender="$person->gender" with-label/>
                 </div>
             </div>
         </li>

@@ -40,7 +40,7 @@
         {{ Form::bsText('remarks', null, [], __('people.remarks')) }}
 
         <p>
-            {{ Form::bsSubmitButton(__('app.register')) }}
+            <x-form.bs-submit-button :label="__('app.register')"/>
         </p>
 
     {!! Form::close() !!}

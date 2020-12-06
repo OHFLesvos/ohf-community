@@ -95,6 +95,7 @@ return [
     'severity' => 'Schweregrad',
     'message' => 'Nachricht',
     'no_log_entries_found' => 'Keine Logeinträge gefunden.',
+    'apply' => 'Anwenden',
     'filter' => 'Filter',
     'apply_filter' => 'Filter anwenden',
     'reset_filter' => 'Filter zurücksetzen',

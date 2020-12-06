@@ -6,7 +6,7 @@
 
     <div class="d-flex justify-content-between align-items-center">
         <div class="mb-3">
-            @icon(wallet)
+            <x-icon icon="wallet"/>
             <span class="d-none d-sm-inline">
                 @if($has_multiple_wallets)
                     {{ $wallet->name }}:
@@ -20,16 +20,16 @@
                     @lang('app.change')
                 </a>
                 <a href="{{ route('accounting.index') }}" class="d-inline d-sm-none btn btn-sm">
-                    @icon(folder-open)
+                    <x-icon icon="folder-open"/>
                 </a>
             @endif
         </div>
         <div class="text-right">
             @if(count($filter) > 0)
-                <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3">@icon(eraser) @lang('app.reset_filter')</a>
+                <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3"><x-icon icon="eraser"/> @lang('app.reset_filter')</a>
             @endif
             <button type="button" class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">
-                @icon(search) @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
+                <x-icon icon="search"/> @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
             </button>
         </div>
     </div>
@@ -152,14 +152,14 @@
         </div>
         @foreach ($transactions->filter(fn ($e) => $e->receipt_no != null && empty($e->receipt_pictures)) as $transaction)
             <form action="{{ route('api.accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-none upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
-                {{ csrf_field() }}
+                @csrf
                 {{ Form::file('img[]', [ 'accept' => 'image/*,application/pdf', 'multiple', 'class' => 'd-none' ]) }}
             </form>
         @endforeach
     @else
-        @component('components.alert.info')
+        <x-alert type="info">
             @lang('accounting.no_transactions_found')
-        @endcomponent
+        </x-alert>
     @endif
 @endsection
 
@@ -348,9 +348,9 @@
 
             @slot('footer')
                 @if(count($filter) > 0)
-                    <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1">@icon(eraser) @lang('app.reset_filter')</a>
+                    <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1"><x-icon icon="eraser"/> @lang('app.reset_filter')</a>
                 @endif
-                {{ Form::bsSubmitButton(__('app.update'), 'search') }}
+                <x-form.bs-submit-button :label="__('app.update')" icon="search"/>
             @endslot
         @endcomponent
     {!! Form::close() !!}

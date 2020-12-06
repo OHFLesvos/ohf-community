@@ -77,34 +77,6 @@ class AppServiceProvider extends ServiceProvider
                 });
         }
 
-        // Blade directive for showing a Font Awesome icon
-        Blade::directive('icon', fn ($name) => '<i class="fa fa-' . $name . '"></i>');
-
-        // Exposes checks agains a specific gate
-        Blade::if('allowed', function ($gate) {
-            if (is_array($gate)) {
-                foreach ($gate as $g) {
-                    if (Gate::allows($g)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            return Gate::allows($gate);
-        });
-
-        // Blade directive to create a link to a telephone number
-        Blade::directive('tel', fn ($expression) => "<?php echo tel_link(${expression}); ?>");
-
-        // Blade directive to create a link to a WhatsApp number
-        Blade::directive('whatsapp', fn ($expression) => "<?php echo whatsapp_link(${expression}); ?>");
-
-        // Blade directive to create a link to an email address
-        Blade::directive('email', fn ($expression) => "<?php echo email_link(${expression}); ?>");
-
-        // Blade directive to create a link to call a skype name
-        Blade::directive('skype', fn ($expression) => "<?php echo skype_link(${expression}); ?>");
-
         // UTF-8 support for Carbon time
         Carbon::setUtf8(true);
 

@@ -7,9 +7,9 @@
     {!! Form::open(['route' => 'people.doImport', 'files' => true]) !!}
         {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('app.choose_file')) }}
         <p>
-            {{ Form::bsSubmitButton(__('app.import'), 'upload') }}
+            <x-form.bs-submit-button :label="__('app.import')" icon="upload"/>
         </p>
     {!! Form::close() !!}
-    
+
 @endsection
 
