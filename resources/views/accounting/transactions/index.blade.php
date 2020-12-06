@@ -244,9 +244,7 @@
             });
         });
     </script>
-@endpush
 
-@section('content-footer')
     {!! Form::open(['route' => ['accounting.transactions.index', $wallet ], 'method' => 'get']) !!}
         @component('components.modal', [ 'id' => 'filterModal' ])
             @slot('title', __('app.filter'))
@@ -360,4 +358,4 @@
         @slot('title', 'Transaction details')
         @slot('footer')@endslot
     @endcomponent
-@endsection
+@endpush

@@ -82,8 +82,6 @@
 
         </div>
 
-        @yield('content-footer')
-
         <script src="{{ asset('js/app.js') }}?v={{ $app_version }}"></script>
 
         {{-- Stack for additional scripts --}}
