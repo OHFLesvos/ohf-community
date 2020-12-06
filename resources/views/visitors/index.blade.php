@@ -10,6 +10,6 @@
     </div>
 @endsection
 
-@section('footer')
+@push('footer')
     <script src="{{ asset('js/visitors.js') }}?v={{ $app_version }}"></script>
-@endsection
+@endpush

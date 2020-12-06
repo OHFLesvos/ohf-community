@@ -88,7 +88,8 @@
         <script>
             @yield('script')
         </script>
-        @yield('footer')
 
+        {{-- Stack for additional scripts --}}
+        @stack('footer')
     </body>
 </html>

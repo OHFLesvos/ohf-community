@@ -14,6 +14,6 @@
 
 @endsection
 
-@section('footer')
+@push('footer')
     <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}" defer></script>
-@endsection
+@endpush

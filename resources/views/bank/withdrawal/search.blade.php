@@ -13,6 +13,6 @@
     </div>
 @endsection
 
-@section('footer')
+@push('footer')
     <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}"></script>
-@endsection
+@endpush

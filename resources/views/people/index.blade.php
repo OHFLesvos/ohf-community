@@ -12,6 +12,6 @@
 
 @endsection
 
-@section('footer')
+@push('footer')
     <script src="{{ asset('js/people.js') }}?v={{ $app_version }}"></script>
-@endsection
+@endpush
