@@ -47,6 +47,7 @@
         "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
+        "andrey-helldar/pretty-routes": "^1.21",
         "barryvdh/laravel-ide-helper": "^2.6",
         "djedaini/laravel-vue-i18n-generator": "^0.1.47",
         "facade/ignition": "^2.5",

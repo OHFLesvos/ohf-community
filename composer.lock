@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b1ded5653cb43553b3f8ec5435296dba",
+    "content-hash": "2c580438373a24f1fcad748a88e23c9e",
     "packages": [
         {
             "name": "akaunting/language",
@@ -9280,6 +9280,252 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "andrey-helldar/laravel-routes-core",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andrey-helldar/laravel-routes-core.git",
+                "reference": "be28e1c7cfc9b9da56ff652756d151f65416ebe1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andrey-helldar/laravel-routes-core/zipball/be28e1c7cfc9b9da56ff652756d151f65416ebe1",
+                "reference": "be28e1c7cfc9b9da56ff652756d151f65416ebe1",
+                "shasum": ""
+            },
+            "require": {
+                "andrey-helldar/support": "^1.24",
+                "illuminate/routing": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
+                "php": "^7.2|^8.0",
+                "phpdocumentor/reflection-docblock": "^5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9|^1.0",
+                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^5.7|^6.0|^7.0|8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": [
+                    {
+                        "name": "andrey-helldar/support",
+                        "url": "https://github.com/andrey-helldar/support"
+                    },
+                    {
+                        "name": "illuminate/routing",
+                        "url": "https://github.com/illuminate/routing"
+                    },
+                    {
+                        "name": "illuminate/support",
+                        "url": "https://github.com/illuminate/support"
+                    },
+                    {
+                        "name": "phpdocumentor/reflection-docblock",
+                        "url": "https://github.com/phpDocumentor/ReflectionDocBlock"
+                    }
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "Helldar\\LaravelRoutesCore\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Helldar",
+                    "email": "helldar@ai-rus.com"
+                }
+            ],
+            "description": "The core of applications for working with routes",
+            "keywords": [
+                "laravel",
+                "pretty",
+                "routes"
+            ],
+            "funding": [
+                {
+                    "url": "https://money.yandex.ru/to/410012115955701",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://paypal.me/helldar",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-11-30T10:16:54+00:00"
+        },
+        {
+            "name": "andrey-helldar/pretty-routes",
+            "version": "v1.21.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andrey-helldar/pretty-routes.git",
+                "reference": "14641ae56d0bb51df37c4e3fe02c247564cd5005"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andrey-helldar/pretty-routes/zipball/14641ae56d0bb51df37c4e3fe02c247564cd5005",
+                "reference": "14641ae56d0bb51df37c4e3fe02c247564cd5005",
+                "shasum": ""
+            },
+            "require": {
+                "andrey-helldar/laravel-routes-core": "^1.6",
+                "andrey-helldar/support": "^1.22",
+                "ext-json": "*",
+                "illuminate/contracts": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/http": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/routing": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
+                "illuminate/view": "^5.0|^6.0|^7.0|^8.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9|^1.0",
+                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^5.7|^6.0|^7.0|8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "PrettyRoutes\\ServiceProvider"
+                    ]
+                },
+                "thanks": [
+                    {
+                        "name": "andrey-helldar/laravel-routes-core",
+                        "url": "https://github.com/andrey-helldar/laravel-routes-core"
+                    },
+                    {
+                        "name": "andrey-helldar/support",
+                        "url": "https://github.com/andrey-helldar/support"
+                    }
+                ]
+            },
+            "autoload": {
+                "psr-4": {
+                    "PrettyRoutes\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Helldar",
+                    "email": "helldar@ai-rus.com"
+                },
+                {
+                    "name": "Gary Green",
+                    "email": "holegary@gmail.com"
+                }
+            ],
+            "description": "Pretty routes for Laravel 5+",
+            "keywords": [
+                "laravel",
+                "pretty",
+                "pretty-routes",
+                "routes"
+            ],
+            "funding": [
+                {
+                    "url": "https://money.yandex.ru/to/410012115955701",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://paypal.me/helldar",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-12-01T15:30:14+00:00"
+        },
+        {
+            "name": "andrey-helldar/support",
+            "version": "v1.26.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andrey-helldar/support.git",
+                "reference": "608895d7324d44167a97a88ebec766e99dee92c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andrey-helldar/support/zipball/608895d7324d44167a97a88ebec766e99dee92c7",
+                "reference": "608895d7324d44167a97a88ebec766e99dee92c7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-dom": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^7.1.3|^8.0"
+            },
+            "require-dev": {
+                "ext-bcmath": "*",
+                "phpunit/phpunit": "^9.0"
+            },
+            "suggest": {
+                "andrey-helldar/laravel-support": "Various helper files for the Laravel and Lumen frameworks",
+                "ext-bcmath": "Require the extension if you will be using Helldar\\Support\\Facades\\Digit.",
+                "symfony/thanks": "Give thanks (in the form of a GitHub) to your fellow PHP package maintainers"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Helldar\\Support\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Helldar\\Support\\": "src/"
+                },
+                "files": [
+                    "src/helpers/digit.php",
+                    "src/helpers/dumper.php",
+                    "src/helpers/http.php",
+                    "src/helpers/strings.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Helldar",
+                    "email": "helldar@ai-rus.com"
+                }
+            ],
+            "description": "Support package is a collection of helpers and tools for projects.",
+            "keywords": [
+                "framework",
+                "laravel",
+                "support",
+                "symfony",
+                "yii",
+                "yii2"
+            ],
+            "funding": [
+                {
+                    "url": "https://money.yandex.ru/to/410012115955701",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://paypal.me/helldar",
+                    "type": "custom"
+                }
+            ],
+            "time": "2020-11-30T12:10:47+00:00"
+        },
         {
             "name": "barryvdh/laravel-ide-helper",
             "version": "v2.8.1",

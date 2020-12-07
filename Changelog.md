@@ -3,6 +3,7 @@
 ## NEXT
 
 * Supplier search now also considers IBAN, tax number and phone
+* Added pretty-routes package
 
 ## 2.30.0
 
