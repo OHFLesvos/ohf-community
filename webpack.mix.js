@@ -47,6 +47,31 @@ mix.options({
     .copy('node_modules/summernote/dist/summernote-bs4.js.map', 'public/js')
     .copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')
     .copy('node_modules/summernote/dist/font', 'public/css/font')
+    .extract([
+        'axios',
+        'vee-validate',
+        'bootstrap',
+        'bootstrap-vue',
+        'bs-custom-file-input',
+        'chart.js',
+        'chartjs-plugin-datalabels',
+        'fslightbox',
+        'jquery',
+        'lodash',
+        'moment',
+        'nprogress',
+        'numeral',
+        'vue',
+        'vue-chartjs',
+        'vue-i18n',
+        'vue-nl2br',
+        'vue-qrcode-reader',
+        'vue-router',
+        'vue-template-compiler',
+        'vue-text-highlight',
+        'vue2-typeahead',
+        'vuex'
+    ])
     .sourceMaps();
 
 if (mix.inProduction()) {
