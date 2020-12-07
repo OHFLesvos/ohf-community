@@ -1,4 +1,7 @@
-$(document).ready(function() {
+import $ from 'jquery'
+import 'summernote'
+
+$(function() {
 
     // Define function to open filemanager window
     var lfm = function(options, cb) {
@@ -14,7 +17,7 @@ $(document).ready(function() {
             contents: '<i class="note-icon-picture"></i> ',
             tooltip: 'Insert image with filemanager',
             click: function() {
-                lfm({type: 'image', prefix: '/laravel-filemanager'}, function(lfmItems, path) {
+                lfm({type: 'image', prefix: '/laravel-filemanager'}, function(lfmItems) {
                     if (Array.isArray(lfmItems)) {
                         lfmItems.forEach(function (lfmItem) {
                             context.invoke('insertImage', lfmItem.url);

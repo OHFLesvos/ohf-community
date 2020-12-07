@@ -31,8 +31,6 @@
 @endsection
 
 @push('head')
-    <link href="{{ mix('css/summernote-bs4.css') }}" rel="stylesheet" type="text/css">
-    <script src="{{ mix('js/summernote-bs4.js') }}" defer></script>
     <script src="{{ mix('js/editor.js') }}" defer></script>
 @endpush
 

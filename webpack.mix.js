@@ -43,9 +43,6 @@ mix.options({
     .js('resources/js/editor.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
-    .copy('node_modules/summernote/dist/summernote-bs4.js', 'public/js')
-    .copy('node_modules/summernote/dist/summernote-bs4.js.map', 'public/js')
-    .copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')
     .copy('node_modules/summernote/dist/font', 'public/css/font')
     .extract([
         'axios',
