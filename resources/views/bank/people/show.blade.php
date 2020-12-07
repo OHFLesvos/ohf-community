@@ -59,5 +59,5 @@
 @endsection
 
 @push('footer')
-    <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}" defer></script>
+    <script src="{{ mix('js/bank.js') }}" defer></script>
 @endpush

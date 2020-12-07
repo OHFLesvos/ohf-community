@@ -48,3 +48,7 @@ mix.options({
     .copy('node_modules/summernote/dist/summernote-bs4.css', 'public/css')
     .copy('node_modules/summernote/dist/font', 'public/css/font')
     .sourceMaps();
+
+if (mix.inProduction()) {
+    mix.version();
+}

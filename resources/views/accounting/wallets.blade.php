@@ -19,5 +19,5 @@
     <script>
         window.Laravel.permissions = @json($permissions)
     </script>
-    <script src="{{ asset('js/accounting.js') }}?v={{ $app_version }}"></script>
+    <script src="{{ mix('js/accounting.js') }}"></script>
 @endpush

@@ -11,5 +11,5 @@
 @endsection
 
 @push('footer')
-    <script src="{{ asset('js/bank.js') }}?v={{ $app_version }}"></script>
+    <script src="{{ mix('js/bank.js') }}"></script>
 @endpush

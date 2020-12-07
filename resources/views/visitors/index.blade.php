@@ -11,5 +11,5 @@
 @endsection
 
 @push('footer')
-    <script src="{{ asset('js/visitors.js') }}?v={{ $app_version }}"></script>
+    <script src="{{ mix('js/visitors.js') }}"></script>
 @endpush

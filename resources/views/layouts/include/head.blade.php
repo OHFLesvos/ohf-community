@@ -20,7 +20,7 @@
         @endisset
 
         {{-- CSS --}}
-        <link href="{{ asset('css/app.css') }}?v={{ $app_version }}" rel="stylesheet" type="text/css">
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
 
         {{-- Scripts --}}
         <script>

@@ -11,5 +11,5 @@
 @endsection
 
 @push('footer')
-    <script src="{{ asset('js/cmtyvol.js') }}?v={{ $app_version }}"></script>
+    <script src="{{ mix('js/cmtyvol.js') }}"></script>
 @endpush
