@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Supplier extends Model
 {
@@ -91,7 +92,11 @@ class Supplier extends Model
             $query->where(function ($wq) use ($filter) {
                 return $wq->where('name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('category', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%');
+                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('tax_number', $filter)
+                    ->orWhere(DB::raw('REPLACE(phone, \' \', \'\')'), str_replace(' ', '', $filter))
+                    ->orWhere(DB::raw('REPLACE(iban, \' \', \'\')'), str_replace(' ', '', $filter));
             });
         }
 

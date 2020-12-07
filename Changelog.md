@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Supplier search now also considers IBAN, tax number and phone
+
 ## 2.30.0
 
 * Removed changelog widget & permissions

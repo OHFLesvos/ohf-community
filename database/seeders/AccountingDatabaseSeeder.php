@@ -17,6 +17,7 @@ class AccountingDatabaseSeeder extends Seeder
     public function run()
     {
         Supplier::factory()
+            ->count(150)
             ->create();
 
         Wallet::factory()
