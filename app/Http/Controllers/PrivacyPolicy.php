@@ -10,15 +10,14 @@ class PrivacyPolicy extends Controller
     public function userPolicy()
     {
         return view('auth.privacy', [
-            'content' => self::getContent(),
+            'content' => self::getContent(App::getLocale()),
         ]);
     }
 
-    private static function getContent()
+    private static function getContent($locale)
     {
-        $locale = App::getLocale();
         if ($locale != '') {
-            $file_path = base_path() . '/resources/lang/' .  $locale . '/user-privacy-policy.md';
+            $file_path = resource_path('lang/' .  $locale . '/user-privacy-policy.md');
             if (is_file($file_path)) {
                 $markdown = file_get_contents($file_path);
                 return MarkdownExtra::defaultTransform($markdown);
