@@ -251,6 +251,7 @@ return [
     'search' => 'Search',
     'search_ellipsis' => 'Search...',
     'type_to_search' => 'Type to search...',
+    'type_to_search_fields' => 'Type to search (:fields)...',
     'not_all_results_listed_please_refine_criteria' => 'Not all results have been listed. Please refine your search criteria.',
     'no_results_found_for_term' => 'No results found for \':term\'.',
     'male' => 'Male',

@@ -93,9 +93,9 @@ class Supplier extends Model
                 return $wq->where('name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('category', 'LIKE', '%' . $filter . '%')
                     ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
                     ->orWhere('tax_number', $filter)
                     ->orWhere(DB::raw('REPLACE(phone, \' \', \'\')'), str_replace(' ', '', $filter))
+                    ->orWhere(DB::raw('REPLACE(mobile, \' \', \'\')'), str_replace(' ', '', $filter))
                     ->orWhere(DB::raw('REPLACE(iban, \' \', \'\')'), str_replace(' ', '', $filter));
             });
         }

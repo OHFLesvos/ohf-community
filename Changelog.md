@@ -3,6 +3,7 @@
 ## NEXT
 
 * Introduced max-width container for certain pages
+* Clarified supplier search terms
 
 ## 2.30.1
 
