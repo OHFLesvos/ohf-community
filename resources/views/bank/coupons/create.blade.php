@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('coupons.create_coupon'))
 
 @section('content')
-
     {!! Form::open(['route' => ['coupons.store']]) !!}
-
         <div class="form-row">
             <div class="col-md">
                 {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
@@ -33,6 +31,11 @@
                 {{ Form::bsNumber('retention_period', null, [ ], __('people.retention_period'), __('app.in_days')) }}
             </div>
             <div class="col-md">
+                {{ Form::bsNumber('newly_registered_block_days', null, [ ], __('people.block_for_newly_registered'), __('app.days')) }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md">
                 {{ Form::bsNumber('min_age', null, [ ], __('people.min_age'), __('app.in_years')) }}
             </div>
             <div class="col-md">
@@ -40,9 +43,6 @@
             </div>
             <div class="col-md">
                 {{ Form::bsNumber('daily_spending_limit', null, [ ], __('people.daily_spending_limit'), __('people.per_day')) }}
-            </div>
-            <div class="col-md">
-                {{ Form::bsNumber('newly_registered_block_days', null, [ ], __('people.block_for_newly_registered'), __('app.days')) }}
             </div>
         </div>
         <div class="form-row mb-4">
@@ -58,13 +58,10 @@
                 {{ Form::bsNumber('code_expiry_days', null, [ ], __('people.code_expiry'), __('app.days')) }}
             </div>
         </div>
-
         <p>
             <x-form.bs-submit-button :label="__('app.create')"/>
         </p>
-
     {!! Form::close() !!}
-
 @endsection
 
 @push('footer')

@@ -1,18 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('kb.knowledge_base'))
 
 @section('content')
-
     <h1>{{ $article->title }}</h1>
     @if($article->public)
         @auth
             <p><em><small class="text-muted"><x-icon icon="eye"/> @lang('wiki.article_publicly_available')</small></em></p>
         @endauth
     @endif
-
     {!! $article->content !!}
-
     <hr>
     @auth
         @if(count($article->tags) > 0)
@@ -24,7 +21,6 @@
             </p>
         @endif
     @endauth
-
     <p>
         <small>
             @auth

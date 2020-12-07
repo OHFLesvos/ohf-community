@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('wiki.edit_article'))
 
 @section('content')
-
     {!! Form::model($article, ['route' => ['kb.articles.update', $article], 'method' => 'put']) !!}
-
         <div class="form-row">
             <div class="col-sm-8">{{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}</div>
             <div class="col-sm-4">{{ Form::bsText('slug', null, [ 'placeholder' => __('app.slug') ], '') }}</div>
@@ -25,9 +23,7 @@
         <p>
             <x-form.bs-submit-button :label="__('app.update')"/>
         </p>
-
     {!! Form::close() !!}
-
 @endsection
 
 @push('head')

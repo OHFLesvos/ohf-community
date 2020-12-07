@@ -1,21 +1,20 @@
 <template>
-    <b-form @submit.stop.prevent="onSubmit">
-
-        <person-form-fields
-            ref="formfields"
-            v-model="person"
-            :countries="countries"
-            autofocus
-        />
-
-		<p>
-            <b-button variant="primary" type="submit" :disabled="busy">
-                <font-awesome-icon icon="check"/>
-                {{ $t('app.register') }}
-            </b-button>
-        </p>
-
-    </b-form>
+    <div>
+        <b-form @submit.stop.prevent="onSubmit">
+            <person-form-fields
+                ref="formfields"
+                v-model="person"
+                :countries="countries"
+                autofocus
+            />
+            <p>
+                <b-button variant="primary" type="submit" :disabled="busy">
+                    <font-awesome-icon icon="check"/>
+                    {{ $t('app.register') }}
+                </b-button>
+            </p>
+        </b-form>
+    </div>
 </template>
 
 <script>
@@ -23,7 +22,7 @@
 import SessionVariable from '@/sessionVariable'
 const rememberedFilter = new SessionVariable('bank.withdrawal.filter')
 
-import { BForm, BButton, BModal } from 'bootstrap-vue'
+import { BForm, BButton } from 'bootstrap-vue'
 import showSnackbar from '@/snackbar'
 import PersonFormFields from '@/components/people/PersonFormFields'
 

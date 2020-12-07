@@ -3,7 +3,6 @@
 @section('title', __('cmtyvol.view'))
 
 @section('content')
-
     @if($cmtyvol->work_starting_date == null)
         <x-alert type="warning">
             @lang('people.no_started_date_set')
@@ -23,7 +22,6 @@
             </x-alert>
         @endif
     @endif
-
     <div class="columns-3">
         @foreach($data as $section => $fields)
             <div class="card mb-4 column-break-avoid">
@@ -57,7 +55,6 @@
             </div>
         @endforeach
     </div>
-
     <hr>
     <h4>@lang('app.comments')</h4>
     <div id="cmtyvol-app">
@@ -65,7 +62,6 @@
             @lang('app.loading')
         </cmtyvol-comments>
     </div>
-
 @endsection
 
 @push('footer')

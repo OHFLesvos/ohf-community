@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('responsibilities.create_responsibility'))
 
 @section('content')
-
     {!! Form::open(['route' => ['cmtyvol.responsibilities.store']]) !!}
-
         {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
         {{ Form::bsTextarea('description', null, [], __('app.description')) }}
         {{ Form::bsNumber('capacity', null, [ 'min' => 0 ], __('app.capacity')) }}
@@ -13,7 +11,5 @@
         <p>
             <x-form.bs-submit-button :label="__('app.update')"/>
         </p>
-
     {!! Form::close() !!}
-
 @endsection

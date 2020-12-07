@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('people.create_code_card'))
 

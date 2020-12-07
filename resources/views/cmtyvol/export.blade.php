@@ -1,9 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('cmtyvol.export_data'))
 
 @section('content')
-
     {!! Form::open(['route' => 'cmtyvol.doExport']) !!}
         <div class="row">
             <div class="col-sm">
@@ -32,6 +31,5 @@
             <x-form.bs-submit-button :label="__('app.export')" icon="download"/>
         </p>
     {!! Form::close() !!}
-
 @endsection
 

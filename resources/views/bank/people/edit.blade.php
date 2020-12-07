@@ -1,9 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('people.edit_person'))
 
 @section('content')
-
     <div id="bank-app">
         <edit-person-page
             redirect-url="{{ route('bank.people.show', $person) }}"
@@ -11,7 +10,6 @@
             :countries='@json($countries)'
         ></edit-person-page>
     </div>
-
 @endsection
 
 @push('footer')

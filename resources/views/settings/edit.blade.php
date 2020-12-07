@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('app.settings'))
 
 @section('content')
-
     {!! Form::open(['route' => [ 'settings.update' ], 'method' => 'put', 'files' => true]) !!}
-
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             @foreach($sections as $section_key => $section_label)
                 <li class="nav-item" role="presentation">
@@ -32,7 +30,7 @@
                     aria-labelledby="{{ $section_key }}-tab"
                 >
                     @foreach($fields->where('section', $section_key) as $field_key => $field)
-                        @include('settings.field')
+                        @include('settings.include.field')
                     @endforeach
                 </div>
             @endforeach
@@ -44,9 +42,7 @@
                 <x-icon icon="undo"/> @lang('app.reset_to_default_settings')
             </button>
         </p>
-
     {!! Form::close() !!}
-
 @endsection
 
 @push('footer')

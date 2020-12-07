@@ -1,9 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('people.view_person'))
 
 @section('content')
-
     @php
         $showHandoutLimit = 15;
         $handouts = $person->couponHandouts()->orderBy('created_at', 'desc')->limit($showHandoutLimit)->get();
@@ -48,14 +47,12 @@
             'first_handout_date_diff' => optional(optional($firstHandout)->created_at)->diffForHumans(),
         ];
     @endphp
-
     <div id="bank-app">
         <view-person-page
             :person='@json($p)'
             :show-handout-limit="{{ $showHandoutLimit }}"
         ></view-person-page>
     </div>
-
 @endsection
 
 @push('footer')

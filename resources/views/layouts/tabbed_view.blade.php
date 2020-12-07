@@ -1,7 +1,4 @@
-@php
-    $content_padding = 'p-0';
-@endphp
-@extends('layouts.app')
+@extends('layouts.app', ['content_padding' => 'p-0'])
 
 @section('content')
     @php

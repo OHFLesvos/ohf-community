@@ -1,9 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('people.register_person'))
 
 @section('content')
-
     <div id="bank-app">
         <register-person-page
             redirect-url="{{ route('bank.withdrawal.search') }}"
@@ -13,7 +12,6 @@
             police-no="{{ request()->query('police_no') }}"
         ></register-person-page>
     </div>
-
 @endsection
 
 @push('footer')

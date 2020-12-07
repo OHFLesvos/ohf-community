@@ -1,9 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('wiki.articles'))
 
 @section('content')
-
     @if(! $articles->isEmpty())
         @if($order == 'popularity')
             <p><small>@lang('wiki.showing_articles_by_popularity')</small></p>
@@ -36,11 +35,9 @@
                 </p>
             </div>
         </div>
-
     @else
         <x-alert type="info">
             @lang('wiki.no_articles_found')
         </x-alert>
     @endif
-
 @endsection

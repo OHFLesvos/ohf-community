@@ -430,4 +430,5 @@ return [
     'place_id' => 'Place ID',
     'details' => 'Details',
     'changelog' => 'Changelog',
+    'assigned' => 'Assigned',
  ];

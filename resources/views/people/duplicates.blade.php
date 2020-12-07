@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', 'Duplicates')
 
@@ -17,7 +17,7 @@
                     </div>
                     <div class="card-body">
                         @foreach ($persons as $person)
-                            <p>@include('people.duplicateDetails')</p>
+                            <p>@include('people.snippets.duplicate-details')</p>
                         @endforeach
                     </div>
                     <div class="card-footer text-right">

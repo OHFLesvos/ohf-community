@@ -21,54 +21,58 @@
                     </header>
 
                     {{-- Content --}}
-                    <article class="site-content container-fluid {{ $content_padding ?? 'pt-3' }}">
+                    <article class="site-content">
 
-                        {{-- Success message --}}
-                        @if (session('success'))
-                            <div class="snack-message">
-                                <x-icon icon="check-square" class="pr-1"/>
-                                {{ session('success') }}
-                            </div>
-                        @endif
+                        <div class="@if(! isset($wide_layout) || $wide_layout) container-fluid @else container @endif {{ $content_padding ?? 'pt-3' }}">
 
-                        {{-- Info message --}}
-                        @if (session('info'))
-                            <div class="snack-message">
-                                {{ session('info') }}
-                            </div>
-                        @endif
+                            {{-- Success message --}}
+                            @if (session('success'))
+                                <div class="snack-message">
+                                    <x-icon icon="check-square" class="pr-1"/>
+                                    {{ session('success') }}
+                                </div>
+                            @endif
 
-                        {{-- Error message --}}
-                        @if (session('error'))
-                            <x-alert type="danger" dismissible>
-                                {{ session('error') }}
-                            </x-alert>
-                        @endif
+                            {{-- Info message --}}
+                            @if (session('info'))
+                                <div class="snack-message">
+                                    {{ session('info') }}
+                                </div>
+                            @endif
 
-                        {{-- Validation error --}}
-                        @if (count($errors) > 0)
-                            <x-alert type="warning" dismissible>
-                                @lang('app.validation_failed')
-                                <ul class="mb-0 pb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </x-alert>
-                        @endif
+                            {{-- Error message --}}
+                            @if (session('error'))
+                                <x-alert type="danger" dismissible>
+                                    {{ session('error') }}
+                                </x-alert>
+                            @endif
 
-                        {{-- Content --}}
-                        @yield('content')
+                            {{-- Validation error --}}
+                            @if (count($errors) > 0)
+                                <x-alert type="warning" dismissible>
+                                    @lang('app.validation_failed')
+                                    <ul class="mb-0 pb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </x-alert>
+                            @endif
 
-                        {{-- Floating action button --}}
-                        @if(isset($buttons['action']) && $buttons['action']['authorized'] )
-                            <a
-                                href="{{ $buttons['action']['url'] }}"
-                                class="btn btn-primary btn-lg d-md-none floating-action-button"
-                            >
-                                <x-icon :icon="$buttons['action']['icon_floating']"/>
-                            </a>
-                        @endif
+                            {{-- Content --}}
+                            @yield('content')
+
+                            {{-- Floating action button --}}
+                            @if(isset($buttons['action']) && $buttons['action']['authorized'] )
+                                <a
+                                    href="{{ $buttons['action']['url'] }}"
+                                    class="btn btn-primary btn-lg d-md-none floating-action-button"
+                                >
+                                    <x-icon :icon="$buttons['action']['icon_floating']"/>
+                                </a>
+                            @endif
+
+                        </div>
 
                     </article>
 

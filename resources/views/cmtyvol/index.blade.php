@@ -3,7 +3,6 @@
 @section('title', __('cmtyvol.community_volunteers'))
 
 @section('content')
-
     <div class="row">
 
         {{-- Work status --}}
@@ -16,7 +15,6 @@
                 @endforeach
             </div>
         </div>
-
 
         {{-- Groupings --}}
         <div class="col-md-auto text-right text-nowrap" style="overflow-x: auto">
@@ -42,7 +40,7 @@
 
     @if(isset($groups) && $data->filter(fn ($d) => count($d) > 0)->count() > 0)
         @if($selected_display == 'list')
-            @component('cmtyvol.table', ['fields' => $fields])
+            @component('cmtyvol.include.table', ['fields' => $fields])
                 @foreach($groups as $group)
                     @if($data[$loop->index]->count() > 0)
                         <tr class="table-secondary">
@@ -51,7 +49,7 @@
                                 <small>({{ $data[$loop->index]->count() }})</small>
                             </th>
                         </tr>
-                        @include('cmtyvol.tablebody', ['data' => $data[$loop->index]])
+                        @include('cmtyvol.include.tablebody', ['data' => $data[$loop->index]])
                     @endif
                 @endforeach
             @endcomponent
@@ -59,17 +57,17 @@
             @foreach($groups as $group)
                 @if($data[$loop->index]->count() > 0)
                 <h4 class="mb-3">{{ $group }} <small>({{ $data[$loop->index]->count() }})</small></h4>
-                @include('cmtyvol.grid', ['data' => $data[$loop->index]])
+                @include('cmtyvol.include.grid', ['data' => $data[$loop->index]])
                 @endif
             @endforeach
         @endif
     @elseif(! isset($groups) && !$data->isEmpty())
         @if($selected_display == 'list')
-            @component('cmtyvol.table', ['fields' => $fields])
-                @include('cmtyvol.tablebody')
+            @component('cmtyvol.include.table', ['fields' => $fields])
+                @include('cmtyvol.include.tablebody')
             @endcomponent
         @elseif($selected_display == 'grid')
-            @include('cmtyvol.grid')
+            @include('cmtyvol.include.grid')
         @endif
         <p><small>@lang('app.n_results_found', [ 'num' => $data->count() ])</small></p>
     @else
@@ -77,7 +75,6 @@
             @lang('cmtyvol.none_found')
         </x-alert>
     @endif
-
 @endsection
 
 @push('footer')

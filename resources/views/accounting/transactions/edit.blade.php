@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('accounting.edit_transaction_number', ['number' => $transaction->receipt_no]))
 

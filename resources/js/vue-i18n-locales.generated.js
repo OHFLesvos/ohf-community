@@ -188,6 +188,7 @@ export default {
             "severity": "Schweregrad",
             "message": "Nachricht",
             "no_log_entries_found": "Keine Logeinträge gefunden.",
+            "apply": "Anwenden",
             "filter": "Filter",
             "apply_filter": "Filter anwenden",
             "reset_filter": "Filter zurücksetzen",
@@ -519,7 +520,9 @@ export default {
             "showing_latest_n_active_days": "Zeigt die letzten {days} aktiven Tage.",
             "mobile": "Mobiltelefon",
             "place_id": "Place ID",
-            "details": "Details"
+            "details": "Details",
+            "changelog": "Änderungshistorie",
+            "assigned": "Zugewiesen"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -537,10 +540,6 @@ export default {
             "frequent_visitors_affected": "Aktuelle Einstellungen: {freq} Personen betroffen, von total {total} ({percentage} %)",
             "label_on_code_card": "Text auf Codekarte",
             "logo_on_code_card": "Logo auf Codekarte"
-        },
-        "changelog": {
-            "changelog": "Änderungshistorie",
-            "changelog_link_desc": "Lies mehr über die neusten Änderungen in dieser Applikation <a href=\"{link}\">hier</a>."
         },
         "cmtyvol": {
             "community_volunteer": "Community Volunteer",
@@ -888,7 +887,6 @@ export default {
             "usermgmt_manage_users": "Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen",
             "usermgmt_manage_roles": "Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen",
             "configure_common_settings": "Allgemeine Einstellungen konfigurieren",
-            "view_changelogs": "Änderungshistorie betrachten",
             "create_badges": "Badges: Badges erstellen",
             "view_fundraising_donors_donations": "Spendenverwaltung: Spender & Spenden betrachten",
             "manage_fundraising_donors_donations": "Spendenverwaltung: Spender & Spenden verwalten",
@@ -1027,8 +1025,8 @@ export default {
             "2FA_inactive": "2FA inaktiv",
             "tfa_authentication": "Zwei-Faktor-Authentifizierung",
             "tfa_authentication_not_enabled": "Zwei-Faktor-Authentifizierung ist nicht aktiv.",
-            "tfa_explanation": "Zwei-Faktor-Authentifizierung verbessert die Sicherheit deines Accounts, indem beim Login zusätzlich zum Passwort auch ein \r\n    Code abgefragt wird, welcher sich auf einem zweiten Gerät (zum Beispiel einem Smartphone mit Android oder iOS) befindet und jede Minute neu generiert wird.\r\n    Selbst wenn dein Passwort in falsche Hände gerät, wird so immer noch ein zweiter Faktor benötigt um sich in diese Applikation einzuloggen.",
-            "tfa_apps": "Um den Code zu generieren wird eine Mobile-App benötigt, welche du im App-Store deines Mobilgerätes herunterladen kannst. Wir empfehlen\r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2\">Google Authenticator</a>, \r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.authy.authy\">Authy</a> oder \r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp\">FreeOTP Authenticator</a>.",
+            "tfa_explanation": "Zwei-Faktor-Authentifizierung verbessert die Sicherheit deines Accounts, indem beim Login zusätzlich zum Passwort auch ein\r\n    Code abgefragt wird, welcher sich auf einem zweiten Gerät (zum Beispiel einem Smartphone mit Android oder iOS) befindet und jede Minute neu generiert wird.\r\n    Selbst wenn dein Passwort in falsche Hände gerät, wird so immer noch ein zweiter Faktor benötigt um sich in diese Applikation einzuloggen.",
+            "tfa_apps": "Um den Code zu generieren wird eine Mobile-App benötigt, welche du im App-Store deines Mobilgerätes herunterladen kannst. Wir empfehlen\r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2\">Google Authenticator</a>,\r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.authy.authy\">Authy</a> oder\r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp\">FreeOTP Authenticator</a>.",
             "tfa_scan_explanation": "Scanne den QR-Code mit deiner Authenticator App (z.B. \"Google Authenticator\") und gib danach den Zahlencode in das untenstehende Feld ein.",
             "tfa_enabled": "Zwei-Faktor-Authentifizierung aktiviert",
             "invalid_code_please_repeat": "Ungültiger Code, bitte wiederholen.",
@@ -1042,7 +1040,6 @@ export default {
             "oauth_disable_for_user": "Soll OAuth für {name} wirklich deaktiviert werden?",
             "avatar": "Avatar",
             "change_picture": "Bild ändern",
-            "avatars_provided_by_gravatar": "Avatare werden von <a href=\"https://gravatar.com\" target=\"_blank\">Gravatar.com</a> angeboten.",
             "new_account_registered_at_app_name": "Neues Benutzerkonto registriert bei {app_name}",
             "new_user_registered_name": "Neuer Benutzer registriert: {name}",
             "registration_message": "Hallo {name}. Vielen Dank für deine Registrierung bei {app_name}. Dein Konto wurde erstellt, und der Administrator wurde informiert, um dir die nötigen Berechtigungen zuzuweisen.",
@@ -1416,6 +1413,7 @@ export default {
             "severity": "Severity",
             "message": "Message",
             "no_log_entries_found": "No log entries found.",
+            "apply": "Apply",
             "filter": "Filter",
             "apply_filter": "Apply filter",
             "reset_filter": "Reset filter",
@@ -1745,10 +1743,13 @@ export default {
             "showing_latest_n_active_days": "Showing the latest {days} active days.",
             "mobile": "Mobile",
             "place_id": "Place ID",
-            "details": "Details"
+            "details": "Details",
+            "changelog": "Changelog",
+            "assigned": "Assigned"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
+            "password": "The provided password is incorrect.",
             "throttle": "Too many login attempts. Please try again in {seconds} seconds."
         },
         "badges": {
@@ -1763,10 +1764,6 @@ export default {
             "frequent_visitors_affected": "Current settings: {freq} persons affected, out of {total} ({percentage} %)",
             "label_on_code_card": "Label on code card",
             "logo_on_code_card": "Logo on code card"
-        },
-        "changelog": {
-            "changelog": "Changelog",
-            "changelog_link_desc": "Read about the latest changes of this application <a href=\"{link}\">here</a>."
         },
         "cmtyvol": {
             "community_volunteer": "Community Volunteer",
@@ -2117,7 +2114,6 @@ export default {
             "usermgmt_manage_users": "User management: Create, edit and delete users",
             "usermgmt_manage_roles": "User management: Create, edit and delete roles",
             "configure_common_settings": "Configure common settings",
-            "view_changelogs": "View application changelogs",
             "create_badges": "Badges: Create badges",
             "view_fundraising_donors_donations": "Donation management: View donors & donations",
             "manage_fundraising_donors_donations": "Donation management: Manage donors & donations",
@@ -2256,8 +2252,8 @@ export default {
             "2FA_inactive": "2FA inactive",
             "tfa_authentication": "Two-Factor Authentication",
             "tfa_authentication_not_enabled": "Two-Factor Authentication is not enabled.",
-            "tfa_explanation": "Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code\r\n    is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands, \r\n    a second factor is still required to login successfully into this application.",
-            "tfa_apps": "A mobile app is required to generate the Two-Factor code. Such apps can be found in the app store of your mobile device. We recommend \r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2\">Google Authenticator</a>, \r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.authy.authy\">Authy</a> or \r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp\">FreeOTP Authenticator</a>.",
+            "tfa_explanation": "Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code\r\n    is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands,\r\n    a second factor is still required to login successfully into this application.",
+            "tfa_apps": "A mobile app is required to generate the Two-Factor code. Such apps can be found in the app store of your mobile device. We recommend\r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2\">Google Authenticator</a>,\r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=com.authy.authy\">Authy</a> or\r\n    <a target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp\">FreeOTP Authenticator</a>.",
             "tfa_scan_explanation": "Scan the QR code with your authenticator app (e.g. \"Google-Authenticator\") and enter the numeric code into the field below.",
             "tfa_enabled": "Two-Factor Authentication enabled",
             "invalid_code_please_repeat": "Invalid code, please repeat.",
@@ -2271,7 +2267,6 @@ export default {
             "oauth_disable_for_user": "Do you really want to disable OAuth for {name}?",
             "avatar": "Avatar",
             "change_picture": "Change picture",
-            "avatars_provided_by_gravatar": "Avatars are provided by <a href=\"https://gravatar.com\" target=\"_blank\">Gravatar.com</a>.",
             "new_account_registered_at_app_name": "New user account registered at {app_name}",
             "new_user_registered_name": "New user registered: {name}",
             "registration_message": "Hello {name}. Thanks for registering with {app_name}. Your account has been created, and the administrator has been informed, in order to grand you the appropriate permissions.",
@@ -2288,7 +2283,7 @@ export default {
             "after": "The {attribute} must be a date after {date}.",
             "after_or_equal": "The {attribute} must be a date after or equal to {date}.",
             "alpha": "The {attribute} may only contain letters.",
-            "alpha_dash": "The {attribute} may only contain letters, numbers, and dashes.",
+            "alpha_dash": "The {attribute} may only contain letters, numbers, dashes and underscores.",
             "alpha_num": "The {attribute} may only contain letters and numbers.",
             "array": "The {attribute} must be an array.",
             "before": "The {attribute} must be a date before {date}.",
@@ -2302,6 +2297,7 @@ export default {
             "boolean": "The {attribute} field must be true or false.",
             "confirmed": "The {attribute} confirmation does not match.",
             "date": "The {attribute} is not a valid date.",
+            "date_equals": "The {attribute} must be a date equal to {date}.",
             "date_format": "The {attribute} does not match the format {format}.",
             "different": "The {attribute} and {other} must be different.",
             "digits": "The {attribute} must be {digits} digits.",
@@ -2309,6 +2305,7 @@ export default {
             "dimensions": "The {attribute} has invalid image dimensions.",
             "distinct": "The {attribute} field has a duplicate value.",
             "email": "The {attribute} must be a valid email address.",
+            "ends_with": "The {attribute} must end with one of the following: {values}.",
             "exists": "The selected {attribute} is invalid.",
             "file": "The {attribute} must be a file.",
             "filled": "The {attribute} field must have a value.",
@@ -2318,23 +2315,11 @@ export default {
                 "string": "The {attribute} must be greater than {value} characters.",
                 "array": "The {attribute} must have more than {value} items."
             },
-            "lt": {
-                "numeric": "The {attribute} must be less than {value}.",
-                "file": "The {attribute} must be less than {value} kilobytes.",
-                "string": "The {attribute} must be less than {value} characters.",
-                "array": "The {attribute} must have less than {value} items."
-            },
             "gte": {
                 "numeric": "The {attribute} must be greater than or equal {value}.",
                 "file": "The {attribute} must be greater than or equal {value} kilobytes.",
                 "string": "The {attribute} must be greater than or equal {value} characters.",
                 "array": "The {attribute} must have {value} items or more."
-            },
-            "lte": {
-                "numeric": "The {attribute} must be less than or equal {value}.",
-                "file": "The {attribute} must be less than or equal {value} kilobytes.",
-                "string": "The {attribute} must be less than or equal {value} characters.",
-                "array": "The {attribute} must not have more than {value} items."
             },
             "image": "The {attribute} must be an image.",
             "in": "The selected {attribute} is invalid.",
@@ -2344,6 +2329,18 @@ export default {
             "ipv4": "The {attribute} must be a valid IPv4 address.",
             "ipv6": "The {attribute} must be a valid IPv6 address.",
             "json": "The {attribute} must be a valid JSON string.",
+            "lt": {
+                "numeric": "The {attribute} must be less than {value}.",
+                "file": "The {attribute} must be less than {value} kilobytes.",
+                "string": "The {attribute} must be less than {value} characters.",
+                "array": "The {attribute} must have less than {value} items."
+            },
+            "lte": {
+                "numeric": "The {attribute} must be less than or equal {value}.",
+                "file": "The {attribute} must be less than or equal {value} kilobytes.",
+                "string": "The {attribute} must be less than or equal {value} characters.",
+                "array": "The {attribute} must not have more than {value} items."
+            },
             "max": {
                 "numeric": "The {attribute} may not be greater than {max}.",
                 "file": "The {attribute} may not be greater than {max} kilobytes.",
@@ -2358,15 +2355,18 @@ export default {
                 "string": "The {attribute} must be at least {min} characters.",
                 "array": "The {attribute} must have at least {min} items."
             },
+            "multiple_of": "The {attribute} must be a multiple of {value}",
             "not_in": "The selected {attribute} is invalid.",
+            "not_regex": "The {attribute} format is invalid.",
             "numeric": "The {attribute} must be a number.",
+            "password": "The password is incorrect.",
             "present": "The {attribute} field must be present.",
             "regex": "The {attribute} format is invalid.",
             "required": "The {attribute} field is required.",
             "required_if": "The {attribute} field is required when {other} is {value}.",
             "required_unless": "The {attribute} field is required unless {other} is in {values}.",
             "required_with": "The {attribute} field is required when {values} is present.",
-            "required_with_all": "The {attribute} field is required when {values} is present.",
+            "required_with_all": "The {attribute} field is required when {values} are present.",
             "required_without": "The {attribute} field is required when {values} is not present.",
             "required_without_all": "The {attribute} field is required when none of {values} are present.",
             "same": "The {attribute} and {other} must match.",
@@ -2376,11 +2376,13 @@ export default {
                 "string": "The {attribute} must be {size} characters.",
                 "array": "The {attribute} must contain {size} items."
             },
+            "starts_with": "The {attribute} must start with one of the following: {values}.",
             "string": "The {attribute} must be a string.",
             "timezone": "The {attribute} must be a valid zone.",
             "unique": "The {attribute} has already been taken.",
             "uploaded": "The {attribute} failed to upload.",
             "url": "The {attribute} format is invalid.",
+            "uuid": "The {attribute} must be a valid UUID.",
             "old_password": "The {attribute} does not match.",
             "pwned": "You password is insufficiently secure as it has been found in known password breaches, please chose a new one.",
             "country_code": "The {attribute} is not valid.",

@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('wiki.create_article'))
 
 @section('content')
-
     {!! Form::open(['route' => ['kb.articles.store']]) !!}
-
         {{ Form::bsText('title', $title, [ 'autofocus', 'placeholder' => __('app.title') ], '') }}
         {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
         <div class="form-row">
@@ -22,9 +20,7 @@
         <p>
             <x-form.bs-submit-button :label="__('app.create')"/>
         </p>
-
     {!! Form::close() !!}
-
 @endsection
 
 @push('head')

@@ -213,7 +213,7 @@ class PeopleController extends Controller
             'age' => __('people.age'),
             'nationality' => __('people.nationality'),
         ];
-        return view('people.bulkSearch', [
+        return view('people.bulk-search', [
             'orders' => $orders,
             'order' => collect($orders)->keys()->first(),
         ]);
@@ -253,7 +253,7 @@ class PeopleController extends Controller
         }
         $persons = $qry->get()
             ->sortBy($request->input('order'));
-        return view('people.bulkSearchResults', [
+        return view('people.bulk-search-results', [
             'persons' => $persons,
         ]);
     }

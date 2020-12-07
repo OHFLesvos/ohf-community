@@ -1,11 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('app.maintenance'))
 
 @section('content')
-
     {!! Form::open(['route' => ['bank.updateMaintenance']]) !!}
-
         <div class="card mb-4">
             <div class="card-header">@lang('people.cleanup_database')</div>
             <div class="card-body">
@@ -23,12 +21,10 @@
                             'num' => $persons_without_number,
                         ])) }}
                         <br>
-                        <x-form.bs-submit-button :label="__('app.cleanup')"/>
+                        <x-form.bs-submit-button :label="__('app.apply')"/>
                     </div>
                 </div>
             </div>
         </div>
-
     {!! Form::close() !!}
-
 @endsection

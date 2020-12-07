@@ -10,11 +10,11 @@ class PrivacyPolicy extends Controller
     public function userPolicy()
     {
         return view('auth.privacy', [
-            'content' => self::getContent(App::getLocale()),
+            'content' => $this->getContent(App::getLocale()),
         ]);
     }
 
-    private static function getContent($locale)
+    private function getContent($locale)
     {
         if ($locale != '') {
             $file_path = resource_path('lang/' .  $locale . '/user-privacy-policy.md');

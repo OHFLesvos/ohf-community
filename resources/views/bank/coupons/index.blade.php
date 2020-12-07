@@ -3,7 +3,6 @@
 @section('title', __('coupons.coupons'))
 
 @section('content')
-
     @if(count($coupons) > 0)
         <div class="table-responsive">
             <table class="table table-sm table-bordered table-striped table-hover">
@@ -82,5 +81,4 @@
             @lang('coupons.no_coupons_found')
         </x-alert>
     @endif
-
 @endsection

@@ -3,11 +3,9 @@
 @section('title', __('people.withdrawals'))
 
 @section('content')
-
     <div id="bank-app">
         <bank-transactions-page></bank-transactions-page>
     </div>
-
 @endsection
 
 @push('footer')

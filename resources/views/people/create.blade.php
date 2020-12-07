@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['wide_layout' => false])
 
 @section('title', __('people.register_person'))
 

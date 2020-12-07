@@ -1,4 +1,4 @@
-<a href="{{ route('people.show', $person) }}" target="_blank">@include('people.person-label', ['person' => $person ])</a><br>
+<a href="{{ route('people.show', $person) }}" target="_blank">@include('people.snippets.person-label', ['person' => $person ])</a><br>
 @php
     $numTransactions = $person->couponHandouts()->count();
 @endphp

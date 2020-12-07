@@ -1,19 +1,18 @@
 <template>
-    <b-form @submit.stop.prevent="onSubmit">
-
-        <person-form-fields
-            v-model="person"
-            :countries="countries"
-        />
-
-		<p>
-            <b-button variant="primary" type="submit" :disabled="busy">
-                <font-awesome-icon icon="check"/>
-                {{ $t('app.update') }}
-            </b-button>
-        </p>
-
-    </b-form>
+    <div>
+        <b-form @submit.stop.prevent="onSubmit">
+            <person-form-fields
+                v-model="person"
+                :countries="countries"
+            />
+            <p>
+                <b-button variant="primary" type="submit" :disabled="busy">
+                    <font-awesome-icon icon="check"/>
+                    {{ $t('app.update') }}
+                </b-button>
+            </p>
+        </b-form>
+    </div>
 </template>
 
 <script>

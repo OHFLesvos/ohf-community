@@ -3,7 +3,6 @@
 @section('title', __('responsibilities.responsibilities'))
 
 @section('content')
-
     @if(count($responsibilities) > 0)
         <div class="table-responsive">
             <table class="table table-sm table-bordered table- table-hover">
@@ -13,6 +12,7 @@
                         <th class="text-right fit">@lang('app.capacity')</th>
                         <th class="text-center fit">@lang('app.available')</th>
                         <th>@lang('app.description')</th>
+                        <th class="fit">@lang('app.assigned')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,6 +30,13 @@
                             <td>
                                 <div class="text-formatted long-description collapse" id="description{{ $responsibility->id }}" data-toggle="collapse" data-target="#description{{ $responsibility->id }}" aria-expanded="false">{{ $responsibility->description }}</div>
                             </td>
+                            <td class="fit">
+                                @if($responsibility->communityVolunteers()->workStatus('active')->count() > 0)
+                                    @foreach($responsibility->communityVolunteers()->workStatus('active')->get() as $cmtyvol)
+                                        <a href="{{ route('cmtyvol.show', $cmtyvol) }}" target="_blank">{{ $cmtyvol->fullName }}</a><br>
+                                    @endforeach
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -40,5 +47,4 @@
             @lang('responsibilities.no_responsibilities_defined')
         </x-alert>
     @endif
-
 @endsection
