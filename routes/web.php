@@ -1,7 +1,34 @@
 <?php
 
+use App\Http\Controllers\Accounting\MoneyTransactionsController;
+use App\Http\Controllers\Accounting\GlobalSummaryController;
+use App\Http\Controllers\Accounting\SummaryController;
+use App\Http\Controllers\Accounting\WalletController;
+use App\Http\Controllers\Accounting\WeblingApiController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Badges\BadgeMakerController;
+use App\Http\Controllers\Bank\CodeCardController;
+use App\Http\Controllers\Bank\CouponTypesController;
+use App\Http\Controllers\Bank\ImportExportController;
+use App\Http\Controllers\Bank\MaintenanceController;
+use App\Http\Controllers\Bank\PeopleController as BankPeopleController;
+use App\Http\Controllers\People\PeopleController;
 use App\Http\Controllers\ChangelogController;
+use App\Http\Controllers\Collaboration\ArticleController;
+use App\Http\Controllers\Collaboration\SearchController;
+use App\Http\Controllers\Collaboration\TagController;
+use App\Http\Controllers\CommunityVolunteers\ExportController;
+use App\Http\Controllers\CommunityVolunteers\ImportController;
+use App\Http\Controllers\CommunityVolunteers\ListController;
+use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
+use App\Http\Controllers\Fundraising\FundraisingController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Library\LibraryController;
+use App\Http\Controllers\PrivacyPolicy;
+use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
+use App\Http\Controllers\UserManagement\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +46,7 @@ Route::middleware('language')->group(function () {
 
     Route::middleware('auth')->group(function () {
         // Home (Dashboard)
-        Route::get('/', 'HomeController@index')
+        Route::get('/', [HomeController::class, 'index'])
             ->name('home');
 
         // Reporting
@@ -32,21 +59,21 @@ Route::middleware('language')->group(function () {
     Auth::routes();
 
     $socialite_drivers = config('auth.socialite.drivers');
-    Route::get('login/{driver}/redirect', 'Auth\LoginController@redirectToProvider')
+    Route::get('login/{driver}/redirect', [LoginController::class, 'redirectToProvider'])
         ->name('login.provider')
         ->where('driver', implode('|', $socialite_drivers));
-    Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback')
+    Route::get('login/{driver}/callback', [LoginController::class, 'handleProviderCallback'])
         ->name('login.callback')
         ->where('driver', implode('|', $socialite_drivers));
 
     // Privacy policy
-    Route::get('userPrivacyPolicy', 'PrivacyPolicy@userPolicy')
+    Route::get('userPrivacyPolicy', [PrivacyPolicy::class, 'userPolicy'])
         ->name('userPrivacyPolicy');
 
     // Settings
-    Route::get('settings', 'Settings\SettingsController@edit')
+    Route::get('settings', [SettingsController::class, 'edit'])
         ->name('settings.edit');
-    Route::put('settings', 'Settings\SettingsController@update')
+    Route::put('settings', [SettingsController::class, 'update'])
         ->name('settings.update');
 });
 
@@ -54,51 +81,50 @@ Route::middleware('language')->group(function () {
 // User management
 //
 Route::middleware(['auth', 'language'])
-    ->namespace('UserManagement')
     ->group(function () {
 
         // User management
         Route::prefix('admin')
             ->group(function () {
                 // Users
-                Route::put('users/{user}/disable2FA', 'UserController@disable2FA')
+                Route::put('users/{user}/disable2FA', [UserController::class, 'disable2FA'])
                     ->name('users.disable2FA');
-                Route::put('users/{user}/disableOAuth', 'UserController@disableOAuth')
+                Route::put('users/{user}/disableOAuth', [UserController::class, 'disableOAuth'])
                     ->name('users.disableOAuth');
-                Route::resource('users', 'UserController');
+                Route::resource('users', UserController::class);
 
                 // Roles
-                Route::get('roles/{role}/members', 'RoleController@manageMembers')
+                Route::get('roles/{role}/members', [RoleController::class, 'manageMembers'])
                     ->name('roles.manageMembers');
-                Route::put('roles/{role}/members', 'RoleController@updateMembers')
+                Route::put('roles/{role}/members', [RoleController::class, 'updateMembers'])
                     ->name('roles.updateMembers');
-                Route::resource('roles', 'RoleController');
+                Route::resource('roles', RoleController::class);
 
                 // Reporting
                 Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {
-                    Route::get('reporting/users/permissions', 'UserController@permissions')
+                    Route::get('reporting/users/permissions', [UserController::class, 'permissions'])
                         ->name('users.permissions');
-                    Route::get('reporting/users/sensitiveData', 'UserController@sensitiveDataReport')
+                    Route::get('reporting/users/sensitiveData', [UserController::class, 'sensitiveDataReport'])
                         ->name('reporting.privacy');
-                    Route::get('reporting/roles/permissions', 'RoleController@permissions')
+                    Route::get('reporting/roles/permissions', [RoleController::class, 'permissions'])
                         ->name('roles.permissions');
                 });
             });
 
         // User profile
-        Route::get('/userprofile', 'UserProfileController@index')
+        Route::get('userprofile', [UserProfileController::class, 'index'])
             ->name('userprofile');
-        Route::post('/userprofile', 'UserProfileController@update')
+        Route::post('userprofile', [UserProfileController::class, 'update'])
             ->name('userprofile.update');
-        Route::post('/userprofile/updatePassword', 'UserProfileController@updatePassword')
+        Route::post('userprofile/updatePassword', [UserProfileController::class, 'updatePassword'])
             ->name('userprofile.updatePassword');
-        Route::delete('/userprofile', 'UserProfileController@delete')
+        Route::delete('userprofile', [UserProfileController::class, 'delete'])
             ->name('userprofile.delete');
-        Route::get('/userprofile/2FA', 'UserProfileController@view2FA')
+        Route::get('userprofile/2FA', [UserProfileController::class, 'view2FA'])
             ->name('userprofile.view2FA');
-        Route::post('/userprofile/2FA', 'UserProfileController@store2FA')
+        Route::post('userprofile/2FA', [UserProfileController::class, 'store2FA'])
             ->name('userprofile.store2FA');
-        Route::delete('/userprofile/2FA', 'UserProfileController@disable2FA')
+        Route::delete('userprofile/2FA', [UserProfileController::class, 'disable2FA'])
             ->name('userprofile.disable2FA');
     });
 
@@ -110,7 +136,6 @@ Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
 //
 
 Route::middleware(['language'])
-    ->namespace('Changelog')
     ->group(function () {
         Route::get('changelog', [ChangelogController::class, 'index'])
             ->name('changelog');
@@ -120,17 +145,16 @@ Route::middleware(['language'])
 // Badges
 //
 Route::middleware(['language', 'auth'])
-    ->namespace('Badges')
     ->name('badges.')
     ->prefix('badges')
     ->group(function () {
         Route::middleware(['can:create-badges'])
             ->group(function () {
-                Route::get('/', 'BadgeMakerController@index')
+                Route::get('/', [BadgeMakerController::class, 'index'])
                     ->name('index');
-                Route::post('/selection', 'BadgeMakerController@selection')
+                Route::post('selection', [BadgeMakerController::class, 'selection'])
                     ->name('selection');
-                Route::post('/make', 'BadgeMakerController@make')
+                Route::post('make', [BadgeMakerController::class, 'make'])
                     ->name('make');
             });
     });
@@ -140,14 +164,13 @@ Route::middleware(['language', 'auth'])
 //
 
 Route::middleware(['language', 'auth'])
-    ->namespace('Fundraising')
     ->prefix('fundraising')
     ->name('fundraising.')
     ->group(function () {
         // SPA
-        Route::get('', 'FundraisingController@index')
+        Route::get('', [FundraisingController::class, 'index'])
             ->name('index');
-        Route::get('/{any}', 'FundraisingController@index')
+        Route::get('/{any}', [FundraisingController::class, 'index'])
             ->where('any', '.*');
     });
 
@@ -156,51 +179,50 @@ Route::middleware(['language', 'auth'])
 //
 
 Route::middleware(['language', 'auth'])
-    ->namespace('Accounting')
     ->prefix('accounting')
     ->name('accounting.')
     ->group(function () {
 
         // Overview
-        Route::get('', 'WalletController@index')
+        Route::get('', [WalletController::class, 'index'])
             ->name('index');
-        Route::get('transactions/summary', 'GlobalSummaryController@summary')
+        Route::get('transactions/summary', [GlobalSummaryController::class, 'summary'])
             ->name('transactions.globalSummary');
 
         // Transactions
-        Route::get('wallets/{wallet}/transactions/export', 'MoneyTransactionsController@export')
+        Route::get('wallets/{wallet}/transactions/export', [MoneyTransactionsController::class, 'export'])
             ->name('transactions.export');
-        Route::post('wallets/{wallet}/transactions/doExport', 'MoneyTransactionsController@doExport')
+        Route::post('wallets/{wallet}/transactions/doExport', [MoneyTransactionsController::class, 'doExport'])
             ->name('transactions.doExport');
-        Route::get('wallets/{wallet}/transactions/summary', 'SummaryController@summary')
+        Route::get('wallets/{wallet}/transactions/summary', [SummaryController::class, 'summary'])
             ->name('transactions.summary');
-        Route::get('transactions/{transaction}/snippet', 'MoneyTransactionsController@snippet')
+        Route::get('transactions/{transaction}/snippet', [MoneyTransactionsController::class, 'snippet'])
             ->name('transactions.snippet');
-        Route::put('transactions/{transaction}/undoBooking', 'MoneyTransactionsController@undoBooking')
+        Route::put('transactions/{transaction}/undoBooking', [MoneyTransactionsController::class, 'undoBooking'])
             ->name('transactions.undoBooking');
-        Route::get('wallets/{wallet}/transactions', 'MoneyTransactionsController@index')
+        Route::get('wallets/{wallet}/transactions', [MoneyTransactionsController::class, 'index'])
             ->name('transactions.index');
-        Route::get('wallets/{wallet}/transactions/create', 'MoneyTransactionsController@create')
+        Route::get('wallets/{wallet}/transactions/create', [MoneyTransactionsController::class, 'create'])
             ->name('transactions.create');
-        Route::post('wallets/{wallet}/transactions', 'MoneyTransactionsController@store')
+        Route::post('wallets/{wallet}/transactions', [MoneyTransactionsController::class, 'store'])
             ->name('transactions.store');
-        Route::get('transactions/{transaction}', 'MoneyTransactionsController@show')
+        Route::get('transactions/{transaction}', [MoneyTransactionsController::class, 'show'])
             ->name('transactions.show');
-        Route::get('transactions/{transaction}/edit', 'MoneyTransactionsController@edit')
+        Route::get('transactions/{transaction}/edit', [MoneyTransactionsController::class, 'edit'])
             ->name('transactions.edit');
-        Route::put('transactions/{transaction}', 'MoneyTransactionsController@update')
+        Route::put('transactions/{transaction}', [MoneyTransactionsController::class, 'update'])
             ->name('transactions.update');
-        Route::delete('transactions/{transaction}', 'MoneyTransactionsController@destroy')
+        Route::delete('transactions/{transaction}', [MoneyTransactionsController::class, 'destroy'])
             ->name('transactions.destroy');
 
         // Webling
-        Route::get('wallets/{wallet}/webling', 'WeblingApiController@index')
+        Route::get('wallets/{wallet}/webling', [WeblingApiController::class, 'index'])
             ->name('webling.index');
-        Route::get('wallets/{wallet}/webling/prepare', 'WeblingApiController@prepare')
+        Route::get('wallets/{wallet}/webling/prepare', [WeblingApiController::class, 'prepare'])
             ->name('webling.prepare');
-        Route::post('wallets/{wallet}/webling', 'WeblingApiController@store')
+        Route::post('wallets/{wallet}/webling', [WeblingApiController::class, 'store'])
             ->name('webling.store');
-        Route::get('wallets/{wallet}/webling/sync', 'WeblingApiController@sync')
+        Route::get('wallets/{wallet}/webling/sync', [WeblingApiController::class, 'sync'])
             ->name('webling.sync');
 
         // Wallets
@@ -225,29 +247,28 @@ Route::middleware(['language', 'auth'])
 //
 
 Route::middleware(['language'])
-    ->namespace('Collaboration')
     ->prefix('kb')
     ->name('kb.')
     ->group(function () {
         Route::group(['middleware' => ['auth']], function () {
-            Route::get('', 'SearchController@index')
+            Route::get('', [SearchController::class, 'index'])
                 ->name('index');
-            Route::get('latest_changes', 'SearchController@latestChanges')
+            Route::get('latest_changes', [SearchController::class, 'latestChanges'])
                 ->name('latestChanges');
 
-            Route::get('tags', 'TagController@tags')
+            Route::get('tags', [TagController::class, 'tags'])
                 ->name('tags');
-            Route::get('tags/{tag}/pdf', 'TagController@pdf')
+            Route::get('tags/{tag}/pdf', [TagController::class, 'pdf'])
                 ->name('tags.pdf');
 
-            Route::get('articles/{article}/pdf', 'ArticleController@pdf')
+            Route::get('articles/{article}/pdf', [ArticleController::class, 'pdf'])
                 ->name('articles.pdf');
-            Route::resource('articles', 'ArticleController')
+            Route::resource('articles', ArticleController::class)
                 ->except('show');
         });
-        Route::get('tags/{tag}', 'TagController@tag')
+        Route::get('tags/{tag}', [TagController::class, 'tag'])
             ->name('tag');
-        Route::resource('articles', 'ArticleController')
+        Route::resource('articles', ArticleController::class)
             ->only('show');
     });
 
@@ -256,34 +277,32 @@ Route::middleware(['language'])
 //
 
 Route::middleware(['auth', 'language'])
-    ->namespace('People')
     ->group(function () {
 
         // People
-        Route::get('/people/bulkSearch', 'PeopleController@bulkSearch')
+        Route::get('people/bulkSearch', [PeopleController::class, 'bulkSearch'])
             ->name('people.bulkSearch')
             ->middleware('can:viewAny,App\Models\People\Person');
-        Route::post('/people/bulkSearch', 'PeopleController@doBulkSearch')
+        Route::post('people/bulkSearch', [PeopleController::class, 'doBulkSearch'])
             ->name('people.doBulkSearch')
             ->middleware('can:viewAny,App\Models\People\Person');
-        Route::get('/people/export', 'PeopleController@export')
+        Route::get('people/export', [PeopleController::class, 'export'])
             ->name('people.export')
             ->middleware('can:export,App\Models\People\Person');
-        Route::get('/people/import', 'PeopleController@import')
+        Route::get('people/import', [PeopleController::class, 'import'])
             ->name('people.import')
             ->middleware('can:create,App\Models\People\Person');
-        Route::post('/people/doImport', 'PeopleController@doImport')
+        Route::post('people/doImport', [PeopleController::class, 'doImport'])
             ->name('people.doImport')
             ->middleware('can:create,App\Models\People\Person');
-        Route::get('/people/duplicates', 'PeopleController@duplicates')
+        Route::get('people/duplicates', [PeopleController::class, 'duplicates'])
             ->name('people.duplicates');
-        Route::post('/people/duplicates', 'PeopleController@applyDuplicates')
+        Route::post('people/duplicates', [PeopleController::class, 'applyDuplicates'])
             ->name('people.applyDuplicates');
-        Route::resource('/people', 'PeopleController');
+        Route::resource('people', PeopleController::class);
 
         // Reporting
-        Route::namespace('Reporting')
-            ->prefix('reporting')
+        Route::prefix('reporting')
             ->middleware(['can:view-people-reports'])
             ->group(function () {
 
@@ -302,7 +321,6 @@ Route::middleware(['auth', 'language'])
 //
 
 Route::middleware(['auth', 'language'])
-    ->namespace('Bank')
     ->group(function () {
 
         Route::prefix('bank')
@@ -313,7 +331,8 @@ Route::middleware(['auth', 'language'])
                 Route::middleware('can:do-bank-withdrawals')
                     ->group(function () {
 
-                        Route::redirect('', 'bank/withdrawal')->name('index');
+                        Route::redirect('', 'bank/withdrawal')
+                            ->name('index');
 
                         Route::view('withdrawal', 'bank.withdrawal.search')
                             ->name('withdrawal.search');
@@ -322,32 +341,32 @@ Route::middleware(['auth', 'language'])
                             ->name('withdrawal.transactions')
                             ->middleware('can:viewAny,App\Models\People\Person');
 
-                        Route::get('codeCard', 'CodeCardController@create')
+                        Route::get('codeCard', [CodeCardController::class, 'create'])
                             ->name('prepareCodeCard');
 
-                        Route::post('codeCard', 'CodeCardController@download')
+                        Route::post('codeCard', [CodeCardController::class, 'download'])
                             ->name('createCodeCard');
                     });
 
                 // People
-                Route::resource('people', 'PeopleController')
+                Route::resource('people', BankPeopleController::class)
                     ->except(['index', 'store', 'update']);
 
                 // Maintenance
                 Route::middleware('can:cleanup,App\Models\People\Person')
                     ->group(function () {
-                        Route::get('maintenance', 'MaintenanceController@maintenance')
+                        Route::get('maintenance', [MaintenanceController::class, 'maintenance'])
                             ->name('maintenance');
-                        Route::post('maintenance', 'MaintenanceController@updateMaintenance')
+                        Route::post('maintenance', [MaintenanceController::class, 'updateMaintenance'])
                             ->name('updateMaintenance');
                     });
 
                 // Export
                 Route::middleware('can:export,App\Models\People\Person')
                     ->group(function () {
-                        Route::get('export', 'ImportExportController@export')
+                        Route::get('export', [ImportExportController::class, 'export'])
                             ->name('export');
-                        Route::post('doExport', 'ImportExportController@doExport')
+                        Route::post('doExport', [ImportExportController::class, 'doExport'])
                             ->name('doExport');
                     });
             });
@@ -356,12 +375,11 @@ Route::middleware(['auth', 'language'])
         Route::middleware('can:configure-bank')
             ->prefix('bank')
             ->group(function () {
-                Route::resource('coupons', 'CouponTypesController');
+                Route::resource('coupons', CouponTypesController::class);
             });
 
         // Reporting
         Route::middleware('can:view-bank-reports')
-            ->namespace('Reporting')
             ->name('reporting.bank.')
             ->prefix('reporting/bank')
             ->group(function () {
@@ -377,7 +395,6 @@ Route::middleware(['auth', 'language'])
 //
 
 Route::middleware(['auth', 'language'])
-    ->namespace('CommunityVolunteers')
     ->group(function () {
         Route::redirect('helpers', 'cmtyvol');
         Route::name('cmtyvol.')
@@ -395,36 +412,36 @@ Route::middleware(['auth', 'language'])
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Export view
-                Route::get('export', 'ExportController@export')
+                Route::get('export', [ExportController::class, 'export'])
                     ->name('export')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Export download
-                Route::post('doExport', 'ExportController@doExport')
+                Route::post('doExport', [ExportController::class, 'doExport'])
                     ->name('doExport')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Import view
-                Route::get('import', 'ImportController@import')
+                Route::get('import', [ImportController::class, 'import'])
                     ->name('import')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Import upload
-                Route::post('doImport', 'ImportController@doImport')
+                Route::post('doImport', [ImportController::class, 'doImport'])
                     ->name('doImport')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Download vCard
-                Route::get('{cmtyvol}/vcard', 'ExportController@vcard')
+                Route::get('{cmtyvol}/vcard', [ExportController::class, 'vcard'])
                     ->name('vcard');
 
                 // Responsibilities resource
-                Route::resource('responsibilities', 'ResponsibilitiesController')
+                Route::resource('responsibilities', ResponsibilitiesController::class)
                     ->except('show');
             });
 
         // Community volunteers resource
-        Route::resource('cmtyvol', 'ListController');
+        Route::resource('cmtyvol', ListController::class);
     });
 
 //
@@ -432,14 +449,13 @@ Route::middleware(['auth', 'language'])
 //
 
 Route::middleware(['auth', 'language', 'can:operate-library'])
-    ->namespace('Library')
     ->prefix('library')
     ->name('library.')
     ->group(function () {
         // SPA
-        Route::get('', 'LibraryController@index')
+        Route::get('', [LibraryController::class, 'index'])
             ->name('index');
-        Route::get('/{any}', 'LibraryController@index')
+        Route::get('/{any}', [LibraryController::class, 'index'])
             ->where('any', '.*');
     });
 
@@ -448,14 +464,15 @@ Route::middleware(['auth', 'language', 'can:operate-library'])
 //
 
 Route::middleware(['auth', 'language'])
-    ->namespace('Shop')
     ->prefix('shop')
     ->name('shop.')
     ->group(function () {
         Route::middleware(['can:validate-shop-coupons'])
             ->group(function () {
-                Route::view('/', 'shop.index')->name('index');
-                Route::view('manageCards', 'shop.manageCards')->name('manageCards');
+                Route::view('/', 'shop.index')
+                    ->name('index');
+                Route::view('manageCards', 'shop.manageCards')
+                    ->name('manageCards');
             });
     });
 
@@ -463,7 +480,6 @@ Route::middleware(['auth', 'language'])
 // Visitors
 //
 Route::middleware(['auth', 'language'])
-    ->namespace('Visitors')
     ->prefix('visitors')
     ->name('visitors.')
     ->group(function () {
