@@ -33,6 +33,14 @@ class TransactionIndexContextButtons implements ContextButtons
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
             ],
+            'webling' => [
+                'url' => route('accounting.webling.index', $wallet),
+                'caption' => __('accounting.webling'),
+                'icon' => 'cloud-upload-alt',
+                'authorized' => Auth::user()->can('book-accounting-transactions-externally')
+                    && config('services.webling.api_url') !== null
+                    && config('services.webling.api_key') !== null,
+            ],
         ];
     }
 

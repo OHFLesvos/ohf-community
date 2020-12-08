@@ -3,13 +3,12 @@
 namespace App\Providers;
 
 use App\Providers\Traits\RegisterContextButtons;
-use App\Providers\Traits\RegisterContextMenus;
 use App\Providers\Traits\RegistersNavigationItems;
 use Illuminate\Support\ServiceProvider;
 
 class NavigationServiceProvider extends ServiceProvider
 {
-    use RegistersNavigationItems, RegisterContextMenus, RegisterContextButtons;
+    use RegistersNavigationItems, RegisterContextButtons;
 
     protected $navigationItems = [
         \App\Navigation\Drawer\HomeNavigationItem::class,
@@ -27,10 +26,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\ReportsNavigationItem::class,
         \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class,
         \App\Navigation\Drawer\Settings\SettingsNavigationItem::class,
-    ];
-
-    protected $contextMenus = [
-        'accounting.transactions.index'       => \App\Navigation\ContextMenu\Accounting\AccountingContextMenu::class,
     ];
 
     protected $contextButtons = [
@@ -128,7 +123,6 @@ class NavigationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerNavigationItems();
-        $this->registerContextMenus();
         $this->registerContextButtons();
     }
 }

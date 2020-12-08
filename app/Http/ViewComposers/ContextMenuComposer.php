@@ -3,7 +3,6 @@
 namespace App\Http\ViewComposers;
 
 use App\Support\Facades\ContextButtons;
-use App\Support\Facades\ContextMenus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
@@ -19,8 +18,6 @@ class ContextMenuComposer
     {
         $currentRouteName = Route::currentRouteName();
 
-        $view->with('menu', ContextMenus::get($currentRouteName, $view)
-            ->filter(fn ($item) => $item['authorized']));
         $view->with('buttons', ContextButtons::get($currentRouteName, $view)
             ->filter(fn ($item) => $item['authorized']));
     }

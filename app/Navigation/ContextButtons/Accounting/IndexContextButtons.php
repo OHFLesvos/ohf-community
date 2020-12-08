@@ -18,12 +18,6 @@ class IndexContextButtons implements ContextButtons
                 'icon' => 'globe',
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],
-            'suppliers' => [
-                'url' => route('accounting.suppliers'),
-                'caption' => __('accounting.suppliers'),
-                'icon' => 'truck',
-                'authorized' => Auth::user()->can('viewAny', Supplier::class) || Gate::allows('manage-suppliers'),
-            ],
         ];
     }
 
