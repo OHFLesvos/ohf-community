@@ -1,9 +1,9 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('coupons.create_coupon'))
+@section('title', __('bank.create_coupon'))
 
 @section('content')
-    {!! Form::open(['route' => ['coupons.store']]) !!}
+    {!! Form::open(['route' => ['bank.coupons.store']]) !!}
         <div class="form-row">
             <div class="col-md">
                 {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}

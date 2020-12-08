@@ -25,7 +25,7 @@ class CouponTypePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('bank.configure');
+        return $user->hasPermission('bank.withdrawals.do');
     }
 
     /**
@@ -37,7 +37,7 @@ class CouponTypePolicy
      */
     public function view(User $user, CouponType $couponType)
     {
-        return $user->hasPermission('bank.configure');
+        return $user->hasPermission('bank.withdrawals.do');
     }
 
     /**

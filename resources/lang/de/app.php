@@ -435,4 +435,5 @@ return [
     'details' => 'Details',
     'changelog' => 'Änderungshistorie',
     'assigned' => 'Zugewiesen',
+    'conditions' => 'Umstände',
 ];

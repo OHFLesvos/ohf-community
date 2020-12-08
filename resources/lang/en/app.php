@@ -435,4 +435,5 @@ return [
     'details' => 'Details',
     'changelog' => 'Changelog',
     'assigned' => 'Assigned',
+    'conditions' => 'Conditions',
  ];

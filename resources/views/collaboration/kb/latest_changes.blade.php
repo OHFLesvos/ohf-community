@@ -3,10 +3,9 @@
 @section('title', __('app.latest_changes'))
 
 @section('content')
-
     @if(! $audits->isEmpty())
         <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
+            <table class="table table-hover bg-white">
                 <thead>
                     <tr>
                         <th>@lang('app.date')</th>
@@ -35,9 +34,15 @@
                                     $article = App\Models\Collaboration\WikiArticle::find($audit->auditable_id);
                                     $title = isset($title_mod) ? isset($title_mod['new']) ? $title_mod['new'] : $title_mod['old'] : ($article != null ? $article->title : '');
                                 @endphp
-                                @isset($article)<a href="{{ route('kb.articles.show', $article) }}">@endisset
-                                {{ $title }}
-                                @isset($article)</a>@endisset
+                                @isset($article)
+                                    <a href="{{ route('kb.articles.show', $article) }}">
+                                        {{ $title }}
+                                    </a>
+                                @elseif($title)
+                                    {{ $title }}
+                                @else
+                                    <em>@lang('app.not_available')</em>
+                                @endisset
                             </td>
                         </tr>
                     @endforeach
@@ -50,5 +55,4 @@
             @lang('wiki.no_articles_found')
         </x-alert>
     @endif
-
 @endsection

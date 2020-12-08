@@ -60,8 +60,8 @@ class CouponTypesController extends Controller
         $coupon->save();
 
         return redirect()
-            ->route('coupons.index')
-            ->with('success', __('coupons.coupon_added'));
+            ->route('bank.coupons.index')
+            ->with('success', __('bank.coupon_added'));
     }
 
     /**
@@ -93,8 +93,8 @@ class CouponTypesController extends Controller
         $coupon->save();
 
         return redirect()
-            ->route('coupons.index')
-            ->with('info', __('coupons.coupon_updated'));
+            ->route('bank.coupons.index')
+            ->with('info', __('bank.coupon_updated'));
     }
 
     /**
@@ -107,7 +107,7 @@ class CouponTypesController extends Controller
     {
         $coupon->delete();
         return redirect()
-            ->route('coupons.index')
-            ->with('success', __('coupons.coupon_deleted'));
+            ->route('bank.coupons.index')
+            ->with('success', __('bank.coupon_deleted'));
     }
 }

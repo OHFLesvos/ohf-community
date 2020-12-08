@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>{{ $t('coupons.coupons') }}</h4>
+        <h4>{{ $t('bank.coupons') }}</h4>
         <template v-if="person.handouts.length > 0">
             <div class="table-responsive">
                 <table class="table table-sm table-hover">
@@ -27,7 +27,7 @@
                 <template v-if="showHandoutLimit < person.num_handouts">
                     {{ $t('app.last_n_transactions_shown', { num: showHandoutLimit }) }}
                 </template>
-                {{ $t('coupons.n_coupons_received_total_since_date', {
+                {{ $t('bank.n_coupons_received_total_since_date', {
                     num: person.num_handouts,
                     date: person.first_handout_date,
                     date_diff: person.first_handout_date_diff,
@@ -36,7 +36,7 @@
         </template>
         <info-alert
             v-else
-            :message="$t('coupons.no_coupons_received_so_far')"
+            :message="$t('bank.no_coupons_received_so_far')"
         />
     </div>
 </template>

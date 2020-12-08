@@ -1,7 +1,7 @@
 <template>
     <div v-if="coupons">
         <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover mb-4">
+            <table class="table table-hover mb-4 bg-white">
                 <thead>
                     <tr>
                         <th></th>
@@ -45,7 +45,7 @@
                 :y-label="$t('app.quantity')"
                 :data="v.handedOutPerday"
                 :height="300"
-                class="mb-2">
+                class="bg-white p-2 mb-4 rounded">
             </bar-chart>
         </div>
     </div>

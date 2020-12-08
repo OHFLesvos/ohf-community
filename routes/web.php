@@ -369,12 +369,8 @@ Route::middleware(['auth', 'language'])
                         Route::post('doExport', [ImportExportController::class, 'doExport'])
                             ->name('doExport');
                     });
-            });
 
-        // Coupons
-        Route::middleware('can:configure-bank')
-            ->prefix('bank')
-            ->group(function () {
+                // Coupons
                 Route::resource('coupons', CouponTypesController::class);
             });
 

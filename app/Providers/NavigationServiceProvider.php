@@ -97,9 +97,9 @@ class NavigationServiceProvider extends ServiceProvider
         'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
         'bank.export'                     => \App\Navigation\ContextButtons\Bank\BankExportContextButtons::class,
 
-        'coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,
-        'coupons.create'                  => \App\Navigation\ContextButtons\Bank\CouponCreateContextButtons::class,
-        'coupons.edit'                    => \App\Navigation\ContextButtons\Bank\CouponEditContextButtons::class,
+        'bank.coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,
+        'bank.coupons.create'                  => \App\Navigation\ContextButtons\Bank\CouponCreateContextButtons::class,
+        'bank.coupons.edit'                    => \App\Navigation\ContextButtons\Bank\CouponEditContextButtons::class,
 
         'bank.people.create'              => \App\Navigation\ContextButtons\Bank\PeopleCreateContextButtons::class,
         'bank.people.show'                => \App\Navigation\ContextButtons\Bank\PeopleShowContextButtons::class,

@@ -16,13 +16,12 @@
             :placeholder="$t('app.filter')"
             class="mb-3"
             autocomplete="off"
-            size="sm"
         ></b-form-input>
 
         <!-- Table of audit records -->
         <b-table
             ref="table"
-            striped small hover responsive bordered
+            hover responsive
             primary-key="id"
             :busy.sync="isBusy"
             :items="itemProvider"
@@ -33,6 +32,7 @@
             :empty-text="$t('people.no_transactions_so_far')"
             :empty-filtered-text="$t('app.no_records_matching_your_request')"
             :filter="filter"
+            class="bg-white"
         >
             <!-- Busy state -->
             <template

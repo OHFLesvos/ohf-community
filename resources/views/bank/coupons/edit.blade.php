@@ -1,9 +1,9 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('coupons.edit_coupon'))
+@section('title', __('bank.edit_coupon'))
 
 @section('content')
-    {!! Form::model($coupon, ['route' => ['coupons.update', $coupon], 'method' => 'put']) !!}
+    {!! Form::model($coupon, ['route' => ['bank.coupons.update', $coupon], 'method' => 'put']) !!}
         <div class="form-row">
             <div class="col-md">
                 {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}

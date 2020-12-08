@@ -20,79 +20,100 @@
                 </p>
 
                 <!-- Popular -->
-                <h3>{{ $t('app.regulars') }}</h3>
-                <b-table-simple small bordered striped hover responsive>
-                    <b-thead>
-                        <b-tr>
-                            <b-th>{{ $t('app.title') }}</b-th>
-                            <b-th>{{ $t('people.age') }}</b-th>
-                            <b-th>{{ $t('people.nationality') }}</b-th>
-                            <b-th class="text-center">{{ $t('people.gender') }}</b-th>
-                            <b-th class="text-right"># {{ $t('library.lendings') }}</b-th>
-                        </b-tr>
-                    </b-thead>
-                    <b-tbody>
-                        <b-tr v-for="(borrower, idx) in borrwer_lendings_top" :key="idx">
-                            <b-td>
-                                {{ borrower.collapsed_name }}
-                            </b-td>
-                            <b-td>{{ borrower.age }}</b-td>
-                            <b-td>{{ borrower.nationality }}</b-td>
-                            <b-td class="text-center">
-                                    <gender-label
-                                        :value="borrower.gender"
-                                        icon-only
-                                    />
-                            </b-td>
-                            <b-td class="text-right">
-                                {{ borrower.quantity }}
-                            </b-td>
-                        </b-tr>
-                    </b-tbody>
-                </b-table-simple>
+                <b-card
+                    :header="$t('app.regulars')"
+                    no-body
+                    class="shadow-sm mb-4">
+                    <b-table-simple
+                        hover
+                        responsive
+                        class="bg-white mb-0">
+                        <b-thead>
+                            <b-tr>
+                                <b-th>{{ $t('app.title') }}</b-th>
+                                <b-th>{{ $t('people.age') }}</b-th>
+                                <b-th>{{ $t('people.nationality') }}</b-th>
+                                <b-th class="text-center">{{ $t('people.gender') }}</b-th>
+                                <b-th class="text-right">{{ $t('library.lendings') }}</b-th>
+                            </b-tr>
+                        </b-thead>
+                        <b-tbody>
+                            <b-tr v-for="(borrower, idx) in borrwer_lendings_top" :key="idx">
+                                <b-td>
+                                    {{ borrower.collapsed_name }}
+                                </b-td>
+                                <b-td>{{ borrower.age }}</b-td>
+                                <b-td>{{ borrower.nationality }}</b-td>
+                                <b-td class="text-center">
+                                        <gender-label
+                                            :value="borrower.gender"
+                                            icon-only
+                                        />
+                                </b-td>
+                                <b-td class="text-right">
+                                    {{ borrower.quantity }}
+                                </b-td>
+                            </b-tr>
+                        </b-tbody>
+                    </b-table-simple>
+                </b-card>
 
                 <!-- Nationalities -->
-                <h3>{{ $t('people.nationalities') }}</h3>
-                <b-table-simple small bordered striped hover responsive>
-                    <b-thead>
-                        <b-tr>
-                            <b-th>{{ $t('app.country') }}</b-th>
-                            <b-th class="text-right">{{ $t('app.quantity') }}</b-th>
-                            <b-th class="text-right">{{ $t('app.percentage') }}</b-th>
-                        </b-tr>
-                    </b-thead>
-                    <b-tbody>
-                        <b-tr v-for="nationality in borrwer_nationalities" :key="nationality.nationality">
-                            <b-td>{{ nationality.nationality ? nationality.nationality : $t('app.unspecified') }}</b-td>
-                            <b-td class="text-right">{{ nationality.quantity }}</b-td>
-                            <b-td class="text-right">{{ roundWithDecimals(nationality.quantity / borrwer_count * 100, 1) }} %</b-td>
-                        </b-tr>
-                    </b-tbody>
-                </b-table-simple>
+                <b-card
+                    :header="$t('people.nationalities')"
+                    no-body
+                    class="shadow-sm mb-4">
+                    <b-table-simple
+                        hover
+                        responsive
+                        class="bg-white mb-0">
+                        <b-thead>
+                            <b-tr>
+                                <b-th>{{ $t('app.country') }}</b-th>
+                                <b-th class="text-right">{{ $t('app.quantity') }}</b-th>
+                                <b-th class="text-right">{{ $t('app.percentage') }}</b-th>
+                            </b-tr>
+                        </b-thead>
+                        <b-tbody>
+                            <b-tr v-for="nationality in borrwer_nationalities" :key="nationality.nationality">
+                                <b-td>{{ nationality.nationality ? nationality.nationality : $t('app.unspecified') }}</b-td>
+                                <b-td class="text-right">{{ nationality.quantity }}</b-td>
+                                <b-td class="text-right">{{ roundWithDecimals(nationality.quantity / borrwer_count * 100, 1) }} %</b-td>
+                            </b-tr>
+                        </b-tbody>
+                    </b-table-simple>
+                </b-card>
 
                 <!-- Genders -->
-                <h3>{{ $t('people.gender') }}</h3>
-                <b-table-simple small bordered striped hover responsive>
-                    <b-thead>
-                        <b-tr>
-                            <b-th>{{ $t('people.gender') }}</b-th>
-                            <b-th class="text-right">{{ $t('app.quantity') }}</b-th>
-                            <b-th class="text-right">{{ $t('app.percentage') }}</b-th>
-                        </b-tr>
-                    </b-thead>
-                    <b-tbody>
-                        <b-tr v-for="gender in borrwer_genders" :key="gender.gender">
-                            <b-td>
-                                <gender-label
-                                    :value="gender.gender"
-                                    icon-only
-                                />
-                            </b-td>
-                            <b-td class="text-right">{{ gender.quantity }}</b-td>
-                            <b-td class="text-right">{{ roundWithDecimals(gender.quantity / borrwer_count * 100, 1) }} %</b-td>
-                        </b-tr>
-                    </b-tbody>
-                </b-table-simple>
+                <b-card
+                    :header="$t('people.gender')"
+                    no-body
+                    class="shadow-sm mb-4">
+                    <b-table-simple
+                        hover
+                        responsive
+                        class="bg-white mb-0">
+                        <b-thead>
+                            <b-tr>
+                                <b-th>{{ $t('people.gender') }}</b-th>
+                                <b-th class="text-right">{{ $t('app.quantity') }}</b-th>
+                                <b-th class="text-right">{{ $t('app.percentage') }}</b-th>
+                            </b-tr>
+                        </b-thead>
+                        <b-tbody>
+                            <b-tr v-for="gender in borrwer_genders" :key="gender.gender">
+                                <b-td>
+                                    <gender-label
+                                        :value="gender.gender"
+                                        icon-only
+                                    />
+                                </b-td>
+                                <b-td class="text-right">{{ gender.quantity }}</b-td>
+                                <b-td class="text-right">{{ roundWithDecimals(gender.quantity / borrwer_count * 100, 1) }} %</b-td>
+                            </b-tr>
+                        </b-tbody>
+                    </b-table-simple>
+                </b-card>
 
             </template>
 
@@ -122,52 +143,66 @@
 
             <!-- Popular -->
             <template v-if="book_lendings_top.length > 0">
-                <h3>{{ $t('app.popular') }}</h3>
-                <b-table-simple small bordered striped hover responsive>
-                    <b-thead>
-                        <b-tr>
-                            <b-th>{{ $t('app.title') }}</b-th>
-                            <b-th>{{ $t('library.author') }}</b-th>
-                            <b-th>{{ $t('app.language') }}</b-th>
-                            <b-th class="text-right"># {{ $t('library.lendings') }}</b-th>
-                        </b-tr>
-                    </b-thead>
-                    <b-tbody>
-                        <b-tr v-for="(book, idx) in book_lendings_top" :key="idx">
-                            <b-td v-html="truncate(book.title, 40)"></b-td>
-                            <b-td v-html="truncate(book.author, 40)"></b-td>
-                            <b-td>{{ book.language }}</b-td>
-                            <b-td class="text-right">{{ book.quantity }}</b-td>
-                        </b-tr>
-                    </b-tbody>
-                </b-table-simple>
+                <b-card
+                    :header="$t('app.popular')"
+                    no-body
+                    class="shadow-sm mb-4">
+                    <b-table-simple
+                        hover
+                        responsive
+                        class="bg-white mb-0">
+                        <b-thead>
+                            <b-tr>
+                                <b-th>{{ $t('app.title') }}</b-th>
+                                <b-th>{{ $t('library.author') }}</b-th>
+                                <b-th>{{ $t('app.language') }}</b-th>
+                                <b-th class="text-right"># {{ $t('library.lendings') }}</b-th>
+                            </b-tr>
+                        </b-thead>
+                        <b-tbody>
+                            <b-tr v-for="(book, idx) in book_lendings_top" :key="idx">
+                                <b-td v-html="truncate(book.title, 40)"></b-td>
+                                <b-td v-html="truncate(book.author, 40)"></b-td>
+                                <b-td>{{ book.language }}</b-td>
+                                <b-td class="text-right">{{ book.quantity }}</b-td>
+                            </b-tr>
+                        </b-tbody>
+                    </b-table-simple>
+                </b-card>
             </template>
 
             <!-- Languages -->
             <template v-if="book_count > 0">
-                <h3>{{ $t('app.languages') }}</h3>
                 <p v-if="book_languages_undefined_count > 0">
                     <em>{{ $t('library.books_without_language_specified', {
                         count: book_languages_undefined_count,
                         percentage: roundWithDecimals(book_languages_undefined_count / book_count * 100, 1)
                     }) }}</em>
                 </p>
-                <b-table-simple small bordered striped hover responsive>
-                    <b-thead>
-                        <b-tr>
-                            <b-th>{{ $t('app.language') }}</b-th>
-                            <b-th class="text-right">{{ $t('app.quantity') }}</b-th>
-                            <b-th class="text-right">{{ $t('app.percentage') }}</b-th>
-                        </b-tr>
-                    </b-thead>
-                    <b-tbody>
-                        <b-tr v-for="language in book_languages_defined" :key="language.language">
-                            <b-td>{{ language.language ? language.language : $t('app.unspecified') }}</b-td>
-                            <b-td class="text-right">{{ language.quantity }}</b-td>
-                            <b-td class="text-right">{{ roundWithDecimals(language.quantity / (book_count - book_languages_undefined_count) * 100, 1) }} %</b-td>
-                        </b-tr>
-                    </b-tbody>
-                </b-table-simple>
+                <b-card
+                    :header="$t('app.languages')"
+                    no-body
+                    class="shadow-sm mb-4">
+                    <b-table-simple
+                        hover
+                        responsive
+                        class="bg-white mb-0">
+                        <b-thead>
+                            <b-tr>
+                                <b-th>{{ $t('app.language') }}</b-th>
+                                <b-th class="text-right">{{ $t('app.quantity') }}</b-th>
+                                <b-th class="text-right">{{ $t('app.percentage') }}</b-th>
+                            </b-tr>
+                        </b-thead>
+                        <b-tbody>
+                            <b-tr v-for="language in book_languages_defined" :key="language.language">
+                                <b-td>{{ language.language ? language.language : $t('app.unspecified') }}</b-td>
+                                <b-td class="text-right">{{ language.quantity }}</b-td>
+                                <b-td class="text-right">{{ roundWithDecimals(language.quantity / (book_count - book_languages_undefined_count) * 100, 1) }} %</b-td>
+                            </b-tr>
+                        </b-tbody>
+                    </b-table-simple>
+                </b-card>
 
             </template>
 
