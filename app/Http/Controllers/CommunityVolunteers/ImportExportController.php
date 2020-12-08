@@ -38,10 +38,10 @@ class ImportExportController extends BaseController
 
     private function getFormats()
     {
+        // File extension => Label
         return [
             'xlsx' => __('app.excel_xls'),
             'csv' => __('app.comma_separated_values_csv'),
-            'tsv' => __('app.tab_separated_values_tsv'),
             'pdf' => __('app.pdf_pdf'),
         ];
     }
@@ -164,14 +164,14 @@ class ImportExportController extends BaseController
             'include_portraits' => 'boolean',
         ]);
 
-        return $this->exportDownload($request,
-            $this->exportExportable($request),
-            $this->exportFilename($request),
-            $this->exportFilenameExtension($request)
+        return $this->downloadExportable($request,
+            $this->createExportable($request),
+            $this->getExportFilename($request),
+            $request->format
         );
     }
 
-    private function exportExportable(Request $request)
+    private function createExportable(Request $request)
     {
         $columnSet = $this->getColumnSets()[$request->column_set];
         $fields = $this->filterFieldsByColumnSet($this->getFields(), $columnSet);
@@ -205,25 +205,13 @@ class ImportExportController extends BaseController
             });
     }
 
-    private function exportFilename(Request $request): string
+    private function getExportFilename(Request $request): string
     {
         $workStatus = $this->getWorkStatuses()->get($request->work_status);
         return __('cmtyvol.community_volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
     }
 
-    private function exportFilenameExtension(Request $request): string
-    {
-        if ($request->format == 'csv') {
-            return 'csv';
-        } elseif ($request->format == 'tsv') {
-            return 'tsv';
-        } elseif ($request->format == 'pdf') {
-            return 'pdf';
-        }
-        return 'xlsx';
-    }
-
-    private function exportDownload(Request $request, $export, $file_name, $file_ext)
+    private function downloadExportable(Request $request, $export, string $file_name, string $file_ext)
     {
         // Remember parameters in session
         session(['cmtyvol.export.work_status' => $request->work_status]);
