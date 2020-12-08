@@ -9,5 +9,4 @@ return [
     'library' => 'Bibliothek',
     'user-privileges' => 'Benutzerberechtigungen',
     'role-privileges' => ' Rollenberechtigungen',
-    'privacy' => 'Datenschutzbericht',
 ];

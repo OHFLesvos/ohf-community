@@ -26,12 +26,6 @@ class UserIndexContextButtons implements ContextButtons
                 'icon' => 'key',
                 'authorized' => Gate::allows('view-usermgmt-reports'),
             ],
-            'privacy' => [
-                'url' => route('reporting.privacy'),
-                'caption' => __('reporting.privacy'),
-                'icon' => 'eye',
-                'authorized' => Gate::allows('view-usermgmt-reports'),
-            ],
         ];
     }
 

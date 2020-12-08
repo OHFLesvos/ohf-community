@@ -9,5 +9,4 @@ return [
     'library' => 'Library',
     'user-privileges' => 'User privileges',
     'role-privileges' => 'Role privileges',
-    'privacy' => 'Privacy report',
 ];

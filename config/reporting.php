@@ -50,11 +50,5 @@ return [
             'gate' => 'view-usermgmt-reports',
             'featured' => false,
         ],
-        'privacy' => [
-            'route' => 'reporting.privacy',
-            'icon' => 'eye',
-            'gate' => 'view-usermgmt-reports',
-            'featured' => true,
-        ],
     ],
 ];

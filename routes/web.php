@@ -108,8 +108,6 @@ Route::middleware(['auth', 'language'])
                 Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {
                     Route::get('reporting/users/permissions', [UserController::class, 'permissions'])
                         ->name('users.permissions');
-                    Route::get('reporting/users/sensitiveData', [UserController::class, 'sensitiveDataReport'])
-                        ->name('reporting.privacy');
                     Route::get('reporting/roles/permissions', [RoleController::class, 'permissions'])
                         ->name('roles.permissions');
                 });

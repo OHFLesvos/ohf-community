@@ -173,23 +173,6 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all permissions
-     */
-    public function sensitiveDataReport()
-    {
-        $available_permissions = collect(config('permissions.keys'));
-        $sensitive_permissions = $available_permissions->where('sensitive', true);
-
-        return view('user_management.users.privacy_report', [
-            'permissions' => $available_permissions->map(fn ($p) => __($p['label'])),
-            'sensitivePermissions' => $sensitive_permissions->map(fn ($p) => __($p['label'])),
-            'users' => User::orderBy('name')
-                ->get()
-                ->filter(fn (User $user) => $user->isSuperAdmin() || $user->permissions()->contains(fn ($permission) => $sensitive_permissions->keys()->contains($permission))),
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  User $user
