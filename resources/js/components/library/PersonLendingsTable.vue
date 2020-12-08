@@ -3,7 +3,7 @@
         v-if="lendings.length > 0"
         class="table-responsive"
     >
-        <table class="table table-sm table-bordered table-striped table-hover">
+        <table class="table table-hover shadow-sm bg-white">
             <thead>
                 <tr>
                     <th>{{ $t('library.book') }}</th>
