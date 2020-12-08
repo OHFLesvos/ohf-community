@@ -12,21 +12,21 @@ class NavigationServiceProvider extends ServiceProvider
     use RegistersNavigationItems, RegisterContextMenus, RegisterContextButtons;
 
     protected $navigationItems = [
-        \App\Navigation\Drawer\HomeNavigationItem::class                    => 0,
-        \App\Navigation\Drawer\ReportsNavigationItem::class               => 14,
-        \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class    => 15,
-        \App\Navigation\Drawer\Settings\SettingsNavigationItem::class       => 16,
-        \App\Navigation\Drawer\Badges\BadgesNavigationItem::class           => 13,
-        \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class => 5,
-        \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class   => 7,
-        \App\Navigation\Drawer\Accounting\SuppliersNavigationItem::class    => 7,
-        \App\Navigation\Drawer\Collaboration\KBItem::class                  => 6,
-        \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
-        \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,
-        \App\Navigation\Drawer\CommunityVolunteers\CommunityVolunteersNavigationItem::class         => 3,
-        \App\Navigation\Drawer\Library\LibraryNavigationItem::class         => 10,
-        \App\Navigation\Drawer\Shop\ShopNavigationItem::class               => 8,
-        \App\Navigation\Drawer\Visitors\VisitorsNavigationItem::class       => 9,
+        \App\Navigation\Drawer\HomeNavigationItem::class,
+        \App\Navigation\Drawer\People\PeopleNavigationItem::class,
+        \App\Navigation\Drawer\Bank\BankNavigationItem::class,
+        \App\Navigation\Drawer\CommunityVolunteers\CommunityVolunteersNavigationItem::class,
+        \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class,
+        \App\Navigation\Drawer\Collaboration\KBItem::class,
+        \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class,
+        \App\Navigation\Drawer\Accounting\SuppliersNavigationItem::class,
+        \App\Navigation\Drawer\Shop\ShopNavigationItem::class,
+        \App\Navigation\Drawer\Visitors\VisitorsNavigationItem::class,
+        \App\Navigation\Drawer\Library\LibraryNavigationItem::class,
+        \App\Navigation\Drawer\Badges\BadgesNavigationItem::class,
+        \App\Navigation\Drawer\ReportsNavigationItem::class,
+        \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class,
+        \App\Navigation\Drawer\Settings\SettingsNavigationItem::class,
     ];
 
     protected $contextMenus = [
