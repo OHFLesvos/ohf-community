@@ -6,6 +6,11 @@
     <x-alert type="info">
         @lang('people.code_card_unique')
     </x-alert>
+    <div id="patience-notice" style="display:none">
+        <x-alert type="warning">
+            @lang('people.creating_code_card_be_patient')
+        </x-alert>
+    </div>
     {{ Form::open(['route' => 'bank.createCodeCard']) }}
         <div class="card shadow-sm mb-4">
             <div class="card-header">@lang('app.options')</div>
@@ -17,11 +22,6 @@
             </div>
         </div>
     {{ Form::close() }}
-    <div id="patience-notice" style="display:none">
-        <x-alert type="info">
-            @lang('people.creating_code_card_be_patient')
-        </x-alert>
-    </div>
 @endsection
 
 @push('footer')

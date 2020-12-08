@@ -1,18 +1,21 @@
 <template>
-    <div>
-        <b-form @submit.stop.prevent="onSubmit">
+    <b-form @submit.stop.prevent="onSubmit">
+        <b-card
+            :header="$t('app.data')"
+            class="shadow-sm mb-4"
+            footer-class="text-right">
             <person-form-fields
                 v-model="person"
                 :countries="countries"
             />
-            <p>
+            <template #footer>
                 <b-button variant="primary" type="submit" :disabled="busy">
                     <font-awesome-icon icon="check"/>
                     {{ $t('app.update') }}
                 </b-button>
-            </p>
-        </b-form>
-    </div>
+            </template>
+        </b-card>
+    </b-form>
 </template>
 
 <script>
@@ -20,7 +23,7 @@
 import SessionVariable from '@/sessionVariable'
 const rememberedFilter = new SessionVariable('bank.withdrawal.filter')
 
-import { BForm, BButton } from 'bootstrap-vue'
+import { BForm, BButton, BCard } from 'bootstrap-vue'
 import showSnackbar from '@/snackbar'
 import PersonFormFields from '@/components/people/PersonFormFields'
 
@@ -29,6 +32,7 @@ export default {
     components: {
         BForm,
         BButton,
+        BCard,
         PersonFormFields
     },
     props: {

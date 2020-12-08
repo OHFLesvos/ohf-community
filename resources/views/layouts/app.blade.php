@@ -104,11 +104,11 @@
                                     <x-icon :icon="$button['icon']"/>
                                     {{ $button['caption'] }}
                                 </a>
-                            @elseif($key == 'back')
+                            {{-- @elseif($key == 'back')
                                 <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
                                     <x-icon :icon="$button['icon']"/>
                                     {{ $button['caption'] }}
-                                </a>
+                                </a> --}}
                             @else
                                 @php
                                     if (isset($button['attributes'])) {

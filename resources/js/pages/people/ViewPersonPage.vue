@@ -10,7 +10,12 @@
         />
         <div class="row mb-3">
             <div class="col-md">
-                <person-properties :person="person" />
+                <b-card
+                    :header="$t('app.data')"
+                    no-body
+                    class="shadow-sm mb-4">
+                    <person-properties :person="person" />
+                </b-card>
             </div>
             <div class="col-md">
                 <person-cards-list :person="person" />
@@ -20,7 +25,6 @@
                 />
             </div>
         </div>
-        <hr>
         <p class="text-right">
             <small>{{ $t('app.created') }}: {{ person.created_at_dfh }}
                 <small class="text-muted">{{ person.created_at }}</small>
@@ -38,12 +42,14 @@ import PersonProperties from '@/components/people/PersonProperties'
 import PersonCardsList from '@/components/people/PersonCardsList'
 import PersonCouponsList from '@/components/people/PersonCouponsList'
 import InfoAlert from '@/components/alerts/InfoAlert'
+import { BCard } from 'bootstrap-vue'
 export default {
     components: {
         PersonProperties,
         PersonCardsList,
         PersonCouponsList,
-        InfoAlert
+        InfoAlert,
+        BCard
     },
     props: {
         person: {
