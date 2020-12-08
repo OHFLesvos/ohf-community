@@ -4,25 +4,29 @@
 
 @section('content')
     {!! Form::open(['route' => [ 'badges.selection' ], 'method' => 'post', 'files' => true]) !!}
-        <div class="mb-3">
-            {{ Form::bsRadioList('source', $sources, $source, __('app.source')) }}
-        </div>
-        <div id="file_upload" class="mb-3">
-            {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('app.choose_file'), __('people.file_must_be_excel_cvs_containing_columns_name_position')) }}
-        </div>
-        <template id="new_input_list_row">
-            <div class="form-row">
-                <div class="col">{{ Form::bsText('name[]', null, ['placeholder' => __('app.name')], '') }}</div>
-                <div class="col-4">{{ Form::bsText('position[]', null, ['placeholder' => __('app.position')], '') }}</div>
-                <div class="col-4">{{ Form::bsFile('picture[]', ['accept' => 'image/*'], __('app.picture')) }}</div>
-                <div class="col-auto"><button type="button" class="btn btn-success"><x-icon icon="plus-circle"/></button></div>
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">@lang('app.data_source')</div>
+            <div class="card-body pb-2">
+                <div class="mb-3">
+                    {{ Form::bsRadioList('source', $sources, $source, __('app.source')) }}
+                </div>
+                <div id="file_upload" class="mb-3">
+                    {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('app.choose_file'), __('people.file_must_be_excel_cvs_containing_columns_name_position')) }}
+                </div>
+                <template id="new_input_list_row">
+                    <div class="form-row">
+                        <div class="col">{{ Form::bsText('name[]', null, ['placeholder' => __('app.name')], '') }}</div>
+                        <div class="col-4">{{ Form::bsText('position[]', null, ['placeholder' => __('app.position')], '') }}</div>
+                        <div class="col-4">{{ Form::bsFile('picture[]', ['accept' => 'image/*'], __('app.picture')) }}</div>
+                        <div class="col-auto"><button type="button" class="btn btn-success"><x-icon icon="plus-circle"/></button></div>
+                    </div>
+                </template>
+                <div id="input_list" class="mb-3"></div>
             </div>
-        </template>
-        <div id="input_list" class="mb-3">
+            <div class="card-footer text-right">
+                <x-form.bs-submit-button :label="__('app.next')"/>
+            </div>
         </div>
-        <p>
-            <x-form.bs-submit-button :label="__('app.next')"/>
-        </p>
     {!! Form::close() !!}
 @endsection
 
