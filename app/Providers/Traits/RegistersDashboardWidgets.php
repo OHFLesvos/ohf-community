@@ -13,8 +13,9 @@ trait RegistersDashboardWidgets
             throw new Exception('$dashboardWidgets not defined in ' . __CLASS__);
         }
 
-        foreach ($this->dashboardWidgets as $widgetClass => $position) {
-            DashboardWidgets::define($widgetClass, $position);
+        $position = 0;
+        foreach ($this->dashboardWidgets as $widgetClass) {
+            DashboardWidgets::define($widgetClass, $position++);
         }
     }
 

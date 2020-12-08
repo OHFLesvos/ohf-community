@@ -17,23 +17,22 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
     use RegistersDashboardWidgets;
 
     protected $dashboardWidgets = [
-        \App\Widgets\UserManagement\UsersWidget::class    => 11,
-        \App\Widgets\Fundraising\FundraisingWidget::class => 8,
-        \App\Widgets\Accounting\TransactionsWidget::class => 7,
-        \App\Widgets\Collaboration\KBWidget::class        => 6,
-        \App\Widgets\People\PersonsWidget::class          => 1,
-        \App\Widgets\Bank\BankWidget::class               => 0,
-        \App\Widgets\Visitors\VisitorsWidget::class       => 0,
-        \App\Widgets\CommunityVolunteers\CommunityVolunteersWidget::class => 5,
-        \App\Widgets\Library\LibraryWidget::class         => 4,
-        \App\Widgets\Shop\ShopWidget::class               => 2,
+        \App\View\Widgets\BankWidget::class,
+        \App\View\Widgets\VisitorsWidget::class,
+        \App\View\Widgets\PeopleWidget::class,
+        \App\View\Widgets\ShopWidget::class,
+        \App\View\Widgets\LibraryWidget::class,
+        \App\View\Widgets\CommunityVolunteersWidget::class,
+        \App\View\Widgets\ArticlesWidget::class,
+        \App\View\Widgets\AccountingWidget::class,
+        \App\View\Widgets\FundraisingWidget::class,
+        \App\View\Widgets\UsersWidget::class,
     ];
 
     /**

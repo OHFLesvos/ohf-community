@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Widgets\Widget;
+use App\View\Widgets\Widget;
 
 class DashboardWidgetsService
 {
