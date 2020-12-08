@@ -436,4 +436,5 @@ return [
     'changelog' => 'Changelog',
     'assigned' => 'Assigned',
     'conditions' => 'Conditions',
+    'options' => 'Options',
  ];

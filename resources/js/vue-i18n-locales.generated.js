@@ -527,7 +527,8 @@ export default {
             "details": "Details",
             "changelog": "Änderungshistorie",
             "assigned": "Zugewiesen",
-            "conditions": "Umstände"
+            "conditions": "Umstände",
+            "options": "Optionen"
         },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1753,7 +1754,8 @@ export default {
             "details": "Details",
             "changelog": "Changelog",
             "assigned": "Assigned",
-            "conditions": "Conditions"
+            "conditions": "Conditions",
+            "options": "Options"
         },
         "auth": {
             "failed": "These credentials do not match our records.",

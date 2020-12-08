@@ -436,4 +436,5 @@ return [
     'changelog' => 'Änderungshistorie',
     'assigned' => 'Zugewiesen',
     'conditions' => 'Umstände',
+    'options' => 'Optionen',
 ];

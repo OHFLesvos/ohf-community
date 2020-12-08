@@ -2,6 +2,7 @@
 
 namespace App\Navigation\ContextButtons\Bank;
 
+use App\Models\Bank\CouponType;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -16,7 +17,7 @@ class CouponEditContextButtons implements ContextButtons
                 'url' => route('bank.coupons.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('viewAny'),
+                'authorized' => Auth::user()->can('viewAny', CouponType::class),
             ],
             'delete' => [
                 'url' => route('bank.coupons.destroy', $coupon),
