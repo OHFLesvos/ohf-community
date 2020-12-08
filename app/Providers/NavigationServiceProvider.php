@@ -30,7 +30,6 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     protected $contextMenus = [
-        'cmtyvol.index'   => \App\Navigation\ContextMenu\CommunityVolunteers\CommunityVolunteersContextMenu::class,
         'accounting.transactions.index'       => \App\Navigation\ContextMenu\Accounting\AccountingContextMenu::class,
     ];
 
@@ -109,8 +108,7 @@ class NavigationServiceProvider extends ServiceProvider
         'cmtyvol.show'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersShowContextButtons::class,
         'cmtyvol.edit'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersEditContextButtons::class,
         'cmtyvol.create'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
-        'cmtyvol.import'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
-        'cmtyvol.export'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
+        'cmtyvol.import-export'    => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
         'cmtyvol.report'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
         'cmtyvol.responsibilities.index'  => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesIndexContextButtons::class,
         'cmtyvol.responsibilities.create' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesCreateContextButtons::class,

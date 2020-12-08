@@ -16,8 +16,7 @@ use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\Collaboration\ArticleController;
 use App\Http\Controllers\Collaboration\SearchController;
 use App\Http\Controllers\Collaboration\TagController;
-use App\Http\Controllers\CommunityVolunteers\ExportController;
-use App\Http\Controllers\CommunityVolunteers\ImportController;
+use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\Fundraising\FundraisingController;
@@ -407,28 +406,22 @@ Route::middleware(['auth', 'language'])
                     ->name('report')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                // Export view
-                Route::get('export', [ExportController::class, 'export'])
-                    ->name('export')
-                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
+                // Import & Export view
+                Route::get('import-export', [CommunityVolunteersImportExportController::class, 'index'])
+                    ->name('import-export');
 
                 // Export download
-                Route::post('doExport', [ExportController::class, 'doExport'])
+                Route::post('doExport', [CommunityVolunteersImportExportController::class, 'doExport'])
                     ->name('doExport')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                // Import view
-                Route::get('import', [ImportController::class, 'import'])
-                    ->name('import')
-                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
-
                 // Import upload
-                Route::post('doImport', [ImportController::class, 'doImport'])
+                Route::post('doImport', [CommunityVolunteersImportExportController::class, 'doImport'])
                     ->name('doImport')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Download vCard
-                Route::get('{cmtyvol}/vcard', [ExportController::class, 'vcard'])
+                Route::get('{cmtyvol}/vcard', [CommunityVolunteersImportExportController::class, 'vcard'])
                     ->name('vcard');
 
                 // Responsibilities resource

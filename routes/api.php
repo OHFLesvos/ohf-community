@@ -14,6 +14,7 @@ use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsContr
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
 use App\Http\Controllers\CommunityVolunteers\ImportController;
+use App\Http\Controllers\CommunityVolunteers\ImportExportController;
 use App\Http\Controllers\Fundraising\API\DonationController;
 use App\Http\Controllers\Fundraising\API\DonorCommentsController;
 use App\Http\Controllers\Fundraising\API\DonorController;
@@ -389,7 +390,7 @@ Route::middleware(['auth', 'language'])
                     ->name('genderDistribution')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                Route::post('getHeaderMappings', [ImportController::class, 'getHeaderMappings'])
+                Route::post('getHeaderMappings', [ImportExportController::class, 'getHeaderMappings'])
                     ->name('getHeaderMappings')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
             });

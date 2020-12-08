@@ -40,13 +40,12 @@ class BadgeMakerController extends Controller
         return collect($sources)->filter()->where('allowed', true)->pluck('label', 'key');
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $request->session()->forget(self::BADGE_ITEMS_SESSION_KEY);
 
         $sources = self::getSources();
-        $source = $request->has('source') && $sources->keys()->contains($request->source)
-            ? $request->source
-            : $sources->keys()->first();
+        $source = $sources->keys()->first();
 
         return view('badges.index', [
             'source' => $source,

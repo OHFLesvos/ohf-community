@@ -20,11 +20,11 @@ class PeopleIndexContextButtons implements ContextButtons
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', Person::class),
             ],
-            'report' => [
-                'url' => route('reporting.people'),
-                'caption' => __('app.report'),
-                'icon' => 'chart-line',
-                'authorized' => Gate::allows('view-people-reports'),
+            'import-export' => [
+                'url' => route('people.import-export'),
+                'caption' => __('app.import_export'),
+                'icon' => 'sync',
+                'authorized' => Auth::user()->can('export', Person::class) || Auth::user()->can('create', Person::class),
             ],
             'maintenance' => [
                 'url' => route('people.maintenance'),
@@ -32,11 +32,11 @@ class PeopleIndexContextButtons implements ContextButtons
                 'icon' => 'eraser',
                 'authorized' => Auth::user()->can('cleanup', Person::class),
             ],
-            'import-export' => [
-                'url' => route('people.import-export'),
-                'caption' => __('app.import_export'),
-                'icon' => 'sync',
-                'authorized' => Auth::user()->can('export', Person::class) || Auth::user()->can('create', Person::class),
+            'report' => [
+                'url' => route('reporting.people'),
+                'caption' => __('app.report'),
+                'icon' => 'chart-line',
+                'authorized' => Gate::allows('view-people-reports'),
             ],
         ];
     }

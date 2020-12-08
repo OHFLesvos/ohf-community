@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\CommunityVolunteers;
 
 use App\Exports\CommunityVolunteers\CommunityVolunteersExport;
-use App\Http\Controllers\Export\ExportableActions;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,24 +11,18 @@ use Illuminate\Validation\Rule;
 use JeroenDesloovere\VCard\VCard;
 use ZipStream\ZipStream;
 use ZipStream\Option\Archive;
+use App\Http\Requests\CommunityVolunteers\ImportCommunityVolunteers;
+use App\Imports\CommunityVolunteers\CommunityVolunteersImport;
+use App\Imports\CommunityVolunteers\HeadingRowImport;
+use App\Models\ImportFieldMapping;
 
-class ExportController extends BaseController
+class ImportExportController extends BaseController
 {
-    use ExportableActions;
-
-    protected function exportAuthorize()
+    public function index()
     {
-        $this->authorize('export', CommunityVolunteer::class);
-    }
-
-    protected function exportView(): string
-    {
-        return 'cmtyvol.export';
-    }
-
-    protected function exportViewArgs(): array
-    {
-        return [
+        return view('cmtyvol.import-export', [
+            'formats' => $this->getFormats(),
+            'format' => array_keys($this->getFormats())[0],
             'work_statuses' => $this->getWorkStatuses()->toArray(),
             'work_status' => session('cmtyvol.export.workStatus', 'active'),
             'columnt_sets' => $this->getColumnSets()
@@ -40,12 +33,117 @@ class ExportController extends BaseController
                 ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
                 ->toArray(),
             'sorting' => session('cmtyvol.export.sorting', $this->getSorters()->keys()->first()),
+        ]);
+    }
+
+    private function getFormats()
+    {
+        return [
+            'xlsx' => __('app.excel_xls'),
+            'csv' => __('app.comma_separated_values_csv'),
+            'tsv' => __('app.tab_separated_values_tsv'),
+            'pdf' => __('app.pdf_pdf'),
         ];
     }
 
-    protected function exportValidateArgs(): array
+    public function doImport(ImportCommunityVolunteers $request)
     {
-        return [
+        $this->authorize('import', CommunityVolunteer::class);
+
+        $fields = self::getImportFields($this->getFields());
+
+        if ($request->map != null) {
+            collect($request->map)->each(fn ($m) => ImportFieldMapping::updateOrCreate([
+                'model' => 'cmtyvol',
+                'from' => $m['from'],
+            ], [
+                'to' => $m['to'],
+                'append' => isset($m['append']),
+            ]));
+
+            $fields = collect($request->map)->filter(fn ($m) => $m['to'] != null)
+                ->map(fn ($m) => [
+                    'key' => $m['to'],
+                    'labels' => collect([ strtolower($m['from']) ]),
+                    'append' => isset($m['append']),
+                    'assign' => $fields->firstWhere('key', $m['to'])['assign'],
+                    'get' => $fields->firstWhere('key', $m['to'])['get'],
+                ]);
+        }
+
+        $importer = new CommunityVolunteersImport($fields);
+        $importer->import($request->file('file'));
+
+        return redirect()
+            ->route('cmtyvol.index')
+            ->with('success', __('app.import_successful'));
+    }
+
+    private static function getImportFields($fields)
+    {
+        return collect($fields)
+            ->where('overview_only', false)
+            ->filter(fn ($f) => isset($f['assign']) && is_callable($f['assign']))
+            ->map(fn ($f) => [
+                'key' => $f['label_key'],
+                'labels' => self::getAllTranslations($f['label_key'])
+                    ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
+                    ->map(fn ($l) => strtolower($l)),
+                'append' => false,
+                'assign' => $f['assign'],
+                'get' => $f['value'],
+            ]);
+    }
+
+    public function getHeaderMappings(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file',
+        ]);
+
+        $table_headers = collect((new HeadingRowImport)->toArray($request->file('file'))[0][0]);
+
+        $fields = self::getImportFields($this->getFields());
+
+        $variations = $fields->mapWithKeys(fn ($f) =>
+            $f['labels']->mapWithKeys(fn ($l) => [ $l => $f['key'] ])
+        );
+
+        $cached_mappings = ImportFieldMapping::model('cmtyvol')
+            ->whereIn('from', $table_headers)
+            ->get();
+
+        $defaults = $table_headers->mapWithKeys(fn ($f) => [
+            $f => $cached_mappings->contains('from', $f) ? [
+                'value' => $cached_mappings->firstWhere('from', $f)['to'],
+                'append' => $cached_mappings->firstWhere('from', $f)['append'],
+            ] : [
+                'value' => $variations->get(strtolower($f)),
+                'append' => false,
+            ],
+        ]);
+
+        $available = collect([ null => '-- ' . __('app.dont_import') . ' --' ])
+            ->merge($fields->mapWithKeys(fn ($f) => [ $f['key'] => __($f['key']) ]));
+
+        return [ 'headers' => $table_headers, 'available' => $available, 'defaults' => $defaults ];
+    }
+
+    /**
+     * Prepare and download export as file.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function doExport(Request $request)
+    {
+        $this->authorize('export', CommunityVolunteer::class);
+
+        $request->validate([
+            'format' => [
+                'required',
+                Rule::in(array_keys($this->getFormats())),
+            ],
             'work_status' => [
                 'required',
                 Rule::in($this->getWorkStatuses()->keys()),
@@ -64,19 +162,19 @@ class ExportController extends BaseController
             ],
             'fit_to_page' => 'boolean',
             'include_portraits' => 'boolean',
-        ];
+        ]);
+
+        return $this->exportDownload($request,
+            $this->exportExportable($request),
+            $this->exportFilename($request),
+            $this->exportFilenameExtension($request)
+        );
     }
 
-    protected function exportFilename(Request $request): string
-    {
-        $workStatus = $this->getWorkStatuses()->get($request->work_status);
-        return __('cmtyvol.community_volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
-    }
-
-    protected function exportExportable(Request $request)
+    private function exportExportable(Request $request)
     {
         $columnSet = $this->getColumnSets()[$request->column_set];
-        $fields = self::filterFieldsByColumnSet($this->getFields(), $columnSet);
+        $fields = $this->filterFieldsByColumnSet($this->getFields(), $columnSet);
         $workStatus = $request->work_status;
         $sorting = $this->getSorters()[$request->sorting];
 
@@ -90,7 +188,7 @@ class ExportController extends BaseController
         return $export;
     }
 
-    private static function filterFieldsByColumnSet(array $fields, array $columnSet)
+    private function filterFieldsByColumnSet(array $fields, array $columnSet)
     {
         return collect($fields)
             ->where('overview_only', false)
@@ -107,7 +205,25 @@ class ExportController extends BaseController
             });
     }
 
-    protected function exportDownload(Request $request, $export, $file_name, $file_ext)
+    private function exportFilename(Request $request): string
+    {
+        $workStatus = $this->getWorkStatuses()->get($request->work_status);
+        return __('cmtyvol.community_volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
+    }
+
+    private function exportFilenameExtension(Request $request): string
+    {
+        if ($request->format == 'csv') {
+            return 'csv';
+        } elseif ($request->format == 'tsv') {
+            return 'tsv';
+        } elseif ($request->format == 'pdf') {
+            return 'pdf';
+        }
+        return 'xlsx';
+    }
+
+    private function exportDownload(Request $request, $export, $file_name, $file_ext)
     {
         // Remember parameters in session
         session(['cmtyvol.export.work_status' => $request->work_status]);
@@ -154,9 +270,6 @@ class ExportController extends BaseController
 
         // define vcard
         $vcard = new VCard();
-        // if ($communityVolunteer->company != null) {
-        //     $vcard->addCompany($communityVolunteer->company);
-        // }
         $vcard->addCompany(config('app.name'));
 
         if ($cmtyvol->family_name != null || $cmtyvol->first_name != null) {
