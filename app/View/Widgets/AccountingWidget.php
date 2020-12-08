@@ -12,19 +12,14 @@ class AccountingWidget implements Widget
         return Gate::allows('view-accounting-summary');
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.accounting';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.accounting', [
             'wallets' => Wallet::orderBy('is_default', 'desc')
                 ->orderBy('name')
                 ->get()
                 ->filter(fn ($wallet) => request()->user()->can('view', $wallet)),
             'has_multiple_wallets' => Wallet::count() > 1,
-        ];
+        ]);
     }
 }

@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         $widgets = DashboardWidgets::collection()
             ->filter(fn ($widget) => $widget->authorize())
-            ->map(fn ($widget) => view($widget->view(), $widget->args())->render());
+            ->map(fn ($widget) => $widget->render()->render());
 
         return view('welcome', [
             'widgets' => $widgets,

@@ -13,18 +13,12 @@ class ShopWidget implements Widget
         return Gate::allows('validate-shop-coupons');
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.shop';
-    }
-
-    public function args(): array
-    {
-        $redeemed_cards = CouponHandout::whereDate('code_redeemed', Carbon::today())
-            ->orderBy('updated_at', 'desc')
-            ->count();
-        return [
-            'redeemed_cards' => $redeemed_cards,
-        ];
+        return view('widgets.shop', [
+            'redeemed_cards' => CouponHandout::whereDate('code_redeemed', Carbon::today())
+                ->orderBy('updated_at', 'desc')
+                ->count(),
+        ]);
     }
 }

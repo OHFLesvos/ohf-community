@@ -12,16 +12,11 @@ class ArticlesWidget implements Widget
         return Auth::user()->can('viewAny', WikiArticle::class);
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.articles';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.articles',  [
             'num_articles' => WikiArticle::count(),
             'latest_article' => WikiArticle::orderBy('updated_at', 'DESC')->first(),
-        ];
+        ]);
     }
 }

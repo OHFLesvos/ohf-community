@@ -13,14 +13,9 @@ class LibraryWidget implements Widget
         return Auth::user()->can('operate-library');
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.library';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.library', [
             'num_borrowers' => Person::query()
                 ->whereHas('bookLendings', fn ($query) => $query->whereNull('returned_date'))
                 ->count(),
@@ -28,6 +23,6 @@ class LibraryWidget implements Widget
                 ->whereHas('lendings', fn ($query) => $query->whereNull('returned_date'))
                 ->count(),
             'num_books' => LibraryBook::count(),
-        ];
+        ]);
     }
 }

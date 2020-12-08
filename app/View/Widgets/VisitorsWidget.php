@@ -12,14 +12,9 @@ class VisitorsWidget implements Widget
         return Gate::allows('register-visitors');
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.visitors';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.visitors', [
             'current_visitors' => Visitor::query()
                 ->whereNull('left_at')
                 ->whereDate('entered_at', today())
@@ -27,6 +22,6 @@ class VisitorsWidget implements Widget
             'todays_visitors' => Visitor::query()
                 ->whereDate('entered_at', today())
                 ->count(),
-        ];
+        ]);
     }
 }

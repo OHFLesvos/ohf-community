@@ -12,16 +12,11 @@ class UsersWidget implements Widget
         return Auth::user()->can('viewAny', User::class);
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.users';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.users', [
             'num_users' => User::count(),
             'latest_user' => User::orderBy('created_at', 'desc')->first(),
-        ];
+        ]);
     }
 }

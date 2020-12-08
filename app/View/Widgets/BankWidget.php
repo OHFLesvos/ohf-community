@@ -24,16 +24,11 @@ class BankWidget implements Widget
         return Gate::allows('do-bank-withdrawals') || Gate::allows('view-bank-reports');
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.bank';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.bank', [
             'persons' => $this->stats->getNumberOfPersonsServed(),
             'coupons' => $this->stats->getNumberOfCouponsHandedOut(),
-        ];
+        ]);
     }
 }

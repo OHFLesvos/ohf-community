@@ -13,16 +13,11 @@ class PeopleWidget implements Widget
         return Auth::user()->can('viewAny', Person::class);
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.people';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.people', [
             'num_people' => Person::count(),
             'num_people_added_today' => Person::whereDate('created_at', '=', Carbon::today())->count(),
-        ];
+        ]);
     }
 }

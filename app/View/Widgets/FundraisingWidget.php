@@ -13,18 +13,13 @@ class FundraisingWidget implements Widget
         return request()->user()->can('view-fundraising');
     }
 
-    public function view(): string
+    public function render()
     {
-        return 'widgets.fundraising';
-    }
-
-    public function args(): array
-    {
-        return [
+        return view('widgets.fundraising', [
             'num_donors' => Donor::count(),
             'num_donations_month' => Donation::whereDate('date', '>', Carbon::now()->startOfMonth())->count(),
             'num_donations_year' => Donation::whereDate('date', '>', Carbon::now()->startOfYear())->count(),
             'num_donations_total' => Donation::count(),
-        ];
+        ]);
     }
 }
