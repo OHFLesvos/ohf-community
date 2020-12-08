@@ -9,22 +9,22 @@ class ReportsController extends Controller
 {
     private array $reports = [
         'monthly_summary' => [
-            'route' => 'reporting.monthly-summary',
+            'route' => 'reports.people.monthly-summary',
             'icon' => 'book',
             'gate' => 'view-people-reports',
         ],
         'people' => [
-            'route' => 'reporting.people',
+            'route' => 'reports.people.people',
             'icon' => 'users',
             'gate' => 'view-people-reports',
         ],
         'bank-withdrawals' => [
-            'route' => 'reporting.bank.withdrawals',
+            'route' => 'reports.bank.withdrawals',
             'icon' => 'id-card',
             'gate' => 'view-bank-reports',
         ],
         'bank-visitors' => [
-            'route' => 'reporting.bank.visitors',
+            'route' => 'reports.bank.visitors',
             'icon' => 'users',
             'gate' => 'view-bank-reports',
         ],

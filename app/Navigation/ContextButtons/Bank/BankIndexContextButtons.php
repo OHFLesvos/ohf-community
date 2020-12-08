@@ -35,12 +35,6 @@ class BankIndexContextButtons implements ContextButtons
                 'icon' => 'ticket-alt',
                 'authorized' => Auth::user()->can('viewAny', CouponType::class),
             ],
-            'report' => [
-                'url' => route('reporting.bank.withdrawals'),
-                'caption' => __('app.report'),
-                'icon' => 'chart-line',
-                'authorized' => Gate::allows('view-bank-reports'),
-            ],
             'help' => $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),
                 'caption' => null,

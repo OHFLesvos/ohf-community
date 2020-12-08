@@ -45,14 +45,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('language')->group(function () {
 
     Route::middleware('auth')->group(function () {
+
         // Home (Dashboard)
         Route::get('/', [HomeController::class, 'index'])
             ->name('home');
 
-        // Reporting
-        Route::get('reports', [ReportsController::class, 'index'])
-            ->name('reports.index')
-            ->middleware('can:view-reports');
     });
 
     // Authentication
@@ -301,20 +298,6 @@ Route::middleware(['auth', 'language'])
             ->name('people.import')
             ->middleware('can:create,App\Models\People\Person');
         Route::resource('people', PeopleController::class);
-
-        // Reporting
-        Route::prefix('reporting')
-            ->middleware(['can:view-people-reports'])
-            ->group(function () {
-
-                // Monthly summary report
-                Route::view('monthly-summary', 'people.reporting.monthly-summary')
-                    ->name('reporting.monthly-summary');
-
-                // People report
-                Route::view('people', 'people.reporting.people')
-                    ->name('reporting.people');
-            });
     });
 
 //
@@ -364,17 +347,6 @@ Route::middleware(['auth', 'language'])
 
                 // Coupons
                 Route::resource('coupons', CouponTypesController::class);
-            });
-
-        // Reporting
-        Route::middleware('can:view-bank-reports')
-            ->name('reporting.bank.')
-            ->prefix('reporting/bank')
-            ->group(function () {
-                Route::view('withdrawals', 'bank.reporting.withdrawals')
-                    ->name('withdrawals');
-                Route::view('visitors', 'bank.reporting.visitors')
-                    ->name('visitors');
             });
     });
 
@@ -471,6 +443,40 @@ Route::middleware(['auth', 'language'])
         Route::view('/{any}', 'visitors.index')
             ->where('any', '.*')
             ->name('any');
+    });
+
+// Reports
+Route::prefix('reports')
+    ->name('reports.')
+    ->middleware(['auth', 'language'])
+    ->group(function () {
+
+        // Reports overview
+        Route::get('', [ReportsController::class, 'index'])
+            ->name('index')
+            ->middleware('can:view-reports');
+
+        // Reports: People
+        Route::prefix('people')
+            ->name('people.')
+            ->middleware(['can:view-people-reports'])
+            ->group(function () {
+                Route::view('monthly-summary', 'reports.people.monthly-summary')
+                    ->name('monthly-summary');
+                Route::view('people', 'reports.people.people')
+                    ->name('people');
+            });
+
+        // Reports: Bank
+        Route::prefix('bank')
+            ->name('bank.')
+            ->middleware('can:view-bank-reports')
+            ->group(function () {
+                Route::view('withdrawals', 'reports.bank.withdrawals')
+                    ->name('withdrawals');
+                Route::view('visitors', 'reports.bank.visitors')
+                    ->name('visitors');
+            });
     });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

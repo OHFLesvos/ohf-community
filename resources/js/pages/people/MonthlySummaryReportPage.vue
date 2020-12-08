@@ -3,7 +3,7 @@
 
         <div class="row">
             <div class="col-sm">
-                <h2 class="display-4 mb-4">{{ currentMonthName }}</h2>
+                <h3 class="mb-4">{{ currentMonthName }}</h3>
             </div>
             <div
                 v-if="data.months && Object.keys(data.months).length > 0"

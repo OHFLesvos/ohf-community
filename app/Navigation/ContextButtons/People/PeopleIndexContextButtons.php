@@ -5,7 +5,6 @@ namespace App\Navigation\ContextButtons\People;
 use App\Models\People\Person;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class PeopleIndexContextButtons implements ContextButtons
@@ -31,12 +30,6 @@ class PeopleIndexContextButtons implements ContextButtons
                 'caption' => __('app.maintenance'),
                 'icon' => 'eraser',
                 'authorized' => Auth::user()->can('cleanup', Person::class),
-            ],
-            'report' => [
-                'url' => route('reporting.people'),
-                'caption' => __('app.report'),
-                'icon' => 'chart-line',
-                'authorized' => Gate::allows('view-people-reports'),
             ],
         ];
     }

@@ -85,10 +85,10 @@ class NavigationServiceProvider extends ServiceProvider
         'people.maintenance'              => \App\Navigation\ContextButtons\People\PeopleMaintenanceContextButtons::class,
         'people.import-export'            => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
 
-        'reporting.monthly-summary'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.people'                => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.bank.visitors'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.bank.withdrawals'      => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.people.monthly-summary'  => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.people.people'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.bank.visitors'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.bank.withdrawals'      => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
 
         'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
         'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
