@@ -485,9 +485,19 @@ Route::prefix('reports')
         // Reports: Visitors
         Route::prefix('visitors')
             ->name('visitors.')
+            ->middleware('can:register-visitors')
             ->group(function () {
                 Route::view('checkins', 'reports.visitors.checkins')
                     ->name('checkins');
+            });
+
+        // Reports: Library
+        Route::prefix('library')
+            ->name('library.')
+            ->middleware('can:operate-library')
+            ->group(function () {
+                Route::view('books', 'reports.library.books')
+                    ->name('books');
             });
     });
 

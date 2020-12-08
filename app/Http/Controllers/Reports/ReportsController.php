@@ -46,7 +46,7 @@ class ReportsController extends Controller
         ],
         [
             'message_key' => 'reports.library',
-            'url' => '/library/report',
+            'route' => 'reports.library.books',
             'icon' => 'book',
             'gate' => 'operate-library',
         ],

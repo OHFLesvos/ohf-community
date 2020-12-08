@@ -21,7 +21,6 @@ import BookRegisterPage from '@/pages/library/BookRegisterPage'
 import BookEditPage from '@/pages/library/BookEditPage'
 import LendingBookPage from '@/pages/library/LendingBookPage'
 import ExportPage from '@/pages/library/ExportPage'
-import ReportPage from '@/pages/library/ReportPage'
 
 const router = new VueRouter({
     mode: 'history',
@@ -49,12 +48,6 @@ router.addRoutes([
                         icon: 'plus-circle',
                         text: i18n.t('library.register_new_book'),
                         show: can('create-books')
-                    },
-                    {
-                        to: { name: 'library.report' },
-                        icon: 'chart-pie',
-                        text: i18n.t('app.report'),
-                        show: can('view-books')
                     },
                     {
                         to: { name: 'library.export' },
@@ -202,27 +195,6 @@ router.addRoutes([
         props: {
             header: {
                 title: i18n.t('app.export'),
-                buttons: [
-                    {
-                        click: () => router.back(),
-                        icon: 'times-circle',
-                        text: i18n.t('app.close'),
-                    }
-                ]
-            }
-        }
-    },
-    {
-        // Report
-        path: '/report',
-        name: 'library.report',
-        components: {
-            default: ReportPage,
-            header: PageHeader,
-        },
-        props: {
-            header: {
-                title: i18n.t('app.report'),
                 buttons: [
                     {
                         click: () => router.back(),
