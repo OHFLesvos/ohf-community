@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.report') . ': ' . __('reporting.community_volunteers'))
+@section('title', __('app.report') . ': ' . __('reports.community_volunteers'))
 
 @section('content')
     <div id="cmtyvol-app">

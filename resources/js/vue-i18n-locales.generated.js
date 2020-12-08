@@ -43,6 +43,7 @@ export default {
             "paid_from": "Bezahlt aus",
             "num_transactions_booked": "{num} Transaktionen wurden verbucht.",
             "num_transactions_synced": "{num} Transaktionen wurden synchronisiert.",
+            "webling": "Webling",
             "book_to_webling": "Nach Webling verbuchen",
             "no_months_with_unbooked_transactions_found": "Keine Monate mit unverbuchten Transaktionen gefunden.",
             "please_choose_month_with_unbooked_transactions_in_open_booking_period": "Bitte wähle eine Monat mit unverbuchten Transaktionen in einer offenen Buchungsperiode:",
@@ -205,7 +206,6 @@ export default {
             "info": "Info",
             "debug": "Debug",
             "view": "Anzeigen",
-            "user_witzh_access_to_sensitive_data": "Benutzer mit Zugang zu sensitiven Daten",
             "type": "Typ",
             "author": "Autor",
             "privacy_policy": "Datenschutzerklärung",
@@ -580,8 +580,7 @@ export default {
             "has_not_started_yet": "Dieser Community Volunteer startet am {date}.",
             "left_on_date": "Dieser Community Volunteer verliess uns am {date}.",
             "will_leave_on_date": "Dieser Community Volunteer wird uns am {date} verlassen.",
-            "import_data": "Community Volunteer-Daten importieren",
-            "export_data": "Community Volunteer-Daten exportieren",
+            "import_export_data": "Community Volunteer-Daten importieren & exportieren",
             "edit": "Community Volunteer bearbeiten",
             "updated": "Community Volunteer aktualisiert.",
             "really_delete": "Diesen Community Volunteer wirklich löschen?",
@@ -924,16 +923,14 @@ export default {
             "register_visitors": "Besucher: Registrieren",
             "export_visitors": "Besucher: Exportieren"
         },
-        "reporting": {
+        "reports": {
             "monthly_summary": "Monatliche Zusammenfassung",
             "people": "Personen",
             "bank-visitors": "Bank: Besucher",
             "bank-withdrawals": "Bank: Auszahlungen",
             "fundraising": "Spender & Spenden",
             "library": "Bibliothek",
-            "user-privileges": "Benutzerberechtigungen",
-            "role-privileges": " Rollenberechtigungen",
-            "privacy": "Datenschutzbericht"
+            "community_volunteers": "Community Volunteers"
         },
         "responsibilities": {
             "responsibility": "Verantwortung",
@@ -1270,6 +1267,7 @@ export default {
             "paid_from": "Paid from",
             "num_transactions_booked": "{num} transactions have been booked.",
             "num_transactions_synced": "{num} transactions have been synchronized.",
+            "webling": "Webling",
             "book_to_webling": "Book to Webling",
             "no_months_with_unbooked_transactions_found": "No months with unbooked transactions found.",
             "please_choose_month_with_unbooked_transactions_in_open_booking_period": "Please choose a month with unbooked transactions in an open booking period:",
@@ -1434,7 +1432,6 @@ export default {
             "info": "Info",
             "debug": "Debug",
             "view": "View",
-            "user_witzh_access_to_sensitive_data": "Users with access to sensitive data",
             "type": "Type",
             "author": "Author",
             "privacy_policy": "Privacy Policy",
@@ -1755,7 +1752,8 @@ export default {
             "changelog": "Changelog",
             "assigned": "Assigned",
             "conditions": "Conditions",
-            "options": "Options"
+            "options": "Options",
+            "data_source": "Data source"
         },
         "auth": {
             "failed": "These credentials do not match our records.",
@@ -1808,8 +1806,7 @@ export default {
             "has_not_started_yet": "This community volunteer will start on {date}.",
             "left_on_date": "This community volunteer left on {date}.",
             "will_leave_on_date": "This community volunteer will leave on {date}.",
-            "import_data": "Import community volunteer data",
-            "export_data": "Export community volunteer data",
+            "import_export_data": "Import & export community volunteer data",
             "edit": "Edit community volunteer",
             "updated": "Community volunteer updated.",
             "really_delete": "Really delete this community volunteer?",
@@ -2155,16 +2152,15 @@ export default {
             "register_visitors": "Visitors: Register",
             "export_visitors": "Visitors: Export"
         },
-        "reporting": {
+        "reports": {
             "monthly_summary": "Monthly summary",
             "people": "People",
             "bank-visitors": "Bank: Visitors",
             "bank-withdrawals": "Bank: Withdrawals",
             "fundraising": "Fundraising",
             "library": "Library",
-            "user-privileges": "User privileges",
-            "role-privileges": "Role privileges",
-            "privacy": "Privacy report"
+            "community_volunteers": "Community Volunteers",
+            "visitor_checkins": "Visitor check-ins"
         },
         "responsibilities": {
             "responsibility": "Responsibility",

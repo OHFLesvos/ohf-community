@@ -9,49 +9,49 @@ class ReportsController extends Controller
 {
     private array $reports = [
         [
-            'message_key' => 'reporting.monthly_summary',
+            'message_key' => 'reports.monthly_summary',
             'route' => 'reports.people.monthly-summary',
             'icon' => 'book',
             'gate' => 'view-people-reports',
         ],
         [
-            'message_key' => 'reporting.people',
+            'message_key' => 'reports.people',
             'route' => 'reports.people.people',
             'icon' => 'users',
             'gate' => 'view-people-reports',
         ],
         [
-            'message_key' => 'reporting.bank-withdrawals',
+            'message_key' => 'reports.bank-withdrawals',
             'route' => 'reports.bank.withdrawals',
             'icon' => 'id-card',
             'gate' => 'view-bank-reports',
         ],
         [
-            'message_key' => 'reporting.bank-visitors',
+            'message_key' => 'reports.bank-visitors',
             'route' => 'reports.bank.visitors',
             'icon' => 'users',
             'gate' => 'view-bank-reports',
         ],
         [
-            'message_key' => 'reporting.community_volunteers',
+            'message_key' => 'reports.community_volunteers',
             'route' => 'reports.cmtyvol.report',
             'icon' => 'chart-bar',
             'gate' => 'view-community-volunteer-reports',
         ],
         [
-            'message_key' => 'reporting.fundraising',
+            'message_key' => 'reports.fundraising',
             'url' => '/fundraising/report',
             'icon' => 'donate',
             'gate' => 'view-fundraising-reports',
         ],
         [
-            'message_key' => 'reporting.library',
+            'message_key' => 'reports.library',
             'url' => '/library/report',
             'icon' => 'book',
             'gate' => 'operate-library',
         ],
         [
-            'message_key' => 'reporting.visitor_checkins',
+            'message_key' => 'reports.visitor_checkins',
             'route' => 'reports.visitors.checkins',
             'icon' => 'door-open',
             'gate' => 'register-visitors',
