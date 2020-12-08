@@ -41,7 +41,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        $this->registerSuperAdminAccess();
+        // TODO: Skipped for now as it ignores any invalid policies
+        // $this->registerSuperAdminAccess();
         $this->registerPermissionGateMappings();
     }
 
@@ -60,6 +61,9 @@ class AuthServiceProvider extends ServiceProvider
         if (is_array($mapping)) {
             foreach ($mapping as $gate => $permission) {
                 Gate::define($gate, function (User $user) use ($permission) {
+                    if ($user->isSuperAdmin()) {
+                        return true;
+                    }
                     if (is_array($permission)) {
                         foreach ($permission as $pe) {
                             if ($user->hasPermission($pe)) {

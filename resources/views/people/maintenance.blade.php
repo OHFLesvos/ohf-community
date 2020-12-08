@@ -3,7 +3,7 @@
 @section('title', __('app.maintenance'))
 
 @section('content')
-    {!! Form::open(['route' => ['bank.updateMaintenance']]) !!}
+    {!! Form::open(['route' => ['people.updateMaintenance']]) !!}
         <div class="card shadow-sm mb-4">
             <div class="card-header">@lang('people.cleanup_database')</div>
             <div class="card-body">

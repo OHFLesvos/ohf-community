@@ -28,6 +28,24 @@ class BankIndexContextButtons implements ContextButtons
                 'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-bank-reports'),
             ],
+            'code-card' => [
+                'url' => route('bank.prepareCodeCard'),
+                'caption' => __('people.code_cards'),
+                'icon' => 'qrcode',
+                'authorized' => Gate::allows('do-bank-withdrawals'),
+            ],
+            'export' => [
+                'url' => route('bank.export'),
+                'caption' => __('app.export'),
+                'icon' => 'download',
+                'authorized' => Auth::user()->can('export', Person::class),
+            ],
+            'coupons' => [
+                'url' => route('coupons.index'),
+                'caption' => __('coupons.coupons'),
+                'icon' => 'ticket-alt',
+                'authorized' => Gate::allows('configure-bank'),
+            ],
             'help' => $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),
                 'caption' => null,

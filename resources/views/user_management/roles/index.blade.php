@@ -1,11 +1,10 @@
-@extends('user_management.layouts.user-roles')
+@extends('layouts.app')
 
-@section('title', __('app.users_and_roles'))
+@section('title', __('app.roles'))
 
-@section('wrapped-content')
-
+@section('content')
     @if(! $roles->isEmpty())
-        <table class="table table-sm table-bordered table-striped table-hover">
+        <table class="table table-hover bg-white">
             <thead>
                 <tr>
                     <th>@lang('app.name')</th>
@@ -36,5 +35,4 @@
             @lang('app.no_roles_found')
         </x-alert>
     @endif
-
 @endsection

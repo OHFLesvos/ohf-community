@@ -30,8 +30,6 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     protected $contextMenus = [
-        'people.index'           => \App\Navigation\ContextMenu\People\PeopleContextMenu::class,
-        'bank.withdrawal.search' => \App\Navigation\ContextMenu\Bank\BankWithdrawalContextMenu::class,
         'cmtyvol.index'   => \App\Navigation\ContextMenu\CommunityVolunteers\CommunityVolunteersContextMenu::class,
         'accounting.transactions.index'       => \App\Navigation\ContextMenu\Accounting\AccountingContextMenu::class,
     ];
@@ -85,9 +83,8 @@ class NavigationServiceProvider extends ServiceProvider
         'people.show'                     => \App\Navigation\ContextButtons\People\PeopleShowContextButtons::class,
         'people.edit'                     => \App\Navigation\ContextButtons\People\PeopleEditContextButtons::class,
         'people.duplicates'               => \App\Navigation\ContextButtons\People\PeopleDuplicatesContextButtons::class,
-        'people.import'                   => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
-        'people.bulkSearch'               => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
-        'people.doBulkSearch'             => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
+        'people.maintenance'              => \App\Navigation\ContextButtons\People\PeopleMaintenanceContextButtons::class,
+        'people.import-export'            => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
 
         'reporting.monthly-summary'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.people'                => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
@@ -98,7 +95,6 @@ class NavigationServiceProvider extends ServiceProvider
         'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
         'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
         'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
-        'bank.maintenance'                => \App\Navigation\ContextButtons\Bank\BankMaintenanceContextButtons::class,
         'bank.export'                     => \App\Navigation\ContextButtons\Bank\BankExportContextButtons::class,
 
         'coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,

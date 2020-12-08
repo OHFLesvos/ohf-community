@@ -10,7 +10,6 @@ use App\Http\Controllers\Badges\BadgeMakerController;
 use App\Http\Controllers\Bank\CodeCardController;
 use App\Http\Controllers\Bank\CouponTypesController;
 use App\Http\Controllers\Bank\ImportExportController;
-use App\Http\Controllers\Bank\MaintenanceController;
 use App\Http\Controllers\Bank\PeopleController as BankPeopleController;
 use App\Http\Controllers\People\PeopleController;
 use App\Http\Controllers\ChangelogController;
@@ -24,6 +23,7 @@ use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\Fundraising\FundraisingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Library\LibraryController;
+use App\Http\Controllers\People\MaintenanceController;
 use App\Http\Controllers\PrivacyPolicy;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
@@ -86,6 +86,11 @@ Route::middleware(['auth', 'language'])
         // User management
         Route::prefix('admin')
             ->group(function () {
+
+                // Admin overview
+                Route::view('', 'admin')
+                    ->name('admin');
+
                 // Users
                 Route::put('users/{user}/disable2FA', [UserController::class, 'disable2FA'])
                     ->name('users.disable2FA');
@@ -279,26 +284,30 @@ Route::middleware(['language'])
 Route::middleware(['auth', 'language'])
     ->group(function () {
 
+        // Maintenance
+        Route::middleware('can:cleanup,App\Models\People\Person')
+            ->name('people.')
+            ->prefix('people')
+            ->group(function () {
+                Route::get('maintenance', [MaintenanceController::class, 'maintenance'])
+                    ->name('maintenance');
+                Route::post('maintenance', [MaintenanceController::class, 'updateMaintenance'])
+                    ->name('updateMaintenance');
+                Route::get('duplicates', [MaintenanceController::class, 'duplicates'])
+                    ->name('duplicates');
+                Route::post('duplicates', [MaintenanceController::class, 'applyDuplicates'])
+                    ->name('applyDuplicates');
+            });
+
         // People
-        Route::get('people/bulkSearch', [PeopleController::class, 'bulkSearch'])
-            ->name('people.bulkSearch')
-            ->middleware('can:viewAny,App\Models\People\Person');
-        Route::post('people/bulkSearch', [PeopleController::class, 'doBulkSearch'])
-            ->name('people.doBulkSearch')
-            ->middleware('can:viewAny,App\Models\People\Person');
         Route::get('people/export', [PeopleController::class, 'export'])
             ->name('people.export')
             ->middleware('can:export,App\Models\People\Person');
-        Route::get('people/import', [PeopleController::class, 'import'])
+        Route::view('people/import-export', 'people.import-export')
+            ->name('people.import-export');
+        Route::post('people/import', [PeopleController::class, 'import'])
             ->name('people.import')
             ->middleware('can:create,App\Models\People\Person');
-        Route::post('people/doImport', [PeopleController::class, 'doImport'])
-            ->name('people.doImport')
-            ->middleware('can:create,App\Models\People\Person');
-        Route::get('people/duplicates', [PeopleController::class, 'duplicates'])
-            ->name('people.duplicates');
-        Route::post('people/duplicates', [PeopleController::class, 'applyDuplicates'])
-            ->name('people.applyDuplicates');
         Route::resource('people', PeopleController::class);
 
         // Reporting
@@ -351,15 +360,6 @@ Route::middleware(['auth', 'language'])
                 // People
                 Route::resource('people', BankPeopleController::class)
                     ->except(['index', 'store', 'update']);
-
-                // Maintenance
-                Route::middleware('can:cleanup,App\Models\People\Person')
-                    ->group(function () {
-                        Route::get('maintenance', [MaintenanceController::class, 'maintenance'])
-                            ->name('maintenance');
-                        Route::post('maintenance', [MaintenanceController::class, 'updateMaintenance'])
-                            ->name('updateMaintenance');
-                    });
 
                 // Export
                 Route::middleware('can:export,App\Models\People\Person')

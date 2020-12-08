@@ -1,8 +1,8 @@
-@extends('user_management.layouts.user-roles')
+@extends('layouts.app')
 
-@section('title', __('app.users_and_roles'))
+@section('title', __('app.users'))
 
-@section('wrapped-content')
+@section('content')
     <div id="user-management-app">
         <user-index-page>
             @lang('app.loading')

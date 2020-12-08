@@ -26,6 +26,18 @@ class PeopleIndexContextButtons implements ContextButtons
                 'icon' => 'chart-line',
                 'authorized' => Gate::allows('view-people-reports'),
             ],
+            'maintenance' => [
+                'url' => route('people.maintenance'),
+                'caption' => __('app.maintenance'),
+                'icon' => 'eraser',
+                'authorized' => Auth::user()->can('cleanup', Person::class),
+            ],
+            'import-export' => [
+                'url' => route('people.import-export'),
+                'caption' => __('app.import_export'),
+                'icon' => 'sync',
+                'authorized' => Auth::user()->can('export', Person::class) || Auth::user()->can('create', Person::class),
+            ],
         ];
     }
 }

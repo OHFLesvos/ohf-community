@@ -13,10 +13,10 @@ class PeopleDuplicatesContextButtons implements ContextButtons
     {
         return [
             'back' => [
-                'url' => route('people.index'),
+                'url' => route('people.maintenance'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('viewAny', Person::class),
+                'authorized' => Auth::user()->can('cleanup', Person::class),
             ],
         ];
     }

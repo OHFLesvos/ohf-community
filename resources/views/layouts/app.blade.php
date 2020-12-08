@@ -71,10 +71,64 @@
                 </x-alert>
             @endif
 
-            {{-- Title --}}
-            @if(View::hasSection('title'))
-                <h1 class="mb-4 display-4">@yield('title')</h1>
-            @endif
+            <div class="d-flex justify-content-between">
+                {{-- Title --}}
+                @if(View::hasSection('title'))
+                    <h1 class="mb-4 display-4">@yield('title')</h1>
+                @endif
+
+                {{-- Buttons --}}
+                @if(isset($buttons) && sizeof($buttons) > 0)
+                    <div>
+                        @foreach($buttons as $key => $button)
+                            @if($key == 'delete')
+                                <form method="POST" action="{{ $button['url'] }}" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-form.bs-delete-button
+                                        :label="$button['caption']"
+                                        :icon="$button['icon']"
+                                        :confirmation="$button['confirmation']"
+                                        class="d-none d-md-inline-block"
+                                    />
+                                    <button
+                                        type="submit"
+                                        class="btn btn-link text-light d-md-none delete-confirmation"
+                                        data-confirmation="{{ $button['confirmation']  }}"
+                                    >
+                                        <x-icon :icon="$button['icon']"/>
+                                    </button>
+                                </form>
+                            @elseif($key == 'action')
+                                <a href="{{ $button['url'] }}" class="btn btn-primary d-none d-md-inline-block">
+                                    <x-icon :icon="$button['icon']"/>
+                                    {{ $button['caption'] }}
+                                </a>
+                            @elseif($key == 'back')
+                                <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
+                                    <x-icon :icon="$button['icon']"/>
+                                    {{ $button['caption'] }}
+                                </a>
+                            @else
+                                @php
+                                    if (isset($button['attributes'])) {
+                                        $attributes = collect($button['attributes'])
+                                            ->map(fn ($v, $k) => $k . '="' . $v . '"')
+                                            ->implode(' ');
+                                    } else {
+                                        $attributes = '';
+                                    }
+                                @endphp
+                                <a href="{{ $button['url'] }}" class="btn btn-secondary" @if($key == 'help') target="_blank"@endif {!! $attributes !!}>
+                                    <x-icon :icon="$button['icon']"/>
+                                    <span class="d-none d-md-inline">{{ $button['caption'] }}</span>
+                                </a>
+                            @endif
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+
 
             {{-- Content --}}
             @yield('content')
