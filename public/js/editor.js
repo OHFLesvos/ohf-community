@@ -12,7 +12,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jque
 
 /***/ }),
 
-/***/ 10:
+/***/ 11:
 /*!**************************************!*\
   !*** multi ./resources/js/editor.js ***!
   \**************************************/
@@ -24,4 +24,4 @@ module.exports = __webpack_require__(/*! C:\Users\Nicolas\Coding\Web\ohf-communi
 
 /***/ })
 
-},[[10,"/js/manifest","/js/vendor"]]]);
+},[[11,"/js/manifest","/js/vendor"]]]);

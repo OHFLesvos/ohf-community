@@ -444,7 +444,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _nod
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /*!***************************************!*\
   !*** multi ./resources/js/cmtyvol.js ***!
   \***************************************/
@@ -456,4 +456,4 @@ module.exports = __webpack_require__(/*! C:\Users\Nicolas\Coding\Web\ohf-communi
 
 /***/ })
 
-},[[7,"/js/manifest","/js/vendor"]]]);
+},[[8,"/js/manifest","/js/vendor"]]]);

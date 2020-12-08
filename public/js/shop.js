@@ -514,7 +514,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var vue_
 
 /***/ }),
 
-/***/ 8:
+/***/ 9:
 /*!************************************!*\
   !*** multi ./resources/js/shop.js ***!
   \************************************/
@@ -526,4 +526,4 @@ module.exports = __webpack_require__(/*! C:\Users\Nicolas\Coding\Web\ohf-communi
 
 /***/ })
 
-},[[8,"/js/manifest","/js/vendor"]]]);
+},[[9,"/js/manifest","/js/vendor"]]]);

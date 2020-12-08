@@ -481,6 +481,14 @@ Route::prefix('reports')
                 Route::view('report', 'reports.cmtyvol.report')
                     ->name('report');
             });
+
+        // Reports: Visitors
+        Route::prefix('visitors')
+            ->name('visitors.')
+            ->group(function () {
+                Route::view('checkins', 'reports.visitors.checkins')
+                    ->name('checkins');
+            });
     });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

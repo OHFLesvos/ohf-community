@@ -2166,7 +2166,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /*!************************************!*\
   !*** multi ./resources/js/bank.js ***!
   \************************************/
@@ -2178,4 +2178,4 @@ module.exports = __webpack_require__(/*! C:\Users\Nicolas\Coding\Web\ohf-communi
 
 /***/ })
 
-},[[5,"/js/manifest","/js/vendor"]]]);
+},[[6,"/js/manifest","/js/vendor"]]]);

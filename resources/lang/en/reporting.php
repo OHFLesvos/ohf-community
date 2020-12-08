@@ -8,4 +8,5 @@ return [
     'fundraising' => 'Fundraising',
     'library' => 'Library',
     'community_volunteers' => 'Community Volunteers',
+    'visitor_checkins' => 'Visitor check-ins',
 ];

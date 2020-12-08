@@ -50,6 +50,12 @@ class ReportsController extends Controller
             'icon' => 'book',
             'gate' => 'operate-library',
         ],
+        [
+            'message_key' => 'reporting.visitor_checkins',
+            'route' => 'reports.visitors.checkins',
+            'icon' => 'door-open',
+            'gate' => 'register-visitors',
+        ],
     ];
 
     public function index(Request $request)

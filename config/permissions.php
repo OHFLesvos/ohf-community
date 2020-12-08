@@ -117,6 +117,7 @@ return [
             'bank.statistics.view',
             'app.usermgmt.view',
             'cmtyvol.manage',
+            'visitors.register',
         ],
         'configure-common-settings' => 'app.settings.commonbr.configure',
         'create-badges'=> 'badges.create',
