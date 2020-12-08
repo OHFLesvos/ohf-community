@@ -118,6 +118,8 @@ return [
             'app.usermgmt.view',
             'cmtyvol.manage',
             'visitors.register',
+            'fundraising.reports.view',
+            'library.operate',
         ],
         'configure-common-settings' => 'app.settings.commonbr.configure',
         'create-badges'=> 'badges.create',

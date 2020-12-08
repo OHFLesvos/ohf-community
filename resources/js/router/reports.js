@@ -5,6 +5,7 @@ Vue.use(VueRouter)
 
 import VisitorReportPage from '@/pages/reports/VisitorReportPage'
 import LibraryReportPage from '@/pages/reports/LibraryReportPage'
+import FundraisingReportPage from '@/pages/reports/FundraisingReportPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 export default new VueRouter({
@@ -30,18 +31,13 @@ export default new VueRouter({
             components: {
                 default: LibraryReportPage,
             }
-            // props: {
-            //     header: {
-            //         title: i18n.t('app.report'),
-            //         buttons: [
-            //             {
-            //                 click: () => router.back(),
-            //                 icon: 'times-circle',
-            //                 text: i18n.t('app.close'),
-            //             }
-            //         ]
-            //     }
-            // }
+        },
+        {
+            path: '/fundraising/donations',
+            name: 'reports.fundraising.donations',
+            components: {
+                default: FundraisingReportPage,
+            }
         },
         {
             path: '*',

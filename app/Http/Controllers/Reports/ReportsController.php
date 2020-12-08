@@ -40,7 +40,7 @@ class ReportsController extends Controller
         ],
         [
             'message_key' => 'reports.fundraising',
-            'url' => '/fundraising/report',
+            'route' => 'reports.fundraising.donations',
             'icon' => 'donate',
             'gate' => 'view-fundraising-reports',
         ],

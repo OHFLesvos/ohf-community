@@ -499,6 +499,15 @@ Route::prefix('reports')
                 Route::view('books', 'reports.library.books')
                     ->name('books');
             });
+
+        // Reports: Fundraising
+        Route::prefix('fundraising')
+            ->name('fundraising.')
+            ->middleware('can:view-fundraising-reports')
+            ->group(function () {
+                Route::view('donations', 'reports.fundraising.donations')
+                    ->name('donations');
+            });
     });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

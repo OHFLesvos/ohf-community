@@ -115,6 +115,7 @@ class NavigationServiceProvider extends ServiceProvider
         'reports.cmtyvol.report'          => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.visitors.checkins'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.library.books'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.fundraising.donations'   => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
     ];
 
     /**
