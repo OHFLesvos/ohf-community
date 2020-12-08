@@ -86,10 +86,6 @@ Route::middleware(['auth', 'language'])
         Route::prefix('admin')
             ->group(function () {
 
-                // Admin overview
-                Route::view('', 'admin')
-                    ->name('admin');
-
                 // Users
                 Route::get('users/permissions', [UserController::class, 'permissions'])
                     ->name('users.permissions')
