@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Mixins\BuilderMixin;
-use App\Providers\Traits\RegistersDashboardWidgets;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
 use App\Rules\LanguageCode;
@@ -20,21 +19,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    use RegistersDashboardWidgets;
-
-    protected $dashboardWidgets = [
-        \App\View\Widgets\BankWidget::class,
-        \App\View\Widgets\VisitorsWidget::class,
-        \App\View\Widgets\PeopleWidget::class,
-        \App\View\Widgets\ShopWidget::class,
-        \App\View\Widgets\LibraryWidget::class,
-        \App\View\Widgets\CommunityVolunteersWidget::class,
-        \App\View\Widgets\ArticlesWidget::class,
-        \App\View\Widgets\AccountingWidget::class,
-        \App\View\Widgets\FundraisingWidget::class,
-        \App\View\Widgets\UsersWidget::class,
-    ];
-
     /**
      * Register any application services.
      *
@@ -79,7 +63,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerQueryBuilderMacros();
         $this->registerRules();
-        $this->registerDashboardWidgets();
     }
 
     private function registerQueryBuilderMacros()
