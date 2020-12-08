@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('kb.index'),
-            'title' => __('app.view'),
-            'icon' => 'search',
-            'authorized' => true,
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('kb.knowledge_base'))

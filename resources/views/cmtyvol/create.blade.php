@@ -4,11 +4,14 @@
 
 @section('content')
     {!! Form::open(['route' => ['cmtyvol.store'], 'files' => true]) !!}
-        <div class="columns-2 mb-4">
-            @include('cmtyvol.include.form')
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">@lang('app.general')</div>
+            <div class="card-body columns-2">
+                @include('cmtyvol.include.form')
+            </div>
+            <div class="card-footer text-right">
+                <x-form.bs-submit-button :label="__('app.register')"/>
+            </div>
         </div>
-        <p>
-            <x-form.bs-submit-button :label="__('app.register')"/>
-        </p>
     {!! Form::close() !!}
 @endsection

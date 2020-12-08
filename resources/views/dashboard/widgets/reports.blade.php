@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('reporting.index'),
-            'title' => __('app.more_reports'),
-            'icon' => 'list',
-            'authorized' => true,
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('app.reports'))

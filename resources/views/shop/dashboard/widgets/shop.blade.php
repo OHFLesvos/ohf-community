@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('shop.index'),
-            'title' => __('shop.scan_card'),
-            'icon' => 'qrcode',
-            'authorized' => true,
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('shop.shop'))

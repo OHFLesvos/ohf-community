@@ -39,7 +39,7 @@
 
         {{-- Summary by wallet --}}
         <div class="col-md-12 col-xl-6">
-            <div class="card mb-4 table-responsive">
+            <div class="card shadow-sm mb-4 table-responsive">
                 <table class="table table-hover mb-0">
                     <thead class="card-header">
                         <th></th>
@@ -83,7 +83,7 @@
 
         {{-- Revenue by categories --}}
         <div class="col-md col-xl-6">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.categories')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
@@ -105,7 +105,7 @@
         @if($revenueBySecondaryCategory !== null)
             {{-- Revenue by secondary category --}}
             <div class="col-md col-xl-6">
-                <div class="card mb-4">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header">@lang('app.secondary_categories')</div>
                     <table class="table mb-0">
                         <tbody>
@@ -133,7 +133,7 @@
 
         {{-- Revenue by project --}}
         <div class="col-md col-xl-6">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.projects')</div>
                 <table class="table mb-0">
                     <tbody>

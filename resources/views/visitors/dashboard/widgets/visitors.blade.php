@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('visitors.index'),
-            'title' => __('app.check_in'),
-            'icon' => 'door-open',
-            'authorized' => Gate::allows('register-visitors'),
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('visitors.visitors'))

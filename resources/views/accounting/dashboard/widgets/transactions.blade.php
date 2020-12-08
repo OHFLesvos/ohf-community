@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('accounting.index'),
-            'title' => __('app.overview'),
-            'icon' => 'list',
-            'authorized' => Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class),
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('accounting.accounting'))

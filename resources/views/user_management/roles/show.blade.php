@@ -38,7 +38,7 @@
             $users = $role->users->sortBy('name')->paginate(50);
         @endphp
         <div class="col-md">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.users') ({{ $role->users->count() }})</div>
                 <div class="card-body p-0">
                     @if($users->count() > 0)
@@ -67,7 +67,7 @@
             $users = $role->administrators->sortBy('name')->paginate(50);
         @endphp
         <div class="col-md">
-            <div class="card mb-4">
+            <div class="cardd shadow-sm mb-4">
                 <div class="card-header">@lang('app.role_administrators') ({{ $role->administrators->count() }})</div>
                 <div class="card-body p-0">
                     @if($users->count() > 0)
@@ -93,7 +93,7 @@
 
         {{-- Permissions --}}
         <div class="col-md">
-            <div class="card mb-4">
+            <div class="cardd shadow-sm mb-4">
                 <div class="card-header">@lang('app.permissions') ({{ $role->permissions->count() }})</div>
                 <ul class="list-group list-group-flush">
                     @if(count($permissions) > 0)

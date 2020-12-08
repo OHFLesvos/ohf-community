@@ -44,7 +44,7 @@
 
         {{-- Revenue by categories --}}
         <div class="col-sm-6 col-md">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.categories')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
@@ -74,7 +74,7 @@
         @if($revenueBySecondaryCategory !== null)
             {{-- Revenue by secondary category --}}
             <div class="col-sm-6 col-md">
-                <div class="card mb-4">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header">@lang('app.secondary_categories')</div>
                     <table class="table mb-0">
                         <tbody>
@@ -108,7 +108,7 @@
 
         {{-- Revenue by project --}}
         <div class="col-sm-6 col-md">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.projects')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
@@ -141,7 +141,7 @@
 
         {{-- Wallet --}}
         <div class="col-sm-6 col-md">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.total')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>

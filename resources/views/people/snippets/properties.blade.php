@@ -1,4 +1,4 @@
-<ul class="list-group list-group-flush">
+<ul class="list-group shadow-sm">
     <li class="list-group-item">
         <div class="row">
             <div class="col-sm-5">

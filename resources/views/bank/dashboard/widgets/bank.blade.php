@@ -1,20 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('bank.index'),
-            'title' => __('bank.go_to_bank'),
-            'icon' => 'search',
-            'authorized' => Gate::allows('do-bank-withdrawals'),
-        ],
-        [
-            'url' => route('reporting.bank.withdrawals'),
-            'title' => __('bank.view_bank_report'),
-            'icon' => 'chart-line',
-            'authorized' => !Gate::allows('do-bank-withdrawals'),
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('bank.bank'))

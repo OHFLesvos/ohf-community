@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('fundraising.index'),
-            'title' => __('app.view'),
-            'icon' => 'edit',
-            'authorized' => true,
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('fundraising.donation_management'))

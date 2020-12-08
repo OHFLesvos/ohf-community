@@ -1,4 +1,4 @@
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush shadow-sm">
         @isset($transaction->receipt_no)
             <li class="list-group-item">
                 <div class="row">

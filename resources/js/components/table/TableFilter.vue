@@ -1,5 +1,5 @@
 <template>
-    <b-input-group size="sm" class="mb-3">
+    <b-input-group class="mb-3">
         <b-form-input
             v-model="filterText"
             :debounce="400"

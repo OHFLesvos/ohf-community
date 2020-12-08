@@ -1,7 +1,7 @@
 <div class="row">
     @foreach($data as $item)
         <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header p-2">
                     <x-icon-gender :gender="$item['model']->gender"/>
                     @isset($item['model']->nickname)

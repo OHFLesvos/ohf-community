@@ -11,7 +11,7 @@
         <p>Found <strong>{{ $count }}</strong> duplicates out of <strong>{{ $total }}</strong> total:</p>
         {!! Form::open(['route' => 'people.applyDuplicates', 'method' => 'post']) !!}
             @foreach ($duplicates as $name => $persons)
-                <div class="card mb-4">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header">
                         {{ $name }}
                     </div>

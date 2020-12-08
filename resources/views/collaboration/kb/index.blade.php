@@ -40,7 +40,7 @@
             @unless($popular_tags->isEmpty() && $featured_articles->isEmpty())
                 <div class="col-sm mb-3">
                     @unless($featured_articles->isEmpty())
-                        <div class="card mb-3">
+                        <div class="card shadow-sm mb-3">
                             <div class="card-header">
                                 @lang('wiki.featured_articles')
                                 <a href="{{ route('kb.articles.index') }}" class="float-right">@lang('app.show_all')</a>
@@ -60,7 +60,7 @@
                             @endunless
                         </div>
                     @endunless
-                    <div class="card">
+                    <div class="card shadow-sm">
                         <div class="card-header">
                             @lang('app.popular_tags')
                             <a href="{{ route('kb.tags') }}" class="float-right">@lang('app.show_all')</a>
@@ -79,7 +79,7 @@
             {{-- Popular articles --}}
             @unless($popular_articles->isEmpty())
                 <div class="col-sm mb-3">
-                    <div class="card">
+                    <div class="card shadow-sm">
                         <div class="card-header">
                             @lang('wiki.popular_articles')
                             <a href="{{ route('kb.articles.index', ['order' => 'popularity']) }}" class="float-right">@lang('app.show_all')</a>
@@ -99,7 +99,7 @@
             {{-- Recently changed --}}
             @unless($recent_articles->isEmpty())
                 <div class="col-sm mb-3">
-                    <div class="card">
+                    <div class="card shadow-sm">
                         <div class="card-header">
                             @lang('wiki.recenlty_update_articles')
                             <a href="{{ route('kb.articles.index', ['order' => 'recent']) }}" class="float-right">@lang('app.show_all')</a>

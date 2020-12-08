@@ -3,9 +3,8 @@
 @section('title', __('app.reporting'))
 
 @section('content')
-
     <p>@lang('app.available_reports'):</p>
-    <div class="list-group">
+    <div class="list-group shadow-sm">
         @foreach(config('reporting.reports') as $key => $report)
             @canany($report['gate'])
                 <a href="{{ isset($report['route']) ? route($report['route']) : $report['url'] }}" class="list-group-item list-group-item-action">
@@ -15,5 +14,4 @@
             @endcanany
         @endforeach
     </div>
-
 @endsection

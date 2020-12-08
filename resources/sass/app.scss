@@ -358,3 +358,59 @@ div.long-description.collapsing[aria-expanded="false"] {
 img.avatar {
     border-radius: 100%;
 }
+
+.app-grid {
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: 60px auto;
+    grid-template-areas:
+        "brand   header"
+        "sidebar  content";
+    background:  darken($light, 3);
+}
+
+.app-brand {
+    grid-area: brand;
+    background: darken($primary, 20);
+}
+
+.app-header {
+    grid-area: header;
+}
+
+.app-sidebar {
+    grid-area: sidebar;
+    background: darken($primary, 10);
+    color: white;
+}
+
+.app-content {
+    grid-area: content;
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, md))  {
+    .app-grid {
+        grid-template-columns: 100%;
+        grid-template-rows: 60px auto;
+        grid-template-areas:
+            "brand"
+            "sidebar"
+            "header"
+            "content"
+    }
+}
+
+.app-sidebar ul {
+    list-style: none;
+}
+
+.app-sidebar a {
+    color: lighten($primary, 15);
+    text-decoration: none;
+}
+
+.app-sidebar a:hover,
+.app-sidebar a.active {
+    color: white;
+    text-decoration: none;
+}

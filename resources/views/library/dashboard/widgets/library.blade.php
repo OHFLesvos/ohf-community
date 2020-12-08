@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('library.index'),
-            'title' => __('library.lendings'),
-            'icon' => 'list',
-            'authorized' => true,
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('library.library'))

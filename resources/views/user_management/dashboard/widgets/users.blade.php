@@ -1,14 +1,3 @@
-@php
-    $links = [
-        [
-            'url' => route('users.index'),
-            'title' => __('app.manage'),
-            'icon' => 'edit',
-            'authorized' => true,
-        ],
-    ];
-@endphp
-
 @extends('dashboard.widgets.base')
 
 @section('widget-title', __('app.users'))

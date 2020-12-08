@@ -1,15 +1,16 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('kb.knowledge_base'))
+@section('title', __('wiki.article') . ': ' . $article->title)
 
 @section('content')
-    <h1>{{ $article->title }}</h1>
     @if($article->public)
         @auth
             <p><em><small class="text-muted"><x-icon icon="eye"/> @lang('wiki.article_publicly_available')</small></em></p>
         @endauth
     @endif
-    {!! $article->content !!}
+    <div class="columns-2">
+        {!! $article->content !!}
+    </div>
     <hr>
     @auth
         @if(count($article->tags) > 0)
