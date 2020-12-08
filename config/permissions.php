@@ -115,7 +115,8 @@ return [
         'view-reports' => [  // TODO
             'people.reports.view',
             'bank.statistics.view',
-            'app.usermgmt.view'
+            'app.usermgmt.view',
+            'cmtyvol.manage',
         ],
         'configure-common-settings' => 'app.settings.commonbr.configure',
         'create-badges'=> 'badges.create',
@@ -141,6 +142,7 @@ return [
         'view-bank-reports' => 'bank.statistics.view',
         'configure-bank' => 'bank.configure',
         'manage-community-volunteers' => 'cmtyvol.manage',
+        'view-community-volunteer-reports' => 'cmtyvol.manage',
         'operate-library' => 'library.operate',
         'configure-library' => 'library.configure',
         'validate-shop-coupons' => 'shop.coupons.validate',

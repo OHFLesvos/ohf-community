@@ -7,6 +7,5 @@ return [
     'bank-withdrawals' => 'Bank: Auszahlungen',
     'fundraising' => 'Spender & Spenden',
     'library' => 'Bibliothek',
-    'user-privileges' => 'Benutzerberechtigungen',
-    'role-privileges' => ' Rollenberechtigungen',
+    'community_volunteers' => 'Community Volunteers',
 ];

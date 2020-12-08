@@ -85,11 +85,6 @@ class NavigationServiceProvider extends ServiceProvider
         'people.maintenance'              => \App\Navigation\ContextButtons\People\PeopleMaintenanceContextButtons::class,
         'people.import-export'            => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
 
-        'reports.people.monthly-summary'  => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.people.people'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.bank.visitors'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.bank.withdrawals'      => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-
         'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
         'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
         'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
@@ -108,7 +103,6 @@ class NavigationServiceProvider extends ServiceProvider
         'cmtyvol.edit'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersEditContextButtons::class,
         'cmtyvol.create'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
         'cmtyvol.import-export'    => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
-        'cmtyvol.report'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
         'cmtyvol.responsibilities.index'  => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesIndexContextButtons::class,
         'cmtyvol.responsibilities.create' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesCreateContextButtons::class,
         'cmtyvol.responsibilities.edit'   => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesEditContextButtons::class,
@@ -118,6 +112,12 @@ class NavigationServiceProvider extends ServiceProvider
 
         'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,
         'shop.manageCards'                => \App\Navigation\ContextButtons\Shop\ShopManageCardsContextButtons::class,
+
+        'reports.people.monthly-summary'  => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.people.people'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.bank.visitors'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.bank.withdrawals'        => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.cmtyvol.report'          => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
     ];
 
     /**

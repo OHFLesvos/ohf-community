@@ -366,11 +366,6 @@ Route::middleware(['auth', 'language'])
                     ->name('overview')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                // Report view
-                Route::view('report', 'cmtyvol.report')
-                    ->name('report')
-                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-
                 // Import & Export view
                 Route::get('import-export', [CommunityVolunteersImportExportController::class, 'index'])
                     ->name('import-export');
@@ -476,6 +471,15 @@ Route::prefix('reports')
                     ->name('withdrawals');
                 Route::view('visitors', 'reports.bank.visitors')
                     ->name('visitors');
+            });
+
+        // Reports: Community volunteers
+        Route::prefix('cmtyvol')
+            ->name('cmtyvol.')
+            ->middleware('can:view-community-volunteer-reports')
+            ->group(function () {
+                Route::view('report', 'reports.cmtyvol.report')
+                    ->name('report');
             });
     });
 

@@ -7,6 +7,5 @@ return [
     'bank-withdrawals' => 'Bank: Withdrawals',
     'fundraising' => 'Fundraising',
     'library' => 'Library',
-    'user-privileges' => 'User privileges',
-    'role-privileges' => 'Role privileges',
+    'community_volunteers' => 'Community Volunteers',
 ];
