@@ -17,7 +17,7 @@
         <div class="card-deck mb-3">
 
             {{-- Users --}}
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-header">@lang('app.users')</div>
                 <div class="card-body columns-3">
                     {{ Form::bsCheckboxList('users[]', $users, $role->users()->orderBy('name')->get()->pluck('name', 'id')->keys()->toArray()) }}

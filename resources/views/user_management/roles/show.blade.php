@@ -10,26 +10,29 @@
         </x-alert>
     @endif
 
-    <ul class="list-group list-group-flush mb-4">
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm"><strong>@lang('app.name')</strong></div>
-                <div class="col-sm">{{ $role->name }}</div>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm"><strong>@lang('app.created')</strong></div>
-                <div class="col-sm">{{ $role->created_at }} <small class="text-muted pl-2">{{ $role->created_at->diffForHumans() }}</small></div>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
-                <div class="col-sm">{{ $role->updated_at }} <small class="text-muted pl-2">{{ $role->updated_at->diffForHumans() }}</small></div>
-            </div>
-        </li>
-    </ul>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">@lang('userprofile.profile')</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm"><strong>@lang('app.name')</strong></div>
+                    <div class="col-sm">{{ $role->name }}</div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm"><strong>@lang('app.created')</strong></div>
+                    <div class="col-sm">{{ $role->created_at }} <small class="text-muted pl-2">{{ $role->created_at->diffForHumans() }}</small></div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-sm"><strong>@lang('app.last_updated')</strong></div>
+                    <div class="col-sm">{{ $role->updated_at }} <small class="text-muted pl-2">{{ $role->updated_at->diffForHumans() }}</small></div>
+                </div>
+            </li>
+        </ul>
+    </div>
 
     <div class="row">
 
@@ -39,7 +42,10 @@
         @endphp
         <div class="col-md">
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('app.users') ({{ $role->users->count() }})</div>
+                <div class="card-header">
+                    @lang('app.users')
+                    <span class="badge badge-secondary">{{ $role->users->count() }}</span>
+                </div>
                 <div class="card-body p-0">
                     @if($users->count() > 0)
                         <div class="list-group list-group-flush">
@@ -67,8 +73,11 @@
             $users = $role->administrators->sortBy('name')->paginate(50);
         @endphp
         <div class="col-md">
-            <div class="cardd shadow-sm mb-4">
-                <div class="card-header">@lang('app.role_administrators') ({{ $role->administrators->count() }})</div>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    @lang('app.role_administrators')
+                    <span class="badge badge-secondary">{{ $role->administrators->count() }}</span>
+                </div>
                 <div class="card-body p-0">
                     @if($users->count() > 0)
                         <div class="list-group list-group-flush">
@@ -93,8 +102,11 @@
 
         {{-- Permissions --}}
         <div class="col-md">
-            <div class="cardd shadow-sm mb-4">
-                <div class="card-header">@lang('app.permissions') ({{ $role->permissions->count() }})</div>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    @lang('app.permissions')
+                    <span class="badge badge-secondary">{{ $role->permissions->count() }}</span>
+                </div>
                 <ul class="list-group list-group-flush">
                     @if(count($permissions) > 0)
                         @foreach($permissions as $title => $elements)

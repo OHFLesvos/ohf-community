@@ -115,7 +115,8 @@
 
         <div class="col-md-5">
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('app.permissions')
+                <div class="card-header">
+                    @lang('app.permissions')
                     <span class="badge badge-secondary">{{ $user->permissions()->count() }}</span>
                 </div>
                 <div class="card-body p-0">

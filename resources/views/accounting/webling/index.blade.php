@@ -8,7 +8,7 @@
         @foreach($periods as $period_id => $period)
             <h2>{{ $period->title }}</h2>
             @unless($period->months->isEmpty())
-                <div class="list-group mb-4 mt-3">
+                <div class="list-group shadow-sm mb-4 mt-3">
                     @foreach($period->months as $month)
                         <a href="{{ route('accounting.webling.prepare', [ $wallet, 'period' => $period_id, 'from' => $month->date->toDateString(), 'to' => (clone $month->date->endOfMonth())->toDateString() ]) }}" class="list-group-item list-group-item-action">
                             <div class="row">

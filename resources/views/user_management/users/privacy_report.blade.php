@@ -5,9 +5,9 @@
 @section('content')
     <h4 class="mb-4">@lang('app.user_witzh_access_to_sensitive_data')</h4>
     @if($users->count() > 0)
-        <ul class="list-group list-group-flush mb-2">
+        <ul class="list-group list-group-flush shadow-sm mb-4">
             @foreach($users as $user)
-                <li class="list-group-item px-1">
+                <li class="list-group-item">
                     <div class="row">
                         <div class="col-sm">
                             <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a><br>

@@ -13,7 +13,7 @@
                         </div>
                     @endisset
 
-                    <div class="card mb-4 @unless($logo_url)mt-5 @endunless">
+                    <div class="card shadow mb-4 @unless($logo_url)mt-5 @endunless">
                         <div class="card-body p-md-5">
 
                             <h1 class="display-4 text-center mb-4 mb-md-5">@yield('title')</h1>
