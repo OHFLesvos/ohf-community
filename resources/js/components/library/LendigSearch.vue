@@ -4,7 +4,7 @@
             <b-col md>
                 <b-card
                     :header="ucFirst($t('people.persons'))"
-                    class="mb-4"
+                    class="mb-4 shadow-sm"
                     body-class="pb-4"
                 >
                     <b-form-row>
@@ -26,7 +26,7 @@
             <b-col md>
                 <b-card
                     :header="$t('library.books')"
-                    class="mb-4"
+                    class="mb-4 shadow-sm"
                     body-class="pb-4"
                 >
                     <library-book-autocomplete-input @select="navigateToBook" />
