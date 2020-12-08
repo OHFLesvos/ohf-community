@@ -1,18 +1,12 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.accounting'))
+@section('title', __('accounting.summary') . ($has_multiple_wallets ? ' - ' . $wallet->name : ''))
 
 @section('content')
 
     <div class="row">
         <div class="col-sm">
-            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }}
-                @if($has_multiple_wallets)
-                    <small>
-                        {{ $wallet->name }}
-                    </small>
-                @endif
-            </h2>
+            <h4 class="mb-4">{{ $heading }}</h4>
         </div>
         <div class="col-xl-auto col-md">
             <div class="row">

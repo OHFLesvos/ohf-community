@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.accounting'))
+@section('title', __('accounting.summary') . ' - ' . __('accounting.all_wallets'))
 
 @section('content')
 
     <div class="row">
         <div class="col-md">
-            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }} - @lang('accounting.all_wallets')
-            </h2>
+            <h4 class="mb-4">{{ $heading }}</h4>
         </div>
         <div class="col-xl-auto col-md">
             <div class="row">

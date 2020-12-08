@@ -20,12 +20,6 @@ class SuppliersContextButtons implements ContextButtons
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('viewAny', Supplier::class),
             ],
-            'overview' => [
-                'url' => route('accounting.index'),
-                'caption' => __('app.overview'),
-                'icon' => 'money-bill-alt',
-                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class) || Gate::allows('view-accounting-summary'),
-            ],
         ];
     }
 
