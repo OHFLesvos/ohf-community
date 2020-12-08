@@ -117,7 +117,6 @@ return [
             'bank.statistics.view',
             'app.usermgmt.view'
         ],
-        'view-usermgmt-reports' => 'app.usermgmt.view',
         'configure-common-settings' => 'app.settings.commonbr.configure',
         'create-badges'=> 'badges.create',
         'view-fundraising' => [

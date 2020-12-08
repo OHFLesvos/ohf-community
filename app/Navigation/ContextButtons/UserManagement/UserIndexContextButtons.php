@@ -2,10 +2,10 @@
 
 namespace App\Navigation\ContextButtons\UserManagement;
 
+use App\Models\Role;
 use App\Navigation\ContextButtons\ContextButtons;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class UserIndexContextButtons implements ContextButtons
@@ -20,11 +20,17 @@ class UserIndexContextButtons implements ContextButtons
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', User::class),
             ],
+            'roles' => [
+                'url' => route('roles.index'),
+                'caption' => __('app.roles'),
+                'icon' => 'tags',
+                'authorized' => Auth::user()->can('viewAny', Role::class),
+            ],
             'permissions' => [
                 'url' => route('users.permissions'),
                 'caption' => __('app.permissions'),
                 'icon' => 'key',
-                'authorized' => Gate::allows('view-usermgmt-reports'),
+                'authorized' => Auth::user()->can('viewAny', User::class),
             ],
         ];
     }

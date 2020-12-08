@@ -91,6 +91,9 @@ Route::middleware(['auth', 'language'])
                     ->name('admin');
 
                 // Users
+                Route::get('users/permissions', [UserController::class, 'permissions'])
+                    ->name('users.permissions')
+                    ->middleware('can:viewAny,App\Models\User');
                 Route::put('users/{user}/disable2FA', [UserController::class, 'disable2FA'])
                     ->name('users.disable2FA');
                 Route::put('users/{user}/disableOAuth', [UserController::class, 'disableOAuth'])
@@ -98,19 +101,14 @@ Route::middleware(['auth', 'language'])
                 Route::resource('users', UserController::class);
 
                 // Roles
+                Route::get('roles/permissions', [RoleController::class, 'permissions'])
+                    ->name('roles.permissions')
+                    ->middleware('can:viewAny,App\Models\Role');
                 Route::get('roles/{role}/members', [RoleController::class, 'manageMembers'])
                     ->name('roles.manageMembers');
                 Route::put('roles/{role}/members', [RoleController::class, 'updateMembers'])
                     ->name('roles.updateMembers');
                 Route::resource('roles', RoleController::class);
-
-                // Reporting
-                Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {
-                    Route::get('reporting/users/permissions', [UserController::class, 'permissions'])
-                        ->name('users.permissions');
-                    Route::get('reporting/roles/permissions', [RoleController::class, 'permissions'])
-                        ->name('roles.permissions');
-                });
             });
 
         // User profile

@@ -38,17 +38,5 @@ return [
             'gate' => 'operate-library',
             'featured' => false,
         ],
-        'user-privileges' => [
-            'route' => 'users.permissions',
-            'icon' => 'key',
-            'gate' => 'view-usermgmt-reports',
-            'featured' => true,
-        ],
-        'role-privileges' => [
-            'route' => 'roles.permissions',
-            'icon' => 'key',
-            'gate' => 'view-usermgmt-reports',
-            'featured' => false,
-        ],
     ],
 ];

@@ -167,7 +167,9 @@ class UserController extends Controller
      */
     public function permissions()
     {
-        return view('user_management.users.permission_report', [
+        $this->authorize('viewAny', User::class);
+
+        return view('user_management.users.list-permissions', [
             'permissions' => getCategorizedPermissions(),
         ]);
     }
@@ -180,6 +182,8 @@ class UserController extends Controller
      */
     public function disable2FA(User $user)
     {
+        $this->authorize('update', User::class);
+
         $user->tfa_secret = null;
         $user->save();
 
@@ -196,6 +200,8 @@ class UserController extends Controller
      */
     public function disableOAuth(User $user)
     {
+        $this->authorize('update', User::class);
+
         $user->provider_name = null;
         $user->provider_id = null;
         $user->avatar = null;

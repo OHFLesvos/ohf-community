@@ -164,6 +164,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
+
         return redirect()
             ->route('roles.index')
             ->with('success', __('app.role_deleted'));
@@ -174,7 +175,9 @@ class RoleController extends Controller
      */
     public function permissions()
     {
-        return view('user_management.roles.permission_report', [
+        $this->authorize('viewAny', Role::class);
+
+        return view('user_management.roles.list-permissions', [
             'permissions' => getCategorizedPermissions(),
         ]);
     }
@@ -189,7 +192,7 @@ class RoleController extends Controller
     {
         $this->authorize('manageMembers', $role);
 
-        return view('user_management.roles.manageMembers', [
+        return view('user_management.roles.manage-members', [
             'role' => $role,
             'users' => User::orderBy('name')
                 ->get()
@@ -215,5 +218,4 @@ class RoleController extends Controller
             ->route('roles.show', $role)
             ->with('success', __('app.role_updated'));
     }
-
 }

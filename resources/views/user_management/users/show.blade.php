@@ -41,7 +41,7 @@
                                     {!! Form::open(['route' => ['users.disableOAuth', $user], 'method' => 'put']) !!}
                                         <p>{{ $user->provider_name }}</p>
                                         <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('userprofile.oauth_disable_for_user', [ 'name' => $user->name ])');">
-                                            <x-icon icon="times"/> @lang('app.disable')
+                                            <x-icon icon="unlink"/> @lang('app.remove')
                                         </button>
                                     {!! Form::close() !!}
                                 </div>
@@ -84,7 +84,7 @@
                                     {!! Form::open(['route' => ['users.disable2FA', $user], 'method' => 'put']) !!}
                                     <p>@lang('userprofile.tfa_authentication_enabled').</p>
                                     <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('userprofile.tfa_disable_for_user', [ 'name' => $user->name ])');">
-                                        <x-icon icon="times"/> @lang('app.disable')
+                                        <x-icon icon="unlock"/> @lang('app.disable')
                                     </button>
                                     {!! Form::close() !!}
                                 </div>

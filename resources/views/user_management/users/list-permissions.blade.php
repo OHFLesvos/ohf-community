@@ -9,7 +9,7 @@
                 <h4>{{ $title == null ? __('app.general') : $title }}</h4>
                 @foreach($elements as $key => $label)
                     <div class="mb-4 column-break-avoid">
-                        <p class="mb-1">{{ $label }}:</p>
+                        <h6>{{ $label }}</h6>
                         @php
                             $roles = App\Models\RolePermission::where('key', $key)
                                 ->get()
@@ -21,13 +21,14 @@
                                 ->sortBy('name');
                         @endphp
                         @forelse($users as $user)
-                            <a class="pl-3" href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
-                            @if($user->isSuperAdmin())
-                                (@lang('app.administrator'))
-                            @endif
+                            <a href="{{ route('users.show', $user) }}">
+                                {{ $user->name }}</a>
+                                @if($user->isSuperAdmin())
+                                    <small><x-icon icon="user-shield" :title="__('app.administrator')"/></small>
+                                @endif
                             <br>
                         @empty
-                            <em  class="pl-3">@lang('app.no_users_assigned')</em>
+                            <em>@lang('app.no_users_assigned')</em>
                         @endforelse
                     </div>
                 @endforeach
