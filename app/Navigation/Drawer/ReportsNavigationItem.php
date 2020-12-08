@@ -4,15 +4,15 @@ namespace App\Navigation\Drawer;
 
 use Illuminate\Support\Facades\Gate;
 
-class ReportingNavigationItem extends BaseNavigationItem
+class ReportsNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'reporting.index';
+    protected $route = 'reports.index';
 
-    protected $caption = 'app.reporting';
+    protected $caption = 'app.reports';
 
     protected $icon = 'chart-bar';
 
-    protected $active = 'reporting*';
+    protected $active = 'reports*';
 
     public function isAuthorized(): bool
     {

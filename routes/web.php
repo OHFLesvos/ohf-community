@@ -24,6 +24,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Library\LibraryController;
 use App\Http\Controllers\People\MaintenanceController;
 use App\Http\Controllers\PrivacyPolicy;
+use App\Http\Controllers\Reports\ReportsController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
@@ -49,8 +50,8 @@ Route::middleware('language')->group(function () {
             ->name('home');
 
         // Reporting
-        Route::view('reporting', 'reporting.index')
-            ->name('reporting.index')
+        Route::get('reports', [ReportsController::class, 'index'])
+            ->name('reports.index')
             ->middleware('can:view-reports');
     });
 

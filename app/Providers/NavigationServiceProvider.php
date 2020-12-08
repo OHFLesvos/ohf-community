@@ -13,7 +13,7 @@ class NavigationServiceProvider extends ServiceProvider
 
     protected $navigationItems = [
         \App\Navigation\Drawer\HomeNavigationItem::class                    => 0,
-        \App\Navigation\Drawer\ReportingNavigationItem::class               => 14,
+        \App\Navigation\Drawer\ReportsNavigationItem::class               => 14,
         \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class    => 15,
         \App\Navigation\Drawer\Settings\SettingsNavigationItem::class       => 16,
         \App\Navigation\Drawer\Badges\BadgesNavigationItem::class           => 13,
@@ -89,7 +89,6 @@ class NavigationServiceProvider extends ServiceProvider
         'reporting.people'                => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.bank.visitors'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reporting.bank.withdrawals'      => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.privacy'               => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
 
         'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
         'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,

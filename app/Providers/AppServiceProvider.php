@@ -24,7 +24,6 @@ class AppServiceProvider extends ServiceProvider
     use RegistersDashboardWidgets;
 
     protected $dashboardWidgets = [
-        \App\Widgets\ReportingWidget::class               => 9,
         \App\Widgets\UserManagement\UsersWidget::class    => 11,
         \App\Widgets\Fundraising\FundraisingWidget::class => 8,
         \App\Widgets\Accounting\TransactionsWidget::class => 7,
