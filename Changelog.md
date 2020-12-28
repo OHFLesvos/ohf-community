@@ -4,6 +4,7 @@
 
 * Introduced max-width container for certain pages
 * Clarified supplier search terms
+* Added permission check for community volunteer comments; only managers can see and add comments.
 
 ## 2.30.1
 
