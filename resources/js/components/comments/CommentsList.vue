@@ -7,7 +7,7 @@
         />
 
         <!-- Loading -->
-        <p v-if="!loaded">
+        <p v-if="!loaded && !error">
             <font-awesome-icon
                 icon="spinner"
                 spin
