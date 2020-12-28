@@ -1,6 +1,6 @@
 # Changelog
 
-## NEXT
+## 2.30.2
 
 * Introduced max-width container for certain pages
 * Clarified supplier search terms
