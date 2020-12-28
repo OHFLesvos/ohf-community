@@ -18,7 +18,7 @@ class CommunityVolunteerCommentsController extends Controller
      */
     public function index(CommunityVolunteer $cmtyvol, Request $request)
     {
-        $this->authorize('view', $cmtyvol);
+        $this->authorize('update', $cmtyvol);
         $this->authorize('viewAny', Comment::class);
 
         return CommentResource::collection($cmtyvol->comments()
@@ -39,7 +39,7 @@ class CommunityVolunteerCommentsController extends Controller
      */
     public function store(CommunityVolunteer $cmtyvol, StoreComment $request)
     {
-        $this->authorize('view', $cmtyvol);
+        $this->authorize('update', $cmtyvol);
         $this->authorize('create', Comment::class);
 
         $comment = new Comment();

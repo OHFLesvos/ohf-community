@@ -27,7 +27,9 @@
             <div class="card mb-4 column-break-avoid">
                 <div class="card-header">
                     {{ $sections[$section] }}
-                    <a href="{{ route('cmtyvol.edit', [$cmtyvol, 'section' => $section]) }}" class="float-right"><x-icon icon="edit"/></a>
+                    @can('update', $cmtyvol)
+                        <a href="{{ route('cmtyvol.edit', [$cmtyvol, 'section' => $section]) }}" class="float-right"><x-icon icon="edit"/></a>
+                    @endcan
                 </div>
                 <ul class="list-group list-group-flush">
                     @if(! empty($fields))
@@ -55,13 +57,17 @@
             </div>
         @endforeach
     </div>
-    <hr>
-    <h4>@lang('app.comments')</h4>
-    <div id="cmtyvol-app">
-        <cmtyvol-comments id="{{ $cmtyvol->id }}">
-            @lang('app.loading')
-        </cmtyvol-comments>
-    </div>
+    @can('viewAny', App\Model\Comment::class)
+        @can('update', $cmtyvol)
+            <hr>
+            <h4>@lang('app.comments')</h4>
+            <div id="cmtyvol-app">
+                <cmtyvol-comments id="{{ $cmtyvol->id }}">
+                    @lang('app.loading')
+                </cmtyvol-comments>
+            </div>
+        @endcan
+    @endcan
 @endsection
 
 @push('footer')

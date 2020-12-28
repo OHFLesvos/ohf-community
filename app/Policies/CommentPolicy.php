@@ -25,7 +25,8 @@ class CommentPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->hasPermission('fundraising.donors_donations.view')
+            || $user->hasPermission('cmtyvol.manage');
     }
 
     /**
@@ -37,7 +38,8 @@ class CommentPolicy
      */
     public function view(User $user, Comment $comment)
     {
-        return true;
+        return $user->hasPermission('fundraising.donors_donations.view')
+            || $user->hasPermission('cmtyvol.manage');
     }
 
     /**
@@ -48,7 +50,8 @@ class CommentPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->hasPermission('fundraising.donors_donations.view')
+            || $user->hasPermission('cmtyvol.manage');
     }
 
     /**
@@ -60,7 +63,11 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment)
     {
-        return $comment->user_id === $user->id;
+        return $comment->user_id === $user->id
+            && (
+                $user->hasPermission('fundraising.donors_donations.view')
+                || $user->hasPermission('cmtyvol.manage')
+            );
     }
 
     /**
@@ -72,6 +79,10 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment)
     {
-        return $comment->user_id === $user->id;
+        return $comment->user_id === $user->id
+            && (
+                $user->hasPermission('fundraising.donors_donations.view')
+                || $user->hasPermission('cmtyvol.manage')
+            );
     }
 }
