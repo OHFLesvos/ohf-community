@@ -5,7 +5,6 @@ namespace App\Exports\Fundraising;
 use App\Exports\BaseExport;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -26,7 +25,8 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         $this->usedCurrenciesChannels = Donation::select('currency', 'channel')
             ->selectRaw('SUM(amount) as amount')
             ->having('amount', '>', 0)
-            ->forYear(now()->year)
+            ->where(fn ($qry) => $qry->whereYear('date', now()->subYear()->year)
+                ->orWhereYear('date', now()->year))
             ->groupBy('currency')
             ->groupBy('channel')
             ->orderBy('currency')
@@ -34,8 +34,8 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->get();
 
         $this->years = [
-            Carbon::now()->subYear()->year,
-            Carbon::now()->year,
+            now()->subYear()->year,
+            now()->year,
         ];
     }
 
