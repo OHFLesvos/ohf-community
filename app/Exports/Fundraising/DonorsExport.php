@@ -17,6 +17,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
     private Collection $usedCurrenciesChannels;
+    private array $years;
 
     public function __construct()
     {
@@ -31,6 +32,11 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->orderBy('currency')
             ->orderBy('channel')
             ->get();
+
+        $this->years = [
+            Carbon::now()->subYear()->year,
+            Carbon::now()->year,
+        ];
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
@@ -64,13 +70,13 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             __('app.comments'),
         ];
         if (Auth::user()->can('viewAny', Donation::class)) {
-            $headings[] = __('fundraising.donations') . ' ' . Carbon::now()->subYear()->year;
-            $headings[] = __('fundraising.donations') . ' ' . Carbon::now()->year;
-            foreach (config('fundraising.currencies') as $currency) {
-                $headings[] = $currency . ' in ' . Carbon::now()->year;
+            foreach ($this->years as $year) {
+                $headings[] = __('fundraising.donations') . ' ' . $year;
             }
-            foreach ($this->usedCurrenciesChannels as $cc) {
-                $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . Carbon::now()->year;
+            foreach ($this->years as $year) {
+                foreach ($this->usedCurrenciesChannels as $cc) {
+                    $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . $year;
+                }
             }
         }
         return $headings;
@@ -98,16 +104,14 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             $donor->comments->sortBy('created_at')->pluck('content')->implode('; '),
         ];
         if (Auth::user()->can('viewAny', Donation::class)) {
-            $map[] = $donor->amountPerYear(Carbon::now()->subYear()->year) ?? 0;
-            $map[] = $donor->amountPerYear(Carbon::now()->year) ?? 0;
-
-            $apybc = $donor->amountPerYearByCurrencies(Carbon::now()->year) ?? [];
-            foreach (config('fundraising.currencies') as $currency) {
-                $map[] = $apybc[$currency] ?? 0;
+            foreach ($this->years as $year) {
+                $map[] = $donor->amountPerYear($year) ?? 0;
             }
-            $apybcc = $donor->amountPerYearByChannel(Carbon::now()->year) ?? [];
-            foreach ($this->usedCurrenciesChannels as $cc) {
-                $map[] = $apybcc[$cc->currency][$cc->channel] ?? 0;
+            foreach ($this->years as $year) {
+                $apybcc = $donor->amountPerYearByChannel($year) ?? [];
+                foreach ($this->usedCurrenciesChannels as $cc) {
+                    $map[] = $apybcc[$cc->currency][$cc->channel] ?? 0;
+                }
             }
         }
         return $map;
@@ -120,18 +124,17 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     {
         $formats = [];
         if (Auth::user()->can('viewAny', Donation::class)) {
-            $formats['O'] = config('fundraising.base_currency_excel_format');
-            $formats['P'] = config('fundraising.base_currency_excel_format');
-            $i = Coordinate::columnIndexFromString('P');
-            foreach (config('fundraising.currencies') as $currency) {
-                $i++;
-                $column = Coordinate::stringFromColumnIndex($i);
-                $formats[$column] = config('fundraising.currencies_excel_format')[$currency];
+            foreach ($this->years as $year) {
+                $formats['O'] = config('fundraising.base_currency_excel_format');
+                $formats['P'] = config('fundraising.base_currency_excel_format');
             }
-            foreach ($this->usedCurrenciesChannels as $cc) {
-                $i++;
-                $column = Coordinate::stringFromColumnIndex($i);
-                $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
+            $i = Coordinate::columnIndexFromString('P');
+            foreach ($this->years as $year) {
+                foreach ($this->usedCurrenciesChannels as $cc) {
+                    $i++;
+                    $column = Coordinate::stringFromColumnIndex($i);
+                    $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
+                }
             }
         }
         return $formats;
