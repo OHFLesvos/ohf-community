@@ -132,16 +132,16 @@ class Donor extends Model
             ->toArray();
     }
 
-    public function amountPerYearByChannel(string $currency, int $year): array
+    public function amountPerYearByChannel(int $year): array
     {
         return $this->donations()
-            ->select('channel')
+            ->select('channel', 'currency')
             ->selectRaw('SUM(amount) AS total')
-            ->where('currency', $currency)
             ->forYear($year)
             ->groupBy('channel')
+            ->groupBy('currency')
             ->get()
-            ->pluck('total', 'channel')
+            ->mapWithKeys(fn ($e) => [$e->currency => [$e->channel => $e->total]])
             ->toArray();
     }
 
