@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.31.0
+
+* Added donation amount by channel to donors export
+
 ## 2.30.3
 
 * No text wrap for tag select button (Donors)

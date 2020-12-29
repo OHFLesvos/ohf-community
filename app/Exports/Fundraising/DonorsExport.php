@@ -56,6 +56,11 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             foreach (config('fundraising.currencies') as $currency) {
                 $headings[] = $currency . ' in ' . Carbon::now()->year;
             }
+            foreach (config('fundraising.currencies') as $currency) {
+                foreach (Donation::channels() as $channel) {
+                        $headings[] = $currency . ' via ' . $channel . ' in ' . Carbon::now()->year;
+                }
+            }
         }
         return $headings;
     }
@@ -89,6 +94,12 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             foreach (config('fundraising.currencies') as $currency) {
                 $map[] = $apybc[$currency] ?? 0;
             }
+            foreach (config('fundraising.currencies') as $currency) {
+                $apybc = $donor->amountPerYearByChannel($currency, Carbon::now()->year) ?? [];
+                foreach (Donation::channels() as $channel) {
+                    $map[] = $apybc[$channel] ?? 0;
+                }
+            }
         }
         return $map;
     }
@@ -107,6 +118,13 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
                 $i++;
                 $column = Coordinate::stringFromColumnIndex($i);
                 $formats[$column] = config('fundraising.currencies_excel_format')[$currency];
+            }
+            foreach (config('fundraising.currencies') as $currency) {
+                foreach (Donation::channels() as $channel) {
+                    $i++;
+                    $column = Coordinate::stringFromColumnIndex($i);
+                    $formats[$column] = config('fundraising.currencies_excel_format')[$currency];
+                }
             }
         }
         return $formats;
