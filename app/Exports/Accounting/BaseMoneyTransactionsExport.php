@@ -80,7 +80,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             $transaction->controlled_at,
             $transaction->controlled_by !== null ? $transaction->controller->name : null,
             $transaction->booked ? __('app.yes') : __('app.no'),
-            isset($audit) ? $audit->getMetadata()['user_name'] : '',
+            isset($audit) && isset($audit->getMetadata()['user_name']) ? $audit->getMetadata()['user_name'] : '',
             $transaction->remarks,
         ]);
     }
