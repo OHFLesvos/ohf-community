@@ -22,21 +22,24 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     {
         $this->orientation = 'landscape';
 
+        $this->years = [
+            now()->subYear()->year,
+            now()->year,
+        ];
+
         $this->usedCurrenciesChannels = Donation::select('currency', 'channel')
             ->selectRaw('SUM(amount) as amount')
             ->having('amount', '>', 0)
-            ->where(fn ($qry) => $qry->whereYear('date', now()->subYear()->year)
-                ->orWhereYear('date', now()->year))
+            ->where(function ($qry) {
+                foreach ($this->years as $year) {
+                    $qry->orWhereYear('date', $year);
+                }
+            })
             ->groupBy('currency')
             ->groupBy('channel')
             ->orderBy('currency')
             ->orderBy('channel')
             ->get();
-
-        $this->years = [
-            now()->subYear()->year,
-            now()->year,
-        ];
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
