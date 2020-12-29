@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
@@ -142,4 +143,11 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         }
         return $formats;
     }
+
+    protected function setupView(Worksheet $sheet) {
+        parent::setupView($sheet);
+
+        $sheet->freezePane('E2');
+    }
+
 }
