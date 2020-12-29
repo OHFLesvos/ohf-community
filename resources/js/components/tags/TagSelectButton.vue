@@ -3,7 +3,7 @@
         :variant="pressed ? 'primary' : 'light'"
         size="sm"
         :pressed.sync="pressed"
-        class="mr-2"
+        class="mr-2 text-nowrap"
     >
         {{ label }}
     </b-button>

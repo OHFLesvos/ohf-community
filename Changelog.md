@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.30.3
+
+* No text wrap for tag select button (Donors)
+
 ## 2.30.2
 
 * Introduced max-width container for certain pages
