@@ -3,6 +3,7 @@
 ## 2.31.0
 
 * Added donation amount by channel to donors export
+* Small improvements to donor export spreadsheet
 
 ## 2.30.3
 
