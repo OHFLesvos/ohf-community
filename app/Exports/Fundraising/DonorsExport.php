@@ -147,7 +147,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
     protected function setupView(Worksheet $sheet) {
         parent::setupView($sheet);
 
-        $sheet->freezePane('E2');
+        $sheet->freezePane('A2');
     }
 
 }
