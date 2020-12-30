@@ -75,8 +75,6 @@ return [
     'report' => 'Bericht',
     'reports' => 'Berichte',
     'reporting' => 'Berichte',
-    'more_reports' => 'Mehr Berichte',
-    'available_reports' => 'Verfügbare Berichte',
     'tools' => 'Werkzeuge',
     'total' => 'Total',
     'x_out_of_y' => ':x von :y',

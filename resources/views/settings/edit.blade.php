@@ -36,10 +36,10 @@
             @endforeach
         </div>
         <p class="d-flex justify-content-between mt-3">
-            <x-form.bs-submit-button :label="__('app.update')"/>
             <button class="btn btn-outline-danger" type="submit" name="reset" onclick="return confirm('@lang('app.confirm_reset_to_default_settings')')">
                 <x-icon icon="undo"/> @lang('app.reset_to_default_settings')
             </button>
+            <x-form.bs-submit-button :label="__('app.update')"/>
         </p>
     {!! Form::close() !!}
 @endsection

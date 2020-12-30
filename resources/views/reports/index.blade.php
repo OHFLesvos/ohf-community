@@ -3,7 +3,6 @@
 @section('title', __('app.reports'))
 
 @section('content')
-    <p>@lang('app.available_reports'):</p>
     <div class="list-group shadow-sm">
         @foreach($reports as $report)
             <a href="{{ $report['url'] }}" class="list-group-item list-group-item-action">

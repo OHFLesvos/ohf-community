@@ -75,8 +75,6 @@ return [
     'report' => 'Report',
     'reports' => 'Reports',
     'reporting' => 'Reporting',
-    'more_reports' => 'More reports',
-    'available_reports' => 'Available reports',
     'tools' => 'Tools',
     'total' => 'Total',
     'x_out_of_y' => ':x out of :y',
