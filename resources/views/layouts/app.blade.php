@@ -20,6 +20,22 @@
                         @include('layouts.include.site-header')
                     </header>
 
+                    {{-- Sub Navigation --}}
+                    @isset($subnav)
+                        @php
+                            $items = collect($subnav)->where('authorized', true);
+                        @endphp
+                        @if($items->isNotEmpty())
+                            <div class="nav-scroller bg-white shadow-sm">
+                                <nav class="nav nav-underline">
+                                    @foreach($items as $item)
+                                        <a class="nav-link @if(isset($item['active']) && Request::is($item['active'])) active @endisset" href="{{ $item['url'] }}">@isset($item['icon'])<x-icon :icon="$item['icon']"/> @endisset{{ $item['caption'] }}</a>
+                                    @endforeach
+                                </nav>
+                            </div>
+                        @endif
+                    @endisset
+
                     {{-- Content --}}
                     <article class="site-content bg-light">
 

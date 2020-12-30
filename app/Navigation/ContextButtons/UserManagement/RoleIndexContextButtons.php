@@ -20,12 +20,6 @@ class RoleIndexContextButtons implements ContextButtons
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', Role::class),
             ],
-            'users' => [
-                'url' => route('users.index'),
-                'caption' => __('app.users'),
-                'icon' => 'users',
-                'authorized' => Auth::user()->can('viewAny', User::class),
-            ],
             'permissions' => [
                 'url' => route('roles.permissions'),
                 'caption' => __('app.permissions'),

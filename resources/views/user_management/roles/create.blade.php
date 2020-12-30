@@ -45,7 +45,7 @@
             </div>
 
         </div>
-        <p>
+        <p class="text-right">
             <x-form.bs-submit-button :label="__('app.create')"/>
         </p>
     {!! Form::close() !!}

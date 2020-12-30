@@ -56,7 +56,6 @@ return [
     'confirm_delete_user' => 'Really delete this user?',
     'create_role' => 'Create Role',
     'edit_role' => 'Edit Role',
-    'view_role' => 'View Role',
     'permission' => 'Permission',
     'permissions' => 'Permissions',
     'user_permissions' => 'User Permissions',

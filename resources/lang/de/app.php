@@ -56,7 +56,6 @@ return [
     'confirm_delete_user' => 'Soll dieser Benutzer wirklich gelöscht werden?',
     'create_role' => 'Rolle hinzufügen',
     'edit_role' => 'Rolle bearbeiten',
-    'view_role' => 'Rolle anzeigen',
     'permission' => 'Berechtigung',
     'permissions' => 'Berechtigungen',
     'user_permissions' => 'Benutzerberechtigungen',

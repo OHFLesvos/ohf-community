@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
-@section('title', __('app.view_user'))
+@section('title', __('app.user'))
+@section('site-title', $user->name . ' - '.__('app.user'))
 
 @section('content')
+
+    <h1 class="display-4 mb-4">{{ $user->name }}</h1>
 
     @if ($user->id == Auth::id())
         <x-alert type="info">
@@ -11,20 +14,14 @@
     @endif
 
     <div class="row">
-        <div class="col-md-auto text-center">
+        <div class="col-md-auto text-center mb-3">
             <x-user-avatar :user="$user" size="120"/>
         </div>
 
         <div class="col-md">
-            <div class="card shadow-sm mb-2">
-                <div class="card-header">@lang('userprofile.profile')</div>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">@lang('app.user_profile')</div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm"><strong>@lang('app.name')</strong></div>
-                            <div class="col-sm">{{ $user->name }}</div>
-                        </div>
-                    </li>
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-sm"><strong>@lang('app.email')</strong></div>
@@ -48,34 +45,6 @@
                             </div>
                         </li>
                     @endisset
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-sm"><strong>@lang('app.roles')</strong></div>
-                            <div class="col-sm">
-                                @forelse ($user->roles->sortBy('name') as $role)
-                                    <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>
-                                    <br>
-                                @empty
-                                    <em>@lang('app.no_roles_assigned')</em>
-                                @endforelse
-                            </div>
-                        </div>
-                    </li>
-                    @if($user->administeredRoles->count() > 0)
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col-sm"><strong>@lang('app.role_administrator')</strong></div>
-                                <div class="col-sm">
-                                    @forelse ($user->administeredRoles->sortBy('name') as $role)
-                                        <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>
-                                        <br>
-                                    @empty
-                                        <em>@lang('app.no_roles_assigned')</em>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </li>
-                    @endif
                     @isset($user->tfa_secret)
                         <li class="list-group-item">
                             <div class="row">
@@ -111,9 +80,46 @@
                     </li>
                 </ul>
             </div>
+
+            {{-- Roles --}}
+            <div class="card shadow-sm mb-4">
+                <div class="card-header">
+                    @lang('app.roles')
+                    <span class="badge badge-secondary">{{ $user->roles()->count() }}</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        @if(count($user->roles) > 0)
+                            @foreach($user->roles->sortBy('name') as $role)
+                                <a href="{{ route('roles.show', $role) }}" class="list-group-item list-group-item-action">{{ $role->name }}</a>
+                            @endforeach
+                        @else
+                            <li class="list-group-item"><em>@lang('app.no_roles_assigned')</em></li>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            {{-- Administered roles --}}
+            @if($user->administeredRoles->count() > 0)
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        @lang('app.role_administrator')
+                        <span class="badge badge-secondary">{{ $user->administeredRoles()->count() }}</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            @foreach($user->administeredRoles->sortBy('name') as $role)
+                                <a href="{{ route('roles.show', $role) }}" class="list-group-item list-group-item-action">{{ $role->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="col-md-5">
+            {{-- Permissions --}}
             <div class="card shadow-sm mb-4">
                 <div class="card-header">
                     @lang('app.permissions')
