@@ -2,6 +2,7 @@
 
 namespace App\Navigation\ContextButtons;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ReportingReturnToIndexContextButtons implements ContextButtons
@@ -10,10 +11,10 @@ class ReportingReturnToIndexContextButtons implements ContextButtons
     {
         return [
             'back' => [
-                'url' => url()->previous(),
+                'url' => route('reports.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => true,
+                'authorized' => Auth::user()->can('view-reports'),
             ],
         ];
     }

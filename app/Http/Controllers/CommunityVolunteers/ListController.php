@@ -311,34 +311,19 @@ class ListController extends BaseController
 
         $request->validate([
             'section' => [
-                'nullable',
+                'required',
                 Rule::in(array_keys($sections)),
             ],
         ]);
-        if ($request->has('section')) {
-            return view('cmtyvol.edit_section', [
-                'cmtyvol' => $cmtyvol,
-                'fields' => $fields->where('section', $request->section)
-                    ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
-                    ->filter(fn ($field) => isset($field['form_name']) && isset($field['form_type']))
-                    ->map(fn ($f) => self::createFormField($f, is_callable($f['value']) ? $f['value']($cmtyvol) : $cmtyvol->{$f['value']}))
-                    ->toArray(),
-                'section' => $request->section,
-                'section_label' => $sections[$request->section],
-            ]);
-        }
-        return view('cmtyvol.edit', [
+        return view('cmtyvol.edit_section', [
             'cmtyvol' => $cmtyvol,
-            'data' => collect(array_keys($sections))
-                ->mapWithKeys(fn ($section) => [
-                    $sections[$section] => $fields
-                        ->where('section', $section)
-                        ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
-                        ->filter(fn ($field) => isset($field['form_name']) && isset($field['form_type']))
-                        ->map(fn ($f) => self::createFormField($f, is_callable($f['value']) ? $f['value']($cmtyvol) : $cmtyvol->{$f['value']}))
-                        ->toArray(),
-                ])
+            'fields' => $fields->where('section', $request->section)
+                ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
+                ->filter(fn ($field) => isset($field['form_name']) && isset($field['form_type']))
+                ->map(fn ($f) => self::createFormField($f, is_callable($f['value']) ? $f['value']($cmtyvol) : $cmtyvol->{$f['value']}))
                 ->toArray(),
+            'section' => $request->section,
+            'section_label' => $sections[$request->section],
         ]);
     }
 
@@ -349,7 +334,7 @@ class ListController extends BaseController
         $sections = $this->getSections();
         $request->validate([
             'section' => [
-                'nullable',
+                'required',
                 Rule::in(array_keys($sections)),
             ],
         ]);

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.32.0
+
+* Layout and widgets update
+* Fix language for vue-based modules
+* Reorder widgets and menu items
+* Cleanup navigation
+* Fix community volunteer gender selection
+
 ## 2.31.0
 
 * Added donation amount by channel to donors export

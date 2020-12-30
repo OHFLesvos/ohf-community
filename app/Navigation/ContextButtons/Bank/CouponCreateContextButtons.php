@@ -13,7 +13,7 @@ class CouponCreateContextButtons implements ContextButtons
     {
         return [
             'back' => [
-                'url' => route('coupons.index'),
+                'url' => route('bank.coupons.index'),
                 'caption' => __('app.cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', CouponType::class),

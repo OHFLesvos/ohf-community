@@ -21,7 +21,7 @@
                     </header>
 
                     {{-- Content --}}
-                    <article class="site-content">
+                    <article class="site-content bg-light">
 
                         <div class="@if(! isset($wide_layout) || $wide_layout) container-fluid @else container @endif {{ $content_padding ?? 'pt-3' }}">
 

@@ -31,10 +31,7 @@
         <!-- Table -->
         <b-table
             :id="id"
-            striped
             hover
-            small
-            bordered
             responsive
             :items="itemProvider"
             :fields="fields"
@@ -49,6 +46,7 @@
             :empty-filtered-text="$t('app.no_records_matching_your_request')"
             :no-sort-reset="true"
             :filter="filter"
+            class="bg-white shadow-sm"
         >
             <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
             <div slot="table-busy" class="text-center my-2">

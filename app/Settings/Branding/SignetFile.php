@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Gate;
 
 class SignetFile extends BaseSettingsField
 {
-    private const WIDTH = 30;
+    private const WIDTH = 200;
     private const HEIGHT = 30;
 
     public function section(): string

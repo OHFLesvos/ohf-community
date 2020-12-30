@@ -1,7 +1,6 @@
 <template>
     <b-nav
         tabs
-        class="mb-3"
     >
         <b-nav-item
             v-for="(item, idx) in availableItems"

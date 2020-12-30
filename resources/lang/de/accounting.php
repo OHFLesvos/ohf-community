@@ -43,6 +43,7 @@ return [
     'paid_from' => 'Bezahlt aus',
     'num_transactions_booked' => ':num Transaktionen wurden verbucht.',
     'num_transactions_synced' => ':num Transaktionen wurden synchronisiert.',
+    'webling' => 'Webling',
     'book_to_webling' => 'Nach Webling verbuchen',
     'no_months_with_unbooked_transactions_found' => 'Keine Monate mit unverbuchten Transaktionen gefunden.',
     'please_choose_month_with_unbooked_transactions_in_open_booking_period' => 'Bitte wähle eine Monat mit unverbuchten Transaktionen in einer offenen Buchungsperiode:',

@@ -3,11 +3,13 @@
 namespace App\Models\Visitors;
 
 use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Visitor extends Model
 {
+    use HasFactory;
     use NullableFields;
 
     protected $nullable = [

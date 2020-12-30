@@ -1,18 +1,20 @@
 <template>
-    <donors-table
-        v-if="tags != null"
-        :tags="tags"
-        :tag="tag"
-    >
-        <template v-slot:primary-cell="data">
-            <router-link :to="{ name: 'fundraising.donors.show', params: { id: data.item.id } }">
-                {{ data.value }}
-            </router-link>
-        </template>
-    </donors-table>
-    <p v-else>
-        {{ $t('app.loading') }}
-    </p>
+    <div class="mt-3">
+        <donors-table
+            v-if="tags != null"
+            :tags="tags"
+            :tag="tag"
+        >
+            <template v-slot:primary-cell="data">
+                <router-link :to="{ name: 'fundraising.donors.show', params: { id: data.item.id } }">
+                    {{ data.value }}
+                </router-link>
+            </template>
+        </donors-table>
+        <p v-else>
+            {{ $t('app.loading') }}
+        </p>
+    </div>
 </template>
 
 <script>

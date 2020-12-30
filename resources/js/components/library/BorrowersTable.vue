@@ -1,19 +1,21 @@
 <template>
-    <base-table
-        id="borrowersTable"
-        :fields="fields"
-        :api-method="listBorrowers"
-        default-sort-by="person"
-        :empty-text="$t('library.no_books_lent')"
-        no-filter
-        :items-per-page="25"
-    >
-        <template v-slot:cell(person)="data">
-            <b-link :to="{ name: 'library.lending.person', params: { personId: data.item.public_id }}">
-                {{ data.item.full_name }}
-            </b-link>
-        </template>
-    </base-table>
+    <div class="mt-3">
+        <base-table
+            id="borrowersTable"
+            :fields="fields"
+            :api-method="listBorrowers"
+            default-sort-by="person"
+            :empty-text="$t('library.no_books_lent')"
+            no-filter
+            :items-per-page="25"
+        >
+            <template v-slot:cell(person)="data">
+                <b-link :to="{ name: 'library.lending.person', params: { personId: data.item.public_id }}">
+                    {{ data.item.full_name }}
+                </b-link>
+            </template>
+        </base-table>
+    </div>
 </template>
 
 <script>

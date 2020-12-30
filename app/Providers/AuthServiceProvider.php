@@ -41,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        // TODO: Skipped for now as it ignores any invalid policies
         // $this->registerSuperAdminAccess();
         $this->registerPermissionGateMappings();
     }

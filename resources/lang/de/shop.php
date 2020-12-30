@@ -18,7 +18,6 @@ return [
     'card_redeemed' => 'Karte wurde eingelöst.',
     'should_card_be_cancelled' => 'Soll diese Karte wirlich zurückgezogen werden?',
     'card_has_been_cancelled' => 'Karte wurde zurückgezogen.',
-    'num_cards_redeemed_today' => '<strong>:num</strong> Karte wurde heute eingelöst.|<strong>:num</strong> Karten wurden heute eingelöst.',
     'no_persons_registered_today' => 'Heute wurden noch keine Personen registiert.',
     'check_in' => 'Einchecken',
     'checked_in_person' => ':person eingecheckt.',

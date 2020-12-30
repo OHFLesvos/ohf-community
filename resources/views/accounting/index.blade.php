@@ -3,7 +3,7 @@
 @section('title', __('accounting.accounting'))
 
 @section('content')
-    <div class="card">
+    <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between">
             <span>@lang('accounting.wallets')</span>
             @can('configure-accounting')

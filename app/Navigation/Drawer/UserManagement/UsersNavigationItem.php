@@ -13,7 +13,7 @@ class UsersNavigationItem extends BaseNavigationItem
 
     protected $caption = 'app.users_and_roles';
 
-    protected $icon = 'users';
+    protected $icon = 'user-friends';
 
     protected $active = ['admin/users*', 'admin/roles*'];
 

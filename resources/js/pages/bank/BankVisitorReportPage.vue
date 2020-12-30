@@ -4,7 +4,7 @@
             <div class="col-xl-6">
 
                 <!-- Important figures -->
-                <template v-if="visitors">
+                <div v-if="visitors" class="bg-white rounded px-3 pt-3 pb-1 mb-4">
                     <div
                         v-for="(row, idx) in visitors"
                         :key="idx"
@@ -22,7 +22,7 @@
                         </div>
                         <div class="w-100 d-block d-sm-none"></div>
                     </div>
-                </template>
+                </div>
                 <p v-else>
                     {{ $t('app.loading') }}
                 </p>
@@ -33,11 +33,8 @@
                     :x-label="$t('app.weekday')"
                     :y-label="$t('app.quantity')"
                     :data="api.fetchAvgVisitorsPerDayOfWeek"
-                    :height="270">
-                </bar-chart>
-
-            </div>
-            <div class="col-xl-6">
+                    :height="270"
+                    class="bg-white p-2 mb-4 rounded"/>
 
                 <!-- Visitors per day -->
                 <bar-chart
@@ -45,8 +42,11 @@
                     :x-label="$t('app.day')"
                     :y-label="$t('app.quantity')"
                     :data="api.fetchVisitorsPerDay"
-                    :height="270">
-                </bar-chart>
+                    :height="270"
+                    class="bg-white p-2 mb-4 rounded"/>
+
+            </div>
+            <div class="col-xl-6">
 
                 <!-- Visitors per week -->
                 <bar-chart
@@ -54,8 +54,8 @@
                     :x-label="$t('app.week')"
                     :y-label="$t('app.quantity')"
                     :data="api.fetchVisitorsPerWeek"
-                    :height="270">
-                </bar-chart>
+                    :height="270"
+                    class="bg-white p-2 mb-4 rounded"/>
 
                 <!-- Visitors per month -->
                 <bar-chart
@@ -63,8 +63,8 @@
                     :x-label="$t('app.month')"
                     :y-label="$t('app.quantity')"
                     :data="api.fetchVisitorsPerMonth"
-                    :height="270">
-                </bar-chart>
+                    :height="270"
+                    class="bg-white p-2 mb-4 rounded"/>
 
                 <!-- Visitors per year -->
                 <bar-chart
@@ -72,8 +72,8 @@
                     :x-label="$t('app.year')"
                     :y-label="$t('app.quantity')"
                     :data="api.fetchVisitorsPerYear"
-                    :height="270">
-                </bar-chart>
+                    :height="270"
+                    class="bg-white p-2 mb-4 rounded"/>
 
             </div>
         </div>

@@ -3,9 +3,7 @@
 @section('title', __('app.create_role'))
 
 @section('content')
-
     {!! Form::open(['route' => ['roles.store']]) !!}
-
         <div class="mb-3">
             <div class="form-row">
                 <div class="col-md">
@@ -13,11 +11,10 @@
                 </div>
             </div>
         </div>
-
         <div class="card-deck mb-3">
 
             {{-- Users --}}
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-header">@lang('app.users')</div>
                 <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('users[]', $users, null) }}
@@ -25,7 +22,7 @@
             </div>
 
             {{-- Role administrators --}}
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-header">@lang('app.role_administrators')</div>
                 <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('role_admins[]', $users, null) }}
@@ -33,7 +30,7 @@
             </div>
 
             {{-- Permissions --}}
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-header">@lang('app.permissions')</div>
                 <div class="card-body columns-2">
                     @forelse($permissions as $title => $elements)
@@ -48,11 +45,8 @@
             </div>
 
         </div>
-
         <p>
             <x-form.bs-submit-button :label="__('app.create')"/>
         </p>
-
     {!! Form::close() !!}
-
 @endsection

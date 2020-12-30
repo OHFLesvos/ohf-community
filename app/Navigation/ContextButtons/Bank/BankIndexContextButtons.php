@@ -2,6 +2,7 @@
 
 namespace App\Navigation\ContextButtons\Bank;
 
+use App\Models\Bank\CouponType;
 use App\Models\Collaboration\WikiArticle;
 use App\Models\People\Person;
 use App\Navigation\ContextButtons\ContextButtons;
@@ -22,11 +23,17 @@ class BankIndexContextButtons implements ContextButtons
                 'icon' => 'list',
                 'authorized' => Gate::allows('do-bank-withdrawals') && Auth::user()->can('viewAny', Person::class),
             ],
-            'report' => [
-                'url' => route('reporting.bank.withdrawals'),
-                'caption' => __('app.report'),
-                'icon' => 'chart-line',
-                'authorized' => Gate::allows('view-bank-reports'),
+            'export' => [
+                'url' => route('bank.export'),
+                'caption' => __('app.export'),
+                'icon' => 'download',
+                'authorized' => Auth::user()->can('export', Person::class),
+            ],
+            'coupons' => [
+                'url' => route('bank.coupons.index'),
+                'caption' => __('bank.coupons'),
+                'icon' => 'ticket-alt',
+                'authorized' => Auth::user()->can('viewAny', CouponType::class),
             ],
             'help' => $help_article != null ? [
                 'url' => route('kb.articles.show', $help_article),

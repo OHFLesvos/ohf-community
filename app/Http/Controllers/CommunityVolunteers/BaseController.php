@@ -160,7 +160,7 @@ abstract class BaseController extends Controller
                     }
                 },
                 'form_type' => 'radio',
-                'form_name' => 'gender',
+                'form_name' => 'sex',
                 'form_list' => [
                     null => __('app.unspecified'),
                     __('app.male') => __('app.male'),

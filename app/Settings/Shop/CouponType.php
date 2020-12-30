@@ -15,7 +15,7 @@ class CouponType extends BaseSettingsField
 
     public function label(): string
     {
-        return __('coupons.coupon');
+        return __('bank.coupon');
     }
 
     public function defaultValue()

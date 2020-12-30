@@ -3,7 +3,6 @@
 @section('title', __('app.create_user'))
 
 @section('content')
-
     {!! Form::open(['route' => ['users.store']]) !!}
 
         <!-- The text and password here are to prevent FF from auto filling my login credentials because it ignores autocomplete="off"-->
@@ -13,7 +12,7 @@
         <div class="row">
 
             <div class="col-md-8 mb-4">
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-header">@lang('app.user_profile')</div>
                     <div class="card-body">
 
@@ -37,7 +36,7 @@
             </div>
 
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="card-header">@lang('app.roles')</div>
                     <div class="card-body">
                         {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(fn ($role) => [ $role->id => $role->name ]), null) }}
@@ -51,11 +50,8 @@
             </div>
 
         </div>
-
         <p>
             <x-form.bs-submit-button :label="__('app.create')"/>
         </p>
-
     {!! Form::close() !!}
-
 @endsection

@@ -1,11 +1,12 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.tag') . ': ' . $tag->name)
+@section('title', __('kb.knowledge_base'))
+@section('site-title', __('app.tag') . ': ' . $tag->name . ' - ' . __('kb.knowledge_base'))
+
 
 @section('content')
-
+    <h1 class="display-4">@lang('app.tag') <em>{{ $tag->name }}</em></h1>
     @if(! $articles->isEmpty())
-        <p><small>@lang('wiki.found_num_articles_with_tag', ['num' => $articles->total(), 'tag' => $tag->name ])</small></p>
         <p>
             @foreach ($articles as $article)
                 <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
@@ -18,6 +19,7 @@
             @endforeach
         </p>
         {{ $articles->links() }}
+        <p><small>@lang('wiki.found_num_articles_with_tag', ['num' => $articles->total(), 'tag' => $tag->name ])</small></p>
         @if($has_more_articles)
             <x-alert type="info">
                 @guest

@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import CurrentVisitorsPage from '@/pages/visitors/CurrentVisitorsPage'
-import VisitorReportPage from '@/pages/visitors/VisitorReportPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 export default new VueRouter({
@@ -22,13 +21,6 @@ export default new VueRouter({
             name: 'visitors.listCurrent',
             components: {
                 default: CurrentVisitorsPage,
-            }
-        },
-        {
-            path: '/report',
-            name: 'visitors.report',
-            components: {
-                default: VisitorReportPage,
             }
         },
         {

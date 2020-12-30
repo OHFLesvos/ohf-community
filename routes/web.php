@@ -10,21 +10,21 @@ use App\Http\Controllers\Badges\BadgeMakerController;
 use App\Http\Controllers\Bank\CodeCardController;
 use App\Http\Controllers\Bank\CouponTypesController;
 use App\Http\Controllers\Bank\ImportExportController;
-use App\Http\Controllers\Bank\MaintenanceController;
 use App\Http\Controllers\Bank\PeopleController as BankPeopleController;
 use App\Http\Controllers\People\PeopleController;
 use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\Collaboration\ArticleController;
 use App\Http\Controllers\Collaboration\SearchController;
 use App\Http\Controllers\Collaboration\TagController;
-use App\Http\Controllers\CommunityVolunteers\ExportController;
-use App\Http\Controllers\CommunityVolunteers\ImportController;
+use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\Fundraising\FundraisingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Library\LibraryController;
+use App\Http\Controllers\People\MaintenanceController;
 use App\Http\Controllers\PrivacyPolicy;
+use App\Http\Controllers\Reports\ReportsController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
@@ -45,14 +45,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('language')->group(function () {
 
     Route::middleware('auth')->group(function () {
+
         // Home (Dashboard)
         Route::get('/', [HomeController::class, 'index'])
             ->name('home');
 
-        // Reporting
-        Route::view('reporting', 'reporting.index')
-            ->name('reporting.index')
-            ->middleware('can:view-reports');
     });
 
     // Authentication
@@ -86,7 +83,11 @@ Route::middleware(['auth', 'language'])
         // User management
         Route::prefix('admin')
             ->group(function () {
+
                 // Users
+                Route::get('users/permissions', [UserController::class, 'permissions'])
+                    ->name('users.permissions')
+                    ->middleware('can:viewAny,App\Models\User');
                 Route::put('users/{user}/disable2FA', [UserController::class, 'disable2FA'])
                     ->name('users.disable2FA');
                 Route::put('users/{user}/disableOAuth', [UserController::class, 'disableOAuth'])
@@ -94,21 +95,14 @@ Route::middleware(['auth', 'language'])
                 Route::resource('users', UserController::class);
 
                 // Roles
+                Route::get('roles/permissions', [RoleController::class, 'permissions'])
+                    ->name('roles.permissions')
+                    ->middleware('can:viewAny,App\Models\Role');
                 Route::get('roles/{role}/members', [RoleController::class, 'manageMembers'])
                     ->name('roles.manageMembers');
                 Route::put('roles/{role}/members', [RoleController::class, 'updateMembers'])
                     ->name('roles.updateMembers');
                 Route::resource('roles', RoleController::class);
-
-                // Reporting
-                Route::group(['middleware' => ['can:view-usermgmt-reports']], function () {
-                    Route::get('reporting/users/permissions', [UserController::class, 'permissions'])
-                        ->name('users.permissions');
-                    Route::get('reporting/users/sensitiveData', [UserController::class, 'sensitiveDataReport'])
-                        ->name('reporting.privacy');
-                    Route::get('reporting/roles/permissions', [RoleController::class, 'permissions'])
-                        ->name('roles.permissions');
-                });
             });
 
         // User profile
@@ -279,41 +273,31 @@ Route::middleware(['language'])
 Route::middleware(['auth', 'language'])
     ->group(function () {
 
+        // Maintenance
+        Route::middleware('can:cleanup,App\Models\People\Person')
+            ->name('people.')
+            ->prefix('people')
+            ->group(function () {
+                Route::get('maintenance', [MaintenanceController::class, 'maintenance'])
+                    ->name('maintenance');
+                Route::post('maintenance', [MaintenanceController::class, 'updateMaintenance'])
+                    ->name('updateMaintenance');
+                Route::get('duplicates', [MaintenanceController::class, 'duplicates'])
+                    ->name('duplicates');
+                Route::post('duplicates', [MaintenanceController::class, 'applyDuplicates'])
+                    ->name('applyDuplicates');
+            });
+
         // People
-        Route::get('people/bulkSearch', [PeopleController::class, 'bulkSearch'])
-            ->name('people.bulkSearch')
-            ->middleware('can:viewAny,App\Models\People\Person');
-        Route::post('people/bulkSearch', [PeopleController::class, 'doBulkSearch'])
-            ->name('people.doBulkSearch')
-            ->middleware('can:viewAny,App\Models\People\Person');
         Route::get('people/export', [PeopleController::class, 'export'])
             ->name('people.export')
             ->middleware('can:export,App\Models\People\Person');
-        Route::get('people/import', [PeopleController::class, 'import'])
+        Route::view('people/import-export', 'people.import-export')
+            ->name('people.import-export');
+        Route::post('people/import', [PeopleController::class, 'import'])
             ->name('people.import')
             ->middleware('can:create,App\Models\People\Person');
-        Route::post('people/doImport', [PeopleController::class, 'doImport'])
-            ->name('people.doImport')
-            ->middleware('can:create,App\Models\People\Person');
-        Route::get('people/duplicates', [PeopleController::class, 'duplicates'])
-            ->name('people.duplicates');
-        Route::post('people/duplicates', [PeopleController::class, 'applyDuplicates'])
-            ->name('people.applyDuplicates');
         Route::resource('people', PeopleController::class);
-
-        // Reporting
-        Route::prefix('reporting')
-            ->middleware(['can:view-people-reports'])
-            ->group(function () {
-
-                // Monthly summary report
-                Route::view('monthly-summary', 'people.reporting.monthly-summary')
-                    ->name('reporting.monthly-summary');
-
-                // People report
-                Route::view('people', 'people.reporting.people')
-                    ->name('reporting.people');
-            });
     });
 
 //
@@ -352,15 +336,6 @@ Route::middleware(['auth', 'language'])
                 Route::resource('people', BankPeopleController::class)
                     ->except(['index', 'store', 'update']);
 
-                // Maintenance
-                Route::middleware('can:cleanup,App\Models\People\Person')
-                    ->group(function () {
-                        Route::get('maintenance', [MaintenanceController::class, 'maintenance'])
-                            ->name('maintenance');
-                        Route::post('maintenance', [MaintenanceController::class, 'updateMaintenance'])
-                            ->name('updateMaintenance');
-                    });
-
                 // Export
                 Route::middleware('can:export,App\Models\People\Person')
                     ->group(function () {
@@ -369,24 +344,9 @@ Route::middleware(['auth', 'language'])
                         Route::post('doExport', [ImportExportController::class, 'doExport'])
                             ->name('doExport');
                     });
-            });
 
-        // Coupons
-        Route::middleware('can:configure-bank')
-            ->prefix('bank')
-            ->group(function () {
+                // Coupons
                 Route::resource('coupons', CouponTypesController::class);
-            });
-
-        // Reporting
-        Route::middleware('can:view-bank-reports')
-            ->name('reporting.bank.')
-            ->prefix('reporting/bank')
-            ->group(function () {
-                Route::view('withdrawals', 'bank.reporting.withdrawals')
-                    ->name('withdrawals');
-                Route::view('visitors', 'bank.reporting.visitors')
-                    ->name('visitors');
             });
     });
 
@@ -406,33 +366,22 @@ Route::middleware(['auth', 'language'])
                     ->name('overview')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                // Report view
-                Route::view('report', 'cmtyvol.report')
-                    ->name('report')
-                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-
-                // Export view
-                Route::get('export', [ExportController::class, 'export'])
-                    ->name('export')
-                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
+                // Import & Export view
+                Route::get('import-export', [CommunityVolunteersImportExportController::class, 'index'])
+                    ->name('import-export');
 
                 // Export download
-                Route::post('doExport', [ExportController::class, 'doExport'])
+                Route::post('doExport', [CommunityVolunteersImportExportController::class, 'doExport'])
                     ->name('doExport')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                // Import view
-                Route::get('import', [ImportController::class, 'import'])
-                    ->name('import')
-                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
-
                 // Import upload
-                Route::post('doImport', [ImportController::class, 'doImport'])
+                Route::post('doImport', [CommunityVolunteersImportExportController::class, 'doImport'])
                     ->name('doImport')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Download vCard
-                Route::get('{cmtyvol}/vcard', [ExportController::class, 'vcard'])
+                Route::get('{cmtyvol}/vcard', [CommunityVolunteersImportExportController::class, 'vcard'])
                     ->name('vcard');
 
                 // Responsibilities resource
@@ -489,6 +438,76 @@ Route::middleware(['auth', 'language'])
         Route::view('/{any}', 'visitors.index')
             ->where('any', '.*')
             ->name('any');
+    });
+
+// Reports
+Route::prefix('reports')
+    ->name('reports.')
+    ->middleware(['auth', 'language'])
+    ->group(function () {
+
+        // Reports overview
+        Route::get('', [ReportsController::class, 'index'])
+            ->name('index')
+            ->middleware('can:view-reports');
+
+        // Reports: People
+        Route::prefix('people')
+            ->name('people.')
+            ->middleware(['can:view-people-reports'])
+            ->group(function () {
+                Route::view('monthly-summary', 'reports.people.monthly-summary')
+                    ->name('monthly-summary');
+                Route::view('people', 'reports.people.people')
+                    ->name('people');
+            });
+
+        // Reports: Bank
+        Route::prefix('bank')
+            ->name('bank.')
+            ->middleware('can:view-bank-reports')
+            ->group(function () {
+                Route::view('withdrawals', 'reports.bank.withdrawals')
+                    ->name('withdrawals');
+                Route::view('visitors', 'reports.bank.visitors')
+                    ->name('visitors');
+            });
+
+        // Reports: Community volunteers
+        Route::prefix('cmtyvol')
+            ->name('cmtyvol.')
+            ->middleware('can:view-community-volunteer-reports')
+            ->group(function () {
+                Route::view('report', 'reports.cmtyvol.report')
+                    ->name('report');
+            });
+
+        // Reports: Visitors
+        Route::prefix('visitors')
+            ->name('visitors.')
+            ->middleware('can:register-visitors')
+            ->group(function () {
+                Route::view('checkins', 'reports.visitors.checkins')
+                    ->name('checkins');
+            });
+
+        // Reports: Library
+        Route::prefix('library')
+            ->name('library.')
+            ->middleware('can:operate-library')
+            ->group(function () {
+                Route::view('books', 'reports.library.books')
+                    ->name('books');
+            });
+
+        // Reports: Fundraising
+        Route::prefix('fundraising')
+            ->name('fundraising.')
+            ->middleware('can:view-fundraising-reports')
+            ->group(function () {
+                Route::view('donations', 'reports.fundraising.donations')
+                    ->name('donations');
+            });
     });
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {

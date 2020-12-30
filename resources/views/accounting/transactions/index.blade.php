@@ -16,7 +16,7 @@
             </span>
             <u>{{ number_format($wallet->amount, 2) }}</u>
             @if($has_multiple_wallets)
-                <a href="{{ route('accounting.index') }}" class="d-none d-sm-inline">
+                <a href="{{ route('accounting.index') }}" class="d-none d-sm-inline btn btn-sm btn-primary ml-2">
                     @lang('app.change')
                 </a>
                 <a href="{{ route('accounting.index') }}" class="d-inline d-sm-none btn btn-sm">
@@ -36,7 +36,7 @@
 
     @if(! $transactions->isEmpty())
         <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
+            <table class="table table-hover bg-white">
                 <thead>
                     <tr>
                         <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>

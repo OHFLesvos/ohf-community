@@ -24,7 +24,7 @@
         <div class="tab-content" id="myTabContent">
             @foreach($sections as $section_key => $section_label)
                 <div
-                    class="tab-pane fade show p-2"
+                    class="tab-pane fade show px-4 py-3 bg-white"
                     id="{{ $section_key }}"
                     role="tabpanel"
                     aria-labelledby="{{ $section_key }}-tab"
@@ -35,10 +35,9 @@
                 </div>
             @endforeach
         </div>
-        <hr>
-        <p>
+        <p class="d-flex justify-content-between mt-3">
             <x-form.bs-submit-button :label="__('app.update')"/>
-            <button class="btn btn-secondary" type="submit" name="reset" onclick="return confirm('@lang('app.confirm_reset_to_default_settings')')">
+            <button class="btn btn-outline-danger" type="submit" name="reset" onclick="return confirm('@lang('app.confirm_reset_to_default_settings')')">
                 <x-icon icon="undo"/> @lang('app.reset_to_default_settings')
             </button>
         </p>

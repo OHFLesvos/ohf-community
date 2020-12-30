@@ -18,7 +18,7 @@
             <p
                 v-for="(v, k) in stats.limited_coupons"
                 :key="k"
-                v-html="$t('coupons.coupons_handed_out_n_t', {
+                v-html="$t('bank.coupons_handed_out_n_t', {
                         coupon: v.coupon,
                         count: v.count,
                         limit: v.limit

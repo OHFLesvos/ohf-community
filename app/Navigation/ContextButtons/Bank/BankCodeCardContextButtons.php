@@ -2,8 +2,9 @@
 
 namespace App\Navigation\ContextButtons\Bank;
 
+use App\Models\Bank\CouponType;
 use App\Navigation\ContextButtons\ContextButtons;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class BankCodeCardContextButtons implements ContextButtons
@@ -12,10 +13,10 @@ class BankCodeCardContextButtons implements ContextButtons
     {
         return [
             'back' => [
-                'url' => route('bank.index'),
+                'url' => route('bank.coupons.index'),
                 'caption' => __('app.close'),
                 'icon' => 'times-circle',
-                'authorized' => Gate::allows('view-bank-index'),
+                'authorized' => Auth::user()->can('viewAny', CouponType::class),
             ],
         ];
     }

@@ -12,7 +12,7 @@ class KBItem extends BaseNavigationItem
 
     protected $caption = 'kb.knowledge_base';
 
-    protected $icon = 'book';
+    protected $icon = 'info-circle';
 
     protected $active = 'kb*';
 

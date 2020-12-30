@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mt-3">
         <!-- Edit donation form -->
         <b-container
             v-if="selectedDonation"

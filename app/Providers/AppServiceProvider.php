@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Mixins\BuilderMixin;
-use App\Providers\Traits\RegistersDashboardWidgets;
 use App\Rules\CountryCode;
 use App\Rules\CountryName;
 use App\Rules\LanguageCode;
@@ -17,26 +16,9 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
-    use RegistersDashboardWidgets;
-
-    protected $dashboardWidgets = [
-        \App\Widgets\ReportingWidget::class               => 9,
-        \App\Widgets\UserManagement\UsersWidget::class    => 11,
-        \App\Widgets\Fundraising\FundraisingWidget::class => 8,
-        \App\Widgets\Accounting\TransactionsWidget::class => 7,
-        \App\Widgets\Collaboration\KBWidget::class        => 6,
-        \App\Widgets\People\PersonsWidget::class          => 1,
-        \App\Widgets\Bank\BankWidget::class               => 0,
-        \App\Widgets\Visitors\VisitorsWidget::class       => 0,
-        \App\Widgets\CommunityVolunteers\CommunityVolunteersWidget::class => 5,
-        \App\Widgets\Library\LibraryWidget::class         => 4,
-        \App\Widgets\Shop\ShopWidget::class               => 2,
-    ];
-
     /**
      * Register any application services.
      *
@@ -81,7 +63,6 @@ class AppServiceProvider extends ServiceProvider
 
         $this->registerQueryBuilderMacros();
         $this->registerRules();
-        $this->registerDashboardWidgets();
     }
 
     private function registerQueryBuilderMacros()

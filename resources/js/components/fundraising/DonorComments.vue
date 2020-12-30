@@ -1,10 +1,12 @@
 <template>
-    <comments-list
-        :key="id"
-        :api-list-method="listComments"
-        :api-create-method="canCreate ? storeComment : null"
-        @count="$emit('count', { type: 'comments', value: $event })"
-    />
+    <div class="mt-3">
+        <comments-list
+            :key="id"
+            :api-list-method="listComments"
+            :api-create-method="canCreate ? storeComment : null"
+            @count="$emit('count', { type: 'comments', value: $event })"
+        />
+    </div>
 </template>
 
 <script>

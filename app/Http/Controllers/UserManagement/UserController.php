@@ -167,25 +167,10 @@ class UserController extends Controller
      */
     public function permissions()
     {
-        return view('user_management.users.permission_report', [
+        $this->authorize('viewAny', User::class);
+
+        return view('user_management.users.list-permissions', [
             'permissions' => getCategorizedPermissions(),
-        ]);
-    }
-
-    /**
-     * Lists all permissions
-     */
-    public function sensitiveDataReport()
-    {
-        $available_permissions = collect(config('permissions.keys'));
-        $sensitive_permissions = $available_permissions->where('sensitive', true);
-
-        return view('user_management.users.privacy_report', [
-            'permissions' => $available_permissions->map(fn ($p) => __($p['label'])),
-            'sensitivePermissions' => $sensitive_permissions->map(fn ($p) => __($p['label'])),
-            'users' => User::orderBy('name')
-                ->get()
-                ->filter(fn (User $user) => $user->isSuperAdmin() || $user->permissions()->contains(fn ($permission) => $sensitive_permissions->keys()->contains($permission))),
         ]);
     }
 
@@ -197,6 +182,8 @@ class UserController extends Controller
      */
     public function disable2FA(User $user)
     {
+        $this->authorize('update', User::class);
+
         $user->tfa_secret = null;
         $user->save();
 
@@ -213,6 +200,8 @@ class UserController extends Controller
      */
     public function disableOAuth(User $user)
     {
+        $this->authorize('update', User::class);
+
         $user->provider_name = null;
         $user->provider_id = null;
         $user->avatar = null;

@@ -22,6 +22,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/validation": "^2.5",
         "jeroendesloovere/vcard": "^1.6",
+        "kkomelin/laravel-translatable-string-exporter": "^1.12",
         "laravel/framework": "^8.0",
         "laravel/socialite": "^5.0",
         "laravel/ui": "^3.0",

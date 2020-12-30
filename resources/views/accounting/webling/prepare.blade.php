@@ -10,7 +10,7 @@
             {{ Form::hidden('from', $from->toDateString()) }}
             {{ Form::hidden('to', $to->toDateString()) }}
             <div class="table-responsive">
-                <table class="table table-sm table-bordered table-striped table-hover" id="bookings_table">
+                <table class="table table-hover bg-white" id="bookings_table">
                     <thead>
                         <tr>
                             <th class="fit">@lang('app.date')</th>

@@ -1,5 +1,5 @@
 <template>
-    <b-list-group v-if="supplier" class="mb-3">
+    <b-list-group v-if="supplier" class="mb-3" flush>
 
         <two-col-list-group-item
             :title="$t('app.name')"
@@ -121,7 +121,7 @@ export default {
         EmailLink,
         PhoneLink,
         MapsLink
-    },    
+    },
     props: {
         id: {
             required: true
@@ -129,7 +129,7 @@ export default {
     },
     data () {
         return {
-            supplier: null         
+            supplier: null
         }
     },
     async created () {
@@ -147,6 +147,6 @@ export default {
         numberFormat (val) {
             return numeral(val).format('0,0.00')
         }
-    }  
+    }
 }
 </script>

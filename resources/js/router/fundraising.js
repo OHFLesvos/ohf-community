@@ -21,7 +21,6 @@ import DonorEditPage from '@/pages/fundraising/DonorEditPage'
 import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
 import DonationEditPage from '@/pages/fundraising/DonationEditPage'
 import DonationsImportPage from '@/pages/fundraising/DonationsImportPage'
-import ReportPage from '@/pages/fundraising/ReportPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 import { can } from '@/plugins/laravel'
@@ -47,9 +46,7 @@ export default new VueRouter({
     routes: [
         {
             path: '/',
-            redirect: { name: !can('view-fundraising-entities') && can('view-fundraising-reports')
-                ? 'fundraising.report'
-                : 'fundraising.donors.index' }
+            redirect: { name: 'fundraising.donors.index' }
         },
         {
             // Display a listing of the donors.
@@ -71,12 +68,6 @@ export default new VueRouter({
                             icon: 'plus-circle',
                             text: i18n.t('app.add'),
                             show: can('manage-fundraising-entities')
-                        },
-                        {
-                            to: { name: 'fundraising.report' },
-                            icon: 'chart-pie',
-                            text: i18n.t('app.report'),
-                            show: can('view-fundraising-reports')
                         },
                         {
                             href: ziggyRoute('api.fundraising.donors.export'),
@@ -220,12 +211,6 @@ export default new VueRouter({
                     title: i18n.t('app.overview'),
                     buttons: [
                         {
-                            to: { name: 'fundraising.report' },
-                            icon: 'chart-pie',
-                            text: i18n.t('app.report'),
-                            show: can('view-fundraising-reports')
-                        },
-                        {
                             href: ziggyRoute('api.fundraising.donations.export'),
                             icon: 'download',
                             text: i18n.t('app.export'),
@@ -291,32 +276,6 @@ export default new VueRouter({
                         }
                     ]
                 }
-            }
-        },
-        {
-            // Display an overall report
-            path: '/report',
-            name: 'fundraising.report',
-            components: {
-                default: ReportPage,
-                header: PageHeader
-            },
-            props: {
-                header: ()  => ({
-                    title: i18n.t('app.report'),
-                    buttons: [
-                        {
-                            to: previouslyRememberedRoute('fundraising.report', { name: 'fundraising.donors.index' }),
-                            icon: 'times-circle',
-                            text: i18n.t('app.close'),
-                            show: can('view-fundraising-entities')
-                        }
-                    ]
-                })
-            },
-            beforeEnter: (to, from, next) => {
-                rememberRoute(to, from)
-                next()
             }
         },
         {

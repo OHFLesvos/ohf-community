@@ -1,15 +1,20 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('wiki.articles'))
+@section('title', __('kb.knowledge_base'))
+@section('site-title', __('wiki.articles') . ' - ' . __('kb.knowledge_base'))
 
 @section('content')
-    @if(! $articles->isEmpty())
+    <h1 class="display-4">
         @if($order == 'popularity')
-            <p><small>@lang('wiki.showing_articles_by_popularity')</small></p>
+            @lang('wiki.articles_by_popularity')
         @elseif($order == 'recent')
-            <p><small>@lang('wiki.showing_articles_by_modification_date')</small></p>
+            @lang('wiki.articles_by_modification_date')
+        @else
+            @lang('wiki.articles')
         @endif
-        <div class="columns-3 mb-3">
+    </h1>
+    @if(! $articles->isEmpty())
+        <div class="columns-2 mb-3">
             @foreach ($articles as $article)
                 <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
                 @if($article->public)

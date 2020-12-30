@@ -13,8 +13,8 @@
         <ul class="nav flex-column nav-pills my-3 mt-0">
             @foreach ($nav as $n)
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is($n->getActive()) ? 'active' : '' }}" href="{{ $n->getRoute() }}">
-                        <x-icon :icon="$n->getIcon()"/>
+                    <a class="nav-link rounded-0 {{ Request::is($n->getActive()) ? 'active' : '' }}" href="{{ $n->getRoute() }}">
+                        <x-icon :icon="$n->getIcon()" class="fa-fw"/>
                         {{ $n->getCaption() }}
                     </a>
                 </li>

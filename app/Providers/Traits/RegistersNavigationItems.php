@@ -13,8 +13,9 @@ trait RegistersNavigationItems
             throw new Exception('$navigationItems not defined in ' . __CLASS__);
         }
 
-        foreach ($this->navigationItems as $itemClass => $position) {
-            NavigationItems::define($itemClass, $position);
+        $position = 0;
+        foreach ($this->navigationItems as $itemClass) {
+            NavigationItems::define($itemClass, $position++);
         }
     }
 

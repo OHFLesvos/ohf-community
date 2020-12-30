@@ -1,6 +1,6 @@
 <template>
     <b-button
-        :variant="pressed ? 'primary' : 'light'"
+        :variant="pressed ? 'primary' : 'outline-primary'"
         size="sm"
         :pressed.sync="pressed"
         class="mr-2 text-nowrap"

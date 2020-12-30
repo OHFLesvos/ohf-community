@@ -1,5 +1,5 @@
-<div class="table-responsive">
-    <table class="table table-sm table-striped table-bordered table-hover">
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover bg-white">
         <thead>
             <tr>
                 @foreach($fields as $field)

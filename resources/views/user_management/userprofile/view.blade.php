@@ -6,74 +6,80 @@
 
     <div class="card-columns">
 
-            <div class="card mb-4">
+            {!! Form::open(['route' => ['userprofile.update']]) !!}
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('userprofile.profile')</div>
-                <div class="card-body">
-                    {!! Form::open(['route' => ['userprofile.update']]) !!}
-                        {{ Form::bsText('name', $user->name, [ 'required' ], __('userprofile.name')) }}
-                        {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
-                        <x-form.bs-submit-button :label="__('userprofile.update')"/>
-                    {!! Form::close() !!}
+                <div class="card-body pb-2">
+                    {{ Form::bsText('name', $user->name, [ 'required' ], __('userprofile.name')) }}
+                    {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
+                </div>
+                <div class="card-footer text-right">
+                    <x-form.bs-submit-button :label="__('userprofile.update')"/>
                 </div>
             </div>
+            {!! Form::close() !!}
 
             @if(empty($user->provider_name))
-                <div class="card mb-4">
-                    <div class="card-header">@lang('userprofile.change_password')</div>
-                    <div class="card-body">
-                        {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
+                {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header">@lang('userprofile.change_password')</div>
+                        <div class="card-body pb-2">
                             {{ Form::bsPassword('old_password', [ 'required' ], __('userprofile.old_password')) }}
                             {{ Form::bsPassword('password', [ 'required' ], __('userprofile.new_password')) }}
                             {{ Form::bsPassword('password_confirmation', [ 'required' ], __('userprofile.confirm_password')) }}
+                        </div>
+                        <div class="card-footer text-right">
                             <x-form.bs-submit-button :label="__('userprofile.update_password')"/>
-                        {!! Form::close() !!}
+                        </div>
                     </div>
-                </div>
+                {!! Form::close() !!}
 
-                <div class="card mb-4">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header">@lang('userprofile.tfa_authentication')</div>
-                    <div class="card-body">
-                        @empty($user->tfa_secret)
+                    @empty($user->tfa_secret)
+                        <div class="card-body pb-1">
                             <x-alert type="info">
                                 @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
                             </x-alert>
                             <x-alert type="warning">
                                 @lang('userprofile.tfa_authentication_not_enabled')
                             </x-alert>
+                        </div>
+                        <div class="card-footer text-right">
                             <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
                                 <x-icon icon="check"/> @lang('app.enable')
                             </a>
-                        @else
+                        </div>
+                    @else
+                        <div class="card-body pb-1">
                             <p>@lang('userprofile.tfa_authentication_enabled')</p>
+                        </div>
+                        <div class="card-footer text-right">
                             <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
                                 <x-icon icon="times"/> @lang('app.disable')
                             </a>
-                        @endempty
-                    </div>
+                        </div>
+                    @endempty
                 </div>
             @endunless
 
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('userprofile.language')</div>
-                <div class="card-body p-0">
-                    <ul class="list-group list-group-flush">
-                        @foreach (language()->allowed() as $code => $name)
-                            <li class="list-group-item">
-                                @if(App::getLocale() == $code)
-                                    <x-icon icon="check" class="text-success"/>
-                                @else
-                                    <span class="d-inline-block" style="width: 1em"></span>
-                                @endif
-                                <a href="{{ language()->back($code) }}">
-                                    {{ $name }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
+                <div class="list-group list-group-flush">
+                    @foreach (language()->allowed() as $code => $name)
+                        <a class="list-group-item list-group-item-action" href="{{ language()->back($code) }}">
+                            @if(App::getLocale() == $code)
+                                <x-icon icon="check" class="text-success" class="mr-1"/>
+                            @else
+                                <span class="d-inline-block mr-1" style="width: 1em"></span>
+                            @endif
+                            {{ $name }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('userprofile.account_information')</div>
                 <div class="card-body pb-2">
                     <p>
@@ -96,19 +102,21 @@
                 </div>
             </div>
 
-            <div class="card mb-4">
-                <div class="card-header">@lang('userprofile.account_removal')</div>
-                <div class="card-body">
-                    <p>@lang('userprofile.account_remove_desc')</p>
-                    {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
+            {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">@lang('userprofile.account_removal')</div>
+                    <div class="card-body pb-1">
+                        <p>@lang('userprofile.account_remove_desc')</p>
+                    </div>
+                    <div class="card-footer text-right">
                         <x-form.bs-delete-button
                             :label="__('userprofile.delete_account')"
                             icon="user-times"
                             :confirmation="__('userprofile.delete_confirm')"
                         />
-                    {!! Form::close() !!}
+                    </div>
                 </div>
-            </div>
+            {!! Form::close() !!}
 
         </div>
 

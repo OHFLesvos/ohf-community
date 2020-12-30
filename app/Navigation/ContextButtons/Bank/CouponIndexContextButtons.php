@@ -14,11 +14,17 @@ class CouponIndexContextButtons implements ContextButtons
     {
         return [
             'action' => [
-                'url' => route('coupons.create'),
+                'url' => route('bank.coupons.create'),
                 'caption' => __('app.add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', CouponType::class),
+            ],
+            'code-cards' => [
+                'url' => route('bank.prepareCodeCard'),
+                'caption' => __('people.code_cards'),
+                'icon' => 'qrcode',
+                'authorized' => Gate::allows('do-bank-withdrawals'),
             ],
             'back' => [
                 'url' => route('bank.withdrawal.search'),

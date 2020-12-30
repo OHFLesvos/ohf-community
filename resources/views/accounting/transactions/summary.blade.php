@@ -1,18 +1,12 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.accounting'))
+@section('title', __('accounting.summary') . ($has_multiple_wallets ? ' - ' . $wallet->name : ''))
 
 @section('content')
 
     <div class="row">
         <div class="col-sm">
-            <h2 class="mb-4">@lang('accounting.summary') {{ $heading }}
-                @if($has_multiple_wallets)
-                    <small>
-                        {{ $wallet->name }}
-                    </small>
-                @endif
-            </h2>
+            <h4 class="mb-4">{{ $heading }}</h4>
         </div>
         <div class="col-xl-auto col-md">
             <div class="row">
@@ -44,7 +38,7 @@
 
         {{-- Revenue by categories --}}
         <div class="col-sm-6 col-md">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.categories')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
@@ -74,7 +68,7 @@
         @if($revenueBySecondaryCategory !== null)
             {{-- Revenue by secondary category --}}
             <div class="col-sm-6 col-md">
-                <div class="card mb-4">
+                <div class="card shadow-sm mb-4">
                     <div class="card-header">@lang('app.secondary_categories')</div>
                     <table class="table mb-0">
                         <tbody>
@@ -108,7 +102,7 @@
 
         {{-- Revenue by project --}}
         <div class="col-sm-6 col-md">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.projects')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
@@ -141,7 +135,7 @@
 
         {{-- Wallet --}}
         <div class="col-sm-6 col-md">
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">@lang('app.total')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>

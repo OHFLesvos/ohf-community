@@ -3,37 +3,29 @@
 namespace App\Providers;
 
 use App\Providers\Traits\RegisterContextButtons;
-use App\Providers\Traits\RegisterContextMenus;
 use App\Providers\Traits\RegistersNavigationItems;
 use Illuminate\Support\ServiceProvider;
 
 class NavigationServiceProvider extends ServiceProvider
 {
-    use RegistersNavigationItems, RegisterContextMenus, RegisterContextButtons;
+    use RegistersNavigationItems, RegisterContextButtons;
 
     protected $navigationItems = [
-        \App\Navigation\Drawer\HomeNavigationItem::class                    => 0,
-        \App\Navigation\Drawer\ReportingNavigationItem::class               => 14,
-        \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class    => 15,
-        \App\Navigation\Drawer\Settings\SettingsNavigationItem::class       => 16,
-        \App\Navigation\Drawer\Badges\BadgesNavigationItem::class           => 13,
-        \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class => 5,
-        \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class   => 7,
-        \App\Navigation\Drawer\Accounting\SuppliersNavigationItem::class    => 7,
-        \App\Navigation\Drawer\Collaboration\KBItem::class                  => 6,
-        \App\Navigation\Drawer\People\PeopleNavigationItem::class           => 1,
-        \App\Navigation\Drawer\Bank\BankNavigationItem::class               => 2,
-        \App\Navigation\Drawer\CommunityVolunteers\CommunityVolunteersNavigationItem::class         => 3,
-        \App\Navigation\Drawer\Library\LibraryNavigationItem::class         => 10,
-        \App\Navigation\Drawer\Shop\ShopNavigationItem::class               => 8,
-        \App\Navigation\Drawer\Visitors\VisitorsNavigationItem::class       => 9,
-    ];
-
-    protected $contextMenus = [
-        'people.index'           => \App\Navigation\ContextMenu\People\PeopleContextMenu::class,
-        'bank.withdrawal.search' => \App\Navigation\ContextMenu\Bank\BankWithdrawalContextMenu::class,
-        'cmtyvol.index'   => \App\Navigation\ContextMenu\CommunityVolunteers\CommunityVolunteersContextMenu::class,
-        'accounting.transactions.index'       => \App\Navigation\ContextMenu\Accounting\AccountingContextMenu::class,
+        \App\Navigation\Drawer\HomeNavigationItem::class,
+        \App\Navigation\Drawer\Visitors\VisitorsNavigationItem::class,
+        \App\Navigation\Drawer\CommunityVolunteers\CommunityVolunteersNavigationItem::class,
+        \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class,
+        \App\Navigation\Drawer\Accounting\SuppliersNavigationItem::class,
+        \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class,
+        \App\Navigation\Drawer\People\PeopleNavigationItem::class,
+        \App\Navigation\Drawer\Bank\BankNavigationItem::class,
+        \App\Navigation\Drawer\Shop\ShopNavigationItem::class,
+        \App\Navigation\Drawer\Library\LibraryNavigationItem::class,
+        \App\Navigation\Drawer\Badges\BadgesNavigationItem::class,
+        \App\Navigation\Drawer\Collaboration\KBItem::class,
+        \App\Navigation\Drawer\ReportsNavigationItem::class,
+        \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class,
+        \App\Navigation\Drawer\Settings\SettingsNavigationItem::class,
     ];
 
     protected $contextButtons = [
@@ -85,25 +77,17 @@ class NavigationServiceProvider extends ServiceProvider
         'people.show'                     => \App\Navigation\ContextButtons\People\PeopleShowContextButtons::class,
         'people.edit'                     => \App\Navigation\ContextButtons\People\PeopleEditContextButtons::class,
         'people.duplicates'               => \App\Navigation\ContextButtons\People\PeopleDuplicatesContextButtons::class,
-        'people.import'                   => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
-        'people.bulkSearch'               => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
-        'people.doBulkSearch'             => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
-
-        'reporting.monthly-summary'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.people'                => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.bank.visitors'         => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.bank.withdrawals'      => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reporting.privacy'               => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'people.maintenance'              => \App\Navigation\ContextButtons\People\PeopleMaintenanceContextButtons::class,
+        'people.import-export'            => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
 
         'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
         'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
         'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
-        'bank.maintenance'                => \App\Navigation\ContextButtons\Bank\BankMaintenanceContextButtons::class,
         'bank.export'                     => \App\Navigation\ContextButtons\Bank\BankExportContextButtons::class,
 
-        'coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,
-        'coupons.create'                  => \App\Navigation\ContextButtons\Bank\CouponCreateContextButtons::class,
-        'coupons.edit'                    => \App\Navigation\ContextButtons\Bank\CouponEditContextButtons::class,
+        'bank.coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,
+        'bank.coupons.create'                  => \App\Navigation\ContextButtons\Bank\CouponCreateContextButtons::class,
+        'bank.coupons.edit'                    => \App\Navigation\ContextButtons\Bank\CouponEditContextButtons::class,
 
         'bank.people.create'              => \App\Navigation\ContextButtons\Bank\PeopleCreateContextButtons::class,
         'bank.people.show'                => \App\Navigation\ContextButtons\Bank\PeopleShowContextButtons::class,
@@ -113,9 +97,7 @@ class NavigationServiceProvider extends ServiceProvider
         'cmtyvol.show'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersShowContextButtons::class,
         'cmtyvol.edit'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersEditContextButtons::class,
         'cmtyvol.create'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
-        'cmtyvol.import'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
-        'cmtyvol.export'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
-        'cmtyvol.report'           => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
+        'cmtyvol.import-export'    => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
         'cmtyvol.responsibilities.index'  => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesIndexContextButtons::class,
         'cmtyvol.responsibilities.create' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesCreateContextButtons::class,
         'cmtyvol.responsibilities.edit'   => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesEditContextButtons::class,
@@ -125,6 +107,15 @@ class NavigationServiceProvider extends ServiceProvider
 
         'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,
         'shop.manageCards'                => \App\Navigation\ContextButtons\Shop\ShopManageCardsContextButtons::class,
+
+        'reports.people.monthly-summary'  => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.people.people'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.bank.visitors'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.bank.withdrawals'        => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.cmtyvol.report'          => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.visitors.checkins'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.library.books'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
+        'reports.fundraising.donations'   => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
     ];
 
     /**
@@ -135,7 +126,6 @@ class NavigationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerNavigationItems();
-        $this->registerContextMenus();
         $this->registerContextButtons();
     }
 }

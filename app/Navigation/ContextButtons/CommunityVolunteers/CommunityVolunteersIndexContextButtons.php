@@ -3,6 +3,7 @@
 namespace App\Navigation\ContextButtons\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
+use App\Models\CommunityVolunteers\Responsibility;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -19,17 +20,17 @@ class CommunityVolunteersIndexContextButtons implements ContextButtons
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', CommunityVolunteer::class),
             ],
-            'report' => [
-                'url' => route('cmtyvol.report'),
-                'caption' => __('app.report'),
-                'icon' => 'chart-bar',
-                'authorized' => Auth::user()->can('viewAny', CommunityVolunteer::class),
+            'import-export' => [
+                'url' => route('cmtyvol.import-export'),
+                'caption' => __('app.import_export'),
+                'icon' => 'sync',
+                'authorized' => Auth::user()->can('import', CommunityVolunteer::class) || Auth::user()->can('export', CommunityVolunteer::class),
             ],
-            'export' => [
-                'url' => route('cmtyvol.export'),
-                'caption' => __('app.export'),
-                'icon' => 'download',
-                'authorized' => Auth::user()->can('export', CommunityVolunteer::class),
+            'responsibilities' => [
+                'url' => route('cmtyvol.responsibilities.index'),
+                'caption' => __('responsibilities.responsibilities'),
+                'icon' => 'tasks',
+                'authorized' => Auth::user()->can('viewAny', Responsibility::class),
             ],
         ];
     }

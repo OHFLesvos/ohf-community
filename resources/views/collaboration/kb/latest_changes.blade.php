@@ -1,17 +1,19 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.latest_changes'))
+@section('title', __('kb.knowledge_base'))
+@section('site-title', __('app.latest_changes') . ' - ' . __('kb.knowledge_base'))
 
 @section('content')
-
+    <h1 class="display-4">@lang('app.latest_changes')</h1>
     @if(! $audits->isEmpty())
         <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped table-hover">
+            <table class="table table-hover bg-white">
                 <thead>
                     <tr>
                         <th>@lang('app.date')</th>
                         <th>@lang('app.author')</th>
-                        <th colspan="2">@lang('wiki.article')</th>
+                        <th>@lang('app.action')</th>
+                        <th>@lang('wiki.article')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,11 +23,11 @@
                             <td>{{ optional($audit->user)->name }}</td>
                             <td class="fit">
                                 @if($audit->event == 'created')
-                                    <span class="text-success" title="{{ $audit->event }}"><x-icon icon="star-of-life"/></span>
+                                    <span class="text-success"><x-icon icon="star-of-life"/> {{ ucfirst($audit->event) }}</span>
                                 @elseif($audit->event == 'updated')
-                                    <span class="text-info" title="{{ $audit->event }}"><x-icon icon="pencil-alt"/></span>
+                                    <span class="text-info"><x-icon icon="pencil-alt"/> {{ ucfirst($audit->event) }}</span>
                                 @elseif($audit->event == 'deleted')
-                                    <span class="text-danger" title="{{ $audit->event }}"><x-icon icon="trash-alt"/></span>
+                                    <span class="text-danger"><x-icon icon="trash-alt"/> {{ ucfirst($audit->event) }}</span>
                                 @endif
                             </td>
                             <td>
@@ -35,9 +37,15 @@
                                     $article = App\Models\Collaboration\WikiArticle::find($audit->auditable_id);
                                     $title = isset($title_mod) ? isset($title_mod['new']) ? $title_mod['new'] : $title_mod['old'] : ($article != null ? $article->title : '');
                                 @endphp
-                                @isset($article)<a href="{{ route('kb.articles.show', $article) }}">@endisset
-                                {{ $title }}
-                                @isset($article)</a>@endisset
+                                @isset($article)
+                                    <a href="{{ route('kb.articles.show', $article) }}">
+                                        {{ $title }}
+                                    </a>
+                                @elseif($title)
+                                    {{ $title }}
+                                @else
+                                    <em>@lang('app.not_available')</em>
+                                @endisset
                             </td>
                         </tr>
                     @endforeach
@@ -50,5 +58,4 @@
             @lang('wiki.no_articles_found')
         </x-alert>
     @endif
-
 @endsection

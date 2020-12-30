@@ -89,23 +89,6 @@
             @endforeach
         @endif
 
-        {{-- Context menu --}}
-        @if(isset($menu) && sizeof($menu) > 0)
-            <div class="position-relative d-inline-block">
-                <button class="context-nav-toggle btn btn-link text-light px-3"><x-icon icon="ellipsis-v"/></button>
-                <ul class="context-nav">
-                    @foreach($menu as $item)
-                        <li>
-                            <a href="{{ $item['url'] }}" class="btn btn-light btn-block">
-                                <x-icon :icon="$item['icon']" class="mr-1"/>
-                                {{ $item['caption'] }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         @auth
             <div class="position-relative @if((isset($menu) && sizeof($menu) > 0) || (isset($buttons) && sizeof($buttons) > 0)) d-none d-md-inline-block @endif">
                 <button class="context-nav-toggle btn btn-link text-light px-3 py-0">
@@ -113,13 +96,13 @@
                 </button>
                 <ul class="context-nav userprofile-nav">
                     <li>
-                        <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block">
+                        <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block rounded-0">
                             <x-icon icon="user" class="mr-1"/>
                             @lang('userprofile.profile')
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block">
+                        <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block rounded-0">
                             <x-icon icon="sign-out-alt" class="mr-1"/>
                             @lang('app.logout')
                         </a>

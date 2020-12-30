@@ -18,7 +18,6 @@ return [
     'card_redeemed' => 'Card has been redeemed.',
     'should_card_be_cancelled' => 'Should this card really be cancelled?',
     'card_has_been_cancelled' => 'Card has been cancelled.',
-    'num_cards_redeemed_today' => '<strong>:num</strong> card has been redeemed today.|<strong>:num</strong> cards have been redeemed today.',
     'no_persons_registered_today' => 'No persons registered today.',
     'check_in' => 'Check-in',
     'checked_in_person' => 'Checked in :person.',

@@ -1,12 +1,13 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="lang" content="{{ str_replace('_', '-', app()->getLocale()) }}">
 
         {{-- CSRF --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- Title --}}
-        <title>@if(View::hasSection('title')) @yield('title') - @endif{{ config('app.name') }} - {{ config('app.product_name') }}</title>
+        <title>@if(View::hasSection('site-title'))@yield('site-title') - @elseif(View::hasSection('title'))@yield('title') - @endif{{ config('app.name') }} - {{ config('app.product_name') }}</title>
 
         {{-- Favicon --}}
         @isset($favicon_32_url)

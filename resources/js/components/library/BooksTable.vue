@@ -1,19 +1,21 @@
 <template>
-    <base-table
-        id="booksTable"
-        :fields="fields"
-        :api-method="listBooks"
-        default-sort-by="title"
-        :empty-text="$t('library.no_books_registered')"
-        :filter-placeholder="$t('app.search_ellipsis')"
-        :items-per-page="100"
-    >
-        <template v-slot:cell(title)="data">
-            <b-link :to="{ name: 'library.lending.book', params: { bookId: data.item.id }}">
-                {{ data.value }}
-            </b-link>
-        </template>
-    </base-table>
+    <div class="mt-3">
+        <base-table
+            id="booksTable"
+            :fields="fields"
+            :api-method="listBooks"
+            default-sort-by="title"
+            :empty-text="$t('library.no_books_registered')"
+            :filter-placeholder="$t('app.search_ellipsis')"
+            :items-per-page="100"
+        >
+            <template v-slot:cell(title)="data">
+                <b-link :to="{ name: 'library.lending.book', params: { bookId: data.item.id }}">
+                    {{ data.value }}
+                </b-link>
+            </template>
+        </base-table>
+    </div>
 </template>
 
 <script>

@@ -24,7 +24,7 @@
     @endif
     <div class="columns-3">
         @foreach($data as $section => $fields)
-            <div class="card mb-4 column-break-avoid">
+            <div class="card shadow-sm mb-4 column-break-avoid">
                 <div class="card-header">
                     {{ $sections[$section] }}
                     @can('update', $cmtyvol)

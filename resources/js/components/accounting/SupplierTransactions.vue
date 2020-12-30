@@ -1,20 +1,22 @@
 <template>
-    <base-table
-        ref="table"
-        id="suppliers-transactons-table"
-        :fields="transactionFields"
-        :api-method="fetchTransactions"
-        default-sort-by="created_at"
-        default-sort-desc
-        :empty-text="$t('app.no_data_registered')"
-        :items-per-page="25"
-    >
-        <template v-slot:cell(receipt_no)="data">
-            <a :href="route('accounting.transactions.show', data.item)">
-                {{ data.value }}
-            </a>
-        </template>
-    </base-table>
+    <div class="mt-3">
+        <base-table
+            ref="table"
+            id="suppliers-transactons-table"
+            :fields="transactionFields"
+            :api-method="fetchTransactions"
+            default-sort-by="created_at"
+            default-sort-desc
+            :empty-text="$t('app.no_data_registered')"
+            :items-per-page="25"
+        >
+            <template v-slot:cell(receipt_no)="data">
+                <a :href="route('accounting.transactions.show', data.item)">
+                    {{ data.value }}
+                </a>
+            </template>
+        </base-table>
+    </div>
 </template>
 
 <script>

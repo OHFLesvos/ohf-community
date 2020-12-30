@@ -201,7 +201,7 @@ class WithdrawalController extends Controller
         return response()->json([
             'countdown' => $person->canHandoutCoupon($couponType),
             'return_grace_period' => $coupon->returGracePeriod,
-            'message' => trans_choice('coupons.coupon_has_been_handed_out_to', $coupon->amount, [
+            'message' => trans_choice('bank.coupon_has_been_handed_out_to', $coupon->amount, [
                 'amount' => $coupon->amount,
                 'coupon' => $couponType->name,
                 'person' => $person->full_name,
@@ -226,7 +226,7 @@ class WithdrawalController extends Controller
             ->delete();
 
         return response()->json([
-            'message' => __('coupons.coupon_has_been_taken_back_from', [
+            'message' => __('bank.coupon_has_been_taken_back_from', [
                 'coupon' => $couponType->name,
                 'person' => $person->full_name,
             ]),

@@ -19,8 +19,8 @@ class ComposerServiceProvider extends ServiceProvider
     {
         view()->composer('*', AppVersionComposer::class);
         view()->composer('*', BrandingComposer::class);
-        view()->composer('layouts.include.side-nav', NavigationComposer::class);
-        view()->composer(['layouts.app', 'layouts.include.site-header'], ContextMenuComposer::class);
+        view()->composer(['layouts.app'], NavigationComposer::class);
+        view()->composer(['layouts.app'], ContextMenuComposer::class);
     }
 
     /**

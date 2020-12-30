@@ -44,7 +44,7 @@ class StoreUndoHandoutCoupon extends FormRequest
                 ->first();
             if ($handout != null) {
                 if (! $handout->isReturningPossible) {
-                    $validator->errors()->add('coupon_type_id', __('coupons.only_allowed_within_n_seconds_after_handout', ['seconds' => $handout::returningPossibleGracePeriod()]));
+                    $validator->errors()->add('coupon_type_id', __('bank.only_allowed_within_n_seconds_after_handout', ['seconds' => $handout::returningPossibleGracePeriod()]));
                 }
             } else {
                 $validator->errors()->add('coupon_type_id', __('app.not_found'));

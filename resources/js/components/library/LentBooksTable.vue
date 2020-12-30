@@ -1,27 +1,29 @@
 <template>
-    <base-table
-        id="lentBooksTable"
-        :fields="fields"
-        :api-method="listLentBooks"
-        default-sort-by="book"
-        :empty-text="$t('library.no_books_lent')"
-        no-filter
-        :items-per-page="25"
-    >
-        <template v-slot:cell(book)="data">
-            <b-link :to="{ name: 'library.lending.book', params: { bookId: data.item.id }}">
-                {{ data.item.title }}<template v-if="data.item.author">, {{ data.item.author }}</template>
-            </b-link>
-        </template>
-        <template v-slot:cell(person)="data">
-            <b-link
-                v-if="data.item.lending.person"
-                :to="{ name: 'library.lending.person', params: { personId: data.item.lending.person.public_id }}"
-            >
-                {{ data.item.lending.person.full_name }}
-            </b-link>
-        </template>
-    </base-table>
+    <div class="mt-3">
+        <base-table
+            id="lentBooksTable"
+            :fields="fields"
+            :api-method="listLentBooks"
+            default-sort-by="book"
+            :empty-text="$t('library.no_books_lent')"
+            no-filter
+            :items-per-page="25"
+        >
+            <template v-slot:cell(book)="data">
+                <b-link :to="{ name: 'library.lending.book', params: { bookId: data.item.id }}">
+                    {{ data.item.title }}<template v-if="data.item.author">, {{ data.item.author }}</template>
+                </b-link>
+            </template>
+            <template v-slot:cell(person)="data">
+                <b-link
+                    v-if="data.item.lending.person"
+                    :to="{ name: 'library.lending.person', params: { personId: data.item.lending.person.public_id }}"
+                >
+                    {{ data.item.lending.person.full_name }}
+                </b-link>
+            </template>
+        </base-table>
+    </div>
 </template>
 
 <script>

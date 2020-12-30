@@ -2,13 +2,14 @@
     <div>
         <b-table
             stacked="md"
-            small
             hover
-            striped
             :fields="fields"
             :items="donations"
             show-empty
             :empty-text="$t('fundraising.no_donations_found')"
+            class="shadow-md"
+            tbody-class="bg-white"
+            thead-class="bg-white"
         >
             <!-- Date / Link -->
             <template v-slot:cell(date)="data">
