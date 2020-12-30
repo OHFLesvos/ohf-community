@@ -4,25 +4,22 @@
 
 @section('content')
     {!! Form::model($article, ['route' => ['kb.articles.update', $article], 'method' => 'put']) !!}
-        <div class="form-row">
-            <div class="col-sm-8">{{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}</div>
-            <div class="col-sm-4">{{ Form::bsText('slug', null, [ 'placeholder' => __('app.slug') ], '') }}</div>
-        </div>
-        {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
-        <div class="form-row">
-            <div class="col">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">@lang('wiki.edit_article')</div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="col-sm-8">{{ Form::bsText('title', null, [ 'placeholder' => __('app.title') ], '') }}</div>
+                    <div class="col-sm-4">{{ Form::bsText('slug', null, [ 'placeholder' => __('app.slug') ], '') }}</div>
+                </div>
+                {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
                 {{ Form::bsTags('tags', $article->tagsSorted->pluck('name'), [ 'placeholder' => __('app.tags'), 'data-suggestions' => json_encode($tag_suggestions) ], '') }}
-            </div>
-            <div class="col-auto pt-2 pb-3">
                 {{ Form::bsCheckbox('public', 1, null, __('app.allow_public_access')) }}
-            </div>
-            <div class="col-auto pt-2 pb-3">
                 {{ Form::bsCheckbox('featured', 1, null, __('wiki.featured_article')) }}
             </div>
+            <div class="card-footer text-right">
+                <x-form.bs-submit-button :label="__('app.update')"/>
+            </div>
         </div>
-        <p>
-            <x-form.bs-submit-button :label="__('app.update')"/>
-        </p>
     {!! Form::close() !!}
 @endsection
 

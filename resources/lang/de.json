@@ -16,5 +16,9 @@
     "Current borrowers": "Aktuelle Ausleiher",
     "Currently lent books": "Aktuell ausgeliehene Bücher",
     "Books in the database": "Bücher in der Datenbank",
-    "Export data as Excel spreadsheet.": "Daten als Excel Tabelle exportieren."
+    "Export data as Excel spreadsheet.": "Daten als Excel Tabelle exportieren.",
+    "New article": "Neuer Artikel",
+    "Visibility": "Sichtbarkeit",
+    "Statistics": "Statistik",
+    "Last change": "Letzte Änderung"
 }

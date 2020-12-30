@@ -4,22 +4,19 @@
 
 @section('content')
     {!! Form::open(['route' => ['kb.articles.store']]) !!}
-        {{ Form::bsText('title', $title, [ 'autofocus', 'placeholder' => __('app.title') ], '') }}
-        {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
-        <div class="form-row">
-            <div class="col">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">@lang('New article')</div>
+            <div class="card-body">
+                {{ Form::bsText('title', $title, [ 'autofocus', 'placeholder' => __('app.title') ], '') }}
+                {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
                 {{ Form::bsTags('tags', null, [ 'placeholder' => __('app.tags'), 'data-suggestions' => json_encode($tag_suggestions) ], '') }}
-            </div>
-            <div class="col-auto pt-2 pb-3">
                 {{ Form::bsCheckbox('public', 1, null, __('app.allow_public_access')) }}
-            </div>
-            <div class="col-auto pt-2 pb-3">
                 {{ Form::bsCheckbox('featured', 1, null, __('wiki.featured_article')) }}
             </div>
+            <div class="card-footer text-right">
+                <x-form.bs-submit-button :label="__('app.create')"/>
+            </div>
         </div>
-        <p>
-            <x-form.bs-submit-button :label="__('app.create')"/>
-        </p>
     {!! Form::close() !!}
 @endsection
 

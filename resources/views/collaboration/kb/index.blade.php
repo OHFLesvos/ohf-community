@@ -36,11 +36,52 @@
 
         <div class="row">
 
-            {{-- Popular Tags --}}
+            <div class="col-sm">
+
+                {{-- Popular articles --}}
+                @unless($popular_articles->isEmpty())
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header">
+                            @lang('wiki.popular_articles')
+                            <a href="{{ route('kb.articles.index', ['order' => 'popularity']) }}" class="float-right">@lang('app.show_all')</a>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach($popular_articles as $article)
+                                <a href="{{ route('kb.articles.show', $article) }}" class="list-group-item list-group-item-action">
+                                    {{ $article->title }}
+                                    <small class="float-right text-muted">{{ $article->viewCount }}</small>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endunless
+
+                {{-- Recently changed --}}
+                @unless($recent_articles->isEmpty())
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header">
+                            @lang('wiki.recenlty_update_articles')
+                            <a href="{{ route('kb.articles.index', ['order' => 'recent']) }}" class="float-right">@lang('app.show_all')</a>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            @foreach($recent_articles as $article)
+                                <a href="{{ route('kb.articles.show', $article) }}" class="list-group-item list-group-item-action">
+                                    {{ $article->title }}
+                                    <small class="float-right text-muted">{{ $article->updated_at->diffForHumans() }}</small>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endunless
+
+            </div>
+
             @unless($popular_tags->isEmpty() && $featured_articles->isEmpty())
-                <div class="col-sm mb-3">
+                <div class="col-sm">
+
+                    {{-- Featured articles --}}
                     @unless($featured_articles->isEmpty())
-                        <div class="card shadow-sm mb-3">
+                        <div class="card shadow-sm mb-4">
                             <div class="card-header">
                                 @lang('wiki.featured_articles')
                                 <a href="{{ route('kb.articles.index') }}" class="float-right">@lang('app.show_all')</a>
@@ -60,7 +101,9 @@
                             @endunless
                         </div>
                     @endunless
-                    <div class="card shadow-sm">
+
+                    {{-- Popular Tags --}}
+                    <div class="card shadow-sm mb-4">
                         <div class="card-header">
                             @lang('app.popular_tags')
                             <a href="{{ route('kb.tags') }}" class="float-right">@lang('app.show_all')</a>
@@ -75,47 +118,6 @@
                     </div>
                 </div>
             @endunless
-
-            {{-- Popular articles --}}
-            @unless($popular_articles->isEmpty())
-                <div class="col-sm mb-3">
-                    <div class="card shadow-sm">
-                        <div class="card-header">
-                            @lang('wiki.popular_articles')
-                            <a href="{{ route('kb.articles.index', ['order' => 'popularity']) }}" class="float-right">@lang('app.show_all')</a>
-                        </div>
-                        <div class="list-group list-group-flush">
-                            @foreach($popular_articles as $article)
-                                <a href="{{ route('kb.articles.show', $article) }}" class="list-group-item list-group-item-action">
-                                    {{ $article->title }}
-                                    <small class="float-right text-muted">{{ $article->viewCount }}</small>
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endunless
-
-            {{-- Recently changed --}}
-            @unless($recent_articles->isEmpty())
-                <div class="col-sm mb-3">
-                    <div class="card shadow-sm">
-                        <div class="card-header">
-                            @lang('wiki.recenlty_update_articles')
-                            <a href="{{ route('kb.articles.index', ['order' => 'recent']) }}" class="float-right">@lang('app.show_all')</a>
-                        </div>
-                        <div class="list-group list-group-flush">
-                            @foreach($recent_articles as $article)
-                                <a href="{{ route('kb.articles.show', $article) }}" class="list-group-item list-group-item-action">
-                                    {{ $article->title }}
-                                    <small class="float-right text-muted">{{ $article->updated_at->diffForHumans() }}</small>
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endunless
-
         </div>
 
     @endif
