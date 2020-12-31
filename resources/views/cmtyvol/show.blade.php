@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
-@section('title', __('cmtyvol.view'))
+@section('title', __('cmtyvol.community_volunteer'))
+@section('site-title', $cmtyvol->full_name . ' - ' . __('cmtyvol.community_volunteer'))
 
 @section('content')
+    <h1 class="display-4 mb-4">{{ $cmtyvol->full_name }}</h1>
     @if($cmtyvol->work_starting_date == null)
         <x-alert type="warning">
             @lang('people.no_started_date_set')
@@ -22,9 +24,9 @@
             </x-alert>
         @endif
     @endif
-    <div class="columns-3">
+    <div class="card-columns">
         @foreach($data as $section => $fields)
-            <div class="card shadow-sm mb-4 column-break-avoid">
+            <div class="card shadow-sm mb-4">
                 <div class="card-header">
                     {{ $sections[$section] }}
                     @can('update', $cmtyvol)
@@ -36,13 +38,13 @@
                         @foreach($fields as $field)
                             <li class="list-group-item">
                                 <div class="row">
-                                    <div class="col-sm-5">
+                                    <div class="col-lg-5">
                                         @isset($field['icon'])
                                             <x-icon :icon="$field['icon']" :style="$field['icon_style']"/>
                                         @endisset
                                         <strong>{{ $field['label'] }}</strong>
                                     </div>
-                                    <div class="col-sm">
+                                    <div class="col-lg">
                                         {!! $field['value'] !!}
                                     </div>
                                 </div>
@@ -56,18 +58,20 @@
                 </ul>
             </div>
         @endforeach
-    </div>
-    @can('viewAny', App\Model\Comment::class)
-        @can('update', $cmtyvol)
-            <hr>
-            <h4>@lang('app.comments')</h4>
-            <div id="cmtyvol-app">
-                <cmtyvol-comments id="{{ $cmtyvol->id }}">
-                    @lang('app.loading')
-                </cmtyvol-comments>
-            </div>
+        @can('viewAny', App\Model\Comment::class)
+            @can('update', $cmtyvol)
+                <div class="column-break-avoid">
+                    <h4>@lang('app.comments')</h4>
+                    <div id="cmtyvol-app">
+                        <cmtyvol-comments id="{{ $cmtyvol->id }}">
+                            @lang('app.loading')
+                        </cmtyvol-comments>
+                    </div>
+                </div>
+            @endcan
         @endcan
-    @endcan
+    </div>
+
 @endsection
 
 @push('footer')
