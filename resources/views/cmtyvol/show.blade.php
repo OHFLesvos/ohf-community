@@ -29,9 +29,6 @@
             <div class="card shadow-sm mb-4">
                 <div class="card-header">
                     {{ $sections[$section] }}
-                    @can('update', $cmtyvol)
-                        <a href="{{ route('cmtyvol.edit', [$cmtyvol, 'section' => $section]) }}" class="float-right"><x-icon icon="edit"/></a>
-                    @endcan
                 </div>
                 <ul class="list-group list-group-flush">
                     @if(! empty($fields))

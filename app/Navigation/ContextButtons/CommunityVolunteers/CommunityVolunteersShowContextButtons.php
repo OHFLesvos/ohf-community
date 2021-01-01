@@ -13,6 +13,13 @@ class CommunityVolunteersShowContextButtons implements ContextButtons
     {
         $cmtyvol = $view->getData()['cmtyvol'];
         return [
+            'action' => [
+                'url' => route('cmtyvol.edit', $cmtyvol),
+                'caption' => __('app.edit'),
+                'icon' => 'edit',
+                'icon_floating' => 'pencil-alt',
+                'authorized' => Auth::user()->can('update', $cmtyvol),
+            ],
             'vcard' => [
                 'url' => route('cmtyvol.vcard', $cmtyvol),
                 'caption' => __('app.vcard'),

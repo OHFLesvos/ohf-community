@@ -308,36 +308,25 @@ class ListController extends BaseController
 
         $sections = $this->getSections();
         $fields = collect($this->getFields());
+        $data = collect($sections)
+            ->mapWithKeys(fn ($section, $section_key) => [
+                $section_key => $fields->where('section', $section_key)
+                    ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
+                    ->filter(fn ($field) => isset($field['form_name']) && isset($field['form_type']))
+                    ->map(fn ($f) => self::createFormField($f, is_callable($f['value']) ? $f['value']($cmtyvol) : $cmtyvol->{$f['value']}))
+                    ->toArray()
+            ]);
 
-        $request->validate([
-            'section' => [
-                'required',
-                Rule::in(array_keys($sections)),
-            ],
-        ]);
-        return view('cmtyvol.edit_section', [
+        return view('cmtyvol.edit', [
             'cmtyvol' => $cmtyvol,
-            'fields' => $fields->where('section', $request->section)
-                ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
-                ->filter(fn ($field) => isset($field['form_name']) && isset($field['form_type']))
-                ->map(fn ($f) => self::createFormField($f, is_callable($f['value']) ? $f['value']($cmtyvol) : $cmtyvol->{$f['value']}))
-                ->toArray(),
-            'section' => $request->section,
-            'section_label' => $sections[$request->section],
+            'sections' => $sections,
+            'data' => $data,
         ]);
     }
 
     public function update(CommunityVolunteer $cmtyvol, Request $request)
     {
         $this->authorize('update', $cmtyvol);
-
-        $sections = $this->getSections();
-        $request->validate([
-            'section' => [
-                'required',
-                Rule::in(array_keys($sections)),
-            ],
-        ]);
 
         $this->validateFormData($request);
 
