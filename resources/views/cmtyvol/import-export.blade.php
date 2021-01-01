@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        @can('import', App\Models\CommunityVolunteers\CommunityVolunteer::class);
+        @can('import', App\Models\CommunityVolunteers\CommunityVolunteer::class)
             <div class="col-md">
                 {!! Form::open(['route' => 'cmtyvol.doImport', 'files' => true]) !!}
                     <div class="card shadow-sm mb-4">
@@ -27,7 +27,7 @@
                 {!! Form::close() !!}
             </div>
         @endcan
-        @can('export', App\Models\CommunityVolunteers\CommunityVolunteer::class);
+        @can('export', App\Models\CommunityVolunteers\CommunityVolunteer::class)
             <div class="col-md">
                 {!! Form::open(['route' => 'cmtyvol.doExport']) !!}
                     <div class="card shadow-sm mb-4">
