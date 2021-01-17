@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+let path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,9 +12,6 @@ const mix = require('laravel-mix');
  |
  */
 mix.webpackConfig({
-    node: {
-      fs: "empty"
-    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'resources/js/'),
@@ -45,6 +43,7 @@ mix.options({
     .sass('resources/sass/app.scss', 'public/css')
     .copy('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
     .copy('node_modules/summernote/dist/font', 'public/css/font')
+    .vue()
     .extract()
     .sourceMaps();
 
