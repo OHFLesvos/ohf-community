@@ -5,31 +5,44 @@
 
 @section('content')
     <h1 class="display-4 mb-4">{{ $cmtyvol->full_name }}</h1>
-    @if($cmtyvol->work_starting_date == null)
-        <x-alert type="warning">
-            @lang('people.no_started_date_set')
-        </x-alert>
-    @elseif($cmtyvol->work_starting_date->gt(today()))
-        <x-alert type="warning">
-            @lang('cmtyvol.has_not_started_yet', ['date' => $cmtyvol->work_starting_date->toDateString() ])
-        </x-alert>
-    @else
-        @if($cmtyvol->work_leaving_date != null)
-            <x-alert type="info">
-                @if($cmtyvol->work_leaving_date < Carbon\Carbon::today())
-                    @lang('cmtyvol.left_on_date', ['date' => $cmtyvol->work_leaving_date->toDateString() ])
-                @else
-                    @lang('cmtyvol.will_leave_on_date', ['date' => $cmtyvol->work_leaving_date->toDateString() ])
-                @endif
-            </x-alert>
-        @endif
-    @endif
     <div class="card-columns">
         @foreach($data as $section => $fields)
             <div class="card shadow-sm mb-4">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between">
                     {{ $sections[$section] }}
+                    @if($section == 'occupation')
+                    <a href="{{ route('cmtyvol.responsibilities', $cmtyvol) }}">
+                        @lang('app.edit')
+                    </a>
+                    @endif
                 </div>
+                @if($section == 'occupation')
+                    @if($cmtyvol->firstWorkStartDate == null)
+                        <div class="card-body p-0">
+                            <x-alert type="warning" class="m-0">
+                                @lang('people.no_started_date_set')
+                            </x-alert>
+                        </div>
+                    @elseif($cmtyvol->firstWorkStartDate->gt(today()))
+                        <div class="card-body p-0">
+                            <x-alert type="warning" class="m-0">
+                                @lang('cmtyvol.will_start_on_date', ['date' => $cmtyvol->firstWorkStartDate->toDateString() ])
+                            </x-alert>
+                        </div>
+                    @else
+                        @if($cmtyvol->lastWorkEndDate != null)
+                            <div class="card-body p-0">
+                                <x-alert type="info" class="m-0">
+                                    @if($cmtyvol->lastWorkEndDate < today())
+                                        @lang('cmtyvol.left_on_date', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
+                                    @else
+                                        @lang('cmtyvol.will_leave_on_date', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
+                                    @endif
+                                </x-alert>
+                            </div>
+                        @endif
+                    @endif
+                @endif
                 <ul class="list-group list-group-flush">
                     @if(! empty($fields))
                         @foreach($fields as $field)

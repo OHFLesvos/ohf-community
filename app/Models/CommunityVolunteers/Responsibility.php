@@ -57,13 +57,14 @@ class Responsibility extends Model
 
     public function communityVolunteers()
     {
-        return $this->belongsToMany(CommunityVolunteer::class,
-                'community_volunteer_responsibility',
-                'responsibility_id',
-                'community_volunteer_id'
-            )
+        return $this->belongsToMany(
+            CommunityVolunteer::class,
+            'community_volunteer_responsibility',
+            'responsibility_id',
+            'community_volunteer_id'
+        )
             ->using(CommunityVolunteerResponsibility::class)
-            ->withPivot([ 'start_date', 'end_date' ])
+            ->withPivot(['start_date', 'end_date'])
             ->withTimestamps();
     }
 
@@ -74,18 +75,14 @@ class Responsibility extends Model
 
     public function getHasAssignedAltoughNotAvailableAttribute()
     {
-        return ! $this->available && $this->countActive > 0;
+        return !$this->available && $this->countActive > 0;
     }
 
     public function getCountActiveAttribute()
     {
-        return $this->communityVolunteers()->get()->filter(function($volunteer) {
-            if ($volunteer->pivot->hasDateRange()) {
-                return $volunteer->pivot->isInsideDateRange(Carbon::now());
-            }
-            return ($volunteer->work_starting_date == null || Carbon::now() >= $volunteer->work_starting_date)
-                && ($volunteer->work_leaving_date == null || Carbon::now() <= $volunteer->work_leaving_date);
-        })->count();
+        return $this->communityVolunteers
+            ->filter(fn ($volunteer) => $volunteer->pivot->isInsideDateRange(now()))
+            ->count();
     }
 
     /**

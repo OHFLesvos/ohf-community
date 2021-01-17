@@ -23,16 +23,6 @@ class CommunityVolunteer extends Model implements Auditable
     protected $table = 'community_volunteers';
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'work_starting_date',
-        'work_leaving_date',
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -55,8 +45,6 @@ class CommunityVolunteer extends Model implements Auditable
         'email',
         'skype',
         'residence',
-        'work_starting_date',
-        'work_leaving_date',
         'notes',
     ];
 
@@ -70,10 +58,10 @@ class CommunityVolunteer extends Model implements Auditable
             $str .= ' ' . strtoupper($this->family_name);
         }
         if ($this->nickname != null) {
-            if (! empty($str)) {
+            if (!empty($str)) {
                 $str .= ' ';
             }
-            $str .= '«'.$this->nickname.'»';
+            $str .= '«' . $this->nickname . '»';
         }
         return trim($str);
     }
@@ -83,7 +71,7 @@ class CommunityVolunteer extends Model implements Auditable
         try {
             return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
         } catch (Exception $e) {
-            Log::error('Error calculating age of ' . $this->full_name . ' ('. $this->date_of_birth . '): ' . $e->getMessage());
+            Log::error('Error calculating age of ' . $this->full_name . ' (' . $this->date_of_birth . '): ' . $e->getMessage());
             return null;
         }
     }
@@ -95,16 +83,17 @@ class CommunityVolunteer extends Model implements Auditable
 
     public function setLanguagesStringAttribute($value)
     {
-        $this->languages = ! empty($value) ? preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value) : null;
+        $this->languages = !empty($value) ? preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value) : null;
     }
 
     public function responsibilities()
     {
-        return $this->belongsToMany(Responsibility::class,
-                'community_volunteer_responsibility',
-                'community_volunteer_id',
-                'responsibility_id'
-            )
+        return $this->belongsToMany(
+            Responsibility::class,
+            'community_volunteer_responsibility',
+            'community_volunteer_id',
+            'responsibility_id'
+        )
             ->using(CommunityVolunteerResponsibility::class)
             ->withPivot('start_date', 'end_date')
             ->withTimestamps();
@@ -120,35 +109,56 @@ class CommunityVolunteer extends Model implements Auditable
     public function scopeWorkStatus(Builder $query, string $status)
     {
         if ($status == 'active') {
-            return $query
-                ->whereNotNull('work_starting_date')
-                ->whereDate('work_starting_date', '<=', Carbon::today())
-                ->where(function ($q) {
-                    return $q->whereNull('work_leaving_date')
-                        ->orWhereDate('work_leaving_date', '>=', Carbon::today());
-                });
+            return $query->whereHas(
+                'responsibilities',
+                fn ($rqry) => $rqry
+                    ->whereNotNull('community_volunteer_responsibility.start_date')
+                    ->whereDate('community_volunteer_responsibility.start_date', '<=', today())
+                    ->where(
+                        fn ($q) => $q
+                            ->whereNull('community_volunteer_responsibility.end_date')
+                            ->orWhereDate('community_volunteer_responsibility.end_date', '>=', today())
+                    )
+            );
         }
         if ($status == 'alumni') {
-            return $query
-                ->whereNotNull('work_leaving_date')
-                ->whereDate('work_leaving_date', '<', Carbon::today());
+            return $query->whereHas(
+                'responsibilities',
+                fn ($rqry) => $rqry
+                    ->whereNotNull('community_volunteer_responsibility.end_date')
+                    ->whereDate('community_volunteer_responsibility.end_date', '<', today())
+            );
         }
         if ($status == 'future') {
-            return $query
-                ->whereNull('work_starting_date')
-                ->orWhereDate('work_starting_date', '>', Carbon::today());
+            return $query->whereHas(
+                'responsibilities',
+                fn ($rqry) => $rqry
+                    ->whereNull('community_volunteer_responsibility.start_date')
+                    ->orWhereDate('community_volunteer_responsibility.start_date', '>', today())
+            )->orDoesntHave('responsibilities');
         }
         throw new Exception('Unknown work status ' . $status);
     }
 
-    public function getWorkingSinceDaysAttribute() {
-        $start = $this->work_starting_date != null ? new Carbon($this->work_starting_date) : null;
-        $end = $this->work_leaving_date != null ? new Carbon($this->work_leaving_date) : null;
-        if ($start != null && $end != null && $end->lte(Carbon::today())) {
+    public function getFirstWorkStartDateAttribute(): ?Carbon
+    {
+        return $this->responsibilities->map(fn ($e) => $e->pivot->start_date)->min() ?? null;
+    }
+
+    public function getLastWorkEndDateAttribute(): ?Carbon
+    {
+        return $this->responsibilities->map(fn ($e) => $e->pivot->end_date)->max() ?? null;
+    }
+
+    public function getWorkingSinceDaysAttribute()
+    {
+        $start = $this->firstWorkStartDate;
+        $end = $this->lastWorkEndDate;
+        if ($start != null && $end != null && $end->lte(today())) {
             return $start->diffInDays($end);
         }
         if ($start != null) {
-            return $start->diffInDays(Carbon::today());
+            return $start->diffInDays(today());
         }
         return 0;
     }
@@ -170,24 +180,25 @@ class CommunityVolunteer extends Model implements Auditable
      */
     public function scopeForFilter(Builder $query, string $filter)
     {
-        return $query->where(fn (Builder $q) =>$q->where(DB::raw('CONCAT(first_name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
-            ->orWhere(DB::raw('CONCAT(family_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
-            ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-            ->orWhere('nickname', 'LIKE', '%' . $filter . '%')
-            ->orWhere('family_name', 'LIKE', '%' . $filter . '%')
-            ->orWhere('date_of_birth', $filter)
-            ->orWhere('nationality', 'LIKE', '%' . $filter . '%')
-            ->orWhere('police_no', $filter)
-            ->orWhere('languages', 'LIKE', '%' . $filter . '%')
-            ->orWhereHas('responsibilities', fn (Builder $query) => $query->forFilter($filter))
-            ->orWhere('local_phone', 'LIKE', '%' . $filter . '%')
-            ->orWhere('other_phone', 'LIKE', '%' . $filter . '%')
-            ->orWhere('whatsapp', 'LIKE', '%' . $filter . '%')
-            ->orWhere('email', 'LIKE', '%' . $filter . '%')
-            ->orWhere('skype', 'LIKE', '%' . $filter . '%')
-            ->orWhere('residence', 'LIKE', '%' . $filter . '%')
-            ->orWhere('pickup_location', 'LIKE', '%' . $filter . '%')
-            ->orWhere('notes', 'LIKE', '%' . $filter . '%')
+        return $query->where(
+            fn (Builder $q) => $q->where(DB::raw('CONCAT(first_name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
+                ->orWhere(DB::raw('CONCAT(family_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+                ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
+                ->orWhere('nickname', 'LIKE', '%' . $filter . '%')
+                ->orWhere('family_name', 'LIKE', '%' . $filter . '%')
+                ->orWhere('date_of_birth', $filter)
+                ->orWhere('nationality', 'LIKE', '%' . $filter . '%')
+                ->orWhere('police_no', $filter)
+                ->orWhere('languages', 'LIKE', '%' . $filter . '%')
+                ->orWhereHas('responsibilities', fn (Builder $query) => $query->forFilter($filter))
+                ->orWhere('local_phone', 'LIKE', '%' . $filter . '%')
+                ->orWhere('other_phone', 'LIKE', '%' . $filter . '%')
+                ->orWhere('whatsapp', 'LIKE', '%' . $filter . '%')
+                ->orWhere('email', 'LIKE', '%' . $filter . '%')
+                ->orWhere('skype', 'LIKE', '%' . $filter . '%')
+                ->orWhere('residence', 'LIKE', '%' . $filter . '%')
+                ->orWhere('pickup_location', 'LIKE', '%' . $filter . '%')
+                ->orWhere('notes', 'LIKE', '%' . $filter . '%')
         );
     }
 

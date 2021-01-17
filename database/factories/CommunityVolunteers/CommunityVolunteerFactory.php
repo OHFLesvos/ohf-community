@@ -36,7 +36,6 @@ class CommunityVolunteerFactory extends Factory
 
         $dob = $this->faker->optional(0.9)->dateTimeBetween('-70 years', 'now');
 
-        $start_date = $this->faker->dateTimeBetween('-24 months', 'now');
         return [
             'first_name' => $this->faker->firstName($gender),
             'family_name' => $this->faker->lastName,
@@ -46,8 +45,6 @@ class CommunityVolunteerFactory extends Factory
             'languages_string' => $language,
             'gender' => $gender != null ? ($gender == 'female' ? 'f' : 'm') : null,
             'date_of_birth' => $dob != null ? Carbon::instance($dob) : null,
-            'work_starting_date' => $start_date,
-            'work_leaving_date' => $this->faker->optional()->dateTimeBetween($start_date, 'now'),
             'local_phone' => $this->faker->optional(0.8)->phoneNumber,
             'other_phone' => $this->faker->optional(0.2)->phoneNumber,
             'whatsapp' => $this->faker->optional(0.8)->phoneNumber,

@@ -84,21 +84,13 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
         if ($assign_responsibilities) {
             foreach ($responsibilities as $responsibility_name) {
                 $responsibility = Responsibility::updateOrCreate([ 'name' => $responsibility_name ]);
-                $from = $this->has_dates ? $cmtyvol->work_starting_date : null;
-                $to = $this->has_dates ? $cmtyvol->work_leaving_date : null;
-
+                $from = $this->has_dates ? $row[__('people.starting_date')] : null;
+                $to = $this->has_dates ? $row[__('people.leaving_date')] : null;
                 if (!$cmtyvol->responsibilities()->wherePivot('start_date', $from)->wherePivot('end_date', $to)->find($responsibility) != null) {
                     $cmtyvol->responsibilities()->attach($responsibility, [
                         'start_date' => $from,
                         'end_date' => $to,
                     ]);
-                    if ($this->has_dates) {
-                        $start_dates = $cmtyvol->responsibilities->map(fn ($r) => $r->pivot->start_date);
-                        $cmtyvol->work_starting_date = $start_dates->contains(null) ? null : $start_dates->min();
-
-                        $end_dates = $cmtyvol->responsibilities->map(fn ($r) => $r->pivot->end_date);
-                        $cmtyvol->work_leaving_date = $end_dates->contains(null) ? null : $end_dates->max();
-                    }
                 }
             }
         }

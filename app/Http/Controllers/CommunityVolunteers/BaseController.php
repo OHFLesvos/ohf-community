@@ -27,7 +27,8 @@ abstract class BaseController extends Controller
         ];
     }
 
-    protected function getFields() {
+    protected function getFields()
+    {
         return [
             [
                 'label_key' => 'people.portrait_picture',
@@ -87,7 +88,7 @@ abstract class BaseController extends Controller
                 'value' => fn ($cmtyvol) => $cmtyvol->family_name,
                 'overview' => true,
                 'section' => 'general',
-                'import_labels' => [ 'Surname' ],
+                'import_labels' => ['Surname'],
                 'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->family_name = $value;
                 },
@@ -145,10 +146,10 @@ abstract class BaseController extends Controller
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
                     $female = self::getAllTranslations('app.female')
-                        ->concat([ 'f', 'w', 'Frau', 'Fräulein', 'Fr.', 'Fr', 'Frl.', 'Frl', 'Missus', 'Missis', 'Miss', 'Mrs.', 'Mrs', 'Ms.', 'Ms' ])
+                        ->concat(['f', 'w', 'Frau', 'Fräulein', 'Fr.', 'Fr', 'Frl.', 'Frl', 'Missus', 'Missis', 'Miss', 'Mrs.', 'Mrs', 'Ms.', 'Ms'])
                         ->map(fn ($t) => strtolower($t));
                     $male = self::getAllTranslations('app.male')
-                        ->concat([ 'm', 'Herr', 'Hr.', 'Hr', 'Mister', 'Mr.', 'Mr' ])
+                        ->concat(['m', 'Herr', 'Hr.', 'Hr', 'Mister', 'Mr.', 'Mr'])
                         ->map(fn ($t) => strtolower($t));
 
                     if ($female->contains(strtolower($value))) {
@@ -174,9 +175,9 @@ abstract class BaseController extends Controller
                 'value' => fn ($cmtyvol) => $cmtyvol->date_of_birth,
                 'overview' => false,
                 'section' => 'general',
-                'import_labels' => [ 'DOB' ],
+                'import_labels' => ['DOB'],
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->date_of_birth = ! empty($value) ? Carbon::parse($value) : null;
+                    $cmtyvol->date_of_birth = !empty($value) ? Carbon::parse($value) : null;
                 },
                 'form_type' => 'text',
                 'form_name' => 'date_of_birth',
@@ -197,10 +198,10 @@ abstract class BaseController extends Controller
                 'overview' => false,
                 'prefix' => '05/',
                 'section' => 'general',
-                'import_labels' => [ 'Police No.' ],
+                'import_labels' => ['Police No.'],
                 'assign' => function ($cmtyvol, $value) {
                     $val = preg_replace('/^05\//', '', $value);
-                    $cmtyvol->police_no = (! empty($val) ? $val : null);
+                    $cmtyvol->police_no = (!empty($val) ? $val : null);
                 },
                 'form_type' => 'number',
                 'form_name' => 'police_number',
@@ -232,7 +233,7 @@ abstract class BaseController extends Controller
                     ]) : null,
                 'overview' => false,
                 'section' => 'reachability',
-                'import_labels' => [ 'Greek No.' ],
+                'import_labels' => ['Greek No.'],
                 'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->local_phone = $value;
                 },
@@ -250,7 +251,7 @@ abstract class BaseController extends Controller
                     ]) : null,
                 'overview' => false,
                 'section' => 'reachability',
-                'import_labels' => [ 'Other No.' ],
+                'import_labels' => ['Other No.'],
                 'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->other_phone = $value;
                 },
@@ -364,7 +365,7 @@ abstract class BaseController extends Controller
                         if ($r->description !== null) {
                             $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="' . htmlspecialchars($r->description) . '"></a>';
                         }
-                        if($r->pivot->hasDateRange()) {
+                        if ($r->pivot->hasDateRange()) {
                             $str .= ' (' . $r->pivot->date_range_string . ')';
                         }
                         if ($r->hasAssignedAltoughNotAvailable) {
@@ -378,12 +379,12 @@ abstract class BaseController extends Controller
                     ->implode('<br>'),
                 'overview' => true,
                 'section' => 'occupation',
-                'import_labels' => [ 'Project' ],
+                'import_labels' => ['Project'],
                 'assign' => function ($cmtyvol, $value) {
-                    DB::transaction(function() use ($cmtyvol, $value) {
+                    DB::transaction(function () use ($cmtyvol, $value) {
                         $cmtyvol->responsibilities()->detach();
                         if ($value != null) {
-                            if (! is_array($value)) {
+                            if (!is_array($value)) {
                                 $values = [];
                                 foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
                                     $values[] = $v;
@@ -391,9 +392,9 @@ abstract class BaseController extends Controller
                                 $value = array_map('trim', $values);
                             }
 
-                            collect($value)->map(function($entry) use ($cmtyvol) {
-                                if (! is_array($entry)) {
-                                    $entry = [ 'name' => $entry ];
+                            collect($value)->map(function ($entry) use ($cmtyvol) {
+                                if (!is_array($entry)) {
+                                    $entry = ['name' => $entry];
                                 }
                                 $responsibility = Responsibility::where('name', $entry['name'])->first();
                                 $cmtyvol->responsibilities()->attach($responsibility, [
@@ -404,45 +405,26 @@ abstract class BaseController extends Controller
                         }
                     });
                 },
-                'form_type' => 'listwithdaterange',
-                'form_name' => 'responsibilities',
-                'form_list' => Responsibility::where('available', true)
-                    ->orderBy('name')
-                    ->get()
-                    ->map(function ($responsibility) {
-                        return [
-                            "text" => $responsibility->name,
-                            "description" => $responsibility->description,
-                            "hidden" => $responsibility->isCapacityExhausted,
-                        ];
-                    }),
-                'form_validate' => 'array',
-                'form_validate_extra' => fn () => [
-                    'responsibilities.*.name' => [
-                        Rule::in(Responsibility::select('name')
-                            ->get()
-                            ->pluck('name')
-                            ->all()
-                        ),
-                        'required_with:responsibilities.*.from,responsibilities.*.to',
-                    ],
-                    'responsibilities.*.from' => 'nullable|date',
-                    'responsibilities.*.to' => 'required_with:responsibilities.*.from|nullable|date',
-                ],
             ],
             [
                 'label_key' => 'people.starting_date',
-                'icon' => 'calendar',
-                'value' => fn ($cmtyvol) => optional($cmtyvol->work_starting_date)->toDateString(),
+                'icon' => null,
+                'value' => fn ($cmtyvol) => optional($cmtyvol->firstWorkStartDate)->toDateString(),
+                'value_html' => fn ($cmtyvol) => $cmtyvol->firstWorkStartDate != null
+                    ? $cmtyvol->firstWorkStartDate->toDateString() . ' (' . $cmtyvol->firstWorkStartDate->diffForHumans() . ')'
+                    : null,
                 'overview' => false,
                 'section' => 'occupation',
-                'import_labels' => [ 'Starting date at OHF' ],
-                'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->work_starting_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'starting_date',
-                'form_validate' => 'nullable|date',
+            ],
+            [
+                'label_key' => 'people.leaving_date',
+                'icon' => null,
+                'value' => fn ($cmtyvol) => optional($cmtyvol->lastWorkEndDate)->toDateString(),
+                'value_html' => fn ($cmtyvol) => $cmtyvol->lastWorkEndDate != null
+                    ? $cmtyvol->lastWorkEndDate->toDateString() . ' (' . $cmtyvol->lastWorkEndDate->diffForHumans() . ')'
+                    : null,
+                'overview' => false,
+                'section' => 'occupation',
             ],
             [
                 'label_key' => 'cmtyvol.working_since_days',
@@ -450,20 +432,6 @@ abstract class BaseController extends Controller
                 'value' => fn ($cmtyvol) => $cmtyvol->workingSinceDays,
                 'overview' => false,
                 'section' => 'occupation',
-                'form_name' => 'working_since_days',
-            ],
-            [
-                'label_key' => 'people.leaving_date',
-                'icon' => 'calendar',
-                'value' => fn ($cmtyvol) => optional($cmtyvol->work_leaving_date)->toDateString(),
-                'overview' => false,
-                'section' => 'occupation',
-                'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->work_leaving_date = ! empty($value) ? Carbon::parse($value) : null;
-                },
-                'form_type' => 'date',
-                'form_name' => 'leaving_date',
-                'form_validate' => 'nullable|date',
             ],
             [
                 'label_key' => 'people.notes',
@@ -472,7 +440,7 @@ abstract class BaseController extends Controller
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->notes),
                 'overview' => false,
                 'section' => 'general',
-                'import_labels' => [ 'Notes' ],
+                'import_labels' => ['Notes'],
                 'assign' => function ($cmtyvol, $value) {
                     $cmtyvol->notes = $value;
                 },
@@ -562,7 +530,8 @@ abstract class BaseController extends Controller
         ]);
     }
 
-    protected function getColumnSets() {
+    protected function getColumnSets()
+    {
         return collect([
             'all' => [
                 'label' => __('app.all'),
@@ -583,7 +552,8 @@ abstract class BaseController extends Controller
         ]);
     }
 
-    protected function getSorters() {
+    protected function getSorters()
+    {
         return collect([
             'first_name' => [
                 'label' => __('app.first_name'),
@@ -613,14 +583,11 @@ abstract class BaseController extends Controller
                 'label' => __('people.pickup_location'),
                 'sorting' => 'pickup_location',
             ],
-            'work_starting_date' => [
-                'label' => __('people.starting_date'),
-                'sorting' => 'work_starting_date',
-            ],
         ]);
     }
 
-    protected static function getAllTranslations($key) {
+    protected static function getAllTranslations($key)
+    {
         return collect(language()->allowed())
             ->keys()
             ->map(fn ($lk) => __($key, [], $lk));

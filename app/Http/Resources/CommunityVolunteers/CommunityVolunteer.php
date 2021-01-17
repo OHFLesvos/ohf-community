@@ -38,8 +38,6 @@ class CommunityVolunteer extends JsonResource
             'skype' => $this->skype,
             'residence' => $this->residence,
             'pickup_location' => $this->pickup_location,
-            'work_starting_date' => $this->work_starting_date,
-            'work_leaving_date' => $this->work_leaving_date,
             'responsibilities' => $this->responsibilities->mapWithKeys(fn ($r) => [
                 $r->name => [
                     'description' => $r->description,

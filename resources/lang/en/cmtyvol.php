@@ -10,7 +10,7 @@ return [
     'none_found' => 'No community volunteers found.',
     'view' => 'View community volunteer',
     'already_exists' => 'Community volunteer already exists.',
-    'has_not_started_yet' => 'This community volunteer will start on :date.',
+    'will_start_on_date' => 'This community volunteer will start on :date.',
     'left_on_date' => 'This community volunteer left on :date.',
     'will_leave_on_date' => 'This community volunteer will leave on :date.',
     'import_export_data' => 'Import & export community volunteer data',

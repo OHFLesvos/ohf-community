@@ -10,7 +10,7 @@ return [
     'none_found' => 'Keine Community Volunteers gefunden.',
     'view' => 'Community Volunteer anzeigen',
     'already_exists' => 'Community Volunteer existiert bereits.',
-    'has_not_started_yet' => 'Dieser Community Volunteer startet am :date.',
+    'will_start_on_date' => 'Dieser Community Volunteer startet am :date.',
     'left_on_date' => 'Dieser Community Volunteer verliess uns am :date.',
     'will_leave_on_date' => 'Dieser Community Volunteer wird uns am :date verlassen.',
     'import_export_data' => 'Community Volunteer-Daten importieren & exportieren',
