@@ -29,6 +29,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         ];
 
         $this->usedCurrenciesChannels = Donation::select('currency', 'channel')
+            ->selectRaw('YEAR(date) as year')
             ->selectRaw('SUM(amount) as amount')
             ->having('amount', '>', 0)
             ->where(function ($qry) {
@@ -38,6 +39,8 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             })
             ->groupBy('currency')
             ->groupBy('channel')
+            ->groupBy('year')
+            ->orderBy('year')
             ->orderBy('currency')
             ->orderBy('channel')
             ->get();
@@ -77,10 +80,8 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             foreach ($this->years as $year) {
                 $headings[] = __('fundraising.donations') . ' ' . $year;
             }
-            foreach ($this->years as $year) {
-                foreach ($this->usedCurrenciesChannels as $cc) {
-                    $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . $year;
-                }
+            foreach ($this->usedCurrenciesChannels as $cc) {
+                $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . $cc->year;
             }
         }
         return $headings;
@@ -111,11 +112,12 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             foreach ($this->years as $year) {
                 $map[] = $donor->amountPerYear($year) ?? 0;
             }
-            foreach ($this->years as $year) {
-                $apybcc = $donor->amountPerYearByChannel($year) ?? [];
-                foreach ($this->usedCurrenciesChannels as $cc) {
-                    $map[] = $apybcc[$cc->currency][$cc->channel] ?? 0;
-                }
+            $amounts = $donor->amountByChannelCurrencyYear();
+            foreach ($this->usedCurrenciesChannels as $cc) {
+                $map[] = optional($amounts->where('year', $cc->year)
+                    ->where('currency', $cc->currency)
+                    ->where('channel', $cc->channel)
+                    ->first())->total ?? null;
             }
         }
         return $map;
@@ -133,12 +135,10 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
                 $formats['P'] = config('fundraising.base_currency_excel_format');
             }
             $i = Coordinate::columnIndexFromString('P');
-            foreach ($this->years as $year) {
-                foreach ($this->usedCurrenciesChannels as $cc) {
-                    $i++;
-                    $column = Coordinate::stringFromColumnIndex($i);
-                    $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
-                }
+            foreach ($this->usedCurrenciesChannels as $cc) {
+                $i++;
+                $column = Coordinate::stringFromColumnIndex($i);
+                $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
             }
         }
         return $formats;

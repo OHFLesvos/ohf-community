@@ -120,29 +120,16 @@ class Donor extends Model
             ->first();
     }
 
-    public function amountPerYearByCurrencies(int $year): array
-    {
-        return $this->donations()
-            ->select('currency')
-            ->selectRaw('SUM(amount) AS total')
-            ->forYear($year)
-            ->groupBy('currency')
-            ->get()
-            ->pluck('total', 'currency')
-            ->toArray();
-    }
-
-    public function amountPerYearByChannel(int $year): array
+    public function amountByChannelCurrencyYear(): Collection
     {
         return $this->donations()
             ->select('channel', 'currency')
             ->selectRaw('SUM(amount) AS total')
-            ->forYear($year)
+            ->selectRaw('YEAR(date) AS year')
             ->groupBy('channel')
             ->groupBy('currency')
-            ->get()
-            ->mapWithKeys(fn ($e) => [$e->currency => [$e->channel => $e->total]])
-            ->toArray();
+            ->groupBy('year')
+            ->get();
     }
 
     /**
