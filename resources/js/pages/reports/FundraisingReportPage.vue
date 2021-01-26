@@ -50,9 +50,9 @@
         <time-bar-chart
             :title="$t('fundraising.new_donors_registered')"
             :data="reportApi.fetchDonorRegistrations"
-            :date-from="this.dateRange.from"
-            :date-to="this.dateRange.to"
-            :granularity="this.dateRange.granularity"
+            :date-from="dateRange.from"
+            :date-to="dateRange.to"
+            :granularity="dateRange.granularity"
             class="mb-3"
         />
 
@@ -62,21 +62,19 @@
 
         <time-bar-chart
             :title="$t('fundraising.donations_made')"
-            :data="donationRegistrations"
-            :error="donationRegistrationsError"
-            :date-from="this.dateRange.from"
-            :date-to="this.dateRange.to"
-            :granularity="this.dateRange.granularity"
+            :data="reportApi.fetchDonationRegistrations"
+            :date-from="dateRange.from"
+            :date-to="dateRange.to"
+            :granularity="dateRange.granularity"
             class="mb-3"
         />
 
         <time-bar-chart
             :title="$t('fundraising.total_donations_made')"
-            :data="donationRegistrations"
-            :error="donationRegistrationsError"
-            :date-from="this.dateRange.from"
-            :date-to="this.dateRange.to"
-            :granularity="this.dateRange.granularity"
+            :data="reportApi.fetchDonationRegistrations"
+            :date-from="dateRange.from"
+            :date-to="dateRange.to"
+            :granularity="dateRange.granularity"
             :cumulative="true"
             class="mb-3"
         />
@@ -146,7 +144,6 @@ export default {
             this.loadCount()
             this.loadCountries()
             this.loadLanguages()
-            this.fetchDonationRegistrations()
         },
         async loadCount () {
             this.countError = null
@@ -202,15 +199,6 @@ export default {
                 this.languages = data
             } catch (err) {
                 this.languagesError = err
-            }
-        },
-        async fetchDonationRegistrations () {
-            this.donationRegistrationsError = null
-            try {
-                let data = await reportApi.fetchDonationRegistrations(this.granularity, this.dateRange.from, this.dateRange.to)
-                this.donationRegistrations = data
-            } catch (err) {
-                this.donationRegistrationsError = err
             }
         },
     }

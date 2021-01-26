@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.32.1
+
+* Fix donation report time range update
+
 ## 2.32.0
 
 * Layout and widgets update
