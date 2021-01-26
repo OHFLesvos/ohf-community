@@ -3,6 +3,9 @@
 ## 2.32.1
 
 * Fix donation report time range update
+* Fix donor export columns
+* Refactor community volunteer work date fields
+* Community volunteer editing on one screen
 
 ## 2.32.0
 
