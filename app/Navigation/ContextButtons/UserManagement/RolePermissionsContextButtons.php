@@ -20,5 +20,4 @@ class RolePermissionsContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

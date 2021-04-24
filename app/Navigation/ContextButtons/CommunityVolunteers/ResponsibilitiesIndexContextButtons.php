@@ -28,5 +28,4 @@ class ResponsibilitiesIndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

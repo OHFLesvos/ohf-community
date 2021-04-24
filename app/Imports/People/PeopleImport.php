@@ -96,5 +96,4 @@ class PeopleImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFa
             ],
         ];
     }
-
 }

@@ -24,7 +24,6 @@ class DonationsImport implements ToCollection, WithHeadingRow
             ])->validate();
 
             if ($row['status'] == 'Paid') {
-
                 $donor = Donor::where('email', $row['customer_email'])
                     ->first();
                 if ($donor == null) {
@@ -48,7 +47,6 @@ class DonationsImport implements ToCollection, WithHeadingRow
                     ->where('reference', $row['id'])
                     ->first();
                 if ($donation == null) {
-
                     $donation = new Donation();
                     $donation->date = $date;
                     $donation->amount = $amount;

@@ -8,7 +8,8 @@ class BankPersonCollection extends ResourceCollection
 {
     protected $couponTypes = [];
 
-    public function withCouponTypes($couponTypes) {
+    public function withCouponTypes($couponTypes)
+    {
         $this->couponTypes = $couponTypes;
         return $this;
     }

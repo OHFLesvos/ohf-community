@@ -43,5 +43,4 @@ class TransactionIndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

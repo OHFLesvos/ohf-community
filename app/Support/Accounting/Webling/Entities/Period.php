@@ -18,5 +18,4 @@ class Period extends WeblingEntity
     {
         return $this->hasMany(Entrygroup::class);
     }
-
 }

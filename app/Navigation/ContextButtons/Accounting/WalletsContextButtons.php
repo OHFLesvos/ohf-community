@@ -22,5 +22,4 @@ class WalletsContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

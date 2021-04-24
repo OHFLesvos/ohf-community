@@ -19,7 +19,7 @@ class RemoveWorkDatesFromCommunityVolunteersTable extends Migration
             ->orWhereNotNull('work_leaving_date')
             ->get()
             ->each(function ($cmtyvol) {
-                $cmtyvol->responsibilities->each(function ($responsibility) use ($cmtyvol)  {
+                $cmtyvol->responsibilities->each(function ($responsibility) use ($cmtyvol) {
                     if ($responsibility->pivot->start_date == null) {
                         $responsibility->pivot->start_date = $cmtyvol->work_starting_date;
                     }

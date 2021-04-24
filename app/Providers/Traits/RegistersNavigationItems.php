@@ -18,5 +18,4 @@ trait RegistersNavigationItems
             NavigationItems::define($itemClass, $position++);
         }
     }
-
 }

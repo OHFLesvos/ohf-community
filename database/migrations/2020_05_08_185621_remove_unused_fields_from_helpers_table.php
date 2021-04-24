@@ -14,7 +14,7 @@ class RemoveUnusedFieldsFromHelpersTable extends Migration
     public function up()
     {
         Schema::table('helpers', function (Blueprint $table) {
-			$table->dropColumn([
+            $table->dropColumn([
                 'work_feedback_wishes',
                 'casework_first_interview_date',
                 'casework_second_interview_date',

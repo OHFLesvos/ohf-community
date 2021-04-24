@@ -45,7 +45,7 @@ class CreateAccountingWalletsTable extends Migration
             });
         }
         Schema::table('money_transactions', function (Blueprint $table) {
-            $table->foreignId('wallet_id')->default(NULL)->change();
+            $table->foreignId('wallet_id')->default(null)->change();
         });
 
         DB::statement($this->dropView());

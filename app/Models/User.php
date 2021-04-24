@@ -94,7 +94,8 @@ class User extends Authenticatable implements HasLocalePreference
             ->withTimestamps();
     }
 
-    public function hasPermission($permissionKey) {
+    public function hasPermission($permissionKey)
+    {
         return $this->roles->contains(
             fn ($role) => $role->permissions->contains(
                 fn ($value) => $value->key === $permissionKey
@@ -107,7 +108,8 @@ class User extends Authenticatable implements HasLocalePreference
      *
      * @return Collection
      */
-    public function permissions(): Collection {
+    public function permissions(): Collection
+    {
         $permissions = [];
         foreach ($this->roles as $role) {
             foreach ($role->permissions as $permission) {

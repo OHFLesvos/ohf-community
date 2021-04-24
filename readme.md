@@ -72,6 +72,13 @@ Create assets (CSS/JavaScript) using npm:
     php artisan ziggy:generate
     npm run dev
 
+Fixing code issues
+------------------
+
+Run:
+
+    php artisan fixer:fix
+
 Releasing
 ---------
 

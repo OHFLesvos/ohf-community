@@ -89,5 +89,4 @@ class DonationWebhookTest extends TestCase
             'purpose' => $purpose,
         ]);
     }
-
 }

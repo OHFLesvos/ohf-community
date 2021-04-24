@@ -40,7 +40,7 @@ class CommunityVolunteerFactory extends Factory
             'first_name' => $this->faker->firstName($gender),
             'family_name' => $this->faker->lastName,
             'nickname' => $this->faker->optional(0.05)->firstName($gender),
-            'police_no' => $this->faker->optional(0.6)->numberBetween(10000,99999),
+            'police_no' => $this->faker->optional(0.6)->numberBetween(10000, 99999),
             'nationality' => $nationality,
             'languages_string' => $language,
             'gender' => $gender != null ? ($gender == 'female' ? 'f' : 'm') : null,

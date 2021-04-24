@@ -58,8 +58,8 @@ class WeblingApiController extends Controller
             ->get();
 
         return $monthsWithTransactions->map(function ($e) use ($wallet) {
-                $date = Carbon::createFromDate($e->year, $e->month, 1);
-                return (object) [
+            $date = Carbon::createFromDate($e->year, $e->month, 1);
+            return (object) [
                     'transactions' => MoneyTransaction::query()
                         ->forWallet($wallet)
                         ->forDateRange($date, $date->clone()->endOfMonth())
@@ -157,7 +157,8 @@ class WeblingApiController extends Controller
         $period = Period::find($request->period);
 
         $preparedTransactions = collect($request->input('action', []))
-            ->filter(fn ($v, $id) => $v == 'book'
+            ->filter(
+                fn ($v, $id) => $v == 'book'
                 && ! empty($request->get('posting_text')[$id])
                 && ! empty($request->get('debit_side')[$id])
                 && ! empty($request->get('credit_side')[$id])
@@ -166,21 +167,21 @@ class WeblingApiController extends Controller
             ->map(fn ($id) => self::mapTransactionById($id, $request, $period))
             ->filter();
 
-            $bookedTransactions = [];
-            foreach ($preparedTransactions as $e) {
-                try {
-                    $entrygroup = Entrygroup::createRaw($e['request']);
-                    $transaction = $e['transaction'];
-                    $transaction->booked = true;
-                    $transaction->external_id = $entrygroup->id;
-                    $transaction->save();
-                    $bookedTransactions[] = $transaction->id;
-                } catch (Exception $e) {
-                    return redirect()->back()
+        $bookedTransactions = [];
+        foreach ($preparedTransactions as $e) {
+            try {
+                $entrygroup = Entrygroup::createRaw($e['request']);
+                $transaction = $e['transaction'];
+                $transaction->booked = true;
+                $transaction->external_id = $entrygroup->id;
+                $transaction->save();
+                $bookedTransactions[] = $transaction->id;
+            } catch (Exception $e) {
+                return redirect()->back()
                         ->withInput()
                         ->with('error', $e->getMessage());
-                }
             }
+        }
 
         return redirect()
             ->route('accounting.webling.index', $wallet)
@@ -269,7 +270,6 @@ class WeblingApiController extends Controller
                     }
                 }
             }
-
         } catch (ConnectionException $e) {
             session()->now('error', $e->getMessage());
             // $transactions = [];

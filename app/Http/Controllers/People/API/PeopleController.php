@@ -307,5 +307,4 @@ class PeopleController extends Controller
             'message' => __('people.qr_code_card_has_been_registered'),
         ]);
     }
-
 }

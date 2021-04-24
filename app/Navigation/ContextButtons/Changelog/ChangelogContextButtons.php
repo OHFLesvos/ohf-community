@@ -18,5 +18,4 @@ class ChangelogContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

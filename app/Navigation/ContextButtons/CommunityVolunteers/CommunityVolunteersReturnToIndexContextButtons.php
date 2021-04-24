@@ -20,5 +20,4 @@ class CommunityVolunteersReturnToIndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

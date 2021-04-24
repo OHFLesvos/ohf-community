@@ -29,7 +29,7 @@ class VisitorFactory extends Factory
         return [
             'first_name' => $this->faker->firstName($gender),
             'last_name' => $this->faker->lastName,
-            'id_number' => $this->faker->optional(0.6)->numberBetween(10000,99999),
+            'id_number' => $this->faker->optional(0.6)->numberBetween(10000, 99999),
             'place_of_residence' => $this->faker->optional(0.6)->city,
             'entered_at' => $entered_at,
             'left_at' => $left_at,

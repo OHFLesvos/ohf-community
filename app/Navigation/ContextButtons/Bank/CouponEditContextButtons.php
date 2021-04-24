@@ -28,5 +28,4 @@ class CouponEditContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

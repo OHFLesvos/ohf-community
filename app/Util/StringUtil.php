@@ -25,5 +25,4 @@ class StringUtil
         }
         return $str;
     }
-
 }

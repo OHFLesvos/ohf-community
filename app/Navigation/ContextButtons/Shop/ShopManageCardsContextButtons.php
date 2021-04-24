@@ -19,5 +19,4 @@ class ShopManageCardsContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

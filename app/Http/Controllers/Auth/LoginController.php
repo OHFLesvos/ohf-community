@@ -196,5 +196,4 @@ class LoginController extends Controller
 
         return redirect($this->redirectPath());
     }
-
 }

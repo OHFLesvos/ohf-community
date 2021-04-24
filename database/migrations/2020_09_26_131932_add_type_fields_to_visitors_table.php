@@ -22,7 +22,7 @@ class AddTypeFieldsToVisitorsTable extends Migration
                 ->nullable();
             $table->string('activity')
                 ->after('organization')
-                ->nullable();                
+                ->nullable();
         });
     }
 

@@ -186,7 +186,7 @@ class Person extends Model
         $count = DB::table(DB::raw('('.$q->toSql().') as o2'))
             ->mergeBindings($q->getQuery()->getQuery())
             ->count();
-            return $count >= $threshold;
+        return $count >= $threshold;
     }
 
     public function family()
@@ -300,7 +300,7 @@ class Person extends Model
                 ->whereNotNull('nationality')
                 ->orderBy('total', 'DESC')
                 ->get()
-            )
+        )
             ->pluck('total', 'nationality')
             ->toArray();
     }
@@ -367,7 +367,7 @@ class Person extends Model
                 ->groupBy('gender')
                 ->whereNotNull('gender')
                 ->get()
-            )
+        )
             ->map(function ($i) {
                 if ($i['gender'] == 'm') {
                     $i['gender'] = __('app.male');

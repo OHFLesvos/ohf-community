@@ -69,7 +69,7 @@ class VisitorController extends Controller
             ->forFilter($filter)
             ->orderBy($sortBy, $sortDirection)
             ->orderBy('first_name')
-            ->paginate($pageSize ))
+            ->paginate($pageSize))
             ->additional(['meta' => [
                 'currently_visiting' => collect(self::TYPES)
                     ->mapWithKeys(fn ($t, $k) => [
@@ -157,7 +157,8 @@ class VisitorController extends Controller
 
         return Visitor::query()
             ->selectRaw('DATE(entered_at) as day')
-            ->addSelect(collect(self::TYPES)
+            ->addSelect(
+                collect(self::TYPES)
                 ->mapWithKeys(fn ($t, $k) => [
                     $k => Visitor::selectRaw('COUNT(*)')
                         ->whereRaw('DATE(entered_at) = day')
@@ -179,7 +180,8 @@ class VisitorController extends Controller
         return Visitor::query()
             ->selectRaw('MONTH(entered_at) as month')
             ->selectRaw('YEAR(entered_at) as year')
-            ->addSelect(collect(self::TYPES)
+            ->addSelect(
+                collect(self::TYPES)
                 ->mapWithKeys(fn ($t, $k) => [
                     $k => Visitor::selectRaw('COUNT(*)')
                         ->whereRaw('MONTH(entered_at) = month')
@@ -195,5 +197,4 @@ class VisitorController extends Controller
             ->orderBy('month', 'desc')
             ->get();
     }
-
 }

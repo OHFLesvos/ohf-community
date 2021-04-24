@@ -34,5 +34,4 @@ class CommunityVolunteersIndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

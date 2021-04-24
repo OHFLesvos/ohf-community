@@ -14,7 +14,7 @@ class KBWidget implements Widget
 
     public function render()
     {
-        return view('widgets.kb',  [
+        return view('widgets.kb', [
             'num_articles' => WikiArticle::count(),
             'latest_article' => WikiArticle::orderBy('created_at', 'DESC')->first(),
         ]);

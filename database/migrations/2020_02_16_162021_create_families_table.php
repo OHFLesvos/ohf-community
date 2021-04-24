@@ -35,7 +35,7 @@ class CreateFamiliesTable extends Migration
             ->doesntHave('family')
             ->groupBy('police_no')
             ->select('police_no')
-            ->havingRaw ('COUNT(*) > 1')
+            ->havingRaw('COUNT(*) > 1')
             ->get()
             ->pluck('police_no')
             ->each(function ($p) {

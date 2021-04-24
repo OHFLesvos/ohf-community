@@ -20,5 +20,4 @@ class PeopleImportContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

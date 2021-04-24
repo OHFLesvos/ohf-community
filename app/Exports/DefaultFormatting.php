@@ -9,7 +9,8 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 trait DefaultFormatting
 {
-    protected function setupSpreadsheet(Spreadsheet $spreadsheet) {
+    protected function setupSpreadsheet(Spreadsheet $spreadsheet)
+    {
         // Creator
         $spreadsheet->getProperties()->setCreator(config('app.name'));
 
@@ -17,7 +18,8 @@ trait DefaultFormatting
         $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
     }
 
-    protected function setupPage(Worksheet $sheet) {
+    protected function setupPage(Worksheet $sheet)
+    {
         // Orientation
         if ($this->orientation == 'landscape') {
             $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
@@ -54,7 +56,8 @@ trait DefaultFormatting
         $sheet->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(1, 1);
     }
 
-    protected function setupView(Worksheet $sheet) {
+    protected function setupView(Worksheet $sheet)
+    {
         // Freeze first line
         $sheet->freezePane('B2');
 
@@ -62,7 +65,8 @@ trait DefaultFormatting
         $sheet->setAutoFilter($sheet->calculateWorksheetDimension());
     }
 
-    protected function applyStyles(Worksheet $sheet) {
+    protected function applyStyles(Worksheet $sheet)
+    {
         // Styling of header row
         $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')
             ->getFont()

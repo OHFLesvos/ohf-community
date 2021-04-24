@@ -23,6 +23,5 @@ class ChangePublicIdLengthToFiveForPersonsTable extends Migration
      */
     public function down()
     {
-
     }
 }

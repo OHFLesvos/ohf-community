@@ -28,5 +28,4 @@ class TagContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

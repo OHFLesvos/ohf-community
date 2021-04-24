@@ -77,5 +77,4 @@ class ResponsibilityPolicy
         }
         return $user->isSuperAdmin() || $user->hasPermission('cmtyvol.manage');
     }
-
 }

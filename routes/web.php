@@ -42,13 +42,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('language')->group(function () {
-
     Route::middleware('auth')->group(function () {
 
         // Home (Dashboard)
         Route::get('/', [HomeController::class, 'index'])
             ->name('home');
-
     });
 
     // Authentication
@@ -305,7 +303,6 @@ Route::middleware(['auth', 'language'])
 
 Route::middleware(['auth', 'language'])
     ->group(function () {
-
         Route::prefix('bank')
             ->name('bank.')
             ->group(function () {
@@ -313,7 +310,6 @@ Route::middleware(['auth', 'language'])
                 // Withdrawals
                 Route::middleware('can:do-bank-withdrawals')
                     ->group(function () {
-
                         Route::redirect('', 'bank/withdrawal')
                             ->name('index');
 

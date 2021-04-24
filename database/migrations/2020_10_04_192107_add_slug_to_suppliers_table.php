@@ -18,7 +18,7 @@ class AddSlugToSuppliersTable extends Migration
             $table->string('slug')->nullable()->after('name');
         });
         
-        Supplier::whereNull('slug')->get()->each(function($s) {
+        Supplier::whereNull('slug')->get()->each(function ($s) {
             $s->touch();
             $s->save();
         });

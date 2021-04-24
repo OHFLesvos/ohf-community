@@ -17,5 +17,4 @@ trait RegisterContextButtons
             ContextButtons::define($routeName, $buttonsClass);
         }
     }
-
 }

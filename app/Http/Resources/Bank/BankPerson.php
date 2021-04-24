@@ -9,7 +9,8 @@ class BankPerson extends JsonResource
 {
     protected $couponTypes = [];
 
-    public function withCouponTypes($couponTypes) {
+    public function withCouponTypes($couponTypes)
+    {
         $this->couponTypes = $couponTypes;
         return $this;
     }
@@ -60,7 +61,8 @@ class BankPerson extends JsonResource
             'max_age' => $coupon->max_age,
             'qr_code_enabled' => $coupon->qr_code_enabled,
             'last_handout' => $this->canHandoutCoupon($coupon),
-            'returning_possible' => optional($this->couponHandouts()
+            'returning_possible' => optional(
+                $this->couponHandouts()
                 ->where('coupon_type_id', $coupon->id)
                 ->orderBy('date', 'desc')
                 ->first()

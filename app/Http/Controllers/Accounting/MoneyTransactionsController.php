@@ -395,8 +395,7 @@ class MoneyTransactionsController extends Controller
             foreach ($request->remove_receipt_picture as $picture) {
                 $transaction->deleteReceiptPicture($picture);
             }
-        }
-        elseif (isset($request->receipt_picture) && is_array($request->receipt_picture)) {
+        } elseif (isset($request->receipt_picture) && is_array($request->receipt_picture)) {
             for ($i = 0; $i < count($request->receipt_picture); $i++) {
                 $transaction->addReceiptPicture($request->file('receipt_picture')[$i]);
             }

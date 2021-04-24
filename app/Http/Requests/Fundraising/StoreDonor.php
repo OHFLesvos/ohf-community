@@ -47,5 +47,4 @@ class StoreDonor extends FormRequest
             ]
         ];
     }
-
 }

@@ -116,7 +116,7 @@ class GlobalSummaryController extends Controller
             ->pluck('sum', 'wallet_id');
         $incomeByWallet = self::totalByType('income', $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
-        $feesByWallet = self::totalFees($dateFrom, $dateTo,  $request->user(), $filters)
+        $feesByWallet = self::totalFees($dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
 
         $spending = $spendingByWallet->sum();
@@ -125,7 +125,7 @@ class GlobalSummaryController extends Controller
 
         $wallets = Wallet::all()
             ->filter(fn ($w) => request()->user()->can('view', $w))
-            ->map(fn($w) => [
+            ->map(fn ($w) => [
                 'wallet' => $w,
                 'income' => isset($incomeByWallet[$w->id]) ? $incomeByWallet[$w->id] : 0,
                 'spending' => isset($spendingByWallet[$w->id]) ? $spendingByWallet[$w->id] : 0,
@@ -191,9 +191,12 @@ class GlobalSummaryController extends Controller
             ->orderBy($field)
             ->where($filters)
             ->get()
-            ->when($user != null,
-                fn($q) => $q->filter(
-                    fn ($e) => $user->can('view', Wallet::find($e->wallet_id))))
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e->wallet_id))
+                )
+            )
             ->map(fn ($e) => [
                 'name' => $e->$field,
                 'amount' => $e->sum,
@@ -211,9 +214,12 @@ class GlobalSummaryController extends Controller
             ->where('type', $type)
             ->where($filters)
             ->get()
-            ->when($user != null,
-                fn($q) => $q->filter(
-                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))));
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))
+                )
+            );
     }
 
     private static function totalFees(?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
@@ -225,9 +231,12 @@ class GlobalSummaryController extends Controller
             ->forDateRange($dateFrom, $dateTo)
             ->where($filters)
             ->get()
-            ->when($user != null,
-                fn($q) => $q->filter(
-                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))));
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))
+                )
+            );
     }
 
     private static function useSecondaryCategories(): bool
@@ -259,5 +268,4 @@ class GlobalSummaryController extends Controller
         }
         return MoneyTransaction::locations();
     }
-
 }

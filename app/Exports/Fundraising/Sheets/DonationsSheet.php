@@ -92,5 +92,4 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
             $sheet->getStyle($sumCell)->getFont()->setUnderline(Font::UNDERLINE_DOUBLEACCOUNTING);
         }
     }
-
 }

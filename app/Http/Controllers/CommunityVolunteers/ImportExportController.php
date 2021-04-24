@@ -105,7 +105,8 @@ class ImportExportController extends BaseController
 
         $fields = self::getImportFields($this->getFields());
 
-        $variations = $fields->mapWithKeys(fn ($f) =>
+        $variations = $fields->mapWithKeys(
+            fn ($f) =>
             $f['labels']->mapWithKeys(fn ($l) => [ $l => $f['key'] ])
         );
 
@@ -164,7 +165,8 @@ class ImportExportController extends BaseController
             'include_portraits' => 'boolean',
         ]);
 
-        return $this->downloadExportable($request,
+        return $this->downloadExportable(
+            $request,
             $this->createExportable($request),
             $this->getExportFilename($request),
             $request->format

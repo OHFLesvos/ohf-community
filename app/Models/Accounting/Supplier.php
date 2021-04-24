@@ -45,7 +45,7 @@ class Supplier extends Model
         'remarks',
     ];
 
-        /**
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array

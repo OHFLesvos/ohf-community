@@ -154,7 +154,7 @@ abstract class BaseController extends Controller
 
                     if ($female->contains(strtolower($value))) {
                         $cmtyvol->gender = 'f';
-                    } else if ($male->contains(strtolower($value))) {
+                    } elseif ($male->contains(strtolower($value))) {
                         $cmtyvol->gender = 'm';
                     } else {
                         $cmtyvol->gender = null;

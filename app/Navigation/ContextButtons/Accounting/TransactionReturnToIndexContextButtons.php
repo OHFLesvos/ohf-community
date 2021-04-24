@@ -21,5 +21,4 @@ class TransactionReturnToIndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

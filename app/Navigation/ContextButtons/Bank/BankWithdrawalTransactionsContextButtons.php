@@ -19,5 +19,4 @@ class BankWithdrawalTransactionsContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

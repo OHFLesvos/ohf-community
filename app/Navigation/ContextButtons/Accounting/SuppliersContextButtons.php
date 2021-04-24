@@ -22,5 +22,4 @@ class SuppliersContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

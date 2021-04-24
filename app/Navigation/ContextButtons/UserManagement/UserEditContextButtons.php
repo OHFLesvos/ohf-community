@@ -20,5 +20,4 @@ class UserEditContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

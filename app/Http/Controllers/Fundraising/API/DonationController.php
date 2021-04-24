@@ -195,7 +195,8 @@ class DonationController extends Controller
 
         $extension = 'xlsx';
 
-        $file_name = sprintf('%s - %s (%s).%s',
+        $file_name = sprintf(
+            '%s - %s (%s).%s',
             config('app.name'),
             __('fundraising.donations'),
             Carbon::now()->toDateString(),

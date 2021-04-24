@@ -13,7 +13,6 @@ use App\Http\Controllers\Collaboration\API\ArticleController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
-use App\Http\Controllers\CommunityVolunteers\ImportController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController;
 use App\Http\Controllers\Fundraising\API\DonationController;
 use App\Http\Controllers\Fundraising\API\DonorCommentsController;

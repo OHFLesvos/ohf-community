@@ -29,5 +29,4 @@ class ShopContextButtons implements ContextButtons
             ] : null,
         ];
     }
-
 }

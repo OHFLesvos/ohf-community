@@ -12,5 +12,4 @@ interface ContextButtons
      * @return array
      */
     public function getItems(View $view): array;
-
 }

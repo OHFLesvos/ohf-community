@@ -28,5 +28,4 @@ class ResponsibilitiesEditContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

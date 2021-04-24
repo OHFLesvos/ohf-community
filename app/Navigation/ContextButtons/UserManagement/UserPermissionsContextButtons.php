@@ -20,5 +20,4 @@ class UserPermissionsContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

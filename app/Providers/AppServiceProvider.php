@@ -47,14 +47,16 @@ class AppServiceProvider extends ServiceProvider
 
         // Pagination method for collections
         if (! Collection::hasMacro('paginate')) {
-            Collection::macro('paginate',
+            Collection::macro(
+                'paginate',
                 function ($perPage = 15, $page = null, $options = []) {
                     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
                     $forPage = $this->forPage($page, $perPage);
                     $count = $this->count();
                     $paginator = new LengthAwarePaginator($forPage, $count, $perPage, $page, $options);
                     return $paginator->withPath('');
-                });
+                }
+            );
         }
 
         // UTF-8 support for Carbon time

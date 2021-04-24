@@ -119,7 +119,7 @@ class MaintenanceController extends Controller
             $cnt += Person::whereNull('police_no')
                 ->delete();
         }
-         return redirect()->route('people.index')
+        return redirect()->route('people.index')
              ->with('info', __('people.removed_n_persons', [ 'num' => $cnt ]));
     }
 
@@ -194,7 +194,7 @@ class MaintenanceController extends Controller
                 $e->person_id = $master->id;
                 try {
                     $e->save();
-                } catch(\Illuminate\Database\QueryException $ex) {
+                } catch (\Illuminate\Database\QueryException $ex) {
                     // Ignore
                     Log::notice('Skip adapting coupon handout during merge: ' . $ex->getMessage());
                 }

@@ -34,7 +34,7 @@ class AddSalutationToDonors extends Migration
     public function down()
     {
         Schema::table('donors', function (Blueprint $table) {
-           $table->dropColumn('salutation');
+            $table->dropColumn('salutation');
         });
     }
 }

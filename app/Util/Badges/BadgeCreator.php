@@ -66,7 +66,8 @@ class BadgeCreator
      */
     private $persons;
 
-    public function __construct($persons) {
+    public function __construct($persons)
+    {
         $this->persons = $persons;
     }
 
@@ -232,5 +233,4 @@ class BadgeCreator
     //     // Write image to PDF
     //     $mpdf->Image($imageSource, $x + $offsetX, $y + $offsetY, $width, $height);
     // }
-
 }
