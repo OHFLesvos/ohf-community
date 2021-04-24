@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
-use App\Models\People\Person;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -48,24 +47,6 @@ class RenameHelpersToCommunityVolunteersTable extends Migration
         });
 
         CommunityVolunteer::whereNotNull('deleted_at')->delete();
-
-        CommunityVolunteer::all()
-            ->each(function ($cmtyvol) {
-                $person = Person::find($cmtyvol->person_id);
-                $cmtyvol->first_name = $person->name;
-                $cmtyvol->family_name = $person->family_name;
-                $cmtyvol->nickname = $person->nickname;
-                $cmtyvol->date_of_birth = $person->date_of_birth;
-                $cmtyvol->gender = $person->gender;
-                $cmtyvol->nationality = $person->nationality;
-                $cmtyvol->languages = $person->languages;
-                $cmtyvol->portrait_picture = $person->portrait_picture;
-                $cmtyvol->police_no = $person->police_no;
-                $cmtyvol->notes = filled($cmtyvol->notes)
-                    ? $cmtyvol->notes . "\n" . $person->remarks
-                    : $cmtyvol->notes;
-                $cmtyvol->save();
-            });
 
         Schema::table('community_volunteers', function (Blueprint $table) {
             $table->string('first_name')

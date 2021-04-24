@@ -20,7 +20,7 @@
                     @if($cmtyvol->firstWorkStartDate == null)
                         <div class="card-body p-0">
                             <x-alert type="warning" class="m-0">
-                                @lang('people.no_started_date_set')
+                                @lang('app.no_started_date_set')
                             </x-alert>
                         </div>
                     @elseif($cmtyvol->firstWorkStartDate->gt(today()))

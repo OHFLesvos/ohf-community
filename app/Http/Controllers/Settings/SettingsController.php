@@ -17,8 +17,6 @@ class SettingsController extends Controller
         return [
             'branding' => __('app.branding'),
             'accounting' => __('accounting.accounting'),
-            'bank' => __('bank.bank'),
-            'shop' => __('shop.shop'),
             'badges' => __('badges.badges'),
         ];
     }
@@ -38,14 +36,6 @@ class SettingsController extends Controller
         'accounting.transactions.use_cost_centers' => \App\Settings\Accounting\TransactionCostCentersUse::class,
         'accounting.transactions.cost_centers' => \App\Settings\Accounting\TransactionCostCenters::class,
         'accounting.transactions.show_intermediate_balances' => \App\Settings\Accounting\TransactionShowIntermediateBalances::class,
-        'bank.undo_coupon_handout_grace_period' => \App\Settings\Bank\UndoCouponHandoutGracePeriod::class,
-        'bank.frequent_visitor_weeks' => \App\Settings\Bank\FrequentVisitorWeeks::class,
-        'bank.frequent_visitor_threshold' => \App\Settings\Bank\FrequentVisitorThreshold::class,
-        'bank.code_card.label' => \App\Settings\Bank\CodeCardLabel::class,
-        'bank.code_card.logo' => \App\Settings\Bank\CodeCardLogo::class,
-        'bank.help_article' => \App\Settings\Bank\HelpArticle::class,
-        'shop.coupon_type' => \App\Settings\Shop\CouponType::class,
-        'shop.help_article' => \App\Settings\Shop\HelpArticle::class,
         'badges.logo_file' => \App\Settings\Badges\LogoFile::class,
     ];
 

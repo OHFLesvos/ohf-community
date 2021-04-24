@@ -27,21 +27,8 @@ return [
     'edit_wiki' => 'Wiki: Create and edit articles',
     'delete_wiki' => 'Wiki: Delete articles',
 
-    'list_people' => 'People: List people',
-    'view_people' => 'People: View person details',
-    'manage_people' => 'People: Create, edit & delete people',
-    'export_people' => 'People: Export people',
-    'view_people_reports' => 'People: View reports',
-
-    'do_bank_withdrawals' => 'Bank: Handout coupons',
-    'view_bank_statistics' => 'Bank: View reports',
-    'configure_bank' => 'Bank: Configure settings',
-
     'view_community_volunteers' => 'Community volunteers: View community volunteers',
     'manage_community_volunteers' => 'Community volunteers: Manage community volunteers',
-
-    'validate_shop_coupons' => 'Shop: Validate coupons',
-    'configure_shop' => 'Shop: Configure settings',
 
     'register_visitors' => 'Visitors: Register',
     'export_visitors' => 'Visitors: Export',

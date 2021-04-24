@@ -62,41 +62,11 @@ return [
         'wiki.delete' => [
             'label' => 'permissions.delete_wiki',
         ],
-        'people.list' => [
-            'label' => 'permissions.list_people',
-        ],
-        'people.view' => [
-            'label' => 'permissions.view_people',
-        ],
-        'people.manage' => [
-            'label' => 'permissions.manage_people',
-        ],
-        'people.export' => [
-            'label' => 'permissions.export_people',
-        ],
-        'people.reports.view' => [
-            'label' => 'permissions.view_people_reports',
-        ],
-        'bank.withdrawals.do' => [
-            'label' => 'permissions.do_bank_withdrawals',
-        ],
-        'bank.statistics.view' => [
-            'label' => 'permissions.view_bank_statistics',
-        ],
-        'bank.configure' => [
-            'label' => 'permissions.configure_bank',
-        ],
         'cmtyvol.view' => [
             'label' => 'permissions.view_community_volunteers',
         ],
         'cmtyvol.manage' => [
             'label' => 'permissions.manage_community_volunteers',
-        ],
-        'shop.coupons.validate' => [
-            'label' => 'permissions.validate_shop_coupons',
-        ],
-        'shop.configure' => [
-            'label' => 'permissions.configure_shop',
         ],
         'visitors.register' => [
             'label' => 'permissions.register_visitors',
@@ -107,8 +77,6 @@ return [
     ],
     'gate_mapping' => [
         'view-reports' => [  // TODO
-            'people.reports.view',
-            'bank.statistics.view',
             'app.usermgmt.view',
             'cmtyvol.manage',
             'visitors.register',
@@ -128,19 +96,8 @@ return [
         'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',
         'manage-suppliers' => 'accounting.suppliers.manage',
         'configure-accounting' => 'accounting.configure',
-        'manage-people' => 'people.manage',
-        'view-people-reports' => 'people.reports.view',
-        'view-bank-index' => [
-            'bank.withdrawals.do',
-            'bank.configure',
-        ],
-        'do-bank-withdrawals' => 'bank.withdrawals.do',
-        'view-bank-reports' => 'bank.statistics.view',
-        'configure-bank' => 'bank.configure',
         'manage-community-volunteers' => 'cmtyvol.manage',
         'view-community-volunteer-reports' => 'cmtyvol.manage',
-        'validate-shop-coupons' => 'shop.coupons.validate',
-        'configure-shop' => 'shop.configure',
         'register-visitors' => 'visitors.register',
         'export-visitors' => 'visitors.export',
     ],

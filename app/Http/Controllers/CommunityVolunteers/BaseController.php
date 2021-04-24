@@ -20,10 +20,10 @@ abstract class BaseController extends Controller
     protected function getSections()
     {
         return [
-            'portrait' => __('people.portrait'),
+            'portrait' => __('app.portrait'),
             'general' => __('app.general'),
-            'reachability' => __('people.reachability'),
-            'occupation' => __('people.occupation'),
+            'reachability' => __('app.reachability'),
+            'occupation' => __('app.occupation'),
         ];
     }
 
@@ -31,7 +31,7 @@ abstract class BaseController extends Controller
     {
         return [
             [
-                'label_key' => 'people.portrait_picture',
+                'label_key' => 'app.portrait_picture',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->portrait_picture,
                 'value_html' => fn ($cmtyvol) => isset($cmtyvol->portrait_picture) ? '<img src="' . Storage::url($cmtyvol->portrait_picture) . '" class="img-fluid img-thumbnail">' : null,
@@ -63,10 +63,10 @@ abstract class BaseController extends Controller
                     'nullable',
                     'image',
                 ],
-                'form_help' => __('people.image_will_be_croped_resized_to_2_3_aspect_ratio'),
+                'form_help' => __('app.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
-                'label_key' => 'people.first_name',
+                'label_key' => 'app.first_name',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->first_name,
                 'overview' => true,
@@ -83,7 +83,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people.family_name',
+                'label_key' => 'app.family_name',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->family_name,
                 'overview' => true,
@@ -100,7 +100,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people.nickname',
+                'label_key' => 'app.nickname',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->nickname,
                 'overview' => true,
@@ -116,7 +116,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people.nationality',
+                'label_key' => 'app.nationality',
                 'icon' => 'globe',
                 'value' => fn ($cmtyvol) => $cmtyvol->nationality,
                 'overview' => true,
@@ -134,7 +134,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'people.gender',
+                'label_key' => 'app.gender',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? __('app.female') : __('app.male')) : null,
                 'value_html' => fn ($cmtyvol) => $cmtyvol->gender != null
@@ -170,7 +170,7 @@ abstract class BaseController extends Controller
                 'form_validate' => 'required', // TODO better validation |in:m,f
             ],
             [
-                'label_key' => 'people.date_of_birth',
+                'label_key' => 'app.date_of_birth',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->date_of_birth,
                 'overview' => false,
@@ -185,14 +185,14 @@ abstract class BaseController extends Controller
                 'form_validate' => 'required|date',
             ],
             [
-                'label_key' => 'people.age',
+                'label_key' => 'app.age',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->age,
                 'overview' => true,
                 'section' => 'general',
             ],
             [
-                'label_key' => 'people.police_number',
+                'label_key' => 'app.police_number',
                 'icon' => 'id-card',
                 'value' => fn ($cmtyvol) => $cmtyvol->police_no,
                 'overview' => false,
@@ -208,7 +208,7 @@ abstract class BaseController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'people.languages',
+                'label_key' => 'app.languages',
                 'icon' => 'language',
                 'value' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode(', ', $cmtyvol->languages) : $cmtyvol->languages) : null,
                 'value_html' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode('<br>', $cmtyvol->languages) : $cmtyvol->languages) : null,
@@ -314,7 +314,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'skype',
             ],
             [
-                'label_key' => 'people.residence',
+                'label_key' => 'app.residence',
                 'icon' => null,
                 'value' => 'residence',
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->residence),
@@ -327,7 +327,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'residence',
             ],
             [
-                'label_key' => 'people.pickup_location',
+                'label_key' => 'app.pickup_location',
                 'icon' => null,
                 'value' => 'pickup_location',
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->pickup_location),
@@ -407,7 +407,7 @@ abstract class BaseController extends Controller
                 },
             ],
             [
-                'label_key' => 'people.starting_date',
+                'label_key' => 'app.starting_date',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => optional($cmtyvol->firstWorkStartDate)->toDateString(),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->firstWorkStartDate != null
@@ -417,7 +417,7 @@ abstract class BaseController extends Controller
                 'section' => 'occupation',
             ],
             [
-                'label_key' => 'people.leaving_date',
+                'label_key' => 'app.leaving_date',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => optional($cmtyvol->lastWorkEndDate)->toDateString(),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->lastWorkEndDate != null
@@ -434,7 +434,7 @@ abstract class BaseController extends Controller
                 'section' => 'occupation',
             ],
             [
-                'label_key' => 'people.notes',
+                'label_key' => 'app.notes',
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->notes,
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->notes),
@@ -464,9 +464,9 @@ abstract class BaseController extends Controller
     protected function getWorkStatuses(): Collection
     {
         return collect([
-            'active' => __('people.active'),
-            'future' => __('people.future'),
-            'alumni' => __('people.alumni'),
+            'active' => __('app.active'),
+            'future' => __('app.future'),
+            'alumni' => __('app.alumni'),
         ]);
     }
 
@@ -474,17 +474,17 @@ abstract class BaseController extends Controller
     {
         return collect([
             'nationalities' => [
-                'label' => __('people.nationalities'),
+                'label' => __('app.nationalities'),
                 'groups' => fn () => CommunityVolunteer::nationalities(true),
                 'query' => fn ($query, $value) => $query->hasNationality($value),
             ],
             'languages' => [
-                'label' => __('people.languages'),
+                'label' => __('app.languages'),
                 'groups' => fn () => CommunityVolunteer::languages(true),
                 'query' => fn ($query, $value) => $query->speaksLanguage($value),
             ],
             'gender' => [
-                'label' => __('people.gender'),
+                'label' => __('app.gender'),
                 'groups' => fn () => CommunityVolunteer::genders(true),
                 'query' => fn ($query, $value) => $query->hasGender($value),
                 'label_transform' => fn ($groups) => collect($groups)
@@ -509,7 +509,7 @@ abstract class BaseController extends Controller
                 'query' => fn ($q, $v) => $q->whereHas('responsibilities', fn (Builder $query) => $query->where('name', $v)),
             ],
             'pickup_locations' => [
-                'label' => __('people.pickup_locations'),
+                'label' => __('app.pickup_locations'),
                 'groups' => fn () => CommunityVolunteer::pickupLocations(true),
                 'query' => fn ($query, $value) => $query->withPickupLocation($value),
             ],
@@ -538,11 +538,11 @@ abstract class BaseController extends Controller
                 'columns' => [],
             ],
             'name_nationality_occupation' => [
-                'label' => __('people.name_nationality_occupation'),
+                'label' => __('app.name_nationality_occupation'),
                 'columns' => ['name', 'family_name', 'nickname', 'nationality', 'responsibilities'],
             ],
             'contact_info' => [
-                'label' => __('people.contact_info'),
+                'label' => __('app.contact_info'),
                 'columns' => ['name', 'family_name', 'nickname', 'local_phone', 'other_phone', 'whatsapp', 'email', 'skype', 'residence'],
             ],
             'name_nationality_comments' => [
@@ -564,23 +564,23 @@ abstract class BaseController extends Controller
                 'sorting' => 'family_name',
             ],
             'nationality' => [
-                'label' => __('people.nationality'),
+                'label' => __('app.nationality'),
                 'sorting' => 'nationality',
             ],
             'gender' => [
-                'label' => __('people.gender'),
+                'label' => __('app.gender'),
                 'sorting' => 'gender',
             ],
             'age' => [
-                'label' => __('people.age'),
+                'label' => __('app.age'),
                 'sorting' => 'age',
             ],
             'residence' => [
-                'label' => __('people.residence'),
+                'label' => __('app.residence'),
                 'sorting' => 'residence',
             ],
             'pickup_location' => [
-                'label' => __('people.pickup_location'),
+                'label' => __('app.pickup_location'),
                 'sorting' => 'pickup_location',
             ],
         ]);

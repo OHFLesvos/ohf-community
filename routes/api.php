@@ -6,9 +6,6 @@ use App\Http\Controllers\Accounting\API\SuppliersController;
 use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\CommentsController;
 use App\Http\Controllers\API\DataListController;
-use App\Http\Controllers\Bank\API\VisitorReportingController;
-use App\Http\Controllers\Bank\API\WithdrawalController;
-use App\Http\Controllers\Bank\API\WithdrawalReportingController;
 use App\Http\Controllers\Collaboration\API\ArticleController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
@@ -22,10 +19,6 @@ use App\Http\Controllers\Fundraising\API\DonorTagsController;
 use App\Http\Controllers\Fundraising\API\ReportController;
 use App\Http\Controllers\Fundraising\API\TagsController;
 use App\Http\Controllers\Fundraising\API\WebhookController;
-use App\Http\Controllers\People\API\MonthlySummaryReportController;
-use App\Http\Controllers\People\API\PeopleController;
-use App\Http\Controllers\People\API\ReportingController;
-use App\Http\Controllers\Shop\API\CardsController;
 use App\Http\Controllers\UserManagement\API\RoleAdministratorRelationshipController;
 use App\Http\Controllers\UserManagement\API\RoleController;
 use App\Http\Controllers\UserManagement\API\RoleUserRelationshipController;
@@ -224,144 +217,6 @@ Route::middleware(['language', 'auth'])
     });
 
 //
-// People
-//
-
-Route::middleware(['auth', 'language'])
-    ->name('api.people.')
-    ->prefix('people')
-    ->group(function () {
-
-        // Get list of people
-        Route::get('', [PeopleController::class, 'index'])
-            ->name('index')
-            ->middleware('can:viewAny,App\Models\People\Person');
-
-        // Filter persons
-        Route::get('filterPersons', [PeopleController::class, 'filterPersons'])
-            ->name('filterPersons')
-            ->middleware('can:viewAny,App\Models\People\Person');
-
-        // Store new person
-        Route::post('', [PeopleController::class, 'store'])
-            ->name('store')
-            ->middleware('can:create,App\Models\People\Person');
-
-        // Show person
-        Route::get('{person}', [PeopleController::class, 'show'])
-            ->name('show')
-            ->middleware('can:view,person');
-
-        // Update person
-        Route::put('{person}', [PeopleController::class, 'update'])
-            ->name('update')
-            ->middleware('can:update,person');
-
-        // Set gender
-        Route::patch('{person}/gender', [PeopleController::class, 'updateGender'])
-            ->name('updateGender')
-            ->middleware('can:update,person');
-
-        // Set date of birth
-        Route::patch('{person}/date_of_birth', [PeopleController::class, 'updateDateOfBirth'])
-            ->name('updateDateOfBirth')
-            ->middleware('can:update,person');
-
-        // Set nationality
-        Route::patch('{person}/nationality', [PeopleController::class, 'updateNationality'])
-            ->name('updateNationality')
-            ->middleware('can:update,person');
-
-        // Update police number
-        Route::patch('{person}/updatePoliceNo', [PeopleController::class, 'updatePoliceNo'])
-            ->name('updatePoliceNo')
-            ->middleware('can:update,person');
-
-        // Update remarks
-        Route::patch('{person}/remarks', [PeopleController::class, 'updateRemarks'])
-            ->name('updateRemarks')
-            ->middleware('can:update,person');
-
-        // Register code card
-        Route::patch('{person}/card', [PeopleController::class, 'registerCard'])
-            ->name('registerCard')
-            ->middleware('can:update,person');
-
-        // Reporting
-        Route::prefix('reporting')
-            ->name('reporting.')
-            ->middleware(['can:view-people-reports'])
-            ->group(function () {
-                Route::get('numbers', [ReportingController::class, 'numbers'])
-                    ->name('numbers');
-                Route::get('nationalities', [ReportingController::class, 'nationalities'])
-                    ->name('nationalities');
-                Route::get('genderDistribution', [ReportingController::class, 'genderDistribution'])
-                    ->name('genderDistribution');
-                Route::get('ageDistribution', [ReportingController::class, 'ageDistribution'])
-                    ->name('ageDistribution');
-                Route::get('registrationsPerDay', [ReportingController::class, 'registrationsPerDay'])
-                    ->name('registrationsPerDay');
-                Route::get('monthlySummary', [MonthlySummaryReportController::class, 'summary'])
-                    ->name('monthlySummary');
-            });
-    });
-
-//
-// Bank
-//
-
-Route::middleware(['auth', 'language'])
-    ->group(function () {
-
-        // Withdrawals
-        Route::middleware('can:do-bank-withdrawals')
-            ->prefix('bank')
-            ->name('api.bank.withdrawal.')
-            ->group(function () {
-                Route::get('withdrawal/dailyStats', [WithdrawalController::class, 'dailyStats'])
-                    ->name('dailyStats');
-                Route::get('withdrawal/transactions', [WithdrawalController::class, 'transactions'])
-                    ->name('transactions')
-                    ->middleware('can:viewAny,App\Models\People\Person');
-                Route::get('withdrawal/search', [WithdrawalController::class, 'search'])
-                    ->name('search');
-                Route::get('withdrawal/persons/{person}', [WithdrawalController::class, 'person'])
-                    ->name('person');
-                Route::post('person/{person}/couponType/{couponType}/handout', [WithdrawalController::class, 'handoutCoupon'])
-                    ->name('handoutCoupon');
-                Route::delete('person/{person}/couponType/{couponType}/handout', [WithdrawalController::class, 'undoHandoutCoupon'])
-                    ->name('undoHandoutCoupon');
-            });
-
-        // Reporting
-        Route::middleware('can:view-bank-reports')
-            ->prefix('bank')
-            ->name('api.bank.reporting.')
-            ->group(function () {
-                // Withdrawals
-                Route::get('withdrawals', [WithdrawalReportingController::class, 'withdrawals'])
-                    ->name('withdrawals');
-                Route::get('withdrawals/chart/couponsHandedOutPerDay/{coupon}', [WithdrawalReportingController::class, 'couponsHandedOutPerDay'])
-                    ->name('couponsHandedOutPerDay');
-
-                // Visitors
-                Route::get('visitors', [VisitorReportingController::class, 'visitors'])
-                    ->name('visitors');
-                Route::get('visitors/chart/visitorsPerDay', [VisitorReportingController::class, 'visitorsPerDay'])
-                    ->name('visitorsPerDay');
-                Route::get('visitors/chart/visitorsPerWeek', [VisitorReportingController::class, 'visitorsPerWeek'])
-                    ->name('visitorsPerWeek');
-                Route::get('visitors/chart/visitorsPerMonth', [VisitorReportingController::class, 'visitorsPerMonth'])
-                    ->name('visitorsPerMonth');
-                Route::get('visitors/chart/visitorsPerYear', [VisitorReportingController::class, 'visitorsPerYear'])
-                    ->name('visitorsPerYear');
-                Route::get('visitors/chart/avgVisitorsPerDayOfWeek', [VisitorReportingController::class, 'avgVisitorsPerDayOfWeek'])
-                    ->name('avgVisitorsPerDayOfWeek');
-            });
-    });
-
-//
 // Community volunteers
 //
 
@@ -396,33 +251,6 @@ Route::middleware(['auth', 'language'])
         // Comments
         Route::apiResource('cmtyvol.comments', CommunityVolunteerCommentsController::class)
             ->only('index', 'store');
-    });
-
-//
-// Shop
-//
-
-Route::middleware(['auth', 'language'])
-    ->prefix('shop')
-    ->name('api.shop.')
-    ->group(function () {
-        Route::middleware(['can:validate-shop-coupons'])
-            ->prefix('cards')
-            ->name('cards.')
-            ->group(function () {
-                Route::get('listRedeemedToday', [CardsController::class, 'listRedeemedToday'])
-                    ->name('listRedeemedToday');
-                Route::get('searchByCode', [CardsController::class, 'searchByCode'])
-                    ->name('searchByCode');
-                Route::patch('redeem/{handout}', [CardsController::class, 'redeem'])
-                    ->name('redeem');
-                Route::delete('cancel/{handout}', [CardsController::class, 'cancel'])
-                    ->name('cancel');
-                Route::get('listNonRedeemedByDay', [CardsController::class, 'listNonRedeemedByDay'])
-                    ->name('listNonRedeemedByDay');
-                Route::post('deleteNonRedeemedByDay', [CardsController::class, 'deleteNonRedeemedByDay'])
-                    ->name('deleteNonRedeemedByDay');
-            });
     });
 
 //

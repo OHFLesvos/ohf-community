@@ -102,31 +102,31 @@ export default {
             fields: [
                 {
                     key: 'first_name',
-                    label: this.$t('people.first_name'),
+                    label: this.$t('app.first_name'),
                     sortable: true
                 },
                 {
                     key: 'family_name',
-                    label: this.$t('people.family_name'),
+                    label: this.$t('app.family_name'),
                     sortable: true
                 },
                 {
                     key: 'nickname',
-                    label: this.$t('people.nickname')
+                    label: this.$t('app.nickname')
                 },
                 {
                     key: 'nationality',
-                    label: this.$t('people.nationality'),
+                    label: this.$t('app.nationality'),
                     sortable: true
                 },
                 {
                     key: 'gender',
-                    label: this.$t('people.gender'),
+                    label: this.$t('app.gender'),
                     class: 'text-center fit'
                 },
                 {
                     key: 'age',
-                    label: this.$t('people.age'),
+                    label: this.$t('app.age'),
                     sortable: true,
                     class: 'text-right fit'
                 },
@@ -136,7 +136,7 @@ export default {
                 },
                 {
                     key: 'languages',
-                    label: this.$t('people.languages')
+                    label: this.$t('app.languages')
                 },
                 // {
                 //     key: 'created_at',

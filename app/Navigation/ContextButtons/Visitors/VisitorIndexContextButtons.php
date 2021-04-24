@@ -2,9 +2,7 @@
 
 namespace App\Navigation\ContextButtons\Visitors;
 
-use App\Models\People\Person;
 use App\Navigation\ContextButtons\ContextButtons;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\People\Person;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +12,7 @@ class ChangePublicIdLengthToFiveForPersonsTable extends Migration
      */
     public function up()
     {
-        DB::table('persons')->update(['public_id' => DB::raw('SUBSTR(public_id, 1, ' . Person::PUBLIC_ID_LENGTH . ')')]);
+        DB::table('persons')->update(['public_id' => DB::raw('SUBSTR(public_id, 1, ' . 10 . ')')]);
     }
 
     /**

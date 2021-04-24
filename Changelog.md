@@ -3,6 +3,7 @@
 ## NEXT
 
 * Removed book library feature
+* Remove bank, persons, shop and coupons feature
 
 ## 2.32.1
 

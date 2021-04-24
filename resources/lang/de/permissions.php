@@ -27,21 +27,8 @@ return [
     'edit_wiki' => 'Wiki: Artikel erstellen und bearbeiten',
     'delete_wiki' => 'Wiki: Artikel löschen',
 
-    'list_people' => 'Personen: Personen auflisten',
-    'view_people' => 'Personen: Personendetails betrachten',
-    'manage_people' => 'Personen: Personen erstellen, bearbeiten & löschen',
-    'export_people' => 'Personen: Personen exportieren',
-    'view_people_reports.' => 'Personen: Berichte betrachten',
-
-    'do_bank_withdrawals' => 'Bank: Auszahlungen durchführen',
-    'view_bank_statistics' => 'Bank: Berichte betrachten',
-    'configure_bank' => 'Bank: Einstellungen konfigurieren',
-
     'view_community_volunteers' => 'Community Volunteers: Community Volunteers betrachten',
     'manage_community_volunteers' => 'Community Volunteers: Community Volunteers verwalten',
-
-    'validate_shop_coupons' => 'Markt: Coupons validieren',
-    'configure_shop' => 'Markt: Einstellungen bearbeiten',
 
     'register_visitors' => 'Besucher: Registrieren',
     'export_visitors' => 'Besucher: Exportieren',

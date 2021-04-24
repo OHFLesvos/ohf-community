@@ -43,7 +43,8 @@ class DonationFactory extends Factory
         ];
     }
 
-    private function getExchangeRate($currency) {
+    private function getExchangeRate($currency)
+    {
         try {
             return EzvExchangeRates::getExchangeRate($currency);
         } catch (\Exception $ex) {

@@ -42,7 +42,7 @@
                                         {{ Form::bsRadioList('work_status', $work_statuses, $work_status, __('cmtyvol.work_status')) }}
                                     </div>
                                     <div class="mb-3">
-                                        {{ Form::bsRadioList('column_set', $columnt_sets, $columnt_set, __('people.column_set')) }}
+                                        {{ Form::bsRadioList('column_set', $columnt_sets, $columnt_set, __('app.column_set')) }}
                                     </div>
                                 </div>
                                 <div class="col-sm mb-3">
@@ -53,7 +53,7 @@
                                         {{ Form::bsRadioList('orientation', ['portrait' => __('app.portrait'), 'landscape' => __('app.landscape')], 'portrait', __('app.orientation')) }}
                                     </div>
                                     <p>{{ Form::bsCheckbox('fit_to_page', 1, null, __('app.fit_to_page')) }}</p>
-                                    <p>{{ Form::bsCheckbox('include_portraits', 1, null, __('people.include_portraits')) }}</p>
+                                    <p>{{ Form::bsCheckbox('include_portraits', 1, null, __('app.include_portraits')) }}</p>
                                 </div>
                             </div>
                         </div>

@@ -7,11 +7,6 @@ use App\Http\Controllers\Accounting\WalletController;
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Badges\BadgeMakerController;
-use App\Http\Controllers\Bank\CodeCardController;
-use App\Http\Controllers\Bank\CouponTypesController;
-use App\Http\Controllers\Bank\ImportExportController;
-use App\Http\Controllers\Bank\PeopleController as BankPeopleController;
-use App\Http\Controllers\People\PeopleController;
 use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\Collaboration\ArticleController;
 use App\Http\Controllers\Collaboration\SearchController;
@@ -21,7 +16,6 @@ use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\Fundraising\FundraisingController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\People\MaintenanceController;
 use App\Http\Controllers\PrivacyPolicy;
 use App\Http\Controllers\Reports\ReportsController;
 use App\Http\Controllers\Settings\SettingsController;
@@ -264,88 +258,6 @@ Route::middleware(['language'])
     });
 
 //
-// People
-//
-
-Route::middleware(['auth', 'language'])
-    ->group(function () {
-
-        // Maintenance
-        Route::middleware('can:cleanup,App\Models\People\Person')
-            ->name('people.')
-            ->prefix('people')
-            ->group(function () {
-                Route::get('maintenance', [MaintenanceController::class, 'maintenance'])
-                    ->name('maintenance');
-                Route::post('maintenance', [MaintenanceController::class, 'updateMaintenance'])
-                    ->name('updateMaintenance');
-                Route::get('duplicates', [MaintenanceController::class, 'duplicates'])
-                    ->name('duplicates');
-                Route::post('duplicates', [MaintenanceController::class, 'applyDuplicates'])
-                    ->name('applyDuplicates');
-            });
-
-        // People
-        Route::get('people/export', [PeopleController::class, 'export'])
-            ->name('people.export')
-            ->middleware('can:export,App\Models\People\Person');
-        Route::view('people/import-export', 'people.import-export')
-            ->name('people.import-export');
-        Route::post('people/import', [PeopleController::class, 'import'])
-            ->name('people.import')
-            ->middleware('can:create,App\Models\People\Person');
-        Route::resource('people', PeopleController::class);
-    });
-
-//
-// Bank
-//
-
-Route::middleware(['auth', 'language'])
-    ->group(function () {
-        Route::prefix('bank')
-            ->name('bank.')
-            ->group(function () {
-
-                // Withdrawals
-                Route::middleware('can:do-bank-withdrawals')
-                    ->group(function () {
-                        Route::redirect('', 'bank/withdrawal')
-                            ->name('index');
-
-                        Route::view('withdrawal', 'bank.withdrawal.search')
-                            ->name('withdrawal.search');
-
-                        Route::view('withdrawal/transactions', 'bank.withdrawal.transactions')
-                            ->name('withdrawal.transactions')
-                            ->middleware('can:viewAny,App\Models\People\Person');
-
-                        Route::get('codeCard', [CodeCardController::class, 'create'])
-                            ->name('prepareCodeCard');
-
-                        Route::post('codeCard', [CodeCardController::class, 'download'])
-                            ->name('createCodeCard');
-                    });
-
-                // People
-                Route::resource('people', BankPeopleController::class)
-                    ->except(['index', 'store', 'update']);
-
-                // Export
-                Route::middleware('can:export,App\Models\People\Person')
-                    ->group(function () {
-                        Route::get('export', [ImportExportController::class, 'export'])
-                            ->name('export');
-                        Route::post('doExport', [ImportExportController::class, 'doExport'])
-                            ->name('doExport');
-                    });
-
-                // Coupons
-                Route::resource('coupons', CouponTypesController::class);
-            });
-    });
-
-//
 // Community volunteers
 //
 
@@ -395,23 +307,6 @@ Route::middleware(['auth', 'language'])
     });
 
 //
-// Shop
-//
-
-Route::middleware(['auth', 'language'])
-    ->prefix('shop')
-    ->name('shop.')
-    ->group(function () {
-        Route::middleware(['can:validate-shop-coupons'])
-            ->group(function () {
-                Route::view('/', 'shop.index')
-                    ->name('index');
-                Route::view('manageCards', 'shop.manageCards')
-                    ->name('manageCards');
-            });
-    });
-
-//
 // Visitors
 //
 Route::middleware(['auth', 'language'])
@@ -437,27 +332,6 @@ Route::prefix('reports')
             ->name('index')
             ->middleware('can:view-reports');
 
-        // Reports: People
-        Route::prefix('people')
-            ->name('people.')
-            ->middleware(['can:view-people-reports'])
-            ->group(function () {
-                Route::view('monthly-summary', 'reports.people.monthly-summary')
-                    ->name('monthly-summary');
-                Route::view('people', 'reports.people.people')
-                    ->name('people');
-            });
-
-        // Reports: Bank
-        Route::prefix('bank')
-            ->name('bank.')
-            ->middleware('can:view-bank-reports')
-            ->group(function () {
-                Route::view('withdrawals', 'reports.bank.withdrawals')
-                    ->name('withdrawals');
-                Route::view('visitors', 'reports.bank.visitors')
-                    ->name('visitors');
-            });
 
         // Reports: Community volunteers
         Route::prefix('cmtyvol')

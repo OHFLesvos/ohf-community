@@ -5,7 +5,7 @@
 @section('content')
     {!! Form::model($cmtyvol, ['route' => ['cmtyvol.updateResponsibilities', $cmtyvol], 'method' => 'put']) !!}
         <div class="card mb-4">
-            <div class="card-header">@lang('people.occupation')</div>
+            <div class="card-header">@lang('app.occupation')</div>
             {{ Form::bsListWithDateRange('responsibilities', $responsibilities, $value, __('app.responsibilities')) }}
         </div>
         <p class="text-right">

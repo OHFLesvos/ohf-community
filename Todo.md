@@ -1,11 +1,5 @@
 # TODO-List
 
-## People
-
-* Implement anonymization of transactions after given time (e.g. 2 weeks)
-* Implement auto-delete of inactive persons (e.g. 1 month)
-* Implement true deletion of persons
-
 ## Donations
 
 * Add report about number of donors and donations per month, year

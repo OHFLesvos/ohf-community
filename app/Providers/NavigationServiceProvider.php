@@ -17,9 +17,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class,
         \App\Navigation\Drawer\Accounting\SuppliersNavigationItem::class,
         \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class,
-        \App\Navigation\Drawer\People\PeopleNavigationItem::class,
-        \App\Navigation\Drawer\Bank\BankNavigationItem::class,
-        \App\Navigation\Drawer\Shop\ShopNavigationItem::class,
         \App\Navigation\Drawer\Badges\BadgesNavigationItem::class,
         \App\Navigation\Drawer\Collaboration\KBItem::class,
         \App\Navigation\Drawer\ReportsNavigationItem::class,
@@ -71,27 +68,6 @@ class NavigationServiceProvider extends ServiceProvider
         'kb.articles.show'                => \App\Navigation\ContextButtons\Collaboration\ArticleShowContextButtons::class,
         'kb.articles.edit'                => \App\Navigation\ContextButtons\Collaboration\ArticleEditContextButtons::class,
 
-        'people.index'                    => \App\Navigation\ContextButtons\People\PeopleIndexContextButtons::class,
-        'people.create'                   => \App\Navigation\ContextButtons\People\PeopleCreateContextButtons::class,
-        'people.show'                     => \App\Navigation\ContextButtons\People\PeopleShowContextButtons::class,
-        'people.edit'                     => \App\Navigation\ContextButtons\People\PeopleEditContextButtons::class,
-        'people.duplicates'               => \App\Navigation\ContextButtons\People\PeopleDuplicatesContextButtons::class,
-        'people.maintenance'              => \App\Navigation\ContextButtons\People\PeopleMaintenanceContextButtons::class,
-        'people.import-export'            => \App\Navigation\ContextButtons\People\PeopleImportContextButtons::class,
-
-        'bank.withdrawal.search'          => \App\Navigation\ContextButtons\Bank\BankIndexContextButtons::class,
-        'bank.prepareCodeCard'            => \App\Navigation\ContextButtons\Bank\BankCodeCardContextButtons::class,
-        'bank.withdrawal.transactions'    => \App\Navigation\ContextButtons\Bank\BankWithdrawalTransactionsContextButtons::class,
-        'bank.export'                     => \App\Navigation\ContextButtons\Bank\BankExportContextButtons::class,
-
-        'bank.coupons.index'                   => \App\Navigation\ContextButtons\Bank\CouponIndexContextButtons::class,
-        'bank.coupons.create'                  => \App\Navigation\ContextButtons\Bank\CouponCreateContextButtons::class,
-        'bank.coupons.edit'                    => \App\Navigation\ContextButtons\Bank\CouponEditContextButtons::class,
-
-        'bank.people.create'              => \App\Navigation\ContextButtons\Bank\PeopleCreateContextButtons::class,
-        'bank.people.show'                => \App\Navigation\ContextButtons\Bank\PeopleShowContextButtons::class,
-        'bank.people.edit'                => \App\Navigation\ContextButtons\Bank\PeopleEditContextButtons::class,
-
         'cmtyvol.index'            => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersIndexContextButtons::class,
         'cmtyvol.show'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersShowContextButtons::class,
         'cmtyvol.edit'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersEditContextButtons::class,
@@ -105,13 +81,6 @@ class NavigationServiceProvider extends ServiceProvider
         'visitors.index'                  => \App\Navigation\ContextButtons\Visitors\VisitorIndexContextButtons::class,
         'visitors.any'                    => \App\Navigation\ContextButtons\Visitors\VisitorIndexContextButtons::class,
 
-        'shop.index'                      => \App\Navigation\ContextButtons\Shop\ShopContextButtons::class,
-        'shop.manageCards'                => \App\Navigation\ContextButtons\Shop\ShopManageCardsContextButtons::class,
-
-        'reports.people.monthly-summary'  => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.people.people'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.bank.visitors'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.bank.withdrawals'        => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.cmtyvol.report'          => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.visitors.checkins'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.fundraising.donations'   => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,

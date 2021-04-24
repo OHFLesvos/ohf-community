@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Bank\CouponType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +20,7 @@ class AddCodeExpiryDaysToCouponTypes extends Migration
         if (Setting::has('shop.coupon_valid_days')) {
             $coupon_valid_days = Setting::get('shop.coupon_valid_days');
             if ($coupon_valid_days != null) {
-                CouponType::where('qr_code_enabled', true)->update(['code_expiry_days' => $coupon_valid_days]);
+                DB::table('coupon_types')->where('qr_code_enabled', true)->update(['code_expiry_days' => $coupon_valid_days]);
             }
             Setting::forget('shop.coupon_valid_days');
         }

@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\People\Family;
-use App\Models\People\Person;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -30,19 +28,6 @@ class CreateFamiliesTable extends Migration
             $table->dropForeign(['partner_id']);
             $table->dropColumn(['mother_id', 'father_id', 'partner_id']);
         });
-
-        Person::whereNotNull('police_no')
-            ->doesntHave('family')
-            ->groupBy('police_no')
-            ->select('police_no')
-            ->havingRaw('COUNT(*) > 1')
-            ->get()
-            ->pluck('police_no')
-            ->each(function ($p) {
-                $family = new Family();
-                $family->save();
-                $family->members()->saveMany(Person::where('police_no', $p)->get());
-            });
     }
 
     /**
