@@ -58,10 +58,6 @@ Run tests:
 
     php artisan test
 
-Run code quality checks:
-
-    php artisan insights
-
 Assets
 ------
 
