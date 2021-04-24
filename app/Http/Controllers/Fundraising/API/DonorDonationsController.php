@@ -98,7 +98,7 @@ class DonorDonationsController extends Controller
         $donor->addDonation($donation);
 
         return response()->json([
-            'message' => __('fundraising.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]),
+            'message' => __('app.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]),
         ]);
     }
 
@@ -117,7 +117,7 @@ class DonorDonationsController extends Controller
         $file_name = sprintf(
             '%s - %s - %s (%s).%s',
             config('app.name'),
-            __('fundraising.donations'),
+            __('app.donations'),
             $donor->full_name,
             Carbon::now()->toDateString(),
             $extension

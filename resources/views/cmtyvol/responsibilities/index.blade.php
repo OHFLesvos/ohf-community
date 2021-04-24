@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('responsibilities.responsibilities'))
+@section('title', __('app.responsibilities'))
 
 @section('content')
     @if(count($responsibilities) > 0)
@@ -70,7 +70,7 @@
         </div>
     @else
         <x-alert type="info">
-            @lang('responsibilities.no_responsibilities_defined')
+            @lang('app.no_responsibilities_defined')
         </x-alert>
     @endif
 @endsection

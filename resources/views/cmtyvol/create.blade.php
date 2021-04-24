@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('cmtyvol.register'))
+@section('title', __('app.register_community_volunteer'))
 
 @section('content')
     {!! Form::open(['route' => ['cmtyvol.store'], 'files' => true]) !!}

@@ -39,7 +39,7 @@ class MoneyTransactionsSummarySheet extends BaseExport implements FromView, With
 
     public function title(): string
     {
-        return __('accounting.summary');
+        return __('app.summary');
     }
 
     public function columnFormats(): array

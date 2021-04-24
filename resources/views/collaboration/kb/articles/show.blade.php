@@ -1,7 +1,7 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('kb.knowledge_base'))
-@section('site-title', $article->title . ' - ' . __('kb.knowledge_base'))
+@section('title', __('app.knowledge_base'))
+@section('site-title', $article->title . ' - ' . __('app.knowledge_base'))
 
 @section('content')
     <h1 class="display-4">{{ $article->title }}</h1>
@@ -14,7 +14,7 @@
             @if($article->public)
                 @auth
                     <h5>@lang('Visibility')</h5>
-                    <p><x-icon icon="eye"/> @lang('wiki.article_publicly_available')</p>
+                    <p><x-icon icon="eye"/> @lang('app.article_publicly_available')</p>
                 @endauth
             @endif
             @auth

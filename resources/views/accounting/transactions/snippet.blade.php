@@ -2,7 +2,7 @@
         @isset($transaction->receipt_no)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.receipt') #</strong></div>
+                    <div class="col-sm-4"><strong>@lang('app.receipt') #</strong></div>
                     <div class="col-sm">
                         {{ $transaction->receipt_no }}
                     </div>
@@ -20,8 +20,8 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('app.amount')
-                    @if($transaction->type == 'income') (@lang('accounting.income')) @endif
-                    @if($transaction->type == 'spending') (@lang('accounting.spending')) @endif
+                    @if($transaction->type == 'income') (@lang('app.income')) @endif
+                    @if($transaction->type == 'spending') (@lang('app.spending')) @endif
                 </strong></div>
                 <div class="col-sm @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">
                     {{ number_format($transaction->amount, 2) }}
@@ -31,7 +31,7 @@
         @isset($transaction->fees)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.transaction_fees')</strong></div>
+                    <div class="col-sm-4"><strong>@lang('app.transaction_fees')</strong></div>
                     <div class="col-sm text-danger">
                         {{ number_format($transaction->fees, 2) }}
                     </div>
@@ -79,7 +79,7 @@
         @isset($transaction->cost_center)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.cost_center')</strong></div>
+                    <div class="col-sm-4"><strong>@lang('app.cost_center')</strong></div>
                     <div class="col-sm">
                         {{ $transaction->cost_center }}
                     </div>
@@ -97,7 +97,7 @@
         @isset($transaction->supplier)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.supplier')</strong></div>
+                    <div class="col-sm-4"><strong>@lang('app.supplier')</strong></div>
                     <div class="col-sm">
                         @can('view', $transaction->supplier)
                             <a href="{{ route('accounting.suppliers.show', $transaction->supplier) }}">
@@ -115,7 +115,7 @@
         @endisset
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('accounting.attendee')</strong></div>
+                <div class="col-sm-4"><strong>@lang('app.attendee')</strong></div>
                 <div class="col-sm">
                     {{ $transaction->attendee }}
                 </div>
@@ -148,7 +148,7 @@
         {{-- Controlled --}}
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('accounting.controlled')</strong></div>
+                <div class="col-sm-4"><strong>@lang('app.controlled')</strong></div>
                 <div class="col-sm">
                     @if($transaction->controlled_at)
                         {{ $transaction->controlled_at }}
@@ -166,7 +166,7 @@
                         <button class="btn btn-primary btn-sm mark-controlled"
                             data-url="{{ route('api.accounting.transactions.markControlled', $transaction) }}"
                         >
-                            @lang('accounting.mark_controlled')
+                            @lang('app.mark_controlled')
                         </button>
                     @endif
                 </div>
@@ -177,7 +177,7 @@
         @if($transaction->booked)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('accounting.booked')</strong></div>
+                    <div class="col-sm-4"><strong>@lang('app.booked')</strong></div>
                     <div class="col-sm">
                         @can('book-accounting-transactions-externally')
                             @isset($transaction->external_id)
@@ -202,10 +202,10 @@
                                     <button
                                         type="submit"
                                         class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('@lang('accounting.really_undo_booking')')"
+                                        onclick="return confirm('@lang('app.really_undo_booking')')"
                                     >
                                         <x-icon icon="undo"/>
-                                        @lang('accounting.undo_booking')
+                                        @lang('app.undo_booking')
                                     </button>
                                 </p>
                             {!! Form::close() !!}

@@ -5,7 +5,7 @@
         :api-method="list"
         default-sort-by="created_at"
         default-sort-desc
-        :empty-text="$t('fundraising.no_donations_found')"
+        :empty-text="$t('app.no_donations_found')"
         :filter-placeholder="$t('app.search_ellipsis')"
         :items-per-page="100"
     >
@@ -72,29 +72,29 @@ export default {
                 },
                 {
                     key: 'donor',
-                    label: this.$t('fundraising.donor'),
+                    label: this.$t('app.donor'),
                     sortable: false
                 },
                 {
                     key: 'channel',
-                    label: this.$t('fundraising.channel'),
+                    label: this.$t('app.channel'),
                     class: 'd-none d-sm-table-cell',
                     sortable: false
                 },
                 {
                     key: 'purpose',
-                    label: this.$t('fundraising.purpose'),
+                    label: this.$t('app.purpose'),
                     sortable: false
                 },
                 {
                     key: 'reference',
-                    label: this.$t('fundraising.reference'),
+                    label: this.$t('app.reference'),
                     class: 'd-none d-sm-table-cell',
                     sortable: false
                 },
                 {
                     key: 'in_name_of',
-                    label: this.$t('fundraising.in_name_of'),
+                    label: this.$t('app.in_name_of'),
                     class: 'd-none d-sm-table-cell',
                     sortable: true
                 },
@@ -109,7 +109,7 @@ export default {
                 },
                 {
                     key: 'thanked',
-                    label: this.$t('fundraising.thanked'),
+                    label: this.$t('app.thanked'),
                     class: 'fit',
                     sortable: false
                 }

@@ -22,7 +22,7 @@ class ArticlePdfExport
         // Header
         $mpdf->SetHTMLHeader('
         <div style="text-align: right; font-weight: bold;">
-            ' . config('app.name') . ' - ' . __('kb.knowledge_base') . '
+            ' . config('app.name') . ' - ' . __('app.knowledge_base') . '
         </div>');
 
         // Footer

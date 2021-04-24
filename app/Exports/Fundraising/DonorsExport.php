@@ -55,7 +55,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
 
     public function title(): string
     {
-        return __('fundraising.donors');
+        return __('app.donors');
     }
 
     public function headings(): array
@@ -78,7 +78,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         ];
         if (Auth::user()->can('viewAny', Donation::class)) {
             foreach ($this->years as $year) {
-                $headings[] = __('fundraising.donations') . ' ' . $year;
+                $headings[] = __('app.donations') . ' ' . $year;
             }
             foreach ($this->usedCurrenciesChannels as $cc) {
                 $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . $cc->year;

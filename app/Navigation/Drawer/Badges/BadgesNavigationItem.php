@@ -9,7 +9,10 @@ class BadgesNavigationItem extends BaseNavigationItem
 {
     protected $route = 'badges.index';
 
-    protected $caption = 'badges.badges';
+    public function getCaption(): string
+    {
+        return __('app.badges');
+    }
 
     protected $icon = 'id-card';
 

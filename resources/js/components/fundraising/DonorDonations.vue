@@ -11,7 +11,7 @@
                 header-class="d-flex justify-content-between align-items-center"
             >
                 <template v-slot:header>
-                    {{ $t('fundraising.edit_donation') }}
+                    {{ $t('app.edit_donation') }}
                     <small class="d-none d-sm-inline">
                         {{ $t('app.last_updated') }}:
                         {{ dateFormat(selectedDonation.updated_at) }}
@@ -37,7 +37,7 @@
             class="px-0"
         >
             <b-card
-                :header="$t('fundraising.register_new_donation')"
+                :header="$t('app.register_new_donation')"
                 class="mb-4"
                 body-class="pb-0"
             >
@@ -61,7 +61,7 @@
                     @click="newDonationForm = true"
                 >
                     <font-awesome-icon icon="plus-circle" />
-                    {{ $t('fundraising.register_new_donation') }}
+                    {{ $t('app.register_new_donation') }}
                 </b-button>
             </p>
 
@@ -76,12 +76,12 @@
                     />
                 </div>
                 <p>
-                    {{ $t('fundraising.total_donations_made') }}:<br>
+                    {{ $t('app.total_donations_made') }}:<br>
                     <u><strong>{{ baseCurrency }} {{ numberFormat(totalAmount) }}</strong></u>
                 </p>
             </template>
             <b-alert v-else-if="donations" show variant="info">
-                {{ $t('fundraising.no_donations_found') }}
+                {{ $t('app.no_donations_found') }}
             </b-alert>
             <p v-else>
                 {{ $t('app.loading') }}

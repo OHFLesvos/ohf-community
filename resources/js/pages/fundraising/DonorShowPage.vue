@@ -55,12 +55,12 @@ export default {
                 {
                     to: { name: 'fundraising.donors.show' },
                     icon: 'user',
-                    text: this.$t('fundraising.donor')
+                    text: this.$t('app.donor')
                 },
                 {
                     to: { name: 'fundraising.donors.show.donations' },
                     icon: 'donate',
-                    text: this.$t('fundraising.donations'),
+                    text: this.$t('app.donations'),
                     key: 'donations',
                     show: () => this.canViewDonations
                 },

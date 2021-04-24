@@ -10,7 +10,10 @@ class CommunityVolunteersNavigationItem extends BaseNavigationItem
 {
     protected $route = 'cmtyvol.index';
 
-    protected $caption = 'cmtyvol.community_volunteers';
+    public function getCaption(): string
+    {
+        return __('app.community_volunteers');
+    }
 
     protected $icon = 'id-badge';
 

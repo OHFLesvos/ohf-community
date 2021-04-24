@@ -55,12 +55,12 @@ class MoneyTransactionsController extends Controller
         $sortColumns = [
             'date' => __('app.date'),
             'category' => __('app.category'),
-            'secondary_category' => __('accounting.secondary_category'),
+            'secondary_category' => __('app.secondary_category'),
             'project' => __('app.project'),
             'location' => __('app.location'),
-            'cost_center' => __('accounting.cost_center'),
-            'attendee' => __('accounting.attendee'),
-            'receipt_no' => __('accounting.receipt'),
+            'cost_center' => __('app.cost_center'),
+            'attendee' => __('app.attendee'),
+            'receipt_no' => __('app.receipt'),
             'created_at' => __('app.registered'),
         ];
         $sortColumn = session('accounting.sortColumn', self::showIntermediateBalances() ? 'receipt_no' : 'created_at');
@@ -285,7 +285,7 @@ class MoneyTransactionsController extends Controller
 
         return redirect()
             ->route($request->submit == 'save_and_continue' ? 'accounting.transactions.create' : 'accounting.transactions.index', $transaction->wallet)
-            ->with('info', __('accounting.transactions_registered'));
+            ->with('info', __('app.transactions_registered'));
     }
 
     /**
@@ -405,7 +405,7 @@ class MoneyTransactionsController extends Controller
 
         return redirect()
             ->route('accounting.transactions.index', $transaction->wallet)
-            ->with('info', __('accounting.transactions_updated'));
+            ->with('info', __('app.transactions_updated'));
     }
 
     /**
@@ -424,7 +424,7 @@ class MoneyTransactionsController extends Controller
 
         return redirect()
             ->route('accounting.transactions.index', $wallet)
-            ->with('info', __('accounting.transactions_deleted'));
+            ->with('info', __('app.transactions_deleted'));
     }
 
     protected function exportAuthorize()
@@ -444,7 +444,7 @@ class MoneyTransactionsController extends Controller
             'wallet' => Wallet::findOrFail(request()->route('wallet')),
             'columnsSelection' => [
                 'all' => __('app.all'),
-                'webling' => __('accounting.selection_for_webling'),
+                'webling' => __('app.selection_for_webling'),
             ],
             'columns' => 'all',
             'groupings' => [
@@ -481,7 +481,7 @@ class MoneyTransactionsController extends Controller
     protected function exportFilename(Request $request): string
     {
         $wallet = Wallet::findOrFail($request->route('wallet'));
-        return config('app.name') . ' ' . __('accounting.accounting') . ' [' . $wallet->name . '] (' . Carbon::now()->toDateString() . ')';
+        return config('app.name') . ' ' . __('app.accounting') . ' [' . $wallet->name . '] (' . Carbon::now()->toDateString() . ')';
     }
 
     protected function exportExportable(Request $request)
@@ -504,7 +504,7 @@ class MoneyTransactionsController extends Controller
         if ($transaction->external_id != null && Entrygroup::find($transaction->external_id) != null) {
             return redirect()
                 ->route('accounting.transactions.show', $transaction)
-                ->with('error', __('accounting.transaction_not_updated_external_record_still_exists'));
+                ->with('error', __('app.transaction_not_updated_external_record_still_exists'));
         }
 
         $transaction->booked = false;
@@ -513,7 +513,7 @@ class MoneyTransactionsController extends Controller
 
         return redirect()
             ->route('accounting.transactions.show', $transaction)
-            ->with('info', __('accounting.transactions_updated'));
+            ->with('info', __('app.transactions_updated'));
     }
 
     private static function showIntermediateBalances(): bool

@@ -66,7 +66,7 @@ export default {
             fields: [
                 {
                     key: 'avatar_url',
-                    label: this.$t('userprofile.avatar'),
+                    label: this.$t('app.avatar'),
                     class: 'fit align-middle text-center'
                 },
                 {
@@ -93,7 +93,7 @@ export default {
                 },
                 {
                     key: 'is_2fa_enabled',
-                    label: this.$t('userprofile.2FA'),
+                    label: this.$t('app.2FA'),
                     class: 'align-middle d-none d-md-table-cell text-center fit',
                 },
                 {

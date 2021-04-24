@@ -54,7 +54,7 @@ export default new VueRouter({
             },
             props: {
                 header:  {
-                    title: i18n.t('accounting.create_wallet')
+                    title: i18n.t('app.create_wallet')
                 }
             }
         },
@@ -68,7 +68,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: {
-                    title: i18n.t('accounting.edit_wallet'),
+                    title: i18n.t('app.edit_wallet'),
                 }
             }
         },
@@ -103,7 +103,7 @@ export default new VueRouter({
             },
             props: {
                 header:  {
-                    title: i18n.t('accounting.register_supplier')
+                    title: i18n.t('app.register_supplier')
                 }
             }
         },
@@ -116,7 +116,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: (route) => ({
-                    title: i18n.t('accounting.supplier'),
+                    title: i18n.t('app.supplier'),
                     buttons: [
                         {
                             to: { name: 'accounting.suppliers.index' },
@@ -160,7 +160,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: {
-                    title: i18n.t('accounting.edit_supplier'),
+                    title: i18n.t('app.edit_supplier'),
                 }
             }
         },

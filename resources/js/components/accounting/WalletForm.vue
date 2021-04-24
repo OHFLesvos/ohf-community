@@ -134,7 +134,7 @@ export default {
             this.$emit('submit', this.form)
         },
         onDelete () {
-            if (confirm(this.$t('accounting.confirm_delete_wallet'))) {
+            if (confirm(this.$t('app.confirm_delete_wallet'))) {
                 this.$emit('delete')
             }
         },

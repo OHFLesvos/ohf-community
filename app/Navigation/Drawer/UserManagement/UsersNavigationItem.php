@@ -11,7 +11,10 @@ class UsersNavigationItem extends BaseNavigationItem
 {
     protected $route = 'users.index';
 
-    protected $caption = 'app.users_and_roles';
+    public function getCaption(): string
+    {
+        return __('app.users_and_roles');
+    }
 
     protected $icon = 'user-friends';
 

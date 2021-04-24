@@ -1,12 +1,12 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('accounting.edit_transaction_number', ['number' => $transaction->receipt_no]))
+@section('title', __('app.edit_transaction_number', ['number' => $transaction->receipt_no]))
 
 @section('content')
     {!! Form::model($transaction, ['route' => ['accounting.transactions.update', $transaction], 'method' => 'put', 'files' => true]) !!}
         <div class="form-row">
             <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', null, [ 'required', 'step' => '1', 'min' => 1 ], __('accounting.receipt_no')) }}
+                {{ Form::bsNumber('receipt_no', null, [ 'required', 'step' => '1', 'min' => 1 ], __('app.receipt_no')) }}
             </div>
             <div class="col-sm-auto">
                 {{ Form::bsDate('date', null, [ 'required' ], __('app.date')) }}
@@ -14,16 +14,16 @@
         </div>
         <div class="form-row">
             <div class="col-sm-auto pb-3">
-            {{ Form::bsRadioInlineList('type', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending') ], 'spending', __('app.type')) }}
+            {{ Form::bsRadioInlineList('type', [ 'income' => __('app.income'), 'spending' => __('app.spending') ], 'spending', __('app.type')) }}
             </div>
             <div class="col-sm">
                 {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('app.write_decimal_point_as_comma')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsNumber('fees', null, [ 'step' => 'any', 'min' => 0], __('accounting.transaction_fees'), __('app.write_decimal_point_as_comma')) }}
+                {{ Form::bsNumber('fees', null, [ 'step' => 'any', 'min' => 0], __('app.transaction_fees'), __('app.write_decimal_point_as_comma')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsText('attendee', null, [ 'list' => $attendees ], __('accounting.attendee')) }}
+                {{ Form::bsText('attendee', null, [ 'list' => $attendees ], __('app.attendee')) }}
             </div>
         </div>
         <div class="form-row">
@@ -64,9 +64,9 @@
             @if($cost_centers !== null)
                 <div class="col-sm">
                     @if($fixed_cost_centers)
-                        {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('accounting.cost_center') . ' -', 'error' => $transaction->cost_center != null && ! in_array($transaction->cost_center, $cost_centers) ? __('accounting.invalid_cost_center_x', ['cost_center' => $transaction->cost_center]) : null ], __('accounting.cost_center')) }}
+                        {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.cost_center') . ' -', 'error' => $transaction->cost_center != null && ! in_array($transaction->cost_center, $cost_centers) ? __('app.invalid_cost_center_x', ['cost_center' => $transaction->cost_center]) : null ], __('app.cost_center')) }}
                     @else
-                        {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('accounting.cost_center')) }}
+                        {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('app.cost_center')) }}
                     @endif
                 </div>
             @endif
@@ -77,13 +77,13 @@
             </div>
             @if($suppliers->count() > 0)
                 <div class="col-sm">
-                    {{ Form::bsSelect('supplier_id', collect($suppliers)->mapWithKeys(fn ($e) => [$e->id => $e->name . ($e->category !== null ? ' (' . $e->category . ')' : '')]), null, [ 'placeholder' => '- ' . __('accounting.supplier') . ' -' ], __('accounting.supplier')) }}
+                    {{ Form::bsSelect('supplier_id', collect($suppliers)->mapWithKeys(fn ($e) => [$e->id => $e->name . ($e->category !== null ? ' (' . $e->category . ')' : '')]), null, [ 'placeholder' => '- ' . __('app.supplier') . ' -' ], __('app.supplier')) }}
                 </div>
             @endisset
         </div>
         <div class="form-row">
             <div class="col-sm">
-                <label>@lang('accounting.receipt')</label>
+                <label>@lang('app.receipt')</label>
                 @if(! empty($transaction->receipt_pictures))
                     <div class="form-row">
                         @foreach($transaction->receipt_pictures as $picture)
@@ -106,7 +106,7 @@
                 @endif
                 <div class="form-row">
                     <div class="col-sm">
-                        {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('accounting.add_picture_of_receipt')) }}
+                        {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('app.add_picture_of_receipt')) }}
                     </div>
                 </div>
             </div>

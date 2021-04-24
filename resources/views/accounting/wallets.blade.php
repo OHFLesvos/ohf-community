@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.wallets'))
+@section('title', __('app.wallets'))
 
 @section('content')
     <div id="accounting-app">

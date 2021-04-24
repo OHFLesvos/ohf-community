@@ -33,13 +33,13 @@
                 <!-- Currency -->
                 <b-col md="auto">
                     <validation-provider
-                        :name="$t('fundraising.currency')"
+                        :name="$t('app.currency')"
                         vid="currency"
                         :rules="{ required: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('fundraising.currency')"
+                            :label="$t('app.currency')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -86,14 +86,14 @@
                     md
                 >
                     <validation-provider
-                        :name="$t('fundraising.exchange_rate')"
+                        :name="$t('app.exchange_rate')"
                         vid="exchange_rate"
                         :rules="{ decimal: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('fundraising.exchange_rate')"
-                            :description="$t('fundraising.leave_empty_for_automatic_calculation')"
+                            :label="$t('app.exchange_rate')"
+                            :description="$t('app.leave_empty_for_automatic_calculation')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -115,13 +115,13 @@
                 <!-- Channel -->
                 <b-col md="4">
                     <validation-provider
-                        :name="$t('fundraising.channel')"
+                        :name="$t('app.channel')"
                         vid="channel"
                         :rules="{ required: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('fundraising.channel')"
+                            :label="$t('app.channel')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -143,13 +143,13 @@
                 <!-- Purpose -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('fundraising.purpose')"
+                        :name="$t('app.purpose')"
                         vid="purpose"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('fundraising.purpose')"
+                            :label="$t('app.purpose')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -167,13 +167,13 @@
                 <!-- Reference -->
                 <b-col md="4">
                     <validation-provider
-                        :name="$t('fundraising.reference')"
+                        :name="$t('app.reference')"
                         vid="reference"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('fundraising.reference')"
+                            :label="$t('app.reference')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -189,13 +189,13 @@
                 <!-- In name of -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('fundraising.in_name_of')"
+                        :name="$t('app.in_name_of')"
                         vid="in_name_of"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="`${$t('fundraising.in_name_of')}...`"
+                            :label="`${$t('app.in_name_of')}...`"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -214,7 +214,7 @@
                 <b-form-checkbox
                     v-model="form.thanked"
                 >
-                    {{ $t('fundraising.donor_thanked') }}
+                    {{ $t('app.donor_thanked') }}
                 </b-form-checkbox>
             </p>
 
@@ -323,7 +323,7 @@ export default {
             this.$emit('submit', this.form)
         },
         onDelete () {
-            if (confirm(this.$t('fundraising.confirm_delete_donation'))) {
+            if (confirm(this.$t('app.confirm_delete_donation'))) {
                 this.$emit('delete')
             }
         }

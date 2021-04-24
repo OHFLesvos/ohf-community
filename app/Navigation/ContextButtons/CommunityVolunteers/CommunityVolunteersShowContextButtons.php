@@ -31,7 +31,7 @@ class CommunityVolunteersShowContextButtons implements ContextButtons
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $cmtyvol),
-                'confirmation' => __('cmtyvol.really_delete'),
+                'confirmation' => __('app.really_delete_community_volunteer'),
             ],
             'back' => [
                 'url' => route('cmtyvol.index'),

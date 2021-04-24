@@ -6,7 +6,7 @@
         />
 
         <h2>
-            {{ $t('fundraising.donors') }}
+            {{ $t('app.donors') }}
         </h2>
 
         <div class="row">
@@ -14,7 +14,7 @@
             <!-- General donor numbers -->
             <div class="col-md">
                 <simple-two-column-list-card
-                    :header="$t('fundraising.registered_donors')"
+                    :header="$t('app.registered_donors')"
                     :headerAddon="$t('app.since_date', { date: firstDonorRegistration })"
                     :items="count ? count : []"
                     :loading="!count"
@@ -48,7 +48,7 @@
 
         <!-- Registrations over time chart -->
         <time-bar-chart
-            :title="$t('fundraising.new_donors_registered')"
+            :title="$t('app.new_donors_registered')"
             :data="reportApi.fetchDonorRegistrations"
             :date-from="dateRange.from"
             :date-to="dateRange.to"
@@ -57,11 +57,11 @@
         />
 
         <h2>
-            {{ $t('fundraising.donations') }}
+            {{ $t('app.donations') }}
         </h2>
 
         <time-bar-chart
-            :title="$t('fundraising.donations_made')"
+            :title="$t('app.donations_made')"
             :data="reportApi.fetchDonationRegistrations"
             :date-from="dateRange.from"
             :date-to="dateRange.to"
@@ -70,7 +70,7 @@
         />
 
         <time-bar-chart
-            :title="$t('fundraising.total_donations_made')"
+            :title="$t('app.total_donations_made')"
             :data="reportApi.fetchDonationRegistrations"
             :date-from="dateRange.from"
             :date-to="dateRange.to"
@@ -82,13 +82,13 @@
         <b-row>
             <b-col md>
                 <doughnut-chart-table-distribution-widget
-                    :title="$t('fundraising.currencies')"
+                    :title="$t('app.currencies')"
                     :data="reportApi.fechCurrencyDistribution"
                 />
             </b-col>
             <b-col md>
                 <doughnut-chart-table-distribution-widget
-                    :title="$t('fundraising.channels')"
+                    :title="$t('app.channels')"
                     :data="reportApi.fetchChannelDistribution"
                 />
             </b-col>

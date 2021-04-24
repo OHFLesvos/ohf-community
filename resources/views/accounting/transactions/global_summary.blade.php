@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.summary') . ' - ' . __('accounting.all_wallets'))
+@section('title', __('app.summary') . ' - ' . __('app.all_wallets'))
 
 @section('content')
 
@@ -42,11 +42,11 @@
                 <table class="table table-hover mb-0">
                     <thead class="card-header">
                         <th></th>
-                        <th class="text-right">@lang('accounting.income')</th>
-                        <th class="text-right">@lang('accounting.spending')</th>
-                        <th class="text-right">@lang('accounting.fees')</th>
-                        <th class="text-right">@lang('accounting.difference')</th>
-                        <th class="text-right">@lang('accounting.wallet')</th>
+                        <th class="text-right">@lang('app.income')</th>
+                        <th class="text-right">@lang('app.spending')</th>
+                        <th class="text-right">@lang('app.fees')</th>
+                        <th class="text-right">@lang('app.difference')</th>
+                        <th class="text-right">@lang('app.wallet')</th>
                     </thead>
                     <tbody>
                         @foreach($wallets as $w)
@@ -68,7 +68,7 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td><b>@lang('accounting.sum_of_all_wallets')</b></td>
+                            <td><b>@lang('app.sum_of_all_wallets')</b></td>
                             <td class="text-right"><b>{{ number_format($income, 2) }}</b></td>
                             <td class="text-right"><b>{{ number_format($spending, 2) }}</b></td>
                             <td class="text-right"><b>{{ number_format($fees, 2) }}</b></td>

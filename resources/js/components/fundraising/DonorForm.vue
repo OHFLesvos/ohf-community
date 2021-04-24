@@ -371,7 +371,7 @@ export default {
             this.$emit('submit', this.form)
         },
         onDelete () {
-            if (confirm(this.$t('fundraising.confirm_delete_donor'))) {
+            if (confirm(this.$t('app.confirm_delete_donor'))) {
                 this.$emit('delete')
             }
         }

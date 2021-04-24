@@ -43,7 +43,7 @@ class StoreTransaction extends FormRequest
                         ->where('receipt_no', $value)
                         ->exists();
                     if ($exists) {
-                        $fail(__('validation.unique', ['attribute' => __('accounting.receipt_no')]));
+                        $fail(__('validation.unique', ['attribute' => __('app.receipt_no')]));
                     }
                 },
             ],
@@ -98,7 +98,7 @@ class StoreTransaction extends FormRequest
     {
         $validator->after(function ($validator) {
             if (optional($this->transaction)->controlled_at !== null) {
-                $validator->errors()->add('controlled_at', __('accounting.cannot_update_already_controlled_transaction'));
+                $validator->errors()->add('controlled_at', __('app.cannot_update_already_controlled_transaction'));
             }
         });
     }

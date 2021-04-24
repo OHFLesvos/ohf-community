@@ -8,7 +8,10 @@ class SettingsNavigationItem extends BaseNavigationItem
 {
     protected $route = 'settings.edit';
 
-    protected $caption = 'app.settings';
+    public function getCaption(): string
+    {
+        return __('app.settings');
+    }
 
     protected $icon = 'cogs';
 

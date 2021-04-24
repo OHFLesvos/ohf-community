@@ -5,7 +5,7 @@
     >
         <b-form-row class="mb-3">
             <b-col sm="auto">
-                <strong>{{ $t('fundraising.donor') }}:</strong>
+                <strong>{{ $t('app.donor') }}:</strong>
             </b-col>
             <b-col>{{ donation.donor }}</b-col>
         </b-form-row>

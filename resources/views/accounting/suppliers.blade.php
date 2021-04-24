@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.suppliers'))
+@section('title', __('app.suppliers'))
 
 @section('content')
     <div id="accounting-app">

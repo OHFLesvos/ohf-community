@@ -98,7 +98,7 @@
                     <li>
                         <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block rounded-0">
                             <x-icon icon="user" class="mr-1"/>
-                            @lang('userprofile.profile')
+                            @lang('app.profile')
                         </a>
                     </li>
                     <li>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('cmtyvol.community_volunteers'))
+@section('title', __('app.community_volunteers'))
 
 @section('content')
     <div class="row">
@@ -72,7 +72,7 @@
         <p><small>@lang('app.n_results_found', [ 'num' => $data->count() ])</small></p>
     @else
         <x-alert type="info">
-            @lang('cmtyvol.none_found')
+            @lang('app.no_community_volunteers_found')
         </x-alert>
     @endif
 @endsection

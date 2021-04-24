@@ -10,7 +10,10 @@ class KBItem extends BaseNavigationItem
 {
     protected $route = 'kb.index';
 
-    protected $caption = 'kb.knowledge_base';
+    public function getCaption(): string
+    {
+        return __('app.knowledge_base');
+    }
 
     protected $icon = 'info-circle';
 

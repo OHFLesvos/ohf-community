@@ -8,7 +8,10 @@ class FundraisingNavigationItem extends BaseNavigationItem
 {
     protected $route = 'fundraising.index';
 
-    protected $caption = 'fundraising.donation_management';
+    public function getCaption(): string
+    {
+        return __('app.donation_management');
+    }
 
     protected $icon = 'donate';
 

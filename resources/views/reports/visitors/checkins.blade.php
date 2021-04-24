@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.report') . ': ' . __('reports.visitor_checkins'))
+@section('title', __('app.report') . ': ' . __('app.visitor_checkins'))
 
 @section('content')
     <div id="reports-app">

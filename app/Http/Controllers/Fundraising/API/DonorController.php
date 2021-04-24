@@ -114,7 +114,7 @@ class DonorController extends Controller
         $donor->save();
 
         return response()->json([
-            'message' => __('fundraising.donor_added'),
+            'message' => __('app.donor_added'),
             'id' => $donor->id,
         ]);
     }
@@ -147,7 +147,7 @@ class DonorController extends Controller
         $donor->save();
 
         return response()->json([
-            'message' => __('fundraising.donor_updated'),
+            'message' => __('app.donor_updated'),
         ]);
     }
 
@@ -164,7 +164,7 @@ class DonorController extends Controller
         $donor->delete();
 
         return response()->json([
-            'message' => __('fundraising.donor_deleted'),
+            'message' => __('app.donor_deleted'),
         ]);
     }
 
@@ -224,7 +224,7 @@ class DonorController extends Controller
         $file_name = sprintf(
             '%s - %s (%s).%s',
             config('app.name'),
-            __('fundraising.donors'),
+            __('app.donors'),
             Carbon::now()->toDateString(),
             $extension
         );

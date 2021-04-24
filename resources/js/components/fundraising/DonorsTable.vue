@@ -5,8 +5,8 @@
         :fields="fields"
         :api-method="fetchData"
         default-sort-by="first_name"
-        :empty-text="$t('fundraising.no_donors_found')"
-        :filter-placeholder="`${$t('fundraising.search_for_name_address_email_phone')}...`"
+        :empty-text="$t('app.no_donors_found')"
+        :filter-placeholder="`${$t('app.search_for_name_address_email_phone')}...`"
         :items-per-page="25"
     >
         <!-- Name -->

@@ -120,13 +120,13 @@
                   sm
                 >
                     <validation-provider
-                        :name="$t('visitors.activity_program')"
+                        :name="$t('app.activity_program')"
                         vid="activity"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('visitors.activity_program')"
+                            :label="$t('app.activity_program')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -202,10 +202,10 @@ export default {
         return {
             formData: this.initialFormData(),
             types: [
-                { value: 'visitor', text: this.$t('visitors.visitor') },
-                { value: 'participant', text: this.$t('visitors.participant') },
-                { value: 'staff', text: this.$t('visitors.volunteer_staff') },
-                { value: 'external', text: this.$t('visitors.external_visitor') },
+                { value: 'visitor', text: this.$t('app.visitor') },
+                { value: 'participant', text: this.$t('app.participant') },
+                { value: 'staff', text: this.$t('app.volunteer_staff') },
+                { value: 'external', text: this.$t('app.external_visitor') },
             ]
         }
     },

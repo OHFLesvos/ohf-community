@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', __('cmtyvol.community_volunteer'))
-@section('site-title', $cmtyvol->full_name . ' - ' . __('cmtyvol.community_volunteer'))
+@section('title', __('app.community_volunteer'))
+@section('site-title', $cmtyvol->full_name . ' - ' . __('app.community_volunteer'))
 
 @section('content')
     <h1 class="display-4 mb-4">{{ $cmtyvol->full_name }}</h1>
@@ -26,7 +26,7 @@
                     @elseif($cmtyvol->firstWorkStartDate->gt(today()))
                         <div class="card-body p-0">
                             <x-alert type="warning" class="m-0">
-                                @lang('cmtyvol.will_start_on_date', ['date' => $cmtyvol->firstWorkStartDate->toDateString() ])
+                                @lang('app.community_volunteer_will_start_on_date', ['date' => $cmtyvol->firstWorkStartDate->toDateString() ])
                             </x-alert>
                         </div>
                     @else
@@ -34,9 +34,9 @@
                             <div class="card-body p-0">
                                 <x-alert type="info" class="m-0">
                                     @if($cmtyvol->lastWorkEndDate < today())
-                                        @lang('cmtyvol.left_on_date', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
+                                        @lang('app.community_volunteer_left_on_date', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
                                     @else
-                                        @lang('cmtyvol.will_leave_on_date', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
+                                        @lang('app.community_volunteer_will_leave_on_date', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
                                     @endif
                                 </x-alert>
                             </div>

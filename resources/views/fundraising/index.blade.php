@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('fundraising.donation_management'))
+@section('title', __('app.donation_management'))
 
 @section('content')
     <div id="fundraising-app">

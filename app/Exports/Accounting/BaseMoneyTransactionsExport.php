@@ -19,11 +19,11 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
     {
         $headings = [
             __('app.date'),
-            __('accounting.receipt_no'),
-            __('accounting.income'),
-            __('accounting.spending'),
-            __('accounting.fees'),
-            __('accounting.attendee'),
+            __('app.receipt_no'),
+            __('app.income'),
+            __('app.spending'),
+            __('app.fees'),
+            __('app.attendee'),
             __('app.category'),
         ];
         if (self::useSecondaryCategories()) {
@@ -34,15 +34,15 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             $headings[] = __('app.location');
         }
         if (self::useCostCenters()) {
-            $headings[] = __('accounting.cost_center');
+            $headings[] = __('app.cost_center');
         }
         return array_merge($headings, [
             __('app.description'),
-            __('accounting.supplier'),
+            __('app.supplier'),
             __('app.registered'),
-            __('accounting.controlled_at'),
-            __('accounting.controlled_by'),
-            __('accounting.booked'),
+            __('app.controlled_at'),
+            __('app.controlled_by'),
+            __('app.booked'),
             __('app.author'),
             __('app.remarks'),
         ]);

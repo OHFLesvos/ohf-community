@@ -21,7 +21,7 @@ abstract class BaseNavigationItem implements NavigationItem
     public function getCaption(): string
     {
         $this->assertDefined('caption');
-        return __($this->caption);
+        return $this->caption;
     }
 
     public function getIcon(): string

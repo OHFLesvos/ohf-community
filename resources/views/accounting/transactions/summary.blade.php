@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.summary') . ($has_multiple_wallets ? ' - ' . $wallet->name : ''))
+@section('title', __('app.summary') . ($has_multiple_wallets ? ' - ' . $wallet->name : ''))
 
 @section('content')
 
@@ -140,23 +140,23 @@
                 <table class="table table-strsiped mb-0">
                     <tbody>
                         <tr>
-                            <td>@lang('accounting.income')</td>
+                            <td>@lang('app.income')</td>
                             <td class="text-right"><u>{{ number_format($income, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('accounting.spending')</td>
+                            <td>@lang('app.spending')</td>
                             <td class="text-right"><u>{{ number_format($spending, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('accounting.transaction_fees')</td>
+                            <td>@lang('app.transaction_fees')</td>
                             <td class="text-right"><u>{{ number_format($fees, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('accounting.difference')</td>
+                            <td>@lang('app.difference')</td>
                             <td class="text-right"><u>{{ number_format($income - $spending, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('accounting.wallet')</td>
+                            <td>@lang('app.wallet')</td>
                             <td class="text-right {{ $wallet_amount < 0 ? 'text-danger' : '' }}"><u>{{ number_format($wallet_amount, 2) }}</u></td>
                         </tr>
                     </tbody>
