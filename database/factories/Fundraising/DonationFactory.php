@@ -29,7 +29,7 @@ class DonationFactory extends Factory
         $date = $this->faker->dateTimeBetween('-5 years', 'now');
         $amount = $this->faker->numberBetween(1, 10000);
         $currency = $this->faker->valid($currencyValidator)->currencyCode;
-        $exchAmount = $currency != $baseCurrency ? EzvExchangeRates::getExchangeRate($currency) * $amount : $amount;
+        $exchAmount = $currency != $baseCurrency ? $this->getExchangeRate($currency) * $amount : $amount;
         return [
             'date' => $date,
             'amount' => $amount,
@@ -41,5 +41,13 @@ class DonationFactory extends Factory
             'in_name_of' => $this->faker->optional(0.1)->name,
             'thanked' => $this->faker->optional(0.1)->dateTimeBetween($date, 'now'),
         ];
+    }
+
+    private function getExchangeRate($currency) {
+        try {
+            return EzvExchangeRates::getExchangeRate($currency);
+        } catch (\Exception $ex) {
+            return 1;
+        }
     }
 }
