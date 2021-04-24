@@ -28,8 +28,6 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Bank\CouponType::class                => \App\Policies\Bank\CouponTypePolicy::class,
         \App\Models\CommunityVolunteers\CommunityVolunteer::class => \App\Policies\CommunityVolunteers\CommunityVolunteerPolicy::class,
         \App\Models\CommunityVolunteers\Responsibility::class => \App\Policies\CommunityVolunteers\ResponsibilityPolicy::class,
-        \App\Models\Library\LibraryBook::class            => \App\Policies\Library\LibraryBookPolicy::class,
-        \App\Models\Library\LibraryLending::class         => \App\Policies\Library\LibraryLendingPolicy::class,
         \App\Models\Visitors\Visitor::class               => \App\Policies\Visitors\VisitorPolicy::class,
     ];
 

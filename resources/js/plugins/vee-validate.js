@@ -20,15 +20,6 @@ localize({
 })
 localize(i18n.locale)
 
-// ISBN validation
-import { isValidIsbn } from '@/utils'
-extend('isbn', (value) => {
-    if (isValidIsbn(value)) {
-      return true
-    }
-    return i18n.t('validation.isbn', {attribute: i18n.t('validation.attributes.isbn')})
-})
-
 const IBAN = require('iban');
 extend('iban', (value) => {
     if (IBAN.isValid(value)) {

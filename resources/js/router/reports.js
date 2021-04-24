@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import VisitorReportPage from '@/pages/reports/VisitorReportPage'
-import LibraryReportPage from '@/pages/reports/LibraryReportPage'
 import FundraisingReportPage from '@/pages/reports/FundraisingReportPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
@@ -23,13 +22,6 @@ export default new VueRouter({
             name: 'reports.visitors.checkins',
             components: {
                 default: VisitorReportPage,
-            }
-        },
-        {
-            path: '/library/books',
-            name: 'reports.library.books',
-            components: {
-                default: LibraryReportPage,
             }
         },
         {

@@ -5,7 +5,6 @@ namespace App\Models\People;
 use App\Models\Bank\CouponHandout;
 use App\Models\Bank\CouponType;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
-use App\Models\Library\LibraryLending;
 use Carbon\Carbon;
 use Exception;
 use Dyrynda\Database\Support\NullableFields;
@@ -290,19 +289,6 @@ class Person extends Model
             return (new Carbon($handout->date))->toDateString();
         }
         return null;
-    }
-
-    public function bookLendings()
-    {
-        return $this->hasMany(LibraryLending::class, 'person_id');
-    }
-
-    public function getHasOverdueBookLendingsAttribute()
-    {
-        return $this->bookLendings()
-            ->whereNull('returned_date')
-            ->whereDate('return_date', '<', Carbon::today())
-            ->count();
     }
 
     public static function getNationalities(): array

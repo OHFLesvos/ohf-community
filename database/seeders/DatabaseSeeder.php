@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CouponTypesSeeder::class);
         $this->call(BankWithdrawalDatabaseSeeder::class);
         $this->call(CommunityVolunteersDatabaseSeeder::class);
-        $this->call(LibraryDatabaseSeeder::class);
         $this->call(VisitorSeeder::class);
     }
 }

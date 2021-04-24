@@ -7,7 +7,6 @@ use App\Rules\CountryCode;
 use App\Rules\CountryName;
 use App\Rules\LanguageCode;
 use App\Rules\LanguageName;
-use App\Rules\Library\Isbn;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -76,6 +75,5 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('country_name', CountryName::class);
         Validator::extend('language_code', LanguageCode::class);
         Validator::extend('language_name', LanguageName::class);
-        Validator::extend('isbn', Isbn::class);
     }
 }

@@ -20,7 +20,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\People\PeopleNavigationItem::class,
         \App\Navigation\Drawer\Bank\BankNavigationItem::class,
         \App\Navigation\Drawer\Shop\ShopNavigationItem::class,
-        \App\Navigation\Drawer\Library\LibraryNavigationItem::class,
         \App\Navigation\Drawer\Badges\BadgesNavigationItem::class,
         \App\Navigation\Drawer\Collaboration\KBItem::class,
         \App\Navigation\Drawer\ReportsNavigationItem::class,
@@ -115,7 +114,6 @@ class NavigationServiceProvider extends ServiceProvider
         'reports.bank.withdrawals'        => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.cmtyvol.report'          => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.visitors.checkins'       => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.library.books'           => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
         'reports.fundraising.donations'   => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
     ];
 

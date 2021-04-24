@@ -21,7 +21,6 @@ use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\Fundraising\FundraisingController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Library\LibraryController;
 use App\Http\Controllers\People\MaintenanceController;
 use App\Http\Controllers\PrivacyPolicy;
 use App\Http\Controllers\Reports\ReportsController;
@@ -400,21 +399,6 @@ Route::middleware(['auth', 'language'])
     });
 
 //
-// Library
-//
-
-Route::middleware(['auth', 'language', 'can:operate-library'])
-    ->prefix('library')
-    ->name('library.')
-    ->group(function () {
-        // SPA
-        Route::get('', [LibraryController::class, 'index'])
-            ->name('index');
-        Route::get('/{any}', [LibraryController::class, 'index'])
-            ->where('any', '.*');
-    });
-
-//
 // Shop
 //
 
@@ -495,15 +479,6 @@ Route::prefix('reports')
             ->group(function () {
                 Route::view('checkins', 'reports.visitors.checkins')
                     ->name('checkins');
-            });
-
-        // Reports: Library
-        Route::prefix('library')
-            ->name('library.')
-            ->middleware('can:operate-library')
-            ->group(function () {
-                Route::view('books', 'reports.library.books')
-                    ->name('books');
             });
 
         // Reports: Fundraising

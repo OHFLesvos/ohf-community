@@ -40,9 +40,6 @@ return [
     'view_community_volunteers' => 'Community Volunteers: Community Volunteers betrachten',
     'manage_community_volunteers' => 'Community Volunteers: Community Volunteers verwalten',
 
-    'operate_library' => 'Bibliothek: Bibliothek betreiben',
-    'configure_library' => 'Bibliothek: Einstellungen bearbeiten',
-
     'validate_shop_coupons' => 'Markt: Coupons validieren',
     'configure_shop' => 'Markt: Einstellungen bearbeiten',
 

@@ -23,10 +23,6 @@ use App\Http\Controllers\Fundraising\API\DonorTagsController;
 use App\Http\Controllers\Fundraising\API\ReportController;
 use App\Http\Controllers\Fundraising\API\TagsController;
 use App\Http\Controllers\Fundraising\API\WebhookController;
-use App\Http\Controllers\Library\API\BookController;
-use App\Http\Controllers\Library\API\ExportController;
-use App\Http\Controllers\Library\API\LendingController;
-use App\Http\Controllers\Library\API\ReportController as LibraryReportController;
 use App\Http\Controllers\People\API\MonthlySummaryReportController;
 use App\Http\Controllers\People\API\PeopleController;
 use App\Http\Controllers\People\API\ReportingController;
@@ -428,58 +424,6 @@ Route::middleware(['auth', 'language'])
                 Route::post('deleteNonRedeemedByDay', [CardsController::class, 'deleteNonRedeemedByDay'])
                     ->name('deleteNonRedeemedByDay');
             });
-    });
-
-//
-// Library
-//
-
-Route::middleware(['auth', 'language', 'can:operate-library'])
-    ->prefix('library')
-    ->name('api.library.')
-    ->group(function () {
-        Route::get('lending/stats', [LendingController::class, 'stats'])
-            ->name('lending.stats');
-        Route::get('lending/persons', [LendingController::class, 'persons'])
-            ->name('lending.persons');
-        Route::get('lending/books', [LendingController::class, 'books'])
-            ->name('lending.books');
-
-        Route::get('lending/person/{person}', [LendingController::class, 'person'])
-            ->name('lending.person');
-        Route::post('lending/person/{person}/lendBook', [LendingController::class, 'lendBookToPerson'])
-            ->name('lending.lendBookToPerson');
-        Route::post('lending/person/{person}/extendBook', [LendingController::class, 'extendBookToPerson'])
-            ->name('lending.extendBookToPerson');
-        Route::post('lending/person/{person}/returnBook', [LendingController::class, 'returnBookFromPerson'])
-            ->name('lending.returnBookFromPerson');
-        Route::get('lending/person/{person}/log', [LendingController::class, 'personLog'])
-            ->name('lending.personLog');
-
-        Route::get('lending/book/{book}', [LendingController::class, 'book'])
-            ->name('lending.book');
-        Route::post('lending/book/{book}/lend', [LendingController::class, 'lendBook'])
-            ->name('lending.lendBook');
-        Route::post('lending/book/{book}/extend', [LendingController::class, 'extendBook'])
-            ->name('lending.extendBook');
-        Route::post('lending/book/{book}/return', [LendingController::class, 'returnBook'])
-            ->name('lending.returnBook');
-        Route::get('lending/book/{book}/log', [LendingController::class, 'bookLog'])
-            ->name('lending.bookLog');
-
-        Route::get('books/filter', [BookController::class, 'filter'])
-            ->name('books.filter');
-        Route::apiResource('books', BookController::class);
-
-        // Export
-        Route::get('export', [ExportController::class, 'export'])
-            ->name('export');
-        Route::post('export', [ExportController::class, 'doExport'])
-            ->name('doExport');
-
-        // Report
-        Route::get('report', [LibraryReportController::class, 'index'])
-            ->name('report');
     });
 
 //

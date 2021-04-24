@@ -1,6 +1,5 @@
 import Snackbar from 'node-snackbar'
 import palette from 'google-palette'
-import isIsbn from 'is-isbn'
 
 export function showSnackbar(text, actionText, actionClass, callback) {
 	var args = {
@@ -97,11 +96,4 @@ export function applyColorPaletteToDatasets(datasets) {
         datasets[i].borderColor = hexcolor
         datasets[i].borderWidth = 1
     }
-}
-
-export function isValidIsbn (val) {
-    if (!val || val.length == 0) return false
-
-    let testVal = val.toUpperCase().replace(/[-]/gi, '')
-    return isIsbn.validate(testVal)
 }

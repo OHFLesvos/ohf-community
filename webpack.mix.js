@@ -35,7 +35,6 @@ mix.options({
     .js("resources/js/reports.js", "public/js")
     .js("resources/js/people.js", "public/js")
     .js("resources/js/bank.js", "public/js")
-    .js("resources/js/library.js", "public/js")
     .js("resources/js/cmtyvol.js", "public/js")
     .js("resources/js/shop.js", "public/js")
     .js("resources/js/user_management.js", "public/js")

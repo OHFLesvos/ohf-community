@@ -14,7 +14,6 @@ class HomeController extends Controller
         \App\View\Widgets\PeopleWidget::class,
         \App\View\Widgets\BankWidget::class,
         \App\View\Widgets\ShopWidget::class,
-        \App\View\Widgets\LibraryWidget::class,
         \App\View\Widgets\KBWidget::class,
         \App\View\Widgets\UsersWidget::class,
     ];

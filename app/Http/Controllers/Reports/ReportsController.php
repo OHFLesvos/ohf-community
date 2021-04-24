@@ -45,12 +45,6 @@ class ReportsController extends Controller
             'gate' => 'view-fundraising-reports',
         ],
         [
-            'message_key' => 'reports.library',
-            'route' => 'reports.library.books',
-            'icon' => 'book',
-            'gate' => 'operate-library',
-        ],
-        [
             'message_key' => 'reports.visitor_checkins',
             'route' => 'reports.visitors.checkins',
             'icon' => 'door-open',

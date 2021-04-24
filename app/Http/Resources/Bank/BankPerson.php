@@ -42,9 +42,6 @@ class BankPerson extends JsonResource
             'police_no' => $this->police_no,
             'police_no_formatted' => $this->police_no_formatted,
             'remarks' => $this->remarks,
-            'has_overdue_book_lendings' => $this->hasOverdueBookLendings,
-            'can_operate_library' => Gate::allows('operate-library'),
-            'library_lending_person_url' => "/library/lending/person/{$this->resource->getRouteKey()}", // TODO
             'coupon_types' => collect($this->couponTypes)
                 ->filter(fn ($coupon) => $this->eligibleForCoupon($coupon))
                 ->map(fn ($coupon) => $this->mapCoupon($coupon))

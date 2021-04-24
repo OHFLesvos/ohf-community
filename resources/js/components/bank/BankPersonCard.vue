@@ -62,10 +62,6 @@
                 :person="person"
                 :allow-update="person.can_update"
             />
-            <overdue-book-lendings-label
-                v-if="person.has_overdue_book_lendings"
-                :url="person.can_operate_library ? person.library_lending_person_url : null"
-            />
         </div>
 
         <!-- Card footer -->
@@ -105,7 +101,6 @@ import EditLink from '@/components/people/EditLink'
 import CardNumberLabel from '@/components/bank/person/CardNumberLabel'
 import PoliceNoLabel from '@/components/bank/person/PoliceNoLabel'
 import RemarksLabel from '@/components/bank/person/RemarksLabel'
-import OverdueBookLendingsLabel from '@/components/people/OverdueBookLendingsLabel'
 import CouponHandoutButton from '@/components/bank/CouponHandoutButton'
 export default {
     props: {
@@ -131,7 +126,6 @@ export default {
         CardNumberLabel,
         PoliceNoLabel,
         RemarksLabel,
-        OverdueBookLendingsLabel,
         CouponHandoutButton
     },
     computed: {

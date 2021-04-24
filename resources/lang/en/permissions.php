@@ -40,9 +40,6 @@ return [
     'view_community_volunteers' => 'Community volunteers: View community volunteers',
     'manage_community_volunteers' => 'Community volunteers: Manage community volunteers',
 
-    'operate_library' => 'Library: Operate library',
-    'configure_library' => 'Library: Configure settings',
-
     'validate_shop_coupons' => 'Shop: Validate coupons',
     'configure_shop' => 'Shop: Configure settings',
 

@@ -92,12 +92,6 @@ return [
         'cmtyvol.manage' => [
             'label' => 'permissions.manage_community_volunteers',
         ],
-        'library.operate' => [
-            'label' => 'permissions.operate_library',
-        ],
-        'library.configure' => [
-            'label' => 'permissions.configure_library',
-        ],
         'shop.coupons.validate' => [
             'label' => 'permissions.validate_shop_coupons',
         ],
@@ -119,7 +113,6 @@ return [
             'cmtyvol.manage',
             'visitors.register',
             'fundraising.reports.view',
-            'library.operate',
         ],
         'configure-common-settings' => 'app.settings.commonbr.configure',
         'create-badges'=> 'badges.create',
@@ -146,8 +139,6 @@ return [
         'configure-bank' => 'bank.configure',
         'manage-community-volunteers' => 'cmtyvol.manage',
         'view-community-volunteer-reports' => 'cmtyvol.manage',
-        'operate-library' => 'library.operate',
-        'configure-library' => 'library.configure',
         'validate-shop-coupons' => 'shop.coupons.validate',
         'configure-shop' => 'shop.configure',
         'register-visitors' => 'visitors.register',

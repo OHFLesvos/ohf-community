@@ -19,7 +19,6 @@ class SettingsController extends Controller
             'accounting' => __('accounting.accounting'),
             'bank' => __('bank.bank'),
             'shop' => __('shop.shop'),
-            'library' => __('library.library'),
             'badges' => __('badges.badges'),
         ];
     }
@@ -47,8 +46,6 @@ class SettingsController extends Controller
         'bank.help_article' => \App\Settings\Bank\HelpArticle::class,
         'shop.coupon_type' => \App\Settings\Shop\CouponType::class,
         'shop.help_article' => \App\Settings\Shop\HelpArticle::class,
-        'library.default_lending_duration_days' => \App\Settings\Library\DefaultLendingDurationDays::class,
-        'library.max_books_per_person' => \App\Settings\Library\MaxBooksPerPerson::class,
         'badges.logo_file' => \App\Settings\Badges\LogoFile::class,
     ];
 

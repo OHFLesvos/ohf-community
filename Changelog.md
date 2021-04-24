@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Removed book library feature
+
 ## 2.32.1
 
 * Fix donation report time range update
