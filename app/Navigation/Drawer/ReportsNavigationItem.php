@@ -8,7 +8,10 @@ class ReportsNavigationItem extends BaseNavigationItem
 {
     protected $route = 'reports.index';
 
-    protected $caption = 'app.reports';
+    public function getCaption(): string
+    {
+        return __('app.reports');
+    }
 
     protected $icon = 'chart-bar';
 

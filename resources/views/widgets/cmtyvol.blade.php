@@ -1,6 +1,6 @@
 @extends('widgets.base', [
     'icon' => 'id-badge',
-    'title' => __('cmtyvol.community_volunteers'),
+    'title' => __('app.community_volunteers'),
     'href' => route('cmtyvol.index'),
 ])
 

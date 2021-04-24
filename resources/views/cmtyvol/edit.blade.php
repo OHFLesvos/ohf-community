@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('cmtyvol.edit'))
+@section('title', __('app.edit_community_volunteer'))
 
 @section('content')
     {!! Form::model($cmtyvol, ['route' => ['cmtyvol.update', $cmtyvol], 'method' => 'put', 'files' => true]) !!}

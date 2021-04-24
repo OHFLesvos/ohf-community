@@ -9,7 +9,7 @@
             :fields="fields"
             :api-method="fetchData"
             default-sort-by="first_name"
-            :empty-text="$t('cmtyvol.none_found')"
+            :empty-text="$t('app.no_community_volunteers_found')"
             :filter-placeholder="$t('app.search')"
             :items-per-page="itemsPerPage"
         >

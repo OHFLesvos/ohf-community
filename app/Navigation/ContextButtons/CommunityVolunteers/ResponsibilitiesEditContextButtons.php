@@ -18,7 +18,7 @@ class ResponsibilitiesEditContextButtons implements ContextButtons
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $responsibility),
-                'confirmation' => __('responsibilities.confirm_delete_responsibility'),
+                'confirmation' => __('app.confirm_delete_responsibility'),
             ],
             'back' => [
                 'url' => route('cmtyvol.responsibilities.index'),

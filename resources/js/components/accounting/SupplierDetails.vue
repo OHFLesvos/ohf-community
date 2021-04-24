@@ -62,28 +62,28 @@
 
         <two-col-list-group-item
             v-if="supplier.tax_number"
-            :title="$t('accounting.tax_number')"
+            :title="$t('app.tax_number')"
         >
             {{ supplier.tax_number }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.tax_office"
-            :title="$t('accounting.tax_office')"
+            :title="$t('app.tax_office')"
         >
             {{ supplier.tax_office }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.bank"
-            :title="$t('accounting.bank')"
+            :title="$t('app.bank')"
         >
             {{ supplier.bank }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.iban"
-            :title="$t('accounting.iban')"
+            :title="$t('app.iban')"
         >
             {{ supplier.iban }}
         </two-col-list-group-item>
@@ -97,7 +97,7 @@
 
         <two-col-list-group-item
             v-if="supplier.spending"
-            :title="$t('accounting.spending')"
+            :title="$t('app.spending')"
         >
             {{ numberFormat(supplier.spending) }}
         </two-col-list-group-item>

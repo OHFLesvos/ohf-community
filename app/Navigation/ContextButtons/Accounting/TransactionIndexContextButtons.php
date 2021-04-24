@@ -23,7 +23,7 @@ class TransactionIndexContextButtons implements ContextButtons
             ],
             'summary' => [
                 'url' => route('accounting.transactions.summary', $wallet),
-                'caption' => __('accounting.summary'),
+                'caption' => __('app.summary'),
                 'icon' => 'calculator',
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],
@@ -35,7 +35,7 @@ class TransactionIndexContextButtons implements ContextButtons
             ],
             'webling' => [
                 'url' => route('accounting.webling.index', $wallet),
-                'caption' => __('accounting.webling'),
+                'caption' => __('app.webling'),
                 'icon' => 'cloud-upload-alt',
                 'authorized' => Auth::user()->can('book-accounting-transactions-externally')
                     && config('services.webling.api_url') !== null

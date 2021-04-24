@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>{{ $t('visitors.visitors_by_day') }}</h3>
+        <h3>{{ $t('app.visitors_by_day') }}</h3>
         <b-table
             :items="dailyitemProvider"
             :fields="dailyFields"
@@ -18,7 +18,7 @@
             </div>
         </b-table>
 
-        <h3>{{ $t('visitors.visitors_by_month') }}</h3>
+        <h3>{{ $t('app.visitors_by_month') }}</h3>
         <b-table
             :items="monthlyItemProvider"
             :fields="monthlyFields"
@@ -51,22 +51,22 @@ export default {
                 },
                 {
                     key: 'visitors',
-                    label: this.$t('visitors.visitors'),
+                    label: this.$t('app.visitors'),
                     class: 'text-right'
                 },
                 {
                     key: 'participants',
-                    label: this.$t('visitors.participants'),
+                    label: this.$t('app.participants'),
                     class: 'text-right'
                 },
                 {
                     key: 'staff',
-                    label: this.$t('visitors.volunteers_staff'),
+                    label: this.$t('app.volunteers_staff'),
                     class: 'text-right'
                 },
                 {
                     key: 'external',
-                    label: this.$t('visitors.external_visitors'),
+                    label: this.$t('app.external_visitors'),
                     class: 'text-right'
                 },
                 {
@@ -85,22 +85,22 @@ export default {
                 },
                 {
                     key: 'visitors',
-                    label: this.$t('visitors.visitors'),
+                    label: this.$t('app.visitors'),
                     class: 'text-right'
                 },
                 {
                     key: 'participants',
-                    label: this.$t('visitors.participants'),
+                    label: this.$t('app.participants'),
                     class: 'text-right'
                 },
                 {
                     key: 'staff',
-                    label: this.$t('visitors.volunteers_staff'),
+                    label: this.$t('app.volunteers_staff'),
                     class: 'text-right'
                 },
                 {
                     key: 'external',
-                    label: this.$t('visitors.external_visitors'),
+                    label: this.$t('app.external_visitors'),
                     class: 'text-right'
                 },
                 {

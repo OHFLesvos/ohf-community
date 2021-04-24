@@ -16,7 +16,7 @@ class TransactionSummaryContextButtons implements ContextButtons
         return [
             'globalSummary' => [
                 'url' => route('accounting.transactions.globalSummary'),
-                'caption' => __('accounting.global_summary'),
+                'caption' => __('app.global_summary'),
                 'icon' => 'globe',
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],

@@ -64,7 +64,7 @@
                 </span>
             </b-col>
         </b-row>
-        <h3>{{ $t('visitors.current_visitors') }}</h3>
+        <h3>{{ $t('app.current_visitors') }}</h3>
         <p class="text-muted">
             <span v-for="(v, k) in currentlyVisiting" :key="k">
                 {{ getTypeLabel(k) }}: <strong>{{ v }}</strong>,
@@ -144,7 +144,7 @@ export default {
                             items.push(`${this.$t('app.place_of_residence')}: ${item.place_of_residence}`)
                         }
                         if (item.activity) {
-                            items.push(`${this.$t('visitors.activity_program')}: ${item.activity}`)
+                            items.push(`${this.$t('app.activity_program')}: ${item.activity}`)
                         }
                         if (item.organization) {
                             items.push(`${this.$t('app.organization')}: ${item.organization}`)
@@ -221,22 +221,22 @@ export default {
         },
         getTypeLabel (value) {
             if (value == 'visitor') {
-                return this.$t('visitors.visitor')
+                return this.$t('app.visitor')
             }
             if (value == 'visitors') {
-                return this.$t('visitors.visitors')
+                return this.$t('app.visitors')
             }
             if (value == 'participant') {
-                return this.$t('visitors.participant')
+                return this.$t('app.participant')
             }
             if (value == 'participants') {
-                return this.$t('visitors.participants')
+                return this.$t('app.participants')
             }
             if (value == 'staff') {
-                return this.$t('visitors.volunteer_staff')
+                return this.$t('app.volunteer_staff')
             }
             if (value == 'external') {
-                return this.$t('visitors.external_visitor')
+                return this.$t('app.external_visitor')
             }
             return value
         }

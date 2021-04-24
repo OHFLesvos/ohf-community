@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('kb.knowledge_base'))
+@section('title', __('app.knowledge_base'))
 
 @section('content')
 
@@ -19,7 +19,7 @@
     @if (isset($search))
         @if(! $article_results->isEmpty())
 
-            <p><small>@lang('wiki.found_num_articles_containing_word', ['num' => $article_results->total(), 'word' => $search ])</small></p>
+            <p><small>@lang('app.found_num_articles_containing_word', ['num' => $article_results->total(), 'word' => $search ])</small></p>
             <div class="columns-3 mb-3">
                 @foreach ($article_results as $article)
                     <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a><br>
@@ -29,7 +29,7 @@
 
         @else
             <x-alert type="info">
-                @lang('wiki.no_articles_found')
+                @lang('app.no_articles_found')
             </x-alert>
         @endif
     @else
@@ -42,7 +42,7 @@
                 @unless($popular_articles->isEmpty())
                     <div class="card shadow-sm mb-4">
                         <div class="card-header">
-                            @lang('wiki.popular_articles')
+                            @lang('app.popular_articles')
                             <a href="{{ route('kb.articles.index', ['order' => 'popularity']) }}" class="float-right">@lang('app.show_all')</a>
                         </div>
                         <div class="list-group list-group-flush">
@@ -60,7 +60,7 @@
                 @unless($recent_articles->isEmpty())
                     <div class="card shadow-sm mb-4">
                         <div class="card-header">
-                            @lang('wiki.recenlty_update_articles')
+                            @lang('app.recenlty_update_articles')
                             <a href="{{ route('kb.articles.index', ['order' => 'recent']) }}" class="float-right">@lang('app.show_all')</a>
                         </div>
                         <div class="list-group list-group-flush">
@@ -83,7 +83,7 @@
                     @unless($featured_articles->isEmpty())
                         <div class="card shadow-sm mb-4">
                             <div class="card-header">
-                                @lang('wiki.featured_articles')
+                                @lang('app.featured_articles')
                                 <a href="{{ route('kb.articles.index') }}" class="float-right">@lang('app.show_all')</a>
                             </div>
                             @unless($featured_articles->isEmpty())
@@ -96,7 +96,7 @@
                                 </div>
                             @else
                                 <div class="card-body p-3">
-                                    <em>@lang('wiki.no_articles_found')</em>
+                                    <em>@lang('app.no_articles_found')</em>
                                 </div>
                             @endunless
                         </div>

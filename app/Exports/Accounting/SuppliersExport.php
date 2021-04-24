@@ -23,7 +23,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
 
     public function title(): string
     {
-        return __('accounting.suppliers');
+        return __('app.suppliers');
     }
 
     public function headings(): array
@@ -36,12 +36,12 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
             __('app.mobile'),
             __('app.email'),
             __('app.website'),
-            __('accounting.tax_number'),
-            __('accounting.tax_office'),
-            __('accounting.bank'),
-            __('accounting.iban'),
-            __('accounting.transactions'),
-            __('accounting.spending'),
+            __('app.tax_number'),
+            __('app.tax_office'),
+            __('app.bank'),
+            __('app.iban'),
+            __('app.transactions'),
+            __('app.spending'),
             __('app.remarks'),
         ];
     }

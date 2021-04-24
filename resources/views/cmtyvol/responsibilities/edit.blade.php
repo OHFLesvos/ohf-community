@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('responsibilities.edit_responsibility'))
+@section('title', __('app.edit_responsibility'))
 
 @section('content')
     {!! Form::model($responsibility, ['route' => ['cmtyvol.responsibilities.update', $responsibility], 'method' => 'put']) !!}

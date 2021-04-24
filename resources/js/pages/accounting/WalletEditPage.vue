@@ -65,7 +65,7 @@ export default {
             this.isBusy = true
             try {
                 await walletsApi.update(this.id, formData)
-                showSnackbar(this.$t('accounting.wallet_updated'))
+                showSnackbar(this.$t('app.wallet_updated'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {
                 alert(err)
@@ -76,7 +76,7 @@ export default {
             this.isBusy = true
             try {
                 await walletsApi.delete(this.id)
-                showSnackbar(this.$t('accounting.wallet_deleted'))
+                showSnackbar(this.$t('app.wallet_deleted'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {
                 alert(err)

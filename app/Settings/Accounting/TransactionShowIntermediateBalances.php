@@ -14,7 +14,7 @@ class TransactionShowIntermediateBalances extends BaseSettingsField
 
     public function label(): string
     {
-        return __('accounting.show_intermediate_balances');
+        return __('app.show_intermediate_balances');
     }
 
     public function defaultValue()

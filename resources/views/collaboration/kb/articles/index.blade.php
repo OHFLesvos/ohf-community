@@ -1,16 +1,16 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('kb.knowledge_base'))
-@section('site-title', __('wiki.articles') . ' - ' . __('kb.knowledge_base'))
+@section('title', __('app.knowledge_base'))
+@section('site-title', __('app.articles') . ' - ' . __('app.knowledge_base'))
 
 @section('content')
     <h1 class="display-4">
         @if($order == 'popularity')
-            @lang('wiki.articles_by_popularity')
+            @lang('app.articles_by_popularity')
         @elseif($order == 'recent')
-            @lang('wiki.articles_by_modification_date')
+            @lang('app.articles_by_modification_date')
         @else
-            @lang('wiki.articles')
+            @lang('app.articles')
         @endif
     </h1>
     @if(! $articles->isEmpty())
@@ -18,7 +18,7 @@
             @foreach ($articles as $article)
                 <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
                 @if($article->public)
-                    <small class="text-muted" title="@lang('wiki.article_publicly_available')"><x-icon icon="eye"/></small>
+                    <small class="text-muted" title="@lang('app.article_publicly_available')"><x-icon icon="eye"/></small>
                 @endif
                 @if($order == 'popularity')
                     <small class="text-muted d-block d-sm-inline">@lang('app.num_views', ['num' => $article->viewCount ])</small>
@@ -35,14 +35,14 @@
             <div class="col-sm-auto pt-1">
                 <p>
                     <small class="text-muted">
-                        {{ trans_choice('wiki.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}
+                        {{ trans_choice('app.num_articles_in_total', $articles->total(), [ 'num' => $articles->total() ]) }}
                     </small>
                 </p>
             </div>
         </div>
     @else
         <x-alert type="info">
-            @lang('wiki.no_articles_found')
+            @lang('app.no_articles_found')
         </x-alert>
     @endif
 @endsection

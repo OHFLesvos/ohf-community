@@ -9,7 +9,10 @@ class VisitorsNavigationItem extends BaseNavigationItem
 {
     protected $route = 'visitors.index';
 
-    protected $caption = 'visitors.visitors';
+    public function getCaption(): string
+    {
+        return __('app.visitors');
+    }
 
     protected $icon = 'door-open';
 

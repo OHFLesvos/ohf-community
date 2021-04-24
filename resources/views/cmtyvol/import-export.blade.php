@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('cmtyvol.import_export_data'))
+@section('title', __('app.import_export_community_volunteer_data'))
 
 @section('content')
     <div class="row">
@@ -39,7 +39,7 @@
                                         {{ Form::bsRadioList('format', $formats, $format, __('app.file_format')) }}
                                     </div>
                                     <div class="mb-3">
-                                        {{ Form::bsRadioList('work_status', $work_statuses, $work_status, __('cmtyvol.work_status')) }}
+                                        {{ Form::bsRadioList('work_status', $work_statuses, $work_status, __('app.work_status')) }}
                                     </div>
                                     <div class="mb-3">
                                         {{ Form::bsRadioList('column_set', $columnt_sets, $columnt_set, __('app.column_set')) }}

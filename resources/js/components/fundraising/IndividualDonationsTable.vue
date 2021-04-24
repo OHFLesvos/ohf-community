@@ -6,7 +6,7 @@
             :fields="fields"
             :items="donations"
             show-empty
-            :empty-text="$t('fundraising.no_donations_found')"
+            :empty-text="$t('app.no_donations_found')"
             class="shadow-md"
             tbody-class="bg-white"
             thead-class="bg-white"
@@ -95,21 +95,21 @@ export default {
                 },
                 {
                     key: 'channel',
-                    label: this.$t('fundraising.channel'),
+                    label: this.$t('app.channel'),
                     width: '10em'
                 },
                 {
                     key: 'purpose',
-                    label: this.$t('fundraising.purpose')
+                    label: this.$t('app.purpose')
                 },
                 {
                     key: 'reference',
-                    label: this.$t('fundraising.reference'),
+                    label: this.$t('app.reference'),
                     width: '12em'
                 },
                 {
                     key: 'in_name_of',
-                    label: this.$t('fundraising.in_name_of'),
+                    label: this.$t('app.in_name_of'),
                     width: '10em'
                 },
                 {
@@ -122,7 +122,7 @@ export default {
                 },
                 {
                     key: 'thanked',
-                    label: this.$t('fundraising.thanked'),
+                    label: this.$t('app.thanked'),
                     width: '12em',
                     formatter: value => {
                         return value ? moment(value).format('LLL') : null

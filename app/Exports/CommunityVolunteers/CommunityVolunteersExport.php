@@ -70,13 +70,13 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
 
     public function title(): string
     {
-        return __('cmtyvol.community_volunteers');
+        return __('app.community_volunteers');
     }
 
     public function headings(): array
     {
         return $this->fields
-            ->map(fn ($field) => __($field['label_key']))
+            ->pluck('label')
             ->toArray();
     }
 }

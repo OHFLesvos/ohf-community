@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.book_to_webling'))
+@section('title', __('app.book_to_webling'))
 
 @section('content')
-    <p>@lang('accounting.the_following_transactions_in_period_can_be_booked', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ])</p>
+    <p>@lang('app.the_following_transactions_in_period_can_be_booked', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ])</p>
     @unless($transactions->isEmpty())
         {!! Form::open(['route' => ['accounting.webling.store', $wallet ]]) !!}
             {{ Form::hidden('period', $period->id) }}
@@ -14,13 +14,13 @@
                     <thead>
                         <tr>
                             <th class="fit">@lang('app.date')</th>
-                            <th class="fit text-right">@lang('accounting.credit')</th>
-                            <th class="fit text-right">@lang('accounting.debit')</th>
-                            <th>@lang('accounting.posting_text')</th>
-                            <th>@lang('accounting.debit_side')</th>
-                            <th>@lang('accounting.credit_side')</th>
-                            <th class="fit">@lang('accounting.receipt_no')</th>
-                            <th class="fit">@lang('accounting.controlled')</th>
+                            <th class="fit text-right">@lang('app.credit')</th>
+                            <th class="fit text-right">@lang('app.debit')</th>
+                            <th>@lang('app.posting_text')</th>
+                            <th>@lang('app.debit_side')</th>
+                            <th>@lang('app.credit_side')</th>
+                            <th class="fit">@lang('app.receipt_no')</th>
+                            <th class="fit">@lang('app.controlled')</th>
                             <th class="fit">@lang('app.action')</th>
                         </tr>
                     </thead>
@@ -40,21 +40,21 @@
                                     @if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif
                                 </td>
                                 <td>
-                                    {{ Form::bsText('posting_text['.$transaction->id.']', $posting_text, [ 'placeholder' => __('accounting.posting_text') ], '') }}
+                                    {{ Form::bsText('posting_text['.$transaction->id.']', $posting_text, [ 'placeholder' => __('app.posting_text') ], '') }}
 
                                 </td>
                                 <td style="max-width: 8em">
                                     @if($transaction->type == 'income')
-                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('accounting.money_to') ], '') }}
+                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('app.money_to') ], '') }}
                                     @elseif($transaction->type == 'spending')
-                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $expenseSelect, null, [ 'placeholder' => __('accounting.paid_for') ], '') }}
+                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $expenseSelect, null, [ 'placeholder' => __('app.paid_for') ], '') }}
                                     @endif
                                 </td>
                                 <td style="max-width: 8em">
                                     @if($transaction->type == 'income')
-                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $incomeSelect, null, [ 'placeholder' => __('accounting.received_for') ], '') }}
+                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $incomeSelect, null, [ 'placeholder' => __('app.received_for') ], '') }}
                                     @elseif($transaction->type == 'spending')
-                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('accounting.paid_from') ], '') }}
+                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('app.paid_from') ], '') }}
                                     @endif
                                 </td>
                                 <td class="fit">{{ $transaction->receipt_no }}</td>
@@ -75,7 +75,7 @@
         {!! Form::close() !!}
     @else
         <x-alert type="info">
-            @lang('accounting.no_transactions_found')
+            @lang('app.no_transactions_found')
         </x-alert>
     @endunless
 @endsection

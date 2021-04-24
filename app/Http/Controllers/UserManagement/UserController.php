@@ -189,7 +189,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.show', $user)
-            ->with('success', __('userprofile.tfa_disabled'));
+            ->with('success', __('app.tfa_disabled'));
     }
 
     /**
@@ -211,7 +211,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.show', $user)
-            ->with('success', __('userprofile.oauth_disabled_new_password_has_been_set'));
+            ->with('success', __('app.oauth_disabled_new_password_has_been_set'));
     }
 
     /**

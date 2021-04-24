@@ -34,6 +34,6 @@ class MoneyTransactionsExport extends BaseMoneyTransactionsExport
 
     public function title(): string
     {
-        return __('accounting.all_transactions');
+        return __('app.all_transactions');
     }
 }

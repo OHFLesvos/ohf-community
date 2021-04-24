@@ -31,7 +31,7 @@ abstract class BaseController extends Controller
     {
         return [
             [
-                'label_key' => 'app.portrait_picture',
+                'label' => __('app.portrait_picture'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->portrait_picture,
                 'value_html' => fn ($cmtyvol) => isset($cmtyvol->portrait_picture) ? '<img src="' . Storage::url($cmtyvol->portrait_picture) . '" class="img-fluid img-thumbnail">' : null,
@@ -66,7 +66,7 @@ abstract class BaseController extends Controller
                 'form_help' => __('app.image_will_be_croped_resized_to_2_3_aspect_ratio'),
             ],
             [
-                'label_key' => 'app.first_name',
+                'label' => __('app.first_name'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->first_name,
                 'overview' => true,
@@ -83,7 +83,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'app.family_name',
+                'label' => __('app.family_name'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->family_name,
                 'overview' => true,
@@ -100,7 +100,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'app.nickname',
+                'label' => __('app.nickname'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->nickname,
                 'overview' => true,
@@ -116,7 +116,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'app.nationality',
+                'label' => __('app.nationality'),
                 'icon' => 'globe',
                 'value' => fn ($cmtyvol) => $cmtyvol->nationality,
                 'overview' => true,
@@ -134,7 +134,7 @@ abstract class BaseController extends Controller
                 ],
             ],
             [
-                'label_key' => 'app.gender',
+                'label' => __('app.gender'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? __('app.female') : __('app.male')) : null,
                 'value_html' => fn ($cmtyvol) => $cmtyvol->gender != null
@@ -170,7 +170,7 @@ abstract class BaseController extends Controller
                 'form_validate' => 'required', // TODO better validation |in:m,f
             ],
             [
-                'label_key' => 'app.date_of_birth',
+                'label' => __('app.date_of_birth'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->date_of_birth,
                 'overview' => false,
@@ -185,14 +185,14 @@ abstract class BaseController extends Controller
                 'form_validate' => 'required|date',
             ],
             [
-                'label_key' => 'app.age',
+                'label' => __('app.age'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->age,
                 'overview' => true,
                 'section' => 'general',
             ],
             [
-                'label_key' => 'app.police_number',
+                'label' => __('app.police_number'),
                 'icon' => 'id-card',
                 'value' => fn ($cmtyvol) => $cmtyvol->police_no,
                 'overview' => false,
@@ -208,7 +208,7 @@ abstract class BaseController extends Controller
                 'form_validate' => 'nullable|numeric',
             ],
             [
-                'label_key' => 'app.languages',
+                'label' => __('app.languages'),
                 'icon' => 'language',
                 'value' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode(', ', $cmtyvol->languages) : $cmtyvol->languages) : null,
                 'value_html' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode('<br>', $cmtyvol->languages) : $cmtyvol->languages) : null,
@@ -223,7 +223,7 @@ abstract class BaseController extends Controller
                 'form_autocomplete' => fn () => CommunityVolunteer::languages(),
             ],
             [
-                'label_key' => 'app.local_phone',
+                'label' => __('app.local_phone'),
                 'icon' => 'phone',
                 'value' => 'local_phone',
                 'value_html' => fn ($cmtyvol) => $cmtyvol->local_phone != null
@@ -241,7 +241,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'local_phone',
             ],
             [
-                'label_key' => 'app.other_phone',
+                'label' => __('app.other_phone'),
                 'icon' => 'phone',
                 'value' => 'other_phone',
                 'value_html' => fn ($cmtyvol) => $cmtyvol->other_phone != null
@@ -259,7 +259,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'other_phone',
             ],
             [
-                'label_key' => 'app.whatsapp',
+                'label' => __('app.whatsapp'),
                 'icon' => 'whatsapp',
                 'icon_style' => 'fab',
                 'value' => 'whatsapp',
@@ -278,7 +278,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'whatsapp',
             ],
             [
-                'label_key' => 'app.email',
+                'label' => __('app.email'),
                 'icon' => 'envelope',
                 'value' => 'email',
                 'value_html' => fn ($cmtyvol) => $cmtyvol->email != null
@@ -296,7 +296,7 @@ abstract class BaseController extends Controller
                 'form_validate' => 'nullable|email',
             ],
             [
-                'label_key' => 'app.skype',
+                'label' => __('app.skype'),
                 'icon' => 'skype',
                 'icon_style' => 'fab',
                 'value' => 'skype',
@@ -314,7 +314,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'skype',
             ],
             [
-                'label_key' => 'app.residence',
+                'label' => __('app.residence'),
                 'icon' => null,
                 'value' => 'residence',
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->residence),
@@ -327,7 +327,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'residence',
             ],
             [
-                'label_key' => 'app.pickup_location',
+                'label' => __('app.pickup_location'),
                 'icon' => null,
                 'value' => 'pickup_location',
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->pickup_location),
@@ -341,7 +341,7 @@ abstract class BaseController extends Controller
                 'form_autocomplete' => fn () => CommunityVolunteer::pickupLocations(),
             ],
             [
-                'label_key' => 'app.responsibilities',
+                'label' => __('app.responsibilities'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->responsibilities
                     ->map(fn ($r) => [
@@ -407,7 +407,7 @@ abstract class BaseController extends Controller
                 },
             ],
             [
-                'label_key' => 'app.starting_date',
+                'label' => __('app.starting_date'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => optional($cmtyvol->firstWorkStartDate)->toDateString(),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->firstWorkStartDate != null
@@ -417,7 +417,7 @@ abstract class BaseController extends Controller
                 'section' => 'occupation',
             ],
             [
-                'label_key' => 'app.leaving_date',
+                'label' => __('app.leaving_date'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => optional($cmtyvol->lastWorkEndDate)->toDateString(),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->lastWorkEndDate != null
@@ -427,14 +427,14 @@ abstract class BaseController extends Controller
                 'section' => 'occupation',
             ],
             [
-                'label_key' => 'cmtyvol.working_since_days',
+                'label' => __('app.working_since_days'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->workingSinceDays,
                 'overview' => false,
                 'section' => 'occupation',
             ],
             [
-                'label_key' => 'app.notes',
+                'label' => __('app.notes'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->notes,
                 'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->notes),
@@ -448,7 +448,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'notes',
             ],
             [
-                'label_key' => 'app.comments',
+                'label' => __('app.comments'),
                 'value' => fn ($cmtyvol) => $cmtyvol->comments
                     ->sortBy('created_at')
                     ->pluck('content')

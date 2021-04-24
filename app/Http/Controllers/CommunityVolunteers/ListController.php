@@ -89,7 +89,7 @@ class ListController extends BaseController
 
         return view('cmtyvol.index', [
             'fields' => $fields->map(fn ($f) => [
-                'label' => __($f['label_key']),
+                'label' => $f['label'],
                 'icon' => $f['icon'],
                 'icon_style' => $f['icon_style'] ?? null,
             ]),
@@ -152,7 +152,7 @@ class ListController extends BaseController
         }
 
         return [
-            'label' => __($f['label_key']),
+            'label' => $f['label'],
             'name' => $f['form_name'],
             'type' => $f['form_type'],
             'prefix' => $f['prefix'] ?? null,
@@ -177,7 +177,7 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)
-            ->with('success', __('cmtyvol.registered'));
+            ->with('success', __('app.registered_community_volunteer'));
     }
 
     private static function isRequiredField($f)
@@ -285,7 +285,7 @@ class ListController extends BaseController
                 ->mapWithKeys(fn ($section) => [
                     $section => self::getFieldsForSection($fields, $section)
                         ->map(fn ($f) => [
-                            'label' => __($f['label_key']),
+                            'label' => $f['label'],
                             'icon' => $f['icon'],
                             'icon_style' => $f['icon_style'] ?? null,
                             'value' => self::getFieldValue($f, $cmtyvol),
@@ -338,7 +338,7 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)
-            ->with('success', __('cmtyvol.updated'));
+            ->with('success', __('app.updated_community_volunteer'));
     }
 
     public function destroy(CommunityVolunteer $cmtyvol)
@@ -349,7 +349,7 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.index')
-            ->with('success', __('cmtyvol.deleted'));
+            ->with('success', __('app.deleted_community_volunteer'));
     }
 
     private static function getFieldValue($field, $cmtyvol, $with_html = true)
@@ -446,6 +446,6 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)
-            ->with('success', __('cmtyvol.updated'));
+            ->with('success', __('app.updated_community_volunteer'));
     }
 }

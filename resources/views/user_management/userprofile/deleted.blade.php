@@ -5,11 +5,11 @@
 @section('content')
 
     <x-alert type="info">
-        @lang('userprofile.account_deleted')
+        @lang('app.account_deleted')
     </x-alert>
 
      <div class="text-center mt-4">
-        <a href="{{ route('login') }}">@lang('userprofile.return_to_login')</a>
+        <a href="{{ route('login') }}">@lang('app.return_to_login')</a>
     </div>
 
 @endsection

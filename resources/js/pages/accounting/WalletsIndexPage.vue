@@ -5,7 +5,7 @@
         :fields="fields"
         :api-method="fetchData"
         default-sort-by="name"
-        :empty-text="$t('accounting.no_wallets_found')"
+        :empty-text="$t('app.no_wallets_found')"
         :items-per-page="25"
         no-filter
     >
@@ -59,7 +59,7 @@ export default {
                 },
                 {
                     key: 'num_transactions',
-                    label: this.$t('accounting.transactions'),
+                    label: this.$t('app.transactions'),
                     class: 'text-right'
                 },
                 {

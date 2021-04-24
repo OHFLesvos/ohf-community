@@ -111,7 +111,7 @@ class LoginController extends Controller
                 ->after(function ($validator) use ($user, $request) {
                     $otp = TOTP::create($user->tfa_secret);
                     if (! $otp->verify($request->code)) {
-                        $validator->errors()->add('code', __('userprofile.invalid_code_please_repeat'));
+                        $validator->errors()->add('code', __('app.invalid_code_please_repeat'));
                     }
                 });
             if ($validator->fails()) {
@@ -186,7 +186,7 @@ class LoginController extends Controller
 
             auth()->login($newUser, true);
 
-            session()->flash('login_message', __('userprofile.registration_message', [
+            session()->flash('login_message', __('app.registration_message', [
                 'name' => Auth::user()->name,
                 'app_name' => config('app.name'),
             ]));

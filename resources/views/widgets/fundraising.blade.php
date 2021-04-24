@@ -1,6 +1,6 @@
 @extends('widgets.base', [
     'icon' => 'donate',
-    'title' => __('fundraising.donation_management'),
+    'title' => __('app.donation_management'),
     'href' => route('fundraising.index'),
 ])
 

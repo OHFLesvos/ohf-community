@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('userprofile.title'))
+@section('title', __('app.user_profile'))
 
 @section('content')
 
@@ -8,13 +8,13 @@
 
             {!! Form::open(['route' => ['userprofile.update']]) !!}
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('userprofile.profile')</div>
+                <div class="card-header">@lang('app.profile')</div>
                 <div class="card-body pb-2">
-                    {{ Form::bsText('name', $user->name, [ 'required' ], __('userprofile.name')) }}
-                    {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('userprofile.email')) }}
+                    {{ Form::bsText('name', $user->name, [ 'required' ], __('app.name')) }}
+                    {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('app.email')) }}
                 </div>
                 <div class="card-footer text-right">
-                    <x-form.bs-submit-button :label="__('userprofile.update')"/>
+                    <x-form.bs-submit-button :label="__('app.update')"/>
                 </div>
             </div>
             {!! Form::close() !!}
@@ -22,27 +22,27 @@
             @if(empty($user->provider_name))
                 {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
                     <div class="card shadow-sm mb-4">
-                        <div class="card-header">@lang('userprofile.change_password')</div>
+                        <div class="card-header">@lang('app.change_password')</div>
                         <div class="card-body pb-2">
-                            {{ Form::bsPassword('old_password', [ 'required' ], __('userprofile.old_password')) }}
-                            {{ Form::bsPassword('password', [ 'required' ], __('userprofile.new_password')) }}
-                            {{ Form::bsPassword('password_confirmation', [ 'required' ], __('userprofile.confirm_password')) }}
+                            {{ Form::bsPassword('old_password', [ 'required' ], __('app.old_password')) }}
+                            {{ Form::bsPassword('password', [ 'required' ], __('app.new_password')) }}
+                            {{ Form::bsPassword('password_confirmation', [ 'required' ], __('app.confirm_password')) }}
                         </div>
                         <div class="card-footer text-right">
-                            <x-form.bs-submit-button :label="__('userprofile.update_password')"/>
+                            <x-form.bs-submit-button :label="__('app.update_password')"/>
                         </div>
                     </div>
                 {!! Form::close() !!}
 
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header">@lang('userprofile.tfa_authentication')</div>
+                    <div class="card-header">@lang('app.tfa_authentication')</div>
                     @empty($user->tfa_secret)
                         <div class="card-body pb-1">
                             <x-alert type="info">
-                                @lang('userprofile.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
+                                @lang('app.tfa_enable_recommendation', [ 'url' => route('userprofile.view2FA') ])
                             </x-alert>
                             <x-alert type="warning">
-                                @lang('userprofile.tfa_authentication_not_enabled')
+                                @lang('app.tfa_authentication_not_enabled')
                             </x-alert>
                         </div>
                         <div class="card-footer text-right">
@@ -52,7 +52,7 @@
                         </div>
                     @else
                         <div class="card-body pb-1">
-                            <p>@lang('userprofile.tfa_authentication_enabled')</p>
+                            <p>@lang('app.tfa_authentication_enabled')</p>
                         </div>
                         <div class="card-footer text-right">
                             <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
@@ -64,7 +64,7 @@
             @endunless
 
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('userprofile.language')</div>
+                <div class="card-header">@lang('app.language')</div>
                 <div class="list-group list-group-flush">
                     @foreach (language()->allowed() as $code => $name)
                         <a class="list-group-item list-group-item-action" href="{{ language()->back($code) }}">
@@ -80,16 +80,16 @@
             </div>
 
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('userprofile.account_information')</div>
+                <div class="card-header">@lang('app.account_information')</div>
                 <div class="card-body pb-2">
                     <p>
                         <x-user-avatar :user="Auth::user()" size="80"/>
                     </p>
-                    <p>@lang('userprofile.account_created_on') <strong>{{ $user->created_at }}</strong>
-                        @lang('userprofile.account_updated_on') <strong>{{ $user->updated_at }}</strong>.
+                    <p>@lang('app.account_created_on') <strong>{{ $user->created_at }}</strong>
+                        @lang('app.account_updated_on') <strong>{{ $user->updated_at }}</strong>.
                     </p>
                     @if (! $user->roles->isEmpty())
-                        <p>@lang('userprofile.your_roles'):</p>
+                        <p>@lang('app.your_roles'):</p>
                         <ul>
                             @foreach ($user->roles->sortBy('name') as $role)
                                 <li>{{ $role->name }}</li>
@@ -104,15 +104,15 @@
 
             {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header">@lang('userprofile.account_removal')</div>
+                    <div class="card-header">@lang('app.account_removal')</div>
                     <div class="card-body pb-1">
-                        <p>@lang('userprofile.account_remove_desc')</p>
+                        <p>@lang('app.account_remove_desc')</p>
                     </div>
                     <div class="card-footer text-right">
                         <x-form.bs-delete-button
-                            :label="__('userprofile.delete_account')"
+                            :label="__('app.delete_account')"
                             icon="user-times"
-                            :confirmation="__('userprofile.delete_confirm')"
+                            :confirmation="__('app.delete_confirm')"
                         />
                     </div>
                 </div>

@@ -14,7 +14,10 @@ class SuppliersNavigationItem extends BaseNavigationItem
         return route('accounting.suppliers');
     }
 
-    protected $caption = 'accounting.suppliers';
+    public function getCaption(): string
+    {
+        return __('app.suppliers');
+    }
 
     protected $icon = 'truck';
 

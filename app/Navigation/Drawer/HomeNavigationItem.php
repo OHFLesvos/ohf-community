@@ -6,7 +6,10 @@ class HomeNavigationItem extends BaseNavigationItem
 {
     protected $route = 'home';
 
-    protected $caption = 'app.dashboard';
+    public function getCaption(): string
+    {
+        return __('app.dashboard');
+    }
 
     protected $icon = 'home';
 

@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('wiki.create_article'))
+@section('title', __('app.create_article'))
 
 @section('content')
     {!! Form::open(['route' => ['kb.articles.store']]) !!}
@@ -11,7 +11,7 @@
                 {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('app.content') ], '') }}
                 {{ Form::bsTags('tags', null, [ 'placeholder' => __('app.tags'), 'data-suggestions' => json_encode($tag_suggestions) ], '') }}
                 {{ Form::bsCheckbox('public', 1, null, __('app.allow_public_access')) }}
-                {{ Form::bsCheckbox('featured', 1, null, __('wiki.featured_article')) }}
+                {{ Form::bsCheckbox('featured', 1, null, __('app.featured_article')) }}
             </div>
             <div class="card-footer text-right">
                 <x-form.bs-submit-button :label="__('app.create')"/>

@@ -66,7 +66,7 @@ class ArticleController extends Controller
 
         return redirect()
             ->route('kb.articles.show', $article)
-            ->with('info', __('wiki.article_created'));
+            ->with('info', __('app.article_created'));
     }
 
     public function show(WikiArticle $article, Request $request)
@@ -118,7 +118,7 @@ class ArticleController extends Controller
 
         return redirect()
             ->route('kb.articles.show', $article)
-            ->with('info', __('wiki.article_updated'));
+            ->with('info', __('app.article_updated'));
     }
 
     public function destroy(WikiArticle $article)
@@ -131,7 +131,7 @@ class ArticleController extends Controller
 
         return redirect()
             ->route('kb.index')
-            ->with('info', __('wiki.article_deleted'));
+            ->with('info', __('app.article_deleted'));
     }
 
     public function pdf(WikiArticle $article)

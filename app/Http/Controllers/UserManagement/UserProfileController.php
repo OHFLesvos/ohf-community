@@ -39,10 +39,10 @@ class UserProfileController extends Controller
             ]);
             $user->save();
             return redirect()->route('userprofile')
-                ->with('success', __('userprofile.profile_updated'));
+                ->with('success', __('app.profile_updated'));
         }
         return redirect()->route('userprofile')
-            ->with('info', __('userprofile.no_changes_made'));
+            ->with('info', __('app.no_changes_made'));
     }
 
     public function updatePassword(StoreNewUserPassword $request)
@@ -58,10 +58,10 @@ class UserProfileController extends Controller
             ]);
             $user->save();
             return redirect()->route('userprofile')
-                ->with('success', __('userprofile.password_updated'));
+                ->with('success', __('app.password_updated'));
         }
         return redirect()->route('userprofile')
-            ->with('info', __('userprofile.no_changes_made'));
+            ->with('info', __('app.no_changes_made'));
     }
 
     public function delete()
@@ -112,13 +112,13 @@ class UserProfileController extends Controller
                     'client_ip' => request()->ip(),
                 ]);
                 return redirect()->route('userprofile')
-                    ->with('info', __('userprofile.tfa_enabled'));
+                    ->with('info', __('app.tfa_enabled'));
             }
             return redirect()->back()
-                ->with('error', __('userprofile.invalid_code_please_repeat'));
+                ->with('error', __('app.invalid_code_please_repeat'));
         }
         return redirect()->back()
-            ->with('error', __('userprofile.invalid_secret'));
+            ->with('error', __('app.invalid_secret'));
     }
 
     public function disable2FA(Store2FA $request)
@@ -136,12 +136,12 @@ class UserProfileController extends Controller
                     'client_ip' => request()->ip(),
                 ]);
                 return redirect()->route('userprofile')
-                    ->with('info', __('userprofile.tfa_disabled'));
+                    ->with('info', __('app.tfa_disabled'));
             }
             return redirect()->back()
-                ->with('error', __('userprofile.invalid_code_please_repeat'));
+                ->with('error', __('app.invalid_code_please_repeat'));
         }
         return redirect()->back()
-            ->with('error', __('userprofile.invalid_secret'));
+            ->with('error', __('app.invalid_secret'));
     }
 }

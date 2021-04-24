@@ -1,7 +1,7 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('kb.knowledge_base'))
-@section('site-title', __('app.tags') . ' - ' . __('kb.knowledge_base'))
+@section('title', __('app.knowledge_base'))
+@section('site-title', __('app.tags') . ' - ' . __('app.knowledge_base'))
 
 @section('content')
     <h1 class="display-4">@lang('app.tags')</h1>
@@ -17,7 +17,7 @@
         <p><small>@lang('app.found_num_tags', ['num' => $tags->count() ])</small></p>
     @else
         <x-alert type="info">
-            @lang('wiki.no_articles_found')
+            @lang('app.no_articles_found')
         </x-alert>
     @endif
 

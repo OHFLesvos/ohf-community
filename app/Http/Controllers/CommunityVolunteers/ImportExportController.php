@@ -85,8 +85,8 @@ class ImportExportController extends BaseController
             ->where('overview_only', false)
             ->filter(fn ($f) => isset($f['assign']) && is_callable($f['assign']))
             ->map(fn ($f) => [
-                'key' => $f['label_key'],
-                'labels' => self::getAllTranslations($f['label_key'])
+                'key' => $f['label'],
+                'labels' => self::getAllTranslations($f['label'])
                     ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
                     ->map(fn ($l) => strtolower($l)),
                 'append' => false,
@@ -210,7 +210,7 @@ class ImportExportController extends BaseController
     private function getExportFilename(Request $request): string
     {
         $workStatus = $this->getWorkStatuses()->get($request->work_status);
-        return __('cmtyvol.community_volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
+        return __('app.community_volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
     }
 
     private function downloadExportable(Request $request, $export, string $file_name, string $file_ext)

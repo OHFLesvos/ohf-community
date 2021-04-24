@@ -1,11 +1,11 @@
 <table>
     <thead>
         <tr>
-            <th>@lang('accounting.month')</th>
-            <th class="text-right">@lang('accounting.income')</th>
-            <th class="text-right">@lang('accounting.spending')</th>
-            <th class="text-right">@lang('accounting.difference')</th>
-            <th class="text-right">@lang('accounting.wallet')</th>
+            <th>@lang('app.month')</th>
+            <th class="text-right">@lang('app.income')</th>
+            <th class="text-right">@lang('app.spending')</th>
+            <th class="text-right">@lang('app.difference')</th>
+            <th class="text-right">@lang('app.wallet')</th>
         </tr>
     </thead>
     <tbody>

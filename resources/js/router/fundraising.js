@@ -29,13 +29,13 @@ const overviewNavItems = [
     {
         to: { name: 'fundraising.donors.index' },
         icon: 'users',
-        text: i18n.t('fundraising.donors'),
+        text: i18n.t('app.donors'),
         show: can('view-fundraising-entities')
     },
     {
         to: { name: 'fundraising.donations.index' },
         icon: 'donate',
-        text: i18n.t('fundraising.donations'),
+        text: i18n.t('app.donations'),
         show: can('view-fundraising-entities')
     }
 ]
@@ -93,7 +93,7 @@ export default new VueRouter({
             },
             props: {
                 header: {
-                    title: i18n.t('fundraising.create_donor'),
+                    title: i18n.t('app.create_donor'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donors.index' },
@@ -115,7 +115,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: (route) => ({
-                    title: i18n.t('fundraising.donor'),
+                    title: i18n.t('app.donor'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donors.edit', params: { id: route.params.id } },
@@ -184,7 +184,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: (route)  => ({
-                    title: i18n.t('fundraising.edit_donor'),
+                    title: i18n.t('app.edit_donor'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donors.show', params: { id: route.params.id } },
@@ -240,7 +240,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: () => ({
-                    title: i18n.t('fundraising.edit_donation'),
+                    title: i18n.t('app.edit_donation'),
                     buttons: [
                         {
                             to: previouslyRememberedRoute('fundraising.donors.show', { name: 'fundraising.donations.index' } ),

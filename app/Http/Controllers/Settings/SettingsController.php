@@ -16,8 +16,8 @@ class SettingsController extends Controller
     {
         return [
             'branding' => __('app.branding'),
-            'accounting' => __('accounting.accounting'),
-            'badges' => __('badges.badges'),
+            'accounting' => __('app.accounting'),
+            'badges' => __('app.badges'),
         ];
     }
 

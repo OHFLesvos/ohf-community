@@ -28,7 +28,7 @@ class CommunityVolunteersIndexContextButtons implements ContextButtons
             ],
             'responsibilities' => [
                 'url' => route('cmtyvol.responsibilities.index'),
-                'caption' => __('responsibilities.responsibilities'),
+                'caption' => __('app.responsibilities'),
                 'icon' => 'tasks',
                 'authorized' => Auth::user()->can('viewAny', Responsibility::class),
             ],

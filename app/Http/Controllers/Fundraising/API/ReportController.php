@@ -135,8 +135,8 @@ class ReportController extends Controller
             ->map(fn ($e) => floatval($e));
 
         return (new ChartResponseBuilder())
-            ->dataset(__('fundraising.donations'), $registrations)
-            ->dataset(__('fundraising.donation_amount') . ' (' . config('fundraising.base_currency').')', $amounts, __('app.amount'))
+            ->dataset(__('app.donations'), $registrations)
+            ->dataset(__('app.donation_amount') . ' (' . config('fundraising.base_currency').')', $amounts, __('app.amount'))
             ->build();
     }
 

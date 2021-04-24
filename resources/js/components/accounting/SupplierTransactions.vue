@@ -38,7 +38,7 @@ export default {
             transactionFields: [
                 {
                     key: 'receipt_no',
-                    label: this.$t('accounting.receipt_no'),
+                    label: this.$t('app.receipt_no'),
                     sortable: true,
                     class: 'text-right fit'
                 },
@@ -77,7 +77,7 @@ export default {
                 },
                 {
                     key: 'attendee',
-                    label: this.$t('accounting.attendee')
+                    label: this.$t('app.attendee')
                 },
                 {
                     key: 'created_at',

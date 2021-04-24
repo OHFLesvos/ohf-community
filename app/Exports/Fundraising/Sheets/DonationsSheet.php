@@ -34,20 +34,20 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
     public function title(): string
     {
-        return __('fundraising.donations') . ($this->year !== null ? ' ' . $this->year : '');
+        return __('app.donations') . ($this->year !== null ? ' ' . $this->year : '');
     }
 
     public function headings(): array
     {
         return [
             __('app.date'),
-            __('fundraising.channel'),
-            __('fundraising.purpose'),
-            __('fundraising.reference'),
-            __('fundraising.in_name_of'),
-            __('fundraising.thanked'),
+            __('app.channel'),
+            __('app.purpose'),
+            __('app.reference'),
+            __('app.in_name_of'),
+            __('app.thanked'),
             __('app.amount'),
-            __('fundraising.exchange_amount'),
+            __('app.exchange_amount'),
         ];
     }
 

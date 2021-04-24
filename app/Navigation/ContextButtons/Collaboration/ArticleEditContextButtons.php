@@ -17,7 +17,7 @@ class ArticleEditContextButtons implements ContextButtons
                 'caption' => __('app.delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $article),
-                'confirmation' => __('wiki.confirm_delete_article'),
+                'confirmation' => __('app.confirm_delete_article'),
             ],
             'back' => [
                 'url' => route('kb.articles.show', $article),

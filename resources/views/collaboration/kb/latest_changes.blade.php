@@ -1,7 +1,7 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('kb.knowledge_base'))
-@section('site-title', __('app.latest_changes') . ' - ' . __('kb.knowledge_base'))
+@section('title', __('app.knowledge_base'))
+@section('site-title', __('app.latest_changes') . ' - ' . __('app.knowledge_base'))
 
 @section('content')
     <h1 class="display-4">@lang('app.latest_changes')</h1>
@@ -13,7 +13,7 @@
                         <th>@lang('app.date')</th>
                         <th>@lang('app.author')</th>
                         <th>@lang('app.action')</th>
-                        <th>@lang('wiki.article')</th>
+                        <th>@lang('app.article')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,7 @@
         {{ $audits->links() }}
     @else
         <x-alert type="info">
-            @lang('wiki.no_articles_found')
+            @lang('app.no_articles_found')
         </x-alert>
     @endif
 @endsection

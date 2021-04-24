@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('accounting.accounting'))
+@section('title', __('app.accounting'))
 
 @section('content')
 
@@ -11,7 +11,7 @@
                 @if($has_multiple_wallets)
                     {{ $wallet->name }}:
                 @else
-                    @lang('accounting.wallet'):
+                    @lang('app.wallet'):
                 @endif
             </span>
             <u>{{ number_format($wallet->amount, 2) }}</u>
@@ -39,13 +39,13 @@
             <table class="table table-hover bg-white">
                 <thead>
                     <tr>
-                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('accounting.receipt') </span>#</th>
+                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('app.receipt') </span>#</th>
                         <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
                         <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('accounting.income')</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('accounting.spending')</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('app.income')</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('app.spending')</th>
                         @if($intermediate_balances !== null)
-                            <th class="fit text-right">@lang('accounting.intermediate_balance')</th>
+                            <th class="fit text-right">@lang('app.intermediate_balance')</th>
                         @endif
                         <th class="@isset($filter['category']) text-info @endisset">@lang('app.category')</th>
                         @if($secondary_categories !== null)
@@ -56,13 +56,13 @@
                             <th class="@isset($filter['location']) text-info @endisset">@lang('app.location')</th>
                         @endif
                         @if($cost_centers !== null)
-                            <th class="@isset($filter['cost_center']) text-info @endisset">@lang('accounting.cost_center')</th>
+                            <th class="@isset($filter['cost_center']) text-info @endisset">@lang('app.cost_center')</th>
                         @endif
                         <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
                         @if($has_suppliers)
-                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">@lang('accounting.supplier')</th>
+                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">@lang('app.supplier')</th>
                         @endif
-                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">@lang('accounting.attendee')</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">@lang('app.attendee')</th>
                         <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
                     </tr>
                 </thead>
@@ -178,7 +178,7 @@
         @endforeach
     @else
         <x-alert type="info">
-            @lang('accounting.no_transactions_found')
+            @lang('app.no_transactions_found')
         </x-alert>
     @endif
 @endsection
@@ -299,13 +299,13 @@
 
             <div class="form-row">
                 <div class="col-sm mb-3">
-                    {{ Form::bsRadioList('filter[type]', [ 'income' => __('accounting.income'), 'spending' => __('accounting.spending'), null => __('app.any') ], $filter['type'] ?? null, __('app.type')) }}
+                    {{ Form::bsRadioList('filter[type]', [ 'income' => __('app.income'), 'spending' => __('app.spending'), null => __('app.any') ], $filter['type'] ?? null, __('app.type')) }}
                 </div>
                 <div class="col-sm mb-3">
-                    {{ Form::bsRadioList('filter[controlled]', [ 'yes' => __('app.yes'), 'no' => __('app.no'), null => __('app.any') ], $filter['controlled'] ?? null, __('accounting.controlled')) }}
+                    {{ Form::bsRadioList('filter[controlled]', [ 'yes' => __('app.yes'), 'no' => __('app.no'), null => __('app.any') ], $filter['controlled'] ?? null, __('app.controlled')) }}
                 </div>
                 <div class="col-sm">
-                    {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('accounting.receipt') . ' #') }}
+                    {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('app.receipt') . ' #') }}
                 </div>
             </div>
             <div class="form-row">
@@ -354,16 +354,16 @@
                 @if($cost_centers !== null)
                     <div class="col-sm">
                         @if($fixed_cost_centers)
-                            {{ Form::bsSelect('filter[cost_center]', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['cost_center'] ?? null, [ 'placeholder' => '- ' . __('accounting.cost_center') . ' -' ], __('accounting.cost_center')) }}
+                            {{ Form::bsSelect('filter[cost_center]', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['cost_center'] ?? null, [ 'placeholder' => '- ' . __('app.cost_center') . ' -' ], __('app.cost_center')) }}
                         @else
-                            {{ Form::bsText('filter[cost_center]', $filter['cost_center'] ?? null, [ 'list' => $cost_centers ], __('accounting.cost_center')) }}
+                            {{ Form::bsText('filter[cost_center]', $filter['cost_center'] ?? null, [ 'list' => $cost_centers ], __('app.cost_center')) }}
                         @endif
                     </div>
                 @endif
             </div>
             <div class="form-row">
                 <div class="col-sm">
-                    {{ Form::bsText('filter[attendee]', $filter['attendee'] ?? null, [ 'list' => $attendees ], __('accounting.attendee')) }}
+                    {{ Form::bsText('filter[attendee]', $filter['attendee'] ?? null, [ 'list' => $attendees ], __('app.attendee')) }}
                 </div>
                 <div class="col-sm">
                     {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}
@@ -372,15 +372,15 @@
             <div class="form-row">
                 @if($has_suppliers)
                     <div class="col-sm">
-                        {{ Form::bsText('filter[supplier]', $filter['supplier'] ?? null, [ 'list' => $suppliers->pluck('name')->toArray(), 'autocomplete' => 'off' ], __('accounting.supplier')) }}
+                        {{ Form::bsText('filter[supplier]', $filter['supplier'] ?? null, [ 'list' => $suppliers->pluck('name')->toArray(), 'autocomplete' => 'off' ], __('app.supplier')) }}
                     </div>
                 @endif
                 <div class="col-sm">
                     @if($has_suppliers)
                     <br>
                     @endif
-                    {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('accounting.registered_today')) }}
-                    {{ Form::bsCheckbox('filter[no_receipt]', 1, $filter['no_receipt'] ?? false, __('accounting.no_receipt')) }}
+                    {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('app.registered_today')) }}
+                    {{ Form::bsCheckbox('filter[no_receipt]', 1, $filter['no_receipt'] ?? false, __('app.no_receipt')) }}
                 </div>
             </div>
             <hr>

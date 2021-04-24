@@ -24,7 +24,7 @@ class BadgeMakerController extends Controller
         $sources = [
             [
                 'key' => 'cmtyvol',
-                'label' => __('cmtyvol.community_volunteers'),
+                'label' => __('app.community_volunteers'),
                 'allowed' => request()->user()->can('viewAny', CommunityVolunteer::class),
             ],
             [
@@ -169,7 +169,7 @@ class BadgeMakerController extends Controller
                 ->with('error', __('app.empty_data_source'));
         }
 
-        $title = __('badges.badges');
+        $title = __('app.badges');
 
         $badgeCreator = new BadgeCreator($persons);
         if ($request->hasFile('alt_logo')) {

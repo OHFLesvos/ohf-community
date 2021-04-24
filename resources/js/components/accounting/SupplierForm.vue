@@ -98,7 +98,7 @@
                             />
                         </b-form-group>
                     </validation-provider>
-                </b-col>                
+                </b-col>
 
             </b-form-row>
 
@@ -204,13 +204,13 @@
                 <!-- Tax number -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('accounting.tax_number')"
+                        :name="$t('app.tax_number')"
                         vid="tax_number"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('accounting.tax_number')"
+                            :label="$t('app.tax_number')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -226,13 +226,13 @@
                 <!-- Tax office -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('accounting.tax_office')"
+                        :name="$t('app.tax_office')"
                         vid="tax_office"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('accounting.tax_office')"
+                            :label="$t('app.tax_office')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -252,13 +252,13 @@
                 <!-- Bank -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('accounting.bank')"
+                        :name="$t('app.bank')"
                         vid="bank"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('accounting.bank')"
+                            :label="$t('app.bank')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -274,13 +274,13 @@
                 <!-- IBAN -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('accounting.iban')"
+                        :name="$t('app.iban')"
                         vid="iban"
                         :rules="{ iban: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('accounting.iban')"
+                            :label="$t('app.iban')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -409,7 +409,7 @@ export default {
             this.$emit('submit', this.form)
         },
         onDelete () {
-            if (confirm(this.$t('accounting.confirm_delete_supplier'))) {
+            if (confirm(this.$t('app.confirm_delete_supplier'))) {
                 this.$emit('delete')
             }
         }
