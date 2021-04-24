@@ -122,7 +122,7 @@ class RoleController extends Controller
             ->get());
     }
 
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

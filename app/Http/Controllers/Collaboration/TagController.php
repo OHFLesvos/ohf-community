@@ -65,5 +65,4 @@ class TagController extends Controller
         }
         return '<a name="' . $article->slug . '"></a><h2>' . $article->title . '</h2>' . $content;
     }
-
 }

@@ -48,5 +48,4 @@ class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
     {
         return $this->month->formatLocalized('%B %Y');
     }
-
 }

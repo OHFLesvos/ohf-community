@@ -24,12 +24,12 @@ class BankWithdrawalDatabaseSeeder extends Seeder
             ->each(function (Person $person) use ($couponTypes) {
                 $numCouponTypes = mt_rand(0, $couponTypes->count());
                 $couponTypes->random($numCouponTypes)
-                    ->each(function (CouponType $couponType) use($person) {
+                    ->each(function (CouponType $couponType) use ($person) {
                         $handout = CouponHandout::factory()->make();
                         $handout->person()->associate($person);
                         $handout->couponType()->associate($couponType);
                         $handout->save();
-                });
+                    });
             });
     }
 }

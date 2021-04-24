@@ -7,7 +7,8 @@ use Carbon\Carbon;
 
 abstract class BaseReportingController extends Controller
 {
-    protected static function createDateCollectionEmpty($from, $to) {
+    protected static function createDateCollectionEmpty($from, $to)
+    {
         $dates = [];
         $date = $to->clone();
         do {
@@ -16,7 +17,8 @@ abstract class BaseReportingController extends Controller
         return collect($dates);
     }
 
-    protected static function createWeekCollectionEmpty($from, $to) {
+    protected static function createWeekCollectionEmpty($from, $to)
+    {
         $dates = [];
         $date = $to->clone();
         do {
@@ -26,7 +28,8 @@ abstract class BaseReportingController extends Controller
         return collect($dates);
     }
 
-    protected static function createMonthCollectionEmpty($from, $to) {
+    protected static function createMonthCollectionEmpty($from, $to)
+    {
         $dates = [];
         $date = $to->clone();
         do {
@@ -36,7 +39,8 @@ abstract class BaseReportingController extends Controller
         return collect($dates);
     }
 
-    protected static function createYearCollectionEmpty($from, $to) {
+    protected static function createYearCollectionEmpty($from, $to)
+    {
         $dates = [];
         $date = $to->clone();
         do {
@@ -45,7 +49,8 @@ abstract class BaseReportingController extends Controller
         return collect($dates);
     }
 
-    protected static function createDayOfWeekCollectionEmpty() {
+    protected static function createDayOfWeekCollectionEmpty()
+    {
         $dates = [];
         $date = Carbon::now()->startOfWeek();
         do {

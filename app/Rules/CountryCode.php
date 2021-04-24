@@ -33,5 +33,4 @@ class CountryCode implements Rule
     {
         return __('validation.country_code');
     }
-
 }

@@ -28,5 +28,4 @@ class UserIndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

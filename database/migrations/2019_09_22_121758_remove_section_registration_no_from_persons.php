@@ -32,5 +32,4 @@ class RemoveSectionRegistrationNoFromPersons extends Migration
             $table->index('section_card_no', 'persons_section_card_no_index');
         });
     }
-
 }

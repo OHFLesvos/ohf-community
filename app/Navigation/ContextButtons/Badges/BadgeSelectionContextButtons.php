@@ -19,5 +19,4 @@ class BadgeSelectionContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

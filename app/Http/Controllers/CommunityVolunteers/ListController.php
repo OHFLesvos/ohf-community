@@ -48,7 +48,8 @@ class ListController extends BaseController
             foreach ($groups as $value) {
                 $q = CommunityVolunteer::workStatus($workStatus);
                 $groupings->get($grouping)['query']($q, $value);
-                $data->push($q->orderBy('first_name')
+                $data->push(
+                    $q->orderBy('first_name')
                     ->get()
                     ->mapWithKeys(fn ($cmtyvol) => [
                         $cmtyvol->id => [
@@ -221,7 +222,7 @@ class ListController extends BaseController
                 $field['form_name'] = 'array',
                 $field['form_name'] . '.*' => $rules,
             ];
-        } else if (isset($field['form_validate_extra'])) {
+        } elseif (isset($field['form_validate_extra'])) {
             $extra_rules = is_callable($field['form_validate_extra'])
                 ? $field['form_validate_extra']()
                 : $field['form_validate_extra'];
@@ -398,7 +399,8 @@ class ListController extends BaseController
         $request->validate([
             'responsibilities' => 'array',
             'responsibilities.*.name' => [
-                Rule::in(Responsibility::select('name')
+                Rule::in(
+                    Responsibility::select('name')
                     ->get()
                     ->pluck('name')
                     ->all()
@@ -419,7 +421,7 @@ class ListController extends BaseController
         ]);
 
         $value = $request->input('responsibilities');
-        DB::transaction(function() use ($cmtyvol, $value) {
+        DB::transaction(function () use ($cmtyvol, $value) {
             $cmtyvol->responsibilities()->detach();
             if ($value != null) {
                 if (! is_array($value)) {
@@ -429,7 +431,7 @@ class ListController extends BaseController
                     }
                     $value = array_map('trim', $values);
                 }
-                collect($value)->map(function($entry) use ($cmtyvol) {
+                collect($value)->map(function ($entry) use ($cmtyvol) {
                     if (! is_array($entry)) {
                         $entry = [ 'name' => $entry ];
                     }

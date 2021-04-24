@@ -17,7 +17,7 @@ class AddPublicIdToPersons extends Migration
             $table->string('public_id', 32)->nullable()->after('id');
             $table->unique('public_id');
         });
-}
+    }
 
     /**
      * Reverse the migrations.

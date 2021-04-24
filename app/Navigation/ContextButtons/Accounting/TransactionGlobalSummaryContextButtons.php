@@ -20,5 +20,4 @@ class TransactionGlobalSummaryContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

@@ -33,5 +33,4 @@ class ArticleFormat
             return '<a href="' . route('kb.articles.create', ['title' => Str::title(str_replace('-', ' ', $matches[2])) ]) . '" class="text-danger">' . $matches[2] . '</a>';
         }, $content);
     }
-
 }

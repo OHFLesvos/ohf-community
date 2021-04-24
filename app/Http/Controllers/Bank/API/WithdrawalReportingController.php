@@ -31,21 +31,31 @@ class WithdrawalReportingController extends BaseReportingController
             'coupon' => $coupon,
             'avg_sum' => self::getAvgTransactionSumPerDay($coupon),
             'highest_sum' => self::getHighestSumPerDay($coupon),
-            'last_month_sum' => self::sumOfTransactions($coupon,
+            'last_month_sum' => self::sumOfTransactions(
+                $coupon,
                 Carbon::today()->subMonth()->startOfMonth(),
-                Carbon::today()->subMonth()->endOfMonth()),
-            'this_month_sum' => self::sumOfTransactions($coupon,
+                Carbon::today()->subMonth()->endOfMonth()
+            ),
+            'this_month_sum' => self::sumOfTransactions(
+                $coupon,
                 Carbon::today()->startOfMonth(),
-                Carbon::today()->endOfMonth()),
-            'last_week_sum' => self::sumOfTransactions($coupon,
+                Carbon::today()->endOfMonth()
+            ),
+            'last_week_sum' => self::sumOfTransactions(
+                $coupon,
                 Carbon::today()->subWeek()->startOfWeek(),
-                Carbon::today()->subWeek()->endOfWeek()),
-            'this_week_sum' => self::sumOfTransactions($coupon,
+                Carbon::today()->subWeek()->endOfWeek()
+            ),
+            'this_week_sum' => self::sumOfTransactions(
+                $coupon,
                 Carbon::today()->startOfWeek(),
-                Carbon::today()->endOfWeek()),
-            'today_sum' => self::sumOfTransactions($coupon,
+                Carbon::today()->endOfWeek()
+            ),
+            'today_sum' => self::sumOfTransactions(
+                $coupon,
                 Carbon::today()->startOfDay(),
-                Carbon::today()->endOfDay()),
+                Carbon::today()->endOfDay()
+            ),
         ];
     }
 

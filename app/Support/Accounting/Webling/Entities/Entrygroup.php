@@ -16,5 +16,4 @@ class Entrygroup extends WeblingEntity
         $webling = resolve(WeblingClient::class);
         return $webling->createUrl('/webling.php#/accounting/' . $this->parent . '/entrygroup/:entrygroup/editor/' . $this->id);
     }
-
 }

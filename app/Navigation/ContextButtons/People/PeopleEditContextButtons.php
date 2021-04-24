@@ -20,5 +20,4 @@ class PeopleEditContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

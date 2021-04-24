@@ -19,7 +19,8 @@ class BankStatisticsProvider
         $this->date = $date ?? today();
     }
 
-    public function getNumberOfPersonsServed(): int {
+    public function getNumberOfPersonsServed(): int
+    {
         $q = CouponHandout::whereDate('date', $this->date)
             ->groupBy('person_id', 'date')
             ->select('person_id');
@@ -28,7 +29,8 @@ class BankStatisticsProvider
             ->count();
     }
 
-    public function getNumberOfCouponsHandedOut(): int {
+    public function getNumberOfCouponsHandedOut(): int
+    {
         return (int) CouponHandout::whereDate('date', $this->date)
             ->selectRaw('sum(amount) as total')
             ->get()
@@ -36,7 +38,8 @@ class BankStatisticsProvider
             ->total;
     }
 
-    public function getCouponsWithSpendingLimit(): \Illuminate\Support\Collection {
+    public function getCouponsWithSpendingLimit(): \Illuminate\Support\Collection
+    {
         return CouponType::select('name', 'daily_spending_limit')
             ->selectRaw('SUM(amount) as total')
             ->where('daily_spending_limit', '>', 0)

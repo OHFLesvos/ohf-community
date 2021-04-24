@@ -56,7 +56,7 @@ class CommunityVolunteerResponsibility extends Pivot
         ];
         if ($date_strings['from'] != null && $date_strings['until'] != null) {
             return __('app.from_until_date', $date_strings);
-        } else if ($date_strings['from'] != null) {
+        } elseif ($date_strings['from'] != null) {
             return __('app.from_date', $date_strings);
         } else {
             return __('app.until_date', $date_strings);

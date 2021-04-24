@@ -29,7 +29,8 @@ trait ExportableActions
      *
      * @return \Illuminate\Http\Response
      */
-    public function export() {
+    public function export()
+    {
         $this->exportAuthorize();
 
         $args = [
@@ -45,7 +46,8 @@ trait ExportableActions
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function doExport(Request $request) {
+    public function doExport(Request $request)
+    {
         $this->exportAuthorize();
 
         $args = [
@@ -71,7 +73,8 @@ trait ExportableActions
         return $this->exportDownload($request, $export, $file_name, $file_ext);
     }
 
-    protected function exportDownload(Request $request, $export, $file_name, $file_ext) {
+    protected function exportDownload(Request $request, $export, $file_name, $file_ext)
+    {
         return $export->download($file_name . '.' . $file_ext);
     }
 }

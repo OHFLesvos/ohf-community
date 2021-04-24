@@ -96,5 +96,4 @@ class PersonPolicy
     {
         return $user->hasPermission('people.manage');
     }
-
 }

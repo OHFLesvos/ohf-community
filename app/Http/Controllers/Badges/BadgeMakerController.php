@@ -19,7 +19,8 @@ class BadgeMakerController extends Controller
 {
     private const BADGE_ITEMS_SESSION_KEY = 'badge_items';
 
-    private static function getSources() {
+    private static function getSources()
+    {
         $sources = [
             [
                 'key' => 'cmtyvol',
@@ -53,7 +54,8 @@ class BadgeMakerController extends Controller
         ]);
     }
 
-    public function selection(Request $request) {
+    public function selection(Request $request)
+    {
         Validator::make($request->all(), [
             'source' => [
                 'required',
@@ -135,7 +137,8 @@ class BadgeMakerController extends Controller
         ]);
     }
 
-    public function make(Request $request) {
+    public function make(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'persons' => [
                 'required',
@@ -193,7 +196,8 @@ class BadgeMakerController extends Controller
         return $person;
     }
 
-    private static function communityVolunteerToBadgePerson($cmtyvol) {
+    private static function communityVolunteerToBadgePerson($cmtyvol)
+    {
         return [
             'type' => 'cmtyvol',
             'id' => $cmtyvol->id,

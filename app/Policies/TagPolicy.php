@@ -88,5 +88,4 @@ class TagPolicy
         return $user->hasPermission('wiki.edit')
             || $user->hasPermission('fundraising.donors_donations.manage');
     }
-
 }

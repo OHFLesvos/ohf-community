@@ -19,5 +19,4 @@ class PeopleCreateContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

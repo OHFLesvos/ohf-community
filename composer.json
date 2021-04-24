@@ -56,7 +56,8 @@
         "filp/whoops": "~2.0",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.0",
+        "stechstudio/laravel-php-cs-fixer": "^2.3"
     },
     "config": {
         "optimize-autoloader": true,

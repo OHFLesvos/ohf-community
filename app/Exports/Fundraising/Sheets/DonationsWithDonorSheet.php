@@ -29,5 +29,4 @@ class DonationsWithDonorSheet extends DonationsSheet
         ]);
         return $map->toArray();
     }
-
 }

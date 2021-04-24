@@ -69,7 +69,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
                                     $responsibilities[] = $responsibility;
                                 }
                             }
-                        } else if ($f['append']) {
+                        } elseif ($f['append']) {
                             self::appendToField($cmtyvol, $f['get'], $f['assign'], $value);
                         } else {
                             $f['assign']($cmtyvol, $value);
@@ -96,7 +96,8 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
         }
     }
 
-    private static function appendToField(CommunityVolunteer $cmtyvol, $get, $assign, $value) {
+    private static function appendToField(CommunityVolunteer $cmtyvol, $get, $assign, $value)
+    {
         $old_value = is_callable($get) ? $get($cmtyvol) : $cmtyvol[$get];
         $assign($cmtyvol, $value);
 
@@ -105,9 +106,9 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
 
             if (is_array($old_value)) {
                 $assign($cmtyvol, array_merge($old_value, $new_value));
-            } else if (is_string($old_value)) {
+            } elseif (is_string($old_value)) {
                 $assign($cmtyvol, $old_value . ', ' . $new_value);
-            } else if (is_object($old_value) && get_class($old_value) == 'Illuminate\Database\Eloquent\Collection') {
+            } elseif (is_object($old_value) && get_class($old_value) == 'Illuminate\Database\Eloquent\Collection') {
                 $assign($cmtyvol, $old_value->concat($new_value));
             } else {
                 Log::warning('Cannot append value of type: ' . gettype($old_value));

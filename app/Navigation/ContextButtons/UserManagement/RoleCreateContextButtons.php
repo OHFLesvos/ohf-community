@@ -20,5 +20,4 @@ class RoleCreateContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

@@ -28,5 +28,4 @@ class RoleIndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

@@ -27,5 +27,4 @@ class IndexContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

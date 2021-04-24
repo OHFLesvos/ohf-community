@@ -38,7 +38,7 @@ class StoreSupplier extends FormRequest
             'iban' => [
                 'nullable',
                 'iban',
-            ],                      
+            ],
         ];
     }
 }

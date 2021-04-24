@@ -20,5 +20,4 @@ class WeblingPrepareContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

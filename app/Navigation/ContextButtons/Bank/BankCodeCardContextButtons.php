@@ -20,5 +20,4 @@ class BankCodeCardContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

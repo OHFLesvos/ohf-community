@@ -28,7 +28,8 @@ class WithdrawalTransaction extends JsonResource
         ];
     }
 
-    private function getDate() {
+    private function getDate()
+    {
         $date = null;
         if (isset($this->getModified()['date'])) {
             $mdate = $this->getModified()['date'];

@@ -449,5 +449,4 @@ class UserRoleRelationshipApiTest extends TestCase
             'role_id' => $role->id,
         ]);
     }
-
 }

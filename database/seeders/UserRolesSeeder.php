@@ -24,7 +24,8 @@ class UserRolesSeeder extends Seeder
             ->create()
             ->each(function (User $user) use ($roles) {
                 $user->roles()
-                    ->attach($roles->random(mt_rand(0, 5))
+                    ->attach(
+                        $roles->random(mt_rand(0, 5))
                         ->unique()
                         ->values()
                     );

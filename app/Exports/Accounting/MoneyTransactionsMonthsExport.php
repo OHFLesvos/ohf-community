@@ -79,5 +79,4 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
             },
         ];
     }
-
 }

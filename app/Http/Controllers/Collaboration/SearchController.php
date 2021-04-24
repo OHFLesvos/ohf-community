@@ -94,5 +94,4 @@ class SearchController extends Controller
                 ->paginate(),
         ]);
     }
-
 }

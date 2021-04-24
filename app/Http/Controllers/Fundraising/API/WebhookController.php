@@ -14,7 +14,8 @@ class WebhookController extends Controller
     /**
      * Store donation and donor supplied by RaiseNow Webhook
      */
-    public function raiseNowWebHookListener(Request $request) {
+    public function raiseNowWebHookListener(Request $request)
+    {
         // $data = $request->all();
         // Log::info("Donation webhook", $data);
 

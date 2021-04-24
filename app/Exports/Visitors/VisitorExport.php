@@ -63,7 +63,7 @@ class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithM
             optional($visitor->left_at)->format('H:i'),
             $visitor->last_name,
             $visitor->first_name,
-            isset ($types[$visitor->type]) ? $types[$visitor->type] : $visitor->type,
+            isset($types[$visitor->type]) ? $types[$visitor->type] : $visitor->type,
             $visitor->id_number,
             $visitor->place_of_residence,
             $visitor->activity,

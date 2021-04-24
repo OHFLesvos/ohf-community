@@ -48,5 +48,4 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
             },
         ];
     }
-
 }

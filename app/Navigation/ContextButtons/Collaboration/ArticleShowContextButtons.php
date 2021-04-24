@@ -53,5 +53,4 @@ class ArticleShowContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

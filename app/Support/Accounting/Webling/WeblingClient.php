@@ -145,5 +145,4 @@ class WeblingClient
     {
         $this->cache->clearCache();
     }
-
 }

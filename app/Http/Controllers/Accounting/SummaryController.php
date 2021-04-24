@@ -256,5 +256,4 @@ class SummaryController extends Controller
         }
         return MoneyTransaction::locations();
     }
-
 }

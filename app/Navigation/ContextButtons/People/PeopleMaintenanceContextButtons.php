@@ -26,5 +26,4 @@ class PeopleMaintenanceContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

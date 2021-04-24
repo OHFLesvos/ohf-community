@@ -18,5 +18,4 @@ class UserProfile2FAContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

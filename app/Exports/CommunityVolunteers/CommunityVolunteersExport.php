@@ -26,7 +26,8 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
      */
     public string $sorting = 'first_name';
 
-    public function __construct(Collection $fields, string $workStatus) {
+    public function __construct(Collection $fields, string $workStatus)
+    {
         $this->fields = $fields;
         $this->workStatus = $workStatus;
     }
@@ -52,9 +53,9 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
     {
         if (isset($field['value_export'])  && gettype($field['value_export']) == 'string') {
             $value = $communityVolunteer->{$field['value_export']};
-        } else if (gettype($field['value']) == 'string') {
+        } elseif (gettype($field['value']) == 'string') {
             $value = $communityVolunteer->{$field['value']};
-        } else if (isset($field['value_export'])) {
+        } elseif (isset($field['value_export'])) {
             $value = $field['value_export']($communityVolunteer);
         } else {
             $value = $field['value']($communityVolunteer);

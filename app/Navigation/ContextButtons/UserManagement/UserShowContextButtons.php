@@ -35,5 +35,4 @@ class UserShowContextButtons implements ContextButtons
             ],
         ];
     }
-
 }

@@ -132,7 +132,8 @@ abstract class WeblingEntity
         return count($this->parents) > 0 ? $this->parents[0] : null;
     }
 
-    protected function hasMany($clazz, $childRelation = null) {
+    protected function hasMany($clazz, $childRelation = null)
+    {
         if ($childRelation == null) {
             $childRelation = $clazz::getObjectName();
         }
@@ -142,7 +143,8 @@ abstract class WeblingEntity
         return collect();
     }
 
-    protected function belongsTo($clazz) {
+    protected function belongsTo($clazz)
+    {
         if (isset($this->parents[0])) {
             return $clazz::find($this->parents[0]);
         }
