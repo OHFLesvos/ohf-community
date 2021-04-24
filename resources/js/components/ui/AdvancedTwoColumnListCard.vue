@@ -28,7 +28,7 @@
                     href="javascript:;"
                     @click="topTen = !topTen"
                 >
-                    {{ topTen ? $t('app.show_all_x', { num: items.length }) : $t('app.shop_top_x', { num: limit }) }}
+                    {{ topTen ? $t('app.show_all_x', { num: items.length }) : $t('app.show_top_x', { num: limit }) }}
                 </a>
             </b-card-header>
             <b-list-group flush>
