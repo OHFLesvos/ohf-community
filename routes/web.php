@@ -419,5 +419,6 @@ Route::get('/transform2', function(){
     replaceInFiles($en, getFilesFromDir(base_path('app')));
     replaceInFiles($en, getFilesFromDir(base_path('resources/views')));
     replaceInFiles($en, getFilesFromDir(base_path('resources/js')));
+    replaceInFiles($en, getFilesFromDir(base_path('tests')));
     unlink(base_path('resources/lang/en/app.php'));
 });
