@@ -15,6 +15,9 @@ import i18n from "@/plugins/i18n";
 import ziggyMixin from "@/mixins/ziggyMixin";
 Vue.mixin(ziggyMixin);
 
+// Form validation
+import "@/plugins/vee-validate";
+
 // Hide prod tooltip
 Vue.config.productionTip = false;
 
@@ -26,6 +29,20 @@ if (document.getElementById("user-management-app")) {
         i18n,
         components: {
             UserIndexPage
+        }
+    });
+}
+
+// Visitors app
+import visitorRouter from "@/router/visitors";
+import VisitorsApp from "@/app/VisitorsApp";
+if (document.getElementById("visitors-app")) {
+    new Vue({
+        el: "#visitors-app",
+        router: visitorRouter,
+        i18n,
+        components: {
+            VisitorsApp
         }
     });
 }
