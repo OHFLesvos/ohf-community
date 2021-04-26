@@ -43,7 +43,7 @@
             :current-page="currentPage"
             :show-empty="true"
             :empty-text="emptyText"
-            :empty-filtered-text="$t('app.no_records_matching_your_request')"
+            :empty-filtered-text="$t('There are no records matching your request.')"
             :no-sort-reset="true"
             :filter="filter"
             class="bg-white shadow-sm"
@@ -117,14 +117,14 @@ export default {
             require: false,
             type: String,
             default: function() {
-                return this.$t('app.type_to_search')
+                return this.$t('Type to search...')
             }
         },
         loadingLabel: {
             type: String,
             required: false,
             default: function() {
-                return this.$t('app.loading')
+                return this.$t('Loading...')
             }
         },
         noFilter: Boolean

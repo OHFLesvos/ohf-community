@@ -6,7 +6,7 @@
             :fields="fields"
             :items="donations"
             show-empty
-            :empty-text="$t('app.no_donations_found')"
+            :empty-text="$t('No donations found.')"
             class="shadow-md"
             tbody-class="bg-white"
             thead-class="bg-white"
@@ -81,7 +81,7 @@ export default {
             fields: [
                 {
                     key: 'date',
-                    label: this.$t('app.date'),
+                    label: this.$t('Date'),
                     formatter: value => {
                         return moment(value).format('LL')
                     },
@@ -89,32 +89,32 @@ export default {
                 },
                 {
                     key: 'exchange_amount',
-                    label: this.$t('app.amount'),
+                    label: this.$t('Amount'),
                     class: 'text-md-right',
                     width: '12em'
                 },
                 {
                     key: 'channel',
-                    label: this.$t('app.channel'),
+                    label: this.$t('Channel'),
                     width: '10em'
                 },
                 {
                     key: 'purpose',
-                    label: this.$t('app.purpose')
+                    label: this.$t('Purpose')
                 },
                 {
                     key: 'reference',
-                    label: this.$t('app.reference'),
+                    label: this.$t('Reference'),
                     width: '12em'
                 },
                 {
                     key: 'in_name_of',
-                    label: this.$t('app.in_name_of'),
+                    label: this.$t('In the name of'),
                     width: '10em'
                 },
                 {
                     key: 'created_at',
-                    label: this.$t('app.registered'),
+                    label: this.$t('Registered'),
                     width: '12em',
                     formatter: value => {
                         return moment(value).format('LLL')
@@ -122,7 +122,7 @@ export default {
                 },
                 {
                     key: 'thanked',
-                    label: this.$t('app.thanked'),
+                    label: this.$t('Thanked'),
                     width: '12em',
                     formatter: value => {
                         return value ? moment(value).format('LLL') : null

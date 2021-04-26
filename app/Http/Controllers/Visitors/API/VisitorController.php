@@ -144,7 +144,7 @@ class VisitorController extends Controller
     {
         $this->authorize('export-visitors');
 
-        $file_name = __('app.visitors') . ' as of ' . now()->toDateString();
+        $file_name = __('Visitors') . ' as of ' . now()->toDateString();
         $extension = 'xlsx';
         return (new VisitorExport())->download($file_name . '.' . $extension);
     }

@@ -1,6 +1,6 @@
 @extends('widgets.base', [
     'icon' => 'info-circle',
-    'title' => __('app.knowledge_base'),
+    'title' => __('Knowledge Base'),
     'href' => route('kb.index'),
 ])
 
@@ -12,7 +12,7 @@
     ])
     <div class="card-body p-3 border-top">
         @isset($latest_article)
-            @lang('app.the_latest_article_is', [
+            @lang('The latest article is <a href=":href">:title</a>, added :date.', [
                 'title' => $latest_article->title,
                 'href' => route('kb.articles.show', $latest_article),
                 'date' => $latest_article->created_at->diffForHumans(),

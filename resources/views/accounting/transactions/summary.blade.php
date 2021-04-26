@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.summary') . ($has_multiple_wallets ? ' - ' . $wallet->name : ''))
+@section('title', __('Summary') . ($has_multiple_wallets ? ' - ' . $wallet->name : ''))
 
 @section('content')
 
@@ -12,22 +12,22 @@
             <div class="row">
                 @if(sizeof($months) > 0)
                     <div class="col-xl col-sm-6">
-                        {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- ' . __('app.by_month') . ' -' ], '') }}
+                        {{ Form::bsSelect('monthrange', $months, $currentRange, [ 'id' => 'monthrange', 'placeholder' => '- ' . __('by month') . ' -' ], '') }}
                     </div>
                 @endif
                 @if(sizeof($years) > 0)
                     <div class="col-xl col-sm-6">
-                        {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- ' . __('app.by_year') . ' -' ], '') }}
+                        {{ Form::bsSelect('yearrange', $years, $currentRange, [ 'id' => 'yearrange', 'placeholder' => '- ' . __('by year') . ' -' ], '') }}
                     </div>
                 @endif
                 @if(sizeof($projects) > 0)
                     <div class="col-xl col-sm-6">
-                        {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentProject, [ 'id' => 'project', 'placeholder' => '- ' . __('app.all_projects') . ' -' ], '') }}
+                        {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentProject, [ 'id' => 'project', 'placeholder' => '- ' . __('All projects') . ' -' ], '') }}
                     </div>
                 @endif
                 @if(sizeof($locations) > 0)
                     <div class="col-xl col-sm-6">
-                        {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentLocation, [ 'id' => 'location', 'placeholder' => '- ' . __('app.all_locations') . ' -' ], '') }}
+                        {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentLocation, [ 'id' => 'location', 'placeholder' => '- ' . __('All locations') . ' -' ], '') }}
                     </div>
                 @endif
             </div>
@@ -39,7 +39,7 @@
         {{-- Revenue by categories --}}
         <div class="col-sm-6 col-md">
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('app.categories')</div>
+                <div class="card-header">@lang('Categories')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
                         @if(count($revenueByCategory) > 0)
@@ -58,7 +58,7 @@
                                 </tr>
                             @endforeach
                         @else
-                            <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+                            <tr><td><em>@lang('No data available in the selected time range.')</em></td></tr>
                         @endif
                     </tbody>
                 </table>
@@ -69,7 +69,7 @@
             {{-- Revenue by secondary category --}}
             <div class="col-sm-6 col-md">
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header">@lang('app.secondary_categories')</div>
+                    <div class="card-header">@lang('Secondary Categories')</div>
                     <table class="table mb-0">
                         <tbody>
                             @if(count($revenueBySecondaryCategory) > 0)
@@ -85,14 +85,14 @@
                                                     </a>
                                                 @endcan
                                             @else
-                                                <em>@lang('app.no_secondary_category')</em>
+                                                <em>@lang('No Secondary Category')</em>
                                             @endif
                                         </td>
                                         <td class="text-right {{ $v['amount'] > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($v['amount'], 2) }}</td>
                                     </tr>
                                 @endforeach
                             @else
-                                <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+                                <tr><td><em>@lang('No data available in the selected time range.')</em></td></tr>
                             @endif
                         </tbody>
                     </table>
@@ -103,7 +103,7 @@
         {{-- Revenue by project --}}
         <div class="col-sm-6 col-md">
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('app.projects')</div>
+                <div class="card-header">@lang('Projects')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
                         @if(count($revenueByProject) > 0)
@@ -119,14 +119,14 @@
                                                 </a>
                                             @endcan
                                         @else
-                                            <em>@lang('app.no_project')</em>
+                                            <em>@lang('No project')</em>
                                         @endif
                                     </td>
                                     <td class="text-right {{ $v['amount'] > 0 ? 'text-success' : 'text-danger' }}">{{ number_format($v['amount'], 2) }}</td>
                                 </tr>
                             @endforeach
                         @else
-                            <tr><td><em>@lang('app.no_data_available_in_the_selected_time_range')</em></td></tr>
+                            <tr><td><em>@lang('No data available in the selected time range.')</em></td></tr>
                         @endif
                     </tbody>
                 </table>
@@ -136,27 +136,27 @@
         {{-- Wallet --}}
         <div class="col-sm-6 col-md">
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('app.total')</div>
+                <div class="card-header">@lang('Total')</div>
                 <table class="table table-strsiped mb-0">
                     <tbody>
                         <tr>
-                            <td>@lang('app.income')</td>
+                            <td>@lang('Income')</td>
                             <td class="text-right"><u>{{ number_format($income, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('app.spending')</td>
+                            <td>@lang('Spending')</td>
                             <td class="text-right"><u>{{ number_format($spending, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('app.transaction_fees')</td>
+                            <td>@lang('Transaction fees')</td>
                             <td class="text-right"><u>{{ number_format($fees, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('app.difference')</td>
+                            <td>@lang('Difference')</td>
                             <td class="text-right"><u>{{ number_format($income - $spending, 2) }}</u></td>
                         </tr>
                         <tr>
-                            <td>@lang('app.wallet')</td>
+                            <td>@lang('Wallet')</td>
                             <td class="text-right {{ $wallet_amount < 0 ? 'text-danger' : '' }}"><u>{{ number_format($wallet_amount, 2) }}</u></td>
                         </tr>
                     </tbody>

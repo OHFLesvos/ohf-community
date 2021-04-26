@@ -13,7 +13,7 @@ class UsersNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.users_and_roles');
+        return __('Users & Roles');
     }
 
     protected $icon = 'user-friends';

@@ -22,9 +22,9 @@ export default {
     data () {
         return {
             workStatuses: {
-                active: this.$t('app.active'),
-                future: this.$t('app.future'),
-                alumni: this.$t('app.alumni'),
+                active: this.$t('Active'),
+                future: this.$t('Future'),
+                alumni: this.$t('Alumni'),
             }
         }
     }

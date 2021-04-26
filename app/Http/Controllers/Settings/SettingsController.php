@@ -15,9 +15,9 @@ class SettingsController extends Controller
     private static function getSections(): array
     {
         return [
-            'branding' => __('app.branding'),
-            'accounting' => __('app.accounting'),
-            'badges' => __('app.badges'),
+            'branding' => __('Branding'),
+            'accounting' => __('Accounting'),
+            'badges' => __('Badges'),
         ];
     }
 
@@ -99,7 +99,7 @@ class SettingsController extends Controller
 
             return redirect()
                 ->route('settings.edit')
-                ->with('success', __('app.settings_reset'));
+                ->with('success', __('Settings has been reset.'));
         }
 
         // Validate
@@ -119,7 +119,7 @@ class SettingsController extends Controller
 
         return redirect()
             ->route('settings.edit')
-            ->with('success', __('app.settings_updated'));
+            ->with('success', __('Settings have been updated.'));
     }
 
     private static function updateFieldValue(SettingsField $field, Request $request, string $key)

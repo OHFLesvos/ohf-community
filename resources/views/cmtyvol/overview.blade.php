@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', __('app.community_volunteers'))
+@section('title', __('Community Volunteers'))
 
 @section('content')
     <div id="cmtyvol-app">
         <community-volunteers-overview-page>
-            @lang('app.loading')
+            @lang('Loading...')
         </community-volunteers-overview-page>
     </div>
 @endsection

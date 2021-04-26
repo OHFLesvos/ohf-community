@@ -17,10 +17,10 @@ trait ExportableActions
     private static function getFormats()
     {
         return [
-            'xlsx' => __('app.excel_xls'),
-            'csv' => __('app.comma_separated_values_csv'),
-            'tsv' => __('app.tab_separated_values_tsv'),
-            'pdf' => __('app.pdf_pdf'),
+            'xlsx' => __('Excel (.xsls)'),
+            'csv' => __('Comma-separated values (.csv)'),
+            'tsv' => __('Tab-separated values (.tsv)'),
+            'pdf' => __('PDF (.pdf)'),
         ];
     }
 

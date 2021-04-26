@@ -1,12 +1,12 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.knowledge_base'))
+@section('title', __('Knowledge Base'))
 
 @section('content')
 
     {!! Form::open(['route' => ['kb.index'], 'method' => 'get']) !!}
         <div class="input-group mb-3">
-            {{ Form::search('search', isset($search) ? $search : null, [ 'class' => 'form-control'.(isset($search) && $article_results->isEmpty() ? ' focus-tail' : ''), 'placeholder' => __('app.search') . '...' ]) }}
+            {{ Form::search('search', isset($search) ? $search : null, [ 'class' => 'form-control'.(isset($search) && $article_results->isEmpty() ? ' focus-tail' : ''), 'placeholder' => __('Search') . '...' ]) }}
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit"><x-icon icon="search"/></button>
                 @if(isset($search))
@@ -19,7 +19,7 @@
     @if (isset($search))
         @if(! $article_results->isEmpty())
 
-            <p><small>@lang('app.found_num_articles_containing_word', ['num' => $article_results->total(), 'word' => $search ])</small></p>
+            <p><small>@lang('Found :num articles containing <em>:word</em>.', ['num' => $article_results->total(), 'word' => $search ])</small></p>
             <div class="columns-3 mb-3">
                 @foreach ($article_results as $article)
                     <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a><br>
@@ -29,7 +29,7 @@
 
         @else
             <x-alert type="info">
-                @lang('app.no_articles_found')
+                @lang('No articles found.')
             </x-alert>
         @endif
     @else
@@ -42,8 +42,8 @@
                 @unless($popular_articles->isEmpty())
                     <div class="card shadow-sm mb-4">
                         <div class="card-header">
-                            @lang('app.popular_articles')
-                            <a href="{{ route('kb.articles.index', ['order' => 'popularity']) }}" class="float-right">@lang('app.show_all')</a>
+                            @lang('Popular articles')
+                            <a href="{{ route('kb.articles.index', ['order' => 'popularity']) }}" class="float-right">@lang('Show all')</a>
                         </div>
                         <div class="list-group list-group-flush">
                             @foreach($popular_articles as $article)
@@ -60,8 +60,8 @@
                 @unless($recent_articles->isEmpty())
                     <div class="card shadow-sm mb-4">
                         <div class="card-header">
-                            @lang('app.recenlty_update_articles')
-                            <a href="{{ route('kb.articles.index', ['order' => 'recent']) }}" class="float-right">@lang('app.show_all')</a>
+                            @lang('Recently updated articles')
+                            <a href="{{ route('kb.articles.index', ['order' => 'recent']) }}" class="float-right">@lang('Show all')</a>
                         </div>
                         <div class="list-group list-group-flush">
                             @foreach($recent_articles as $article)
@@ -83,8 +83,8 @@
                     @unless($featured_articles->isEmpty())
                         <div class="card shadow-sm mb-4">
                             <div class="card-header">
-                                @lang('app.featured_articles')
-                                <a href="{{ route('kb.articles.index') }}" class="float-right">@lang('app.show_all')</a>
+                                @lang('Featured articles')
+                                <a href="{{ route('kb.articles.index') }}" class="float-right">@lang('Show all')</a>
                             </div>
                             @unless($featured_articles->isEmpty())
                                 <div class="list-group list-group-flush">
@@ -96,7 +96,7 @@
                                 </div>
                             @else
                                 <div class="card-body p-3">
-                                    <em>@lang('app.no_articles_found')</em>
+                                    <em>@lang('No articles found.')</em>
                                 </div>
                             @endunless
                         </div>
@@ -105,14 +105,14 @@
                     {{-- Popular Tags --}}
                     <div class="card shadow-sm mb-4">
                         <div class="card-header">
-                            @lang('app.popular_tags')
-                            <a href="{{ route('kb.tags') }}" class="float-right">@lang('app.show_all')</a>
+                            @lang('Popular tags')
+                            <a href="{{ route('kb.tags') }}" class="float-right">@lang('Show all')</a>
                         </div>
                         <div class="card-body p-3">
                             @forelse($popular_tags as $tag)
                                 <a href="{{ route('kb.tag', $tag) }}">{{ $tag->name }}</a><small class="text-muted px-1">({{ $tag->wikiArticles()->count() }})</small>
                             @empty
-                                <em>@lang('app.no_tags_defined')</em>
+                                <em>@lang('No tags defined.')</em>
                             @endforelse
                         </div>
                     </div>

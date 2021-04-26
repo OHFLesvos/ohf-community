@@ -60,7 +60,7 @@ class ReportController extends Controller
     public function ageDistribution()
     {
         return (new ChartResponseBuilder())
-            ->dataset(__('app.persons'), collect(self::getAges()))
+            ->dataset(__('persons'), collect(self::getAges()))
             ->build();
     }
 

@@ -8,7 +8,7 @@ class HomeNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.dashboard');
+        return __('Dashboard');
     }
 
     protected $icon = 'home';

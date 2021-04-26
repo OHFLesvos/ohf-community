@@ -14,7 +14,7 @@ class RoleEditContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('roles.show', $role),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('view', $role),
             ],

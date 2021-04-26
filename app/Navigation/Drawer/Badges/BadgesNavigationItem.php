@@ -11,7 +11,7 @@ class BadgesNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.badges');
+        return __('Badges');
     }
 
     protected $icon = 'id-card';

@@ -13,7 +13,7 @@ class DonationsWithDonorSheet extends DonationsSheet
     {
         $headings = collect(parent::headings());
         $headings->splice(1, 0, [
-            __('app.donor'),
+            __('Donor'),
         ]);
         return $headings->toArray();
     }

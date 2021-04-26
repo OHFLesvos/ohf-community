@@ -12,7 +12,7 @@ class ReportingReturnToIndexContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('reports.index'),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('view-reports'),
             ],

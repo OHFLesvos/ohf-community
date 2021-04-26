@@ -36,7 +36,7 @@ class DonorTagsController extends Controller
 
         return TagResource::collection($donor->tagsSorted)
             ->additional([
-                'message' => __('app.tags_updated'),
+                'message' => __('Tags updated.'),
             ]);
     }
 }

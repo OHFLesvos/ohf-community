@@ -1,10 +1,10 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.knowledge_base'))
-@section('site-title', __('app.tags') . ' - ' . __('app.knowledge_base'))
+@section('title', __('Knowledge Base'))
+@section('site-title', __('Tags') . ' - ' . __('Knowledge Base'))
 
 @section('content')
-    <h1 class="display-4">@lang('app.tags')</h1>
+    <h1 class="display-4">@lang('Tags')</h1>
     @if(! $tags->isEmpty())
         <div class="mb-4">
             <div class="columns-3">
@@ -14,10 +14,10 @@
                 @endforeach
             </div>
         </div>
-        <p><small>@lang('app.found_num_tags', ['num' => $tags->count() ])</small></p>
+        <p><small>@lang('Found :num tags.', ['num' => $tags->count() ])</small></p>
     @else
         <x-alert type="info">
-            @lang('app.no_articles_found')
+            @lang('No articles found.')
         </x-alert>
     @endif
 

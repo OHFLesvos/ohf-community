@@ -1,9 +1,9 @@
 <template>
     <div>
         <bar-chart
-            :title="$t('app.age_distribution')"
-            :x-label="$t('app.age')"
-            :y-label="$t('app.quantity')"
+            :title="$t('Age distribution')"
+            :x-label="$t('Age')"
+            :y-label="$t('Quantity')"
             :data="api.ageDistribution"
             :height="350"
             class="mb-2">
@@ -11,7 +11,7 @@
         <div class="row mb-4">
             <div class="col-sm">
                 <doughnut-chart
-                    :title="$t('app.gender')"
+                    :title="$t('Gender')"
                     :data="api.genderDistribution"
                     hide-legend
                     :height="300"
@@ -20,7 +20,7 @@
             </div>
             <div class="col-sm">
                 <doughnut-chart
-                    :title="$t('app.nationalities')"
+                    :title="$t('Nationalities')"
                     :data="api.nationalityDistribution"
                     :height="300"
                     class="mb-2">

@@ -9,8 +9,8 @@
             :fields="fields"
             :api-method="fetchData"
             default-sort-by="first_name"
-            :empty-text="$t('app.no_community_volunteers_found')"
-            :filter-placeholder="$t('app.search')"
+            :empty-text="$t('No community volunteers found.')"
+            :filter-placeholder="$t('Search')"
             :items-per-page="itemsPerPage"
         >
             <template v-slot:cell(first_name)="data">
@@ -43,13 +43,13 @@
                         <font-awesome-icon :key="name + '-i'" icon="info-circle" />
                     </b-button>
                     <template v-if="attributes.start_date && attributes.end_date">
-                        ({{ $t('app.from_until_date', { 'from': attributes.start_date, 'until': attributes.end_date }) }})
+                        ({{ $t(':from - :until', { 'from': attributes.start_date, 'until': attributes.end_date }) }})
                     </template>
                     <template v-else-if="attributes.start_date">
-                        ({{ $t('app.from_date', { 'date': attributes.start_date }) }})
+                        ({{ $t('from :from', { 'date': attributes.start_date }) }})
                     </template>
                     <template v-else-if="attributes.end_date">
-                        ({{ $t('app.until_date', { 'date': attributes.end_date }) }})
+                        ({{ $t('until :until', { 'date': attributes.end_date }) }})
                     </template>
                     <br :key="name + '-b'" />
                 </template>
@@ -102,45 +102,45 @@ export default {
             fields: [
                 {
                     key: 'first_name',
-                    label: this.$t('app.first_name'),
+                    label: this.$t('First Name'),
                     sortable: true
                 },
                 {
                     key: 'family_name',
-                    label: this.$t('app.family_name'),
+                    label: this.$t('Family Name'),
                     sortable: true
                 },
                 {
                     key: 'nickname',
-                    label: this.$t('app.nickname')
+                    label: this.$t('Nickname')
                 },
                 {
                     key: 'nationality',
-                    label: this.$t('app.nationality'),
+                    label: this.$t('Nationality'),
                     sortable: true
                 },
                 {
                     key: 'gender',
-                    label: this.$t('app.gender'),
+                    label: this.$t('Gender'),
                     class: 'text-center fit'
                 },
                 {
                     key: 'age',
-                    label: this.$t('app.age'),
+                    label: this.$t('Age'),
                     sortable: true,
                     class: 'text-right fit'
                 },
                 {
                     key: 'responsibilities',
-                    label: this.$t('app.responsibilities')
+                    label: this.$t('Responsibilities')
                 },
                 {
                     key: 'languages',
-                    label: this.$t('app.languages')
+                    label: this.$t('Languages')
                 },
                 // {
                 //     key: 'created_at',
-                //     label: this.$t('app.registered'),
+                //     label: this.$t('Registered'),
                 //     class: 'd-none d-sm-table-cell fit',
                 //     sortable: true,
                 //     sortDirection: 'desc',

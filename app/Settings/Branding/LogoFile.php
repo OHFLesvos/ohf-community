@@ -18,7 +18,7 @@ class LogoFile extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.logo');
+        return __('Logo');
     }
 
     public function defaultValue()
@@ -48,7 +48,7 @@ class LogoFile extends BaseSettingsField
 
     public function formHelp(): ?string
     {
-        return __('app.image_will_be_visible_e_g_on_login_screen');
+        return __('The image will be visible e.g. on the login screen');
     }
 
     public function formFilePath(): ?string

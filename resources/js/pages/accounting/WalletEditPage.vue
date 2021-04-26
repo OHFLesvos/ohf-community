@@ -14,13 +14,13 @@
         <hr>
         <p class="text-right">
             <small>
-                {{ $t('app.last_updated') }}:
+                {{ $t('Last updated') }}:
                 {{ dateFormat(wallet.updated_at) }}
             </small>
         </p>
     </b-container>
     <p v-else>
-        {{ $t('app.loading') }}
+        {{ $t('Loading...') }}
     </p>
 </template>
 
@@ -65,7 +65,7 @@ export default {
             this.isBusy = true
             try {
                 await walletsApi.update(this.id, formData)
-                showSnackbar(this.$t('app.wallet_updated'))
+                showSnackbar(this.$t('Wallet updated.'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {
                 alert(err)
@@ -76,7 +76,7 @@ export default {
             this.isBusy = true
             try {
                 await walletsApi.delete(this.id)
-                showSnackbar(this.$t('app.wallet_deleted'))
+                showSnackbar(this.$t('Walled deleted.'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {
                 alert(err)

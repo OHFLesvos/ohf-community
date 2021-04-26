@@ -1,10 +1,10 @@
 <template>
     <div class="form-row">
         <div :class="[ noGranularity ? 'col-md' : 'col-md-8' ]">
-            <b-input-group :prepend="$t('app.date_range')" class="mb-2">
+            <b-input-group :prepend="$t('Date range')" class="mb-2">
                 <b-form-datepicker
                     v-model="from"
-                    :placeholder="$t('app.from')"
+                    :placeholder="$t('From')"
                     :min="min"
                     :max="to"
                     :date-format-options="{ 'year': 'numeric', 'month': 'short', 'day': 'numeric', 'weekday': 'short' }"
@@ -14,7 +14,7 @@
                 </div>
                 <b-form-datepicker
                     v-model="to"
-                    :placeholder="$t('app.to')"
+                    :placeholder="$t('To')"
                     :min="from"
                     :max="max"
                     :date-format-options="{ 'year': 'numeric', 'month': 'short', 'day': 'numeric', 'weekday': 'short' }"
@@ -25,7 +25,7 @@
             v-if="!noGranularity"
             class="col-md"
         >
-            <b-input-group :prepend="$t('app.granularity')" class="mb-2">
+            <b-input-group :prepend="$t('Granularity')" class="mb-2">
                 <b-form-select
                     v-model="granularity"
                     :options="granularities"
@@ -79,19 +79,19 @@ export default {
             granularities: [
                 {
                     value: 'days',
-                    text: ucFirst(this.$t('app.days'))
+                    text: ucFirst(this.$t('days'))
                 },
                 {
                     value: 'weeks',
-                    text: ucFirst(this.$t('app.weeks'))
+                    text: ucFirst(this.$t('Weeks'))
                 },
                 {
                     value: 'months',
-                    text: ucFirst(this.$t('app.months'))
+                    text: ucFirst(this.$t('Months'))
                 },
                 {
                     value: 'years',
-                    text: ucFirst(this.$t('app.years'))
+                    text: ucFirst(this.$t('Years'))
                 }
             ],
         }

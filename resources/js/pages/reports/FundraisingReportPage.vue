@@ -6,7 +6,7 @@
         />
 
         <h2>
-            {{ $t('app.donors') }}
+            {{ $t('Donors') }}
         </h2>
 
         <div class="row">
@@ -14,8 +14,8 @@
             <!-- General donor numbers -->
             <div class="col-md">
                 <simple-two-column-list-card
-                    :header="$t('app.registered_donors')"
-                    :headerAddon="$t('app.since_date', { date: firstDonorRegistration })"
+                    :header="$t('Registered donors')"
+                    :headerAddon="$t('since :date', { date: firstDonorRegistration })"
                     :items="count ? count : []"
                     :loading="!count"
                     :error="countError"
@@ -25,7 +25,7 @@
             <!-- Countries -->
             <div class="col-md">
                 <advanced-two-column-list-card
-                    :header="$t('app.countries')"
+                    :header="$t('Countries')"
                     :items="countries ? countries : []"
                     :limit="5"
                     :loading="!countries"
@@ -36,7 +36,7 @@
             <!-- Languages -->
             <div class="col-md">
                 <advanced-two-column-list-card
-                    :header="$t('app.languages')"
+                    :header="$t('Languages')"
                     :items="languages ? languages : []"
                     :limit="5"
                     :loading="!languages"
@@ -48,7 +48,7 @@
 
         <!-- Registrations over time chart -->
         <time-bar-chart
-            :title="$t('app.new_donors_registered')"
+            :title="$t('New Donors registered')"
             :data="reportApi.fetchDonorRegistrations"
             :date-from="dateRange.from"
             :date-to="dateRange.to"
@@ -57,11 +57,11 @@
         />
 
         <h2>
-            {{ $t('app.donations') }}
+            {{ $t('Donations') }}
         </h2>
 
         <time-bar-chart
-            :title="$t('app.donations_made')"
+            :title="$t('Donations made')"
             :data="reportApi.fetchDonationRegistrations"
             :date-from="dateRange.from"
             :date-to="dateRange.to"
@@ -70,7 +70,7 @@
         />
 
         <time-bar-chart
-            :title="$t('app.total_donations_made')"
+            :title="$t('Total donations made')"
             :data="reportApi.fetchDonationRegistrations"
             :date-from="dateRange.from"
             :date-to="dateRange.to"
@@ -82,13 +82,13 @@
         <b-row>
             <b-col md>
                 <doughnut-chart-table-distribution-widget
-                    :title="$t('app.currencies')"
+                    :title="$t('Currencies')"
                     :data="reportApi.fechCurrencyDistribution"
                 />
             </b-col>
             <b-col md>
                 <doughnut-chart-table-distribution-widget
-                    :title="$t('app.channels')"
+                    :title="$t('Channels')"
                     :data="reportApi.fetchChannelDistribution"
                 />
             </b-col>
@@ -158,27 +158,27 @@ export default {
             this.firstDonorRegistration = moment(data.first).format('LL')
             return [
                 {
-                    name: this.$t('app.total'),
+                    name: this.$t('Total'),
                     value: data.total
                 },
                 {
-                    name: this.$t('app.individual_persons'),
+                    name: this.$t('Individual persons'),
                     value: data.persons
                 },
                 {
-                    name: this.$t('app.companies'),
+                    name: this.$t('Companies'),
                     value: data.companies
                 },
                 {
-                    name: this.$t('app.with_registered_address'),
+                    name: this.$t('with registered address'),
                     value: data.with_address
                 },
                 {
-                    name: this.$t('app.with_registered_email'),
+                    name: this.$t('with registered email address'),
                     value: data.with_email
                 },
                 {
-                    name: this.$t('app.with_registered_phone'),
+                    name: this.$t('with registered phone number'),
                     value: data.with_phone
                 }
             ]

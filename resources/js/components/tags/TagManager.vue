@@ -11,7 +11,7 @@
                 icon="spinner"
                 spin
             />
-            {{ $t('app.loading') }}
+            {{ $t('Loading...') }}
         </span>
         <tag-editor
             v-else-if="editor"

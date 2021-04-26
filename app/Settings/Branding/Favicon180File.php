@@ -11,11 +11,11 @@ class Favicon180File extends FaviconFile
 
     public function label(): string
     {
-        return __('app.favicon_180');
+        return __('Favicon (180 x 180 pixel)');
     }
 
     public function formHelp(): ?string
     {
-        return __('app.favicon_180_explanation');
+        return __('Favicon for iPhone Retina');
     }
 }

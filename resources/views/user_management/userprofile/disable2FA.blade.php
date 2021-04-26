@@ -1,13 +1,13 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.tfa_authentication'))
+@section('title', __('Two-Factor Authentication'))
 
 @section('content')
     {!! Form::open(['route' => ['userprofile.disable2FA'], 'method' => 'delete']) !!}
-        <p>@lang('app.tfa_enter_code')</p>
+        <p>@lang('Enter the code from your authenticator app into the field below.')</p>
         {{  Form::bsNumber('code', null, [ 'required', 'autofocus' ], '') }}
         <p>
-            <x-form.bs-submit-button :label="__('app.disable')" icon="times"/>
+            <x-form.bs-submit-button :label="__('Disable')" icon="times"/>
         </p>
     {!! Form::close() !!}
 @endsection

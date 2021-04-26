@@ -1,13 +1,14 @@
 @component('mail::message')
-# @lang('app.registration_confirmation')
+# @lang('Registration confirmation')
 
-@lang('app.dear_name', [ 'name' => $user->name ])
+@lang('Dear :name.', [ 'name' => $user->name ])
 
-@lang('app.thanks_for_registering_account_with_mail', [ 'app_name' => config('app.name'), 'email' => $user->email ])
+@lang('Thanks for registering an account at :app_name with your e-mail address :email.', [ 'app_name' => config('app.name'), 'email' => $user->email ])
 
 @component('mail::button', ['url' => route('userprofile')])
-@lang('app.view_your_profile')
+@lang('View your profile')
 @endcomponent
 
-@lang('app.thanks_name', [ 'name' => config('app.name') ])
+@lang('Thanks, <br>
+:name', [ 'name' => config('app.name') ])
 @endcomponent

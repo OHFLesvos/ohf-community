@@ -15,27 +15,27 @@ class RoleShowContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('roles.edit', $role),
-                'caption' => __('app.edit'),
+                'caption' => __('Edit'),
                 'icon' => 'edit',
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $role),
             ],
             'members' => [
                 'url' => route('roles.manageMembers', $role),
-                'caption' => __('app.manage_members'),
+                'caption' => __('Manage members'),
                 'icon' => 'users',
                 'authorized' => Auth::user()->can('manageMembers', $role) && ! Auth::user()->can('update', $role),
             ],
             'delete' => [
                 'url' => route('roles.destroy', $role),
-                'caption' => __('app.delete'),
+                'caption' => __('Delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $role),
-                'confirmation' => __('app.confirm_delete_role'),
+                'confirmation' => __('Really delete this role?'),
             ],
             'back' => [
                 'url' => route('roles.index'),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', Role::class),
             ],

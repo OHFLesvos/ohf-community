@@ -49,7 +49,7 @@ class LoginController extends Controller
     public function redirectPath()
     {
         // Do your logic to flash data to session...
-        session()->flash('login_message', __('app.login_message', [
+        session()->flash('login_message', __('Hello :name!', [
             'name' => Auth::user()->name,
         ]));
 
@@ -111,7 +111,7 @@ class LoginController extends Controller
                 ->after(function ($validator) use ($user, $request) {
                     $otp = TOTP::create($user->tfa_secret);
                     if (! $otp->verify($request->code)) {
-                        $validator->errors()->add('code', __('app.invalid_code_please_repeat'));
+                        $validator->errors()->add('code', __('Invalid code, please repeat.'));
                     }
                 });
             if ($validator->fails()) {
@@ -186,7 +186,7 @@ class LoginController extends Controller
 
             auth()->login($newUser, true);
 
-            session()->flash('login_message', __('app.registration_message', [
+            session()->flash('login_message', __('Hello :name. Thanks for registering with :app_name. Your account has been created, and the administrator has been informed, in order to grand you the appropriate permissions.', [
                 'name' => Auth::user()->name,
                 'app_name' => config('app.name'),
             ]));

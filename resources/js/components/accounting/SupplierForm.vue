@@ -11,13 +11,13 @@
                 <!-- Name -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.name')"
+                        :name="$t('Name')"
                         vid="name"
                         :rules="{ required: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.name')"
+                            :label="$t('Name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -33,13 +33,13 @@
                 <!-- Category -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.category')"
+                        :name="$t('Category')"
                         vid="category"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.category')"
+                            :label="$t('Category')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -59,13 +59,13 @@
                 <!-- Address -->
                 <b-col md="10">
                     <validation-provider
-                        :name="$t('app.address')"
+                        :name="$t('Address')"
                         vid="address"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.address')"
+                            :label="$t('Address')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -81,13 +81,13 @@
                 <!-- Place ID -->
                 <b-col md="2">
                     <validation-provider
-                        :name="$t('app.place_id')"
+                        :name="$t('Place ID')"
                         vid="place_id"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.place_id')"
+                            :label="$t('Place ID')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -107,13 +107,13 @@
                 <!-- Phone -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.phone')"
+                        :name="$t('Phone')"
                         vid="phone"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.phone')"
+                            :label="$t('Phone')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -129,13 +129,13 @@
                 <!-- Mobile -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.mobile')"
+                        :name="$t('Mobile')"
                         vid="mobile"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.mobile')"
+                            :label="$t('Mobile')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -155,13 +155,13 @@
                 <!-- E-Mail -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.email')"
+                        :name="$t('E-Mail Address')"
                         vid="email"
                         :rules="{ email: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.email')"
+                            :label="$t('E-Mail Address')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -178,13 +178,13 @@
                 <!-- Website -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.website')"
+                        :name="$t('Website')"
                         vid="website"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.website')"
+                            :label="$t('Website')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -204,13 +204,13 @@
                 <!-- Tax number -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.tax_number')"
+                        :name="$t('Tax number')"
                         vid="tax_number"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.tax_number')"
+                            :label="$t('Tax number')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -226,13 +226,13 @@
                 <!-- Tax office -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.tax_office')"
+                        :name="$t('Tax office')"
                         vid="tax_office"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.tax_office')"
+                            :label="$t('Tax office')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -252,13 +252,13 @@
                 <!-- Bank -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.bank')"
+                        :name="$t('Bank')"
                         vid="bank"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.bank')"
+                            :label="$t('Bank')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -274,13 +274,13 @@
                 <!-- IBAN -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.iban')"
+                        :name="$t('IBAN')"
                         vid="iban"
                         :rules="{ iban: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.iban')"
+                            :label="$t('IBAN')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -300,13 +300,13 @@
                 <!-- Remarks -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.remarks')"
+                        :name="$t('Remarks')"
                         vid="remarks"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.remarks')"
+                            :label="$t('Remarks')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -330,7 +330,7 @@
                         :disabled="disabled"
                     >
                         <font-awesome-icon icon="check" />
-                        {{ supplier ? $t('app.update') : $t('app.add') }}
+                        {{ supplier ? $t('Update') : $t('Add') }}
                     </b-button>
 
                     <!-- Cancel -->
@@ -339,7 +339,7 @@
                         :disabled="disabled"
                         @click="$emit('cancel')"
                     >
-                        {{ $t('app.cancel') }}
+                        {{ $t('Cancel') }}
                     </b-button>
                 </span>
 
@@ -351,7 +351,7 @@
                     class="text-danger"
                     @click="onDelete"
                 >
-                    {{ $t('app.delete') }}
+                    {{ $t('Delete') }}
                 </b-button>
 
             </p>
@@ -409,7 +409,7 @@ export default {
             this.$emit('submit', this.form)
         },
         onDelete () {
-            if (confirm(this.$t('app.confirm_delete_supplier'))) {
+            if (confirm(this.$t('Should this supplier really be deleted?'))) {
                 this.$emit('delete')
             }
         }

@@ -42,7 +42,7 @@ class UserRoleRelationshipApiTest extends TestCase
 
     public function testIndexWithNonExistingUser()
     {
-        Config::set('app.debug', false);
+        Config::set('Debug', false);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -176,7 +176,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
-                'message' => __('app.role_added'),
+                'message' => __('Role has been added.'),
             ]);
 
         $this->assertDatabaseHas('role_user', [
@@ -203,7 +203,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
-                'message' => __('app.role_added'),
+                'message' => __('Role has been added.'),
             ]);
 
         // TODO find a way to check that only one single record exists
@@ -293,7 +293,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.role_updated'),
+                'message' => __('Role has been updated.'),
             ]);
 
         $this->assertDatabaseMissing('role_user', [
@@ -327,7 +327,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.role_updated'),
+                'message' => __('Role has been updated.'),
             ]);
 
         $this->assertDatabaseMissing('role_user', [
@@ -414,7 +414,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.role_removed'),
+                'message' => __('Role has been removed.'),
             ]);
 
         $this->assertDatabaseMissing('role_user', [
@@ -441,7 +441,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.role_removed'),
+                'message' => __('Role has been removed.'),
             ]);
 
         $this->assertDatabaseMissing('role_user', [

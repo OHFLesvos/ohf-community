@@ -177,7 +177,7 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)
-            ->with('success', __('app.registered_community_volunteer'));
+            ->with('success', __('Community volunteer registered.'));
     }
 
     private static function isRequiredField($f)
@@ -338,7 +338,7 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)
-            ->with('success', __('app.updated_community_volunteer'));
+            ->with('success', __('Community volunteer updated.'));
     }
 
     public function destroy(CommunityVolunteer $cmtyvol)
@@ -349,7 +349,7 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.index')
-            ->with('success', __('app.deleted_community_volunteer'));
+            ->with('success', __('Community volunteer deleted.'));
     }
 
     private static function getFieldValue($field, $cmtyvol, $with_html = true)
@@ -446,6 +446,6 @@ class ListController extends BaseController
 
         return redirect()
             ->route('cmtyvol.show', $cmtyvol)
-            ->with('success', __('app.updated_community_volunteer'));
+            ->with('success', __('Community volunteer updated.'));
     }
 }

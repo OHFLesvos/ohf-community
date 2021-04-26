@@ -318,7 +318,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
-                'message' => __('app.user_added'),
+                'message' => __('User has been added.'),
             ])
             ->assertLocation(route('api.users.show', 1));
 
@@ -350,7 +350,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
-                'message' => __('app.user_added'),
+                'message' => __('User has been added.'),
             ])
             ->assertLocation(route('api.users.show', 1));
 
@@ -366,7 +366,7 @@ class UserApiTest extends TestCase
 
     public function testShowNonExisting()
     {
-        Config::set('app.debug', false);
+        Config::set('Debug', false);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -483,7 +483,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.user_updated'),
+                'message' => __('User has been updated.'),
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -511,7 +511,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.user_updated'),
+                'message' => __('User has been updated.'),
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -540,7 +540,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.user_updated'),
+                'message' => __('User has been updated.'),
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -573,7 +573,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.user_updated'),
+                'message' => __('User has been updated.'),
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -612,7 +612,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.user_deleted'),
+                'message' => __('User has been deleted.'),
             ]);
 
         $this->assertDeleted('users', [
@@ -649,7 +649,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.user_deleted'),
+                'message' => __('User has been deleted.'),
             ]);
 
         $this->assertDeleted('users', [

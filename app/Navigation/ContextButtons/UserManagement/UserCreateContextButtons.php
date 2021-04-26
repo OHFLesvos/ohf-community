@@ -14,7 +14,7 @@ class UserCreateContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('users.index'),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', User::class),
             ],

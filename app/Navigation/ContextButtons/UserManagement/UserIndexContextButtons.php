@@ -15,14 +15,14 @@ class UserIndexContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('users.create'),
-                'caption' => __('app.add'),
+                'caption' => __('Add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', User::class),
             ],
             'permissions' => [
                 'url' => route('users.permissions'),
-                'caption' => __('app.permissions'),
+                'caption' => __('Permissions'),
                 'icon' => 'key',
                 'authorized' => Auth::user()->can('viewAny', User::class),
             ],

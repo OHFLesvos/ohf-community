@@ -1,9 +1,9 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.settings'))
+@section('title', __('Settings'))
 
 @section('content')
     <x-alert type="info">
-        @lang('app.no_content_available_to_you')
+        @lang('There is currently no content available for you here.')
     </x-alert>
 @endsection

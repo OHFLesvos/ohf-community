@@ -15,14 +15,14 @@ class ResponsibilitiesEditContextButtons implements ContextButtons
         return [
             'delete' => [
                 'url' => route('cmtyvol.responsibilities.destroy', $responsibility),
-                'caption' => __('app.delete'),
+                'caption' => __('Delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $responsibility),
-                'confirmation' => __('app.confirm_delete_responsibility'),
+                'confirmation' => __('Really delete this responsibility?'),
             ],
             'back' => [
                 'url' => route('cmtyvol.responsibilities.index'),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', Responsibility::class),
             ],

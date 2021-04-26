@@ -3,7 +3,7 @@
         <b-row align-v="center">
             <b-col>
                 <font-awesome-icon icon="times-circle" />
-                {{ $t('app.error_err', { err: value }) }}
+                {{ $t('Error: :err', { err: value }) }}
             </b-col>
             <b-col sm="auto">
                 <b-button
@@ -13,7 +13,7 @@
                     class="float-right"
                 >
                     <font-awesome-icon icon="redo" />
-                    {{ $t('app.retry') }}
+                    {{ $t('Retry') }}
                 </b-button>
             </b-col>
         </b-row>

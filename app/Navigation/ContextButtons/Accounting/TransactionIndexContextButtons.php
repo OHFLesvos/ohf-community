@@ -16,26 +16,26 @@ class TransactionIndexContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('accounting.transactions.create', $wallet),
-                'caption' => __('app.add'),
+                'caption' => __('Add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', MoneyTransaction::class),
             ],
             'summary' => [
                 'url' => route('accounting.transactions.summary', $wallet),
-                'caption' => __('app.summary'),
+                'caption' => __('Summary'),
                 'icon' => 'calculator',
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],
             'export' => [
                 'url' => route('accounting.transactions.export', $wallet),
-                'caption' => __('app.export'),
+                'caption' => __('Export'),
                 'icon' => 'download',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
             ],
             'webling' => [
                 'url' => route('accounting.webling.index', $wallet),
-                'caption' => __('app.webling'),
+                'caption' => __('Webling'),
                 'icon' => 'cloud-upload-alt',
                 'authorized' => Auth::user()->can('book-accounting-transactions-externally')
                     && config('services.webling.api_url') !== null

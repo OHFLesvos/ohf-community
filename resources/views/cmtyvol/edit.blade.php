@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.edit_community_volunteer'))
+@section('title', __('Edit community volunteer'))
 
 @section('content')
     {!! Form::model($cmtyvol, ['route' => ['cmtyvol.update', $cmtyvol], 'method' => 'put', 'files' => true]) !!}
@@ -13,7 +13,7 @@
             </div>
         @endforeach
         <p class="text-right">
-            <x-form.bs-submit-button :label="__('app.update')"/>
+            <x-form.bs-submit-button :label="__('Update')"/>
         </p>
     {!! Form::close() !!}
 @endsection

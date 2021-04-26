@@ -5,7 +5,7 @@
                 v-model.trim="content"
                 rows="3"
                 max-rows="6"
-                :placeholder="$t('app.add_comment')"
+                :placeholder="$t('Add comment')"
                 :disabled="disabled"
                 autofocus
             ></b-form-textarea>
@@ -17,7 +17,7 @@
                 :disabled="disabled || content.length == 0"
             >
                 <font-awesome-icon icon="check" />
-                {{ $t('app.save') }}
+                {{ $t('Save') }}
             </b-button>
             <b-button
                 type="button"
@@ -26,7 +26,7 @@
                 @click="cancel()"
             >
                 <font-awesome-icon icon="times" />
-                {{ $t('app.cancel') }}
+                {{ $t('Cancel') }}
             </b-button>
         </p>
     </form>

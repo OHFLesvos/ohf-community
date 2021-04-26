@@ -14,14 +14,14 @@ class IndexContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('kb.articles.create'),
-                'caption' => __('app.add'),
+                'caption' => __('Add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', WikiArticle::class),
             ],
             'latestChanges' => [
                 'url' => route('kb.latestChanges'),
-                'caption' => __('app.latest_changes'),
+                'caption' => __('Latest changes'),
                 'icon' => 'history',
                 'authorized' => Auth::user()->can('viewAny', WikiArticle::class),
             ],

@@ -1,6 +1,6 @@
 @extends('layouts.login')
 
-@section('title', __('app.reset_password'))
+@section('title', __('Reset password'))
 
 @section('content')
 
@@ -10,12 +10,12 @@
         </x-alert>
     @endif
 
-    <p>@lang('app.reset_password_instructions')</p>
+    <p>@lang('Please enter your e-mail address. We will send you a link which allows you to reset your password.')</p>
 
     {{ Form::open(['route' => 'password.email']) }}
 
         <div class="form-group">
-            {{ Form::label('email', __('app.email')) }}
+            {{ Form::label('email', __('E-Mail Address')) }}
             {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
@@ -24,11 +24,11 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            @lang('app.send_reset_password_link')
+            @lang('Send password reset link')
         </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('login') }}">@lang('app.return_to_login')</a>
+            <a href="{{ route('login') }}">@lang('Return to login')</a>
         </div>
 
     {{ Form::close() }}

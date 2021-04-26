@@ -1,22 +1,22 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.badges'))
+@section('title', __('Badges'))
 
 @section('content')
     {!! Form::open(['route' => [ 'badges.make' ], 'method' => 'post', 'files' => true]) !!}
         <div class="card shadow-sm mb-4">
-            <div class="card-header">@lang('app.options')</div>
+            <div class="card-header">@lang('Options')</div>
             <div class="card-body pb-2">
                 <p>Select entries (<a href="javascript:;" id="select_all">all</a> / <a href="javascript:;" id="select_none">none</a>):</p>
                 <div class="mb-3">
                     {{ Form::bsCheckboxList('persons[]', $persons, collect($persons)->keys()->toArray()) }}
                 </div>
                 <div class="mb-3 mt-4">
-                    {{ Form::bsFile('alt_logo', [ 'accept' => 'image/*' ], __('app.choose_alternative_logo'), 'Optional: Upload an alternative logo file.') }}
+                    {{ Form::bsFile('alt_logo', [ 'accept' => 'image/*' ], __('Choose alternative logo'), 'Optional: Upload an alternative logo file.') }}
                 </div>
             </div>
             <div class="card-footer text-right">
-                <x-form.bs-submit-button :label="__('app.create')"/>
+                <x-form.bs-submit-button :label="__('Create')"/>
             </div>
         </div>
     {!! Form::close() !!}

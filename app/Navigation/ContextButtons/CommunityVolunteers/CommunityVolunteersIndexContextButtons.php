@@ -15,20 +15,20 @@ class CommunityVolunteersIndexContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('cmtyvol.create'),
-                'caption' => __('app.register'),
+                'caption' => __('Register'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', CommunityVolunteer::class),
             ],
             'import-export' => [
                 'url' => route('cmtyvol.import-export'),
-                'caption' => __('app.import_export'),
+                'caption' => __('Import & Export'),
                 'icon' => 'sync',
                 'authorized' => Auth::user()->can('import', CommunityVolunteer::class) || Auth::user()->can('export', CommunityVolunteer::class),
             ],
             'responsibilities' => [
                 'url' => route('cmtyvol.responsibilities.index'),
-                'caption' => __('app.responsibilities'),
+                'caption' => __('Responsibilities'),
                 'icon' => 'tasks',
                 'authorized' => Auth::user()->can('viewAny', Responsibility::class),
             ],

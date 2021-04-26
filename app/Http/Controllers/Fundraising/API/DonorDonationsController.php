@@ -77,7 +77,7 @@ class DonorDonationsController extends Controller
                 } catch (Exception $e) {
                     Log::error($e);
                     return response()->json([
-                        'message' =>  __('app.an_error_happened'). ': ' . $e->getMessage(),
+                        'message' =>  __('An error happened'). ': ' . $e->getMessage(),
                     ], Response::HTTP_SERVICE_UNAVAILABLE);
                 }
             }
@@ -98,7 +98,7 @@ class DonorDonationsController extends Controller
         $donor->addDonation($donation);
 
         return response()->json([
-            'message' => __('app.donation_registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]),
+            'message' => __('Donation of :currency :amount has been registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]),
         ]);
     }
 
@@ -117,7 +117,7 @@ class DonorDonationsController extends Controller
         $file_name = sprintf(
             '%s - %s - %s (%s).%s',
             config('app.name'),
-            __('app.donations'),
+            __('Donations'),
             $donor->full_name,
             Carbon::now()->toDateString(),
             $extension

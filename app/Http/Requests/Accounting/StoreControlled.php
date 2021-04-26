@@ -39,11 +39,11 @@ class StoreControlled extends FormRequest
     {
         $validator->after(function ($validator) {
             if ($this->transaction->controlled_at !== null) {
-                $validator->errors()->add('controlled_at', __('app.already_controlled'));
+                $validator->errors()->add('controlled_at', __('Bereits kontrolliert.'));
             }
             $audit = $this->transaction->audits()->first();
             if (isset($audit) && $audit->getMetadata()['user_id'] == Auth::user()->id) {
-                $validator->errors()->add('controlled_at', __('app.controlling_by_user_who_created_not_allowed'));
+                $validator->errors()->add('controlled_at', __('Der Benutzer welche eine Transaktion registriert hat ist nicht ermächtigt sie auch als kontrolliert zu markieren.'));
             }
         });
     }

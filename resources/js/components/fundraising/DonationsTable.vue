@@ -5,8 +5,8 @@
         :api-method="list"
         default-sort-by="created_at"
         default-sort-desc
-        :empty-text="$t('app.no_donations_found')"
-        :filter-placeholder="$t('app.search_ellipsis')"
+        :empty-text="$t('No donations found.')"
+        :filter-placeholder="$t('Search...')"
         :items-per-page="100"
     >
         <!-- Date / Link to edit -->
@@ -58,49 +58,49 @@ export default {
             fields: [
                 {
                     key: 'date',
-                    label: this.$t('app.date'),
+                    label: this.$t('Date'),
                     class: 'fit',
                     sortable: true,
                     sortDirection: 'desc'
                 },
                 {
                     key: 'exchange_amount',
-                    label: this.$t('app.amount'),
+                    label: this.$t('Amount'),
                     class: 'text-right fit',
                     sortable: true,
                     sortDirection: 'desc'
                 },
                 {
                     key: 'donor',
-                    label: this.$t('app.donor'),
+                    label: this.$t('Donor'),
                     sortable: false
                 },
                 {
                     key: 'channel',
-                    label: this.$t('app.channel'),
+                    label: this.$t('Channel'),
                     class: 'd-none d-sm-table-cell',
                     sortable: false
                 },
                 {
                     key: 'purpose',
-                    label: this.$t('app.purpose'),
+                    label: this.$t('Purpose'),
                     sortable: false
                 },
                 {
                     key: 'reference',
-                    label: this.$t('app.reference'),
+                    label: this.$t('Reference'),
                     class: 'd-none d-sm-table-cell',
                     sortable: false
                 },
                 {
                     key: 'in_name_of',
-                    label: this.$t('app.in_name_of'),
+                    label: this.$t('In the name of'),
                     class: 'd-none d-sm-table-cell',
                     sortable: true
                 },
                 {
                     key: 'created_at',
-                    label: this.$t('app.registered'),
+                    label: this.$t('Registered'),
                     class: 'd-none d-sm-table-cell fit',
                     sortable: true,
                     formatter: value => {
@@ -109,7 +109,7 @@ export default {
                 },
                 {
                     key: 'thanked',
-                    label: this.$t('app.thanked'),
+                    label: this.$t('Thanked'),
                     class: 'fit',
                     sortable: false
                 }

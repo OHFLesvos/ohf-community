@@ -269,7 +269,7 @@ if (! function_exists('slice_data_others')) {
         $other = $source_collection->slice($limit)
             ->reduce(fn ($carry, $item) => $carry + $item);
         if ($other > 0) {
-            $data[__('app.others')] = $other;
+            $data[__('Others')] = $other;
         }
         return $data;
     }
@@ -279,10 +279,10 @@ if (! function_exists('gender_label')) {
     function gender_label(string $value): string
     {
         if ($value == 'm') {
-            return __('app.male');
+            return __('Male');
         }
         if ($value == 'f') {
-            return __('app.female');
+            return __('Female');
         }
         return $value;
     }

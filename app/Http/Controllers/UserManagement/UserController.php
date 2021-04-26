@@ -81,7 +81,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', __('app.user_added'));
+            ->with('success', __('User has been added.'));
     }
 
     /**
@@ -144,7 +144,7 @@ class UserController extends Controller
         $user->save();
         return redirect()
             ->route('users.show', $user)
-            ->with('success', __('app.user_updated'));
+            ->with('success', __('User has been updated.'));
     }
 
     /**
@@ -159,7 +159,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', __('app.user_deleted'));
+            ->with('success', __('User has been deleted.'));
     }
 
     /**
@@ -189,7 +189,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.show', $user)
-            ->with('success', __('app.tfa_disabled'));
+            ->with('success', __('Two-Factor Authentication disabled'));
     }
 
     /**
@@ -211,7 +211,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.show', $user)
-            ->with('success', __('app.oauth_disabled_new_password_has_been_set'));
+            ->with('success', __('OAuth-Login disabled. A new random password has been set.'));
     }
 
     /**

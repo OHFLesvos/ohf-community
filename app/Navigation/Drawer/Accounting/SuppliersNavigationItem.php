@@ -16,7 +16,7 @@ class SuppliersNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.suppliers');
+        return __('Suppliers');
     }
 
     protected $icon = 'truck';

@@ -16,13 +16,13 @@ class TransactionSummaryContextButtons implements ContextButtons
         return [
             'globalSummary' => [
                 'url' => route('accounting.transactions.globalSummary'),
-                'caption' => __('app.global_summary'),
+                'caption' => __('All wallets'),
                 'icon' => 'globe',
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],
             'back' => [
                 'url' => route('accounting.transactions.index', $wallet),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
             ],

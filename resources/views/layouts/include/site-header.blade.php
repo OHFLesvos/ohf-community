@@ -98,19 +98,19 @@
                     <li>
                         <a href="{{ route('userprofile') }}" class="btn btn-dark btn-block rounded-0">
                             <x-icon icon="user" class="mr-1"/>
-                            @lang('app.profile')
+                            @lang('Profile')
                         </a>
                     </li>
                     <li>
                         <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block rounded-0">
                             <x-icon icon="sign-out-alt" class="mr-1"/>
-                            @lang('app.logout')
+                            @lang('Logout')
                         </a>
                     </li>
                 </ul>
             </div>
         @else
-            <a href="{{ route('login') }}" class="btn btn-secondary d-none d-md-inline-block"><x-icon icon="sign-in-alt"/> @lang('app.login')</a>
+            <a href="{{ route('login') }}" class="btn btn-secondary d-none d-md-inline-block"><x-icon icon="sign-in-alt"/> @lang('Login')</a>
             <a href="{{ route('login') }}" class="btn text-light d-md-none"><x-icon icon="sign-in-alt"/></a>
         @endauth
 

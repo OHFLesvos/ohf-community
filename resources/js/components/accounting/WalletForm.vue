@@ -11,13 +11,13 @@
                 <!-- Name -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('app.name')"
+                        :name="$t('Name')"
                         vid="name"
                         :rules="{ required: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.name')"
+                            :label="$t('Name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -36,19 +36,19 @@
                 <b-form-checkbox
                     v-model="form.is_default"
                 >
-                    {{ $t('app.default') }}
+                    {{ $t('Default') }}
                 </b-form-checkbox>
             </p>
 
             <b-card
-                :header="$t('app.roles_with_access')"
+                :header="$t('User roles with access (Whitelist)')"
                 class="mb-4"
                 body-class="pb-0"
             >
-                <p><em>{{ $t('app.specifying_no_role_will_allow_access_by_any') }}</em></p>
+                <p><em>{{ $t('Specifying no role will allow access by all roles.') }}</em></p>
                 <b-form-group
                     v-if="roles.length > 0"
-                    :label="$t('app.roles')"
+                    :label="$t('Roles')"
                 >
                     <b-form-checkbox-group
                         v-model="form.roles"
@@ -57,7 +57,7 @@
                     />
                 </b-form-group>
                 <template v-else>
-                    <p><em>{{ $t('app.no_roles_defined') }}</em></p>
+                    <p><em>{{ $t('No roles defined.') }}</em></p>
                 </template>
             </b-card>
 
@@ -70,7 +70,7 @@
                         :disabled="disabled"
                     >
                         <font-awesome-icon icon="check" />
-                        {{ wallet ? $t('app.update') : $t('app.add') }}
+                        {{ wallet ? $t('Update') : $t('Add') }}
                     </b-button>
 
                     <!-- Cancel -->
@@ -79,7 +79,7 @@
                         :disabled="disabled"
                         @click="$emit('cancel')"
                     >
-                        {{ $t('app.cancel') }}
+                        {{ $t('Cancel') }}
                     </b-button>
                 </span>
 
@@ -91,7 +91,7 @@
                     class="text-danger"
                     @click="onDelete"
                 >
-                    {{ $t('app.delete') }}
+                    {{ $t('Delete') }}
                 </b-button>
 
             </p>
@@ -134,7 +134,7 @@ export default {
             this.$emit('submit', this.form)
         },
         onDelete () {
-            if (confirm(this.$t('app.confirm_delete_wallet'))) {
+            if (confirm(this.$t('Really delete this wallet?'))) {
                 this.$emit('delete')
             }
         },

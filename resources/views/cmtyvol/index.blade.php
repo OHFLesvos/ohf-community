@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.community_volunteers'))
+@section('title', __('Community Volunteers'))
 
 @section('content')
     <div class="row">
@@ -45,7 +45,7 @@
                     @if($data[$loop->index]->count() > 0)
                         <tr class="table-light">
                             <th colspan="{{ $fields->count() }}">
-                                {{ $group ?? __('app.unspecified') }}
+                                {{ $group ?? __('Unspecified') }}
                                 <small>({{ $data[$loop->index]->count() }})</small>
                             </th>
                         </tr>
@@ -69,10 +69,10 @@
         @elseif($selected_display == 'grid')
             @include('cmtyvol.include.grid')
         @endif
-        <p><small>@lang('app.n_results_found', [ 'num' => $data->count() ])</small></p>
+        <p><small>@lang(':num results found', [ 'num' => $data->count() ])</small></p>
     @else
         <x-alert type="info">
-            @lang('app.no_community_volunteers_found')
+            @lang('No community volunteers found.')
         </x-alert>
     @endif
 @endsection

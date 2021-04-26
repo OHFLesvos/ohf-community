@@ -5,9 +5,9 @@
         :fields="fields"
         :api-method="fetchData"
         default-sort-by="name"
-        :empty-text="$t('app.no_data_registered')"
+        :empty-text="$t('No data registered.')"
         :items-per-page="25"
-        :filter-placeholder="$t('app.type_to_search_fields', { fields: [ $t('app.name').toLowerCase(), $t('app.category').toLowerCase(), $t('app.phone').toLowerCase(), $t('app.tax_number').toLowerCase(), $t('app.iban'), $t('app.remarks').toLowerCase() ].join(', ') })"
+        :filter-placeholder="$t('Type to search (:fields)...', { fields: [ $t('Name').toLowerCase(), $t('Category').toLowerCase(), $t('Phone').toLowerCase(), $t('Tax number').toLowerCase(), $t('IBAN'), $t('Remarks').toLowerCase() ].join(', ') })"
     >
         <template v-slot:cell(name)="data">
             <b-link :to="{ name: 'accounting.suppliers.show', params: { id: data.item.slug } }">
@@ -48,25 +48,25 @@ export default {
             fields: [
                 {
                     key: 'name',
-                    label: this.$t('app.name'),
+                    label: this.$t('Name'),
                     sortable: true,
                     tdClass: 'align-middle'
                 },
                 {
                     key: 'category',
-                    label: this.$t('app.category'),
+                    label: this.$t('Category'),
                     sortable: true,
                     tdClass: 'align-middle'
                 },
                 {
                     key: 'transactions_count',
-                    label: this.$t('app.transactions'),
+                    label: this.$t('Transactions'),
                     tdClass: 'align-middle',
                     class: 'fit text-right d-none d-md-table-cell'
                 },
                 {
                     key: 'contact',
-                    label: this.$t('app.contact'),
+                    label: this.$t('Contact'),
                     class: 'fit',
                     tdClass: 'align-middle'
                 }

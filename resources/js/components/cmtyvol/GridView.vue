@@ -27,7 +27,7 @@
 
         <!-- Loading or busy -->
         <p v-if="data == null || isBusy">
-            {{ $t('app.loading') }}
+            {{ $t('Loading...') }}
         </p>
 
         <!-- Grid -->
@@ -43,7 +43,7 @@
 
         <!-- No items -->
         <b-alert v-else show variant="info">
-            {{ $t('app.no_records_matching_your_request') }}
+            {{ $t('There are no records matching your request.') }}
         </b-alert>
 
         <!-- Pagination -->
@@ -95,7 +95,7 @@ export default {
             sortDesc: false,
             totalRows: 0,
             filter: '',
-            filterPlaceholder: this.$t('app.search')
+            filterPlaceholder: this.$t('Search')
         }
     },
     watch: {

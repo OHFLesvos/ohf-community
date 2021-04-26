@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.accounting'))
+@section('title', __('Accounting'))
 
 @section('content')
 
@@ -11,13 +11,13 @@
                 @if($has_multiple_wallets)
                     {{ $wallet->name }}:
                 @else
-                    @lang('app.wallet'):
+                    @lang('Wallet'):
                 @endif
             </span>
             <u>{{ number_format($wallet->amount, 2) }}</u>
             @if($has_multiple_wallets)
                 <a href="{{ route('accounting.index') }}" class="d-none d-sm-inline btn btn-sm btn-primary ml-2">
-                    @lang('app.change')
+                    @lang('Change')
                 </a>
                 <a href="{{ route('accounting.index') }}" class="d-inline d-sm-none btn btn-sm">
                     <x-icon icon="folder-open"/>
@@ -26,7 +26,7 @@
         </div>
         <div class="text-right">
             @if(count($filter) > 0)
-                <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3"><x-icon icon="eraser"/> @lang('app.reset_filter')</a>
+                <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3"><x-icon icon="eraser"/> @lang('Reset filter')</a>
             @endif
             <button type="button" class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">
                 <x-icon icon="search"/> @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
@@ -39,31 +39,31 @@
             <table class="table table-hover bg-white">
                 <thead>
                     <tr>
-                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('app.receipt') </span>#</th>
-                        <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('app.date')</th>
-                        <th class="fit d-table-cell d-sm-none text-right">@lang('app.amount')</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('app.income')</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('app.spending')</th>
+                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('Receipt') </span>#</th>
+                        <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('Date')</th>
+                        <th class="fit d-table-cell d-sm-none text-right">@lang('Amount')</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('Income')</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('Spending')</th>
                         @if($intermediate_balances !== null)
-                            <th class="fit text-right">@lang('app.intermediate_balance')</th>
+                            <th class="fit text-right">@lang('Intermediate balance')</th>
                         @endif
-                        <th class="@isset($filter['category']) text-info @endisset">@lang('app.category')</th>
+                        <th class="@isset($filter['category']) text-info @endisset">@lang('Category')</th>
                         @if($secondary_categories !== null)
-                            <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('app.secondary_category')</th>
+                            <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('Secondary Category')</th>
                         @endif
-                        <th class="@isset($filter['project']) text-info @endisset">@lang('app.project')</th>
+                        <th class="@isset($filter['project']) text-info @endisset">@lang('Project')</th>
                         @if($locations !== null)
-                            <th class="@isset($filter['location']) text-info @endisset">@lang('app.location')</th>
+                            <th class="@isset($filter['location']) text-info @endisset">@lang('Location')</th>
                         @endif
                         @if($cost_centers !== null)
-                            <th class="@isset($filter['cost_center']) text-info @endisset">@lang('app.cost_center')</th>
+                            <th class="@isset($filter['cost_center']) text-info @endisset">@lang('Cost Center')</th>
                         @endif
-                        <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('app.description')</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('Description')</th>
                         @if($has_suppliers)
-                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">@lang('app.supplier')</th>
+                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">@lang('Supplier')</th>
                         @endif
-                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">@lang('app.attendee')</th>
-                        <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('app.registered')</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">@lang('Attendee')</th>
+                        <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('Registered')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -147,7 +147,7 @@
                     @endphp
                     @if($sum_income > 0 || $sum_spending > 0)
                         <tr>
-                            <td colspan="2" rowspan="2" class="align-middle">@lang('app.total')</td>
+                            <td colspan="2" rowspan="2" class="align-middle">@lang('Total')</td>
                             <td class="text-right d-none d-sm-table-cell">
                                 <u class="text-success">{{ number_format($sum_income, 2) }}</u>
                             </td>
@@ -178,7 +178,7 @@
         @endforeach
     @else
         <x-alert type="info">
-            @lang('app.no_transactions_found')
+            @lang('No transactions found.')
         </x-alert>
     @endif
 @endsection
@@ -295,49 +295,49 @@
 
     {!! Form::open(['route' => ['accounting.transactions.index', $wallet ], 'method' => 'get']) !!}
         @component('components.modal', [ 'id' => 'filterModal' ])
-            @slot('title', __('app.filter'))
+            @slot('title', __('Filter'))
 
             <div class="form-row">
                 <div class="col-sm mb-3">
-                    {{ Form::bsRadioList('filter[type]', [ 'income' => __('app.income'), 'spending' => __('app.spending'), null => __('app.any') ], $filter['type'] ?? null, __('app.type')) }}
+                    {{ Form::bsRadioList('filter[type]', [ 'income' => __('Income'), 'spending' => __('Spending'), null => __('Any') ], $filter['type'] ?? null, __('Type')) }}
                 </div>
                 <div class="col-sm mb-3">
-                    {{ Form::bsRadioList('filter[controlled]', [ 'yes' => __('app.yes'), 'no' => __('app.no'), null => __('app.any') ], $filter['controlled'] ?? null, __('app.controlled')) }}
+                    {{ Form::bsRadioList('filter[controlled]', [ 'yes' => __('Yes'), 'no' => __('No'), null => __('Any') ], $filter['controlled'] ?? null, __('Controlled')) }}
                 </div>
                 <div class="col-sm">
-                    {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('app.receipt') . ' #') }}
+                    {{ Form::bsNumber('filter[receipt_no]', $filter['receipt_no'] ?? null, [ 'min' => 1 ], __('Receipt') . ' #') }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-sm">
-                    {{ Form::bsDate('filter[date_start]', $filter['date_start'] ?? null, [], __('app.from')) }}
+                    {{ Form::bsDate('filter[date_start]', $filter['date_start'] ?? null, [], __('From')) }}
                 </div>
                 <div class="col-sm">
-                    {{ Form::bsDate('filter[date_end]', $filter['date_end'] ?? null, [], __('app.to')) }}
+                    {{ Form::bsDate('filter[date_end]', $filter['date_end'] ?? null, [], __('To')) }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-sm">
                     @if($fixed_categories)
-                        {{ Form::bsSelect('filter[category]', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['category'] ?? null, [ 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
+                        {{ Form::bsSelect('filter[category]', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['category'] ?? null, [ 'placeholder' => '- ' . __('Category') . ' -' ], __('Category')) }}
                     @else
-                        {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'list' => $categories ], __('app.category')) }}
+                        {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'list' => $categories ], __('Category')) }}
                     @endif
                 </div>
                 @if($secondary_categories !== null)
                     <div class="col-sm">
                         @if($fixed_categories)
-                            {{ Form::bsSelect('filter[secondary_category]', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['secondary_category'] ?? null, [ 'placeholder' => '- ' . __('app.secondary_category') . ' -' ], __('app.category')) }}
+                            {{ Form::bsSelect('filter[secondary_category]', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['secondary_category'] ?? null, [ 'placeholder' => '- ' . __('Secondary Category') . ' -' ], __('Category')) }}
                         @else
-                            {{ Form::bsText('filter[secondary_category]', $filter['secondary_category'] ?? null, [ 'list' => $secondary_categories ], __('app.secondary_category')) }}
+                            {{ Form::bsText('filter[secondary_category]', $filter['secondary_category'] ?? null, [ 'list' => $secondary_categories ], __('Secondary Category')) }}
                         @endif
                     </div>
                 @endif
                 <div class="col-sm">
                     @if($fixed_projects)
-                        {{ Form::bsSelect('filter[project]', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['project'] ?? null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
+                        {{ Form::bsSelect('filter[project]', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['project'] ?? null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
                     @else
-                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'list' => $projects ], __('app.project')) }}
+                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'list' => $projects ], __('Project')) }}
                     @endif
                 </div>
             </div>
@@ -345,59 +345,59 @@
                 @if($locations !== null)
                     <div class="col-sm">
                         @if($fixed_locations)
-                            {{ Form::bsSelect('filter[location]', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['location'] ?? null, [ 'placeholder' => '- ' . __('app.location') . ' -' ], __('app.location')) }}
+                            {{ Form::bsSelect('filter[location]', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['location'] ?? null, [ 'placeholder' => '- ' . __('Location') . ' -' ], __('Location')) }}
                         @else
-                            {{ Form::bsText('filter[location]', $filter['location'] ?? null, [ 'list' => $locations ], __('app.location')) }}
+                            {{ Form::bsText('filter[location]', $filter['location'] ?? null, [ 'list' => $locations ], __('Location')) }}
                         @endif
                     </div>
                 @endif
                 @if($cost_centers !== null)
                     <div class="col-sm">
                         @if($fixed_cost_centers)
-                            {{ Form::bsSelect('filter[cost_center]', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['cost_center'] ?? null, [ 'placeholder' => '- ' . __('app.cost_center') . ' -' ], __('app.cost_center')) }}
+                            {{ Form::bsSelect('filter[cost_center]', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['cost_center'] ?? null, [ 'placeholder' => '- ' . __('Cost Center') . ' -' ], __('Cost Center')) }}
                         @else
-                            {{ Form::bsText('filter[cost_center]', $filter['cost_center'] ?? null, [ 'list' => $cost_centers ], __('app.cost_center')) }}
+                            {{ Form::bsText('filter[cost_center]', $filter['cost_center'] ?? null, [ 'list' => $cost_centers ], __('Cost Center')) }}
                         @endif
                     </div>
                 @endif
             </div>
             <div class="form-row">
                 <div class="col-sm">
-                    {{ Form::bsText('filter[attendee]', $filter['attendee'] ?? null, [ 'list' => $attendees ], __('app.attendee')) }}
+                    {{ Form::bsText('filter[attendee]', $filter['attendee'] ?? null, [ 'list' => $attendees ], __('Attendee')) }}
                 </div>
                 <div class="col-sm">
-                    {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('app.description')) }}
+                    {{ Form::bsText('filter[description]', $filter['description'] ?? null, [ ], __('Description')) }}
                 </div>
             </div>
             <div class="form-row">
                 @if($has_suppliers)
                     <div class="col-sm">
-                        {{ Form::bsText('filter[supplier]', $filter['supplier'] ?? null, [ 'list' => $suppliers->pluck('name')->toArray(), 'autocomplete' => 'off' ], __('app.supplier')) }}
+                        {{ Form::bsText('filter[supplier]', $filter['supplier'] ?? null, [ 'list' => $suppliers->pluck('name')->toArray(), 'autocomplete' => 'off' ], __('Supplier')) }}
                     </div>
                 @endif
                 <div class="col-sm">
                     @if($has_suppliers)
                     <br>
                     @endif
-                    {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('app.registered_today')) }}
-                    {{ Form::bsCheckbox('filter[no_receipt]', 1, $filter['no_receipt'] ?? false, __('app.no_receipt')) }}
+                    {{ Form::bsCheckbox('filter[today]', 1, $filter['today'] ?? false, __('Registered today')) }}
+                    {{ Form::bsCheckbox('filter[no_receipt]', 1, $filter['no_receipt'] ?? false, __('No receipt')) }}
                 </div>
             </div>
             <hr>
             <div class="form-row">
                 <div class="col-sm-auto">
-                    {{ Form::bsSelect('sortColumn', $sortColumns, $sortColumn, [], __('app.order_by')) }}
+                    {{ Form::bsSelect('sortColumn', $sortColumns, $sortColumn, [], __('Order by')) }}
                 </div>
                 <div class="col-sm-auto mb-3">
-                    {{ Form::bsRadioList('sortOrder', [ 'asc' => __('app.ascending'), 'desc' => __('app.descending') ], $sortOrder, __('app.order')) }}
+                    {{ Form::bsRadioList('sortOrder', [ 'asc' => __('Ascending'), 'desc' => __('Descending') ], $sortOrder, __('Order')) }}
                 </div>
             </div>
 
             @slot('footer')
                 @if(count($filter) > 0)
-                    <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1"><x-icon icon="eraser"/> @lang('app.reset_filter')</a>
+                    <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1"><x-icon icon="eraser"/> @lang('Reset filter')</a>
                 @endif
-                <x-form.bs-submit-button :label="__('app.update')" icon="search"/>
+                <x-form.bs-submit-button :label="__('Update')" icon="search"/>
             @endslot
         @endcomponent
     {!! Form::close() !!}

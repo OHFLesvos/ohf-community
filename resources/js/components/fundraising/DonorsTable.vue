@@ -5,8 +5,8 @@
         :fields="fields"
         :api-method="fetchData"
         default-sort-by="first_name"
-        :empty-text="$t('app.no_donors_found')"
-        :filter-placeholder="`${$t('app.search_for_name_address_email_phone')}...`"
+        :empty-text="$t('No donors found.')"
+        :filter-placeholder="`${$t('Search for name, address, e-mail, phone')}...`"
         :items-per-page="25"
     >
         <!-- Name -->
@@ -40,7 +40,7 @@
                 v-if="myTags.length > 0"
                 class="mb-3 d-flex align-items-center overflow-auto"
             >
-                <span class="mr-2">{{ $t('app.tags') }}:</span>
+                <span class="mr-2">{{ $t('Tags') }}:</span>
                 <tag-select-button
                     v-for="tag in myTags"
                     :key="`${tag.value}-${tag.selected}`"
@@ -90,64 +90,64 @@ export default {
             fields: [
                 {
                     key: 'first_name',
-                    label: this.$t('app.first_name'),
+                    label: this.$t('First Name'),
                     tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'last_name',
-                    label: this.$t('app.last_name'),
+                    label: this.$t('Last Name'),
                     tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'company',
-                    label: this.$t('app.company'),
+                    label: this.$t('Company'),
                     tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'street',
-                    label: this.$t('app.street'),
+                    label: this.$t('Street'),
                     class: 'd-none d-sm-table-cell',
                     tdClass: 'align-middle'
                 },
                 {
                     key: 'zip',
-                    label: this.$t('app.zip'),
+                    label: this.$t('ZIP'),
                     class: 'd-none d-sm-table-cell',
                     tdClass: 'align-middle'
                 },
                 {
                     key: 'city',
-                    label: this.$t('app.city'),
+                    label: this.$t('City'),
                     class: 'd-none d-sm-table-cell',
                     tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'country_name',
-                    label: this.$t('app.country'),
+                    label: this.$t('Country'),
                     class: 'd-none d-sm-table-cell',
                     tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'language',
-                    label: this.$t('app.correspondence_language'),
+                    label: this.$t('Correspondence language'),
                     class: 'd-none d-sm-table-cell',
                     tdClass: 'align-middle',
                     sortable: true
                 },
                 {
                     key: 'contact',
-                    label: this.$t('app.contact'),
+                    label: this.$t('Contact'),
                     class: 'fit',
                     tdClass: 'align-middle'
                 },
                 {
                     key: 'created_at',
-                    label: this.$t('app.registered'),
+                    label: this.$t('Registered'),
                     class: 'd-none d-sm-table-cell fit',
                     tdClass: 'align-middle',
                     sortable: true,

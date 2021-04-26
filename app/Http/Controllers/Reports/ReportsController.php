@@ -11,19 +11,19 @@ class ReportsController extends Controller
     {
         return [
             [
-                'label' => __('app.community_volunteers'),
+                'label' => __('Community Volunteers'),
                 'route' => 'reports.cmtyvol.report',
                 'icon' => 'chart-bar',
                 'gate' => 'view-community-volunteer-reports',
             ],
             [
-                'label' => __('app.fundraising'),
+                'label' => __('Fundraising'),
                 'route' => 'reports.fundraising.donations',
                 'icon' => 'donate',
                 'gate' => 'view-fundraising-reports',
             ],
             [
-                'label' => __('app.visitor_checkins'),
+                'label' => __('Visitor check-ins'),
                 'route' => 'reports.visitors.checkins',
                 'icon' => 'door-open',
                 'gate' => 'register-visitors',

@@ -10,7 +10,7 @@ class SettingsNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.settings');
+        return __('Settings');
     }
 
     protected $icon = 'cogs';

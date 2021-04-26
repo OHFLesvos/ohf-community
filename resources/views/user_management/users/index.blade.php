@@ -1,11 +1,11 @@
 @extends('layouts.user-management')
 
-@section('title', __('app.users'))
+@section('title', __('Users'))
 
 @section('content')
     <div id="user-management-app">
         <user-index-page>
-            @lang('app.loading')
+            @lang('Loading...')
         </user-index-page>
     </div>
 @endsection

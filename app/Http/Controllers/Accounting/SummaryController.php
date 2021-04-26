@@ -96,7 +96,7 @@ class SummaryController extends Controller
         } else {
             $dateFrom = null;
             $dateTo = null;
-            $heading = __('app.all_time');
+            $heading = __('All time');
             $currentRange = null;
         }
 

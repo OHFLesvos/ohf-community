@@ -3,76 +3,76 @@
 return [
     'keys' => [
         'app.usermgmt.view' => [
-            'label' => 'permissions.view_usermgmt',
+            'label' => 'auth.permissions.view_usermgmt',
         ],
         'app.usermgmt.users.manage' => [
-            'label' => 'permissions.usermgmt_manage_users',
+            'label' => 'auth.permissions.usermgmt_manage_users',
         ],
         'app.usermgmt.roles.manage' => [
-            'label' => 'permissions.usermgmt_manage_roles',
+            'label' => 'auth.permissions.usermgmt_manage_roles',
         ],
         'app.settings.common.configure' => [
-            'label' => 'permissions.configure_common_settings',
+            'label' => 'auth.permissions.configure_common_settings',
         ],
         'badges.create' => [
-            'label' => 'permissions.create_badges',
+            'label' => 'auth.permissions.create_badges',
         ],
         'fundraising.donors_donations.view' => [
-            'label' => 'permissions.view_fundraising_donors_donations',
+            'label' => 'auth.permissions.view_fundraising_donors_donations',
         ],
         'fundraising.donors_donations.manage' => [
-            'label' => 'permissions.manage_fundraising_donors_donations',
+            'label' => 'auth.permissions.manage_fundraising_donors_donations',
         ],
         'fundraising.reports.view' => [
-            'label' => 'permissions.view_fundraising_reports',
+            'label' => 'auth.permissions.view_fundraising_reports',
         ],
         'fundraising.donations.accept_webhooks' => [
-            'label' => 'permissions.accept_fundraising_donations_webhooks',
+            'label' => 'auth.permissions.accept_fundraising_donations_webhooks',
         ],
         'accounting.transactions.view' => [
-            'label' => 'permissions.view_transactions',
+            'label' => 'auth.permissions.view_transactions',
         ],
         'accounting.transactions.create' => [
-            'label' => 'permissions.create_transactions',
+            'label' => 'auth.permissions.create_transactions',
         ],
         'accounting.transactions.update' => [
-            'label' => 'permissions.update_transactions',
+            'label' => 'auth.permissions.update_transactions',
         ],
         'accounting.transactions.delete' => [
-            'label' => 'permissions.delete_transactions',
+            'label' => 'auth.permissions.delete_transactions',
         ],
         'accounting.transactions.book_externally' => [
-            'label' => 'permissions.book_externally',
+            'label' => 'auth.permissions.book_externally',
         ],
         'accounting.summary.view' => [
-            'label' => 'permissions.view_summary',
+            'label' => 'auth.permissions.view_summary',
         ],
         'accounting.suppliers.manage' => [
-            'label' => 'permissions.manage_suppliers',
+            'label' => 'auth.permissions.manage_suppliers',
         ],
         'accounting.configure' => [
-            'label' => 'permissions.configure_accounting',
+            'label' => 'auth.permissions.configure_accounting',
         ],
         'wiki.view' => [
-            'label' => 'permissions.view_wiki',
+            'label' => 'auth.permissions.view_wiki',
         ],
         'wiki.edit' => [
-            'label' => 'permissions.edit_wiki',
+            'label' => 'auth.permissions.edit_wiki',
         ],
         'wiki.delete' => [
-            'label' => 'permissions.delete_wiki',
+            'label' => 'auth.permissions.delete_wiki',
         ],
         'cmtyvol.view' => [
-            'label' => 'permissions.view_community_volunteers',
+            'label' => 'auth.permissions.view_community_volunteers',
         ],
         'cmtyvol.manage' => [
-            'label' => 'permissions.manage_community_volunteers',
+            'label' => 'auth.permissions.manage_community_volunteers',
         ],
         'visitors.register' => [
-            'label' => 'permissions.register_visitors',
+            'label' => 'auth.permissions.register_visitors',
         ],
         'visitors.export' => [
-            'label' => 'permissions.export_visitors',
+            'label' => 'auth.permissions.export_visitors',
         ],
     ],
     'gate_mapping' => [

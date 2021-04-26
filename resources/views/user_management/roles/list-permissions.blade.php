@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', __('app.role_permissions'))
+@section('title', __('Role Permissions'))
 
 @section('content')
     <div class="columns-3">
         @foreach($permissions as $title => $elements)
             <div class="mb-4 column-break-avoid">
-                <h4>{{ $title == null ? __('app.general') : $title }}</h4>
+                <h4>{{ $title == null ? __('General') : $title }}</h4>
                 @foreach($elements as $key => $label)
                     <div class="mb-4 column-break-avoid">
                         <h6>{{ $label }}</h6>
@@ -19,7 +19,7 @@
                         @forelse($roles as $role)
                             <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
                         @empty
-                            <em>@lang('app.no_roles_assigned')</em>
+                            <em>@lang('No roles assigned.')</em>
                         @endforelse
                     </div>
                 @endforeach

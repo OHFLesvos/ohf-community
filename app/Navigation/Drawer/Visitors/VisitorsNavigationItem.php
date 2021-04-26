@@ -11,7 +11,7 @@ class VisitorsNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.visitors');
+        return __('Visitors');
     }
 
     protected $icon = 'door-open';

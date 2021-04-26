@@ -5,68 +5,68 @@
     >
         <two-col-list-group-item
             v-if="donor.salutation"
-            :title="$t('app.salutation')"
+            :title="$t('Salutation')"
         >
             {{ donor.salutation }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="donor.first_name || donor.last_name"
-            :title="$t('app.name')"
+            :title="$t('Name')"
         >
             {{ donor.first_name }} {{ donor.last_name }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="donor.company"
-            :title="$t('app.company')"
+            :title="$t('Company')"
         >
             {{ donor.company }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="donor.fullAddress"
-            :title="$t('app.address')"
+            :title="$t('Address')"
         >
             <span style="white-space: pre;">{{ donor.fullAddress }}</span>
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="donor.email"
-            :title="$t('app.email')"
+            :title="$t('E-Mail Address')"
         >
             <email-link :value="donor.email" />
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="donor.phone"
-            :title="$t('app.phone')"
+            :title="$t('Phone')"
         >
             <phone-link :value="donor.phone" />
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="donor.language"
-            :title="$t('app.correspondence_language')"
+            :title="$t('Correspondence language')"
         >
             {{ donor.language }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
-            :title="$t('app.registered')"
+            :title="$t('Registered')"
         >
             {{ moment(donor.created_at).format('LLL') }}
             <small class="text-muted pl-2">{{  moment(donor.created_at).fromNow() }}</small>
         </two-col-list-group-item>
 
         <two-col-list-group-item
-            :title="$t('app.last_updated')"
+            :title="$t('Last updated')"
         >
             {{ moment(donor.updated_at).format('LLL') }}
             <small class="text-muted pl-2">{{  moment(donor.updated_at).fromNow() }}</small>
         </two-col-list-group-item>
 
-        <two-col-list-group-item :title="$t('app.tags')">
+        <two-col-list-group-item :title="$t('Tags')">
             <tag-manager
                 :key="id"
                 :list-provider="listTags"
@@ -75,12 +75,12 @@
                 preload
                 @tag-click="$router.push({ name: 'fundraising.donors.index', query: { tag: $event } })"
             >
-                {{ $t('app.loading') }}
+                {{ $t('Loading...') }}
             </tag-manager>
         </two-col-list-group-item>
     </b-list-group>
     <p v-else>
-        {{ $t('app.loading') }}
+        {{ $t('Loading...') }}
     </p>
 </template>
 

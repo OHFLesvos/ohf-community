@@ -12,7 +12,7 @@ class UserProfile2FAContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('userprofile'),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => true,
             ],

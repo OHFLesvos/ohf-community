@@ -18,33 +18,33 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
     public function headings(): array
     {
         $headings = [
-            __('app.date'),
-            __('app.receipt_no'),
-            __('app.income'),
-            __('app.spending'),
-            __('app.fees'),
-            __('app.attendee'),
-            __('app.category'),
+            __('Date'),
+            __('Receipt No.'),
+            __('Income'),
+            __('Spending'),
+            __('Fees'),
+            __('Attendee'),
+            __('Category'),
         ];
         if (self::useSecondaryCategories()) {
-            $headings[] =  __('app.secondary_category');
+            $headings[] =  __('Secondary Category');
         }
-        $headings[] = __('app.project');
+        $headings[] = __('Project');
         if (self::useLocations()) {
-            $headings[] = __('app.location');
+            $headings[] = __('Location');
         }
         if (self::useCostCenters()) {
-            $headings[] = __('app.cost_center');
+            $headings[] = __('Cost Center');
         }
         return array_merge($headings, [
-            __('app.description'),
-            __('app.supplier'),
-            __('app.registered'),
-            __('app.controlled_at'),
-            __('app.controlled_by'),
-            __('app.booked'),
-            __('app.author'),
-            __('app.remarks'),
+            __('Description'),
+            __('Supplier'),
+            __('Registered'),
+            __('Controlled at'),
+            __('Controlled by'),
+            __('Booked'),
+            __('Author'),
+            __('Remarks'),
         ]);
     }
 
@@ -79,7 +79,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             $transaction->created_at,
             $transaction->controlled_at,
             $transaction->controlled_by !== null ? $transaction->controller->name : null,
-            $transaction->booked ? __('app.yes') : __('app.no'),
+            $transaction->booked ? __('Yes') : __('No'),
             isset($audit) && isset($audit->getMetadata()['user_name']) ? $audit->getMetadata()['user_name'] : '',
             $transaction->remarks,
         ]);

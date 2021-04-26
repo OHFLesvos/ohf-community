@@ -1,12 +1,12 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.responsibilities'))
+@section('title', __('Responsibilities'))
 
 @section('content')
     {!! Form::model($cmtyvol, ['route' => ['cmtyvol.updateResponsibilities', $cmtyvol], 'method' => 'put']) !!}
         <div class="card mb-4">
-            <div class="card-header">@lang('app.occupation')</div>
-            {{ Form::bsListWithDateRange('responsibilities', $responsibilities, $value, __('app.responsibilities')) }}
+            <div class="card-header">@lang('Occupation')</div>
+            {{ Form::bsListWithDateRange('responsibilities', $responsibilities, $value, __('Responsibilities')) }}
         </div>
         <p class="text-right">
             <x-form.bs-submit-button :label="__('Apply changes')"/>

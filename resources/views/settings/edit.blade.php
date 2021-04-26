@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.settings'))
+@section('title', __('Settings'))
 
 @section('content')
     {!! Form::open(['route' => [ 'settings.update' ], 'method' => 'put', 'files' => true]) !!}
@@ -36,10 +36,10 @@
             @endforeach
         </div>
         <p class="d-flex justify-content-between mt-3">
-            <button class="btn btn-outline-danger" type="submit" name="reset" onclick="return confirm('@lang('app.confirm_reset_to_default_settings')')">
-                <x-icon icon="undo"/> @lang('app.reset_to_default_settings')
+            <button class="btn btn-outline-danger" type="submit" name="reset" onclick="return confirm('@lang('Really reset to default settings?')')">
+                <x-icon icon="undo"/> @lang('Reset to default settings')
             </button>
-            <x-form.bs-submit-button :label="__('app.update')"/>
+            <x-form.bs-submit-button :label="__('Update')"/>
         </p>
     {!! Form::close() !!}
 @endsection

@@ -2,21 +2,21 @@
     <b-list-group v-if="supplier" class="mb-3" flush>
 
         <two-col-list-group-item
-            :title="$t('app.name')"
+            :title="$t('Name')"
         >
             {{ supplier.name }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.category"
-            :title="$t('app.category')"
+            :title="$t('Category')"
         >
             {{ supplier.category }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.address"
-            :title="$t('app.address')"
+            :title="$t('Address')"
         >
             <maps-link
                 :label="supplier.address"
@@ -27,7 +27,7 @@
 
         <two-col-list-group-item
             v-if="supplier.phone"
-            :title="$t('app.phone')"
+            :title="$t('Phone')"
         >
             <phone-link
                 :value="supplier.phone"
@@ -36,7 +36,7 @@
 
         <two-col-list-group-item
             v-if="supplier.mobile"
-            :title="$t('app.mobile')"
+            :title="$t('Mobile')"
         >
             <phone-link
                 :value="supplier.mobile"
@@ -46,7 +46,7 @@
 
         <two-col-list-group-item
             v-if="supplier.email"
-            :title="$t('app.email')"
+            :title="$t('E-Mail Address')"
         >
             <email-link
                 :value="supplier.email"
@@ -55,56 +55,56 @@
 
         <two-col-list-group-item
             v-if="supplier.website"
-            :title="$t('app.website')"
+            :title="$t('Website')"
         >
             <a :href="supplier.website" target="_blank">{{ supplier.website }}</a>
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.tax_number"
-            :title="$t('app.tax_number')"
+            :title="$t('Tax number')"
         >
             {{ supplier.tax_number }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.tax_office"
-            :title="$t('app.tax_office')"
+            :title="$t('Tax office')"
         >
             {{ supplier.tax_office }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.bank"
-            :title="$t('app.bank')"
+            :title="$t('Bank')"
         >
             {{ supplier.bank }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.iban"
-            :title="$t('app.iban')"
+            :title="$t('IBAN')"
         >
             {{ supplier.iban }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.remarks"
-            :title="$t('app.remarks')"
+            :title="$t('Remarks')"
         >
             {{ supplier.remarks }}
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.spending"
-            :title="$t('app.spending')"
+            :title="$t('Spending')"
         >
             {{ numberFormat(supplier.spending) }}
         </two-col-list-group-item>
 
     </b-list-group>
     <p v-else>
-        {{ $t('app.loading') }}
+        {{ $t('Loading...') }}
     </p>
 </template>
 

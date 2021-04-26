@@ -16,7 +16,7 @@
             <em v-if="error" class="text-danger">{{ error }}</em>
         </b-card-text>
         <b-card-text v-else-if="loading">
-            <em>{{ $t('app.loading') }}</em>
+            <em>{{ $t('Loading...') }}</em>
         </b-card-text>
         <template v-else>
             <b-list-group flush>

@@ -1,6 +1,6 @@
 @extends('widgets.base', [
     'icon' => 'door-open',
-    'title' => __('app.visitors'),
+    'title' => __('Visitors'),
     'href' => route('visitors.index'),
 ])
 

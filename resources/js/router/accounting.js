@@ -32,13 +32,13 @@ export default new VueRouter({
             },
             props: {
                 header:  {
-                    title: i18n.t('app.overview'),
+                    title: i18n.t('Overview'),
                     buttons: [
                         {
                             to: { name: 'accounting.wallets.create' },
                             variant: 'primary',
                             icon: 'plus-circle',
-                            text: i18n.t('app.add'),
+                            text: i18n.t('Add'),
                             show: can('configure-accounting')
                         },
                     ]
@@ -54,7 +54,7 @@ export default new VueRouter({
             },
             props: {
                 header:  {
-                    title: i18n.t('app.create_wallet')
+                    title: i18n.t('Create wallet')
                 }
             }
         },
@@ -68,7 +68,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: {
-                    title: i18n.t('app.edit_wallet'),
+                    title: i18n.t('Edit wallet'),
                 }
             }
         },
@@ -81,13 +81,13 @@ export default new VueRouter({
             },
             props: {
                 header:  {
-                    title: i18n.t('app.overview'),
+                    title: i18n.t('Overview'),
                     buttons: [
                         {
                             to: { name: 'accounting.suppliers.create' },
                             variant: 'primary',
                             icon: 'plus-circle',
-                            text: i18n.t('app.add'),
+                            text: i18n.t('Add'),
                             show: can('manage-suppliers')
                         },
                     ]
@@ -103,7 +103,7 @@ export default new VueRouter({
             },
             props: {
                 header:  {
-                    title: i18n.t('app.register_supplier')
+                    title: i18n.t('Register Supplier')
                 }
             }
         },
@@ -116,20 +116,20 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: (route) => ({
-                    title: i18n.t('app.supplier'),
+                    title: i18n.t('Supplier'),
                     buttons: [
                         {
                             to: { name: 'accounting.suppliers.index' },
                             variant: 'secondary',
                             icon: 'arrow-left',
-                            text: i18n.t('app.overview'),
+                            text: i18n.t('Overview'),
                             show: true
                         },
                         {
                             to: { name: 'accounting.suppliers.edit', params: { id: route.params.id } },
                             variant: 'primary',
                             icon: 'edit',
-                            text: i18n.t('app.edit'),
+                            text: i18n.t('Edit'),
                             show: can('manage-suppliers')
                         },
                     ]
@@ -160,7 +160,7 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: {
-                    title: i18n.t('app.edit_supplier'),
+                    title: i18n.t('Edit Supplier'),
                 }
             }
         },

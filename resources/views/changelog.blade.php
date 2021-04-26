@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.changelog'))
+@section('title', __('Changelog'))
 
 @section('content')
     {!! $content !!}

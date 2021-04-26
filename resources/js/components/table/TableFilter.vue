@@ -14,7 +14,7 @@
                 ...
             </b-input-group-text>
             <b-input-group-text v-else>
-                {{ $t('app.n_results', { num: totalRows }) }}
+                {{ $t(':num results', { num: totalRows }) }}
             </b-input-group-text>
         </b-input-group-append>
     </b-input-group>
@@ -30,7 +30,7 @@ export default {
             required: false,
             type: String,
             default: function() {
-                return this.$t('app.type_to_search')
+                return this.$t('Type to search...')
             }
         },
         totalRows: {

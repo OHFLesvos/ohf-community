@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', __('app.book_to_webling'))
+@section('title', __('Book to Webling'))
 
 @section('content')
-    <p>@lang('app.the_following_transactions_in_period_can_be_booked', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ])</p>
+    <p>@lang('The following transactions from <strong>:from</strong> to <strong>:to</strong> can be booked in the period <strong>:period</strong>:', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ])</p>
     @unless($transactions->isEmpty())
         {!! Form::open(['route' => ['accounting.webling.store', $wallet ]]) !!}
             {{ Form::hidden('period', $period->id) }}
@@ -13,15 +13,15 @@
                 <table class="table table-hover bg-white" id="bookings_table">
                     <thead>
                         <tr>
-                            <th class="fit">@lang('app.date')</th>
-                            <th class="fit text-right">@lang('app.credit')</th>
-                            <th class="fit text-right">@lang('app.debit')</th>
-                            <th>@lang('app.posting_text')</th>
-                            <th>@lang('app.debit_side')</th>
-                            <th>@lang('app.credit_side')</th>
-                            <th class="fit">@lang('app.receipt_no')</th>
-                            <th class="fit">@lang('app.controlled')</th>
-                            <th class="fit">@lang('app.action')</th>
+                            <th class="fit">@lang('Date')</th>
+                            <th class="fit text-right">@lang('Credit')</th>
+                            <th class="fit text-right">@lang('Debit')</th>
+                            <th>@lang('Posting text')</th>
+                            <th>@lang('Debit side')</th>
+                            <th>@lang(' Credit side')</th>
+                            <th class="fit">@lang('Receipt No.')</th>
+                            <th class="fit">@lang('Controlled')</th>
+                            <th class="fit">@lang('Action')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,7 +31,7 @@
                             @endphp
                             <tr data-id="{{ $transaction->id }}">
                                 <td class="fit">
-                                    <a href="{{ route('accounting.transactions.show', $transaction->id) }}" target="_blank" title="@lang('app.open_in_new_window')">{{ $transaction->date }}</a>
+                                    <a href="{{ route('accounting.transactions.show', $transaction->id) }}" target="_blank" title="@lang('Open in new window/tab')">{{ $transaction->date }}</a>
                                 </td>
                                 <td class="text-success text-right fit">
                                     @if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif
@@ -40,21 +40,21 @@
                                     @if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif
                                 </td>
                                 <td>
-                                    {{ Form::bsText('posting_text['.$transaction->id.']', $posting_text, [ 'placeholder' => __('app.posting_text') ], '') }}
+                                    {{ Form::bsText('posting_text['.$transaction->id.']', $posting_text, [ 'placeholder' => __('Posting text') ], '') }}
 
                                 </td>
                                 <td style="max-width: 8em">
                                     @if($transaction->type == 'income')
-                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('app.money_to') ], '') }}
+                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('Money to') ], '') }}
                                     @elseif($transaction->type == 'spending')
-                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $expenseSelect, null, [ 'placeholder' => __('app.paid_for') ], '') }}
+                                        {{ Form::bsSelect('debit_side['.$transaction->id.']', $expenseSelect, null, [ 'placeholder' => __('Paid for') ], '') }}
                                     @endif
                                 </td>
                                 <td style="max-width: 8em">
                                     @if($transaction->type == 'income')
-                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $incomeSelect, null, [ 'placeholder' => __('app.received_for') ], '') }}
+                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $incomeSelect, null, [ 'placeholder' => __('Received for') ], '') }}
                                     @elseif($transaction->type == 'spending')
-                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('app.paid_from') ], '') }}
+                                        {{ Form::bsSelect('credit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('Paid from') ], '') }}
                                     @endif
                                 </td>
                                 <td class="fit">{{ $transaction->receipt_no }}</td>
@@ -70,12 +70,12 @@
                 </table>
             </div>
             <p>
-                <x-form.bs-submit-button :label="__('app.submit')"/>
+                <x-form.bs-submit-button :label="__('Submit')"/>
             </p>
         {!! Form::close() !!}
     @else
         <x-alert type="info">
-            @lang('app.no_transactions_found')
+            @lang('No transactions found.')
         </x-alert>
     @endunless
 @endsection

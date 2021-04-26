@@ -14,7 +14,7 @@ class TagsContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('kb.index'),
-                'caption' => __('app.overview'),
+                'caption' => __('Overview'),
                 'icon' => 'list',
                 'authorized' => Auth::user()->can('viewAny', WikiArticle::class),
             ],

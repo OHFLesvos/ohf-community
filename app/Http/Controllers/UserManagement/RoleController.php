@@ -69,7 +69,7 @@ class RoleController extends Controller
 
         return redirect()
             ->route('roles.index')
-            ->with('success', __('app.role_added'));
+            ->with('success', __('Role has been added.'));
     }
 
     /**
@@ -152,7 +152,7 @@ class RoleController extends Controller
 
         return redirect()
             ->route('roles.show', $role)
-            ->with('success', __('app.role_updated'));
+            ->with('success', __('Role has been updated.'));
     }
 
     /**
@@ -167,7 +167,7 @@ class RoleController extends Controller
 
         return redirect()
             ->route('roles.index')
-            ->with('success', __('app.role_deleted'));
+            ->with('success', __('Role has been deleted.'));
     }
 
     /**
@@ -216,6 +216,6 @@ class RoleController extends Controller
 
         return redirect()
             ->route('roles.show', $role)
-            ->with('success', __('app.role_updated'));
+            ->with('success', __('Role has been updated.'));
     }
 }

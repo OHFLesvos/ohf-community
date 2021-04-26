@@ -1,19 +1,19 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.knowledge_base'))
-@section('site-title', __('app.latest_changes') . ' - ' . __('app.knowledge_base'))
+@section('title', __('Knowledge Base'))
+@section('site-title', __('Latest changes') . ' - ' . __('Knowledge Base'))
 
 @section('content')
-    <h1 class="display-4">@lang('app.latest_changes')</h1>
+    <h1 class="display-4">@lang('Latest changes')</h1>
     @if(! $audits->isEmpty())
         <div class="table-responsive">
             <table class="table table-hover bg-white">
                 <thead>
                     <tr>
-                        <th>@lang('app.date')</th>
-                        <th>@lang('app.author')</th>
-                        <th>@lang('app.action')</th>
-                        <th>@lang('app.article')</th>
+                        <th>@lang('Date')</th>
+                        <th>@lang('Author')</th>
+                        <th>@lang('Action')</th>
+                        <th>@lang('Article')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,7 @@
                                 @elseif($title)
                                     {{ $title }}
                                 @else
-                                    <em>@lang('app.not_available')</em>
+                                    <em>@lang('not available')</em>
                                 @endisset
                             </td>
                         </tr>
@@ -55,7 +55,7 @@
         {{ $audits->links() }}
     @else
         <x-alert type="info">
-            @lang('app.no_articles_found')
+            @lang('No articles found.')
         </x-alert>
     @endif
 @endsection

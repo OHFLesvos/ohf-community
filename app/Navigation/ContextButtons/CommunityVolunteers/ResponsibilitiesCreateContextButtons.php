@@ -14,7 +14,7 @@ class ResponsibilitiesCreateContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('cmtyvol.responsibilities.index'),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', Responsibility::class),
             ],

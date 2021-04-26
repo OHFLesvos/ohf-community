@@ -4,7 +4,7 @@
         :fields="fields"
         :api-method="list"
         default-sort-by="name"
-        :empty-text="$t('app.no_users_found')"
+        :empty-text="$t('No users found.')"
         :items-per-page="25"
     >
         <template v-slot:cell(avatar_url)="data">
@@ -66,46 +66,46 @@ export default {
             fields: [
                 {
                     key: 'avatar_url',
-                    label: this.$t('app.avatar'),
+                    label: this.$t('Avatar'),
                     class: 'fit align-middle text-center'
                 },
                 {
                     key: 'name',
-                    label: this.$t('app.name'),
+                    label: this.$t('Name'),
                     sortable: true,
                     class: 'align-middle'
                 },
                 {
                     key: 'email',
-                    label: this.$t('app.email'),
+                    label: this.$t('E-Mail Address'),
                     class: 'align-middle d-none d-sm-table-cell'
                 },
                 {
                     key: 'roles',
-                    label: this.$t('app.roles'),
+                    label: this.$t('Roles'),
                     class: 'align-middle d-none d-sm-table-cell'
                 },
                 {
                     key: 'provider_name',
-                    label: this.$t('app.oauth'),
+                    label: this.$t('OAuth'),
                     class: 'align-middle fit d-none d-md-table-cell',
                     sortable: true,
                 },
                 {
                     key: 'is_2fa_enabled',
-                    label: this.$t('app.2FA'),
+                    label: this.$t('2FA'),
                     class: 'align-middle d-none d-md-table-cell text-center fit',
                 },
                 {
                     key: 'is_super_admin',
-                    label: this.$t('app.admin'),
+                    label: this.$t('Admin'),
                     class: 'align-middle d-none d-md-table-cell text-center fit',
                     sortable: true,
                     sortDirection: 'desc',
                 },
                 {
                     key: 'created_at',
-                    label: this.$t('app.registered'),
+                    label: this.$t('Registered'),
                     class: 'd-none d-sm-table-cell fit',
                     tdClass: 'align-middle',
                     sortable: true,

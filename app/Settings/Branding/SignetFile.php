@@ -18,7 +18,7 @@ class SignetFile extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.signet');
+        return __('Signet');
     }
 
     public function defaultValue()
@@ -48,7 +48,7 @@ class SignetFile extends BaseSettingsField
 
     public function formHelp(): ?string
     {
-        return __('app.size_x_y_pixel', [ 'x' => self::WIDTH, 'y' => self::HEIGHT ]);
+        return __('Size: :x x :y pixel', [ 'x' => self::WIDTH, 'y' => self::HEIGHT ]);
     }
 
     public function formFilePath(): ?string

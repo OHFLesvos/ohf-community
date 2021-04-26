@@ -7,13 +7,13 @@
             <b-form-row>
                 <b-col sm>
                     <validation-provider
-                        :name="$t('app.first_name')"
+                        :name="$t('First Name')"
                         vid="first_name"
                         :rules="{ required: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.first_name')"
+                            :label="$t('First Name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                             class="required-marker"
@@ -31,13 +31,13 @@
                 </b-col>
                 <b-col sm>
                     <validation-provider
-                        :name="$t('app.last_name')"
+                        :name="$t('Last Name')"
                         vid="last_name"
                         :rules="{ required: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.last_name')"
+                            :label="$t('Last Name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                             class="required-marker"
@@ -55,7 +55,7 @@
             </b-form-row>
             <b-form-row>
                 <b-col cols="auto" class="pr-3">
-                    <b-form-group :label="$t('app.type')">
+                    <b-form-group :label="$t('Type')">
                         <b-form-radio-group
                             v-model="formData.type"
                             :options="types"
@@ -69,13 +69,13 @@
                   sm
                 >
                     <validation-provider
-                        :name="$t('app.id_number')"
+                        :name="$t('ID Number')"
                         vid="id_number"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.id_number')"
+                            :label="$t('ID Number')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -95,13 +95,13 @@
                   sm
                 >
                     <validation-provider
-                        :name="$t('app.place_of_residence')"
+                        :name="$t('Place of residence')"
                         vid="place_of_residence"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.place_of_residence')"
+                            :label="$t('Place of residence')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -120,13 +120,13 @@
                   sm
                 >
                     <validation-provider
-                        :name="$t('app.activity_program')"
+                        :name="$t('Activity / Program')"
                         vid="activity"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.activity_program')"
+                            :label="$t('Activity / Program')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -146,13 +146,13 @@
                   sm
                 >
                     <validation-provider
-                        :name="$t('app.organization')"
+                        :name="$t('Organization')"
                         vid="organization"
                         :rules="{ }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('app.organization')"
+                            :label="$t('Organization')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -175,7 +175,7 @@
                     :disabled="isDisabled"
                 >
                     <font-awesome-icon icon="check" />
-                    {{ $t('app.register') }}
+                    {{ $t('Register') }}
                 </b-button>
                 <b-button
                     variant="secondary"
@@ -184,7 +184,7 @@
                     @click="reset"
                 >
                     <font-awesome-icon icon="eraser" />
-                    {{ $t('app.reset') }}
+                    {{ $t('Reset') }}
                 </b-button>
             </p>
         </b-form>
@@ -202,10 +202,10 @@ export default {
         return {
             formData: this.initialFormData(),
             types: [
-                { value: 'visitor', text: this.$t('app.visitor') },
-                { value: 'participant', text: this.$t('app.participant') },
-                { value: 'staff', text: this.$t('app.volunteer_staff') },
-                { value: 'external', text: this.$t('app.external_visitor') },
+                { value: 'visitor', text: this.$t('Visitor') },
+                { value: 'participant', text: this.$t('Participant') },
+                { value: 'staff', text: this.$t('Volunteer / Staff') },
+                { value: 'external', text: this.$t('External visitor') },
             ]
         }
     },

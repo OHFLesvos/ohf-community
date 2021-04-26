@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', __('app.user_permissions'))
+@section('title', __('User Permissions'))
 
 @section('content')
     <div class="columns-3">
         @foreach($permissions as $title => $elements)
             <div class="mb-4 column-break-avoid">
-                <h4>{{ $title == null ? __('app.general') : $title }}</h4>
+                <h4>{{ $title == null ? __('General') : $title }}</h4>
                 @foreach($elements as $key => $label)
                     <div class="mb-4 column-break-avoid">
                         <h6>{{ $label }}</h6>
@@ -24,11 +24,11 @@
                             <a href="{{ route('users.show', $user) }}">
                                 {{ $user->name }}</a>
                                 @if($user->isSuperAdmin())
-                                    <small><x-icon icon="user-shield" :title="__('app.administrator')"/></small>
+                                    <small><x-icon icon="user-shield" :title="__('Administrator')"/></small>
                                 @endif
                             <br>
                         @empty
-                            <em>@lang('app.no_users_assigned')</em>
+                            <em>@lang('No users assigned.')</em>
                         @endforelse
                     </div>
                 @endforeach

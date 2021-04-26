@@ -10,7 +10,7 @@ class ReportsNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.reports');
+        return __('Reports');
     }
 
     protected $icon = 'chart-bar';

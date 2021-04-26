@@ -5,11 +5,11 @@
 @section('content')
 
     <x-alert type="info">
-        @lang('app.account_deleted')
+        @lang('Your account has been deleted.')
     </x-alert>
 
      <div class="text-center mt-4">
-        <a href="{{ route('login') }}">@lang('app.return_to_login')</a>
+        <a href="{{ route('login') }}">@lang('Return to login')</a>
     </div>
 
 @endsection

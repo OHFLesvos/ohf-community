@@ -14,7 +14,7 @@ class TransactionLocationsUse extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.use_locations');
+        return __('Use locations');
     }
 
     public function defaultValue()

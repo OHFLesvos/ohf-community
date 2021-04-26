@@ -14,7 +14,7 @@
     >
         <p class="justify-content-center align-self-center text-center w-100">
             <em v-if="asyncError || error" class="text-danger">{{ asyncError }} {{ error }}</em>
-            <em v-else>{{ $t('app.loading') }}</em>
+            <em v-else>{{ $t('Loading...') }}</em>
         </p>
     </div>
 </template>
@@ -133,7 +133,7 @@ export default {
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: this.$t('app.date')
+                            labelString: this.$t('Date')
                         }
                     }],
                     yAxes: this.yAxes()
