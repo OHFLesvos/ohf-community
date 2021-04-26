@@ -45,7 +45,11 @@
                         <div class="col-sm text-center mb-2">
                             <a href="{{ route('login.provider', $driver) }}" class="btn btn-secondary btn-sm btn-block">
                                 <x-icon :icon="$driver" style="fab" class="mr-1"/>
-                                {{ __('app.' . $driver . '_sign_in') }}
+                                @if($driver == 'google')
+                                    {{ __('app.google_sign_in') }}
+                                @elseif($driver == 'facebook')
+                                    {{ __('app.facebook_sign_in') }}
+                                @endif
                             </a>
                         </div>
                     @endif
