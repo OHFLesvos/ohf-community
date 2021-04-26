@@ -91,5 +91,4 @@
             $('[data-toggle="popover"]').popover();
         });
     </script>
-    <script src="{{ mix('js/cmtyvol.js') }}"></script>
 @endpush

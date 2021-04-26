@@ -9,7 +9,3 @@
         </community-volunteers-report-page>
     </div>
 @endsection
-
-@push('footer')
-    <script src="{{ mix('js/cmtyvol.js') }}"></script>
-@endpush

@@ -46,3 +46,19 @@ if (document.getElementById("visitors-app")) {
         }
     });
 }
+
+// Community volunteer app
+import CommunityVolunteersReportPage from "@/pages/cmtyvol/CommunityVolunteersReportPage";
+import CommunityVolunteersOverviewPage from "@/pages/cmtyvol/CommunityVolunteersOverviewPage";
+import CmtyvolComments from "@/components/cmtyvol/CmtyvolComments";
+if (document.getElementById("cmtyvol-app")) {
+    new Vue({
+        el: "#cmtyvol-app",
+        i18n,
+        components: {
+            CommunityVolunteersReportPage,
+            CommunityVolunteersOverviewPage,
+            CmtyvolComments
+        }
+    });
+}
