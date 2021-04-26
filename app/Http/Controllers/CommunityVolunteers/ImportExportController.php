@@ -86,7 +86,7 @@ class ImportExportController extends BaseController
             ->filter(fn ($f) => isset($f['assign']) && is_callable($f['assign']))
             ->map(fn ($f) => [
                 'key' => $f['label'],
-                'labels' => self::getAllTranslations($f['label'])
+                'labels' => collect($f['label'])
                     ->concat(isset($f['import_labels']) && is_array($f['import_labels']) ? $f['import_labels'] : [])
                     ->map(fn ($l) => strtolower($l)),
                 'append' => false,

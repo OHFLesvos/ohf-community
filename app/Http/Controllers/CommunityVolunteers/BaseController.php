@@ -145,16 +145,13 @@ abstract class BaseController extends Controller
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
-                    $female = self::getAllTranslations('app.female')
-                        ->concat(['f', 'w', 'Frau', 'Fräulein', 'Fr.', 'Fr', 'Frl.', 'Frl', 'Missus', 'Missis', 'Miss', 'Mrs.', 'Mrs', 'Ms.', 'Ms'])
-                        ->map(fn ($t) => strtolower($t));
-                    $male = self::getAllTranslations('app.male')
-                        ->concat(['m', 'Herr', 'Hr.', 'Hr', 'Mister', 'Mr.', 'Mr'])
-                        ->map(fn ($t) => strtolower($t));
-
-                    if ($female->contains(strtolower($value))) {
+                    if (collect([__('app.female'), 'f', 'w', 'Frau', 'Fräulein', 'Fr.', 'Fr', 'Frl.', 'Frl', 'Missus', 'Missis', 'Miss', 'Mrs.', 'Mrs', 'Ms.', 'Ms'])
+                        ->map(fn ($t) => strtolower($t))
+                        ->contains(strtolower($value))) {
                         $cmtyvol->gender = 'f';
-                    } elseif ($male->contains(strtolower($value))) {
+                    } elseif (collect([__('app.male'), 'm', 'Herr', 'Hr.', 'Hr', 'Mister', 'Mr.', 'Mr'])
+                        ->map(fn ($t) => strtolower($t))
+                        ->contains(strtolower($value))) {
                         $cmtyvol->gender = 'm';
                     } else {
                         $cmtyvol->gender = null;
@@ -584,12 +581,5 @@ abstract class BaseController extends Controller
                 'sorting' => 'pickup_location',
             ],
         ]);
-    }
-
-    protected static function getAllTranslations($key)
-    {
-        return collect(language()->allowed())
-            ->keys()
-            ->map(fn ($lk) => __($key, [], $lk));
     }
 }
