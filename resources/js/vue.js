@@ -62,3 +62,17 @@ if (document.getElementById("cmtyvol-app")) {
         }
     });
 }
+
+// Accounting app
+import accountingRouter from "@/router/accounting";
+import AccountingApp from "@/app/AccountingApp";
+if (document.getElementById("accounting-app")) {
+    new Vue({
+        el: "#accounting-app",
+        router: accountingRouter,
+        i18n,
+        components: {
+            AccountingApp
+        }
+    });
+}
