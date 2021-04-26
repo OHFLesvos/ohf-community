@@ -76,3 +76,19 @@ if (document.getElementById("accounting-app")) {
         }
     });
 }
+
+// Fundraising app
+import store from "@/store";
+import fundraisingRouter from "@/router/fundraising";
+import FundraisingApp from "@/app/FundraisingApp";
+if (document.getElementById("fundraising-app")) {
+    new Vue({
+        el: "#fundraising-app",
+        store,
+        router: fundraisingRouter,
+        i18n,
+        components: {
+            FundraisingApp
+        }
+    });
+}
