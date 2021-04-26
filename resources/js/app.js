@@ -1,5 +1,6 @@
 import './bootstrap'
 import $ from 'jquery'
+import './vue'
 
 /*====================================
 =            ON DOM READY            =

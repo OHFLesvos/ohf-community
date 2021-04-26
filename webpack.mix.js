@@ -34,7 +34,6 @@ mix.options({
     .js("resources/js/visitors.js", "public/js")
     .js("resources/js/reports.js", "public/js")
     .js("resources/js/cmtyvol.js", "public/js")
-    .js("resources/js/user_management.js", "public/js")
     .js("resources/js/editor.js", "public/js")
     .sass("resources/sass/app.scss", "public/css")
     .copy(
