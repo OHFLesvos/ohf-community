@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', __('app.visitors'))
+@section('title', __('Visitors'))
 
 @section('content')
     <div id="visitors-app">
         <visitors-app>
-            @lang('app.loading')
+            @lang('Loading...')
         </visitors-app>
     </div>
 @endsection

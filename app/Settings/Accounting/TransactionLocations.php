@@ -14,7 +14,7 @@ class TransactionLocations extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.locations');
+        return __('Locations');
     }
 
     public function defaultValue()
@@ -29,7 +29,7 @@ class TransactionLocations extends BaseSettingsField
 
     public function formHelp(): ?string
     {
-        return __('app.separate_items_by_newline');
+        return __('Separate items by newline');
     }
 
     public function setter($value)

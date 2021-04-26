@@ -30,7 +30,7 @@
                         </small>
                     </p>
                     <p class="text-center">
-                        <small><a href="{{ route('userPrivacyPolicy') }}" target="_blank">@lang('app.privacy_policy')</a></small>
+                        <small><a href="{{ route('userPrivacyPolicy') }}" target="_blank">@lang('Privacy Policy')</a></small>
                     </p>
                 </div>
             </div>

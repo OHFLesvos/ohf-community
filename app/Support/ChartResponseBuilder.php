@@ -30,7 +30,7 @@ class ChartResponseBuilder
         $this->datasets[] = [
             'label' => $title,
             'data' => $data,
-            'unit' => $unit !== null ? $unit : __('app.quantity'),
+            'unit' => $unit !== null ? $unit : __('Quantity'),
         ];
 
         return $this;

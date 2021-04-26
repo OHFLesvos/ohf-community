@@ -14,7 +14,7 @@ class LatestChangesContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('kb.index'),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', WikiArticle::class),
             ],

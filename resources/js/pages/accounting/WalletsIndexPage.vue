@@ -5,7 +5,7 @@
         :fields="fields"
         :api-method="fetchData"
         default-sort-by="name"
-        :empty-text="$t('app.no_wallets_found')"
+        :empty-text="$t('No wallets found.')"
         :items-per-page="25"
         no-filter
     >
@@ -48,39 +48,39 @@ export default {
             fields: [
                 {
                     key: 'name',
-                    label: this.$t('app.name'),
+                    label: this.$t('Name'),
                     sortable: true,
                 },
                                 {
                     key: 'amount',
-                    label: this.$t('app.amount'),
+                    label: this.$t('Amount'),
                     class: 'text-right',
                     formatter: value => numeral(value).format('0,0.00'),
                 },
                 {
                     key: 'num_transactions',
-                    label: this.$t('app.transactions'),
+                    label: this.$t('Transactions'),
                     class: 'text-right'
                 },
                 {
                     key: 'is_default',
-                    label: this.$t('app.default'),
+                    label: this.$t('Default'),
                     class: 'fit text-center'
                 },
                 {
                     key: 'is_restricted',
-                    label: this.$t('app.restricted'),
+                    label: this.$t('Restricted'),
                     class: 'fit text-center'
                 },
                 {
                     key: 'latest_activity',
-                    label: this.$t('app.latest_activity'),
+                    label: this.$t('Latest activity'),
                     class: 'text-right',
                     formatter: this.dateTimeFormat
                 },
                 {
                     key: 'created_at',
-                    label: this.$t('app.created'),
+                    label: this.$t('Created'),
                     class: 'fit',
                     formatter: this.dateFormat
                 }

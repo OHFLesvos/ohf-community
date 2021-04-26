@@ -29,7 +29,7 @@ export default {
             this.isBusy = true
             try {
                 let data = await walletsApi.store(formData)
-                showSnackbar(this.$t('app.wallet_added'))
+                showSnackbar(this.$t('Wallet added.'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {
                 alert(err)

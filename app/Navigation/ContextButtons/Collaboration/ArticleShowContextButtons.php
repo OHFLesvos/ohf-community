@@ -24,14 +24,14 @@ class ArticleShowContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('kb.articles.edit', $article),
-                'caption' => __('app.edit'),
+                'caption' => __('Edit'),
                 'icon' => 'edit',
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user() != null && Auth::user()->can('update', $article),
             ],
             'share' => [
                 'url' => 'javascript:;',
-                'caption' => __('app.share'),
+                'caption' => __('Share'),
                 'icon' => 'share-alt',
                 'authorized' => Auth::user() != null && Auth::user()->can('view', $article) && $article->public,
                 'attributes' => [
@@ -41,13 +41,13 @@ class ArticleShowContextButtons implements ContextButtons
             ],
             'pdf' => [
                 'url' => route('kb.articles.pdf', $article),
-                'caption' => __('app.pdf'),
+                'caption' => __('PDF'),
                 'icon' => 'file-pdf',
                 'authorized' => Auth::user() != null && Auth::user()->can('view', $article),
             ],
             'back' => [
                 'url' => $back_url,
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user() != null && Auth::user()->can('viewAny', WikiArticle::class),
             ],

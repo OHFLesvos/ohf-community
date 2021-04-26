@@ -1,11 +1,11 @@
 @extends('layouts.login')
 
-@section('title', __('app.privacy_policy'))
+@section('title', __('Privacy Policy'))
 
 @section('content')
     @isset($content)
         {!! $content !!}
     @else
-        @lang('app.no_content_available_to_you')
+        @lang('There is currently no content available for you here.')
     @endisset
 @endsection

@@ -1,15 +1,15 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.create_responsibility'))
+@section('title', __('Create responsibility'))
 
 @section('content')
     {!! Form::open(['route' => ['cmtyvol.responsibilities.store']]) !!}
-        {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
-        {{ Form::bsTextarea('description', null, [], __('app.description')) }}
-        {{ Form::bsNumber('capacity', null, [ 'min' => 0 ], __('app.capacity')) }}
-        <p>{{ Form::bsCheckbox('available', 1, true, __('app.available')) }}</p>
+        {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('Name')) }}
+        {{ Form::bsTextarea('description', null, [], __('Description')) }}
+        {{ Form::bsNumber('capacity', null, [ 'min' => 0 ], __('Capacity')) }}
+        <p>{{ Form::bsCheckbox('available', 1, true, __('Available')) }}</p>
         <p>
-            <x-form.bs-submit-button :label="__('app.update')"/>
+            <x-form.bs-submit-button :label="__('Update')"/>
         </p>
     {!! Form::close() !!}
 @endsection

@@ -44,7 +44,7 @@
             </b-table-simple>
         </template>
         <b-card-body v-else>
-            {{ $t('app.loading') }}
+            {{ $t('Loading...') }}
         </b-card-body>
     </b-card>
 </template>

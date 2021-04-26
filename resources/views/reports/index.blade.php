@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.reports'))
+@section('title', __('Reports'))
 
 @section('content')
     <div class="list-group shadow-sm">

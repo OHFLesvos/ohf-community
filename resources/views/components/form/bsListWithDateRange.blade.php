@@ -3,8 +3,8 @@
         @if ($label !== null || ! empty($label))
             <thead>
                 <th>{{ $label }}</th>
-                <th>@lang('app.from')</th>
-                <th>@lang('app.to')</th>
+                <th>@lang('From')</th>
+                <th>@lang('To')</th>
                 <th class="fit text-center"><x-icon icon="trash-alt"/></th>
             </thead>
         @endif
@@ -14,7 +14,7 @@
                     @php
                     $all_values = $entries->pluck('text', 'text');
                     if (! isset($all_values[$entry['value']])) {
-                        $all_values[$entry['value']] = $entry['value'] . ' (' .  __('app.not_available') . ')';
+                        $all_values[$entry['value']] = $entry['value'] . ' (' .  __('not available') . ')';
                     }
                     @endphp
                     <td>{{ Form::select($name . '[' . $loop->index . '][name]', $all_values, $entry['value'], [ 'class' => 'custom-select'.($errors->has($name) ? ' is-invalid' : '') ]) }}</td>
@@ -43,7 +43,7 @@
                     {{-- Put this inside a table row, as Firefox meight page-break after the table an render the button in the next column --}}
                     <button type="button" class="btn btn-success input-list-add-button" data-table="#{{ form_id_string($name) }}">
                         <x-icon icon="plus-circle"/>
-                        @lang('app.add')
+                        @lang('Add')
                     </button>
                 </td>
             </tr>

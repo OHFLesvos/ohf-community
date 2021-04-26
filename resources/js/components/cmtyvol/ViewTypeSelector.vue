@@ -23,11 +23,11 @@ export default {
         return {
             viewTypes: {
                 list: {
-                    label: this.$t('app.list'),
+                    label: this.$t('List'),
                     icon: 'table'
                 },
                 grid: {
-                    label: this.$t('app.grid'),
+                    label: this.$t('Grid'),
                     icon: 'grip-horizontal'
                 }
             }

@@ -55,30 +55,30 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
 
     public function title(): string
     {
-        return __('app.donors');
+        return __('Donors');
     }
 
     public function headings(): array
     {
         $headings = [
-            __('app.salutation'),
-            __('app.first_name'),
-            __('app.last_name'),
-            __('app.company'),
-            __('app.street'),
-            __('app.zip'),
-            __('app.city'),
-            __('app.country'),
-            __('app.email'),
-            __('app.phone'),
-            __('app.correspondence_language'),
-            __('app.registered'),
-            __('app.tags'),
-            __('app.comments'),
+            __('Salutation'),
+            __('First Name'),
+            __('Last Name'),
+            __('Company'),
+            __('Street'),
+            __('ZIP'),
+            __('City'),
+            __('Country'),
+            __('E-Mail Address'),
+            __('Phone'),
+            __('Correspondence language'),
+            __('Registered'),
+            __('Tags'),
+            __('Comments'),
         ];
         if (Auth::user()->can('viewAny', Donation::class)) {
             foreach ($this->years as $year) {
-                $headings[] = __('app.donations') . ' ' . $year;
+                $headings[] = __('Donations') . ' ' . $year;
             }
             foreach ($this->usedCurrenciesChannels as $cc) {
                 $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . $cc->year;

@@ -38,7 +38,7 @@ class CommentsController extends Controller
 
         return (new CommentResource($comment))
             ->additional([
-                'message' => __('app.comment_updated'),
+                'message' => __('Comment updated.'),
             ]);
     }
 
@@ -55,7 +55,7 @@ class CommentsController extends Controller
         $comment->delete();
 
         return response()->json([
-            'message' => __('app.comment_deleted'),
+            'message' => __('Comment deleted.'),
         ]);
     }
 }

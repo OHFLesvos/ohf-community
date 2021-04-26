@@ -65,7 +65,7 @@ class UserController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.user_added'),
+                'message' => __('User has been added.'),
             ], Response::HTTP_CREATED)
             ->header('Location', route('api.users.show', $user));
     }
@@ -99,7 +99,7 @@ class UserController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.user_updated'),
+                'message' => __('User has been updated.'),
             ]);
     }
 
@@ -115,7 +115,7 @@ class UserController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.user_deleted'),
+                'message' => __('User has been deleted.'),
             ]);
     }
 

@@ -15,27 +15,27 @@ class CommunityVolunteersShowContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('cmtyvol.edit', $cmtyvol),
-                'caption' => __('app.edit'),
+                'caption' => __('Edit'),
                 'icon' => 'edit',
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $cmtyvol),
             ],
             'vcard' => [
                 'url' => route('cmtyvol.vcard', $cmtyvol),
-                'caption' => __('app.vcard'),
+                'caption' => __('vCard'),
                 'icon' => 'address-card',
                 'authorized' => Auth::user()->can('view', $cmtyvol),
             ],
             'delete' => [
                 'url' => route('cmtyvol.destroy', $cmtyvol),
-                'caption' => __('app.delete'),
+                'caption' => __('Delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $cmtyvol),
-                'confirmation' => __('app.really_delete_community_volunteer'),
+                'confirmation' => __('Really delete this community volunteer?'),
             ],
             'back' => [
                 'url' => route('cmtyvol.index'),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', CommunityVolunteer::class),
             ],

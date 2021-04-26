@@ -14,7 +14,7 @@ class TransactionGlobalSummaryContextButtons implements ContextButtons
         return [
             'close' => [
                 'url' => route('accounting.index'),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],

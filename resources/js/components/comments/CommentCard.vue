@@ -66,12 +66,12 @@ export default {
     },
     computed: {
         userName() {
-            return this.comment.user_name ? this.comment.user_name : this.$t('app.unknown')
+            return this.comment.user_name ? this.comment.user_name : this.$t('Unknown')
         },
         formattedDate() {
             let str = this.toDateString(this.comment.created_at)
             if (this.comment.created_at != this.comment.updated_at) {
-                const updated = this.$t('app.updated_time_ago', {
+                const updated = this.$t('Updated :time.', {
                     time: this.toDateString(this.comment.updated_at)
                 })
                 str += ` (${updated})`

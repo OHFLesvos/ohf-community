@@ -12,7 +12,7 @@
             </template>
         </donors-table>
         <p v-else>
-            {{ $t('app.loading') }}
+            {{ $t('Loading...') }}
         </p>
     </div>
 </template>

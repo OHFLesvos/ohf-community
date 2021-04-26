@@ -1,6 +1,6 @@
 @extends('widgets.base', [
     'icon' => 'money-bill-alt',
-    'title' => __('app.accounting'),
+    'title' => __('Accounting'),
     'href' => route('accounting.index'),
 ])
 
@@ -13,7 +13,7 @@
             </a>
         @empty
             <a class="list-group-item">
-                @lang('app.no_wallets_found')
+                @lang('No wallets found.')
             </a>
         @endforelse
     </div>

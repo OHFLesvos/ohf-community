@@ -16,7 +16,7 @@ class WalletsContextButtons implements ContextButtons
         return [
             'overview' => [
                 'url' => route('accounting.index'),
-                'caption' => __('app.overview'),
+                'caption' => __('Overview'),
                 'icon' => 'money-bill-alt',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class) || Gate::allows('view-accounting-summary'),
             ],

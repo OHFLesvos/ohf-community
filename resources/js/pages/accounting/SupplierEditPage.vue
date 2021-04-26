@@ -14,13 +14,13 @@
         <hr>
         <p class="text-right">
             <small>
-                {{ $t('app.last_updated') }}:
+                {{ $t('Last updated') }}:
                 {{ dateFormat(supplier.updated_at) }}
             </small>
         </p>
     </b-container>
     <p v-else>
-        {{ $t('app.loading') }}
+        {{ $t('Loading...') }}
     </p>
 </template>
 
@@ -65,7 +65,7 @@ export default {
             this.isBusy = true
             try {
                 let data = await suppliersApi.update(this.id, formData)
-                showSnackbar(this.$t('app.supplier_updated'))
+                showSnackbar(this.$t('Supplier updated.'))
                 this.$router.push({ name: 'accounting.suppliers.show', parms: { id: data.data.slug } })
             } catch (err) {
                 alert(err)
@@ -76,7 +76,7 @@ export default {
             this.isBusy = true
             try {
                 await suppliersApi.delete(this.id)
-                showSnackbar(this.$t('app.supplier_deleted'))
+                showSnackbar(this.$t('Supplier deleted.'))
                 this.$router.push({ name: 'accounting.suppliers.index' })
             } catch (err) {
                 alert(err)

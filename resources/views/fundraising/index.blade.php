@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', __('app.donation_management'))
+@section('title', __('Donation Management'))
 
 @section('content')
     <div id="fundraising-app">
         <fundraising-app>
-            @lang('app.loading')
+            @lang('Loading...')
         </fundraising-app>
     </div>
 @endsection

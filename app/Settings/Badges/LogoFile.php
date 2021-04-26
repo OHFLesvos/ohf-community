@@ -18,7 +18,7 @@ class LogoFile extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.logo');
+        return __('Logo');
     }
 
     public function defaultValue()

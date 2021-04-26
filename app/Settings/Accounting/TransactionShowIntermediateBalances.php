@@ -14,7 +14,7 @@ class TransactionShowIntermediateBalances extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.show_intermediate_balances');
+        return __('Calculate intermediate balances, when sorted by receipt number');
     }
 
     public function defaultValue()

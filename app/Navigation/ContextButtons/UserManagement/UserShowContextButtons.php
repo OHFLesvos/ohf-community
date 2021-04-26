@@ -15,21 +15,21 @@ class UserShowContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('users.edit', $user),
-                'caption' => __('app.edit'),
+                'caption' => __('Edit'),
                 'icon' => 'edit',
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $user),
             ],
             'delete' => [
                 'url' => route('users.destroy', $user),
-                'caption' => __('app.delete'),
+                'caption' => __('Delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $user),
-                'confirmation' => __('app.confirm_delete_user'),
+                'confirmation' => __('Really delete this user?'),
             ],
             'back' => [
                 'url' => route('users.index'),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', User::class),
             ],

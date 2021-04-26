@@ -43,7 +43,7 @@ class StoreWallet extends FormRequest
     {
         $validator->after(function ($validator) {
             if (isset($this->wallet) && $this->wallet->is_default && ! $this->input('is_default')) {
-                $validator->errors()->add('is_default', __('app.there_must_be_one_default_wallet'));
+                $validator->errors()->add('is_default', __('There must be one default wallet.'));
             }
         });
     }

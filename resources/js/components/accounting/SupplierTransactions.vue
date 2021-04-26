@@ -7,7 +7,7 @@
             :api-method="fetchTransactions"
             default-sort-by="created_at"
             default-sort-desc
-            :empty-text="$t('app.no_data_registered')"
+            :empty-text="$t('No data registered.')"
             :items-per-page="25"
         >
             <template v-slot:cell(receipt_no)="data">
@@ -38,20 +38,20 @@ export default {
             transactionFields: [
                 {
                     key: 'receipt_no',
-                    label: this.$t('app.receipt_no'),
+                    label: this.$t('Receipt No.'),
                     sortable: true,
                     class: 'text-right fit'
                 },
                 {
                     key: 'date',
-                    label: this.$t('app.date'),
+                    label: this.$t('Date'),
                     sortable: true,
                     formatter: this.dateFormat,
                     class: 'fit'
                 },
                 {
                     key: 'amount',
-                    label: this.$t('app.amount'),
+                    label: this.$t('Amount'),
                     formatter: (value, key, item) => {
                         let val = value
                         if (item.type == 'spending') {
@@ -69,19 +69,19 @@ export default {
                 },
                 {
                     key: 'category',
-                    label: this.$t('app.category')
+                    label: this.$t('Category')
                 },
                 {
                     key: 'description',
-                    label: this.$t('app.description')
+                    label: this.$t('Description')
                 },
                 {
                     key: 'attendee',
-                    label: this.$t('app.attendee')
+                    label: this.$t('Attendee')
                 },
                 {
                     key: 'created_at',
-                    label: this.$t('app.registered'),
+                    label: this.$t('Registered'),
                     sortable: true,
                     formatter: this.dateTimeFormat,
                     class: 'fit'

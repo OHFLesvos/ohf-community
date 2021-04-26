@@ -14,13 +14,13 @@
         <hr>
         <p class="text-right">
             <small>
-                {{ $t('app.last_updated') }}:
+                {{ $t('Last updated') }}:
                 {{ dateFormat(donor.updated_at) }}
             </small>
         </p>
     </b-container>
     <p v-else>
-        {{ $t('app.loading') }}
+        {{ $t('Loading...') }}
     </p>
 </template>
 

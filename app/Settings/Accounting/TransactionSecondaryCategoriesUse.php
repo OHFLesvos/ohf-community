@@ -14,7 +14,7 @@ class TransactionSecondaryCategoriesUse extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.use_secondary_categories');
+        return __('Use secondary categories');
     }
 
     public function defaultValue()

@@ -24,17 +24,17 @@ class BadgeMakerController extends Controller
         $sources = [
             [
                 'key' => 'cmtyvol',
-                'label' => __('app.community_volunteers'),
+                'label' => __('Community Volunteers'),
                 'allowed' => request()->user()->can('viewAny', CommunityVolunteer::class),
             ],
             [
                 'key' => 'file',
-                'label' => __('app.file'),
+                'label' => __('File'),
                 'allowed' => true,
             ],
             [
                 'key' => 'list',
-                'label' => __('app.list'),
+                'label' => __('List'),
                 'allowed' => true,
             ],
         ];
@@ -120,7 +120,7 @@ class BadgeMakerController extends Controller
         Validator::make([], [])
             ->after(function ($validator) use ($persons) {
                 if (count($persons) == 0) {
-                    $validator->errors()->add('source', __('app.empty_data_source'));
+                    $validator->errors()->add('source', __('Empty data source.'));
                 }
             })
             ->validate();
@@ -166,10 +166,10 @@ class BadgeMakerController extends Controller
         if (count($persons) == 0) {
             return redirect()
                 ->route('badges.index')
-                ->with('error', __('app.empty_data_source'));
+                ->with('error', __('Empty data source.'));
         }
 
-        $title = __('app.badges');
+        $title = __('Badges');
 
         $badgeCreator = new BadgeCreator($persons);
         if ($request->hasFile('alt_logo')) {

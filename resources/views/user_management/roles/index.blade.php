@@ -1,16 +1,16 @@
 @extends('layouts.user-management')
 
-@section('title', __('app.roles'))
+@section('title', __('Roles'))
 
 @section('content')
     @if(! $roles->isEmpty())
         <table class="table table-hover bg-white">
             <thead>
                 <tr>
-                    <th>@lang('app.name')</th>
-                    <th class="text-right fit">@lang('app.users')</th>
-                    <th class="text-right fit d-none d-sm-table-cell">@lang('app.role_administrators')</th>
-                    <th class="text-right fit d-none d-sm-table-cell">@lang('app.permissions')</th>
+                    <th>@lang('Name')</th>
+                    <th class="text-right fit">@lang('Users')</th>
+                    <th class="text-right fit d-none d-sm-table-cell">@lang('Role Administrators')</th>
+                    <th class="text-right fit d-none d-sm-table-cell">@lang('Permissions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,7 +19,7 @@
                         <td>
                             <a href="{{ route('roles.show', $role) }}" title="View Role">{{ $role->name }}</a>
                             @if($role->administrators()->find(Auth::id()) != null)
-                                <strong>(@lang('app.you_are_administrator'))</strong>
+                                <strong>(@lang('you are administrator'))</strong>
                             @endif
                         </td>
                         <td class="text-right fit">{{ $role->users->count() }}</td>
@@ -32,7 +32,7 @@
         {{ $roles->links() }}
     @else
         <x-alert type="info">
-            @lang('app.no_roles_found')
+            @lang('No roles found.')
         </x-alert>
     @endif
 @endsection

@@ -12,7 +12,7 @@ class KBItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.knowledge_base');
+        return __('Knowledge Base');
     }
 
     protected $icon = 'info-circle';

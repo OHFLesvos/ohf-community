@@ -13,7 +13,7 @@ class VisitorIndexContextButtons implements ContextButtons
         return [
             'export' => [
                 'url' => route('api.visitors.export'),
-                'caption' => __('app.export'),
+                'caption' => __('Export'),
                 'icon' => 'download',
                 'authorized' => Gate::allows('export-visitors'),
             ],

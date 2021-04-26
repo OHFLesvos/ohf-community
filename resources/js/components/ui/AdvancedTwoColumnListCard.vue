@@ -11,12 +11,12 @@
 
         <!-- Loading -->
         <b-card-text v-else-if="loading">
-            <em>{{ $t('app.loading') }}</em>
+            <em>{{ $t('Loading...') }}</em>
         </b-card-text>
 
         <!-- No items -->
         <b-card-text v-else-if="items.length == 0">
-            <em>{{ $t('app.no_data_registered') }}</em>
+            <em>{{ $t('No data registered.') }}</em>
         </b-card-text>
 
         <template v-else>
@@ -28,7 +28,7 @@
                     href="javascript:;"
                     @click="topTen = !topTen"
                 >
-                    {{ topTen ? $t('app.show_all_x', { num: items.length }) : $t('app.show_top_x', { num: limit }) }}
+                    {{ topTen ? $t('Show all :num', { num: items.length }) : $t('Show Top :num', { num: limit }) }}
                 </a>
             </b-card-header>
             <b-list-group flush>
@@ -53,7 +53,7 @@
                     href="javascript:;"
                     @click="topTen = !topTen"
                 >
-                    <em>{{ $t('app.others') }}</em>
+                    <em>{{ $t('Others') }}</em>
                     <span>
                         {{ unselectedItemsAmount }} &nbsp;
                         <small class="text-muted">{{ roundWithDecimals(unselectedItemsAmount / totalAmount * 100, 1) }}%</small>

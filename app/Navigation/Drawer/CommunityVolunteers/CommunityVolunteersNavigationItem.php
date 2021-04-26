@@ -12,7 +12,7 @@ class CommunityVolunteersNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.community_volunteers');
+        return __('Community Volunteers');
     }
 
     protected $icon = 'id-badge';

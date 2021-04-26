@@ -52,7 +52,7 @@ class RoleUserRelationshipController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.user_added'),
+                'message' => __('User has been added.'),
             ], Response::HTTP_CREATED);
     }
 
@@ -80,7 +80,7 @@ class RoleUserRelationshipController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.user_updated'),
+                'message' => __('User has been updated.'),
             ]);
     }
 
@@ -109,7 +109,7 @@ class RoleUserRelationshipController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.user_removed'),
+                'message' => __('User has been removed.'),
             ]);
     }
 }

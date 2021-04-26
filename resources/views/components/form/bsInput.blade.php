@@ -1,7 +1,7 @@
 <div class="form-group column-break-avoid">
     @if ($label === null || ! empty($label))
         {{ Form::label($name, $label) }}
-        @if(isset($attributes) && in_array('required', $attributes, true))<span class="text-danger" title="@lang('app.required')">*</span>@endif
+        @if(isset($attributes) && in_array('required', $attributes, true))<span class="text-danger" title="@lang('Required')">*</span>@endif
     @endif
     @if (isset($attributes['prepend']) || isset($attributes['append']))
         <div class="input-group">

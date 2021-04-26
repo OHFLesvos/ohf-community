@@ -10,7 +10,7 @@ class FundraisingNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.donation_management');
+        return __('Donation Management');
     }
 
     protected $icon = 'donate';

@@ -13,7 +13,7 @@ class BadgeSelectionContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => route('badges.index'),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Gate::allows('create-badges'),
             ],

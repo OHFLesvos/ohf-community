@@ -12,7 +12,7 @@
                 icon="spinner"
                 spin
             />
-            {{ $t('app.loading') }}
+            {{ $t('Loading...') }}
         </p>
 
         <!-- Comments -->
@@ -40,7 +40,7 @@
             </div>
         </template>
         <p v-else>
-            <em>{{ $t('app.no_comments_found') }}</em>
+            <em>{{ $t('No comments found.') }}</em>
         </p>
 
         <!-- New comment -->
@@ -58,7 +58,7 @@
                     @click="openEditor(); editComment = null"
                 >
                     <font-awesome-icon icon="plus-circle" />
-                    {{ $t('app.add_comment') }}
+                    {{ $t('Add comment') }}
                 </b-button>
             </p>
         </template>
@@ -155,7 +155,7 @@ export default {
             this.busy = false
         },
         async deleteComment(comment) {
-            if (confirm(this.$t('app.confirm_delete_comment'))) {
+            if (confirm(this.$t('Really delete this comment?'))) {
                 this.busy = true
                 try {
                     let data = await commentsApi.delete(comment.id)

@@ -56,7 +56,7 @@ class RoleController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.role_added'),
+                'message' => __('Role has been added.'),
             ], Response::HTTP_CREATED)
             ->header('Location', route('api.roles.show', $role));
     }
@@ -87,7 +87,7 @@ class RoleController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.role_updated'),
+                'message' => __('Role has been updated.'),
             ]);
     }
 
@@ -103,7 +103,7 @@ class RoleController extends Controller
 
         return response()
             ->json([
-                'message' => __('app.role_deleted'),
+                'message' => __('Role has been deleted.'),
             ]);
     }
 

@@ -52,7 +52,7 @@ class ResponsibilitiesController extends Controller
         $responsibility->save();
 
         return redirect()->route('cmtyvol.responsibilities.index')
-            ->with('success', __('app.responsibility_added'));
+            ->with('success', __('Responsibility added.'));
     }
 
     /**
@@ -80,7 +80,7 @@ class ResponsibilitiesController extends Controller
         $responsibility->save();
 
         return redirect()->route('cmtyvol.responsibilities.index')
-            ->with('info', __('app.responsibility_updated'));
+            ->with('info', __('Responsibility updated.'));
     }
 
     /**
@@ -93,6 +93,6 @@ class ResponsibilitiesController extends Controller
         $responsibility->delete();
 
         return redirect()->route('cmtyvol.responsibilities.index')
-            ->with('success', __('app.responsibility_deleted'));
+            ->with('success', __('Responsibility deleted.'));
     }
 }

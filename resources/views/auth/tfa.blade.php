@@ -1,12 +1,12 @@
 @extends('layouts.login')
 
-@section('title', __('app.login'))
+@section('title', __('Login'))
 
 @section('content')
 
     {{ Form::open(['route' => 'login']) }}
 
-        <p>@lang('app.tfa_enter_code')</p>
+        <p>@lang('Enter the code from your authenticator app into the field below.')</p>
         <div class="form-group">
             {{ Form::bsNumber('code', old('code'), [ 'required', 'autofocus' ], '') }}
         </div>
@@ -16,11 +16,11 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            @lang('app.login')
+            @lang('Login')
         </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('login') }}">@lang('app.cancel')</a>
+            <a href="{{ route('login') }}">@lang('Cancel')</a>
         </div>
 
     {{ Form::close() }}

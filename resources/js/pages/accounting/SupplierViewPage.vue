@@ -33,12 +33,12 @@ export default {
                 {
                     to: { name: 'accounting.suppliers.show' },
                     icon: 'info',
-                    text: this.$t('app.details')
+                    text: this.$t('Details')
                 },
                 {
                     to: { name: 'accounting.suppliers.show.transactions' },
                     icon: 'list',
-                    text: this.$t('app.transactions'),
+                    text: this.$t('Transactions'),
                     key: 'transactions'
                 },
             ]

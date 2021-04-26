@@ -11,11 +11,11 @@ class Favicon192File extends FaviconFile
 
     public function label(): string
     {
-        return __('app.favicon_192');
+        return __('Favicon (192 x 192 pixel)');
     }
 
     public function formHelp(): ?string
     {
-        return __('app.favicon_192_explanation');
+        return __('Favicon according to Google Developer Web App Manifest Recommendation');
     }
 }

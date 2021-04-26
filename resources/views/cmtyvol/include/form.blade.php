@@ -8,7 +8,7 @@
     @elseif($field['type'] == 'textarea')
         {{ Form::bsTextarea($field['name'], $field['value'], [ 'rows' => 3, 'placeholder' => $field['placeholder'] ?? null ], $field['label'], $field['help'] ?? null) }}
     @elseif($field['type'] == 'checkbox')
-        <div class="mb-3">{{ Form::bsCheckbox($field['name'], __('app.yes'), $field['value'] == __('app.yes'), $field['label'], $field['help'] ?? null) }}</div>
+        <div class="mb-3">{{ Form::bsCheckbox($field['name'], __('Yes'), $field['value'] == __('Yes'), $field['label'], $field['help'] ?? null) }}</div>
     @elseif($field['type'] == 'radio')
         <div class="mb-3 column-break-avoid">{{ Form::bsRadioList($field['name'], $field['list'], $field['value'], $field['label'], $field['help'] ?? null) }}</div>
     @elseif($field['type'] == 'checkboxes')
@@ -20,7 +20,7 @@
     @elseif($field['type'] == 'image')
         {{ Form::bsFile($field['name'], [ 'accept' => 'image/*' ], $field['label'], $field['help'] ?? null) }}
         @isset($field['value'])
-            <div class="mb-3">{{ Form::bsCheckbox($field['name'].'_delete', 1, null, __('app.remove_image')) }}</div>
+            <div class="mb-3">{{ Form::bsCheckbox($field['name'].'_delete', 1, null, __('Remove image')) }}</div>
         @endisset
     @else
         @php

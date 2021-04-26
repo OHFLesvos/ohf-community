@@ -56,7 +56,7 @@ export default {
                 dataset = dataset.slice(0, this.limit - 1)
                 dataset.push(others)
                 labels = labels.slice(0, this.limit - 1)
-                labels.push(this.$t('app.others'))
+                labels.push(this.$t('Others'))
             }
 
             const colorPalette = palette('tol', Math.min(dataset.length, this.limit))
@@ -73,7 +73,7 @@ export default {
         },
         noDataData () {
             return {
-                'labels': [this.$t('app.no_data')],
+                'labels': [this.$t('No data')],
                 'datasets': [{
                     data: [1],
                     datalabels: {

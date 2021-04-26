@@ -15,14 +15,14 @@ class TransactionEditContextButtons implements ContextButtons
         return [
             'delete' => [
                 'url' => route('accounting.transactions.destroy', $transaction),
-                'caption' => __('app.delete'),
+                'caption' => __('Delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $transaction),
-                'confirmation' => __('app.confirm_delete_transaction'),
+                'confirmation' => __('Do you really want to delete this transaction?'),
             ],
             'back' => [
                 'url' => route('accounting.transactions.index', $transaction->wallet),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
             ],

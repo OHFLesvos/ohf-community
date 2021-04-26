@@ -5,7 +5,7 @@
     >
         <b-form-row class="mb-3">
             <b-col sm="auto">
-                <strong>{{ $t('app.donor') }}:</strong>
+                <strong>{{ $t('Donor') }}:</strong>
             </b-col>
             <b-col>{{ donation.donor }}</b-col>
         </b-form-row>
@@ -23,13 +23,13 @@
         <hr>
         <p class="text-right">
             <small>
-                {{ $t('app.last_updated') }}:
+                {{ $t('Last updated') }}:
                 {{ dateFormat(donation.updated_at) }}
             </small>
         </p>
     </b-container>
     <p v-else>
-        {{ $t('app.loading') }}
+        {{ $t('Loading...') }}
     </p>
 </template>
 

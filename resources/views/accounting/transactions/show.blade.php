@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.show_transaction'))
+@section('title', __('Show transaction'))
 
 @section('content')
 

@@ -16,7 +16,7 @@ class AccountingNavigationItem extends BaseNavigationItem
 
     public function getCaption(): string
     {
-        return __('app.accounting');
+        return __('Accounting');
     }
 
     protected $icon = 'money-bill-alt';

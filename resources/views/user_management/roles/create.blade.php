@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', __('app.create_role'))
+@section('title', __('Create Role'))
 
 @section('content')
     {!! Form::open(['route' => ['roles.store']]) !!}
         <div class="mb-3">
             <div class="form-row">
                 <div class="col-md">
-                    {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('app.name')) }}
+                    {{ Form::bsText('name', null, [ 'required', 'autofocus' ], __('Name')) }}
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
 
             {{-- Users --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('app.users')</div>
+                <div class="card-header">@lang('Users')</div>
                 <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('users[]', $users, null) }}
                 </div>
@@ -23,7 +23,7 @@
 
             {{-- Role administrators --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('app.role_administrators')</div>
+                <div class="card-header">@lang('Role Administrators')</div>
                 <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('role_admins[]', $users, null) }}
                 </div>
@@ -31,22 +31,22 @@
 
             {{-- Permissions --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('app.permissions')</div>
+                <div class="card-header">@lang('Permissions')</div>
                 <div class="card-body columns-2">
                     @forelse($permissions as $title => $elements)
                         <div class="column-break-avoid">
-                            <h5 @unless($loop->first) class="mt-3" @endunless>{{ $title == null ? __('app.general') : $title }}</h5>
+                            <h5 @unless($loop->first) class="mt-3" @endunless>{{ $title == null ? __('General') : $title }}</h5>
                             {{ Form::bsCheckboxList('permissions[]', $elements, null) }}
                         </div>
                     @empty
-                        <em>@lang('app.no_permissions_defined')</em>
+                        <em>@lang('No permissions defined.')</em>
                     @endforelse
                 </div>
             </div>
 
         </div>
         <p class="text-right">
-            <x-form.bs-submit-button :label="__('app.create')"/>
+            <x-form.bs-submit-button :label="__('Create')"/>
         </p>
     {!! Form::close() !!}
 @endsection

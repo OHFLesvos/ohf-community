@@ -12,7 +12,7 @@ class ChangelogContextButtons implements ContextButtons
         return [
             'back' => [
                 'url' => url()->previous(),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => true,
             ],

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.dashboard'))
+@section('title', __('Dashboard'))
 
 @section('content')
     @if (session()->has('login_message'))
@@ -16,7 +16,7 @@
         </div>
     @else
         <x-alert type="info">
-            @lang('app.no_content_available_to_you')
+            @lang('There is currently no content available for you here.')
         </x-alert>
     @endif
 @endsection

@@ -8,7 +8,7 @@
 
             <!-- Type -->
             <b-form-group
-                :label="$t('app.type')"
+                :label="$t('Type')"
             >
                 <b-form-radio-group
                     v-model="form.type"
@@ -18,19 +18,19 @@
 
             <!-- File -->
             <validation-provider
-                :name="$t('app.file')"
+                :name="$t('File')"
                 vid="file"
                 :rules="{ required: true, ext: ['xlsx', 'xls', 'csv'] }"
                 v-slot="validationContext"
             >
                 <b-form-group
-                    :label="$t('app.file')"
+                    :label="$t('File')"
                     :state="getValidationState(validationContext)"
                     :invalid-feedback="validationContext.errors[0]"
                 >
                     <b-form-file
                         v-model="form.file"
-                        :placeholder="$t('app.choose_file')"
+                        :placeholder="$t('Choose file...')"
                         accept=".xlsx, .xls, .csv"
                         required
                         :state="getValidationState(validationContext)"
@@ -45,7 +45,7 @@
                     :disabled="isBusy"
                 >
                     <font-awesome-icon icon="upload" />
-                    {{ $t('app.import') }}
+                    {{ $t('Import') }}
                 </b-button>
             </p>
         </b-form>

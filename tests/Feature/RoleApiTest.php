@@ -254,7 +254,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
-                'message' => __('app.role_added'),
+                'message' => __('Role has been added.'),
             ])
             ->assertLocation(route('api.roles.show', 1));
 
@@ -265,7 +265,7 @@ class RoleApiTest extends TestCase
 
     public function testShowNonExisting()
     {
-        Config::set('app.debug', false);
+        Config::set('Debug', false);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
@@ -379,7 +379,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.role_updated'),
+                'message' => __('Role has been updated.'),
             ]);
 
         $this->assertDatabaseHas('roles', [
@@ -402,7 +402,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.role_updated'),
+                'message' => __('Role has been updated.'),
             ]);
 
         $this->assertDatabaseHas('roles', [
@@ -435,7 +435,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('app.role_deleted'),
+                'message' => __('Role has been deleted.'),
             ]);
 
         $this->assertDeleted('roles', [

@@ -49,7 +49,7 @@ class CommunityVolunteerCommentsController extends Controller
 
         return (new CommentResource($comment))
             ->additional([
-                'message' => __('app.comment_added'),
+                'message' => __('Comment added.'),
             ]);
     }
 }

@@ -29,13 +29,13 @@ const overviewNavItems = [
     {
         to: { name: 'fundraising.donors.index' },
         icon: 'users',
-        text: i18n.t('app.donors'),
+        text: i18n.t('Donors'),
         show: can('view-fundraising-entities')
     },
     {
         to: { name: 'fundraising.donations.index' },
         icon: 'donate',
-        text: i18n.t('app.donations'),
+        text: i18n.t('Donations'),
         show: can('view-fundraising-entities')
     }
 ]
@@ -60,19 +60,19 @@ export default new VueRouter({
             props: {
                 default: (route) => ({ tag: route.query.tag }),
                 header:  {
-                    title: i18n.t('app.overview'),
+                    title: i18n.t('Overview'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donors.create' },
                             variant: 'primary',
                             icon: 'plus-circle',
-                            text: i18n.t('app.add'),
+                            text: i18n.t('Add'),
                             show: can('manage-fundraising-entities')
                         },
                         {
                             href: ziggyRoute('api.fundraising.donors.export'),
                             icon: 'download',
-                            text: i18n.t('app.export'),
+                            text: i18n.t('Export'),
                             show: can('view-fundraising-entities')
                         }
                     ]
@@ -93,12 +93,12 @@ export default new VueRouter({
             },
             props: {
                 header: {
-                    title: i18n.t('app.create_donor'),
+                    title: i18n.t('Add donor'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donors.index' },
                             icon: 'times-circle',
-                            text: i18n.t('app.cancel'),
+                            text: i18n.t('Cancel'),
                             show: can('view-fundraising-entities')
                         }
                     ]
@@ -115,31 +115,31 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: (route) => ({
-                    title: i18n.t('app.donor'),
+                    title: i18n.t('Donor'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donors.edit', params: { id: route.params.id } },
                             variant: 'primary',
                             icon: 'pencil-alt',
-                            text: i18n.t('app.edit'),
+                            text: i18n.t('Edit'),
                             show: can('manage-fundraising-entities')
                         },
                         {
                             href: ziggyRoute('api.fundraising.donors.donations.export', route.params.id),
                             icon: 'download',
-                            text: i18n.t('app.export'),
+                            text: i18n.t('Export'),
                             show: can('view-fundraising-entities')
                         },
                         {
                             href: ziggyRoute('api.fundraising.donors.vcard', route.params.id),
                             icon: 'address-card',
-                            text: i18n.t('app.vcard'),
+                            text: i18n.t('vCard'),
                             show: can('view-fundraising-entities')
                         },
                         {
                             to: previouslyRememberedRoute('fundraising.donors.show', { name: 'fundraising.donors.index' }),
                             icon: 'times-circle',
-                            text: i18n.t('app.close'),
+                            text: i18n.t('Close'),
                             show: can('view-fundraising-entities')
                         }
                     ]
@@ -184,12 +184,12 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: (route)  => ({
-                    title: i18n.t('app.edit_donor'),
+                    title: i18n.t('Edit donor'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donors.show', params: { id: route.params.id } },
                             icon: 'times-circle',
-                            text: i18n.t('app.cancel'),
+                            text: i18n.t('Cancel'),
                             show: can('view-fundraising-entities')
                         }
                     ]
@@ -208,18 +208,18 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: {
-                    title: i18n.t('app.overview'),
+                    title: i18n.t('Overview'),
                     buttons: [
                         {
                             href: ziggyRoute('api.fundraising.donations.export'),
                             icon: 'download',
-                            text: i18n.t('app.export'),
+                            text: i18n.t('Export'),
                             show: can('view-fundraising-entities')
                         },
                         {
                             to: { name: 'fundraising.donations.import' },
                             icon: 'upload',
-                            text: i18n.t('app.import'),
+                            text: i18n.t('Import'),
                             show: can('manage-fundraising-entities')
                         },
                     ]
@@ -240,12 +240,12 @@ export default new VueRouter({
             props: {
                 default: true,
                 header: () => ({
-                    title: i18n.t('app.edit_donation'),
+                    title: i18n.t('Edit donation'),
                     buttons: [
                         {
                             to: previouslyRememberedRoute('fundraising.donors.show', { name: 'fundraising.donations.index' } ),
                             icon: 'times-circle',
-                            text: i18n.t('app.cancel'),
+                            text: i18n.t('Cancel'),
                             show: can('view-fundraising-entities')
                         }
                     ]
@@ -266,12 +266,12 @@ export default new VueRouter({
             },
             props: {
                 header: {
-                    title: i18n.t('app.import'),
+                    title: i18n.t('Import'),
                     buttons: [
                         {
                             to: { name: 'fundraising.donations.index' },
                             icon: 'times-circle',
-                            text: i18n.t('app.cancel'),
+                            text: i18n.t('Cancel'),
                             show: can('view-fundraising-entities')
                         }
                     ]

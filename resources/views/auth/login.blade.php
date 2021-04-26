@@ -1,33 +1,33 @@
 @extends('layouts.login')
 
-@section('title', __('app.login'))
+@section('title', __('Login'))
 
 @section('content')
 
     {{ Form::open(['route' => 'login']) }}
 
         <div class="form-group">
-            {{-- {{ Form::label('email', __('app.email')) }} --}}
-            {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'autofocus', 'placeholder' => __('app.email') ]) }}
+            {{-- {{ Form::label('email', __('E-Mail Address')) }} --}}
+            {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'autofocus', 'placeholder' => __('E-Mail Address') ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
             @endif
         </div>
 
         <div class="form-group">
-            {{-- {{ Form::label('password', __('app.password')) }} --}}
-            {{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'placeholder' => __('app.password') ]) }}
+            {{-- {{ Form::label('password', __('Password')) }} --}}
+            {{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'placeholder' => __('Password') ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
             @endif
-            <small><a href="{{ route('password.request') }}">@lang('app.forgot_your_password')</a></small>
+            <small><a href="{{ route('password.request') }}">@lang('Forgot your password?')</a></small>
         </div>
 
-        {{ Form::bsCheckbox('remember', 1, false, __('app.remember_me')) }}
+        {{ Form::bsCheckbox('remember', 1, false, __('Remember me')) }}
 
         <p class="mt-4">
             <button type="submit" class="btn btn-primary btn-block">
-                @lang('app.login')
+                @lang('Login')
             </button>
         </p>
 
@@ -37,7 +37,7 @@
                 ->isNotEmpty();
         @endphp
         @if($hasServices)
-            <p class="text-center">@lang('app.or')</p>
+            <p class="text-center">@lang('or')</p>
             <p class="text-center">
             <div class="row">
                 @foreach(config('auth.socialite.drivers') as $driver)
@@ -46,9 +46,9 @@
                             <a href="{{ route('login.provider', $driver) }}" class="btn btn-secondary btn-sm btn-block">
                                 <x-icon :icon="$driver" style="fab" class="mr-1"/>
                                 @if($driver == 'google')
-                                    {{ __('app.google_sign_in') }}
+                                    {{ __('Sign in with Google') }}
                                 @elseif($driver == 'facebook')
-                                    {{ __('app.facebook_sign_in') }}
+                                    {{ __('Sign in with Facebook') }}
                                 @endif
                             </a>
                         </div>
@@ -58,8 +58,8 @@
         @endif
 
         <div class="text-center mt-4">
-            <span class="d-none d-sm-inline">@lang('app.new_here') <a href="{{ route('register') }}">@lang('app.crete_an_account')</a></span>
-            <span class="d-inline d-sm-none">@lang('app.new_here_short') <a href="{{ route('register') }}">@lang('app.crete_an_account_short')</a></span>
+            <span class="d-none d-sm-inline">@lang('Are you new here?') <a href="{{ route('register') }}">@lang('Create an account')</a></span>
+            <span class="d-inline d-sm-none">@lang('New here?') <a href="{{ route('register') }}">@lang('Create account')</a></span>
         </div>
 
     {{ Form::close() }}

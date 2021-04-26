@@ -70,7 +70,7 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
 
     public function title(): string
     {
-        return __('app.community_volunteers');
+        return __('Community Volunteers');
     }
 
     public function headings(): array

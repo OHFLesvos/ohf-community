@@ -46,7 +46,7 @@ class WeblingMoneyTransactionsExport extends BaseExport implements FromQuery, Wi
 
     public function title(): string
     {
-        return __('app.transactions');
+        return __('Transactions');
     }
 
     public function headings(): array

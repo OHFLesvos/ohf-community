@@ -15,14 +15,14 @@ class ResponsibilitiesIndexContextButtons implements ContextButtons
         return [
             'action' => [
                 'url' => route('cmtyvol.responsibilities.create'),
-                'caption' => __('app.register'),
+                'caption' => __('Register'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', Responsibility::class),
             ],
             'back' => [
                 'url' => route('cmtyvol.index'),
-                'caption' => __('app.close'),
+                'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', CommunityVolunteer::class),
             ],

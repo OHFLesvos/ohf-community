@@ -23,26 +23,26 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
 
     public function title(): string
     {
-        return __('app.suppliers');
+        return __('Suppliers');
     }
 
     public function headings(): array
     {
         return [
-            __('app.name'),
-            __('app.category'),
-            __('app.address'),
-            __('app.phone'),
-            __('app.mobile'),
-            __('app.email'),
-            __('app.website'),
-            __('app.tax_number'),
-            __('app.tax_office'),
-            __('app.bank'),
-            __('app.iban'),
-            __('app.transactions'),
-            __('app.spending'),
-            __('app.remarks'),
+            __('Name'),
+            __('Category'),
+            __('Address'),
+            __('Phone'),
+            __('Mobile'),
+            __('E-Mail Address'),
+            __('Website'),
+            __('Tax number'),
+            __('Tax office'),
+            __('Bank'),
+            __('IBAN'),
+            __('Transactions'),
+            __('Spending'),
+            __('Remarks'),
         ];
     }
 

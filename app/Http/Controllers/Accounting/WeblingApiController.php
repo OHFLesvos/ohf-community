@@ -104,8 +104,8 @@ class WeblingApiController extends Controller
             'incomeSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'income') : [],
             'expenseSelect' => $hasTransactions ? $this->getAccountSelectArray($accountGroups, 'expense') : [],
             'actions' => [
-                'ignore' => __('app.ignore'),
-                'book' => __('app.book'),
+                'ignore' => __('Ignore'),
+                'book' => __('Book'),
             ],
             'defaultAction' => 'ignore',
         ]);
@@ -185,7 +185,7 @@ class WeblingApiController extends Controller
 
         return redirect()
             ->route('accounting.webling.index', $wallet)
-            ->with('info', __('app.num_transactions_booked', ['num' => count($bookedTransactions)]));
+            ->with('info', __(':num transactions have been booked.', ['num' => count($bookedTransactions)]));
     }
 
     private static function mapTransactionById(int $id, Request $request, Period $period)
@@ -277,6 +277,6 @@ class WeblingApiController extends Controller
 
         return redirect()
             ->route('accounting.webling.index', $wallet)
-            ->with('info', __('app.num_transactions_synced', ['num' => $synced]));
+            ->with('info', __(':num transactions have been synchronized.', ['num' => $synced]));
     }
 }

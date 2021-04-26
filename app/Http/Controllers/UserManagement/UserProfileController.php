@@ -39,10 +39,10 @@ class UserProfileController extends Controller
             ]);
             $user->save();
             return redirect()->route('userprofile')
-                ->with('success', __('app.profile_updated'));
+                ->with('success', __('User profile has been updated.'));
         }
         return redirect()->route('userprofile')
-            ->with('info', __('app.no_changes_made'));
+            ->with('info', __('No changes have been made.'));
     }
 
     public function updatePassword(StoreNewUserPassword $request)
@@ -58,10 +58,10 @@ class UserProfileController extends Controller
             ]);
             $user->save();
             return redirect()->route('userprofile')
-                ->with('success', __('app.password_updated'));
+                ->with('success', __('Password has been updated.'));
         }
         return redirect()->route('userprofile')
-            ->with('info', __('app.no_changes_made'));
+            ->with('info', __('No changes have been made.'));
     }
 
     public function delete()
@@ -112,13 +112,13 @@ class UserProfileController extends Controller
                     'client_ip' => request()->ip(),
                 ]);
                 return redirect()->route('userprofile')
-                    ->with('info', __('app.tfa_enabled'));
+                    ->with('info', __('Two-Factor Authentication enabled'));
             }
             return redirect()->back()
-                ->with('error', __('app.invalid_code_please_repeat'));
+                ->with('error', __('Invalid code, please repeat.'));
         }
         return redirect()->back()
-            ->with('error', __('app.invalid_secret'));
+            ->with('error', __('Invalid secret, please repeat.'));
     }
 
     public function disable2FA(Store2FA $request)
@@ -136,12 +136,12 @@ class UserProfileController extends Controller
                     'client_ip' => request()->ip(),
                 ]);
                 return redirect()->route('userprofile')
-                    ->with('info', __('app.tfa_disabled'));
+                    ->with('info', __('Two-Factor Authentication disabled'));
             }
             return redirect()->back()
-                ->with('error', __('app.invalid_code_please_repeat'));
+                ->with('error', __('Invalid code, please repeat.'));
         }
         return redirect()->back()
-            ->with('error', __('app.invalid_secret'));
+            ->with('error', __('Invalid secret, please repeat.'));
     }
 }

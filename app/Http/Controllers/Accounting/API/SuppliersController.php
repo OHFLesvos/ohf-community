@@ -180,7 +180,7 @@ class SuppliersController extends Controller
     {
         $this->authorize('viewAny', Supplier::class);
 
-        $file_name = __('app.suppliers') . ' - ' . now()->toDateString();
+        $file_name = __('Suppliers') . ' - ' . now()->toDateString();
         $extension = 'xlsx';
         return (new SuppliersExport())->download($file_name . '.' . $extension);
     }

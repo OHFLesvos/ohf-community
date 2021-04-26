@@ -8,7 +8,7 @@
     {{ Form::bsTextarea($field_key, $field['value'], $field['args'] ?? [ 'placeholder' => $field['placeholder'] ?? null, 'rows' => 5 ], $field['label'], $field['help'] ?? null) }}
 @elseif($field['type'] == 'checkbox')
     <div class="mb-3">
-        {{ Form::bsCheckbox($field['name'], __('app.yes'), $field['value'] == __('app.yes'), $field['label'], $field['help'] ?? null) }}
+        {{ Form::bsCheckbox($field['name'], __('Yes'), $field['value'] == __('Yes'), $field['label'], $field['help'] ?? null) }}
     </div>
 @elseif($field['type'] == 'radio')
     <div class="mb-3 column-break-avoid">
@@ -17,16 +17,16 @@
 @elseif($field['type'] == 'file')
     <div class="mb-2">
         <label for="{{ $field_key }}">{{ $field['label'] }}</label>
-        {{ Form::bsFile($field_key, $field['args'] ?? [], $field['placeholder'] ?? __('app.choose_file'), $field['help'] ?? null) }}
+        {{ Form::bsFile($field_key, $field['args'] ?? [], $field['placeholder'] ?? __('Choose file...'), $field['help'] ?? null) }}
         @isset($field['value'])
             <a href="{{ Storage::url($field['value']) }}" data-fslightbox>
                 @if(Str::startsWith(mime_content_type(Storage::path($field['value'])), 'image/'))
                     <img src="{{ Storage::url($field['value']) }}" class="img-fluid img-thumbnail mb-2" style="max-height: 200px">
                 @else
-                    <p>@lang('app.view_file')</p>
+                    <p>@lang('View file')</p>
                 @endif
             </a>
-            <div class="mb-3">{{ Form::bsCheckbox($field_key . '_delete', 1, null, __('app.remove_file')) }}</div>
+            <div class="mb-3">{{ Form::bsCheckbox($field_key . '_delete', 1, null, __('Remove file')) }}</div>
         @endisset
     </div>
 @else

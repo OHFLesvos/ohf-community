@@ -1,17 +1,17 @@
 @extends('layouts.login')
 
-@section('title', __('app.register'))
+@section('title', __('Register'))
 
 @section('content')
 
     <x-alert type="info">
-        @lang('app.privacy_policy_agreement_link', [ 'url' => route('userPrivacyPolicy') ])
+        @lang('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [ 'url' => route('userPrivacyPolicy') ])
     </x-alert>
 
     {{ Form::open(['route' => 'register']) }}
 
         <div class="form-group">
-            {{ Form::label('name', __('app.name')) }}
+            {{ Form::label('name', __('Name')) }}
             {{ Form::text('name', old('name'), [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required', 'autofocus' ]) }}
             @if ($errors->has('name'))
                 <span class="invalid-feedback">{{ $errors->first('name') }}</span>
@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('email', __('app.email')) }}
+            {{ Form::label('email', __('E-Mail Address')) }}
             {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
@@ -27,7 +27,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('password', __('app.password')) }}
+            {{ Form::label('password', __('Password')) }}
             {{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label('password_confirmation', __('app.confirm_password')) }}
+            {{ Form::label('password_confirmation', __('Confirm password')) }}
             {{ Form::password('password_confirmation', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
@@ -44,11 +44,11 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            @lang('app.register')
+            @lang('Register')
         </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('login') }}">@lang('app.return_to_login')</a>
+            <a href="{{ route('login') }}">@lang('Return to login')</a>
         </div>
 
     {{ Form::close() }}

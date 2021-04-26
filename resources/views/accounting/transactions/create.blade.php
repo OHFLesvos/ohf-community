@@ -1,53 +1,53 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.register_new_transaction'))
+@section('title', __('Register new transaction'))
 
 @section('content')
     {!! Form::open(['route' => ['accounting.transactions.store', $wallet], 'files' => true]) !!}
         <div class="form-row">
             <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', $wallet->nextFreeReceiptNumber, [ 'required', 'step' => '1', 'min' => 1 ], __('app.receipt_no')) }}
+                {{ Form::bsNumber('receipt_no', $wallet->nextFreeReceiptNumber, [ 'required', 'step' => '1', 'min' => 1 ], __('Receipt No.')) }}
             </div>
             <div class="col-sm-auto">
-                {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required' ], __('app.date')) }}
+                {{ Form::bsDate('date', Carbon\Carbon::today(), [ 'required' ], __('Date')) }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-sm-auto pb-3">
-                {{ Form::bsRadioInlineList('type', [ 'income' => __('app.income'), 'spending' => __('app.spending') ], 'spending', __('app.type')) }}
+                {{ Form::bsRadioInlineList('type', [ 'income' => __('Income'), 'spending' => __('Spending') ], 'spending', __('Type')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('app.amount'), __('app.write_decimal_point_as_comma')) }}
+                {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('Amount'), __('Write decimal point as comma (,)')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsNumber('fees', null, [ 'step' => 'any', 'min' => 0], __('app.transaction_fees'), __('app.write_decimal_point_as_comma')) }}
+                {{ Form::bsNumber('fees', null, [ 'step' => 'any', 'min' => 0], __('Transaction fees'), __('Write decimal point as comma (,)')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsText('attendee', null, [ 'list' => $attendees ], __('app.attendee')) }}
+                {{ Form::bsText('attendee', null, [ 'list' => $attendees ], __('Attendee')) }}
             </div>
         </div>
         <div class="form-row">
             <div class="col-sm">
                 @if($fixed_categories)
-                    {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('app.category') . ' -' ], __('app.category')) }}
+                    {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('Category') . ' -' ], __('Category')) }}
                 @else
-                    {{ Form::bsText('category', null, [ 'required', 'list' => $categories ], __('app.category')) }}
+                    {{ Form::bsText('category', null, [ 'required', 'list' => $categories ], __('Category')) }}
                 @endif
             </div>
             @if($secondary_categories !== null)
                 <div class="col-sm">
                     @if($fixed_secondary_categories)
-                        {{ Form::bsSelect('secondary_category', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.secondary_category') . ' -' ], __('app.secondary_category')) }}
+                        {{ Form::bsSelect('secondary_category', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('Secondary Category') . ' -' ], __('Secondary Category')) }}
                     @else
-                        {{ Form::bsText('secondary_category', null, [ 'required', 'list' => $secondary_categories ], __('app.secondary_category')) }}
+                        {{ Form::bsText('secondary_category', null, [ 'required', 'list' => $secondary_categories ], __('Secondary Category')) }}
                     @endif
                 </div>
             @endif
             <div class="col-sm">
                 @if($fixed_projects)
-                    {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.project') . ' -' ], __('app.project')) }}
+                    {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
                 @else
-                    {{ Form::bsText('project', null, [ 'list' => $projects ], __('app.project')) }}
+                    {{ Form::bsText('project', null, [ 'list' => $projects ], __('Project')) }}
                 @endif
             </div>
         </div>
@@ -55,45 +55,45 @@
             @if($locations !== null)
                 <div class="col-sm">
                     @if($fixed_locations)
-                        {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.location') . ' -' ], __('app.location')) }}
+                        {{ Form::bsSelect('location', collect($locations)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('Location') . ' -' ], __('Location')) }}
                     @else
-                        {{ Form::bsText('location', null, [ 'list' => $locations ], __('app.location')) }}
+                        {{ Form::bsText('location', null, [ 'list' => $locations ], __('Location')) }}
                     @endif
                 </div>
             @endif
             @if($cost_centers !== null)
                 <div class="col-sm">
                     @if($fixed_cost_centers)
-                        {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('app.cost_center') . ' -' ], __('app.cost_center')) }}
+                        {{ Form::bsSelect('cost_center', collect($cost_centers)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('Cost Center') . ' -' ], __('Cost Center')) }}
                     @else
-                        {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('app.cost_center')) }}
+                        {{ Form::bsText('cost_center', null, [ 'list' => $cost_centers ], __('Cost Center')) }}
                     @endif
                 </div>
             @endif
         </div>
         <div class="form-row">
             <div class="col-sm">
-                {{ Form::bsText('description', null, [ 'required' ], __('app.description')) }}
+                {{ Form::bsText('description', null, [ 'required' ], __('Description')) }}
             </div>
             @if($suppliers->count() > 0)
                 <div class="col-sm">
-                    {{ Form::bsSelect('supplier_id', collect($suppliers)->mapWithKeys(fn ($e) => [$e->id => $e->name . ($e->category !== null ? ' (' . $e->category . ')' : '')]), null, [ 'placeholder' => '- ' . __('app.supplier') . ' -' ], __('app.supplier')) }}
+                    {{ Form::bsSelect('supplier_id', collect($suppliers)->mapWithKeys(fn ($e) => [$e->id => $e->name . ($e->category !== null ? ' (' . $e->category . ')' : '')]), null, [ 'placeholder' => '- ' . __('Supplier') . ' -' ], __('Supplier')) }}
                 </div>
             @endif
         </div>
         <div class="form-row">
             <div class="col-sm">
-                <label>@lang('app.receipt')</label>
-                {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('app.choose_picture_of_receipt')) }}
+                <label>@lang('Receipt')</label>
+                {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('Choose picture of receipt')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsText('remarks', null, [  ], __('app.remarks')) }}
+                {{ Form::bsText('remarks', null, [  ], __('Remarks')) }}
             </div>
         </div>
         <p>
-            <x-form.bs-submit-button :label="__('app.add')"/>
+            <x-form.bs-submit-button :label="__('Add')"/>
             <x-form.bs-submit-button
-                :label="__('app.save_and_continue')"
+                :label="__('Save and continue')"
                 icon="arrow-right"
                 name="submit"
                 value="save_and_continue"

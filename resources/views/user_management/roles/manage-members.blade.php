@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.manage_members'))
+@section('title', __('Manage members'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
         <div class="mb-3">
             <div class="form-row">
                 <div class="col-md">
-                    {{ Form::bsText('name', null, [ 'readonly' ], __('app.name')) }}
+                    {{ Form::bsText('name', null, [ 'readonly' ], __('Name')) }}
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
 
             {{-- Users --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('app.users')</div>
+                <div class="card-header">@lang('Users')</div>
                 <div class="card-body columns-3">
                     {{ Form::bsCheckboxList('users[]', $users, $role->users()->orderBy('name')->get()->pluck('name', 'id')->keys()->toArray()) }}
                 </div>
@@ -27,7 +27,7 @@
         </div>
 
         <p>
-            <x-form.bs-submit-button :label="__('app.update')"/>
+            <x-form.bs-submit-button :label="__('Update')"/>
         </p>
 
     {!! Form::close() !!}

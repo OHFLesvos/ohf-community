@@ -14,7 +14,7 @@ class IndexContextButtons implements ContextButtons
         return [
             'globalSummary' => [
                 'url' => route('accounting.transactions.globalSummary'),
-                'caption' => __('app.summary'),
+                'caption' => __('Summary'),
                 'icon' => 'globe',
                 'authorized' => Gate::allows('view-accounting-summary'),
             ],

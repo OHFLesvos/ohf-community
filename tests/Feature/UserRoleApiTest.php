@@ -37,7 +37,7 @@ class UserRoleApiTest extends TestCase
 
     public function testIndexWithNonExistingUser()
     {
-        Config::set('app.debug', false);
+        Config::set('Debug', false);
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 

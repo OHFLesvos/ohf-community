@@ -10,7 +10,7 @@
           header-class="d-flex justify-content-between"
         >
             <template v-slot:header>
-                <span>{{ $t('app.check_in') }}</span>
+                <span>{{ $t('Check-in') }}</span>
                 <b-button
                     variant="link"
                     size="sm"
@@ -34,21 +34,21 @@
                     @click="showRegisterForm = true"
                 >
                     <font-awesome-icon icon="sign-in-alt"/>
-                    {{ $t('app.check_in') }}
+                    {{ $t('Check-in') }}
                 </b-button>
             </b-col>
             <b-col class="text-right">
                 <b-dropdown
                     class="d-block d-md-none"
                     right
-                    :text="$t('app.actions')"
+                    :text="$t('Actions')"
                 >
                     <b-dropdown-item
                         v-if="count !== 0"
                         @click="checkoutAll"
                     >
                         <font-awesome-icon icon="door-closed"/>
-                        {{ $t('app.checkout_everyone') }}
+                        {{ $t('Checkout everyone') }}
                     </b-dropdown-item>
                 </b-dropdown>
                 <span class="d-none d-md-inline">
@@ -59,17 +59,17 @@
                         @click="checkoutAll"
                     >
                         <font-awesome-icon icon="door-closed"/>
-                        {{ $t('app.checkout_everyone') }}
+                        {{ $t('Checkout everyone') }}
                     </b-button>
                 </span>
             </b-col>
         </b-row>
-        <h3>{{ $t('app.current_visitors') }}</h3>
+        <h3>{{ $t('Current Visitors') }}</h3>
         <p class="text-muted">
             <span v-for="(v, k) in currentlyVisiting" :key="k">
                 {{ getTypeLabel(k) }}: <strong>{{ v }}</strong>,
             </span>
-            {{ $t('app.total') }}: <strong>{{ count }}</strong>
+            {{ $t('Total') }}: <strong>{{ count }}</strong>
         </p>
         <base-table
             ref="table"
@@ -78,7 +78,7 @@
             :api-method="fetchData"
             default-sort-by="entered_at"
             default-sort-desc
-            :empty-text="$t('app.no_data_registered')"
+            :empty-text="$t('No data registered.')"
             :items-per-page="100"
             @metadata="currentlyVisiting = $event.currently_visiting"
         >
@@ -90,7 +90,7 @@
                   @click="checkoutVisitor(data.item.id)"
                 >
                     <font-awesome-icon icon="sign-out-alt"/>
-                    {{ $t('app.checkout') }}
+                    {{ $t('Checkout') }}
                 </b-button>
             </template>
         </base-table>
@@ -115,46 +115,46 @@ export default {
             fields: [
                 {
                     key: 'last_name',
-                    label: this.$t('app.last_name'),
+                    label: this.$t('Last Name'),
                     sortable: true,
                     tdClass: 'align-middle'
                 },
                 {
                     key: 'first_name',
-                    label: this.$t('app.first_name'),
+                    label: this.$t('First Name'),
                     sortable: true,
                     tdClass: 'align-middle'
                 },
                 {
                     key: 'type',
-                    label: this.$t('app.type'),
+                    label: this.$t('Type'),
                     tdClass: 'align-middle',
                     formatter: this.getTypeLabel,
                 },
                 {
                     key: 'additional_info',
-                    label: this.$t('app.additional_info'),
+                    label: this.$t('Additional Information'),
                     tdClass: 'align-middle',
                     formatter: (value, key, item) => {
                         const items = Array()
                         if (item.id_number) {
-                            items.push(`${this.$t('app.id_number')}: ${item.id_number}`)
+                            items.push(`${this.$t('ID Number')}: ${item.id_number}`)
                         }
                         if (item.place_of_residence) {
-                            items.push(`${this.$t('app.place_of_residence')}: ${item.place_of_residence}`)
+                            items.push(`${this.$t('Place of residence')}: ${item.place_of_residence}`)
                         }
                         if (item.activity) {
-                            items.push(`${this.$t('app.activity_program')}: ${item.activity}`)
+                            items.push(`${this.$t('Activity / Program')}: ${item.activity}`)
                         }
                         if (item.organization) {
-                            items.push(`${this.$t('app.organization')}: ${item.organization}`)
+                            items.push(`${this.$t('Organization')}: ${item.organization}`)
                         }
                         return items.join(', ')
                     }
                 },
                 {
                     key: 'entered_at',
-                    label: this.$t('app.time'),
+                    label: this.$t('Time'),
                     sortable: true,
                     sortDirection: 'desc',
                     tdClass: 'align-middle',
@@ -165,7 +165,7 @@ export default {
                 },
                 {
                     key: 'checkout',
-                    label: this.$t('app.checkout'),
+                    label: this.$t('Checkout'),
                     class: 'fit'
                 }
             ],
@@ -185,7 +185,7 @@ export default {
             this.isBusy = true
             try {
                 await visitorsApi.checkin(formData)
-                showSnackbar(this.$t('app.checked_in'))
+                showSnackbar(this.$t('Checked-in.'))
                 this.isBusy = false
                 this.$refs.table.refresh()
             } catch (err) {
@@ -198,7 +198,7 @@ export default {
             try {
                 await visitorsApi.checkout(id)
                 this.isBusy = false
-                showSnackbar(this.$t('app.checked_out'))
+                showSnackbar(this.$t('Checked out.'))
                 this.$refs.table.refresh()
             } catch (err) {
                 alert(err)
@@ -206,12 +206,12 @@ export default {
             }
         },
         async checkoutAll() {
-            if (confirm(this.$t('app.really_checkout_everyone'))) {
+            if (confirm(this.$t('Really checkout everyone?'))) {
                 this.isBusy = true
                 try {
                     await visitorsApi.checkoutAll()
                     this.isBusy = false
-                    showSnackbar(this.$t('app.everyone_checked_out'))
+                    showSnackbar(this.$t('Everyone has been checked out.'))
                     this.$refs.table.refresh()
                 } catch (err) {
                     alert(err)
@@ -221,22 +221,22 @@ export default {
         },
         getTypeLabel (value) {
             if (value == 'visitor') {
-                return this.$t('app.visitor')
+                return this.$t('Visitor')
             }
             if (value == 'visitors') {
-                return this.$t('app.visitors')
+                return this.$t('Visitors')
             }
             if (value == 'participant') {
-                return this.$t('app.participant')
+                return this.$t('Participant')
             }
             if (value == 'participants') {
-                return this.$t('app.participants')
+                return this.$t('Participants')
             }
             if (value == 'staff') {
-                return this.$t('app.volunteer_staff')
+                return this.$t('Volunteer / Staff')
             }
             if (value == 'external') {
-                return this.$t('app.external_visitor')
+                return this.$t('External visitor')
             }
             return value
         }

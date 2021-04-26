@@ -26,7 +26,7 @@
         <router-view @count="updateCount" />
     </div>
     <p v-else>
-        {{ $t('app.loading') }}
+        {{ $t('Loading...') }}
     </p>
 </template>
 
@@ -55,19 +55,19 @@ export default {
                 {
                     to: { name: 'fundraising.donors.show' },
                     icon: 'user',
-                    text: this.$t('app.donor')
+                    text: this.$t('Donor')
                 },
                 {
                     to: { name: 'fundraising.donors.show.donations' },
                     icon: 'donate',
-                    text: this.$t('app.donations'),
+                    text: this.$t('Donations'),
                     key: 'donations',
                     show: () => this.canViewDonations
                 },
                 {
                     to: { name: 'fundraising.donors.show.comments' },
                     icon: 'comments',
-                    text: this.$t('app.comments'),
+                    text: this.$t('Comments'),
                     key: 'comments'
                 },
             ]

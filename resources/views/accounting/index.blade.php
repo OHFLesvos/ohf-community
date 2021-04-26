@@ -1,13 +1,13 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('app.accounting'))
+@section('title', __('Accounting'))
 
 @section('content')
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between">
-            <span>@lang('app.wallets')</span>
+            <span>@lang('Wallets')</span>
             @can('configure-accounting')
-                <a href="{{ route('accounting.wallets') }}">@lang('app.manage')</a>
+                <a href="{{ route('accounting.wallets') }}">@lang('Manage')</a>
             @endcan
         </div>
         <div class="list-group list-group-flush">
@@ -22,7 +22,7 @@
                 @endcan
             @empty
                 <a class="list-group-item">
-                    @lang('app.no_wallets_found')
+                    @lang('No wallets found.')
                 </a>
             @endforelse
         </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('app.responsibilities'))
+@section('title', __('Responsibilities'))
 
 @section('content')
     @if(count($responsibilities) > 0)
@@ -8,11 +8,11 @@
             <table class="table table-sm table-bordered table- table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('app.name')</th>
-                        <th>@lang('app.description')</th>
-                        <th class="text-center fit">@lang('app.available')</th>
-                        <th class="text-right fit">@lang('app.capacity')</th>
-                        <th class="fit">@lang('app.assigned')</th>
+                        <th>@lang('Name')</th>
+                        <th>@lang('Description')</th>
+                        <th class="text-center fit">@lang('Available')</th>
+                        <th class="text-right fit">@lang('Capacity')</th>
+                        <th class="fit">@lang('Assigned')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@
         </div>
     @else
         <x-alert type="info">
-            @lang('app.no_responsibilities_defined')
+            @lang('No responsibilities defined.')
         </x-alert>
     @endif
 @endsection

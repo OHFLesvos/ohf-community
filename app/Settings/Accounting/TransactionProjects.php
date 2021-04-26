@@ -14,7 +14,7 @@ class TransactionProjects extends BaseSettingsField
 
     public function label(): string
     {
-        return __('app.projects');
+        return __('Projects');
     }
 
     public function defaultValue()
@@ -29,7 +29,7 @@ class TransactionProjects extends BaseSettingsField
 
     public function formHelp(): ?string
     {
-        return __('app.separate_items_by_newline');
+        return __('Separate items by newline');
     }
 
     public function setter($value)

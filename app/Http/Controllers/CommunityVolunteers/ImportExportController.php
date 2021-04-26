@@ -40,9 +40,9 @@ class ImportExportController extends BaseController
     {
         // File extension => Label
         return [
-            'xlsx' => __('app.excel_xls'),
-            'csv' => __('app.comma_separated_values_csv'),
-            'pdf' => __('app.pdf_pdf'),
+            'xlsx' => __('Excel (.xsls)'),
+            'csv' => __('Comma-separated values (.csv)'),
+            'pdf' => __('PDF (.pdf)'),
         ];
     }
 
@@ -76,7 +76,7 @@ class ImportExportController extends BaseController
 
         return redirect()
             ->route('cmtyvol.index')
-            ->with('success', __('app.import_successful'));
+            ->with('success', __('Import successful.'));
     }
 
     private static function getImportFields($fields)
@@ -124,7 +124,7 @@ class ImportExportController extends BaseController
             ],
         ]);
 
-        $available = collect([ null => '-- ' . __('app.dont_import') . ' --' ])
+        $available = collect([ null => '-- ' . __('don't import') . ' --' ])
             ->merge($fields->mapWithKeys(fn ($f) => [ $f['key'] => __($f['key']) ]));
 
         return [ 'headers' => $table_headers, 'available' => $available, 'defaults' => $defaults ];
@@ -210,7 +210,7 @@ class ImportExportController extends BaseController
     private function getExportFilename(Request $request): string
     {
         $workStatus = $this->getWorkStatuses()->get($request->work_status);
-        return __('app.community_volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
+        return __('Community Volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
     }
 
     private function downloadExportable(Request $request, $export, string $file_name, string $file_ext)

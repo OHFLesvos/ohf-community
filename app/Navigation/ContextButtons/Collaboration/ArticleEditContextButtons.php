@@ -14,14 +14,14 @@ class ArticleEditContextButtons implements ContextButtons
         return [
             'delete' => [
                 'url' => route('kb.articles.destroy', $article),
-                'caption' => __('app.delete'),
+                'caption' => __('Delete'),
                 'icon' => 'trash',
                 'authorized' => Auth::user()->can('delete', $article),
-                'confirmation' => __('app.confirm_delete_article'),
+                'confirmation' => __('Do you really want to delete this article?'),
             ],
             'back' => [
                 'url' => route('kb.articles.show', $article),
-                'caption' => __('app.cancel'),
+                'caption' => __('Cancel'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('view', $article),
             ],

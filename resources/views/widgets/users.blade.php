@@ -1,6 +1,6 @@
 @extends('widgets.base', [
     'icon' => 'user-friends',
-    'title' => __('app.users'),
+    'title' => __('Users'),
     'href' => route('users.index'),
 ])
 
@@ -12,7 +12,7 @@
         ],
     ])
     <div class="card-body p-3 border-top">
-        @lang('app.newest_user_is', [
+        @lang('The newest user is <a href=":href">:name</a>, registered :registered.', [
             'href' => route('users.show', $latest_user),
             'name' => $latest_user->name,
             'registered' => $latest_user->created_at->diffForHumans(),
