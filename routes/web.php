@@ -364,3 +364,60 @@ Route::prefix('reports')
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
+
+Route::get('/transform1', function(){
+    $en = include(base_path('resources/lang/en/app.php'));
+    $de = include(base_path('resources/lang/de/app.php'));
+
+    $deTransformed = json_decode(file_get_contents(base_path('resources/lang/de.json')), true);
+
+    foreach ($en as $k => $v) {
+        if (!isset($de[$k])) {
+            echo "Undefined key '$k'\n";
+        } else {
+            $deTransformed[$v] = $de[$k];
+        }
+    }
+
+    file_put_contents(base_path('resources/lang/de.json'), json_encode($deTransformed, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    unlink(base_path('resources/lang/de/app.php'));
+});
+
+function getFilesFromDir($dir)
+{
+    $files = array_diff(scandir($dir), array('.', '..'));
+    $names = [];
+    foreach ($files as $file) {
+        $path = "$dir/$file";
+        if (is_dir($path)) {
+            $names = array_merge($names, getFilesFromDir($path));
+        } else {
+            $names[] = $path;
+        }
+    }
+    return $names;
+}
+
+function replaceInFiles($map, $files)
+{
+    foreach($files as $file) {
+        $content = file_get_contents($file);
+        foreach ($map as $k => $v) {
+            $content = str_replace("__('$k'", "__('$v'", $content);
+            $content = str_replace("@lang('$k'", "@lang('$v'", $content);
+            $content = str_replace("trans_choice('$k'", "trans_choice('$v'", $content);
+            $content = str_replace("t('$k'", "t('$v'", $content);
+        }
+        file_put_contents($file, $content);
+    }
+}
+
+Route::get('/transform2', function(){
+    $en = collect(include(base_path('resources/lang/en/app.php')))
+        ->mapWithKeys(fn($v, $k) => ["app.$k" => $v])
+        ->toArray();
+    replaceInFiles($en, getFilesFromDir(base_path('app')));
+    replaceInFiles($en, getFilesFromDir(base_path('resources/views')));
+    replaceInFiles($en, getFilesFromDir(base_path('resources/js')));
+    unlink(base_path('resources/lang/en/app.php'));
+});
