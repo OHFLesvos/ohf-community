@@ -3,7 +3,7 @@
         <b-row align-v="center">
             <b-col>
                 <font-awesome-icon icon="times-circle" />
-                {{ $t('Error: :err', { err: value }) }}
+                {{ $t('Error: {err}', { err: value }) }}
             </b-col>
             <b-col sm="auto">
                 <b-button

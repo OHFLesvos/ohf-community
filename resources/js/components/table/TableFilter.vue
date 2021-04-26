@@ -14,7 +14,7 @@
                 ...
             </b-input-group-text>
             <b-input-group-text v-else>
-                {{ $t(':num results', { num: totalRows }) }}
+                {{ $t('{num} results', { num: totalRows }) }}
             </b-input-group-text>
         </b-input-group-append>
     </b-input-group>

@@ -13,7 +13,7 @@
         </b-col>
         <b-col sm="auto" class="text-right">
             <small>
-                {{ $t(':x out of :y', {
+                {{ $t('{x} out of {y}', {
                     x: `${itemsStart} - ${itemsEnd}`,
                     y: totalRows
                 }) }}
