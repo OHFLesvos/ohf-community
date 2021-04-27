@@ -1,8 +1,7 @@
 import Vue from "vue";
 
 // Font awesome
-import FontAwesomeIcon from "@/components/common/FontAwesomeIcon";
-Vue.component("font-awesome-icon", FontAwesomeIcon);
+import "@/plugins/fontAwesome";
 
 // Bootstrap Vue
 import BootstrapVue from "bootstrap-vue";

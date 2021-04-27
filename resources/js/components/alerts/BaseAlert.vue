@@ -6,11 +6,7 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@/components/common/FontAwesomeIcon'
 export default {
-    components: {
-        FontAwesomeIcon
-    },
     props: {
         message: {
             required: true
@@ -18,3 +14,4 @@ export default {
     }
 }
 </script>
+
