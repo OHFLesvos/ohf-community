@@ -22,6 +22,7 @@ import "@/plugins/vee-validate";
 Vue.config.productionTip = false;
 
 import router from "@/router";
+import store from "@/store";
 
 // Users app
 import UserManagementApp from "@/app/UserManagementApp";
@@ -70,7 +71,6 @@ if (document.getElementById("accounting-app")) {
 }
 
 // Fundraising app
-import store from "@/store";
 import FundraisingApp from "@/app/FundraisingApp";
 if (document.getElementById("fundraising-app")) {
     new Vue({
