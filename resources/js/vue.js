@@ -24,11 +24,12 @@ Vue.config.productionTip = false;
 import router from "@/router";
 
 // Users app
-import UserIndexPage from "@/pages/users/UserIndexPage";
+import UserManagementApp from "@/app/UserManagementApp";
 if (document.getElementById("user-management-app")) {
     new Vue({
+        router,
         i18n,
-        render: h => h(UserIndexPage)
+        render: h => h(UserManagementApp)
     }).$mount("#user-management-app");
 }
 

@@ -7,6 +7,7 @@ import visitors from "@/router/visitors";
 import accounting from "@/router/accounting";
 import fundraising from "@/router/fundraising";
 import reports from "@/router/reports";
+import userManagement from "@/router/user-management";
 
 import NotFoundPage from "@/pages/NotFoundPage";
 
@@ -17,6 +18,7 @@ export default new VueRouter({
         ...accounting,
         ...fundraising,
         ...reports,
+        ...userManagement,
         {
             path: "*",
             component: NotFoundPage
