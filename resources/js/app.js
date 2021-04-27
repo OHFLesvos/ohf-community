@@ -1,6 +1,7 @@
-import './bootstrap'
+import '@/bootstrap'
 import $ from 'jquery'
-import './vue'
+import '@/editor'
+import '@/editor'
 
 /*====================================
 =            ON DOM READY            =
