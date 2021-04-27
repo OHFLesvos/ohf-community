@@ -4,15 +4,6 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import PageHeader from '@/components/ui/PageHeader'
-import WalletsIndexPage from '@/pages/accounting/WalletsIndexPage'
-import WalletCreatePage from '@/pages/accounting/WalletCreatePage'
-import WalletEditPage from '@/pages/accounting/WalletEditPage'
-import SuppliersIndexPage from '@/pages/accounting/SuppliersIndexPage'
-import SupplierCreatePage from '@/pages/accounting/SupplierCreatePage'
-import SupplierViewPage from '@/pages/accounting/SupplierViewPage'
-import SupplierDetails from '@/components/accounting/SupplierDetails'
-import SupplierTransactions from '@/components/accounting/SupplierTransactions'
-import SupplierEditPage from '@/pages/accounting/SupplierEditPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 import i18n from '@/plugins/i18n'
@@ -27,7 +18,7 @@ export default new VueRouter({
             path: '/wallets',
             name: 'accounting.wallets.index',
             components: {
-                default: WalletsIndexPage,
+                default: () => import(/* webpackChunkName: "accounting" */ '@/pages/accounting/WalletsIndexPage'),
                 header: PageHeader
             },
             props: {
@@ -49,7 +40,7 @@ export default new VueRouter({
             path: '/wallets/create',
             name: 'accounting.wallets.create',
             components: {
-                default: WalletCreatePage,
+                default: () => import(/* webpackChunkName: "accounting" */ '@/pages/accounting/WalletCreatePage'),
                 header: PageHeader
             },
             props: {
@@ -62,7 +53,7 @@ export default new VueRouter({
             path: '/wallets/:id/edit',
             name: 'accounting.wallets.edit',
             components: {
-                default: WalletEditPage,
+                default: () => import(/* webpackChunkName: "accounting" */ '@/pages/accounting/WalletEditPage'),
                 header: PageHeader
             },
             props: {
@@ -76,7 +67,7 @@ export default new VueRouter({
             path: '/suppliers',
             name: 'accounting.suppliers.index',
             components: {
-                default: SuppliersIndexPage,
+                default: () => import(/* webpackChunkName: "accounting" */ '@/pages/accounting/SuppliersIndexPage'),
                 header: PageHeader
             },
             props: {
@@ -98,7 +89,7 @@ export default new VueRouter({
             path: '/suppliers/create',
             name: 'accounting.suppliers.create',
             components: {
-                default: SupplierCreatePage,
+                default: () => import(/* webpackChunkName: "accounting" */ '@/pages/accounting/SupplierCreatePage'),
                 header: PageHeader
             },
             props: {
@@ -110,7 +101,7 @@ export default new VueRouter({
         {
             path: '/suppliers/:id',
             components: {
-                default: SupplierViewPage,
+                default: () => import(/* webpackChunkName: "accounting" */ '@/pages/accounting/SupplierViewPage'),
                 header: PageHeader
             },
             props: {
@@ -139,13 +130,13 @@ export default new VueRouter({
                 {
                     path: '',
                     name: 'accounting.suppliers.show',
-                    component: SupplierDetails,
+                    component: () => import(/* webpackChunkName: "accounting" */ '@/components/accounting/SupplierDetails'),
                     props: true
                 },
                 {
                     path: 'transactions',
                     name: 'accounting.suppliers.show.transactions',
-                    component: SupplierTransactions,
+                    component: () => import(/* webpackChunkName: "accounting" */ '@/components/accounting/SupplierTransactions'),
                     props: true
                 }
             ],
@@ -154,7 +145,7 @@ export default new VueRouter({
             path: '/suppliers/:id/edit',
             name: 'accounting.suppliers.edit',
             components: {
-                default: SupplierEditPage,
+                default: () => import(/* webpackChunkName: "accounting" */ '@/pages/accounting/SupplierEditPage'),
                 header: PageHeader
             },
             props: {

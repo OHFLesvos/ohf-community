@@ -17,6 +17,9 @@ mix.webpackConfig({
             "@": path.resolve(__dirname, "resources/js/"),
             ziggy: path.resolve("vendor/tightenco/ziggy/dist")
         }
+    },
+    output: {
+        chunkFilename: "js/chunks/[name].js"
     }
 });
 
