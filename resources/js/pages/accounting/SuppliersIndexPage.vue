@@ -7,7 +7,7 @@
         default-sort-by="name"
         :empty-text="$t('No data registered.')"
         :items-per-page="25"
-        :filter-placeholder="$t('Type to search (:fields)...', { fields: [ $t('Name').toLowerCase(), $t('Category').toLowerCase(), $t('Phone').toLowerCase(), $t('Tax number').toLowerCase(), $t('IBAN'), $t('Remarks').toLowerCase() ].join(', ') })"
+        :filter-placeholder="$t('Type to search ({fields})...', { fields: [ $t('Name'), $t('Category'), $t('Phone'), $t('Tax number'), $t('IBAN'), $t('Remarks') ].join(', ') })"
     >
         <template v-slot:cell(name)="data">
             <b-link :to="{ name: 'accounting.suppliers.show', params: { id: data.item.slug } }">
