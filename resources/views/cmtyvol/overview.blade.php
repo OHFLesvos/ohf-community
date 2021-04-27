@@ -5,7 +5,7 @@
 @section('content')
     <div id="cmtyvol-app">
         <community-volunteers-overview-page>
-            @lang('Loading...')
+            <x-spinner />
         </community-volunteers-overview-page>
     </div>
 @endsection

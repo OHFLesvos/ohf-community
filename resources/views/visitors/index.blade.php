@@ -4,6 +4,6 @@
 
 @section('content')
     <div id="visitors-app">
-        @lang('Loading...')
+        <x-spinner />
     </div>
 @endsection

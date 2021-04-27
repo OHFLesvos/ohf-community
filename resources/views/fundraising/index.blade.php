@@ -4,12 +4,13 @@
 
 @section('content')
     <div id="fundraising-app">
-        @lang('Loading...')
+        <x-spinner />
     </div>
 @endsection
 
 @push('head')
     <script>
         window.Laravel.permissions = @json($permissions)
+
     </script>
 @endpush

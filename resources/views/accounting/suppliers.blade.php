@@ -4,17 +4,18 @@
 
 @section('content')
     <div id="accounting-app">
-        @lang('Loading...')
+        <x-spinner />
     </div>
 @endsection
 
 @push('head')
     @php
-        $permissions = [
-            'manage-suppliers' => Gate::allows('manage-suppliers'),
-        ];
+    $permissions = [
+        'manage-suppliers' => Gate::allows('manage-suppliers'),
+    ];
     @endphp
     <script>
         window.Laravel.permissions = @json($permissions)
+
     </script>
 @endpush
