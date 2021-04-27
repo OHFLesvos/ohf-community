@@ -45,7 +45,6 @@ if (document.getElementById("visitors-app")) {
 }
 
 // Community volunteer app
-import CmtyvolComments from "@/components/cmtyvol/CmtyvolComments";
 if (document.getElementById("cmtyvol-app")) {
     new Vue({
         router,
