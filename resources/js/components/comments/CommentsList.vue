@@ -1,46 +1,40 @@
 <template>
     <div>
         <!-- Error -->
-        <error-alert
-            v-if="error"
-            :message="error"
-        />
+        <b-alert v-if="error" variant="danger" show>
+            {{ error }}
+        </b-alert>
 
         <!-- Loading -->
         <p v-if="!loaded && !error">
-            <font-awesome-icon
-                icon="spinner"
-                spin
-            />
-            {{ $t('Loading...') }}
+            <font-awesome-icon icon="spinner" spin />
+            {{ $t("Loading...") }}
         </p>
 
         <!-- Comments -->
-        <template
-            v-else-if="comments.length > 0"
-        >
-            <div
-                v-for="comment in comments"
-                :key="comment.id"
-            >
+        <template v-else-if="comments.length > 0">
+            <div v-for="comment in comments" :key="comment.id">
                 <comment-editor
                     v-if="editComment == comment.id"
                     :comment="comment"
                     :disabled="busy"
-                    @submit="updateComment({...comment, ...$event})"
+                    @submit="updateComment({ ...comment, ...$event })"
                     @cancel="editComment = null"
                 />
                 <comment-card
                     v-else
                     :comment="comment"
                     :busy="busy"
-                    @edit="editComment = comment.id; editor = false"
+                    @edit="
+                        editComment = comment.id;
+                        editor = false;
+                    "
                     @delete="deleteComment(comment)"
                 />
             </div>
         </template>
         <p v-else>
-            <em>{{ $t('No comments found.') }}</em>
+            <em>{{ $t("No comments found.") }}</em>
         </p>
 
         <!-- New comment -->
@@ -55,30 +49,30 @@
                 <b-button
                     variant="primary"
                     :disabled="busy"
-                    @click="openEditor(); editComment = null"
+                    @click="
+                        openEditor();
+                        editComment = null;
+                    "
                 >
                     <font-awesome-icon icon="plus-circle" />
-                    {{ $t('Add comment') }}
+                    {{ $t("Add comment") }}
                 </b-button>
             </p>
         </template>
-
     </div>
 </template>
 
 <script>
-import commentsApi from '@/api/comments'
-import { BButton } from 'bootstrap-vue'
-import CommentEditor from '@/components/comments/CommentEditor'
-import CommentCard from '@/components/comments/CommentCard'
-import { showSnackbar } from '@/utils'
-import ErrorAlert from '@/components/alerts/ErrorAlert'
+import commentsApi from "@/api/comments";
+import { BButton } from "bootstrap-vue";
+import CommentEditor from "@/components/comments/CommentEditor";
+import CommentCard from "@/components/comments/CommentCard";
+import { showSnackbar } from "@/utils";
 export default {
     components: {
         BButton,
         CommentEditor,
-        CommentCard,
-        ErrorAlert
+        CommentCard
     },
     props: {
         apiListMethod: {
@@ -98,78 +92,82 @@ export default {
             error: null,
             loaded: false,
             busy: false
-        }
+        };
     },
-    mounted () {
-        this.loadComments()
+    mounted() {
+        this.loadComments();
     },
     watch: {
-        comments (val) {
-            this.$emit('count', val.length)
+        comments(val) {
+            this.$emit("count", val.length);
         }
     },
     methods: {
         async loadComments() {
-            this.error = null
+            this.error = null;
             try {
-                let data = await this.apiListMethod()
-                this.comments = data.data
-                this.loaded = true
+                let data = await this.apiListMethod();
+                this.comments = data.data;
+                this.loaded = true;
             } catch (err) {
-                this.error = err
+                this.error = err;
             }
         },
         openEditor() {
-            this.editor = true
+            this.editor = true;
         },
         closeEditor() {
-            this.editor = false
+            this.editor = false;
         },
         async addComment(comment) {
-            this.error = null
-            this.busy = true
+            this.error = null;
+            this.busy = true;
             try {
-                let data = await this.apiCreateMethod(comment)
-                this.comments.push(data.data)
-                this.closeEditor()
-                showSnackbar(data.message)
+                let data = await this.apiCreateMethod(comment);
+                this.comments.push(data.data);
+                this.closeEditor();
+                showSnackbar(data.message);
             } catch (err) {
-                this.error = err
+                this.error = err;
             }
-            this.busy = false
+            this.busy = false;
         },
         async updateComment(comment) {
-            this.error = null
-            this.busy = true
+            this.error = null;
+            this.busy = true;
             try {
-                let data = await commentsApi.update(comment.id, comment)
-                const idx = this.comments.findIndex(elem => elem.id === comment.id)
+                let data = await commentsApi.update(comment.id, comment);
+                const idx = this.comments.findIndex(
+                    elem => elem.id === comment.id
+                );
                 if (idx >= 0) {
-                    this.$set(this.comments, idx, data.data)
+                    this.$set(this.comments, idx, data.data);
                 }
-                this.editComment = null
-                showSnackbar(data.message)
+                this.editComment = null;
+                showSnackbar(data.message);
             } catch (err) {
-                this.error = err
+                this.error = err;
             }
-            this.busy = false
+            this.busy = false;
         },
         async deleteComment(comment) {
-            if (confirm(this.$t('Really delete this comment?'))) {
-                this.busy = true
+            if (confirm(this.$t("Really delete this comment?"))) {
+                this.busy = true;
                 try {
-                    let data = await commentsApi.delete(comment.id)
-                    const idx = this.comments.findIndex(elem => elem.id === comment.id)
+                    let data = await commentsApi.delete(comment.id);
+                    const idx = this.comments.findIndex(
+                        elem => elem.id === comment.id
+                    );
                     if (idx >= 0) {
-                        this.comments.splice(idx, 1)
+                        this.comments.splice(idx, 1);
                     }
-                    showSnackbar(data.message)
+                    showSnackbar(data.message);
                 } catch (err) {
-                    this.error = err
+                    this.error = err;
                 }
-                this.busy = false
+                this.busy = false;
             }
         }
     }
-}
+};
 </script>
