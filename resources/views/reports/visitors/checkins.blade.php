@@ -9,7 +9,3 @@
         </reports-app>
     </div>
 @endsection
-
-@push('footer')
-    <script src="{{ mix('js/reports.js') }}"></script>
-@endpush

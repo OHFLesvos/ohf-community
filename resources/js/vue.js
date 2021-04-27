@@ -92,3 +92,17 @@ if (document.getElementById("fundraising-app")) {
         }
     });
 }
+
+// Reports app
+import reportsRouter from "@/router/reports";
+import ReportsApp from "@/app/ReportsApp";
+if (document.getElementById("reports-app")) {
+    new Vue({
+        el: "#reports-app",
+        router: reportsRouter,
+        i18n,
+        components: {
+            ReportsApp
+        }
+    });
+}
