@@ -3,7 +3,7 @@
 @section('title', __('Users'))
 
 @section('content')
-    <div id="user-management-app">
+    <div id="app">
         <x-spinner />
     </div>
 @endsection

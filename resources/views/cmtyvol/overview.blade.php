@@ -3,7 +3,7 @@
 @section('title', __('Community Volunteers'))
 
 @section('content')
-    <div id="cmtyvol-app">
+    <div id="app">
         <x-spinner />
     </div>
 @endsection

@@ -23,34 +23,15 @@ Vue.config.productionTip = false;
 
 import router from "@/router";
 import store from "@/store";
-
 import DefaultApp from "@/DefaultApp";
 
-// Users app
-if (document.getElementById("user-management-app")) {
+if (document.getElementById("app")) {
     new Vue({
         router,
+        store,
         i18n,
         render: h => h(DefaultApp)
-    }).$mount("#user-management-app");
-}
-
-// Visitors app
-if (document.getElementById("visitors-app")) {
-    new Vue({
-        router,
-        i18n,
-        render: h => h(DefaultApp)
-    }).$mount("#visitors-app");
-}
-
-// Community volunteer app
-if (document.getElementById("cmtyvol-app")) {
-    new Vue({
-        router,
-        i18n,
-        render: h => h(DefaultApp)
-    }).$mount("#cmtyvol-app");
+    }).$mount("#app");
 }
 
 // Accounting app
@@ -58,6 +39,7 @@ import AccountingApp from "@/app/AccountingApp";
 if (document.getElementById("accounting-app")) {
     new Vue({
         router,
+        store,
         i18n,
         render: h => h(AccountingApp)
     }).$mount("#accounting-app");
@@ -72,13 +54,4 @@ if (document.getElementById("fundraising-app")) {
         i18n,
         render: h => h(FundraisingApp)
     }).$mount("#fundraising-app");
-}
-
-// Reports app
-if (document.getElementById("reports-app")) {
-    new Vue({
-        router,
-        i18n,
-        render: h => h(DefaultApp)
-    }).$mount("#reports-app");
 }
