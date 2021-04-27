@@ -1,8 +1,9 @@
 {
-    "/js/app.js": "/js/app.js?id=0ef9ab92ce0ca4d5da1d",
-    "/js/manifest.js": "/js/manifest.js?id=a2b8817c731dbf93e027",
+    "/js/app.js": "/js/app.js?id=d505aaf5810a76d99a60",
+    "/js/manifest.js": "/js/manifest.js?id=39799b312f0daa19439c",
     "/js/chunks/accounting.js": "/js/chunks/accounting.js?id=3ed76a2a4864749385c6",
     "/js/chunks/fundraising.js": "/js/chunks/fundraising.js?id=be55008b442feb2ef73c",
+    "/js/chunks/reports.js": "/js/chunks/reports.js?id=c16dc72e8bd55c08cfab",
     "/css/app.css": "/css/app.css?id=5f913e20f45eece4cea7",
     "/js/vendor.js": "/js/vendor.js?id=c8d5d43544c964e0b5ec",
     "/webfonts/fa-brands-400.eot": "/webfonts/fa-brands-400.eot?id=94c52b85b8727f78760e",
