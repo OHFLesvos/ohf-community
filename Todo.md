@@ -9,3 +9,8 @@
 
 * Implement privilege assignment with expiration date
 * Add audit log wherever user accesses privacy relevant data
+
+use
+new Vue({
+    render: h => h(App),
+}).$mount('#app')
