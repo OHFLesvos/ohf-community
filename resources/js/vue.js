@@ -24,23 +24,23 @@ Vue.config.productionTip = false;
 import router from "@/router";
 import store from "@/store";
 
+import DefaultApp from "@/DefaultApp";
+
 // Users app
-import UserManagementApp from "@/app/UserManagementApp";
 if (document.getElementById("user-management-app")) {
     new Vue({
         router,
         i18n,
-        render: h => h(UserManagementApp)
+        render: h => h(DefaultApp)
     }).$mount("#user-management-app");
 }
 
 // Visitors app
-import VisitorsApp from "@/app/VisitorsApp";
 if (document.getElementById("visitors-app")) {
     new Vue({
         router,
         i18n,
-        render: h => h(VisitorsApp)
+        render: h => h(DefaultApp)
     }).$mount("#visitors-app");
 }
 
@@ -82,11 +82,10 @@ if (document.getElementById("fundraising-app")) {
 }
 
 // Reports app
-import ReportsApp from "@/app/ReportsApp";
 if (document.getElementById("reports-app")) {
     new Vue({
         router,
         i18n,
-        render: h => h(ReportsApp)
+        render: h => h(DefaultApp)
     }).$mount("#reports-app");
 }
