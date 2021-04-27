@@ -3,7 +3,7 @@
 @section('title', __('Donation Management'))
 
 @section('content')
-    <div id="fundraising-app">
+    <div id="app">
         <x-spinner />
     </div>
 @endsection

@@ -33,25 +33,3 @@ if (document.getElementById("app")) {
         render: h => h(DefaultApp)
     }).$mount("#app");
 }
-
-// Accounting app
-import AccountingApp from "@/app/AccountingApp";
-if (document.getElementById("accounting-app")) {
-    new Vue({
-        router,
-        store,
-        i18n,
-        render: h => h(AccountingApp)
-    }).$mount("#accounting-app");
-}
-
-// Fundraising app
-import FundraisingApp from "@/app/FundraisingApp";
-if (document.getElementById("fundraising-app")) {
-    new Vue({
-        store,
-        router,
-        i18n,
-        render: h => h(FundraisingApp)
-    }).$mount("#fundraising-app");
-}

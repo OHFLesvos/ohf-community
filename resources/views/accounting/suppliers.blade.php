@@ -3,7 +3,7 @@
 @section('title', __('Suppliers'))
 
 @section('content')
-    <div id="accounting-app">
+    <div id="app">
         <x-spinner />
     </div>
 @endsection
