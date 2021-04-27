@@ -22,8 +22,3 @@
         </div>
     {!! Form::close() !!}
 @endsection
-
-@push('head')
-    <script src="{{ mix('js/editor.js') }}" defer></script>
-@endpush
-

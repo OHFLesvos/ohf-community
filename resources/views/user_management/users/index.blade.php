@@ -9,7 +9,3 @@
         </user-index-page>
     </div>
 @endsection
-
-@push('footer')
-    <script src="{{ mix('js/user_management.js') }}"></script>
-@endpush

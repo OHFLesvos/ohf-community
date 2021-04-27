@@ -10,7 +10,7 @@
     </div>
 @endsection
 
-@push('footer')
+@push('head')
     @php
         $permissions = [
             'configure-accounting' => Gate::allows('configure-accounting'),
@@ -19,5 +19,4 @@
     <script>
         window.Laravel.permissions = @json($permissions)
     </script>
-    <script src="{{ mix('js/accounting.js') }}"></script>
 @endpush

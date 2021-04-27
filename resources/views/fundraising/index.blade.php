@@ -10,9 +10,8 @@
     </div>
 @endsection
 
-@push('footer')
+@push('head')
     <script>
         window.Laravel.permissions = @json($permissions)
     </script>
-    <script src="{{ mix('js/fundraising.js') }}"></script>
 @endpush

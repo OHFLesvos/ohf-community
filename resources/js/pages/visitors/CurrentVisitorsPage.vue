@@ -99,7 +99,7 @@
 
 <script>
 import moment from 'moment'
-import showSnackbar from '@/snackbar'
+import { showSnackbar } from '@/utils'
 import visitorsApi from '@/api/visitors'
 import RegisterVisitorForm from '@/components/visitors/RegisterVisitorForm'
 import BaseTable from '@/components/table/BaseTable'

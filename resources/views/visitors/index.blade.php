@@ -9,7 +9,3 @@
         </visitors-app>
     </div>
 @endsection
-
-@push('footer')
-    <script src="{{ mix('js/visitors.js') }}"></script>
-@endpush
