@@ -124,7 +124,7 @@ class ImportExportController extends BaseController
             ],
         ]);
 
-        $available = collect([ null => '-- ' . __('don't import') . ' --' ])
+        $available = collect([ null => '-- ' . __("don't import") . ' --' ])
             ->merge($fields->mapWithKeys(fn ($f) => [ $f['key'] => __($f['key']) ]));
 
         return [ 'headers' => $table_headers, 'available' => $available, 'defaults' => $defaults ];

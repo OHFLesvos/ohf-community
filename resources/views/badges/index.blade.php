@@ -11,7 +11,7 @@
                     {{ Form::bsRadioList('source', $sources, $source, __('Source')) }}
                 </div>
                 <div id="file_upload" class="mb-3">
-                    {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('Choose file...'), __('File must be in Excel or CSV format and contain the columns 'Name', 'Position' and optional 'Code'.')) }}
+                    {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv' ], __('Choose file...'), __("File must be in Excel or CSV format and contain the columns 'Name', 'Position' and optional 'Code'.")) }}
                 </div>
                 <template id="new_input_list_row">
                     <div class="form-row">
