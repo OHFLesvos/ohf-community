@@ -18,7 +18,7 @@ export default {
         label: {
             required: true,
             type: String
-        },        
+        },
         query: {
             required: true,
             type: String
