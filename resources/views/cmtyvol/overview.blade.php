@@ -4,8 +4,6 @@
 
 @section('content')
     <div id="cmtyvol-app">
-        <community-volunteers-overview-page>
-            <x-spinner />
-        </community-volunteers-overview-page>
+        <x-spinner />
     </div>
 @endsection

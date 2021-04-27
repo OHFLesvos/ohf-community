@@ -26,5 +26,6 @@
     "/css/font/summernote.woff": "/css/font/summernote.woff",
     "/css/font/summernote.woff2": "/css/font/summernote.woff2",
     "/js/chunks/visitors.js": "/js/chunks/visitors.js",
-    "/js/chunks/user-management.js": "/js/chunks/user-management.js"
+    "/js/chunks/user-management.js": "/js/chunks/user-management.js",
+    "/js/chunks/cmtyvol.js": "/js/chunks/cmtyvol.js"
 }
