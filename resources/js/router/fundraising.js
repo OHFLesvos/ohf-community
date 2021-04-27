@@ -10,17 +10,6 @@ import { rememberRoute, previouslyRememberedRoute } from '@/utils/router'
 
 import PageHeader from '@/components/ui/PageHeader'
 import TabNav from '@/components/ui/TabNav'
-
-import DonorsIndexPage from '@/pages/fundraising/DonorsIndexPage'
-import DonorCreatePage from '@/pages/fundraising/DonorCreatePage'
-import DonorShowPage from '@/pages/fundraising/DonorShowPage'
-import DonorDetails from '@/components/fundraising/DonorDetails'
-import DonorDonations from '@/components/fundraising/DonorDonations'
-import DonorComments from '@/components/fundraising/DonorComments'
-import DonorEditPage from '@/pages/fundraising/DonorEditPage'
-import DonationsIndexPage from '@/pages/fundraising/DonationsIndexPage'
-import DonationEditPage from '@/pages/fundraising/DonationEditPage'
-import DonationsImportPage from '@/pages/fundraising/DonationsImportPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 
 import { can } from '@/plugins/laravel'
@@ -49,11 +38,10 @@ export default new VueRouter({
             redirect: { name: 'fundraising.donors.index' }
         },
         {
-            // Display a listing of the donors.
             path: '/donors',
             name: 'fundraising.donors.index',
             components: {
-                default: DonorsIndexPage,
+                default: () => import(/* webpackChunkName: "fundraising" */ '@/pages/fundraising/DonorsIndexPage'),
                 header: PageHeader,
                 beforeContent: TabNav
             },
@@ -84,11 +72,10 @@ export default new VueRouter({
             }
         },
         {
-            // Show the form for creating a new donor.
             path: '/donors/create',
             name: 'fundraising.donors.create',
             components: {
-                default: DonorCreatePage,
+                default: () => import(/* webpackChunkName: "fundraising" */ '@/pages/fundraising/DonorCreatePage'),
                 header: PageHeader
             },
             props: {
@@ -106,10 +93,9 @@ export default new VueRouter({
             }
         },
         {
-            // Display the specified donor.
             path: '/donors/:id(\\d+)',
             components: {
-                default: DonorShowPage,
+                default: () => import(/* webpackChunkName: "fundraising" */ '@/pages/fundraising/DonorShowPage'),
                 header: PageHeader
             },
             props: {
@@ -149,19 +135,19 @@ export default new VueRouter({
                 {
                     path: '',
                     name: 'fundraising.donors.show',
-                    component: DonorDetails,
+                    component: () => import(/* webpackChunkName: "fundraising" */ '@/components/fundraising/DonorDetails'),
                     props: true
                 },
                 {
                     path: 'donations',
                     name: 'fundraising.donors.show.donations',
-                    component: DonorDonations,
+                    component: () => import(/* webpackChunkName: "fundraising" */ '@/components/fundraising/DonorDonations'),
                     props: true
                 },
                 {
                     path: 'comments',
                     name: 'fundraising.donors.show.comments',
-                    component: DonorComments,
+                    component: () => import(/* webpackChunkName: "fundraising" */ '@/components/fundraising/DonorComments'),
                     props: true
                 },
             ],
@@ -174,11 +160,10 @@ export default new VueRouter({
             }
         },
         {
-            // Show the form for editing the donor.
             path: '/donors/:id(\\d+)/edit',
             name: 'fundraising.donors.edit',
             components: {
-                default: DonorEditPage,
+                default: () => import(/* webpackChunkName: "fundraising" */ '@/pages/fundraising/DonorEditPage'),
                 header: PageHeader
             },
             props: {
@@ -197,11 +182,10 @@ export default new VueRouter({
             }
         },
         {
-            // Display a listing of the donations.
             path: '/donations',
             name: 'fundraising.donations.index',
             components: {
-                default: DonationsIndexPage,
+                default: () => import(/* webpackChunkName: "fundraising" */ '@/pages/fundraising/DonationsIndexPage'),
                 header: PageHeader,
                 beforeContent: TabNav
             },
@@ -230,11 +214,10 @@ export default new VueRouter({
             }
         },
         {
-            // Show the form for editing the donation.
             path: '/donations/:id(\\d+)/edit',
             name: 'fundraising.donations.edit',
             components: {
-                default: DonationEditPage,
+                default: () => import(/* webpackChunkName: "fundraising" */ '@/pages/fundraising/DonationEditPage'),
                 header: PageHeader
             },
             props: {
@@ -257,11 +240,10 @@ export default new VueRouter({
             }
         },
         {
-            // Show the form for importing donations
             path: '/donations/import',
             name: 'fundraising.donations.import',
             components: {
-                default: DonationsImportPage,
+                default: () => import(/* webpackChunkName: "fundraising" */ '@/pages/fundraising/DonationsImportPage'),
                 header: PageHeader
             },
             props: {
