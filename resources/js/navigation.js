@@ -64,3 +64,9 @@ $(function() {
         }
     });
 });
+
+/**
+ * Method for sending post request (Logout button)
+ */
+import { postRequest } from "@/utils/form";
+window.postRequest = postRequest;
