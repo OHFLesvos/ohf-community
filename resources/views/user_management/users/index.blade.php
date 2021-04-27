@@ -4,8 +4,6 @@
 
 @section('content')
     <div id="user-management-app">
-        <user-index-page>
-            @lang('Loading...')
-        </user-index-page>
+        @lang('Loading...')
     </div>
 @endsection

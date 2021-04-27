@@ -25,12 +25,9 @@ Vue.config.productionTip = false;
 import UserIndexPage from "@/pages/users/UserIndexPage";
 if (document.getElementById("user-management-app")) {
     new Vue({
-        el: "#user-management-app",
         i18n,
-        components: {
-            UserIndexPage
-        }
-    });
+        render: h => h(UserIndexPage)
+    }).$mount("#user-management-app");
 }
 
 // Visitors app
@@ -38,13 +35,10 @@ import visitorRouter from "@/router/visitors";
 import VisitorsApp from "@/app/VisitorsApp";
 if (document.getElementById("visitors-app")) {
     new Vue({
-        el: "#visitors-app",
         router: visitorRouter,
         i18n,
-        components: {
-            VisitorsApp
-        }
-    });
+        render: h => h(VisitorsApp)
+    }).$mount("#visitors-app");
 }
 
 // Community volunteer app
@@ -68,13 +62,10 @@ import accountingRouter from "@/router/accounting";
 import AccountingApp from "@/app/AccountingApp";
 if (document.getElementById("accounting-app")) {
     new Vue({
-        el: "#accounting-app",
         router: accountingRouter,
         i18n,
-        components: {
-            AccountingApp
-        }
-    });
+        render: h => h(AccountingApp)
+    }).$mount("#accounting-app");
 }
 
 // Fundraising app
@@ -83,14 +74,11 @@ import fundraisingRouter from "@/router/fundraising";
 import FundraisingApp from "@/app/FundraisingApp";
 if (document.getElementById("fundraising-app")) {
     new Vue({
-        el: "#fundraising-app",
         store,
         router: fundraisingRouter,
         i18n,
-        components: {
-            FundraisingApp
-        }
-    });
+        render: h => h(FundraisingApp)
+    }).$mount("#fundraising-app");
 }
 
 // Reports app
@@ -98,11 +86,8 @@ import reportsRouter from "@/router/reports";
 import ReportsApp from "@/app/ReportsApp";
 if (document.getElementById("reports-app")) {
     new Vue({
-        el: "#reports-app",
         router: reportsRouter,
         i18n,
-        components: {
-            ReportsApp
-        }
-    });
+        render: h => h(ReportsApp)
+    }).$mount("#reports-app");
 }

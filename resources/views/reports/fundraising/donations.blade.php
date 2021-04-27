@@ -4,8 +4,6 @@
 
 @section('content')
     <div id="reports-app">
-        <reports-app>
-            @lang('Loading...')
-        </reports-app>
+        @lang('Loading...')
     </div>
 @endsection
