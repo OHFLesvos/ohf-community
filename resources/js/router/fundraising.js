@@ -3,8 +3,8 @@ import ziggyRoute from "@/plugins/ziggy";
 
 import { rememberRoute, previouslyRememberedRoute } from "@/utils/router";
 
-import PageHeader from "@/components/ui/PageHeader";
-import TabNav from "@/components/ui/TabNav";
+import PageHeader from "@/components/layout/PageHeader";
+import TabNav from "@/components/layout/TabNav";
 
 import { can } from "@/plugins/laravel";
 

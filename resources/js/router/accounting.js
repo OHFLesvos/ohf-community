@@ -1,8 +1,8 @@
-import PageHeader from "@/components/ui/PageHeader";
-
 import i18n from "@/plugins/i18n";
 
 import { can } from "@/plugins/laravel";
+
+import PageHeader from "@/components/layout/PageHeader";
 
 export default [
     {
