@@ -21,6 +21,8 @@ import "@/plugins/vee-validate";
 // Hide prod tooltip
 Vue.config.productionTip = false;
 
+import router from "@/router";
+
 // Users app
 import UserIndexPage from "@/pages/users/UserIndexPage";
 if (document.getElementById("user-management-app")) {
@@ -31,11 +33,10 @@ if (document.getElementById("user-management-app")) {
 }
 
 // Visitors app
-import visitorRouter from "@/router/visitors";
 import VisitorsApp from "@/app/VisitorsApp";
 if (document.getElementById("visitors-app")) {
     new Vue({
-        router: visitorRouter,
+        router,
         i18n,
         render: h => h(VisitorsApp)
     }).$mount("#visitors-app");
@@ -58,11 +59,10 @@ if (document.getElementById("cmtyvol-app")) {
 }
 
 // Accounting app
-import accountingRouter from "@/router/accounting";
 import AccountingApp from "@/app/AccountingApp";
 if (document.getElementById("accounting-app")) {
     new Vue({
-        router: accountingRouter,
+        router,
         i18n,
         render: h => h(AccountingApp)
     }).$mount("#accounting-app");
@@ -70,23 +70,21 @@ if (document.getElementById("accounting-app")) {
 
 // Fundraising app
 import store from "@/store";
-import fundraisingRouter from "@/router/fundraising";
 import FundraisingApp from "@/app/FundraisingApp";
 if (document.getElementById("fundraising-app")) {
     new Vue({
         store,
-        router: fundraisingRouter,
+        router,
         i18n,
         render: h => h(FundraisingApp)
     }).$mount("#fundraising-app");
 }
 
 // Reports app
-import reportsRouter from "@/router/reports";
 import ReportsApp from "@/app/ReportsApp";
 if (document.getElementById("reports-app")) {
     new Vue({
-        router: reportsRouter,
+        router,
         i18n,
         render: h => h(ReportsApp)
     }).$mount("#reports-app");
