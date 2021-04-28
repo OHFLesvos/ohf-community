@@ -5,7 +5,7 @@
 @section('content')
     {!! Form::open(['route' => ['userprofile.store2FA']]) !!}
         <div class="row">
-            <div class="col-md">
+            <div class="col-md align-self-center">
                 <p>@lang('Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code
     is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands,
     a second factor is still required to login successfully into this application.')</p>

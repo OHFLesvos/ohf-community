@@ -72,10 +72,8 @@
             @can('update', $cmtyvol)
                 <div class="column-break-avoid">
                     <h4>@lang('Comments')</h4>
-                    <div id="cmtyvol-app">
-                        <cmtyvol-comments id="{{ $cmtyvol->id }}">
-                            @lang('Loading...')
-                        </cmtyvol-comments>
+                    <div id="app">
+                        <x-spinner />
                     </div>
                 </div>
             @endcan

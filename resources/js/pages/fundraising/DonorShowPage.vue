@@ -33,7 +33,7 @@
 <script>
 import donorsApi from '@/api/fundraising/donors'
 import AlertWithRetry from '@/components/alerts/AlertWithRetry'
-import TabNav from '@/components/ui/TabNav'
+import TabNav from '@/components/layout/TabNav'
 export default {
     components: {
         AlertWithRetry,

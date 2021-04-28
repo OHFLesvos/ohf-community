@@ -3,9 +3,7 @@
 @section('title', __('Visitors'))
 
 @section('content')
-    <div id="visitors-app">
-        <visitors-app>
-            @lang('Loading...')
-        </visitors-app>
+    <div id="app">
+        <x-spinner />
     </div>
 @endsection

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import TabNav from '@/components/ui/TabNav'
+import TabNav from '@/components/layout/TabNav'
 import suppliersApi from '@/api/accounting/suppliers'
 export default {
     components: {

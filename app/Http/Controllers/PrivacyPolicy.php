@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\App;
-use Michelf\MarkdownExtra;
+use Illuminate\Support\Str;
 
 class PrivacyPolicy extends Controller
 {
@@ -20,7 +20,7 @@ class PrivacyPolicy extends Controller
             $file_path = resource_path('lang/' .  $locale . '/user-privacy-policy.md');
             if (is_file($file_path)) {
                 $markdown = file_get_contents($file_path);
-                return MarkdownExtra::defaultTransform($markdown);
+                return Str::markdown($markdown);
             }
         }
         return null;

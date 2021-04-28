@@ -3,9 +3,7 @@
 @section('title', __('Users'))
 
 @section('content')
-    <div id="user-management-app">
-        <user-index-page>
-            @lang('Loading...')
-        </user-index-page>
+    <div id="app">
+        <x-spinner />
     </div>
 @endsection
