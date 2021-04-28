@@ -54,6 +54,11 @@ class MoneyTransaction extends Model implements Auditable
         return $this->belongsTo(Wallet::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     /**
      * Get the supplier that owns this transaction.
      */
@@ -255,17 +260,6 @@ class MoneyTransaction extends Model implements Auditable
             ->orderBy('attendee')
             ->get()
             ->pluck('attendee')
-            ->toArray();
-    }
-
-    public static function categories(): array
-    {
-        return self::select('category')
-            ->whereNotNull('category')
-            ->distinct()
-            ->orderBy('category')
-            ->get()
-            ->pluck('category')
             ->toArray();
     }
 

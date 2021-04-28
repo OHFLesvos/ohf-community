@@ -3,7 +3,7 @@
 return [
     'filter_columns' => [
         'type',
-        'category',
+        'category_id',
         'secondary_category',
         'project',
         'location',

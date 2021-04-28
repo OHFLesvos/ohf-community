@@ -28,11 +28,7 @@
         </div>
         <div class="form-row">
             <div class="col-sm">
-                @if($fixed_categories)
-                    {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('Category') . ' -', 'error' => ! in_array($transaction->category, $categories) ? __("Invalid category ':category'", ['category' => $transaction->category]) : null ], __('Category')) }}
-                @else
-                    {{ Form::bsText('category', null, [ 'required', 'list' => $categories ], __('Category')) }}
-                @endif
+                {{ Form::bsSelect('category_id', $categories, null, [ 'required', 'placeholder' => '- ' . __('Category') . ' -'], __('Category')) }}
             </div>
             @if($secondary_categories !== null)
                 <div class="col-sm">

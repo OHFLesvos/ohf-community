@@ -8,12 +8,14 @@ use App\Exports\Accounting\WeblingMoneyTransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
+use App\Models\Accounting\Category;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Setting;
 
@@ -117,8 +119,7 @@ class MoneyTransactionsController extends Controller
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
             'attendees' => MoneyTransaction::attendees(),
-            'categories' => self::getCategories(true),
-            'fixed_categories' => Setting::has('accounting.transactions.categories'),
+            'categories' => self::getCategories(),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(true),
@@ -160,7 +161,6 @@ class MoneyTransactionsController extends Controller
         return view('accounting.transactions.create', [
             'attendees' => MoneyTransaction::attendees(),
             'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(),
@@ -174,14 +174,10 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    private static function getCategories(?bool $onlyExisting = false): array
+    private static function getCategories(): Collection
     {
-        if (! $onlyExisting && Setting::has('accounting.transactions.categories')) {
-            return collect(Setting::get('accounting.transactions.categories'))
-                ->sort()
-                ->toArray();
-        }
-        return MoneyTransaction::categories();
+        return Category::orderBy('name')
+            ->pluck('name', 'id');
     }
 
     private static function useSecondaryCategories(): bool
@@ -257,7 +253,7 @@ class MoneyTransactionsController extends Controller
         $transaction->amount = $request->amount;
         $transaction->fees = $request->fees;
         $transaction->attendee = $request->attendee;
-        $transaction->category = $request->category;
+        $transaction->category()->associate($request->category_id);
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;
         }
@@ -345,7 +341,6 @@ class MoneyTransactionsController extends Controller
             'transaction' => $transaction,
             'attendees' => MoneyTransaction::attendees(),
             'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has('accounting.transactions.categories'),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(),
@@ -375,7 +370,7 @@ class MoneyTransactionsController extends Controller
         $transaction->amount = $request->amount;
         $transaction->fees = $request->fees;
         $transaction->attendee = $request->attendee;
-        $transaction->category = $request->category;
+        $transaction->category()->associate($request->category_id);
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;
         }

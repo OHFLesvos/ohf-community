@@ -70,9 +70,9 @@ class StoreTransaction extends FormRequest
             'attendee' => [
                 'nullable',
             ],
-            'category' => [
+            'category_id' => [
                 'required',
-                Setting::has('accounting.transactions.categories') ? Rule::in(Setting::get('accounting.transactions.categories')) : null,
+                'exists:accounting_categories,id',
             ],
             'project' => [
                 'nullable',

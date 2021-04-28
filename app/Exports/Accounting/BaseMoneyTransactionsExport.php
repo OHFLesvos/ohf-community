@@ -61,7 +61,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
             $transaction->type == 'spending' ? $transaction->amount : '',
             $transaction->fees,
             $transaction->attendee,
-            $transaction->category,
+            $transaction->category->name,
         ];
         if (self::useSecondaryCategories()) {
             $data[] = $transaction->secondary_category;

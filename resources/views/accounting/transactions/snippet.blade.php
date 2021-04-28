@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('Category')</strong></div>
                 <div class="col-sm">
-                    {{ $transaction->category }}
+                    {{ $transaction->category->name }}
                 </div>
             </div>
         </li>
