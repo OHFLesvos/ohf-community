@@ -12,9 +12,9 @@
         "akaunting/laravel-language": "^1.0",
         "anlutro/l4-settings": "^1.0",
         "cviebrock/eloquent-sluggable": "^8.0",
-        "doctrine/dbal": "^2.6",
+        "doctrine/dbal": "^3.1",
         "dyrynda/laravel-nullable-fields": "^4.0",
-        "endroid/qr-code": "^3.1",
+        "endroid/qr-code": "^4.1",
         "exolnet/laravel-sqlite-fluent-drop-foreign": "^1.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -33,9 +33,8 @@
         "monarobase/country-list": "^3.2",
         "mpdf/mpdf": "^8.0",
         "mrcage/chf-exchange-rates": "^1.0",
-        "nicebooks/isbn": "^0.2.20",
         "org_heigl/ghostscript": "^2.3",
-        "owen-it/laravel-auditing": "^11.0",
+        "owen-it/laravel-auditing": "^12.0",
         "petercoles/multilingual-language-list": "^1.1",
         "sentry/sentry-laravel": "^2.3",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
@@ -47,7 +46,6 @@
         "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
-        "andrey-helldar/pretty-routes": "^1.21",
         "barryvdh/laravel-ide-helper": "^2.6",
         "djedaini/laravel-vue-i18n-generator": "^0.1.47",
         "facade/ignition": "^2.5",
@@ -55,8 +53,7 @@
         "filp/whoops": "~2.0",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.0",
-        "stechstudio/laravel-php-cs-fixer": "^2.3"
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "optimize-autoloader": true,

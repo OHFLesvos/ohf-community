@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserManagement\Store2FA;
 use App\Http\Requests\UserManagement\StoreNewUserPassword;
 use App\Http\Requests\UserManagement\StoreUserProfile;
+use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -84,13 +86,19 @@ class UserProfileController extends Controller
         if ($user->tfa_secret == null) {
             $secret = trim(Base32::encodeUpper(random_bytes(64)), '=');
             $request->session()->put('temp_2fa_secret', $secret);
+
             $otp = TOTP::create($secret);
             $otp->setLabel($user->email);
             $otp->setIssuer(config('app.name'));
-            $qrCode = new QrCode($otp->getProvisioningUri());
-            $qrCode->setSize(400);
+
+            $qrCode = Builder::create()
+                ->writer(new PngWriter())
+                ->data($otp->getProvisioningUri())
+                ->size(400)
+                ->build();
+
             return view('user_management.userprofile.enable2FA', [
-                'image' => base64_encode($qrCode->writeString()),
+                'image' => base64_encode($qrCode->getString()),
             ]);
         }
         return view('user_management.userprofile.disable2FA');
