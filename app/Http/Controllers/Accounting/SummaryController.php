@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Project;
 use App\Models\Accounting\SignedMoneyTransaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
@@ -150,7 +151,7 @@ class SummaryController extends Controller
             'currentLocation' => $location,
             'months' => $months,
             'years' => $years,
-            'projects' => self::getProjects(true),
+            'projects' => self::getProjects(),
             'locations' => self::useLocations() ? self::getLocations(true) : [],
             'revenueByCategory' => $revenueByCategory,
             'revenueByProject' => $revenueByProject,
@@ -232,14 +233,10 @@ class SummaryController extends Controller
         return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
     }
 
-    private static function getProjects(?bool $onlyExisting = false): array
+    private static function getProjects(): Collection
     {
-        if (! $onlyExisting && Setting::has('accounting.transactions.projects')) {
-            return collect(Setting::get('accounting.transactions.projects'))
-                ->sort()
-                ->toArray();
-        }
-        return MoneyTransaction::projects();
+        return Project::orderBy('name')
+            ->pluck('name', 'id');
     }
 
     private static function useLocations(): bool

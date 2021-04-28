@@ -61,7 +61,7 @@
                 <div class="row">
                     <div class="col-sm-4"><strong>@lang('Project')</strong></div>
                     <div class="col-sm">
-                        {{ $transaction->project }}
+                        {{ optional($transaction->project)->name }}
                     </div>
                 </div>
             </li>

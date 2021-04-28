@@ -74,9 +74,9 @@ class StoreTransaction extends FormRequest
                 'required',
                 'exists:accounting_categories,id',
             ],
-            'project' => [
+            'project_id' => [
                 'nullable',
-                Setting::has('accounting.transactions.projects') ? Rule::in(Setting::get('accounting.transactions.projects')) : null,
+                'exists:accounting_projects,id',
             ],
             'description' => [
                 'required',

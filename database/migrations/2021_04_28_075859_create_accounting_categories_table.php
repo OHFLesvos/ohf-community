@@ -38,7 +38,7 @@ class CreateAccountingCategoriesTable extends Migration
         if ($hasTransactions) {
             Schema::table('money_transactions', function (Blueprint $table) {
                 $table->foreignId('category_id')->nullable()->after('attendee');
-                $table->foreign('category_id')->references('id')->on('accounting_categories')->onDelete('cascade');
+                $table->foreign('category_id')->references('id')->on('accounting_categories')->restrictOnDelete();
             });
 
             MoneyTransaction::all()->each(function ($transaction) {
@@ -56,7 +56,7 @@ class CreateAccountingCategoriesTable extends Migration
         } else {
             Schema::table('money_transactions', function (Blueprint $table) {
                 $table->foreignId('category_id')->after('wallet_id');
-                $table->foreign('category_id')->references('id')->on('accounting_categories')->onDelete('cascade');
+                $table->foreign('category_id')->references('id')->on('accounting_categories')->restrictOnDelete();
             });
         }
 
@@ -86,6 +86,10 @@ class CreateAccountingCategoriesTable extends Migration
 
         Schema::table('money_transactions', function (Blueprint $table) {
             $table->renameColumn('category_temp', 'category');
+        });
+
+        Schema::table('money_transactions', function (Blueprint $table) {
+            $table->string('category')->nullable(false)->change();
         });
 
         Schema::table('money_transactions', function (Blueprint $table) {

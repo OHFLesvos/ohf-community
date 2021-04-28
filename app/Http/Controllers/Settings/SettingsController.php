@@ -29,7 +29,6 @@ class SettingsController extends Controller
         'branding.favicon_192_file' => \App\Settings\Branding\Favicon192File::class,
         'accounting.transactions.use_secondary_categories' => \App\Settings\Accounting\TransactionSecondaryCategoriesUse::class,
         'accounting.transactions.secondary_categories' => \App\Settings\Accounting\TransactionSecondaryCategories::class,
-        'accounting.transactions.projects' => \App\Settings\Accounting\TransactionProjects::class,
         'accounting.transactions.use_locations' => \App\Settings\Accounting\TransactionLocationsUse::class,
         'accounting.transactions.locations' => \App\Settings\Accounting\TransactionLocations::class,
         'accounting.transactions.use_cost_centers' => \App\Settings\Accounting\TransactionCostCentersUse::class,

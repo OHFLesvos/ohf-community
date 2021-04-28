@@ -56,7 +56,7 @@
                         @if($secondary_categories !== null)
                             <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('Secondary Category')</th>
                         @endif
-                        <th class="@isset($filter['project']) text-info @endisset">@lang('Project')</th>
+                        <th class="@isset($filter['project_id']) text-info @endisset">@lang('Project')</th>
                         @if($locations !== null)
                             <th class="@isset($filter['location']) text-info @endisset">@lang('Location')</th>
                         @endif
@@ -116,7 +116,7 @@
                             @if($secondary_categories !== null)
                                 <td>{{ $transaction->secondary_category }}</td>
                             @endif
-                            <td>{{ $transaction->project }}</td>
+                            <td>{{ optional($transaction->project)->name }}</td>
                             @if($locations !== null)
                                 <td>{{ $transaction->location }}</td>
                             @endif
@@ -335,11 +335,7 @@
                     </div>
                 @endif
                 <div class="col-sm">
-                    @if($fixed_projects)
-                        {{ Form::bsSelect('filter[project]', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['project'] ?? null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
-                    @else
-                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'list' => $projects ], __('Project')) }}
-                    @endif
+                    {{ Form::bsSelect('filter[project_id]', $projects, $filter['project_id'] ?? null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
                 </div>
             </div>
             <div class="form-row">

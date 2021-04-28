@@ -40,11 +40,7 @@
                 </div>
             @endif
             <div class="col-sm">
-                @if($fixed_projects)
-                    {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
-                @else
-                    {{ Form::bsText('project', null, [ 'list' => $projects ], __('Project')) }}
-                @endif
+                {{ Form::bsSelect('project_id', $projects, null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
             </div>
         </div>
         <div class="form-row">

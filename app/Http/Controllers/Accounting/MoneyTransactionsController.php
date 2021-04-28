@@ -10,6 +10,7 @@ use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\Category;
 use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Project;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
@@ -123,7 +124,6 @@ class MoneyTransactionsController extends Controller
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(true),
-            'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'locations' => self::useLocations() ? self::getLocations(true) : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
@@ -164,7 +164,6 @@ class MoneyTransactionsController extends Controller
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
@@ -195,14 +194,10 @@ class MoneyTransactionsController extends Controller
         return MoneyTransaction::secondaryCategories();
     }
 
-    private static function getProjects(?bool $onlyExisting = false): array
+    private static function getProjects(): Collection
     {
-        if (! $onlyExisting && Setting::has('accounting.transactions.projects')) {
-            return collect(Setting::get('accounting.transactions.projects'))
-                ->sort()
-                ->toArray();
-        }
-        return MoneyTransaction::projects();
+        return Project::orderBy('name')
+            ->pluck('name', 'id');
     }
 
     private static function useLocations(): bool
@@ -257,7 +252,7 @@ class MoneyTransactionsController extends Controller
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;
         }
-        $transaction->project = $request->project;
+        $transaction->project()->associate($request->project_id);
         if (self::useLocations()) {
             $transaction->location = $request->location;
         }
@@ -344,7 +339,6 @@ class MoneyTransactionsController extends Controller
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
             'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has('accounting.transactions.projects'),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
@@ -374,7 +368,7 @@ class MoneyTransactionsController extends Controller
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;
         }
-        $transaction->project = $request->project;
+        $transaction->project()->associate($request->project_id);
         if (self::useLocations()) {
             $transaction->location = $request->location;
         }
