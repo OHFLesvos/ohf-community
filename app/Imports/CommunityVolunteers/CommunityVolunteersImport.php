@@ -24,8 +24,8 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
 
         $this->fields = $fields;
 
-        $this->has_dates = $this->fields->where('key', 'app.starting_date')->first() != null
-            && $this->fields->where('key', 'app.leaving_date')->first() != null;
+        $this->has_dates = $this->fields->where('key', 'Starting Date')->first() != null
+            && $this->fields->where('key', 'Leaving Date')->first() != null;
     }
 
     public function collection(Collection $rows)
@@ -63,7 +63,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
             $this->fields->each(function ($f) use ($cmtyvol, $label, $value, &$responsibilities) {
                 if ($f['labels']->containsStrict(strtolower($label))) {
                     try {
-                        if ($f['key'] == 'app.responsibilities') {
+                        if ($f['key'] == 'Responsibilities') {
                             if ($value != null) {
                                 foreach (preg_split('/(\s*[,;|]\s*)/', $value) as $responsibility) {
                                     $responsibilities[] = $responsibility;

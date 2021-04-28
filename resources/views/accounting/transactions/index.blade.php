@@ -29,7 +29,12 @@
                 <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3"><x-icon icon="eraser"/> @lang('Reset filter')</a>
             @endif
             <button type="button" class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">
-                <x-icon icon="search"/> @lang(count($filter) > 0 ? 'app.edit_filter' : 'app.filter_results')
+                <x-icon icon="search"/>
+                @if(count($filter) > 0 ?)
+                    @lang('Edit filter')
+                @else
+                    @lang('Filter results')
+                @endif
             </button>
         </div>
     </div>
