@@ -30,7 +30,7 @@
             @endif
             <button type="button" class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">
                 <x-icon icon="search"/>
-                @if(count($filter) > 0 ?)
+                @if(count($filter) > 0)
                     @lang('Edit filter')
                 @else
                     @lang('Filter results')
