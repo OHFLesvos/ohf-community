@@ -66,7 +66,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
         if (self::useSecondaryCategories()) {
             $data[] = $transaction->secondary_category;
         }
-        $data[] = $transaction->project;
+        $data[] = optional($transaction->project)->name;
         if (self::useLocations()) {
             $data[] = $transaction->location;
         }
