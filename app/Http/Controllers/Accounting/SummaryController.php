@@ -109,10 +109,10 @@ class SummaryController extends Controller
             array_push($filters, ['location', '=', $location]);
         }
 
-        $revenueByCategory = self::revenueByField('category_id', 'category', $wallet, $dateFrom, $dateTo, $filters);
-        $revenueByProject = self::revenueByField('project_id', 'project', $wallet, $dateFrom, $dateTo, $filters);
+        $revenueByCategory = self::revenueByRelationField('category_id', 'category', $wallet, $dateFrom, $dateTo, $filters);
+        $revenueByProject = self::revenueByRelationField('project_id', 'project', $wallet, $dateFrom, $dateTo, $filters);
         if (self::useSecondaryCategories()) {
-            $revenueBySecondaryCategory = self::revenueByField2('secondary_category', $wallet, $dateFrom, $dateTo, $filters);
+            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $wallet, $dateFrom, $dateTo, $filters);
         } else {
             $revenueBySecondaryCategory = null;
         }
@@ -173,7 +173,7 @@ class SummaryController extends Controller
         return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
     }
 
-    private static function revenueByField(string $idField, string $relationField, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    private static function revenueByRelationField(string $idField, string $relationField, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
     {
         return SignedMoneyTransaction::query()
             ->select($idField)
@@ -190,7 +190,7 @@ class SummaryController extends Controller
             ]);
     }
 
-    private static function revenueByField2(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
     {
         return MoneyTransaction::query()
             ->select($field)
