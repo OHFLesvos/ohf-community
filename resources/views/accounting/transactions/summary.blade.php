@@ -47,7 +47,7 @@
                                 <tr>
                                     <td>
                                         @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
-                                            <a href="{{ route('accounting.transactions.index', $wallet) }}?filter[category]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                            <a href="{{ route('accounting.transactions.index', $wallet) }}?filter[category_id]={{ $v['id'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                         @endcan
                                             {{ $v['name'] }}
                                         @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
@@ -112,7 +112,7 @@
                                     <td>
                                         @isset($v['name'])
                                             @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
-                                                <a href="{{ route('accounting.transactions.index', $wallet) }}?filter[project]={{ $v['name'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
+                                                <a href="{{ route('accounting.transactions.index', $wallet) }}?filter[project_id]={{ $v['id'] }}&filter[date_start]={{ $filterDateStart }}&filter[date_end]={{ $filterDateEnd }}">
                                             @endcan
                                                 {{ $v['name'] }}
                                             @can('viewAny', App\Models\Accounting\MoneyTransaction::class)

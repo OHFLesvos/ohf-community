@@ -9,6 +9,16 @@ class SignedMoneyTransaction extends Model
 {
     protected $table = 'accounting_signed_transactions';
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     /**
      * Scope a query to only include transactions from a given date range
      *

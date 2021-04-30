@@ -109,8 +109,8 @@ class SummaryController extends Controller
             array_push($filters, ['location', '=', $location]);
         }
 
-        $revenueByCategory = self::revenueByField('category', $wallet, $dateFrom, $dateTo, $filters);
-        $revenueByProject = self::revenueByField('project', $wallet, $dateFrom, $dateTo, $filters);
+        $revenueByCategory = self::revenueByField('category_id', 'category', $wallet, $dateFrom, $dateTo, $filters);
+        $revenueByProject = self::revenueByField('project_id', 'project', $wallet, $dateFrom, $dateTo, $filters);
         if (self::useSecondaryCategories()) {
             $revenueBySecondaryCategory = self::revenueByField2('secondary_category', $wallet, $dateFrom, $dateTo, $filters);
         } else {
@@ -173,18 +173,19 @@ class SummaryController extends Controller
         return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
     }
 
-    private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    private static function revenueByField(string $idField, string $relationField, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
     {
         return SignedMoneyTransaction::query()
-            ->select($field)
+            ->select($idField)
             ->selectRaw('SUM(amount) as sum')
             ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
-            ->groupBy($field)
-            ->orderBy($field)
+            ->groupBy($idField)
+            ->orderBy($idField)
             ->get()
             ->map(fn ($e) => [
-                'name' => $e->$field,
+                'id' => $e->$idField,
+                'name' => optional($e->$relationField)->name,
                 'amount' => $e->sum,
             ]);
     }
