@@ -76,7 +76,7 @@ export default {
             this.isBusy = true
             try {
                 await walletsApi.delete(this.id)
-                showSnackbar(this.$t('Walled deleted.'))
+                showSnackbar(this.$t('Wallet deleted.'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {
                 alert(err)

@@ -33,6 +33,11 @@ class Project extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function children()
+    {
+        return $this->hasMany(Project::class, 'parent_id');
+    }
+
     public function getIsRootAttribute()
     {
         return $this->parent_id == null;

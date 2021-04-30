@@ -33,6 +33,11 @@ class Category extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
     public function getIsRootAttribute()
     {
         return $this->parent_id == null;
