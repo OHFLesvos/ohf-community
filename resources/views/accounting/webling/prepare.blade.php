@@ -27,7 +27,7 @@
                     <tbody>
                         @foreach ($transactions as $transaction)
                             @php
-                                $posting_text = $transaction->category . ' - ' . (isset($transaction->project) ? $transaction->project .' - ' : '') . $transaction->description;
+                                $posting_text = $transaction->category->name . ' - ' . (isset($transaction->project) ? $transaction->project->name .' - ' : '') . $transaction->description;
                             @endphp
                             <tr data-id="{{ $transaction->id }}">
                                 <td class="fit">
