@@ -105,8 +105,8 @@ class GlobalSummaryController extends Controller
             array_push($filters, ['location', '=', $location]);
         }
 
-        $revenueByCategory = self::revenueByField('category', $dateFrom, $dateTo, $request->user(), $filters);
-        $revenueByProject = self::revenueByField('project', $dateFrom, $dateTo, $request->user(), $filters);
+        $revenueByCategory = self::revenueByRelationField('category_id', 'category', $dateFrom, $dateTo, $request->user(), $filters);
+        $revenueByProject = self::revenueByRelationField('project_id', 'project', $dateFrom, $dateTo, $request->user(), $filters);
         if (self::useSecondaryCategories()) {
             $revenueBySecondaryCategory = self::revenueByField('secondary_category', $dateFrom, $dateTo, $request->user(), $filters);
         } else {
@@ -180,6 +180,30 @@ class GlobalSummaryController extends Controller
     {
         $date = new Carbon($year.'-'.$month.'-01');
         return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
+    }
+
+    private static function revenueByRelationField(string $idField, $relationField, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
+    {
+        return MoneyTransaction::query()
+            ->select($idField, 'wallet_id')
+            ->selectRaw('SUM(IF(type = \'income\', amount, -1*amount)) as sum')
+            ->forDateRange($dateFrom, $dateTo)
+            ->groupBy($idField)
+            ->orderBy($idField)
+            ->where($filters)
+            ->get()
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e->wallet_id))
+                )
+            )
+            ->map(fn ($e) => [
+                'id' => $e->$idField,
+                'name' => optional($e->$relationField)->name,
+                'amount' => $e->sum,
+                'wallet_id' => $e->wallet_id,
+            ]);
     }
 
     private static function revenueByField(string $field, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
