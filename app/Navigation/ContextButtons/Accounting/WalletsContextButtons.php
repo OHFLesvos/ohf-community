@@ -3,7 +3,6 @@
 namespace App\Navigation\ContextButtons\Accounting;
 
 use App\Models\Accounting\MoneyTransaction;
-use App\Models\Accounting\Wallet;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;

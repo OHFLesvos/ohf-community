@@ -42,4 +42,15 @@ class Category extends Model
     {
         return $query->whereNull('parent_id');
     }
+
+    public function scopeForFilter($query, ?string $filter = '')
+    {
+        if (! empty($filter)) {
+            $query->where(function ($wq) use ($filter) {
+                return $wq->where('name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('description', 'LIKE', '%' . $filter . '%');
+            });
+        }
+        return $query;
+    }
 }

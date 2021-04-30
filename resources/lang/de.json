@@ -722,5 +722,11 @@
     "Please <a href=\":url\">login<\/a> to see more articles.": "Bitte <a href=\":url\">melde dich an<\/a>, um mehr Artikel zu sehen.",
     "You do not have sufficient permissions to view all articles.": "Du hast hast nicht die nötigen Berechtigungen um alle Artikel zu sehen.",
     "Fundraising": "Spender & Spenden",
-    "Visitor check-ins": "Besucher Check-ins"
+    "Visitor check-ins": "Besucher Check-ins",
+    "Create category": "Kategorie erstellen",
+    "Edit category": "Kategorie bearbeiten",
+    "Category added.": "Kategorie hinzugefügt.",
+    "Category updated.": "Kategorie aktualisiert",
+    "Really delete this category?": "Kategorie wirklich löschen?",
+    "Category deleted.": "Kategorie gelöscht."
 }

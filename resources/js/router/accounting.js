@@ -64,6 +64,64 @@ export default [
         }
     },
     {
+        path: "/accounting/categories",
+        name: "accounting.categories.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Overview"),
+                buttons: [
+                    {
+                        to: { name: "accounting.categories.create" },
+                        variant: "primary",
+                        icon: "plus-circle",
+                        text: i18n.t("Add"),
+                        show: can("configure-accounting")
+                    }
+                ]
+            }
+        }
+    },
+    {
+        path: "/accounting/categories/create",
+        name: "accounting.categories.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryCreatePage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Create category")
+            }
+        }
+    },
+    {
+        path: "/accounting/categories/:id/edit",
+        name: "accounting.categories.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryEditPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Edit category")
+            }
+        }
+    },
+    {
         path: "/accounting/suppliers",
         name: "accounting.suppliers.index",
         components: {

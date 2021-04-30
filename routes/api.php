@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
 use App\Http\Controllers\Accounting\API\MoneyTransactionsController;
 use App\Http\Controllers\Accounting\API\SuppliersController;
@@ -198,6 +199,7 @@ Route::middleware(['language', 'auth'])
     ->name('api.accounting.')
     ->group(function () {
         Route::resource('wallets', WalletsController::class);
+        Route::resource('categories', CategoriesController::class);
 
         Route::post('transactions/{transaction}/receipt', [MoneyTransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');

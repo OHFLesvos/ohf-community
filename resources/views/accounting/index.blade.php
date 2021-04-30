@@ -3,7 +3,7 @@
 @section('title', __('Accounting'))
 
 @section('content')
-    <div class="card shadow-sm">
+    <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between">
             <span>@lang('Wallets')</span>
             @can('configure-accounting')
@@ -27,4 +27,10 @@
             @endforelse
         </div>
     </div>
+
+    <p>
+        @can('viewAny', App\Models\Accounting\Category::class)
+            <a href="{{ route('accounting.categories') }}" class="btn btn-secondary">@lang('Manage categories')</a>
+        @endcan
+    </p>
 @endsection

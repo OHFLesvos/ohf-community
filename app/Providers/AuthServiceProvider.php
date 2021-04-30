@@ -22,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Fundraising\Donation::class           => \App\Policies\Fundraising\DonationPolicy::class,
         \App\Models\Accounting\MoneyTransaction::class    => \App\Policies\Accounting\MoneyTransactionPolicy::class,
         \App\Models\Accounting\Wallet::class              => \App\Policies\Accounting\WalletPolicy::class,
+        \App\Models\Accounting\Category::class              => \App\Policies\Accounting\CategoryPolicy::class,
         \App\Models\Accounting\Supplier::class            => \App\Policies\Accounting\SupplierPolicy::class,
         \App\Models\Collaboration\WikiArticle::class      => \App\Policies\Collaboration\ArticlePolicy::class,
         \App\Models\CommunityVolunteers\CommunityVolunteer::class => \App\Policies\CommunityVolunteers\CommunityVolunteerPolicy::class,

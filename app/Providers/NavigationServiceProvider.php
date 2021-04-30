@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Providers\Traits\RegisterContextButtons;
 use App\Providers\Traits\RegistersNavigationItems;
 use Illuminate\Support\ServiceProvider;
+use Mpdf\Tag\Q;
 
 class NavigationServiceProvider extends ServiceProvider
 {
@@ -55,6 +56,8 @@ class NavigationServiceProvider extends ServiceProvider
         'accounting.index'                      => \App\Navigation\ContextButtons\Accounting\IndexContextButtons::class,
         'accounting.wallets'                    => \App\Navigation\ContextButtons\Accounting\WalletsContextButtons::class,
         'accounting.wallets.any'                => \App\Navigation\ContextButtons\Accounting\WalletsContextButtons::class,
+        'accounting.categories'                 => \App\Navigation\ContextButtons\Accounting\CategoriesContextButtons::class,
+        'accounting.categories.any'             => \App\Navigation\ContextButtons\Accounting\CategoriesContextButtons::class,
         'accounting.suppliers'                  => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
         'accounting.suppliers.show'             => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
         'accounting.suppliers.any'              => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,

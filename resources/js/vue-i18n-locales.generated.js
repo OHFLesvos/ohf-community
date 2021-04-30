@@ -724,6 +724,12 @@ export default {
         "You do not have sufficient permissions to view all articles.": "Du hast hast nicht die nötigen Berechtigungen um alle Artikel zu sehen.",
         "Fundraising": "Spender & Spenden",
         "Visitor check-ins": "Besucher Check-ins",
+        "Create category": "Kategorie erstellen",
+        "Edit category": "Kategorie bearbeiten",
+        "Category added.": "Kategorie hinzugefügt.",
+        "Category updated.": "Kategorie aktualisiert",
+        "Really delete this category?": "Kategorie wirklich löschen?",
+        "Category deleted.": "Kategorie gelöscht.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
