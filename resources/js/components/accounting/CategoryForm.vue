@@ -150,7 +150,7 @@ export default {
             }
         },
         async fetchTree() {
-            let data = await categoriesApi.tree({exclude: this.category.id});
+            let data = await categoriesApi.tree({exclude: this.category?.id});
             this.tree = [
                 {
                     text: " ",
