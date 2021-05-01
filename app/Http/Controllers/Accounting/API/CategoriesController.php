@@ -39,6 +39,7 @@ class CategoriesController extends Controller
                 'filled',
                 Rule::in([
                     'name',
+                    'description',
                 ]),
             ],
             'sortDirection' => [
