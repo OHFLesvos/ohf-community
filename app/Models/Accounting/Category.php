@@ -48,6 +48,11 @@ class Category extends Model
         return $query->whereNull('parent_id');
     }
 
+    public function scopeForParent(Builder $query, int $parentId)
+    {
+        return $query->where('parent_id', $parentId);
+    }
+
     public function scopeForFilter($query, ?string $filter = '')
     {
         if (! empty($filter)) {

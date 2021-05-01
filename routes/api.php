@@ -199,6 +199,8 @@ Route::middleware(['language', 'auth'])
     ->name('api.accounting.')
     ->group(function () {
         Route::resource('wallets', WalletsController::class);
+        Route::get('categories/tree', [CategoriesController::class, 'tree'])
+            ->name('categories.tree');
         Route::resource('categories', CategoriesController::class);
 
         Route::post('transactions/{transaction}/receipt', [MoneyTransactionsController::class, 'updateReceipt'])

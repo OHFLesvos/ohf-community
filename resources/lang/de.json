@@ -728,5 +728,6 @@
     "Category added.": "Kategorie hinzugefügt.",
     "Category updated.": "Kategorie aktualisiert",
     "Really delete this category?": "Kategorie wirklich löschen?",
-    "Category deleted.": "Kategorie gelöscht."
+    "Category deleted.": "Kategorie gelöscht.",
+    "Parent category": "Übergeordnete Kategorie"
 }

@@ -529,7 +529,7 @@ export default {
         "No wallets found.": "Keine Kassen gefunden.",
         "Wallet added.": "Kasse hinzugefügt.",
         "Wallet updated.": "Kasse aktualisert.",
-        "Walled deleted.": "Kasse gelöscht.",
+        "Wallet deleted.": "Kasse gelöscht.",
         "There must be one default wallet.": "Es muss eine Standard-Kasse geben.",
         "Really delete this wallet?": "Soll diese Kasse wirklich gelöscht werden?",
         "Cost Center": "Kostenstelle",
@@ -730,6 +730,7 @@ export default {
         "Category updated.": "Kategorie aktualisiert",
         "Really delete this category?": "Kategorie wirklich löschen?",
         "Category deleted.": "Kategorie gelöscht.",
+        "Parent category": "Übergeordnete Kategorie",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

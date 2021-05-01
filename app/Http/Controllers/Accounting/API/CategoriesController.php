@@ -62,6 +62,11 @@ class CategoriesController extends Controller
     {
         $category = new Category();
         $category->fill($request->all());
+        if ($request->parent_id != null) {
+            $category->parent()->associate($request->parent_id);
+        } else {
+            $category->parent()->disassociate();
+        }
         $category->save();
 
         return new CategoryResource($category);
@@ -75,6 +80,11 @@ class CategoriesController extends Controller
     public function update(StoreCategory $request, Category $category)
     {
         $category->fill($request->all());
+        if ($request->parent_id != null) {
+            $category->parent()->associate($request->parent_id);
+        } else {
+            $category->parent()->disassociate();
+        }
         $category->save();
 
         return new CategoryResource($category);
@@ -85,5 +95,31 @@ class CategoriesController extends Controller
         $category->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function tree(Request $request)
+    {
+        $request->validate([
+            'exclude' => [
+                'nullable',
+                'int',
+            ],
+        ]);
+
+        return $this->queryByParent(null, $request->input('exclude'));
+    }
+
+    private function queryByParent(?int $parent = null, ?int $exclude = null)
+    {
+        return Category::query()
+            ->select('id', 'name')
+            ->orderBy('name', 'asc')
+            ->when($exclude !== null, fn ($q) => $q->where('id', '!=', $exclude))
+            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
+            ->get()
+            ->map(function ($e) use ($exclude) {
+                $e['children'] = $this->queryByParent($e['id'], $exclude);
+                return $e;
+            });
     }
 }

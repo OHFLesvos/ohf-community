@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreCategory extends FormRequest
 {
@@ -32,6 +33,10 @@ class StoreCategory extends FormRequest
             'description' => [
                 'nullable',
             ],
+            'parent_id' => [
+                'nullable',
+                Rule::exists('accounting_categories', 'id'),
+            ]
         ];
     }
 }

@@ -20,4 +20,8 @@ export default {
         const url = route('api.accounting.categories.destroy', id)
         return await api.delete(url)
     },
+    async tree (params) {
+        const url = route('api.accounting.categories.tree', params)
+        return await api.get(url)
+    },
 }
