@@ -35,6 +35,10 @@ class SummaryController extends Controller
                 'min:2000',
                 'max:' . today()->year,
             ],
+            'wallet' => [
+                'nullable',
+                'exists:accounting_wallets,id'
+            ]
         ]);
 
         if ($request->filled('year') && $request->filled('month')) {
