@@ -93,6 +93,7 @@ class CreateAccountingCategoriesTable extends Migration
         });
 
         Schema::table('money_transactions', function (Blueprint $table) {
+            $table->index(['category']);
             $table->dropForeign(['category_id']);
             $table->dropColumn('category_id');
         });

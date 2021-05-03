@@ -27,8 +27,6 @@ class MoneyTransactionFactory extends Factory
             'type' => $this->faker->randomElement(['income', 'spending']),
             'amount' => $this->faker->randomFloat(2, 1, 2000),
             'attendee' => $this->faker->name,
-            'category' => $this->faker->catchPhrase,
-            'project' => $this->faker->optional(0.7)->catchPhrase,
             'description' => $this->faker->sentence,
             'booked' => false,
         ];

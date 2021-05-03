@@ -84,6 +84,7 @@ class CreateAccountingProjectsTable extends Migration
         });
 
         Schema::table('money_transactions', function (Blueprint $table) {
+            $table->index(['project']);
             $table->dropForeign(['project_id']);
             $table->dropColumn('project_id');
         });
