@@ -14,13 +14,7 @@ use Setting;
 
 class GlobalSummaryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function summary(Request $request)
+    public function index(Request $request)
     {
         $this->authorize('view-accounting-summary');
 
@@ -65,6 +59,7 @@ class GlobalSummaryController extends Controller
             $year = $currentMonth->year;
             $month = $currentMonth->month;
         }
+
         if ($request->filled('project')) {
             $project = $request->project;
         } elseif ($request->has('project')) {
@@ -74,6 +69,7 @@ class GlobalSummaryController extends Controller
         } else {
             $project = null;
         }
+
         if ($request->filled('location')) {
             $location = $request->location;
         } elseif ($request->has('location')) {
@@ -83,6 +79,7 @@ class GlobalSummaryController extends Controller
         } else {
             $location = null;
         }
+
         session([
             'accounting.summary_range.year' => $year,
             'accounting.summary_range.month' => $month,
@@ -91,12 +88,12 @@ class GlobalSummaryController extends Controller
         ]);
 
         if ($year != null && $month != null) {
-            $dateFrom = (new Carbon($year.'-'.$month.'-01'))->startOfMonth();
+            $dateFrom = (new Carbon($year . '-' . $month . '-01'))->startOfMonth();
             $dateTo = (clone $dateFrom)->endOfMonth();
             $heading = $dateFrom->formatLocalized('%B %Y');
             $currentRange = $dateFrom->format('Y-m');
         } elseif ($year != null) {
-            $dateFrom = (new Carbon($year.'-01-01'))->startOfYear();
+            $dateFrom = (new Carbon($year . '-01-01'))->startOfYear();
             $dateTo = (clone $dateFrom)->endOfYear();
             $heading = $year;
             $currentRange = $year;
@@ -115,19 +112,19 @@ class GlobalSummaryController extends Controller
             array_push($filters, ['location', '=', $location]);
         }
 
-        $revenueByCategory = self::revenueByRelationField('category_id', 'category', $dateFrom, $dateTo, $request->user(), $filters);
-        $revenueByProject = self::revenueByRelationField('project_id', 'project', $dateFrom, $dateTo, $request->user(), $filters);
+        $revenueByCategory = self::revenueByRelationField('category_id', 'category', null, $dateFrom, $dateTo, $request->user(), $filters);
+        $revenueByProject = self::revenueByRelationField('project_id', 'project', null, $dateFrom, $dateTo, $request->user(), $filters);
         if (self::useSecondaryCategories()) {
-            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $dateFrom, $dateTo, $request->user(), $filters);
+            $revenueBySecondaryCategory = self::revenueByField('secondary_category', null, $dateFrom, $dateTo, $request->user(), $filters);
         } else {
             $revenueBySecondaryCategory = null;
         }
 
-        $spendingByWallet = self::totalByType('spending', $dateFrom, $dateTo, $request->user(), $filters)
+        $spendingByWallet = self::totalByType('spending', null, $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
-        $incomeByWallet = self::totalByType('income', $dateFrom, $dateTo, $request->user(), $filters)
+        $incomeByWallet = self::totalByType('income', null, $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
-        $feesByWallet = self::totalFees($dateFrom, $dateTo, $request->user(), $filters)
+        $feesByWallet = self::totalFees(null, $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
 
         $spending = $spendingByWallet->sum();
@@ -162,7 +159,7 @@ class GlobalSummaryController extends Controller
             ->groupByRaw('YEAR(date)')
             ->orderBy('year', 'desc')
             ->get()
-            ->mapWithKeys(fn ($e) => [ $e->year => $e->year ])
+            ->mapWithKeys(fn ($e) => [$e->year => $e->year])
             ->prepend($currentMonth->format('Y'), $currentMonth->format('Y'))
             ->toArray();
 
@@ -188,11 +185,11 @@ class GlobalSummaryController extends Controller
 
     private static function toYearMonthMap(int $year, int $month)
     {
-        $date = new Carbon($year.'-'.$month.'-01');
-        return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
+        $date = new Carbon($year . '-' . $month . '-01');
+        return [$date->format('Y-m') => $date->formatLocalized('%B %Y')];
     }
 
-    private static function revenueByRelationField(string $idField, $relationField, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
+    private static function revenueByRelationField(string $idField, $relationField, ?Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select($idField, 'wallet_id')
@@ -216,7 +213,7 @@ class GlobalSummaryController extends Controller
             ]);
     }
 
-    private static function revenueByField(string $field, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
+    private static function revenueByField(string $field, ?Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select($field, 'wallet_id')
@@ -239,7 +236,7 @@ class GlobalSummaryController extends Controller
             ]);
     }
 
-    private static function totalByType(string $type, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
+    private static function totalByType(string $type, ?Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select('wallet_id')
@@ -257,7 +254,7 @@ class GlobalSummaryController extends Controller
             );
     }
 
-    private static function totalFees(?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
+    private static function totalFees(?Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select('wallet_id')
@@ -292,7 +289,7 @@ class GlobalSummaryController extends Controller
 
     private static function getLocations(?bool $onlyExisting = false): array
     {
-        if (! $onlyExisting && Setting::has('accounting.transactions.locations')) {
+        if (!$onlyExisting && Setting::has('accounting.transactions.locations')) {
             return collect(Setting::get('accounting.transactions.locations'))
                 ->sort()
                 ->toArray();

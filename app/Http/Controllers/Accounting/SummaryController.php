@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Project;
 use App\Models\Accounting\Wallet;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -13,13 +14,7 @@ use Setting;
 
 class SummaryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function summary(Wallet $wallet, Request $request)
+    public function wallet(Wallet $wallet, Request $request)
     {
         $this->authorize('view-accounting-summary');
 
@@ -41,10 +36,6 @@ class SummaryController extends Controller
                 'max:' . today()->year,
             ],
         ]);
-
-        if ($wallet === null) {
-            return redirect()->route('accounting.wallets.change');
-        }
 
         if ($request->filled('year') && $request->filled('month')) {
             $year = $request->year;
@@ -97,12 +88,12 @@ class SummaryController extends Controller
         ]);
 
         if ($year != null && $month != null) {
-            $dateFrom = (new Carbon($year.'-'.$month.'-01'))->startOfMonth();
+            $dateFrom = (new Carbon($year . '-' . $month . '-01'))->startOfMonth();
             $dateTo = (clone $dateFrom)->endOfMonth();
             $heading = $dateFrom->formatLocalized('%B %Y');
             $currentRange = $dateFrom->format('Y-m');
         } elseif ($year != null) {
-            $dateFrom = (new Carbon($year.'-01-01'))->startOfYear();
+            $dateFrom = (new Carbon($year . '-01-01'))->startOfYear();
             $dateTo = (clone $dateFrom)->endOfYear();
             $heading = $year;
             $currentRange = $year;
@@ -121,17 +112,24 @@ class SummaryController extends Controller
             array_push($filters, ['location', '=', $location]);
         }
 
-        $revenueByCategory = self::revenueByRelationField('category_id', 'category', $wallet, $dateFrom, $dateTo, $filters);
-        $revenueByProject = self::revenueByRelationField('project_id', 'project', $wallet, $dateFrom, $dateTo, $filters);
+        $revenueByCategory = self::revenueByRelationField('category_id', 'category', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
+        $revenueByProject = self::revenueByRelationField('project_id', 'project', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
         if (self::useSecondaryCategories()) {
-            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $wallet, $dateFrom, $dateTo, $filters);
+            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
         } else {
             $revenueBySecondaryCategory = null;
         }
 
-        $spending = self::totalByType('spending', $wallet, $dateFrom, $dateTo, $filters);
-        $income = self::totalByType('income', $wallet, $dateFrom, $dateTo, $filters);
-        $fees = self::totalFees($wallet, $dateFrom, $dateTo, $filters);
+        $spendingByWallet = self::totalByType('spending', $wallet, $dateFrom, $dateTo, $request->user(), $filters)
+            ->pluck('sum', 'wallet_id');
+        $incomeByWallet = self::totalByType('income', $wallet, $dateFrom, $dateTo, $request->user(), $filters)
+            ->pluck('sum', 'wallet_id');
+        $feesByWallet = self::totalFees($wallet, $dateFrom, $dateTo, $request->user(), $filters)
+            ->pluck('sum', 'wallet_id');
+
+        $spending = $spendingByWallet->sum();
+        $income = $incomeByWallet->sum();
+        $fees = $feesByWallet->sum();
 
         $months = MoneyTransaction::query()
             ->selectRaw('MONTH(date) as month')
@@ -152,7 +150,7 @@ class SummaryController extends Controller
             ->groupByRaw('YEAR(date)')
             ->orderBy('year', 'desc')
             ->get()
-            ->mapWithKeys(fn ($e) => [ $e->year => $e->year ])
+            ->mapWithKeys(fn ($e) => [$e->year => $e->year])
             ->prepend($currentMonth->format('Y'), $currentMonth->format('Y'))
             ->toArray();
 
@@ -181,11 +179,11 @@ class SummaryController extends Controller
 
     private static function toYearMonthMap(int $year, int $month)
     {
-        $date = new Carbon($year.'-'.$month.'-01');
-        return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
+        $date = new Carbon($year . '-' . $month . '-01');
+        return [$date->format('Y-m') => $date->formatLocalized('%B %Y')];
     }
 
-    private static function revenueByRelationField(string $idField, $relationField, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): Collection
+    private static function revenueByRelationField(string $idField, $relationField, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select()
@@ -196,6 +194,12 @@ class SummaryController extends Controller
             ->orderBy($idField)
             ->where($filters)
             ->get()
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e->wallet_id))
+                )
+            )
             ->map(fn ($e) => [
                 'id' => $e->$idField,
                 'name' => optional($e->$relationField)->name,
@@ -204,7 +208,7 @@ class SummaryController extends Controller
             ->sortBy('name');
     }
 
-    private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): Collection
+    private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select($field)
@@ -215,35 +219,51 @@ class SummaryController extends Controller
             ->orderBy($field)
             ->where($filters)
             ->get()
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e->wallet_id))
+                )
+            )
             ->map(fn ($e) => [
                 'name' => $e->$field,
                 'amount' => $e->sum,
             ]);
     }
 
-    private static function totalByType(string $type, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): ?float
+    private static function totalByType(string $type, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
-        $result = MoneyTransaction::query()
+        return MoneyTransaction::query()
+            ->select('wallet_id')
             ->selectRaw('SUM(amount) as sum')
             ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
             ->where('type', $type)
             ->where($filters)
-            ->first();
-
-        return optional($result)->sum;
+            ->get()
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))
+                )
+            );
     }
 
-    private static function totalFees(Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): ?float
+    private static function totalFees(Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?User $user = null, ?array $filters = []): Collection
     {
-        $result = MoneyTransaction::query()
+        return MoneyTransaction::query()
+            ->select('wallet_id')
             ->selectRaw('SUM(fees) as sum')
             ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
             ->where($filters)
-            ->first();
-
-        return optional($result)->sum;
+            ->get()
+            ->when(
+                $user != null,
+                fn ($q) => $q->filter(
+                    fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))
+                )
+            );
     }
 
     private static function useSecondaryCategories(): bool
@@ -264,7 +284,7 @@ class SummaryController extends Controller
 
     private static function getLocations(?bool $onlyExisting = false): array
     {
-        if (! $onlyExisting && Setting::has('accounting.transactions.locations')) {
+        if (!$onlyExisting && Setting::has('accounting.transactions.locations')) {
             return collect(Setting::get('accounting.transactions.locations'))
                 ->sort()
                 ->toArray();

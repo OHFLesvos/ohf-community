@@ -171,7 +171,7 @@ Route::middleware(['language', 'auth'])
         // Overview
         Route::get('', [WalletController::class, 'index'])
             ->name('index');
-        Route::get('transactions/summary', [GlobalSummaryController::class, 'summary'])
+        Route::get('transactions/summary', [GlobalSummaryController::class, 'index'])
             ->name('transactions.globalSummary');
 
         // Transactions
@@ -179,7 +179,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.export');
         Route::post('wallets/{wallet}/transactions/doExport', [MoneyTransactionsController::class, 'doExport'])
             ->name('transactions.doExport');
-        Route::get('wallets/{wallet}/transactions/summary', [SummaryController::class, 'summary'])
+        Route::get('wallets/{wallet}/transactions/summary', [SummaryController::class, 'wallet'])
             ->name('transactions.summary');
         Route::get('transactions/{transaction}/snippet', [MoneyTransactionsController::class, 'snippet'])
             ->name('transactions.snippet');
