@@ -729,5 +729,15 @@
     "Category updated.": "Kategorie aktualisiert",
     "Really delete this category?": "Kategorie wirklich löschen?",
     "Category deleted.": "Kategorie gelöscht.",
-    "Parent category": "Übergeordnete Kategorie"
+    "Parent category": "Übergeordnete Kategorie",
+    "Manage categories": "Kategorien verwalten",
+    "Manage projects": "Projekte verwalten",
+    "Create project": "Projekt erstellen",
+    "Edit project": "Projekt bearbeiten",
+    "Parent project": "Übergeordnetes Projekt",
+    "Project added.": "Projekt hinzugefügt.",
+    "Project updated.": "Projekt aktualisiert.",
+    "Really delete this project?": "Projekt wirklich löschen?",
+    "Project deleted.": "Projekt gelöscht.",
+    "Used in :num transactions.": "Wird in :num Transaktionen verwendet."
 }

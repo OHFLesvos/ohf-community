@@ -32,5 +32,8 @@
         @can('viewAny', App\Models\Accounting\Category::class)
             <a href="{{ route('accounting.categories') }}" class="btn btn-secondary">@lang('Manage categories')</a>
         @endcan
+        @can('viewAny', App\Models\Accounting\Project::class)
+            <a href="{{ route('accounting.projects') }}" class="btn btn-secondary">@lang('Manage projects')</a>
+        @endcan
     </p>
 @endsection

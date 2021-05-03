@@ -127,6 +127,67 @@ export default [
         }
     },
     {
+        path: "/accounting/projects",
+        name: "accounting.projects.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Projects"),
+                buttons: [
+                    {
+                        to: { name: "accounting.projects.create" },
+                        variant: "primary",
+                        icon: "plus-circle",
+                        text: i18n.t("Add"),
+                        show: can("configure-accounting")
+                    }
+                ],
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/projects/create",
+        name: "accounting.projects.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectCreatePage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Create project"),
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/projects/:id/edit",
+        name: "accounting.projects.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectEditPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Edit project"),
+                container: true,
+            }
+        }
+    },
+    {
         path: "/accounting/suppliers",
         name: "accounting.suppliers.index",
         components: {

@@ -47,4 +47,20 @@ class Project extends Model
     {
         return $query->whereNull('parent_id');
     }
+
+    public function scopeForParent(Builder $query, int $parentId)
+    {
+        return $query->where('parent_id', $parentId);
+    }
+
+    public function scopeForFilter($query, ?string $filter = '')
+    {
+        if (! empty($filter)) {
+            $query->where(function ($wq) use ($filter) {
+                return $wq->where('name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('description', 'LIKE', '%' . $filter . '%');
+            });
+        }
+        return $query;
+    }
 }

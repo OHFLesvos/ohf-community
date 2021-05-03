@@ -224,6 +224,13 @@ Route::middleware(['language', 'auth'])
             ->where('any', '.*')
             ->name('categories.any');
 
+        // Projects
+        Route::view('projects', 'accounting.projects')
+            ->name('projects');
+        Route::view('projects/{any}', 'accounting.projects')
+            ->where('any', '.*')
+            ->name('projects.any');
+
         // Suppliers
         Route::view('suppliers', 'accounting.suppliers')
             ->name('suppliers');

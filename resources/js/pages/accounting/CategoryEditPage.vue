@@ -11,7 +11,14 @@
             @delete="handleDelete"
         />
         <hr>
-        <p class="text-right">
+        <p class="d-flex justify-content-between">
+            <small>
+                {{
+                    $t("Used in {num} transactions.", {
+                        num: category.num_transactions
+                    })
+                }}
+            </small>
             <small>
                 {{ $t('Last updated') }}:
                 {{ dateFormat(category.updated_at) }}
