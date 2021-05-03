@@ -1,19 +1,23 @@
 <template>
     <div>
-        <tree-view :items="tree" class="mb-4"/>
+        <alert-with-retry :value="errorText" @retry="fetchData" />
+        <tree-view :items="tree" class="mb-4" @itemClick="navigateToEdit" />
     </div>
 </template>
 
 <script>
 import categoriesApi from "@/api/accounting/categories";
 import TreeView from "@/components/accounting/TreeView";
+import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 export default {
     components: {
-        TreeView
+        TreeView,
+        AlertWithRetry
     },
     data() {
         return {
-            tree: []
+            tree: [],
+            errorText: null
         };
     },
     mounted() {
@@ -21,7 +25,18 @@ export default {
     },
     methods: {
         async fetchData() {
-            this.tree = await categoriesApi.tree();
+            this.errorText = null;
+            try {
+                this.tree = await categoriesApi.tree();
+            } catch (err) {
+                this.errorText = err;
+            }
+        },
+        navigateToEdit(id) {
+            this.$router.push({
+                name: "accounting.categories.edit",
+                params: { id: id }
+            });
         }
     }
 };

@@ -2,12 +2,10 @@
     <b-list-group :class="root ? 'list-group-root well' : null">
         <template v-for="item in items">
             <b-list-group-item
+                button
                 :key="item.id"
-                :style="{ 'padding-left': 20 + level * 25 + 'px' }"
-                :to="{
-                    name: 'accounting.categories.edit',
-                    params: { id: item.id }
-                }"
+                :style="{ 'padding-left': 20 + level * itemPaddingLeft + 'px' }"
+                @click="$emit('itemClick', item.id)"
                 >{{ item.name }}
             </b-list-group-item>
             <tree-view
@@ -16,6 +14,7 @@
                 :items="item.children"
                 :root="false"
                 :level="level + 1"
+                @itemClick="$emit('itemClick', $event)"
             />
         </template>
     </b-list-group>
@@ -35,6 +34,10 @@ export default {
         level: {
             type: Number,
             default: 0
+        },
+        itemPaddingLeft: {
+            type: Number,
+            default: 25
         }
     }
 };
