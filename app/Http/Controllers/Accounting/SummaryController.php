@@ -187,7 +187,8 @@ class SummaryController extends Controller
                 'id' => $e->$idField,
                 'name' => optional($e->$relationField)->name,
                 'amount' => $e->sum,
-            ]);
+            ])
+            ->sortBy('name');
     }
 
     private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
