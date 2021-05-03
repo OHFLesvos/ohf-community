@@ -165,28 +165,11 @@ class SummaryController extends Controller
                     'amount' => $w->calculatedSum($dateTo),
                 ]);
             $wallet_amount = $wallets->sum('amount');
-
-            return view('accounting.transactions.global_summary', [
-                'heading' => $heading,
-                'currentRange' => $currentRange,
-                'currentProject' => $project,
-                'currentLocation' => $location,
-                'months' => $months,
-                'years' => $years,
-                'projects' => self::getProjects(),
-                'locations' => self::useLocations() ? self::getLocations(true) : [],
-                'revenueByCategory' => $revenueByCategory,
-                'revenueBySecondaryCategory' => $revenueBySecondaryCategory,
-                'revenueByProject' => $revenueByProject,
-                'wallet_amount' => $wallet_amount,
-                'spending' => $spending,
-                'income' => $income,
-                'fees' => $fees,
-                'wallets' => $wallets,
-            ]);
+        } else {
+            $wallet_amount = $wallet->calculatedSum($dateTo);
         }
 
-        return view('accounting.transactions.summary', [
+        return view($wallet == null ? 'accounting.transactions.global_summary' : 'accounting.transactions.summary', [
             'heading' => $heading,
             'currentRange' => $currentRange,
             'currentProject' => $project,
@@ -198,7 +181,7 @@ class SummaryController extends Controller
             'revenueByCategory' => $revenueByCategory,
             'revenueByProject' => $revenueByProject,
             'revenueBySecondaryCategory' => $revenueBySecondaryCategory,
-            'wallet_amount' => $wallet->calculatedSum($dateTo),
+            'wallet_amount' => $wallet_amount,
             'spending' => $spending,
             'income' => $income,
             'fees' => $fees,
@@ -206,6 +189,7 @@ class SummaryController extends Controller
             'filterDateEnd' => optional($dateTo)->toDateString(),
             'wallet' => $wallet,
             'has_multiple_wallets' => Wallet::count() > 1,
+            'wallets' => $wallets ?? null,
         ]);
     }
 
