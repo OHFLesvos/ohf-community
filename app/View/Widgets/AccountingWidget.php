@@ -19,7 +19,6 @@ class AccountingWidget implements Widget
                 ->orderBy('name')
                 ->get()
                 ->filter(fn ($wallet) => request()->user()->can('view', $wallet)),
-            'has_multiple_wallets' => Wallet::count() > 1,
         ]);
     }
 }

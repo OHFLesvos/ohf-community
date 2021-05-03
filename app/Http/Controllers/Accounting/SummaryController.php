@@ -169,7 +169,7 @@ class SummaryController extends Controller
             $wallet_amount = $wallet->calculatedSum($dateTo);
         }
 
-        return view($wallet == null ? 'accounting.transactions.global_summary' : 'accounting.transactions.summary', [
+        return view('accounting.transactions.summary', [
             'heading' => $heading,
             'currentRange' => $currentRange,
             'currentProject' => $project,
@@ -188,7 +188,6 @@ class SummaryController extends Controller
             'filterDateStart' => optional($dateFrom)->toDateString(),
             'filterDateEnd' => optional($dateTo)->toDateString(),
             'wallet' => $wallet,
-            'has_multiple_wallets' => Wallet::count() > 1,
             'wallets' => $wallets ?? null,
         ]);
     }
