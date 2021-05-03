@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
-use App\Models\Accounting\Project;
 use App\Models\Accounting\Wallet;
 use App\Models\User;
+use App\Support\Accounting\TaxonomyRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -14,7 +14,7 @@ use Setting;
 
 class SummaryController extends Controller
 {
-    public function index(?Wallet $wallet = null, Request $request)
+    public function index(?Wallet $wallet = null, Request $request, TaxonomyRepository $taxonomies)
     {
         $this->authorize('view-accounting-summary');
 
@@ -176,7 +176,7 @@ class SummaryController extends Controller
             'currentLocation' => $location,
             'months' => $months,
             'years' => $years,
-            'projects' => self::getProjects(),
+            'projects' => $taxonomies->getNestedProjects(),
             'locations' => self::useLocations() ? self::getLocations(true) : [],
             'revenueByCategory' => $revenueByCategory,
             'revenueByProject' => $revenueByProject,
@@ -286,12 +286,6 @@ class SummaryController extends Controller
     private static function useSecondaryCategories(): bool
     {
         return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
-    }
-
-    private static function getProjects(): Collection
-    {
-        return Project::orderBy('name')
-            ->pluck('name', 'id');
     }
 
     private static function useLocations(): bool
