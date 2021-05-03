@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Project extends Model
 {
@@ -62,5 +63,16 @@ class Project extends Model
             });
         }
         return $query;
+    }
+
+    public function getPathElements(): Collection
+    {
+        $elements = collect([$this]);
+        $elem = $this;
+        while ($elem->parent != null) {
+            $elements->prepend($elem->parent);
+            $elem = $elem->parent;
+        }
+        return $elements;
     }
 }

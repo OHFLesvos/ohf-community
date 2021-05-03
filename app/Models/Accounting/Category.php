@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Category extends Model
 {
@@ -55,12 +56,23 @@ class Category extends Model
 
     public function scopeForFilter($query, ?string $filter = '')
     {
-        if (! empty($filter)) {
+        if (!empty($filter)) {
             $query->where(function ($wq) use ($filter) {
                 return $wq->where('name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('description', 'LIKE', '%' . $filter . '%');
             });
         }
         return $query;
+    }
+
+    public function getPathElements(): Collection
+    {
+        $elements = collect([$this]);
+        $elem = $this;
+        while ($elem->parent != null) {
+            $elements->prepend($elem->parent);
+            $elem = $elem->parent;
+        }
+        return $elements;
     }
 }

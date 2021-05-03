@@ -25,17 +25,17 @@ class TaxonomyRepository
 
     public function getNestedProjects(?int $parent = null, $level = 0): array
     {
-        $categories = [];
+        $projects = [];
         foreach(Project::query()
             ->select('id', 'name')
             ->orderBy('name', 'asc')
             ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
-            ->get() as $category) {
-            $categories[$category['id']] = str_repeat("&nbsp;", 4 * $level) . $category['name'];
-            foreach ($this->getNestedProjects($category['id'], $level + 1) as $k => $v) {
-                $categories[$k] = $v;
+            ->get() as $project) {
+            $projects[$project['id']] = str_repeat("&nbsp;", 4 * $level) . $project['name'];
+            foreach ($this->getNestedProjects($project['id'], $level + 1) as $k => $v) {
+                $projects[$k] = $v;
             }
         }
-        return $categories;
+        return $projects;
     }
 }
