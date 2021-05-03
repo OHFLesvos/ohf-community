@@ -63,9 +63,6 @@ class CreateAccountingCategoriesTable extends Migration
         Schema::table('money_transactions', function (Blueprint $table) {
             $table->dropColumn('category');
         });
-
-        DB::statement($this->dropView());
-        DB::statement($this->createView());
     }
 
     /**
@@ -101,22 +98,5 @@ class CreateAccountingCategoriesTable extends Migration
         Setting::set('accounting.transactions.categories', Category::pluck('name'));
 
         Schema::dropIfExists('accounting_categories');
-    }
-
-    private function dropView(): string
-    {
-        return <<<SQL
-DROP VIEW IF EXISTS `accounting_signed_transactions`;
-SQL;
-    }
-
-    private function createView(): string
-    {
-        return <<<SQL
-CREATE VIEW `accounting_signed_transactions` AS
-SELECT wallet_id, date, -amount as amount, fees, receipt_no, category_id, project, description, remarks from money_transactions where type = 'spending'
-union all
-SELECT wallet_id, date, amount, fees, receipt_no, category_id, project, description, remarks from money_transactions where type = 'income'
-SQL;
     }
 }
