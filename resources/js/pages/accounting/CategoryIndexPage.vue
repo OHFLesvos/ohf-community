@@ -1,59 +1,27 @@
 <template>
-    <base-table
-        ref="table"
-        id="categories-table"
-        :fields="fields"
-        :api-method="fetchData"
-        default-sort-by="name"
-        :empty-text="$t('No data registered.')"
-        :items-per-page="25"
-    >
-        <template v-slot:cell(name)="data">
-            <b-link
-                :to="{
-                    name: 'accounting.categories.edit',
-                    params: { id: data.item.id }
-                }"
-            >
-                {{ data.value }}
-            </b-link>
-        </template>
-    </base-table>
+    <div>
+        <tree-view :items="tree" class="mb-4"/>
+    </div>
 </template>
 
 <script>
 import categoriesApi from "@/api/accounting/categories";
-import BaseTable from "@/components/table/BaseTable";
+import TreeView from "@/components/accounting/TreeView";
 export default {
     components: {
-        BaseTable
+        TreeView
     },
     data() {
         return {
-            fields: [
-                {
-                    key: "name",
-                    label: this.$t("Name"),
-                    sortable: true,
-                    tdClass: "align-middle fit"
-                },
-                {
-                    key: "description",
-                    label: this.$t("Description"),
-                    sortable: true,
-                    tdClass: "align-middle"
-                },
-                {
-                    key: "num_transactions",
-                    label: this.$t("Transactions"),
-                    class: "text-right"
-                }
-            ]
+            tree: []
         };
     },
+    mounted() {
+        this.fetchData();
+    },
     methods: {
-        async fetchData(ctx) {
-            return categoriesApi.list(ctx);
+        async fetchData() {
+            this.tree = await categoriesApi.tree();
         }
     }
 };
