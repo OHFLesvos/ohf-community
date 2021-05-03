@@ -3,7 +3,8 @@
 ## NEXT
 
 * Removed book library feature
-* Remove bank, persons, shop and coupons feature
+* Removed bank, persons, shop and coupons feature
+* Removed Facebook social login
 
 ## 2.32.1
 

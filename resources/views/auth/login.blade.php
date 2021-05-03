@@ -47,8 +47,6 @@
                                 <x-icon :icon="$driver" style="fab" class="mr-1"/>
                                 @if($driver == 'google')
                                     {{ __('Sign in with Google') }}
-                                @elseif($driver == 'facebook')
-                                    {{ __('Sign in with Facebook') }}
                                 @endif
                             </a>
                         </div>
