@@ -22,7 +22,7 @@
                 @endif
                 @if(sizeof($projects) > 0)
                     <div class="col-xl col-sm-6">
-                        {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentProject, [ 'id' => 'project', 'placeholder' => '- ' . __('All projects') . ' -' ], '') }}
+                        {{ Form::bsSelect('project', $projects, $currentProject, [ 'id' => 'project', 'placeholder' => '- ' . __('All projects') . ' -' ], '') }}
                     </div>
                 @endif
                 @if(sizeof($locations) > 0)

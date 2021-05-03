@@ -24,13 +24,23 @@ class GlobalSummaryController extends Controller
     {
         $this->authorize('view-accounting-summary');
 
-        setlocale(LC_TIME, \App::getLocale());
+        setlocale(LC_TIME, app()->getLocale());
 
-        $currentMonth = Carbon::now()->startOfMonth();
+        $currentMonth = now()->startOfMonth();
 
         $request->validate([
-            'month' => 'nullable|integer|min:1|max:12',
-            'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
+            'month' => [
+                'nullable',
+                'integer',
+                'min:1',
+                'max:12',
+            ],
+            'year' => [
+                'nullable',
+                'integer',
+                'min:2000',
+                'max:' . today()->year,
+            ],
         ]);
 
         if ($request->filled('year') && $request->filled('month')) {
@@ -99,7 +109,7 @@ class GlobalSummaryController extends Controller
 
         $filters = [];
         if ($project != null) {
-            array_push($filters, ['project', '=', $project]);
+            array_push($filters, ['project_id', '=', $project]);
         }
         if ($location != null) {
             array_push($filters, ['location', '=', $location]);

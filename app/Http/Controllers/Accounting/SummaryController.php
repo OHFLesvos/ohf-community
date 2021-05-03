@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Accounting;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Project;
-use App\Models\Accounting\SignedMoneyTransaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,13 +23,23 @@ class SummaryController extends Controller
     {
         $this->authorize('view-accounting-summary');
 
-        setlocale(LC_TIME, \App::getLocale());
+        setlocale(LC_TIME, app()->getLocale());
 
-        $currentMonth = Carbon::now()->startOfMonth();
+        $currentMonth = now()->startOfMonth();
 
         $request->validate([
-            'month' => 'nullable|integer|min:1|max:12',
-            'year' => 'nullable|integer|min:2000|max:' . Carbon::today()->year,
+            'month' => [
+                'nullable',
+                'integer',
+                'min:1',
+                'max:12',
+            ],
+            'year' => [
+                'nullable',
+                'integer',
+                'min:2000',
+                'max:' . today()->year,
+            ],
         ]);
 
         if ($wallet === null) {
@@ -59,6 +68,7 @@ class SummaryController extends Controller
             $year = $currentMonth->year;
             $month = $currentMonth->month;
         }
+
         if ($request->filled('project')) {
             $project = $request->project;
         } elseif ($request->has('project')) {
@@ -68,6 +78,7 @@ class SummaryController extends Controller
         } else {
             $project = null;
         }
+
         if ($request->filled('location')) {
             $location = $request->location;
         } elseif ($request->has('location')) {
@@ -77,6 +88,7 @@ class SummaryController extends Controller
         } else {
             $location = null;
         }
+
         session([
             'accounting.summary_range.year' => $year,
             'accounting.summary_range.month' => $month,
@@ -103,7 +115,7 @@ class SummaryController extends Controller
 
         $filters = [];
         if ($project != null) {
-            array_push($filters, ['project', '=', $project]);
+            array_push($filters, ['project_id', '=', $project]);
         }
         if ($location != null) {
             array_push($filters, ['location', '=', $location]);
@@ -173,15 +185,16 @@ class SummaryController extends Controller
         return [ $date->format('Y-m') => $date->formatLocalized('%B %Y') ];
     }
 
-    private static function revenueByRelationField(string $idField, $relationField, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    private static function revenueByRelationField(string $idField, $relationField, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): Collection
     {
-        return SignedMoneyTransaction::query()
+        return MoneyTransaction::query()
             ->select()
-            ->selectRaw('SUM(amount) as sum')
+            ->selectRaw('SUM(IF(type = \'income\', amount, -1*amount)) as sum')
             ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
             ->groupBy($idField)
             ->orderBy($idField)
+            ->where($filters)
             ->get()
             ->map(fn ($e) => [
                 'id' => $e->$idField,
@@ -191,7 +204,7 @@ class SummaryController extends Controller
             ->sortBy('name');
     }
 
-    private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): Collection
+    private static function revenueByField(string $field, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): Collection
     {
         return MoneyTransaction::query()
             ->select($field)
@@ -200,6 +213,7 @@ class SummaryController extends Controller
             ->forDateRange($dateFrom, $dateTo)
             ->groupBy($field)
             ->orderBy($field)
+            ->where($filters)
             ->get()
             ->map(fn ($e) => [
                 'name' => $e->$field,
@@ -207,24 +221,26 @@ class SummaryController extends Controller
             ]);
     }
 
-    private static function totalByType(string $type, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
+    private static function totalByType(string $type, Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): ?float
     {
         $result = MoneyTransaction::query()
             ->selectRaw('SUM(amount) as sum')
             ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
             ->where('type', $type)
+            ->where($filters)
             ->first();
 
         return optional($result)->sum;
     }
 
-    private static function totalFees(Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null): ?float
+    private static function totalFees(Wallet $wallet, ?Carbon $dateFrom = null, ?Carbon $dateTo = null, ?array $filters = []): ?float
     {
         $result = MoneyTransaction::query()
             ->selectRaw('SUM(fees) as sum')
             ->forWallet($wallet)
             ->forDateRange($dateFrom, $dateTo)
+            ->where($filters)
             ->first();
 
         return optional($result)->sum;

@@ -22,7 +22,7 @@
                 @endif
                 @if(sizeof($projects) > 0)
                     <div class="col-xl col-sm-6">
-                        {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $currentProject, [ 'id' => 'project', 'placeholder' => '- ' . __('All projects') . ' -' ], '') }}
+                        {{ Form::bsSelect('project', $projects, $currentProject, [ 'id' => 'project', 'placeholder' => '- ' . __('All projects') . ' -' ], '') }}
                     </div>
                 @endif
                 @if(sizeof($locations) > 0)
@@ -187,11 +187,11 @@
             });
             $('#project').on('change', function () {
                 var val = $(this).val();
-                document.location = '{{ route('accounting.transactions.globalSummary') }}?project=' + val;
+                document.location = '{{ route('accounting.transactions.summary', $wallet) }}?project=' + val;
             });
             $('#location').on('change', function () {
                 var val = $(this).val();
-                document.location = '{{ route('accounting.transactions.globalSummary') }}?location=' + val;
+                document.location = '{{ route('accounting.transactions.summary', $wallet) }}?location=' + val;
             });
         });
     </script>
