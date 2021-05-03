@@ -46,7 +46,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'accounting.transactions.index'         => \App\Navigation\ContextButtons\Accounting\TransactionIndexContextButtons::class,
         'accounting.transactions.summary'       => \App\Navigation\ContextButtons\Accounting\TransactionSummaryContextButtons::class,
-        'accounting.transactions.globalSummary' => \App\Navigation\ContextButtons\Accounting\TransactionGlobalSummaryContextButtons::class,
         'accounting.transactions.create'        => \App\Navigation\ContextButtons\Accounting\TransactionReturnToIndexContextButtons::class,
         'accounting.transactions.export'        => \App\Navigation\ContextButtons\Accounting\TransactionReturnToIndexContextButtons::class,
         'accounting.transactions.show'          => \App\Navigation\ContextButtons\Accounting\TransactionShowContextButtons::class,

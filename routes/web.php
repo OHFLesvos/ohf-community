@@ -171,15 +171,13 @@ Route::middleware(['language', 'auth'])
         Route::get('', [WalletController::class, 'index'])
             ->name('index');
         Route::get('transactions/summary', [SummaryController::class, 'index'])
-            ->name('transactions.globalSummary');
+            ->name('transactions.summary');
 
         // Transactions
         Route::get('wallets/{wallet}/transactions/export', [MoneyTransactionsController::class, 'export'])
             ->name('transactions.export');
         Route::post('wallets/{wallet}/transactions/doExport', [MoneyTransactionsController::class, 'doExport'])
             ->name('transactions.doExport');
-        Route::get('wallets/{wallet}/transactions/summary', [SummaryController::class, 'index'])
-            ->name('transactions.summary');
         Route::get('transactions/{transaction}/snippet', [MoneyTransactionsController::class, 'snippet'])
             ->name('transactions.snippet');
         Route::put('transactions/{transaction}/undoBooking', [MoneyTransactionsController::class, 'undoBooking'])

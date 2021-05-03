@@ -55,10 +55,10 @@
                                     <td>
                                         @can('viewAny', App\Models\Accounting\Wallet::class)
                                             <a href="{{ route('accounting.transactions.index', $w['wallet']) }}">
-                                        @endcan
-                                            {{ $w['wallet']->name }}
-                                        @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
+                                                {{ $w['wallet']->name }}
                                             </a>
+                                        @else
+                                            {{ $w['wallet']->name }}
                                         @endcan
                                     </td>
                                     <td class="text-right">{{ number_format($w['income'], 2) }}</td>
@@ -228,19 +228,19 @@
                     month = parseInt(arr[1]);
                     year = arr[0]
                 }
-                document.location = '{{ $wallet != null ? route('accounting.transactions.summary', $wallet) : route('accounting.transactions.globalSummary') }}?month=' + month + '&year=' + year;
+                document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?month=' + month + '&year=' + year;
             });
             $('#yearrange').on('change', function () {
                 var val = $(this).val();
-                document.location = '{{ $wallet != null ? route('accounting.transactions.summary', $wallet) : route('accounting.transactions.globalSummary') }}?year=' + val;
+                document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?year=' + val;
             });
             $('#project').on('change', function () {
                 var val = $(this).val();
-                document.location = '{{ $wallet != null ? route('accounting.transactions.summary', $wallet) : route('accounting.transactions.globalSummary') }}?project=' + val;
+                document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?project=' + val;
             });
             $('#location').on('change', function () {
                 var val = $(this).val();
-                document.location = '{{ $wallet != null ? route('accounting.transactions.summary', $wallet) : route('accounting.transactions.globalSummary') }}?location=' + val;
+                document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?location=' + val;
             });
         });
     </script>

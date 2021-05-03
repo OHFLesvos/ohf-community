@@ -14,7 +14,7 @@ use Setting;
 
 class SummaryController extends Controller
 {
-    public function index(?Wallet $wallet = null, Request $request, TaxonomyRepository $taxonomies)
+    public function index(Request $request, TaxonomyRepository $taxonomies)
     {
         $this->authorize('view-accounting-summary');
 
@@ -111,6 +111,8 @@ class SummaryController extends Controller
         if ($location != null) {
             array_push($filters, ['location', '=', $location]);
         }
+
+        $wallet = Wallet::find($request->wallet);
 
         $revenueByCategory = self::revenueByRelationField('category_id', 'category', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
         $revenueByProject = self::revenueByRelationField('project_id', 'project', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
