@@ -7,6 +7,7 @@
                 :style="{ 'padding-left': 20 + level * itemPaddingLeft + 'px' }"
                 @click="$emit('itemClick', item.id)"
                 >{{ item.name }}
+                <small v-if="item.description" class="text-muted d-block">{{ item.description }}</small>
             </b-list-group-item>
             <nested-list-group
                 :key="`${item.id}-children`"
