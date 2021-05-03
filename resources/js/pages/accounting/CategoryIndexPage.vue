@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <b-container class="px-0">
         <alert-with-retry :value="errorText" @retry="fetchData" />
         <nested-list-group :items="tree" class="mb-4" @itemClick="navigateToEdit" />
-    </div>
+    </b-container>
 </template>
 
 <script>

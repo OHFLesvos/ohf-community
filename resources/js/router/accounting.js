@@ -75,7 +75,7 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Overview"),
+                title: i18n.t("Categories"),
                 buttons: [
                     {
                         to: { name: "accounting.categories.create" },
@@ -84,7 +84,8 @@ export default [
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
                     }
-                ]
+                ],
+                container: true,
             }
         }
     },
@@ -100,7 +101,8 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Create category")
+                title: i18n.t("Create category"),
+                container: true,
             }
         }
     },
@@ -117,7 +119,8 @@ export default [
         props: {
             default: true,
             header: {
-                title: i18n.t("Edit category")
+                title: i18n.t("Edit category"),
+                container: true,
             }
         }
     },

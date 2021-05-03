@@ -1,7 +1,6 @@
 <template>
     <b-container
         v-if="category"
-        fluid
         class="px-0"
     >
         <category-form

@@ -23,8 +23,10 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+            </b-form-row>
 
-                <!-- Parent -->
+            <!-- Parent -->
+            <b-form-row>
                 <b-col md>
                     <validation-provider
                         :name="$t('Parent category')"
@@ -45,8 +47,10 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+            </b-form-row>
 
-                <!-- Description -->
+            <!-- Description -->
+            <b-form-row>
                 <b-col md>
                     <validation-provider
                         :name="$t('Description')"
