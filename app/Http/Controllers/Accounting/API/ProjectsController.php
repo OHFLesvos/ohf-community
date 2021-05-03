@@ -120,6 +120,7 @@ class ProjectsController extends Controller
             ->get()
             ->map(function ($e) use ($exclude) {
                 $e['children'] = $this->queryByParent($e['id'], $exclude);
+                $e['can_update'] = request()->user()->can('update', $e);
                 return $e;
             });
     }

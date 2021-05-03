@@ -2,12 +2,14 @@
     <b-list-group :class="root ? 'list-group-root' : null">
         <template v-for="item in items">
             <b-list-group-item
-                button
+                :button="item.can_update"
                 :key="item.id"
                 :style="{ 'padding-left': 20 + level * itemPaddingLeft + 'px' }"
-                @click="$emit('itemClick', item.id)"
+                @click="handleClick(item)"
                 >{{ item.name }}
-                <small v-if="item.description" class="text-muted d-block">{{ item.description }}</small>
+                <small v-if="item.description" class="text-muted d-block">{{
+                    item.description
+                }}</small>
             </b-list-group-item>
             <nested-list-group
                 :key="`${item.id}-children`"
@@ -39,6 +41,13 @@ export default {
         itemPaddingLeft: {
             type: Number,
             default: 25
+        }
+    },
+    methods: {
+        handleClick(item) {
+            if (item.can_update) {
+                this.$emit("itemClick", item.id);
+            }
         }
     }
 };
