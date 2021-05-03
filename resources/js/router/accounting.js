@@ -42,7 +42,8 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Create wallet")
+                title: i18n.t("Create wallet"),
+                container: true,
             }
         }
     },
@@ -59,7 +60,8 @@ export default [
         props: {
             default: true,
             header: {
-                title: i18n.t("Edit wallet")
+                title: i18n.t("Edit wallet"),
+                container: true,
             }
         }
     },

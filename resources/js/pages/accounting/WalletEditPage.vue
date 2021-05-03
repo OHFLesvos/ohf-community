@@ -1,7 +1,6 @@
 <template>
     <b-container
         v-if="wallet"
-        fluid
         class="px-0"
     >
         <wallet-form
