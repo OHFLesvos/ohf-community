@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Accounting\MoneyTransactionsController;
-use App\Http\Controllers\Accounting\GlobalSummaryController;
 use App\Http\Controllers\Accounting\SummaryController;
 use App\Http\Controllers\Accounting\WalletController;
 use App\Http\Controllers\Accounting\WeblingApiController;
@@ -171,7 +170,7 @@ Route::middleware(['language', 'auth'])
         // Overview
         Route::get('', [WalletController::class, 'index'])
             ->name('index');
-        Route::get('transactions/summary', [GlobalSummaryController::class, 'index'])
+        Route::get('transactions/summary', [SummaryController::class, 'index'])
             ->name('transactions.globalSummary');
 
         // Transactions
@@ -179,7 +178,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.export');
         Route::post('wallets/{wallet}/transactions/doExport', [MoneyTransactionsController::class, 'doExport'])
             ->name('transactions.doExport');
-        Route::get('wallets/{wallet}/transactions/summary', [SummaryController::class, 'wallet'])
+        Route::get('wallets/{wallet}/transactions/summary', [SummaryController::class, 'index'])
             ->name('transactions.summary');
         Route::get('transactions/{transaction}/snippet', [MoneyTransactionsController::class, 'snippet'])
             ->name('transactions.snippet');
