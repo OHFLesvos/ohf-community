@@ -1,17 +1,17 @@
 <template>
     <div>
         <alert-with-retry :value="errorText" @retry="fetchData" />
-        <tree-view :items="tree" class="mb-4" @itemClick="navigateToEdit" />
+        <nested-list-group :items="tree" class="mb-4" @itemClick="navigateToEdit" />
     </div>
 </template>
 
 <script>
 import categoriesApi from "@/api/accounting/categories";
-import TreeView from "@/components/accounting/TreeView";
+import NestedListGroup from "@/components/ui/NestedListGroup";
 import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 export default {
     components: {
-        TreeView,
+        NestedListGroup,
         AlertWithRetry
     },
     data() {

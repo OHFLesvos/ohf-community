@@ -1,5 +1,5 @@
 <template>
-    <b-list-group :class="root ? 'list-group-root well' : null">
+    <b-list-group :class="root ? 'list-group-root' : null">
         <template v-for="item in items">
             <b-list-group-item
                 button
@@ -8,7 +8,7 @@
                 @click="$emit('itemClick', item.id)"
                 >{{ item.name }}
             </b-list-group-item>
-            <tree-view
+            <nested-list-group
                 :key="`${item.id}-children`"
                 v-if="item.children.length > 0"
                 :items="item.children"
@@ -22,7 +22,7 @@
 
 <script>
 export default {
-    name: "tree-view",
+    name: "nested-list-group",
     props: {
         items: {
             required: true
