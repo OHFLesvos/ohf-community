@@ -170,7 +170,8 @@ Route::middleware(['language', 'auth'])
         // Overview
         Route::get('', [WalletController::class, 'index'])
             ->name('index');
-        Route::get('transactions/summary', [SummaryController::class, 'index'])
+
+        Route::view('transactions/summary', 'accounting.transactions.summary')
             ->name('transactions.summary');
 
         // Transactions

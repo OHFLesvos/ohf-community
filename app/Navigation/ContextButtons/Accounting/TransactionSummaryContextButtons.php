@@ -12,26 +12,13 @@ class TransactionSummaryContextButtons implements ContextButtons
 {
     public function getItems(View $view): array
     {
-        $wallet = $view->getData()['wallet'];
         return [
-            'globalSummary' => $wallet != null ? [
-                'url' => route('accounting.transactions.summary'),
-                'caption' => __('All wallets'),
-                'icon' => 'globe',
-                'authorized' => Gate::allows('view-accounting-summary'),
-            ] : null,
-            'close' => $wallet == null ? [
+            'close' => [
                 'url' => route('accounting.index'),
                 'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class) || Gate::allows('view-accounting-summary'),
-            ] : null,
-            'back' => $wallet != null ? [
-                'url' => route('accounting.transactions.index', $wallet),
-                'caption' => __('Close'),
-                'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
-            ] : null,
+            ]
         ];
     }
 }

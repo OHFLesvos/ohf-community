@@ -299,5 +299,21 @@ export default [
                 title: i18n.t("Edit Supplier")
             }
         }
-    }
+    },
+    {
+        path: "/accounting/transactions/summary",
+        name: "accounting.transactions.summary",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/SummaryPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Summary"),
+            }
+        }
+    },
 ];

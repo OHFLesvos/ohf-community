@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Accounting;
+namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\MoneyTransaction;
@@ -50,15 +50,15 @@ class SummaryController extends Controller
         } elseif ($request->has('year')) {
             $year = null;
             $month = null;
-        } elseif ($request->session()->has('accounting.summary_range.year') && $request->session()->has('accounting.summary_range.month')) {
-            $year = $request->session()->get('accounting.summary_range.year');
-            $month = $request->session()->get('accounting.summary_range.month');
-        } elseif ($request->session()->has('accounting.summary_range.year')) {
-            $year = $request->session()->get('accounting.summary_range.year');
-            $month = null;
-        } elseif ($request->session()->exists('accounting.summary_range.year')) {
-            $year = null;
-            $month = null;
+        // } elseif ($request->session()->has('accounting.summary_range.year') && $request->session()->has('accounting.summary_range.month')) {
+        //     $year = $request->session()->get('accounting.summary_range.year');
+        //     $month = $request->session()->get('accounting.summary_range.month');
+        // } elseif ($request->session()->has('accounting.summary_range.year')) {
+        //     $year = $request->session()->get('accounting.summary_range.year');
+        //     $month = null;
+        // } elseif ($request->session()->exists('accounting.summary_range.year')) {
+        //     $year = null;
+        //     $month = null;
         } else {
             $year = $currentMonth->year;
             $month = $currentMonth->month;
@@ -68,8 +68,8 @@ class SummaryController extends Controller
             $project = $request->project;
         } elseif ($request->has('project')) {
             $project = null;
-        } elseif ($request->session()->has('accounting.summary_range.project')) {
-            $project = $request->session()->get('accounting.summary_range.project');
+        // } elseif ($request->session()->has('accounting.summary_range.project')) {
+        //     $project = $request->session()->get('accounting.summary_range.project');
         } else {
             $project = null;
         }
@@ -78,18 +78,18 @@ class SummaryController extends Controller
             $location = $request->location;
         } elseif ($request->has('location')) {
             $location = null;
-        } elseif ($request->session()->has('accounting.summary_range.location')) {
-            $location = $request->session()->get('accounting.summary_range.location');
+        // } elseif ($request->session()->has('accounting.summary_range.location')) {
+        //     $location = $request->session()->get('accounting.summary_range.location');
         } else {
             $location = null;
         }
 
-        session([
-            'accounting.summary_range.year' => $year,
-            'accounting.summary_range.month' => $month,
-            'accounting.summary_range.project' => $project,
-            'accounting.summary_range.location' => $location,
-        ]);
+        // session([
+        //     'accounting.summary_range.year' => $year,
+        //     'accounting.summary_range.month' => $month,
+        //     'accounting.summary_range.project' => $project,
+        //     'accounting.summary_range.location' => $location,
+        // ]);
 
         if ($year != null && $month != null) {
             $dateFrom = (new Carbon($year . '-' . $month . '-01'))->startOfMonth();
@@ -175,7 +175,7 @@ class SummaryController extends Controller
             $wallet_amount = $wallet->calculatedSum($dateTo);
         }
 
-        return view('accounting.transactions.summary', [
+        return [
             'heading' => $heading,
             'currentRange' => $currentRange,
             'currentProject' => $project,
@@ -195,7 +195,7 @@ class SummaryController extends Controller
             'filterDateEnd' => optional($dateTo)->toDateString(),
             'wallet' => $wallet,
             'wallets' => $wallets ?? null,
-        ]);
+        ];
     }
 
     private static function toYearMonthMap(int $year, int $month)

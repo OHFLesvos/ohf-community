@@ -4,6 +4,7 @@ use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
 use App\Http\Controllers\Accounting\API\MoneyTransactionsController;
 use App\Http\Controllers\Accounting\API\ProjectsController;
+use App\Http\Controllers\Accounting\API\SummaryController;
 use App\Http\Controllers\Accounting\API\SuppliersController;
 use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\CommentsController;
@@ -206,6 +207,9 @@ Route::middleware(['language', 'auth'])
         Route::get('projects/tree', [ProjectsController::class, 'tree'])
             ->name('projects.tree');
         Route::resource('projects', ProjectsController::class);
+
+        Route::get('transactions/summary', [SummaryController::class, 'index'])
+            ->name('transactions.summary');
 
         Route::post('transactions/{transaction}/receipt', [MoneyTransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
