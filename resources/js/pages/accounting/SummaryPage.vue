@@ -1,39 +1,53 @@
 <template>
     <div>
+        <alert-with-retry :value="errorText" @retry="fetchData" />
         <div class="row">
             <div class="col-sm">
                 <h4 class="mb-4">{{ heading }}</h4>
             </div>
             <div class="col-xl-auto col-md">
-                <div class="row">
+                <div class="form-row">
+                    <div class="col-xl col-sm-6">
+                        <b-select
+                            v-model="month"
+                            :options="monthOptions"
+                            :disabled="isBusy"
+                        />
+                    </div>
+                    <div class="col-xl col-sm-6">
+                        <b-select
+                            v-model="year"
+                            :options="yearOptions"
+                            :disabled="isBusy"
+                        />
+                    </div>
                     <div
-                        v-if="monthsOptions.length > 0"
                         class="col-xl col-sm-6"
                     >
                         <b-select
-                            v-model="monthrange"
-                            :options="monthsOptions"
+                            v-model="wallet"
+                            :options="walletOptions"
+                            :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="yearsOptions.length > 0" class="col-xl col-sm-6">
-                        <b-select v-model="yearrange" :options="yearsOptions" />
-                    </div>
                     <div
-                        v-if="projectsOptions.length > 0"
+                        v-if="projects.length > 0"
                         class="col-xl col-sm-6"
                     >
                         <b-select
                             v-model="project"
-                            :options="projectsOptions"
+                            :options="projectOptions"
+                            :disabled="isBusy"
                         />
                     </div>
                     <div
-                        v-if="locationsOptions.length > 0"
+                        v-if="locations.length > 0"
                         class="col-xl col-sm-6"
                     >
                         <b-select
                             v-model="location"
-                            :options="locationsOptions"
+                            :options="locationOptions"
+                            :disabled="isBusy"
                         />
                     </div>
                 </div>
@@ -41,9 +55,54 @@
         </div>
 
         <div class="row">
-            <!-- Summary by wallet -->
+
+            <!-- Wallets -->
             <div v-if="wallets.length > 0" class="col-md-12 col-xl-6">
-                <div class="card shadow-sm mb-4 table-responsive">
+
+                <div v-if="wallet" class="card shadow-sm mb-4" :key="`wallet-${wallet}`">
+                    <div class="card-header">{{ $t("Total") }}</div>
+                    <table class="table table-strsiped mb-0">
+                        <tbody>
+                            <tr>
+                                <td>{{ $t("Income") }}</td>
+                                <td class="text-right">
+                                    <u>{{ numberFormat(income) }}</u>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{ $t("Spending") }}</td>
+                                <td class="text-right">
+                                    <u>{{ numberFormat(spending) }}</u>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{ $t("Transaction fees") }}</td>
+                                <td class="text-right">
+                                    <u>{{ numberFormat(fees) }}</u>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{ $t("Difference") }}</td>
+                                <td class="text-right">
+                                    <u>{{ numberFormat(income - spending) }}</u>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{ $t("Wallet") }}</td>
+                                <td
+                                    class="text-right"
+                                    :class="
+                                        wallet_amount < 0 ? 'text-danger' : ''
+                                    "
+                                >
+                                    <u>{{ numberFormat(wallet_amount) }}</u>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div v-else class="card shadow-sm mb-4 table-responsive">
                     <table class="table table-hover mb-0">
                         <thead class="card-header">
                             <th></th>
@@ -54,38 +113,38 @@
                             <th class="text-right">{{ $t("Wallet") }}</th>
                         </thead>
                         <tbody>
-                            <tr v-for="w in wallets" :key="w.wallet.id">
+                            <tr v-for="wallet in wallets" :key="wallet.id">
                                 <td>
-                                    {{ w.wallet.name }}
+                                    {{ wallet.name }}
                                 </td>
                                 <td class="text-right">
-                                    {{ numberFormat(w.income) }}
+                                    {{ numberFormat(wallet.income) }}
                                 </td>
                                 <td class="text-right">
-                                    {{ numberFormat(w.spending) }}
+                                    {{ numberFormat(wallet.spending) }}
                                 </td>
                                 <td class="text-right">
-                                    {{ numberFormat(w.fees) }}
+                                    {{ numberFormat(wallet.fees) }}
                                 </td>
                                 <td
                                     class="text-right"
                                     :class="
-                                        w.income > w.spending
+                                        wallet.income > wallet.spending
                                             ? 'text-success'
                                             : 'text-danger'
                                     "
                                 >
-                                    {{ numberFormat(w.income - w.spending) }}
+                                    {{ numberFormat(wallet.income - wallet.spending) }}
                                 </td>
                                 <td
                                     class="text-right"
                                     :class="
-                                        w.amount > 0
+                                        wallet.amount > 0
                                             ? 'text-success'
                                             : 'text-danger'
                                     "
                                 >
-                                    {{ numberFormat(w.amount) }}
+                                    {{ numberFormat(wallet.amount) }}
                                 </td>
                             </tr>
                             <tr>
@@ -314,115 +373,116 @@
                 </div>
             </div>
 
-            <!-- Wallet -->
-            <div v-if="wallet" class="col-sm-6 col-md">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">{{ $t("Total") }}</div>
-                    <table class="table table-strsiped mb-0">
-                        <tbody>
-                            <tr>
-                                <td>{{ $t("Income") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(income) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Spending") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(spending) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Transaction fees") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(fees) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Difference") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(income - spending) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Wallet") }}</td>
-                                <td
-                                    class="text-right"
-                                    :class="
-                                        wallet_amount < 0 ? 'text-danger' : ''
-                                    "
-                                >
-                                    <u>{{ numberFormat(wallet_amount) }}</u>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
 </template>
 
 <script>
+import moment from "moment";
 import summaryApi from "@/api/accounting/summary";
 import numeral from "numeral";
+import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 export default {
+    components: {
+        AlertWithRetry
+    },
     data() {
+        const now = moment();
         return {
-            heading: null,
-            months: {},
-            years: {},
-            projects: {},
+            years: [now.year()],
+            wallets: [],
+            projects: [],
             locations: [],
-            monthrange: null,
-            yearrange: null,
+
+            year: now.year(),
+            month: now.month(),
+            wallet: null,
             project: null,
             location: null,
-            wallets: [],
+
             income: 0,
             spending: 0,
             fees: 0,
+
             wallet_amount: 0,
             revenueByCategory: [],
             revenueBySecondaryCategory: [],
             revenueByProject: [],
-            wallet: null,
             filterDateStart: null,
-            filterDateEnd: null
+            filterDateEnd: null,
+
+            isBusy: false,
+            errorText: false
         };
     },
     computed: {
-        monthsOptions() {
+        heading() {
+            let str = "";
+            if (this.year != null && this.month != null) {
+                const date = moment(
+                    `${this.year}-${this.month + 1}`,
+                    "YYYY-M"
+                ).startOf("month");
+                str += date.format("MMMM YYYY");
+            } else if (this.year != null) {
+                str += this.year;
+            } else {
+                str += this.$t("All time");
+            }
+            str += " - ";
+            if (this.wallet != null) {
+                str += this.wallets[this.wallet]?.name;
+            } else {
+                str += this.$t("All wallets");
+            }
+            return str;
+        },
+        monthOptions() {
             let arr = [
                 {
                     value: null,
-                    text: `- ${this.$t("by month")} -`
+                    text: `- ${this.$t("Month")} -`
                 }
             ];
             arr.push(
-                ...Object.entries(this.months).map(e => ({
-                    value: e[0],
-                    text: e[1]
+                ...moment.months().map((month, idx) => ({
+                    value: idx,
+                    text: month
                 }))
             );
             return arr;
         },
-        yearsOptions() {
+        yearOptions() {
             let arr = [
                 {
                     value: null,
-                    text: `- ${this.$t("by year")} -`
+                    text: `- ${this.$t("Year")} -`
                 }
             ];
             arr.push(
-                ...Object.entries(this.years).map(e => ({
-                    value: e[0],
-                    text: e[1]
+                ...this.years.map(year => ({
+                    value: year,
+                    text: year
                 }))
             );
             return arr;
         },
-        projectsOptions() {
+        walletOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("All wallets")} -`
+                }
+            ];
+            arr.push(
+                ...this.wallets.map(e => ({
+                    value: e.id,
+                    text: e.name
+                }))
+            );
+            return arr;
+        },
+        projectOptions() {
             let arr = [
                 {
                     value: null,
@@ -430,14 +490,14 @@ export default {
                 }
             ];
             arr.push(
-                ...Object.entries(this.projects).map(e => ({
-                    value: e[0],
-                    text: e[1]
+                ...this.projects.map(e => ({
+                    value: e.id,
+                    text: e.label
                 }))
             );
             return arr;
         },
-        locationsOptions() {
+        locationOptions() {
             let arr = [
                 {
                     value: null,
@@ -454,24 +514,20 @@ export default {
         }
     },
     watch: {
-        monthrange(val) {
-            let month = ''
-            let year = ''
-            if (val != '') {
-                var arr = val.split('-');
-                month = parseInt(arr[1]);
-                year = arr[0]
-            }
-            // document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?month=' + month + '&year=' + year;
+        month(val) {
+            this.fetchData();
         },
-        yearrange(val) {
-            // document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?year=' + val;
+        year(val) {
+            this.fetchData();
+        },
+        wallet(val) {
+            this.fetchData();
         },
         project(val) {
-            // document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?project=' + val;
+            this.fetchData();
         },
         location(val) {
-            // document.location = '{{ route('accounting.transactions.summary', ['wallet' => $wallet]) }}?location=' + val;
+            this.fetchData();
         }
     },
     mounted() {
@@ -480,27 +536,39 @@ export default {
     },
     methods: {
         async fetchData() {
-            let data = await summaryApi.list();
-            this.heading = data.heading + ' - ' + (data.wallet != null ? data.wallet.name : this.$t('All wallets'))
-            this.months = data.months;
-            this.years = data.years;
-            this.projects = data.projects;
-            this.locations = data.locations;
-            this.monthrange = data.currentRange;
-            this.yearrange = data.currentRange;
-            this.project = data.currentProject;
-            this.location = data.currentLocation;
-            this.wallets = data.wallets ?? [];
-            this.income = data.income;
-            this.spending = data.spending;
-            this.fees = data.fees;
-            this.wallet_amount = data.wallet_amount;
-            this.wallet = data.wallet;
-            this.revenueByCategory = data.revenueByCategory;
-            this.revenueBySecondaryCategory = data.revenueBySecondaryCategory;
-            this.revenueByProject = data.revenueByProject;
-            this.filterDateStart = data.filterDateStart;
-            this.filterDateEnd = data.filterDateEnd;
+            this.errorText = null;
+            this.isBusy = true;
+            try {
+                let data = await summaryApi.list({
+                    year: this.year,
+                    month: this.month + 1,
+                    wallet: this.wallet,
+                    project: this.project,
+                    location: this.location,
+                });
+
+                this.years = data.years;
+                this.wallets = data.wallets;
+                this.projects = data.projects;
+                this.locations = data.locations;
+
+                this.income = data.income;
+                this.spending = data.spending;
+                this.fees = data.fees;
+                this.wallet_amount = data.wallet_amount;
+
+                this.revenueByCategory = data.revenueByCategory;
+                this.revenueBySecondaryCategory =
+                    data.revenueBySecondaryCategory;
+                this.revenueByProject = data.revenueByProject;
+
+                this.filterDateStart = data.filterDateStart;
+                this.filterDateEnd = data.filterDateEnd;
+
+                this.isBusy = false;
+            } catch (err) {
+                this.errorText = err;
+            }
         },
         numberFormat(val) {
             return numeral(val).format("0,0.00");
