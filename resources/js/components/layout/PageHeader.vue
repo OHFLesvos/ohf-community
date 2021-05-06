@@ -1,14 +1,14 @@
 <template>
-    <header class="d-flex justify-content-between mb-2">
+    <header
+        class="d-flex justify-content-between mb-2"
+        :class="{ container: container, 'px-0': container }"
+    >
         <h1 class="display-4">
             {{ title }}
             <small v-if="subtitle">{{ subtitle }}</small>
         </h1>
         <span class="text-right pt-2">
-            <span
-                v-for="(button, idx) in availableButtons"
-                :key="idx"
-            >
+            <span v-for="(button, idx) in availableButtons" :key="idx">
                 <b-button
                     :key="button.text"
                     :to="button.to"
@@ -20,7 +20,7 @@
                     <font-awesome-icon :icon="button.icon" />
                     <span class="d-none d-md-inline">{{ button.text }}</span>
                 </b-button>
-                {{ idx < buttons.length - 1 ? ' ': '' }}
+                {{ idx < buttons.length - 1 ? " " : "" }}
             </span>
         </span>
     </header>
@@ -42,29 +42,30 @@ export default {
             required: false,
             type: Array,
             default: function() {
-                return []
+                return [];
             }
-        }
+        },
+        container: Boolean
     },
     computed: {
-        availableButtons () {
+        availableButtons() {
             return this.buttons.filter(i => {
                 if (i.show != undefined) {
-                    if (typeof i.show === 'function') {
-                        return i.show()
+                    if (typeof i.show === "function") {
+                        return i.show();
                     }
-                    return i.show
+                    return i.show;
                 }
-                return true
-            })
+                return true;
+            });
         }
     },
     methods: {
-        handleClick (button) {
-            if (typeof button.click == 'function') {
-                button.click()
+        handleClick(button) {
+            if (typeof button.click == "function") {
+                button.click();
             }
         }
     }
-}
+};
 </script>

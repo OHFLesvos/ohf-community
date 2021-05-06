@@ -22,7 +22,7 @@ class TransactionIndexContextButtons implements ContextButtons
                 'authorized' => Auth::user()->can('create', MoneyTransaction::class),
             ],
             'summary' => [
-                'url' => route('accounting.transactions.summary', $wallet),
+                'url' => route('accounting.transactions.summary', ['wallet' => $wallet]),
                 'caption' => __('Summary'),
                 'icon' => 'calculator',
                 'authorized' => Gate::allows('view-accounting-summary'),

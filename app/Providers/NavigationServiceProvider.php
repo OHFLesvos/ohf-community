@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Providers\Traits\RegisterContextButtons;
 use App\Providers\Traits\RegistersNavigationItems;
 use Illuminate\Support\ServiceProvider;
+use Mpdf\Tag\Q;
 
 class NavigationServiceProvider extends ServiceProvider
 {
@@ -45,7 +46,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'accounting.transactions.index'         => \App\Navigation\ContextButtons\Accounting\TransactionIndexContextButtons::class,
         'accounting.transactions.summary'       => \App\Navigation\ContextButtons\Accounting\TransactionSummaryContextButtons::class,
-        'accounting.transactions.globalSummary' => \App\Navigation\ContextButtons\Accounting\TransactionGlobalSummaryContextButtons::class,
         'accounting.transactions.create'        => \App\Navigation\ContextButtons\Accounting\TransactionReturnToIndexContextButtons::class,
         'accounting.transactions.export'        => \App\Navigation\ContextButtons\Accounting\TransactionReturnToIndexContextButtons::class,
         'accounting.transactions.show'          => \App\Navigation\ContextButtons\Accounting\TransactionShowContextButtons::class,
@@ -55,6 +55,10 @@ class NavigationServiceProvider extends ServiceProvider
         'accounting.index'                      => \App\Navigation\ContextButtons\Accounting\IndexContextButtons::class,
         'accounting.wallets'                    => \App\Navigation\ContextButtons\Accounting\WalletsContextButtons::class,
         'accounting.wallets.any'                => \App\Navigation\ContextButtons\Accounting\WalletsContextButtons::class,
+        'accounting.categories'                 => \App\Navigation\ContextButtons\Accounting\CategoriesContextButtons::class,
+        'accounting.categories.any'             => \App\Navigation\ContextButtons\Accounting\CategoriesContextButtons::class,
+        'accounting.projects'                   => \App\Navigation\ContextButtons\Accounting\ProjectsContextButtons::class,
+        'accounting.projects.any'               => \App\Navigation\ContextButtons\Accounting\ProjectsContextButtons::class,
         'accounting.suppliers'                  => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
         'accounting.suppliers.show'             => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
         'accounting.suppliers.any'              => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,

@@ -8,15 +8,13 @@ use App\Exports\Accounting\WeblingMoneyTransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
-use App\Models\Accounting\Category;
 use App\Models\Accounting\MoneyTransaction;
-use App\Models\Accounting\Project;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
+use App\Support\Accounting\TaxonomyRepository;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Setting;
 
@@ -29,7 +27,7 @@ class MoneyTransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Wallet $wallet, Request $request)
+    public function index(Wallet $wallet, Request $request, TaxonomyRepository $taxonomies)
     {
         $this->authorize('viewAny', MoneyTransaction::class);
         $this->authorize('view', $wallet);
@@ -120,10 +118,10 @@ class MoneyTransactionsController extends Controller
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
             'attendees' => MoneyTransaction::attendees(),
-            'categories' => self::getCategories(),
+            'categories' => $taxonomies->getNestedCategories(),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::getProjects(true),
+            'projects' => $taxonomies->getNestedProjects(),
             'locations' => self::useLocations() ? self::getLocations(true) : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
@@ -149,21 +147,16 @@ class MoneyTransactionsController extends Controller
             ->orderBy('created_at', 'DESC');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Wallet $wallet)
+    public function create(Wallet $wallet, TaxonomyRepository $taxonomies)
     {
         $this->authorize('create', MoneyTransaction::class);
 
         return view('accounting.transactions.create', [
             'attendees' => MoneyTransaction::attendees(),
-            'categories' => self::getCategories(),
+            'categories' => $taxonomies->getNestedCategories(),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::getProjects(),
+            'projects' => $taxonomies->getNestedProjects(),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
@@ -171,12 +164,6 @@ class MoneyTransactionsController extends Controller
             'suppliers' => Supplier::select('id', 'name', 'category')->orderBy('name')->get(),
             'wallet' => $wallet,
         ]);
-    }
-
-    private static function getCategories(): Collection
-    {
-        return Category::orderBy('name')
-            ->pluck('name', 'id');
     }
 
     private static function useSecondaryCategories(): bool
@@ -192,12 +179,6 @@ class MoneyTransactionsController extends Controller
                 ->toArray();
         }
         return MoneyTransaction::secondaryCategories();
-    }
-
-    private static function getProjects(): Collection
-    {
-        return Project::orderBy('name')
-            ->pluck('name', 'id');
     }
 
     private static function useLocations(): bool
@@ -328,17 +309,17 @@ class MoneyTransactionsController extends Controller
      * @param  \App\Models\Accounting\MoneyTransaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function edit(MoneyTransaction $transaction)
+    public function edit(MoneyTransaction $transaction, TaxonomyRepository $taxonomies)
     {
         $this->authorize('update', $transaction);
 
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
             'attendees' => MoneyTransaction::attendees(),
-            'categories' => self::getCategories(),
+            'categories' => $taxonomies->getNestedCategories(),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::getProjects(),
+            'projects' => $taxonomies->getNestedProjects(),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,

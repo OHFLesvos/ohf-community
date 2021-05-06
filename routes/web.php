@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Accounting\MoneyTransactionsController;
-use App\Http\Controllers\Accounting\GlobalSummaryController;
 use App\Http\Controllers\Accounting\SummaryController;
 use App\Http\Controllers\Accounting\WalletController;
 use App\Http\Controllers\Accounting\WeblingApiController;
@@ -171,16 +170,15 @@ Route::middleware(['language', 'auth'])
         // Overview
         Route::get('', [WalletController::class, 'index'])
             ->name('index');
-        Route::get('transactions/summary', [GlobalSummaryController::class, 'summary'])
-            ->name('transactions.globalSummary');
+
+        Route::view('transactions/summary', 'accounting.transactions.summary')
+            ->name('transactions.summary');
 
         // Transactions
         Route::get('wallets/{wallet}/transactions/export', [MoneyTransactionsController::class, 'export'])
             ->name('transactions.export');
         Route::post('wallets/{wallet}/transactions/doExport', [MoneyTransactionsController::class, 'doExport'])
             ->name('transactions.doExport');
-        Route::get('wallets/{wallet}/transactions/summary', [SummaryController::class, 'summary'])
-            ->name('transactions.summary');
         Route::get('transactions/{transaction}/snippet', [MoneyTransactionsController::class, 'snippet'])
             ->name('transactions.snippet');
         Route::put('transactions/{transaction}/undoBooking', [MoneyTransactionsController::class, 'undoBooking'])
@@ -216,6 +214,20 @@ Route::middleware(['language', 'auth'])
         Route::view('wallets/{any}', 'accounting.wallets')
             ->where('any', '.*')
             ->name('wallets.any');
+
+        // Categories
+        Route::view('categories', 'accounting.categories')
+            ->name('categories');
+        Route::view('categories/{any}', 'accounting.categories')
+            ->where('any', '.*')
+            ->name('categories.any');
+
+        // Projects
+        Route::view('projects', 'accounting.projects')
+            ->name('projects');
+        Route::view('projects/{any}', 'accounting.projects')
+            ->where('any', '.*')
+            ->name('projects.any');
 
         // Suppliers
         Route::view('suppliers', 'accounting.suppliers')
